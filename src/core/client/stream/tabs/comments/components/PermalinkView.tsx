@@ -2,15 +2,17 @@ import { Localized } from "fluent-react/compat";
 import React, { MouseEvent, StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
-import { Button, Flex, Typography } from "talk-ui/components";
+import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
 
-import ReplyListContainer from "talk-stream/tabs/comments/containers/ReplyListContainer";
+import UserBoxContainer from "../../../containers/UserBoxContainer";
 import ConversationThreadContainer from "../containers/ConversationThreadContainer";
+import ReplyListContainer from "../containers/ReplyListContainer";
 import * as styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {
   me: PropTypesOf<typeof ConversationThreadContainer>["me"] &
-    PropTypesOf<typeof ReplyListContainer>["me"];
+    PropTypesOf<typeof ReplyListContainer>["me"] &
+    PropTypesOf<typeof UserBoxContainer>["me"];
   asset: PropTypesOf<typeof ConversationThreadContainer>["asset"] &
     PropTypesOf<typeof ReplyListContainer>["asset"];
   comment:
@@ -32,7 +34,8 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   me,
 }) => {
   return (
-    <div className={styles.root}>
+    <HorizontalGutter className={styles.root} size="double">
+      <UserBoxContainer me={me} />
       <Flex alignItems="center" justifyContent="center" direction="column">
         <Typography className={styles.title1}>
           You are currently viewing a
@@ -45,7 +48,6 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
               variant="underlined"
               color="primary"
               onClick={onShowAllComments}
-              className={styles.button}
               href={showAllCommentsHref}
               target="_parent"
               anchor
@@ -78,7 +80,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
           </div>
         </>
       )}
-    </div>
+    </HorizontalGutter>
   );
 };
 

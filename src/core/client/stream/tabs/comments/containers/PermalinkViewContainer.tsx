@@ -81,6 +81,7 @@ const enhanced = withContext(ctx => ({
         fragment PermalinkViewContainer_me on User {
           ...ConversationThreadContainer_me
           ...ReplyListContainer1_me
+          ...UserBoxContainer_me
         }
       `,
       settings: graphql`

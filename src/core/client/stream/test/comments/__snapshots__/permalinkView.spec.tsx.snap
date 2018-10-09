@@ -38,8 +38,38 @@ exports[`renders permalink view 1`] = `
     role="tabpanel"
   >
     <div
-      className="PermalinkView-root"
+      className="HorizontalGutter-root PermalinkView-root HorizontalGutter-double"
     >
+      <div
+        className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Sign in
+        </button>
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Register
+        </button>
+      </div>
       <div
         className="Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
       >
@@ -54,7 +84,7 @@ exports[`renders permalink view 1`] = `
           SINGLE CONVERSATION
         </p>
         <a
-          className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
           href="http://localhost/"
           id="talk-comments-permalinkView-viewFullDiscussion"
           onBlur={[Function]}

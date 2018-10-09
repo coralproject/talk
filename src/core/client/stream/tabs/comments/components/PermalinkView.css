@@ -2,10 +2,6 @@
   width: 100%;
 }
 
-.button {
-  margin-bottom: calc(2 * var(--spacing-unit));
-}
-
 .replyList {
   margin-top: var(--spacing-unit);
   margin-left: calc(2 * var(--spacing-unit));
