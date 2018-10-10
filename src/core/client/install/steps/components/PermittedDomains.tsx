@@ -25,7 +25,9 @@ interface FormProps {
 export interface PermittedDomainsForm {
   onSubmit: OnSubmit<FormProps>;
   onGoToPreviousStep: () => void;
-  data: FormProps;
+  data: {
+    domains: string[];
+  };
 }
 
 const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
