@@ -3,16 +3,15 @@
 }
 
 .button,
-.replies,
-.story {
+.replies {
   composes: button from "talk-ui/shared/typography.css";
 }
 
-.sideBar {
-  min-width: 180px;
-  padding-left: var(--spacing-unit);
+.body {
+  max-width: 80%;
+  word-break: break-all;
 }
 
-.body {
-  word-break: break-all;
+.commentHistory .divider {
+  margin: calc(var(--spacing-unit) * 2) 0 !important;
 }
