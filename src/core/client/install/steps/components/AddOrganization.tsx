@@ -200,7 +200,6 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                   variant="filled"
                   color="regular"
                   size="large"
-                  type="submit"
                   disabled={submitting}
                 >
                   Back

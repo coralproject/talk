@@ -119,7 +119,6 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
                   variant="filled"
                   color="regular"
                   size="large"
-                  type="submit"
                   disabled={submitting}
                 >
                   Back
