@@ -6,6 +6,7 @@ import { PropTypesOf } from "talk-framework/types";
 import { LocalReplyListContainer_asset as AssetData } from "talk-stream/__generated__/LocalReplyListContainer_asset.graphql";
 import { LocalReplyListContainer_comment as CommentData } from "talk-stream/__generated__/LocalReplyListContainer_comment.graphql";
 import { LocalReplyListContainer_me as MeData } from "talk-stream/__generated__/LocalReplyListContainer_me.graphql";
+import { LocalReplyListContainer_settings as SettingsData } from "talk-stream/__generated__/LocalReplyListContainer_settings.graphql";
 
 import ReplyList from "../components/ReplyList";
 
@@ -14,6 +15,7 @@ interface InnerProps {
   me: MeData;
   asset: AssetData;
   comment: CommentData;
+  settings: SettingsData;
 }
 
 /**
@@ -30,6 +32,7 @@ export class LocalReplyListContainer extends Component<InnerProps> {
     return (
       <ReplyList
         me={this.props.me}
+        settings={this.props.settings}
         comment={this.props.comment}
         comments={this.props.comment.localReplies}
         asset={this.props.asset}
@@ -58,6 +61,11 @@ const enhanced = withFragmentContainer<InnerProps>({
         id
         ...CommentContainer_comment
       }
+    }
+  `,
+  settings: graphql`
+    fragment LocalReplyListContainer_settings on Settings {
+      ...CommentContainer_settings
     }
   `,
 })(LocalReplyListContainer);

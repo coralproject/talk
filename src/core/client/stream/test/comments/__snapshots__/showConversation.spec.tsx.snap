@@ -27,7 +27,7 @@ exports[`renders comment stream 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨1⁩ Comments
       </button>
     </li>
   </ul>
@@ -246,6 +246,21 @@ exports[`renders comment stream 1`] = `
                         Reply
                       </span>
                     </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseDown={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -322,6 +337,21 @@ exports[`renders comment stream 1`] = `
                         >
                           <span>
                             Reply
+                          </span>
+                        </button>
+                        <button
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Respect
                           </span>
                         </button>
                       </div>
@@ -402,6 +432,21 @@ exports[`renders comment stream 1`] = `
                                 Reply
                               </span>
                             </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -478,6 +523,21 @@ exports[`renders comment stream 1`] = `
                                 >
                                   <span>
                                     Reply
+                                  </span>
+                                </button>
+                                <button
+                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  onTouchEnd={[Function]}
+                                  type="button"
+                                >
+                                  <span>
+                                    Respect
                                   </span>
                                 </button>
                               </div>
@@ -558,6 +618,21 @@ exports[`renders comment stream 1`] = `
                                         Reply
                                       </span>
                                     </button>
+                                    <button
+                                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      onBlur={[Function]}
+                                      onClick={[Function]}
+                                      onFocus={[Function]}
+                                      onMouseDown={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                      onTouchEnd={[Function]}
+                                      type="button"
+                                    >
+                                      <span>
+                                        Respect
+                                      </span>
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -636,6 +711,21 @@ exports[`renders comment stream 1`] = `
                                             Reply
                                           </span>
                                         </button>
+                                        <button
+                                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                          onTouchEnd={[Function]}
+                                          type="button"
+                                        >
+                                          <span>
+                                            Respect
+                                          </span>
+                                        </button>
                                       </div>
                                       <a
                                         className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
@@ -701,7 +791,7 @@ exports[`shows conversation 1`] = `
         role="tab"
         type="button"
       >
-        Comments
+        ⁨1⁩ Comments
       </button>
     </li>
   </ul>
@@ -793,6 +883,21 @@ exports[`shows conversation 1`] = `
                 >
                   <span>
                     Reply
+                  </span>
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
                   </span>
                 </button>
               </div>

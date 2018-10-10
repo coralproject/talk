@@ -30,6 +30,12 @@ it("renders username and body", () => {
       },
       pending: false,
     },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     indentLevel: 1,
     showAuthPopup: noop as any,
     setCommentID: noop as any,
@@ -61,6 +67,12 @@ it("renders body only", () => {
       },
       pending: false,
     },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     indentLevel: 1,
     showAuthPopup: noop as any,
     setCommentID: noop as any,
@@ -90,6 +102,12 @@ it("hide reply button", () => {
       },
       pending: false,
     },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     indentLevel: 1,
     showAuthPopup: noop as any,
     setCommentID: noop as any,
@@ -106,6 +124,13 @@ it("shows conversation link", () => {
     me: null,
     asset: {
       url: "http://localhost/asset",
+    },
+    settings: {
+      reaction: {
+        icon: "thumb_up",
+        label: "Respect",
+        labelActive: "Respected",
+      },
     },
     comment: {
       id: "comment-id",
