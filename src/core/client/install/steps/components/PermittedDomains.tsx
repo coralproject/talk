@@ -65,10 +65,10 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
             <Field name="domains">
               {({ input, meta }) => (
                 <FormField>
-                  <Localized id="install-permittedDomains-permttedDomains">
+                  <Localized id="install-permittedDomains-permittedDomains">
                     <InputLabel>Permitted Domains</InputLabel>
                   </Localized>
-                  <Localized id="install-permittedDomains-permttedDomainsDescription">
+                  <Localized id="install-permittedDomains-permittedDomainsDescription">
                     <InputDescription>
                       Insert domains separated by comma
                     </InputDescription>
