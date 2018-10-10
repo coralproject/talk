@@ -45,12 +45,12 @@ function shapeFinalData(data: FormData): InstallInput {
 class CreateYourAccountContainer extends Component<
   PermittedDomainsContainerProps
 > {
-  private handleonGoToNextStep = () => {
+  private onGoToNextStep = () => {
     if (this.props.onGoToNextStep) {
       this.props.onGoToNextStep();
     }
   };
-  private handleonGoToPreviousStep = () => {
+  private onGoToPreviousStep = () => {
     if (this.props.onGoToPreviousStep) {
       this.props.onGoToPreviousStep();
     }
@@ -60,7 +60,7 @@ class CreateYourAccountContainer extends Component<
       const domains = input.domains.split(",");
       this.props.onSaveData({ domains });
       this.props.install(shapeFinalData(this.props.data));
-      return this.handleonGoToNextStep();
+      return this.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
@@ -70,7 +70,7 @@ class CreateYourAccountContainer extends Component<
       <PermittedDomains
         data={this.props.data}
         onSubmit={this.onSubmit}
-        handleonGoToPreviousStep={this.handleonGoToPreviousStep}
+        onGoToPreviousStep={this.onGoToPreviousStep}
       />
     );
   }

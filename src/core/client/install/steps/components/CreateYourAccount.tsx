@@ -23,7 +23,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-import { FormData } from "../../containers/AppContainer";
+
 import * as styles from "./styles.css";
 
 interface FormProps {
@@ -35,8 +35,8 @@ interface FormProps {
 
 export interface CreateYourAccountForm {
   onSubmit: OnSubmit<FormProps>;
-  handleonGoToPreviousStep: () => void;
-  data: FormData;
+  onGoToPreviousStep: () => void;
+  data: FormProps;
 }
 
 const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {

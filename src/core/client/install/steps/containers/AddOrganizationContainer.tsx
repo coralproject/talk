@@ -16,12 +16,12 @@ interface AddOrganizationContainerProps {
 class CreateYourAccountContainer extends Component<
   AddOrganizationContainerProps
 > {
-  private handleonGoToNextStep = () => {
+  private onGoToNextStep = () => {
     if (this.props.onGoToNextStep) {
       this.props.onGoToNextStep();
     }
   };
-  private handleonGoToPreviousStep = () => {
+  private onGoToPreviousStep = () => {
     if (this.props.onGoToPreviousStep) {
       this.props.onGoToPreviousStep();
     }
@@ -29,7 +29,7 @@ class CreateYourAccountContainer extends Component<
   private onSubmit: AddOrganizationForm["onSubmit"] = async (input, form) => {
     try {
       this.props.onSaveData(input);
-      return this.handleonGoToNextStep();
+      return this.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
@@ -39,7 +39,7 @@ class CreateYourAccountContainer extends Component<
       <AddOrganization
         data={this.props.data}
         onSubmit={this.onSubmit}
-        handleonGoToPreviousStep={this.handleonGoToPreviousStep}
+        onGoToPreviousStep={this.onGoToPreviousStep}
       />
     );
   }

@@ -15,7 +15,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-import { FormData } from "../../containers/AppContainer";
+
 import * as styles from "./styles.css";
 
 interface FormProps {
@@ -24,8 +24,8 @@ interface FormProps {
 
 export interface PermittedDomainsForm {
   onSubmit: OnSubmit<FormProps>;
-  handleonGoToPreviousStep: () => void;
-  data: FormData;
+  onGoToPreviousStep: () => void;
+  data: FormProps;
 }
 
 const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
@@ -115,7 +115,7 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
               </Localized>
               <Localized id="install-back">
                 <Button
-                  onClick={props.handleonGoToPreviousStep}
+                  onClick={props.onGoToPreviousStep}
                   variant="filled"
                   color="regular"
                   size="large"
