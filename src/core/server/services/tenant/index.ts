@@ -40,10 +40,7 @@ export async function install(
   cache: TenantCache,
   input: InstallTenant
 ) {
-  // Count how many Tenant's there are, if there is at least one, we can't use
-  // install!
-  const tenantCount = await cache.count();
-  if (tenantCount >= 1) {
+  if (await isInstalled(cache)) {
     // TODO: (wyattjoh) return better error
     throw new Error(
       "tenant already setup, setup multi-tenant mode if you want to install more than one tenant"
@@ -62,4 +59,20 @@ export async function install(
   );
 
   return tenant;
+}
+
+/**
+ * canInstall will return a promise that determines if a given install can
+ * proceed.
+ */
+export async function canInstall(cache: TenantCache) {
+  return (await cache.count()) === 0;
+}
+
+/**
+ * isInstalled will return a promise that if true, indicates that a Tenant has
+ * been installed.
+ */
+export async function isInstalled(cache: TenantCache) {
+  return (await cache.count()) > 0;
 }

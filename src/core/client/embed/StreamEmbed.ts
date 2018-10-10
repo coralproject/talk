@@ -110,9 +110,10 @@ export class StreamEmbed {
       assetURL: this.config.assetURL,
       commentID: this.config.commentID,
     });
-    const url = `${ensureEndSlash(this.config.rootURL)}stream.html${
-      query ? `?${query}` : ""
-    }`;
+
+    const url = `${ensureEndSlash(this.config.rootURL)}${
+      process.env.NODE_ENV !== "development" ? "embed/stream" : "stream.html"
+    }${query ? `?${query}` : ""}`;
     this.pymControl = this.pymControlFactory({
       id: this.config.id,
       title: this.config.title,
