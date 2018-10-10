@@ -1,9 +1,4 @@
-.form {
-  width: 400px;
-  margin: 0 auto;
-}
-
-.buttonIcon {
+.root {
   font-size: 1rem;
   width: 1rem;
   padding-left: var(--spacing-unit) !important;

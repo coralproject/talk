@@ -27,7 +27,14 @@ class FinalStep extends Component<WizardChildProps> {
             </Button>
           </Localized>
           <Localized id="install-finalStep-goToAdmin">
-            <Button anchor color="primary" variant="filled" href="/admin">
+            <Button
+              anchor
+              color="primary"
+              variant="filled"
+              href={
+                process.env.NODE_ENV === "production" ? "/admin" : "/admin.html"
+              }
+            >
               Go to Admin
             </Button>
           </Localized>

@@ -11,20 +11,17 @@ import {
   validateUsername,
 } from "talk-framework/lib/validation";
 import {
-  Button,
   CallOut,
   Flex,
   FormField,
   HorizontalGutter,
-  Icon,
   InputDescription,
   InputLabel,
   TextField,
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-
-import * as styles from "./styles.css";
+import NextButton from "./NextButton";
 
 interface FormProps {
   email: string;
@@ -49,11 +46,7 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
-        <form
-          autoComplete="off"
-          onSubmit={handleSubmit}
-          className={styles.form}
-        >
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter size="double">
             <Localized id="install-createYourAccount-title">
               <Typography variant="heading1" align="center">
@@ -228,18 +221,7 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
             </Field>
 
             <Flex direction="row-reverse">
-              <Button
-                variant="filled"
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={submitting}
-              >
-                <Localized id="install-next">
-                  <span>Next</span>
-                </Localized>
-                <Icon className={styles.buttonIcon}>arrow_forward</Icon>
-              </Button>
+              <NextButton submitting={submitting} />
             </Flex>
           </HorizontalGutter>
         </form>

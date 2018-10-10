@@ -15,8 +15,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-
-import * as styles from "./styles.css";
+import BackButton from "./BackButton";
 
 interface FormProps {
   domains: string;
@@ -39,11 +38,7 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
-        <form
-          autoComplete="off"
-          onSubmit={handleSubmit}
-          className={styles.form}
-        >
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter size="double">
             <Localized id="install-permittedDomains-title">
               <Typography variant="heading1" align="center">
@@ -115,17 +110,10 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
                   Finish Install
                 </Button>
               </Localized>
-              <Localized id="install-back">
-                <Button
-                  onClick={props.onGoToPreviousStep}
-                  variant="filled"
-                  color="regular"
-                  size="large"
-                  disabled={submitting}
-                >
-                  Back
-                </Button>
-              </Localized>
+              <BackButton
+                submitting={submitting}
+                onGoToPreviousStep={props.onGoToPreviousStep}
+              />
             </Flex>
           </HorizontalGutter>
         </form>

@@ -9,8 +9,6 @@ import {
   validateURL,
 } from "talk-framework/lib/validation";
 import {
-  Button,
-  ButtonIcon,
   CallOut,
   Flex,
   FormField,
@@ -21,8 +19,8 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-
-import * as styles from "./styles.css";
+import BackButton from "./BackButton"
+import NextButton from "./NextButton";
 
 interface FormProps {
   organizationName: string;
@@ -50,7 +48,6 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
         <form
           autoComplete="off"
           onSubmit={handleSubmit}
-          className={styles.form}
         >
           <HorizontalGutter size="double">
             <Localized id="install-addOrganization-title">
@@ -187,31 +184,8 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
               )}
             </Field>
             <Flex direction="row-reverse" itemGutter>
-              <Button
-                variant="filled"
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={submitting}
-              >
-                <Localized id="install-next">
-                  <span>Next</span>
-                </Localized>
-                <ButtonIcon className={styles.buttonIcon}>
-                  arrow_forward
-                </ButtonIcon>
-              </Button>
-              <Localized id="install-back">
-                <Button
-                  onClick={props.onGoToPreviousStep}
-                  variant="filled"
-                  color="regular"
-                  size="large"
-                  disabled={submitting}
-                >
-                  Back
-                </Button>
-              </Localized>
+              <NextButton submitting={submitting} />
+              <BackButton submitting={submitting} onGoToPreviousStep={props.onGoToPreviousStep} />
             </Flex>
           </HorizontalGutter>
         </form>
