@@ -78,19 +78,24 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                   <Localized id="install-addOrganization-orgName">
                     <InputLabel>Organization Name</InputLabel>
                   </Localized>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Organization Name"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-addOrganization-orgNameTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Organization Name"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>
@@ -110,19 +115,24 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                   <Localized id="install-addOrganization-orgEmail">
                     <InputLabel>Organization Contact Email</InputLabel>
                   </Localized>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Organization Contact Email"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-addOrganization-orgEmailTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Organization Contact Email"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>
@@ -142,19 +152,24 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                   <Localized id="install-addOrganization-orgURL">
                     <InputLabel>Organization URL</InputLabel>
                   </Localized>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Organization URL"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-addOrganization-orgURLTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Organization URL"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>

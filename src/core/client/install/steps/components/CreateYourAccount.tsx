@@ -12,11 +12,11 @@ import {
 } from "talk-framework/lib/validation";
 import {
   Button,
-  ButtonIcon,
   CallOut,
   Flex,
   FormField,
   HorizontalGutter,
+  Icon,
   InputDescription,
   InputLabel,
   TextField,
@@ -76,19 +76,24 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                   <Localized id="install-createYourAccount-email">
                     <InputLabel>Email</InputLabel>
                   </Localized>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Email"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-createYourAccount-emailTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Email"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>
@@ -114,19 +119,24 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                       use “_” and “.”
                     </InputDescription>
                   </Localized>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Username"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-createYourAccount-usernameTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Username"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>
@@ -151,20 +161,25 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                       Must be at least 8 characters
                     </InputDescription>
                   </Localized>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Password"
-                    type="password"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-createYourAccount-passwordTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Password"
+                      type="password"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>
@@ -183,20 +198,25 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                   <Localized id="install-createYourAccount-confirmPassword">
                     <InputLabel>Confirm Password</InputLabel>
                   </Localized>
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Confirm Password"
-                    type="password"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-createYourAccount-confirmPasswordTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Confirm Password"
+                      type="password"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>
@@ -218,9 +238,7 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                 <Localized id="install-next">
                   <span>Next</span>
                 </Localized>
-                <ButtonIcon className={styles.buttonIcon}>
-                  arrow_forward
-                </ButtonIcon>
+                <Icon className={styles.buttonIcon}>arrow_forward</Icon>
               </Button>
             </Flex>
           </HorizontalGutter>

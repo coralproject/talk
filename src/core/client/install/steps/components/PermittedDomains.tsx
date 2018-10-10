@@ -73,20 +73,24 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
                       Insert domains separated by comma
                     </InputDescription>
                   </Localized>
-
-                  <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
-                    placeholder="Domains"
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    disabled={submitting}
-                    fullWidth
-                  />
+                  <Localized
+                    id="install-permittedDomains-permittedDomainsTextField"
+                    attrs={{ placeholder: true }}
+                  >
+                    <TextField
+                      name={input.name}
+                      onChange={input.onChange}
+                      value={input.value}
+                      placeholder="Domains"
+                      color={
+                        meta.touched && (meta.error || meta.submitError)
+                          ? "error"
+                          : "regular"
+                      }
+                      disabled={submitting}
+                      fullWidth
+                    />
+                  </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
                       <ValidationMessage fullWidth>
