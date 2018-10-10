@@ -93,6 +93,7 @@
     "consolidate": "0.14.0",
     "cookie-parser": "^1.4.3",
     "copy-webpack-plugin": "^4.0.0",
+    "cors": "^2.8.4",
     "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.5",
     "dataloader": "^1.3.0",

@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const nunjucks = require('nunjucks');
 const cons = require('consolidate');
 const trace = require('./middleware/trace');
@@ -18,6 +19,18 @@ const app = express();
 // Add the trace middleware first, it will create a request ID for each request
 // downstream.
 app.use(trace);
+
+try {
+  app.use(
+    cors({
+      origin: require('./cors-allowed-origins.js'),
+      optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    })
+  );
+} catch (err) {
+  // ignore
+  console.log('No CORS whitelist found');
+}
 
 //==============================================================================
 // PLUGIN PRE APPLICATION MIDDLEWARE
