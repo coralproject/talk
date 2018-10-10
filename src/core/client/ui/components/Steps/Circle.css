@@ -16,7 +16,7 @@
 }
 
 .icon {
-  color: var(--palette-common-white);
+  color: var(--palette-text-light);
   font-weight: bold;
   margin-top: -4px;
   margin-left: 1px;
