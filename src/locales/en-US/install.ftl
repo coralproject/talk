@@ -20,6 +20,7 @@ install-addOrganization-orgEmailTextField =
 install-addOrganization-orgURL = Organization URL
 install-addOrganization-orgURLTextField =
   .placeholder = Organization URL
+install-addOrganization-orgURLDescription = Be sure to include <strong>http://</strong> or <strong>https://</strong> in your URL
 
 install-createYourAccount-stepTitle = Create Admin Account
 install-createYourAccount-title = Create an Administrator Account

@@ -15,6 +15,7 @@ import {
   Flex,
   FormField,
   HorizontalGutter,
+  InputDescription,
   InputLabel,
   TextField,
   Typography,
@@ -151,6 +152,11 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                 <FormField>
                   <Localized id="install-addOrganization-orgURL">
                     <InputLabel>Organization URL</InputLabel>
+                  </Localized>
+                  <Localized id="install-addOrganization-orgURLDescription" strong={<strong/>}>
+                    <InputDescription>
+                      Be sure to include <strong>http://</strong> or <strong>https://</strong> in your URL
+                    </InputDescription>
                   </Localized>
                   <Localized
                     id="install-addOrganization-orgURLTextField"
