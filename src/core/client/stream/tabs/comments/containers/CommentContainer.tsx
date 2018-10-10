@@ -140,6 +140,7 @@ export class CommentContainer extends Component<InnerProps, State> {
       localReply,
       disableReplies,
       showConversationLink,
+      me,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
@@ -186,12 +187,11 @@ export class CommentContainer extends Component<InnerProps, State> {
                   />
                 )}
                 <PermalinkButtonContainer commentID={comment.id} />
-                {this.props.me && (
-                  <ReactionButtonContainer
-                    comment={comment}
-                    settings={settings}
-                  />
-                )}
+                <ReactionButtonContainer
+                  comment={comment}
+                  settings={settings}
+                  me={me}
+                />
               </ButtonsBar>
               {showConversationLink && (
                 <ShowConversationLink
@@ -227,6 +227,7 @@ const enhanced = withSetCommentIDMutation(
       me: graphql`
         fragment CommentContainer_me on User {
           id
+          ...ReactionButtonContainer_me
         }
       `,
       asset: graphql`
