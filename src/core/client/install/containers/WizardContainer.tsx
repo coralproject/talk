@@ -10,7 +10,7 @@ import PermittedDomainsContainer from "../steps/containers/PermittedDomainsConta
 
 import { InstallInput } from "talk-framework/rest";
 
-export interface FormData {
+interface FormData {
   organizationName: string;
   organizationContactEmail: string;
   organizationURL: string;
