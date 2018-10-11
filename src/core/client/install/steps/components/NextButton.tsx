@@ -16,7 +16,7 @@ const NextButton: StatelessComponent<NextButtonProps> = props => {
       type="submit"
       disabled={props.submitting}
     >
-      <Localized id="install-next">
+      <Localized id="install-nextButton-next">
         <span>Next</span>
       </Localized>
       <ButtonIcon>arrow_forward</ButtonIcon>
