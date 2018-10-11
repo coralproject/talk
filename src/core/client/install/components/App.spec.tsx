@@ -7,9 +7,6 @@ import App from "./App";
 
 it("renders sign in", () => {
   const props: PropTypesOf<typeof App> = {
-    onSaveData: () => {
-      //
-    },
     data: {
       organizationName: "",
       organizationContactEmail: "",
@@ -20,6 +17,7 @@ it("renders sign in", () => {
       confirmPassword: "",
       domains: [],
     },
+    onSaveData: (newData: {}) => new Promise(resolve => resolve(props.data)),
   };
   const wrapper = shallow(<App {...props} />);
   expect(wrapper).toMatchSnapshot();
