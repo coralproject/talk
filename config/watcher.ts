@@ -65,6 +65,23 @@ const config: Config = {
         runOnInit: true,
       }),
     },
+    compileRelayInstall: {
+      paths: [
+        "core/client/install/**/*.ts",
+        "core/client/install/**/*.tsx",
+        "core/client/install/**/*.graphql",
+        "core/server/**/*.graphql",
+      ],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
+      executor: new CommandExecutor("npm run compile:relay-install", {
+        runOnInit: true,
+      }),
+    },
     compileCSSTypes: {
       paths: ["**/*.css"],
       executor: new CommandExecutor("npm run compile:css-types", {
@@ -94,6 +111,7 @@ const config: Config = {
       "compileCSSTypes",
       "compileRelayStream",
       "compileRelayAuth",
+      "compileRelayInstall",
       "compileRelayAdmin",
       "compileSchema",
     ],
@@ -103,6 +121,7 @@ const config: Config = {
       "compileCSSTypes",
       "compileRelayStream",
       "compileRelayAuth",
+      "compileRelayInstall",
     ],
   },
 };
