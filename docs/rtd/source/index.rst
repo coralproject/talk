@@ -86,8 +86,7 @@ Welcome to Talk's documentation!
 
 
 
-Indices and tables
+Search
 ==================
 
-* :ref:`genindex`
 * :ref:`search`
