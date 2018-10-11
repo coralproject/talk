@@ -6,7 +6,7 @@ import WizardContainer from "../containers/WizardContainer";
 import MainBar from "./MainBar";
 
 export interface AppProps {
-  onSaveData: (newData: {}) => void;
+  onSaveData: (newData: {}) => Promise<FormData>;
   data: FormData;
 }
 

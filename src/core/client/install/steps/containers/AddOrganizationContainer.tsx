@@ -10,7 +10,7 @@ interface AddOrganizationContainerProps {
   onGoToNextStep?: () => void;
   onGoToPreviousStep?: () => void;
   data: FormData;
-  onSaveData: (newData: {}) => void;
+  onSaveData: (newData: {}) => Promise<FormData>;
 }
 
 class CreateYourAccountContainer extends Component<
@@ -28,7 +28,7 @@ class CreateYourAccountContainer extends Component<
   };
   private onSubmit: AddOrganizationForm["onSubmit"] = async (input, form) => {
     try {
-      this.props.onSaveData(input);
+      await this.props.onSaveData(input);
       return this.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };

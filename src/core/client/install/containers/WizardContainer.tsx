@@ -8,7 +8,7 @@ import PermittedDomainsContainer from "../steps/containers/PermittedDomainsConta
 import { FormData } from "./AppContainer";
 
 interface WizardContainerProps {
-  onSaveData: (newData: {}) => void;
+  onSaveData: (newData: {}) => Promise<FormData>;
   data: FormData;
 }
 

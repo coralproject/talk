@@ -13,7 +13,7 @@ interface PermittedDomainsContainerProps {
   onGoToNextStep?: () => void;
   onGoToPreviousStep?: () => void;
   data: FormData;
-  onSaveData: (newData: {}) => void;
+  onSaveData: (newData: {}) => Promise<FormData>;
 }
 
 function shapeFinalData(data: FormData): InstallInput {
@@ -58,8 +58,8 @@ class CreateYourAccountContainer extends Component<
   private onSubmit: PermittedDomainsForm["onSubmit"] = async (input, form) => {
     try {
       const domains = input.domains.split(",");
-      this.props.onSaveData({ domains });
-      this.props.install(shapeFinalData(this.props.data));
+      const data = await this.props.onSaveData({ domains });
+      this.props.install(shapeFinalData(data));
       return this.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
