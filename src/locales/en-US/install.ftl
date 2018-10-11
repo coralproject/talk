@@ -1,9 +1,9 @@
 ## Install
 
-install-back = Back
-install-next = Next
-install-finishInstall = Finish Install
-install-title = Talk Installation Wizard
+install-backButton-back = Back
+install-nextButton-next = Next
+install-permittedDomains-finishInstall = Finish Install
+install-header-title = Talk Installation Wizard
 
 install-initialStep-copy = The remainder of the Talk installation will take about ten minutes. Once you complete the following three steps, you will have a free installation and provision Mongo and Redis.
 install-initialStep-getStarted = Get Started

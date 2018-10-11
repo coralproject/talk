@@ -13,7 +13,7 @@ const BackButton: StatelessComponent<BackButtonProps> = ({
   onGoToPreviousStep,
 }) => {
   return (
-    <Localized id="install-back">
+    <Localized id="install-backButton-back">
       <Button
         onClick={onGoToPreviousStep}
         variant="filled"
