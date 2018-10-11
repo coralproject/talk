@@ -15,7 +15,13 @@ import PymControl, {
   defaultPymControlFactory,
   PymControlFactory,
 } from "./PymControl";
-import { ensureEndSlash } from "./utils";
+import { ensureNoEndSlash } from "./utils";
+
+// This is importing the url helper from the framework using a relative path
+// import because the ts paths are not configured to use the framework for this
+// target.
+// TODO: (wyattjoh) replace with import from framework when we include it in the config.
+import urls from "../framework/helpers/urls";
 
 export interface StreamEmbedConfig {
   assetID?: string;
@@ -111,9 +117,9 @@ export class StreamEmbed {
       commentID: this.config.commentID,
     });
 
-    const url = `${ensureEndSlash(this.config.rootURL)}${
-      process.env.NODE_ENV !== "development" ? "embed/stream" : "stream.html"
-    }${query ? `?${query}` : ""}`;
+    const url = `${ensureNoEndSlash(this.config.rootURL)}${urls.embed.stream}${
+      query ? `?${query}` : ""
+    }`;
     this.pymControl = this.pymControlFactory({
       id: this.config.id,
       title: this.config.title,

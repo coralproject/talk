@@ -18,6 +18,7 @@ import {
 } from "talk-stream/mutations";
 import { Popup } from "talk-ui/components";
 
+import { urls } from "talk-framework/helpers";
 import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 
 interface InnerProps {
@@ -57,11 +58,7 @@ export class UserBoxContainer extends Component<InnerProps> {
     return (
       <>
         <Popup
-          href={`${
-            process.env.NODE_ENV !== "development"
-              ? "/embed/auth"
-              : "/auth.html"
-          }?view=${view}`}
+          href={`${urls.embed.auth}?view=${view}`}
           title="Talk Auth"
           features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
           open={open}

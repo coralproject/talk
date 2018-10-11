@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
+import { urls } from "talk-framework/helpers";
 import { Button, Flex, Typography } from "talk-ui/components";
 import { WizardChildProps } from "../../components/Wizard";
 
@@ -27,14 +28,7 @@ class FinalStep extends Component<WizardChildProps> {
             </Button>
           </Localized>
           <Localized id="install-finalStep-goToAdmin">
-            <Button
-              anchor
-              color="primary"
-              variant="filled"
-              href={
-                process.env.NODE_ENV === "production" ? "/admin" : "/admin.html"
-              }
-            >
+            <Button anchor color="primary" variant="filled" href={urls.admin}>
               Go to Admin
             </Button>
           </Localized>

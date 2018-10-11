@@ -19,7 +19,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
-import BackButton from "./BackButton"
+import BackButton from "./BackButton";
 import NextButton from "./NextButton";
 
 interface FormProps {
@@ -45,10 +45,7 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
-        <form
-          autoComplete="off"
-          onSubmit={handleSubmit}
-        >
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <HorizontalGutter size="double">
             <Localized id="install-addOrganization-title">
               <Typography variant="heading1" align="center">
@@ -151,9 +148,14 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                   <Localized id="install-addOrganization-orgURL">
                     <InputLabel>Organization URL</InputLabel>
                   </Localized>
-                  <Localized id="install-addOrganization-orgURLDescription" strong={<strong/>}>
+                  <Localized
+                    id="install-addOrganization-orgURLDescription"
+                    strong={<strong />}
+                  >
                     <InputDescription>
-                      Be sure to include <strong>http://</strong> or <strong>https://</strong> in your URL
+                      {/* Related: https://github.com/prettier/prettier/issues/2347 */}
+                      Be sure to include <strong>{"http://"}</strong> or{" "}
+                      <strong>{"https://"}</strong> in your URL
                     </InputDescription>
                   </Localized>
                   <Localized
@@ -185,7 +187,10 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
             </Field>
             <Flex direction="row-reverse" itemGutter>
               <NextButton submitting={submitting} />
-              <BackButton submitting={submitting} onGoToPreviousStep={props.onGoToPreviousStep} />
+              <BackButton
+                submitting={submitting}
+                onGoToPreviousStep={props.onGoToPreviousStep}
+              />
             </Flex>
           </HorizontalGutter>
         </form>
