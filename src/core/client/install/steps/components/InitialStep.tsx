@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Button, Flex, Typography } from "talk-ui/components";
 
 interface InitialStepProps {
-  onGoToNextStep?: () => void;
+  onGoToNextStep: () => void;
 }
 
 class InitialStep extends Component<InitialStepProps> {
