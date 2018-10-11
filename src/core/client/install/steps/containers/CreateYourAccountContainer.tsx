@@ -17,20 +17,10 @@ interface CreateYourAccountContainerProps {
 class CreateYourAccountContainer extends Component<
   CreateYourAccountContainerProps
 > {
-  private onGoToPreviousStep = () => {
-    if (this.props.onGoToPreviousStep) {
-      this.props.onGoToPreviousStep();
-    }
-  };
-  private onGoToNextStep = () => {
-    if (this.props.onGoToNextStep) {
-      this.props.onGoToNextStep();
-    }
-  };
   private onSubmit: CreateYourAccountForm["onSubmit"] = async (input, form) => {
     try {
       this.props.onSaveData(input);
-      return this.onGoToNextStep();
+      return this.props.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
@@ -40,7 +30,7 @@ class CreateYourAccountContainer extends Component<
       <CreateYourAccount
         data={this.props.data}
         onSubmit={this.onSubmit}
-        onGoToPreviousStep={this.onGoToPreviousStep}
+        onGoToPreviousStep={this.props.onGoToPreviousStep}
       />
     );
   }
