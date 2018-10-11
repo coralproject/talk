@@ -100,7 +100,7 @@ const PermittedDomains: StatelessComponent<PermittedDomainsForm> = props => {
             </Field>
 
             <Flex direction="row-reverse" itemGutter>
-              <Localized id="install-finishInstall">
+              <Localized id="install-permittedDomains-finishInstall">
                 <Button
                   variant="filled"
                   color="primary"

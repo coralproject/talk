@@ -25,7 +25,7 @@ const Header: StatelessComponent<HeaderProps> = ({ main }) => {
       >
         The Coral Project
       </Typography>
-      <Localized id="install-title">
+      <Localized id="install-header-title">
         <Typography
           className={cn(styles.subHeadline, {
             [styles.subHeadlineMain]: main,
