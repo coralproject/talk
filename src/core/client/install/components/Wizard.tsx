@@ -1,6 +1,8 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { Component, ReactNode } from "react";
 import { Step, StepBar } from "talk-ui/components";
+
 import { WizardProps } from "../components/Wizard";
 import Header from "./Header";
 import * as styles from "./Wizard.css";
@@ -45,7 +47,7 @@ class Wizard extends Component<WizardProps> {
       );
 
     return (
-      <div className={styles.root}>
+      <div className={cn(className, styles.root)}>
         <Header main={currentStep === 0} />
         {currentStep !== 0 &&
           currentStep !== wizardChildren.length - 1 && (
@@ -69,7 +71,7 @@ class Wizard extends Component<WizardProps> {
               <Step hidden>Finish</Step>
             </StepBar>
           )}
-        <section className={className}>{wizardChildrenToRender}</section>
+        <section className={styles.section}>{wizardChildrenToRender}</section>
       </div>
     );
   }

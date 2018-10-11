@@ -1,11 +1,11 @@
 .root {
   max-width: 600px;
   margin: 0 auto;
+}
 
-  form {
-    max-width: 400px;
-    margin: 0 auto;
-  }
+.section {
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .stepBar {
