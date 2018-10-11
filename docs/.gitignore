@@ -4,3 +4,4 @@ public/*
 db.json
 *.log
 source/_data/introspection.json
+rtd/build/*

@@ -1,0 +1,363 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Commenter Features &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Moderator Features" href="03-03-product-guide-moderator-features.html" />
+    <link rel="prev" title="How Talk Works" href="03-01-product-guide-how-talk-works.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="commenter-features">
+<span id="commenter-features"></span><h1>Commenter Features<a class="headerlink" href="#commenter-features" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="signing-up-for-talk">
+<span id="signing-up-for-talk"></span><h2>Signing up for Talk<a class="headerlink" href="#signing-up-for-talk" title="Permalink to this headline">¶</a></h2>
+<p>There are 2 ways that newsrooms can support signup/login functionality with Talk:</p>
+<ul class="simple">
+<li>Use Talk’s auth plugin out of the box (supports account registration with username and password, as well as features like forgot password)</li>
+<li>Create their own auth plugin to integrate with your own auth systems</li>
+</ul>
+<p>We also provide a Facebook auth plugin that supports logging in with Facebook (you must provide your own Facebook App ID and Secret, which you can read more about here: <a class="reference external" href="https://developers.facebook.com">https://developers.facebook.com</a>)</p>
+</div>
+<div class="section" id="comments-and-replies">
+<span id="comments-and-replies"></span><h2>Comments and Replies<a class="headerlink" href="#comments-and-replies" title="Permalink to this headline">¶</a></h2>
+<p>Talk supports a standard comment hierarchy. There are top-level (or parent) comments, and then replies to that comment (or children comments).</p>
+<div class="section" id="permalinks">
+<span id="permalinks"></span><h3>Permalinks<a class="headerlink" href="#permalinks" title="Permalink to this headline">¶</a></h3>
+<p>All levels of comments and replies are able to be linked to via permalink. Permalinks are structured using a <code class="docutils literal notranslate"><span class="pre">commentId</span></code> query param:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>https://&lt;your asset url&gt;?commentId=&lt;the comment id&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="threading">
+<span id="threading"></span><h3>Threading<a class="headerlink" href="#threading" title="Permalink to this headline">¶</a></h3>
+<p>Talk supports by default 3 levels of threading, meaning each top-level comment
+has a depth of 3 replies; replies beyond that are not nested below the 3rd
+level. You can adjust this using the
+<a class="reference external" href="./02-02-advanced-configuration.html#talk-threading-level">TALK_THREADING_LEVEL</a>
+configuration variable. We don’t recommend deep threading because it can cause
+issues with styling, especially on mobile.</p>
+<p>You can style threaded comments using these CSS classes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>talk-stream-comment-wrapper-level-${depth}
+talk-stream-comment
+talk-stream-comment-level-${depth}
+talk-stream-highlighted-comment
+talk-stream-pending-comment
+</pre></div>
+</div>
+</div>
+<div class="section" id="automatic-updates">
+<span id="automatic-updates"></span><h3>Automatic Updates<a class="headerlink" href="#automatic-updates" title="Permalink to this headline">¶</a></h3>
+<p>Talk supports real-time loading and updating of comments, via subscriptions
+(specifically GraphQL Subscriptions); this enables us to not have to refresh to
+see new comments on a given comment stream.</p>
+<p>Talk enables this via “Load More” buttons for both top-level comments (this
+button appears at the top of the stream), and within conversation threads (this
+button appears in situ for replies).</p>
+<p>We’ve decided to go this route in order to make the viewing experience as smooth
+as possible, so that the feed of comments doesn’t change as you’re reading just
+because new comments are coming in. This could be especially disruptive on
+breaking news and/or controversial stories with very active discussions.</p>
+</div>
+<div class="section" id="comment-character-limits">
+<span id="comment-character-limits"></span><h3>Comment Character Limits<a class="headerlink" href="#comment-character-limits" title="Permalink to this headline">¶</a></h3>
+<p>You can enable Talk to limit the character length for comments, for example,
+some newsrooms we’ve worked with prefer a limit between 2000 and 5000
+characters. Commenters will be alerted that they have gone over that number and
+won’t be able to submit their comment until they’ve edited it. This can be a
+useful tool to ensure commenters are concise with their comments.</p>
+</div>
+</div>
+<div class="section" id="comment-reactions">
+<span id="comment-reactions"></span><h2>Comment Reactions<a class="headerlink" href="#comment-reactions" title="Permalink to this headline">¶</a></h2>
+<p>Talk comes with a <code class="docutils literal notranslate"><span class="pre">respect</span></code> button out of the box. Why a “respect” button, you
+ask?
+<a class="reference external" href="https://mediaengagement.org/research/engagement-buttons/">Read more here</a>.</p>
+<p>We also have 2 more plugins, <code class="docutils literal notranslate"><span class="pre">like</span></code> and <code class="docutils literal notranslate"><span class="pre">love</span></code>, that you can turn on and
+experiment with on your own Talk install.</p>
+<p>And our plugin architecture makes it easy to create your own custom reaction
+buttons too.</p>
+</div>
+<div class="section" id="reporting-comments">
+<span id="reporting-comments"></span><h2>Reporting Comments<a class="headerlink" href="#reporting-comments" title="Permalink to this headline">¶</a></h2>
+<p>Readers can report comments if they feel they’re unsuitable. They can choose one
+of the following reasons:</p>
+<ul class="simple">
+<li>This comment is offensive</li>
+<li>This looks like an ad/marketing</li>
+<li>I don’t agree with this comment</li>
+<li>Other</li>
+</ul>
+<p>They can also include more information and this shows for moderators in the Flag
+Detail area on the comments in the moderation queues.</p>
+<p>Comments that are reported go to the Reported queue, with the exception of “I
+don’t agree with this comment”. This option is a useful way to let other readers
+vent their frustration, but since just disagreeing with something doesn’t mean
+it’s not suitable, we leave it be.</p>
+</div>
+<div class="section" id="reporting-usernames">
+<span id="reporting-usernames"></span><h2>Reporting Usernames<a class="headerlink" href="#reporting-usernames" title="Permalink to this headline">¶</a></h2>
+<p>Usernames can also be reported by readers, if the username is inappropriate or
+offensive. They can choose one of the following reasons:</p>
+<ul class="simple">
+<li>This username is offensive</li>
+<li>I don’t like this username</li>
+<li>This user is impersonating</li>
+<li>This looks like an ad/marketing</li>
+</ul>
+<p>Reported usernames go to the Reported Usernames queue which is located in the
+Community tab. If a username is rejected by a moderator, the commenter is
+prompted to change their username and they are suspended from commenting,
+replying or reacting to comments until they do so. They receive an email, and
+also a message at the top of their comment streams that let’s them know they’re
+suspended.</p>
+<p>If the commenter changes their username, it goes back to the Reported Usernames
+queue for approval. If the updated username is accepted by a moderator, the
+commenter is no longer suspended and continue interacting with the community. If
+the username is rejected, the commenter remains suspended until they change
+their username to something appropriate.</p>
+<p>Approved usernames that are reported do not show up in the Reported Usernames
+queues any longer, since they have been specifically OK’ed by a moderator.</p>
+</div>
+<div class="section" id="ignoring-users">
+<span id="ignoring-users"></span><h2>Ignoring Users<a class="headerlink" href="#ignoring-users" title="Permalink to this headline">¶</a></h2>
+<p>Commenters can ignore other commenters and essentially mute them entirely from
+the comment platform. Commenters can manage their ignored users list in their My
+Profile tab.</p>
+</div>
+<div class="section" id="featured-comments">
+<span id="featured-comments"></span><h2>Featured Comments<a class="headerlink" href="#featured-comments" title="Permalink to this headline">¶</a></h2>
+<p>Moderators can feature comments that they want to highlight and recommend to
+their community. Featured comments show up on a separate tab, that is the
+default for the comment stream. Featured comments within the stream show a
+Featured badge.</p>
+</div>
+<div class="section" id="sorting-the-stream">
+<span id="sorting-the-stream"></span><h2>Sorting the Stream<a class="headerlink" href="#sorting-the-stream" title="Permalink to this headline">¶</a></h2>
+<p>Readers can sort the stream in 4 ways based on their viewing preferences:</p>
+<ul class="simple">
+<li>Oldest first</li>
+<li>Newest first</li>
+<li>Most respect first (or most liked, most loved, etc., depending on what
+reactions you use)</li>
+<li>Most replied first</li>
+</ul>
+<p>We also make it easy to add more sorts via custom plugins.</p>
+</div>
+<div class="section" id="badges">
+<span id="badges"></span><h2>Badges<a class="headerlink" href="#badges" title="Permalink to this headline">¶</a></h2>
+<p>Badges differentiate users and comments on the stream. By default, Talk has two
+badges.</p>
+<p>The Staff user badge that shows when a commenter has an Admin, Moderator, or
+Staff role.</p>
+<p>The Featured comment badge shows when a comment has been featured.</p>
+<p>Another optional badge is the Subscriber badge (which is available as a
+<a class="reference external" href="04-05-plugin-recipes.html#recipe-subscriber">Recipe</a>.</p>
+<p>Badges are another easy part of Talk to customize by creating a new <code class="docutils literal notranslate"><span class="pre">tag</span></code>, then
+setting some rules for when it should show, and how the badge should be styled.</p>
+</div>
+<div class="section" id="my-profile">
+<span id="my-profile"></span><h2>My Profile<a class="headerlink" href="#my-profile" title="Permalink to this headline">¶</a></h2>
+<p>The My Profile tab is where commenters can go to see their comment history, as
+well as reactions and replies to their comments. They can also see their email
+address associated with Talk, and manage their Ignored Users list here.</p>
+</div>
+<div class="section" id="notifications-error-messaging">
+<span id="notifications-error-messaging"></span><h2>Notifications &amp; Error Messaging<a class="headerlink" href="#notifications-error-messaging" title="Permalink to this headline">¶</a></h2>
+<p>Talk leverages notification and messages on the stream to alert users to
+important information about their comment or their account.</p>
+<div class="section" id="pre-moderation-of-comments">
+<span id="pre-moderation-of-comments"></span><h3>Pre-moderation of comments<a class="headerlink" href="#pre-moderation-of-comments" title="Permalink to this headline">¶</a></h3>
+<p>If a stream is set to Pre-mod, or a commenter’s Trust karma score has fallen to
+negative, or if for any other reason their comment is being pre-moderated, they
+will get a notification letting them know this when they post a comment.</p>
+</div>
+<div class="section" id="suspension-because-of-username">
+<span id="suspension-because-of-username"></span><h3>Suspension because of Username<a class="headerlink" href="#suspension-because-of-username" title="Permalink to this headline">¶</a></h3>
+<p>When a commenter has been suspended because their username is inappropriate,
+they will see a message at the top of their streams stating this.</p>
+</div>
+<div class="section" id="timed-suspension">
+<span id="timed-suspension"></span><h3>Timed Suspension<a class="headerlink" href="#timed-suspension" title="Permalink to this headline">¶</a></h3>
+<p>When a commenter has been suspended for a block of time (aka a “time-out”), they
+will see a message at the top of their streams stating this.</p>
+</div>
+<div class="section" id="ban">
+<span id="ban"></span><h3>Ban<a class="headerlink" href="#ban" title="Permalink to this headline">¶</a></h3>
+<p>When a commenter has been banned, they will see a message at the top of their
+streams stating this.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrating/asset-management.html">Asset Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/authentication.html">Authenticating with Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="03-01-product-guide-how-talk-works.html">How Talk Works</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Commenter Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#signing-up-for-talk">Signing up for Talk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comments-and-replies">Comments and Replies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comment-reactions">Comment Reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-comments">Reporting Comments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-usernames">Reporting Usernames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ignoring-users">Ignoring Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#featured-comments">Featured Comments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sorting-the-stream">Sorting the Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#badges">Badges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#my-profile">My Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notifications-error-messaging">Notifications &amp; Error Messaging</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/overview.html">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/overview.html">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="05-01-building-basic-plugin.html">Creating a Basic Pride Reaction Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-02-customizing-plugins-coral-ui.html">Customizing Plugins with Coral UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-02-troubleshooting-tips.html">Troubleshooting Tips</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="03-01-product-guide-how-talk-works.html" title="previous chapter">How Talk Works</a></li>
+      <li>Next: <a href="03-03-product-guide-moderator-features.html" title="next chapter">Moderator Features</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/03-02-product-guide-commenter-features.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

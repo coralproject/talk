@@ -1,0 +1,267 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Authenticating with Talk &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuring the Talk Admin" href="configuring-admin.html" />
+    <link rel="prev" title="Asset Management" href="asset-management.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="authenticating-with-talk">
+<span id="authenticating-with-talk"></span><h1>Authenticating with Talk<a class="headerlink" href="#authenticating-with-talk" title="Permalink to this headline">¶</a></h1>
+<p>You can integrate Talk with any external authentication service that will enable
+seamless single sign-on for users within your organization. There are a few
+methods of doing so:</p>
+<ol class="simple">
+<li>Passport Middleware</li>
+<li>Custom Token Integration</li>
+</ol>
+<p>Both methods work, but there are product decisions that will affect the overall
+choice.</p>
+<div class="section" id="passport-middleware">
+<span id="passport-middleware"></span><h2>Passport Middleware<a class="headerlink" href="#passport-middleware" title="Permalink to this headline">¶</a></h2>
+<p>You would choose the <strong>Passport Middleware</strong> route when you are OK using an auth
+that is triggered from inside Talk that is not connected to an external auth
+state (you don’t use the auth anywhere else now). A great example of this is our
+<a class="reference external" href="./../plugin/talk-plugin-facebook-auth.html">talk-plugin-facebook-auth</a> plugin.</p>
+</div>
+<div class="section" id="custom-token-integration">
+<span id="custom-token-integration"></span><h2>Custom Token Integration<a class="headerlink" href="#custom-token-integration" title="Permalink to this headline">¶</a></h2>
+<p>You can integrate Talk with any authentication service to enable single sign-on
+for users. The steps to do that are:</p>
+<ol class="simple">
+<li>Create a service that generates <a class="reference external" href="https://jwt.io/introduction/">JWT tokens</a>.</li>
+<li>Push the token into the embed.</li>
+<li>Implement the <a class="reference external" href="#implement-tokenusernotfound"><code class="docutils literal notranslate"><span class="pre">tokenUserNotFound</span></code></a> hook to
+process the token.</li>
+</ol>
+<div class="section" id="create-jwt-token">
+<span id="create-jwt-token"></span><h3>Create JWT Token<a class="headerlink" href="#create-jwt-token" title="Permalink to this headline">¶</a></h3>
+<p>You should create an external service that is responsible for generating a JWT
+for use with Talk. The token can be generated as easy as checking out the
+following node app: https://github.com/coralproject/talk-token-example</p>
+<p>Using that demo application, you’ll see how you can:</p>
+<ol class="simple">
+<li>Create a node application that can issue JWT’s that are compatible with Talk.</li>
+<li>Provide a validation endpoint that can be used by Talk to validate the token
+and get the user via the <a class="reference external" href="#implement-tokenusernotfound"><code class="docutils literal notranslate"><span class="pre">tokenUserNotFound</span></code></a>
+hook.</li>
+</ol>
+<p>It’s also important to note a few requirements for proper integration with Talk.
+The generated JWT must contain the following claims:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://tools.ietf.org/html/rfc7519#section-4.1.7"><code class="docutils literal notranslate"><span class="pre">jti</span></code></a>: a unique identifier for the token (like a uuid/v4)</li>
+<li><a class="reference external" href="https://tools.ietf.org/html/rfc7519#section-4.1.4"><code class="docutils literal notranslate"><span class="pre">exp</span></code></a>: the expiry date of the token as a unix timestamp</li>
+<li><a class="reference external" href="https://tools.ietf.org/html/rfc7519#section-4.1.2"><code class="docutils literal notranslate"><span class="pre">sub</span></code></a>: the user identifier that can be used to lookup the user in the mongo
+database<ul>
+<li>The user may not yet exist in the database, but that’s the responsibility
+of the <a class="reference external" href="#implement-tokenusernotfound"><code class="docutils literal notranslate"><span class="pre">tokenUserNotFound</span></code></a> hook.</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://tools.ietf.org/html/rfc7519#section-4.1.1"><code class="docutils literal notranslate"><span class="pre">iss</span></code></a>: the issuer for the token must match the value of <code class="docutils literal notranslate"><span class="pre">TALK_JWT_ISSUER</span></code></li>
+<li><a class="reference external" href="https://tools.ietf.org/html/rfc7519#section-4.1.3"><code class="docutils literal notranslate"><span class="pre">aud</span></code></a>: the audience for the token must match the value of <code class="docutils literal notranslate"><span class="pre">TALK_JWT_AUDIENCE</span></code></li>
+</ul>
+</div>
+<div class="section" id="push-token-into-embed">
+<span id="push-token-into-embed"></span><h3>Push token into embed<a class="headerlink" href="#push-token-into-embed" title="Permalink to this headline">¶</a></h3>
+<p>We’re assuming that your CMS is capable of authenticating a user account, or
+at least having the user’s details available to send off to the token creation
+service we created/used in the previous step.</p>
+<p>Using the token that was created for the user, you simply have to amend the
+template where Talk is rendering to read as the following:</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">Coral</span><span class="p">.</span><span class="nx">Talk</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;coralStreamEmbed&#39;</span><span class="p">),</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="nx">auth_token</span><span class="o">:</span> <span class="s1">&#39;&lt;your generated JWT token issued for this user&gt;&#39;</span><span class="p">,</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>Which will pass down the token to Talk and will fire the next steps
+<code class="docutils literal notranslate"><span class="pre">tokenUserNotFound</span></code> hook to complete the auth flow.</p>
+</div>
+<div class="section" id="implement-tokenusernotfound">
+<span id="implement-tokenusernotfound"></span><h3>Implement <code class="docutils literal notranslate"><span class="pre">tokenUserNotFound</span></code><a class="headerlink" href="#implement-tokenusernotfound" title="Permalink to this headline">¶</a></h3>
+<p>This is the only piece of code you’ll have to write that lives inside Talk.
+The role of this code is to live as a plugin and provide Talk with a way of
+taking the token that you gave it, and turning into a user.</p>
+<p>Using the example application we were working with in the JWT issuing step
+above, we’ll need to ensure that the configuration is consistent in-between both
+Talk and the JWT issuer. Namely, the following environment variables from our
+example issuer and Talk must match:</p>
+<p>| Talk | Token Issuer Example |
+|——|———————-|
+|<a class="reference external" href="./02-02-advanced-configuration.html#talk-jwt-issuer"><code class="docutils literal notranslate"><span class="pre">TALK_JWT_ISSUER</span></code></a>|<code class="docutils literal notranslate"><span class="pre">JWT_ISSUER</span></code>|
+|<a class="reference external" href="./02-02-advanced-configuration.html#talk-jwt-audience"><code class="docutils literal notranslate"><span class="pre">TALK_JWT_AUDIENCE</span></code></a>|<code class="docutils literal notranslate"><span class="pre">JWT_AUDIENCE</span></code>|
+|<a class="reference external" href="./02-02-advanced-configuration.html#talk-jwt-secret"><code class="docutils literal notranslate"><span class="pre">TALK_JWT_SECRET</span></code></a>|<code class="docutils literal notranslate"><span class="pre">JWT_SECRET</span></code>*|</p>
+<p>* Note that secrets is a pretty complex topic, refer to the
+<a class="reference external" href="./02-02-advanced-configuration.html#talk-jwt-secret">TALK_JWT_SECRET</a> configuration
+reference, the basic takeaway is that the secret used to sign the tokens issued
+by the issuer must be able to be verified by Talk.</p>
+<p>For an example of implementing the plugin, refer to <a class="reference external" href="./../api/server.html#tokenusernotfound"><code class="docutils literal notranslate"><span class="pre">tokenUserNotFound</span></code></a>
+reference.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="asset-management.html">Asset Management</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Authenticating with Talk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#passport-middleware">Passport Middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-token-integration">Custom Token Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../03-01-product-guide-how-talk-works.html">How Talk Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-02-product-guide-commenter-features.html">Commenter Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/overview.html">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/overview.html">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../05-01-building-basic-plugin.html">Creating a Basic Pride Reaction Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-02-customizing-plugins-coral-ui.html">Customizing Plugins with Coral UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-02-troubleshooting-tips.html">Troubleshooting Tips</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="asset-management.html" title="previous chapter">Asset Management</a></li>
+      <li>Next: <a href="configuring-admin.html" title="next chapter">Configuring the Talk Admin</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/integrating/authentication.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

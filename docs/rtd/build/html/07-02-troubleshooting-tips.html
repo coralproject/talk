@@ -1,0 +1,215 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Troubleshooting Tips &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="FAQ" href="07-01-faq.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="troubleshooting-tips">
+<span id="troubleshooting-tips"></span><h1>Troubleshooting Tips<a class="headerlink" href="#troubleshooting-tips" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-do-i-find-out-what-version-i-m-running">
+<span id="how-do-i-find-out-what-version-i-m-running"></span><h2>How do I find out what version I’m running?<a class="headerlink" href="#how-do-i-find-out-what-version-i-m-running" title="Permalink to this headline">¶</a></h2>
+<p>If you visit https://<YOUR TALK INSTANCE>/api/v1, it will return the version you’re running and the hash for the latest commit.</p>
+</div>
+<div class="section" id="i-ve-installed-talk-but-i-can-t-see-the-comment-stream-appear-on-my-articles">
+<span id="i-ve-installed-talk-but-i-can-t-see-the-comment-stream-appear-on-my-articles"></span><h2>I’ve installed Talk but I can’t see the comment stream appear on my articles<a class="headerlink" href="#i-ve-installed-talk-but-i-can-t-see-the-comment-stream-appear-on-my-articles" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Make sure you’ve adding the correct domains to your Permitted Domains in Configure &gt; Tech Settings</li>
+<li>Make sure you’ve correctly added the embed via your CMS to your article pages</li>
+<li>Check the console for any errors and you can file a bug via <a class="reference external" href="mailto:support&#37;&#52;&#48;coralproject&#46;net">support</a> if you can’t resolve the issue</li>
+</ul>
+</div>
+<div class="section" id="my-commenters-are-reporting-they-can-t-see-the-comment-stream-but-i-m-able-to">
+<span id="my-commenters-are-reporting-they-can-t-see-the-comment-stream-but-i-m-able-to"></span><h2>My commenters are reporting they can’t see the comment stream, but I’m able to<a class="headerlink" href="#my-commenters-are-reporting-they-can-t-see-the-comment-stream-but-i-m-able-to" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>If this seems to be isolated to one commenter, it could be related to 3rd party cookies</li>
+<li>Post 4.x Talk doesn’t require 3rd party cookies to be enabled. Check the version of Talk you’re using and you might consider upgrading.</li>
+<li>A quick fix in the meantime is to ask them to allow 3rd party cookies</li>
+<li>You could also try asking them to clear their browser cache</li>
+</ul>
+</div>
+<div class="section" id="my-commenters-are-reporting-that-they-cannot-login-to-talk">
+<span id="my-commenters-are-reporting-that-they-cannot-login-to-talk"></span><h2>My commenters are reporting that they cannot login to Talk<a class="headerlink" href="#my-commenters-are-reporting-that-they-cannot-login-to-talk" title="Permalink to this headline">¶</a></h2>
+<p>If you’re using your own custom auth plugin:</p>
+<ul class="simple">
+<li>Review the code and your server logs to ensure your plugin is working correctly. Check <a class="reference external" href="./integrating/authentication.html">our auth docs</a> for more tips.</li>
+<li>Ensure that your JWT token settings, especially expiry, is being set correctly. You can troubleshoot JWT related issues with the <a class="reference external" href="https://jwt.io/">JWT Debugger</a>.</li>
+<li>See if you can isolate if it’s a particular group of users that are experiencing this issue, e.g. mods, admins, subscribers? Confirm they have the appropriate permissions to comment.</li>
+<li>Note if this is a new issue that happened after an upgrade - did you read the <a class="reference external" href="06-03-migrating-from-3.html">migration docs</a> and the <a class="reference external" href="https://github.com/coralproject/talk/releases">release notes</a>? This might help you resolve the issue</li>
+<li>Confirm that users who are affected have the correct <code class="docutils literal notranslate"><span class="pre">username.status</span></code>. If users have status <code class="docutils literal notranslate"><span class="pre">UNSET</span></code>, this is related to a bug with upgrading from 3.x to 4.x that has affected some organizations. Read more here about <a class="reference external" href="06-03-migrating-from-3.html">upgrading from 3.x to 4.x</a>.</li>
+<li>If you’re still experiencing issues, log a <a class="reference external" href="mailto:support&#37;&#52;&#48;coralproject&#46;net">support ticket</a> so we can help diagnose the issue</li>
+</ul>
+<p>If you’re using <code class="docutils literal notranslate"><span class="pre">talk-plugin-auth</span></code>:</p>
+<ul class="simple">
+<li>See if you can isolate if it’s a particular group of users that are experiencing this issue, e.g. mods, admins, subscribers? Confirm they have the appropriate permissions to comment.</li>
+<li>Note if this is a new issue that happened after an upgrade - did you read the <a class="reference external" href="06-03-migrating-from-3.html">migration docs</a> and the <a class="reference external" href="https://github.com/coralproject/talk/releases">release notes</a>? This might help you resolve the issue.</li>
+<li>If you’re still experiencing issues, log a <a class="reference external" href="mailto:support&#37;&#52;&#48;coralproject&#46;net">support ticket</a> so we can help diagnose the issue</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrating/asset-management.html">Asset Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/authentication.html">Authenticating with Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="03-01-product-guide-how-talk-works.html">How Talk Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-02-product-guide-commenter-features.html">Commenter Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/overview.html">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/overview.html">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="05-01-building-basic-plugin.html">Creating a Basic Pride Reaction Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-02-customizing-plugins-coral-ui.html">Customizing Plugins with Coral UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting Tips</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-find-out-what-version-i-m-running">How do I find out what version I’m running?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-ve-installed-talk-but-i-can-t-see-the-comment-stream-appear-on-my-articles">I’ve installed Talk but I can’t see the comment stream appear on my articles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#my-commenters-are-reporting-they-can-t-see-the-comment-stream-but-i-m-able-to">My commenters are reporting they can’t see the comment stream, but I’m able to</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#my-commenters-are-reporting-that-they-cannot-login-to-talk">My commenters are reporting that they cannot login to Talk</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="07-01-faq.html" title="previous chapter">FAQ</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/07-02-troubleshooting-tips.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

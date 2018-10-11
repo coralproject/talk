@@ -1,0 +1,282 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Plugin Overview &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plugins Directory" href="../plugins.html" />
+    <link rel="prev" title="GDPR Compliance" href="../03-08-gdpr.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="plugin-overview">
+<span id="plugin-overview"></span><h1>Plugin Overview<a class="headerlink" href="#plugin-overview" title="Permalink to this headline">¶</a></h1>
+<p>Plugins are the integration point between the Talk core code and custom
+functionality. We provide methods to inject behavior into the server side and
+the client side application to affect different parts of the application
+life cycle.</p>
+<div class="section" id="server-and-client-plugins">
+<span id="server-and-client-plugins"></span><h2>Server and Client Plugins<a class="headerlink" href="#server-and-client-plugins" title="Permalink to this headline">¶</a></h2>
+<p>When you’re adding a plugin to Talk, you can specify it in the <code class="docutils literal notranslate"><span class="pre">client</span></code> and/or
+the <code class="docutils literal notranslate"><span class="pre">server</span></code> section. If you only want to enable the server side component of a
+plugin, you simply only specify the plugin in the <code class="docutils literal notranslate"><span class="pre">server</span></code> section. If you only
+want the client side plugin, the <code class="docutils literal notranslate"><span class="pre">client</span></code> section.</p>
+<p>Plugins listed in the <a class="reference external" href="../plugins.html">Plugins Directory</a> will
+indicate if they have/support a client/server plugin, and should be activated
+accordingly.</p>
+</div>
+<div class="section" id="plugin-registration">
+<span id="plugin-registration"></span><h2>Plugin Registration<a class="headerlink" href="#plugin-registration" title="Permalink to this headline">¶</a></h2>
+<p>In order for a plugin to be active in a Talk install, it must be <em>registered</em>.
+The parsing order for the plugin registration is as follows:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">TALK_PLUGINS_JSON</span></code> environment variable</li>
+<li><code class="docutils literal notranslate"><span class="pre">plugins.json</span></code> file</li>
+<li><code class="docutils literal notranslate"><span class="pre">plugins.default.json</span></code> file</li>
+</ul>
+<p>If you need to “disable all plugins”, you can simply provide <code class="docutils literal notranslate"><span class="pre">{}</span></code> as the
+contents of <code class="docutils literal notranslate"><span class="pre">TALK_PLUGINS_JSON</span></code> or the <code class="docutils literal notranslate"><span class="pre">plugins.json</span></code>.</p>
+<p>The format for this is thus:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;server&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;people&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Where we have a <code class="docutils literal notranslate"><span class="pre">server</span></code> key with an array of plugins that match the folder
+name in the <code class="docutils literal notranslate"><span class="pre">plugins/</span></code> folder. For example, the above config would
+require a plugin from <code class="docutils literal notranslate"><span class="pre">plugins/people</span></code>, which must provide a <code class="docutils literal notranslate"><span class="pre">index.js</span></code> file
+that returns an object that matches the Plugin Specification.</p>
+<p>If the package is external (available on NPM) you can specify the string for
+the version by using an object instead, for example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;server&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="nt">&quot;people&quot;</span><span class="p">:</span> <span class="s2">&quot;^1.2.0&quot;</span><span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>External plugins can be resolved by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./bin/cli plugins reconcile
+</pre></div>
+</div>
+<p>This achieves two things:</p>
+<ol class="simple">
+<li>It will traverse into local plugin folders and install their dependencies.
+<em>Note that if the plugin is already installed and available in the
+node_modules folder, it will not be fetched again unless there is a version
+mismatch.</em> This will result in the project <code class="docutils literal notranslate"><span class="pre">package.json</span></code> and <code class="docutils literal notranslate"><span class="pre">yarn.lock</span></code>
+files to be modified, this is normal as this ensures that repeated deployments
+(with the same config) will have the same config, these changes should not be
+committed to source control.</li>
+<li>It will seek out dependencies that are listed in the object notation and try
+to install them from npm.</li>
+</ol>
+</div>
+<div class="section" id="plugin-dependencies">
+<span id="plugin-dependencies"></span><h2>Plugin Dependencies<a class="headerlink" href="#plugin-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>You may also include additional external dependencies in your local packages by
+specifying a <code class="docutils literal notranslate"><span class="pre">package.json</span></code> at your plugin root which will result in a
+<code class="docutils literal notranslate"><span class="pre">node_modules</span></code> folder being generated at the plugin root with your specific
+dependencies.</p>
+</div>
+<div class="section" id="deployment-solutions">
+<span id="deployment-solutions"></span><h2>Deployment Solutions<a class="headerlink" href="#deployment-solutions" title="Permalink to this headline">¶</a></h2>
+<p>Plugins can be deployed with a production instance of Talk.</p>
+<div class="section" id="source">
+<span id="source"></span><h3>Source<a class="headerlink" href="#source" title="Permalink to this headline">¶</a></h3>
+<p>Source deployments can just modify the <code class="docutils literal notranslate"><span class="pre">plugins.json</span></code> file and include any
+local plugins into the <code class="docutils literal notranslate"><span class="pre">plugins/</span></code> directory. After including the config, you
+need to reconcile the plugins and build the static assets:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># get plugin dependencies and remote plugins</span>
+./bin/cli plugins reconcile
+
+<span class="c1"># build static assets (including enabled client side plugins)</span>
+yarn build
+</pre></div>
+</div>
+<p>Then the application can be started as is.</p>
+</div>
+<div class="section" id="docker">
+<span id="docker"></span><h3>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h3>
+<p>If you deploy using Docker, you can extend from the <code class="docutils literal notranslate"><span class="pre">*-onbuild</span></code> image, an
+example <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> for your project could be:</p>
+<div class="highlight-Dockerfile notranslate"><div class="highlight"><pre><span></span><span class="k">FROM</span><span class="s"> coralproject/talk:4.5-onbuild</span>
+</pre></div>
+</div>
+<p>Where the directory for your instance would contain a <code class="docutils literal notranslate"><span class="pre">plugins.json</span></code> file
+describing the plugin requirements and a <code class="docutils literal notranslate"><span class="pre">plugins</span></code> directory containing any
+other local plugins that should be included.</p>
+<p>Onbuild triggers will execute when the image is building with your custom
+configuration and will ensure that the image is ready to use by building all
+assets inside the image as well.</p>
+<p>For more information on the onbuild image, refer to the
+<a class="reference external" href="./01-01-talk-quickstart.html#installation-from-docker">Installation from Docker</a> documentation.</p>
+</div>
+</div>
+<div class="section" id="recipes">
+<span id="recipes"></span><h2>Recipes<a class="headerlink" href="#recipes" title="Permalink to this headline">¶</a></h2>
+<p>Recipes are plugin templates provided by the Coral Core team. Developers can use
+these recipes to build their own plugins. You can find all the Talk recipes
+here: <a class="reference external" href="https://github.com/coralproject/talk-recipes/">github.com/coralproject/talk-recipes</a>.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/asset-management.html">Asset Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/authentication.html">Authenticating with Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../03-01-product-guide-how-talk-works.html">How Talk Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-02-product-guide-commenter-features.html">Commenter Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/overview.html">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../05-01-building-basic-plugin.html">Creating a Basic Pride Reaction Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-02-customizing-plugins-coral-ui.html">Customizing Plugins with Coral UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-02-troubleshooting-tips.html">Troubleshooting Tips</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../03-08-gdpr.html" title="previous chapter">GDPR Compliance</a></li>
+      <li>Next: <a href="../plugins.html" title="next chapter">Plugins Directory</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/plugins/overview.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

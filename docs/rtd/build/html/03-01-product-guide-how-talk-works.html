@@ -1,0 +1,209 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>How Talk Works &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Commenter Features" href="03-02-product-guide-commenter-features.html" />
+    <link rel="prev" title="Translations and i18n" href="integrating/translations-i18n.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="how-talk-works">
+<span id="how-talk-works"></span><h1>How Talk Works<a class="headerlink" href="#how-talk-works" title="Permalink to this headline">¶</a></h1>
+<p>Talk is an open-source commenting platform. It has two pieces. One is the
+embedded script, which allows newsrooms to have a unique comments section on
+each story/post/page they have on their site, and allows their readers to
+comment and discuss articles. The other is the Admin, which is where newsrooms
+moderate their comments and manage and configure Talk.</p>
+<div class="section" id="talk-core">
+<span id="talk-core"></span><h2>Talk Core<a class="headerlink" href="#talk-core" title="Permalink to this headline">¶</a></h2>
+<p>As we’re building Talk, our vision was always to have it be very modular, so
+there are features we have built and are opinionated about, but we allow
+newsrooms and their developers to customize Talk easily so that it fits their
+use cases and needs.</p>
+<p>Talk Core is the core application of Talk - this contains all of the standard
+commenting features that are necessary for a comment section, and ones that we
+believe are important to be universal. If you would like to contribute to Talk,
+be sure to check out our
+<a class="reference external" href="https://github.com/coralproject/talk/blob/master/CONTRIBUTING.md">Contributor’s Guide</a>.</p>
+</div>
+<div class="section" id="plugins">
+<span id="plugins"></span><h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h2>
+<p>Plugins are additional functionality which are optional to use with Talk. You
+can turn these on or off, depending on your specific needs. Plugins are either
+part of our core plugins, which ship with Talk, or they are developed by 3rd
+parties and either used privately and internally, or are open sourced for use
+across the greater community. You can explore the plugins we offer by visiting our <a class="reference external" href="plugins.html">Plugin Directory</a>.</p>
+</div>
+<div class="section" id="recipes">
+<span id="recipes"></span><h2>Recipes<a class="headerlink" href="#recipes" title="Permalink to this headline">¶</a></h2>
+<p>Recipes are plugin templates that are created by the Talk team and 3rd party
+developers, in order to help contributors and newsrooms build plugins easily.
+You can explore the recipes we offer by visiting our <a class="reference external" href="04-05-plugin-recipes.html">Plugin Recipes</a>
+page.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrating/asset-management.html">Asset Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/authentication.html">Authenticating with Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How Talk Works</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#talk-core">Talk Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugins">Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recipes">Recipes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="03-02-product-guide-commenter-features.html">Commenter Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/overview.html">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/overview.html">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="05-01-building-basic-plugin.html">Creating a Basic Pride Reaction Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-02-customizing-plugins-coral-ui.html">Customizing Plugins with Coral UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-02-troubleshooting-tips.html">Troubleshooting Tips</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="integrating/translations-i18n.html" title="previous chapter">Translations and i18n</a></li>
+      <li>Next: <a href="03-02-product-guide-commenter-features.html" title="next chapter">Commenter Features</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/03-01-product-guide-how-talk-works.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,383 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Creating a Basic Pride Reaction Plugin &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Customizing Plugins with Coral UI" href="05-02-customizing-plugins-coral-ui.html" />
+    <link rel="prev" title="Plugin Slots API" href="api/slots.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="creating-a-basic-pride-reaction-plugin">
+<span id="creating-a-basic-pride-reaction-plugin"></span><h1>Creating a Basic Pride Reaction Plugin<a class="headerlink" href="#creating-a-basic-pride-reaction-plugin" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial, we will build a basic reaction plugin.</p>
+<div class="section" id="what-is-a-plugin">
+<span id="what-is-a-plugin"></span><h2>What is a plugin?<a class="headerlink" href="#what-is-a-plugin" title="Permalink to this headline">¶</a></h2>
+<p>Talk has two parts - the first is core. Our core code includes all commenting and moderation features that are necessary for a comment section, and ones that we believe are important to be universal. This code can be found in our <a class="reference external" href="https://github.com/coralproject/talk">Talk repo</a>.</p>
+<p>The other part is plugins. Plugins are additional functionality which are optional to use with Talk. You can turn these on or off, depending on your specific needs. Plugins are either part of our core plugins, which ship with Talk, or they are developed by 3rd parties and either used privately and internally, or are open sourced for use across the greater community.</p>
+</div>
+<div class="section" id="reactions">
+<span id="reactions"></span><h2>Reactions<a class="headerlink" href="#reactions" title="Permalink to this headline">¶</a></h2>
+<p>Talk exposes a friendly API to create new reactions. To explore the capabilities of Talk we are going to create a new reaction together step-by-step.</p>
+<p>In Talk, there are currently three ways commenters can react to comments: Like, Love, and Respect. These reactions are separated into plugins so that you can customize which reactions you want to use by toggling them on or off - or by adding your own custom reactions, which is what we are going to do today.</p>
+<p>We can create a new plugin from scratch or we can use the Talk CLI to generate a plugin template for us to use. CLI stands for Command Line Interface, meaning can access utilities via the command line that make it easy to interact and integrate with Talk.</p>
+<p>Please note this tutorial assumes you have already <a class="reference external" href="01-01-talk-quickstart.html">installed and configured Talk locally</a>.</p>
+</div>
+<div class="section" id="creating-a-new-plugin-using-the-talk-cli">
+<span id="creating-a-new-plugin-using-the-talk-cli"></span><h2>Creating a new plugin using the Talk CLI<a class="headerlink" href="#creating-a-new-plugin-using-the-talk-cli" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Open your terminal</li>
+<li>Go to the Talk folder</li>
+<li>Enter <code class="docutils literal notranslate"><span class="pre">./bin/cli-plugins</span></code> in the command line</li>
+</ul>
+<p><img alt="Using the Plugin CLI" src="_images/pride_reaction_tutorial_1.png" /></p>
+<p>You will see 3 options: <code class="docutils literal notranslate"><span class="pre">create</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code> and <code class="docutils literal notranslate"><span class="pre">reconcile</span></code></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">create</span></code>: This is what we use to create new plugins. It will display a wizard and ask us a couple of questions in order to understand how we want to build our plugin.</li>
+<li><code class="docutils literal notranslate"><span class="pre">list</span></code>: Shows a list of all plugins.</li>
+<li><code class="docutils literal notranslate"><span class="pre">reconcile</span></code>: Reconciles local plugins and downloads their external dependencies.</li>
+</ul>
+<p>In order to create our new plugin, enter this: <code class="docutils literal notranslate"><span class="pre">./bin/cli-plugins</span> <span class="pre">create</span></code>.</p>
+<p>The CLI will now ask us 4 questions:</p>
+<p><img alt="Generating our Plugin" src="_images/pride_reaction_tutorial_2.png" /></p>
+<div class="section" id="explaining-the-questions-of-the-cli-plugins-create">
+<span id="explaining-the-questions-of-the-cli-plugins-create"></span><h3>Explaining the questions of the cli-plugins create<a class="headerlink" href="#explaining-the-questions-of-the-cli-plugins-create" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li>This is where you will submit the name of your plugin; our usual naming convention is <code class="docutils literal notranslate"><span class="pre">talk-plugin-</span></code>, so we will enter <code class="docutils literal notranslate"><span class="pre">talk-plugin-pride</span></code> for ours.</li>
+<li><em>Does this plugin extend the capabilities of the server?</em> If your plugin needs to extend the schema of the database, or interact with route or services you will say <code class="docutils literal notranslate"><span class="pre">yes</span></code>. In this case, we will need to store the user’s comment reaction, so we will say <code class="docutils literal notranslate"><span class="pre">yes</span></code></li>
+<li><em>Does this plugin extend the capabilities of the client?</em> If your plugin adds visual content to Talk, you will say <code class="docutils literal notranslate"><span class="pre">yes</span></code>. In this case we need to add a button with which the users can react to the comments, so we will again put <code class="docutils literal notranslate"><span class="pre">yes</span></code>.</li>
+<li><em>Should we add it to plugins.json?</em> Choosing yes will activate our plugin instantly. Select <code class="docutils literal notranslate"><span class="pre">yes</span></code> in this case.</li>
+</ol>
+<p>So now a plugin has been created inside our local <code class="docutils literal notranslate"><span class="pre">/plugins</span></code> folder. We can see our plugin here now, listed as <code class="docutils literal notranslate"><span class="pre">talk-plugin-pride</span></code>.</p>
+</div>
+</div>
+<div class="section" id="the-structure-of-our-plugin">
+<span id="the-structure-of-our-plugin"></span><h2>The structure of our plugin<a class="headerlink" href="#the-structure-of-our-plugin" title="Permalink to this headline">¶</a></h2>
+<p>This is the structure of our plugin. Let’s see what each piece does.</p>
+<p><img alt="The Structure of a Plugin" src="_images/pride_reaction_tutorial_3.png" /></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">index.js</span></code>
+The index file contains everything we export to the server. In this case, we see only one thing: <code class="docutils literal notranslate"><span class="pre">module.exports</span> <span class="pre">=</span> <span class="pre">{}</span></code>. This means we are currently not exporting anything to the server - but we will do this later.</li>
+<li><code class="docutils literal notranslate"><span class="pre">/client</span></code>
+The <code class="docutils literal notranslate"><span class="pre">client</span></code> folder contains all the necessary files to extend the client.<ul>
+<li><code class="docutils literal notranslate"><span class="pre">index.js</span></code>
+In this file we will describe how we are going to extend our client. It is generally useful to indicate where the plugin will be embedded. In our case we want to put it in each comment. Later we will see how to do this. It also serves to add functionality such as how to use <code class="docutils literal notranslate"><span class="pre">reducers</span></code> and <code class="docutils literal notranslate"><span class="pre">translations</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">.eslintrc.json</span></code>
+These are the ESLint rules. By default they are the ones that Talk uses.</li>
+<li><code class="docutils literal notranslate"><span class="pre">translations.yml</span></code>
+This file is not mandatory but we can use it to add translations of the copy that is shown to users.</li>
+<li><code class="docutils literal notranslate"><span class="pre">/components</span></code>
+These are the components. By default we will find the generated file <code class="docutils literal notranslate"><span class="pre">MyPluginComponent.js</span></code> and its CSS styles in <code class="docutils literal notranslate"><span class="pre">ModulesMyPluginComponent.css</span></code></li>
+</ul>
+</li>
+</ul>
+<p>Now let’s run our Talk instance. We can see the plugin was generated and we can see it in our embed:</p>
+<p><img alt="Viewing our Plugin" src="_images/pride_reaction_tutorial_4.png" /></p>
+<p>It is important to note that Talk does not dictate the architecture of the plugins. But for reasons of performance and consistency it is important that we follow certain basic guidelines.</p>
+<p>To create components you must be familiar with React. If you’re not, I recommend the official guides, especially <a class="reference external" href="https://reactjs.org/docs/components-and-props.html">Components and Props - React</a>.</p>
+<p>It’s important to note that the files that were generated by default with the plugin creator can be deleted or reused. Whatever your preference!</p>
+<p>Now that we know what all of our plugin files do, let’s create our plugin :sunglasses:</p>
+</div>
+<div class="section" id="building-our-plugin">
+<span id="building-our-plugin"></span><h2>Building our plugin<a class="headerlink" href="#building-our-plugin" title="Permalink to this headline">¶</a></h2>
+<p>The first thing we should think about is what our plugin consists of and what experience we want to offer. We know that we want there to be a button, that it can be clicked, and that it creates a reaction in the comment. So let’s build it.</p>
+<p>Since our button is a component let’s create a new file inside that folder. Let’s call this <code class="docutils literal notranslate"><span class="pre">PrideButton.js</span></code>.</p>
+<p>The minimum expression of our button looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import React from &#39;react&#39;;
+
+class PrideButton extends React.Component {
+  render() {
+    return &lt;button&gt;Pride!&lt;/button&gt;;
+  }
+}
+
+export default PrideButton;
+</pre></div>
+</div>
+<p>Alright, we have our button. So now we want to tell it where to show - in this case, we want it under every comment. To do this we are going to make use of <strong>slots</strong>. Slots are small places inside Talk where we can place plugins. We already have a slot in Talk where we can place reactions. This slot is called <code class="docutils literal notranslate"><span class="pre">commentReactions</span></code>.</p>
+<p>To add it there, we will go to <code class="docutils literal notranslate"><span class="pre">client/index.js</span></code> and add the following lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">PrideButton</span> <span class="kn">from</span> <span class="s1">&#39;./components/PrideButton&#39;</span><span class="p">;</span>
+
+<span class="n">export</span> <span class="n">default</span> <span class="p">{</span>
+  <span class="n">slots</span><span class="p">:</span> <span class="p">{</span>
+    <span class="n">commentReactions</span><span class="p">:</span> <span class="p">[</span><span class="n">PrideButton</span><span class="p">],</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>You will notice that we deleted the slot object <code class="docutils literal notranslate"><span class="pre">MyPluginComponent</span></code>. This is because we don’t want to show the little example code that the CLI generated for us. We can also delete any files we won’t us, or we can just leave them but not export them; if they’re not exported, they won’t be added to the Talk <code class="docutils literal notranslate"><span class="pre">bundle.js</span></code>.</p>
+<p>Now, if we go to Talk we will see that our <code class="docutils literal notranslate"><span class="pre">PrideButton</span></code> is now there on each comment - now it’s time to tell the button what to do.</p>
+<p><img alt="Our Newly Created Pride Button" src="_images/pride_reaction_tutorial_5.png" /></p>
+</div>
+<div class="section" id="adding-functionality-with-the-talk-api">
+<span id="adding-functionality-with-the-talk-api"></span><h2>Adding functionality with the Talk API<a class="headerlink" href="#adding-functionality-with-the-talk-api" title="Permalink to this headline">¶</a></h2>
+<p>Talk exposes a series of tools that plugins can use. In this case we can use <code class="docutils literal notranslate"><span class="pre">withReaction</span></code>. <code class="docutils literal notranslate"><span class="pre">withReaction</span></code> is a HOC (High Order Component) that adds functionality to our components.</p>
+<p>We will use it like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import React from &#39;react&#39;;
+import { withReaction } from &#39;plugin-api/beta/client/hocs&#39;;
+
+class PrideButton extends React.Component {
+  render() {
+    return &lt;button&gt;Pride!&lt;/button&gt;;
+  }
+}
+
+export default withReaction(&#39;pride&#39;)(PrideButton);
+</pre></div>
+</div>
+<p>The first parameter we passed to <code class="docutils literal notranslate"><span class="pre">withReactions</span></code> is the name of the reaction. In our case, we will use ‘pride’. We must be consistent with this since this will impact storing our data later.</p>
+<p>In our next step, let’s make clicking our button either generate a reaction or remove the reaction, in case they have already acted on the comment with the same reaction.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import React from &#39;react&#39;;
+import { withReaction } from &#39;plugin-api/beta/client/hocs&#39;;
+
+class PrideButton extends React.Component {
+  handleClick = () =&gt; {
+    const { postReaction, deleteReaction, alreadyReacted } = this.props;
+
+    if (alreadyReacted) {
+      deleteReaction();
+    } else {
+      postReaction();
+    }
+  };
+
+  render() {
+    return &lt;button onClick={this.handleClick}&gt;Pride!&lt;/button&gt;;
+  }
+}
+
+export default withReaction(&#39;pride&#39;)(PrideButton);
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">withReactions</span></code> makes the component receive <code class="docutils literal notranslate"><span class="pre">postReaction</span></code>, <code class="docutils literal notranslate"><span class="pre">deleteReaction</span></code> and <code class="docutils literal notranslate"><span class="pre">alreadyReacted</span></code>:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">postReaction</span></code>: Posts the reaction to the served <Function></li>
+<li><code class="docutils literal notranslate"><span class="pre">deleteReaction</span></code>: Removes the reaction <Function></li>
+<li><code class="docutils literal notranslate"><span class="pre">alreadyReacted</span></code>: Lets us know if a user has already reaction to the comment</li>
+<li><code class="docutils literal notranslate"><span class="pre">count</span></code>: Tells us the number of times that users have reacted to the comment</li>
+</ul>
+<p>Now, our frontend functionality is complete, but for all this to work, we still need to add something else to our <code class="docutils literal notranslate"><span class="pre">index.js</span></code> in our main plugin folder. This time we want to extend the server.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="p">{</span> <span class="n">getReactionConfig</span> <span class="p">}</span> <span class="o">=</span> <span class="n">require</span><span class="p">(</span><span class="s1">&#39;../../plugin-api/beta/server&#39;</span><span class="p">);</span>
+<span class="n">module</span><span class="o">.</span><span class="n">exports</span> <span class="o">=</span> <span class="n">getReactionConfig</span><span class="p">(</span><span class="s1">&#39;pride&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">getReactionConfig</span></code> adds the necessary functionality on the server side.</p>
+<p>Now our plugin works! People can react to comments with pride!</p>
+<p>We don’t want to stop quite yet though - let’s improve how our button looks visually - and also we aren’t checking if a user has already reacted to the comment or not. Let’s change that.</p>
+<div class="section" id="adding-css">
+<span id="adding-css"></span><h3>Adding CSS<a class="headerlink" href="#adding-css" title="Permalink to this headline">¶</a></h3>
+<p>We are going to create a <code class="docutils literal notranslate"><span class="pre">PrideButton.css</span></code> inside of the folder components. Let’s make our button noticable and bright:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">reacted</span> <span class="p">{</span>
+  <span class="n">background</span><span class="p">:</span> <span class="n">red</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">.</span><span class="n">button</span> <span class="p">{</span>
+  <span class="n">background</span><span class="p">:</span> <span class="n">wheat</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>And we will add the the use case if someone has already reacted:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import React from &#39;react&#39;;
+import styles from &#39;./PrideButton.css&#39;;
+import { withReaction } from &#39;plugin-api/beta/client/hocs&#39;;
+
+class PrideButton extends React.Component {
+  handleClick = () =&gt; {
+    const { postReaction, deleteReaction, alreadyReacted } = this.props;
+
+    if (alreadyReacted) {
+      deleteReaction();
+    } else {
+      postReaction();
+    }
+  };
+
+  render() {
+    const { alreadyReacted, count } = this.props;
+    return (
+      &lt;button
+        className={alreadyReacted ? styles.reacted : styles.button}
+        onClick={this.handleClick}
+      &gt;
+        Orgullo!
+          {count &gt; 0 &amp;&amp; count}
+      &lt;/button&gt;
+    );
+  }
+}
+
+export default withReaction(&#39;pride&#39;)(PrideButton);
+</pre></div>
+</div>
+<p>And that’s it! You’ve created your first reaction button! 🌈</p>
+<p>If you would like to continue to the next part of our Plugin Tutorial, see Customizing Plugins with Coral UI in the left sidebar.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrating/asset-management.html">Asset Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/authentication.html">Authenticating with Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="03-01-product-guide-how-talk-works.html">How Talk Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-02-product-guide-commenter-features.html">Commenter Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/overview.html">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/overview.html">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a Basic Pride Reaction Plugin</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-a-plugin">What is a plugin?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reactions">Reactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-new-plugin-using-the-talk-cli">Creating a new plugin using the Talk CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-structure-of-our-plugin">The structure of our plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-our-plugin">Building our plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-functionality-with-the-talk-api">Adding functionality with the Talk API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05-02-customizing-plugins-coral-ui.html">Customizing Plugins with Coral UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-02-troubleshooting-tips.html">Troubleshooting Tips</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="api/slots.html" title="previous chapter">Plugin Slots API</a></li>
+      <li>Next: <a href="05-02-customizing-plugins-coral-ui.html" title="next chapter">Customizing Plugins with Coral UI</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/05-01-building-basic-plugin.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

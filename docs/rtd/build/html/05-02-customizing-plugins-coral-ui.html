@@ -1,0 +1,471 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Customizing Plugins with Coral UI &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="What To Do When You’ve Installed Talk" href="05-03-when-youve-installed-talk.html" />
+    <link rel="prev" title="Creating a Basic Pride Reaction Plugin" href="05-01-building-basic-plugin.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="customizing-plugins-with-coral-ui">
+<span id="customizing-plugins-with-coral-ui"></span><h1>Customizing Plugins with Coral UI<a class="headerlink" href="#customizing-plugins-with-coral-ui" title="Permalink to this headline">¶</a></h1>
+<p>This is Part 2 of our Plugin Tutorial and assumes you’ve already completed <a class="reference external" href="/building-basic-plugin.md">Building a Basic Plugin</a>.</p>
+<p>Note: We will be using Sketch in this tutorial to generate our SVG code. You can download Sketch here: https://www.sketchapp.com/.</p>
+<div class="section" id="coral-ui">
+<span id="coral-ui"></span><h2>Coral UI<a class="headerlink" href="#coral-ui" title="Permalink to this headline">¶</a></h2>
+<p>Within Talk, we have a set of tools we can leverage for our user interface, or UI. We simply call these tools Coral UI.</p>
+<p>Within Coral UI, we have icons, buttons, alerts and other components. You can see all the elements available to use within <code class="docutils literal notranslate"><span class="pre">client/coral-ui</span></code>.</p>
+<p>To get started using Coral UI, we’re going to import it into our component.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="p">{</span> <span class="n">Icon</span><span class="p">,</span> <span class="n">Button</span> <span class="p">}</span> <span class="kn">from</span> <span class="s1">&#39;plugin-api/beta/client/components/ui&#39;</span><span class="p">;</span>
+
+<span class="n">const</span> <span class="n">myButton</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> 
+    <span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">Icon</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;favorite&quot;</span> <span class="o">/&gt;</span>
+        <span class="n">Favorito</span>
+    <span class="o">&lt;/</span><span class="n">Button</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The Coral UI Icon component uses icons from Material Design. You can see the entire list of icons and their respective names  at <a class="reference external" href="https://material.io/icons/">Material icons - Material Design</a>.</p>
+</div>
+<div class="section" id="using-svgs">
+<span id="using-svgs"></span><h2>Using SVGs<a class="headerlink" href="#using-svgs" title="Permalink to this headline">¶</a></h2>
+<p>For the Pride Plugin icon, none of the Material icons really seemed to fit so we decided to be a little creative and make our own from scratch.</p>
+<p>To do this, we needed to create two states:</p>
+<ul class="simple">
+<li>The inactive icon (before someone has clicked/reacted)</li>
+<li>The active icon (after someone has clicked/reacted)</li>
+</ul>
+<p>To add a little additional creativity here, we thought that the inactive icon could be grayscale and the active one could be in full color. And a rainbow would be a great idea!</p>
+<p><img alt="Mockups for our Pride icon" src="_images/pride_reaction_tutorial_6.png" /></p>
+</div>
+<div class="section" id="export-copy-svg-code">
+<span id="export-copy-svg-code"></span><h2>Export / Copy SVG code<a class="headerlink" href="#export-copy-svg-code" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.sketchapp.com/">Sketch</a> gives us a way to export the SVG code:</p>
+<ul class="simple">
+<li>Right click on the SVG</li>
+<li>Click “Copy SVG code” or “Copy SVG code”</li>
+</ul>
+<p><img alt="Exporting SVG Code from Sketch" src="_images/pride_reaction_tutorial_7.png" /></p>
+<p>We can export it as a file or copy the inline code to our component. We personally prefer to have the inline code to have more control over the classes and the customization. In this case, we can pass different color palettes, <code class="docutils literal notranslate"><span class="pre">grayscale</span></code> and the other colors <code class="docutils literal notranslate"><span class="pre">colored</span></code>.</p>
+<p>Then we can create <code class="docutils literal notranslate"><span class="pre">RainBowIcon.js</span></code> and write the following code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">React</span> <span class="kn">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">PropTypes</span> <span class="kn">from</span> <span class="s1">&#39;prop-types&#39;</span><span class="p">;</span>
+
+<span class="o">//</span> <span class="n">Las</span> <span class="n">paletas</span> <span class="n">de</span> <span class="n">colores</span> <span class="n">que</span> <span class="n">vamos</span> <span class="n">a</span> <span class="n">utilizar</span>
+<span class="n">const</span> <span class="n">colorPalette</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">grayscale</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;#C6C6C6&#39;</span><span class="p">,</span> <span class="s1">&#39;#C6C6C6&#39;</span><span class="p">,</span> <span class="s1">&#39;#7E7E7E&#39;</span><span class="p">,</span> <span class="s1">&#39;#7C7C7C&#39;</span><span class="p">,</span> <span class="s1">&#39;#7C7C7C&#39;</span><span class="p">,</span> <span class="s1">&#39;#9F9F9F&#39;</span><span class="p">],</span>
+  <span class="n">colored</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;#F5C15F&#39;</span><span class="p">,</span> <span class="s1">&#39;#EB7835&#39;</span><span class="p">,</span> <span class="s1">&#39;#EB5242&#39;</span><span class="p">,</span> <span class="s1">&#39;#CB4AB0&#39;</span><span class="p">,</span> <span class="s1">&#39;#49B1DE&#39;</span><span class="p">,</span> <span class="s1">&#39;#61C482&#39;</span><span class="p">],</span>
+<span class="p">};</span>
+
+<span class="n">const</span> <span class="n">RainbowIcon</span> <span class="o">=</span> <span class="p">({</span> <span class="n">paletteType</span> <span class="o">=</span> <span class="s1">&#39;colored&#39;</span><span class="p">,</span> <span class="n">palette</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="n">svg</span>
+      <span class="n">width</span><span class="o">=</span><span class="s2">&quot;19px&quot;</span>
+      <span class="n">height</span><span class="o">=</span><span class="s2">&quot;9px&quot;</span>
+      <span class="n">viewBox</span><span class="o">=</span><span class="s2">&quot;0 0 19 9&quot;</span>
+      <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.1&quot;</span>
+      <span class="n">xmlns</span><span class="o">=</span><span class="s2">&quot;http://www.w3.org/2000/svg&quot;</span>
+    <span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">g</span> <span class="n">stroke</span><span class="o">=</span><span class="s2">&quot;none&quot;</span> <span class="n">strokeWidth</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;none&quot;</span> <span class="n">fillRule</span><span class="o">=</span><span class="s2">&quot;evenodd&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">g</span> <span class="n">transform</span><span class="o">=</span><span class="s2">&quot;translate(-492.000000, -630.000000)&quot;</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="n">g</span> <span class="n">transform</span><span class="o">=</span><span class="s2">&quot;translate(492.000000, 630.000000)&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">path</span>
+              <span class="n">d</span><span class="o">=</span><span class="s2">&quot;M9.5,0 C4.24785714,0 0,4.02428571 0,9 L2.71428571,9 C2.71428571,5.45142857 5.75428571,2.57142857 9.5,2.57142857 C13.2457143,2.57142857 16.2857143,5.45142857 16.2857143,9 L19,9 C19,4.02428571 14.7521429,0 9.5,0 Z&quot;</span>
+              <span class="n">fill</span><span class="o">=</span><span class="p">{</span><span class="n">palette</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="n">colorPalette</span><span class="p">[</span><span class="n">paletteType</span><span class="p">][</span><span class="mi">0</span><span class="p">]}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="n">path</span>
+              <span class="n">d</span><span class="o">=</span><span class="s2">&quot;M9.5,1 C4.80071429,1 1,4.57714286 1,9 L3.42857143,9 C3.42857143,5.84571429 6.14857143,3.28571429 9.5,3.28571429 C12.8514286,3.28571429 15.5714286,5.84571429 15.5714286,9 L18,9 C18,4.57714286 14.1992857,1 9.5,1 Z&quot;</span>
+              <span class="n">fill</span><span class="o">=</span><span class="p">{</span><span class="n">palette</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">||</span> <span class="n">colorPalette</span><span class="p">[</span><span class="n">paletteType</span><span class="p">][</span><span class="mi">1</span><span class="p">]}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="n">path</span>
+              <span class="n">d</span><span class="o">=</span><span class="s2">&quot;M9.5,2 C5.35357143,2 2,5.13 2,9 L4.14285714,9 C4.14285714,6.24 6.54285714,4 9.5,4 C12.4571429,4 14.8571429,6.24 14.8571429,9 L17,9 C17,5.13 13.6464286,2 9.5,2 Z&quot;</span>
+              <span class="n">fill</span><span class="o">=</span><span class="p">{</span><span class="n">palette</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">||</span> <span class="n">colorPalette</span><span class="p">[</span><span class="n">paletteType</span><span class="p">][</span><span class="mi">2</span><span class="p">]}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="n">path</span>
+              <span class="n">d</span><span class="o">=</span><span class="s2">&quot;M9.5,3 C5.90642857,3 3,5.68285714 3,9 L4.85714286,9 C4.85714286,6.63428571 6.93714286,4.71428571 9.5,4.71428571 C12.0628571,4.71428571 14.1428571,6.63428571 14.1428571,9 L16,9 C16,5.68285714 13.0935714,3 9.5,3 Z&quot;</span>
+              <span class="n">fill</span><span class="o">=</span><span class="p">{</span><span class="n">palette</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">||</span> <span class="n">colorPalette</span><span class="p">[</span><span class="n">paletteType</span><span class="p">][</span><span class="mi">3</span><span class="p">]}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="n">path</span>
+              <span class="n">d</span><span class="o">=</span><span class="s2">&quot;M9.5,4 C6.45928571,4 4,6.23571429 4,9 L5.57142857,9 C5.57142857,7.02857143 7.33142857,5.42857143 9.5,5.42857143 C11.6685714,5.42857143 13.4285714,7.02857143 13.4285714,9 L15,9 C15,6.23571429 12.5407143,4 9.5,4 Z&quot;</span>
+              <span class="n">fill</span><span class="o">=</span><span class="p">{</span><span class="n">palette</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">||</span> <span class="n">colorPalette</span><span class="p">[</span><span class="n">paletteType</span><span class="p">][</span><span class="mi">4</span><span class="p">]}</span>
+            <span class="o">/&gt;</span>
+            <span class="o">&lt;</span><span class="n">path</span>
+              <span class="n">d</span><span class="o">=</span><span class="s2">&quot;M9.5,5 C7.01214286,5 5,6.78857143 5,9 L6.28571429,9 C6.28571429,7.42285714 7.72571429,6.14285714 9.5,6.14285714 C11.2742857,6.14285714 12.7142857,7.42285714 12.7142857,9 L14,9 C14,6.78857143 11.9878571,5 9.5,5 Z&quot;</span>
+              <span class="n">fill</span><span class="o">=</span><span class="p">{</span><span class="n">palette</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">||</span> <span class="n">colorPalette</span><span class="p">[</span><span class="n">paletteType</span><span class="p">][</span><span class="mi">5</span><span class="p">]}</span>
+            <span class="o">/&gt;</span>
+          <span class="o">&lt;/</span><span class="n">g</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">g</span><span class="o">&gt;</span>
+      <span class="o">&lt;/</span><span class="n">g</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">svg</span><span class="o">&gt;</span>
+  <span class="p">);</span>
+<span class="p">};</span>
+
+<span class="o">//</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">important</span> <span class="n">to</span> <span class="n">do</span> <span class="n">so</span> <span class="n">we</span> <span class="k">pass</span> <span class="n">the</span> <span class="n">correct</span> <span class="n">properties</span> <span class="n">to</span> <span class="n">the</span> <span class="n">component</span>
+<span class="n">RainbowIcon</span><span class="o">.</span><span class="n">propTypes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="n">paletteType</span><span class="p">:</span> <span class="n">PropTypes</span><span class="o">.</span><span class="n">oneOf</span><span class="p">([</span><span class="s1">&#39;colored&#39;</span><span class="p">,</span> <span class="s1">&#39;grayscale&#39;</span><span class="p">]),</span>
+  <span class="n">palette</span><span class="p">:</span> <span class="n">PropTypes</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="n">export</span> <span class="n">default</span> <span class="n">RainbowIcon</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Most of the component is code generated by Sketch, except for the properties that we can control control with the palettes. The color of the rainbow lines will be given based on the order of the colors of the palette.</p>
+<p>We have two props for our component: <code class="docutils literal notranslate"><span class="pre">paletteType</span></code> and <code class="docutils literal notranslate"><span class="pre">palette</span></code>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">paletteType</span></code>: since we we have two palettes we’ve created, we can pass these directly as <code class="docutils literal notranslate"><span class="pre">colored</span></code> and <code class="docutils literal notranslate"><span class="pre">greyscale</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">palette</span></code>: if we want to pass an array of colors we can do it using this property</p>
+<p>Ready! So now we have our icon. Now let’s modify the our button <code class="docutils literal notranslate"><span class="pre">PrideButton.js</span></code> to use our new icon.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import React from &#39;react&#39;;
+import cn from &#39;classnames&#39;;
+import styles from &#39;./PrideButton.css&#39;;
+import { withReaction } from &#39;plugin-api/beta/client/hocs&#39;;
+import RainbowIcon from &#39;./RainbowIcon&#39;;
+
+class PrideButton extends React.Component {
+  handleClick = () =&gt; {
+    const { postReaction, deleteReaction, alreadyReacted } = this.props;
+
+    if (alreadyReacted) {
+      deleteReaction();
+    } else {
+      postReaction();
+    }
+  };
+
+  render() {
+    const { alreadyReacted } = this.props;
+    return (
+      &lt;div className={cn(styles.container, &#39;talk-plugin-pride-container&#39;)}&gt;
+        &lt;a
+          className={cn(styles.button, &#39;talk-plugin-pride-button&#39;)}
+          onClick={this.handleClick}
+        &gt;
+          {alreadyReacted ? (
+            &lt;RainbowIcon /&gt;
+          ) : (
+            &lt;RainbowIcon paletteType=&quot;grayscale&quot; /&gt;
+          )}
+        &lt;/a&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default withReaction(&#39;pride&#39;)(PrideButton);
+</pre></div>
+</div>
+<p>We will use the property <code class="docutils literal notranslate"><span class="pre">alreadyReacted</span></code> to change the icon and render one in grayscale (using the property <code class="docutils literal notranslate"><span class="pre">grayscale</span></code>).</p>
+<p>There are many pros and cons of using inline SVGs that are outside the scope of this tutorial. If you’d like to learn more, you can read <a class="reference external" href="https://css-tricks.com/gotchas-on-getting-svg-into-production/">5 Gotchas You’re Gonna Face Getting Inline SVG Into Production</a> and its follow-up post <a class="reference external" href="https://css-tricks.com/gotchas-getting-inline-svg-production-part-ii/">Part 2 Gotchas</a>.</p>
+<p>You can view the source code up to this point here: <a class="reference external" href="https://github.com/coralproject/talk-plugin-pride/commit/ae5c1a5e26390b9374c87ce5530d60c10b5c325e">talk-plugin-pride &#64; ae5c1a5</a>.</p>
+<p>To keep performance top of mine, and given that this portion of SVG code can not be cached, we will create separate SVG files for the two icon states.</p>
+<p>We will create the folder <code class="docutils literal notranslate"><span class="pre">assets</span></code> and place our two files inside it: <code class="docutils literal notranslate"><span class="pre">ColoredRainbowIcon.svg</span></code> and <code class="docutils literal notranslate"><span class="pre">GrayscaleRainbowIcon.svg</span></code>. We can export them both with Sketch or simply copy the SVG code into each file.</p>
+</div>
+<div class="section" id="using-an-svg-in-our-components">
+<span id="using-an-svg-in-our-components"></span><h2>Using an SVG in our components<a class="headerlink" href="#using-an-svg-in-our-components" title="Permalink to this headline">¶</a></h2>
+<p>We are going to import our SVG icons just as we did with our components, the only difference is the <code class="docutils literal notranslate"><span class="pre">.svg</span></code> at the end.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ColoredRainbowIcon</span> <span class="kn">from</span> <span class="s1">&#39;../assets/ColoredRainbowIcon.svg&#39;</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">GrayscaleRainbowIcon</span> <span class="kn">from</span> <span class="s1">&#39;../assets/GrayscaleRainbowIcon.svg&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Since Webpack will give us the new url of the resource, we can us it like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>            &lt;img
+              src={ColoredRainbowIcon}
+              className={cn(styles.icon, `${plugin}-icon`)}
+            /&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-media-queries">
+<span id="using-media-queries"></span><h2>Using media queries<a class="headerlink" href="#using-media-queries" title="Permalink to this headline">¶</a></h2>
+<p>Now of course we will need to support several devices and browsers, so we’ll need to make sure our plugin responds correctly. For this we can use media queries.</p>
+<p>In this case, we want to make sure that on mobile devices that are less than 425px, the reaction label is not shown.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@media</span> <span class="p">(</span><span class="nb">max</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mi">425</span><span class="n">px</span><span class="p">)</span> <span class="p">{</span>
+  <span class="o">.</span><span class="n">label</span> <span class="p">{</span>
+    <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you look at our PostCSS configuration, you will notice that we use PreCSS. PreCSS allows us to optionally use a syntax that is similar to Sass and allows us to make use of variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@custom</span><span class="o">-</span><span class="n">media</span> <span class="o">--</span><span class="n">viewport</span><span class="o">-</span><span class="n">medium</span> <span class="p">(</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="n">rem</span><span class="p">);</span>
+<span class="nd">@custom</span><span class="o">-</span><span class="n">selector</span> <span class="p">:</span><span class="o">--</span><span class="n">heading</span> <span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span> <span class="n">h3</span><span class="p">,</span> <span class="n">h4</span><span class="p">,</span> <span class="n">h5</span><span class="p">,</span> <span class="n">h6</span><span class="p">;</span>
+
+<span class="p">:</span><span class="n">root</span> <span class="p">{</span>
+  <span class="o">--</span><span class="n">fontSize</span><span class="p">:</span> <span class="mi">1</span><span class="n">rem</span><span class="p">;</span>
+  <span class="o">--</span><span class="n">mainColor</span><span class="p">:</span> <span class="c1">#12345678;</span>
+<span class="p">}</span>
+
+<span class="nd">@media</span> <span class="p">(</span><span class="o">--</span><span class="n">viewport</span><span class="o">-</span><span class="n">medium</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">body</span> <span class="p">{</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">mainColor</span><span class="p">);</span>
+    <span class="n">font</span><span class="o">-</span><span class="n">family</span><span class="p">:</span> <span class="n">system</span><span class="o">-</span><span class="n">ui</span><span class="p">;</span>
+    <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">fontSize</span><span class="p">);</span>
+    <span class="n">line</span><span class="o">-</span><span class="n">height</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">fontSize</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">);</span>
+    <span class="n">overflow</span><span class="o">-</span><span class="n">wrap</span><span class="p">:</span> <span class="k">break</span><span class="o">-</span><span class="n">word</span><span class="p">;</span>
+    <span class="n">padding</span><span class="o">-</span><span class="n">inline</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">fontSize</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="n">px</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To learn more about PreCSS: https://github.com/jonathantneal/precss</p>
+</div>
+<div class="section" id="adding-animations">
+<span id="adding-animations"></span><h2>Adding animations<a class="headerlink" href="#adding-animations" title="Permalink to this headline">¶</a></h2>
+<p>To make the user experience even more fun, we wanted the user to see a small animation when they click on our Pride Button:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">reacted</span> <span class="p">{</span>
+  <span class="n">animation</span><span class="p">:</span> <span class="n">rainbow</span> <span class="mi">1</span><span class="n">s</span> <span class="mi">1</span><span class="p">;</span> 
+<span class="p">}</span>
+
+<span class="nd">@keyframes</span> <span class="n">rainbow</span><span class="p">{</span>
+    <span class="mi">20</span><span class="o">%</span><span class="p">{</span><span class="n">color</span><span class="p">:</span> <span class="c1">#EB5242;}</span>
+    <span class="mi">40</span><span class="o">%</span><span class="p">{</span><span class="n">color</span><span class="p">:</span> <span class="c1">#F5C15F;}</span>
+    <span class="mi">60</span><span class="o">%</span><span class="p">{</span><span class="n">color</span><span class="p">:</span> <span class="c1">#61C482;}</span>
+    <span class="mi">80</span><span class="o">%</span><span class="p">{</span><span class="n">color</span><span class="p">:</span> <span class="c1">#49B1DE;}</span>
+    <span class="mi">100</span><span class="o">%</span><span class="p">{</span><span class="n">color</span><span class="p">:</span> <span class="c1">#EB7835;}    </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now lets add this styling through our <code class="docutils literal notranslate"><span class="pre">classnames</span></code> library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">button</span>
+  <span class="n">className</span><span class="o">=</span><span class="p">{</span><span class="n">cn</span><span class="p">(</span>
+    <span class="n">styles</span><span class="o">.</span><span class="n">button</span><span class="p">,</span>
+    <span class="p">{[</span><span class="n">styles</span><span class="o">.</span><span class="n">reacted</span><span class="p">]:</span> <span class="n">alreadyReacted</span><span class="p">}</span>
+  <span class="p">)}</span>
+  <span class="n">onClick</span><span class="o">=</span><span class="p">{</span><span class="n">this</span><span class="o">.</span><span class="n">handleClick</span><span class="p">}</span>
+<span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Perfect! Now every time a user clicks our reaction, the style is activated, and the animation is triggered.</p>
+<p>This is what our completed Reaction now looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>import React from &#39;react&#39;;
+import cn from &#39;classnames&#39;;
+import styles from &#39;./PrideButton.css&#39;;
+import { withReaction } from &#39;plugin-api/beta/client/hocs&#39;;
+import ColoredRainbowIcon from &#39;../assets/ColoredRainbowIcon.svg&#39;;
+import GrayscaleRainbowIcon from &#39;../assets/GrayscaleRainbowIcon.svg&#39;;
+
+const plugin = &#39;talk-plugin-pride&#39;;
+
+class PrideButton extends React.Component {
+  handleClick = () =&gt; {
+    const { postReaction, deleteReaction, alreadyReacted, user } = this.props;
+
+    // If the current user does not exist, trigger sign in dialog.
+    if (!user) {
+      showSignInDialog();
+      return;
+    }
+
+    if (alreadyReacted) {
+      deleteReaction();
+    } else {
+      postReaction();
+    }
+  };
+
+  render() {
+    const { count, alreadyReacted } = this.props;
+    return (
+      &lt;div className={cn(styles.container, `${plugin}-container`)}&gt;
+        &lt;button
+          className={cn(
+            styles.button,
+            {
+              [`${styles.reacted} talk-plugin-pride-reacted`]: alreadyReacted,
+            },
+            `${plugin}-button`
+          )}
+          onClick={this.handleClick}
+        &gt;
+          &lt;span className={cn(`${plugin}-label`, styles.label)}&gt;Pride&lt;/span&gt;
+          {alreadyReacted ? (
+            &lt;img
+              src={ColoredRainbowIcon}
+              className={cn(styles.icon, `${plugin}-icon`)}
+            /&gt;
+          ) : (
+            &lt;img
+              src={GrayscaleRainbowIcon}
+              className={cn(styles.icon, `${plugin}-icon`)}
+            /&gt;
+          )}
+          &lt;span className={cn(`${plugin}-count`)}&gt;{count &gt; 0 &amp;&amp; count}&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default withReaction(&#39;pride&#39;)(PrideButton);
+</pre></div>
+</div>
+<p>To view the completed source code, look here: https://github.com/coralproject/talk-plugin-pride</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrating/asset-management.html">Asset Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/authentication.html">Authenticating with Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrating/translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="03-01-product-guide-how-talk-works.html">How Talk Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-02-product-guide-commenter-features.html">Commenter Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="plugins/overview.html">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/overview.html">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="05-01-building-basic-plugin.html">Creating a Basic Pride Reaction Plugin</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customizing Plugins with Coral UI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#coral-ui">Coral UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-svgs">Using SVGs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-copy-svg-code">Export / Copy SVG code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-an-svg-in-our-components">Using an SVG in our components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-media-queries">Using media queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-animations">Adding animations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07-02-troubleshooting-tips.html">Troubleshooting Tips</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="05-01-building-basic-plugin.html" title="previous chapter">Creating a Basic Pride Reaction Plugin</a></li>
+      <li>Next: <a href="05-03-when-youve-installed-talk.html" title="next chapter">What To Do When You’ve Installed Talk</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/05-02-customizing-plugins-coral-ui.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

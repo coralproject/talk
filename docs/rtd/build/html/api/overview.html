@@ -1,0 +1,347 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GraphQL API Overview &#8212; Talk 4.x.x documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GraphQL API Reference" href="graphql.html" />
+    <link rel="prev" title="Plugin Recipes" href="../04-05-plugin-recipes.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="graphql-api-overview">
+<span id="graphql-api-overview"></span><h1>GraphQL API Overview<a class="headerlink" href="#graphql-api-overview" title="Permalink to this headline">¶</a></h1>
+<p>We provide all services that Talk can provide via the GraphQL API documented
+on our <a class="reference external" href="graphql.html">GraphQL API Reference</a>. If you’ve never heard
+about GraphQL before, visit http://graphql.org/ to learn the basics first.</p>
+<div class="section" id="development">
+<span id="development"></span><h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<p>During development mode (when Talk has <code class="docutils literal notranslate"><span class="pre">NODE_ENV=development</span></code>) Talk will enable
+the GraphiQL IDE at the following route:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>${ROOT_URL}api/v1/graph/iql
+</pre></div>
+</div>
+<p>This is pretty powerful, as it lets you explore the API documentation on the
+sidebar as well as send off requests.</p>
+</div>
+<div class="section" id="making-your-first-request">
+<span id="making-your-first-request"></span><h2>Making your first request<a class="headerlink" href="#making-your-first-request" title="Permalink to this headline">¶</a></h2>
+<p>To learn a bit about how to interact with Talk, we’ll query for comments on a
+page of Talk. I have Talk running locally, (If you don’t and want to, checkout
+our <a class="reference external" href="./../01-01-talk-quickstart.html">Talk Quickstart</a>).</p>
+<p>The GraphQL endpoint we have can be used with any HTTP client available, but our
+examples below will use the common <code class="docutils literal notranslate"><span class="pre">curl</span></code> tool:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl --request POST <span class="se">\</span>
+  --url http://localhost:3000/api/v1/graph/ql <span class="se">\</span>
+  --header <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  --data <span class="s1">&#39;{&quot;query&quot;:&quot;query GetComments($url: String!) { asset(url: $url) { title url comments { nodes { body user { username } } } }}&quot;,&quot;variables&quot;:{&quot;url&quot;:&quot;http://localhost:3000/&quot;},&quot;operationName&quot;:&quot;GetComments&quot;}&#39;</span>
+</pre></div>
+</div>
+<p>When you unpack that, it’s really quite simple. We’re executing a <code class="docutils literal notranslate"><span class="pre">POST</span></code> request
+to the <code class="docutils literal notranslate"><span class="pre">/api/v1/graph/ql</span></code> route of the local Talk server with the GraphQL
+request we want to make. It’s composed of the <code class="docutils literal notranslate"><span class="pre">query</span></code>, <code class="docutils literal notranslate"><span class="pre">variables</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">operationName</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>query GetComments($url: String!) {
+  asset(url: $url) {
+    title
+    url
+    comments {
+      nodes {
+        body
+        user {
+          username
+        }
+      }
+    }
+  }
+}
+</pre></div>
+</div>
+<p>The query itself is quite straightforward, we are grabbing the asset with the
+specified <code class="docutils literal notranslate"><span class="pre">$url</span></code>, and grabbing it’s title and the comments also (You can also
+look at our <a class="reference external" href="graphql.html">GraphQL API Reference</a> for our entire schema).</p>
+<p>We can then also specify our variables to the query being executed (in this
+case, the url for the page where we have comments on our local install of Talk):</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost:3000/&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It’s also sometimes common to have multiple queries within a query, which is
+where the <code class="docutils literal notranslate"><span class="pre">operationName</span></code> comes into play, where we simply specify the named
+query that we want to execute (in this case, <code class="docutils literal notranslate"><span class="pre">GetComments</span></code>).</p>
+<p>To get a deeper understanding of GraphQL queries, read up on
+<a class="reference external" href="http://graphql.org/learn/queries/">GraphQL Queries and Mutations</a>.</p>
+</div>
+<div class="section" id="understanding-the-response">
+<span id="understanding-the-response"></span><h2>Understanding the response<a class="headerlink" href="#understanding-the-response" title="Permalink to this headline">¶</a></h2>
+<p>Once you completed the above GraphQL query with <code class="docutils literal notranslate"><span class="pre">curl</span></code>, you’ll get a response
+sort of like this:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;asset&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Coral Talk&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://localhost:3000/&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;comments&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;nodes&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;body&quot;</span><span class="p">:</span> <span class="s2">&quot;Second comment!&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;wyattjoh&quot;</span>
+            <span class="p">}</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="nt">&quot;body&quot;</span><span class="p">:</span> <span class="s2">&quot;First comment!&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;wyattjoh&quot;</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>All of the parameters you requested should be available under the <code class="docutils literal notranslate"><span class="pre">data</span></code>
+property. Any errors that you get would appear in a <code class="docutils literal notranslate"><span class="pre">errors</span></code> array at the top
+level, like this:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;asset&quot;</span><span class="p">:</span> <span class="kc">null</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;asset_url is invalid&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;locations&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;line&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+          <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="mi">3</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;asset&quot;</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You should know that any property that is marked with a <code class="docutils literal notranslate"><span class="pre">!</span></code> is considered
+required, and non-nullable, which means you can always guarantee on it being
+there in your request if there were no errors.</p>
+</div>
+<div class="section" id="authorizing-a-request">
+<span id="authorizing-a-request"></span><h2>Authorizing a request<a class="headerlink" href="#authorizing-a-request" title="Permalink to this headline">¶</a></h2>
+<p>Some queries you may notice seem to return <code class="docutils literal notranslate"><span class="pre">null</span></code> or an error of
+<code class="docutils literal notranslate"><span class="pre">NOT_AUTHORIZED</span></code>. It’s likely the case that you are making a request to a
+route that requires authorization. You can perform authorization a few ways in
+Talk:</p>
+<ol class="simple">
+<li>As a <a class="reference external" href="#bearer-token">Bearer Token</a></li>
+<li>As a <a class="reference external" href="#query-parameter">Query Parameter</a></li>
+<li>As a <a class="reference external" href="#cookie">Cookie</a></li>
+</ol>
+<p>Essentially, you need to get access to a JWT token that you can use to authorize
+your requests. Generating one is simple, you can use the CLI tools in Talk to do
+that.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># first, find your user account</span>
+./bin/cli users list
+
+<span class="c1"># then, create a token for that account</span>
+./bin/cli token create <span class="si">${</span><span class="nv">USER_ID</span><span class="si">}</span> example-token
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">USER_ID</span></code> is the ID of your user account you found using the <code class="docutils literal notranslate"><span class="pre">users</span> <span class="pre">list</span></code>
+command.</p>
+<p>Once you have your access token, you can substitute it as <code class="docutils literal notranslate"><span class="pre">${TOKEN}</span></code> in your
+<code class="docutils literal notranslate"><span class="pre">curl</span></code> request as follows:</p>
+<div class="section" id="bearer-token">
+<span id="bearer-token"></span><h3>Bearer Token<a class="headerlink" href="#bearer-token" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl --request POST <span class="se">\</span>
+  --url http://localhost:3000/api/v1/graph/ql <span class="se">\</span>
+  --header <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  --header <span class="s2">&quot;Authorization: Bearer </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+  --data <span class="s1">&#39;{&quot;query&quot;:&quot;query GetComments($url: String!) { asset(url: $url) { title url comments { nodes { body user { username } } } }}&quot;,&quot;variables&quot;:{&quot;url&quot;:&quot;http://localhost:3000/&quot;},&quot;operationName&quot;:&quot;GetComments&quot;}&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="query-parameter">
+<span id="query-parameter"></span><h3>Query Parameter<a class="headerlink" href="#query-parameter" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl --request POST <span class="se">\</span>
+  --url http://localhost:3000/api/v1/graph/ql?access_token<span class="o">=</span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span> <span class="se">\</span>
+  --header <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  --data <span class="s1">&#39;{&quot;query&quot;:&quot;query GetComments($url: String!) { asset(url: $url) { title url comments { nodes { body user { username } } } }}&quot;,&quot;variables&quot;:{&quot;url&quot;:&quot;http://localhost:3000/&quot;},&quot;operationName&quot;:&quot;GetComments&quot;}&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cookie">
+<span id="cookie"></span><h3>Cookie<a class="headerlink" href="#cookie" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>curl --request POST <span class="se">\</span>
+  --url http://localhost:3000/api/v1/graph/ql <span class="se">\</span>
+  --header <span class="s1">&#39;Content-Type: application/json&#39;</span> <span class="se">\</span>
+  --cookie <span class="s2">&quot;authorization=</span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+  --data <span class="s1">&#39;{&quot;query&quot;:&quot;query GetComments($url: String!) { asset(url: $url) { title url comments { nodes { body user { username } } } }}&quot;,&quot;variables&quot;:{&quot;url&quot;:&quot;http://localhost:3000/&quot;},&quot;operationName&quot;:&quot;GetComments&quot;}&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Talk</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../01-01-talk-quickstart.html">Talk Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-04-planning-architecture.html">Planning your Talk Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01-05-pre-launch-checklist.html">Pre-Launch Checklist</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Configuration</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../02-01-required-configuration.html">Required Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02-02-advanced-configuration.html">Advanced Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Integrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/asset-management.html">Asset Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/authentication.html">Authenticating with Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/configuring-admin.html">Configuring the Talk Admin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/configuring-comment-stream.html">Configuring the Talk Comment Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/event-tracking-metrics.html">Tracking Talk Events and Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/notifications.html">Notifications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/styling-css.html">Styling Talk with CSS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integrating/translations-i18n.html">Translations and i18n</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Product Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../03-01-product-guide-how-talk-works.html">How Talk Works</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-02-product-guide-commenter-features.html">Commenter Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-03-product-guide-moderator-features.html">Moderator Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-04-user-roles.html">User Roles in Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-05-product-guide-toxic-comments.html">Toxic Comments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-06-product-guide-configuring-talk.html">Configuring Talk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-07-product-guide-trust.html">Trust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03-08-gdpr.html">GDPR Compliance</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Plugins</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/overview.html">Plugin Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins.html">Plugins Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04-05-plugin-recipes.html">Plugin Recipes</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GraphQL API Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphql.html">GraphQL API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Server Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Client Plugin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slots.html">Plugin Slots API</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../05-01-building-basic-plugin.html">Creating a Basic Pride Reaction Plugin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-02-customizing-plugins-coral-ui.html">Customizing Plugins with Coral UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../05-03-when-youve-installed-talk.html">What To Do When You’ve Installed Talk</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Migrating</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../06-01-migrating-4-1.html">Migrating to v4.1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-01-migrating-4.html">Migrating to v4.0.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../06-03-migrating-from-3.html">Migrating from v3.x.x</a></li>
+</ul>
+<p class="caption"><span class="caption-text">FAQ &amp; Troubleshooting</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../07-01-faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../07-02-troubleshooting-tips.html">Troubleshooting Tips</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../04-05-plugin-recipes.html" title="previous chapter">Plugin Recipes</a></li>
+      <li>Next: <a href="graphql.html" title="next chapter">GraphQL API Reference</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, CoralProject.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/overview.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
