@@ -1,16 +1,13 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
+
 import { Button, Flex, Typography } from "talk-ui/components";
 
-import { WizardChildProps } from "../../components/Wizard";
+interface InitialStepProps {
+  onGoToNextStep?: () => void;
+}
 
-class InitialStep extends Component<WizardChildProps> {
-  private onGoToNextStep = () => {
-    if (this.props.onGoToNextStep) {
-      this.props.onGoToNextStep();
-    }
-  };
-
+class InitialStep extends Component<InitialStepProps> {
   public render() {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">
@@ -24,7 +21,7 @@ class InitialStep extends Component<WizardChildProps> {
         <Flex justifyContent="center">
           <Localized id="install-initialStep-getStarted">
             <Button
-              onClick={this.onGoToNextStep}
+              onClick={this.props.onGoToNextStep}
               color="primary"
               variant="filled"
               fullWidth={false}

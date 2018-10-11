@@ -1,19 +1,20 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
-import { FormData } from "../../containers/AppContainer";
+
+import { PropTypesOf } from "talk-ui/types";
 
 import AddOrganization, {
   AddOrganizationForm,
 } from "../components/AddOrganization";
 
 interface AddOrganizationContainerProps {
-  onGoToNextStep?: () => void;
-  onGoToPreviousStep?: () => void;
-  data: FormData;
-  onSaveData: (newData: {}) => Promise<FormData>;
+  onGoToNextStep: () => void;
+  onGoToPreviousStep: () => void;
+  data: PropTypesOf<typeof AddOrganization>["data"];
+  onSaveData: (newData: PropTypesOf<typeof AddOrganization>["data"]) => void;
 }
 
-class CreateYourAccountContainer extends Component<
+class AddOrganizationContainer extends Component<
   AddOrganizationContainerProps
 > {
   private onGoToNextStep = () => {
@@ -28,7 +29,7 @@ class CreateYourAccountContainer extends Component<
   };
   private onSubmit: AddOrganizationForm["onSubmit"] = async (input, form) => {
     try {
-      await this.props.onSaveData(input);
+      this.props.onSaveData(input);
       return this.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
@@ -45,4 +46,4 @@ class CreateYourAccountContainer extends Component<
   }
 }
 
-export default CreateYourAccountContainer;
+export default AddOrganizationContainer;

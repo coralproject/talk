@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
+
 import { Button } from "talk-ui/components";
 
 export interface BackButtonProps {

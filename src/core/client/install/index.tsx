@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 
 import { createManaged } from "talk-framework/lib/bootstrap";
 
-import AppContainer from "./containers/AppContainer";
+import App from "./components/App";
 import localesData from "./locales";
 
 async function main() {
@@ -15,7 +15,7 @@ async function main() {
 
   const Index: StatelessComponent = () => (
     <ManagedTalkContextProvider>
-      <AppContainer />
+      <App />
     </ManagedTalkContextProvider>
   );
 

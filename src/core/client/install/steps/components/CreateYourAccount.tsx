@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
+
 import { OnSubmit } from "talk-framework/lib/form";
 import {
   composeValidators,
@@ -21,6 +22,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+
 import NextButton from "./NextButton";
 
 interface FormProps {

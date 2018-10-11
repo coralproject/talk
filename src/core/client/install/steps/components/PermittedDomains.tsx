@@ -15,6 +15,7 @@ import {
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
+
 import BackButton from "./BackButton";
 
 interface FormProps {
@@ -29,7 +30,7 @@ export interface PermittedDomainsForm {
   };
 }
 
-const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
+const PermittedDomains: StatelessComponent<PermittedDomainsForm> = props => {
   return (
     <Form
       onSubmit={props.onSubmit}
@@ -122,4 +123,4 @@ const AddOrganization: StatelessComponent<PermittedDomainsForm> = props => {
   );
 };
 
-export default AddOrganization;
+export default PermittedDomains;

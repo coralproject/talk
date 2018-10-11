@@ -1,48 +1,22 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
-import { FormData } from "../../containers/AppContainer";
+
+import { PropTypesOf } from "talk-ui/types";
+
 import PermittedDomains, {
   PermittedDomainsForm,
 } from "../components/PermittedDomains";
 
-import { InstallInput } from "talk-framework/rest";
-import { InstallMutation, withInstallMutation } from "../mutations";
-
 interface PermittedDomainsContainerProps {
-  install: InstallMutation;
-  onGoToNextStep?: () => void;
-  onGoToPreviousStep?: () => void;
-  data: FormData;
-  onSaveData: (newData: {}) => Promise<FormData>;
+  onGoToNextStep: () => void;
+  onGoToPreviousStep: () => void;
+  data: PropTypesOf<typeof PermittedDomains>["data"];
+  onInstall: (
+    newData: PropTypesOf<typeof PermittedDomains>["data"]
+  ) => Promise<void>;
 }
 
-function shapeFinalData(data: FormData): InstallInput {
-  const {
-    organizationName,
-    organizationContactEmail,
-    organizationURL,
-    domains,
-    username,
-    password,
-    email,
-  } = data;
-
-  return {
-    tenant: {
-      organizationName,
-      organizationContactEmail,
-      organizationURL,
-      domains,
-    },
-    user: {
-      username,
-      password,
-      email,
-    },
-  };
-}
-
-class CreateYourAccountContainer extends Component<
+class PermittedDomainsContainer extends Component<
   PermittedDomainsContainerProps
 > {
   private onGoToNextStep = () => {
@@ -58,8 +32,7 @@ class CreateYourAccountContainer extends Component<
   private onSubmit: PermittedDomainsForm["onSubmit"] = async (input, form) => {
     try {
       const domains = input.domains.split(",");
-      const data = await this.props.onSaveData({ domains });
-      this.props.install(shapeFinalData(data));
+      await this.props.onInstall({ domains });
       return this.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
@@ -76,4 +49,4 @@ class CreateYourAccountContainer extends Component<
   }
 }
 
-export default withInstallMutation(CreateYourAccountContainer);
+export default PermittedDomainsContainer;

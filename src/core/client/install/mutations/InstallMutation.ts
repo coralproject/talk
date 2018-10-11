@@ -9,7 +9,7 @@ export type InstallMutation = (input: InstallInput) => Promise<void>;
 export async function commit(
   environment: Environment,
   input: InstallInput,
-  { rest, postMessage }: TalkContext
+  { rest }: TalkContext
 ) {
   try {
     await install(rest, input);

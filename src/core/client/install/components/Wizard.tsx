@@ -1,6 +1,7 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { Component, ReactNode } from "react";
+
 import { Step, StepBar } from "talk-ui/components";
 
 import { WizardProps } from "../components/Wizard";
@@ -9,42 +10,18 @@ import * as styles from "./Wizard.css";
 
 export interface WizardProps {
   currentStep: number;
-  onGoToNextStep?: () => void;
-  onGoToPreviousStep?: () => void;
-  onGoToStep: (step: number) => void;
   className?: string;
   children: ReactNode;
 }
 
-export interface WizardChildProps {
-  currentStep?: number;
-  onGoToNextStep?: () => void;
-  onGoToPreviousStep?: () => void;
-  onGoToStep?: (step: number) => void;
-}
-
 class Wizard extends Component<WizardProps> {
   public render() {
-    const {
-      children,
-      currentStep,
-      onGoToNextStep,
-      onGoToPreviousStep,
-      onGoToStep,
-      className,
-    } = this.props;
+    const { children, currentStep, className } = this.props;
 
     const wizardChildren = React.Children.toArray(children);
-    const wizardChildrenToRender = wizardChildren
-      .filter((child, i) => i === currentStep)
-      .map((child: React.ReactElement<any>, index: number) =>
-        React.cloneElement(child, {
-          currentStep,
-          onGoToNextStep,
-          onGoToPreviousStep,
-          onGoToStep,
-        })
-      );
+    const wizardChildrenToRender = wizardChildren.filter(
+      i => i === currentStep
+    );
 
     return (
       <div className={cn(className, styles.root)}>

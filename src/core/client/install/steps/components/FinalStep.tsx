@@ -1,10 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
+
 import { urls } from "talk-framework/helpers";
 import { Button, Flex, Typography } from "talk-ui/components";
-import { WizardChildProps } from "../../components/Wizard";
 
-class FinalStep extends Component<WizardChildProps> {
+class FinalStep extends Component {
   public render() {
     return (
       <Flex direction="column" justifyContent="center" itemGutter="double">

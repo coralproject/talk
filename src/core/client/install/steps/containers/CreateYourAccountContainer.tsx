@@ -1,19 +1,22 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
-import { FormData } from "../../containers/AppContainer";
+
+import { PropTypesOf } from "talk-ui/types";
 
 import CreateYourAccount, {
   CreateYourAccountForm,
 } from "../components/CreateYourAccount";
 
-interface SignUpContainerProps {
-  onGoToNextStep?: () => void;
-  onGoToPreviousStep?: () => void;
-  data: FormData;
-  onSaveData: (newData: {}) => Promise<FormData>;
+interface CreateYourAccountContainerProps {
+  onGoToNextStep: () => void;
+  onGoToPreviousStep: () => void;
+  data: PropTypesOf<typeof CreateYourAccount>["data"];
+  onSaveData: (newData: PropTypesOf<typeof CreateYourAccount>["data"]) => void;
 }
 
-class CreateYourAccountContainer extends Component<SignUpContainerProps> {
+class CreateYourAccountContainer extends Component<
+  CreateYourAccountContainerProps
+> {
   private onGoToPreviousStep = () => {
     if (this.props.onGoToPreviousStep) {
       this.props.onGoToPreviousStep();
@@ -26,7 +29,7 @@ class CreateYourAccountContainer extends Component<SignUpContainerProps> {
   };
   private onSubmit: CreateYourAccountForm["onSubmit"] = async (input, form) => {
     try {
-      await this.props.onSaveData(input);
+      this.props.onSaveData(input);
       return this.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
