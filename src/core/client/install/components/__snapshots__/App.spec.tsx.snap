@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders sign in 1`] = `
+exports[`renders correctly 1`] = `
 <div
   className="App-root"
 >
@@ -8,21 +8,7 @@ exports[`renders sign in 1`] = `
   <div
     className="App-container"
   >
-    <WizardContainer
-      data={
-        Object {
-          "confirmPassword": "",
-          "domains": Array [],
-          "email": "",
-          "organizationContactEmail": "",
-          "organizationName": "",
-          "organizationURL": "",
-          "password": "",
-          "username": "",
-        }
-      }
-      onSaveData={[Function]}
-    />
+    <withContext(createMutationContainer(WizardContainer)) />
   </div>
 </div>
 `;
