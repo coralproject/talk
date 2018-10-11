@@ -21,7 +21,7 @@
 .colorError {
   background-color: var(--palette-error-light);
   border-color: var(--palette-error-darkest);
-  color: var(--palette-common-white);
+  color: var(--palette-text-light);
 }
 
 .fullWidth {

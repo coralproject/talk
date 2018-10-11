@@ -29,6 +29,10 @@ export default {
   appAuthLocalesTemplate: resolveSrc("core/client/auth/locales.ts"),
   appAuthIndex: resolveSrc("core/client/auth/index.tsx"),
 
+  appInstallHTML: resolveSrc("core/client/install/index.html"),
+  appInstallLocalesTemplate: resolveSrc("core/client/install/locales.ts"),
+  appInstallIndex: resolveSrc("core/client/install/index.tsx"),
+
   appAdminHTML: resolveSrc("core/client/admin/index.html"),
   appAdminLocalesTemplate: resolveSrc("core/client/admin/locales.ts"),
   appAdminIndex: resolveSrc("core/client/admin/index.tsx"),
