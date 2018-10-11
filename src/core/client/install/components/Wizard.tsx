@@ -20,7 +20,7 @@ class Wizard extends Component<WizardProps> {
 
     const wizardChildren = React.Children.toArray(children);
     const wizardChildrenToRender = wizardChildren.filter(
-      i => i === currentStep
+      (_, i) => i === currentStep
     );
 
     return (
