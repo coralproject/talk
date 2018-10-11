@@ -107,7 +107,7 @@ exports[`renders permalink view 1`] = `
           className="ConversationThread-root"
         >
           <div
-            className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dashed"
+            className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
           >
             <div
               className="Circle-circleContainer"
@@ -428,7 +428,7 @@ exports[`views pervious comments 1`] = `
           className="ConversationThread-root"
         >
           <div
-            className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dashed"
+            className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
           />
           <div
             className="Line-root HorizontalGutter-root HorizontalGutter-full"

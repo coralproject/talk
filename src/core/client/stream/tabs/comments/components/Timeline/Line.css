@@ -4,6 +4,6 @@
   margin-left: calc(0.5 * var(--spacing-unit));
 }
 
-.dashed {
+.dotted {
   border-left-style: dotted;
 }

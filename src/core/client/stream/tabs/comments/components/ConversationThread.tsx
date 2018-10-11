@@ -53,7 +53,7 @@ const ConversationThread: StatelessComponent<
   }
   return (
     <div className={cn(props.className, styles.root)}>
-      <HorizontalGutter container={<Line dashed />}>
+      <HorizontalGutter container={<Line dotted />}>
         {props.rootParent && (
           <Circle>
             <RootParent
