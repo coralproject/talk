@@ -1,4 +1,4 @@
-import { FluentBundle, FluentNumber } from "fluent/compat";
+import { FluentBundle, FluentNumber, FluentType } from "fluent/compat";
 
 const formatRegExp = /^(0+|0+\.0+)[^\d\.]+$/;
 
@@ -39,7 +39,7 @@ export default class FluentShortNumber extends FluentNumber {
 
   public toString(bundle: FluentBundle) {
     if (this.value < 1000) {
-      return this.value;
+      return super.toString(bundle);
     }
     const key = `framework-shortNumber-${getShortNumberCode(this.value)}`;
     const fmt = bundle.getMessage(key);
@@ -69,5 +69,13 @@ export default class FluentShortNumber extends FluentNumber {
     }
 
     return formatShortNumber(this.value, fmt, bundle);
+  }
+
+  public match(bundle: FluentBundle, other: FluentType) {
+    if (other instanceof FluentShortNumber) {
+      return this.value === other.valueOf;
+    }
+
+    return false;
   }
 }

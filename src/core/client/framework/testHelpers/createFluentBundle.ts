@@ -1,4 +1,8 @@
+import "fluent-intl-polyfill/compat";
 import { FluentBundle } from "fluent/compat";
+
+import * as functions from "talk-framework/lib/i18n/functions";
+
 import fs from "fs";
 import path from "path";
 
@@ -34,7 +38,7 @@ function createFluentBundle(
   target: string,
   pathToLocale: string
 ): FluentBundle {
-  const bundle = new FluentBundle("en-US");
+  const bundle = new FluentBundle("en-US", { functions });
   const files = fs.readdirSync(pathToLocale);
   const prefixes = commonPrefixes.concat(target);
   files.forEach(f => {
