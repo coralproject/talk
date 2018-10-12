@@ -126,7 +126,7 @@ workflows:
       - build:
           requires:
             - npm_dependencies
-      - release:
+      - release_docker:
           requires:
             - lint
             - unit_tests
