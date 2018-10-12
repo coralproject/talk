@@ -9,6 +9,7 @@ import { PropTypesOf } from "talk-framework/types";
 import { CommentContainer_asset as AssetData } from "talk-stream/__generated__/CommentContainer_asset.graphql";
 import { CommentContainer_comment as CommentData } from "talk-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_me as MeData } from "talk-stream/__generated__/CommentContainer_me.graphql";
+import { CommentContainer_settings as SettingsData } from "talk-stream/__generated__/CommentContainer_settings.graphql";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
@@ -16,7 +17,9 @@ import {
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
-import { Button } from "talk-ui/components";
+import { Button, HorizontalGutter } from "talk-ui/components";
+import ReactionButtonContainer from "./ReactionButtonContainer";
+
 import Comment, {
   ButtonsBar,
   ShowConversationLink,
@@ -30,6 +33,7 @@ interface InnerProps {
   me: MeData | null;
   comment: CommentData;
   asset: AssetData;
+  settings: SettingsData;
   indentLevel?: number;
   showAuthPopup: ShowAuthPopupMutation;
   setCommentID: SetCommentIDMutation;
@@ -42,6 +46,7 @@ interface InnerProps {
   disableReplies?: boolean;
   /** showConversationLink will render a link to the conversation */
   showConversationLink?: boolean;
+  highlight?: boolean;
 }
 
 interface State {
@@ -131,11 +136,14 @@ export class CommentContainer extends Component<InnerProps, State> {
   public render() {
     const {
       comment,
+      settings,
       asset,
       indentLevel,
       localReply,
       disableReplies,
       showConversationLink,
+      highlight,
+      me,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
@@ -147,15 +155,16 @@ export class CommentContainer extends Component<InnerProps, State> {
       );
     }
     return (
-      <>
+      <HorizontalGutter>
         <Comment
           id={`comment-${comment.id}`}
           indentLevel={indentLevel}
-          author={comment.author}
+          username={comment.author && comment.author.username}
           body={comment.body}
           createdAt={comment.createdAt}
           blur={comment.pending || false}
           showEditedMarker={comment.editing.edited}
+          highlight={highlight}
           topBarRight={
             (editable && (
               <Localized id="comments-commentContainer-editButton">
@@ -182,6 +191,11 @@ export class CommentContainer extends Component<InnerProps, State> {
                   />
                 )}
                 <PermalinkButtonContainer commentID={comment.id} />
+                <ReactionButtonContainer
+                  comment={comment}
+                  settings={settings}
+                  me={me}
+                />
               </ButtonsBar>
               {showConversationLink && (
                 <ShowConversationLink
@@ -206,7 +220,7 @@ export class CommentContainer extends Component<InnerProps, State> {
             localReply={localReply}
           />
         )}
-      </>
+      </HorizontalGutter>
     );
   }
 }
@@ -217,6 +231,7 @@ const enhanced = withSetCommentIDMutation(
       me: graphql`
         fragment CommentContainer_me on User {
           id
+          ...ReactionButtonContainer_me
         }
       `,
       asset: graphql`
@@ -241,6 +256,12 @@ const enhanced = withSetCommentIDMutation(
           pending
           ...ReplyCommentFormContainer_comment
           ...EditCommentFormContainer_comment
+          ...ReactionButtonContainer_comment
+        }
+      `,
+      settings: graphql`
+        fragment CommentContainer_settings on Settings {
+          ...ReactionButtonContainer_settings
         }
       `,
     })(CommentContainer)

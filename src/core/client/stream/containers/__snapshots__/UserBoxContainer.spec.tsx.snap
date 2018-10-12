@@ -5,7 +5,7 @@ exports[`renders correctly 1`] = `
   <Popup
     features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
     focus={false}
-    href="/auth.html?view=SIGN_IN"
+    href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
     onClose={[Function]}
     onFocus={[Function]}

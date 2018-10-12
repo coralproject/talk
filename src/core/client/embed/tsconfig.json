@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "lib": ["dom", "es5"],
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "paths": {}
   },
   "include": [

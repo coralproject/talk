@@ -97,7 +97,7 @@ function setupViews(options: AppOptions) {
   const { parent } = options;
 
   // configure the default views directory.
-  const views = path.join(__dirname, "..", "..", "..", "static");
+  const views = path.join(__dirname, "..", "..", "..", "..", "dist", "static");
   parent.set("views", views);
 
   // Reconfigure nunjucks.

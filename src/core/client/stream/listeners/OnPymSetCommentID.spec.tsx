@@ -1,4 +1,5 @@
 import { shallow } from "enzyme";
+import qs from "query-string";
 import React from "react";
 import { Environment, RecordSource } from "relay-runtime";
 
@@ -10,10 +11,18 @@ import { OnPymSetCommentID } from "./OnPymSetCommentID";
 let relayEnvironment: Environment;
 const source: RecordSource = new RecordSource();
 
+const previousLocation = location.toString();
+const previousState = window.history.state;
+
 beforeAll(() => {
   relayEnvironment = createRelayEnvironment({
     source,
   });
+});
+
+afterEach(() => {
+  // As history will change after the listener triggers, reset this to before.
+  window.history.replaceState(previousState, document.title, previousLocation);
 });
 
 it("Sets comment id", () => {
@@ -29,6 +38,7 @@ it("Sets comment id", () => {
   };
   shallow(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
+  expect(qs.parse(location.search).commentID).toEqual(id);
 });
 
 it("Sets comment id to null when empty", () => {
@@ -44,4 +54,5 @@ it("Sets comment id to null when empty", () => {
   };
   shallow(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
+  expect(qs.parse(location.search).commentID).toBeUndefined();
 });

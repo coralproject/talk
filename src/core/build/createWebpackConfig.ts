@@ -255,6 +255,22 @@ export default function createWebpackConfig({
                 },
               ],
             },
+            {
+              test: paths.appInstallLocalesTemplate,
+              use: [
+                // This is the locales loader that loads available locales
+                // from a particular target.
+                {
+                  loader: "locales-loader",
+                  options: {
+                    ...localesOptions,
+                    // Target specifies the prefix for fluent files to be loaded.
+                    // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
+                    target: "install",
+                  },
+                },
+              ],
+            },
             // Loader for our fluent files.
             {
               test: /\.ftl$/,
@@ -432,6 +448,12 @@ export default function createWebpackConfig({
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
+        install: [
+          // We ship polyfills by default
+          paths.appPolyfill,
+          ...devServerEntries,
+          paths.appInstallIndex,
+        ],
         admin: [
           // We ship polyfills by default
           paths.appPolyfill,
@@ -454,6 +476,14 @@ export default function createWebpackConfig({
           filename: "auth.html",
           template: paths.appAuthHTML,
           chunks: ["auth"],
+          inject: "body",
+          ...htmlWebpackConfig,
+        }),
+        // Generates an `install.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          filename: "install.html",
+          template: paths.appInstallHTML,
+          chunks: ["install"],
           inject: "body",
           ...htmlWebpackConfig,
         }),

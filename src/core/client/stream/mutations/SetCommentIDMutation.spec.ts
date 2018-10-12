@@ -1,3 +1,4 @@
+import qs from "query-string";
 import { Environment, RecordSource } from "relay-runtime";
 import sinon from "sinon";
 
@@ -16,10 +17,19 @@ beforeAll(() => {
   });
 });
 
+const previousLocation = location.toString();
+const previousState = window.history.state;
+
+afterEach(() => {
+  // As history will change after the listener triggers, reset this to before.
+  window.history.replaceState(previousState, document.title, previousLocation);
+});
+
 it("Sets comment id", () => {
   const id = "comment1-id";
   commit(environment, { id }, {} as any);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
+  expect(qs.parse(location.search).commentID).toEqual(id);
 });
 
 it("Should call setCommentID in pym", async () => {
@@ -50,5 +60,6 @@ it("Should call setCommentID in pym with empty id", async () => {
   commit(environment, { id: null }, context as any);
   await timeout();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
+  expect(qs.parse(location.search).commentID).toBeUndefined();
   context.pym.sendMessage.verify();
 });

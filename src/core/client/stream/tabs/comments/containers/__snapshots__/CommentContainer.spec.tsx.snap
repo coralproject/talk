@@ -1,14 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`hide reply button 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": "Marvin",
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -18,25 +12,47 @@ exports[`hide reply button 1`] = `
           <withContext(withLocalStateContainer(PermalinkContainer))
             commentID="comment-id"
           />
+          <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "pending": false,
+              }
+            }
+            me={null}
+            settings={
+              Object {
+                "reaction": Object {
+                  "icon": "thumb_up_alt",
+                  "label": "Respect",
+                },
+              }
+            }
+          />
         </ButtonsBar>
       </React.Fragment>
     }
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username="Marvin"
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`renders body only 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": null,
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -51,25 +67,47 @@ exports[`renders body only 1`] = `
           <withContext(withLocalStateContainer(PermalinkContainer))
             commentID="comment-id"
           />
+          <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": null,
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "pending": false,
+              }
+            }
+            me={null}
+            settings={
+              Object {
+                "reaction": Object {
+                  "icon": "thumb_up_alt",
+                  "label": "Respect",
+                },
+              }
+            }
+          />
         </ButtonsBar>
       </React.Fragment>
     }
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username={null}
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`renders username and body 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": "Marvin",
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -83,6 +121,33 @@ exports[`renders username and body 1`] = `
           />
           <withContext(withLocalStateContainer(PermalinkContainer))
             commentID="comment-id"
+          />
+          <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "pending": false,
+              }
+            }
+            me={null}
+            settings={
+              Object {
+                "reaction": Object {
+                  "icon": "thumb_up_alt",
+                  "label": "Respect",
+                },
+              }
+            }
           />
         </ButtonsBar>
       </React.Fragment>
@@ -90,19 +155,14 @@ exports[`renders username and body 1`] = `
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username="Marvin"
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;
 
 exports[`shows conversation link 1`] = `
-<React.Fragment>
+<withPropsOnChange(HorizontalGutter)>
   <IndentedComment
-    author={
-      Object {
-        "id": "author-id",
-        "username": "Marvin",
-      }
-    }
     blur={false}
     body="Woof"
     createdAt="1995-12-17T03:24:00.000Z"
@@ -116,6 +176,34 @@ exports[`shows conversation link 1`] = `
           />
           <withContext(withLocalStateContainer(PermalinkContainer))
             commentID="comment-id"
+          />
+          <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "pending": false,
+              }
+            }
+            me={null}
+            settings={
+              Object {
+                "reaction": Object {
+                  "icon": "thumb_up",
+                  "label": "Respect",
+                  "labelActive": "Respected",
+                },
+              }
+            }
           />
         </ButtonsBar>
         <ShowConversationLink
@@ -128,6 +216,7 @@ exports[`shows conversation link 1`] = `
     id="comment-comment-id"
     indentLevel={1}
     showEditedMarker={false}
+    username="Marvin"
   />
-</React.Fragment>
+</withPropsOnChange(HorizontalGutter)>
 `;

@@ -35,7 +35,7 @@ class Permalink extends React.Component<PermalinkProps> {
         id={popoverID}
         placement="top-start"
         description="A dialog showing a permalink to the comment"
-        className={styles.popover}
+        classes={{ popover: styles.popover }}
         body={({ toggleVisibility }) => (
           <ClickOutside
             onClickOutside={() =>
