@@ -36,7 +36,9 @@ export default class PermalinkButton extends React.Component {
   };
 
   copyPermalink = () => {
+    this.permalinkInput.focus();
     this.permalinkInput.select();
+    this.permalinkInput.createTextRange();
     try {
       document.execCommand('copy');
       this.setState({
