@@ -64,7 +64,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 function attachGraphiQL(router: Router, app: AppOptions) {
   if (app.config.get("env") === "production") {
     logger.warn(
-      "enable_graphiql is enabled, but we're in production mode, this is not recommended"
+      "it is not recommended to have enable_graphiql enabled while in production mode as it requires introspection queries to be enabled"
     );
   }
 
