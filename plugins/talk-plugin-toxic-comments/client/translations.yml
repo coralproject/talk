@@ -75,7 +75,7 @@ es:
       Puede editar el comentario o enviarlo para la revisión del moderador.
   talk-plugin-toxic-comments:
     unlikely: "Improbable"
-    highly_likely: "Altamente Improbable"
+    highly_likely: "Altamente Probable"
     possibly: "Posiblemente"
     likely: "Probable"
     toxic_comment: "Comentario Tóxico"
