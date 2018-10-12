@@ -99,6 +99,19 @@ jobs:
           root: .
           paths: dist
 
+  # release_docker will build and push the Docker image.
+  release_docker:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build
+          command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
+      - run:
+          name: Push
+          command: docker push coralproject/talk:next
+
 workflows:
   version: 2
   build-and-test:
@@ -113,3 +126,11 @@ workflows:
       - build:
           requires:
             - npm_dependencies
+      - release:
+          requires:
+            - lint
+            - unit_tests
+            - build
+          filters:
+            branches:
+              only: next
