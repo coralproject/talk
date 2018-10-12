@@ -2,7 +2,7 @@
 :global {
   body {
     margin: 0;
-    padding: 2px 8px;
+    padding: 0;
 
     /* Support for all WebKit browsers. */
     -webkit-font-smoothing: antialiased;

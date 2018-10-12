@@ -1,0 +1,11 @@
+.root {
+  position: relative;
+}
+
+.text {
+  position: absolute;
+  top: 26px;
+  transform: translateX(-50%);
+  left: 8%;
+  white-space: nowrap;
+}

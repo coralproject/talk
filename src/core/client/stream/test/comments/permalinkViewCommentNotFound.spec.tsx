@@ -66,7 +66,7 @@ it("show all comments", async () => {
 
   testRenderer.root
     .findByProps({
-      id: "talk-comments-permalinkView-showAllComments",
+      id: "talk-comments-permalinkView-viewFullDiscussion",
     })
     .props.onClick(mockEvent);
   await timeout();

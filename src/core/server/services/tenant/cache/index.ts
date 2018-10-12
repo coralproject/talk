@@ -7,6 +7,7 @@ import { EventEmitter } from "events";
 import { Config } from "talk-common/config";
 import logger from "talk-server/logger";
 import {
+  countTenants,
   retrieveAllTenants,
   retrieveManyTenants,
   retrieveManyTenantsByDomain,
@@ -37,6 +38,17 @@ export default class TenantCache {
    * Domain.
    */
   private tenantsByDomain: DataLoader<string, Readonly<Tenant> | null>;
+
+  /**
+   * tenantCountCache stores all the id's of all the Tenant's that have crossed
+   * it.
+   */
+  private tenantCountCache = new Set<string>();
+
+  /**
+   * primed is true when the cache has already been fully primed.
+   */
+  private primed: boolean = false;
 
   /**
    * Create a new client application ID. This prevents duplicated messages
@@ -73,6 +85,11 @@ export default class TenantCache {
           { tenants: tenants.filter(t => t !== null).length },
           "loaded tenants"
         );
+
+        tenants
+          .filter(t => t !== null)
+          .forEach((t: Readonly<Tenant>) => this.tenantCountCache.add(t.id));
+
         return tenants;
       },
       {
@@ -88,6 +105,11 @@ export default class TenantCache {
           { tenants: tenants.filter(t => t !== null).length },
           "loaded tenants"
         );
+
+        tenants
+          .filter(t => t !== null)
+          .forEach((t: Readonly<Tenant>) => this.tenantCountCache.add(t.id));
+
         return tenants;
       },
       {
@@ -107,6 +129,21 @@ export default class TenantCache {
   }
 
   /**
+   * count will return the number of Tenant's.
+   */
+  public async count(): Promise<number> {
+    if (!this.cachingEnabled) {
+      return countTenants(this.mongo);
+    }
+
+    if (!this.primed) {
+      await this.primeAll();
+    }
+
+    return this.tenantCountCache.size;
+  }
+
+  /**
    * primeAll will load all the tenants into the cache on startup.
    */
   public async primeAll() {
@@ -121,14 +158,17 @@ export default class TenantCache {
     // Clear out all the items in the cache.
     this.tenantsByID.clearAll();
     this.tenantsByDomain.clearAll();
+    this.tenantCountCache.clear();
 
     // Prime the cache with each of these tenants.
     tenants.forEach(tenant => {
       this.tenantsByID.prime(tenant.id, tenant);
       this.tenantsByDomain.prime(tenant.domain, tenant);
+      this.tenantCountCache.add(tenant.id);
     });
 
     logger.debug({ tenants: tenants.length }, "primed all tenants");
+    this.primed = true;
   }
 
   /**
@@ -160,6 +200,7 @@ export default class TenantCache {
       // Update the tenant cache.
       this.tenantsByID.clear(tenant.id).prime(tenant.id, tenant);
       this.tenantsByDomain.clear(tenant.domain).prime(tenant.domain, tenant);
+      this.tenantCountCache.add(tenant.id);
 
       // Publish the event for the connected listeners.
       this.emitter.emit(EMITTER_EVENT_NAME, tenant);
@@ -207,6 +248,7 @@ export default class TenantCache {
     // Update the tenant in the local cache.
     this.tenantsByID.clear(tenant.id).prime(tenant.id, tenant);
     this.tenantsByDomain.clear(tenant.domain).prime(tenant.domain, tenant);
+    this.tenantCountCache.add(tenant.id);
 
     // Notify the other nodes about the tenant change.
     const message: TenantUpdateMessage = {

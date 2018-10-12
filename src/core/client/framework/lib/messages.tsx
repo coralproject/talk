@@ -53,3 +53,9 @@ export const PASSWORDS_DO_NOT_MATCH = () => (
     <span>Passwords do not match. Try again.</span>
   </Localized>
 );
+
+export const INVALID_URL = () => (
+  <Localized id="framework-validation-invalidURL">
+    <span>Invalid URL</span>
+  </Localized>
+);

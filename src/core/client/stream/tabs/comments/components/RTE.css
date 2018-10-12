@@ -2,6 +2,10 @@
   composes: root from "talk-stream/shared/htmlContent.css";
 }
 
+.toolbar {
+  background-color: var(--palette-common-white);
+}
+
 .placeholder {
   composes: placeholder from "talk-ui/shared/typography.css";
   margin: var(--spacing-unit) 0 0 calc(1px + var(--spacing-unit));

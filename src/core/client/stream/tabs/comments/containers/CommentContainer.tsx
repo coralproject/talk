@@ -17,8 +17,9 @@ import {
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
-import ReactionButtonContainer from "talk-stream/tabs/comments/containers/ReactionButtonContainer";
-import { Button } from "talk-ui/components";
+import { Button, HorizontalGutter } from "talk-ui/components";
+import ReactionButtonContainer from "./ReactionButtonContainer";
+
 import Comment, {
   ButtonsBar,
   ShowConversationLink,
@@ -45,6 +46,7 @@ interface InnerProps {
   disableReplies?: boolean;
   /** showConversationLink will render a link to the conversation */
   showConversationLink?: boolean;
+  highlight?: boolean;
 }
 
 interface State {
@@ -140,6 +142,7 @@ export class CommentContainer extends Component<InnerProps, State> {
       localReply,
       disableReplies,
       showConversationLink,
+      highlight,
       me,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
@@ -152,15 +155,16 @@ export class CommentContainer extends Component<InnerProps, State> {
       );
     }
     return (
-      <>
+      <HorizontalGutter>
         <Comment
           id={`comment-${comment.id}`}
           indentLevel={indentLevel}
-          author={comment.author}
+          username={comment.author && comment.author.username}
           body={comment.body}
           createdAt={comment.createdAt}
           blur={comment.pending || false}
           showEditedMarker={comment.editing.edited}
+          highlight={highlight}
           topBarRight={
             (editable && (
               <Localized id="comments-commentContainer-editButton">
@@ -216,7 +220,7 @@ export class CommentContainer extends Component<InnerProps, State> {
             localReply={localReply}
           />
         )}
-      </>
+      </HorizontalGutter>
     );
   }
 }

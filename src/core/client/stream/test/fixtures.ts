@@ -1,3 +1,10 @@
+import {
+  denormalizeAsset,
+  denormalizeAssets,
+  denormalizeComment,
+  denormalizeComments,
+} from "talk-framework/testHelpers";
+
 export const settings = {
   reaction: {
     icon: "thumb_up",
@@ -38,7 +45,7 @@ export const baseComment = {
   },
 };
 
-export const comments = [
+export const comments = denormalizeComments([
   {
     ...baseComment,
     id: "comment-0",
@@ -75,9 +82,9 @@ export const comments = [
     author: users[2],
     body: "Comment Body 5",
   },
-];
+]);
 
-export const commentWithReplies = {
+export const commentWithReplies = denormalizeComment({
   ...baseComment,
   id: "comment-with-replies",
   author: users[0],
@@ -92,9 +99,9 @@ export const commentWithReplies = {
     },
   },
   replyCount: 2,
-};
+});
 
-export const commentWithDeepReplies = {
+export const commentWithDeepReplies = denormalizeComment({
   ...baseComment,
   id: "comment-with-deep-replies",
   author: users[0],
@@ -109,9 +116,9 @@ export const commentWithDeepReplies = {
     },
   },
   replyCount: 2,
-};
+});
 
-export const commentWithDeepestReplies = {
+export const commentWithDeepestReplies = denormalizeComment({
   ...baseComment,
   id: "comment-with-deepest-replies",
   body: "body 0",
@@ -205,7 +212,7 @@ export const commentWithDeepestReplies = {
       },
     ],
   },
-};
+});
 
 export const baseAsset = {
   isClosed: false,
@@ -220,7 +227,7 @@ export const baseAsset = {
   },
 };
 
-export const assets = [
+export const assets = denormalizeAssets([
   {
     ...baseAsset,
     id: "asset-1",
@@ -234,13 +241,10 @@ export const assets = [
         hasNextPage: false,
       },
     },
-    commentCounts: {
-      totalVisible: 2,
-    },
   },
-];
+]);
 
-export const assetWithReplies = {
+export const assetWithReplies = denormalizeAsset({
   ...baseAsset,
   id: "asset-with-replies",
   url: "http://localhost/assets/asset-with-replies",
@@ -253,12 +257,9 @@ export const assetWithReplies = {
       hasNextPage: false,
     },
   },
-  commentCounts: {
-    totalVisible: 2,
-  },
-};
+});
 
-export const assetWithDeepReplies = {
+export const assetWithDeepReplies = denormalizeAsset({
   ...baseAsset,
   id: "asset-with-deep-replies",
   url: "http://localhost/assets/asset-with-replies",
@@ -274,12 +275,9 @@ export const assetWithDeepReplies = {
       hasNextPage: false,
     },
   },
-  commentCounts: {
-    totalVisible: 2,
-  },
-};
+});
 
-export const assetWithDeepestReplies = {
+export const assetWithDeepestReplies = denormalizeAsset({
   ...baseAsset,
   id: "asset-with-deepest-replies",
   url: "http://localhost/assets/asset-with-replies",
@@ -294,7 +292,4 @@ export const assetWithDeepestReplies = {
       hasNextPage: false,
     },
   },
-  commentCounts: {
-    totalVisible: 1,
-  },
-};
+});
