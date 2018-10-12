@@ -1,6 +1,18 @@
 {
   "name": "@coralproject/talk",
   "version": "5.0.0",
+  "author": "The Coral Project",
+  "homepage": "https://coralproject.net/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/coralproject/talk.git"
+  },
+  "engines": {
+    "node": ">=8.9.0",
+    "npm": ">=6.4.1"
+  },
+  "bugs": "https://github.com/coralproject/talk/issues",
+  "contributors": "https://github.com/coralproject/talk/graphs/contributors",
   "description": "A better commenting experience from Mozilla, The Washington Post, and The New York Times.",
   "scripts": {
     "build": "npm-run-all compile --parallel build:*",
@@ -31,7 +43,6 @@
     "tscheck:scripts": "tsc --project ./tsconfig.json --noEmit",
     "watch": "NODE_ENV=development ts-node ./scripts/watcher/bin/watcher.ts --config ./config/watcher.ts"
   },
-  "author": "",
   "license": "Apache-2.0",
   "dependencies": {
     "akismet-api": "^4.2.0",

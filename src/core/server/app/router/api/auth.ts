@@ -4,7 +4,7 @@ import { AppOptions } from "talk-server/app";
 import {
   logoutHandler,
   signupHandler,
-} from "talk-server/app/handlers/auth/local";
+} from "talk-server/app/handlers/api/tenant/auth/local";
 import { wrapAuthn } from "talk-server/app/middleware/passport";
 import { RouterOptions } from "talk-server/app/router/types";
 
