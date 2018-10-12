@@ -4,7 +4,11 @@ const { SEARCH_OTHER_USERS } = require('../../perms/constants');
 const { escapeRegExp } = require('../../services/regex');
 
 const mergeState = (query, state) => {
-  const { status } = state;
+  const { role, status } = state;
+
+  if (role) {
+    query.merge({ role });
+  }
 
   if (status) {
     const { username, banned, suspended } = status;

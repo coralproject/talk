@@ -197,6 +197,7 @@ nl_NL:
     CANNOT_IGNORE_STAFF: 'Kan geen Staff-leden negeren.'
     COMMENT_PARENT_NOT_VISIBLE: 'De reactie waarop je probeert te reageren bestaat niet of is inmiddels verwijderd.'
     COMMENT_TOO_SHORT: 'Reacties moeten meer dan één teken hebben. Herzie je reactie en probeer opnieuw.'
+    COMMENT_TOO_LONG: 'Tekst is te lang'
     COMMENTING_CLOSED: 'Reageren is al afgesloten.'
     confirm_password: 'Wachtwoorden komen niet overeen. Controleer opnieuw.'
     EDIT_USERNAME_NOT_AUTHORIZED: 'Je bent niet gemachtigd om je gebruikersnaam te wijzigen.'
@@ -239,7 +240,6 @@ nl_NL:
     reasons:
       comment:
         banned_word: 'Geblokeerd woord'
-        body_count: 'Tekst is te lang'
         comment_noagree: 'Niet eens'
         comment_offensive: Aanstootgevend
         comment_other: Anders

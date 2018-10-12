@@ -224,6 +224,7 @@ de:
     CANNOT_IGNORE_STAFF: 'Mitarbeiter können nicht ignoriert werden.'
     COMMENT_PARENT_NOT_VISIBLE: 'Der Kommentar, auf den Sie antworten möchten, wurde entfernt oder existiert nicht.'
     COMMENT_TOO_SHORT: 'Kommentare sollten mehr als ein Zeichen enthalten, bitte überprüfen Sie Ihren Kommentar und probieren Sie es erneut.'
+    COMMENT_TOO_LONG: 'Text überschreitet Zeichenlimit'
     COMMENTING_CLOSED: 'Kommentarbereich ist bereits geschlossen'
     COMMENTING_DISABLED: 'Die Kommentarfunktion ist derzeit abgeschaltet'
     confirm_password: 'Passwörter nicht identisch. Bitte erneut überprüfen'
@@ -273,7 +274,6 @@ de:
     reasons:
       comment:
         banned_word: 'Unzulässiges Wort'
-        body_count: 'Text überschreitet Zeichenlimit'
         comment_noagree: 'Andere Meinung'
         comment_offensive: Unangemessen
         comment_other: Anderes

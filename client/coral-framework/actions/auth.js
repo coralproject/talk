@@ -23,7 +23,11 @@ export const checkLogin = () => (
 
       dispatch(checkLoginSuccess(result.user));
       pym.sendMessage('coral-auth-changed', JSON.stringify(result.user));
-      client.resetWebsocket();
+
+      // We don't need to reset the websocket here because if the request
+      // returned that there was a user (which is the case here), then the
+      // original request has already succeeded, or a previous call to a token
+      // set handler has already reset it.
     })
     .catch(error => {
       if (error.status && error.status === 401 && localStorage) {
@@ -49,13 +53,20 @@ const checkLoginSuccess = user => ({
   user,
 });
 
-export const setAuthToken = token => (dispatch, _, { localStorage }) => {
+export const setAuthToken = token => (
+  dispatch,
+  _,
+  { localStorage, client }
+) => {
   localStorage.setItem('exp', jwtDecode(token).exp);
   localStorage.setItem('token', token);
 
   // Dispatch the set auth token action. For some browsers and situations, we
   // may not be able to persist the auth token any other way. Keep it in redux!
   dispatch({ type: actions.SET_AUTH_TOKEN, token });
+
+  // Now that we set a token, let's reset the subscriptions.
+  client.resetWebsocket();
 
   dispatch(checkLogin());
 };
@@ -79,6 +90,7 @@ export const handleSuccessfulLogin = (user, token) => (
     );
   }
 
+  // Now that we just set a token, set the token!
   client.resetWebsocket();
 
   dispatch({

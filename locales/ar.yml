@@ -225,6 +225,7 @@ ar:
     CANNOT_IGNORE_STAFF: 'لا يمكن تجاهل الموظفين.'
     COMMENT_PARENT_NOT_VISIBLE: 'التعليق الذي ترد عليه تمت إزالته أو غير موجود.'
     COMMENT_TOO_SHORT: 'يجب أن تكون التعليقات أكثر من حرف واحد، يرجى مراجعة تعليقك وإعادة المحاولة.'
+    COMMENT_TOO_LONG: 'يتجاوز النص الحد الأقصى للطول المسموح'
     COMMENTING_CLOSED: 'تم إغلاق فاعلية التعليق'
     COMMENTING_DISABLED: 'التعليق معطّل حاليًا على هذا الموقع'
     confirm_password: 'كلمات المرور غير متطابقة. يرجى التحقق مرة أخرى'
@@ -281,7 +282,6 @@ ar:
     reasons:
       comment:
         banned_word: 'كلمة محظورة'
-        body_count: 'يتجاوز النص الحد الأقصى للطول المسموح'
         comment_noagree: أعارض
         comment_offensive: مسيء
         comment_other: آخر

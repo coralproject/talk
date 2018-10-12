@@ -191,6 +191,7 @@ fr:
     CANNOT_IGNORE_STAFF: 'Ne peut pas ignorer les membres de l''équipe.'
     COMMENT_PARENT_NOT_VISIBLE: 'Le commentaire auquel vous répondez a été supprimé ou n’existe plus.'
     COMMENT_TOO_SHORT: 'Votre commentaire doit contenir quelque chose'
+    COMMENT_TOO_LONG: 'Le texte dépasse la longueur maximale'
     COMMENTING_CLOSED: 'Les commentaires sont déjà fermés'
     confirm_password: 'Les mots de passe ne correspondent pas. Vérifiez à nouveau'
     EDIT_USERNAME_NOT_AUTHORIZED: 'Vous n''avez pas la permission de mettre à jour votre nom d''utilisateur.'
@@ -235,7 +236,6 @@ fr:
     reasons:
       comment:
         banned_word: 'Mot banni'
-        body_count: 'Le texte dépasse la longueur maximale'
         comment_noagree: 'Pas d’accord'
         comment_offensive: Offensive
         comment_other: Autre

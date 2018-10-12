@@ -57,6 +57,7 @@ es:
     active: Activa
     admin: Administrator
     ads_marketing: 'Esto parece ser un ad/marketing'
+    all: 'Todos'
     are_you_sure: '¿Estás segura que quieres suspender a {0}?'
     ban_user: '¿Quieres suspender al Usuario?'
     banned: Suspendido
@@ -64,6 +65,8 @@ es:
     cancel: Cancelar
     commenter: Comentarista
     dont_like_username: 'No me gusta este nombre de usuario'
+    filter_users: 'Filter users'
+    filter_role: Rol
     flaggedaccounts: 'Nombres de Usuario Reportados'
     flags: Reportes
     impersonating: Impersonando
@@ -80,6 +83,7 @@ es:
     spam_ads: Spam/Publicidad
     staff: Personal
     status: Estado
+    suspended: Suspendido
     username_and_email: 'Usuario y Correo'
     yes_ban_user: 'Si, Suspendan el usuario'
   configure:
@@ -215,6 +219,7 @@ es:
     CANNOT_IGNORE_STAFF: 'No puede ignorar a miembros del Staff.'
     COMMENT_PARENT_NOT_VISIBLE: 'El comentario a la que estás contestando ha sido eliminado o no existe.'
     COMMENT_TOO_SHORT: 'Tu comentario debe tener algo escrito'
+    COMMENT_TOO_LONG: 'El texto excede el límite permitido'
     COMMENTING_CLOSED: 'Los comentarios ya estan cerrados'
     confirm_password: 'Las contraseñas no coinciden. Inténtelo nuevamente'
     EDIT_USERNAME_NOT_AUTHORIZED: 'No tiene permiso para editar el nombre de usuario.'
@@ -260,7 +265,6 @@ es:
     reasons:
       comment:
         banned_word: 'Palabra prohibida'
-        body_count: 'El texto exede el límite permitido'
         comment_noagree: 'No está de acuerdo'
         comment_offensive: 'Es ofensivo'
         comment_other: 'Otra razón'

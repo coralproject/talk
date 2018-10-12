@@ -197,6 +197,7 @@ fi_FI:
     CANNOT_IGNORE_STAFF: 'Työntekijöitä ei voi jättää huomioimatta'
     COMMENT_PARENT_NOT_VISIBLE: 'Kommenttia, johon yrität vastata, ei enää ole.'
     COMMENT_TOO_SHORT: 'Kommentin tulee olla vähintään kaksi merkkiä pitkä. Tarkista kirjoittamasi teksti.'
+    COMMENT_TOO_LONG: Liian pitkä viesti'
     COMMENTING_CLOSED: 'Kommentointi on suljettu'
     confirm_password: 'Salasanat eivät täsmää. Tarkista, ole hyvä.'
     EDIT_USERNAME_NOT_AUTHORIZED: 'Sinulla ei ole oikeutta päivittää tai muokata käyttäjänimeä.'
@@ -240,7 +241,6 @@ fi_FI:
     reasons:
       comment:
         banned_word: 'Kielletty sana'
-        body_count: 'Liian pitkä viesti'
         comment_noagree: 'Olen eri mieltä'
         comment_offensive: Loukkaava
         comment_other: Muu
