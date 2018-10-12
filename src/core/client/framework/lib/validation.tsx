@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import {
   INVALID_CHARACTERS,
   INVALID_EMAIL,
+  INVALID_URL,
   PASSWORD_TOO_SHORT,
   PASSWORDS_DO_NOT_MATCH,
   USERNAME_TOO_LONG,
@@ -54,6 +55,17 @@ export const validateEmail = createValidator(
 export const validateUsernameCharacters = createValidator(
   v => /^[a-zA-Z0-9_.]+$/.test(v),
   INVALID_CHARACTERS()
+);
+
+/**
+ * validateURL is a Validator that checks that the URL only contains valid characters.
+ */
+export const validateURL = createValidator(
+  v =>
+    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(
+      v
+    ),
+  INVALID_URL()
 );
 
 /**

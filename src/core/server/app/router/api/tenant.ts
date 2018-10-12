@@ -1,6 +1,7 @@
 import express from "express";
 
 import { AppOptions } from "talk-server/app";
+import { tenantInstallHandler } from "talk-server/app/handlers/install/tenant";
 import tenantMiddleware from "talk-server/app/middleware/tenant";
 import { RouterOptions } from "talk-server/app/router/types";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
@@ -12,6 +13,17 @@ export async function createTenantRouter(
   options: RouterOptions
 ) {
   const router = express.Router();
+
+  // Tenant setup handler.
+  router.use(
+    "/install",
+    express.json(),
+    tenantInstallHandler({
+      cache: app.tenantCache,
+      redis: app.redis,
+      mongo: app.mongo,
+    })
+  );
 
   // Tenant identification middleware.
   router.use(tenantMiddleware({ cache: app.tenantCache }));

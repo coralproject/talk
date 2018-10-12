@@ -62,7 +62,7 @@ exports[`renders correctly 1`] = `
     placeholder="Post a comment"
     placeholderClassName="RTE-placeholder"
     placeholderClassNameDisabled=""
-    toolbarClassName=""
+    toolbarClassName="RTE-toolbar"
     toolbarClassNameDisabled=""
     value="Hello world"
   />

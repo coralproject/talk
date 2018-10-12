@@ -48,6 +48,11 @@ const variables = {
     text: {
       primary: "#3B4A53",
       secondary: "#787D80",
+      light: "#fff",
+    },
+    /* Background colors */
+    background: {
+      light: "#f5f6fa",
     },
     /* Common colors */
     common: {

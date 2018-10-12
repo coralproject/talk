@@ -32,7 +32,10 @@ export function createConnection<T>(
   return merge(
     {
       edges: [],
-      pageInfo: {},
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+      },
     },
     connection
   );

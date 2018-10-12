@@ -316,7 +316,7 @@ export async function retrieveCommentParentsConnection(
   mongo: Db,
   tenantID: string,
   comment: Comment,
-  { last: limit, before: skip = -1 }: { last: number; before?: number }
+  { last: limit, before: skip = 0 }: { last: number; before?: number }
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Return nothing if this comment does not have any parents.
   if (!comment.parent_id) {
@@ -334,26 +334,28 @@ export async function retrieveCommentParentsConnection(
     return createConnection({
       pageInfo: {
         hasNextPage: false,
-        hasPreviousPage: false,
+        hasPreviousPage: !!comment.parent_id,
+        endCursor: 0,
+        startCursor: 0,
       },
     });
   }
 
   // If the last paramter is 1, and the after paramter is either unset or equal
   // to zero, then all we have to return is the direct parent.
-  if (limit === 1 && skip < 0) {
+  if (limit === 1 && skip <= 0) {
     const parent = await retrieveComment(mongo, tenantID, comment.parent_id);
     if (!parent) {
       throw new Error("parent comment not found");
     }
 
     return {
-      edges: [{ node: parent, cursor: 0 }],
+      edges: [{ node: parent, cursor: 1 }],
       pageInfo: {
         hasNextPage: false,
         hasPreviousPage: comment.grandparent_ids.length > 0,
-        endCursor: 0,
-        startCursor: 0,
+        endCursor: 1,
+        startCursor: 1,
       },
     };
   }
@@ -362,7 +364,7 @@ export async function retrieveCommentParentsConnection(
   const parentIDs = [comment.parent_id, ...comment.grandparent_ids.reverse()];
 
   // Fetch the subset of the comment id's that we are going to query for.
-  const parentIDSubset = parentIDs.slice(skip + 1, skip + 1 + limit);
+  const parentIDSubset = parentIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
   const parents = await retrieveManyComments(mongo, tenantID, parentIDSubset);
