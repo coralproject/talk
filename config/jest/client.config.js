@@ -16,6 +16,7 @@ module.exports = {
   testEnvironment: "node",
   testURL: "http://localhost",
   transform: {
+    "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
     "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest",
     "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
     "^.+\\.ftl$": "<rootDir>/config/jest/contentTransform.js",
@@ -23,7 +24,7 @@ module.exports = {
       "<rootDir>/config/jest/fileTransform.js",
   },
   transformIgnorePatterns: [
-    "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$",
+    "[/\\\\]node_modules[/\\\\](?!(fluent)[/\\\\]).+\\.(js|jsx|mjs|ts|tsx)$",
   ],
   moduleNameMapper: {
     "^talk-admin/(.*)$": "<rootDir>/src/core/client/admin/$1",

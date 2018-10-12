@@ -2,6 +2,19 @@
 ### All keys must start with `framework` because this file is shared
 ### among different targets.
 
+## Short Number
+
+# Implementation based on unicode Short Number patterns
+# http://cldr.unicode.org/translation/number-patterns#TOC-Short-Numbers
+
+framework-shortNumber-1000 = 0.0k
+framework-shortNumber-10000 = 00k
+framework-shortNumber-100000 = 000k
+framework-shortNumber-1000000 = 0.0M
+framework-shortNumber-10000000 = 00M
+framework-shortNumber-100000000 = 000M
+framework-shortNumber-1000000000 = 0.0B
+
 ## Validation
 
 framework-validation-required = This field is required.
