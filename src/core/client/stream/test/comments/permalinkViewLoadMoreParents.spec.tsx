@@ -4,29 +4,43 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, comments, commentWithReplies, settings } from "../fixtures";
+import { assets, comments, settings } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const commentStub = {
-    ...commentWithReplies,
+    ...comments[0],
     parentCount: 2,
-    parents: {
-      pageInfo: {
-        hasPreviousPage: false,
-      },
-      edges: [
-        {
-          node: comments[1],
-          cursor: comments[1].createdAt,
-        },
-        {
-          node: comments[2],
-          cursor: comments[2].createdAt,
-        },
-      ],
-    },
+    rootParent: comments[2],
+    parents: createSinonStub(
+      s => s.throws(),
+      s =>
+        s.withArgs({ last: 0 }).returns({
+          pageInfo: {
+            startCursor: "0",
+            hasPreviousPage: true,
+          },
+          edges: [],
+        }),
+      s =>
+        s.withArgs({ last: 5, before: "0" }).returns({
+          pageInfo: {
+            startCursor: "2",
+            hasPreviousPage: false,
+          },
+          edges: [
+            {
+              node: comments[1],
+              cursor: comments[1].createdAt,
+            },
+            {
+              node: comments[2],
+              cursor: comments[2].createdAt,
+            },
+          ],
+        })
+    ),
   };
 
   const assetStub = {
@@ -78,16 +92,14 @@ it("renders permalink view", async () => {
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
-it("show all comments", async () => {
-  const mockEvent = {
-    preventDefault: sinon.mock().once(),
-  };
+it("views pervious comments", async () => {
   testRenderer.root
-    .findByProps({
-      id: "talk-comments-permalinkView-viewFullDiscussion",
-    })
-    .props.onClick(mockEvent);
+    .find(
+      node =>
+        node.props.onClick &&
+        node.props.id === "comments-conversationThread-showHiddenComments"
+    )
+    .props.onClick();
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot();
-  mockEvent.preventDefault.verify();
 });
