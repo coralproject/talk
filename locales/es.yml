@@ -57,6 +57,7 @@ es:
     active: Activa
     admin: Administrator
     ads_marketing: 'Esto parece ser un ad/marketing'
+    all: 'Todos'
     are_you_sure: '¿Estás segura que quieres suspender a {0}?'
     ban_user: '¿Quieres suspender al Usuario?'
     banned: Suspendido
@@ -64,6 +65,8 @@ es:
     cancel: Cancelar
     commenter: Comentarista
     dont_like_username: 'No me gusta este nombre de usuario'
+    filter_users: 'Filter users'
+    filter_role: Rol
     flaggedaccounts: 'Nombres de Usuario Reportados'
     flags: Reportes
     impersonating: Impersonando
@@ -80,6 +83,7 @@ es:
     spam_ads: Spam/Publicidad
     staff: Personal
     status: Estado
+    suspended: Suspendido
     username_and_email: 'Usuario y Correo'
     yes_ban_user: 'Si, Suspendan el usuario'
   configure:
