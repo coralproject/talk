@@ -20,7 +20,12 @@ jobs:
       - attach_workspace:
           at: ~/coralproject/talk
       - restore_cache:
-          key: v1-dependency-cache-{{ checksum "package-lock.json" }}
+          keys:
+            # Find a cache corresponding to this specific package-lock.json
+            # checksum when this file is changed, this key will fail.
+            - v1-dependency-cache-{{ checksum "package-lock.json" }}
+            # Find the most recently generated cache used from any branch
+            - v1-dependency-cache-
       - run:
           name: Update NPM
           command: sudo npm update -g npm
