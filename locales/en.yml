@@ -233,6 +233,7 @@ en:
     CANNOT_IGNORE_STAFF: 'Cannot ignore Staff members.'
     COMMENT_PARENT_NOT_VISIBLE: 'The comment that you''re replying to has been removed or doesn''t exist.'
     COMMENT_TOO_SHORT: 'Comments should be more than one character, please revise your comment and try again.'
+    COMMENT_TOO_LONG: 'Body exceeds max length'
     COMMENTING_CLOSED: 'Commenting is already closed'
     COMMENTING_DISABLED: 'Commenting is currently disabled on this site'
     confirm_password: 'Passwords don''t match. Please check again'
@@ -290,7 +291,6 @@ en:
     reasons:
       comment:
         banned_word: 'Banned Word'
-        body_count: 'Body exceeds max length'
         comment_noagree: Disagree
         comment_offensive: Offensive
         comment_other: Other

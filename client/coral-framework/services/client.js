@@ -88,21 +88,23 @@ export function createClient(options = {}) {
   });
 
   client.resetWebsocket = () => {
-    // Close socket connection which will also unregister subscriptions on the server-side.
-    wsClient.close();
+    if (wsClient.client) {
+      // Close socket connection which will also unregister subscriptions on the server-side.
+      wsClient.close(true);
 
-    // Reconnect to the server.
-    wsClient.connect();
+      // Reconnect to the server.
+      wsClient.connect();
 
-    // Reregister all subscriptions (uses non public api).
-    // See: https://github.com/apollographql/subscriptions-transport-ws/issues/171
-    Object.keys(wsClient.operations).forEach(id => {
-      wsClient.sendMessage(
-        id,
-        MessageTypes.GQL_START,
-        wsClient.operations[id].options
-      );
-    });
+      // Re-register all subscriptions (uses non public api).
+      // See: https://github.com/apollographql/subscriptions-transport-ws/issues/171
+      Object.keys(wsClient.operations).forEach(id => {
+        wsClient.sendMessage(
+          id,
+          MessageTypes.GQL_START,
+          wsClient.operations[id].options
+        );
+      });
+    }
   };
 
   return client;
