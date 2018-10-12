@@ -20,7 +20,7 @@ jobs:
       - attach_workspace:
           at: ~/coralproject/talk
       - restore_cache:
-          key: {{ .Environment.CACHE_VERSION }}-dependency-cache-{{ checksum "package-lock.json" }}
+          key: v1-dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Update NPM
           command: sudo npm update -g npm
@@ -31,7 +31,7 @@ jobs:
           name: Install dependencies
           command: npm ci
       - save_cache:
-          key: {{ .Environment.CACHE_VERSION }}-dependency-cache-{{ checksum "package-lock.json" }}
+          key: v1-dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
       - persist_to_workspace:
@@ -85,14 +85,14 @@ jobs:
           at: ~/coralproject/talk
       - restore_cache:
           keys:
-            - build-cache-{{ .Branch }}-{{ .Revision }}
-            - build-cache-{{ .Branch }}-
-            - build-cache-
+            - v1-build-cache-{{ .Branch }}-{{ .Revision }}
+            - v1-build-cache-{{ .Branch }}-
+            - v1-build-cache-
       - run:
           name: Build
           command: npm run build
       - save_cache:
-          key: {{ .Environment.CACHE_VERSION }}-build-cache-{{ .Branch }}-{{ .Revision }}
+          key: v1-build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
             - ./dist
       - persist_to_workspace:
