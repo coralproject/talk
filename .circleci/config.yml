@@ -29,11 +29,12 @@ jobs:
           command: npm audit
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+            - ~/.npm
       - persist_to_workspace:
           root: .
           paths: node_modules
