@@ -27,7 +27,7 @@ exports[`post a reply: open reply form 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ Comments
+        ⁨1⁩ ⁨Comment⁩
       </button>
     </li>
     <li
@@ -1003,7 +1003,7 @@ exports[`post a reply: optimistic response 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ Comments
+        ⁨1⁩ ⁨Comment⁩
       </button>
     </li>
     <li
@@ -2072,7 +2072,7 @@ exports[`post a reply: server response 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ Comments
+        ⁨1⁩ ⁨Comment⁩
       </button>
     </li>
     <li
@@ -3004,7 +3004,7 @@ exports[`renders comment stream 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ Comments
+        ⁨1⁩ ⁨Comment⁩
       </button>
     </li>
     <li

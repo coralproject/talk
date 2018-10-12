@@ -27,7 +27,7 @@ exports[`cancel edit: edit canceled 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
@@ -474,7 +474,7 @@ exports[`edit a comment: edit form 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
@@ -977,7 +977,7 @@ exports[`edit a comment: optimistic response 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
@@ -1480,7 +1480,7 @@ exports[`edit a comment: render stream 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
@@ -1927,7 +1927,7 @@ exports[`edit a comment: server response 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
@@ -2383,7 +2383,7 @@ exports[`shows expiry message: edit form closed 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
@@ -2830,7 +2830,7 @@ exports[`shows expiry message: edit time expired 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
