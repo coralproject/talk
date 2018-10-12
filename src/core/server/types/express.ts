@@ -9,7 +9,6 @@ export interface TalkRequest {
   cache?: {
     tenant: TenantCache;
   };
-  user?: User;
   tenant?: Tenant;
   context?: {
     tenant?: TenantContext;
@@ -18,4 +17,5 @@ export interface TalkRequest {
 
 export interface Request extends Request {
   talk?: TalkRequest;
+  user?: User;
 }
