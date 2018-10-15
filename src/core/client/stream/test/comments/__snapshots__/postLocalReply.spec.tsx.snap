@@ -1003,7 +1003,7 @@ exports[`post a reply: optimistic response 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ ⁨Comment⁩
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
@@ -2072,7 +2072,7 @@ exports[`post a reply: server response 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ ⁨Comment⁩
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
     <li
