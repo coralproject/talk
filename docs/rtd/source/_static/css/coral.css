@@ -1,0 +1,23 @@
+.wy-side-nav-search {
+	background-color: #f67150;
+
+	}
+
+.wy-nav-side {
+	background: #f67150;
+	color: #fcfcfc;
+	
+	}
+
+.btn {
+  color: white;
+  background: #f67150;
+  border: 1px solid darken(#f67150, 5%);
+
+  &:hover {
+    color: white;
+    cursor: pointer;
+    background: darken(#f67150, 5%);
+    border-color: darken(#f67150, 5%);
+  }
+}
