@@ -12,7 +12,7 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
 
-general-app-commentsTab = {$commentCount} { $commentCount ->
+general-app-commentsTab = { SHORT_NUMBER($commentCount) } { $commentCount ->
         [0] Comments
         [1] Comment
         *[other] Comments
