@@ -1,15 +1,13 @@
 import { Hooks } from "html-webpack-plugin";
 import { Compiler, Plugin } from "webpack";
 
-export interface CDNWebpackPluginOptions {
-  production: boolean;
-}
+export default class PublicURIWebpackPlugin implements Plugin {
+  private configTemplate: string;
+  private prefixTemplate: string;
 
-export default class CDNWebpackPlugin implements Plugin {
-  private production: boolean;
-
-  constructor({ production }: CDNWebpackPluginOptions) {
-    this.production = production;
+  constructor(configTemplate: string, prefixTemplate: string) {
+    this.configTemplate = configTemplate;
+    this.prefixTemplate = prefixTemplate;
   }
 
   private prefixAttribute(attr: string | boolean) {
@@ -17,7 +15,7 @@ export default class CDNWebpackPlugin implements Plugin {
       return attr;
     }
 
-    return "{{ staticURI }}" + attr;
+    return this.prefixTemplate + attr;
   }
 
   private prefixTag = (tag: {
@@ -35,10 +33,6 @@ export default class CDNWebpackPlugin implements Plugin {
   };
 
   public apply = (compiler: Compiler) => {
-    if (!this.production) {
-      return;
-    }
-
     compiler.hooks.compilation.tap("CDNWebpackPlugin", compilation => {
       (compilation.hooks as Hooks).htmlWebpackPluginAlterAssetTags.tapAsync(
         "CDNWebpackPlugin",
@@ -54,7 +48,7 @@ export default class CDNWebpackPlugin implements Plugin {
               type: "application/json",
               id: "config",
             },
-            innerHTML: "{{ staticURI | dump | safe }}",
+            innerHTML: this.configTemplate,
             voidTag: false,
           });
 
