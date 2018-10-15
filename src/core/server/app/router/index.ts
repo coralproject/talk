@@ -2,6 +2,7 @@ import express, { Router } from "express";
 
 import { AppOptions } from "talk-server/app";
 import { nocacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import { installedMiddleware } from "talk-server/app/middleware/installed";
 import playground from "talk-server/app/middleware/playground";
 import { RouterOptions } from "talk-server/app/router/types";
 import logger from "talk-server/logger";
@@ -20,9 +21,36 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     attachGraphiQL(router, app);
   }
 
-  // Add the client targets.
-  router.get("/embed/stream", createClientTargetRouter({ view: "stream" }));
-  router.get("/admin", createClientTargetRouter({ view: "admin" }));
+  // Add the embed targets.
+  router.use("/embed/stream", createClientTargetRouter({ view: "stream" }));
+  router.use("/embed/auth", createClientTargetRouter({ view: "auth" }));
+
+  // Add the standalone targets.
+  router.use(
+    "/admin",
+    installedMiddleware({
+      tenantCache: app.tenantCache,
+    }),
+    createClientTargetRouter({ view: "admin" })
+  );
+  router.use(
+    "/install",
+    installedMiddleware({
+      tenantCache: app.tenantCache,
+      redirectIfInstalled: true,
+      redirectURL: "/admin",
+    }),
+    createClientTargetRouter({ view: "install", cacheDuration: "" })
+  );
+
+  // Handle the root path.
+  router.get(
+    "/",
+    installedMiddleware({ tenantCache: app.tenantCache }),
+    (req, res, next) => {
+      res.redirect("/admin");
+    }
+  );
 
   return router;
 }
@@ -36,7 +64,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 function attachGraphiQL(router: Router, app: AppOptions) {
   if (app.config.get("env") === "production") {
     logger.warn(
-      "enable_graphiql is enabled, but we're in production mode, this is not recommended"
+      "it is not recommended to have enable_graphiql enabled while in production mode as it requires introspection queries to be enabled"
     );
   }
 

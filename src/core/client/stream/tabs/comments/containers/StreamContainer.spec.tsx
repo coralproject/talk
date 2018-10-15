@@ -21,6 +21,12 @@ it("renders correctly", () => {
       },
     },
     me: null,
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     relay: {
       hasMore: noop,
       isLoading: noop,
@@ -41,6 +47,12 @@ describe("when has more comments", () => {
       },
     },
     me: null,
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     relay: {
       hasMore: () => true,
       isLoading: () => false,

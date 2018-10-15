@@ -4,7 +4,7 @@ exports[`should pass correct values to pymControl 1`] = `
 Object {
   "id": "container-id",
   "title": "StreamEmbed",
-  "url": "http://localhost/stream.html?assetID=asset-id&assetURL=asset-url&commentID=comment-id",
+  "url": "http://localhost/embed/stream?assetID=asset-id&assetURL=asset-url&commentID=comment-id",
 }
 `;
 
@@ -12,6 +12,6 @@ exports[`should pass default values to pymControl 1`] = `
 Object {
   "id": "container-id",
   "title": "StreamEmbed",
-  "url": "http://localhost/stream.html",
+  "url": "http://localhost/embed/stream",
 }
 `;

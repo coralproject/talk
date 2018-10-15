@@ -1,0 +1,9 @@
+.root {
+  border-left: 2px solid var(--palette-grey-main);
+  padding-left: var(--spacing-unit);
+  margin-left: calc(0.5 * var(--spacing-unit));
+}
+
+.dotted {
+  border-left-style: dotted;
+}

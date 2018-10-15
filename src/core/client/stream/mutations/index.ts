@@ -31,3 +31,12 @@ export {
   withSetActiveTabMutation,
   SetActiveTabMutation,
 } from "./SetActiveTabMutation";
+export {
+  withCreateCommentReactionMutation,
+  CreateCommentReactionMutation,
+  CreateCommentReactionInput,
+} from "./CreateCommentReactionMutation";
+export {
+  withDeleteCommentReactionMutation,
+  DeleteCommentReactionMutation,
+} from "./DeleteCommentReactionMutation";

@@ -12,7 +12,11 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
 
-general-app-commentsTab = Comments
+general-app-commentsTab = { SHORT_NUMBER($commentCount) } { $commentCount ->
+        [0] Comments
+        [1] Comment
+        *[other] Comments
+    }
 general-app-myProfileTab = My Profile
 
 ## Comments Tab
@@ -26,7 +30,7 @@ comments-replyList-showAll = Show All
 comments-permalinkButton-share = Share
 comments-permalinkPopover-copy = Copy
 comments-permalinkPopover-copied = Copied
-comments-permalinkView-showAllComments = Show All Comments
+comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentNotFound = Comment not found
 
 comments-rte-bold =
@@ -72,6 +76,14 @@ comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
 comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
 comments-editedMarker-edited = Edited
 comments-showConversationLink-readMore = Read More of this Conversation >
+comments-conversationThread-showHiddenComments =
+  { $count ->
+      [1] SHOW HIDDEN COMMENT
+      *[other] SHOW HIDDEN COMMENTS
+  }
+
+comments-permalinkView-currentViewing = You are currently viewing a
+comments-permalinkView-singleConversation = SINGLE CONVERSATION
 
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation

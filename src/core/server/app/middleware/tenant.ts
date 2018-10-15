@@ -1,4 +1,4 @@
-import { NextFunction, Response } from "express";
+import { RequestHandler } from "express";
 
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
@@ -7,10 +7,10 @@ export interface MiddlewareOptions {
   cache: TenantCache;
 }
 
-export default ({ cache }: MiddlewareOptions) => async (
+export default ({ cache }: MiddlewareOptions): RequestHandler => async (
   req: Request,
-  res: Response,
-  next: NextFunction
+  res,
+  next
 ) => {
   try {
     // Attach the tenant to the request.

@@ -181,3 +181,12 @@
   letter-spacing: 0;
   color: var(--palette-grey-lighter);
 }
+
+.subTabCounter {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(18em / 18);
+  letter-spacing: calc(0.2em / 18);
+  color: var(--palette-text-primary);
+}

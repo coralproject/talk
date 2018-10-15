@@ -25,7 +25,7 @@ export const tenantContext = ({
     return next(new Error("talk was not set"));
   }
 
-  const { tenant, user, cache } = req.talk;
+  const { tenant, cache } = req.talk;
 
   if (!cache) {
     return next(new Error("cache was not set"));
@@ -41,7 +41,7 @@ export const tenantContext = ({
       mongo,
       redis,
       tenant,
-      user,
+      user: req.user,
       tenantCache: cache.tenant,
       queue,
     }),

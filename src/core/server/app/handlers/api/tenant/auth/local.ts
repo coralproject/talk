@@ -20,10 +20,13 @@ export interface SignupBody {
   email: string;
 }
 
-const SignupBodySchema = Joi.object().keys({
+export const SignupBodySchema = Joi.object().keys({
   username: Joi.string().trim(),
-  password: Joi.string().trim(),
-  email: Joi.string().trim(),
+  password: Joi.string(),
+  email: Joi.string()
+    .trim()
+    .lowercase()
+    .email(),
 });
 
 export interface SignupOptions {

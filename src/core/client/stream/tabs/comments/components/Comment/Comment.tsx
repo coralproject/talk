@@ -1,3 +1,4 @@
+import cn from "classnames";
 import React, { StatelessComponent } from "react";
 
 import HTMLContent from "talk-stream/components/HTMLContent";
@@ -12,19 +13,21 @@ import Username from "./Username";
 export interface CommentProps {
   id?: string;
   className?: string;
-  author: {
-    username: string | null;
-  } | null;
+  username: string | null;
   body: string | null;
   createdAt: string;
   topBarRight?: React.ReactNode;
   footer?: React.ReactNode;
   showEditedMarker?: boolean;
+  highlight?: boolean;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
   return (
-    <div role="article" className={styles.root}>
+    <div
+      role="article"
+      className={cn(styles.root, { [styles.highlight]: props.highlight })}
+    >
       <Flex
         className={styles.topBar}
         direction="row"
@@ -32,10 +35,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
         id={props.id}
       >
         <TopBarLeft>
-          {props.author &&
-            props.author.username && (
-              <Username>{props.author.username}</Username>
-            )}
+          {props.username && <Username>{props.username}</Username>}
           <Flex direction="row" alignItems="baseline" itemGutter>
             <Timestamp>{props.createdAt}</Timestamp>
             {props.showEditedMarker && <EditedMarker />}
