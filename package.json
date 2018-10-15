@@ -281,7 +281,6 @@
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "tslint --fix",
-      "npm run test -- --ci --passWithNoTests --findRelatedTests",
       "git add"
     ]
   }
