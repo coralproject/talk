@@ -1,5 +1,7 @@
 /* tslint:disable */
 
+// TODO: send a PR to DefinitelyTyped.
+
 declare module "react-relay-network-modern/es" {
   // TODO: missing typescript types.
   // import { QueryResponseCache } from 'relay-runtime';
