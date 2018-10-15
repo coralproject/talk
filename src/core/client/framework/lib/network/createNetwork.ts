@@ -5,7 +5,7 @@ import {
   RelayNetworkLayer,
   retryMiddleware,
   urlMiddleware,
-} from "react-relay-network-modern";
+} from "react-relay-network-modern/es";
 
 export type TokenGetter = () => string;
 
