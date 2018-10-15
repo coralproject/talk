@@ -9,7 +9,10 @@ module.exports = {
   env: {
     test: {
       presets: [
-        ["@babel/env", { targets: "last 2 versions, ie 11", modules: false }],
+        [
+          "@babel/env",
+          { targets: "last 2 versions, ie 11", modules: "commonjs" },
+        ],
         "@babel/react",
       ],
     },

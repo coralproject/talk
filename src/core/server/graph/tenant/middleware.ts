@@ -1,45 +1,37 @@
 import { GraphQLSchema } from "graphql";
-import { Redis } from "ioredis";
-import { Db } from "mongodb";
+// import { graphqlBatchHTTPWrapper } from "react-relay-network-layer";
 
 import { Config } from "talk-common/config";
+import { graphqlBatchMiddleware } from "talk-server/app/middleware/graphqlBatch";
 import { graphqlMiddleware } from "talk-server/graph/common/middleware";
-import { TaskQueue } from "talk-server/services/queue";
 import { Request } from "talk-server/types/express";
-
-import TenantContext from "./context";
 
 export interface TenantGraphQLMiddlewareOptions {
   schema: GraphQLSchema;
   config: Config;
-  mongo: Db;
-  redis: Redis;
-  queue: TaskQueue;
 }
 
-export default async ({
-  schema,
-  config,
-  mongo,
-  redis,
-  queue,
-}: TenantGraphQLMiddlewareOptions) => {
-  return graphqlMiddleware(config, async (req: Request) => {
-    // Load the tenant and user from the request.
-    const { tenant, user, tenantCache } = req;
+export default async ({ schema, config }: TenantGraphQLMiddlewareOptions) =>
+  graphqlBatchMiddleware(
+    graphqlMiddleware(config, async (req: Request) => {
+      if (!req.talk) {
+        throw new Error("talk was not set");
+      }
 
-    // Return the graph options.
-    return {
-      schema,
-      context: new TenantContext({
-        req,
-        mongo,
-        redis,
-        tenant: tenant!,
-        user,
-        tenantCache,
-        queue,
-      }),
-    };
-  });
-};
+      const { context } = req.talk;
+      if (!context) {
+        throw new Error("context was not set");
+      }
+
+      const { tenant } = context;
+      if (!tenant) {
+        throw new Error("tenant was not set");
+      }
+
+      // Return the graph options.
+      return {
+        schema,
+        context: tenant,
+      };
+    })
+  );

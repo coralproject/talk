@@ -24,7 +24,7 @@ module.exports = {
       "<rootDir>/config/jest/fileTransform.js",
   },
   transformIgnorePatterns: [
-    "[/\\\\]node_modules[/\\\\](?!(fluent)[/\\\\]).+\\.(js|jsx|mjs|ts|tsx)$",
+    "[/\\\\]node_modules[/\\\\](?!(fluent|react-relay-network-modern)[/\\\\]).+\\.(js|jsx|mjs|ts|tsx)$",
   ],
   moduleNameMapper: {
     "^talk-admin/(.*)$": "<rootDir>/src/core/client/admin/$1",

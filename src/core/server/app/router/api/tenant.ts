@@ -6,6 +6,7 @@ import tenantMiddleware from "talk-server/app/middleware/tenant";
 import { RouterOptions } from "talk-server/app/router/types";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
+import { tenantContext } from "talk-server/app/middleware/context/tenant";
 import { createNewAuthRouter } from "./auth";
 
 export async function createTenantRouter(
@@ -41,12 +42,14 @@ export async function createTenantRouter(
     // Any users may submit their GraphQL requests with authentication, this
     // middleware will unpack their user into the request.
     options.passport.authenticate("jwt", { session: false }),
-    await tenantGraphMiddleware({
-      schema: app.schemas.tenant,
-      config: app.config,
+    tenantContext({
       mongo: app.mongo,
       redis: app.redis,
       queue: app.queue,
+    }),
+    await tenantGraphMiddleware({
+      schema: app.schemas.tenant,
+      config: app.config,
     })
   );
 
