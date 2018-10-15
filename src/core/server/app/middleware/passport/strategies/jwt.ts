@@ -100,7 +100,7 @@ export class JWTStrategy extends Strategy {
       return this.pass();
     }
 
-    const { tenant } = req;
+    const { tenant } = req.talk!;
     if (!tenant) {
       // TODO: (wyattjoh) log this error, and return a better one?
       return this.error(new Error("tenant not found"));
