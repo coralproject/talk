@@ -9,6 +9,7 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 import webpack, { Configuration } from "webpack";
 import ManifestPlugin from "webpack-manifest-plugin";
+import CDNWebpackPlugin from "./plugins/CDNWebpackPlugin";
 
 import paths from "./paths";
 
@@ -438,12 +439,14 @@ export default function createWebpackConfig({
         stream: [
           // We ship polyfills by default
           paths.appPolyfill,
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appStreamIndex,
         ],
         auth: [
           // We ship polyfills by default
           paths.appPolyfill,
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
@@ -451,12 +454,14 @@ export default function createWebpackConfig({
         install: [
           // We ship polyfills by default
           paths.appPolyfill,
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appInstallIndex,
         ],
         admin: [
           // We ship polyfills by default
           paths.appPolyfill,
+          paths.appPublicPath,
           ...devServerEntries,
           paths.appAdminIndex,
         ],
@@ -495,6 +500,9 @@ export default function createWebpackConfig({
           inject: "body",
           ...htmlWebpackConfig,
         }),
+        // Inject the pieces we need here to resolve all the now relative url's
+        // against the CDN if it's provided.
+        new CDNWebpackPlugin({ production: isProduction }),
         // Makes some environment variables available in index.html.
         // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
         // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
