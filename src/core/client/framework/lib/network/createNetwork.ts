@@ -7,18 +7,21 @@ import {
   urlMiddleware,
 } from "react-relay-network-modern/es";
 
+import customErrorMiddleware from "./customErrorMiddleware";
+
 export type TokenGetter = () => string;
 
 const graphqlURL = "/api/tenant/graphql";
 
 export default function createNetwork(tokenGetter: TokenGetter) {
   return new RelayNetworkLayer([
+    customErrorMiddleware,
     cacheMiddleware({
       size: 100, // max 100 requests
       ttl: 900000, // 15 minutes
     }),
     urlMiddleware({
-      url: (req: Request) => Promise.resolve(graphqlURL),
+      url: req => Promise.resolve(graphqlURL),
     }),
     batchMiddleware({
       batchUrl: (requestMap: any) => Promise.resolve(graphqlURL),
