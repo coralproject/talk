@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
 
@@ -11,6 +11,8 @@ import {
   SSOToken,
   SSOVerifier,
 } from "talk-server/app/middleware/passport/strategies/verifiers/sso";
+import { TokenErr, TokenExpiredErr } from "talk-server/errors";
+import logger from "talk-server/logger";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import {
@@ -114,8 +116,18 @@ export class JWTStrategy extends Strategy {
 
       return this.success(user, null);
     } catch (err) {
-      // TODO: (wyattjoh) log this error
-      return this.fail(err);
+      // We expect that the verifiers will fail for reasons that we can handle.
+      if (err instanceof TokenExpiredError) {
+        return this.error(new TokenExpiredErr());
+      } else if (err instanceof JsonWebTokenError) {
+        return this.error(new TokenErr());
+      }
+      logger.error(
+        { err },
+        "could not handle the error from authenticating the user"
+      );
+      // Error could not be matched to errors we are expecting.
+      return this.error(err);
     }
   }
 }

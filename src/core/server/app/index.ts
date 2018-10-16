@@ -1,5 +1,4 @@
 import cons from "consolidate";
-import cors from "cors";
 import { Express } from "express";
 import http from "http";
 import { Redis } from "ioredis";
@@ -8,9 +7,6 @@ import nunjucks from "nunjucks";
 import path from "path";
 
 import { Config } from "talk-common/config";
-import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import { errorHandler } from "talk-server/app/middleware/error";
-import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
@@ -18,8 +14,6 @@ import { JWTSigningConfig } from "talk-server/services/jwt";
 import { TaskQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 
-import { accessLogger, errorLogger } from "./middleware/logging";
-import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
 export interface AppOptions {
@@ -43,30 +37,16 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Pull the parent out of the options.
   const { parent } = options;
 
-  // Logging
-  parent.use(accessLogger);
-
   // Create some services for the router.
   const passport = createPassport(options);
 
+  // Create the router.
+  const router = await createRouter(options, {
+    passport,
+  });
+
   // Mount the router.
-  parent.use(
-    "/",
-    await createRouter(options, {
-      passport,
-    })
-  );
-
-  // Enable CORS headers for media assets, font's require them.
-  parent.use("/assets/media", cors());
-
-  // Static Files
-  parent.use("/assets", cacheHeadersMiddleware("1w"), serveStatic);
-
-  // Error Handling
-  parent.use(notFoundMiddleware);
-  parent.use(errorLogger);
-  parent.use(errorHandler);
+  parent.use("/", router);
 
   return parent;
 }

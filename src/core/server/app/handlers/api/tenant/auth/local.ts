@@ -8,6 +8,10 @@ import {
   handleSuccessfulLogin,
 } from "talk-server/app/middleware/passport";
 import { validate } from "talk-server/app/request/body";
+import {
+  AuthIntegrationDisabledErr,
+  UserNotFoundErr,
+} from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
 import { JWTSigningConfig } from "talk-server/services/jwt";
@@ -47,8 +51,7 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
-      // TODO: replace with better error.
-      return next(new Error("integration is disabled"));
+      return next(new AuthIntegrationDisabledErr());
     }
 
     // Get the fields from the body. Validate will throw an error if the body
@@ -99,16 +102,13 @@ export const logoutHandler = (options: LogoutOptions): RequestHandler => async (
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
-      // TODO: replace with better error.
-      return next(new Error("integration is disabled"));
+      return next(new AuthIntegrationDisabledErr());
     }
 
     // Get the user on the request.
     const user = req.user;
     if (!user) {
-      return next(
-        new Error("cannot logout when there is no user on the request")
-      );
+      return next(new UserNotFoundErr());
     }
 
     // Delegate to the logout handler.

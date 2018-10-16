@@ -1,17 +1,26 @@
-import { ErrorRequestHandler } from "express";
+import { ErrorRequestHandler, Response } from "express";
 
-export const apiErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  // TODO: handle better when we improve errors.
-  res.status(500).json({ error: err.message });
-};
+import { HTTPErr, TalkErr } from "talk-server/errors";
+import { Request } from "talk-server/types/express";
 
-export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  // TODO: handle better when we improve errors.
-  if (err.message === "not found") {
-    // TODO: handle better when we improve errors.
-    res.status(404).send(err.message);
+type Handler = (err: Error, req: Request, res: Response) => void;
+
+const handler = (h: Handler): ErrorRequestHandler => (
+  err,
+  req: Request,
+  res,
+  next // ignored, but required for express.
+) =>
+  h(err, req, err instanceof HTTPErr ? res.status(err.code) : res.status(500));
+
+export const apiErrorHandler: ErrorRequestHandler = handler((err, req, res) => {
+  if (err instanceof TalkErr) {
+    res.json({ error: { name: err.name, message: err.message } });
   } else {
-    // TODO: handle better when we improve errors.
-    res.status(500).send(err.message);
+    res.json({ error: err.message });
   }
-};
+});
+
+export const errorHandler: ErrorRequestHandler = handler((err, req, res) =>
+  res.send(err.message).end()
+);

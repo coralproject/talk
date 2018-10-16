@@ -1,19 +1,37 @@
+import cors from "cors";
 import express, { Router } from "express";
 
 import { AppOptions } from "talk-server/app";
-import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import {
+  cacheHeadersMiddleware,
+  noCacheMiddleware,
+} from "talk-server/app/middleware/cacheHeaders";
+import { errorHandler } from "talk-server/app/middleware/error";
 import { installedMiddleware } from "talk-server/app/middleware/installed";
+import { accessLogger, errorLogger } from "talk-server/app/middleware/logging";
+import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import playground from "talk-server/app/middleware/playground";
-import { RouterOptions } from "talk-server/app/router/types";
+import { serveStatic } from "talk-server/app/middleware/serveStatic";
 import logger from "talk-server/logger";
 
 import { createAPIRouter } from "./api";
 import { createClientTargetRouter } from "./client";
+import { RouterOptions } from "./types";
 
 export async function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
 
+  // Logging
+  router.use(accessLogger);
+
+  // Enable CORS headers for media assets, font's require them.
+  router.use("/assets/media", cors());
+
+  // Static Files
+  router.use("/assets", cacheHeadersMiddleware("1w"), serveStatic);
+
+  // Mount the API.
   router.use("/api", noCacheMiddleware, await createAPIRouter(app, options));
 
   // Attach the GraphiQL if enabled.
@@ -65,6 +83,11 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     installedMiddleware({ tenantCache: app.tenantCache }),
     (req, res, next) => res.redirect("/admin")
   );
+
+  // Error Handling
+  router.use(notFoundMiddleware);
+  router.use(errorLogger);
+  router.use(errorHandler);
 
   return router;
 }

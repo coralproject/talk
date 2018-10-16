@@ -1,6 +1,7 @@
 import { ErrorRequestHandler, RequestHandler } from "express";
 import now from "performance-now";
 
+import { HTTPNotFoundErr } from "talk-server/errors";
 import logger from "talk-server/logger";
 
 export const accessLogger: RequestHandler = (req, res, next) => {
@@ -39,8 +40,7 @@ export const accessLogger: RequestHandler = (req, res, next) => {
 };
 
 export const errorLogger: ErrorRequestHandler = (err, req, res, next) => {
-  // TODO: handle better when we improve errors.
-  if (err.message !== "not found") {
+  if (err instanceof HTTPNotFoundErr) {
     logger.error({ err }, "http error");
   }
 

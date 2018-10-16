@@ -10,6 +10,7 @@ import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt"
 import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
 import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
+import { TokenNotFoundErr, UserNotFoundErr } from "talk-server/errors";
 import { User } from "talk-server/models/user";
 import {
   blacklistJWT,
@@ -67,17 +68,13 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   // Extract the token from the request.
   const token = extractJWTFromRequest(req);
   if (!token) {
-    // TODO: (wyattjoh) return a better error.
-    throw new Error("logout requires a token on the request, none was found");
+    throw new TokenNotFoundErr();
   }
 
   // Decode the token.
   const decoded = jwt.decode(token, {});
   if (!decoded) {
-    // TODO: (wyattjoh) return a better error.
-    throw new Error(
-      "logout requires a token on the request, token was invalid"
-    );
+    throw new TokenNotFoundErr();
   }
 
   // Grab the JTI from the decoded token.
@@ -150,10 +147,24 @@ export const wrapAuthn = (
         return next(err);
       }
       if (!user) {
-        // TODO: (wyattjoh) replace with better error.
-        return next(new Error("no user on request"));
+        return next(new UserNotFoundErr());
       }
 
       handleSuccessfulLogin(user, signingConfig, req, res, next);
     }
   )(req, res, next);
+
+export const authenticateMiddleware = (
+  authenticator: passport.Authenticator,
+  strategy: string
+): RequestHandler => (req, res, next) =>
+  authenticator.authenticate(strategy, { session: false }, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (user) {
+      // Attach the user to the request object, now that we know it exists.
+      req.user = user;
+    }
+    next();
+  })(req, res, next);
