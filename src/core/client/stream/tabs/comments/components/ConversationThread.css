@@ -1,0 +1,7 @@
+.root {
+}
+
+.loadMore {
+  padding-left: var(--spacing-unit);
+  padding-bottom: var(--spacing-unit);
+}

@@ -22,3 +22,4 @@ export { default as Icon } from "./Icon";
 export { default as AriaInfo } from "./AriaInfo";
 export { default as Message, MessageIcon } from "./Message";
 export { Tab, TabBar, TabContent, TabPane } from "./Tabs";
+export { StepBar, Step } from "./Steps";

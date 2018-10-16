@@ -1,1 +1,1 @@
-export { default as createFetch, TokenGetter } from "./fetchQuery";
+export { default as createNetwork, TokenGetter } from "./createNetwork";

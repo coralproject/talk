@@ -27,7 +27,7 @@ exports[`renders permalink view 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
   </ul>
@@ -38,56 +38,506 @@ exports[`renders permalink view 1`] = `
     role="tabpanel"
   >
     <div
-      className="PermalinkView-root"
+      className="HorizontalGutter-root PermalinkView-root HorizontalGutter-double"
     >
-      <a
-        className="BaseButton-root Button-root PermalinkView-button Button-sizeRegular Button-colorPrimary Button-variantOutlined Button-fullWidth"
-        href="http://localhost/"
-        id="talk-comments-permalinkView-showAllComments"
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onMouseDown={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        target="_parent"
-        type="button"
-      >
-        Show All Comments
-      </a>
       <div
-        className="Indent-root"
+        className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Sign in
+        </button>
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Register
+        </button>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
+      >
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title1"
+        >
+          You are currently viewing a
+        </p>
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title2"
+        >
+          SINGLE CONVERSATION
+        </p>
+        <a
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+          href="http://localhost/"
+          id="talk-comments-permalinkView-viewFullDiscussion"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          target="_parent"
+          type="button"
+        >
+          View Full Discussion
+        </a>
+      </div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className=""
+          className="ConversationThread-root"
         >
           <div
-            className="Comment-root"
-            role="article"
+            className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
+          />
+          <div
+            className="Line-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-              id="comment-comment-0"
+              className="Circle-circleContainer"
             >
               <div
-                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                className="Circle-circleSubContainer"
               >
-                <span
-                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Markus
-                </span>
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
                 <div
-                  className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                  className="Indent-root"
                 >
-                  <time
-                    className="Timestamp-root RelativeTime-root"
-                    dateTime="2018-07-06T18:24:00.000Z"
-                    title="2018-07-06T18:24:00.000Z"
+                  <div
+                    className=""
                   >
-                    2018-07-06T18:24:00.000Z
-                  </time>
+                    <div
+                      className="Comment-root"
+                      role="article"
+                    >
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-1"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Lukas
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HorizontalGutter-root HorizontalGutter-full"
+                      >
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "What's up?",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        >
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-1"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="Circle-circleContainer"
+            >
+              <div
+                className="Circle-circleSubContainer"
+              >
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    fill="none"
+                    r="40"
+                    strokeWidth="8"
+                  />
+                </svg>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div
+                  className="Indent-root"
+                >
+                  <div
+                    className=""
+                  >
+                    <div
+                      className="Comment-root"
+                      role="article"
+                    >
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-2"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HorizontalGutter-root HorizontalGutter-full"
+                      >
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Hey!",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        >
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-2"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="Circle-circleContainer"
+            >
+              <div
+                className="Circle-circleSubContainer Circle-end"
+              >
+                <svg
+                  className="Circle-circle"
+                  viewBox="0 0 100 100"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="50"
+                  />
+                </svg>
+              </div>
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div
+                  className="Indent-root"
+                >
+                  <div
+                    className=""
+                  >
+                    <div
+                      className="Comment-root Comment-highlight"
+                      role="article"
+                    >
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-with-replies"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Markus
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HorizontalGutter-root HorizontalGutter-full"
+                      >
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "I like yoghurt",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        >
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-with-replies"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="PermalinkView-replyList"
+        >
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+            id="talk-comments-replyList-log--comment-with-replies"
+            role="log"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div
+                  className="Indent-root"
+                >
+                  <div
+                    className="Indent-level1"
+                  >
+                    <div
+                      className="Comment-root"
+                      role="article"
+                    >
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-3"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HorizontalGutter-root HorizontalGutter-full"
+                      >
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Comment Body 3",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        >
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-3"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,47 +545,93 @@ exports[`renders permalink view 1`] = `
               className="HorizontalGutter-root HorizontalGutter-full"
             >
               <div
-                className="HTMLContent-root"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "Joining Too",
-                  }
-                }
-              />
-              <div
-                className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  id="comments-commentContainer-replyButton-comment-0"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseDown={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <div
+                  className="Indent-root"
                 >
-                  <span>
-                    Reply
-                  </span>
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseDown={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span>
-                    Respect
-                  </span>
-                </button>
+                  <div
+                    className="Indent-level1"
+                  >
+                    <div
+                      className="Comment-root"
+                      role="article"
+                    >
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-4"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HorizontalGutter-root HorizontalGutter-full"
+                      >
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Comment Body 4",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        >
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-4"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -173,7 +669,7 @@ exports[`show all comments 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ Comments
+        ⁨2⁩ ⁨Comments⁩
       </button>
     </li>
   </ul>
@@ -230,7 +726,7 @@ exports[`show all comments 1`] = `
                 className=""
               >
                 <div
-                  className=" RTE-toolbarDisabled Toolbar-toolbar"
+                  className="RTE-toolbar  RTE-toolbarDisabled Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -328,85 +824,281 @@ exports[`show all comments 1`] = `
           className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            className="Indent-root"
+            className="HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className=""
+              className="Indent-root"
             >
               <div
-                className="Comment-root"
-                role="article"
+                className=""
               >
                 <div
-                  className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-                  id="comment-comment-0"
+                  className="Comment-root"
+                  role="article"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    id="comment-comment-with-replies"
                   >
-                    <span
-                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
-                    >
-                      Markus
-                    </span>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                     >
-                      <time
-                        className="Timestamp-root RelativeTime-root"
-                        dateTime="2018-07-06T18:24:00.000Z"
-                        title="2018-07-06T18:24:00.000Z"
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                       >
-                        2018-07-06T18:24:00.000Z
-                      </time>
+                        Markus
+                      </span>
+                      <div
+                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      >
+                        <time
+                          className="Timestamp-root RelativeTime-root"
+                          dateTime="2018-07-06T18:24:00.000Z"
+                          title="2018-07-06T18:24:00.000Z"
+                        >
+                          2018-07-06T18:24:00.000Z
+                        </time>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="HorizontalGutter-root HorizontalGutter-full"
+                  >
+                    <div
+                      className="HTMLContent-root"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "I like yoghurt",
+                        }
+                      }
+                    />
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        id="comments-commentContainer-replyButton-comment-with-replies"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseDown={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Respect
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+            id="talk-comments-replyList-log--comment-with-replies"
+            role="log"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-full"
+                  className="Indent-root"
                 >
                   <div
-                    className="HTMLContent-root"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "Joining Too",
-                      }
-                    }
-                  />
-                  <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="Indent-level1"
                   >
-                    <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                      id="comments-commentContainer-replyButton-comment-0"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                    <div
+                      className="Comment-root"
+                      role="article"
                     >
-                      <span>
-                        Reply
-                      </span>
-                    </button>
-                    <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseDown={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-3"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HorizontalGutter-root HorizontalGutter-full"
+                      >
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Comment Body 3",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        >
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-3"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div
+                  className="Indent-root"
+                >
+                  <div
+                    className="Indent-level1"
+                  >
+                    <div
+                      className="Comment-root"
+                      role="article"
                     >
-                      <span>
-                        Respect
-                      </span>
-                    </button>
+                      <div
+                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        id="comment-comment-4"
+                      >
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Isabelle
+                          </span>
+                          <div
+                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                          >
+                            <time
+                              className="Timestamp-root RelativeTime-root"
+                              dateTime="2018-07-06T18:24:00.000Z"
+                              title="2018-07-06T18:24:00.000Z"
+                            >
+                              2018-07-06T18:24:00.000Z
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="HorizontalGutter-root HorizontalGutter-full"
+                      >
+                        <div
+                          className="HTMLContent-root"
+                          dangerouslySetInnerHTML={
+                            Object {
+                              "__html": "Comment Body 4",
+                            }
+                          }
+                        />
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        >
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            id="comments-commentContainer-replyButton-comment-4"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Reply
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseDown={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

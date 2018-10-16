@@ -1,5 +1,9 @@
 .root {
 }
+.highlight {
+  background-color: var(--palette-primary-lightest);
+  padding: var(--spacing-unit);
+}
 .topBar {
   margin-bottom: calc(0.5 * var(--spacing-unit));
 }

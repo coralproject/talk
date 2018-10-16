@@ -4,13 +4,29 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, comments, settings } from "../fixtures";
+import { assets, comments, commentWithReplies, settings } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const commentStub = {
-    ...comments[0],
+    ...commentWithReplies,
+    parentCount: 2,
+    parents: {
+      pageInfo: {
+        hasPreviousPage: false,
+      },
+      edges: [
+        {
+          node: comments[1],
+          cursor: comments[1].createdAt,
+        },
+        {
+          node: comments[2],
+          cursor: comments[2].createdAt,
+        },
+      ],
+    },
   };
 
   const assetStub = {
@@ -68,7 +84,7 @@ it("show all comments", async () => {
   };
   testRenderer.root
     .findByProps({
-      id: "talk-comments-permalinkView-showAllComments",
+      id: "talk-comments-permalinkView-viewFullDiscussion",
     })
     .props.onClick(mockEvent);
   await timeout();

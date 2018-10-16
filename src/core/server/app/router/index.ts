@@ -1,7 +1,8 @@
 import express, { Router } from "express";
 
 import { AppOptions } from "talk-server/app";
-import { nocacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import { installedMiddleware } from "talk-server/app/middleware/installed";
 import playground from "talk-server/app/middleware/playground";
 import { RouterOptions } from "talk-server/app/router/types";
 import logger from "talk-server/logger";
@@ -13,16 +14,57 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
 
-  router.use("/api", nocacheMiddleware, await createAPIRouter(app, options));
+  router.use("/api", noCacheMiddleware, await createAPIRouter(app, options));
 
   // Attach the GraphiQL if enabled.
   if (app.config.get("enable_graphiql")) {
     attachGraphiQL(router, app);
   }
 
-  // Add the client targets.
-  router.get("/embed/stream", createClientTargetRouter({ view: "stream" }));
-  router.get("/admin", createClientTargetRouter({ view: "admin" }));
+  const staticURI = app.config.get("static_uri");
+
+  // Add the embed targets.
+  router.use(
+    "/embed/stream",
+    createClientTargetRouter({ staticURI, view: "stream" })
+  );
+  router.use(
+    "/embed/auth",
+    createClientTargetRouter({ staticURI, view: "auth", cacheDuration: false })
+  );
+
+  // Add the standalone targets.
+  router.use(
+    "/admin",
+    // If we aren't already installed, redirect the user to the install page.
+    installedMiddleware({
+      tenantCache: app.tenantCache,
+    }),
+    createClientTargetRouter({ staticURI, view: "admin", cacheDuration: false })
+  );
+  router.use(
+    "/install",
+    // If we're already installed, redirect the user to the admin page.
+    installedMiddleware({
+      tenantCache: app.tenantCache,
+      redirectIfInstalled: true,
+      redirectURL: "/admin",
+    }),
+    createClientTargetRouter({
+      staticURI,
+      view: "install",
+      cacheDuration: false,
+    })
+  );
+
+  // Handle the root path.
+  router.get(
+    "/",
+    // Redirect the user to the install page if they are not, otherwise redirect
+    // them to the admin.
+    installedMiddleware({ tenantCache: app.tenantCache }),
+    (req, res, next) => res.redirect("/admin")
+  );
 
   return router;
 }
@@ -36,7 +78,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 function attachGraphiQL(router: Router, app: AppOptions) {
   if (app.config.get("env") === "production") {
     logger.warn(
-      "enable_graphiql is enabled, but we're in production mode, this is not recommended"
+      "it is not recommended to have enable_graphiql enabled while in production mode as it requires introspection queries to be enabled"
     );
   }
 

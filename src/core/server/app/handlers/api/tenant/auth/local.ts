@@ -20,10 +20,13 @@ export interface SignupBody {
   email: string;
 }
 
-const SignupBodySchema = Joi.object().keys({
+export const SignupBodySchema = Joi.object().keys({
   username: Joi.string().trim(),
-  password: Joi.string().trim(),
-  email: Joi.string().trim(),
+  password: Joi.string(),
+  email: Joi.string()
+    .trim()
+    .lowercase()
+    .email(),
 });
 
 export interface SignupOptions {
@@ -40,7 +43,7 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
     // TODO: rate limit based on the IP address and user agent.
 
     // Tenant is guaranteed at this point.
-    const tenant = req.tenant!;
+    const tenant = req.talk!.tenant!;
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
@@ -92,7 +95,7 @@ export const logoutHandler = (options: LogoutOptions): RequestHandler => async (
     // TODO: rate limit based on the IP address and user agent.
 
     // Tenant is guaranteed at this point.
-    const tenant = req.tenant!;
+    const tenant = req.talk!.tenant!;
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {

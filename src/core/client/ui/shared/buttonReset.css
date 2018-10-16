@@ -1,5 +1,4 @@
 .buttonReset {
-
   /* reset button */
   user-select: none;
   font-family: inherit;
@@ -28,7 +27,6 @@
   }
 
   &:-moz-focusring {
-    color: transparent;
     textshadow: 0 0 0 #000;
   }
 }

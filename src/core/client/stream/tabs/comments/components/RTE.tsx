@@ -95,6 +95,7 @@ const RTE: StatelessComponent<RTEProps> = props => {
         className={className}
         contentClassName={styles.content}
         placeholderClassName={styles.placeholder}
+        toolbarClassName={styles.toolbar}
         onChange={onChange}
         value={value || defaultValue}
         disabled={disabled}

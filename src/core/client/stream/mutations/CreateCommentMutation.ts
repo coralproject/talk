@@ -24,17 +24,19 @@ function sharedUpdater(
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
 ) {
+  updateAsset(store, input);
   if (input.local) {
     localUpdate(store, input);
   } else {
     update(store, input);
   }
+  updateProfile(store, input);
 }
 
-/**
- * update integrates new comment into the CommentConnection.
- */
-function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
+function updateAsset(
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput
+) {
   // Updating Comment Count
   const asset = store.get(input.assetID);
   if (asset) {
@@ -45,7 +47,12 @@ function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
       record.setValue(currentCount + 1, "totalVisible");
     }
   }
+}
 
+/**
+ * update integrates new comment into the CommentConnection.
+ */
+function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
   // Get the payload returned from the server.
   const payload = store.getRootField("createComment")!;
 
@@ -107,6 +114,26 @@ function localUpdate(
       : [newComment];
     parentProxy.setLinkedRecords(nextLocalReplies, "localReplies");
   }
+}
+
+/**
+ * updateProfile integrates new comment into the profile.
+ */
+function updateProfile(
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput
+) {
+  // Get the payload returned from the server.
+  const payload = store.getRootField("createComment")!;
+
+  // Get the edge of the newly created comment.
+  const newEdge = payload.getLinkedRecord("edge")!;
+  const newComment = newEdge.getLinkedRecord("node");
+
+  // TODO: update profile comments connection after we
+  // integrated pagination.
+  // tslint:disable-next-line:no-unused-expression
+  newComment;
 }
 
 const mutation = graphql`

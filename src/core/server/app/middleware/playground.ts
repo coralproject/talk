@@ -1,17 +1,25 @@
 import { RequestHandler } from "express";
-import { MiddlewareOptions } from "graphql-playground-html";
-import playground from "graphql-playground-middleware-express";
 
-export default (options: MiddlewareOptions): RequestHandler => (
-  req,
-  res,
-  next
-) => {
-  try {
-    playground(options)(req, res, () => {
-      // The playground calls next() when it's not supposed to.
-    });
-  } catch (err) {
-    return next(err);
-  }
+import {
+  MiddlewareOptions,
+  RenderPageOptions,
+  renderPlaygroundPage,
+} from "graphql-playground-html";
+
+export default (options: MiddlewareOptions): RequestHandler => {
+  const middlewareOptions: RenderPageOptions = {
+    ...options,
+    version: "1.6.0",
+  };
+
+  return (req, res, next) => {
+    try {
+      res.setHeader("Content-Type", "text/html");
+      const playground = renderPlaygroundPage(middlewareOptions);
+      res.write(playground);
+      res.end();
+    } catch (err) {
+      return next(err);
+    }
+  };
 };
