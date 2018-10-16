@@ -35,6 +35,14 @@ exports[`renders correctly 1`] = `
   disableLoadMore={false}
   me={null}
   onLoadMore={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;
 
@@ -74,6 +82,14 @@ exports[`when has more comments renders hasMore 1`] = `
   hasMore={true}
   me={null}
   onLoadMore={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;
 
@@ -113,6 +129,14 @@ exports[`when has more comments when loading more disables load more button 1`] 
   hasMore={true}
   me={null}
   onLoadMore={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;
 
@@ -152,5 +176,13 @@ exports[`when has more comments when loading more enable load more button after 
   hasMore={true}
   me={null}
   onLoadMore={[Function]}
+  settings={
+    Object {
+      "reaction": Object {
+        "icon": "thumb_up_alt",
+        "label": "Respect",
+      },
+    }
+  }
 />
 `;

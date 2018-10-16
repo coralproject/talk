@@ -36,6 +36,7 @@ export const render = ({
     return (
       <PermalinkViewContainer
         me={props.me}
+        settings={props.settings}
         comment={props.comment}
         asset={props.asset}
       />
@@ -62,6 +63,9 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
         }
         comment(id: $commentID) {
           ...PermalinkViewContainer_comment
+        }
+        settings {
+          ...PermalinkViewContainer_settings
         }
       }
     `}

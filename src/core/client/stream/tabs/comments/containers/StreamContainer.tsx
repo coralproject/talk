@@ -5,6 +5,7 @@ import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 import { StreamContainer_asset as AssetData } from "talk-stream/__generated__/StreamContainer_asset.graphql";
 import { StreamContainer_me as MeData } from "talk-stream/__generated__/StreamContainer_me.graphql";
+import { StreamContainer_settings as SettingsData } from "talk-stream/__generated__/StreamContainer_settings.graphql";
 import {
   COMMENT_SORT,
   StreamContainerPaginationQueryVariables,
@@ -14,6 +15,7 @@ import Stream from "../components/Stream";
 
 interface InnerProps {
   asset: AssetData;
+  settings: SettingsData;
   me: MeData | null;
   relay: RelayPaginationProp;
 }
@@ -38,6 +40,7 @@ export class StreamContainer extends React.Component<InnerProps> {
       <Stream
         asset={this.props.asset}
         comments={comments}
+        settings={this.props.settings}
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
         disableLoadMore={this.state.disableLoadMore}
@@ -103,6 +106,12 @@ const enhanced = withPaginationContainer<
         ...ReplyListContainer1_me
         ...CommentContainer_me
         ...UserBoxContainer_me
+      }
+    `,
+    settings: graphql`
+      fragment StreamContainer_settings on Settings {
+        ...ReplyListContainer1_settings
+        ...CommentContainer_settings
       }
     `,
   },

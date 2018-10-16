@@ -31,9 +31,9 @@ declare module "fluent-langneg/compat" {
 
 declare module "fluent/compat" {
   export interface FluentBundleOptions {
-    functions: { [key: string]: (...args: any[]) => string };
-    useIsolating: boolean;
-    transform: ((s: string) => string);
+    functions?: { [key: string]: (...args: any[]) => string | FluentType };
+    useIsolating?: boolean;
+    transform?: ((s: string) => string);
   }
 
   export class FluentBundle {
@@ -49,4 +49,15 @@ declare module "fluent/compat" {
       errors?: string[]
     ): string | null;
   }
+
+  export class FluentType {
+    protected value: any;
+    protected opts: any;
+    constructor(value: any, opts?: any);
+    public valueOf(): any;
+    public toString(bundle: FluentBundle): string;
+  }
+
+  export class FluentNumber extends FluentType {}
+  export class FluentDateTime extends FluentType {}
 }

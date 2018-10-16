@@ -8,6 +8,7 @@ import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PermalinkViewContainer_asset as AssetData } from "talk-stream/__generated__/PermalinkViewContainer_asset.graphql";
 import { PermalinkViewContainer_comment as CommentData } from "talk-stream/__generated__/PermalinkViewContainer_comment.graphql";
 import { PermalinkViewContainer_me as MeData } from "talk-stream/__generated__/PermalinkViewContainer_me.graphql";
+import { PermalinkViewContainer_settings as SettingsData } from "talk-stream/__generated__/PermalinkViewContainer_settings.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
@@ -18,6 +19,7 @@ import PermalinkView from "../components/PermalinkView";
 interface PermalinkViewContainerProps {
   comment: CommentData | null;
   asset: AssetData;
+  settings: SettingsData;
   me: MeData | null;
   setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
@@ -38,22 +40,18 @@ class PermalinkViewContainer extends React.Component<
 
   public componentDidMount() {
     if (this.props.pym) {
-      const scrollTo = this.props.comment
-        ? document
-            .getElementById(`comment-${this.props.comment.id}`)!
-            .getBoundingClientRect().top + window.pageYOffset
-        : 50;
-      setTimeout(() => this.props.pym!.scrollParentToChildPos(scrollTo), 100);
+      setTimeout(() => this.props.pym!.scrollParentToChildPos(0), 100);
     }
   }
 
   public render() {
-    const { comment, asset, me } = this.props;
+    const { comment, asset, me, settings } = this.props;
     return (
       <PermalinkView
         me={me}
         asset={asset}
         comment={comment}
+        settings={settings}
         showAllCommentsHref={this.getShowAllCommentsHref()}
         onShowAllComments={this.showAllComments}
       />
@@ -68,18 +66,28 @@ const enhanced = withContext(ctx => ({
     withFragmentContainer<PermalinkViewContainerProps>({
       asset: graphql`
         fragment PermalinkViewContainer_asset on Asset {
-          ...CommentContainer_asset
+          ...ConversationThreadContainer_asset
+          ...ReplyListContainer1_asset
         }
       `,
       comment: graphql`
         fragment PermalinkViewContainer_comment on Comment {
           id
-          ...CommentContainer_comment
+          ...ConversationThreadContainer_comment
+          ...ReplyListContainer1_comment
         }
       `,
       me: graphql`
         fragment PermalinkViewContainer_me on User {
-          ...CommentContainer_me
+          ...ConversationThreadContainer_me
+          ...ReplyListContainer1_me
+          ...UserBoxContainer_me
+        }
+      `,
+      settings: graphql`
+        fragment PermalinkViewContainer_settings on Settings {
+          ...ConversationThreadContainer_settings
+          ...ReplyListContainer1_settings
         }
       `,
     })(PermalinkViewContainer)

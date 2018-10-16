@@ -20,7 +20,12 @@ jobs:
       - attach_workspace:
           at: ~/coralproject/talk
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          keys:
+            # Find a cache corresponding to this specific package-lock.json
+            # checksum when this file is changed, this key will fail.
+            - v1-dependency-cache-{{ checksum "package-lock.json" }}
+            # Find the most recently generated cache used from any branch
+            - v1-dependency-cache-
       - run:
           name: Update NPM
           command: sudo npm update -g npm
@@ -29,11 +34,11 @@ jobs:
           command: npm audit
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: v1-dependency-cache-{{ checksum "package-lock.json" }}
           paths:
-            - ./node_modules
+            - ~/.npm
       - persist_to_workspace:
           root: .
           paths: node_modules
@@ -85,19 +90,35 @@ jobs:
           at: ~/coralproject/talk
       - restore_cache:
           keys:
-            - build-cache-{{ .Branch }}-{{ .Revision }}
-            - build-cache-{{ .Branch }}-
-            - build-cache-
+            - v1-build-cache-{{ .Branch }}-{{ .Revision }}
+            - v1-build-cache-{{ .Branch }}-
+            - v1-build-cache-
       - run:
           name: Build
           command: npm run build
       - save_cache:
-          key: build-cache-{{ .Branch }}-{{ .Revision }}
+          key: v1-build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
             - ./dist
       - persist_to_workspace:
           root: .
           paths: dist
+
+  # release_docker will build and push the Docker image.
+  release_docker:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Login
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Build
+          command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
+      - run:
+          name: Push
+          command: docker push coralproject/talk:next
 
 workflows:
   version: 2
@@ -113,3 +134,11 @@ workflows:
       - build:
           requires:
             - npm_dependencies
+      - release_docker:
+          requires:
+            - lint
+            - unit_tests
+            - build
+          filters:
+            branches:
+              only: next

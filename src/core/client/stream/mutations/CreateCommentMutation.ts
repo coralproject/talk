@@ -24,10 +24,28 @@ function sharedUpdater(
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
 ) {
+  updateAsset(store, input);
   if (input.local) {
     localUpdate(store, input);
   } else {
     update(store, input);
+  }
+  updateProfile(store, input);
+}
+
+function updateAsset(
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput
+) {
+  // Updating Comment Count
+  const asset = store.get(input.assetID);
+  if (asset) {
+    const record = asset.getLinkedRecord("commentCounts");
+    if (record) {
+      // TODO: when we have moderation, we'll need to be careful here.
+      const currentCount = record.getValue("totalVisible");
+      record.setValue(currentCount + 1, "totalVisible");
+    }
   }
 }
 
@@ -98,6 +116,26 @@ function localUpdate(
   }
 }
 
+/**
+ * updateProfile integrates new comment into the profile.
+ */
+function updateProfile(
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentInput
+) {
+  // Get the payload returned from the server.
+  const payload = store.getRootField("createComment")!;
+
+  // Get the edge of the newly created comment.
+  const newEdge = payload.getLinkedRecord("edge")!;
+  const newComment = newEdge.getLinkedRecord("node");
+
+  // TODO: update profile comments connection after we
+  // integrated pagination.
+  // tslint:disable-next-line:no-unused-expression
+  newComment;
+}
+
 const mutation = graphql`
   mutation CreateCommentMutation($input: CreateCommentInput!) {
     createComment(input: $input) {
@@ -146,6 +184,11 @@ function commit(
             body: input.body,
             editing: {
               editableUntil: new Date(Date.now() + 10000),
+            },
+            actionCounts: {
+              reaction: {
+                total: 0,
+              },
             },
           },
         },

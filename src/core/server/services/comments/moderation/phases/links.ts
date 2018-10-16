@@ -2,10 +2,10 @@ import linkify from "linkify-it";
 import tlds from "tlds";
 
 import {
-  GQLACTION_GROUP,
-  GQLACTION_TYPE,
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { ACTION_TYPE } from "talk-server/models/action";
 import { ModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
@@ -39,8 +39,8 @@ export const links: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
-          action_type: GQLACTION_TYPE.FLAG,
-          group_id: GQLACTION_GROUP.LINKS,
+          action_type: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
           metadata: {
             links: comment.body,
           },

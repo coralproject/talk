@@ -1,6 +1,6 @@
 FROM node:8-alpine
 
-# Install installation dependancies.
+# Install build dependancies.
 RUN apk --no-cache add git
 
 # Create app directory.
@@ -36,6 +36,7 @@ ENV NODE_ENV production
 
 # Store the current git revision.
 ARG REVISION_HASH
-ENV REVISION_HASH=${REVISION_HASH}
+RUN mkdir dist/core/common/__generated__ && \
+  echo "{\"revision\": \"${REVISION_HASH}\"}" > dist/core/common/__generated__/revision.json
 
 CMD ["npm", "run", "start"]

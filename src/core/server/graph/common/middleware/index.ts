@@ -28,7 +28,7 @@ export const graphqlMiddleware = (
   // Generate the validation rules.
   const validationRules: Array<(context: ValidationContext) => any> = [];
 
-  if (config.get("env") === "production") {
+  if (config.get("env") === "production" && !config.get("enable_graphiql")) {
     // Disable introspection in production.
     validationRules.push(NoIntrospection);
   }

@@ -17,14 +17,21 @@ export interface ClientTargetHandlerOptions {
   /**
    * cacheDuration is the cache duration that a given request should be cached for.
    */
-  cacheDuration?: string;
+  cacheDuration?: string | false;
 
   csp?: CSPTenantMiddleware;
 
   tenantCache?: TenantCache;
+
+  /**
+   * staticURI is prepended to the static url's that are included on the static
+   * pages.
+   */
+  staticURI: string;
 }
 
 export function createClientTargetRouter({
+  staticURI,
   view,
   cacheDuration = "1h",
   csp,
@@ -42,7 +49,7 @@ export function createClientTargetRouter({
 
   router.use(cacheHeadersMiddleware(cacheDuration));
 
-  router.get("/", (req, res) => res.render(view));
+  router.get("/", (req, res) => res.render(view, { staticURI }));
 
   return router;
 }

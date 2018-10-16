@@ -17,6 +17,12 @@ it("renders correctly", () => {
       isClosed: false,
     },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     onLoadMore: noop,
     disableLoadMore: false,
     hasMore: false,
@@ -38,6 +44,12 @@ describe("when use is logged in", () => {
       disableLoadMore: false,
       hasMore: false,
       me: {},
+      settings: {
+        reaction: {
+          icon: "thumb_up_alt",
+          label: "Respect",
+        },
+      },
     };
     const wrapper = shallow(<StreamN {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -51,6 +63,12 @@ describe("when there is more", () => {
       isClosed: false,
     },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
     onLoadMore: sinon.spy(),
     disableLoadMore: false,
     hasMore: true,

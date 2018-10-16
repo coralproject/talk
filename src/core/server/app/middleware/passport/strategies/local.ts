@@ -18,7 +18,7 @@ const verifyFactory = (mongo: Db) => async (
     // TODO: rate limit based on the IP address and user agent.
 
     // The tenant is guaranteed at this point.
-    const tenant = req.tenant!;
+    const tenant = req.talk!.tenant!;
 
     // Get the user from the database.
     const user = await retrieveUserWithProfile(mongo, tenant.id, {

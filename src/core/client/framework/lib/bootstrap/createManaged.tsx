@@ -4,7 +4,7 @@ import { noop } from "lodash";
 import { Child as PymChild } from "pym.js";
 import React, { Component, ComponentType } from "react";
 import { Formatter } from "react-timeago";
-import { Environment, Network, RecordSource, Store } from "relay-runtime";
+import { Environment, RecordSource, Store } from "relay-runtime";
 import uuid from "uuid/v4";
 
 import { getBrowserInfo } from "talk-framework/lib/browserInfo";
@@ -21,7 +21,7 @@ import { RestClient } from "talk-framework/lib/rest";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
 import { generateBundles, LocalesData, negotiateLanguages } from "../i18n";
-import { createFetch, TokenGetter } from "../network";
+import { createNetwork, TokenGetter } from "../network";
 import { PostMessageService } from "../postMessage";
 import { TalkContext, TalkContextProvider } from "./TalkContext";
 
@@ -97,7 +97,7 @@ function createRelayEnvironment() {
     return "";
   };
   const environment = new Environment({
-    network: Network.create(createFetch(tokenGetter)),
+    network: createNetwork(tokenGetter),
     store: new Store(source),
   });
   return { environment, tokenGetter };

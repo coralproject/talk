@@ -2,10 +2,10 @@ import striptags from "striptags";
 
 import { isNil } from "lodash";
 import {
-  GQLACTION_GROUP,
-  GQLACTION_TYPE,
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { ACTION_TYPE } from "talk-server/models/action";
 import { ModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
@@ -50,8 +50,8 @@ export const commentLength: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
         {
-          action_type: GQLACTION_TYPE.FLAG,
-          group_id: GQLACTION_GROUP.BODY_COUNT,
+          action_type: ACTION_TYPE.FLAG,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
           metadata: {
             count: length,
           },

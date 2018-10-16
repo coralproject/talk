@@ -99,7 +99,7 @@
 }
 
 .variantFilled {
-  color: var(--palette-common-white);
+  color: var(--palette-text-light);
   &.colorRegular {
     background-color: var(--palette-grey-main);
   }
@@ -243,7 +243,7 @@
       &:active,
       &.active {
         border: 1px solid currentColor;
-        color: var(--palette-common-white);
+        color: var(--palette-text-light);
         background-color: var(--palette-grey-main);
       }
     }
@@ -254,7 +254,7 @@
       &:active,
       &.active {
         border: 1px solid currentColor;
-        color: var(--palette-common-white);
+        color: var(--palette-text-light);
         background-color: var(--palette-primary-main);
       }
     }
@@ -265,7 +265,7 @@
       &:active,
       &.active {
         border: 1px solid currentColor;
-        color: var(--palette-common-white);
+        color: var(--palette-text-light);
         background-color: var(--palette-error-main);
       }
     }
@@ -276,7 +276,7 @@
       &:active,
       &.active {
         border: 1px solid currentColor;
-        color: var(--palette-common-white);
+        color: var(--palette-text-light);
         background-color: var(--palette-success-main);
       }
     }

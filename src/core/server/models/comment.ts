@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ActionCounts } from "talk-server/models/actions";
+import { EncodedActionCounts } from "talk-server/models/action";
 import {
   Connection,
   createConnection,
@@ -43,7 +43,7 @@ export interface Comment extends TenantResource {
   body_history: BodyHistoryItem[];
   status: GQLCOMMENT_STATUS;
   status_history: StatusHistoryItem[];
-  action_counts: ActionCounts;
+  action_counts: EncodedActionCounts;
   grandparent_ids: string[];
   reply_ids: string[];
   reply_count: number;
@@ -316,7 +316,7 @@ export async function retrieveCommentParentsConnection(
   mongo: Db,
   tenantID: string,
   comment: Comment,
-  { last: limit, before: skip = -1 }: { last: number; before?: number }
+  { last: limit, before: skip = 0 }: { last: number; before?: number }
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Return nothing if this comment does not have any parents.
   if (!comment.parent_id) {
@@ -334,26 +334,28 @@ export async function retrieveCommentParentsConnection(
     return createConnection({
       pageInfo: {
         hasNextPage: false,
-        hasPreviousPage: false,
+        hasPreviousPage: !!comment.parent_id,
+        endCursor: 0,
+        startCursor: 0,
       },
     });
   }
 
   // If the last paramter is 1, and the after paramter is either unset or equal
   // to zero, then all we have to return is the direct parent.
-  if (limit === 1 && skip < 0) {
+  if (limit === 1 && skip <= 0) {
     const parent = await retrieveComment(mongo, tenantID, comment.parent_id);
     if (!parent) {
       throw new Error("parent comment not found");
     }
 
     return {
-      edges: [{ node: parent, cursor: 0 }],
+      edges: [{ node: parent, cursor: 1 }],
       pageInfo: {
         hasNextPage: false,
         hasPreviousPage: comment.grandparent_ids.length > 0,
-        endCursor: 0,
-        startCursor: 0,
+        endCursor: 1,
+        startCursor: 1,
       },
     };
   }
@@ -362,7 +364,7 @@ export async function retrieveCommentParentsConnection(
   const parentIDs = [comment.parent_id, ...comment.grandparent_ids.reverse()];
 
   // Fetch the subset of the comment id's that we are going to query for.
-  const parentIDSubset = parentIDs.slice(skip + 1, skip + 1 + limit);
+  const parentIDSubset = parentIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
   const parents = await retrieveManyComments(mongo, tenantID, parentIDSubset);
@@ -514,10 +516,37 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
       }
       break;
     case GQLCOMMENT_SORT.RESPECT_DESC:
-      query.orderBy({ "action_counts.respect": -1, created_at: -1 });
+      query.orderBy({ "action_counts.REACTION": -1, created_at: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
       break;
   }
+}
+
+/**
+ * updateCommentActionCounts will update the given comment's action counts.
+ *
+ * @param mongo the database handle
+ * @param tenantID the id of the Tenant
+ * @param id the id of the Comment being updated
+ * @param actionCounts the action counts to merge into the Comment
+ */
+export async function updateCommentActionCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  actionCounts: EncodedActionCounts
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenant_id: tenantID },
+    // Update all the specific action counts that are associated with each of
+    // the counts.
+    { $inc: dotize({ action_counts: actionCounts }) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value;
 }

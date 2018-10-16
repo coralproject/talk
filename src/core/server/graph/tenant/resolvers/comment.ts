@@ -3,6 +3,7 @@ import {
   GQLComment,
   GQLCommentTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { decodeActionCounts } from "talk-server/models/action";
 import { Comment } from "talk-server/models/comment";
 import { createConnection } from "talk-server/models/connection";
 
@@ -24,6 +25,11 @@ const Comment: GQLCommentTypeResolver<Comment> = {
     comment.reply_count > 0
       ? ctx.loaders.Comments.forParent(comment.asset_id, comment.id, input)
       : createConnection(),
+  actionCounts: comment => decodeActionCounts(comment.action_counts),
+  myActionPresence: (comment, input, ctx) =>
+    ctx.user
+      ? ctx.loaders.Comments.retrieveMyActionPresence.load(comment.id)
+      : null,
   parentCount: comment =>
     comment.parent_id ? comment.grandparent_ids.length + 1 : 0,
   depth: comment =>

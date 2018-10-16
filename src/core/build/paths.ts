@@ -17,6 +17,7 @@ export default {
   appSrc: resolveSrc("."),
   appTsconfig: resolveSrc("core/client/tsconfig.json"),
   appPolyfill: resolveSrc("core/build/polyfills.js"),
+  appPublicPath: resolveSrc("core/build/publicPath.js"),
   appLocales: resolveSrc("locales"),
   appThemeVariables: resolveSrc("core/client/ui/theme/variables.ts"),
   appThemeVariablesCSS: resolveSrc("core/client/ui/theme/variables.css"),
@@ -28,6 +29,10 @@ export default {
   appAuthHTML: resolveSrc("core/client/auth/index.html"),
   appAuthLocalesTemplate: resolveSrc("core/client/auth/locales.ts"),
   appAuthIndex: resolveSrc("core/client/auth/index.tsx"),
+
+  appInstallHTML: resolveSrc("core/client/install/index.html"),
+  appInstallLocalesTemplate: resolveSrc("core/client/install/locales.ts"),
+  appInstallIndex: resolveSrc("core/client/install/index.tsx"),
 
   appAdminHTML: resolveSrc("core/client/admin/index.html"),
   appAdminLocalesTemplate: resolveSrc("core/client/admin/locales.ts"),

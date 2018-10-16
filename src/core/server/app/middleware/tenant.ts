@@ -1,20 +1,14 @@
-import { NextFunction, Response } from "express";
-
 import TenantCache from "talk-server/services/tenant/cache";
-import { Request } from "talk-server/types/express";
+import { RequestHandler } from "talk-server/types/express";
 
 export interface MiddlewareOptions {
   cache: TenantCache;
 }
 
-export const tenantMiddleware = (options: MiddlewareOptions) => async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const tenantMiddleware = ({
+  cache,
+}: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   try {
-    const { cache } = options;
-
     // Attach the tenant to the request.
     const tenant = await cache.retrieveByDomain(req.hostname);
     if (!tenant) {
@@ -22,11 +16,15 @@ export const tenantMiddleware = (options: MiddlewareOptions) => async (
       return next(new Error("tenant not found"));
     }
 
-    // Attach the tenant cache to the request.
-    req.tenantCache = cache;
-
-    // Attach the tenant to the request.
-    req.tenant = tenant;
+    // Set Talk on the request.
+    req.talk = {
+      cache: {
+        // Attach the tenant cache to the request.
+        tenant: cache,
+      },
+      // Attach the tenant to the request.
+      tenant,
+    };
 
     // Attach the tenant to the view locals.
     res.locals.tenant = tenant;
