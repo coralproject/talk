@@ -1,12 +1,6 @@
 import express from "express";
 
 import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import {
-  CSPTenantMiddleware,
-  cspTenantMiddleware,
-} from "talk-server/app/middleware/csp/tenant";
-import { tenantMiddleware } from "talk-server/app/middleware/tenant";
-import TenantCache from "talk-server/services/tenant/cache";
 
 export interface ClientTargetHandlerOptions {
   /**
@@ -19,10 +13,6 @@ export interface ClientTargetHandlerOptions {
    */
   cacheDuration?: string | false;
 
-  csp?: CSPTenantMiddleware;
-
-  tenantCache?: TenantCache;
-
   /**
    * staticURI is prepended to the static url's that are included on the static
    * pages.
@@ -34,18 +24,9 @@ export function createClientTargetRouter({
   staticURI,
   view,
   cacheDuration = "1h",
-  csp,
-  tenantCache,
 }: ClientTargetHandlerOptions) {
   // Create a router.
   const router = express.Router();
-
-  // If the tenantCache is provided, then we can attach the tenant middleware
-  // and the cspMiddleware.
-  if (tenantCache) {
-    router.use(tenantMiddleware({ cache: tenantCache }));
-    router.use(cspTenantMiddleware(csp));
-  }
 
   router.use(cacheHeadersMiddleware(cacheDuration));
 

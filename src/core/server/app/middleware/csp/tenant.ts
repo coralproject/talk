@@ -5,21 +5,11 @@ import { extractParentsHostname } from "talk-server/app/url";
 import { Tenant } from "talk-server/models/tenant";
 import { Request, RequestHandler } from "talk-server/types/express";
 
-export interface CSPTenantMiddleware {
-  /**
-   * embeddable when true, will add a frame ancestor directive to the CSP
-   * header.
-   */
-  embeddable?: boolean;
-}
-
 /**
  * cspMiddleware handles adding the CSP middleware to each outgoing request.
  */
-export const cspTenantMiddleware = (
-  options: CSPTenantMiddleware = {}
-): RequestHandler => (req, res, next) => {
-  const tenant = req.tenant;
+export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
+  const tenant = req.talk!.tenant;
   if (!tenant) {
     // There is no tenant for the request, don't add any headers.
     return next();
@@ -27,7 +17,7 @@ export const cspTenantMiddleware = (
 
   res.setHeader(
     "Content-Security-Policy",
-    generateContentSecurityPolicy(req, tenant, options)
+    generateContentSecurityPolicy(req, tenant)
   );
 
   // Add some fallbacks for IE.
@@ -37,24 +27,12 @@ export const cspTenantMiddleware = (
   next();
 };
 
-function generateContentSecurityPolicy(
-  req: Request,
-  tenant: Tenant,
-  options: CSPTenantMiddleware
-) {
-  const directives: Record<string, any> = {
-    // Defaults to only allowing loading assets from the talk url.
-    defaultSrc: "'self'",
+function generateContentSecurityPolicy(req: Request, tenant: Tenant) {
+  const directives: Record<string, any> = {};
 
-    // Support Google Fonts.
-    fontSrc: ["'self'", "https://fonts.gstatic.com"],
-  };
-
-  if (options.embeddable) {
-    // Only the domains that are allowed by the tenant may embed Talk.
-    directives.frameAncestors =
-      tenant.domains.length > 0 ? tenant.domains : ["'none'"];
-  }
+  // Only the domains that are allowed by the tenant may embed Talk.
+  directives.frameAncestors =
+    tenant.domains.length > 0 ? tenant.domains : ["'none'"];
 
   // Build the directive.
   const directive = builder({ directives });
