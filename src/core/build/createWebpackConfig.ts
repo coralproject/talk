@@ -9,6 +9,7 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 import webpack, { Configuration } from "webpack";
 import ManifestPlugin from "webpack-manifest-plugin";
+import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
 import paths from "./paths";
 
@@ -38,6 +39,13 @@ export default function createWebpackConfig({
   };
 
   const isProduction = env.NODE_ENV === "production";
+
+  /**
+   * ifProduction will only include the nodes if we're in production mode.
+   */
+  const ifProduction = isProduction
+    ? <T extends {}>(...nodes: T[]) => nodes
+    : <T extends {}>(...nodes: T[]) => [];
 
   const htmlWebpackConfig: Options = {
     minify: isProduction && {
@@ -438,12 +446,14 @@ export default function createWebpackConfig({
         stream: [
           // We ship polyfills by default
           paths.appPolyfill,
+          ...ifProduction(paths.appPublicPath),
           ...devServerEntries,
           paths.appStreamIndex,
         ],
         auth: [
           // We ship polyfills by default
           paths.appPolyfill,
+          ...ifProduction(paths.appPublicPath),
           ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
@@ -451,12 +461,14 @@ export default function createWebpackConfig({
         install: [
           // We ship polyfills by default
           paths.appPolyfill,
+          ...ifProduction(paths.appPublicPath),
           ...devServerEntries,
           paths.appInstallIndex,
         ],
         admin: [
           // We ship polyfills by default
           paths.appPolyfill,
+          ...ifProduction(paths.appPublicPath),
           ...devServerEntries,
           paths.appAdminIndex,
         ],
@@ -495,6 +507,15 @@ export default function createWebpackConfig({
           inject: "body",
           ...htmlWebpackConfig,
         }),
+        ...ifProduction(
+          // Inject the pieces we need here to resolve all the now relative url's
+          // against the CDN if it's provided. It will inject the following into
+          // the configuration blob on the page.
+          new PublicURIWebpackPlugin(
+            "{{ staticURI | dump | safe }}",
+            "{{ staticURI }}"
+          )
+        ),
         // Makes some environment variables available in index.html.
         // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
         // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">

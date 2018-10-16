@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import ms from "ms";
 
-export const nocacheMiddleware: RequestHandler = (req, res, next) => {
+export const noCacheMiddleware: RequestHandler = (req, res, next) => {
   // Set cache control headers to prevent browsers/cdn's from caching these
   // requests.
   res.set({ "Cache-Control": "no-cache, no-store, must-revalidate" });
@@ -9,10 +9,12 @@ export const nocacheMiddleware: RequestHandler = (req, res, next) => {
   next();
 };
 
-export const cacheHeadersMiddleware = (duration?: string): RequestHandler => {
+export const cacheHeadersMiddleware = (
+  duration?: string | false
+): RequestHandler => {
   const maxAge = duration ? Math.floor(ms(duration) / 1000) : false;
   if (!maxAge) {
-    return nocacheMiddleware;
+    return noCacheMiddleware;
   }
 
   return (req, res, next) => {
