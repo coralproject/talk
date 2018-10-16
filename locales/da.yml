@@ -197,6 +197,7 @@ da:
     CANNOT_IGNORE_STAFF: 'Kan ikke ignorere personale.'
     COMMENT_PARENT_NOT_VISIBLE: 'Den kommentar, du svarer på er blevet fjernet eller eksisterer ikke.'
     COMMENT_TOO_SHORT: 'Din kommentar skal indeholde noget'
+    COMMENT_TOO_LONG: 'Body overstiger max længde'
     COMMENTING_CLOSED: 'Kommentering er allerede lukket'
     confirm_password: 'Kodeordene matcher ikke. Tjek venligst igen.'
     EDIT_USERNAME_NOT_AUTHORIZED: 'Du har ikke tilladelse til at opdatere dit brugernavn.'
@@ -238,7 +239,6 @@ da:
     reasons:
       comment:
         banned_word: 'Forbudt ord'
-        body_count: 'Body overstiger max længde'
         comment_noagree: Uenig
         comment_offensive: Offensiv
         comment_other: Andre

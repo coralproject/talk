@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "4.6.3",
+  "version": "4.6.5",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "private": true,
@@ -201,7 +201,7 @@
     "smoothscroll-polyfill": "^0.3.5",
     "snake-case": "2.1.0",
     "style-loader": "^0.16.0",
-    "subscriptions-transport-ws": "^0.8.3",
+    "subscriptions-transport-ws": "^0.7.2",
     "supports-color": "^4",
     "timeago.js": "^2.0.3",
     "timekeeper": "^1.0.0",

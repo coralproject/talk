@@ -343,6 +343,20 @@ class ErrCommentTooShort extends TalkError {
   }
 }
 
+// ErrCommentTooLong is returned when the comment is too long.
+class ErrCommentTooLong extends TalkError {
+  constructor(length, allowed) {
+    super(
+      'Comment was too long',
+      {
+        translation_key: 'COMMENT_TOO_LONG',
+        status: 400,
+      },
+      { length, allowed }
+    );
+  }
+}
+
 // ErrAssetURLAlreadyExists is returned when a rename operation is requested
 // but an asset already exists with the new url.
 class ErrAssetURLAlreadyExists extends TalkError {
@@ -413,13 +427,15 @@ module.exports = {
   ErrAssetURLAlreadyExists,
   ErrAuthentication,
   ErrCannotIgnoreStaff,
-  ErrCommentTooShort,
   ErrCommentingDisabled,
+  ErrCommentTooLong,
+  ErrCommentTooShort,
   ErrContainsProfanity,
   ErrEditWindowHasEnded,
   ErrEmailAlreadyVerified,
   ErrEmailTaken,
   ErrEmailVerificationToken,
+  ErrHTTPNotFound,
   ErrInstallLock,
   ErrInvalidAssetURL,
   ErrLoginAttemptMaximumExceeded,
@@ -441,5 +457,4 @@ module.exports = {
   ErrSpecialChars,
   ErrUsernameTaken,
   ExtendableError,
-  ErrHTTPNotFound,
 };

@@ -7,9 +7,9 @@ import t from 'coral-framework/services/i18n';
 import { can } from 'coral-framework/services/perms';
 import cn from 'classnames';
 
-const CoralDrawer = ({ handleLogout, currentUser }) => (
-  <Drawer className={cn('talk-admin-drawer-nav', styles.drawer)}>
-    {currentUser && can(currentUser, 'ACCESS_ADMIN') ? (
+const CoralDrawer = ({ handleLogout, currentUser }) =>
+  currentUser && can(currentUser, 'ACCESS_ADMIN') ? (
+    <Drawer className={cn('talk-admin-drawer-nav', styles.drawer)}>
       <div>
         <Navigation className={styles.nav}>
           {can(currentUser, 'MODERATE_COMMENTS') && (
@@ -48,9 +48,8 @@ const CoralDrawer = ({ handleLogout, currentUser }) => (
           <span>{`v${process.env.VERSION}`}</span>
         </Navigation>
       </div>
-    ) : null}
-  </Drawer>
-);
+    </Drawer>
+  ) : null;
 
 CoralDrawer.propTypes = {
   handleLogout: PropTypes.func.isRequired,
