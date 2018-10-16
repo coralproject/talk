@@ -38,9 +38,12 @@ class Server {
 
   constructor(options: ServerOptions) {
     this.parentApp = express();
+
+    // Load the configuration.
     this.config = config
       .load(options.config || {})
       .validate({ allowed: "strict" });
+    logger.debug({ config: this.config.toString() }, "loaded configuration");
 
     // Load the graph schemas.
     this.schemas = {
