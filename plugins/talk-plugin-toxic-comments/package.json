@@ -7,6 +7,7 @@
   "author": "The Coral Project Team <coral@mozillafoundation.org>",
   "license": "Apache-2.0",
   "dependencies": {
+    "debug": "^4.0.1",
     "ms": "^2.0.0"
   }
 }

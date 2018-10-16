@@ -30,6 +30,10 @@ module.exports = {
           .waitForElementVisible('@signOutButton')
           .click('@signOutButton');
       },
+      login(user) {
+        this.expect.section('@login').to.be.visible;
+        return this.section.login.login(user);
+      },
       navigateAndLogin(user) {
         this.navigate().expect.section('@login').to.be.visible;
         return this.section.login.login(user);

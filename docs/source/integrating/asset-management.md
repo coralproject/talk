@@ -18,11 +18,11 @@ By default, Talk will use "Lazy Asset Creation" to dynamically generate Assets
 in Talk in order to make it easier for lighter installations. In order to have
 more strict control over this flow, we will create a plugin that will:
 
-1. Disable "Lazy Asset Creation" by [Overriding a Resolver](#Overriding-a-Resolver).
-2. Create Assets from our CMS by [Creating a New Asset Route](#Creating-a-New-Asset-Route).
-3. Facilitate updates from our CMS to keep Talk in sync by [Creating an Asset Update Route](#Creating-an-Asset-Update-Route).
+1. Disable "Lazy Asset Creation" by [Overriding a Resolver](#overriding-a-resolver).
+2. Create Assets from our CMS by [Creating a New Asset Route](#creating-a-new-asset-route).
+3. Facilitate updates from our CMS to keep Talk in sync by [Creating an Asset Update Route](#creating-an-asset-update-route).
 
-We will then modify our embed so that we can [Target the Asset](#Target-the-Asset).
+We will then modify our embed so that we can [Target the Asset](#target-the-asset).
 
 But first we should grab our basic plugin structure:
 
@@ -248,7 +248,7 @@ module.exports = router => {
 };
 ```
 
-As you can see from the previous step of [Creating a New Asset Route](#Creating-a-New-Asset-Route)
+As you can see from the previous step of [Creating a New Asset Route](#creating-a-New-Asset-Route)
 , we have added the new `PUT` route to the router. This is a simple addition
 that allows your CMS to call into Talk when the asset has updated it's title,
 it's url (or really anything in the [AssetSchema](https://github.com/coralproject/talk/blob/master/models/asset.js)) to keep the Talk Admin and links up to date.
