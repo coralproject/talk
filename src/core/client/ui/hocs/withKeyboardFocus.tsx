@@ -63,7 +63,4 @@ const withKeyboardFocus = hoistStatics<InjectedProps>(
   }
 );
 
-// TODO: workaround, add bug link.
-export default withKeyboardFocus as <P extends Partial<InjectedProps>>(
-  BaseComponent: React.ComponentType<P>
-) => React.ComponentType<P>;
+export default withKeyboardFocus;
