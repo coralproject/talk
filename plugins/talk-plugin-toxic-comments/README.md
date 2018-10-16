@@ -13,8 +13,7 @@ Using the [Perspective API](http://perspectiveapi.com/), this
 plugin will warn users when comments exceed the predefined toxicity 
 threshold. Toxic comments will be flagged and are held back from being posted until reviewed by a moderator. 
 
-For more information on what Toxic Comments are, check out the
-[Toxic Comments](/talk/toxic-comments/) documentation, and you can see how the plugin works on [this blog post](https://coralproject.net/blog/toxic-avenging/).
+For more information on what Toxic Comments are, check out the [Toxic Comments](/talk/toxic-comments/) documentation, and you can see how the plugin works on [this blog post](https://coralproject.net/blog/toxic-avenging/).
 
 Configuration:
 
