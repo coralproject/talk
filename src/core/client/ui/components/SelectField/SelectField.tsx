@@ -13,35 +13,36 @@ import Icon from "../Icon";
 import * as styles from "./SelectField.css";
 
 export interface SelectFieldProps {
-  id?: string;
-  autofocus?: boolean;
-  /**
-   * Name
-   */
-  name?: string;
   /**
    * Value that has been selected.
    */
   value?: string;
+
   /**
    * Convenient prop to override the root styling.
    */
   className?: string;
+
   /**
    * Override or extend the styles applied to the component.
    */
   classes: typeof styles;
+
   /*
   * If set renders a full width button
   */
   fullWidth?: boolean;
 
+  id?: string;
+  autofocus?: boolean;
+  name?: string;
   onChange?: EventHandler<ChangeEvent<HTMLSelectElement>>;
+  disabled?: boolean;
+
+  // These handlers are passed down by the `withKeyboardFocus` HOC.
   onFocus: EventHandler<FocusEvent<HTMLSelectElement>>;
   onBlur: EventHandler<FocusEvent<HTMLSelectElement>>;
   onMouseDown: EventHandler<MouseEvent<HTMLSelectElement>>;
-
-  disabled?: boolean;
   keyboardFocus: boolean;
 }
 
