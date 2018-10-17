@@ -27,6 +27,20 @@ convict.addFormat({
   },
 });
 
+// Add a custom format for the optional-url.
+convict.addFormat({
+  name: "optional-url",
+  validate: (url: string) => {
+    if (url) {
+      Joi.assert(url, Joi.string().uri());
+    }
+  },
+  // Ensure that there is no ending slash.
+  coerce: (url: string) => {
+    return url.replace(/\/$/, "");
+  },
+});
+
 const config = convict({
   env: {
     doc: "The application environment.",
@@ -54,6 +68,7 @@ const config = convict({
     default: "mongodb://127.0.0.1:27017/talk",
     env: "MONGODB_URI",
     arg: "mongodb",
+    sensitive: true,
   },
   redis: {
     doc: "The Redis database to connect to.",
@@ -61,6 +76,7 @@ const config = convict({
     default: "redis://127.0.0.1:6379",
     env: "REDIS_URI",
     arg: "redis",
+    sensitive: true,
   },
   signing_secret: {
     doc: "",
@@ -68,6 +84,7 @@ const config = convict({
     default: "keyboard cat", // TODO: (wyattjoh) evaluate best solution
     env: "SIGNING_SECRET",
     arg: "signingSecret",
+    sensitive: true,
   },
   signing_algorithm: {
     doc: "",
@@ -92,6 +109,13 @@ const config = convict({
     default: "info",
     env: "LOGGING_LEVEL",
     arg: "logging",
+  },
+  static_uri: {
+    doc: "The URL that static assets will be hosted from",
+    format: "optional-url",
+    default: "",
+    env: "STATIC_URI",
+    arg: "staticUri",
   },
   disable_tenant_caching: {
     doc:

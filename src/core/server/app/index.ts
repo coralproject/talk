@@ -1,4 +1,5 @@
 import cons from "consolidate";
+import cors from "cors";
 import { Express } from "express";
 import http from "http";
 import { Redis } from "ioredis";
@@ -55,6 +56,9 @@ export async function createApp(options: AppOptions): Promise<Express> {
       passport,
     })
   );
+
+  // Enable CORS headers for media assets, font's require them.
+  parent.use("/assets/media", cors());
 
   // Static Files
   parent.use("/assets", cacheHeadersMiddleware("1w"), serveStatic);
