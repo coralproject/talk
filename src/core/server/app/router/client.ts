@@ -11,10 +11,17 @@ export interface ClientTargetHandlerOptions {
   /**
    * cacheDuration is the cache duration that a given request should be cached for.
    */
-  cacheDuration?: string;
+  cacheDuration?: string | false;
+
+  /**
+   * staticURI is prepended to the static url's that are included on the static
+   * pages.
+   */
+  staticURI: string;
 }
 
 export function createClientTargetRouter({
+  staticURI,
   view,
   cacheDuration = "1h",
 }: ClientTargetHandlerOptions) {
@@ -22,7 +29,7 @@ export function createClientTargetRouter({
   const router = express.Router();
 
   router.get("/", cacheHeadersMiddleware(cacheDuration), (req, res) =>
-    res.render(view)
+    res.render(view, { staticURI })
   );
 
   return router;
