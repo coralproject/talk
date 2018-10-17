@@ -7,10 +7,6 @@
   composes: button from "talk-ui/shared/typography.css";
 }
 
-.body {
-  max-width: 80%;
-}
-
 .divider {
   margin: calc(var(--spacing-unit) * 2) 0 !important;
 }

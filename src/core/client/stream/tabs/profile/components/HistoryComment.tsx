@@ -32,9 +32,7 @@ const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
       </Localized>
       <Timestamp>{props.createdAt}</Timestamp>
       <Typography variant="bodyCopy" container="div">
-        {props.body && (
-          <HTMLContent className={styles.body}>{props.body}</HTMLContent>
-        )}
+        {props.body && <HTMLContent>{props.body}</HTMLContent>}
       </Typography>
       <Flex direction="row" alignItems="center" itemGutter>
         {!!props.replyCount && (
