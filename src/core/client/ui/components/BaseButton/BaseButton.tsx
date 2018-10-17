@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { Ref } from "react";
+import React, { EventHandler, FocusEvent, MouseEvent, Ref } from "react";
 import { ButtonHTMLAttributes, StatelessComponent } from "react";
 
 import {
@@ -25,7 +25,7 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   classes: typeof styles;
 
   /** This is passed by the `withKeyboardFocus` HOC */
-  keyboardFocus?: boolean;
+  keyboardFocus: boolean;
 
   /** This is passed by the `withMouseHover` HOC */
   mouseHover?: boolean;
@@ -34,6 +34,10 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   forwardRef?: Ref<HTMLButtonElement>;
 
   type?: "submit" | "reset" | "button";
+
+  onFocus: EventHandler<FocusEvent<HTMLElement>>;
+  onBlur: EventHandler<FocusEvent<HTMLElement>>;
+  onMouseDown: EventHandler<MouseEvent<HTMLElement>>;
 }
 
 /**
