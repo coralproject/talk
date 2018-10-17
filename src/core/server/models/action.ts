@@ -4,6 +4,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
+import { InternalErr } from "talk-server/errors";
 import {
   GQLActionCounts,
   GQLActionPresence,
@@ -390,7 +391,7 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
   if (key.indexOf(ACTION_COUNT_JOIN_CHAR) >= 0) {
     const keys = key.split(ACTION_COUNT_JOIN_CHAR);
     if (keys.length !== 2) {
-      throw new Error(
+      throw new InternalErr(
         "invalid action count contained more than two components"
       );
     }
@@ -400,12 +401,14 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 
     // Validate that the action type is flag.
     if (actionType !== ACTION_TYPE.FLAG) {
-      throw new Error("invalid action type, expected only flag to have reason");
+      throw new InternalErr(
+        "invalid action type, expected only flag to have reason"
+      );
     }
 
     // Validate that the reason is valid.
     if (!reason || !(reason in GQLCOMMENT_FLAG_REASON)) {
-      throw new Error("expected flag to have a reason that was valid");
+      throw new InternalErr("expected flag to have a reason that was valid");
     }
   } else {
     actionType = key;
@@ -413,7 +416,9 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 
   // Validate that the action type is valid.
   if (!actionType || !(actionType in ACTION_TYPE)) {
-    throw new Error("expected action to have an action type that was valid");
+    throw new InternalErr(
+      "expected action to have an action type that was valid"
+    );
   }
 
   const result: DecodedActionCountKey = {

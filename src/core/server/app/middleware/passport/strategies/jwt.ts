@@ -11,7 +11,11 @@ import {
   SSOToken,
   SSOVerifier,
 } from "talk-server/app/middleware/passport/strategies/verifiers/sso";
-import { TokenErr, TokenExpiredErr } from "talk-server/errors";
+import {
+  TenantNotFoundErr,
+  TokenErr,
+  TokenExpiredErr,
+} from "talk-server/errors";
 import logger from "talk-server/logger";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
@@ -73,8 +77,7 @@ export class JWTStrategy extends Strategy {
   private async verify(tokenString: string, tenant: Tenant) {
     const token: Token = jwt.decode(tokenString);
     if (!token || typeof token === "string") {
-      // TODO: (wyattjoh) return a better error.
-      throw new Error("token could not be decoded");
+      throw new TokenErr("token could not be decoded");
     }
 
     // Handle SSO integrations.
@@ -89,8 +92,7 @@ export class JWTStrategy extends Strategy {
     }
 
     // No verifier could be found.
-    // TODO: (wyattjoh) return a better error.
-    throw new Error("no suitable jwt verifier could be found");
+    throw new TokenErr("no suitable jwt verifier could be found");
   }
 
   public async authenticate(req: Request) {
@@ -104,8 +106,7 @@ export class JWTStrategy extends Strategy {
 
     const { tenant } = req.talk!;
     if (!tenant) {
-      // TODO: (wyattjoh) log this error, and return a better one?
-      return this.error(new Error("tenant not found"));
+      return this.error(new TenantNotFoundErr());
     }
 
     try {

@@ -2,6 +2,7 @@ import { RequestHandler } from "express-jwt";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
+import { InternalErr } from "talk-server/errors";
 import TenantContext from "talk-server/graph/tenant/context";
 import { TaskQueue } from "talk-server/services/queue";
 import { Request } from "talk-server/types/express";
@@ -22,17 +23,17 @@ export const tenantContext = ({
   next
 ) => {
   if (!req.talk) {
-    return next(new Error("talk was not set"));
+    return next(new InternalErr("talk was not set"));
   }
 
   const { tenant, cache } = req.talk;
 
   if (!cache) {
-    return next(new Error("cache was not set"));
+    return next(new InternalErr("cache was not set"));
   }
 
   if (!tenant) {
-    return next(new Error("tenant was not set"));
+    return next(new InternalErr("tenant was not set"));
   }
 
   req.talk.context = {

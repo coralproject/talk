@@ -15,6 +15,13 @@ export class TokenErr extends HTTPErr {
   public name = "token_err";
   public message = "a token error occurred";
   public code = 400;
+  public reason?: string;
+
+  constructor(reason?: string) {
+    super();
+
+    this.reason = reason;
+  }
 }
 
 export class TokenExpiredErr extends TokenErr {
@@ -51,4 +58,17 @@ export class HTTPNotFoundErr extends HTTPErr {
   public name = "not_found";
   public message = "the resource could not be found";
   public code = 404;
+}
+
+export class InternalErr extends HTTPErr {
+  public name = "internal";
+  public message = "an internal error occurred";
+  public code = 500;
+  public reason?: string;
+
+  constructor(reason?: string) {
+    super();
+
+    this.reason = reason;
+  }
 }
