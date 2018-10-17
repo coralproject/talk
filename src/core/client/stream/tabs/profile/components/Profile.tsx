@@ -3,12 +3,12 @@ import { StatelessComponent } from "react";
 import { PropTypesOf } from "talk-framework/types";
 import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
 import { HorizontalGutter } from "talk-ui/components";
-import CommentsHistoryContainer from "../containers/CommentsHistoryContainer";
+import CommentHistoryContainer from "../containers/CommentHistoryContainer";
 
 export interface ProfileProps {
-  asset: PropTypesOf<typeof CommentsHistoryContainer>["asset"];
+  asset: PropTypesOf<typeof CommentHistoryContainer>["asset"];
   me: PropTypesOf<typeof UserBoxContainer>["me"] &
-    PropTypesOf<typeof CommentsHistoryContainer>["me"];
+    PropTypesOf<typeof CommentHistoryContainer>["me"];
 }
 
 const Profile: StatelessComponent<ProfileProps> = props => {
@@ -16,7 +16,7 @@ const Profile: StatelessComponent<ProfileProps> = props => {
     <HorizontalGutter size="double">
       <UserBoxContainer me={props.me} />
       {props.me && (
-        <CommentsHistoryContainer me={props.me} asset={props.asset} />
+        <CommentHistoryContainer me={props.me} asset={props.asset} />
       )}
     </HorizontalGutter>
   );
