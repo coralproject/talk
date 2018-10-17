@@ -26,7 +26,7 @@ export interface HistoryCommentProps {
 
 const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
   return (
-    <HorizontalGutter className={styles.commentHistory}>
+    <HorizontalGutter>
       <Localized id="profile-historyComment-story" $title={props.asset.title}>
         <Typography variant="heading4">{"Story: {$title}"}</Typography>
       </Localized>
@@ -36,7 +36,7 @@ const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
           <HTMLContent className={styles.body}>{props.body}</HTMLContent>
         )}
       </Typography>
-      <Flex direction="row" alignItems="center" itemGutter="double">
+      <Flex direction="row" alignItems="center" itemGutter>
         {!!props.replyCount && (
           <div className={styles.replies}>
             <Icon className={styles.icon}>reply</Icon>
