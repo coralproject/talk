@@ -1,6 +1,6 @@
 import * as React from "react";
 import { MouseEvent, TouchEvent } from "react";
-import { hoistStatics } from "recompose";
+import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
 interface InjectedProps {
   onMouseOver: React.EventHandler<MouseEvent<any>>;
@@ -14,9 +14,11 @@ interface InjectedProps {
  * to indicate a focus on the element, that wasn't triggered by mouse
  * or touch.
  */
-const withMouseHover = hoistStatics<InjectedProps>(
+const withMouseHover: DefaultingInferableComponentEnhancer<
+  InjectedProps
+> = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
-    class WithMouseHover extends React.Component<any> {
+    class WithMouseHover extends React.Component<InjectedProps> {
       public state = {
         mouseHover: false,
         lastTouchEndTime: 0,
