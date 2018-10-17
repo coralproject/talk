@@ -1,7 +1,11 @@
-import { URL } from "url";
-
 import builder from "content-security-policy-builder";
-import { extractParentsHostname } from "talk-server/app/url";
+import {
+  doesRequireSchemePrefixing,
+  extractParentsOrigin,
+  getOrigin,
+  isURLSecure,
+  prefixSchemeIfRequired,
+} from "talk-server/app/url";
 import { Tenant } from "talk-server/models/tenant";
 import { Request, RequestHandler } from "talk-server/types/express";
 
@@ -27,7 +31,10 @@ export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
   next();
 };
 
-function generateContentSecurityPolicy(req: Request, tenant: Tenant) {
+function generateContentSecurityPolicy(
+  req: Request,
+  tenant: Pick<Tenant, "domains">
+) {
   const directives: Record<string, any> = {};
 
   // Only the domains that are allowed by the tenant may embed Talk.
@@ -40,25 +47,54 @@ function generateContentSecurityPolicy(req: Request, tenant: Tenant) {
   return directive;
 }
 
-function generateFrameOptions(req: Request, tenant: Tenant) {
+export function generateFrameOptions(
+  req: Request,
+  tenant: Pick<Tenant, "domains">
+) {
   // If there aren't any domains, then we reject it.
   if (tenant.domains.length === 0) {
     return "deny";
   }
 
+  // If there is only one domain on the tenant, and we don't require
+  // prefixing, then return it!
+  if (
+    tenant.domains.length === 1 &&
+    !doesRequireSchemePrefixing(tenant.domains[0])
+  ) {
+    return `allow-from ${getOrigin(tenant.domains[0])}`;
+  }
+
   // Grab the parent's hostname.
-  const parentsHostname = extractParentsHostname(req);
-  if (!parentsHostname) {
+  const parentsOrigin = extractParentsOrigin(req);
+  if (!parentsOrigin) {
     return "deny";
+  }
+
+  // Grab the status if the parent url is secure.
+  const parentSecure = isURLSecure(parentsOrigin);
+  if (parentSecure === null) {
+    return "deny";
+  }
+
+  // If there is only one domain on the tenant, and we require prefixing, then
+  // return it with prefixing!
+  if (
+    tenant.domains.length === 1 &&
+    !doesRequireSchemePrefixing(tenant.domains[0])
+  ) {
+    return `allow-from ${getOrigin(
+      prefixSchemeIfRequired(parentSecure, tenant.domains[0])
+    )}`;
   }
 
   // As we can only return a single domain in the `allow-from` directive as per
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   // We need to find the domain that is asking so we can respond with the right
   // result, sort of like CORS!
-  const allowFrom = tenant.domains.find(
-    domain => new URL(domain).hostname === parentsHostname
-  );
+  const allowFrom = tenant.domains
+    .map(domain => getOrigin(prefixSchemeIfRequired(parentSecure, domain)))
+    .find(origin => origin === parentsOrigin);
   if (!allowFrom) {
     return "deny";
   }
