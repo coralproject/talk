@@ -63,7 +63,4 @@ const withMouseHover = hoistStatics<InjectedProps>(
   }
 );
 
-// TODO: workaround, add bug link.
-export default withMouseHover as <P extends Partial<InjectedProps>>(
-  BaseComponent: React.ComponentType<P>
-) => React.ComponentType<P>;
+export default withMouseHover;
