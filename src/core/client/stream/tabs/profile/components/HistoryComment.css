@@ -1,18 +1,12 @@
 .icon {
   color: var(--palette-text-secondary);
+  margin-right: calc(0.5 * var(--spacing-unit));
 }
 
-.button,
-.replies,
-.story {
+.replies {
   composes: button from "talk-ui/shared/typography.css";
 }
 
-.sideBar {
-  min-width: 180px;
-  padding-left: var(--spacing-unit);
-}
-
-.body {
-  word-break: break-all;
+.divider {
+  margin: calc(var(--spacing-unit) * 2) 0 !important;
 }

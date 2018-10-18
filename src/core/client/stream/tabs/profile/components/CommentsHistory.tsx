@@ -22,7 +22,7 @@ interface CommentsHistoryProps {
 
 const CommentsHistory: StatelessComponent<CommentsHistoryProps> = props => {
   return (
-    <HorizontalGutter>
+    <HorizontalGutter size="double">
       <Localized id="profile-historyComment-commentHistory">
         <Typography variant="heading3">Comment History</Typography>
       </Localized>
