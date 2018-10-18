@@ -305,6 +305,14 @@ class Stream extends React.Component {
             ) : (
               <Markdown content={asset.settings.disableCommentingMessage} />
             )}
+            {questionBoxEnable && (
+              <QuestionBox
+                content={asset.settings.questionBoxContent}
+                icon={asset.settings.questionBoxIcon}
+              >
+                <Slot fill="streamQuestionArea" passthrough={slotPassthrough} />
+              </QuestionBox>
+            )}
           </div>
         )}
 
