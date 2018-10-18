@@ -15,9 +15,7 @@ const Profile: StatelessComponent<ProfileProps> = props => {
   return (
     <HorizontalGutter size="double">
       <UserBoxContainer me={props.me} />
-      {props.me && (
-        <CommentHistoryContainer me={props.me} asset={props.asset} />
-      )}
+      <CommentHistoryContainer me={props.me} asset={props.asset} />
     </HorizontalGutter>
   );
 };

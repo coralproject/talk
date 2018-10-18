@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  size="double"
+>
+  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+    me={Object {}}
+  />
+  <Relay(CommentHistoryContainer)
+    asset={Object {}}
+    me={Object {}}
+  />
+</withPropsOnChange(HorizontalGutter)>
+`;
