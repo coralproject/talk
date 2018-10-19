@@ -250,7 +250,7 @@ exports[`post a comment: optimistic response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-uuid-0"
                   >
                     <div
@@ -392,7 +392,7 @@ exports[`post a comment: optimistic response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-0"
                   >
                     <div
@@ -518,7 +518,7 @@ exports[`post a comment: optimistic response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-1"
                   >
                     <div
@@ -889,7 +889,7 @@ exports[`post a comment: server response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-x"
                   >
                     <div
@@ -1015,7 +1015,7 @@ exports[`post a comment: server response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-0"
                   >
                     <div
@@ -1141,7 +1141,7 @@ exports[`post a comment: server response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-1"
                   >
                     <div
@@ -1512,7 +1512,7 @@ exports[`renders comment stream 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-0"
                   >
                     <div
@@ -1638,7 +1638,7 @@ exports[`renders comment stream 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-1"
                   >
                     <div

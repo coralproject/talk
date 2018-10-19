@@ -19,6 +19,10 @@
   composes: heading4 from "talk-ui/shared/typography.css";
 }
 
+.heading5 {
+  composes: heading5 from "talk-ui/shared/typography.css";
+}
+
 .bodyCopy {
   composes: bodyCopy from "talk-ui/shared/typography.css";
 }

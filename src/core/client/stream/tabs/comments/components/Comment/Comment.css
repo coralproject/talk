@@ -4,7 +4,7 @@
   background-color: var(--palette-primary-lightest);
   padding: var(--spacing-unit);
 }
-.topBar {
+.subBar {
   margin-bottom: calc(0.5 * var(--spacing-unit));
 }
 .footer:not(:empty) {
