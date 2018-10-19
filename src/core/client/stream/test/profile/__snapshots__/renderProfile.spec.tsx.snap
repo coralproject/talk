@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders profile 1`] = `
+<div
+  className="HorizontalGutter-root App-root HorizontalGutter-full"
+>
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
+  >
+    <li
+      className="Tab-root"
+      id="tab-COMMENTS"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-COMMENTS"
+        aria-selected={false}
+        className="BaseButton-root Tab-button Tab-primary"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        ⁨2⁩ ⁨Comments⁩
+      </button>
+    </li>
+    <li
+      className="Tab-root"
+      id="tab-PROFILE"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-PROFILE"
+        aria-selected={true}
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        My Profile
+      </button>
+    </li>
+  </ul>
+  <section
+    aria-labelledby="tab-PROFILE"
+    className="App-tabContent"
+    id="tabPane-PROFILE"
+    role="tabpanel"
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <div
+        className="Flex-root"
+      >
+        <div
+          className="Flex-flex Flex-halfItemGutter Flex-wrap"
+        >
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Signed in as 
+            <span
+              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+            >
+              Markus
+            </span>
+            .
+          </div>
+          <div
+            className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          >
+            <span>
+              Not you? 
+            </span>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-double"
+      >
+        <h1
+          className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+        >
+          Comment History
+        </h1>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <h1
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+          >
+            Story: ⁨title⁩
+          </h1>
+          <time
+            className="Timestamp-root RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            <div
+              className="HTMLContent-root"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Joining Too",
+                }
+              }
+            />
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow"
+          >
+            <a
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+              href="http://localhost/assets/asset-1?commentID=comment-0"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              target="_parent"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                launch
+              </span>
+              <span>
+                View Conversation
+              </span>
+            </a>
+          </div>
+        </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <h1
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+          >
+            Story: ⁨title⁩
+          </h1>
+          <time
+            className="Timestamp-root RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            <div
+              className="HTMLContent-root"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Hey!",
+                }
+              }
+            />
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow"
+          >
+            <a
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+              href="http://localhost/assets/asset-2?commentID=comment-2"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              target="_parent"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                launch
+              </span>
+              <span>
+                View Conversation
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+`;

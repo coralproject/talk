@@ -93,3 +93,4 @@ profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
 profile-profileQuery-errorLoadingProfile = Error loading profile
 profile-profileQuery-assetNotFound = Asset not found
+profile-commentHistory-loadMore = Load More

@@ -242,6 +242,20 @@ export const assets = denormalizeAssets([
       },
     },
   },
+  {
+    ...baseAsset,
+    id: "asset-2",
+    url: "http://localhost/assets/asset-2",
+    comments: {
+      edges: [
+        { node: comments[2], cursor: comments[2].createdAt },
+        { node: comments[3], cursor: comments[3].createdAt },
+      ],
+      pageInfo: {
+        hasNextPage: false,
+      },
+    },
+  },
 ]);
 
 export const assetWithReplies = denormalizeAsset({
@@ -293,3 +307,23 @@ export const assetWithDeepestReplies = denormalizeAsset({
     },
   },
 });
+
+export const meWithComments = {
+  id: "me-with-comments",
+  username: "Markus",
+  comments: {
+    edges: [
+      {
+        node: { ...assets[0].comments.edges[0].node, asset: assets[0] },
+        cursor: comments[0].createdAt,
+      },
+      {
+        node: { ...assets[1].comments.edges[0].node, asset: assets[1] },
+        cursor: comments[1].createdAt,
+      },
+    ],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+};

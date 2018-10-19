@@ -249,6 +249,39 @@ exports[`renders comment stream 1`] = `
                           Reply
                         </span>
                       </button>
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="permalink-popover-comment-0"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Share
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="permalink-popover-comment-0-ariainfo"
+                          id="permalink-popover-comment-0"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="permalink-popover-comment-0-ariainfo"
+                          >
+                            A dialog showing a permalink to the comment
+                          </div>
+                        </div>
+                      </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                         onBlur={[Function]}
@@ -342,6 +375,39 @@ exports[`renders comment stream 1`] = `
                           Reply
                         </span>
                       </button>
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="permalink-popover-comment-with-deep-replies"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Share
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="permalink-popover-comment-with-deep-replies-ariainfo"
+                          id="permalink-popover-comment-with-deep-replies"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="permalink-popover-comment-with-deep-replies-ariainfo"
+                          >
+                            A dialog showing a permalink to the comment
+                          </div>
+                        </div>
+                      </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                         onBlur={[Function]}
@@ -439,6 +505,39 @@ exports[`renders comment stream 1`] = `
                               Reply
                             </span>
                           </button>
+                          <div
+                            className="Popover-root"
+                          >
+                            <button
+                              aria-controls="permalink-popover-comment-with-replies"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Share
+                              </span>
+                            </button>
+                            <div
+                              aria-hidden={true}
+                              aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                              id="permalink-popover-comment-with-replies"
+                              role="popup"
+                            >
+                              <div
+                                className="AriaInfo-root"
+                                id="permalink-popover-comment-with-replies-ariainfo"
+                              >
+                                A dialog showing a permalink to the comment
+                              </div>
+                            </div>
+                          </div>
                           <button
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                             onBlur={[Function]}
@@ -536,6 +635,39 @@ exports[`renders comment stream 1`] = `
                                   Reply
                                 </span>
                               </button>
+                              <div
+                                className="Popover-root"
+                              >
+                                <button
+                                  aria-controls="permalink-popover-comment-3"
+                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  onTouchEnd={[Function]}
+                                  type="button"
+                                >
+                                  <span>
+                                    Share
+                                  </span>
+                                </button>
+                                <div
+                                  aria-hidden={true}
+                                  aria-labelledby="permalink-popover-comment-3-ariainfo"
+                                  id="permalink-popover-comment-3"
+                                  role="popup"
+                                >
+                                  <div
+                                    className="AriaInfo-root"
+                                    id="permalink-popover-comment-3-ariainfo"
+                                  >
+                                    A dialog showing a permalink to the comment
+                                  </div>
+                                </div>
+                              </div>
                               <button
                                 className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                                 onBlur={[Function]}
@@ -629,6 +761,39 @@ exports[`renders comment stream 1`] = `
                                   Reply
                                 </span>
                               </button>
+                              <div
+                                className="Popover-root"
+                              >
+                                <button
+                                  aria-controls="permalink-popover-comment-4"
+                                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  onBlur={[Function]}
+                                  onClick={[Function]}
+                                  onFocus={[Function]}
+                                  onMouseDown={[Function]}
+                                  onMouseOut={[Function]}
+                                  onMouseOver={[Function]}
+                                  onTouchEnd={[Function]}
+                                  type="button"
+                                >
+                                  <span>
+                                    Share
+                                  </span>
+                                </button>
+                                <div
+                                  aria-hidden={true}
+                                  aria-labelledby="permalink-popover-comment-4-ariainfo"
+                                  id="permalink-popover-comment-4"
+                                  role="popup"
+                                >
+                                  <div
+                                    className="AriaInfo-root"
+                                    id="permalink-popover-comment-4-ariainfo"
+                                  >
+                                    A dialog showing a permalink to the comment
+                                  </div>
+                                </div>
+                              </div>
                               <button
                                 className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                                 onBlur={[Function]}
@@ -724,6 +889,39 @@ exports[`renders comment stream 1`] = `
                               Reply
                             </span>
                           </button>
+                          <div
+                            className="Popover-root"
+                          >
+                            <button
+                              aria-controls="permalink-popover-comment-5"
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseDown={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Share
+                              </span>
+                            </button>
+                            <div
+                              aria-hidden={true}
+                              aria-labelledby="permalink-popover-comment-5-ariainfo"
+                              id="permalink-popover-comment-5"
+                              role="popup"
+                            >
+                              <div
+                                className="AriaInfo-root"
+                                id="permalink-popover-comment-5-ariainfo"
+                              >
+                                A dialog showing a permalink to the comment
+                              </div>
+                            </div>
+                          </div>
                           <button
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                             onBlur={[Function]}

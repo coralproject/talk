@@ -5,7 +5,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getMe } from "talk-framework/helpers";
+import { getMe, getMeSourceID } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -21,6 +21,7 @@ export type CreateCommentInput = Omit<
 > & { local?: boolean };
 
 function sharedUpdater(
+  environment: Environment,
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
 ) {
@@ -30,7 +31,7 @@ function sharedUpdater(
   } else {
     update(store, input);
   }
-  updateProfile(store, input);
+  updateProfile(environment, store, input);
 }
 
 function updateAsset(
@@ -120,6 +121,7 @@ function localUpdate(
  * updateProfile integrates new comment into the profile.
  */
 function updateProfile(
+  environment: Environment,
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
 ) {
@@ -128,12 +130,17 @@ function updateProfile(
 
   // Get the edge of the newly created comment.
   const newEdge = payload.getLinkedRecord("edge")!;
-  const newComment = newEdge.getLinkedRecord("node");
 
-  // TODO: update profile comments connection after we
-  // integrated pagination.
-  // tslint:disable-next-line:no-unused-expression
-  newComment;
+  const meProxy = store.get(getMeSourceID(environment)!);
+  const con = ConnectionHandler.getConnection(
+    meProxy,
+    "CommentHistory_comments"
+  );
+  // Note: Currently this is always null, until Relay comes
+  // with better data retaintion and data from store support.
+  if (con) {
+    ConnectionHandler.insertEdgeBefore(con, newEdge);
+  }
 }
 
 const mutation = graphql`
@@ -196,11 +203,11 @@ function commit(
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
     optimisticUpdater: store => {
-      sharedUpdater(store, input);
+      sharedUpdater(environment, store, input);
       store.get(id)!.setValue(true, "pending");
     },
     updater: store => {
-      sharedUpdater(store, input);
+      sharedUpdater(environment, store, input);
     },
   });
 }

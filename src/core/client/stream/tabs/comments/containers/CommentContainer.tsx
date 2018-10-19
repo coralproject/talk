@@ -195,7 +195,10 @@ export class CommentContainer extends Component<InnerProps, State> {
                     active={showReplyDialog}
                   />
                 )}
-                <PermalinkButtonContainer commentID={comment.id} />
+                <PermalinkButtonContainer
+                  asset={asset}
+                  commentID={comment.id}
+                />
                 <ReactionButtonContainer
                   comment={comment}
                   settings={settings}
@@ -243,6 +246,7 @@ const enhanced = withSetCommentIDMutation(
         fragment CommentContainer_asset on Asset {
           url
           ...ReplyCommentFormContainer_asset
+          ...PermalinkButtonContainer_asset
         }
       `,
       comment: graphql`

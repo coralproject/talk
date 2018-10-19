@@ -1,11 +1,12 @@
-import { Environment, ROOT_ID } from "relay-runtime";
+import { Environment } from "relay-runtime";
+
+import getMeSourceID from "./getMeSourceID";
 
 export default function getMe(environment: Environment) {
   const source = environment.getStore().getSource();
-  const root = source.get(ROOT_ID)!;
-  if (!root.me) {
+  const meID = getMeSourceID(environment);
+  if (!meID) {
     return null;
   }
-  const meID = root.me.__ref;
   return source.get(meID)!;
 }
