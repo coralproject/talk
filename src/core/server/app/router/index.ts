@@ -7,6 +7,8 @@ import playground from "talk-server/app/middleware/playground";
 import { RouterOptions } from "talk-server/app/router/types";
 import logger from "talk-server/logger";
 
+import { cspTenantMiddleware } from "talk-server/app/middleware/csp/tenant";
+import { tenantMiddleware } from "talk-server/app/middleware/tenant";
 import { createAPIRouter } from "./api";
 import { createClientTargetRouter } from "./client";
 
@@ -21,16 +23,26 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     attachGraphiQL(router, app);
   }
 
+  router.use(tenantMiddleware({ cache: app.tenantCache }));
+  router.use(cspTenantMiddleware);
+
   const staticURI = app.config.get("static_uri");
 
   // Add the embed targets.
   router.use(
     "/embed/stream",
-    createClientTargetRouter({ staticURI, view: "stream" })
+    createClientTargetRouter({
+      staticURI,
+      view: "stream",
+    })
   );
   router.use(
     "/embed/auth",
-    createClientTargetRouter({ staticURI, view: "auth", cacheDuration: false })
+    createClientTargetRouter({
+      staticURI,
+      view: "auth",
+      cacheDuration: false,
+    })
   );
 
   // Add the standalone targets.
@@ -40,15 +52,19 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     installedMiddleware({
       tenantCache: app.tenantCache,
     }),
-    createClientTargetRouter({ staticURI, view: "admin", cacheDuration: false })
+    createClientTargetRouter({
+      staticURI,
+      view: "admin",
+      cacheDuration: false,
+    })
   );
   router.use(
     "/install",
     // If we're already installed, redirect the user to the admin page.
     installedMiddleware({
-      tenantCache: app.tenantCache,
       redirectIfInstalled: true,
       redirectURL: "/admin",
+      tenantCache: app.tenantCache,
     }),
     createClientTargetRouter({
       staticURI,
