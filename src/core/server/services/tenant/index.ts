@@ -5,6 +5,7 @@ import { GQLSettingsInput } from "talk-server/graph/tenant/schema/__generated__/
 import {
   createTenant,
   CreateTenantInput,
+  regenerateTenantSSOKey,
   Tenant,
   updateTenant,
 } from "talk-server/models/tenant";
@@ -75,4 +76,25 @@ export async function canInstall(cache: TenantCache) {
  */
 export async function isInstalled(cache: TenantCache) {
   return (await cache.count()) > 0;
+}
+
+/**
+ * regenerateSSOKey will regenerate the Single Sign-On key for the specified
+ * Tenant and notify all other Tenant's connected that the Tenant was updated.
+ */
+export async function regenerateSSOKey(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant
+) {
+  const updatedTenant = await regenerateTenantSSOKey(mongo, tenant.id);
+  if (!updatedTenant) {
+    return null;
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, updatedTenant);
+
+  return updatedTenant;
 }

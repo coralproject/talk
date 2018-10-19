@@ -245,11 +245,31 @@ type Wordlist {
 ################################################################################
 
 ##########################
+## AuthenticationTargetFilter
+##########################
+
+"""
+AuthenticationTargetFilter when non-null, will specify the targets that a
+specific authentication integration will be enabled on.
+"""
+type AuthenticationTargetFilter {
+  admin: Boolean!
+  stream: Boolean!
+}
+
+##########################
 ## LocalAuthIntegration
 ##########################
 
 type LocalAuthIntegration {
   enabled: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
 }
 
 ##########################
@@ -265,9 +285,21 @@ type SSOAuthIntegration {
   enabled: Boolean!
 
   """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
+
+  """
   key is the secret that is used to sign tokens.
   """
   key: String @auth(roles: [ADMIN])
+
+  """
+  keyGeneratedAt is the Time that the key was effective from.
+  """
+  keyGeneratedAt: Time @auth(roles: [ADMIN])
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
@@ -287,6 +319,16 @@ will be used in the admin to provide staff logins for users.
 type OIDCAuthIntegration {
   enabled: Boolean!
 
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration.
+  """
   name: String
   clientID: String @auth(roles: [ADMIN])
   clientSecret: String @auth(roles: [ADMIN])
@@ -308,6 +350,14 @@ type OIDCAuthIntegration {
 
 type GoogleAuthIntegration {
   enabled: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
+
   clientID: String @auth(roles: [ADMIN])
   clientSecret: String @auth(roles: [ADMIN])
 }
@@ -318,6 +368,14 @@ type GoogleAuthIntegration {
 
 type FacebookAuthIntegration {
   enabled: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
+
   clientID: String @auth(roles: [ADMIN])
   clientSecret: String @auth(roles: [ADMIN])
 }
@@ -1258,17 +1316,31 @@ input SettingsWordlistInput {
   suspect: [String!]
 }
 
+input SettingsAuthenticationTargetFilterInput {
+  admin: Boolean!
+  stream: Boolean!
+}
+
 input SettingsLocalAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
 }
 
 input SettingsSSOAuthIntegrationInput {
   enabled: Boolean
 
   """
-  key is the secret that is used to sign tokens.
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
   """
-  key: String
+  targetFilter: SettingsAuthenticationTargetFilterInput
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
@@ -1280,11 +1352,23 @@ input SettingsSSOAuthIntegrationInput {
 input SettingsOIDCAuthIntegrationInput {
   enabled: Boolean
 
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration.
+  """
   name: String
   clientID: String
   clientSecret: String
   authorizationURL: String
   tokenURL: String
+  jwksURI: String
+  issuer: String
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
@@ -1295,12 +1379,28 @@ input SettingsOIDCAuthIntegrationInput {
 
 input SettingsGoogleAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
   clientID: String
   clientSecret: String
 }
 
 input SettingsFacebookAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
   clientID: String
   clientSecret: String
 }
@@ -1778,6 +1878,29 @@ type DeleteCommentFlagPayload {
 }
 
 ##################
+## regenerateSSOKey
+##################
+
+input RegenerateSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RegenerateSSOKeyPayload {
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -1798,6 +1921,13 @@ type Mutation {
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  regenerateSSOKey will regenerate the SSO key used to sign secrets. This will
+  invalidate any existing user sessions.
+  """
+  regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
+    @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in

@@ -1,4 +1,6 @@
 import Cursor from "talk-server/graph/common/scalars/cursor";
+import Time from "talk-server/graph/common/scalars/time";
+
 import { GQLResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
 import Asset from "./asset";
@@ -20,6 +22,7 @@ const Resolvers: GQLResolver = {
   Profile,
   Query,
   User,
+  Time,
 };
 
 export default Resolvers;

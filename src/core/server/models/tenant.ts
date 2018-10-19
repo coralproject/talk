@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -196,6 +197,47 @@ export async function updateTenant(
     { id },
     // Only update fields that have been updated.
     { $set: dotize(update, { embedArrays: true }) },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+/**
+ * regenerateTenantSSOKey will regenerate the SSO key used for Single Sing-On
+ * for the specified Tenant. All existing user sessions signed with the old
+ * secret will be invalidated.
+ */
+export async function regenerateTenantSSOKey(db: Db, id: string) {
+  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
+  // as 16 was the minimum length recommended.
+  //
+  // Reference: https://security.stackexchange.com/a/96176
+  const key = crypto
+    .randomBytes(32 + Math.floor(Math.random() * 5))
+    .toString("hex");
+
+  // Construct the update.
+  const update: DeepPartial<Tenant> = {
+    auth: {
+      integrations: {
+        sso: {
+          key,
+          keyGeneratedAt: new Date(),
+        },
+      },
+    },
+  };
+
+  // Update the Tenant with this new key.
+  const result = await collection(db).findOneAndUpdate(
+    { id },
+    // Serialize the deep update into the Tenant.
+    {
+      $set: dotize(update),
+    },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }

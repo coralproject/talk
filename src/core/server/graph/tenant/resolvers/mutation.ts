@@ -47,6 +47,10 @@ const Mutation: GQLMutationTypeResolver<void> = {
     comment: await ctx.mutators.Comment.deleteFlag(input),
     clientMutationId: input.clientMutationId,
   }),
+  regenerateSSOKey: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.regenerateSSOKey(),
+    clientMutationId: input.clientMutationId,
+  }),
 };
 
 export default Mutation;
