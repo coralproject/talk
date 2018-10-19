@@ -157,7 +157,17 @@ class StreamSettings extends React.Component {
           onCheckbox={this.updateInfoBoxEnable}
           title={t('configure.code_of_conduct_summary')}
         >
-          <p>{t('configure.code_of_conduct_summary_desc')}</p>
+          <p>
+            {t('configure.code_of_conduct_summary_desc')}
+            &nbsp;
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://guides.coralproject.net/create-a-code-of-conduct/"
+            >
+              Code of Conduct Guide.
+            </a>
+          </p>
           <div
             className={cn(
               styles.configSettingInfoBox,
