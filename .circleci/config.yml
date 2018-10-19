@@ -29,9 +29,14 @@ jobs:
       - run:
           name: Update NPM
           command: sudo npm update -g npm
-      - run:
-          name: Audit dependencies
-          command: npm audit
+      # Disabled until there's capabilityies to ignore a specific vun. Related:
+      # https://npm.community/t/please-provide-option-to-ignore-packages-in-npm-audit/403/4
+      # https://github.com/npm/cli/pull/10
+      # https://github.com/npm/rfcs/pull/18
+      #
+      #   - run:
+      #       name: Audit dependencies
+      #       command: npm audit
       - run:
           name: Install dependencies
           command: npm ci
