@@ -206,15 +206,30 @@ class Stream extends React.Component {
     );
   }
 
+  renderQuestionBox() {
+    const {
+      root,
+      asset,
+      asset: {
+        settings: { questionBoxEnable, questionBoxContent, questionBoxIcon },
+      },
+    } = this.props;
+    const slotPassthrough = { root, asset };
+    if (questionBoxEnable) {
+      return (
+        <QuestionBox content={questionBoxContent} icon={questionBoxIcon}>
+          <Slot fill="streamQuestionArea" passthrough={slotPassthrough} />
+        </QuestionBox>
+      );
+    }
+  }
+
   render() {
     const {
       root,
       appendItemArray,
       asset,
-      asset: {
-        comment: highlightedComment,
-        settings: { questionBoxEnable },
-      },
+      asset: { comment: highlightedComment },
       postComment,
       notify,
       updateItem,
@@ -260,14 +275,7 @@ class Stream extends React.Component {
               content={asset.settings.infoBoxContent}
               enable={asset.settings.infoBoxEnable}
             />
-            {questionBoxEnable && (
-              <QuestionBox
-                content={asset.settings.questionBoxContent}
-                icon={asset.settings.questionBoxIcon}
-              >
-                <Slot fill="streamQuestionArea" passthrough={slotPassthrough} />
-              </QuestionBox>
-            )}
+            {this.renderQuestionBox()}
             {!banned &&
               temporarilySuspended && (
                 <RestrictedMessageBox>
@@ -305,6 +313,7 @@ class Stream extends React.Component {
             ) : (
               <Markdown content={asset.settings.disableCommentingMessage} />
             )}
+            {this.renderQuestionBox()}
           </div>
         )}
 
