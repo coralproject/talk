@@ -20,13 +20,18 @@ module.exports = {
     client.end();
   },
 
+  'Admin goes to login': client => {
+    const adminPage = client.page.admin();
+    adminPage.navigate().expect.element('drawerButton').to.not.be.present;
+  },
+
   'Admin logs in': client => {
     const adminPage = client.page.admin();
     const {
       testData: { admin },
     } = client.globals;
 
-    adminPage.navigateAndLogin(admin);
+    adminPage.login(admin);
   },
 
   'Admin goes to Stories': client => {
