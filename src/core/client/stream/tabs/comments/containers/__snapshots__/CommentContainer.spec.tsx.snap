@@ -9,7 +9,12 @@ exports[`hide reply button 1`] = `
     footer={
       <React.Fragment>
         <ButtonsBar>
-          <withContext(withLocalStateContainer(PermalinkContainer))
+          <Relay(PermalinkButtonContainerProps)
+            asset={
+              Object {
+                "url": "http://localhost/asset",
+              }
+            }
             commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
@@ -64,7 +69,12 @@ exports[`renders body only 1`] = `
             id="comments-commentContainer-replyButton-comment-id"
             onClick={[Function]}
           />
-          <withContext(withLocalStateContainer(PermalinkContainer))
+          <Relay(PermalinkButtonContainerProps)
+            asset={
+              Object {
+                "url": "http://localhost/asset",
+              }
+            }
             commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
@@ -119,7 +129,12 @@ exports[`renders username and body 1`] = `
             id="comments-commentContainer-replyButton-comment-id"
             onClick={[Function]}
           />
-          <withContext(withLocalStateContainer(PermalinkContainer))
+          <Relay(PermalinkButtonContainerProps)
+            asset={
+              Object {
+                "url": "http://localhost/asset",
+              }
+            }
             commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
@@ -174,7 +189,12 @@ exports[`shows conversation link 1`] = `
             id="comments-commentContainer-replyButton-comment-id"
             onClick={[Function]}
           />
-          <withContext(withLocalStateContainer(PermalinkContainer))
+          <Relay(PermalinkButtonContainerProps)
+            asset={
+              Object {
+                "url": "http://localhost/asset",
+              }
+            }
             commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
