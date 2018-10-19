@@ -28,7 +28,10 @@ export function denormalizeComments(commentList: any[]) {
 export function denormalizeAsset(asset: any) {
   const commentNodes =
     (asset.comments &&
-      asset.comments.edges.map((edge: any) => denormalizeComment(edge))) ||
+      asset.comments.edges.map((edge: any) => ({
+        ...edge,
+        node: denormalizeComment(edge.node),
+      }))) ||
     [];
   const commentsPageInfo = (asset.comments && asset.comments.pageInfo) || {
     endCursor: null,

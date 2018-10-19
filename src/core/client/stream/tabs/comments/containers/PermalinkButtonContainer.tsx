@@ -1,34 +1,34 @@
 import React, { StatelessComponent } from "react";
 import { graphql } from "react-relay";
 import { getURLWithCommentID } from "talk-framework/helpers";
-import { withLocalStateContainer } from "talk-framework/lib/relay";
-import { PermalinkButtonContainerLocal as Local } from "talk-stream/__generated__/PermalinkButtonContainerLocal.graphql";
+import { withFragmentContainer } from "talk-framework/lib/relay";
+import { PermalinkButtonContainer_asset as AssetData } from "talk-stream/__generated__/PermalinkButtonContainer_asset.graphql";
 
 import PermalinkButton from "../components/PermalinkButton";
 
 interface InnerProps {
-  local: Local;
+  asset: AssetData;
   commentID: string;
 }
 
-export const PermalinkContainer: StatelessComponent<InnerProps> = ({
-  local,
+export const PermalinkButtonContainerProps: StatelessComponent<InnerProps> = ({
+  asset,
   commentID,
 }) => {
-  return local.assetURL ? (
+  return (
     <PermalinkButton
       commentID={commentID}
-      url={getURLWithCommentID(local.assetURL, commentID)}
+      url={getURLWithCommentID(asset.url, commentID)}
     />
-  ) : null;
+  );
 };
 
-const enhanced = withLocalStateContainer(
-  graphql`
-    fragment PermalinkButtonContainerLocal on Local {
-      assetURL
+const enhanced = withFragmentContainer<InnerProps>({
+  asset: graphql`
+    fragment PermalinkButtonContainer_asset on Asset {
+      url
     }
-  `
-)(PermalinkContainer);
+  `,
+})(PermalinkButtonContainerProps);
 
 export default enhanced;

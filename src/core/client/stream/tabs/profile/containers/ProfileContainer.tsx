@@ -20,13 +20,13 @@ export class StreamContainer extends React.Component<ProfileContainerProps> {
 const enhanced = withFragmentContainer<ProfileContainerProps>({
   asset: graphql`
     fragment ProfileContainer_asset on Asset {
-      ...CommentsHistoryContainer_asset
+      ...CommentHistoryContainer_asset
     }
   `,
   me: graphql`
     fragment ProfileContainer_me on User {
       ...UserBoxContainer_me
-      ...CommentsHistoryContainer_me
+      ...CommentHistoryContainer_me
     }
   `,
 })(StreamContainer);

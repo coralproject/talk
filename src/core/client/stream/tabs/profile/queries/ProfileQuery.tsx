@@ -64,10 +64,6 @@ const ProfileQuery: StatelessComponent<InnerProps> = ({
       assetID,
       assetURL,
     }}
-    cacheConfig={{
-      // TODO: enable caching after mutations are adapted.
-      force: true,
-    }}
     render={render}
   />
 );
