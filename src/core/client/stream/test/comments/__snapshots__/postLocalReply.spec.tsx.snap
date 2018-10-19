@@ -256,7 +256,7 @@ exports[`post a reply: open reply form 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-with-deepest-replies"
                   >
                     <div
@@ -353,7 +353,7 @@ exports[`post a reply: open reply form 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-with-deepest-replies-1"
                       >
                         <div
@@ -450,7 +450,7 @@ exports[`post a reply: open reply form 1`] = `
                           role="article"
                         >
                           <div
-                            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                             id="comment-comment-with-deepest-replies-2"
                           >
                             <div
@@ -547,7 +547,7 @@ exports[`post a reply: open reply form 1`] = `
                               role="article"
                             >
                               <div
-                                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                 id="comment-comment-with-deepest-replies-3"
                               >
                                 <div
@@ -644,7 +644,7 @@ exports[`post a reply: open reply form 1`] = `
                                   role="article"
                                 >
                                   <div
-                                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                     id="comment-comment-with-deepest-replies-4"
                                   >
                                     <div
@@ -741,7 +741,7 @@ exports[`post a reply: open reply form 1`] = `
                                       role="article"
                                     >
                                       <div
-                                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                         id="comment-comment-with-deepest-replies-5"
                                       >
                                         <div
@@ -1232,7 +1232,7 @@ exports[`post a reply: optimistic response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-with-deepest-replies"
                   >
                     <div
@@ -1329,7 +1329,7 @@ exports[`post a reply: optimistic response 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-with-deepest-replies-1"
                       >
                         <div
@@ -1426,7 +1426,7 @@ exports[`post a reply: optimistic response 1`] = `
                           role="article"
                         >
                           <div
-                            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                             id="comment-comment-with-deepest-replies-2"
                           >
                             <div
@@ -1523,7 +1523,7 @@ exports[`post a reply: optimistic response 1`] = `
                               role="article"
                             >
                               <div
-                                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                 id="comment-comment-with-deepest-replies-3"
                               >
                                 <div
@@ -1620,7 +1620,7 @@ exports[`post a reply: optimistic response 1`] = `
                                   role="article"
                                 >
                                   <div
-                                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                     id="comment-comment-with-deepest-replies-4"
                                   >
                                     <div
@@ -1717,7 +1717,7 @@ exports[`post a reply: optimistic response 1`] = `
                                       role="article"
                                     >
                                       <div
-                                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                         id="comment-comment-with-deepest-replies-5"
                                       >
                                         <div
@@ -1951,7 +1951,7 @@ exports[`post a reply: optimistic response 1`] = `
                                           role="article"
                                         >
                                           <div
-                                            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                             id="comment-uuid-0"
                                           >
                                             <div
@@ -2301,7 +2301,7 @@ exports[`post a reply: server response 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-with-deepest-replies"
                   >
                     <div
@@ -2398,7 +2398,7 @@ exports[`post a reply: server response 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-with-deepest-replies-1"
                       >
                         <div
@@ -2495,7 +2495,7 @@ exports[`post a reply: server response 1`] = `
                           role="article"
                         >
                           <div
-                            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                             id="comment-comment-with-deepest-replies-2"
                           >
                             <div
@@ -2592,7 +2592,7 @@ exports[`post a reply: server response 1`] = `
                               role="article"
                             >
                               <div
-                                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                 id="comment-comment-with-deepest-replies-3"
                               >
                                 <div
@@ -2689,7 +2689,7 @@ exports[`post a reply: server response 1`] = `
                                   role="article"
                                 >
                                   <div
-                                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                     id="comment-comment-with-deepest-replies-4"
                                   >
                                     <div
@@ -2786,7 +2786,7 @@ exports[`post a reply: server response 1`] = `
                                       role="article"
                                     >
                                       <div
-                                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                         id="comment-comment-with-deepest-replies-5"
                                       >
                                         <div
@@ -2899,7 +2899,7 @@ exports[`post a reply: server response 1`] = `
                                           role="article"
                                         >
                                           <div
-                                            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                             id="comment-comment-x"
                                           >
                                             <div
@@ -3233,7 +3233,7 @@ exports[`renders comment stream 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-with-deepest-replies"
                   >
                     <div
@@ -3330,7 +3330,7 @@ exports[`renders comment stream 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-with-deepest-replies-1"
                       >
                         <div
@@ -3427,7 +3427,7 @@ exports[`renders comment stream 1`] = `
                           role="article"
                         >
                           <div
-                            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                             id="comment-comment-with-deepest-replies-2"
                           >
                             <div
@@ -3524,7 +3524,7 @@ exports[`renders comment stream 1`] = `
                               role="article"
                             >
                               <div
-                                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                 id="comment-comment-with-deepest-replies-3"
                               >
                                 <div
@@ -3621,7 +3621,7 @@ exports[`renders comment stream 1`] = `
                                   role="article"
                                 >
                                   <div
-                                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                     id="comment-comment-with-deepest-replies-4"
                                   >
                                     <div
@@ -3718,7 +3718,7 @@ exports[`renders comment stream 1`] = `
                                       role="article"
                                     >
                                       <div
-                                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                         id="comment-comment-with-deepest-replies-5"
                                       >
                                         <div

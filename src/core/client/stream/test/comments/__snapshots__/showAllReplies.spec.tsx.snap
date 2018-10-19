@@ -195,7 +195,7 @@ exports[`renders comment stream 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-0"
                   >
                     <div
@@ -292,7 +292,7 @@ exports[`renders comment stream 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-1"
                       >
                         <div
@@ -595,7 +595,7 @@ exports[`show all replies 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-0"
                   >
                     <div
@@ -692,7 +692,7 @@ exports[`show all replies 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-1"
                       >
                         <div
@@ -785,7 +785,7 @@ exports[`show all replies 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-2"
                       >
                         <div

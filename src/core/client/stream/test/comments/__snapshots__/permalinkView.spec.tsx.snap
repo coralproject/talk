@@ -144,7 +144,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-1"
                       >
                         <div
@@ -254,7 +254,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-2"
                       >
                         <div
@@ -362,7 +362,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-with-replies"
                       >
                         <div
@@ -465,7 +465,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-3"
                       >
                         <div
@@ -558,7 +558,7 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-4"
                       >
                         <div
@@ -837,7 +837,7 @@ exports[`show all comments 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-with-replies"
                   >
                     <div
@@ -934,7 +934,7 @@ exports[`show all comments 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-3"
                       >
                         <div
@@ -1027,7 +1027,7 @@ exports[`show all comments 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-4"
                       >
                         <div

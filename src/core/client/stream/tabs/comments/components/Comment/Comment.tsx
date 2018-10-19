@@ -7,6 +7,7 @@ import { Flex, HorizontalGutter } from "talk-ui/components";
 
 import * as styles from "./Comment.css";
 import EditedMarker from "./EditedMarker";
+import InReplyTo from "./InReplyTo";
 import TopBarLeft from "./TopBarLeft";
 import Username from "./Username";
 
@@ -20,6 +21,7 @@ export interface CommentProps {
   footer?: React.ReactNode;
   showEditedMarker?: boolean;
   highlight?: boolean;
+  parentAuthorName?: string | null;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
@@ -28,12 +30,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
       role="article"
       className={cn(styles.root, { [styles.highlight]: props.highlight })}
     >
-      <Flex
-        className={styles.topBar}
-        direction="row"
-        justifyContent="space-between"
-        id={props.id}
-      >
+      <Flex direction="row" justifyContent="space-between" id={props.id}>
         <TopBarLeft>
           {props.username && <Username>{props.username}</Username>}
           <Flex direction="row" alignItems="baseline" itemGutter>
@@ -43,6 +40,12 @@ const Comment: StatelessComponent<CommentProps> = props => {
         </TopBarLeft>
         {props.topBarRight && <div>{props.topBarRight}</div>}
       </Flex>
+      {props.parentAuthorName && (
+        <div className={styles.subBar}>
+          <InReplyTo username={props.parentAuthorName} />
+        </div>
+      )}
+
       <HorizontalGutter>
         <HTMLContent>{props.body || ""}</HTMLContent>
         {props.footer}

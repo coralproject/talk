@@ -26,6 +26,7 @@ exports[`hide reply button 1`] = `
                   "edited": false,
                 },
                 "id": "comment-id",
+                "parent": null,
                 "pending": false,
               }
             }
@@ -44,6 +45,7 @@ exports[`hide reply button 1`] = `
     }
     id="comment-comment-id"
     indentLevel={1}
+    parentAuthorName={null}
     showEditedMarker={false}
     username="Marvin"
   />
@@ -81,6 +83,7 @@ exports[`renders body only 1`] = `
                   "edited": false,
                 },
                 "id": "comment-id",
+                "parent": null,
                 "pending": false,
               }
             }
@@ -99,8 +102,70 @@ exports[`renders body only 1`] = `
     }
     id="comment-comment-id"
     indentLevel={1}
+    parentAuthorName={null}
     showEditedMarker={false}
     username={null}
+  />
+</withPropsOnChange(HorizontalGutter)>
+`;
+
+exports[`renders in reply to 1`] = `
+<withPropsOnChange(HorizontalGutter)>
+  <IndentedComment
+    blur={false}
+    body="Woof"
+    createdAt="1995-12-17T03:24:00.000Z"
+    footer={
+      <React.Fragment>
+        <ButtonsBar>
+          <ReplyButton
+            active={false}
+            id="comments-commentContainer-replyButton-comment-id"
+            onClick={[Function]}
+          />
+          <withContext(withLocalStateContainer(PermalinkContainer))
+            commentID="comment-id"
+          />
+          <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "parent": Object {
+                  "author": Object {
+                    "username": "ParentAuthor",
+                  },
+                },
+                "pending": false,
+              }
+            }
+            me={null}
+            settings={
+              Object {
+                "reaction": Object {
+                  "icon": "thumb_up_alt",
+                  "label": "Respect",
+                },
+              }
+            }
+          />
+        </ButtonsBar>
+      </React.Fragment>
+    }
+    id="comment-comment-id"
+    indentLevel={1}
+    parentAuthorName="ParentAuthor"
+    showEditedMarker={false}
+    username="Marvin"
   />
 </withPropsOnChange(HorizontalGutter)>
 `;
@@ -136,6 +201,7 @@ exports[`renders username and body 1`] = `
                   "edited": false,
                 },
                 "id": "comment-id",
+                "parent": null,
                 "pending": false,
               }
             }
@@ -154,6 +220,7 @@ exports[`renders username and body 1`] = `
     }
     id="comment-comment-id"
     indentLevel={1}
+    parentAuthorName={null}
     showEditedMarker={false}
     username="Marvin"
   />
@@ -191,6 +258,7 @@ exports[`shows conversation link 1`] = `
                   "edited": false,
                 },
                 "id": "comment-id",
+                "parent": null,
                 "pending": false,
               }
             }
@@ -215,6 +283,7 @@ exports[`shows conversation link 1`] = `
     }
     id="comment-comment-id"
     indentLevel={1}
+    parentAuthorName={null}
     showEditedMarker={false}
     username="Marvin"
   />

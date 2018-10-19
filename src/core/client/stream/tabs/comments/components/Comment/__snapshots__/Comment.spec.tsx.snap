@@ -6,7 +6,6 @@ exports[`renders username and body 1`] = `
   role="article"
 >
   <withPropsOnChange(Flex)
-    className="Comment-topBar"
     direction="row"
     id="comment-id"
     justifyContent="space-between"
