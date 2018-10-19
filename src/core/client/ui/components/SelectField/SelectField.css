@@ -1,0 +1,65 @@
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+.iconWrapper {
+  position: absolute;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  right: calc(0.5 * var(--spacing-unit));
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.keyboardFocus:focus {
+  outline-width: 3px;
+  outline-color: Highlight;
+  outline-color: -webkit-focus-ring-color;
+  outline-style: auto;
+}
+
+.select {
+  composes: menuItem from "talk-ui/shared/typography.css";
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  color: var(--palette-text-primary);
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+  }
+
+  &:disabled {
+    background-color: var(--palette-grey-lightest);
+    border-color: var(--palette-text-secondary);
+    color: var(--palette-text-secondary);
+  }
+
+  border: 1px solid var(--palette-text-primary);
+  border-radius: var(--round-corners);
+  background-color: var(--palette-common-white);
+
+  padding: calc(0.5 * var(--spacing-unit)) calc(2 * var(--spacing-unit))
+    calc(0.5 * var(--spacing-unit)) var(--spacing-unit);
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.iconWrapperDisabled {
+  color: var(--palette-text-secondary);
+}

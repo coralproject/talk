@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FocusEvent, MouseEvent } from "react";
-import { hoistStatics } from "recompose";
+import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
 interface InjectedProps {
   onFocus: React.EventHandler<FocusEvent<any>>;
@@ -14,12 +14,14 @@ interface InjectedProps {
  * to indicate a focus on the element, that wasn't triggered by mouse
  * or touch.
  */
-const withKeyboardFocus = hoistStatics<InjectedProps>(
+const withKeyboardFocus: DefaultingInferableComponentEnhancer<
+  InjectedProps
+> = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
     class WithKeyboardFocus extends React.Component<any> {
+      private lastMouseDownTime: number = 0;
       public state = {
         keyboardFocus: false,
-        lastMouseDownTime: 0,
       };
 
       private handleFocus: React.EventHandler<FocusEvent<any>> = event => {
@@ -27,7 +29,7 @@ const withKeyboardFocus = hoistStatics<InjectedProps>(
           this.props.onFocus(event);
         }
         const now = new Date().getTime();
-        if (now - this.state.lastMouseDownTime > 750) {
+        if (now - this.lastMouseDownTime > 750) {
           this.setState({ keyboardFocus: true });
         }
       };
@@ -43,7 +45,7 @@ const withKeyboardFocus = hoistStatics<InjectedProps>(
         if (this.props.onMouseDown) {
           this.props.onMouseDown(event);
         }
-        this.setState({ lastMouseDownTime: new Date().getTime() });
+        this.lastMouseDownTime = new Date().getTime();
       };
 
       public render() {
@@ -63,7 +65,4 @@ const withKeyboardFocus = hoistStatics<InjectedProps>(
   }
 );
 
-// TODO: workaround, add bug link.
-export default withKeyboardFocus as <P extends Partial<InjectedProps>>(
-  BaseComponent: React.ComponentType<P>
-) => React.ComponentType<P>;
+export default withKeyboardFocus;

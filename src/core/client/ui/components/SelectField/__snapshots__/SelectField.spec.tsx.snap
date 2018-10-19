@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<span
+  className="SelectField-root customClassName"
+>
+  <select
+    autofocus={true}
+    className="SelectField-select SelectField-fullWidth"
+    disabled={true}
+    id="selectID"
+    name="selectName"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onMouseDown={[Function]}
+    value="pie"
+  />
+  <span
+    aria-hidden={true}
+    className="SelectField-iconWrapper SelectField-iconWrapperDisabled"
+  >
+    <span
+      aria-hidden="true"
+      className="Icon-root Icon-sm"
+    >
+      expand_more
+    </span>
+  </span>
+</span>
+`;

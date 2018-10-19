@@ -1,5 +1,17 @@
-.root {
-  composes: icon from "talk-ui/shared/icon.css";
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Material Icons"), local("MaterialIcons-Regular"),
+    url(material-design-icons/iconfont/MaterialIcons-Regular.woff2)
+      format("woff2"),
+    url(material-design-icons/iconfont/MaterialIcons-Regular.woff)
+      format("woff"),
+    url(material-design-icons/iconfont/MaterialIcons-Regular.ttf)
+      format("truetype");
+}
+
+.icon {
   font-family: "Material Icons";
   speak: none;
   font-style: normal;
@@ -22,21 +34,4 @@
   /* Better Font Rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.sm {
-  font-size: 14px;
-  width: 14px;
-}
-.md {
-  font-size: 18px;
-  width: 18px;
-}
-.lg {
-  font-size: 24px;
-  width: 24px;
-}
-.xl {
-  font-size: 36px;
-  width: 36px;
 }

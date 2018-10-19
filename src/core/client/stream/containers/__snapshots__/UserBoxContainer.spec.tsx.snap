@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<React.Fragment>
+<Fragment>
   <Popup
     features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
     focus={false}
@@ -16,5 +16,5 @@ exports[`renders correctly 1`] = `
     onRegister={[Function]}
     onSignIn={[Function]}
   />
-</React.Fragment>
+</Fragment>
 `;
