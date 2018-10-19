@@ -54,8 +54,8 @@ declare module "fluent/compat" {
     protected value: any;
     protected opts: any;
     constructor(value: any, opts?: any);
-    valueOf(): any;
-    toString(bundle: FluentBundle): string;
+    public valueOf(): any;
+    public toString(bundle: FluentBundle): string;
   }
 
   export class FluentNumber extends FluentType {}

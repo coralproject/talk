@@ -1,17 +1,13 @@
-import { RequestHandler } from "express";
-
 import TenantCache from "talk-server/services/tenant/cache";
-import { Request } from "talk-server/types/express";
+import { RequestHandler } from "talk-server/types/express";
 
 export interface MiddlewareOptions {
   cache: TenantCache;
 }
 
-export default ({ cache }: MiddlewareOptions): RequestHandler => async (
-  req: Request,
-  res,
-  next
-) => {
+export const tenantMiddleware = ({
+  cache,
+}: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   try {
     // Attach the tenant to the request.
     const tenant = await cache.retrieveByDomain(req.hostname);
