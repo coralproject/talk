@@ -133,7 +133,12 @@ exports[`renders in reply to 1`] = `
             id="comments-commentContainer-replyButton-comment-id"
             onClick={[Function]}
           />
-          <withContext(withLocalStateContainer(PermalinkContainer))
+          <Relay(PermalinkButtonContainerProps)
+            asset={
+              Object {
+                "url": "http://localhost/asset",
+              }
+            }
             commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
