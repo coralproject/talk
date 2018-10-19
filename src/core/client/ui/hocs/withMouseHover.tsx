@@ -19,16 +19,16 @@ const withMouseHover: DefaultingInferableComponentEnhancer<
 > = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
     class WithMouseHover extends React.Component<InjectedProps> {
+      private lastTouchEndTime = 0;
       public state = {
         mouseHover: false,
-        lastTouchEndTime: 0,
       };
 
       private handleTouchEnd: React.EventHandler<TouchEvent<any>> = event => {
         if (this.props.onTouchEnd) {
           this.props.onTouchEnd(event);
         }
-        this.setState({ lastTouchEndTime: new Date().getTime() });
+        this.lastTouchEndTime = new Date().getTime();
       };
 
       private handleMouseOver: React.EventHandler<MouseEvent<any>> = event => {
@@ -36,7 +36,7 @@ const withMouseHover: DefaultingInferableComponentEnhancer<
           this.props.onMouseOver(event);
         }
         const now = new Date().getTime();
-        if (now - this.state.lastTouchEndTime > 750) {
+        if (now - this.lastTouchEndTime > 750) {
           this.setState({ mouseHover: true });
         }
       };

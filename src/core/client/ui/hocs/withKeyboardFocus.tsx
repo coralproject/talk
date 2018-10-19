@@ -19,9 +19,9 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
 > = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
     class WithKeyboardFocus extends React.Component<any> {
+      private lastMouseDownTime: number = 0;
       public state = {
         keyboardFocus: false,
-        lastMouseDownTime: 0,
       };
 
       private handleFocus: React.EventHandler<FocusEvent<any>> = event => {
@@ -29,7 +29,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
           this.props.onFocus(event);
         }
         const now = new Date().getTime();
-        if (now - this.state.lastMouseDownTime > 750) {
+        if (now - this.lastMouseDownTime > 750) {
           this.setState({ keyboardFocus: true });
         }
       };
@@ -45,7 +45,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
         if (this.props.onMouseDown) {
           this.props.onMouseDown(event);
         }
-        this.setState({ lastMouseDownTime: new Date().getTime() });
+        this.lastMouseDownTime = new Date().getTime();
       };
 
       public render() {
