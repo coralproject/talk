@@ -165,6 +165,11 @@ export class CommentContainer extends Component<InnerProps, State> {
           blur={comment.pending || false}
           showEditedMarker={comment.editing.edited}
           highlight={highlight}
+          parentAuthorName={
+            comment.parent &&
+            comment.parent.author &&
+            comment.parent.author.username
+          }
           topBarRight={
             (editable && (
               <Localized id="comments-commentContainer-editButton">
@@ -250,6 +255,11 @@ const enhanced = withSetCommentIDMutation(
           author {
             id
             username
+          }
+          parent {
+            author {
+              username
+            }
           }
           body
           createdAt

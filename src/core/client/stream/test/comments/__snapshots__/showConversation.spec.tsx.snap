@@ -195,7 +195,7 @@ exports[`renders comment stream 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-with-deepest-replies"
                   >
                     <div
@@ -325,7 +325,7 @@ exports[`renders comment stream 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                         id="comment-comment-with-deepest-replies-1"
                       >
                         <div
@@ -455,7 +455,7 @@ exports[`renders comment stream 1`] = `
                           role="article"
                         >
                           <div
-                            className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                             id="comment-comment-with-deepest-replies-2"
                           >
                             <div
@@ -585,7 +585,7 @@ exports[`renders comment stream 1`] = `
                               role="article"
                             >
                               <div
-                                className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                 id="comment-comment-with-deepest-replies-3"
                               >
                                 <div
@@ -715,7 +715,7 @@ exports[`renders comment stream 1`] = `
                                   role="article"
                                 >
                                   <div
-                                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                     id="comment-comment-with-deepest-replies-4"
                                   >
                                     <div
@@ -845,7 +845,7 @@ exports[`renders comment stream 1`] = `
                                       role="article"
                                     >
                                       <div
-                                        className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                                         id="comment-comment-with-deepest-replies-5"
                                       >
                                         <div
@@ -1106,7 +1106,7 @@ exports[`shows conversation 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Comment-topBar Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                     id="comment-comment-with-deepest-replies-5"
                   >
                     <div

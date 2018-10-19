@@ -22,6 +22,7 @@ it("renders username and body", () => {
         id: "author-id",
         username: "Marvin",
       },
+      parent: null,
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
       editing: {
@@ -59,6 +60,7 @@ it("renders body only", () => {
         id: "author-id",
         username: null,
       },
+      parent: null,
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
       editing: {
@@ -94,6 +96,7 @@ it("hide reply button", () => {
         id: "author-id",
         username: "Marvin",
       },
+      parent: null,
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
       editing: {
@@ -138,6 +141,7 @@ it("shows conversation link", () => {
         id: "author-id",
         username: "Marvin",
       },
+      parent: null,
       body: "Woof",
       createdAt: "1995-12-17T03:24:00.000Z",
       editing: {
@@ -152,6 +156,48 @@ it("shows conversation link", () => {
     localReply: false,
     disableReplies: false,
     showConversationLink: true,
+  };
+
+  const wrapper = shallow(<CommentContainerN {...props} />);
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders in reply to", () => {
+  const props: PropTypesOf<typeof CommentContainerN> = {
+    me: null,
+    asset: {
+      url: "http://localhost/asset",
+    },
+    comment: {
+      id: "comment-id",
+      author: {
+        id: "author-id",
+        username: "Marvin",
+      },
+      parent: {
+        author: {
+          username: "ParentAuthor",
+        },
+      },
+      body: "Woof",
+      createdAt: "1995-12-17T03:24:00.000Z",
+      editing: {
+        edited: false,
+        editableUntil: "1995-12-17T03:24:30.000Z",
+      },
+      pending: false,
+    },
+    settings: {
+      reaction: {
+        icon: "thumb_up_alt",
+        label: "Respect",
+      },
+    },
+    indentLevel: 1,
+    showAuthPopup: noop as any,
+    setCommentID: noop as any,
+    localReply: false,
+    disableReplies: false,
   };
 
   const wrapper = shallow(<CommentContainerN {...props} />);
