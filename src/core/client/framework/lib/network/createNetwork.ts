@@ -19,6 +19,7 @@ export default function createNetwork(tokenGetter: TokenGetter) {
     cacheMiddleware({
       size: 100, // max 100 requests
       ttl: 900000, // 15 minutes
+      clearOnMutation: true,
     }),
     urlMiddleware({
       url: req => Promise.resolve(graphqlURL),

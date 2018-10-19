@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`has more disables load more 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  size="double"
+>
+  <Localized
+    id="profile-historyComment-commentHistory"
+  >
+    <withPropsOnChange(Typography)
+      variant="heading3"
+    >
+      Comment History
+    </withPropsOnChange(Typography)>
+  </Localized>
+  <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
+    asset={Object {}}
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    key="comment-1"
+  />
+  <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
+    asset={Object {}}
+    comment={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    key="comment-2"
+  />
+  <Localized
+    id="profile-commentHistory-loadMore"
+  >
+    <withPropsOnChange(Button)
+      aria-controls="talk-profile-commentHistory-log"
+      disabled={true}
+      fullWidth={true}
+      id="talk-profile-commentHistory-loadMore"
+      onClick={[Function]}
+      variant="outlined"
+    >
+      Load More
+    </withPropsOnChange(Button)>
+  </Localized>
+</withPropsOnChange(HorizontalGutter)>
+`;
+
+exports[`has more renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  size="double"
+>
+  <Localized
+    id="profile-historyComment-commentHistory"
+  >
+    <withPropsOnChange(Typography)
+      variant="heading3"
+    >
+      Comment History
+    </withPropsOnChange(Typography)>
+  </Localized>
+  <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
+    asset={Object {}}
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    key="comment-1"
+  />
+  <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
+    asset={Object {}}
+    comment={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    key="comment-2"
+  />
+  <Localized
+    id="profile-commentHistory-loadMore"
+  >
+    <withPropsOnChange(Button)
+      aria-controls="talk-profile-commentHistory-log"
+      disabled={false}
+      fullWidth={true}
+      id="talk-profile-commentHistory-loadMore"
+      onClick={[Function]}
+      variant="outlined"
+    >
+      Load More
+    </withPropsOnChange(Button)>
+  </Localized>
+</withPropsOnChange(HorizontalGutter)>
+`;
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  size="double"
+>
+  <Localized
+    id="profile-historyComment-commentHistory"
+  >
+    <withPropsOnChange(Typography)
+      variant="heading3"
+    >
+      Comment History
+    </withPropsOnChange(Typography)>
+  </Localized>
+  <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
+    asset={Object {}}
+    comment={
+      Object {
+        "id": "comment-1",
+      }
+    }
+    key="comment-1"
+  />
+  <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
+    asset={Object {}}
+    comment={
+      Object {
+        "id": "comment-2",
+      }
+    }
+    key="comment-2"
+  />
+</withPropsOnChange(HorizontalGutter)>
+`;

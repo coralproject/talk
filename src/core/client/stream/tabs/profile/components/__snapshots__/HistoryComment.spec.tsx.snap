@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)>
+  <Localized
+    $title="Asset Title"
+    id="profile-historyComment-story"
+  >
+    <withPropsOnChange(Typography)
+      variant="heading4"
+    >
+      Story: {$title}
+    </withPropsOnChange(Typography)>
+  </Localized>
+  <Timestamp>
+    2018-07-06T18:24:00.000Z
+  </Timestamp>
+  <withPropsOnChange(Typography)
+    container="div"
+    variant="bodyCopy"
+  >
+    <HTMLContent>
+      Hello World
+    </HTMLContent>
+  </withPropsOnChange(Typography)>
+  <withPropsOnChange(Flex)
+    alignItems="center"
+    direction="row"
+    itemGutter={true}
+  >
+    <div
+      className="HistoryComment-replies"
+    >
+      <withPropsOnChange(Icon)
+        className="HistoryComment-icon"
+      >
+        reply
+      </withPropsOnChange(Icon)>
+      <Localized
+        $replyCount={4}
+        id="profile-historyComment-replies"
+      >
+        <span>
+          Replies {$replyCount}
+        </span>
+      </Localized>
+    </div>
+    <withPropsOnChange(Button)
+      anchor={true}
+      href="http://localhost/conversation"
+      onClick={[Function]}
+      target="_parent"
+      variant="underlined"
+    >
+      <withPropsOnChange(Icon)>
+        launch
+      </withPropsOnChange(Icon)>
+      <Localized
+        id="profile-historyComment-viewConversation"
+      >
+        <span>
+          View Conversation
+        </span>
+      </Localized>
+    </withPropsOnChange(Button)>
+  </withPropsOnChange(Flex)>
+  <MatchMediaWithContext
+    lteWidth="xs"
+  >
+    <hr
+      className="HistoryComment-divider"
+    />
+  </MatchMediaWithContext>
+</withPropsOnChange(HorizontalGutter)>
+`;
