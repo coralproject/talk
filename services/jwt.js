@@ -122,7 +122,7 @@ function SharedSecret({ kid = undefined, secret = null }, algorithm) {
 
   // If the secret is base64 encoded, then decode it!
   if (secret.startsWith('base64:')) {
-    secret = Buffer.from(secret.substring(6), 'base64').toString();
+    secret = Buffer.from(secret.substring(7), 'base64').toString();
   }
 
   return new Secret({
