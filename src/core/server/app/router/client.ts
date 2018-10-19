@@ -28,9 +28,9 @@ export function createClientTargetRouter({
   // Create a router.
   const router = express.Router();
 
-  router.get("/", cacheHeadersMiddleware(cacheDuration), (req, res) =>
-    res.render(view, { staticURI })
-  );
+  router.use(cacheHeadersMiddleware(cacheDuration));
+
+  router.get("/", (req, res) => res.render(view, { staticURI }));
 
   return router;
 }

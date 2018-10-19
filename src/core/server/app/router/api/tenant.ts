@@ -2,7 +2,7 @@ import express from "express";
 
 import { AppOptions } from "talk-server/app";
 import { tenantInstallHandler } from "talk-server/app/handlers/api/tenant/install";
-import tenantMiddleware from "talk-server/app/middleware/tenant";
+import { tenantMiddleware } from "talk-server/app/middleware/tenant";
 import { RouterOptions } from "talk-server/app/router/types";
 import tenantGraphMiddleware from "talk-server/graph/tenant/middleware";
 
