@@ -17,7 +17,7 @@ import Container from "react-with-state-props"
   <Container
   state={{ value: "blue" }}
   render={props => (
-    <SelectField value={props.value} onChange={e => props.setValue(e.value)}>
+    <SelectField value={props.value} onChange={e => props.setValue(e.target.value)}>
       <Option value="red">Red Pill</Option>
       <Option value="blue">Blue Pill</Option>
     </SelectField>
@@ -29,7 +29,7 @@ import Container from "react-with-state-props"
   <Container
   state={{ value: "dog" }}
   render={props => (
-    <SelectField value={props.value} onChange={e => props.setValue(e.value)}>
+    <SelectField value={props.value} onChange={e => props.setValue(e.target.value)}>
       <OptGroup label="mammals">
         <Option value="dog">Dog</Option>
         <Option value="cat">Cat</Option>
