@@ -232,6 +232,7 @@ class Profile extends React.Component {
                   validationType="username"
                   disabled={!usernameCanBeUpdated}
                   columnDisplay
+                  errorMsg={this.state.errors.newUsername}
                 >
                   <div className={styles.bottomText}>
                     <span>
