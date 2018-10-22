@@ -92,7 +92,6 @@ export async function create(
 
     // Insert and handle creating the actions.
     comment = await addCommentActions(mongo, tenant, comment, inputs);
-    // asse
   }
 
   if (input.parent_id) {

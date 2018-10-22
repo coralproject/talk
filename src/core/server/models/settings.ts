@@ -6,7 +6,7 @@ import {
   GQLKarma,
   GQLMODERATION_MODE,
   GQLReactionConfiguration,
-  GQLWordlist,
+  GQLWordList,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
 // export interface EmailDomainRuleCondition {
@@ -89,9 +89,9 @@ export interface Settings extends ModerationSettings {
   karma: GQLKarma;
 
   /**
-   * wordlist stores all the banned/suspect words.
+   * wordList stores all the banned/suspect words.
    */
-  wordlist: GQLWordlist;
+  wordList: GQLWordList;
 
   /**
    * Set of configured authentication integrations.

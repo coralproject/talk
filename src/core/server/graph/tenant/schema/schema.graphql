@@ -226,9 +226,9 @@ enum MODERATION_MODE {
 }
 
 """
-Wordlist describes all the available wordlists.
+WordList describes all the available wordLists.
 """
-type Wordlist {
+type WordList {
   """
   banned words will by default reject the comment if it is found.
   """
@@ -704,9 +704,9 @@ type Settings {
   email: Email! @auth(roles: [ADMIN])
 
   """
-  wordlist will return a given list of words.
+  wordList will return a given list of words.
   """
-  wordlist: Wordlist! @auth(roles: [ADMIN, MODERATOR])
+  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -1304,7 +1304,7 @@ input SettingsEmailInput {
   fromAddress: String
 }
 
-input SettingsWordlistInput {
+input SettingsWordListInput {
   """
   banned words will by default reject the comment if it is found.
   """
@@ -1641,9 +1641,9 @@ input SettingsInput {
   organizationContactEmail: String
 
   """
-  wordlist will return a given list of words.
+  wordList will return a given list of words.
   """
-  wordlist: SettingsWordlistInput
+  wordList: SettingsWordListInput
 
   """
   email is the set of credentials and settings associated with the organization.

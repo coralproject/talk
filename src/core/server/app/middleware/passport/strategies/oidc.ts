@@ -209,9 +209,6 @@ export default class OIDCStrategy extends Strategy {
 
     this.mongo = mongo;
     this.cache = new TenantCacheAdapter(tenantCache);
-
-    // Connect the cache adapter.
-    this.cache.subscribe();
   }
 
   private lookupJWKSClient(

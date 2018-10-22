@@ -75,7 +75,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
     charCount: {
       enabled: false,
     },
-    wordlist: {
+    wordList: {
       suspect: [],
       banned: [],
     },
