@@ -16,6 +16,7 @@ import {
   Button,
   Flex,
   HorizontalGutter,
+  MatchMedia,
   Message,
   MessageIcon,
   RelativeTime,
@@ -128,28 +129,38 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
                   </Button>
                 </Localized>
               ) : (
-                <>
-                  <Localized id="comments-editCommentForm-cancel">
-                    <Button
-                      id={`comments-editCommentForm-cancelButton-${props.id}`}
-                      variant="outlined"
-                      disabled={submitting}
-                      onClick={props.onCancel}
-                    >
-                      Cancel
-                    </Button>
-                  </Localized>
-                  <Localized id="comments-editCommentForm-saveChanges">
-                    <Button
-                      color="primary"
-                      variant="filled"
-                      disabled={submitting || hasValidationErrors || pristine}
-                      type="submit"
-                    >
-                      Save Changes
-                    </Button>
-                  </Localized>
-                </>
+                <MatchMedia ltWidth="sm">
+                  {matches => (
+                    <>
+                      <Localized id="comments-editCommentForm-cancel">
+                        <Button
+                          id={`comments-editCommentForm-cancelButton-${
+                            props.id
+                          }`}
+                          variant="outlined"
+                          disabled={submitting}
+                          onClick={props.onCancel}
+                          fullWidth={matches}
+                        >
+                          Cancel
+                        </Button>
+                      </Localized>
+                      <Localized id="comments-editCommentForm-saveChanges">
+                        <Button
+                          color="primary"
+                          variant="filled"
+                          disabled={
+                            submitting || hasValidationErrors || pristine
+                          }
+                          type="submit"
+                          fullWidth={matches}
+                        >
+                          Save Changes
+                        </Button>
+                      </Localized>
+                    </>
+                  )}
+                </MatchMedia>
               )}
             </Flex>
           </HorizontalGutter>
