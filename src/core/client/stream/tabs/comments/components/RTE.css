@@ -1,9 +1,11 @@
 .content {
   composes: root from "talk-stream/shared/htmlContent.css";
+  border: 1px solid var(--palette-grey-main);
 }
 
 .toolbar {
   background-color: var(--palette-common-white);
+  border: 1px solid var(--palette-grey-main);
 }
 
 .placeholder {

@@ -19,6 +19,7 @@ import {
   Typography,
 } from "talk-ui/components";
 
+import ReplyTo from "./ReplyTo";
 import RTE from "./RTE";
 
 interface FormProps {
@@ -33,6 +34,7 @@ export interface ReplyCommentFormProps {
   onChange?: (state: FormState) => void;
   initialValues?: FormProps;
   rteRef?: Ref<CoralRTE>;
+  parentUsername: string | null;
 }
 
 const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
@@ -56,6 +58,9 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                       Write a reply
                     </AriaInfo>
                   </Localized>
+                  {props.parentUsername && (
+                    <ReplyTo username={props.parentUsername} />
+                  )}
                   <Localized
                     id="comments-replyCommentForm-rte"
                     attrs={{ placeholder: true }}

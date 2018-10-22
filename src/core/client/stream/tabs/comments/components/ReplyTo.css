@@ -1,0 +1,15 @@
+.root {
+  padding: calc(0.5 * var(--spacing-unit));
+  color: var(--palette-grey-dark);
+  background-color: var(--palette-grey-lightest);
+  border: 1px solid var(--palette-grey-main);
+  border-bottom: 0;
+}
+
+.text {
+  color: var(--palette-grey-dark);
+}
+
+.username {
+  color: var(--palette-grey-darkest);
+}

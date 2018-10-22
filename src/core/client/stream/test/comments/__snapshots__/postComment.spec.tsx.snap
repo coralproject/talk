@@ -125,7 +125,27 @@ exports[`post a comment: optimistic response 1`] = `
                   className=""
                 >
                   <div
-                    className="RTE-toolbar  RTE-toolbarDisabled Toolbar-toolbar"
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                    contentEditable={false}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "<strong>Hello world!</strong>",
+                      }
+                    }
+                    disabled={true}
+                    id="comments-postCommentForm-field"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                  <div
+                    className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
@@ -170,26 +190,6 @@ exports[`post a comment: optimistic response 1`] = `
                       </span>
                     </button>
                   </div>
-                  <div
-                    aria-placeholder="Post a comment"
-                    className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
-                    contentEditable={false}
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "<strong>Hello world!</strong>",
-                      }
-                    }
-                    disabled={true}
-                    id="comments-postCommentForm-field"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onCut={[Function]}
-                    onFocus={[Function]}
-                    onInput={[Function]}
-                    onKeyDown={[Function]}
-                    onPaste={[Function]}
-                    onSelect={[Function]}
-                  />
                 </div>
               </div>
             </div>
@@ -758,7 +758,33 @@ exports[`post a comment: server response 1`] = `
                   className=""
                 >
                   <div
-                    className="RTE-toolbar Toolbar-toolbar"
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "",
+                      }
+                    }
+                    disabled={false}
+                    id="comments-postCommentForm-field"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                  <div
+                    className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
@@ -803,32 +829,6 @@ exports[`post a comment: server response 1`] = `
                       </span>
                     </button>
                   </div>
-                  <div
-                    aria-hidden="true"
-                    className="RTE-placeholder RTE-placeholder"
-                  >
-                    Post a comment
-                  </div>
-                  <div
-                    aria-placeholder="Post a comment"
-                    className="RTE-contentEditable RTE-content"
-                    contentEditable={true}
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "",
-                      }
-                    }
-                    disabled={false}
-                    id="comments-postCommentForm-field"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onCut={[Function]}
-                    onFocus={[Function]}
-                    onInput={[Function]}
-                    onKeyDown={[Function]}
-                    onPaste={[Function]}
-                    onSelect={[Function]}
-                  />
                 </div>
               </div>
             </div>
@@ -1381,7 +1381,33 @@ exports[`renders comment stream 1`] = `
                   className=""
                 >
                   <div
-                    className="RTE-toolbar Toolbar-toolbar"
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "",
+                      }
+                    }
+                    disabled={false}
+                    id="comments-postCommentForm-field"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                  <div
+                    className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
                   >
                     <button
                       className="Button-button"
@@ -1426,32 +1452,6 @@ exports[`renders comment stream 1`] = `
                       </span>
                     </button>
                   </div>
-                  <div
-                    aria-hidden="true"
-                    className="RTE-placeholder RTE-placeholder"
-                  >
-                    Post a comment
-                  </div>
-                  <div
-                    aria-placeholder="Post a comment"
-                    className="RTE-contentEditable RTE-content"
-                    contentEditable={true}
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "",
-                      }
-                    }
-                    disabled={false}
-                    id="comments-postCommentForm-field"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onCut={[Function]}
-                    onFocus={[Function]}
-                    onInput={[Function]}
-                    onKeyDown={[Function]}
-                    onPaste={[Function]}
-                    onSelect={[Function]}
-                  />
                 </div>
               </div>
             </div>

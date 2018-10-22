@@ -64,6 +64,7 @@ exports[`renders correctly 1`] = `
     placeholderClassNameDisabled=""
     toolbarClassName="RTE-toolbar"
     toolbarClassNameDisabled=""
+    toolbarPosition="bottom"
     value="Hello world"
   />
 </div>

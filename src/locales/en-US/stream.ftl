@@ -85,6 +85,7 @@ comments-conversationThread-showHiddenComments =
 comments-permalinkView-currentViewing = You are currently viewing a
 comments-permalinkView-singleConversation = SINGLE CONVERSATION
 comments-inReplyTo = In reply to <username></username>
+comments-replyTo = Replying to: <username></username>
 
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation
