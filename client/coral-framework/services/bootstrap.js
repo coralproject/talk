@@ -47,14 +47,6 @@ const getAuthToken = (store, storage) => {
     // capable of storing the token in localStorage, then we would have
     // persisted it to the redux state.
     return state.config.auth_token || state.auth.token;
-  } else if (
-    !bowser.safari &&
-    !bowser.ios &&
-    storage &&
-    storage.getItem('token')
-  ) {
-    // Use local storage auth tokens where there's a stable api.
-    return storage.getItem('token');
   } else if (location.hash && location.hash.startsWith('#access_token=')) {
     // Check to see if the access token is living in the URL as a hash.
     const token = location.hash.substring(14);
@@ -73,6 +65,14 @@ const getAuthToken = (store, storage) => {
     }
 
     return token;
+  } else if (
+    !bowser.safari &&
+    !bowser.ios &&
+    storage &&
+    storage.getItem('token')
+  ) {
+    // Use local storage auth tokens where there's a stable api.
+    return storage.getItem('token');
   }
 
   return null;
