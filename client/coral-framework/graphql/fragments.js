@@ -28,6 +28,7 @@ export default {
     'UpdateSettingsResponse',
     'ChangePasswordResponse',
     'UpdateEmailAddressResponse',
-    'AttachLocalAuthResponse'
+    'AttachLocalAuthResponse',
+    'ForceScrapeAssetResponse'
   ),
 };

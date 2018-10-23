@@ -785,3 +785,24 @@ export const withCloseAsset = withMutation(
     }),
   }
 );
+
+export const withForceScrapeAsset = withMutation(
+  gql`
+    mutation ForceScrapeAsset($id: ID!) {
+      forceScrapeAsset(id: $id) {
+        ...ForceScrapeAssetResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      forceScrapeAsset: id => {
+        return mutate({
+          variables: {
+            id,
+          },
+        });
+      },
+    }),
+  }
+);

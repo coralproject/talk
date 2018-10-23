@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { compose } from 'react-apollo';
 import {
   fetchAssets,
   updateAssetState,
@@ -9,6 +10,7 @@ import {
   setSearchValue,
   setCriteria,
 } from 'coral-admin/src/actions/stories';
+import { withForceScrapeAsset } from 'coral-framework/graphql/mutations';
 import Stories from '../components/Stories';
 
 class StoriesContainer extends Component {
@@ -42,6 +44,14 @@ class StoriesContainer extends Component {
     });
   };
 
+  onScrapeAssets = () => {
+    const { forceScrapeAsset, assets } = this.props;
+
+    assets.ids.forEach(id => {
+      forceScrapeAsset(id);
+    });
+  };
+
   onStatusChange = async (closeStream, id) => {
     const { updateAssetState } = this.props;
 
@@ -71,7 +81,7 @@ class StoriesContainer extends Component {
         onStatusChange={this.onStatusChange}
         onSettingChange={this.onSettingChange}
         onSearchChange={this.onSearchChange}
-        onRefetchAssets={this.fetchAssets}
+        onScrapeAssets={this.onScrapeAssets}
       />
     );
   }
@@ -108,9 +118,13 @@ StoriesContainer.propTypes = {
   setSearchValue: PropTypes.func.isRequired,
   fetchAssets: PropTypes.func.isRequired,
   updateAssetState: PropTypes.func.isRequired,
+  forceScrapeAsset: PropTypes.func.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withForceScrapeAsset
 )(StoriesContainer);

@@ -40,7 +40,7 @@ class Stories extends Component {
       onSearchChange,
       onSettingChange,
       onPageChange,
-      onRefetchAssets,
+      onScrapeAssets,
       asc,
     } = this.props;
     const rows = assets.ids.map(id => assets.byId[id]);
@@ -59,13 +59,13 @@ class Stories extends Component {
             />
           </div>
           <Button
-            onClick={onRefetchAssets}
-            className={styles.refetchButton}
+            onClick={onScrapeAssets}
+            className={styles.scrapeButton}
             cStyle="cancel"
             icon="refresh"
             full
           >
-            {t('streams.refetch_assets')}
+            {t('streams.scrape_assets')}
           </Button>
           <div className={styles.optionHeader}>
             {t('streams.filter_streams')}
@@ -139,7 +139,7 @@ Stories.propTypes = {
   onSearchChange: PropTypes.func.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
-  onRefetchAssets: PropTypes.func.isRequired,
+  onScrapeAssets: PropTypes.func.isRequired,
 };
 
 export default Stories;
