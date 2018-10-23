@@ -1901,6 +1901,41 @@ type RegenerateSSOKeyPayload {
 }
 
 ##################
+## discoverOIDCConfiguration
+##################
+
+input DiscoverOIDCConfigurationInput {
+  """
+
+  """
+  issuer: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type OIDCConfiguration {
+  authorizationURL: String
+  tokenURL: String
+  jwksURI: String
+}
+
+type DiscoverOIDCConfigurationPayload {
+  """
+  configuration was the discovered configuration for the OpenID Connect server
+  given the provided issuer.
+  """
+  configuration: OIDCConfiguration
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -1928,6 +1963,10 @@ type Mutation {
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
     @auth(roles: [ADMIN])
+
+  discoverOIDCConfiguration(
+    input: DiscoverOIDCConfigurationInput!
+  ): DiscoverOIDCConfigurationPayload @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in

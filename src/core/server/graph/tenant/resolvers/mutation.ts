@@ -51,6 +51,10 @@ const Mutation: GQLMutationTypeResolver<void> = {
     settings: await ctx.mutators.Settings.regenerateSSOKey(),
     clientMutationId: input.clientMutationId,
   }),
+  discoverOIDCConfiguration: async (source, { input }, ctx) => ({
+    configuration: await ctx.mutators.Settings.discoverOIDCConfiguration(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };
 
 export default Mutation;

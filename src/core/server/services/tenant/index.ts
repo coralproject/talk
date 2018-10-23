@@ -1,5 +1,6 @@
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
+import { URL } from "url";
 
 import { GQLSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
@@ -10,6 +11,7 @@ import {
   updateTenant,
 } from "talk-server/models/tenant";
 
+import { discover } from "talk-server/app/middleware/passport/strategies/oidc/discover";
 import logger from "talk-server/logger";
 import TenantCache from "./cache";
 
@@ -97,4 +99,20 @@ export async function regenerateSSOKey(
   await cache.update(redis, updatedTenant);
 
   return updatedTenant;
+}
+
+/**
+ * discoverOIDCConfiguration will discover the OpenID Connect configuration as
+ * is required by any OpenID Connect compatible service:
+ *
+ * https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+ *
+ * @param issuerString the issuer that should be used as the discovery root.
+ */
+export async function discoverOIDCConfiguration(issuerString: string) {
+  // Parse the issuer.
+  const issuer = new URL(issuerString);
+
+  // Discover the configuration.
+  return discover(issuer);
 }
