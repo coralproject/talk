@@ -178,10 +178,12 @@ class Profile extends React.Component {
         },
       },
       notify,
+      success: hasChangedUsername,
     } = this.props;
     const { editing, formData, showDialog } = this.state;
 
-    const usernameCanBeUpdated = canUsernameBeUpdated(status);
+    const usernameCanBeUpdated =
+      canUsernameBeUpdated(status) && !hasChangedUsername;
 
     return (
       <section
@@ -307,6 +309,7 @@ Profile.propTypes = {
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,
+  success: PropTypes.bool.isRequired,
 };
 
 export default Profile;
