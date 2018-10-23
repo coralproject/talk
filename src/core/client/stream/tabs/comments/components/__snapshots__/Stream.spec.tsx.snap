@@ -13,6 +13,10 @@ exports[`renders correctly 1`] = `
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
+  <SortMenu
+    onChange={[Function]}
+    orderBy="CREATED_AT_ASC"
+  />
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
     id="talk-comments-stream-log"
@@ -131,6 +135,10 @@ exports[`when there is more disables load more button 1`] = `
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
+  <SortMenu
+    onChange={[Function]}
+    orderBy="CREATED_AT_ASC"
+  />
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
     id="talk-comments-stream-log"
@@ -263,6 +271,10 @@ exports[`when there is more renders a load more button 1`] = `
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
+  <SortMenu
+    onChange={[Function]}
+    orderBy="CREATED_AT_ASC"
+  />
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
     id="talk-comments-stream-log"
@@ -397,6 +409,10 @@ exports[`when use is logged in renders correctly 1`] = `
       assetID="asset-id"
     />
   </withPropsOnChange(HorizontalGutter)>
+  <SortMenu
+    onChange={[Function]}
+    orderBy="CREATED_AT_ASC"
+  />
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
     id="talk-comments-stream-log"

@@ -11,5 +11,6 @@ exports[`renders loading 1`] = `<withPropsOnChange(Spinner) />`;
 exports[`renders stream container 1`] = `
 <Relay(StreamContainer)
   asset={Object {}}
+  defaultOrderBy="CREATED_AT_ASC"
 />
 `;

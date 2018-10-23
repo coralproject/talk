@@ -11,20 +11,20 @@ import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQuery
 import { Spinner } from "talk-ui/components";
 import StreamContainer from "../containers/StreamContainer";
 
-interface InnerProps {
+interface Props {
   local: Local;
 }
 
-export const render = ({
-  error,
-  props,
-}: ReadyState<QueryTypes["response"]>) => {
-  if (error) {
-    return <div>{error.message}</div>;
+export const render = (
+  data: ReadyState<QueryTypes["response"]>,
+  defaultStreamOrderBy: Props["local"]["defaultStreamOrderBy"]
+) => {
+  if (data.error) {
+    return <div>{data.error.message}</div>;
   }
 
-  if (props) {
-    if (!props.asset) {
+  if (data.props) {
+    if (!data.props.asset) {
       return (
         <Localized id="comments-streamQuery-assetNotFound">
           <div>Asset not found</div>
@@ -33,9 +33,10 @@ export const render = ({
     }
     return (
       <StreamContainer
-        settings={props.settings}
-        me={props.me}
-        asset={props.asset}
+        settings={data.props.settings}
+        me={data.props.me}
+        asset={data.props.asset}
+        defaultOrderBy={defaultStreamOrderBy}
       />
     );
   }
@@ -43,36 +44,45 @@ export const render = ({
   return <Spinner />;
 };
 
-const StreamQuery: StatelessComponent<InnerProps> = ({
-  local: { assetID, assetURL },
-}) => (
-  <QueryRenderer<QueryTypes>
-    query={graphql`
-      query StreamQuery($assetID: ID, $assetURL: String) {
-        me {
-          ...StreamContainer_me
+const StreamQuery: StatelessComponent<Props> = props => {
+  const {
+    local: { assetID, assetURL, defaultStreamOrderBy },
+  } = props;
+  return (
+    <QueryRenderer<QueryTypes>
+      query={graphql`
+        query StreamQuery(
+          $assetID: ID
+          $assetURL: String
+          $streamOrderBy: COMMENT_SORT
+        ) {
+          me {
+            ...StreamContainer_me
+          }
+          asset(id: $assetID, url: $assetURL) {
+            ...StreamContainer_asset @arguments(orderBy: $streamOrderBy)
+          }
+          settings {
+            ...StreamContainer_settings
+          }
         }
-        asset(id: $assetID, url: $assetURL) {
-          ...StreamContainer_asset
-        }
-        settings {
-          ...StreamContainer_settings
-        }
-      }
-    `}
-    variables={{
-      assetID,
-      assetURL,
-    }}
-    render={render}
-  />
-);
+      `}
+      variables={{
+        assetID,
+        assetURL,
+        streamOrderBy: defaultStreamOrderBy,
+      }}
+      render={data => render(data, props.local.defaultStreamOrderBy)}
+    />
+  );
+};
 
 const enhanced = withLocalStateContainer(
   graphql`
     fragment StreamQueryLocal on Local {
       assetID
       assetURL
+      defaultStreamOrderBy
     }
   `
 )(StreamQuery);

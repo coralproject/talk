@@ -27,6 +27,8 @@ it("renders correctly", () => {
     disableLoadMore: false,
     hasMore: false,
     me: null,
+    orderBy: "CREATED_AT_ASC",
+    onChangeOrderBy: noop,
   };
   const wrapper = shallow(<StreamN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -50,6 +52,8 @@ describe("when use is logged in", () => {
           label: "Respect",
         },
       },
+      orderBy: "CREATED_AT_ASC",
+      onChangeOrderBy: noop,
     };
     const wrapper = shallow(<StreamN {...props} />);
     expect(wrapper).toMatchSnapshot();
@@ -73,6 +77,8 @@ describe("when there is more", () => {
     disableLoadMore: false,
     hasMore: true,
     me: null,
+    orderBy: "CREATED_AT_ASC",
+    onChangeOrderBy: noop,
   };
 
   const wrapper = shallow(<StreamN {...props} />);

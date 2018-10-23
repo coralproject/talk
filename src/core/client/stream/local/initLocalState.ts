@@ -74,5 +74,8 @@ export default async function initLocalState(
 
     // Set active tab
     localRecord.setValue("COMMENTS", "activeTab");
+
+    // Set sort
+    localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
   });
 }

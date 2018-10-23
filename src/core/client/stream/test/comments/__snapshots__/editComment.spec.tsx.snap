@@ -233,6 +233,64 @@ exports[`cancel edit: edit canceled 1`] = `
           </div>
         </form>
       </div>
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+        >
+          <p
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Sort By
+          </p>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="RESPECT_DESC"
+              >
+                Most Reactions
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <hr
+          className="Divider-root"
+        />
+      </div>
       <div
         aria-live="polite"
         className="HorizontalGutter-root HorizontalGutter-full"
@@ -745,6 +803,64 @@ exports[`edit a comment: edit form 1`] = `
             </div>
           </div>
         </form>
+      </div>
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+        >
+          <p
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Sort By
+          </p>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="RESPECT_DESC"
+              >
+                Most Reactions
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <hr
+          className="Divider-root"
+        />
       </div>
       <div
         aria-live="polite"
@@ -1282,6 +1398,64 @@ exports[`edit a comment: optimistic response 1`] = `
           </div>
         </form>
       </div>
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+        >
+          <p
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Sort By
+          </p>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="RESPECT_DESC"
+              >
+                Most Reactions
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <hr
+          className="Divider-root"
+        />
+      </div>
       <div
         aria-live="polite"
         className="HorizontalGutter-root HorizontalGutter-full"
@@ -1818,6 +1992,64 @@ exports[`edit a comment: render stream 1`] = `
           </div>
         </form>
       </div>
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+        >
+          <p
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Sort By
+          </p>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="RESPECT_DESC"
+              >
+                Most Reactions
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <hr
+          className="Divider-root"
+        />
+      </div>
       <div
         aria-live="polite"
         className="HorizontalGutter-root HorizontalGutter-full"
@@ -2330,6 +2562,64 @@ exports[`edit a comment: server response 1`] = `
             </div>
           </div>
         </form>
+      </div>
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+        >
+          <p
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Sort By
+          </p>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="RESPECT_DESC"
+              >
+                Most Reactions
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <hr
+          className="Divider-root"
+        />
       </div>
       <div
         aria-live="polite"
@@ -2853,6 +3143,64 @@ exports[`shows expiry message: edit form closed 1`] = `
           </div>
         </form>
       </div>
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+        >
+          <p
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Sort By
+          </p>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="RESPECT_DESC"
+              >
+                Most Reactions
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <hr
+          className="Divider-root"
+        />
+      </div>
       <div
         aria-live="polite"
         className="HorizontalGutter-root HorizontalGutter-full"
@@ -3365,6 +3713,64 @@ exports[`shows expiry message: edit time expired 1`] = `
             </div>
           </div>
         </form>
+      </div>
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+        >
+          <p
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Sort By
+          </p>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onMouseDown={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="RESPECT_DESC"
+              >
+                Most Reactions
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <hr
+          className="Divider-root"
+        />
       </div>
       <div
         aria-live="polite"

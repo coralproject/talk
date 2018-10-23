@@ -35,6 +35,7 @@ type Local {
   authPopup: AuthPopup!
   authToken: String
   activeTab: Tab!
+  defaultStreamOrderBy: COMMENT_SORT!
 }
 
 extend type Query {

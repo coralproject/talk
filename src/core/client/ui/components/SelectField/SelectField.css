@@ -3,7 +3,7 @@
   display: inline-block;
 }
 
-.iconWrapper {
+.afterWrapper {
   position: absolute;
   display: inline-flex;
   justify-content: center;
@@ -60,6 +60,6 @@
   width: 100%;
 }
 
-.iconWrapperDisabled {
+.afterWrapperDisabled {
   color: var(--palette-text-secondary);
 }

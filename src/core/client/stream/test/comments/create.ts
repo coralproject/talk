@@ -6,6 +6,7 @@ export default function create(params: CreateParams) {
     initLocalState: (localRecord, source, environment) => {
       if (params.initLocalState) {
         localRecord.setValue("COMMENTS", "activeTab");
+        localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
         params.initLocalState(localRecord, source, environment);
       }
     },

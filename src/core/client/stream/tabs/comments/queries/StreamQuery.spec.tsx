@@ -10,7 +10,9 @@ it("renders stream container", () => {
     } as any,
     error: null,
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
+  const wrapper = shallow(
+    React.createElement(() => render(data, "CREATED_AT_ASC"))
+  );
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -19,7 +21,9 @@ it("renders loading", () => {
     props: null,
     error: null,
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
+  const wrapper = shallow(
+    React.createElement(() => render(data, "CREATED_AT_ASC"))
+  );
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -28,6 +32,8 @@ it("renders error", () => {
     props: null,
     error: new Error("error"),
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
+  const wrapper = shallow(
+    React.createElement(() => render(data, "CREATED_AT_ASC"))
+  );
   expect(wrapper).toMatchSnapshot();
 });

@@ -19,7 +19,8 @@ exports[`init local state 1`] = `
     \\"authPopup\\": {
       \\"__ref\\": \\"client:root.local.authPopup\\"
     },
-    \\"activeTab\\": \\"COMMENTS\\"
+    \\"activeTab\\": \\"COMMENTS\\",
+    \\"defaultStreamOrderBy\\": \\"CREATED_AT_DESC\\"
   },
   \\"client:root.local.network\\": {
     \\"__id\\": \\"client:root.local.network\\",
