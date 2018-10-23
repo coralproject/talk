@@ -1,46 +1,69 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import styles from './ConfigureCard.css';
+import classnames from 'classnames/bind';
 import { Card } from 'coral-ui';
-import { Checkbox } from 'react-mdl';
-import cn from 'classnames';
+import { Checkbox, IconButton } from 'react-mdl';
 
-const ConfigureCard = ({
-  title,
-  children,
-  className,
-  onCheckbox,
-  checked,
-  ...rest
-}) => (
-  <Card
-    {...rest}
-    className={cn(styles.card, className, {
-      [styles.enabledSetting]: checked === true,
-      [styles.disabledSetting]: checked === false,
-    })}
-  >
-    {checked !== undefined && (
-      <div className={styles.action}>
-        <Checkbox onChange={onCheckbox} checked={checked} />
-      </div>
-    )}
-    <div
-      className={cn(styles.wrapper, {
-        [styles.content]: checked !== undefined,
-      })}
-    >
-      <div className={styles.header}>{title}</div>
-      <div
-        className={cn({
-          [styles.disabledSettingText]: checked === false,
+import styles from './ConfigureCard.css';
+
+const cn = classnames.bind(styles);
+
+class ConfigureCard extends PureComponent {
+  state = {
+    isOpen: !this.props.collapsible,
+  };
+
+  toggle = () => this.setState({ isOpen: !this.state.isOpen });
+
+  render() {
+    const {
+      title,
+      children,
+      className,
+      onCheckbox,
+      checked,
+      collapsible,
+      ...rest
+    } = this.props;
+
+    const { isOpen } = this.state;
+
+    const iconName = isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
+
+    return (
+      <Card
+        {...rest}
+        className={cn(styles.card, className, {
+          enabledCard: checked === true,
+          collapsibleCard: collapsible,
         })}
       >
-        {children}
-      </div>
-    </div>
-  </Card>
-);
+        {checked !== undefined && (
+          <div className={styles.action}>
+            <Checkbox onChange={onCheckbox} checked={checked} />
+          </div>
+        )}
+        <div className={styles.wrapper}>
+          <div className={styles.header}>
+            <div className={styles.title}>{title}</div>
+            {collapsible && (
+              <IconButton onClick={this.toggle} name={iconName} ripple />
+            )}
+          </div>
+          {isOpen && (
+            <div
+              className={cn(styles.body, {
+                disabledBody: checked === false,
+              })}
+            >
+              {children}
+            </div>
+          )}
+        </div>
+      </Card>
+    );
+  }
+}
 
 ConfigureCard.propTypes = {
   title: PropTypes.string,
@@ -48,6 +71,7 @@ ConfigureCard.propTypes = {
   onCheckbox: PropTypes.func,
   checked: PropTypes.bool,
   children: PropTypes.node,
+  collapsible: PropTypes.bool,
 };
 
 export default ConfigureCard;
