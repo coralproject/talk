@@ -45,6 +45,7 @@ es:
   comment_post_notif_premod: 'Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto.'
   comment_singular: Comentario
   common:
+    contains_link: 'Contiene enlace'
     copy: Copiar
     error: 'Ha ocurrido un error.'
     reaction: reacción
