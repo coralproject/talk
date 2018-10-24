@@ -29,12 +29,15 @@ extend type Comment {
 
 type Local {
   network: Network!
+  authToken: String
+  authExp: Number
+  authJTI: String
+  loggedIn: Boolean!
+  activeTab: Tab!
+  authPopup: AuthPopup!
   storyID: String
   storyURL: String
   commentID: String
-  authPopup: AuthPopup!
-  authToken: String
-  activeTab: Tab!
 }
 
 extend type Query {

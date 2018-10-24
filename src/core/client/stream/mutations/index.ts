@@ -9,11 +9,6 @@ export {
   EditCommentInput,
 } from "./EditCommentMutation";
 export {
-  withSetNetworkStatusMutation,
-  SetNetworkStatusMutation,
-  SetNetworkStatusInput,
-} from "./SetNetworkStatusMutation";
-export {
   withSetCommentIDMutation,
   SetCommentIDMutation,
   SetCommentIDInput,

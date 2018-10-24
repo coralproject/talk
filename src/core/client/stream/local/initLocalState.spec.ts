@@ -66,7 +66,17 @@ it("set authToken from localStorage", async () => {
   const context: Partial<TalkContext> = {
     localStorage: createPromisifiedStorage(),
   };
-  const authToken = "auth-token";
+  const authToken = `${btoa(
+    JSON.stringify({
+      alg: "HS256",
+      typ: "JWT",
+    })
+  )}.${btoa(
+    JSON.stringify({
+      exp: 1540503165,
+      jti: "31b26591-4e9a-4388-a7ff-e1bdc5d97cce",
+    })
+  )}`;
   context.localStorage!.setItem("authToken", authToken);
   await initLocalState(environment, context as any);
   expect(source.get(LOCAL_ID)!.authToken).toBe(authToken);

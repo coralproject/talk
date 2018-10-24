@@ -4,8 +4,8 @@ import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutationContainer,
+  setAuthTokenInLocalState,
 } from "talk-framework/lib/relay";
-import { LOCAL_ID } from "talk-framework/lib/relay/withLocalStateContainer";
 
 export interface SetAuthTokenInput {
   authToken: string | null;
@@ -19,8 +19,7 @@ export async function commit(
   { localStorage, clearSession }: TalkContext
 ) {
   return await commitLocalUpdatePromisified(environment, async store => {
-    const record = store.get(LOCAL_ID)!;
-    record.setValue(input.authToken, "authToken");
+    setAuthTokenInLocalState(input.authToken, store);
     if (input.authToken) {
       await localStorage.setItem("authToken", input.authToken);
     } else {
