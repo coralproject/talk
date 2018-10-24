@@ -400,6 +400,7 @@ es:
   other: Otro
   password_reset:
     change_password: 'Cambio de contraseña'
+    change_password_help: 'Por favor, introduzca una nueva contraseña. ¡Hazlo seguro!'
     confirm_new_password: 'Confirme su nueva contraseña'
     mail_sent: 'Si tiene una cuenta registrada, un enlace para resetear su clave ha sido enviado a esa dirección de correo.'
     new_password: 'Nueva contraseña'
