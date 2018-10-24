@@ -183,8 +183,7 @@ class Comment extends React.Component {
               <div className={styles.sideActions}>
                 <IfHasLink text={comment.body}>
                   <span className={styles.hasLinks}>
-                    {/* TODO: translate string */}
-                    <Icon name="error_outline" /> Contains Link
+                    <Icon name="error_outline" /> {t('common.contains_link')}
                   </span>
                 </IfHasLink>
                 <div className={`actions ${styles.actions}`}>
