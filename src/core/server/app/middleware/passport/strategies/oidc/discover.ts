@@ -5,6 +5,7 @@ import { URL } from "url";
  * Configuration that Talk is expecting.
  */
 export interface DiscoveryConfiguration {
+  issuer: string;
   authorizationURL?: string;
   tokenURL?: string;
   jwksURI?: string;
@@ -16,6 +17,7 @@ export interface DiscoveryConfiguration {
  * https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
  */
 interface DiscoveryRawConfiguration {
+  issuer: string;
   authorization_endpoint?: string;
   token_endpoint?: string;
   jwks_uri?: string;
@@ -40,6 +42,7 @@ export async function discover(issuer: URL): Promise<DiscoveryConfiguration> {
   const meta: DiscoveryRawConfiguration = await res.json();
 
   return {
+    issuer: meta.issuer,
     authorizationURL: meta.authorization_endpoint,
     tokenURL: meta.token_endpoint,
     jwksURI: meta.jwks_uri,

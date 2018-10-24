@@ -55,6 +55,18 @@ const Mutation: GQLMutationTypeResolver<void> = {
     configuration: await ctx.mutators.Settings.discoverOIDCConfiguration(input),
     clientMutationId: input.clientMutationId,
   }),
+  createOIDCAuthIntegration: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.createOIDCAuthIntegration(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  updateOIDCAuthIntegration: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.updateOIDCAuthIntegration(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  deleteOIDCAuthIntegration: async (source, { input }, ctx) => ({
+    settings: await ctx.mutators.Settings.deleteOIDCAuthIntegration(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };
 
 export default Mutation;

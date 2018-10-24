@@ -8,6 +8,7 @@ import AuthIntegrations from "./auth_integrations";
 import Comment from "./comment";
 import CommentCounts from "./comment_counts";
 import Mutation from "./mutation";
+import OIDCAuthIntegration from "./oidc_auth_integration";
 import Profile from "./profile";
 import Query from "./query";
 import User from "./user";
@@ -19,10 +20,11 @@ const Resolvers: GQLResolver = {
   CommentCounts,
   Cursor,
   Mutation,
+  OIDCAuthIntegration,
   Profile,
   Query,
-  User,
   Time,
+  User,
 };
 
 export default Resolvers;

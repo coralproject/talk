@@ -29,9 +29,12 @@ export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
   );
 
-  router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
   router.get(
-    "/oidc/callback",
+    "/oidc/:oidcID",
+    wrapAuthn(options.passport, app.signingConfig, "oidc")
+  );
+  router.get(
+    "/oidc/:oidcID/callback",
     wrapAuthn(options.passport, app.signingConfig, "oidc")
   );
 

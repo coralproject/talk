@@ -32,23 +32,26 @@ export interface OIDCIDToken {
   iss: string;
   sub: string;
   exp: number; // TODO: use this as the source for how long an OIDC user can be logged in for
-  email?: string;
+  email: string;
   email_verified?: boolean;
   picture?: string;
   name?: string;
   nickname?: string;
 }
 
-export interface StrategyItem {
-  strategy: OAuth2Strategy;
-  jwksClient?: JwksClient;
-}
+export type StrategyItem = Record<
+  string,
+  {
+    strategy: OAuth2Strategy;
+    jwksClient?: JwksClient;
+  }
+>;
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
   if (
     (token as OIDCIDToken).iss &&
     (token as OIDCIDToken).sub &&
-    (token as OIDCIDToken).email
+    (token as OIDCIDToken).aud
   ) {
     return true;
   }
@@ -85,9 +88,18 @@ const signingKeyFactory = (client: jwks.JwksClient): jwt.KeyFunction => (
 };
 
 function getEnabledIntegration(
-  tenant: Tenant
+  tenant: Tenant,
+  oidcID: string
 ): Required<GQLOIDCAuthIntegration> {
-  const integration = tenant.auth.integrations.oidc;
+  if (!tenant.auth.integrations.oidc) {
+    // TODO: return a better error.
+    throw new Error("integration not found");
+  }
+
+  // Grab the OIDC Integration from the list of integrations.
+  const integration = tenant.auth.integrations.oidc.find(
+    ({ id }) => id === oidcID
+  );
   if (!integration) {
     // TODO: return a better error.
     throw new Error("integration not found");
@@ -135,6 +147,7 @@ export const OIDCDisplayNameIDTokenSchema = OIDCIDTokenSchema.keys({
 export async function findOrCreateOIDCUser(
   db: Db,
   tenant: Tenant,
+  integration: GQLOIDCAuthIntegration,
   token: OIDCIDToken
 ) {
   // Unpack/validate the token content.
@@ -148,7 +161,7 @@ export async function findOrCreateOIDCUser(
     name,
     nickname,
   }: OIDCIDToken = validate(
-    tenant.auth.integrations.oidc!.displayNameEnable
+    integration.displayNameEnable
       ? OIDCDisplayNameIDTokenSchema
       : OIDCIDTokenSchema,
     token
@@ -215,34 +228,45 @@ export default class OIDCStrategy extends Strategy {
     req: Request,
     tenantID: string,
     oidc: Required<GQLOIDCAuthIntegration>
-  ) {
-    let entry = this.cache.get(tenantID);
-    if (!entry) {
+  ): jwks.JwksClient {
+    let tenantIntegrations = this.cache.get(tenantID);
+    if (!tenantIntegrations || !tenantIntegrations[oidc.id]) {
       const strategy = this.createStrategy(req, oidc);
 
       // Create the entry.
-      entry = {
-        strategy,
+      tenantIntegrations = {
+        [oidc.id]: {
+          strategy,
+        },
+        ...(tenantIntegrations || {}),
       };
 
       // We don't reset the entry in the cache here because if we just created
       // it, we'll be creating the jwksClient anyways, so we'll update it there.
     }
 
-    if (!entry.jwksClient) {
+    const tenantIntegration = tenantIntegrations[oidc.id];
+
+    if (!tenantIntegration.jwksClient) {
       // Create the new JWKS client.
       const jwksClient = jwks({
         jwksUri: oidc.jwksURI,
       });
 
       // Set the jwksClient on the entry.
-      entry.jwksClient = jwksClient;
+      tenantIntegration.jwksClient = jwksClient;
 
       // Update the cached entry.
-      this.cache.set(tenantID, entry);
+      this.cache.set(tenantID, {
+        [oidc.id]: {
+          ...tenantIntegration,
+          jwksClient,
+        },
+        ...tenantIntegrations,
+      });
     }
 
-    return entry.jwksClient;
+    return tenantIntegration.jwksClient;
   }
 
   private userAuthenticatedCallback = (
@@ -268,11 +292,14 @@ export default class OIDCStrategy extends Strategy {
       return done(new Error("tenant not found"));
     }
 
+    // Grab the OIDC ID from the request.
+    const { oidcID }: { oidcID: string } = req.params;
+
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
     let integration: Required<GQLOIDCAuthIntegration>;
     try {
-      integration = getEnabledIntegration(tenant);
+      integration = getEnabledIntegration(tenant, oidcID);
     } catch (err) {
       // TODO: wrap error?
       return done(err);
@@ -298,6 +325,7 @@ export default class OIDCStrategy extends Strategy {
           const user = await findOrCreateOIDCUser(
             this.mongo,
             tenant,
+            integration,
             decoded as OIDCIDToken
           );
           return done(null, user);
@@ -332,39 +360,45 @@ export default class OIDCStrategy extends Strategy {
     );
   }
 
-  private async lookupStrategy(req: Request) {
+  private lookupStrategy(req: Request): OAuth2Strategy {
     const { tenant } = req.talk!;
     if (!tenant) {
       // TODO: return a better error.
       throw new Error("tenant not found");
     }
 
+    // Get the OIDC ID.
+    const { oidcID }: { oidcID: string } = req.params;
+
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    const integration = getEnabledIntegration(tenant);
+    const integration = getEnabledIntegration(tenant, oidcID);
 
     // Try to get the Tenant's cached integrations.
-    let entry = this.cache.get(tenant.id);
-    if (!entry) {
+    let tenantIntegrations = this.cache.get(tenant.id);
+    if (!tenantIntegrations || !tenantIntegrations[oidcID]) {
       // Create the strategy.
       const strategy = this.createStrategy(req, integration);
 
       // Reset the entry.
-      entry = {
-        strategy,
+      tenantIntegrations = {
+        [oidcID]: {
+          strategy,
+        },
+        ...(tenantIntegrations || {}),
       };
 
       // Update the cached integrations value.
-      this.cache.set(tenant.id, entry);
+      this.cache.set(tenant.id, tenantIntegrations);
     }
 
-    return entry.strategy;
+    return tenantIntegrations[oidcID].strategy;
   }
 
-  public async authenticate(req: Request) {
+  public authenticate(req: Request) {
     try {
       // Lookup the strategy.
-      const strategy = await this.lookupStrategy(req);
+      const strategy = this.lookupStrategy(req);
       if (!strategy) {
         throw new Error("strategy not found");
       }

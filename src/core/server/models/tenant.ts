@@ -4,7 +4,10 @@ import uuid from "uuid";
 
 import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
-import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLMODERATION_MODE,
+  GQLOIDCAuthIntegration,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { Settings } from "talk-server/models/settings";
 
 function collection(db: Db) {
@@ -87,9 +90,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
         sso: {
           enabled: false,
         },
-        oidc: {
-          enabled: false,
-        },
+        oidc: [],
         google: {
           enabled: false,
         },
@@ -241,6 +242,98 @@ export async function regenerateTenantSSOKey(db: Db, id: string) {
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+export type CreateTenantOIDCAuthIntegrationInput = Omit<
+  GQLOIDCAuthIntegration,
+  "id" | "callbackURL"
+>;
+
+export async function createTenantOIDCAuthIntegration(
+  mongo: Db,
+  id: string,
+  input: CreateTenantOIDCAuthIntegrationInput
+) {
+  // Add the ID to the integration.
+  const integration = {
+    id: uuid.v4(),
+    ...input,
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    // Serialize the deep update into the Tenant.
+    {
+      $push: { "auth.integrations.oidc": integration },
+    },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+export type UpdateTenantOIDCAuthIntegrationInput = Partial<
+  Omit<GQLOIDCAuthIntegration, "id">
+>;
+
+export async function updateTenantOIDCAuthIntegration(
+  mongo: Db,
+  id: string,
+  oidcID: string,
+  input: UpdateTenantOIDCAuthIntegrationInput
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      // $set: dotize({
+      //   "auth.integrations.oidc.$[oidc]": input,
+      // }),
+      // FIXME: replace with the above one once the types are updated.
+      $set: dotize({
+        "auth.integrations.oidc.$[]": input,
+      }),
+    },
+    {
+      // Add an ArrayFilter to only update one of the OpenID Connect
+      // integrations.
+      // arrayFilters: [{ "oidc.id": oidcID }], // FIXME: add back when we got the mongo fixes in place
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
+}
+
+/**
+ * deleteTenantOIDCAuthIntegration will delete the specific OpenID Connect Auth
+ * Integration on the Tenant.
+ *
+ * @param mongo MongoDB Database handle
+ * @param id the id of the Tenant
+ * @param oidcID the id of the OpenID Connect Auth Integration we're deleting
+ */
+export async function deleteTenantOIDCAuthIntegration(
+  mongo: Db,
+  id: string,
+  oidcID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: { "auth.integrations.oidc": { id: oidcID } },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
   );
 
   return result.value || null;

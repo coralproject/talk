@@ -317,6 +317,14 @@ OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
 will be used in the admin to provide staff logins for users.
 """
 type OIDCAuthIntegration {
+  """
+  id is the identifier of the OIDCAuthIntegration.
+  """
+  id: ID!
+
+  """
+  enabled, when true, allows the integration to be enabled.
+  """
   enabled: Boolean!
 
   """
@@ -330,12 +338,20 @@ type OIDCAuthIntegration {
   name is the label assigned to reference the provider of the OIDC integration.
   """
   name: String
-  clientID: String @auth(roles: [ADMIN])
-  clientSecret: String @auth(roles: [ADMIN])
-  authorizationURL: String @auth(roles: [ADMIN])
-  tokenURL: String @auth(roles: [ADMIN])
-  jwksURI: String @auth(roles: [ADMIN])
-  issuer: String @auth(roles: [ADMIN])
+
+  """
+  callbackURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  callbackURL: String!
+
+  clientID: String! @auth(roles: [ADMIN])
+  clientSecret: String! @auth(roles: [ADMIN])
+  authorizationURL: String! @auth(roles: [ADMIN])
+  tokenURL: String! @auth(roles: [ADMIN])
+  jwksURI: String! @auth(roles: [ADMIN])
+  issuer: String! @auth(roles: [ADMIN])
 
   """
   displayNameEnable when enabled, will allow Users to set and view their
@@ -383,7 +399,7 @@ type FacebookAuthIntegration {
 type AuthIntegrations {
   local: LocalAuthIntegration!
   sso: SSOAuthIntegration!
-  oidc: OIDCAuthIntegration!
+  oidc: [OIDCAuthIntegration!]!
   google: GoogleAuthIntegration!
   facebook: FacebookAuthIntegration!
 }
@@ -1349,33 +1365,33 @@ input SettingsSSOAuthIntegrationInput {
   displayNameEnable: Boolean
 }
 
-input SettingsOIDCAuthIntegrationInput {
-  enabled: Boolean
+# input SettingsOIDCAuthIntegrationInput {
+#   enabled: Boolean
 
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: SettingsAuthenticationTargetFilterInput
+#   """
+#   targetFilter will restrict where the authentication integration should be
+#   displayed. If the value of targetFilter is null, then the authentication
+#   integration should be displayed in all targets.
+#   """
+#   targetFilter: SettingsAuthenticationTargetFilterInput
 
-  """
-  name is the label assigned to reference the provider of the OIDC integration.
-  """
-  name: String
-  clientID: String
-  clientSecret: String
-  authorizationURL: String
-  tokenURL: String
-  jwksURI: String
-  issuer: String
+#   """
+#   name is the label assigned to reference the provider of the OIDC integration.
+#   """
+#   name: String
+#   clientID: String
+#   clientSecret: String
+#   authorizationURL: String
+#   tokenURL: String
+#   jwksURI: String
+#   issuer: String
 
-  """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
-  """
-  displayNameEnable: Boolean
-}
+#   """
+#   displayNameEnable when enabled, will allow Users to set and view their
+#   displayName's.
+#   """
+#   displayNameEnable: Boolean
+# }
 
 input SettingsGoogleAuthIntegrationInput {
   enabled: Boolean
@@ -1408,7 +1424,6 @@ input SettingsFacebookAuthIntegrationInput {
 input SettingsAuthIntegrationsInput {
   local: SettingsLocalAuthIntegrationInput
   sso: SettingsSSOAuthIntegrationInput
-  oidc: SettingsOIDCAuthIntegrationInput
   google: SettingsGoogleAuthIntegrationInput
   facebook: SettingsFacebookAuthIntegrationInput
 }
@@ -1917,6 +1932,7 @@ input DiscoverOIDCConfigurationInput {
 }
 
 type OIDCConfiguration {
+  issuer: String!
   authorizationURL: String
   tokenURL: String
   jwksURI: String
@@ -1928,6 +1944,117 @@ type DiscoverOIDCConfigurationPayload {
   given the provided issuer.
   """
   configuration: OIDCConfiguration
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# createOIDCAuthIntegration
+##################
+
+input CreateOIDCAuthIntegrationConfigurationInput {
+  name: String!
+  clientID: String!
+  clientSecret: String!
+  authorizationURL: String!
+  tokenURL: String!
+  jwksURI: String!
+  issuer: String!
+}
+
+input CreateOIDCAuthIntegrationInput {
+  """
+  configuration contains the configuration to be used to create the auth integration.
+  """
+  configuration: CreateOIDCAuthIntegrationConfigurationInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateOIDCAuthIntegrationPayload {
+  """
+  settings is the Settings that the OIDCAuthIntegration was created on.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateOIDCAuthIntegration
+##################
+
+input UpdateOIDCAuthIntegrationConfigurationInput {
+  enabled: Boolean
+  name: String
+  clientID: String
+  clientSecret: String
+  authorizationURL: String
+  tokenURL: String
+  jwksURI: String
+  issuer: String
+}
+
+input UpdateOIDCAuthIntegrationInput {
+  """
+  id is the ID of the specific OpenID Connect integration that we are updating.
+  """
+  id: ID!
+
+  """
+  configuration contains the configuration to be used to update the OpenID
+  Connect integration.
+  """
+  configuration: UpdateOIDCAuthIntegrationConfigurationInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateOIDCAuthIntegrationPayload {
+  """
+  settings is the Settings that the OIDCAuthIntegration was updated on.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# deleteOIDCAuthIntegration
+##################
+
+input DeleteOIDCAuthIntegrationInput {
+  """
+  id is the ID of the specific OpenID Connect integration that we are deleting.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteOIDCAuthIntegrationPayload {
+  """
+  settings is the Settings that the OIDCAuthIntegration was deleted on.
+  """
+  settings: Settings
 
   """
   clientMutationId is required for Relay support.
@@ -1964,9 +2091,35 @@ type Mutation {
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
     @auth(roles: [ADMIN])
 
+  """
+  discoverOIDCConfiguration will discover the OpenID Connect configuration based
+  on the provided input.
+  """
   discoverOIDCConfiguration(
     input: DiscoverOIDCConfigurationInput!
   ): DiscoverOIDCConfigurationPayload @auth(roles: [ADMIN])
+
+  """
+  createOIDCAuthIntegration will create a OpenID Connect auth integration.
+  """
+  createOIDCAuthIntegration(
+    input: CreateOIDCAuthIntegrationInput!
+  ): CreateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
+
+  """
+  updateOIDCAuthIntegration will update a given OpenID Connect auth integration.
+  """
+  updateOIDCAuthIntegration(
+    input: UpdateOIDCAuthIntegrationInput!
+  ): UpdateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
+
+  """
+  deleteOIDCAuthIntegration will delete the specified OpenID Connect auth
+  integration.
+  """
+  deleteOIDCAuthIntegration(
+    input: DeleteOIDCAuthIntegrationInput!
+  ): DeleteOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in

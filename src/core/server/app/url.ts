@@ -1,3 +1,4 @@
+import { Tenant } from "talk-server/models/tenant";
 import { Request } from "talk-server/types/express";
 import { URL } from "url";
 
@@ -7,6 +8,18 @@ export function reconstructURL(req: Request, path: string = "/"): string {
   const base = `${scheme}://${host}`;
 
   const url = new URL(path, base);
+
+  return url.href;
+}
+
+/**
+ * reconstructTenantURL will reconstruct a URL based off of the Tenant's domain.
+ */
+export function reconstructTenantURL(
+  tenant: Pick<Tenant, "domain">,
+  path: string = "/"
+): string {
+  const url = new URL(path, `https://${tenant.domain}`);
 
   return url.href;
 }
