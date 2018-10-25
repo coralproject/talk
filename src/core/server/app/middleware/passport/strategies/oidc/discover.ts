@@ -6,9 +6,9 @@ import { URL } from "url";
  */
 export interface DiscoveryConfiguration {
   issuer: string;
-  authorizationURL?: string;
+  authorizationURL: string;
   tokenURL?: string;
-  jwksURI?: string;
+  jwksURI: string;
 }
 
 /**
@@ -18,9 +18,9 @@ export interface DiscoveryConfiguration {
  */
 interface DiscoveryRawConfiguration {
   issuer: string;
-  authorization_endpoint?: string;
+  authorization_endpoint: string;
   token_endpoint?: string;
-  jwks_uri?: string;
+  jwks_uri: string;
 }
 
 /**
@@ -29,7 +29,9 @@ interface DiscoveryRawConfiguration {
  * @param issuer the Issuer URL that should be used to determine the
  *               configuration
  */
-export async function discover(issuer: URL): Promise<DiscoveryConfiguration> {
+export async function discover(
+  issuer: URL
+): Promise<DiscoveryConfiguration | null> {
   // Any provider MUST provide a .well-known url that is JSON parsable based
   // on the issuer: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
   const configurationURL =
@@ -38,13 +40,23 @@ export async function discover(issuer: URL): Promise<DiscoveryConfiguration> {
     "/.well-known/openid-configuration";
   const res = await fetch(configurationURL);
 
-  // Parse the configuration
-  const meta: DiscoveryRawConfiguration = await res.json();
+  // Ensure that it responds correctly.
+  if (res.status !== 200) {
+    return null;
+  }
 
-  return {
-    issuer: meta.issuer,
-    authorizationURL: meta.authorization_endpoint,
-    tokenURL: meta.token_endpoint,
-    jwksURI: meta.jwks_uri,
-  };
+  try {
+    // Parse the configuration
+    const meta: DiscoveryRawConfiguration = await res.json();
+
+    return {
+      issuer: meta.issuer,
+      authorizationURL: meta.authorization_endpoint,
+      tokenURL: meta.token_endpoint,
+      jwksURI: meta.jwks_uri,
+    };
+  } catch (err) {
+    // TODO: log the error
+    return null;
+  }
 }

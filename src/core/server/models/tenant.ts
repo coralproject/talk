@@ -293,7 +293,7 @@ export async function updateTenantOIDCAuthIntegration(
       // $set: dotize({
       //   "auth.integrations.oidc.$[oidc]": input,
       // }),
-      // FIXME: replace with the above one once the types are updated.
+      // FIXME: uncomment when https://github.com/DefinitelyTyped/DefinitelyTyped/pull/29986 gets merged
       $set: dotize({
         "auth.integrations.oidc.$[]": input,
       }),
@@ -301,7 +301,7 @@ export async function updateTenantOIDCAuthIntegration(
     {
       // Add an ArrayFilter to only update one of the OpenID Connect
       // integrations.
-      // arrayFilters: [{ "oidc.id": oidcID }], // FIXME: add back when we got the mongo fixes in place
+      // arrayFilters: [{ "oidc.id": oidcID }], // FIXME: uncomment when https://github.com/DefinitelyTyped/DefinitelyTyped/pull/29986 gets merged
       // False to return the updated document instead of the original
       // document.
       returnOriginal: false,

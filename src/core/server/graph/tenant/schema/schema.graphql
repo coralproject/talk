@@ -313,6 +313,47 @@ type SSOAuthIntegration {
 ##########################
 
 """
+DiscoveredOIDCConfiguration contains the discovered Provider Metadata as defined
+in:
+
+https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+
+Discovery is not supported on all providers, and is described in the OpenID
+Connect Discovery 1.0 incorporating errata set 1:
+
+https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+"""
+type DiscoveredOIDCConfiguration {
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String!
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String!
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String!
+}
+
+"""
 OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
 will be used in the admin to provide staff logins for users.
 """
@@ -335,7 +376,9 @@ type OIDCAuthIntegration {
   targetFilter: AuthenticationTargetFilter
 
   """
-  name is the label assigned to reference the provider of the OIDC integration.
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
   """
   name: String
 
@@ -346,11 +389,46 @@ type OIDCAuthIntegration {
   """
   callbackURL: String!
 
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
   clientID: String! @auth(roles: [ADMIN])
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
   clientSecret: String! @auth(roles: [ADMIN])
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   authorizationURL: String! @auth(roles: [ADMIN])
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   tokenURL: String! @auth(roles: [ADMIN])
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   jwksURI: String! @auth(roles: [ADMIN])
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   issuer: String! @auth(roles: [ADMIN])
 
   """
@@ -1200,7 +1278,8 @@ type Query {
   asset(id: ID, url: String): Asset
 
   """
-  me is the current logged in User.
+  me is the current logged in User. If no user is currently logged in, it will
+  return null.
   """
   me: User
 
@@ -1208,6 +1287,18 @@ type Query {
   settings is the Settings for a given Tenant.
   """
   settings: Settings!
+
+  """
+  discoverOIDCConfiguration will discover the OpenID Connect configuration based
+  on the provided issuer. Discovery is not supported on all providers, and is
+  described in the OpenID Connect Discovery 1.0 incorporating errata set 1:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+
+  If the provider does not support discovery, the response will be null.
+  """
+  discoverOIDCConfiguration(issuer: String!): DiscoveredOIDCConfiguration
+    @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1364,34 +1455,6 @@ input SettingsSSOAuthIntegrationInput {
   """
   displayNameEnable: Boolean
 }
-
-# input SettingsOIDCAuthIntegrationInput {
-#   enabled: Boolean
-
-#   """
-#   targetFilter will restrict where the authentication integration should be
-#   displayed. If the value of targetFilter is null, then the authentication
-#   integration should be displayed in all targets.
-#   """
-#   targetFilter: SettingsAuthenticationTargetFilterInput
-
-#   """
-#   name is the label assigned to reference the provider of the OIDC integration.
-#   """
-#   name: String
-#   clientID: String
-#   clientSecret: String
-#   authorizationURL: String
-#   tokenURL: String
-#   jwksURI: String
-#   issuer: String
-
-#   """
-#   displayNameEnable when enabled, will allow Users to set and view their
-#   displayName's.
-#   """
-#   displayNameEnable: Boolean
-# }
 
 input SettingsGoogleAuthIntegrationInput {
   enabled: Boolean
@@ -1916,52 +1979,57 @@ type RegenerateSSOKeyPayload {
 }
 
 ##################
-## discoverOIDCConfiguration
-##################
-
-input DiscoverOIDCConfigurationInput {
-  """
-
-  """
-  issuer: String!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type OIDCConfiguration {
-  issuer: String!
-  authorizationURL: String
-  tokenURL: String
-  jwksURI: String
-}
-
-type DiscoverOIDCConfigurationPayload {
-  """
-  configuration was the discovered configuration for the OpenID Connect server
-  given the provided issuer.
-  """
-  configuration: OIDCConfiguration
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
 # createOIDCAuthIntegration
 ##################
 
 input CreateOIDCAuthIntegrationConfigurationInput {
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
   name: String!
+
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
   clientID: String!
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
   clientSecret: String!
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   authorizationURL: String!
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   tokenURL: String!
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   jwksURI: String!
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   issuer: String!
 }
 
@@ -1994,13 +2062,65 @@ type CreateOIDCAuthIntegrationPayload {
 ##################
 
 input UpdateOIDCAuthIntegrationConfigurationInput {
+  """
+  enabled, when true, allows the integration to be enabled.
+  """
   enabled: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
   name: String
+
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
   clientID: String
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
   clientSecret: String
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   authorizationURL: String
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   tokenURL: String
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   jwksURI: String
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
   issuer: String
 }
 
@@ -2090,14 +2210,6 @@ type Mutation {
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
     @auth(roles: [ADMIN])
-
-  """
-  discoverOIDCConfiguration will discover the OpenID Connect configuration based
-  on the provided input.
-  """
-  discoverOIDCConfiguration(
-    input: DiscoverOIDCConfigurationInput!
-  ): DiscoverOIDCConfigurationPayload @auth(roles: [ADMIN])
 
   """
   createOIDCAuthIntegration will create a OpenID Connect auth integration.
