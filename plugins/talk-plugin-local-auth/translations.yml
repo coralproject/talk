@@ -302,25 +302,28 @@ de:
         path: "Mein Profil > Profil-Einstellungen"
         alert: "E-Mail-Adresse hinzugefügt!"
 es:
+  email:
+    email_change_original:
+      subject: Cambio de correo electrónico
+      body: Su dirección de correo electrónico ha cambiado de {0} a {1}. Si no solicitó este cambio, póngase en contacto con {2}.
+  error:
+    NO_LOCAL_PROFILE: No hay una dirección de correo electrónico asociada a esta cuenta.
+    LOCAL_PROFILE: Una dirección de correo electrónico ya está asociada a esta cuenta.
+    INCORRECT_PASSWORD: La contraseña dada fue incorrecta.
   talk-plugin-local-auth:
-    email:
-      email_change_original:
-        subject: Cambio de correo electrónico
-        body: Su dirección de correo electrónico ha cambiado de {0} a {1}. Si no solicitó este cambio, póngase en contacto con {2}.
-    error:
-      NO_LOCAL_PROFILE: No hay una dirección de correo electrónico asociada a esta cuenta.
-      LOCAL_PROFILE: Una dirección de correo electrónico ya está asociada a esta cuenta.
-      INCORRECT_PASSWORD: La contraseña dada fue incorrecta.
     change_password:
+      save: "Salvar"
+      cancel: "Cancelar"
+      edit: "Editar"
+      changed_password_msg: "Senha alterada - Sua senha foi alterada com sucesso"
+      forgot_password_sent: "Esqueceu a senha - Nós enviamos um email para recuperação da senha"
       change_password: "Cambiar Contraseña"
       passwords_dont_match: "Las contraseñas no coinciden"
       required_field: "Este campo es requerido"
       forgot_password: "Olvidaste tu contraseña?"
-      save: "Guardar"
-      cancel: "Cancelar"
-      edit: "Editar"
-      changed_password_msg: "Contraseña Actualizada - Tu contraseña ha sido exitosamente actualizada"
-      forgot_password_sent: "Contraseña Olvidada - Te enviamos un email para recuperar tu contraseña"
+      old_password: "Contraseña anterior"
+      new_password: "Contraseña nueva"
+      confirm_new_password: "Confirme contraseña nueva"
     change_username:
       change_username_note: "El usuario puede ser cambiado cada 14 días."
       is_not_eligible: "Ahora mismo no se puede cambiar su nombre de usuario."
@@ -329,11 +332,13 @@ es:
       cancel: "Cancelar"
       confirm_username_change: "Confirmar Cambio de Usuario"
       description: "Estás intentando cambiar tu usuario. Tu nuevo usuario aparecerá en todos tus pasados y futuros comentarios."
-      old_username: "Usuario viejo"
+      old_username: "Usuario anterior"
       new_username: "Usuario nuevo"
+      re_enter: "Escriba usuario nuevo otra vez"
       bottom_note: "Nota: No podrás cambiar tu usuario por 14 días"
       confirm_changes: "Confirmar Cambios"
       username_does_not_match: "El usuario no coincide"
+      cant_be_equal: "Tu nuev@ {0} tiene que ser diferente"
       changed_username_success_msg: "Usuario Actualizado - Tu usuario ha sido exitosamente actualizado. No podrás cambiar el usuario por 14 días."
       change_username_attempt: "El usuario no puede ser actualizado. Los usuarios pueden ser cambiados cada 14 días."
     change_email:

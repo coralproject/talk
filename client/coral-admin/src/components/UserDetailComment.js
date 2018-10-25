@@ -123,7 +123,7 @@ class UserDetailComment extends React.Component {
                 <IfHasLink text={comment.body}>
                   <span className={styles.hasLinks}>
                     {/* TODO: translate string */}
-                    <Icon name="error_outline" /> Contains Link
+                    <Icon name="error_outline" /> {t('common.contains_link')}
                   </span>
                 </IfHasLink>
                 <div className={styles.actions}>

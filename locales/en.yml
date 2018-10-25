@@ -48,6 +48,7 @@ en:
   comment_post_notif_premod: 'Thank you for posting. Our moderation team will review your comment shortly.'
   comment_singular: Comment
   common:
+    contains_link: 'Contains Link'
     copy: Copy
     copied: 'Copied'
     notsupported: 'Not supported'
