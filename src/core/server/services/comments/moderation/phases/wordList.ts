@@ -7,7 +7,7 @@ import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "talk-server/services/comments/moderation";
-import { containsMatchingPhrase } from "talk-server/services/comments/moderation/wordlist";
+import { containsMatchingPhraseMemoized } from "talk-server/services/comments/moderation/wordlist";
 
 // This phase checks the comment against the wordList.
 export const wordList: IntermediateModerationPhase = ({
@@ -23,7 +23,7 @@ export const wordList: IntermediateModerationPhase = ({
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordList, then reject it, otherwise if the moderation setting is
   // premod, set it to `premod`.
-  if (containsMatchingPhrase(tenant.wordList.banned, comment.body)) {
+  if (containsMatchingPhraseMemoized(tenant.wordList.banned, comment.body)) {
     // Add the flag related to Trust to the comment.
     return {
       status: GQLCOMMENT_STATUS.REJECTED,
@@ -40,9 +40,9 @@ export const wordList: IntermediateModerationPhase = ({
   // flag to it to indicate that it needs to be looked at.
   // Otherwise just return the new comment.
 
-  // If the wordlist has matched the suspect word filter and we haven't disabled
+  // If the wordList has matched the suspect word filter and we haven't disabled
   // auto-flagging suspect words, then we should flag the comment!
-  if (containsMatchingPhrase(tenant.wordList.suspect, comment.body)) {
+  if (containsMatchingPhraseMemoized(tenant.wordList.suspect, comment.body)) {
     return {
       actions: [
         {
