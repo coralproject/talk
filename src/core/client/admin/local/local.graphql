@@ -6,7 +6,7 @@ type Network {
 type Local {
   network: Network!
   authToken: String
-  authExp: Number
+  authExp: Int
   authJTI: String
   loggedIn: Boolean!
 }
