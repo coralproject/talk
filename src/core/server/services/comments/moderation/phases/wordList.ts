@@ -7,7 +7,7 @@ import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "talk-server/services/comments/moderation";
-import { containsMatchingPhraseMemoized } from "talk-server/services/comments/moderation/wordlist";
+import { containsMatchingPhraseMemoized } from "talk-server/services/comments/moderation/wordList";
 
 // This phase checks the comment against the wordList.
 export const wordList: IntermediateModerationPhase = ({
