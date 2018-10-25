@@ -248,12 +248,14 @@ class StreamSettings extends React.Component {
               onChange={this.updateClosedTimeout}
               value={getTimeoutAmount(settings.closedTimeout)}
               label={t('configure.closed_comments_label')}
+              disabled={!settings.autoCloseStream}
             />
             <div className={styles.configTimeoutSelect}>
               <SelectField
                 label="comments closed time window"
                 value={getTimeoutMeasure(settings.closedTimeout)}
                 onChange={this.updateClosedTimeoutMeasure}
+                readOnly={!settings.autoCloseStream}
               >
                 <Option value={'hours'}>{t('configure.hours')}</Option>
                 <Option value={'days'}>{t('configure.days')}</Option>
