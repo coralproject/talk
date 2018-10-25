@@ -252,11 +252,17 @@ export type CreateTenantOIDCAuthIntegrationInput = Omit<
   "id" | "callbackURL"
 >;
 
+export interface CreateTenantOIDCAuthIntegrationResultObject {
+  tenant?: Tenant;
+  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
+  wasCreated: boolean;
+}
+
 export async function createTenantOIDCAuthIntegration(
   mongo: Db,
   id: string,
   input: CreateTenantOIDCAuthIntegrationInput
-) {
+): Promise<CreateTenantOIDCAuthIntegrationResultObject> {
   // Add the ID to the integration.
   const integration = {
     id: uuid.v4(),
@@ -273,20 +279,40 @@ export async function createTenantOIDCAuthIntegration(
     // document.
     { returnOriginal: false }
   );
+  if (!result.value) {
+    return {
+      wasCreated: false,
+    };
+  }
 
-  return result.value || null;
+  const wasCreated =
+    result.value.auth.integrations.oidc.findIndex(
+      ({ id: integrationID }) => integrationID === integration.id
+    ) !== -1;
+
+  return {
+    tenant: result.value,
+    integration,
+    wasCreated,
+  };
 }
 
 export type UpdateTenantOIDCAuthIntegrationInput = Partial<
   Omit<GQLOIDCAuthIntegration, "id">
 >;
 
+export interface UpdateTenantOIDCAuthIntegrationResultObject {
+  tenant?: Tenant;
+  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
+  wasUpdated: boolean;
+}
+
 export async function updateTenantOIDCAuthIntegration(
   mongo: Db,
   id: string,
   oidcID: string,
   input: UpdateTenantOIDCAuthIntegrationInput
-) {
+): Promise<UpdateTenantOIDCAuthIntegrationResultObject> {
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
@@ -307,8 +333,29 @@ export async function updateTenantOIDCAuthIntegration(
       returnOriginal: false,
     }
   );
+  if (!result.value) {
+    return {
+      wasUpdated: false,
+    };
+  }
 
-  return result.value || null;
+  const integration = result.value.auth.integrations.oidc.find(
+    ({ id: integrationID }) => integrationID === oidcID
+  );
+
+  const wasUpdated = Boolean(integration);
+
+  return {
+    tenant: result.value,
+    integration,
+    wasUpdated,
+  };
+}
+
+export interface DeleteTenantOIDCAuthIntegrationResultObject {
+  tenant?: Tenant;
+  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
+  wasDeleted: boolean;
 }
 
 /**
@@ -323,18 +370,42 @@ export async function deleteTenantOIDCAuthIntegration(
   mongo: Db,
   id: string,
   oidcID: string
-) {
+): Promise<DeleteTenantOIDCAuthIntegrationResultObject> {
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
       $pull: { "auth.integrations.oidc": { id: oidcID } },
     },
     {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
+      // True to return the document before we modified it. This gives us the
+      // opportunity to return the original document and asertain if the
+      // integration was/could be removed.
+      returnOriginal: true,
     }
   );
+  if (!result.value) {
+    return { wasDeleted: false };
+  }
 
-  return result.value || null;
+  // Find the integration that we wanted to delete.
+  const integration = result.value.auth.integrations.oidc.find(
+    ({ id: integrationID }) => integrationID === oidcID
+  );
+  if (!integration) {
+    // The integration was not in the original document, so we could not have
+    // possibly deleted it!
+    return { wasDeleted: false };
+  }
+
+  // The integration was found, we should pull that integration out of the
+  // resulting Tenant.
+  result.value.auth.integrations.oidc.filter(
+    ({ id: integrationID }) => integrationID !== integration.id
+  );
+
+  return {
+    tenant: result.value,
+    integration,
+    wasDeleted: true,
+  };
 }

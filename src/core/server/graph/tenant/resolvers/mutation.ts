@@ -51,18 +51,42 @@ const Mutation: GQLMutationTypeResolver<void> = {
     settings: await ctx.mutators.Settings.regenerateSSOKey(),
     clientMutationId: input.clientMutationId,
   }),
-  createOIDCAuthIntegration: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.createOIDCAuthIntegration(input),
-    clientMutationId: input.clientMutationId,
-  }),
-  updateOIDCAuthIntegration: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.updateOIDCAuthIntegration(input),
-    clientMutationId: input.clientMutationId,
-  }),
-  deleteOIDCAuthIntegration: async (source, { input }, ctx) => ({
-    settings: await ctx.mutators.Settings.deleteOIDCAuthIntegration(input),
-    clientMutationId: input.clientMutationId,
-  }),
+  createOIDCAuthIntegration: async (source, { input }, ctx) => {
+    const result = await ctx.mutators.Settings.createOIDCAuthIntegration(input);
+    if (!result) {
+      return { clientMutationId: input.clientMutationId };
+    }
+
+    return {
+      integration: result.integration,
+      settings: result.tenant,
+      clientMutationId: input.clientMutationId,
+    };
+  },
+  updateOIDCAuthIntegration: async (source, { input }, ctx) => {
+    const result = await ctx.mutators.Settings.updateOIDCAuthIntegration(input);
+    if (!result) {
+      return { clientMutationId: input.clientMutationId };
+    }
+
+    return {
+      integration: result.integration,
+      settings: result.tenant,
+      clientMutationId: input.clientMutationId,
+    };
+  },
+  deleteOIDCAuthIntegration: async (source, { input }, ctx) => {
+    const result = await ctx.mutators.Settings.deleteOIDCAuthIntegration(input);
+    if (!result) {
+      return { clientMutationId: input.clientMutationId };
+    }
+
+    return {
+      integration: result.integration,
+      settings: result.tenant,
+      clientMutationId: input.clientMutationId,
+    };
+  },
 };
 
 export default Mutation;

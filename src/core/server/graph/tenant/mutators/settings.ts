@@ -21,9 +21,7 @@ export default ({ mongo, redis, tenantCache, tenant }: TenantContext) => ({
     update(mongo, redis, tenantCache, tenant, omitBy(input, isNull)),
   regenerateSSOKey: (): Promise<Tenant | null> =>
     regenerateSSOKey(mongo, redis, tenantCache, tenant),
-  createOIDCAuthIntegration: (
-    input: GQLCreateOIDCAuthIntegrationInput
-  ): Promise<Tenant | null> =>
+  createOIDCAuthIntegration: (input: GQLCreateOIDCAuthIntegrationInput) =>
     createOIDCAuthIntegration(
       mongo,
       redis,
@@ -31,9 +29,7 @@ export default ({ mongo, redis, tenantCache, tenant }: TenantContext) => ({
       tenant,
       input.configuration
     ),
-  updateOIDCAuthIntegration: (
-    input: GQLUpdateOIDCAuthIntegrationInput
-  ): Promise<Tenant | null> =>
+  updateOIDCAuthIntegration: (input: GQLUpdateOIDCAuthIntegrationInput) =>
     updateOIDCAuthIntegration(
       mongo,
       redis,
@@ -42,8 +38,6 @@ export default ({ mongo, redis, tenantCache, tenant }: TenantContext) => ({
       input.id,
       input.configuration
     ),
-  deleteOIDCAuthIntegration: (
-    input: GQLDeleteOIDCAuthIntegrationInput
-  ): Promise<Tenant | null> =>
+  deleteOIDCAuthIntegration: (input: GQLDeleteOIDCAuthIntegrationInput) =>
     deleteOIDCAuthIntegration(mongo, redis, tenantCache, tenant, input.id),
 });

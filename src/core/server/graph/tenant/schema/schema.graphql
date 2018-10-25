@@ -2047,6 +2047,11 @@ input CreateOIDCAuthIntegrationInput {
 
 type CreateOIDCAuthIntegrationPayload {
   """
+  integration is the OIDCAuthIntegration we just created.
+  """
+  integration: OIDCAuthIntegration
+
+  """
   settings is the Settings that the OIDCAuthIntegration was created on.
   """
   settings: Settings
@@ -2144,6 +2149,11 @@ input UpdateOIDCAuthIntegrationInput {
 
 type UpdateOIDCAuthIntegrationPayload {
   """
+  integration is the OIDCAuthIntegration we just updated.
+  """
+  integration: OIDCAuthIntegration
+
+  """
   settings is the Settings that the OIDCAuthIntegration was updated on.
   """
   settings: Settings
@@ -2172,7 +2182,13 @@ input DeleteOIDCAuthIntegrationInput {
 
 type DeleteOIDCAuthIntegrationPayload {
   """
-  settings is the Settings that the OIDCAuthIntegration was deleted on.
+  integration is the OIDCAuthIntegration we just deleted.
+  """
+  integration: OIDCAuthIntegration
+
+  """
+  settings is the Settings that the OIDCAuthIntegration was deleted on with the
+  OIDCAuthIntegration removed from it.
   """
   settings: Settings
 

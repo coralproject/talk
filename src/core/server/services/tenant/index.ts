@@ -134,22 +134,18 @@ export async function createOIDCAuthIntegration(
   input: CreateOIDCAuthIntegration
 ) {
   // Create the integration. By default, the integration is disabled.
-  const updatedTenant = await createTenantOIDCAuthIntegration(
-    mongo,
-    tenant.id,
-    {
-      enabled: false,
-      ...input,
-    }
-  );
-  if (!updatedTenant) {
+  const result = await createTenantOIDCAuthIntegration(mongo, tenant.id, {
+    enabled: false,
+    ...input,
+  });
+  if (!result.wasCreated || !result.tenant) {
     return null;
   }
 
   // Update the tenant cache.
-  await cache.update(redis, updatedTenant);
+  await cache.update(redis, result.tenant);
 
-  return updatedTenant;
+  return result;
 }
 
 export type UpdateOIDCAuthIntegration = GQLUpdateOIDCAuthIntegrationConfigurationInput;
@@ -163,20 +159,20 @@ export async function updateOIDCAuthIntegration(
   input: UpdateOIDCAuthIntegration
 ) {
   // Update the integration. By default, the integration is disabled.
-  const updatedTenant = await updateTenantOIDCAuthIntegration(
+  const result = await updateTenantOIDCAuthIntegration(
     mongo,
     tenant.id,
     oidcID,
     input
   );
-  if (!updatedTenant) {
+  if (!result.wasUpdated || !result.tenant) {
     return null;
   }
 
   // Update the tenant cache.
-  await cache.update(redis, updatedTenant);
+  await cache.update(redis, result.tenant);
 
-  return updatedTenant;
+  return result;
 }
 
 export async function deleteOIDCAuthIntegration(
@@ -187,17 +183,17 @@ export async function deleteOIDCAuthIntegration(
   oidcID: string
 ) {
   // Delete the integration. By default, the integration is disabled.
-  const updatedTenant = await deleteTenantOIDCAuthIntegration(
+  const result = await deleteTenantOIDCAuthIntegration(
     mongo,
     tenant.id,
     oidcID
   );
-  if (!updatedTenant) {
+  if (!result.wasDeleted || !result.tenant) {
     return null;
   }
 
   // Update the tenant cache.
-  await cache.update(redis, updatedTenant);
+  await cache.update(redis, result.tenant);
 
-  return updatedTenant;
+  return result;
 }
