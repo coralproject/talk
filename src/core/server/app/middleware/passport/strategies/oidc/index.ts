@@ -136,13 +136,10 @@ export const OIDCIDTokenSchema = Joi.object()
     email: Joi.string(),
     email_verified: Joi.boolean().default(false),
     picture: Joi.string().default(undefined),
+    name: Joi.string().default(undefined),
+    nickname: Joi.string().default(undefined),
   })
-  .optionalKeys(["picture", "email_verified"]);
-
-export const OIDCDisplayNameIDTokenSchema = OIDCIDTokenSchema.keys({
-  name: Joi.string().default(undefined),
-  nickname: Joi.string().default(undefined),
-}).optionalKeys(["name", "nickname"]);
+  .optionalKeys(["picture", "email_verified", "name", "nickname"]);
 
 export async function findOrCreateOIDCUser(
   db: Db,
@@ -160,12 +157,7 @@ export async function findOrCreateOIDCUser(
     picture,
     name,
     nickname,
-  }: OIDCIDToken = validate(
-    integration.displayNameEnable
-      ? OIDCDisplayNameIDTokenSchema
-      : OIDCIDTokenSchema,
-    token
-  );
+  }: OIDCIDToken = validate(OIDCIDTokenSchema, token);
 
   // Construct the profile that will be used to query for the user.
   const profile: OIDCProfile = {
@@ -178,10 +170,13 @@ export async function findOrCreateOIDCUser(
   // Try to lookup user given their id provided in the `sub` claim.
   let user = await retrieveUserWithProfile(db, tenant.id, profile);
   if (!user) {
+    if (!integration.allowRegistration) {
+      // Registration is disabled, so we can't create the user user here.
+      return;
+    }
+
     // FIXME: implement rules.
 
-    // Default the displayName. When it is disabled, Joi will strip the
-    // displayName fields from the token, so it will fallback to undefined.
     const displayName = nickname || name || undefined;
 
     // Create the new user, as one didn't exist before!

@@ -136,6 +136,7 @@ export async function createOIDCAuthIntegration(
   // Create the integration. By default, the integration is disabled.
   const result = await createTenantOIDCAuthIntegration(mongo, tenant.id, {
     enabled: false,
+    allowRegistration: false,
     ...input,
   });
   if (!result.wasCreated || !result.tenant) {

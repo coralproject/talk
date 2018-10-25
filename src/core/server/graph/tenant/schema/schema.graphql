@@ -265,6 +265,12 @@ type LocalAuthIntegration {
   enabled: Boolean!
 
   """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
   targetFilter will restrict where the authentication integration should be
   displayed. If the value of targetFilter is null, then the authentication
   integration should be displayed in all targets.
@@ -285,6 +291,12 @@ type SSOAuthIntegration {
   enabled: Boolean!
 
   """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
   targetFilter will restrict where the authentication integration should be
   displayed. If the value of targetFilter is null, then the authentication
   integration should be displayed in all targets.
@@ -300,12 +312,6 @@ type SSOAuthIntegration {
   keyGeneratedAt is the Time that the key was effective from.
   """
   keyGeneratedAt: Time @auth(roles: [ADMIN])
-
-  """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
-  """
-  displayNameEnable: Boolean @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -369,6 +375,12 @@ type OIDCAuthIntegration {
   enabled: Boolean!
 
   """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
   targetFilter will restrict where the authentication integration should be
   displayed. If the value of targetFilter is null, then the authentication
   integration should be displayed in all targets.
@@ -430,12 +442,6 @@ type OIDCAuthIntegration {
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
   issuer: String! @auth(roles: [ADMIN])
-
-  """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
-  """
-  displayNameEnable: Boolean @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -444,6 +450,12 @@ type OIDCAuthIntegration {
 
 type GoogleAuthIntegration {
   enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
 
   """
   targetFilter will restrict where the authentication integration should be
@@ -464,6 +476,12 @@ type FacebookAuthIntegration {
   enabled: Boolean!
 
   """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
   targetFilter will restrict where the authentication integration should be
   displayed. If the value of targetFilter is null, then the authentication
   integration should be displayed in all targets.
@@ -474,12 +492,27 @@ type FacebookAuthIntegration {
   clientSecret: String @auth(roles: [ADMIN])
 }
 
+##########################
+## Auth
+##########################
+
 type AuthIntegrations {
   local: LocalAuthIntegration!
   sso: SSOAuthIntegration!
   oidc: [OIDCAuthIntegration!]!
   google: GoogleAuthIntegration!
   facebook: FacebookAuthIntegration!
+}
+
+"""
+AuthDisplayNameConfiguration allows configuration related to Display Names.
+"""
+type AuthDisplayNameConfiguration {
+  """
+  enabled when true will allow the display name to be used by other
+  AuthIntegrations.
+  """
+  enabled: Boolean!
 }
 
 """
@@ -492,6 +525,12 @@ type Auth {
   authentication solutions.
   """
   integrations: AuthIntegrations!
+
+  """
+  displayName contains configuration related to the use of Display Names across
+  AuthIntegrations.
+  """
+  displayName: AuthDisplayNameConfiguration @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1432,6 +1471,12 @@ input SettingsLocalAuthIntegrationInput {
   enabled: Boolean
 
   """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
   targetFilter will restrict where the authentication integration should be
   displayed. If the value of targetFilter is null, then the authentication
   integration should be displayed in all targets.
@@ -1443,21 +1488,27 @@ input SettingsSSOAuthIntegrationInput {
   enabled: Boolean
 
   """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
   targetFilter will restrict where the authentication integration should be
   displayed. If the value of targetFilter is null, then the authentication
   integration should be displayed in all targets.
   """
   targetFilter: SettingsAuthenticationTargetFilterInput
-
-  """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
-  """
-  displayNameEnable: Boolean
 }
 
 input SettingsGoogleAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
 
   """
   targetFilter will restrict where the authentication integration should be
@@ -1472,6 +1523,12 @@ input SettingsGoogleAuthIntegrationInput {
 
 input SettingsFacebookAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
 
   """
   targetFilter will restrict where the authentication integration should be
@@ -2071,6 +2128,12 @@ input UpdateOIDCAuthIntegrationConfigurationInput {
   enabled, when true, allows the integration to be enabled.
   """
   enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
 
   """
   targetFilter will restrict where the authentication integration should be

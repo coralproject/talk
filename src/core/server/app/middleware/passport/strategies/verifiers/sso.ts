@@ -3,7 +3,10 @@ import jwt from "jsonwebtoken";
 import { Db } from "mongodb";
 
 import { validate } from "talk-server/app/request/body";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLSSOAuthIntegration,
+  GQLUSER_ROLE,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { retrieveUserWithProfile, SSOProfile } from "talk-server/models/user";
 import { upsert } from "talk-server/services/users";
@@ -30,16 +33,14 @@ export const SSOUserProfileSchema = Joi.object()
     email: Joi.string(),
     username: Joi.string(),
     avatar: Joi.string().default(undefined),
+    displayName: Joi.string().default(undefined),
   })
-  .optionalKeys(["avatar"]);
-
-export const SSODisplayNameUserProfileSchema = SSOUserProfileSchema.keys({
-  displayName: Joi.string().default(undefined),
-}).optionalKeys(["displayName"]);
+  .optionalKeys(["avatar", "displayName"]);
 
 export async function findOrCreateSSOUser(
   db: Db,
   tenant: Tenant,
+  integration: GQLSSOAuthIntegration,
   token: SSOToken
 ) {
   if (!token.user) {
@@ -49,9 +50,7 @@ export async function findOrCreateSSOUser(
 
   // Unpack/validate the token content.
   const { id, email, username, displayName, avatar }: SSOUserProfile = validate(
-    tenant.auth.integrations.sso!.displayNameEnable
-      ? SSODisplayNameUserProfileSchema
-      : SSOUserProfileSchema,
+    SSOUserProfileSchema,
     token.user
   );
 
@@ -63,6 +62,11 @@ export async function findOrCreateSSOUser(
   // Try to lookup user given their id provided in the `sub` claim.
   let user = await retrieveUserWithProfile(db, tenant.id, profile);
   if (!user) {
+    if (!integration.allowRegistration) {
+      // Registration is disabled, so we can't create the user user here.
+      return;
+    }
+
     // FIXME: (wyattjoh) implement rules! Not all users should be able to create an account via this method.
 
     // Create the new user, as one didn't exist before!
@@ -138,6 +142,6 @@ export class SSOVerifier {
       algorithms: ["HS256"], // TODO: (wyattjoh) investigate replacing algorithm.
     });
 
-    return findOrCreateSSOUser(this.mongo, tenant, token);
+    return findOrCreateSSOUser(this.mongo, tenant, integration, token);
   }
 }

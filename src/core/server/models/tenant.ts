@@ -86,16 +86,20 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       integrations: {
         local: {
           enabled: true,
+          allowRegistration: true,
         },
         sso: {
           enabled: false,
+          allowRegistration: false,
         },
         oidc: [],
         google: {
           enabled: false,
+          allowRegistration: false,
         },
         facebook: {
           enabled: false,
+          allowRegistration: false,
         },
       },
     },

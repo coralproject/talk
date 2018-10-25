@@ -51,6 +51,11 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
       return next(new Error("integration is disabled"));
     }
 
+    if (!tenant.auth.integrations.local.allowRegistration) {
+      // TODO: replace with better error.
+      return next(new Error("registration is disabled"));
+    }
+
     // Get the fields from the body. Validate will throw an error if the body
     // does not conform to the specification.
     const { username, password, email }: SignupBody = validate(
