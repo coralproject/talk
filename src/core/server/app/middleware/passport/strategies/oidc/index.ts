@@ -343,7 +343,10 @@ export default class OIDCStrategy extends Strategy {
     const { clientID, clientSecret, authorizationURL, tokenURL } = integration;
 
     // Construct the callbackURL from the request.
-    const callbackURL = reconstructURL(req, "/api/tenant/auth/oidc/callback");
+    const callbackURL = reconstructURL(
+      req,
+      `/api/tenant/auth/oidc/${integration.id}/callback`
+    );
 
     // Create a new OAuth2Strategy, where we pass the verify callback bound to
     // this OIDCStrategy instance.
