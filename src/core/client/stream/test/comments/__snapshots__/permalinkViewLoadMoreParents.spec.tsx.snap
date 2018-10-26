@@ -27,7 +27,9 @@ exports[`renders permalink view 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ ⁨Comments⁩
+        <span>
+          ⁨2⁩ Comments
+        </span>
       </button>
     </li>
   </ul>
@@ -381,7 +383,9 @@ exports[`views pervious comments 1`] = `
         role="tab"
         type="button"
       >
-        ⁨2⁩ ⁨Comments⁩
+        <span>
+          ⁨2⁩ Comments
+        </span>
       </button>
     </li>
   </ul>
