@@ -115,6 +115,9 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
         initialValues={this.state.initialValues}
         onCancel={this.handleOnCancel}
         rteRef={this.handleRTERef}
+        parentUsername={
+          this.props.comment.author && this.props.comment.author.username
+        }
       />
     );
   }
@@ -134,6 +137,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
       comment: graphql`
         fragment ReplyCommentFormContainer_comment on Comment {
           id
+          author {
+            username
+          }
         }
       `,
     })(ReplyCommentFormContainer)

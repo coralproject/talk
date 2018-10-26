@@ -6,6 +6,7 @@ exports[`renders correctly 1`] = `
   onCancel={[Function]}
   onChange={[Function]}
   onSubmit={[Function]}
+  parentUsername="Joe"
   rteRef={[Function]}
 />
 `;
@@ -21,6 +22,7 @@ exports[`renders with initialValues 1`] = `
   onCancel={[Function]}
   onChange={[Function]}
   onSubmit={[Function]}
+  parentUsername="Joe"
   rteRef={[Function]}
 />
 `;

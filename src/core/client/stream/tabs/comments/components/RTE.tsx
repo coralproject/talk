@@ -102,6 +102,7 @@ const RTE: StatelessComponent<RTEProps> = props => {
         placeholder={placeholder}
         features={features}
         ref={forwardRef}
+        toolbarPosition="bottom"
         {...rest}
       />
     </div>
