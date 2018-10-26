@@ -64,7 +64,7 @@ export async function findOrCreateSSOUser(
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.
-      return;
+      return null;
     }
 
     // FIXME: (wyattjoh) implement rules! Not all users should be able to create an account via this method.
