@@ -130,8 +130,8 @@ es:
     enable_questionbox: 'Hacer una pregunta a los y las lectoras.'
     enable_questionbox_description: 'Esta pregunta aparecerá en la parte de arriba del hilo de comentarios.'
     hours: Horas
-    include_comment_stream: 'Incluir Descripción de Hilo de Comentarios para Lectores'
-    include_comment_stream_desc: 'Escribir un mensaje para ser incluido al principio del hilo de comentarios. Un tema planteado podría ser la guía de comunidad, etc.'
+    code_of_conduct_summary: 'Incluir Descripción de Hilo de Comentarios para Lectores'
+    code_of_conduct_summary_desc: 'Escribir un mensaje para ser incluido al principio del hilo de comentarios. Un tema planteado podría ser la guía de comunidad, etc.'
     include_question_here: 'Escribir la pregunta aquí.'
     include_text: 'Agregar tu texto aquí.'
     moderate: Moderar
