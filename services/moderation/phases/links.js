@@ -11,7 +11,7 @@ module.exports = (
     },
   }
 ) => {
-  if (premodLinksEnable && linkify.test(comment.body)) {
+  if (premodLinksEnable && linkify.test(comment.body.replace(/\xAD/g, ''))) {
     // Add the flag related to Trust to the comment.
     return {
       status: 'SYSTEM_WITHHELD',
