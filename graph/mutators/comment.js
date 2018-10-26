@@ -5,6 +5,8 @@ const TagsService = require('../../services/tags');
 const CommentsService = require('../../services/comments');
 const KarmaService = require('../../services/karma');
 const merge = require('lodash/merge');
+const UserService = require('../../services/users');
+const Settings = require('../../services/settings');
 
 const {
   CREATE_COMMENT,
@@ -109,9 +111,27 @@ const adjustKarma = (ctx, Comments, id, status) => async () => {
           { flagUserIDs },
           'Flagging users had their karma increased'
         );
+
+        // Notify user by mail that their comment is rejected
+        let user = await UserService.findById(comment.author_id);
+        const email = user.firstEmail;
+
+        let settings = await Settings.retrieve();
+        const orgName = settings.organizationName;
+
         await Promise.all([
           KarmaService.modifyUser(comment.author_id, -1, 'comment'),
           KarmaService.modifyUser(flagUserIDs, 1, 'flag', true),
+          UserService.sendEmail(comment.author_id, {
+            template: 'plain',
+            locals: {
+              body:
+                'A recent comment of yours has been removed for violating our community guidelines. ' +
+                'Please review our rules before submitting another comment.',
+            },
+            subject: 'Your comment on ' + orgName + ' has been removed', // TODO: Handle localization
+            email,
+          }),
         ]);
 
         break;
