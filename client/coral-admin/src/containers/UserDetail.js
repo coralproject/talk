@@ -16,7 +16,8 @@ import {
   changeTab,
   clearUserDetailSelections,
   toggleSelectCommentInUserDetail,
-  toggleSelectAllCommentInUserDetail,
+  selectAllVisibleInUserDetail,
+  selectAllForUserInUserDetail,
 } from 'coral-admin/src/actions/userDetail';
 import {
   withSetCommentStatus,
@@ -50,12 +51,64 @@ class UserDetailContainer extends React.Component {
 
   // status can be 'ACCEPTED' or 'REJECTED'
   bulkSetCommentStatus = async status => {
-    const changes = this.props.selectedCommentIds.map(commentId => {
-      return this.props.setCommentStatus({ commentId, status });
-    });
+    // When all user comments are selected, this processor will trigger a batch process to update all comments
+    if (this.props.allUserCommentsSelected) {
+      await this.batchUpdateAllComments(
+        status,
+        this.props.root.batchCommentIds
+      );
+    } else {
+      const changes = this.props.selectedCommentIds.map(commentId => {
+        return this.props.setCommentStatus({ commentId, status });
+      });
 
-    await Promise.all(changes);
+      await Promise.all(changes);
+    }
+
     this.props.clearUserDetailSelections(); // un-select everything
+  };
+
+  // Batch load all of the users comments and switch their status
+  batchUpdateAllComments = async (newStatus, batchCommentIds) => {
+    // TODO - progress indicator, lock during progress (with cancel button?)
+    const batchUpdates = batchCommentIds.nodes.map(({ id, status }) => {
+      // Only update dirty status comments or Karma is updated incorrectly
+      if (status !== newStatus) {
+        return this.props.setCommentStatus({
+          commentId: id,
+          status: newStatus,
+        });
+      } else {
+        return Promise.resolve();
+      }
+    });
+    await Promise.all(batchUpdates);
+
+    if (batchCommentIds.hasNextPage) {
+      // Load next page
+      const variables = {
+        cursor: batchCommentIds.endCursor,
+        author_id: this.props.data.variables.author_id,
+      };
+      let { data } = await this.props.data.fetchMore({
+        query: LOAD_MORE_IDS_QUERY,
+        variables,
+        updateQuery: (prev, { fetchMoreResult: { batchCommentIds } }) => {
+          return update(prev, {
+            batchCommentIds: {
+              nodes: { $push: batchCommentIds.nodes },
+              hasNextPage: { $set: batchCommentIds.hasNextPage },
+              startCursor: { $set: batchCommentIds.startCursor },
+              endCursor: { $set: batchCommentIds.endCursor },
+            },
+          });
+        },
+      });
+      let nextBatch = data.batchCommentIds;
+      if (nextBatch && nextBatch.nodes.length > 0) {
+        return this.batchUpdateAllComments(newStatus, nextBatch);
+      }
+    }
   };
 
   bulkReject = () => {
@@ -129,7 +182,10 @@ class UserDetailContainer extends React.Component {
         bulkAccept={this.bulkAccept}
         changeTab={this.props.changeTab}
         toggleSelect={this.props.toggleSelectCommentInUserDetail}
-        toggleSelectAll={this.props.toggleSelectAllCommentInUserDetail}
+        selectAllForUser={this.props.selectAllForUserInUserDetail}
+        selectAllVisible={this.props.selectAllVisibleInUserDetail}
+        clearSelection={this.props.clearUserDetailSelections}
+        allUserCommentsSelected={this.props.allUserCommentsSelected}
         acceptComment={this.acceptComment}
         rejectComment={this.rejectComment}
         loading={loading}
@@ -145,7 +201,9 @@ class UserDetailContainer extends React.Component {
 UserDetailContainer.propTypes = {
   changeTab: PropTypes.func,
   toggleSelectCommentInUserDetail: PropTypes.func,
-  toggleSelectAllCommentInUserDetail: PropTypes.func,
+  selectAllVisibleInUserDetail: PropTypes.func,
+  selectAllForUserInUserDetail: PropTypes.func,
+  allUserCommentsSelected: PropTypes.bool,
   data: PropTypes.object,
   root: PropTypes.object,
   setCommentStatus: PropTypes.func,
@@ -176,6 +234,29 @@ const LOAD_MORE_QUERY = gql`
     }
   }
   ${commentConnectionFragment}
+`;
+
+const LOAD_MORE_IDS_QUERY = gql`
+  query CoralAdmin_Moderation_LoadMoreIds(
+    $limit: Int = 5
+    $cursor: Cursor
+    $author_id: ID!
+  ) {
+    batchCommentIds: comments(
+      query: { limit: $limit, cursor: $cursor, author_id: $author_id }
+    ) {
+      nodes {
+        id
+        status
+        status_history {
+          type
+        }
+      }
+      hasNextPage
+      startCursor
+      endCursor
+    }
+  }
 `;
 
 export const withUserDetailQuery = withQuery(
@@ -246,6 +327,22 @@ export const withUserDetailQuery = withQuery(
     }
     totalComments: commentCount(query: {author_id: $author_id, statuses: []})
     rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
+    batchCommentIds: comments(query: {
+      author_id: $author_id,
+      limit: 5,
+      statuses: $statuses
+    }) {
+      nodes {
+        id
+        status
+        status_history {
+          type
+        }
+      }
+      hasNextPage
+      startCursor
+      endCursor
+    }
     comments: comments(query: {
       author_id: $author_id,
       statuses: $statuses
@@ -268,13 +365,16 @@ export const withUserDetailQuery = withQuery(
   }
 );
 
-const mapStateToProps = state => ({
-  userId: state.userDetail.userId,
-  selectedCommentIds: state.userDetail.selectedCommentIds,
-  statuses: state.userDetail.statuses,
-  activeTab: state.userDetail.activeTab,
-  modal: state.ui.modal,
-});
+const mapStateToProps = state => {
+  return {
+    userId: state.userDetail.userId,
+    selectedCommentIds: state.userDetail.selectedCommentIds,
+    statuses: state.userDetail.statuses,
+    activeTab: state.userDetail.activeTab,
+    allUserCommentsSelected: state.userDetail.allUserCommentsSelected,
+    modal: state.ui.modal,
+  };
+};
 
 const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
@@ -287,7 +387,8 @@ const mapDispatchToProps = dispatch => ({
       toggleSelectCommentInUserDetail,
       viewUserDetail,
       hideUserDetail,
-      toggleSelectAllCommentInUserDetail,
+      selectAllVisibleInUserDetail,
+      selectAllForUserInUserDetail,
     },
     dispatch
   ),

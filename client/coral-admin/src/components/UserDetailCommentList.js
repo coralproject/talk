@@ -12,15 +12,20 @@ const UserDetailCommentList = props => {
     root,
     root: {
       user,
+      user: { username },
       comments: { nodes, hasNextPage },
     },
+    totalComments,
     acceptComment,
     rejectComment,
     selectedCommentIds,
     toggleSelect,
     viewUserDetail,
     loadMore,
-    toggleSelectAll,
+    clearSelection,
+    selectAllVisible,
+    selectAllForUser,
+    allUserCommentsSelected,
     bulkAcceptThenReload,
     bulkRejectThenReload,
   } = props;
@@ -41,29 +46,57 @@ const UserDetailCommentList = props => {
             <ApproveButton onClick={bulkAcceptThenReload} minimal />
             <RejectButton onClick={bulkRejectThenReload} minimal />
             <span className={styles.selectedCommentsInfo}>
-              {' '}
-              {selectedCommentIds.length} comments selected
+              {allUserCommentsSelected ? (
+                <span>
+                  All {totalComments} comments by {`${username} `}
+                  selected.
+                  <button
+                    onClick={clearSelection}
+                    className={'talk-admin-user-detail-clear-selection'}
+                  >
+                    Clear Selection
+                  </button>
+                </span>
+              ) : (
+                <span>
+                  All {selectedCommentIds.length} comments on this page
+                  selected.
+                  {allUserCommentsSelected ||
+                  selectedCommentIds.length === totalComments ? (
+                    false
+                  ) : (
+                    <button
+                      className={'talk-admin-user-detail-select-all-deep'}
+                      onClick={selectAllForUser}
+                    >
+                      Select all {totalComments} comments by {username}
+                    </button>
+                  )}
+                </span>
+              )}
             </span>
           </div>
         )}
-
-        <div className={styles.toggleAll}>
-          <input
-            type="checkbox"
-            id="toogleAll"
-            checked={
-              selectedCommentIds.length > 0 &&
-              selectedCommentIds.length === nodes.length
-            }
-            onChange={e => {
-              toggleSelectAll(
-                nodes.map(comment => comment.id),
+        {allUserCommentsSelected ? (
+          false
+        ) : (
+          <div className={styles.toggleAll}>
+            <input
+              type="checkbox"
+              id="toogleAll"
+              checked={
+                selectedCommentIds.length > 0 &&
+                selectedCommentIds.length === nodes.length
+              }
+              onChange={e => {
                 e.target.checked
-              );
-            }}
-          />
-          <label htmlFor="toogleAll">Select all</label>
-        </div>
+                  ? selectAllVisible(nodes.map(comment => comment.id))
+                  : clearSelection();
+              }}
+            />
+            <label htmlFor="toogleAll">Select all</label>
+          </div>
+        )}
       </div>
       {nodes.map(comment => {
         const selected = selectedCommentIds.indexOf(comment.id) !== -1;
@@ -98,7 +131,11 @@ UserDetailCommentList.propTypes = {
   viewUserDetail: PropTypes.any.isRequired,
   loadMore: PropTypes.any.isRequired,
   toggleSelect: PropTypes.func.isRequired,
-  toggleSelectAll: PropTypes.func.isRequired,
+  totalComments: PropTypes.number.isRequired,
+  selectAllVisible: PropTypes.func.isRequired,
+  selectAllForUser: PropTypes.func.isRequired,
+  clearSelection: PropTypes.func.isRequired,
+  allUserCommentsSelected: PropTypes.bool.isRequired,
   bulkAcceptThenReload: PropTypes.func.isRequired,
   bulkRejectThenReload: PropTypes.func.isRequired,
 };

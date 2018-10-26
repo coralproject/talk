@@ -5,6 +5,7 @@ const initialState = {
   activeTab: 'all',
   statuses: null,
   selectedCommentIds: [],
+  allUserCommentsSelected: false,
 };
 
 export default function banUserDialog(state = initialState, action) {
@@ -19,17 +20,21 @@ export default function banUserDialog(state = initialState, action) {
         ...state,
         userId: null,
         selectedCommentIds: [],
+        allUserCommentsSelected: false,
       };
     case actions.CLEAR_USER_DETAIL_SELECTIONS:
       return {
         ...state,
         selectedCommentIds: [],
+        allUserCommentsSelected: false,
       };
     case actions.CHANGE_TAB_USER_DETAIL:
       return {
         ...state,
         activeTab: action.tab,
         statuses: action.statuses,
+        selectedCommentIds: [],
+        allUserCommentsSelected: false,
       };
     case actions.SELECT_USER_DETAIL_COMMENT:
       return {
@@ -43,10 +48,15 @@ export default function banUserDialog(state = initialState, action) {
           id => id !== action.id
         ),
       };
-    case actions.SELECT_ALL_USER_DETAIL_COMMENT:
+    case actions.SELECT_ALL_VISIBLE_USER_DETAIL_COMMENT:
       return {
         ...state,
         selectedCommentIds: action.ids,
+      };
+    case actions.SELECT_ALL_FOR_USER_USER_DETAIL_COMMENT:
+      return {
+        ...state,
+        allUserCommentsSelected: true,
       };
     default:
       return state;

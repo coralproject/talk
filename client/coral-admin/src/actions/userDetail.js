@@ -27,11 +27,15 @@ export const toggleSelectCommentInUserDetail = (id, active) => {
   };
 };
 
-export const toggleSelectAllCommentInUserDetail = (ids, active) => {
+export const selectAllVisibleInUserDetail = ids => {
   return {
-    type: active
-      ? actions.SELECT_ALL_USER_DETAIL_COMMENT
-      : actions.CLEAR_USER_DETAIL_SELECTIONS,
+    type: actions.SELECT_ALL_VISIBLE_USER_DETAIL_COMMENT,
     ids,
+  };
+};
+
+export const selectAllForUserInUserDetail = () => {
+  return {
+    type: actions.SELECT_ALL_FOR_USER_USER_DETAIL_COMMENT,
   };
 };

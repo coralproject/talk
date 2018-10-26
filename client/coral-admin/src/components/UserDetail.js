@@ -150,7 +150,10 @@ class UserDetail extends React.Component {
       hideUserDetail,
       viewUserDetail,
       loadMore,
-      toggleSelectAll,
+      selectAllForUser,
+      selectAllVisible,
+      clearSelection,
+      allUserCommentsSelected,
       unbanUser,
       unsuspendUser,
       modal,
@@ -159,7 +162,6 @@ class UserDetail extends React.Component {
       bulkAccept,
       bulkReject,
     } = this.props;
-
     // if totalComments is 0, you're dividing by zero
     let rejectedPercent = (rejectedComments / totalComments) * 100;
 
@@ -408,7 +410,11 @@ class UserDetail extends React.Component {
                 acceptComment={acceptComment}
                 rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
-                toggleSelectAll={toggleSelectAll}
+                totalComments={totalComments}
+                selectAllForUser={selectAllForUser}
+                selectAllVisible={selectAllVisible}
+                clearSelection={clearSelection}
+                allUserCommentsSelected={allUserCommentsSelected}
                 bulkAcceptThenReload={bulkAccept}
                 bulkRejectThenReload={bulkReject}
               />
@@ -426,7 +432,11 @@ class UserDetail extends React.Component {
                 acceptComment={acceptComment}
                 rejectComment={rejectComment}
                 selectedCommentIds={selectedCommentIds}
-                toggleSelectAll={toggleSelectAll}
+                totalComments={rejectedComments}
+                selectAllForUser={selectAllForUser}
+                selectAllVisible={selectAllVisible}
+                clearSelection={clearSelection}
+                allUserCommentsSelected={allUserCommentsSelected}
                 bulkAcceptThenReload={bulkAccept}
                 bulkRejectThenReload={bulkReject}
               />
@@ -466,7 +476,10 @@ UserDetail.propTypes = {
   toggleSelect: PropTypes.func.isRequired,
   bulkAccept: PropTypes.func.isRequired,
   bulkReject: PropTypes.func.isRequired,
-  toggleSelectAll: PropTypes.func.isRequired,
+  clearSelection: PropTypes.func.isRequired,
+  selectAllVisible: PropTypes.func.isRequired,
+  selectAllForUser: PropTypes.func.isRequired,
+  allUserCommentsSelected: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   data: PropTypes.object,
   activeTab: PropTypes.string.isRequired,
