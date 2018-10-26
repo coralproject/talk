@@ -30,7 +30,7 @@ const CONFIG = {
   ENABLE_TRACING: Boolean(process.env.APOLLO_ENGINE_KEY),
 
   // EMAIL_SUBJECT_PREFIX is the string before emails in the subject.
-  EMAIL_SUBJECT_PREFIX: process.env.TALK_EMAIL_SUBJECT_PREFIX || '[Talk]',
+  EMAIL_SUBJECT_PREFIX: process.env.TALK_EMAIL_SUBJECT_PREFIX,
 
   // DEFAULT_LANG is the default language used for server sent emails and
   // rendered text.
@@ -270,6 +270,10 @@ const CONFIG = {
 //==============================================================================
 // CONFIG VALIDATION
 //==============================================================================
+
+if (typeof CONFIG.EMAIL_SUBJECT_PREFIX === 'undefined') {
+  CONFIG.EMAIL_SUBJECT_PREFIX = '[Talk]';
+}
 
 if (process.env.NODE_ENV === 'test') {
   if (!CONFIG.ROOT_URL) {

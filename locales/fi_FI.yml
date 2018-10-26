@@ -123,8 +123,8 @@ fi_FI:
     enable_questionbox: 'Kysy lukijoilta'
     enable_questionbox_description: 'Tämä kysymys tulee näkymään kommenttiosion ylälaidassa. Kysy artikkelin aiheesta tai ohjaa keskustelua kysymyksen avulla.'
     hours: Tuntia
-    include_comment_stream: 'Sisällytä kommentoinnin kuvaus lukijoille'
-    include_comment_stream_desc: 'Kirjoita kommenttiosion yläreunassa näkyvä viesti. Aseta keskustelun aihe, sisällytä sääntöjä tms.'
+    code_of_conduct_summary: 'Sisällytä kommentoinnin kuvaus lukijoille'
+    code_of_conduct_summary_desc: 'Kirjoita kommenttiosion yläreunassa näkyvä viesti. Aseta keskustelun aihe, sisällytä sääntöjä tms.'
     include_question_here: 'Kirjoita kysymyksesi tähän:'
     include_text: 'Lisää teksti tähän.'
     moderate: Moderoi
