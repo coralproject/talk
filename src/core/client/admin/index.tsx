@@ -9,6 +9,7 @@ import { TalkContextConsumer } from "talk-framework/lib/bootstrap/TalkContext";
 import { initLocalState } from "./local";
 import localesData from "./locales";
 import routeConfig from "./routeConfig";
+import NotFound from "./routes/NotFound";
 
 async function main() {
   const ManagedTalkContextProvider = await createManaged({
@@ -21,7 +22,11 @@ async function main() {
     historyProtocol: new BrowserProtocol(),
     historyMiddlewares: [queryMiddleware],
     routeConfig,
-    render: createRender({}),
+    render: createRender({
+      renderError: ({ error }) => (
+        <div>{error.status === 404 ? <NotFound /> : "Error"}</div>
+      ),
+    }),
   });
 
   const Index: StatelessComponent = () => (
