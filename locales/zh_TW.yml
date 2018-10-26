@@ -113,8 +113,8 @@ zh_TW:
     enable_questionbox: 向讀者提問
     enable_questionbox_description: 該問題將會在評論流置頂。您可以詢問其他讀者有關文章中的具體時間或是提出討論等
     hours: 小時
-    include_comment_stream: 包含讀者的評論流描述
-    include_comment_stream_desc: 留言將在您的評論流中置頂。發布一個社區規則等
+    code_of_conduct_summary: 包含讀者的評論流描述
+    code_of_conduct_summary_desc: 留言將在您的評論流中置頂。發布一個社區規則等
     include_question_here: 請在此處輸入問題：
     include_text: 在此插入您的文本
     moderate: 審核
