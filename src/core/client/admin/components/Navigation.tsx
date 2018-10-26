@@ -1,6 +1,9 @@
 import { Link } from "found";
 import React, { StatelessComponent } from "react";
+
 import { Button, Flex, Typography } from "talk-ui/components";
+
+import SignOutButtonContainer from "../containers/SignOutButtonContainer";
 import styles from "./Navigation.css";
 
 const Navigation: StatelessComponent = () => (
@@ -34,6 +37,7 @@ const Navigation: StatelessComponent = () => (
     >
       <Button>Configure</Button>
     </Link>
+    <SignOutButtonContainer />
   </Flex>
 );
 

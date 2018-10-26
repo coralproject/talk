@@ -6,15 +6,12 @@ import RedirectAppContainer from "./containers/RedirectAppContainer";
 import RedirectLoginContainer from "./containers/RedirectLoginContainer";
 import Community from "./routes/community/components/Community";
 import Configure from "./routes/configure/components/Configure";
-import Login from "./routes/login/components/Login";
+import SignInContainer from "./routes/login/containers/SignInContainer";
 import Moderate from "./routes/moderate/components/Moderate";
 import Stories from "./routes/stories/components/Stories";
 
 export default makeRouteConfig(
   <Route path="admin">
-    <Route Component={RedirectAppContainer}>
-      <Route path="login" Component={Login} />
-    </Route>
     <Route Component={RedirectLoginContainer}>
       <Route Component={App}>
         <Route path="moderate" Component={Moderate} />
@@ -22,6 +19,9 @@ export default makeRouteConfig(
         <Route path="stories" Component={Stories} />
         <Route path="configure" Component={Configure} />
       </Route>
+    </Route>
+    <Route Component={RedirectAppContainer}>
+      <Route path="login" Component={SignInContainer} />
     </Route>
   </Route>
 );
