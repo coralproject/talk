@@ -25,6 +25,9 @@ it("renders correctly", async () => {
     },
     comment: {
       id: "comment-id",
+      author: {
+        username: "Joe",
+      },
     },
     sessionStorage: createPromisifiedStorage(),
     autofocus: false,
@@ -44,6 +47,9 @@ it("renders with initialValues", async () => {
     },
     comment: {
       id: "comment-id",
+      author: {
+        username: "Joe",
+      },
     },
     sessionStorage: createPromisifiedStorage(),
     autofocus: false,
@@ -68,6 +74,9 @@ it("save values", async () => {
     },
     comment: {
       id: "comment-id",
+      author: {
+        username: "Joe",
+      },
     },
     sessionStorage: createPromisifiedStorage(),
     autofocus: false,
@@ -104,6 +113,9 @@ it("creates a comment", async () => {
     },
     comment: {
       id: "comment-id",
+      author: {
+        username: "Joe",
+      },
     },
     sessionStorage: createPromisifiedStorage(),
     onClose: onCloseStub,
@@ -142,6 +154,9 @@ it("closes on cancel", async () => {
     },
     comment: {
       id: "comment-id",
+      author: {
+        username: "Joe",
+      },
     },
     sessionStorage: createPromisifiedStorage(),
     onClose: onCloseStub,
@@ -177,6 +192,9 @@ it("autofocuses", async () => {
     },
     comment: {
       id: "comment-id",
+      author: {
+        username: "Joe",
+      },
     },
     sessionStorage: createPromisifiedStorage(),
     autofocus: true,

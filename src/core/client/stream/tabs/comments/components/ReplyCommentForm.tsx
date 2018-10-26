@@ -16,9 +16,11 @@ import {
   Button,
   Flex,
   HorizontalGutter,
+  MatchMedia,
   Typography,
 } from "talk-ui/components";
 
+import ReplyTo from "./ReplyTo";
 import RTE from "./RTE";
 
 interface FormProps {
@@ -33,6 +35,7 @@ export interface ReplyCommentFormProps {
   onChange?: (state: FormState) => void;
   initialValues?: FormProps;
   rteRef?: Ref<CoralRTE>;
+  parentUsername: string | null;
 }
 
 const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
@@ -56,6 +59,9 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                       Write a reply
                     </AriaInfo>
                   </Localized>
+                  {props.parentUsername && (
+                    <ReplyTo username={props.parentUsername} />
+                  )}
                   <Localized
                     id="comments-replyCommentForm-rte"
                     attrs={{ placeholder: true }}
@@ -78,27 +84,37 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                 </div>
               )}
             </Field>
-            <Flex direction="row" justifyContent="flex-end" itemGutter="half">
-              <Localized id="comments-replyCommentForm-cancel">
-                <Button
-                  variant="outlined"
-                  disabled={submitting}
-                  onClick={props.onCancel}
+            <MatchMedia ltWidth="sm">
+              {matches => (
+                <Flex
+                  direction="row"
+                  justifyContent="flex-end"
+                  itemGutter="half"
                 >
-                  Cancel
-                </Button>
-              </Localized>
-              <Localized id="comments-replyCommentForm-submit">
-                <Button
-                  color="primary"
-                  variant="filled"
-                  disabled={submitting || hasValidationErrors}
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </Localized>
-            </Flex>
+                  <Localized id="comments-replyCommentForm-cancel">
+                    <Button
+                      variant="outlined"
+                      disabled={submitting}
+                      onClick={props.onCancel}
+                      fullWidth={matches}
+                    >
+                      Cancel
+                    </Button>
+                  </Localized>
+                  <Localized id="comments-replyCommentForm-submit">
+                    <Button
+                      color="primary"
+                      variant="filled"
+                      disabled={submitting || hasValidationErrors}
+                      type="submit"
+                      fullWidth={matches}
+                    >
+                      Submit
+                    </Button>
+                  </Localized>
+                </Flex>
+              )}
+            </MatchMedia>
           </HorizontalGutter>
         </form>
       )}
