@@ -22,12 +22,12 @@ class RedirectAppContainer extends React.Component<Props> {
 
   private redirectIfLoggedIn() {
     if (this.props.local.loggedIn) {
-      this.props.router.replace("/admin");
+      this.props.router.replace(this.props.local.redirectPath || "/admin");
     }
   }
 
   public render() {
-    return <>{this.props.children}</>;
+    return this.props.children;
   }
 }
 
@@ -36,6 +36,7 @@ const enhanced = withRouter(
     graphql`
       fragment RedirectAppContainerLocal on Local {
         loggedIn
+        redirectPath
       }
     `
   )(RedirectAppContainer)
