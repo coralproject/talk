@@ -130,8 +130,8 @@ pt_BR:
     enable_questionbox: 'Faça uma pergunta aos leitores'
     enable_questionbox_description: 'Esta pergunta aparecerá no topo da lista de comentários. Pergunte aos leitores sobre um determinado problema no artigo, abra o assunto para discussão, etc.'
     hours: Horas
-    include_comment_stream: 'Incluir descrição da lista comentários para leitores'
-    include_comment_stream_desc: 'Escreva uma mensagem para adicionar ao topo do seu hilo de comentários. Posicionar um tópico, incluem diretrizes comunitárias, etc.'
+    code_of_conduct_summary: 'Incluir descrição da lista comentários para leitores'
+    code_of_conduct_summary_desc: 'Escreva uma mensagem para adicionar ao topo do seu hilo de comentários. Posicionar um tópico, incluem diretrizes comunitárias, etc.'
     include_question_here: 'Escreva sua pergunta aqui:'
     include_text: 'Inclua seu texto aqui:'
     moderate: Moderar
@@ -209,7 +209,7 @@ pt_BR:
       to_confirm: 'Para confirmar a conta, visite este link: '
     password_change:
       body: "A sua senha foi alterada.\n\nSe você não solicitou essa alteracão, por favor nos contate em {0}"
-      subject: '{0} password change'  
+      subject: '{0} password change'
     password_reset:
       if_you_did: 'Se você solicitou isso, '
       please_click: 'clique aqui para redefinir sua senha.'
@@ -223,7 +223,7 @@ pt_BR:
     copied: 'Copiado'
   error:
     ALREADY_EXISTS: 'O recurso já existe'
-    AUTHENTICATION: ‘Ocorreu um erro durante a autenticação da sua conta’ 
+    AUTHENTICATION: ‘Ocorreu um erro durante a autenticação da sua conta’
     CANNOT_IGNORE_STAFF: 'Não é possível ignorar membros Staff.'
     COMMENT_PARENT_NOT_VISIBLE: 'O comentário que você está respondendo foi removido ou não existe.'
     COMMENT_TOO_SHORT: 'Seu comentário precisar ter mais de um caracter. Revise seu comentário e envie novamente'

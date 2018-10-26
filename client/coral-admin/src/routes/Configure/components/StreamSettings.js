@@ -155,9 +155,19 @@ class StreamSettings extends React.Component {
         <ConfigureCard
           checked={settings.infoBoxEnable}
           onCheckbox={this.updateInfoBoxEnable}
-          title={t('configure.include_comment_stream')}
+          title={t('configure.code_of_conduct_summary')}
         >
-          <p>{t('configure.include_comment_stream_desc')}</p>
+          <p>
+            {t('configure.code_of_conduct_summary_desc')}
+            &nbsp;
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://guides.coralproject.net/create-a-code-of-conduct/"
+            >
+              Code of Conduct Guide.
+            </a>
+          </p>
           <div
             className={cn(
               styles.configSettingInfoBox,
@@ -238,12 +248,14 @@ class StreamSettings extends React.Component {
               onChange={this.updateClosedTimeout}
               value={getTimeoutAmount(settings.closedTimeout)}
               label={t('configure.closed_comments_label')}
+              disabled={!settings.autoCloseStream}
             />
             <div className={styles.configTimeoutSelect}>
               <SelectField
                 label="comments closed time window"
                 value={getTimeoutMeasure(settings.closedTimeout)}
                 onChange={this.updateClosedTimeoutMeasure}
+                readOnly={!settings.autoCloseStream}
               >
                 <Option value={'hours'}>{t('configure.hours')}</Option>
                 <Option value={'days'}>{t('configure.days')}</Option>

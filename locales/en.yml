@@ -48,6 +48,7 @@ en:
   comment_post_notif_premod: 'Thank you for posting. Our moderation team will review your comment shortly.'
   comment_singular: Comment
   common:
+    contains_link: 'Contains Link'
     copy: Copy
     copied: 'Copied'
     notsupported: 'Not supported'
@@ -136,8 +137,8 @@ en:
     enable_questionbox: 'Ask Readers a Question'
     enable_questionbox_description: 'This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc.'
     hours: Hours
-    include_comment_stream: 'Include Comment Stream Description for Readers'
-    include_comment_stream_desc: 'Write a message to be added to the top of your comment stream. Pose a topic include community guidelines etc.'
+    code_of_conduct_summary: 'Summary of your Code of Conduct'
+    code_of_conduct_summary_desc: 'This message will appear above every comments stream on your site. Click here to learn more about writing a good code.'
     include_question_here: 'Write your question here:'
     include_text: 'Include your text here.'
     moderate: Moderate
@@ -258,7 +259,7 @@ en:
     organization_contact_email: 'Organization email is not valid.'
     organization_name: 'Organization name must only contain letters or numbers.'
     password: 'Password must be at least 8 characters'
-    PAGE_NOT_AVAILABLE_ROLE: 'This page is for team use only. Please contact an administrator if you want to join this team.' 
+    PAGE_NOT_AVAILABLE_ROLE: 'This page is for team use only. Please contact an administrator if you want to join this team.'
     PASSWORD_INCORRECT: 'Your current password was entered incorrectly'
     PASSWORD_LENGTH: 'Password is too short'
     PASSWORD_REQUIRED: 'Must input a password'
