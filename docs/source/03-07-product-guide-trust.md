@@ -27,29 +27,3 @@ We strongly recommend not telling your community how this system works, or where
 
 If you see that a high proportion of first-time commenters on your site are abusive, you might want to change the threshhold to `0`, at least temporarily. You can configure your own Trust thresholds by using [TRUST_THRESHOLDS](/talk/advanced-configuration/#trust-thresholds) in your site configuration.
 
-
-## Reliable and Unreliable Flaggers
-
-Trust also calculates how reliable users are in terms of the comments they
-report. This information is displayed to moderators in the User History drawer,
-which is accessed by clicking on a user’s name in the Admin. Currently, no other action is taken based on this score.
-
-If a user's reports mostly match what moderators reject, their Report status
-will display to moderators as Reliable in the user information drawer. If a
-user's reports mostly differ from what moderators reject, their Report status
-will show as Unreliable.
-
-If Talk doesn't have enough reports to make a call, or the reports even out, their
-status is Neutral.
-
-Here are the default thresholds:
-
-```text
--1 and lower: Unreliable
-0 to +1: Neutral
-+2 and higher: Reliable
-```
-You can configure your own Trust thresholds by using [TRUST_THRESHOLDS](/talk/advanced-configuration/#trust-thresholds) in your
-configuration.
-
-Note: Report Karma doesn't include reports of "I don't agree with this comment".
