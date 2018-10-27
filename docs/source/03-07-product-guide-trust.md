@@ -7,7 +7,7 @@ Trust is a set of components within Talk that incorporate basic automated modera
 
 ## User Karma Score
 
-Using Trust’s calculations, Talk will automatically hold back, move to the Reported queue, and tag with a 'History' marker, any comments by users who have an Unreliable karma score. (This is for sites who practice post-moderation. If you set pre-moderation of all comments sitewide, this feature has limited use.)
+Using Trust’s calculations, Talk will automatically hold back, move to the Reported queue, and tag with a 'Karma' marker, any comments by users who have an Unreliable karma score. (This is for sites who practice post-moderation. If you set pre-moderation of all comments sitewide, this feature has limited use.)
 
 All users start out with a Neutral karma score (`0`). If they have a comment approved by a moderator, their score increases by `1`; if they have a comment rejected by a moderator, it decreases by `1`. When a commenter's score is labeled as Unreliable, their comments must be approved from the Reported queue before they are posted. Commenters are shown a message stating that a moderator will review their comment shortly.
 
