@@ -30,6 +30,16 @@ export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   );
 
   router.get(
+    "/facebook",
+    wrapAuthn(options.passport, app.signingConfig, "facebook")
+  );
+
+  router.get(
+    "/facebook/callback",
+    wrapAuthn(options.passport, app.signingConfig, "facebook")
+  );
+
+  router.get(
     "/oidc/:oidcID",
     wrapAuthn(options.passport, app.signingConfig, "oidc")
   );
