@@ -560,14 +560,14 @@ export default function createWebpackConfig({
                 ...htmlWebpackConfig,
               }),
               new HtmlWebpackPlugin({
-                filename: "article.html",
-                template: paths.appEmbedArticleHTML,
+                filename: "story.html",
+                template: paths.appEmbedStoryHTML,
                 inject: "head",
                 ...htmlWebpackConfig,
               }),
               new HtmlWebpackPlugin({
-                filename: "articleButton.html",
-                template: paths.appEmbedArticleButtonHTML,
+                filename: "storyButton.html",
+                template: paths.appEmbedStoryButtonHTML,
                 inject: "head",
                 ...htmlWebpackConfig,
               }),
