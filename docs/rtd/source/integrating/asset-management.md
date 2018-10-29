@@ -1,7 +1,5 @@
----
-title: Asset Management
-permalink: /integrating/asset-management/
----
+# Asset Management
+
 
 One of the most frequent questions that we get asked by organizations trying to
 integrate Talk is: _How do we hook our CMS up to Talk so that articles are in
@@ -10,7 +8,7 @@ sync?_
 This guide is designed to explain the steps to take your base installation of
 Talk and configure it to allow only assets pushed into it from your CMS, and
 keep your URL/title in sync. We won't cover here how to install the plugin, as
-it is covered in our [Plugins Overview](/talk/plugins/).
+it is covered in our [Plugins Overview](./../plugins/overview.html).
 
 ## Why do we need to create a plugin?
 
@@ -18,11 +16,11 @@ By default, Talk will use "Lazy Asset Creation" to dynamically generate Assets
 in Talk in order to make it easier for lighter installations. In order to have
 more strict control over this flow, we will create a plugin that will:
 
-1. Disable "Lazy Asset Creation" by [Overriding a Resolver](#Overriding%20a%20Resolver).
-2. Create Assets from our CMS by [Creating a New Asset Route](#Creating%20a%20New%20Asset%20Route).
-3. Facilitate updates from our CMS to keep Talk in sync by [Creating an Asset Update Route](#Creating%20an%20Asset%20Update%20Route).
+1. Disable "Lazy Asset Creation" by [Overriding a Resolver](#overriding-a-resolver).
+2. Create Assets from our CMS by [Creating a New Asset Route](#creating-a-new-asset-route).
+3. Facilitate updates from our CMS to keep Talk in sync by [Creating an Asset Update Route](#creating-an-asset-update-route).
 
-We will then modify our embed so that we can [Target the Asset](#Target%20the%20Asset).
+We will then modify our embed so that we can [Target the Asset](#target-the-asset).
 
 But first we should grab our basic plugin structure:
 
@@ -75,7 +73,7 @@ module.exports = {
 This serves to override the default asset resolver. You can of course, override
 any other field in the schema to perform whatever action your business needs
 require, including adding additional resolvers! You can refer to our
-[GraphQL API Docs](/talk/reference/graphql/) to see what other fields you can
+[GraphQL API Docs](./../api/graphql.html) to see what other fields you can
 override.
 
 Without this, Talk will continue to use the "Lazy Asset Creation" to handle
@@ -248,7 +246,7 @@ module.exports = router => {
 };
 ```
 
-As you can see from the previous step of [Creating a New Asset Route](#Creating%20a%20New%20Asset%20Route)
+As you can see from the previous step of [Creating a New Asset Route](#creating-a-new-asset-route)
 , we have added the new `PUT` route to the router. This is a simple addition
 that allows your CMS to call into Talk when the asset has updated it's title,
 it's url (or really anything in the [AssetSchema](https://github.com/coralproject/talk/blob/master/models/asset.js)) to keep the Talk Admin and links up to date.
