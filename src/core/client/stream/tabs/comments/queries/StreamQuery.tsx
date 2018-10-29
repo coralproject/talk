@@ -24,10 +24,10 @@ export const render = ({
   }
 
   if (props) {
-    if (!props.asset) {
+    if (!props.story) {
       return (
-        <Localized id="comments-streamQuery-assetNotFound">
-          <div>Asset not found</div>
+        <Localized id="comments-streamQuery-storyNotFound">
+          <div>Story not found</div>
         </Localized>
       );
     }
@@ -35,7 +35,7 @@ export const render = ({
       <StreamContainer
         settings={props.settings}
         me={props.me}
-        asset={props.asset}
+        story={props.story}
       />
     );
   }
@@ -44,16 +44,16 @@ export const render = ({
 };
 
 const StreamQuery: StatelessComponent<InnerProps> = ({
-  local: { assetID, assetURL },
+  local: { storyID, storyURL },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query StreamQuery($assetID: ID, $assetURL: String) {
+      query StreamQuery($storyID: ID, $storyURL: String) {
         me {
           ...StreamContainer_me
         }
-        asset(id: $assetID, url: $assetURL) {
-          ...StreamContainer_asset
+        story(id: $storyID, url: $storyURL) {
+          ...StreamContainer_story
         }
         settings {
           ...StreamContainer_settings
@@ -61,8 +61,8 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
       }
     `}
     variables={{
-      assetID,
-      assetURL,
+      storyID,
+      storyURL,
     }}
     render={render}
   />
@@ -71,8 +71,8 @@ const StreamQuery: StatelessComponent<InnerProps> = ({
 const enhanced = withLocalStateContainer(
   graphql`
     fragment StreamQueryLocal on Local {
-      assetID
-      assetURL
+      storyID
+      storyURL
     }
   `
 )(StreamQuery);

@@ -13,8 +13,8 @@ export interface PermalinkViewProps {
   me: PropTypesOf<typeof ConversationThreadContainer>["me"] &
     PropTypesOf<typeof ReplyListContainer>["me"] &
     PropTypesOf<typeof UserBoxContainer>["me"];
-  asset: PropTypesOf<typeof ConversationThreadContainer>["asset"] &
-    PropTypesOf<typeof ReplyListContainer>["asset"];
+  story: PropTypesOf<typeof ConversationThreadContainer>["story"] &
+    PropTypesOf<typeof ReplyListContainer>["story"];
   comment:
     | PropTypesOf<typeof ConversationThreadContainer>["comment"] &
         PropTypesOf<typeof ReplyListContainer>["comment"]
@@ -29,7 +29,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   showAllCommentsHref,
   comment,
   settings,
-  asset,
+  story,
   onShowAllComments,
   me,
 }) => {
@@ -71,14 +71,14 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
           <ConversationThreadContainer
             me={me}
             comment={comment}
-            asset={asset}
+            story={story}
             settings={settings}
           />
           <div className={styles.replyList}>
             <ReplyListContainer
               me={me}
               comment={comment}
-              asset={asset}
+              story={story}
               settings={settings}
             />
           </div>

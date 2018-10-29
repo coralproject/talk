@@ -4,8 +4,8 @@ import qs from "query-string";
 import { default as create, StreamEmbed } from "./StreamEmbed";
 
 export interface Config {
-  assetID?: string;
-  assetURL?: string;
+  storyID?: string;
+  storyURL?: string;
   commentID?: string;
   rootURL?: string;
   id?: string;
@@ -22,7 +22,7 @@ function getLocationOrigin() {
   );
 }
 
-function resolveAssetURL() {
+function resolveStoryURL() {
   const canonical = document.querySelector(
     'link[rel="canonical"]'
   ) as HTMLLinkElement;
@@ -32,7 +32,7 @@ function resolveAssetURL() {
 
   // tslint:disable-next-line:no-console
   console.warn(
-    "This page does not include a canonical link tag. Talk has inferred this asset_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages."
+    "This page does not include a canonical link tag. Talk has inferred this story_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages."
   );
 
   return getLocationOrigin() + window.location.pathname;
@@ -49,8 +49,8 @@ export function createStreamEmbed(config: Config): StreamEmbed {
 
   return create({
     title: "Talk Embed Stream",
-    assetID: config.assetID || query.assetID,
-    assetURL: config.assetURL || resolveAssetURL(),
+    storyID: config.storyID || query.storyID,
+    storyURL: config.storyURL || resolveStoryURL(),
     commentID: config.commentID || query.commentID,
     id: config.id || "talk-embed-stream",
     rootURL: config.rootURL || getLocationOrigin(),

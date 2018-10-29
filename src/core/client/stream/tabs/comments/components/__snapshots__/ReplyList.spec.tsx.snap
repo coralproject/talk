@@ -9,11 +9,6 @@ exports[`renders correctly 1`] = `
     key="comment-1"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
       comment={
         Object {
           "id": "comment-1",
@@ -33,17 +28,17 @@ exports[`renders correctly 1`] = `
         }
       }
       showConversationLink={false}
+      story={
+        Object {
+          "id": "story-id",
+        }
+      }
     />
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     key="comment-2"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
       comment={
         Object {
           "id": "comment-2",
@@ -64,6 +59,11 @@ exports[`renders correctly 1`] = `
         }
       }
       showConversationLink={true}
+      story={
+        Object {
+          "id": "story-id",
+        }
+      }
     />
   </withPropsOnChange(HorizontalGutter)>
 </withPropsOnChange(HorizontalGutter)>
@@ -78,11 +78,6 @@ exports[`when there is more disables load more button 1`] = `
     key="comment-1"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
       comment={
         Object {
           "id": "comment-1",
@@ -100,17 +95,17 @@ exports[`when there is more disables load more button 1`] = `
         }
       }
       showConversationLink={false}
+      story={
+        Object {
+          "id": "story-id",
+        }
+      }
     />
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     key="comment-2"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
       comment={
         Object {
           "id": "comment-2",
@@ -128,6 +123,11 @@ exports[`when there is more disables load more button 1`] = `
         }
       }
       showConversationLink={false}
+      story={
+        Object {
+          "id": "story-id",
+        }
+      }
     />
   </withPropsOnChange(HorizontalGutter)>
   <Indent
@@ -161,11 +161,6 @@ exports[`when there is more renders a load more button 1`] = `
     key="comment-1"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
       comment={
         Object {
           "id": "comment-1",
@@ -183,17 +178,17 @@ exports[`when there is more renders a load more button 1`] = `
         }
       }
       showConversationLink={false}
+      story={
+        Object {
+          "id": "story-id",
+        }
+      }
     />
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     key="comment-2"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-      asset={
-        Object {
-          "id": "asset-id",
-        }
-      }
       comment={
         Object {
           "id": "comment-2",
@@ -211,6 +206,11 @@ exports[`when there is more renders a load more button 1`] = `
         }
       }
       showConversationLink={false}
+      story={
+        Object {
+          "id": "story-id",
+        }
+      }
     />
   </withPropsOnChange(HorizontalGutter)>
   <Indent

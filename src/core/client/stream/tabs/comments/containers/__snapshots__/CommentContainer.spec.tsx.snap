@@ -10,12 +10,12 @@ exports[`hide reply button 1`] = `
       <React.Fragment>
         <ButtonsBar>
           <Relay(PermalinkButtonContainerProps)
-            asset={
+            commentID="comment-id"
+            story={
               Object {
-                "url": "http://localhost/asset",
+                "url": "http://localhost/story",
               }
             }
-            commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
             comment={
@@ -72,12 +72,12 @@ exports[`renders body only 1`] = `
             onClick={[Function]}
           />
           <Relay(PermalinkButtonContainerProps)
-            asset={
+            commentID="comment-id"
+            story={
               Object {
-                "url": "http://localhost/asset",
+                "url": "http://localhost/story",
               }
             }
-            commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
             comment={
@@ -134,12 +134,12 @@ exports[`renders in reply to 1`] = `
             onClick={[Function]}
           />
           <Relay(PermalinkButtonContainerProps)
-            asset={
+            commentID="comment-id"
+            story={
               Object {
-                "url": "http://localhost/asset",
+                "url": "http://localhost/story",
               }
             }
-            commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
             comment={
@@ -200,12 +200,12 @@ exports[`renders username and body 1`] = `
             onClick={[Function]}
           />
           <Relay(PermalinkButtonContainerProps)
-            asset={
+            commentID="comment-id"
+            story={
               Object {
-                "url": "http://localhost/asset",
+                "url": "http://localhost/story",
               }
             }
-            commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
             comment={
@@ -262,12 +262,12 @@ exports[`shows conversation link 1`] = `
             onClick={[Function]}
           />
           <Relay(PermalinkButtonContainerProps)
-            asset={
+            commentID="comment-id"
+            story={
               Object {
-                "url": "http://localhost/asset",
+                "url": "http://localhost/story",
               }
             }
-            commentID="comment-id"
           />
           <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
             comment={
@@ -300,7 +300,7 @@ exports[`shows conversation link 1`] = `
           />
         </ButtonsBar>
         <ShowConversationLink
-          href="http://localhost/asset?commentID=comment-id"
+          href="http://localhost/story?commentID=comment-id"
           id="comments-commentContainer-showConversation-comment-id"
           onClick={[Function]}
         />

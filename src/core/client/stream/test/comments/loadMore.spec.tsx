@@ -4,13 +4,13 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, comments, settings } from "../fixtures";
+import { comments, settings, stories } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
-  const assetStub = {
-    ...assets[0],
+  const storyStub = {
+    ...stories[0],
     comments: createSinonStub(
       s => s.throws(),
       s =>
@@ -54,17 +54,17 @@ beforeEach(() => {
 
   const resolvers = {
     Query: {
-      asset: createSinonStub(
+      story: createSinonStub(
         s => s.throws(),
         s =>
           s
             .withArgs(
               undefined,
               sinon
-                .match({ id: assetStub.id, url: null })
-                .or(sinon.match({ id: assetStub.id }))
+                .match({ id: storyStub.id, url: null })
+                .or(sinon.match({ id: storyStub.id }))
             )
-            .returns(assetStub)
+            .returns(storyStub)
       ),
       settings: sinon.stub().returns(settings),
     },
@@ -75,7 +75,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assetStub.id, "assetID");
+      localRecord.setValue(storyStub.id, "storyID");
     },
   }));
 });

@@ -14,8 +14,8 @@ it("renders correctly", () => {
     body: "Hello World",
     createdAt: "2018-07-06T18:24:00.000Z",
     replyCount: 4,
-    asset: {
-      title: "Asset Title",
+    story: {
+      title: "Story Title",
     },
     conversationURL: "http://localhost/conversation",
     onGotoConversation: noop,

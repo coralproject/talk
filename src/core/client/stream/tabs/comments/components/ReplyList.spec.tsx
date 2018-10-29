@@ -12,7 +12,7 @@ const ReplyListN = removeFragmentRefs(ReplyList);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListN> = {
-    asset: { id: "asset-id" },
+    story: { id: "story-id" },
     comment: { id: "comment-id" },
     comments: [
       { id: "comment-1" },
@@ -38,7 +38,7 @@ it("renders correctly", () => {
 
 describe("when there is more", () => {
   const props: PropTypesOf<typeof ReplyListN> = {
-    asset: { id: "asset-id" },
+    story: { id: "story-id" },
     comment: { id: "comment-id" },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onShowAll: sinon.spy(),

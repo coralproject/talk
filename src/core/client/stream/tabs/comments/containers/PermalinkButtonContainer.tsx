@@ -2,30 +2,30 @@ import React, { StatelessComponent } from "react";
 import { graphql } from "react-relay";
 import { getURLWithCommentID } from "talk-framework/helpers";
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PermalinkButtonContainer_asset as AssetData } from "talk-stream/__generated__/PermalinkButtonContainer_asset.graphql";
+import { PermalinkButtonContainer_story as StoryData } from "talk-stream/__generated__/PermalinkButtonContainer_story.graphql";
 
 import PermalinkButton from "../components/PermalinkButton";
 
 interface InnerProps {
-  asset: AssetData;
+  story: StoryData;
   commentID: string;
 }
 
 export const PermalinkButtonContainerProps: StatelessComponent<InnerProps> = ({
-  asset,
+  story,
   commentID,
 }) => {
   return (
     <PermalinkButton
       commentID={commentID}
-      url={getURLWithCommentID(asset.url, commentID)}
+      url={getURLWithCommentID(story.url, commentID)}
     />
   );
 };
 
 const enhanced = withFragmentContainer<InnerProps>({
-  asset: graphql`
-    fragment PermalinkButtonContainer_asset on Asset {
+  story: graphql`
+    fragment PermalinkButtonContainer_story on Story {
       url
     }
   `,

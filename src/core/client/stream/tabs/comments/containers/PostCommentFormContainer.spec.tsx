@@ -14,7 +14,7 @@ it("renders correctly", async () => {
   const props: PropTypesOf<typeof PostCommentFormContainer> = {
     // tslint:disable-next-line:no-empty
     createComment: (() => {}) as any,
-    assetID: "asset-id",
+    storyID: "story-id",
     sessionStorage: createPromisifiedStorage(),
   };
 
@@ -28,7 +28,7 @@ it("renders with initialValues", async () => {
   const props: PropTypesOf<typeof PostCommentFormContainer> = {
     // tslint:disable-next-line:no-empty
     createComment: (() => {}) as any,
-    assetID: "asset-id",
+    storyID: "story-id",
     sessionStorage: createPromisifiedStorage(),
   };
 
@@ -44,7 +44,7 @@ it("save values", async () => {
   const props: PropTypesOf<typeof PostCommentFormContainer> = {
     // tslint:disable-next-line:no-empty
     createComment: (() => {}) as any,
-    assetID: "asset-id",
+    storyID: "story-id",
     sessionStorage: createPromisifiedStorage(),
   };
 
@@ -61,7 +61,7 @@ it("save values", async () => {
 });
 
 it("creates a comment", async () => {
-  const assetID = "asset-id";
+  const storyID = "story-id";
   const input = { body: "Hello World!" };
   const createCommentStub = sinon.stub();
   const form = { reset: noop };
@@ -74,7 +74,7 @@ it("creates a comment", async () => {
   const props: PropTypesOf<typeof PostCommentFormContainer> = {
     // tslint:disable-next-line:no-empty
     createComment: createCommentStub,
-    assetID,
+    storyID,
     sessionStorage: createPromisifiedStorage(),
   };
 
@@ -89,7 +89,7 @@ it("creates a comment", async () => {
     .onSubmit(input, form);
   expect(
     createCommentStub.calledWith({
-      assetID,
+      storyID,
       ...input,
     })
   ).toBeTruthy();

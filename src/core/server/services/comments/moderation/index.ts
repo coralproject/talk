@@ -1,8 +1,8 @@
 import { Omit, Promiseable } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import { CreateActionInput } from "talk-server/models/action";
-import { Asset } from "talk-server/models/asset";
 import { Comment } from "talk-server/models/comment";
+import { Story } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
@@ -18,7 +18,7 @@ export interface PhaseResult {
 }
 
 export interface ModerationPhaseContext {
-  asset: Asset;
+  story: Story;
   tenant: Tenant;
   comment: Partial<Comment>;
   author: User;

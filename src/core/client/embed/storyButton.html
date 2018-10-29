@@ -16,9 +16,9 @@
 
 <body>
   <p style="text-align: center">
-    <a href="/">Default</a> | <a href="/articleButton.html">Article With Button</a>
+    <a href="/">Default</a> | <a href="/story.html">Story</a>
   </p>
-  <h1 style="text-align: center">Talk 5.0 – Article</h1>
+  <h1 style="text-align: center">Talk 5.0 – Story with Button</h1>
   <p>Dismember a mouse and then regurgitate parts of it on the family room floor. Dont wait for the storm to pass,
     dance in the rain stand in front of the computer screen, so stares at human while pushing stuff off a table chew
     the plant meow hiss at vacuum cleaner. Terrorize the hundred-and-twenty-pound rottweiler and steal his bed, not
@@ -79,9 +79,24 @@
     but need to check on human, have not seen in an hour might be dead oh look, human is alive, hiss at human, feed me.
   </p>
   <div id="coralStreamEmbed" style="max-width: 640px; margin: 0 auto"></div>
+  <div style="text-align: center">
+    <button id="showComments">Show Comments</button>
+  </div>
   <script>
-    const TalkStreamEmbed = Coral.Talk.createStreamEmbed({ id: 'coralStreamEmbed', autoRender: true });
+    const TalkStreamEmbed = Coral.Talk.createStreamEmbed({
+      id: 'coralStreamEmbed',
+    });
     window.TalkStreamEmbed = TalkStreamEmbed;
+
+    const button = document.getElementById("showComments");
+
+    const showStreamEmbed = () => {
+      TalkStreamEmbed.render();
+      button.parentElement.removeChild(button);
+    };
+
+    button.onclick = showStreamEmbed;
+    TalkStreamEmbed.on("showPermalink", showStreamEmbed);
   </script>
 </body>
 

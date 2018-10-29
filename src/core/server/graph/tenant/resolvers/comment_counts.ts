@@ -2,7 +2,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLCommentCountsTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { CommentStatusCounts } from "talk-server/models/asset";
+import { CommentStatusCounts } from "talk-server/models/story";
 
 const CommentCounts: GQLCommentCountsTypeResolver<CommentStatusCounts> = {
   totalVisible: commentCounts =>

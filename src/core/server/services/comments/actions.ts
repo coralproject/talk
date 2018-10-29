@@ -11,12 +11,12 @@ import {
   encodeActionCounts,
   invertEncodedActionCounts,
 } from "talk-server/models/action";
-import { updateAssetActionCounts } from "talk-server/models/asset";
 import {
   retrieveComment,
   updateCommentActionCounts,
 } from "talk-server/models/comment";
 import { Comment } from "talk-server/models/comment";
+import { updateStoryActionCounts } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 
@@ -47,11 +47,11 @@ export async function addCommentActions(
       actionCounts
     );
 
-    // Update the Asset with the updated action counts.
-    await updateAssetActionCounts(
+    // Update the Story with the updated action counts.
+    await updateStoryActionCounts(
       mongo,
       tenant.id,
-      comment.asset_id,
+      comment.story_id,
       actionCounts
     );
 
@@ -109,11 +109,11 @@ export async function removeCommentAction(
       actionCounts
     );
 
-    // Update the Asset with the updated action counts.
-    await updateAssetActionCounts(
+    // Update the Story with the updated action counts.
+    await updateStoryActionCounts(
       mongo,
       tenant.id,
-      comment.asset_id,
+      comment.story_id,
       actionCounts
     );
 

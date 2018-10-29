@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <withPropsOnChange(HorizontalGutter)>
   <Localized
-    $title="Asset Title"
+    $title="Story Title"
     id="profile-historyComment-story"
   >
     <withPropsOnChange(Typography)

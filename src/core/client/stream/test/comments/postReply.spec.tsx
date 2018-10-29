@@ -5,7 +5,7 @@ import timekeeper from "timekeeper";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, baseComment, settings, users } from "../fixtures";
+import { baseComment, settings, stories, users } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -14,12 +14,12 @@ beforeEach(() => {
     Query: {
       settings: sinon.stub().returns(settings),
       me: sinon.stub().returns(users[0]),
-      asset: createSinonStub(
+      story: createSinonStub(
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assets[0].id, url: null })
-            .returns(assets[0])
+            .withArgs(undefined, { id: stories[0].id, url: null })
+            .returns(stories[0])
       ),
     },
     Mutation: {
@@ -29,8 +29,8 @@ beforeEach(() => {
           s
             .withArgs(undefined, {
               input: {
-                assetID: assets[0].id,
-                parentID: assets[0].comments.edges[0].node.id,
+                storyID: stories[0].id,
+                parentID: stories[0].comments.edges[0].node.id,
                 body: "<strong>Hello world!</strong>",
                 clientMutationId: "0",
               },
@@ -56,7 +56,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assets[0].id, "assetID");
+      localRecord.setValue(stories[0].id, "storyID");
     },
   }));
 });

@@ -26,10 +26,10 @@ export const render = ({
     return <div>{error.message}</div>;
   }
   if (props) {
-    if (!props.asset) {
+    if (!props.story) {
       return (
-        <Localized id="comments-permalinkViewQuery-assetNotFound">
-          <div>Asset not found</div>
+        <Localized id="comments-permalinkViewQuery-storyNotFound">
+          <div>Story not found</div>
         </Localized>
       );
     }
@@ -38,7 +38,7 @@ export const render = ({
         me={props.me}
         settings={props.settings}
         comment={props.comment}
-        asset={props.asset}
+        story={props.story}
       />
     );
   }
@@ -46,20 +46,20 @@ export const render = ({
 };
 
 const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
-  local: { commentID, assetID, assetURL },
+  local: { commentID, storyID, storyURL },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
       query PermalinkViewQuery(
         $commentID: ID!
-        $assetID: ID
-        $assetURL: String
+        $storyID: ID
+        $storyURL: String
       ) {
         me {
           ...PermalinkViewContainer_me
         }
-        asset(id: $assetID, url: $assetURL) {
-          ...PermalinkViewContainer_asset
+        story(id: $storyID, url: $storyURL) {
+          ...PermalinkViewContainer_story
         }
         comment(id: $commentID) {
           ...PermalinkViewContainer_comment
@@ -71,8 +71,8 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
     `}
     variables={{
       commentID: commentID!,
-      assetID,
-      assetURL,
+      storyID,
+      storyURL,
     }}
     render={render}
   />
@@ -81,9 +81,9 @@ const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
 const enhanced = withLocalStateContainer(
   graphql`
     fragment PermalinkViewQueryLocal on Local {
-      assetID
+      storyID
       commentID
-      assetURL
+      storyURL
     }
   `
 )(PermalinkViewQuery);

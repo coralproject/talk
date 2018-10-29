@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, comments, meWithComments } from "../fixtures";
+import { comments, meWithComments, stories } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -17,11 +17,11 @@ beforeEach(() => {
         s.withArgs({ first: 5, orderBy: "CREATED_AT_DESC" }).returns({
           edges: [
             {
-              node: { ...comments[0], asset: assets[0] },
+              node: { ...comments[0], story: stories[0] },
               cursor: comments[0].createdAt,
             },
             {
-              node: { ...comments[1], asset: assets[0] },
+              node: { ...comments[1], story: stories[0] },
               cursor: comments[1].createdAt,
             },
           ],
@@ -40,7 +40,7 @@ beforeEach(() => {
           .returns({
             edges: [
               {
-                node: { ...comments[2], asset: assets[0] },
+                node: { ...comments[2], story: stories[0] },
                 cursor: comments[2].createdAt,
               },
             ],
@@ -54,12 +54,12 @@ beforeEach(() => {
 
   const resolvers = {
     Query: {
-      asset: createSinonStub(
+      story: createSinonStub(
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assets[0].id, url: null })
-            .returns(assets[0])
+            .withArgs(undefined, { id: stories[0].id, url: null })
+            .returns(stories[0])
       ),
       me: sinon.stub().returns(meStub),
     },
@@ -70,7 +70,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assets[0].id, "assetID");
+      localRecord.setValue(stories[0].id, "storyID");
     },
   }));
 });

@@ -22,12 +22,6 @@ exports[`renders correctly 1`] = `
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -40,16 +34,16 @@ exports[`renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -62,6 +56,12 @@ exports[`renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
@@ -70,12 +70,6 @@ exports[`renders correctly 1`] = `
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -88,16 +82,16 @@ exports[`renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -110,6 +104,12 @@ exports[`renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
@@ -140,12 +140,6 @@ exports[`when there is more disables load more button 1`] = `
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -158,16 +152,16 @@ exports[`when there is more disables load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -180,6 +174,12 @@ exports[`when there is more disables load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
@@ -188,12 +188,6 @@ exports[`when there is more disables load more button 1`] = `
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -206,16 +200,16 @@ exports[`when there is more disables load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -228,6 +222,12 @@ exports[`when there is more disables load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
@@ -272,12 +272,6 @@ exports[`when there is more renders a load more button 1`] = `
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -290,16 +284,16 @@ exports[`when there is more renders a load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -312,6 +306,12 @@ exports[`when there is more renders a load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
@@ -320,12 +320,6 @@ exports[`when there is more renders a load more button 1`] = `
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -338,16 +332,16 @@ exports[`when there is more renders a load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -360,6 +354,12 @@ exports[`when there is more renders a load more button 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
@@ -394,7 +394,7 @@ exports[`when use is logged in renders correctly 1`] = `
       me={Object {}}
     />
     <withContext(withContext(createMutationContainer(PostCommentFormContainer)))
-      assetID="asset-id"
+      storyID="story-id"
     />
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
@@ -406,12 +406,6 @@ exports[`when use is logged in renders correctly 1`] = `
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -424,16 +418,16 @@ exports[`when use is logged in renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-1",
@@ -446,6 +440,12 @@ exports[`when use is logged in renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
@@ -454,12 +454,6 @@ exports[`when use is logged in renders correctly 1`] = `
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -472,16 +466,16 @@ exports[`when use is logged in renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />
       <withProps(Relay(ReplyListContainer))
-        asset={
-          Object {
-            "id": "asset-id",
-            "isClosed": false,
-          }
-        }
         comment={
           Object {
             "id": "comment-2",
@@ -494,6 +488,12 @@ exports[`when use is logged in renders correctly 1`] = `
               "icon": "thumb_up_alt",
               "label": "Respect",
             },
+          }
+        }
+        story={
+          Object {
+            "id": "story-id",
+            "isClosed": false,
           }
         }
       />

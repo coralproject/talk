@@ -4,19 +4,19 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assetWithDeepReplies, settings } from "../fixtures";
+import { settings, storyWithDeepReplies } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
-      asset: createSinonStub(
+      story: createSinonStub(
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assetWithDeepReplies.id, url: null })
-            .returns(assetWithDeepReplies)
+            .withArgs(undefined, { id: storyWithDeepReplies.id, url: null })
+            .returns(storyWithDeepReplies)
       ),
       settings: sinon.stub().returns(settings),
     },
@@ -27,7 +27,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assetWithDeepReplies.id, "assetID");
+      localRecord.setValue(storyWithDeepReplies.id, "storyID");
     },
   }));
 });

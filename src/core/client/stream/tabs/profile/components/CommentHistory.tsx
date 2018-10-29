@@ -7,7 +7,7 @@ import { Button, HorizontalGutter, Typography } from "talk-ui/components";
 import HistoryCommentContainer from "../containers/HistoryCommentContainer";
 
 interface CommentHistoryProps {
-  asset: PropTypesOf<typeof HistoryCommentContainer>["asset"];
+  story: PropTypesOf<typeof HistoryCommentContainer>["story"];
   comments: Array<
     { id: string } & PropTypesOf<typeof HistoryCommentContainer>["comment"]
   >;
@@ -25,7 +25,7 @@ const CommentHistory: StatelessComponent<CommentHistoryProps> = props => {
       {props.comments.map(comment => (
         <HistoryCommentContainer
           key={comment.id}
-          asset={props.asset}
+          story={props.story}
           comment={comment}
         />
       ))}

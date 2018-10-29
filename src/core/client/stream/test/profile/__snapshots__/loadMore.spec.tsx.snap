@@ -141,7 +141,7 @@ exports[`loads more comments 1`] = `
           >
             <a
               className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
-              href="http://localhost/assets/asset-1?commentID=comment-0"
+              href="http://localhost/stories/story-1?commentID=comment-0"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -196,7 +196,7 @@ exports[`loads more comments 1`] = `
           >
             <a
               className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
-              href="http://localhost/assets/asset-1?commentID=comment-1"
+              href="http://localhost/stories/story-1?commentID=comment-1"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -251,7 +251,7 @@ exports[`loads more comments 1`] = `
           >
             <a
               className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
-              href="http://localhost/assets/asset-1?commentID=comment-2"
+              href="http://localhost/stories/story-1?commentID=comment-2"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -421,7 +421,7 @@ exports[`renders comment stream 1`] = `
           >
             <a
               className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
-              href="http://localhost/assets/asset-1?commentID=comment-0"
+              href="http://localhost/stories/story-1?commentID=comment-0"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -476,7 +476,7 @@ exports[`renders comment stream 1`] = `
           >
             <a
               className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
-              href="http://localhost/assets/asset-1?commentID=comment-1"
+              href="http://localhost/stories/story-1?commentID=comment-1"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

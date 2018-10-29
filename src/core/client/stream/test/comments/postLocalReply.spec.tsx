@@ -6,9 +6,9 @@ import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
 import {
-  assetWithDeepestReplies,
   baseComment,
   settings,
+  storyWithDeepestReplies,
   users,
 } from "../fixtures";
 import create from "./create";
@@ -19,12 +19,12 @@ beforeEach(() => {
     Query: {
       settings: sinon.stub().returns(settings),
       me: sinon.stub().returns(users[0]),
-      asset: createSinonStub(
+      story: createSinonStub(
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assetWithDeepestReplies.id, url: null })
-            .returns(assetWithDeepestReplies)
+            .withArgs(undefined, { id: storyWithDeepestReplies.id, url: null })
+            .returns(storyWithDeepestReplies)
       ),
     },
     Mutation: {
@@ -34,7 +34,7 @@ beforeEach(() => {
           s
             .withArgs(undefined, {
               input: {
-                assetID: assetWithDeepestReplies.id,
+                storyID: storyWithDeepestReplies.id,
                 parentID: "comment-with-deepest-replies-5",
                 body: "<strong>Hello world!</strong>",
                 clientMutationId: "0",
@@ -61,7 +61,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assetWithDeepestReplies.id, "assetID");
+      localRecord.setValue(storyWithDeepestReplies.id, "storyID");
     },
   }));
 });

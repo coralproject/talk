@@ -7,8 +7,8 @@ import { BadUserInputError } from "talk-framework/lib/errors";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
-import { ReplyCommentFormContainer_asset as AssetData } from "talk-stream/__generated__/ReplyCommentFormContainer_asset.graphql";
 import { ReplyCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
+import { ReplyCommentFormContainer_story as StoryData } from "talk-stream/__generated__/ReplyCommentFormContainer_story.graphql";
 import {
   CreateCommentMutation,
   withCreateCommentMutation,
@@ -22,7 +22,7 @@ interface InnerProps {
   createComment: CreateCommentMutation;
   sessionStorage: PromisifiedStorage;
   comment: CommentData;
-  asset: AssetData;
+  story: StoryData;
   onClose?: () => void;
   autofocus: boolean;
   localReply?: boolean;
@@ -75,7 +75,7 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
   ) => {
     try {
       await this.props.createComment({
-        assetID: this.props.asset.id,
+        storyID: this.props.story.id,
         parentID: this.props.comment.id,
         local: this.props.localReply,
         ...input,
@@ -129,8 +129,8 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
 }))(
   withCreateCommentMutation(
     withFragmentContainer<InnerProps>({
-      asset: graphql`
-        fragment ReplyCommentFormContainer_asset on Asset {
+      story: graphql`
+        fragment ReplyCommentFormContainer_story on Story {
           id
         }
       `,

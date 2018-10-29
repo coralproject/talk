@@ -1,6 +1,5 @@
 import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
 
-import { assetClosed } from "./assetClosed";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { karma } from "./karma";
@@ -8,6 +7,7 @@ import { links } from "./links";
 import { preModerate } from "./preModerate";
 import { spam } from "./spam";
 import { staff } from "./staff";
+import { storyClosed } from "./storyClosed";
 import { toxic } from "./toxic";
 import { wordList } from "./wordList";
 
@@ -16,7 +16,7 @@ import { wordList } from "./wordList";
  */
 export const moderationPhases: IntermediateModerationPhase[] = [
   commentLength,
-  assetClosed,
+  storyClosed,
   commentingDisabled,
   wordList,
   staff,

@@ -25,7 +25,7 @@ function sharedUpdater(
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
 ) {
-  updateAsset(store, input);
+  updateStory(store, input);
   if (input.local) {
     localUpdate(store, input);
   } else {
@@ -34,14 +34,14 @@ function sharedUpdater(
   updateProfile(environment, store, input);
 }
 
-function updateAsset(
+function updateStory(
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
 ) {
   // Updating Comment Count
-  const asset = store.get(input.assetID);
-  if (asset) {
-    const record = asset.getLinkedRecord("commentCounts");
+  const story = store.get(input.storyID);
+  if (story) {
+    const record = story.getLinkedRecord("commentCounts");
     if (record) {
       // TODO: when we have moderation, we'll need to be careful here.
       const currentCount = record.getValue("totalVisible");
@@ -63,7 +63,7 @@ function update(store: RecordSourceSelectorProxy, input: CreateCommentInput) {
   // Get parent proxy.
   const parentProxy = input.parentID
     ? store.get(input.parentID)
-    : store.get(input.assetID);
+    : store.get(input.storyID);
 
   const connectionKey = input.parentID
     ? "ReplyList_replies"
@@ -171,7 +171,7 @@ function commit(
     mutation,
     variables: {
       input: {
-        assetID: input.assetID,
+        storyID: input.storyID,
         parentID: input.parentID,
         body: input.body,
         clientMutationId: clientMutationId.toString(),

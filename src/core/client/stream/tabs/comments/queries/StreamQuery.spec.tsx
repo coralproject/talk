@@ -6,7 +6,7 @@ import { render } from "./StreamQuery";
 it("renders stream container", () => {
   const data = {
     props: {
-      asset: {},
+      story: {},
     } as any,
     error: null,
   };

@@ -3,9 +3,9 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
-import { StreamContainer_asset as AssetData } from "talk-stream/__generated__/StreamContainer_asset.graphql";
 import { StreamContainer_me as MeData } from "talk-stream/__generated__/StreamContainer_me.graphql";
 import { StreamContainer_settings as SettingsData } from "talk-stream/__generated__/StreamContainer_settings.graphql";
+import { StreamContainer_story as StoryData } from "talk-stream/__generated__/StreamContainer_story.graphql";
 import {
   COMMENT_SORT,
   StreamContainerPaginationQueryVariables,
@@ -14,7 +14,7 @@ import {
 import Stream from "../components/Stream";
 
 interface InnerProps {
-  asset: AssetData;
+  story: StoryData;
   settings: SettingsData;
   me: MeData | null;
   relay: RelayPaginationProp;
@@ -35,10 +35,10 @@ export class StreamContainer extends React.Component<InnerProps> {
   };
 
   public render() {
-    const comments = this.props.asset.comments.edges.map(edge => edge.node);
+    const comments = this.props.story.comments.edges.map(edge => edge.node);
     return (
       <Stream
-        asset={this.props.asset}
+        story={this.props.story}
         comments={comments}
         settings={this.props.settings}
         onLoadMore={this.loadMore}
@@ -80,8 +80,8 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
-    asset: graphql`
-      fragment StreamContainer_asset on Asset
+    story: graphql`
+      fragment StreamContainer_story on Story
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
@@ -97,8 +97,8 @@ const enhanced = withPaginationContainer<
             }
           }
         }
-        ...CommentContainer_asset
-        ...ReplyListContainer1_asset
+        ...CommentContainer_story
+        ...ReplyListContainer1_story
       }
     `,
     me: graphql`
@@ -118,7 +118,7 @@ const enhanced = withPaginationContainer<
   {
     direction: "forward",
     getConnectionFromProps(props) {
-      return props.asset && props.asset.comments;
+      return props.story && props.story.comments;
     },
     // This is also the default implementation of `getFragmentVariables` if it isn't provided.
     getFragmentVariables(prevVars, totalCount) {
@@ -132,9 +132,9 @@ const enhanced = withPaginationContainer<
         count,
         cursor,
         orderBy: fragmentVariables.orderBy,
-        // assetID isn't specified as an @argument for the fragment, but it should be a
+        // storyID isn't specified as an @argument for the fragment, but it should be a
         // variable available for the fragment under the query root.
-        assetID: props.asset.id,
+        storyID: props.story.id,
       };
     },
     query: graphql`
@@ -144,10 +144,10 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
         $orderBy: COMMENT_SORT!
-        $assetID: ID
+        $storyID: ID
       ) {
-        asset(id: $assetID) {
-          ...StreamContainer_asset
+        story(id: $storyID) {
+          ...StreamContainer_story
             @arguments(count: $count, cursor: $cursor, orderBy: $orderBy)
         }
       }

@@ -13,8 +13,8 @@ const StreamContainerN = removeFragmentRefs(StreamContainer);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof StreamContainerN> = {
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
       isClosed: false,
       comments: {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
@@ -39,8 +39,8 @@ it("renders correctly", () => {
 describe("when has more comments", () => {
   let finishLoading: ((error?: Error) => void) | null = null;
   const props: PropTypesOf<typeof StreamContainerN> = {
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
       isClosed: false,
       comments: {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],

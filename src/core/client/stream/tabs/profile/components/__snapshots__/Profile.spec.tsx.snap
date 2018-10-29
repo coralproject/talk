@@ -8,8 +8,8 @@ exports[`renders correctly 1`] = `
     me={Object {}}
   />
   <Relay(CommentHistoryContainer)
-    asset={Object {}}
     me={Object {}}
+    story={Object {}}
   />
 </withPropsOnChange(HorizontalGutter)>
 `;
