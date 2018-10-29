@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, comments, settings } from "../fixtures";
+import { comments, settings, stories } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -43,8 +43,8 @@ beforeEach(() => {
     ),
   };
 
-  const assetStub = {
-    ...assets[0],
+  const storyStub = {
+    ...stories[0],
     comments: {
       pageInfo: {
         hasNextPage: false,
@@ -64,12 +64,12 @@ beforeEach(() => {
         s => s.throws(),
         s => s.withArgs(undefined, { id: commentStub.id }).returns(commentStub)
       ),
-      asset: createSinonStub(
+      story: createSinonStub(
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assetStub.id, url: null })
-            .returns(assetStub)
+            .withArgs(undefined, { id: storyStub.id, url: null })
+            .returns(storyStub)
       ),
       settings: sinon.stub().returns(settings),
     },
@@ -80,7 +80,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assetStub.id, "assetID");
+      localRecord.setValue(storyStub.id, "storyID");
       localRecord.setValue(commentStub.id, "commentID");
     },
   }));

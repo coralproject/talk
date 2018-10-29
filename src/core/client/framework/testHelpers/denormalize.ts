@@ -25,20 +25,20 @@ export function denormalizeComments(commentList: any[]) {
   return commentList.map(c => denormalizeComment(c));
 }
 
-export function denormalizeAsset(asset: any) {
+export function denormalizeStory(story: any) {
   const commentNodes =
-    (asset.comments &&
-      asset.comments.edges.map((edge: any) => ({
+    (story.comments &&
+      story.comments.edges.map((edge: any) => ({
         ...edge,
         node: denormalizeComment(edge.node),
       }))) ||
     [];
-  const commentsPageInfo = (asset.comments && asset.comments.pageInfo) || {
+  const commentsPageInfo = (story.comments && story.comments.pageInfo) || {
     endCursor: null,
     hasNextPage: false,
   };
   return {
-    ...asset,
+    ...story,
     comments: { edges: commentNodes, pageInfo: commentsPageInfo },
     commentCounts: {
       totalVisible: commentNodes.length,
@@ -46,6 +46,6 @@ export function denormalizeAsset(asset: any) {
   };
 }
 
-export function denormalizeAssets(assetList: any[]) {
-  return assetList.map(a => denormalizeAsset(a));
+export function denormalizeStories(storyList: any[]) {
+  return storyList.map(a => denormalizeStory(a));
 }

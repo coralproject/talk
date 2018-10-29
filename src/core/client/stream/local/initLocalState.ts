@@ -38,12 +38,12 @@ export default async function initLocalState(
     // Parse query params
     const query = qs.parse(location.search);
 
-    if (query.assetID) {
-      localRecord.setValue(query.assetID, "assetID");
+    if (query.storyID) {
+      localRecord.setValue(query.storyID, "storyID");
     }
 
-    if (query.assetURL) {
-      localRecord.setValue(query.assetURL, "assetURL");
+    if (query.storyURL) {
+      localRecord.setValue(query.storyURL, "storyURL");
     }
 
     if (query.commentID) {

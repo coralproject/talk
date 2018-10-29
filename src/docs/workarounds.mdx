@@ -85,7 +85,7 @@ const enhanced = withFragmentContainer<{ data: Data }>({
   withLocalStateContainer<Local>(
     graphql`
       fragment PermalinkViewContainerLocal on Local {
-        assetURL
+        storyURL
       }
     `
   )(PermalinkViewContainer)

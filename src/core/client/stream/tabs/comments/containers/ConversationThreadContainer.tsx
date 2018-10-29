@@ -4,10 +4,10 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withContext } from "talk-framework/lib/bootstrap";
 import { withPaginationContainer } from "talk-framework/lib/relay";
-import { ConversationThreadContainer_asset as AssetData } from "talk-stream/__generated__/ConversationThreadContainer_asset.graphql";
 import { ConversationThreadContainer_comment as CommentData } from "talk-stream/__generated__/ConversationThreadContainer_comment.graphql";
 import { ConversationThreadContainer_me as MeData } from "talk-stream/__generated__/ConversationThreadContainer_me.graphql";
 import { ConversationThreadContainer_settings as SettingsData } from "talk-stream/__generated__/ConversationThreadContainer_settings.graphql";
+import { ConversationThreadContainer_story as StoryData } from "talk-stream/__generated__/ConversationThreadContainer_story.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "talk-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 import {
   SetCommentIDMutation,
@@ -18,7 +18,7 @@ import ConversationThread from "../components/ConversationThread";
 
 interface ConversationThreadContainerProps {
   comment: CommentData;
-  asset: AssetData;
+  story: StoryData;
   settings: SettingsData;
   me: MeData | null;
   setCommentID: SetCommentIDMutation;
@@ -51,12 +51,12 @@ class ConversationThreadContainer extends React.Component<
   };
 
   public render() {
-    const { comment, asset, me, settings } = this.props;
+    const { comment, story, me, settings } = this.props;
     const hasMore = this.props.relay.hasMore();
     return (
       <ConversationThread
         me={me}
-        asset={asset}
+        story={story}
         comment={comment}
         settings={settings}
         parents={comment.parents.edges.map(edge => edge.node)}
@@ -95,10 +95,10 @@ const enhanced = withContext(ctx => ({
       FragmentVariables
     >(
       {
-        asset: graphql`
-          fragment ConversationThreadContainer_asset on Asset {
-            ...CommentContainer_asset
-            ...LocalReplyListContainer_asset
+        story: graphql`
+          fragment ConversationThreadContainer_story on Story {
+            ...CommentContainer_story
+            ...LocalReplyListContainer_story
           }
         `,
         settings: graphql`

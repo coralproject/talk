@@ -9,10 +9,10 @@ it("should parse hash", () => {
       },
     ],
     [
-      "#commentID=comment-id&assetURL=asset-url",
+      "#commentID=comment-id&storyURL=story-url",
       {
         commentID: "comment-id",
-        assetURL: "asset-url",
+        storyURL: "story-url",
       },
     ],
     ["#", {}],

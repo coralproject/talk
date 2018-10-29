@@ -17,13 +17,13 @@ interface InnerProps extends PropTypesOf<typeof Tab> {
 
 class CommentsCountQuery extends Component<InnerProps> {
   public render() {
-    const { assetID, assetURL } = this.props.local;
+    const { storyID, storyURL } = this.props.local;
     const { local: _, ...rest } = this.props;
     return (
       <QueryRenderer<QueryTypes>
         query={graphql`
-          query CommentsCountQuery($assetID: ID, $assetURL: String) {
-            asset(id: $assetID, url: $assetURL) {
+          query CommentsCountQuery($storyID: ID, $storyURL: String) {
+            story(id: $storyID, url: $storyURL) {
               commentCounts {
                 totalVisible
               }
@@ -31,18 +31,18 @@ class CommentsCountQuery extends Component<InnerProps> {
           }
         `}
         variables={{
-          assetID,
-          assetURL,
+          storyID,
+          storyURL,
         }}
         render={({ error, props }) => {
           if (error) {
             return <div>{error.message}</div>;
           }
 
-          if (props && props.asset) {
+          if (props && props.story) {
             return (
               <CommentCountTab
-                commentCount={props.asset.commentCounts.totalVisible}
+                commentCount={props.story.commentCounts.totalVisible}
                 {...rest}
               />
             );
@@ -58,8 +58,8 @@ class CommentsCountQuery extends Component<InnerProps> {
 const enhanced = withLocalStateContainer(
   graphql`
     fragment CommentsCountQueryLocal on Local {
-      assetID
-      assetURL
+      storyID
+      storyURL
     }
   `
 )(CommentsCountQuery);

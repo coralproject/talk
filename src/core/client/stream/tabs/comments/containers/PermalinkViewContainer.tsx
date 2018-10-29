@@ -5,10 +5,10 @@ import { graphql } from "react-relay";
 import { getURLWithCommentID } from "talk-framework/helpers";
 import { withContext } from "talk-framework/lib/bootstrap";
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PermalinkViewContainer_asset as AssetData } from "talk-stream/__generated__/PermalinkViewContainer_asset.graphql";
 import { PermalinkViewContainer_comment as CommentData } from "talk-stream/__generated__/PermalinkViewContainer_comment.graphql";
 import { PermalinkViewContainer_me as MeData } from "talk-stream/__generated__/PermalinkViewContainer_me.graphql";
 import { PermalinkViewContainer_settings as SettingsData } from "talk-stream/__generated__/PermalinkViewContainer_settings.graphql";
+import { PermalinkViewContainer_story as StoryData } from "talk-stream/__generated__/PermalinkViewContainer_story.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
@@ -18,7 +18,7 @@ import PermalinkView from "../components/PermalinkView";
 
 interface PermalinkViewContainerProps {
   comment: CommentData | null;
-  asset: AssetData;
+  story: StoryData;
   settings: SettingsData;
   me: MeData | null;
   setCommentID: SetCommentIDMutation;
@@ -45,11 +45,11 @@ class PermalinkViewContainer extends React.Component<
   }
 
   public render() {
-    const { comment, asset, me, settings } = this.props;
+    const { comment, story, me, settings } = this.props;
     return (
       <PermalinkView
         me={me}
-        asset={asset}
+        story={story}
         comment={comment}
         settings={settings}
         showAllCommentsHref={this.getShowAllCommentsHref()}
@@ -64,10 +64,10 @@ const enhanced = withContext(ctx => ({
 }))(
   withSetCommentIDMutation(
     withFragmentContainer<PermalinkViewContainerProps>({
-      asset: graphql`
-        fragment PermalinkViewContainer_asset on Asset {
-          ...ConversationThreadContainer_asset
-          ...ReplyListContainer1_asset
+      story: graphql`
+        fragment PermalinkViewContainer_story on Story {
+          ...ConversationThreadContainer_story
+          ...ReplyListContainer1_story
         }
       `,
       comment: graphql`

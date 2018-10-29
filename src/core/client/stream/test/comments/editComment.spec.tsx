@@ -4,18 +4,18 @@ import timekeeper from "timekeeper";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { assets, settings, users } from "../fixtures";
+import { settings, stories, users } from "../fixtures";
 import create from "./create";
 
 function createTestRenderer() {
   const resolvers = {
     Query: {
-      asset: createSinonStub(
+      story: createSinonStub(
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: assets[0].id, url: null })
-            .returns(assets[0])
+            .withArgs(undefined, { id: stories[0].id, url: null })
+            .returns(stories[0])
       ),
       me: sinon.stub().returns(users[0]),
       settings: sinon.stub().returns(settings),
@@ -27,7 +27,7 @@ function createTestRenderer() {
           s
             .withArgs(undefined, {
               input: {
-                commentID: assets[0].comments.edges[0].node.id,
+                commentID: stories[0].comments.edges[0].node.id,
                 body: "Edited!",
                 clientMutationId: "0",
               },
@@ -35,7 +35,7 @@ function createTestRenderer() {
             .returns({
               // TODO: add a type assertion here to ensure that if the type changes, that the test will fail
               comment: {
-                id: assets[0].comments.edges[0].node.id,
+                id: stories[0].comments.edges[0].node.id,
                 body: "Edited! (from server)",
                 editing: {
                   edited: true,
@@ -52,7 +52,7 @@ function createTestRenderer() {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(assets[0].id, "assetID");
+      localRecord.setValue(stories[0].id, "storyID");
     },
   });
   return testRenderer;
@@ -63,7 +63,7 @@ afterAll(() => {
 });
 
 it("edit a comment", async () => {
-  timekeeper.freeze(assets[0].comments.edges[0].node.createdAt);
+  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
   const testRenderer = createTestRenderer();
 
   // Wait for loading.
@@ -95,7 +95,7 @@ it("edit a comment", async () => {
 });
 
 it("cancel edit", async () => {
-  timekeeper.freeze(assets[0].comments.edges[0].node.createdAt);
+  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
   const testRenderer = createTestRenderer();
 
   await timeout();
@@ -113,7 +113,7 @@ it("cancel edit", async () => {
 });
 
 it("shows expiry message", async () => {
-  timekeeper.freeze(assets[0].comments.edges[0].node.createdAt);
+  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
   const testRenderer = createTestRenderer();
 
   await timeout();

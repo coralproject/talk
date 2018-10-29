@@ -14,7 +14,7 @@ describe("with 2 remaining parent comments", () => {
     const props: PropTypesOf<typeof ConversationThreadN> = {
       className: "root",
       me: {},
-      asset: {},
+      story: {},
       settings: {},
       comment: {},
       disableLoadMore: false,
@@ -34,7 +34,7 @@ describe("with 2 remaining parent comments", () => {
     const props: PropTypesOf<typeof ConversationThreadN> = {
       className: "root",
       me: {},
-      asset: {},
+      story: {},
       settings: {},
       comment: {},
       disableLoadMore: true,
@@ -56,7 +56,7 @@ it("renders with no parent comments", () => {
   const props: PropTypesOf<typeof ConversationThreadN> = {
     className: "root",
     me: {},
-    asset: {},
+    story: {},
     settings: {},
     comment: {},
     disableLoadMore: false,

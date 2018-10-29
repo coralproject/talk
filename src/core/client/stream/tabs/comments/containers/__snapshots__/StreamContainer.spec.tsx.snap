@@ -2,26 +2,6 @@
 
 exports[`renders correctly 1`] = `
 <Stream
-  asset={
-    Object {
-      "comments": Object {
-        "edges": Array [
-          Object {
-            "node": Object {
-              "id": "comment-1",
-            },
-          },
-          Object {
-            "node": Object {
-              "id": "comment-2",
-            },
-          },
-        ],
-      },
-      "id": "asset-id",
-      "isClosed": false,
-    }
-  }
   comments={
     Array [
       Object {
@@ -43,12 +23,7 @@ exports[`renders correctly 1`] = `
       },
     }
   }
-/>
-`;
-
-exports[`when has more comments renders hasMore 1`] = `
-<Stream
-  asset={
+  story={
     Object {
       "comments": Object {
         "edges": Array [
@@ -64,10 +39,15 @@ exports[`when has more comments renders hasMore 1`] = `
           },
         ],
       },
-      "id": "asset-id",
+      "id": "story-id",
       "isClosed": false,
     }
   }
+/>
+`;
+
+exports[`when has more comments renders hasMore 1`] = `
+<Stream
   comments={
     Array [
       Object {
@@ -90,12 +70,7 @@ exports[`when has more comments renders hasMore 1`] = `
       },
     }
   }
-/>
-`;
-
-exports[`when has more comments when loading more disables load more button 1`] = `
-<Stream
-  asset={
+  story={
     Object {
       "comments": Object {
         "edges": Array [
@@ -111,10 +86,15 @@ exports[`when has more comments when loading more disables load more button 1`] 
           },
         ],
       },
-      "id": "asset-id",
+      "id": "story-id",
       "isClosed": false,
     }
   }
+/>
+`;
+
+exports[`when has more comments when loading more disables load more button 1`] = `
+<Stream
   comments={
     Array [
       Object {
@@ -137,12 +117,7 @@ exports[`when has more comments when loading more disables load more button 1`] 
       },
     }
   }
-/>
-`;
-
-exports[`when has more comments when loading more enable load more button after loading is done 1`] = `
-<Stream
-  asset={
+  story={
     Object {
       "comments": Object {
         "edges": Array [
@@ -158,10 +133,15 @@ exports[`when has more comments when loading more enable load more button after 
           },
         ],
       },
-      "id": "asset-id",
+      "id": "story-id",
       "isClosed": false,
     }
   }
+/>
+`;
+
+exports[`when has more comments when loading more enable load more button after loading is done 1`] = `
+<Stream
   comments={
     Array [
       Object {
@@ -182,6 +162,26 @@ exports[`when has more comments when loading more enable load more button after 
         "icon": "thumb_up_alt",
         "label": "Respect",
       },
+    }
+  }
+  story={
+    Object {
+      "comments": Object {
+        "edges": Array [
+          Object {
+            "node": Object {
+              "id": "comment-1",
+            },
+          },
+          Object {
+            "node": Object {
+              "id": "comment-2",
+            },
+          },
+        ],
+      },
+      "id": "story-id",
+      "isClosed": false,
     }
   }
 />

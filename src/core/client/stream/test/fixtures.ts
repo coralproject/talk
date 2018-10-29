@@ -1,8 +1,8 @@
 import {
-  denormalizeAsset,
-  denormalizeAssets,
   denormalizeComment,
   denormalizeComments,
+  denormalizeStories,
+  denormalizeStory,
 } from "talk-framework/testHelpers";
 
 export const settings = {
@@ -214,7 +214,7 @@ export const commentWithDeepestReplies = denormalizeComment({
   },
 });
 
-export const baseAsset = {
+export const baseStory = {
   isClosed: false,
   comments: {
     edges: [],
@@ -227,11 +227,11 @@ export const baseAsset = {
   },
 };
 
-export const assets = denormalizeAssets([
+export const stories = denormalizeStories([
   {
-    ...baseAsset,
-    id: "asset-1",
-    url: "http://localhost/assets/asset-1",
+    ...baseStory,
+    id: "story-1",
+    url: "http://localhost/stories/story-1",
     comments: {
       edges: [
         { node: comments[0], cursor: comments[0].createdAt },
@@ -243,9 +243,9 @@ export const assets = denormalizeAssets([
     },
   },
   {
-    ...baseAsset,
-    id: "asset-2",
-    url: "http://localhost/assets/asset-2",
+    ...baseStory,
+    id: "story-2",
+    url: "http://localhost/stories/story-2",
     comments: {
       edges: [
         { node: comments[2], cursor: comments[2].createdAt },
@@ -258,10 +258,10 @@ export const assets = denormalizeAssets([
   },
 ]);
 
-export const assetWithReplies = denormalizeAsset({
-  ...baseAsset,
-  id: "asset-with-replies",
-  url: "http://localhost/assets/asset-with-replies",
+export const storyWithReplies = denormalizeStory({
+  ...baseStory,
+  id: "story-with-replies",
+  url: "http://localhost/stories/story-with-replies",
   comments: {
     edges: [
       { node: comments[0], cursor: comments[0].createdAt },
@@ -273,10 +273,10 @@ export const assetWithReplies = denormalizeAsset({
   },
 });
 
-export const assetWithDeepReplies = denormalizeAsset({
-  ...baseAsset,
-  id: "asset-with-deep-replies",
-  url: "http://localhost/assets/asset-with-replies",
+export const storyWithDeepReplies = denormalizeStory({
+  ...baseStory,
+  id: "story-with-deep-replies",
+  url: "http://localhost/stories/story-with-replies",
   comments: {
     edges: [
       { node: comments[0], cursor: comments[0].createdAt },
@@ -291,10 +291,10 @@ export const assetWithDeepReplies = denormalizeAsset({
   },
 });
 
-export const assetWithDeepestReplies = denormalizeAsset({
-  ...baseAsset,
-  id: "asset-with-deepest-replies",
-  url: "http://localhost/assets/asset-with-replies",
+export const storyWithDeepestReplies = denormalizeStory({
+  ...baseStory,
+  id: "story-with-deepest-replies",
+  url: "http://localhost/stories/story-with-replies",
   comments: {
     edges: [
       {
@@ -314,11 +314,11 @@ export const meWithComments = {
   comments: {
     edges: [
       {
-        node: { ...assets[0].comments.edges[0].node, asset: assets[0] },
+        node: { ...stories[0].comments.edges[0].node, story: stories[0] },
         cursor: comments[0].createdAt,
       },
       {
-        node: { ...assets[1].comments.edges[0].node, asset: assets[1] },
+        node: { ...stories[1].comments.edges[0].node, story: stories[1] },
         cursor: comments[1].createdAt,
       },
     ],

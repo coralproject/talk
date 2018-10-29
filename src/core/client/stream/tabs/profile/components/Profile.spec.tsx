@@ -10,7 +10,7 @@ const ProfileN = removeFragmentRefs(Profile);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ProfileN> = {
-    asset: {},
+    story: {},
     me: {},
   };
   const wrapper = shallow(<ProfileN {...props} />);

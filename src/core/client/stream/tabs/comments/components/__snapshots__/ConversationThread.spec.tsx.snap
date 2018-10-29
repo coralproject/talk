@@ -5,11 +5,11 @@ exports[`renders with no parent comments 1`] = `
   className="root ConversationThread-root"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-    asset={Object {}}
     comment={Object {}}
     highlight={true}
     me={Object {}}
     settings={Object {}}
+    story={Object {}}
   />
 </div>
 `;
@@ -66,11 +66,11 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
       end={true}
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={Object {}}
         comment={Object {}}
         highlight={true}
         me={Object {}}
         settings={Object {}}
+        story={Object {}}
       />
     </Circle>
   </withPropsOnChange(HorizontalGutter)>
@@ -129,11 +129,11 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
       end={true}
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        asset={Object {}}
         comment={Object {}}
         highlight={true}
         me={Object {}}
         settings={Object {}}
+        story={Object {}}
       />
     </Circle>
   </withPropsOnChange(HorizontalGutter)>

@@ -3,8 +3,8 @@ import { graphql } from "react-relay";
 
 import { getURLWithCommentID } from "talk-framework/helpers";
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { HistoryCommentContainer_asset as AssetData } from "talk-stream/__generated__/HistoryCommentContainer_asset.graphql";
 import { HistoryCommentContainer_comment as CommentData } from "talk-stream/__generated__/HistoryCommentContainer_comment.graphql";
+import { HistoryCommentContainer_story as StoryData } from "talk-stream/__generated__/HistoryCommentContainer_story.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
@@ -13,7 +13,7 @@ import HistoryComment from "../components/HistoryComment";
 
 interface HistoryCommentContainerProps {
   setCommentID: SetCommentIDMutation;
-  asset: AssetData;
+  story: StoryData;
   comment: CommentData;
 }
 
@@ -21,7 +21,7 @@ export class HistoryCommentContainer extends React.Component<
   HistoryCommentContainerProps
 > {
   private handleGoToConversation = (e: React.MouseEvent) => {
-    if (this.props.asset.id === this.props.comment.asset.id) {
+    if (this.props.story.id === this.props.comment.story.id) {
       this.props.setCommentID({ id: this.props.comment.id });
       e.preventDefault();
     }
@@ -31,7 +31,7 @@ export class HistoryCommentContainer extends React.Component<
       <HistoryComment
         {...this.props.comment}
         conversationURL={getURLWithCommentID(
-          this.props.comment.asset.url,
+          this.props.comment.story.url,
           this.props.comment.id
         )}
         onGotoConversation={this.handleGoToConversation}
@@ -42,8 +42,8 @@ export class HistoryCommentContainer extends React.Component<
 
 const enhanced = withSetCommentIDMutation(
   withFragmentContainer<HistoryCommentContainerProps>({
-    asset: graphql`
-      fragment HistoryCommentContainer_asset on Asset {
+    story: graphql`
+      fragment HistoryCommentContainer_story on Story {
         id
       }
     `,
@@ -53,7 +53,7 @@ const enhanced = withSetCommentIDMutation(
         body
         createdAt
         replyCount
-        asset {
+        story {
           id
           title
           url

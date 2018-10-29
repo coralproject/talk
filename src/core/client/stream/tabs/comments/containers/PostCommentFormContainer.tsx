@@ -15,7 +15,7 @@ import PostCommentForm, {
 
 interface InnerProps {
   createComment: CreateCommentMutation;
-  assetID: string;
+  storyID: string;
   sessionStorage: PromisifiedStorage;
 }
 
@@ -54,7 +54,7 @@ export class PostCommentFormContainer extends Component<InnerProps, State> {
   ) => {
     try {
       await this.props.createComment({
-        assetID: this.props.assetID,
+        storyID: this.props.storyID,
         ...input,
       });
       form.reset({});

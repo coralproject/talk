@@ -4,10 +4,10 @@ import { withProps } from "recompose";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
-import { ReplyListContainer1_asset as AssetData } from "talk-stream/__generated__/ReplyListContainer1_asset.graphql";
 import { ReplyListContainer1_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer1_comment.graphql";
 import { ReplyListContainer1_me as MeData } from "talk-stream/__generated__/ReplyListContainer1_me.graphql";
 import { ReplyListContainer1_settings as SettingsData } from "talk-stream/__generated__/ReplyListContainer1_settings.graphql";
+import { ReplyListContainer1_story as StoryData } from "talk-stream/__generated__/ReplyListContainer1_story.graphql";
 import {
   COMMENT_SORT,
   ReplyListContainer1PaginationQueryVariables,
@@ -24,7 +24,7 @@ type ReplyNode5 = UnpackArray<Comment5Data["replies"]["edges"]>["node"];
 
 export interface BaseProps {
   me: MeData | null;
-  asset: AssetData;
+  story: StoryData;
   comment: CommentData;
   settings: SettingsData;
   relay: RelayPaginationProp;
@@ -62,7 +62,7 @@ export class ReplyListContainer extends React.Component<InnerProps> {
         <this.props.ReplyListComponent
           me={this.props.me}
           comment={edge.node}
-          asset={this.props.asset}
+          story={this.props.story}
           settings={this.props.settings}
         />
       ),
@@ -74,7 +74,7 @@ export class ReplyListContainer extends React.Component<InnerProps> {
         me={this.props.me}
         comment={this.props.comment}
         comments={comments}
-        asset={this.props.asset}
+        story={this.props.story}
         settings={this.props.settings}
         onShowAll={this.showAll}
         hasMore={this.props.relay.hasMore()}
@@ -108,7 +108,7 @@ function createReplyListContainer(
   indentLevel: number,
   fragments: {
     me: GraphQLTaggedNode;
-    asset: GraphQLTaggedNode;
+    story: GraphQLTaggedNode;
     comment: GraphQLTaggedNode;
     settings: GraphQLTaggedNode;
   },
@@ -168,10 +168,10 @@ const ReplyListContainer5 = createReplyListContainer(
         ...CommentContainer_settings
       }
     `,
-    asset: graphql`
-      fragment ReplyListContainer5_asset on Asset {
-        ...CommentContainer_asset
-        ...LocalReplyListContainer_asset
+    story: graphql`
+      fragment ReplyListContainer5_story on Story {
+        ...CommentContainer_story
+        ...LocalReplyListContainer_story
       }
     `,
     comment: graphql`
@@ -230,10 +230,10 @@ const ReplyListContainer4 = createReplyListContainer(
         ...CommentContainer_settings
       }
     `,
-    asset: graphql`
-      fragment ReplyListContainer4_asset on Asset {
-        ...ReplyListContainer5_asset
-        ...CommentContainer_asset
+    story: graphql`
+      fragment ReplyListContainer4_story on Story {
+        ...ReplyListContainer5_story
+        ...CommentContainer_story
       }
     `,
     comment: graphql`
@@ -290,10 +290,10 @@ const ReplyListContainer3 = createReplyListContainer(
         ...CommentContainer_settings
       }
     `,
-    asset: graphql`
-      fragment ReplyListContainer3_asset on Asset {
-        ...ReplyListContainer4_asset
-        ...CommentContainer_asset
+    story: graphql`
+      fragment ReplyListContainer3_story on Story {
+        ...ReplyListContainer4_story
+        ...CommentContainer_story
       }
     `,
     comment: graphql`
@@ -350,10 +350,10 @@ const ReplyListContainer2 = createReplyListContainer(
         ...CommentContainer_settings
       }
     `,
-    asset: graphql`
-      fragment ReplyListContainer2_asset on Asset {
-        ...ReplyListContainer3_asset
-        ...CommentContainer_asset
+    story: graphql`
+      fragment ReplyListContainer2_story on Story {
+        ...ReplyListContainer3_story
+        ...CommentContainer_story
       }
     `,
     comment: graphql`
@@ -410,10 +410,10 @@ const ReplyListContainer1 = createReplyListContainer(
         ...CommentContainer_settings
       }
     `,
-    asset: graphql`
-      fragment ReplyListContainer1_asset on Asset {
-        ...ReplyListContainer2_asset
-        ...CommentContainer_asset
+    story: graphql`
+      fragment ReplyListContainer1_story on Story {
+        ...ReplyListContainer2_story
+        ...CommentContainer_story
       }
     `,
     comment: graphql`

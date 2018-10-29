@@ -3,15 +3,15 @@ import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 
-import { settings } from "../fixtures";
-import create from "./create";
+import create from "talk-stream/test/comments/create";
+import { settings } from "talk-stream/test/fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
       comment: () => null,
-      asset: () => null,
+      story: () => null,
       settings: sinon.stub().returns(settings),
     },
   };
@@ -21,13 +21,13 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue("unknown-asset-id", "assetID");
+      localRecord.setValue("unknown-story-id", "storyID");
       localRecord.setValue("unknown-comment-id", "commentID");
     },
   }));
 });
 
-it("renders permalink view with unknown asset", async () => {
+it("renders permalink view with unknown story", async () => {
   // Wait for loading.
   await timeout();
   expect(testRenderer.toJSON()).toMatchSnapshot();
