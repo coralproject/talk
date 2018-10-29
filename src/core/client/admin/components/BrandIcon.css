@@ -1,0 +1,16 @@
+.base {
+}
+
+.md {
+  height: 42px;
+  width: 42px;
+}
+
+.lg {
+  height: 92px;
+  width: 92px;
+}
+
+.mark {
+  stroke: var(--palette-background-light);
+}

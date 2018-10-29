@@ -1,15 +1,19 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 import { SignInMutation, withSignInMutation } from "talk-admin/mutations";
+import { PropTypesOf } from "talk-framework/types";
 
-import SignIn, { SignInForm } from "../components/SignIn";
+import SignInForm from "../components/SignInForm";
 
 interface SignInContainerProps {
   signIn: SignInMutation;
 }
 
 class SignInContainer extends Component<SignInContainerProps> {
-  private onSubmit: SignInForm["onSubmit"] = async (input, form) => {
+  private onSubmit: PropTypesOf<typeof SignInForm>["onSubmit"] = async (
+    input,
+    form
+  ) => {
     try {
       await this.props.signIn(input);
       return form.reset();
@@ -18,7 +22,7 @@ class SignInContainer extends Component<SignInContainerProps> {
     }
   };
   public render() {
-    return <SignIn onSubmit={this.onSubmit} />;
+    return <SignInForm onSubmit={this.onSubmit} />;
   }
 }
 
