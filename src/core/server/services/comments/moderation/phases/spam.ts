@@ -12,7 +12,7 @@ import {
 } from "talk-server/services/comments/moderation";
 
 export const spam: IntermediateModerationPhase = async ({
-  asset,
+  story,
   tenant,
   comment,
   author,
@@ -96,7 +96,7 @@ export const spam: IntermediateModerationPhase = async ({
       referrer, // REQUIRED
       user_agent: userAgent, // REQUIRED
       comment_content: comment.body,
-      permalink: asset.url,
+      permalink: story.url,
       comment_author: author.displayName || author.username || "",
       comment_type: "comment",
       is_test: false,

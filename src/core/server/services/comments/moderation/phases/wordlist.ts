@@ -19,7 +19,7 @@ export const wordlist: IntermediateModerationPhase = ({
     return;
   }
 
-  // Decide the status based on whether or not the current asset/settings
+  // Decide the status based on whether or not the current story/settings
   // has pre-mod enabled or not. If the comment was rejected based on the
   // wordlist, then reject it, otherwise if the moderation setting is
   // premod, set it to `premod`.

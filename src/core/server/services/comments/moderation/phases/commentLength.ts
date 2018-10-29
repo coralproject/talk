@@ -35,7 +35,7 @@ const testCharCount = (
 };
 
 export const commentLength: IntermediateModerationPhase = ({
-  asset,
+  story,
   tenant,
   comment,
 }): IntermediatePhaseResult | void => {
@@ -44,7 +44,7 @@ export const commentLength: IntermediateModerationPhase = ({
   // Reject if the comment is too long or too short.
   if (
     testCharCount(tenant, length) ||
-    (asset.settings && testCharCount(asset.settings, length))
+    (story.settings && testCharCount(story.settings, length))
   ) {
     return {
       status: GQLCOMMENT_STATUS.REJECTED,

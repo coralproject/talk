@@ -544,7 +544,7 @@ type Settings {
   domains: [String!] @auth(roles: [ADMIN])
 
   """
-  moderation is the moderation mode for all Asset's on the site.
+  moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE @auth(roles: [ADMIN])
 
@@ -598,12 +598,12 @@ type Settings {
 
   """
   closedTimeout is the amount of seconds from the created_at timestamp that a
-  given asset will be considered closed.
+  given story will be considered closed.
   """
   closedTimeout: Int!
 
   """
-  closedMessage is the message shown to the user when the given Asset is
+  closedMessage is the message shown to the user when the given Story is
   closed.
   """
   closedMessage: String
@@ -806,7 +806,7 @@ enum COMMENT_STATUS {
   REJECTED
 
   """
-  The comment was created while the asset's premoderation option was on, and
+  The comment was created while the stories premoderation option was on, and
   new comments that haven't been moderated yet are referred to as
   "premoderated" or "premod" comments.
   """
@@ -820,7 +820,7 @@ enum COMMENT_STATUS {
 }
 
 """
-Comment is a comment left by a User on an Asset or another Comment as a reply.
+Comment is a comment left by a User on an Story or another Comment as a reply.
 """
 type Comment {
   """
@@ -881,7 +881,7 @@ type Comment {
 
   """
   rootParent is the highest level parent Comment. This Comment would have been
-  left on the Asset itself.
+  left on the Story itself.
   """
   rootParent: Comment
 
@@ -908,9 +908,9 @@ type Comment {
   myActionPresence: ActionPresence
 
   """
-  asset is the Asset that the Comment was written on.
+  story is the Story that the Comment was written on.
   """
-  asset: Asset!
+  story: Story!
 }
 
 type PageInfo {
@@ -987,7 +987,7 @@ type CommentStatusCounts {
   REJECTED: Int!
 
   """
-  The comment was created while the asset's premoderation option was on, and
+  The comment was created while the stories premoderation option was on, and
   new comments that haven't been moderated yet are referred to as
   "premoderated" or "premod" comments.
   """
@@ -1010,7 +1010,7 @@ type CommentCounts {
 }
 
 ################################################################################
-## Asset
+## Story
 ################################################################################
 
 enum COMMENT_SORT {
@@ -1021,26 +1021,26 @@ enum COMMENT_SORT {
 }
 
 """
-Asset is an Article or Page where Comments are written on by Users.
+Story is an Article or Page where Comments are written on by Users.
 """
-type Asset {
+type Story {
   """
-  id is the identifier of the Asset.
+  id is the identifier of the Story.
   """
   id: ID!
 
   """
-  url is the url that the Asset is located on.
+  url is the url that the Story is located on.
   """
   url: String!
 
   """
-  title is the title of the scraped Asset.
+  title is the title of the scraped Story.
   """
   title: String
 
   """
-  comments are the comments on the Asset.
+  comments are the comments on the Story.
   """
   comments(
     first: Int = 10
@@ -1049,23 +1049,23 @@ type Asset {
   ): CommentsConnection!
 
   """
-  actionCounts stores the counts of all the actions against this Asset and it's
+  actionCounts stores the counts of all the actions against this Story and it's
   Comments.
   """
   actionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  author is the authors listed in the meta tags for the Asset.
+  author is the authors listed in the meta tags for the Story.
   """
   author: String
 
   """
-  closedAt is the Time that the Asset is closed for commenting.
+  closedAt is the Time that the Story is closed for commenting.
   """
   closedAt: Time
 
   """
-  isClosed returns true when the Asset is currently closed for commenting.
+  isClosed returns true when the Story is currently closed for commenting.
   """
   isClosed: Boolean!
 
@@ -1075,19 +1075,19 @@ type Asset {
   commentCounts: CommentCounts!
 
   """
-  createdAt is the date that the Asset was created at.
+  createdAt is the date that the Story was created at.
   """
   createdAt: Time!
 }
 
 """
-AssetEdge represents a unique Asset in a AssetConnection.
+StoryEdge represents a unique Story in a StoryConnection.
 """
-type AssetEdge {
+type StoryEdge {
   """
-  node is the Asset for this edge.
+  node is the Story for this edge.
   """
-  node: Asset!
+  node: Story!
 
   """
 
@@ -1096,13 +1096,13 @@ type AssetEdge {
 }
 
 """
-AssetsConnection represents a subset of a Asset list.
+StoriesConnection represents a subset of a Story list.
 """
-type AssetsConnection {
+type StoriesConnection {
   """
-  edges are a subset of AssetEdge's.
+  edges are a subset of StoryEdge's.
   """
-  edges: [AssetEdge!]!
+  edges: [StoryEdge!]!
 
   """
   pageInfo is
@@ -1121,9 +1121,9 @@ type Query {
   comment(id: ID!): Comment
 
   """
-  asset is the Asset specified by its ID/URL.
+  story is the Story specified by its ID/URL.
   """
-  asset(id: ID, url: String): Asset
+  story(id: ID, url: String): Story
 
   """
   me is the current logged in User.
@@ -1149,9 +1149,9 @@ CreateCommentInput provides the input for the createComment Mutation.
 """
 input CreateCommentInput {
   """
-  assetID is the ID of the Asset where we are creating a comment on.
+  storyID is the ID of the Story where we are creating a comment on.
   """
-  assetID: ID!
+  storyID: ID!
 
   """
   parentID is the optional ID of the Comment that we are replying to.
@@ -1449,7 +1449,7 @@ input SettingsInput {
   domains: [String!]
 
   """
-  moderation is the moderation mode for all Asset's on the site.
+  moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE
 
@@ -1503,12 +1503,12 @@ input SettingsInput {
 
   """
   closedTimeout is the amount of seconds from the created_at timestamp that a
-  given asset will be considered closed.
+  given story will be considered closed.
   """
   closedTimeout: Int
 
   """
-  closedMessage is the message shown to the user when the given Asset is
+  closedMessage is the message shown to the user when the given Story is
   closed.
   """
   closedMessage: String
@@ -1851,5 +1851,5 @@ type Mutation {
 ################################################################################
 
 type Subscription {
-  commentCreated(assetID: ID!): Comment
+  commentCreated(storyID: ID!): Comment
 }

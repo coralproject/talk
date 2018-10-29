@@ -2,13 +2,13 @@ import { IntermediateModerationPhase } from "talk-server/services/comments/moder
 
 import { premod } from "talk-server/services/comments/moderation/phases/premod";
 import { toxic } from "talk-server/services/comments/moderation/phases/toxic";
-import { assetClosed } from "./assetClosed";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { karma } from "./karma";
 import { links } from "./links";
 import { spam } from "./spam";
 import { staff } from "./staff";
+import { storyClosed } from "./storyClosed";
 import { wordlist } from "./wordlist";
 
 /**
@@ -16,7 +16,7 @@ import { wordlist } from "./wordlist";
  */
 export const moderationPhases: IntermediateModerationPhase[] = [
   commentLength,
-  assetClosed,
+  storyClosed,
   commentingDisabled,
   wordlist,
   staff,

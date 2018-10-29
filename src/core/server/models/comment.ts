@@ -38,7 +38,7 @@ export interface Comment extends TenantResource {
   readonly id: string;
   parent_id?: string;
   author_id: string;
-  asset_id: string;
+  story_id: string;
   body: string;
   body_history: BodyHistoryItem[];
   status: GQLCOMMENT_STATUS;
@@ -288,14 +288,14 @@ function cursorGetterFactory(
 export async function retrieveCommentRepliesConnection(
   db: Db,
   tenantID: string,
-  assetID: string,
+  storyID: string,
   parentID: string,
   input: ConnectionInput
 ) {
   // Create the query.
   const query = new Query(collection(db)).where({
     tenant_id: tenantID,
-    asset_id: assetID,
+    story_id: storyID,
     parent_id: parentID,
   });
 
@@ -400,23 +400,23 @@ export async function retrieveCommentParentsConnection(
 }
 
 /**
- * retrieveAssetConnection returns a Connection<Comment> for a given Asset's
+ * retrieveStoryConnection returns a Connection<Comment> for a given Stories
  * comments.
  *
  * @param db database connection
- * @param assetID the Asset id for the comment to retrieve
+ * @param storyID the Story id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveCommentAssetConnection(
+export async function retrieveCommentStoryConnection(
   db: Db,
   tenantID: string,
-  assetID: string,
+  storyID: string,
   input: ConnectionInput
 ) {
   // Create the query.
   const query = new Query(collection(db)).where({
     tenant_id: tenantID,
-    asset_id: assetID,
+    story_id: storyID,
     parent_id: null,
   });
 

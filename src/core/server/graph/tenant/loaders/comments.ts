@@ -2,11 +2,11 @@ import DataLoader from "dataloader";
 
 import Context from "talk-server/graph/tenant/context";
 import {
-  AssetToCommentsArgs,
   CommentToParentsArgs,
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  StoryToCommentsArgs,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_ITEM_TYPE,
@@ -14,9 +14,9 @@ import {
 } from "talk-server/models/action";
 import {
   Comment,
-  retrieveCommentAssetConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
+  retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
 } from "talk-server/models/comment";
@@ -61,29 +61,29 @@ export default (ctx: Context) => ({
       first = 10,
       orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
-    }: AssetToCommentsArgs
+    }: StoryToCommentsArgs
   ) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first,
       orderBy,
       after,
     }),
-  forAsset: (
-    assetID: string,
+  forStory: (
+    storyID: string,
     // Apply the graph schema defaults at the loader.
     {
       first = 10,
       orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
-    }: AssetToCommentsArgs
+    }: StoryToCommentsArgs
   ) =>
-    retrieveCommentAssetConnection(ctx.mongo, ctx.tenant.id, assetID, {
+    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
       first,
       orderBy,
       after,
     }).then(primeCommentsFromConnection(ctx)),
   forParent: (
-    assetID: string,
+    storyID: string,
     parentID: string,
     // Apply the graph schema defaults at the loader.
     {
@@ -95,7 +95,7 @@ export default (ctx: Context) => ({
     retrieveCommentRepliesConnection(
       ctx.mongo,
       ctx.tenant.id,
-      assetID,
+      storyID,
       parentID,
       {
         first,
