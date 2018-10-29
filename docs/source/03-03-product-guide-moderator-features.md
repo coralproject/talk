@@ -5,7 +5,7 @@ permalink: /moderator-features/
 
 ## The Talk Admin
 
-The Admin is your moderators will moderate your comments, and your Admins will
+The Admin is where your moderators will moderate your comments, and your Admins will
 configure and manage the different parts of Talk.
 
 ### Moderate
@@ -18,57 +18,99 @@ site-wide.
 
 **New**
 
-The New queue contains all comments that have not been moderated yet.
+>_Conditions:_ Pre-Mod disabled
 
-**Reported**
+Comments have been published? _**Yes**_
 
-The Reported queue contains all comments that need moderator attention.
+The New queue contains all comments that have not been moderated yet. This queue contains comments that haven’t yet been Accepted or Rejected by a moderator
 
-**Approved**
+**Pre-mod**
 
-The Approved queue contains all approved comments.
+>_Conditions:_ Pre-Mod enabled
+
+Comments have been published? _**No**_
+
+This queue contains comments that haven’t yet been Accepted or Rejected by a moderator
+
+**Accepted**
+
+Comments have been published? _**Yes**_
+
+Comments that have been approved by a moderator, written by a Staff member (and so auto approved), or Featured (and so auto approved). Tags for reports still appear on comments in this queue, but the comments will not go back into Reported.
 
 **Rejected**
 
-The Rejected queue contains all comments that have been rejected, either
-manually by moderators or automatically, e.g. they have used a banned word.
+Comments have been published? _**No**_
+
+Comments that have been rejected by a moderator, or rejected because they contained a banned word/phrase. Tags for reports still appear on comments in this queue, but the comments will not go back into Reported.
+
+
+**Reported**
+
+>_Conditions:_ Pre-Mod disabled
+
+Comments have been published? _**depends**_
+
+This queue contains comments that have been reported for moderator review, either by users or automatically by Talk, and have not yet been Approved or Rejected. If there are comments to review in this queue, a red dot will be displayed in the top menu. 
 
 **All**
 
 The All queue contains all comments that have been submitted either article or
 site-wide.
 
-#### Moderation Badges
+#### Moderation Tags
 
 **Pre-mod**
 
-The Pre-mod badge signifies comments that are being pre-modded.
+_Comment published? No_
+
+The Pre-mod tag signifies comments that are being pre-modded.
 
 **User**
 
-The User badge signifies comments that have been reported by another user.
+_Comment published? Yes_
 
-**History**
+Comment has been reported by a user. The ‘More Details’ box contains the name/s of the users who reported the comment, and any additional information they provided.
 
-The History badge signifies comments that have been flagged because of a user’s
-history.
+**Staff**
+
+_Comment published? Yes_
+
+Comment has been reported by a staff member. The ‘More Details’ box contains the name/s of the staff member who reported the comment, and any additional information they provided.
+
+**Suspect Word**
+
+_Comment published? Yes_
+
+Comment contains a word or phrase that is on the ’Suspect words’ list in the Configure > Moderation tab (administrators only). The word/phrase will be highlighted in yellow.
+
+**Karma**
+
+_Comment published? No_
+
+The History tag signifies comments that have been flagged because the user’s history indicates their Accepted:Rejected ratio has reached below the karma threshold. [Read more here...](/talk/trust/#user-karma-score)
+
+**Spam**
+
+_Comment published? No_
+
+If you are using the Akismet anti-spam plugin, this tag means that Akismet has flagged the comment as spam. You must Approve it for it to appear in the stream. **Requires:** [talk-plugin-akismet](/talk/plugin/talk-plugin-akismet/)
+
 
 **Toxic**
 
-The Toxic badge signifies comments that are above the set Toxicity Probability
-Threshold. Note you must have [talk-plugin-toxic-comments](/talk/additional-plugins/#talk-plugin-toxic-comments) enabled.
-[Read more about Toxic Comments here](/talk/toxic-comments/).
+_Comment published? No_
 
-**Suspect**
+If you are using the Toxic Comments plugin, this tag means that Perspective API has flagged the comment as likely to be toxic, above the threshold you have set (default: 80%). You must Approve it for it to appear in the stream. **Requires:** [talk-plugin-toxic-comments](/talk/additional-plugins/#talk-plugin-toxic-comments). 
+Read more about [Toxic Comments here](/talk/toxic-comments/).
 
-The Suspect badge signifies comments that contain a Suspect Word.
 
 **Contains Link**
 
-The Contains Link badge signifies a comment that contains a link, which can
+The Contains Link tag signifies a comment that contains a link, which can
 sometimes mean it is a spam or ad comment.
 
-**Flag Details View**
+**More Details View**
 
 At the bottom of each comment in the moderation queues, you can see more
 information about a comment’s flags by clicking on More Detail.
