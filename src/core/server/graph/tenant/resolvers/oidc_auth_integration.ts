@@ -19,7 +19,7 @@ const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
 
     // Note that when constructing the callback url with the tenant, the port
     // information is lost.
-    return reconstructTenantURL(ctx.tenant, path);
+    return reconstructTenantURL(ctx.config, ctx.tenant, path);
   },
 };
 

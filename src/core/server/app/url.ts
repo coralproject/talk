@@ -1,3 +1,4 @@
+import { Config } from "talk-common/config";
 import { Tenant } from "talk-server/models/tenant";
 import { Request } from "talk-server/types/express";
 import { URL } from "url";
@@ -16,10 +17,14 @@ export function reconstructURL(req: Request, path: string = "/"): string {
  * reconstructTenantURL will reconstruct a URL based off of the Tenant's domain.
  */
 export function reconstructTenantURL(
+  config: Config,
   tenant: Pick<Tenant, "domain">,
   path: string = "/"
 ): string {
-  const url = new URL(path, `https://${tenant.domain}`);
+  let url: URL = new URL(path, `https://${tenant.domain}`);
+  if (config.get("env") === "development") {
+    url = new URL(path, `http://${tenant.domain}:${config.get("port")}`);
+  }
 
   return url.href;
 }
