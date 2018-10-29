@@ -21,6 +21,7 @@ export interface OAuth2StrategyOptions {
   config: Config;
   mongo: Db;
   tenantCache: TenantCache;
+  scope?: string[];
 }
 
 export default abstract class OAuth2Strategy<
@@ -30,13 +31,15 @@ export default abstract class OAuth2Strategy<
   protected config: Config;
   protected mongo: Db;
   protected cache: TenantCacheAdapter<U>;
+  private scope?: string[];
 
-  constructor({ config, mongo, tenantCache }: OAuth2StrategyOptions) {
+  constructor({ config, mongo, tenantCache, scope }: OAuth2StrategyOptions) {
     super();
 
     this.config = config;
     this.mongo = mongo;
     this.cache = new TenantCacheAdapter(tenantCache);
+    this.scope = scope;
   }
 
   protected abstract getIntegration(integrations: GQLAuthIntegrations): T;
@@ -114,7 +117,10 @@ export default abstract class OAuth2Strategy<
       strategy.redirect = this.redirect.bind(this);
       strategy.success = this.success.bind(this);
 
-      strategy.authenticate(req, { session: false });
+      strategy.authenticate(req, {
+        session: false,
+        scope: this.scope,
+      });
     } catch (err) {
       return this.error(err);
     }

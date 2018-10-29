@@ -1,45 +1,58 @@
 import { Db } from "mongodb";
-import { Profile, Strategy } from "passport-facebook";
+import { Profile, Strategy } from "passport-google-oauth2";
 
 import { Config } from "talk-common/config";
 import OAuth2Strategy from "talk-server/app/middleware/passport/strategies/oauth2";
 import { reconstructTenantURL } from "talk-server/app/url";
 import {
   GQLAuthIntegrations,
-  GQLFacebookAuthIntegration,
+  GQLGoogleAuthIntegration,
   GQLUSER_ROLE,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import {
-  FacebookProfile,
+  GoogleProfile,
   retrieveUserWithProfile,
 } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
 import { upsert } from "talk-server/services/users";
 
-export interface FacebookStrategyOptions {
+export interface GoogleStrategyOptions {
   config: Config;
   mongo: Db;
   tenantCache: TenantCache;
 }
 
-export default class FacebookStrategy extends OAuth2Strategy<
-  GQLFacebookAuthIntegration,
+export interface GoogleStrategyOptions {
+  config: Config;
+  mongo: Db;
+  tenantCache: TenantCache;
+}
+
+export default class GoogleStrategy extends OAuth2Strategy<
+  GQLGoogleAuthIntegration,
   Strategy
 > {
-  public name = "facebook";
+  public name = "google";
+
+  constructor(options: GoogleStrategyOptions) {
+    super({
+      ...options,
+      scope: ["profile"],
+    });
+  }
 
   protected getIntegration = (integrations: GQLAuthIntegrations) =>
-    integrations.facebook;
+    integrations.google;
 
   protected async findOrCreateUser(
     tenant: Tenant,
-    integration: Required<GQLFacebookAuthIntegration>,
+    integration: Required<GQLGoogleAuthIntegration>,
     { id, photos, emails, displayName }: Profile
   ) {
     // Create the user profile that will be used to lookup the User.
-    const profile: FacebookProfile = {
-      type: "facebook",
+    const profile: GoogleProfile = {
+      type: "google",
       id,
     };
 
@@ -84,7 +97,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
 
   protected createStrategy(
     tenant: Tenant,
-    integration: Required<GQLFacebookAuthIntegration>
+    integration: Required<GQLGoogleAuthIntegration>
   ) {
     return new Strategy(
       {
@@ -93,10 +106,8 @@ export default class FacebookStrategy extends OAuth2Strategy<
         callbackURL: reconstructTenantURL(
           this.config,
           tenant,
-          "/api/tenant/auth/facebook/callback"
+          "/api/tenant/auth/google/callback"
         ),
-        profileFields: ["id", "displayName", "photos", "email"],
-        enableProof: true,
         passReqToCallback: true,
       },
       this.verifyCallback
