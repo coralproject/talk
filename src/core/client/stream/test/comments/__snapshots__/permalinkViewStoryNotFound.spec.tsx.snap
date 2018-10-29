@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders permalink view with unknown asset 1`] = `
+exports[`renders permalink view with unknown story 1`] = `
 <div
   className="HorizontalGutter-root App-root HorizontalGutter-full"
 >
@@ -33,7 +33,7 @@ exports[`renders permalink view with unknown asset 1`] = `
     role="tabpanel"
   >
     <div>
-      Asset not found
+      Story not found
     </div>
   </section>
 </div>

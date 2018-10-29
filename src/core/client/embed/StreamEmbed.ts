@@ -24,8 +24,8 @@ import { ensureNoEndSlash } from "./utils";
 import urls from "../framework/helpers/urls";
 
 export interface StreamEmbedConfig {
-  assetID?: string;
-  assetURL?: string;
+  storyID?: string;
+  storyURL?: string;
   commentID?: string;
   autoRender?: boolean;
   title: string;
@@ -112,8 +112,8 @@ export class StreamEmbed {
     ];
 
     const query = qs.stringify({
-      assetID: this.config.assetID,
-      assetURL: this.config.assetURL,
+      storyID: this.config.storyID,
+      storyURL: this.config.storyURL,
       commentID: this.config.commentID,
     });
 

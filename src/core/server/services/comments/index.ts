@@ -3,10 +3,6 @@ import { Db } from "mongodb";
 import { Omit } from "talk-common/types";
 import { ACTION_ITEM_TYPE, CreateActionInput } from "talk-server/models/action";
 import {
-  retrieveAsset,
-  updateCommentStatusCount,
-} from "talk-server/models/asset";
-import {
   createComment,
   CreateCommentInput,
   editComment,
@@ -14,6 +10,10 @@ import {
   pushChildCommentIDOntoParent,
   retrieveComment,
 } from "talk-server/models/comment";
+import {
+  retrieveStory,
+  updateCommentStatusCount,
+} from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { addCommentActions } from "talk-server/services/comments/actions";
@@ -32,14 +32,14 @@ export async function create(
   input: CreateComment,
   req?: Request
 ) {
-  // Grab the asset that we'll use to check moderation pieces with.
-  const asset = await retrieveAsset(mongo, tenant.id, input.asset_id);
-  if (!asset) {
+  // Grab the story that we'll use to check moderation pieces with.
+  const story = await retrieveStory(mongo, tenant.id, input.story_id);
+  if (!story) {
     // TODO: (wyattjoh) return better error.
-    throw new Error("asset referenced does not exist");
+    throw new Error("story referenced does not exist");
   }
 
-  // TODO: (wyattjoh) Check that the asset was visible.
+  // TODO: (wyattjoh) Check that the story was visible.
 
   const grandparentIDs: string[] = [];
   if (input.parent_id) {
@@ -62,7 +62,7 @@ export async function create(
 
   // Run the comment through the moderation phases.
   const { actions, status, metadata } = await processForModeration({
-    asset,
+    story,
     tenant,
     comment: input,
     author,
@@ -105,8 +105,8 @@ export async function create(
     );
   }
 
-  // Increment the status count for the particular status on the Asset.
-  await updateCommentStatusCount(mongo, tenant.id, asset.id, {
+  // Increment the status count for the particular status on the Story.
+  await updateCommentStatusCount(mongo, tenant.id, story.id, {
     [status]: 1,
   });
 
@@ -132,16 +132,16 @@ export async function edit(
     throw new Error("comment not found");
   }
 
-  // Grab the asset that we'll use to check moderation pieces with.
-  const asset = await retrieveAsset(mongo, tenant.id, comment.asset_id);
-  if (!asset) {
+  // Grab the story that we'll use to check moderation pieces with.
+  const story = await retrieveStory(mongo, tenant.id, comment.story_id);
+  if (!story) {
     // TODO: (wyattjoh) return better error.
-    throw new Error("asset referenced does not exist");
+    throw new Error("story referenced does not exist");
   }
 
   // Run the comment through the moderation phases.
   const { status, metadata, actions } = await processForModeration({
-    asset,
+    story,
     tenant,
     comment: input,
     author,
@@ -186,9 +186,9 @@ export async function edit(
   }
 
   if (comment.status !== editedComment.status) {
-    // Increment the status count for the particular status on the Asset, and
+    // Increment the status count for the particular status on the Story, and
     // decrement the status on the comment's previous status.
-    await updateCommentStatusCount(mongo, tenant.id, asset.id, {
+    await updateCommentStatusCount(mongo, tenant.id, story.id, {
       [comment.status]: -1,
       [editedComment.status]: 1,
     });

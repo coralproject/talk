@@ -8,7 +8,7 @@ import titleScraper from "metascraper-title";
 import { Db } from "mongodb";
 
 import logger from "talk-server/logger";
-import { updateAsset } from "talk-server/models/asset";
+import { updateStory } from "talk-server/models/story";
 import Task from "talk-server/services/queue/Task";
 import { modifiedScraper } from "./rules/modified";
 import { sectionScraper } from "./rules/section";
@@ -20,8 +20,8 @@ export interface ScrapeProcessorOptions {
 }
 
 export interface ScraperData {
-  assetID: string;
-  assetURL: string;
+  storyID: string;
+  storyURL: string;
   tenantID: string;
 }
 
@@ -30,17 +30,17 @@ const createJobProcessor = (
   scraper: Scraper
 ) => async (job: Job<ScraperData>) => {
   // Pull out the job data.
-  const { assetID: id, assetURL: url, tenantID } = job.data;
+  const { storyID: id, storyURL: url, tenantID } = job.data;
 
   logger.debug(
     {
       job_id: job.id,
       job_name: JOB_NAME,
-      asset_id: id,
-      asset_url: url,
+      story_id: id,
+      story_url: url,
       tenant_id: tenantID,
     },
-    "starting to scrap the asset"
+    "starting to scrap the story"
   );
 
   // Get the metadata from the scraped html.
@@ -50,17 +50,17 @@ const createJobProcessor = (
       {
         job_id: job.id,
         job_name: JOB_NAME,
-        asset_id: id,
-        asset_url: url,
+        story_id: id,
+        story_url: url,
         tenant_id: tenantID,
       },
-      "asset at specified url not found, can not scrape"
+      "story at specified url not found, can not scrape"
     );
     return;
   }
 
-  // Update the Asset with the scraped details.
-  const asset = await updateAsset(options.mongo, tenantID, id, {
+  // Update the Story with the scraped details.
+  const story = await updateStory(options.mongo, tenantID, id, {
     title: meta.title || undefined,
     description: meta.description || undefined,
     image: meta.image ? meta.image : undefined,
@@ -70,16 +70,16 @@ const createJobProcessor = (
     section: meta.section || undefined,
     scraped: new Date(),
   });
-  if (!asset) {
+  if (!story) {
     logger.error(
       {
         job_id: job.id,
         job_name: JOB_NAME,
-        asset_id: id,
-        asset_url: url,
+        story_id: id,
+        story_url: url,
         tenant_id: tenantID,
       },
-      "asset at specified id not found, can not update with metadata"
+      "story at specified id not found, can not update with metadata"
     );
     return;
   }
@@ -88,11 +88,11 @@ const createJobProcessor = (
     {
       job_id: job.id,
       job_name: JOB_NAME,
-      asset_id: asset.id,
-      asset_url: url,
+      story_id: story.id,
+      story_url: url,
       tenant_id: tenantID,
     },
-    "scraped the asset"
+    "scraped the story"
   );
 };
 

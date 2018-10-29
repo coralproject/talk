@@ -14,22 +14,22 @@ exports[`has more disables load more 1`] = `
     </withPropsOnChange(Typography)>
   </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
-    asset={Object {}}
     comment={
       Object {
         "id": "comment-1",
       }
     }
     key="comment-1"
+    story={Object {}}
   />
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
-    asset={Object {}}
     comment={
       Object {
         "id": "comment-2",
       }
     }
     key="comment-2"
+    story={Object {}}
   />
   <Localized
     id="profile-commentHistory-loadMore"
@@ -62,22 +62,22 @@ exports[`has more renders correctly 1`] = `
     </withPropsOnChange(Typography)>
   </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
-    asset={Object {}}
     comment={
       Object {
         "id": "comment-1",
       }
     }
     key="comment-1"
+    story={Object {}}
   />
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
-    asset={Object {}}
     comment={
       Object {
         "id": "comment-2",
       }
     }
     key="comment-2"
+    story={Object {}}
   />
   <Localized
     id="profile-commentHistory-loadMore"
@@ -110,22 +110,22 @@ exports[`renders correctly 1`] = `
     </withPropsOnChange(Typography)>
   </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
-    asset={Object {}}
     comment={
       Object {
         "id": "comment-1",
       }
     }
     key="comment-1"
+    story={Object {}}
   />
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
-    asset={Object {}}
     comment={
       Object {
         "id": "comment-2",
       }
     }
     key="comment-2"
+    story={Object {}}
   />
 </withPropsOnChange(HorizontalGutter)>
 `;

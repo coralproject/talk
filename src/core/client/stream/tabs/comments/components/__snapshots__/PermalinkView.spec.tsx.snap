@@ -106,19 +106,19 @@ exports[`renders correctly 1`] = `
   </withPropsOnChange(Flex)>
   <withPropsOnChange(HorizontalGutter)>
     <withContext(withContext(createMutationContainer(Relay(ConversationThreadContainer))))
-      asset={Object {}}
       comment={Object {}}
       me={Object {}}
       settings={Object {}}
+      story={Object {}}
     />
     <div
       className="PermalinkView-replyList"
     >
       <withProps(Relay(ReplyListContainer))
-        asset={Object {}}
         comment={Object {}}
         me={Object {}}
         settings={Object {}}
+        story={Object {}}
       />
     </div>
   </withPropsOnChange(HorizontalGutter)>

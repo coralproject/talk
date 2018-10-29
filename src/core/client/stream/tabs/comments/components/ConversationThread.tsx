@@ -16,8 +16,8 @@ export interface ConversationThreadProps {
   className?: string;
   me: PropTypesOf<typeof CommentContainer>["me"] &
     (PropTypesOf<typeof LocalReplyListContainer>["me"] | null);
-  asset: PropTypesOf<typeof CommentContainer>["asset"] &
-    PropTypesOf<typeof LocalReplyListContainer>["asset"];
+  story: PropTypesOf<typeof CommentContainer>["story"] &
+    PropTypesOf<typeof LocalReplyListContainer>["story"];
   settings: PropTypesOf<typeof CommentContainer>["settings"] &
     PropTypesOf<typeof LocalReplyListContainer>["settings"];
   comment: PropTypesOf<typeof CommentContainer>["comment"];
@@ -43,7 +43,7 @@ const ConversationThread: StatelessComponent<
       <div className={cn(props.className, styles.root)}>
         <CommentContainer
           comment={props.comment}
-          asset={props.asset}
+          story={props.story}
           settings={props.settings}
           me={props.me}
           highlight
@@ -89,14 +89,14 @@ const ConversationThread: StatelessComponent<
           <Circle key={parent.id} hollow={!!props.remaining || i > 0}>
             <CommentContainer
               comment={parent}
-              asset={props.asset}
+              story={props.story}
               me={props.me}
               settings={props.settings}
               localReply
             />
             {props.me && (
               <LocalReplyListContainer
-                asset={props.asset}
+                story={props.story}
                 me={props.me}
                 settings={props.settings}
                 comment={parent}
@@ -108,7 +108,7 @@ const ConversationThread: StatelessComponent<
         <Circle end>
           <CommentContainer
             comment={props.comment}
-            asset={props.asset}
+            story={props.story}
             settings={props.settings}
             me={props.me}
             highlight

@@ -4,7 +4,7 @@ exports[`should pass correct values to pymControl 1`] = `
 Object {
   "id": "container-id",
   "title": "StreamEmbed",
-  "url": "http://localhost/embed/stream?assetID=asset-id&assetURL=asset-url&commentID=comment-id",
+  "url": "http://localhost/embed/stream?commentID=comment-id&storyID=story-id&storyURL=story-url",
 }
 `;
 

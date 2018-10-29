@@ -13,8 +13,8 @@ const CommentContainerN = removeFragmentRefs(CommentContainer);
 it("renders username and body", () => {
   const props: PropTypesOf<typeof CommentContainerN> = {
     me: null,
-    asset: {
-      url: "http://localhost/asset",
+    story: {
+      url: "http://localhost/story",
     },
     comment: {
       id: "comment-id",
@@ -51,8 +51,8 @@ it("renders username and body", () => {
 it("renders body only", () => {
   const props: PropTypesOf<typeof CommentContainerN> = {
     me: null,
-    asset: {
-      url: "http://localhost/asset",
+    story: {
+      url: "http://localhost/story",
     },
     comment: {
       id: "comment-id",
@@ -87,8 +87,8 @@ it("renders body only", () => {
 it("hide reply button", () => {
   const props: PropTypesOf<typeof CommentContainerN> = {
     me: null,
-    asset: {
-      url: "http://localhost/asset",
+    story: {
+      url: "http://localhost/story",
     },
     comment: {
       id: "comment-id",
@@ -125,8 +125,8 @@ it("hide reply button", () => {
 it("shows conversation link", () => {
   const props: PropTypesOf<typeof CommentContainerN> = {
     me: null,
-    asset: {
-      url: "http://localhost/asset",
+    story: {
+      url: "http://localhost/story",
     },
     settings: {
       reaction: {
@@ -165,8 +165,8 @@ it("shows conversation link", () => {
 it("renders in reply to", () => {
   const props: PropTypesOf<typeof CommentContainerN> = {
     me: null,
-    asset: {
-      url: "http://localhost/asset",
+    story: {
+      url: "http://localhost/story",
     },
     comment: {
       id: "comment-id",

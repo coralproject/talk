@@ -21,7 +21,7 @@ general-app-myProfileTab = My Profile
 
 ## Comments Tab
 
-comments-streamQuery-assetNotFound = Asset not found
+comments-streamQuery-storyNotFound = Story not found
 
 comments-postCommentForm-submit = Submit
 comments-stream-loadMore = Load More
@@ -56,7 +56,7 @@ comments-postCommentFormFake-rte =
 
 comments-replyButton-reply = Reply
 
-comments-permalinkViewQuery-assetNotFound = { comments-streamQuery-assetNotFound }
+comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
 comments-replyCommentForm-submit = Submit
 comments-replyCommentForm-cancel = Cancel
@@ -93,5 +93,5 @@ profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
 profile-historyComment-story = Story: {$title}
 profile-profileQuery-errorLoadingProfile = Error loading profile
-profile-profileQuery-assetNotFound = Asset not found
+profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More

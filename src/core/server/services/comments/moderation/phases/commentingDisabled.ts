@@ -8,13 +8,13 @@ const testDisabledCommenting = (settings: Partial<ModerationSettings>) =>
   settings.disableCommenting;
 
 export const commentingDisabled: IntermediateModerationPhase = ({
-  asset,
+  story,
   tenant,
 }): IntermediatePhaseResult | void => {
-  // Check to see if the asset has closed commenting.
+  // Check to see if the story has closed commenting.
   if (
     testDisabledCommenting(tenant) ||
-    (asset.settings && testDisabledCommenting(asset.settings))
+    (story.settings && testDisabledCommenting(story.settings))
   ) {
     // TODO: (wyattjoh) return better error.
     throw new Error("commenting has been disabled tenant wide");

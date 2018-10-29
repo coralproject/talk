@@ -17,7 +17,7 @@ export interface HistoryCommentProps {
   body: string | null;
   createdAt: string;
   replyCount: number | null;
-  asset: {
+  story: {
     title: string | null;
   };
   conversationURL: string;
@@ -27,7 +27,7 @@ export interface HistoryCommentProps {
 const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
   return (
     <HorizontalGutter>
-      <Localized id="profile-historyComment-story" $title={props.asset.title}>
+      <Localized id="profile-historyComment-story" $title={props.story.title}>
         <Typography variant="heading4">{"Story: {$title}"}</Typography>
       </Localized>
       <Timestamp>{props.createdAt}</Timestamp>

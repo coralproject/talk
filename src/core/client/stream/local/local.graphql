@@ -29,8 +29,8 @@ extend type Comment {
 
 type Local {
   network: Network!
-  assetID: String
-  assetURL: String
+  storyID: String
+  storyURL: String
   commentID: String
   authPopup: AuthPopup!
   authToken: String

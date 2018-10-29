@@ -13,11 +13,11 @@ import PostCommentFormFake from "./PostCommentFormFake";
 import * as styles from "./Stream.css";
 
 export interface StreamProps {
-  asset: {
+  story: {
     id: string;
     isClosed?: boolean;
-  } & PropTypesOf<typeof CommentContainer>["asset"] &
-    PropTypesOf<typeof ReplyListContainer>["asset"];
+  } & PropTypesOf<typeof CommentContainer>["story"] &
+    PropTypesOf<typeof ReplyListContainer>["story"];
   settings: PropTypesOf<typeof CommentContainer>["settings"] &
     PropTypesOf<typeof ReplyListContainer>["settings"];
   comments: ReadonlyArray<
@@ -40,7 +40,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
       <HorizontalGutter size="half">
         <UserBoxContainer me={props.me} />
         {props.me ? (
-          <PostCommentFormContainer assetID={props.asset.id} />
+          <PostCommentFormContainer storyID={props.story.id} />
         ) : (
           <PostCommentFormFake />
         )}
@@ -56,13 +56,13 @@ const Stream: StatelessComponent<StreamProps> = props => {
               me={props.me}
               settings={props.settings}
               comment={comment}
-              asset={props.asset}
+              story={props.story}
             />
             <ReplyListContainer
               settings={props.settings}
               me={props.me}
               comment={comment}
-              asset={props.asset}
+              story={props.story}
             />
           </HorizontalGutter>
         ))}

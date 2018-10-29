@@ -20,8 +20,8 @@ function getContextKey(commentID: string) {
 it("renders correctly", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
     createComment: noop as any,
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
     },
     comment: {
       id: "comment-id",
@@ -42,8 +42,8 @@ it("renders correctly", async () => {
 it("renders with initialValues", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
     createComment: noop as any,
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
     },
     comment: {
       id: "comment-id",
@@ -69,8 +69,8 @@ it("renders with initialValues", async () => {
 it("save values", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
     createComment: noop as any,
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
     },
     comment: {
       id: "comment-id",
@@ -100,7 +100,7 @@ it("save values", async () => {
 });
 
 it("creates a comment", async () => {
-  const assetID = "asset-id";
+  const storyID = "story-id";
   const input = { body: "Hello World!", local: false };
   const createCommentStub = sinon.stub();
   const form = { reset: noop };
@@ -108,8 +108,8 @@ it("creates a comment", async () => {
 
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
     createComment: createCommentStub,
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
     },
     comment: {
       id: "comment-id",
@@ -136,7 +136,7 @@ it("creates a comment", async () => {
     .onSubmit(input, form);
   expect(
     createCommentStub.calledWith({
-      assetID,
+      storyID,
       parentID: props.comment.id,
       ...input,
     })
@@ -149,8 +149,8 @@ it("closes on cancel", async () => {
   const onCloseStub = sinon.stub();
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
     createComment: noop as any,
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
     },
     comment: {
       id: "comment-id",
@@ -187,8 +187,8 @@ it("autofocuses", async () => {
   const rte = { focus: focusStub };
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
     createComment: noop as any,
-    asset: {
-      id: "asset-id",
+    story: {
+      id: "story-id",
     },
     comment: {
       id: "comment-id",

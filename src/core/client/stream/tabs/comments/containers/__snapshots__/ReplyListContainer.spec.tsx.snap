@@ -2,11 +2,6 @@
 
 exports[`renders correctly 1`] = `
 <ReplyList
-  asset={
-    Object {
-      "id": "asset-id",
-    }
-  }
   comment={
     Object {
       "id": "comment-id",
@@ -31,11 +26,6 @@ exports[`renders correctly 1`] = `
       Object {
         "id": "comment-1",
         "replyListElement": <ReplyListComponent
-          asset={
-            Object {
-              "id": "asset-id",
-            }
-          }
           comment={
             Object {
               "id": "comment-1",
@@ -50,17 +40,17 @@ exports[`renders correctly 1`] = `
               },
             }
           }
+          story={
+            Object {
+              "id": "story-id",
+            }
+          }
         />,
         "showConversationLink": false,
       },
       Object {
         "id": "comment-2",
         "replyListElement": <ReplyListComponent
-          asset={
-            Object {
-              "id": "asset-id",
-            }
-          }
           comment={
             Object {
               "id": "comment-2",
@@ -73,6 +63,11 @@ exports[`renders correctly 1`] = `
                 "icon": "thumb_up_alt",
                 "label": "Respect",
               },
+            }
+          }
+          story={
+            Object {
+              "id": "story-id",
             }
           }
         />,
@@ -93,6 +88,11 @@ exports[`renders correctly 1`] = `
       },
     }
   }
+  story={
+    Object {
+      "id": "story-id",
+    }
+  }
 />
 `;
 
@@ -100,11 +100,6 @@ exports[`renders correctly when replies are empty 1`] = `""`;
 
 exports[`when has more replies renders hasMore 1`] = `
 <ReplyList
-  asset={
-    Object {
-      "id": "asset-id",
-    }
-  }
   comment={
     Object {
       "id": "comment-id",
@@ -152,16 +147,16 @@ exports[`when has more replies renders hasMore 1`] = `
       },
     }
   }
+  story={
+    Object {
+      "id": "story-id",
+    }
+  }
 />
 `;
 
 exports[`when has more replies when showing all disables show all button 1`] = `
 <ReplyList
-  asset={
-    Object {
-      "id": "asset-id",
-    }
-  }
   comment={
     Object {
       "id": "comment-id",
@@ -209,16 +204,16 @@ exports[`when has more replies when showing all disables show all button 1`] = `
       },
     }
   }
+  story={
+    Object {
+      "id": "story-id",
+    }
+  }
 />
 `;
 
 exports[`when has more replies when showing all enable show all button after loading is done 1`] = `
 <ReplyList
-  asset={
-    Object {
-      "id": "asset-id",
-    }
-  }
   comment={
     Object {
       "id": "comment-id",
@@ -264,6 +259,11 @@ exports[`when has more replies when showing all enable show all button after loa
         "icon": "thumb_up_alt",
         "label": "Respect",
       },
+    }
+  }
+  story={
+    Object {
+      "id": "story-id",
     }
   }
 />

@@ -33,27 +33,27 @@ export const render = ({
         </Localized>
       );
     }
-    if (!props.asset) {
+    if (!props.story) {
       return (
-        <Localized id="comments-profileQuery-assetNotFound">
-          <div>Asset not found</div>
+        <Localized id="comments-profileQuery-storyNotFound">
+          <div>Story not found</div>
         </Localized>
       );
     }
-    return <ProfileContainer me={props.me} asset={props.asset} />;
+    return <ProfileContainer me={props.me} story={props.story} />;
   }
 
   return <Spinner />;
 };
 
 const ProfileQuery: StatelessComponent<InnerProps> = ({
-  local: { assetID, assetURL },
+  local: { storyID, storyURL },
 }) => (
   <QueryRenderer<QueryTypes>
     query={graphql`
-      query ProfileQuery($assetID: ID, $assetURL: String) {
-        asset(id: $assetID, url: $assetURL) {
-          ...ProfileContainer_asset
+      query ProfileQuery($storyID: ID, $storyURL: String) {
+        story(id: $storyID, url: $storyURL) {
+          ...ProfileContainer_story
         }
         me {
           ...ProfileContainer_me
@@ -61,8 +61,8 @@ const ProfileQuery: StatelessComponent<InnerProps> = ({
       }
     `}
     variables={{
-      assetID,
-      assetURL,
+      storyID,
+      storyURL,
     }}
     render={render}
   />
@@ -71,8 +71,8 @@ const ProfileQuery: StatelessComponent<InnerProps> = ({
 const enhanced = withLocalStateContainer(
   graphql`
     fragment ProfileQueryLocal on Local {
-      assetID
-      assetURL
+      storyID
+      storyURL
     }
   `
 )(ProfileQuery);

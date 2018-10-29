@@ -11,7 +11,7 @@ const CommentHistoryN = removeFragmentRefs(CommentHistory);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof CommentHistoryN> = {
-    asset: {},
+    story: {},
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
     onLoadMore: noop,
     hasMore: false,
@@ -24,7 +24,7 @@ it("renders correctly", () => {
 describe("has more", () => {
   it("renders correctly", () => {
     const props: PropTypesOf<typeof CommentHistoryN> = {
-      asset: {},
+      story: {},
       comments: [{ id: "comment-1" }, { id: "comment-2" }],
       onLoadMore: noop,
       hasMore: true,
@@ -35,7 +35,7 @@ describe("has more", () => {
   });
   it("disables load more", () => {
     const props: PropTypesOf<typeof CommentHistoryN> = {
-      asset: {},
+      story: {},
       comments: [{ id: "comment-1" }, { id: "comment-2" }],
       onLoadMore: noop,
       hasMore: true,

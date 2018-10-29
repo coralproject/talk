@@ -27,7 +27,7 @@ export default (ctx: TenantContext) => ({
       ctx.user!,
       {
         author_id: ctx.user!.id,
-        asset_id: input.assetID,
+        story_id: input.storyID,
         body: input.body,
         parent_id: input.parentID,
       },

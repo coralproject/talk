@@ -129,8 +129,8 @@ it("should pass correct values to pymControl", () => {
     id: "container-id",
     rootURL: "http://localhost/",
     commentID: "comment-id",
-    assetID: "asset-id",
-    assetURL: "asset-url",
+    storyID: "story-id",
+    storyURL: "story-url",
   };
   let pymControlConfig: PymControlConfig | null = null;
   const fakeFactory: any = (cfg: PymControlConfig) => {

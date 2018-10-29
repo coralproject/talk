@@ -15,7 +15,7 @@ export interface TenantResource {
 }
 
 /**
- * Tenant describes a given Tenant on Talk that has Assets, Comments, and Users.
+ * Tenant describes a given Tenant on Talk that has Stories, Comments, and Users.
  */
 export interface Tenant extends Settings {
   readonly id: string;

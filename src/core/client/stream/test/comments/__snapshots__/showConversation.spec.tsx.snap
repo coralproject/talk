@@ -950,7 +950,7 @@ exports[`renders comment stream 1`] = `
                                         </div>
                                         <a
                                           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                                          href="http://localhost/assets/asset-with-replies?commentID=comment-with-deepest-replies-5"
+                                          href="http://localhost/stories/story-with-replies?commentID=comment-with-deepest-replies-5"
                                           id="comments-commentContainer-showConversation-comment-with-deepest-replies-5"
                                           onBlur={[Function]}
                                           onClick={[Function]}

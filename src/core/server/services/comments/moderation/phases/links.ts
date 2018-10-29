@@ -25,14 +25,14 @@ const testPremodLinksEnable = (
 // This phase checks the comment if it has any links in it if the check is
 // enabled.
 export const links: IntermediateModerationPhase = ({
-  asset,
+  story,
   tenant,
   comment,
 }): IntermediatePhaseResult | void => {
   if (
     comment.body &&
     (testPremodLinksEnable(tenant, comment.body) ||
-      (asset.settings && testPremodLinksEnable(asset.settings, comment.body)))
+      (story.settings && testPremodLinksEnable(story.settings, comment.body)))
   ) {
     // Add the flag related to Trust to the comment.
     return {

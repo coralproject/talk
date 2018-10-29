@@ -23,7 +23,7 @@ const Comment: GQLCommentTypeResolver<Comment> = {
     ctx.loaders.Users.user.load(comment.author_id),
   replies: (comment, input, ctx) =>
     comment.reply_count > 0
-      ? ctx.loaders.Comments.forParent(comment.asset_id, comment.id, input)
+      ? ctx.loaders.Comments.forParent(comment.story_id, comment.id, input)
       : createConnection(),
   actionCounts: comment => decodeActionCounts(comment.action_counts),
   myActionPresence: (comment, input, ctx) =>
@@ -84,8 +84,8 @@ const Comment: GQLCommentTypeResolver<Comment> = {
     comment.parent_id
       ? ctx.loaders.Comments.parents(comment, input)
       : createConnection(),
-  asset: (comment, input, ctx) =>
-    ctx.loaders.Assets.asset.load(comment.asset_id),
+  story: (comment, input, ctx) =>
+    ctx.loaders.Stories.story.load(comment.story_id),
 };
 
 export default Comment;

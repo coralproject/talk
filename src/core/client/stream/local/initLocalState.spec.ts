@@ -28,20 +28,20 @@ it("init local state", async () => {
   expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
 });
 
-it("set assetID from query", async () => {
+it("set storyID from query", async () => {
   const context: Partial<TalkContext> = {
     localStorage: createPromisifiedStorage(),
   };
-  const assetID = "asset-id";
+  const storyID = "story-id";
   const previousLocation = location.toString();
   const previousState = window.history.state;
   window.history.replaceState(
     previousState,
     document.title,
-    `http://localhost/?assetID=${assetID}`
+    `http://localhost/?storyID=${storyID}`
   );
   await initLocalState(environment, context as any);
-  expect(source.get(LOCAL_ID)!.assetID).toBe(assetID);
+  expect(source.get(LOCAL_ID)!.storyID).toBe(storyID);
   window.history.replaceState(previousState, document.title, previousLocation);
 });
 

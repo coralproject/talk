@@ -6,10 +6,10 @@ import { isBeforeDate } from "talk-common/utils";
 import { getURLWithCommentID } from "talk-framework/helpers";
 import withFragmentContainer from "talk-framework/lib/relay/withFragmentContainer";
 import { PropTypesOf } from "talk-framework/types";
-import { CommentContainer_asset as AssetData } from "talk-stream/__generated__/CommentContainer_asset.graphql";
 import { CommentContainer_comment as CommentData } from "talk-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_me as MeData } from "talk-stream/__generated__/CommentContainer_me.graphql";
 import { CommentContainer_settings as SettingsData } from "talk-stream/__generated__/CommentContainer_settings.graphql";
+import { CommentContainer_story as StoryData } from "talk-stream/__generated__/CommentContainer_story.graphql";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
@@ -32,7 +32,7 @@ import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
 interface InnerProps {
   me: MeData | null;
   comment: CommentData;
-  asset: AssetData;
+  story: StoryData;
   settings: SettingsData;
   indentLevel?: number;
   showAuthPopup: ShowAuthPopupMutation;
@@ -137,7 +137,7 @@ export class CommentContainer extends Component<InnerProps, State> {
     const {
       comment,
       settings,
-      asset,
+      story,
       indentLevel,
       localReply,
       disableReplies,
@@ -196,7 +196,7 @@ export class CommentContainer extends Component<InnerProps, State> {
                   />
                 )}
                 <PermalinkButtonContainer
-                  asset={asset}
+                  story={story}
                   commentID={comment.id}
                 />
                 <ReactionButtonContainer
@@ -212,7 +212,7 @@ export class CommentContainer extends Component<InnerProps, State> {
                   }`}
                   onClick={this.handleShowConversation}
                   href={getURLWithCommentID(
-                    this.props.asset.url,
+                    this.props.story.url,
                     this.props.comment.id
                   )}
                 />
@@ -223,7 +223,7 @@ export class CommentContainer extends Component<InnerProps, State> {
         {showReplyDialog && (
           <ReplyCommentFormContainer
             comment={comment}
-            asset={asset}
+            story={story}
             onClose={this.closeReplyDialog}
             localReply={localReply}
           />
@@ -242,11 +242,11 @@ const enhanced = withSetCommentIDMutation(
           ...ReactionButtonContainer_me
         }
       `,
-      asset: graphql`
-        fragment CommentContainer_asset on Asset {
+      story: graphql`
+        fragment CommentContainer_story on Story {
           url
-          ...ReplyCommentFormContainer_asset
-          ...PermalinkButtonContainer_asset
+          ...ReplyCommentFormContainer_story
+          ...PermalinkButtonContainer_story
         }
       `,
       comment: graphql`

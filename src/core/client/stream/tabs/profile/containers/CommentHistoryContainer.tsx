@@ -2,15 +2,15 @@ import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
-import { CommentHistoryContainer_asset as AssetData } from "talk-stream/__generated__/CommentHistoryContainer_asset.graphql";
 import { CommentHistoryContainer_me as MeData } from "talk-stream/__generated__/CommentHistoryContainer_me.graphql";
+import { CommentHistoryContainer_story as StoryData } from "talk-stream/__generated__/CommentHistoryContainer_story.graphql";
 import { CommentHistoryContainerPaginationQueryVariables } from "talk-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
 
 import CommentHistory from "../components/CommentHistory";
 
 interface CommentHistoryContainerProps {
   me: MeData;
-  asset: AssetData;
+  story: StoryData;
   relay: RelayPaginationProp;
 }
 
@@ -25,7 +25,7 @@ export class CommentHistoryContainer extends React.Component<
     const comments = this.props.me.comments.edges.map(edge => edge.node);
     return (
       <CommentHistory
-        asset={this.props.asset}
+        story={this.props.story}
         comments={comments}
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
@@ -64,9 +64,9 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
-    asset: graphql`
-      fragment CommentHistoryContainer_asset on Asset {
-        ...HistoryCommentContainer_asset
+    story: graphql`
+      fragment CommentHistoryContainer_story on Story {
+        ...HistoryCommentContainer_story
       }
     `,
     me: graphql`
