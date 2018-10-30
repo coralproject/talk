@@ -9,7 +9,7 @@ navigation-moderate = moderate
 navigation-community = community
 navigation-stories = stories
 navigation-configure = configure
-navigation-signOutButton = Sing Out
+navigation-signOutButton = Sign Out
 
 ## Login
 
