@@ -1,13 +1,10 @@
 import { timeout } from "talk-common/utils";
+import { replaceHistoryLocation } from "talk-framework/testHelpers";
+
 import create from "./create";
 
 it("redirect when already logged in", async () => {
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
-    `http://localhost/admin/login`
-  );
+  replaceHistoryLocation("http://localhost/admin/login");
   create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
@@ -20,12 +17,7 @@ it("redirect when already logged in", async () => {
 });
 
 it("redirect to redirectPath when already logged in", async () => {
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
-    `http://localhost/admin/login`
-  );
+  replaceHistoryLocation("http://localhost/admin/login");
   create({
     // Set this to true, to see graphql responses.
     logNetwork: false,

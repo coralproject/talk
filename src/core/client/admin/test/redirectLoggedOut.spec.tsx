@@ -3,18 +3,15 @@ import { ReactTestRenderer } from "react-test-renderer";
 import { timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
+import { replaceHistoryLocation } from "talk-framework/testHelpers";
+
 import create from "./create";
 
 function createTestRenderer(): {
   testRenderer: ReactTestRenderer;
   context: TalkContext;
 } {
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
-    `http://localhost/admin/moderate`
-  );
+  replaceHistoryLocation("http://localhost/admin/moderate");
 
   const { testRenderer, context } = create({
     // Set this to true, to see graphql responses.

@@ -2,16 +2,12 @@ import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { LOCAL_ID } from "talk-framework/lib/relay";
+import { replaceHistoryLocation } from "talk-framework/testHelpers";
 
 import create from "./create";
 
 it("logs out", async () => {
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
-    `http://localhost/admin/moderate`
-  );
+  replaceHistoryLocation("http://localhost/admin/moderate");
 
   const { testRenderer, context } = create({
     // Set this to true, to see graphql responses.

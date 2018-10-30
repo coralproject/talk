@@ -5,6 +5,8 @@ import { timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 
 import { LOCAL_ID } from "talk-framework/lib/relay";
+import { replaceHistoryLocation } from "talk-framework/testHelpers";
+
 import create from "./create";
 
 const inputPredicate = (name: string) => (n: ReactTestInstance) => {
@@ -15,14 +17,9 @@ let context: TalkContext;
 let testRenderer: ReactTestRenderer;
 let form: ReactTestInstance;
 beforeEach(async () => {
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
-    // deliberately setting to a different route,
-    // it should be smart enough to reroute to /admin/login.
-    `http://localhost/admin/moderate`
-  );
+  // deliberately setting to a different route,
+  // it should be smart enough to reroute to /admin/login.
+  replaceHistoryLocation("http://localhost/admin/moderate");
 
   ({ testRenderer, context } = create({
     // Set this to true, to see graphql responses.
