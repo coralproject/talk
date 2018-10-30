@@ -7,9 +7,9 @@ import { ReactionButtonContainer_settings as SettingsData } from "talk-stream/__
 
 import {
   CreateCommentReactionMutation,
-  DeleteCommentReactionMutation,
+  RemoveCommentReactionMutation,
   withCreateCommentReactionMutation,
-  withDeleteCommentReactionMutation,
+  withRemoveCommentReactionMutation,
 } from "talk-stream/mutations";
 import ReactionButton from "talk-stream/tabs/comments/components/ReactionButton";
 
@@ -20,7 +20,7 @@ import {
 
 interface ReactionButtonContainerProps {
   createCommentReaction: CreateCommentReactionMutation;
-  deleteCommentReaction: DeleteCommentReactionMutation;
+  removeCommentReaction: RemoveCommentReactionMutation;
   comment: CommentData;
   settings: SettingsData;
   me: MeData | null;
@@ -41,13 +41,13 @@ class ReactionButtonContainer extends React.Component<
       commentID: this.props.comment.id,
     };
 
-    const { createCommentReaction, deleteCommentReaction } = this.props;
+    const { createCommentReaction, removeCommentReaction } = this.props;
     const reacted =
       this.props.comment.myActionPresence &&
       this.props.comment.myActionPresence.reaction;
 
     return reacted
-      ? deleteCommentReaction(input)
+      ? removeCommentReaction(input)
       : createCommentReaction(input);
   };
   public render() {
@@ -79,7 +79,7 @@ class ReactionButtonContainer extends React.Component<
 }
 
 export default withShowAuthPopupMutation(
-  withDeleteCommentReactionMutation(
+  withRemoveCommentReactionMutation(
     withCreateCommentReactionMutation(
       withFragmentContainer<ReactionButtonContainerProps>({
         me: graphql`

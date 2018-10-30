@@ -27,24 +27,24 @@ const Mutation: GQLMutationTypeResolver<void> = {
     comment: await ctx.mutators.Comment.createReaction(input),
     clientMutationId: input.clientMutationId,
   }),
-  deleteCommentReaction: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.deleteReaction(input),
+  removeCommentReaction: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Comment.removeReaction(input),
     clientMutationId: input.clientMutationId,
   }),
   createCommentDontAgree: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comment.createDontAgree(input),
     clientMutationId: input.clientMutationId,
   }),
-  deleteCommentDontAgree: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.deleteDontAgree(input),
+  removeCommentDontAgree: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Comment.removeDontAgree(input),
     clientMutationId: input.clientMutationId,
   }),
   createCommentFlag: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comment.createFlag(input),
     clientMutationId: input.clientMutationId,
   }),
-  deleteCommentFlag: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.deleteFlag(input),
+  removeCommentFlag: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Comment.removeFlag(input),
     clientMutationId: input.clientMutationId,
   }),
   regenerateSSOKey: async (source, { input }, ctx) => ({
@@ -75,8 +75,8 @@ const Mutation: GQLMutationTypeResolver<void> = {
       clientMutationId: input.clientMutationId,
     };
   },
-  deleteOIDCAuthIntegration: async (source, { input }, ctx) => {
-    const result = await ctx.mutators.Settings.deleteOIDCAuthIntegration(input);
+  removeOIDCAuthIntegration: async (source, { input }, ctx) => {
+    const result = await ctx.mutators.Settings.removeOIDCAuthIntegration(input);
     if (!result) {
       return { clientMutationId: input.clientMutationId };
     }
@@ -87,6 +87,26 @@ const Mutation: GQLMutationTypeResolver<void> = {
       clientMutationId: input.clientMutationId,
     };
   },
+  createStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Story.create(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  updateStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Story.update(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  mergeStories: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Story.merge(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  removeStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Story.remove(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  scrapeStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Story.scrape(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };
 
 export default Mutation;

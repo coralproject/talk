@@ -1052,7 +1052,7 @@ type Comment {
 
   """
   replyCount is the number of replies. Only direct replies to this Comment
-  are counted. Deleted comments are included in this count.
+  are counted. Removed comments are included in this count.
   """
   replyCount: Int!
 
@@ -1918,12 +1918,12 @@ type CreateCommentReactionPayload {
 }
 
 ##################
-## deleteCommentReaction
+## removeCommentReaction
 ##################
 
-input DeleteCommentReactionInput {
+input RemoveCommentReactionInput {
   """
-  commentID is the Comment's ID that we want to delete a Reaction on.
+  commentID is the Comment's ID that we want to remove a Reaction on.
   """
   commentID: ID!
 
@@ -1933,9 +1933,9 @@ input DeleteCommentReactionInput {
   clientMutationId: String!
 }
 
-type DeleteCommentReactionPayload {
+type RemoveCommentReactionPayload {
   """
-  comment is the Comment that the Reaction was deleted on.
+  comment is the Comment that the Reaction was removed on.
   """
   comment: Comment
 
@@ -1974,12 +1974,12 @@ type CreateCommentDontAgreePayload {
 }
 
 ##################
-## deleteCommentDontAgree
+## removeCommentDontAgree
 ##################
 
-input DeleteCommentDontAgreeInput {
+input RemoveCommentDontAgreeInput {
   """
-  commentID is the Comment's ID that we want to delete a DontAgree on.
+  commentID is the Comment's ID that we want to remove a DontAgree on.
   """
   commentID: ID!
 
@@ -1989,9 +1989,9 @@ input DeleteCommentDontAgreeInput {
   clientMutationId: String!
 }
 
-type DeleteCommentDontAgreePayload {
+type RemoveCommentDontAgreePayload {
   """
-  comment is the Comment that the DontAgree was deleted on.
+  comment is the Comment that the DontAgree was removed on.
   """
   comment: Comment
 
@@ -2035,12 +2035,12 @@ type CreateCommentFlagPayload {
 }
 
 ##################
-## deleteCommentFlag
+## removeCommentFlag
 ##################
 
-input DeleteCommentFlagInput {
+input RemoveCommentFlagInput {
   """
-  commentID is the Comment's ID that we want to delete a Flag on.
+  commentID is the Comment's ID that we want to remove a Flag on.
   """
   commentID: ID!
 
@@ -2050,9 +2050,9 @@ input DeleteCommentFlagInput {
   clientMutationId: String!
 }
 
-type DeleteCommentFlagPayload {
+type RemoveCommentFlagPayload {
   """
-  comment is the Comment that the Flag was deleted on.
+  comment is the Comment that the Flag was removed on.
   """
   comment: Comment
 
@@ -2278,10 +2278,10 @@ type UpdateOIDCAuthIntegrationPayload {
 }
 
 ##################
-# deleteOIDCAuthIntegration
+# removeOIDCAuthIntegration
 ##################
 
-input DeleteOIDCAuthIntegrationInput {
+input RemoveOIDCAuthIntegrationInput {
   """
   id is the ID of the specific OpenID Connect integration that we are deleting.
   """
@@ -2293,17 +2293,268 @@ input DeleteOIDCAuthIntegrationInput {
   clientMutationId: String!
 }
 
-type DeleteOIDCAuthIntegrationPayload {
+type RemoveOIDCAuthIntegrationPayload {
   """
-  integration is the OIDCAuthIntegration we just deleted.
+  integration is the OIDCAuthIntegration we just removed.
   """
   integration: OIDCAuthIntegration
 
   """
-  settings is the Settings that the OIDCAuthIntegration was deleted on with the
+  settings is the Settings that the OIDCAuthIntegration was removed on with the
   OIDCAuthIntegration removed from it.
   """
   settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## createStory
+##################
+
+"""
+StoryMetadataInput is the metadata for a given Story as provided via this API.
+"""
+input StoryMetadataInput {
+  """
+  title stores the title from the Story page.
+  """
+  title: String
+
+  """
+  author stores the author from the Story page.
+  """
+  author: String
+
+  """
+  description stores the description from the Story page.
+  """
+  description: String
+
+  """
+  image stores the image from the Story page.
+  """
+  image: String
+
+  """
+  publishedAt stores the publication date from the Story page.
+  """
+  publishedAt: Time
+
+  """
+  modifiedAt stores the modified date from the Story page.
+  """
+  modifiedAt: Time
+
+  """
+  section stores the section from the Story page.
+  """
+  section: String
+}
+
+"""
+CreateStory is the input required to create a Story.
+"""
+input CreateStory {
+  """
+  id is the identifier of the Story.
+  """
+  id: ID!
+
+  """
+  url is the url that the Story is located on.
+  """
+  url: String!
+
+  """
+  metadata is the set of information relating to this Story that would normally
+  be scraped, but can be provided here.
+  """
+  metadata: StoryMetadataInput!
+
+  """
+  isClosed is true when the Story should be closed for commenting.
+  """
+  isClosed: Boolean
+}
+
+input CreateStoryInput {
+  """
+  story is the Story input needed to create a Story.
+  """
+  story: CreateStory!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateStoryPayload {
+  """
+  story is the Story that was possibly created.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## updateStory
+##################
+
+"""
+UpdateStory is the input required to update a Story.
+"""
+input UpdateStory {
+  """
+  url is the url that the Story is located on.
+  """
+  url: String
+
+  """
+  metadata is the set of information relating to this Story that would normally
+  be scraped, but can be provided here.
+  """
+  metadata: StoryMetadataInput
+
+  """
+  isClosed is true when the Story should be closed for commenting.
+  """
+  isClosed: Boolean
+}
+
+input UpdateStoryInput {
+  """
+  id is the identifier of the Story used either when the Story was created via
+  the API or from Talk when it was lazily created.
+  """
+  id: ID!
+
+  """
+  story contains the fields that should be updated. Any fields not specified
+  will not be changed.
+  """
+  story: UpdateStory!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateStoryPayload {
+  """
+  story is the Story that was possibly updated.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## mergeStories
+##################
+
+input MergeStoriesInput {
+  """
+  sourceIDs are the list of Story ID's that should have their Comment's moved
+  onto the Story indicated by `destinationID`. The Stories indicated by the
+  `sourceIDs` field will be removed after the Comment's have been moved.
+  """
+  sourceIDs: [ID!]!
+
+  """
+  destinationID is the ID of the Story where all the other "source" Stories will
+  have their Comment's moved onto.
+  """
+  destinationID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type MergeStoriesPayload {
+  """
+  story is the Story that all the source stories were merged into.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## removeStory
+##################
+
+input RemoveStoryInput {
+  """
+  id is the identifier of the Story used either when the Story was created via
+  the API or from Talk when it was lazily created.
+  """
+  id: ID!
+
+  """
+  includeComments when true will remove any Comment's that were left on the
+  Story. This option should be used rarely, instead preferring to updating the
+  Story URL and/or merging with the correct Story.
+  """
+  includeComments: Boolean = false
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemoveStoryPayload {
+  """
+  story is the Story that was possibly removed.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## scrapeStory
+##################
+
+input ScrapeStoryInput {
+  """
+  id is the identifier of the Story used either when the Story was created via
+  the API or from Talk when it was lazily created.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type ScrapeStoryPayload {
+  """
+  story is the Story that was possibly scraped.
+  """
+  story: Story
 
   """
   clientMutationId is required for Relay support.
@@ -2355,12 +2606,12 @@ type Mutation {
   ): UpdateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
 
   """
-  deleteOIDCAuthIntegration will delete the specified OpenID Connect auth
+  removeOIDCAuthIntegration will remove the specified OpenID Connect auth
   integration.
   """
-  deleteOIDCAuthIntegration(
-    input: DeleteOIDCAuthIntegrationInput!
-  ): DeleteOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
+  removeOIDCAuthIntegration(
+    input: RemoveOIDCAuthIntegrationInput!
+  ): RemoveOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in
@@ -2371,10 +2622,10 @@ type Mutation {
   ): CreateCommentReactionPayload @auth
 
   """
-  deleteCommentReaction will delete a Reaction authored by the current logged in
+  removeCommentReaction will remove a Reaction authored by the current logged in
   User on a Comment if it exists.
   """
-  deleteCommentReaction(
+  removeCommentReaction(
     input: CreateCommentReactionInput!
   ): CreateCommentReactionPayload @auth
 
@@ -2387,10 +2638,10 @@ type Mutation {
   ): CreateCommentDontAgreePayload @auth
 
   """
-  deleteCommentDontAgree will delete a DontAgree authored by the current logged in
+  removeCommentDontAgree will remove a DontAgree authored by the current logged in
   User on a Comment if it exists.
   """
-  deleteCommentDontAgree(
+  removeCommentDontAgree(
     input: CreateCommentDontAgreeInput!
   ): CreateCommentDontAgreePayload @auth
 
@@ -2402,11 +2653,42 @@ type Mutation {
     @auth
 
   """
-  deleteCommentFlag will create a Flag authored by the current logged in User on
+  removeCommentFlag will create a Flag authored by the current logged in User on
   a given Comment.
   """
-  deleteCommentFlag(input: DeleteCommentFlagInput!): DeleteCommentFlagPayload
+  removeCommentFlag(input: RemoveCommentFlagInput!): RemoveCommentFlagPayload
     @auth
+
+  """
+  createStory will create the provided Story.
+  """
+  createStory(input: CreateStoryInput!): CreateStoryPayload
+    @auth(roles: [ADMIN])
+
+  """
+  updateStory will update the given Story.
+  """
+  updateStory(input: UpdateStoryInput!): UpdateStoryPayload
+    @auth(roles: [ADMIN])
+
+  """
+  mergeStories will merge two stories together, merging their comment streams.
+  This operation is irreversible.
+  """
+  mergeStories(input: MergeStoriesInput!): MergeStoriesPayload
+    @auth(roles: [ADMIN])
+
+  """
+  removeStory will remove the given Story.
+  """
+  removeStory(input: RemoveStoryInput!): RemoveStoryPayload
+    @auth(roles: [ADMIN])
+
+  """
+  scrapeStory will scrape the given Story and update the scraped metadata.
+  """
+  scrapeStory(input: ScrapeStoryInput!): ScrapeStoryPayload
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################

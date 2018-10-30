@@ -4,7 +4,7 @@ import { Db } from "mongodb";
 import CommonContext from "talk-server/graph/common/context";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
-import { TaskQueue } from "talk-server/services/queue";
+import { TaskQueue } from "talk-server/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 

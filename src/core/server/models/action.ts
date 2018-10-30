@@ -248,36 +248,36 @@ export async function retrieveManyUserActionPresence(
     );
 }
 
-export type DeleteActionInput = Pick<
+export type RemoveActionInput = Pick<
   Action,
   "action_type" | "item_type" | "item_id" | "reason" | "user_id"
 >;
 
 /**
- * The result returned by `deleteAction`.
+ * The result returned by `removeAction`.
  */
-export interface DeletedActionResultObject {
+export interface RemovedActionResultObject {
   /**
    * action is the action that was deleted.
    */
   action?: Action;
 
   /**
-   * wasDeleted is true when the action that was supposed to be deleted was
+   * wasRemoved is true when the action that was supposed to be deleted was
    * actually deleted.
    */
-  wasDeleted: boolean;
+  wasRemoved: boolean;
 }
 
 /**
- * deleteAction will delete the action based on the form of the action rather
+ * removeAction will delete the action based on the form of the action rather
  * than a specific action by ID.
  */
-export async function deleteAction(
+export async function removeAction(
   mongo: Db,
   tenantID: string,
-  input: DeleteActionInput
-): Promise<DeletedActionResultObject> {
+  input: RemoveActionInput
+): Promise<RemovedActionResultObject> {
   // Extract the filter parameters.
   const filter: FilterQuery<Action> = {
     tenant_id: tenantID,
@@ -297,7 +297,7 @@ export async function deleteAction(
   const result = await collection(mongo).findOneAndDelete(filter);
   return {
     action: result.value,
-    wasDeleted: Boolean(result.ok && result.value),
+    wasRemoved: Boolean(result.ok && result.value),
   };
 }
 

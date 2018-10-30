@@ -291,3 +291,12 @@ export async function updateStoryActionCounts(
 
   return result.value || null;
 }
+
+export async function removeStory(mongo: Db, tenantID: string, id: string) {
+  const result = await collection(mongo).findOneAndDelete({
+    id,
+    tenant_id: tenantID,
+  });
+
+  return result.value || null;
+}

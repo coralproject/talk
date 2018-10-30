@@ -11,8 +11,8 @@ import {
   createTenant,
   CreateTenantInput,
   createTenantOIDCAuthIntegration,
-  deleteTenantOIDCAuthIntegration,
   regenerateTenantSSOKey,
+  removeTenantOIDCAuthIntegration,
   Tenant,
   updateTenant,
   updateTenantOIDCAuthIntegration,
@@ -176,7 +176,7 @@ export async function updateOIDCAuthIntegration(
   return result;
 }
 
-export async function deleteOIDCAuthIntegration(
+export async function removeOIDCAuthIntegration(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
@@ -184,12 +184,12 @@ export async function deleteOIDCAuthIntegration(
   oidcID: string
 ) {
   // Delete the integration. By default, the integration is disabled.
-  const result = await deleteTenantOIDCAuthIntegration(
+  const result = await removeTenantOIDCAuthIntegration(
     mongo,
     tenant.id,
     oidcID
   );
-  if (!result.wasDeleted || !result.tenant) {
+  if (!result.wasRemoved || !result.tenant) {
     return null;
   }
 

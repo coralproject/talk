@@ -7,8 +7,8 @@ import {
   retrieveManyStories,
   Story,
 } from "talk-server/models/story";
-import { scraper } from "talk-server/services/queue/tasks/scraper";
 import { findOrCreate } from "talk-server/services/stories";
+import { scraper } from "talk-server/services/stories/scraper";
 
 export default (ctx: TenantContext) => ({
   findOrCreate: (input: FindOrCreateStoryInput) =>

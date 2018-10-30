@@ -352,25 +352,25 @@ export async function updateTenantOIDCAuthIntegration(
   };
 }
 
-export interface DeleteTenantOIDCAuthIntegrationResultObject {
+export interface RemoveTenantOIDCAuthIntegrationResultObject {
   tenant?: Tenant;
   integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
-  wasDeleted: boolean;
+  wasRemoved: boolean;
 }
 
 /**
- * deleteTenantOIDCAuthIntegration will delete the specific OpenID Connect Auth
+ * removeTenantOIDCAuthIntegration will delete the specific OpenID Connect Auth
  * Integration on the Tenant.
  *
  * @param mongo MongoDB Database handle
  * @param id the id of the Tenant
  * @param oidcID the id of the OpenID Connect Auth Integration we're deleting
  */
-export async function deleteTenantOIDCAuthIntegration(
+export async function removeTenantOIDCAuthIntegration(
   mongo: Db,
   id: string,
   oidcID: string
-): Promise<DeleteTenantOIDCAuthIntegrationResultObject> {
+): Promise<RemoveTenantOIDCAuthIntegrationResultObject> {
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
@@ -384,7 +384,7 @@ export async function deleteTenantOIDCAuthIntegration(
     }
   );
   if (!result.value) {
-    return { wasDeleted: false };
+    return { wasRemoved: false };
   }
 
   // Find the integration that we wanted to delete.
@@ -394,7 +394,7 @@ export async function deleteTenantOIDCAuthIntegration(
   if (!integration) {
     // The integration was not in the original document, so we could not have
     // possibly deleted it!
-    return { wasDeleted: false };
+    return { wasRemoved: false };
   }
 
   // The integration was found, we should pull that integration out of the
@@ -406,6 +406,6 @@ export async function deleteTenantOIDCAuthIntegration(
   return {
     tenant: result.value,
     integration,
-    wasDeleted: true,
+    wasRemoved: true,
   };
 }

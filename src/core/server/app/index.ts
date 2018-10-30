@@ -14,8 +14,8 @@ import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
+import { TaskQueue } from "talk-server/queue";
 import { JWTSigningConfig } from "talk-server/services/jwt";
-import { TaskQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 
 import { accessLogger, errorLogger } from "./middleware/logging";

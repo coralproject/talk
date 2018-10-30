@@ -4,19 +4,19 @@ import {
   GQLCreateCommentFlagInput,
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
-  GQLDeleteCommentDontAgreeInput,
-  GQLDeleteCommentFlagInput,
-  GQLDeleteCommentReactionInput,
   GQLEditCommentInput,
+  GQLRemoveCommentDontAgreeInput,
+  GQLRemoveCommentFlagInput,
+  GQLRemoveCommentReactionInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { create, edit } from "talk-server/services/comments";
 import {
   createDontAgree,
   createFlag,
   createReaction,
-  deleteDontAgree,
-  deleteFlag,
-  deleteReaction,
+  removeDontAgree,
+  removeFlag,
+  removeReaction,
 } from "talk-server/services/comments/actions";
 
 export default (ctx: TenantContext) => ({
@@ -48,16 +48,16 @@ export default (ctx: TenantContext) => ({
     createReaction(ctx.mongo, ctx.tenant, ctx.user!, {
       item_id: input.commentID,
     }),
-  deleteReaction: (input: GQLDeleteCommentReactionInput) =>
-    deleteReaction(ctx.mongo, ctx.tenant, ctx.user!, {
+  removeReaction: (input: GQLRemoveCommentReactionInput) =>
+    removeReaction(ctx.mongo, ctx.tenant, ctx.user!, {
       item_id: input.commentID,
     }),
   createDontAgree: (input: GQLCreateCommentDontAgreeInput) =>
     createDontAgree(ctx.mongo, ctx.tenant, ctx.user!, {
       item_id: input.commentID,
     }),
-  deleteDontAgree: (input: GQLDeleteCommentDontAgreeInput) =>
-    deleteDontAgree(ctx.mongo, ctx.tenant, ctx.user!, {
+  removeDontAgree: (input: GQLRemoveCommentDontAgreeInput) =>
+    removeDontAgree(ctx.mongo, ctx.tenant, ctx.user!, {
       item_id: input.commentID,
     }),
   createFlag: (input: GQLCreateCommentFlagInput) =>
@@ -65,8 +65,8 @@ export default (ctx: TenantContext) => ({
       item_id: input.commentID,
       reason: input.reason,
     }),
-  deleteFlag: (input: GQLDeleteCommentFlagInput) =>
-    deleteFlag(ctx.mongo, ctx.tenant, ctx.user!, {
+  removeFlag: (input: GQLRemoveCommentFlagInput) =>
+    removeFlag(ctx.mongo, ctx.tenant, ctx.user!, {
       item_id: input.commentID,
     }),
 });

@@ -10,10 +10,11 @@ import logger from "talk-server/logger";
 import {
   findOrCreateStory,
   FindOrCreateStoryInput,
+  removeStory,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
-import Task from "talk-server/services/queue/Task";
-import { ScraperData } from "talk-server/services/queue/tasks/scraper";
+import Task from "talk-server/queue/Task";
+import { ScraperData } from "talk-server/queue/tasks/scraper";
 
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
@@ -85,4 +86,19 @@ export function isURLPermitted(
   return tenant.domains
     .map(domain => getOrigin(prefixSchemeIfRequired(originSecure, domain)))
     .some(origin => origin === targetOrigin);
+}
+
+export function remove(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  includeComments: boolean = false
+) {
+  if (includeComments) {
+    // FIXME: delete comments
+  } else {
+    // FIXME: find if there are comments for this story, if there are, error out
+  }
+
+  return removeStory(mongo, tenant.id, storyID);
 }
