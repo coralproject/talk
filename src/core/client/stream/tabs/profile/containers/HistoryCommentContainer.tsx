@@ -55,8 +55,10 @@ const enhanced = withSetCommentIDMutation(
         replyCount
         story {
           id
-          title
           url
+          metadata {
+            title
+          }
         }
       }
     `,

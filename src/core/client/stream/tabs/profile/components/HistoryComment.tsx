@@ -18,7 +18,9 @@ export interface HistoryCommentProps {
   createdAt: string;
   replyCount: number | null;
   story: {
-    title: string | null;
+    metadata: {
+      title: string | null;
+    } | null;
   };
   conversationURL: string;
   onGotoConversation: (e: React.MouseEvent) => void;
@@ -27,7 +29,10 @@ export interface HistoryCommentProps {
 const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
   return (
     <HorizontalGutter>
-      <Localized id="profile-historyComment-story" $title={props.story.title}>
+      <Localized
+        id="profile-historyComment-story"
+        $title={props.story.metadata ? props.story.metadata.title : "N/A"} // FIXME: (wyattjoh) When a title for a Story isn't available, we need a fallback.
+      >
         <Typography variant="heading4">{"Story: {$title}"}</Typography>
       </Localized>
       <Timestamp>{props.createdAt}</Timestamp>
