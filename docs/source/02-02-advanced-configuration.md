@@ -246,6 +246,21 @@ Refer to the documentation for [TALK_JWT_ALG](#talk-jwt-alg) for other signing
 methods and other forms of the `TALK_JWT_SECRET`. If you are interested in using
 multiple keys, then refer to [TALK_JWT_SECRETS](#talk-jwt-secrets).
 
+You can also encode your secret as a base64 string (if you are using a symmetric
+algorithm) as long as you prefix it with `base64:`. For example:
+
+```plain
+TALK_JWT_SECRET={"secret": "base64:dGVzdA=="}
+```
+
+Would be the same as:
+
+```plain
+TALK_JWT_SECRET={"secret": "test"}
+```
+
+As `dGVzdA==` is just `test` encoded using base64.
+
 ## TALK_JWT_SECRETS
 
 Used when specifying multiple secrets used for key rotations. This is a JSON
@@ -271,7 +286,6 @@ Note that the secret is stored in a JSON object, keyed by `secret`. This is only
 needed when specifying in the multiple secrets for `TALK_JWT_SECRETS`, but may
 be used to specify the single [TALK_JWT_SECRET](#talk-jwt-secret).
 
-
 When the value of [TALK_JWT_ALG](#talk-jwt-alg) is **not** a `HS*` value, then
 the value of the `TALK_JWT_SECRETS` should take the form:
 
@@ -281,7 +295,6 @@ TALK_JWT_SECRETS=[{"kid": "1", "private": "<my private key>", "public": "<my pub
 
 Refer to the documentation on the [TALK_JWT_ALG](#talk-jwt-alg) for more
 information on what to store in these parameters.
-
 
 ## TALK_JWT_SIGNING_COOKIE_NAME
 

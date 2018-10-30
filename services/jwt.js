@@ -120,6 +120,11 @@ function SharedSecret({ kid = undefined, secret = null }, algorithm) {
     throw new Error('Secret cannot have a zero length');
   }
 
+  // If the secret is base64 encoded, then decode it!
+  if (secret.startsWith('base64:')) {
+    secret = Buffer.from(secret.substring(7), 'base64').toString();
+  }
+
   return new Secret({
     kid,
     signingKey: secret,

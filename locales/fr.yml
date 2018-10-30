@@ -127,8 +127,8 @@ fr:
     enable_questionbox: 'Posez une question aux lecteurs.'
     enable_questionbox_description: 'Cette question apparaîtra en haut de ce fil de commentaires. Demandez aux lecteurs de s''exprimer sur un sujet évoqué dans l''article ou posez les termes de la discussion, etc.'
     hours: Heures
-    include_comment_stream: 'Inclure la description du fil de commentaires pour les lecteurs'
-    include_comment_stream_desc: 'Écrivez un message à ajouter au haut de votre flux de commentaires. Publiez un sujet de discussion, avec des suggestion sur la tenue des débats, etc.'
+    code_of_conduct_summary: 'Inclure la description du fil de commentaires pour les lecteurs'
+    code_of_conduct_summary_desc: 'Écrivez un message à ajouter au haut de votre flux de commentaires. Publiez un sujet de discussion, avec des suggestion sur la tenue des débats, etc.'
     include_question_here: 'Écrivez votre question ici.'
     include_text: 'Entrez votre texte ici.'
     moderate: Modérer

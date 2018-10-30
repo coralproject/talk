@@ -10,7 +10,8 @@ const debug = require('debug')('talk:plugin:toxic-comments');
 
 /**
  * Get scores from the perspective api
- * @param  {string}  text  text to be anaylized
+ *
+ * @param  {string}  text  text to be analyzed
  * @return {object}        object containing toxicity scores
  */
 async function getScores(text) {
@@ -43,13 +44,13 @@ async function getScores(text) {
 
   // If we get an error, just say it's not a toxic comment.
   if (data.error) {
-    debug('Recieved Error when submitting: %o', data.error);
+    debug('Received Error when submitting: %o', data.error);
     return {
       TOXICITY: {
-        summaryScore: 0.0,
+        summaryScore: null,
       },
       SEVERE_TOXICITY: {
-        summaryScore: 0.0,
+        summaryScore: null,
       },
     };
   }
@@ -66,6 +67,7 @@ async function getScores(text) {
 
 /**
  * Get toxicity probability
+ *
  * @param  {object} scores  scores as returned by `getScores`
  * @return {number}         toxicity probability from 0 - 1.0
  */
@@ -74,7 +76,9 @@ function getProbability(scores) {
 }
 
 /**
- * isToxic determines if given probabilty or scores meets the toxicity threshold.
+ * isToxic determines if given probability or scores meets the toxicity
+ * threshold.
+ *
  * @param  {object|number} scoresOrProbability scores or probability
  * @return {boolean}
  */
@@ -89,6 +93,7 @@ function isToxic(scoresOrProbability) {
 /**
  * maskKeyInError is a decorator that calls fn and masks the
  * API_KEY in errors before throwing.
+ *
  * @param  {function} fn Function that returns a Promise
  * @return {function} decorated function
  */

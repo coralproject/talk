@@ -7,7 +7,7 @@ Trust is a set of components within Talk that incorporate basic automated modera
 
 ## User Karma Score
 
-Using Trust’s calculations, Talk will automatically hold back, move to the Reported queue, and tag with a 'History' marker, any comments by users who have an Unreliable karma score. (This is for sites who practice post-moderation. If you set pre-moderation of all comments sitewide, this feature has limited use.)
+Using Trust’s calculations, Talk will automatically hold back, move to the Reported queue, and tag with a 'Karma' marker, any comments by users who have an Unreliable karma score. (This is for sites who practice post-moderation. If you set pre-moderation of all comments sitewide, this feature has limited use.)
 
 All users start out with a Neutral karma score (`0`). If they have a comment approved by a moderator, their score increases by `1`; if they have a comment rejected by a moderator, it decreases by `1`. When a commenter's score is labeled as Unreliable, their comments must be approved from the Reported queue before they are posted. Commenters are shown a message stating that a moderator will review their comment shortly.
 
@@ -27,29 +27,3 @@ We strongly recommend not telling your community how this system works, or where
 
 If you see that a high proportion of first-time commenters on your site are abusive, you might want to change the threshhold to `0`, at least temporarily. You can configure your own Trust thresholds by using [TRUST_THRESHOLDS](/talk/advanced-configuration/#trust-thresholds) in your site configuration.
 
-
-## Reliable and Unreliable Flaggers
-
-Trust also calculates how reliable users are in terms of the comments they
-report. This information is displayed to moderators in the User History drawer,
-which is accessed by clicking on a user’s name in the Admin. Currently, no other action is taken based on this score.
-
-If a user's reports mostly match what moderators reject, their Report status
-will display to moderators as Reliable in the user information drawer. If a
-user's reports mostly differ from what moderators reject, their Report status
-will show as Unreliable.
-
-If Talk doesn't have enough reports to make a call, or the reports even out, their
-status is Neutral.
-
-Here are the default thresholds:
-
-```text
--1 and lower: Unreliable
-0 to +1: Neutral
-+2 and higher: Reliable
-```
-You can configure your own Trust thresholds by using [TRUST_THRESHOLDS](/talk/advanced-configuration/#trust-thresholds) in your
-configuration.
-
-Note: Report Karma doesn't include reports of "I don't agree with this comment".
