@@ -7,7 +7,7 @@ import App from "./App";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof App> = {
-    activeTab: "COMMENTS",
+    children: "child",
   };
   const wrapper = shallow(<App {...props} />);
   expect(wrapper).toMatchSnapshot();

@@ -9,7 +9,7 @@ import BrandIcon from "talk-admin/components/BrandIcon";
 import SignInFormContainer from "../containers/SignInFormContainer";
 import styles from "./Login.css";
 
-const Login: StatelessComponent = props => (
+const Login: StatelessComponent = () => (
   <div>
     <AppBar />
     <Flex justifyContent="center">

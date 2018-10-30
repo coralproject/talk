@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <AppBar>
+    <Navigation />
+  </AppBar>
+  <div
+    className="App-container"
+  >
+    child
+  </div>
+</div>
+`;

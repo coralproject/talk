@@ -3,12 +3,12 @@ import React from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
-import App from "./App";
+import Logo from "./Logo";
 
 it("renders correctly", () => {
-  const props: PropTypesOf<typeof App> = {
-    activeTab: "COMMENTS",
+  const props: PropTypesOf<typeof Logo> = {
+    className: "custom",
   };
-  const wrapper = shallow(<App {...props} />);
+  const wrapper = shallow(<Logo {...props} />);
   expect(wrapper).toMatchSnapshot();
 });

@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Flex)
+  className="Navigation-root"
+  justifyContent="space-between"
+>
+  <withPropsOnChange(Flex)
+    alignItems="center"
+  >
+    <Localized
+      id="general-navigation-moderate"
+    >
+      <Link
+        activeClassName="Navigation-active"
+        className="Navigation-link"
+        to="/admin/moderate"
+      >
+        Moderate
+      </Link>
+    </Localized>
+    <Localized
+      id="general-navigation-community"
+    >
+      <Link
+        activeClassName="Navigation-active"
+        className="Navigation-link"
+        to="/admin/community"
+      >
+        Community
+      </Link>
+    </Localized>
+    <Localized
+      id="general-navigation-stories"
+    >
+      <Link
+        activeClassName="Navigation-active"
+        className="Navigation-link"
+        to="/admin/stories"
+      >
+        Stories
+      </Link>
+    </Localized>
+    <Localized
+      id="general-navigation-configure"
+    >
+      <Link
+        activeClassName="Navigation-active"
+        className="Navigation-link"
+        to="/admin/configure"
+      >
+        Configure
+      </Link>
+    </Localized>
+  </withPropsOnChange(Flex)>
+  <withPropsOnChange(Flex)
+    alignItems="center"
+  >
+    <withContext(createMutationContainer(RedirectAppContainer)) />
+  </withPropsOnChange(Flex)>
+</withPropsOnChange(Flex)>
+`;

@@ -3,12 +3,13 @@ import React from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
-import App from "./App";
+import BrandIcon from "./BrandIcon";
 
 it("renders correctly", () => {
-  const props: PropTypesOf<typeof App> = {
-    activeTab: "COMMENTS",
+  const props: PropTypesOf<typeof BrandIcon> = {
+    className: "custom",
+    size: "lg",
   };
-  const wrapper = shallow(<App {...props} />);
+  const wrapper = shallow(<BrandIcon {...props} />);
   expect(wrapper).toMatchSnapshot();
 });
