@@ -98,6 +98,8 @@ sidebar:
           url: /configuration/
         - title: Advanced Configuration
           url: /advanced-configuration/
+        - title: Configuration with CLI tools
+          url: /configuration-cli-tools/
     - title: Integrating
       children:
         - title: Authentication
