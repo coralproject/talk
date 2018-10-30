@@ -11,7 +11,7 @@ import { CreateCommentReactionInput } from "./CreateCommentReactionMutation";
 
 const mutation = graphql`
   mutation DeleteCommentReactionMutation($input: CreateCommentReactionInput!) {
-    deleteCommentReaction(input: $input) {
+    removeCommentReaction(input: $input) {
       comment {
         ...ReactionButtonContainer_comment
       }
@@ -36,7 +36,7 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
       },
     },
     optimisticResponse: {
-      deleteCommentReaction: {
+      removeCommentReaction: {
         comment: {
           id: input.commentID,
           myActionPresence: {
@@ -55,10 +55,10 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
 }
 
 export const withDeleteCommentReactionMutation = createMutationContainer(
-  "deleteCommentReaction",
+  "removeCommentReaction",
   commit
 );
 
 export type DeleteCommentReactionMutation = (
   input: CreateCommentReactionInput
-) => Promise<MutationTypes["response"]["deleteCommentReaction"]>;
+) => Promise<MutationTypes["response"]["removeCommentReaction"]>;
