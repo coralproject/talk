@@ -3,11 +3,13 @@
 ## General
 
 general-brandName = { -product-name }
-general-navigation-moderate = moderate
-general-navigation-community = community
-general-navigation-stories = stories
-general-navigation-configure = configure
-general-signOutButton = Sing Out
+
+## Navigation
+navigation-moderate = moderate
+navigation-community = community
+navigation-stories = stories
+navigation-configure = configure
+navigation-signOutButton = Sing Out
 
 ## Login
 

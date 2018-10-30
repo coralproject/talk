@@ -5,12 +5,13 @@ import SignOutButton from "../components/SignOutButton";
 
 interface Props {
   signOut: SignOutMutation;
+  id?: string;
 }
 
 class RedirectAppContainer extends React.Component<Props> {
   private handleClick = () => this.props.signOut();
   public render() {
-    return <SignOutButton onClick={this.handleClick} />;
+    return <SignOutButton id={this.props.id} onClick={this.handleClick} />;
   }
 }
 

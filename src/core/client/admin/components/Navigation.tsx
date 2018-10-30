@@ -10,21 +10,21 @@ import NavigationLink from "./NavigationLink";
 const Navigation: StatelessComponent = () => (
   <Flex className={styles.root} justifyContent="space-between">
     <Flex alignItems="center">
-      <Localized id="general-navigation-moderate">
+      <Localized id="navigation-moderate">
         <NavigationLink to="/admin/moderate">Moderate</NavigationLink>
       </Localized>
-      <Localized id="general-navigation-community">
+      <Localized id="navigation-community">
         <NavigationLink to="/admin/community">Community</NavigationLink>
       </Localized>
-      <Localized id="general-navigation-stories">
+      <Localized id="navigation-stories">
         <NavigationLink to="/admin/stories">Stories</NavigationLink>
       </Localized>
-      <Localized id="general-navigation-configure">
+      <Localized id="navigation-configure">
         <NavigationLink to="/admin/configure">Configure</NavigationLink>
       </Localized>
     </Flex>
     <Flex alignItems="center">
-      <SignOutButtonContainer />
+      <SignOutButtonContainer id="navigation-signOutButton" />
     </Flex>
   </Flex>
 );

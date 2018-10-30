@@ -9,54 +9,48 @@ exports[`renders correctly 1`] = `
     alignItems="center"
   >
     <Localized
-      id="general-navigation-moderate"
+      id="navigation-moderate"
     >
-      <Link
-        activeClassName="Navigation-active"
-        className="Navigation-link"
+      <NavigationLink
         to="/admin/moderate"
       >
         Moderate
-      </Link>
+      </NavigationLink>
     </Localized>
     <Localized
-      id="general-navigation-community"
+      id="navigation-community"
     >
-      <Link
-        activeClassName="Navigation-active"
-        className="Navigation-link"
+      <NavigationLink
         to="/admin/community"
       >
         Community
-      </Link>
+      </NavigationLink>
     </Localized>
     <Localized
-      id="general-navigation-stories"
+      id="navigation-stories"
     >
-      <Link
-        activeClassName="Navigation-active"
-        className="Navigation-link"
+      <NavigationLink
         to="/admin/stories"
       >
         Stories
-      </Link>
+      </NavigationLink>
     </Localized>
     <Localized
-      id="general-navigation-configure"
+      id="navigation-configure"
     >
-      <Link
-        activeClassName="Navigation-active"
-        className="Navigation-link"
+      <NavigationLink
         to="/admin/configure"
       >
         Configure
-      </Link>
+      </NavigationLink>
     </Localized>
   </withPropsOnChange(Flex)>
   <withPropsOnChange(Flex)
     alignItems="center"
   >
-    <withContext(createMutationContainer(RedirectAppContainer)) />
+    <withContext(createMutationContainer(RedirectAppContainer))
+      id="navigation-signOutButton"
+    />
   </withPropsOnChange(Flex)>
 </withPropsOnChange(Flex)>
 `;

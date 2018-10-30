@@ -2,9 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <Localized
-  id="general-signOutButton"
+  id="navigation-signOutButton"
 >
   <withPropsOnChange(Button)
+    id="id"
     onClick={[Function]}
   >
     Sign Out
