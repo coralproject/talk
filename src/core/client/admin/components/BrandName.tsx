@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
@@ -13,16 +14,18 @@ interface Props {
 }
 
 const BrandName: StatelessComponent<Props> = props => (
-  <Typography
-    variant="heading1"
-    align={props.align}
-    className={cn(props.className, styles.root, {
-      [styles.md]: props.size === "md",
-      [styles.lg]: props.size === "lg",
-    })}
-  >
-    Talk
-  </Typography>
+  <Localized id="general-brandName">
+    <Typography
+      variant="heading1"
+      align={props.align}
+      className={cn(props.className, styles.root, {
+        [styles.md]: props.size === "md",
+        [styles.lg]: props.size === "lg",
+      })}
+    >
+      Talk
+    </Typography>
+  </Localized>
 );
 
 BrandName.defaultProps = {

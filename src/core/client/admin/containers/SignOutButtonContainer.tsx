@@ -1,7 +1,7 @@
 import React from "react";
 
 import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
-import { Button } from "talk-ui/components";
+import SignOutButton from "../components/SignOutButton";
 
 interface Props {
   signOut: SignOutMutation;
@@ -10,7 +10,7 @@ interface Props {
 class RedirectAppContainer extends React.Component<Props> {
   private handleClick = () => this.props.signOut();
   public render() {
-    return <Button onClick={this.handleClick}>Sign Out</Button>;
+    return <SignOutButton onClick={this.handleClick} />;
   }
 }
 

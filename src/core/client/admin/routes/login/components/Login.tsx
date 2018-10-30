@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import AppBar from "talk-admin/components/AppBar";
@@ -19,12 +20,18 @@ const Login: StatelessComponent = props => (
           </div>
         </Flex>
         <div>
-          <Typography align="center" variant="heading3">
-            Sign in to
-          </Typography>
+          <Localized id="login-login-signInTo">
+            <Typography align="center" variant="heading3">
+              Sign in to
+            </Typography>
+          </Localized>
           <BrandName size="lg" align="center" />
         </div>
-        <Typography align="center">Enter your account details below</Typography>
+        <Localized id="login-login-enterAccountDetailsBelow">
+          <Typography align="center">
+            Enter your account details below
+          </Typography>
+        </Localized>
         <SignInFormContainer />
       </HorizontalGutter>
     </Flex>
