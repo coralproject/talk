@@ -1,6 +1,8 @@
 import fetch from "node-fetch";
 import { URL } from "url";
 
+import { ensureNoEndSlash } from "talk-common/utils";
+
 /**
  * Configuration that Talk is expecting.
  */
@@ -35,8 +37,7 @@ export async function discover(
   // Any provider MUST provide a .well-known url that is JSON parsable based
   // on the issuer: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
   const configurationURL =
-    issuer.origin +
-    issuer.pathname.replace(/\/$/, "") +
+    ensureNoEndSlash(issuer.origin + issuer.pathname) +
     "/.well-known/openid-configuration";
   const res = await fetch(configurationURL);
 

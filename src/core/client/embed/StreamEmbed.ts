@@ -1,6 +1,9 @@
 import { EventEmitter2 } from "eventemitter2";
 import qs from "query-string";
 
+import ensureNoEndSlash from "talk-common/utils/ensureNoEndSlash";
+import urls from "talk-framework/helpers/urls";
+
 import {
   Decorator,
   withAutoHeight,
@@ -15,13 +18,6 @@ import PymControl, {
   defaultPymControlFactory,
   PymControlFactory,
 } from "./PymControl";
-import { ensureNoEndSlash } from "./utils";
-
-// This is importing the url helper from the framework using a relative path
-// import because the ts paths are not configured to use the framework for this
-// target.
-// TODO: (wyattjoh) replace with import from framework when we include it in the config.
-import urls from "../framework/helpers/urls";
 
 export interface StreamEmbedConfig {
   storyID?: string;
