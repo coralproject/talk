@@ -60,11 +60,10 @@ export interface Story extends TenantResource {
   settings?: Partial<ModerationSettings>;
 
   /**
-   * closedAt is the date that the Story was forced closed at.
+   * closedAt is the date that the Story was forced closed at, or false to
+   * indicate that the story was re-opened.
    */
-  closedAt?: Date;
-
-  closedMessage?: string;
+  closedAt?: Date | false;
 
   /**
    * created_at is the date that the Story was added to the Talk database.

@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 import { Comment } from "talk-server/models/comment";
 import { Story } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
@@ -6,14 +8,28 @@ import { storyClosed } from "talk-server/services/comments/moderation/phases/sto
 
 describe("storyClosed", () => {
   it("throws an error when the story is closed", () => {
-    const story = { closedAt: new Date() };
+    expect(() =>
+      storyClosed({
+        story: { closedAt: new Date() } as Story,
+        tenant: {} as Tenant,
+        comment: {} as Comment,
+        author: {} as User,
+      })
+    ).toThrow();
+
+    storyClosed({
+      story: {} as Story,
+      tenant: { autoCloseStream: true } as Tenant,
+      comment: {} as Comment,
+      author: {} as User,
+    });
 
     expect(() =>
       storyClosed({
-        story: story as Story,
-        tenant: (null as any) as Tenant,
-        comment: (null as any) as Comment,
-        author: (null as any) as User,
+        story: { created_at: new Date() } as Story,
+        tenant: { autoCloseStream: true, closedTimeout: -6000 } as Tenant,
+        comment: {} as Comment,
+        author: {} as User,
       })
     ).toThrow();
   });
@@ -23,19 +39,23 @@ describe("storyClosed", () => {
 
     expect(
       storyClosed({
-        story: { closedAt: new Date(now.getTime() + 60000) } as Story,
-        tenant: (null as any) as Tenant,
-        comment: (null as any) as Comment,
-        author: (null as any) as User,
+        story: {
+          closedAt: DateTime.fromJSDate(now)
+            .plus(60000)
+            .toJSDate(),
+        } as Story,
+        tenant: {} as Tenant,
+        comment: {} as Comment,
+        author: {} as User,
       })
     ).toBeUndefined();
 
     expect(
       storyClosed({
         story: {} as Story,
-        tenant: (null as any) as Tenant,
-        comment: (null as any) as Comment,
-        author: (null as any) as User,
+        tenant: {} as Tenant,
+        comment: {} as Comment,
+        author: {} as User,
       })
     ).toBeUndefined();
   });
