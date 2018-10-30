@@ -7,7 +7,7 @@ import {
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
 
-import { TabBarContainer_asset as AssetData } from "talk-stream/__generated__/TabBarContainer_asset.graphql";
+import { TabBarContainer_story as StoryData } from "talk-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainerLocal as Local } from "talk-stream/__generated__/TabBarContainerLocal.graphql";
 import {
   SetActiveTabInput,
@@ -18,7 +18,7 @@ import {
 import TabBar from "../components/TabBar";
 
 interface InnerProps {
-  asset: AssetData | null;
+  story: StoryData | null;
   local: Local;
   setActiveTab: SetActiveTabMutation;
 }
@@ -31,10 +31,10 @@ export class TabBarContainer extends Component<InnerProps> {
   public render() {
     const {
       local: { loggedIn, activeTab },
-      asset,
+      story,
     } = this.props;
 
-    const commentCount = (asset && asset.commentCounts.totalVisible) || -1;
+    const commentCount = (story && story.commentCounts.totalVisible) || -1;
     return (
       <TabBar
         activeTab={activeTab}
@@ -56,8 +56,8 @@ const enhanced = withSetActiveTabMutation(
     `
   )(
     withFragmentContainer<InnerProps>({
-      asset: graphql`
-        fragment TabBarContainer_asset on Asset {
+      story: graphql`
+        fragment TabBarContainer_story on Story {
           commentCounts {
             totalVisible
           }

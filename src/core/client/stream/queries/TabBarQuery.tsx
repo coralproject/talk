@@ -16,26 +16,26 @@ interface InnerProps {
 
 class TabBarQuery extends Component<InnerProps> {
   public render() {
-    const { assetID, assetURL } = this.props.local;
+    const { storyID, storyURL } = this.props.local;
     return (
       <QueryRenderer<QueryTypes>
         query={graphql`
-          query TabBarQuery($assetID: ID, $assetURL: String) {
-            asset(id: $assetID, url: $assetURL) {
-              ...TabBarContainer_asset
+          query TabBarQuery($storyID: ID, $storyURL: String) {
+            story(id: $storyID, url: $storyURL) {
+              ...TabBarContainer_story
             }
           }
         `}
         variables={{
-          assetID,
-          assetURL,
+          storyID,
+          storyURL,
         }}
         render={({ error, props }) => {
           if (error) {
             return <div>{error.message}</div>;
           }
 
-          return <TabBarContainer asset={(props && props.asset) || null} />;
+          return <TabBarContainer story={(props && props.story) || null} />;
         }}
       />
     );
@@ -45,8 +45,8 @@ class TabBarQuery extends Component<InnerProps> {
 const enhanced = withLocalStateContainer(
   graphql`
     fragment TabBarQueryLocal on Local {
-      assetID
-      assetURL
+      storyID
+      storyURL
     }
   `
 )(TabBarQuery);
