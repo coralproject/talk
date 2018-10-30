@@ -290,6 +290,7 @@ es:
     comments: comentarios
     configure_stream: 'Configurar'
     content_not_available: 'Este contenido no se encuentra disponible'
+    edit: Editar
     edit_name:
       button: Enviar
       error: 'Nombres de usuarios pueden solamente incluir letras, números y _'
