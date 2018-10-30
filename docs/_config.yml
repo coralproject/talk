@@ -106,6 +106,8 @@ sidebar:
           url: /integrating/authentication/
         - title: Asset Management
           url: /integrating/asset-management/
+        - title: Asset Scraping
+          url: /integrating/asset-scraping/
         - title: Configuring the Comment Stream
           url: /integrating/configuring-comment-stream/
         - title: Configuring the Admin

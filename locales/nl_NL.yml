@@ -123,8 +123,8 @@ nl_NL:
     enable_questionbox: 'Stel een vraag aan de lezers'
     enable_questionbox_description: 'Deze vraag zal bovenaan de conversatie verschijnen. Vraag lezers naar een probleem in het artikel, poneer discussie vragen, enzovoort.'
     hours: Uren
-    include_comment_stream: 'Neem conversatie beschrijving op voor lezers.'
-    include_comment_stream_desc: 'Schrijf een bericht voor boven je conversatie. Poneer een stelling, wijs op de community richtlijnen, etc.'
+    code_of_conduct_summary: 'Neem conversatie beschrijving op voor lezers.'
+    code_of_conduct_summary_desc: 'Schrijf een bericht voor boven je conversatie. Poneer een stelling, wijs op de community richtlijnen, etc.'
     include_question_here: 'Schrijf je vraag hier:'
     include_text: 'Schrijf hier je tekst.'
     moderate: Modereer
