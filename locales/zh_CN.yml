@@ -114,8 +114,8 @@ zh_CN:
     enable_questionbox: 向读者提问
     enable_questionbox_description: 该问题将在评论流顶部出现。可以就文章中特定内容发问，也可以设置一个讨论问题，等等。
     hours: 小时
-    include_comment_stream: 开启评论流描述
-    include_comment_stream_desc: 填写将在评论流顶部出现的描述。可以写评论主题、社群指引方针，等等。
+    code_of_conduct_summary: 开启评论流描述
+    code_of_conduct_summary_desc: 填写将在评论流顶部出现的描述。可以写评论主题、社群指引方针，等等。
     include_question_here: 此处输入问题：
     include_text: 此处输入文本。
     moderate: 审查

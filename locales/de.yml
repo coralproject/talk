@@ -132,8 +132,8 @@ de:
     enable_questionbox: 'Stellen Sie den Lesern eine Frage'
     enable_questionbox_description: 'Diese Frage erscheint am Anfang des Kommentarbereichs. Regen Sie eine Diskussion an.'
     hours: Stunden
-    include_comment_stream: 'Einleitung zum Kommentarbereich'
-    include_comment_stream_desc: 'Verfassen Sie eine Einleitung, die über jedem Kommentarbereich erscheint. Nützlich z.B. für Community-Richtlinien.'
+    code_of_conduct_summary: 'Einleitung zum Kommentarbereich'
+    code_of_conduct_summary_desc: 'Verfassen Sie eine Einleitung, die über jedem Kommentarbereich erscheint. Nützlich z.B. für Community-Richtlinien.'
     include_question_here: 'Stellen Sie Ihre Frage hier:'
     include_text: 'Fügen Sie Ihren Text hier ein.'
     moderate: Moderieren
