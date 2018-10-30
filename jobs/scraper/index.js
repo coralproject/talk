@@ -1,5 +1,5 @@
 const Asset = require('../../models/asset');
-const scraper = require('../../services/scraper/scraper');
+const scraper = require('../../services/scraper');
 const Assets = require('../../services/assets');
 const { createLogger } = require('../../services/logging');
 const logger = createLogger('jobs:scraper');
