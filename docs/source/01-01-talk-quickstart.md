@@ -3,8 +3,8 @@ title: Talk Quickstart
 permalink: /
 ---
 
-Online comments are broken. Our open-source Talk tool rethinks how moderation,
-comment display, and conversation function, creating the opportunity for safer,
+Online comments are broken. Our open-source Talk tool rethinks how moderation
+comment display and conversation function, creating the opportunity for safer and
 smarter discussions around your work. Read more about our product features and
 goals [here](https://coralproject.net/talk). The
 documentation available here is pertaining to the technical details for
@@ -15,7 +15,7 @@ dependencies managed by
 [Yarn](https://yarnpkg.com/en/docs/install) that connects to
 [MongoDB](https://docs.mongodb.com/manual/installation/) and
 [Redis](https://redis.io/topics/quickstart) databases in order
-to persist data. The following versions are supported:
+to persist data. The following versions are supported by Talk:
 
 - Node 8+
 - Yarn 1.3.2+
@@ -27,8 +27,8 @@ and this documentation with Docker versions 17.06.2+.
 
 An optional dependency for Talk is
 [Docker Compose](https://docs.docker.com/compose/install/). It
-can be used to setup your environment easily for testing. We have tested Talk
-and this documentation with versions 1.14.0+.
+can be used to setup your environment easily for testing. We have also tested Talk
+and this documentation with Docker Compose versions 1.14.0+.
 
 ## Installation
 
@@ -87,7 +87,7 @@ And you can then start it with:
 docker-compose up -d
 ```
 
-This process will take a minute or two, it has to download docker images for the
+This process will take a minute or two, because it has to download docker images for the
 required databases and Talk as well as setup the environments.
 
 Now that you've started the services started using compose, you should see
@@ -145,7 +145,7 @@ docker run -p 127.0.0.1:27017:27017 -d mongo
 ```
 
 Didn't work? Sometimes you may already have a container running on these ports,
-run `docker ps` to see what other containers you have running and running
+run `docker ps` to see what other containers you have running and run
 `docker stop <id>` on those containers to stop them.
 
 
@@ -175,7 +175,7 @@ You can now start the application by running:
 yarn watch:server
 ```
 
-Continue onto the [Setup](#setup) section for details on how to complete the
+Continue into the [Setup](#setup) section for details on how to complete the
 installation and get started using Talk.
 
 ## Setup
@@ -222,4 +222,4 @@ Once you have added the domain of these docs, you can click the button below.
 
 At this point you've successfully installed, configured, and ran your very own
 instance of Talk! Continue through this documentation on this site to learn more
-on how to configure, develop with, and contribute to Talk!
+on how to configure, develop and contribute to Talk!
