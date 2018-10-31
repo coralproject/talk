@@ -1,11 +1,16 @@
-import { resolveGraphqlOptions } from "apollo-server-core";
+import { GraphQLOptions } from "apollo-server-express";
+import { Handler } from "express";
+import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
+
+// TODO: when https://github.com/apollographql/apollo-server/pull/1907 is merged, update this import path
 import {
   ExpressGraphQLOptionsFunction,
   graphqlExpress,
-  GraphQLOptions,
-} from "apollo-server-express";
-import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
+} from "apollo-server-express/dist/expressApollo";
+
 import { Config } from "talk-common/config";
+import { Omit } from "talk-common/types";
+import { LoggerExtension } from "talk-server/graph/common/middleware/extensions/logger";
 
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57
 const NoIntrospection = (context: ValidationContext) => ({
@@ -23,26 +28,33 @@ const NoIntrospection = (context: ValidationContext) => ({
 
 export const graphqlMiddleware = (
   config: Config,
-  baseOptions: GraphQLOptions | ExpressGraphQLOptionsFunction
-) => {
-  // Generate the validation rules.
-  const validationRules: Array<(context: ValidationContext) => any> = [];
+  requestOptions: ExpressGraphQLOptionsFunction
+): Handler => {
+  // Create a new baseOptions that will be merged into the new options.
+  const baseOptions: Omit<GraphQLOptions, "schema"> = {
+    // Disable the debug mode, as we already add in our logging function.
+    debug: false,
+    // Include extensions.
+    extensions: [
+      // Log queries and errors.
+      () => new LoggerExtension(),
+    ],
+  };
 
   if (config.get("env") === "production" && !config.get("enable_graphiql")) {
     // Disable introspection in production.
-    validationRules.push(NoIntrospection);
+    baseOptions.validationRules = [NoIntrospection];
   }
 
   // Generate the actual middleware.
   return graphqlExpress(async (req, res) => {
-    // Resolve the base options.
-    const requestOptions = await resolveGraphqlOptions(baseOptions, req, res);
+    // Resolve the options for the GraphQL middleware.
+    const options = await requestOptions(req, res);
 
-    // Apply the validators, sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L104-L107
-    requestOptions.validationRules = requestOptions.validationRules
-      ? requestOptions.validationRules.concat(validationRules)
-      : validationRules;
-
-    return requestOptions;
+    // Provide the options.
+    return {
+      ...options,
+      ...baseOptions,
+    };
   });
 };

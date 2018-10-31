@@ -1,3 +1,7 @@
+import uuid from "uuid";
+
+import { Config } from "talk-common/config";
+import logger from "talk-server/logger";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
@@ -7,8 +11,14 @@ export interface CommonContextOptions {
 }
 
 export default class CommonContext {
-  public user?: User;
-  public req?: Request;
+  public readonly user?: User;
+  public readonly req?: Request;
+  public readonly config: Config;
+
+  public readonly logger = logger.child({
+    context: "graph",
+    contextID: uuid.v4(),
+  });
 
   constructor({ user, req }: CommonContextOptions) {
     this.user = user;

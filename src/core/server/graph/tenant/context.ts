@@ -22,14 +22,14 @@ export interface TenantContextOptions {
 }
 
 export default class TenantContext extends CommonContext {
-  public tenant: Tenant;
-  public tenantCache: TenantCache;
-  public user?: User;
-  public mongo: Db;
-  public redis: Redis;
-  public queue: TaskQueue;
-  public loaders: ReturnType<typeof loaders>;
-  public mutators: ReturnType<typeof mutators>;
+  public readonly tenant: Tenant;
+  public readonly tenantCache: TenantCache;
+  public readonly user?: User;
+  public readonly mongo: Db;
+  public readonly redis: Redis;
+  public readonly queue: TaskQueue;
+  public readonly loaders: ReturnType<typeof loaders>;
+  public readonly mutators: ReturnType<typeof mutators>;
 
   constructor({
     req,
