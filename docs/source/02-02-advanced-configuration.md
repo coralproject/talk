@@ -56,7 +56,7 @@ Specify the default stream tab in the admin. (Default `all`)
 
 ## TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS
 
-When `TRUE`, disables flagging of comments that match the suspect word filter. (Default `FALSE`)
+When it is set to `TRUE`,it disables flagging of comments that match the suspect word filter. (Default `FALSE`)
 
 ## TALK_DISABLE_EMBED_POLYFILL
 
@@ -96,8 +96,8 @@ To disable these headers from being sent.
 
 ## TALK_INSTALL_LOCK
 
-When `TRUE`, disables the dynamic setup endpoint `/admin/install` from even
-loading. This prevents hits to the database with enabled. This should always be
+When `TRUE`, it disables the dynamic setup endpoint `/admin/install` from even
+loading. This prevents hits to the database when enabled. This should always be
 set to `TRUE` after you've deployed Talk. (Default `FALSE`)
 
 ## TALK_JWT_ALG
@@ -541,7 +541,7 @@ URI. (Default `FALSE`) -->
 ## ALLOW_NO_LIMIT_QUERIES
 
 Setting this to `TRUE` will allow queries to execute without a limit (returns
-all documents). This introduces a significant performance regression, and should
+all documents). This introduces a significant performance regression and should
 be used with caution. (Default `FALSE`)
 
 ## TALK_ADDTL_COMMENTS_ON_LOAD_MORE
