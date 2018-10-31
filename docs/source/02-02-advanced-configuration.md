@@ -56,7 +56,7 @@ Specify the default stream tab in the admin. (Default `all`)
 
 ## TALK_DISABLE_AUTOFLAG_SUSPECT_WORDS
 
-When set to `TRUE`,it disables flagging of comments that match the suspect word filter. (Default `FALSE`)
+When `TRUE`,it disables flagging of comments that match the suspect word filter. (Default `FALSE`)
 
 ## TALK_DISABLE_EMBED_POLYFILL
 
