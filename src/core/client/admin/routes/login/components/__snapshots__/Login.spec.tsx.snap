@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <AppBar />
+  <withPropsOnChange(Flex)
+    justifyContent="center"
+  >
+    <withPropsOnChange(HorizontalGutter)
+      className="Login-loginContainer"
+      size="double"
+    >
+      <withPropsOnChange(Flex)
+        justifyContent="center"
+      >
+        <div
+          className="Login-brandIcon"
+        >
+          <BrandIcon
+            size="lg"
+          />
+        </div>
+      </withPropsOnChange(Flex)>
+      <div>
+        <Localized
+          id="login-login-signInTo"
+        >
+          <withPropsOnChange(Typography)
+            align="center"
+            variant="heading3"
+          >
+            Sign in to
+          </withPropsOnChange(Typography)>
+        </Localized>
+        <BrandName
+          align="center"
+          size="lg"
+        />
+      </div>
+      <Localized
+        id="login-login-enterAccountDetailsBelow"
+      >
+        <withPropsOnChange(Typography)
+          align="center"
+        >
+          Enter your account details below
+        </withPropsOnChange(Typography)>
+      </Localized>
+      <withContext(createMutationContainer(SignInContainer)) />
+    </withPropsOnChange(HorizontalGutter)>
+  </withPropsOnChange(Flex)>
+</div>
+`;

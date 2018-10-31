@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Localized
+  id="navigation-signOutButton"
+>
+  <withPropsOnChange(Button)
+    id="id"
+    onClick={[Function]}
+  >
+    Sign Out
+  </withPropsOnChange(Button)>
+</Localized>
+`;

@@ -8,23 +8,30 @@ exports[`renders permalink view with unknown story 1`] = `
     className="TabBar-root TabBar-primary"
     role="tablist"
   >
-    <svg
-      className="Spinner-spinner"
-      height="40px"
-      viewBox="0 0 66 66"
-      width="40px"
-      xmlns="http://www.w3.org/2000/svg"
+    <li
+      className="Tab-root"
+      id="tab-COMMENTS"
+      role="presentation"
     >
-      <circle
-        className="Spinner-path"
-        cx="33"
-        cy="33"
-        fill="none"
-        r="30"
-        strokeLinecap="round"
-        strokeWidth="6"
-      />
-    </svg>
+      <button
+        aria-controls="tabPane-COMMENTS"
+        aria-selected={true}
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseDown={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        <span>
+          Comments
+        </span>
+      </button>
+    </li>
   </ul>
   <section
     aria-labelledby="tab-COMMENTS"

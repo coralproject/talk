@@ -1,1 +1,2 @@
 -brand-name = The Coral Project
+-product-name = Talk

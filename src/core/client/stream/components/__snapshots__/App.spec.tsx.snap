@@ -1,20 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders comments 1`] = `
+exports[`renders correctly 1`] = `
 <withPropsOnChange(HorizontalGutter)
   className="App-root"
 >
-  <withPropsOnChange(TabBar)
-    activeTab="COMMENTS"
-    onTabClick={[Function]}
-  >
-    <CommentsTab
-      tabId="COMMENTS"
-    />
-    <MyProfileTab
-      tabId="PROFILE"
-    />
-  </withPropsOnChange(TabBar)>
+  <withContext(withLocalStateContainer(TabBarQuery)) />
   <TabContent
     activeTab="COMMENTS"
     className="App-tabContent"

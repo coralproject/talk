@@ -2,7 +2,7 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { createMutationContainer } from "talk-framework/lib/relay";
 
-import { NETWORK_ID } from "../local";
+import { NETWORK_ID } from "../lib/relay/localState";
 
 export interface SetNetworkStatusInput {
   isOffline: boolean;

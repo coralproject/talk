@@ -1,7 +1,10 @@
 import { Environment, RecordSource } from "relay-runtime";
 
 import { LOCAL_ID } from "talk-framework/lib/relay";
-import { createRelayEnvironment } from "talk-framework/testHelpers";
+import {
+  createRelayEnvironment,
+  replaceHistoryLocation,
+} from "talk-framework/testHelpers";
 
 import initLocalState from "./initLocalState";
 
@@ -23,14 +26,10 @@ it("init local state", () => {
 
 it("set view from query", () => {
   const view = "SIGN_UP";
-  const previousLocation = location.toString();
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
+  const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/?view=${view}`
   );
   initLocalState(environment);
   expect(source.get(LOCAL_ID)!.view).toBe(view);
-  window.history.replaceState(previousState, document.title, previousLocation);
+  restoreHistoryLocation();
 });
