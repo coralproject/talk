@@ -7,13 +7,12 @@ import {
   GQLUpdateStoryInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Story } from "talk-server/models/story";
-import { remove } from "talk-server/services/stories";
+import { create, remove } from "talk-server/services/stories";
 import { scrape } from "talk-server/services/stories/scraper";
 
 export default (ctx: TenantContext) => ({
   create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>
-    // FIXME: implement
-    null,
+    create(ctx.mongo, ctx.tenant, input.story),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     // FIXME: implement
     null,

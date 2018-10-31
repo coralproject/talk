@@ -8,6 +8,8 @@ import {
 } from "talk-server/app/url";
 import logger from "talk-server/logger";
 import {
+  createStory,
+  CreateStoryInput,
   findOrCreateStory,
   FindOrCreateStoryInput,
   removeStory,
@@ -15,6 +17,7 @@ import {
 import { Tenant } from "talk-server/models/tenant";
 import Task from "talk-server/queue/Task";
 import { ScraperData } from "talk-server/queue/tasks/scraper";
+import { scrape } from "talk-server/services/stories/scraper";
 
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
@@ -29,20 +32,23 @@ export async function findOrCreate(
   if (input.url && !isURLPermitted(tenant, input.url)) {
     logger.warn(
       { storyURL: input.url, tenantDomains: tenant.domains },
-      "provided story url was not in the list of permitted tenant domains"
+      "provided story url was not in the list of permitted tenant domains, story not found"
     );
     return null;
   }
 
-  // TODO: check to see if the tenant has enabled lazy story creation.
+  // TODO: check to see if the tenant has enabled lazy story creation, if they haven't, switch to find only.
 
   const story = await findOrCreateStory(db, tenant.id, input);
   if (!story) {
     return null;
   }
 
-  if (!story.scrapedAt) {
-    // If the scraper has not scraped this story, we need to scrape it now!
+  // TODO: check to see if the tenant has scraping enabled.
+
+  if (!story.metadata && !story.scrapedAt) {
+    // If the scraper has not scraped this story, and we have no metadata, we
+    // need to scrape it now!
     await scraper.add({
       storyID: story.id,
       storyURL: story.url,
@@ -101,4 +107,27 @@ export function remove(
   }
 
   return removeStory(mongo, tenant.id, storyID);
+}
+
+export type CreateStory = CreateStoryInput;
+
+export async function create(mongo: Db, tenant: Tenant, input: CreateStory) {
+  // Ensure that the given URL is allowed.
+  if (!isURLPermitted(tenant, input.url)) {
+    logger.warn(
+      { storyURL: input.url, tenantDomains: tenant.domains },
+      "provided story url was not in the list of permitted tenant domains, story not created"
+    );
+    return null;
+  }
+
+  // Create the story in the database.
+  let newStory = await createStory(mongo, tenant.id, input);
+  if (!input.metadata && !newStory.scrapedAt) {
+    // If the scraper has not scraped this story and story metadata was not
+    // provided, we need to scrape it now!
+    newStory = await scrape(mongo, tenant.id, newStory.id);
+  }
+
+  return newStory;
 }

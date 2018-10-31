@@ -2373,12 +2373,7 @@ input CreateStory {
   metadata is the set of information relating to this Story that would normally
   be scraped, but can be provided here.
   """
-  metadata: StoryMetadataInput!
-
-  """
-  isClosed is true when the Story should be closed for commenting.
-  """
-  isClosed: Boolean
+  metadata: StoryMetadataInput
 }
 
 input CreateStoryInput {

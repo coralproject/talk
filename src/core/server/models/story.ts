@@ -1,4 +1,4 @@
-import { Db } from "mongodb";
+import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
@@ -189,6 +189,45 @@ export async function findOrCreateStory(
   }
 
   return upsertStory(db, tenantID, { url });
+}
+
+export type CreateStoryInput = Pick<Story, "id" | "url"> &
+  Partial<Pick<Story, "metadata">>;
+
+export async function createStory(
+  mongo: Db,
+  tenantID: string,
+  { id, url, ...rest }: CreateStoryInput
+) {
+  const now = new Date();
+
+  // Create the story.
+  const story: Story = {
+    ...rest,
+    id,
+    url,
+    tenant_id: tenantID,
+    created_at: now,
+    action_counts: {},
+    comment_counts: createEmptyCommentCounts(),
+  };
+
+  try {
+    // Insert the story into the database.
+    await collection(mongo).insertOne(story);
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (err instanceof MongoError && err.code === 11000) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("story with this url already exists");
+    }
+
+    throw err;
+  }
+
+  // Return the created story.
+  return story;
 }
 
 export async function retrieveStoryByURL(
