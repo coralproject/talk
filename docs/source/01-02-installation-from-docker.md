@@ -74,7 +74,7 @@ volumes:
     external: false
 ```
 
-This is the bare minimum needed to start Talk, for more configuration
+This is the bare minimum code needed to start Talk, for more configuration
 variables, check out the [Configuration](/talk/configuration/) section.
 
 
@@ -87,7 +87,7 @@ docker-compose up -d
 This process will take a minute or two, it has to download docker images for the
 required databases and Talk as well as setup the environments.
 
-Now that you've started the services started using compose, you should see
+Now that you've started the services, before using docker compose you should see
 output that resembles the following:
 
 ```
