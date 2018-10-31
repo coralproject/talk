@@ -38,7 +38,7 @@ docker run -p 127.0.0.1:27017:27017 -d mongo
 ```
 
 Didn't work? Sometimes you may already have a container running on these ports,
-run `docker ps` to see what other containers you have running and running
+run `docker ps` to see what other containers you have running and run
 `docker stop <id>` on those containers to stop them.
 
 
