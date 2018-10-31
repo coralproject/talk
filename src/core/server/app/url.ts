@@ -14,9 +14,9 @@ export function reconstructURL(req: Request, path: string = "/"): string {
 }
 
 /**
- * reconstructTenantURL will reconstruct a URL based off of the Tenant's domain.
+ * constructTenantURL will construct a URL based off of the Tenant's domain.
  */
-export function reconstructTenantURL(
+export function constructTenantURL(
   config: Config,
   tenant: Pick<Tenant, "domain">,
   path: string = "/"

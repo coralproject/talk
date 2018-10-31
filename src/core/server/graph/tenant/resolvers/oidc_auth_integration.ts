@@ -1,4 +1,4 @@
-import { reconstructTenantURL, reconstructURL } from "talk-server/app/url";
+import { constructTenantURL, reconstructURL } from "talk-server/app/url";
 import {
   GQLOIDCAuthIntegration,
   GQLOIDCAuthIntegrationTypeResolver,
@@ -19,7 +19,7 @@ const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
 
     // Note that when constructing the callback url with the tenant, the port
     // information is lost.
-    return reconstructTenantURL(ctx.config, ctx.tenant, path);
+    return constructTenantURL(ctx.config, ctx.tenant, path);
   },
 };
 
