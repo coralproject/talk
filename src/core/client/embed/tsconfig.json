@@ -3,7 +3,11 @@
   "compilerOptions": {
     "lib": ["dom", "es5"],
     "types": ["jest", "node"],
-    "paths": {}
+    "baseUrl": "./",
+    "paths": {
+      "talk-common/*": ["../../common/*"],
+      "talk-framework/*": ["../framework/*"]
+    }
   },
   "include": [
     "./**/*",
