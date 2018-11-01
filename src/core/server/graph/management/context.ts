@@ -11,7 +11,7 @@ export interface ManagementContextOptions {
 }
 
 export default class ManagementContext extends CommonContext {
-  public mongo: Db;
+  public readonly mongo: Db;
 
   constructor({ req, mongo, config }: ManagementContextOptions) {
     super({ req, config });
