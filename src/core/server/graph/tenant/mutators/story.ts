@@ -9,7 +9,7 @@ import {
   GQLUpdateStoryInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Story } from "talk-server/models/story";
-import { create, remove, update } from "talk-server/services/stories";
+import { create, merge, remove, update } from "talk-server/services/stories";
 import { scrape } from "talk-server/services/stories/scraper";
 
 export default (ctx: TenantContext) => ({
@@ -24,8 +24,7 @@ export default (ctx: TenantContext) => ({
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     update(ctx.mongo, ctx.tenant, input.id, omitBy(input.story, isNull)),
   merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
-    // FIXME: implement
-    null,
+    merge(ctx.mongo, ctx.tenant, input.destinationID, input.sourceIDs),
   remove: async (input: GQLRemoveStoryInput): Promise<Readonly<Story> | null> =>
     remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>

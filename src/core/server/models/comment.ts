@@ -566,3 +566,27 @@ export async function removeStoryComments(
     story_id: storyID,
   });
 }
+
+/**
+ * mergeManyCommentStories will update many comment's storyID's.
+ */
+export async function mergeManyCommentStories(
+  mongo: Db,
+  tenantID: string,
+  newStoryID: string,
+  oldStoryIDs: string[]
+) {
+  return collection(mongo).updateMany(
+    {
+      tenant_id: tenantID,
+      story_id: {
+        $in: oldStoryIDs,
+      },
+    },
+    {
+      $set: {
+        story_id: newStoryID,
+      },
+    }
+  );
+}

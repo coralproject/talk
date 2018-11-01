@@ -149,6 +149,37 @@ export async function updateCommentStatusCount(
   return result.value || null;
 }
 
+/**
+ * mergeCommentStatusCount will merge an array of commentStatusCount's into one.
+ */
+export function mergeCommentStatusCount(
+  commentStatusCounts: CommentStatusCounts[]
+): CommentStatusCounts {
+  const statusCounts = createEmptyCommentCounts();
+  for (const commentCounts of commentStatusCounts) {
+    for (const status in commentCounts) {
+      if (!commentCounts.hasOwnProperty(status)) {
+        continue;
+      }
+
+      // Because the CommentStatusCounts are not indexable, it should be accessed
+      // by walking the structure.
+      switch (status) {
+        case GQLCOMMENT_STATUS.ACCEPTED:
+        case GQLCOMMENT_STATUS.NONE:
+        case GQLCOMMENT_STATUS.PREMOD:
+        case GQLCOMMENT_STATUS.REJECTED:
+        case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
+          statusCounts[status] += commentCounts[status];
+          break;
+        default:
+          throw new Error("unrecognized status");
+      }
+    }
+  }
+  return statusCounts;
+}
+
 function createEmptyCommentCounts(): CommentStatusCounts {
   return {
     [GQLCOMMENT_STATUS.ACCEPTED]: 0,
@@ -349,6 +380,22 @@ export async function removeStory(mongo: Db, tenantID: string, id: string) {
   });
 
   return result.value || null;
+}
+
+/**
+ * removeStories will remove the stories specified by the set of id's.
+ */
+export async function removeStories(
+  mongo: Db,
+  tenantID: string,
+  ids: string[]
+) {
+  return collection(mongo).deleteMany({
+    tenant_id: tenantID,
+    id: {
+      $in: ids,
+    },
+  });
 }
 
 /**

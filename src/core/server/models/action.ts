@@ -565,3 +565,28 @@ export async function removeRootActions(
     root_item_id: rootItemID,
   });
 }
+
+/**
+ * mergeManyRootActions will update many Action `root_item_id'`s from one to
+ * another.
+ */
+export async function mergeManyRootActions(
+  mongo: Db,
+  tenantID: string,
+  newRootItemID: string,
+  oldRootItemIDs: string[]
+) {
+  return collection(mongo).updateMany(
+    {
+      tenant_id: tenantID,
+      root_item_id: {
+        $in: oldRootItemIDs,
+      },
+    },
+    {
+      $set: {
+        root_item_id: newRootItemID,
+      },
+    }
+  );
+}

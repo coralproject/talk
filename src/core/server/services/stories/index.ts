@@ -1,3 +1,4 @@
+import { zip } from "lodash";
 import { Db } from "mongodb";
 
 import {
@@ -7,16 +8,27 @@ import {
   prefixSchemeIfRequired,
 } from "talk-server/app/url";
 import logger from "talk-server/logger";
-import { removeRootActions } from "talk-server/models/action";
-import { removeStoryComments } from "talk-server/models/comment";
+import {
+  mergeManyRootActions,
+  removeRootActions,
+} from "talk-server/models/action";
+import {
+  mergeManyCommentStories,
+  removeStoryComments,
+} from "talk-server/models/comment";
 import {
   calculateTotalCommentCount,
   createStory,
   CreateStoryInput,
   findOrCreateStory,
   FindOrCreateStoryInput,
+  mergeCommentStatusCount,
+  removeStories,
   removeStory,
+  retrieveManyStories,
   retrieveStory,
+  Story,
+  updateCommentStatusCount,
   updateStory,
   UpdateStoryInput,
 } from "talk-server/models/story";
@@ -112,51 +124,61 @@ export async function remove(
     include_comments: includeComments,
   });
 
+  log.debug("starting to remove story");
+
   // Get the story so we can see if there are associated comments.
   const story = await retrieveStory(mongo, tenant.id, storyID);
   if (!story) {
     // No story was found!
-    log.warn("attempted to delete story that wasn't found");
+    log.warn("attempted to remove story that wasn't found");
     return null;
   }
 
   if (includeComments) {
-    let deletedCount: number | undefined;
+    let removedCount: number | undefined;
 
     // Remove the actions associated with the comments we just removed.
-    ({ deletedCount } = await removeRootActions(mongo, tenant.id, story.id));
+    ({ deletedCount: removedCount } = await removeRootActions(
+      mongo,
+      tenant.id,
+      story.id
+    ));
 
     log.debug(
-      { deleted_actions: deletedCount },
-      "deleted actions while deleting story"
+      { removed_actions: removedCount },
+      "removed actions while deleting story"
     );
 
     // Remove the comments for the story.
-    ({ deletedCount } = await removeStoryComments(mongo, tenant.id, story.id));
+    ({ deletedCount: removedCount } = await removeStoryComments(
+      mongo,
+      tenant.id,
+      story.id
+    ));
 
     log.debug(
-      { deleted_comments: deletedCount },
-      "deleted comments while deleting story"
+      { removed_comments: removedCount },
+      "removed comments while deleting story"
     );
   } else if (calculateTotalCommentCount(story.comment_counts) > 0) {
     log.warn(
-      "attempted to delete story that has linked comments without consent for deleting comments"
+      "attempted to remove story that has linked comments without consent for deleting comments"
     );
 
     // TODO: (wyattjoh) improve error
-    throw new Error("asset has comments, cannot delete");
+    throw new Error("asset has comments, cannot remove");
   }
 
-  const deletedStory = await removeStory(mongo, tenant.id, story.id);
-  if (!deletedStory) {
-    // Story was already deleted.
+  const removedStory = await removeStory(mongo, tenant.id, story.id);
+  if (!removedStory) {
+    // Story was already removed.
     // TODO: evaluate use of transaction here.
     return null;
   }
 
-  log.debug("deleted story");
+  log.debug("removed story");
 
-  return deletedStory;
+  return removedStory;
 }
 
 export type CreateStory = CreateStoryInput;
@@ -200,4 +222,102 @@ export async function update(
   }
 
   return updateStory(mongo, tenant.id, storyID, input);
+}
+
+export async function merge(
+  mongo: Db,
+  tenant: Tenant,
+  destinationID: string,
+  sourceIDs: string[]
+) {
+  // Create a logger for this operation.
+  const log = logger.child({
+    destination_id: destinationID,
+    source_ids: sourceIDs,
+  });
+
+  if (sourceIDs.length === 0) {
+    log.warn("cannot merge from 0 stories");
+    return null;
+  }
+
+  // Get the stories referenced.
+  const storyIDs = [destinationID, ...sourceIDs];
+  const stories = await retrieveManyStories(mongo, tenant.id, storyIDs);
+
+  // Ensure that these are all defined.
+  if (
+    zip(storyIDs, stories).some(([storyID, story]) => {
+      if (!story) {
+        log.warn(
+          { story_id: storyID },
+          "story that was going to be merged was not found"
+        );
+        return true;
+      }
+
+      return false;
+    })
+  ) {
+    return null;
+  }
+
+  let updatedCount: number | undefined;
+
+  // Move all the comment's from the source stories over to the destination
+  // story.
+  ({ modifiedCount: updatedCount } = await mergeManyCommentStories(
+    mongo,
+    tenant.id,
+    destinationID,
+    sourceIDs
+  ));
+
+  log.debug(
+    { updated_comments: updatedCount },
+    "updated comments while merging stories"
+  );
+
+  // Update all the action's that referenced the old story to reference the new
+  // story.
+  ({ modifiedCount: updatedCount } = await mergeManyRootActions(
+    mongo,
+    tenant.id,
+    destinationID,
+    sourceIDs
+  ));
+
+  log.debug(
+    { updated_actions: updatedCount },
+    "updated actions while merging stories"
+  );
+
+  // Merge the action counts for all the source stories.
+  const [, ...sourceStories] = stories;
+  const destinationStory = await updateCommentStatusCount(
+    mongo,
+    tenant.id,
+    destinationID,
+    mergeCommentStatusCount(
+      // We perform the type assertion here because above, we already verified
+      // that none of the stories are null.
+      (sourceStories as Story[]).map(({ comment_counts }) => comment_counts)
+    )
+  );
+  if (!destinationStory) {
+    log.warn("destination story cannot be updated with new comment counts");
+    return null;
+  }
+
+  log.debug(
+    { comment_counts: destinationStory.comment_counts },
+    "updated destination story with new comment counts"
+  );
+
+  const { deletedCount } = await removeStories(mongo, tenant.id, sourceIDs);
+
+  log.debug({ deleted_stories: deletedCount }, "deleted source stories");
+
+  // Return the story that had the other stories merged into.
+  return destinationStory;
 }
