@@ -144,7 +144,7 @@
     "@types/lodash": "^4.14.111",
     "@types/luxon": "^0.5.3",
     "@types/mini-css-extract-plugin": "^0.2.0",
-    "@types/mongodb": "^3.1.8",
+    "@types/mongodb": "^3.1.14",
     "@types/ms": "^0.7.30",
     "@types/node": "^10.5.2",
     "@types/node-fetch": "^2.1.2",

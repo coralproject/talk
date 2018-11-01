@@ -320,18 +320,14 @@ export async function updateTenantOIDCAuthIntegration(
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
-      // $set: dotize({
-      //   "auth.integrations.oidc.$[oidc]": input,
-      // }),
-      // FIXME: uncomment when https://github.com/DefinitelyTyped/DefinitelyTyped/pull/29986 gets merged
       $set: dotize({
-        "auth.integrations.oidc.$[]": input,
+        "auth.integrations.oidc.$[oidc]": input,
       }),
     },
     {
       // Add an ArrayFilter to only update one of the OpenID Connect
       // integrations.
-      // arrayFilters: [{ "oidc.id": oidcID }], // FIXME: uncomment when https://github.com/DefinitelyTyped/DefinitelyTyped/pull/29986 gets merged
+      arrayFilters: [{ "oidc.id": oidcID }],
       // False to return the updated document instead of the original
       // document.
       returnOriginal: false,
