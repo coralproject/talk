@@ -10,3 +10,4 @@ export {
 } from "./removeFragmentRefs";
 export { default as createUUIDGenerator } from "./createUUIDGenerator";
 export * from "./denormalize";
+export { default as replaceHistoryLocation } from "./replaceHistoryLocation";

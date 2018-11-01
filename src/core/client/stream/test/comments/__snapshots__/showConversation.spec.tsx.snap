@@ -27,7 +27,9 @@ exports[`renders comment stream 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ ⁨Comment⁩
+        <span>
+          ⁨1⁩ Comment
+        </span>
       </button>
     </li>
   </ul>
@@ -1013,7 +1015,9 @@ exports[`shows conversation 1`] = `
         role="tab"
         type="button"
       >
-        ⁨1⁩ ⁨Comment⁩
+        <span>
+          ⁨1⁩ Comment
+        </span>
       </button>
     </li>
   </ul>

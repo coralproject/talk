@@ -1,39 +1,31 @@
-import { Link } from "found";
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
-import { Button, Flex, Typography } from "talk-ui/components";
+
+import { Flex } from "talk-ui/components";
+
+import SignOutButtonContainer from "../containers/SignOutButtonContainer";
 import styles from "./Navigation.css";
+import NavigationLink from "./NavigationLink";
 
 const Navigation: StatelessComponent = () => (
-  <Flex itemGutter="double">
-    <Typography variant="heading1">Talk</Typography>
-    <Link
-      to="/admin/moderate"
-      className={styles.link}
-      activeClassName={styles.active}
-    >
-      <Button>Moderate</Button>
-    </Link>
-    <Link
-      to="/admin/community"
-      className={styles.link}
-      activeClassName={styles.active}
-    >
-      <Button>Community</Button>
-    </Link>
-    <Link
-      to="/admin/stories"
-      className={styles.link}
-      activeClassName={styles.active}
-    >
-      <Button>Stories</Button>
-    </Link>
-    <Link
-      to="/admin/configure"
-      className={styles.link}
-      activeClassName={styles.active}
-    >
-      <Button>Configure</Button>
-    </Link>
+  <Flex className={styles.root} justifyContent="space-between">
+    <Flex alignItems="center">
+      <Localized id="navigation-moderate">
+        <NavigationLink to="/admin/moderate">Moderate</NavigationLink>
+      </Localized>
+      <Localized id="navigation-community">
+        <NavigationLink to="/admin/community">Community</NavigationLink>
+      </Localized>
+      <Localized id="navigation-stories">
+        <NavigationLink to="/admin/stories">Stories</NavigationLink>
+      </Localized>
+      <Localized id="navigation-configure">
+        <NavigationLink to="/admin/configure">Configure</NavigationLink>
+      </Localized>
+    </Flex>
+    <Flex alignItems="center">
+      <SignOutButtonContainer id="navigation-signOutButton" />
+    </Flex>
   </Flex>
 );
 

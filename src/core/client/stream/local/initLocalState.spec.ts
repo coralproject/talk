@@ -4,7 +4,10 @@ import { timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
-import { createRelayEnvironment } from "talk-framework/testHelpers";
+import {
+  createRelayEnvironment,
+  replaceHistoryLocation,
+} from "talk-framework/testHelpers";
 
 import initLocalState from "./initLocalState";
 
@@ -33,16 +36,12 @@ it("set storyID from query", async () => {
     localStorage: createPromisifiedStorage(),
   };
   const storyID = "story-id";
-  const previousLocation = location.toString();
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
+  const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/?storyID=${storyID}`
   );
   await initLocalState(environment, context as any);
   expect(source.get(LOCAL_ID)!.storyID).toBe(storyID);
-  window.history.replaceState(previousState, document.title, previousLocation);
+  restoreHistoryLocation();
 });
 
 it("set commentID from query", async () => {
@@ -50,23 +49,29 @@ it("set commentID from query", async () => {
     localStorage: createPromisifiedStorage(),
   };
   const commentID = "comment-id";
-  const previousLocation = location.toString();
-  const previousState = window.history.state;
-  window.history.replaceState(
-    previousState,
-    document.title,
+  const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/?commentID=${commentID}`
   );
   await initLocalState(environment, context as any);
   expect(source.get(LOCAL_ID)!.commentID).toBe(commentID);
-  window.history.replaceState(previousState, document.title, previousLocation);
+  restoreHistoryLocation();
 });
 
 it("set authToken from localStorage", async () => {
   const context: Partial<TalkContext> = {
     localStorage: createPromisifiedStorage(),
   };
-  const authToken = "auth-token";
+  const authToken = `${btoa(
+    JSON.stringify({
+      alg: "HS256",
+      typ: "JWT",
+    })
+  )}.${btoa(
+    JSON.stringify({
+      exp: 1540503165,
+      jti: "31b26591-4e9a-4388-a7ff-e1bdc5d97cce",
+    })
+  )}`;
   context.localStorage!.setItem("authToken", authToken);
   await initLocalState(environment, context as any);
   expect(source.get(LOCAL_ID)!.authToken).toBe(authToken);

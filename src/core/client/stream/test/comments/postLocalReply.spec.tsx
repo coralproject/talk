@@ -62,6 +62,7 @@ beforeEach(() => {
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(storyWithDeepestReplies.id, "storyID");
+      localRecord.setValue(true, "loggedIn");
     },
   }));
 });

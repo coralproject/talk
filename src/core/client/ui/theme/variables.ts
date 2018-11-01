@@ -61,6 +61,7 @@ const variables = {
     },
     /* Divider */
     divider: "rgba(0, 0, 0, 0.12)",
+    brand: "#F77160",
   },
   /* gitter and spacing */
   spacingUnitSmall: 5,
@@ -74,6 +75,7 @@ const variables = {
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 600,
+  fontWeightBold: 700,
   /* Breakpoints */
   breakpoints: {
     xs: 320,

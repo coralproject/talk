@@ -1,5 +1,15 @@
+# Extend graph with local types
+type Network {
+  isOffline: Boolean!
+}
+
 type Local {
+  network: Network!
   authToken: String
+  authExp: Int
+  authJTI: String
+  loggedIn: Boolean!
+  redirectPath: String
 }
 
 extend type Query {

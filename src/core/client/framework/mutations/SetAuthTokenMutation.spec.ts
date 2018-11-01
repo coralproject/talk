@@ -17,13 +17,24 @@ beforeAll(() => {
   });
 });
 
+const authToken = `${btoa(
+  JSON.stringify({
+    alg: "HS256",
+    typ: "JWT",
+  })
+)}.${btoa(
+  JSON.stringify({
+    exp: 1540503165,
+    jti: "31b26591-4e9a-4388-a7ff-e1bdc5d97cce",
+  })
+)}`;
+
 it("Sets auth token to localStorage", async () => {
   const clearSessionStub = sinon.stub();
   const context: Partial<TalkContext> = {
     localStorage: createPromisifiedStorage(),
     clearSession: clearSessionStub,
   };
-  const authToken = "auth token";
   await commit(environment, { authToken }, context as any);
   expect(source.get(LOCAL_ID)!.authToken).toEqual(authToken);
   await expect(context.localStorage!.getItem("authToken")).resolves.toEqual(
@@ -38,7 +49,7 @@ it("Removes auth token from localStorage", async () => {
     localStorage: createPromisifiedStorage(),
     clearSession: clearSessionStub,
   };
-  localStorage.setItem("authToken", "tmp");
+  localStorage.setItem("authToken", authToken);
   await commit(environment, { authToken: null }, context as any);
   await expect(context.localStorage!.getItem("authToken")).resolves.toBeNull();
   expect(clearSessionStub.calledOnce).toBe(true);
