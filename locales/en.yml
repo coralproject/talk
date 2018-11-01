@@ -318,6 +318,7 @@ en:
     comments: comments
     configure_stream: Configure
     content_not_available: 'This content is not available'
+    edit: Edit
     edit_name:
       button: Submit
       error: 'Usernames can contain letters numbers and _ only'
