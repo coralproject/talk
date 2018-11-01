@@ -1,6 +1,5 @@
 import {
   isSSOToken,
-  SSODisplayNameUserProfileSchema,
   SSOUserProfileSchema,
 } from "talk-server/app/middleware/passport/strategies/verifiers/sso";
 import { validate } from "talk-server/app/request/body";
@@ -44,9 +43,7 @@ describe("SSOUserProfileSchema", () => {
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
   });
-});
 
-describe("SSODisplayNameUserProfileSchema", () => {
   it("allows a valid payload", () => {
     const profile = {
       id: "id",
@@ -56,7 +53,7 @@ describe("SSODisplayNameUserProfileSchema", () => {
       displayName: "displayName",
     };
 
-    expect(validate(SSODisplayNameUserProfileSchema, profile)).toEqual(profile);
+    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
   });
 
   it("allows an empty avatar", () => {
@@ -67,7 +64,7 @@ describe("SSODisplayNameUserProfileSchema", () => {
       displayName: "displayName",
     };
 
-    expect(validate(SSODisplayNameUserProfileSchema, profile)).toEqual(profile);
+    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
   });
 
   it("allows an empty displayName", () => {
@@ -78,6 +75,6 @@ describe("SSODisplayNameUserProfileSchema", () => {
       avatar: "avatar",
     };
 
-    expect(validate(SSODisplayNameUserProfileSchema, profile)).toEqual(profile);
+    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
   });
 });

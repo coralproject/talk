@@ -32,23 +32,26 @@ export interface OIDCIDToken {
   iss: string;
   sub: string;
   exp: number; // TODO: use this as the source for how long an OIDC user can be logged in for
-  email?: string;
+  email: string;
   email_verified?: boolean;
   picture?: string;
   name?: string;
   nickname?: string;
 }
 
-export interface StrategyItem {
-  strategy: OAuth2Strategy;
-  jwksClient?: JwksClient;
-}
+export type StrategyItem = Record<
+  string,
+  {
+    strategy: OAuth2Strategy;
+    jwksClient?: JwksClient;
+  }
+>;
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
   if (
     (token as OIDCIDToken).iss &&
     (token as OIDCIDToken).sub &&
-    (token as OIDCIDToken).email
+    (token as OIDCIDToken).aud
   ) {
     return true;
   }
@@ -85,9 +88,18 @@ const signingKeyFactory = (client: jwks.JwksClient): jwt.KeyFunction => (
 };
 
 function getEnabledIntegration(
-  tenant: Tenant
+  tenant: Tenant,
+  oidcID: string
 ): Required<GQLOIDCAuthIntegration> {
-  const integration = tenant.auth.integrations.oidc;
+  if (!tenant.auth.integrations.oidc) {
+    // TODO: return a better error.
+    throw new Error("integration not found");
+  }
+
+  // Grab the OIDC Integration from the list of integrations.
+  const integration = tenant.auth.integrations.oidc.find(
+    ({ id }) => id === oidcID
+  );
   if (!integration) {
     // TODO: return a better error.
     throw new Error("integration not found");
@@ -124,17 +136,15 @@ export const OIDCIDTokenSchema = Joi.object()
     email: Joi.string(),
     email_verified: Joi.boolean().default(false),
     picture: Joi.string().default(undefined),
+    name: Joi.string().default(undefined),
+    nickname: Joi.string().default(undefined),
   })
-  .optionalKeys(["picture", "email_verified"]);
-
-export const OIDCDisplayNameIDTokenSchema = OIDCIDTokenSchema.keys({
-  name: Joi.string().default(undefined),
-  nickname: Joi.string().default(undefined),
-}).optionalKeys(["name", "nickname"]);
+  .optionalKeys(["picture", "email_verified", "name", "nickname"]);
 
 export async function findOrCreateOIDCUser(
   db: Db,
   tenant: Tenant,
+  integration: GQLOIDCAuthIntegration,
   token: OIDCIDToken
 ) {
   // Unpack/validate the token content.
@@ -147,12 +157,7 @@ export async function findOrCreateOIDCUser(
     picture,
     name,
     nickname,
-  }: OIDCIDToken = validate(
-    tenant.auth.integrations.oidc!.displayNameEnable
-      ? OIDCDisplayNameIDTokenSchema
-      : OIDCIDTokenSchema,
-    token
-  );
+  }: OIDCIDToken = validate(OIDCIDTokenSchema, token);
 
   // Construct the profile that will be used to query for the user.
   const profile: OIDCProfile = {
@@ -165,10 +170,13 @@ export async function findOrCreateOIDCUser(
   // Try to lookup user given their id provided in the `sub` claim.
   let user = await retrieveUserWithProfile(db, tenant.id, profile);
   if (!user) {
+    if (!integration.allowRegistration) {
+      // Registration is disabled, so we can't create the user user here.
+      return;
+    }
+
     // FIXME: implement rules.
 
-    // Default the displayName. When it is disabled, Joi will strip the
-    // displayName fields from the token, so it will fallback to undefined.
     const displayName = nickname || name || undefined;
 
     // Create the new user, as one didn't exist before!
@@ -209,43 +217,51 @@ export default class OIDCStrategy extends Strategy {
 
     this.mongo = mongo;
     this.cache = new TenantCacheAdapter(tenantCache);
-
-    // Connect the cache adapter.
-    this.cache.subscribe();
   }
 
   private lookupJWKSClient(
     req: Request,
     tenantID: string,
     oidc: Required<GQLOIDCAuthIntegration>
-  ) {
-    let entry = this.cache.get(tenantID);
-    if (!entry) {
+  ): jwks.JwksClient {
+    let tenantIntegrations = this.cache.get(tenantID);
+    if (!tenantIntegrations || !tenantIntegrations[oidc.id]) {
       const strategy = this.createStrategy(req, oidc);
 
       // Create the entry.
-      entry = {
-        strategy,
+      tenantIntegrations = {
+        [oidc.id]: {
+          strategy,
+        },
+        ...(tenantIntegrations || {}),
       };
 
       // We don't reset the entry in the cache here because if we just created
       // it, we'll be creating the jwksClient anyways, so we'll update it there.
     }
 
-    if (!entry.jwksClient) {
+    const tenantIntegration = tenantIntegrations[oidc.id];
+
+    if (!tenantIntegration.jwksClient) {
       // Create the new JWKS client.
       const jwksClient = jwks({
         jwksUri: oidc.jwksURI,
       });
 
       // Set the jwksClient on the entry.
-      entry.jwksClient = jwksClient;
+      tenantIntegration.jwksClient = jwksClient;
 
       // Update the cached entry.
-      this.cache.set(tenantID, entry);
+      this.cache.set(tenantID, {
+        [oidc.id]: {
+          ...tenantIntegration,
+          jwksClient,
+        },
+        ...tenantIntegrations,
+      });
     }
 
-    return entry.jwksClient;
+    return tenantIntegration.jwksClient;
   }
 
   private userAuthenticatedCallback = (
@@ -271,11 +287,14 @@ export default class OIDCStrategy extends Strategy {
       return done(new Error("tenant not found"));
     }
 
+    // Grab the OIDC ID from the request.
+    const { oidcID }: { oidcID: string } = req.params;
+
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
     let integration: Required<GQLOIDCAuthIntegration>;
     try {
-      integration = getEnabledIntegration(tenant);
+      integration = getEnabledIntegration(tenant, oidcID);
     } catch (err) {
       // TODO: wrap error?
       return done(err);
@@ -301,6 +320,7 @@ export default class OIDCStrategy extends Strategy {
           const user = await findOrCreateOIDCUser(
             this.mongo,
             tenant,
+            integration,
             decoded as OIDCIDToken
           );
           return done(null, user);
@@ -318,7 +338,10 @@ export default class OIDCStrategy extends Strategy {
     const { clientID, clientSecret, authorizationURL, tokenURL } = integration;
 
     // Construct the callbackURL from the request.
-    const callbackURL = reconstructURL(req, "/api/tenant/auth/oidc/callback");
+    const callbackURL = reconstructURL(
+      req,
+      `/api/tenant/auth/oidc/${integration.id}/callback`
+    );
 
     // Create a new OAuth2Strategy, where we pass the verify callback bound to
     // this OIDCStrategy instance.
@@ -335,39 +358,45 @@ export default class OIDCStrategy extends Strategy {
     );
   }
 
-  private async lookupStrategy(req: Request) {
+  private lookupStrategy(req: Request): OAuth2Strategy {
     const { tenant } = req.talk!;
     if (!tenant) {
       // TODO: return a better error.
       throw new Error("tenant not found");
     }
 
+    // Get the OIDC ID.
+    const { oidcID }: { oidcID: string } = req.params;
+
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    const integration = getEnabledIntegration(tenant);
+    const integration = getEnabledIntegration(tenant, oidcID);
 
     // Try to get the Tenant's cached integrations.
-    let entry = this.cache.get(tenant.id);
-    if (!entry) {
+    let tenantIntegrations = this.cache.get(tenant.id);
+    if (!tenantIntegrations || !tenantIntegrations[oidcID]) {
       // Create the strategy.
       const strategy = this.createStrategy(req, integration);
 
       // Reset the entry.
-      entry = {
-        strategy,
+      tenantIntegrations = {
+        [oidcID]: {
+          strategy,
+        },
+        ...(tenantIntegrations || {}),
       };
 
       // Update the cached integrations value.
-      this.cache.set(tenant.id, entry);
+      this.cache.set(tenant.id, tenantIntegrations);
     }
 
-    return entry.strategy;
+    return tenantIntegrations[oidcID].strategy;
   }
 
-  public async authenticate(req: Request) {
+  public authenticate(req: Request) {
     try {
       // Lookup the strategy.
-      const strategy = await this.lookupStrategy(req);
+      const strategy = this.lookupStrategy(req);
       if (!strategy) {
         throw new Error("strategy not found");
       }

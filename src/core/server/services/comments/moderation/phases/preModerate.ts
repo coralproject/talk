@@ -13,7 +13,7 @@ const testModerationMode = (settings: Partial<ModerationSettings>) =>
 
 // This phase checks to see if the settings have premod enabled, if they do,
 // the comment is premod, otherwise, it's just none.
-export const premod: IntermediateModerationPhase = ({
+export const preModerate: IntermediateModerationPhase = ({
   story,
   tenant,
 }): IntermediatePhaseResult | void => {

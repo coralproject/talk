@@ -10,5 +10,5 @@ import ManagementContext from "./context";
 export default (schema: GraphQLSchema, config: Config, mongo: Db) =>
   graphqlMiddleware(config, async (req: Request) => ({
     schema,
-    context: new ManagementContext({ req, mongo }),
+    context: new ManagementContext({ req, mongo, config }),
   }));

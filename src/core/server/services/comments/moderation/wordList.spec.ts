@@ -1,4 +1,4 @@
-import { containsMatchingPhrase } from "talk-server/services/comments/moderation/wordlist";
+import { containsMatchingPhrase } from "talk-server/services/comments/moderation/wordList";
 
 const phrases = [
   "cookies",

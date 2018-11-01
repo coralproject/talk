@@ -75,6 +75,13 @@ export class JWTStrategy extends Strategy {
       throw new Error("token could not be decoded");
     }
 
+    // TODO: add OIDC support.
+    // At the moment, OpenID Connect tokens are not supported here directly,
+    // instead, the default implementation redirects the user to the
+    // authorization endpoint where they login, and a redirection occurs
+    // yielding the token to us via the Authorization Code Flow. We then issue a
+    // Talk Token for that request, that the client uses after.
+
     // Handle SSO integrations.
     if (this.verifiers.sso.supports(token, tenant)) {
       return this.verifiers.sso.verify(tokenString, token, tenant);

@@ -1,3 +1,9 @@
+import { memoize } from "lodash";
+
+// TODO: reintroduce this when we have https://github.com/DefinitelyTyped/DefinitelyTyped/pull/30035 merged
+// // Replace `memoize.Cache`.
+// memoize.Cache = WeakMap;
+
 /**
  * Escape string for special regular expression characters.
  */
@@ -21,5 +27,13 @@ export function generateRegExp(phrases: string[]) {
   return new RegExp(`(^|[^\\w])(${inner})(?=[^\\w]|$)`, "iu");
 }
 
+export const generateRegExpMemoized = memoize(generateRegExp);
+
 export const containsMatchingPhrase = (phrases: string[], testString: string) =>
   phrases.length > 0 ? generateRegExp(phrases).test(testString) : false;
+
+export const containsMatchingPhraseMemoized = (
+  phrases: string[],
+  testString: string
+) =>
+  phrases.length > 0 ? generateRegExpMemoized(phrases).test(testString) : false;

@@ -1,7 +1,4 @@
-import {
-  OIDCDisplayNameIDTokenSchema,
-  OIDCIDTokenSchema,
-} from "talk-server/app/middleware/passport/strategies/oidc";
+import { OIDCIDTokenSchema } from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
 
 describe("OIDCIDTokenSchema", () => {
@@ -42,9 +39,7 @@ describe("OIDCIDTokenSchema", () => {
 
     expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
   });
-});
 
-describe("OIDCDisplayNameIDTokenSchema", () => {
   it("allows a valid payload", () => {
     const token = {
       sub: "sub",
@@ -56,7 +51,7 @@ describe("OIDCDisplayNameIDTokenSchema", () => {
       nickname: "nickname",
     };
 
-    expect(validate(OIDCDisplayNameIDTokenSchema, token)).toEqual(token);
+    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
   });
 
   it("allows an empty name", () => {
@@ -69,7 +64,7 @@ describe("OIDCDisplayNameIDTokenSchema", () => {
       nickname: "nickname",
     };
 
-    expect(validate(OIDCDisplayNameIDTokenSchema, token)).toEqual(token);
+    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
   });
 
   it("allows an empty nickname", () => {
@@ -82,6 +77,6 @@ describe("OIDCDisplayNameIDTokenSchema", () => {
       name: "name",
     };
 
-    expect(validate(OIDCDisplayNameIDTokenSchema, token)).toEqual(token);
+    expect(validate(OIDCIDTokenSchema, token)).toEqual(token);
   });
 });

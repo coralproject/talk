@@ -226,9 +226,9 @@ enum MODERATION_MODE {
 }
 
 """
-Wordlist describes all the available wordlists.
+WordList describes all the available wordLists.
 """
-type Wordlist {
+type WordList {
   """
   banned words will by default reject the comment if it is found.
   """
@@ -245,11 +245,37 @@ type Wordlist {
 ################################################################################
 
 ##########################
+## AuthenticationTargetFilter
+##########################
+
+"""
+AuthenticationTargetFilter when non-null, will specify the targets that a
+specific authentication integration will be enabled on.
+"""
+type AuthenticationTargetFilter {
+  admin: Boolean!
+  stream: Boolean!
+}
+
+##########################
 ## LocalAuthIntegration
 ##########################
 
 type LocalAuthIntegration {
   enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
 }
 
 ##########################
@@ -265,15 +291,27 @@ type SSOAuthIntegration {
   enabled: Boolean!
 
   """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
+
+  """
   key is the secret that is used to sign tokens.
   """
   key: String @auth(roles: [ADMIN])
 
   """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
+  keyGeneratedAt is the Time that the key was effective from.
   """
-  displayNameEnable: Boolean @auth(roles: [ADMIN])
+  keyGeneratedAt: Time @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -281,25 +319,129 @@ type SSOAuthIntegration {
 ##########################
 
 """
+DiscoveredOIDCConfiguration contains the discovered Provider Metadata as defined
+in:
+
+https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+
+Discovery is not supported on all providers, and is described in the OpenID
+Connect Discovery 1.0 incorporating errata set 1:
+
+https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+"""
+type DiscoveredOIDCConfiguration {
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String!
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String!
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String!
+}
+
+"""
 OIDCAuthIntegration provides a way to store Open ID Connect credentials. This
 will be used in the admin to provide staff logins for users.
 """
 type OIDCAuthIntegration {
+  """
+  id is the identifier of the OIDCAuthIntegration.
+  """
+  id: ID!
+
+  """
+  enabled, when true, allows the integration to be enabled.
+  """
   enabled: Boolean!
 
-  name: String
-  clientID: String @auth(roles: [ADMIN])
-  clientSecret: String @auth(roles: [ADMIN])
-  authorizationURL: String @auth(roles: [ADMIN])
-  tokenURL: String @auth(roles: [ADMIN])
-  jwksURI: String @auth(roles: [ADMIN])
-  issuer: String @auth(roles: [ADMIN])
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
 
   """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
   """
-  displayNameEnable: Boolean @auth(roles: [ADMIN])
+  targetFilter: AuthenticationTargetFilter
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
+  name: String
+
+  """
+  callbackURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  callbackURL: String!
+
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
+  clientID: String! @auth(roles: [ADMIN])
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
+  clientSecret: String! @auth(roles: [ADMIN])
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String! @auth(roles: [ADMIN])
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String! @auth(roles: [ADMIN])
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String! @auth(roles: [ADMIN])
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String! @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -308,6 +450,20 @@ type OIDCAuthIntegration {
 
 type GoogleAuthIntegration {
   enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
+
   clientID: String @auth(roles: [ADMIN])
   clientSecret: String @auth(roles: [ADMIN])
 }
@@ -318,16 +474,45 @@ type GoogleAuthIntegration {
 
 type FacebookAuthIntegration {
   enabled: Boolean!
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean!
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: AuthenticationTargetFilter
+
   clientID: String @auth(roles: [ADMIN])
   clientSecret: String @auth(roles: [ADMIN])
 }
 
+##########################
+## Auth
+##########################
+
 type AuthIntegrations {
   local: LocalAuthIntegration!
   sso: SSOAuthIntegration!
-  oidc: OIDCAuthIntegration!
+  oidc: [OIDCAuthIntegration!]!
   google: GoogleAuthIntegration!
   facebook: FacebookAuthIntegration!
+}
+
+"""
+AuthDisplayNameConfiguration allows configuration related to Display Names.
+"""
+type AuthDisplayNameConfiguration {
+  """
+  enabled when true will allow the display name to be used by other
+  AuthIntegrations.
+  """
+  enabled: Boolean!
 }
 
 """
@@ -340,6 +525,12 @@ type Auth {
   authentication solutions.
   """
   integrations: AuthIntegrations!
+
+  """
+  displayName contains configuration related to the use of Display Names across
+  AuthIntegrations.
+  """
+  displayName: AuthDisplayNameConfiguration @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -646,9 +837,9 @@ type Settings {
   email: Email! @auth(roles: [ADMIN])
 
   """
-  wordlist will return a given list of words.
+  wordList will return a given list of words.
   """
-  wordlist: Wordlist! @auth(roles: [ADMIN, MODERATOR])
+  wordList: WordList! @auth(roles: [ADMIN, MODERATOR])
 
   """
   auth contains all the settings related to authentication and authorization.
@@ -1126,7 +1317,8 @@ type Query {
   story(id: ID, url: String): Story
 
   """
-  me is the current logged in User.
+  me is the current logged in User. If no user is currently logged in, it will
+  return null.
   """
   me: User
 
@@ -1134,6 +1326,18 @@ type Query {
   settings is the Settings for a given Tenant.
   """
   settings: Settings!
+
+  """
+  discoverOIDCConfiguration will discover the OpenID Connect configuration based
+  on the provided issuer. Discovery is not supported on all providers, and is
+  described in the OpenID Connect Discovery 1.0 incorporating errata set 1:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+
+  If the provider does not support discovery, the response will be null.
+  """
+  discoverOIDCConfiguration(issuer: String!): DiscoveredOIDCConfiguration
+    @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1246,7 +1450,7 @@ input SettingsEmailInput {
   fromAddress: String
 }
 
-input SettingsWordlistInput {
+input SettingsWordListInput {
   """
   banned words will by default reject the comment if it is found.
   """
@@ -1258,49 +1462,81 @@ input SettingsWordlistInput {
   suspect: [String!]
 }
 
+input SettingsAuthenticationTargetFilterInput {
+  admin: Boolean!
+  stream: Boolean!
+}
+
 input SettingsLocalAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
 }
 
 input SettingsSSOAuthIntegrationInput {
   enabled: Boolean
 
   """
-  key is the secret that is used to sign tokens.
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
   """
-  key: String
+  allowRegistration: Boolean
 
   """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
   """
-  displayNameEnable: Boolean
-}
-
-input SettingsOIDCAuthIntegrationInput {
-  enabled: Boolean
-
-  name: String
-  clientID: String
-  clientSecret: String
-  authorizationURL: String
-  tokenURL: String
-
-  """
-  displayNameEnable when enabled, will allow Users to set and view their
-  displayName's.
-  """
-  displayNameEnable: Boolean
+  targetFilter: SettingsAuthenticationTargetFilterInput
 }
 
 input SettingsGoogleAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
   clientID: String
   clientSecret: String
 }
 
 input SettingsFacebookAuthIntegrationInput {
   enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
   clientID: String
   clientSecret: String
 }
@@ -1308,7 +1544,6 @@ input SettingsFacebookAuthIntegrationInput {
 input SettingsAuthIntegrationsInput {
   local: SettingsLocalAuthIntegrationInput
   sso: SettingsSSOAuthIntegrationInput
-  oidc: SettingsOIDCAuthIntegrationInput
   google: SettingsGoogleAuthIntegrationInput
   facebook: SettingsFacebookAuthIntegrationInput
 }
@@ -1541,9 +1776,9 @@ input SettingsInput {
   organizationContactEmail: String
 
   """
-  wordlist will return a given list of words.
+  wordList will return a given list of words.
   """
-  wordlist: SettingsWordlistInput
+  wordList: SettingsWordListInput
 
   """
   email is the set of credentials and settings associated with the organization.
@@ -1778,6 +2013,255 @@ type DeleteCommentFlagPayload {
 }
 
 ##################
+## regenerateSSOKey
+##################
+
+input RegenerateSSOKeyInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RegenerateSSOKeyPayload {
+  """
+  settings is the Settings that the SSO key was regenerated on.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# createOIDCAuthIntegration
+##################
+
+input CreateOIDCAuthIntegrationConfigurationInput {
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
+  name: String!
+
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
+  clientID: String!
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
+  clientSecret: String!
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String!
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String!
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String!
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String!
+}
+
+input CreateOIDCAuthIntegrationInput {
+  """
+  configuration contains the configuration to be used to create the auth integration.
+  """
+  configuration: CreateOIDCAuthIntegrationConfigurationInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateOIDCAuthIntegrationPayload {
+  """
+  integration is the OIDCAuthIntegration we just created.
+  """
+  integration: OIDCAuthIntegration
+
+  """
+  settings is the Settings that the OIDCAuthIntegration was created on.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateOIDCAuthIntegration
+##################
+
+input UpdateOIDCAuthIntegrationConfigurationInput {
+  """
+  enabled, when true, allows the integration to be enabled.
+  """
+  enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
+  name: String
+
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
+  clientID: String
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
+  clientSecret: String
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String
+}
+
+input UpdateOIDCAuthIntegrationInput {
+  """
+  id is the ID of the specific OpenID Connect integration that we are updating.
+  """
+  id: ID!
+
+  """
+  configuration contains the configuration to be used to update the OpenID
+  Connect integration.
+  """
+  configuration: UpdateOIDCAuthIntegrationConfigurationInput!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateOIDCAuthIntegrationPayload {
+  """
+  integration is the OIDCAuthIntegration we just updated.
+  """
+  integration: OIDCAuthIntegration
+
+  """
+  settings is the Settings that the OIDCAuthIntegration was updated on.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# deleteOIDCAuthIntegration
+##################
+
+input DeleteOIDCAuthIntegrationInput {
+  """
+  id is the ID of the specific OpenID Connect integration that we are deleting.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeleteOIDCAuthIntegrationPayload {
+  """
+  integration is the OIDCAuthIntegration we just deleted.
+  """
+  integration: OIDCAuthIntegration
+
+  """
+  settings is the Settings that the OIDCAuthIntegration was deleted on with the
+  OIDCAuthIntegration removed from it.
+  """
+  settings: Settings
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -1798,6 +2282,35 @@ type Mutation {
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  regenerateSSOKey will regenerate the SSO key used to sign secrets. This will
+  invalidate any existing user sessions.
+  """
+  regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
+    @auth(roles: [ADMIN])
+
+  """
+  createOIDCAuthIntegration will create a OpenID Connect auth integration.
+  """
+  createOIDCAuthIntegration(
+    input: CreateOIDCAuthIntegrationInput!
+  ): CreateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
+
+  """
+  updateOIDCAuthIntegration will update a given OpenID Connect auth integration.
+  """
+  updateOIDCAuthIntegration(
+    input: UpdateOIDCAuthIntegrationInput!
+  ): UpdateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
+
+  """
+  deleteOIDCAuthIntegration will delete the specified OpenID Connect auth
+  integration.
+  """
+  deleteOIDCAuthIntegration(
+    input: DeleteOIDCAuthIntegrationInput!
+  ): DeleteOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in

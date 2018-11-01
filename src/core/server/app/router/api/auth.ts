@@ -8,16 +8,30 @@ import {
 import { wrapAuthn } from "talk-server/app/middleware/passport";
 import { RouterOptions } from "talk-server/app/router/types";
 
+function wrapPath(
+  app: AppOptions,
+  options: RouterOptions,
+  router: express.Router,
+  strategy: string,
+  path: string = `/${strategy}`
+) {
+  const handler = wrapAuthn(options.passport, app.signingConfig, strategy);
+
+  router.get(path, handler);
+  router.get(path + "/callback", handler);
+}
+
 export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
-  // Mount the passport routes.
+  // Mount the logout handler.
   router.delete(
     "/",
     options.passport.authenticate("jwt", { session: false }),
     logoutHandler({ redis: app.redis })
   );
 
+  // Mount the Local Authentication handlers.
   router.post(
     "/local",
     express.json(),
@@ -29,11 +43,10 @@ export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
   );
 
-  router.get("/oidc", wrapAuthn(options.passport, app.signingConfig, "oidc"));
-  router.get(
-    "/oidc/callback",
-    wrapAuthn(options.passport, app.signingConfig, "oidc")
-  );
+  // Mount the external auth integrations with middleware/handle wrappers.
+  wrapPath(app, options, router, "facebook");
+  wrapPath(app, options, router, "google");
+  wrapPath(app, options, router, "oidc", "/oidc/:oidc");
 
   return router;
 }
