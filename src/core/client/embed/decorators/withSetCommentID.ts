@@ -1,6 +1,6 @@
 import qs from "query-string";
 
-import { buildURL } from "../utils";
+import { buildURL } from "talk-framework/utils";
 import { Decorator } from "./types";
 
 function getCurrentCommentID() {
