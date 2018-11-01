@@ -274,7 +274,7 @@ export async function retrieveManyStoriesByURL(
 
 export type UpdateStoryInput = Omit<
   Partial<Story>,
-  "id" | "tenant_id" | "url" | "created_at"
+  "id" | "tenant_id" | "created_at"
 >;
 
 export async function updateStory(
@@ -292,15 +292,26 @@ export async function updateStory(
     },
   };
 
-  const result = await collection(db).findOneAndUpdate(
-    { id, tenant_id: tenantID },
-    update,
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
+  try {
+    const result = await collection(db).findOneAndUpdate(
+      { id, tenant_id: tenantID },
+      update,
+      // False to return the updated document instead of the original
+      // document.
+      { returnOriginal: false }
+    );
 
-  return result.value || null;
+    return result.value || null;
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (input.url && err instanceof MongoError && err.code === 11000) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("story with this url already exists");
+    }
+
+    throw err;
+  }
 }
 
 /**

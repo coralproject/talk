@@ -13,6 +13,8 @@ import {
   findOrCreateStory,
   FindOrCreateStoryInput,
   removeStory,
+  updateStory,
+  UpdateStoryInput,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import Task from "talk-server/queue/Task";
@@ -130,4 +132,24 @@ export async function create(mongo: Db, tenant: Tenant, input: CreateStory) {
   }
 
   return newStory;
+}
+
+export type UpdateStory = UpdateStoryInput;
+
+export async function update(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  input: UpdateStory
+) {
+  // Ensure that the given URL is allowed.
+  if (input.url && !isURLPermitted(tenant, input.url)) {
+    logger.warn(
+      { storyURL: input.url, tenantDomains: tenant.domains },
+      "provided story url was not in the list of permitted tenant domains, story not updated"
+    );
+    return null;
+  }
+
+  return updateStory(mongo, tenant.id, storyID, input);
 }
