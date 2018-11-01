@@ -496,6 +496,24 @@ function createEmptyActionCounts(): GQLActionCounts {
   };
 }
 
+export function mergeActionCounts(
+  actionCounts: EncodedActionCounts[]
+): EncodedActionCounts {
+  const mergedActionCounts: EncodedActionCounts = {};
+
+  for (const counts of actionCounts) {
+    for (const [key, count] of Object.entries(counts)) {
+      if (key in mergedActionCounts) {
+        mergedActionCounts[key] += count;
+      } else {
+        mergedActionCounts[key] += 1;
+      }
+    }
+  }
+
+  return mergedActionCounts;
+}
+
 /**
  * decodeActionCounts will take the encoded action counts and decode them into
  * a useable format.
@@ -510,7 +528,7 @@ export function decodeActionCounts(
 
   // Loop over all the encoded action counts to extract each of the action
   // counts as they are encoded.
-  Object.entries(encodedActionCounts).map(([key, count]) => {
+  Object.entries(encodedActionCounts).forEach(([key, count]) => {
     // Pull out the action type and the reason from the key.
     const { actionType, reason } = decodeActionCountKey(key);
 

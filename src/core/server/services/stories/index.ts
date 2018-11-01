@@ -9,6 +9,7 @@ import {
 } from "talk-server/app/url";
 import logger from "talk-server/logger";
 import {
+  mergeActionCounts,
   mergeManyRootActions,
   removeRootActions,
 } from "talk-server/models/action";
@@ -30,6 +31,7 @@ import {
   Story,
   updateCommentStatusCount,
   updateStory,
+  updateStoryActionCounts,
   UpdateStoryInput,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
@@ -298,9 +300,10 @@ export async function merge(
     "updated actions while merging stories"
   );
 
-  // Merge the action counts for all the source stories.
+  // Merge the comment and action counts for all the source stories.
   const [, ...sourceStories] = stories;
-  const destinationStory = await updateCommentStatusCount(
+
+  await updateCommentStatusCount(
     mongo,
     tenant.id,
     destinationID,
@@ -310,6 +313,18 @@ export async function merge(
       (sourceStories as Story[]).map(({ comment_counts }) => comment_counts)
     )
   );
+
+  const destinationStory = await updateStoryActionCounts(
+    mongo,
+    tenant.id,
+    destinationID,
+    mergeActionCounts(
+      // We perform the type assertion here because above, we already verified
+      // that none of the stories are null.
+      (sourceStories as Story[]).map(({ action_counts }) => action_counts)
+    )
+  );
+
   if (!destinationStory) {
     log.warn("destination story cannot be updated with new comment counts");
     return null;
