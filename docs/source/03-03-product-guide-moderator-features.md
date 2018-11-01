@@ -58,7 +58,7 @@ This queue contains comments that have been reported for moderator review, eithe
 The All queue contains all comments that have been submitted either article or
 site-wide.
 
-#### Moderation Tags
+#### Moderation Tags that appear in Reported/other queues
 
 **Pre-mod**
 
@@ -88,7 +88,7 @@ Comment contains a word or phrase that is on the ’Suspect words’ list in the
 
 _Comment published? No_
 
-The History tag signifies comments that have been flagged because the user’s history indicates their Accepted:Rejected ratio has reached below the karma threshold. [Read more here...](/talk/trust/#user-karma-score)
+The History tag signifies comments that have been flagged because the user’s history indicates their Accepted:Rejected ratio has reached below the karma threshold. [Read more about karma here.](/talk/trust/#user-karma-score)
 
 **Spam**
 
@@ -130,9 +130,35 @@ Rejecting a comment removes the comment from the stream.
 Featuring a comment adds that comment to the Featured Comments tab on the
 stream.
 
+#### Keyboard Shortcuts
+
+Talk also supports a number of keyboard shortcuts that moderators can leverage
+to moderate queues quickly:
+
+| Shortcut | Action                     |
+| -------- | -------------------------- |
+| `j`      | Go to the next comment     |
+| `k`      | Go to the previous comment |
+| `ctrl+f` | Open search                |
+| `1-5`    | Switch queues              |
+| `z`      | Zen mode                   |
+| `?`      | Open shortcuts menu        |
+| `d`      | Approve                    |
+| `f`      | Reject                     |
+
+Note: "Zen mode" allows a moderator to view and action only one comment at a time. Enjoy the silence!
+
+#### The User Drawer
+
+In order to get an idea of what sort of a commenter someone is, moderators can
+click on the commenter's username in any moderation queue/elsewhere in the admin (eg the Community page) to see details about
+their comments, and to take actions.
+
+#### User Drawer Actions
+
 **Suspend User**
 
-Suspending a user allows a moderator to give a commenter a “time-out”; during
+Suspending a user allows a moderator to give a commenter a “time-out” for a set time chosen from four options; during
 that time they won’t be allowed to post comments or react to comments.
 
 **Ban User**
@@ -141,15 +167,13 @@ Banning a user allows a moderator to permanently disallow a commenter to
 interact with their community. The commenters previous comments will remain on
 the site. This action can only be un-done manually by a moderator.
 
-#### Viewing a User’s Comment History
+**Reject Username**
 
-In order to get an idea of what sort of a commenter someone is, moderators can
-click on the commenters username in any moderation queue and see details about
-their history.
+If a username is violating your guidelines but isn't bad enough to lead to a ban (eg. they are impersonating a famous person), you can reject their username. This will prevent them from publishing comments until they submit a new username. The new name will appear on the Community page for moderator approval before they can publish comments again.
 
 **Username, Email and Member Since Date**
 
-This shows the basic details about a commenter.
+This shows the basic details about a commenter's account
 
 **Total Comments**
 
@@ -161,32 +185,17 @@ display on the site.
 This shows the % of comments a commenter has had rejected by moderators, or
 automatically.
 
-**Reports**
+**Karma score**
 
-This shows if a commenter is a reliable flagger, an unreliable flagger, or a
-neutral flagger. [Read more about reliable and unreliable flaggers here](/talk/trust/#reliable-and-unreliable-flaggers).
+The user's current score. To see the default threshhold, click on the 'i' next to the word Karma. If the user's score is equal to or below the default threshhold, the number will be highlighted red. [Read more about karma scores here.](/talk/trust/#user-karma-score)
+
+**User History**
+
+This shows the history of the account - if a user has changed their username, or been suspended or banned. The name of the moderator who suspended/banned them/lifted the suspection or ban is displayed here as well.
 
 **Moderating from this View**
 
-Talk also allows you to moderate a commenters recent comments from this view.
-
-#### Keyboard Shortcuts
-
-Talk also supports a number of keyboard shortcuts that moderators can leverage
-to moderate quickly:
-
-| Shortcut | Action                     |
-| -------- | -------------------------- |
-| `j`      | Go to the next comment     |
-| `k`      | Go to the previous comment |
-| `ctrl+f` | Open search                |
-| `t`      | Switch queues              |
-| `z`      | Zen mode                   |
-| `?`      | Open this menu             |
-| `d`      | Approve                    |
-| `f`      | Reject                     |
-
-Note: "Zen mode" allows a moderator to view and action only one comment at a time. Enjoy the silence!
+Talk also allows you to moderate a commenters recent comments from this view. You can 'Select all' to select up to ten previous comments, and take bulk accept/reject actions.
 
 ### Stories
 
