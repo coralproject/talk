@@ -8,6 +8,7 @@ import { TaskQueue } from "talk-server/services/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
+import { Config } from "talk-common/config";
 import loaders from "./loaders";
 import mutators from "./mutators";
 
@@ -17,6 +18,7 @@ export interface TenantContextOptions {
   tenant: Tenant;
   tenantCache: TenantCache;
   queue: TaskQueue;
+  config: Config;
   req?: Request;
   user?: User;
 }
@@ -37,10 +39,11 @@ export default class TenantContext extends CommonContext {
     tenant,
     mongo,
     redis,
+    config,
     tenantCache,
     queue,
   }: TenantContextOptions) {
-    super({ user, req });
+    super({ user, req, config });
 
     this.tenant = tenant;
     this.tenantCache = tenantCache;

@@ -6,6 +6,8 @@ import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 
 import { Config } from "talk-common/config";
+import FacebookStrategy from "talk-server/app/middleware/passport/strategies/facebook";
+import GoogleStrategy from "talk-server/app/middleware/passport/strategies/google";
 import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt";
 import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
 import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
@@ -49,6 +51,12 @@ export function createPassport(
 
   // Use the SSOStrategy.
   auth.use(new JWTStrategy(options));
+
+  // Use the FacebookStrategy.
+  auth.use(new FacebookStrategy(options));
+
+  // Use the GoogleStrategy.
+  auth.use(new GoogleStrategy(options));
 
   return auth;
 }

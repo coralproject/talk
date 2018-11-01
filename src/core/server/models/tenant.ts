@@ -1,9 +1,13 @@
+import crypto from "crypto";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
-import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLMODERATION_MODE,
+  GQLOIDCAuthIntegration,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { Settings } from "talk-server/models/settings";
 
 function collection(db: Db) {
@@ -74,7 +78,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
     charCount: {
       enabled: false,
     },
-    wordlist: {
+    wordList: {
       suspect: [],
       banned: [],
     },
@@ -82,18 +86,20 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       integrations: {
         local: {
           enabled: true,
+          allowRegistration: true,
         },
         sso: {
           enabled: false,
+          allowRegistration: false,
         },
-        oidc: {
-          enabled: false,
-        },
+        oidc: [],
         google: {
           enabled: false,
+          allowRegistration: false,
         },
         facebook: {
           enabled: false,
+          allowRegistration: false,
         },
       },
     },
@@ -202,4 +208,204 @@ export async function updateTenant(
   );
 
   return result.value || null;
+}
+
+/**
+ * regenerateTenantSSOKey will regenerate the SSO key used for Single Sing-On
+ * for the specified Tenant. All existing user sessions signed with the old
+ * secret will be invalidated.
+ */
+export async function regenerateTenantSSOKey(db: Db, id: string) {
+  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
+  // as 16 was the minimum length recommended.
+  //
+  // Reference: https://security.stackexchange.com/a/96176
+  const key = crypto
+    .randomBytes(32 + Math.floor(Math.random() * 5))
+    .toString("hex");
+
+  // Construct the update.
+  const update: DeepPartial<Tenant> = {
+    auth: {
+      integrations: {
+        sso: {
+          key,
+          keyGeneratedAt: new Date(),
+        },
+      },
+    },
+  };
+
+  // Update the Tenant with this new key.
+  const result = await collection(db).findOneAndUpdate(
+    { id },
+    // Serialize the deep update into the Tenant.
+    {
+      $set: dotize(update),
+    },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+export type CreateTenantOIDCAuthIntegrationInput = Omit<
+  GQLOIDCAuthIntegration,
+  "id" | "callbackURL"
+>;
+
+export interface CreateTenantOIDCAuthIntegrationResultObject {
+  tenant?: Tenant;
+  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
+  wasCreated: boolean;
+}
+
+export async function createTenantOIDCAuthIntegration(
+  mongo: Db,
+  id: string,
+  input: CreateTenantOIDCAuthIntegrationInput
+): Promise<CreateTenantOIDCAuthIntegrationResultObject> {
+  // Add the ID to the integration.
+  const integration = {
+    id: uuid.v4(),
+    ...input,
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    // Serialize the deep update into the Tenant.
+    {
+      $push: { "auth.integrations.oidc": integration },
+    },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+  if (!result.value) {
+    return {
+      wasCreated: false,
+    };
+  }
+
+  const wasCreated =
+    result.value.auth.integrations.oidc.findIndex(
+      ({ id: integrationID }) => integrationID === integration.id
+    ) !== -1;
+
+  return {
+    tenant: result.value,
+    integration,
+    wasCreated,
+  };
+}
+
+export type UpdateTenantOIDCAuthIntegrationInput = Partial<
+  Omit<GQLOIDCAuthIntegration, "id">
+>;
+
+export interface UpdateTenantOIDCAuthIntegrationResultObject {
+  tenant?: Tenant;
+  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
+  wasUpdated: boolean;
+}
+
+export async function updateTenantOIDCAuthIntegration(
+  mongo: Db,
+  id: string,
+  oidcID: string,
+  input: UpdateTenantOIDCAuthIntegrationInput
+): Promise<UpdateTenantOIDCAuthIntegrationResultObject> {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $set: dotize({
+        "auth.integrations.oidc.$[oidc]": input,
+      }),
+    },
+    {
+      // Add an ArrayFilter to only update one of the OpenID Connect
+      // integrations.
+      arrayFilters: [{ "oidc.id": oidcID }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    return {
+      wasUpdated: false,
+    };
+  }
+
+  const integration = result.value.auth.integrations.oidc.find(
+    ({ id: integrationID }) => integrationID === oidcID
+  );
+
+  const wasUpdated = Boolean(integration);
+
+  return {
+    tenant: result.value,
+    integration,
+    wasUpdated,
+  };
+}
+
+export interface DeleteTenantOIDCAuthIntegrationResultObject {
+  tenant?: Tenant;
+  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
+  wasDeleted: boolean;
+}
+
+/**
+ * deleteTenantOIDCAuthIntegration will delete the specific OpenID Connect Auth
+ * Integration on the Tenant.
+ *
+ * @param mongo MongoDB Database handle
+ * @param id the id of the Tenant
+ * @param oidcID the id of the OpenID Connect Auth Integration we're deleting
+ */
+export async function deleteTenantOIDCAuthIntegration(
+  mongo: Db,
+  id: string,
+  oidcID: string
+): Promise<DeleteTenantOIDCAuthIntegrationResultObject> {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id },
+    {
+      $pull: { "auth.integrations.oidc": { id: oidcID } },
+    },
+    {
+      // True to return the document before we modified it. This gives us the
+      // opportunity to return the original document and asertain if the
+      // integration was/could be removed.
+      returnOriginal: true,
+    }
+  );
+  if (!result.value) {
+    return { wasDeleted: false };
+  }
+
+  // Find the integration that we wanted to delete.
+  const integration = result.value.auth.integrations.oidc.find(
+    ({ id: integrationID }) => integrationID === oidcID
+  );
+  if (!integration) {
+    // The integration was not in the original document, so we could not have
+    // possibly deleted it!
+    return { wasDeleted: false };
+  }
+
+  // The integration was found, we should pull that integration out of the
+  // resulting Tenant.
+  result.value.auth.integrations.oidc.filter(
+    ({ id: integrationID }) => integrationID !== integration.id
+  );
+
+  return {
+    tenant: result.value,
+    integration,
+    wasDeleted: true,
+  };
 }

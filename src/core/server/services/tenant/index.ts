@@ -1,14 +1,24 @@
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
+import { URL } from "url";
 
-import { GQLSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLCreateOIDCAuthIntegrationConfigurationInput,
+  GQLSettingsInput,
+  GQLUpdateOIDCAuthIntegrationConfigurationInput,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   createTenant,
   CreateTenantInput,
+  createTenantOIDCAuthIntegration,
+  deleteTenantOIDCAuthIntegration,
+  regenerateTenantSSOKey,
   Tenant,
   updateTenant,
+  updateTenantOIDCAuthIntegration,
 } from "talk-server/models/tenant";
 
+import { discover } from "talk-server/app/middleware/passport/strategies/oidc/discover";
 import logger from "talk-server/logger";
 import TenantCache from "./cache";
 
@@ -75,4 +85,116 @@ export async function canInstall(cache: TenantCache) {
  */
 export async function isInstalled(cache: TenantCache) {
   return (await cache.count()) > 0;
+}
+
+/**
+ * regenerateSSOKey will regenerate the Single Sign-On key for the specified
+ * Tenant and notify all other Tenant's connected that the Tenant was updated.
+ */
+export async function regenerateSSOKey(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant
+) {
+  const updatedTenant = await regenerateTenantSSOKey(mongo, tenant.id);
+  if (!updatedTenant) {
+    return null;
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, updatedTenant);
+
+  return updatedTenant;
+}
+
+/**
+ * discoverOIDCConfiguration will discover the OpenID Connect configuration as
+ * is required by any OpenID Connect compatible service:
+ *
+ * https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfig
+ *
+ * @param issuerString the issuer that should be used as the discovery root.
+ */
+export async function discoverOIDCConfiguration(issuerString: string) {
+  // Parse the issuer.
+  const issuer = new URL(issuerString);
+
+  // Discover the configuration.
+  return discover(issuer);
+}
+
+export type CreateOIDCAuthIntegration = GQLCreateOIDCAuthIntegrationConfigurationInput;
+
+export async function createOIDCAuthIntegration(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  input: CreateOIDCAuthIntegration
+) {
+  // Create the integration. By default, the integration is disabled.
+  const result = await createTenantOIDCAuthIntegration(mongo, tenant.id, {
+    enabled: false,
+    allowRegistration: false,
+    ...input,
+  });
+  if (!result.wasCreated || !result.tenant) {
+    return null;
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, result.tenant);
+
+  return result;
+}
+
+export type UpdateOIDCAuthIntegration = GQLUpdateOIDCAuthIntegrationConfigurationInput;
+
+export async function updateOIDCAuthIntegration(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  oidcID: string,
+  input: UpdateOIDCAuthIntegration
+) {
+  // Update the integration. By default, the integration is disabled.
+  const result = await updateTenantOIDCAuthIntegration(
+    mongo,
+    tenant.id,
+    oidcID,
+    input
+  );
+  if (!result.wasUpdated || !result.tenant) {
+    return null;
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, result.tenant);
+
+  return result;
+}
+
+export async function deleteOIDCAuthIntegration(
+  mongo: Db,
+  redis: Redis,
+  cache: TenantCache,
+  tenant: Tenant,
+  oidcID: string
+) {
+  // Delete the integration. By default, the integration is disabled.
+  const result = await deleteTenantOIDCAuthIntegration(
+    mongo,
+    tenant.id,
+    oidcID
+  );
+  if (!result.wasDeleted || !result.tenant) {
+    return null;
+  }
+
+  // Update the tenant cache.
+  await cache.update(redis, result.tenant);
+
+  return result;
 }

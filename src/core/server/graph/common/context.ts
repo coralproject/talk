@@ -8,6 +8,7 @@ import { Request } from "talk-server/types/express";
 export interface CommonContextOptions {
   user?: User;
   req?: Request;
+  config: Config;
 }
 
 export default class CommonContext {
@@ -20,8 +21,9 @@ export default class CommonContext {
     contextID: uuid.v4(),
   });
 
-  constructor({ user, req }: CommonContextOptions) {
+  constructor({ user, req, config }: CommonContextOptions) {
     this.user = user;
     this.req = req;
+    this.config = config;
   }
 }

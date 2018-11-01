@@ -32,7 +32,22 @@ export interface SSOProfile {
   id: string;
 }
 
-export type Profile = LocalProfile | OIDCProfile | SSOProfile;
+export interface FacebookProfile {
+  type: "facebook";
+  id: string;
+}
+
+export interface GoogleProfile {
+  type: "google";
+  id: string;
+}
+
+export type Profile =
+  | LocalProfile
+  | OIDCProfile
+  | SSOProfile
+  | FacebookProfile
+  | GoogleProfile;
 
 export interface Token {
   readonly id: string;
