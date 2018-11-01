@@ -350,3 +350,33 @@ export async function removeStory(mongo: Db, tenantID: string, id: string) {
 
   return result.value || null;
 }
+
+/**
+ * calculateTotalCommentCount will compute the total amount of comments left on
+ * an Asset by parsing the `CommentStatusCounts`.
+ */
+export function calculateTotalCommentCount(
+  commentCounts: CommentStatusCounts
+): number {
+  let count = 0;
+  for (const status in commentCounts) {
+    if (!commentCounts.hasOwnProperty(status)) {
+      continue;
+    }
+
+    // Because the CommentStatusCounts are not indexable, it should be accessed
+    // by walking the structure.
+    switch (status) {
+      case GQLCOMMENT_STATUS.ACCEPTED:
+      case GQLCOMMENT_STATUS.NONE:
+      case GQLCOMMENT_STATUS.PREMOD:
+      case GQLCOMMENT_STATUS.REJECTED:
+      case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
+        count += commentCounts[status];
+        break;
+      default:
+        throw new Error("unrecognized status");
+    }
+  }
+  return count;
+}

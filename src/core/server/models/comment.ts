@@ -550,3 +550,19 @@ export async function updateCommentActionCounts(
 
   return result.value;
 }
+
+/**
+ * removeStoryComments will remove all comments associated with a particular
+ * Story.
+ */
+export async function removeStoryComments(
+  mongo: Db,
+  tenantID: string,
+  storyID: string
+) {
+  // Delete all the comments written on a specific story.
+  return collection(mongo).deleteMany({
+    tenant_id: tenantID,
+    story_id: storyID,
+  });
+}

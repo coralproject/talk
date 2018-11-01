@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
-import { ACTION_ITEM_TYPE, CreateActionInput } from "talk-server/models/action";
+import { ACTION_ITEM_TYPE } from "talk-server/models/action";
 import {
   createComment,
   CreateCommentInput,
@@ -16,7 +16,10 @@ import {
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
-import { addCommentActions } from "talk-server/services/comments/actions";
+import {
+  addCommentActions,
+  CreateAction,
+} from "talk-server/services/comments/actions";
 import { processForModeration } from "talk-server/services/comments/moderation";
 import { Request } from "talk-server/types/express";
 
@@ -83,10 +86,13 @@ export async function create(
     // at the time, and we didn't want the repetitive nature of adding the
     // item_type each time, so this mapping function adds them!
     const inputs = actions.map(
-      (action): CreateActionInput => ({
+      (action): CreateAction => ({
         ...action,
         item_id: comment.id,
         item_type: ACTION_ITEM_TYPE.COMMENTS,
+
+        // Store the Story ID on the action.
+        root_item_id: story.id,
       })
     );
 
@@ -171,12 +177,15 @@ export async function edit(
     // at the time, and we didn't want the repetitive nature of adding the
     // item_type each time, so this mapping function adds them!
     const inputs = actions.map(
-      (action): CreateActionInput => ({
+      (action): CreateAction => ({
         ...action,
         // Strict null check seems to have failed here... Null checking was done
         // above where we errored if the comment was falsely.
         item_id: comment!.id,
         item_type: ACTION_ITEM_TYPE.COMMENTS,
+
+        // Store the Story ID on the action.
+        root_item_id: story.id,
       })
     );
 

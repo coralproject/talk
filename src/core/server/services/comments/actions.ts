@@ -1,5 +1,6 @@
 import { Db } from "mongodb";
 
+import { Omit } from "talk-common/types";
 import { GQLCOMMENT_FLAG_REPORTED_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_ITEM_TYPE,
@@ -20,11 +21,14 @@ import { updateStoryActionCounts } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 
+export type CreateAction = Omit<CreateActionInput, "root_item_id"> &
+  Required<Pick<CreateActionInput, "root_item_id">>;
+
 export async function addCommentActions(
   mongo: Db,
   tenant: Tenant,
   comment: Readonly<Comment>,
-  inputs: CreateActionInput[]
+  inputs: CreateAction[]
 ): Promise<Readonly<Comment>> {
   // Create each of the actions, returning each of the action results.
   const results = await createActions(mongo, tenant.id, inputs);
@@ -79,7 +83,13 @@ async function addCommentAction(
     throw new Error("comment not found");
   }
 
-  return addCommentActions(mongo, tenant, comment, [input]);
+  // Store the story ID on the action as a story_id.
+  input.root_item_id = comment.story_id;
+
+  // We have to perform a type assertion here because for some reason, the type
+  // coercion is not determining that because we filled in the `root_item_id`
+  // above, that at this point, it satisfies the CreateAction type.
+  return addCommentActions(mongo, tenant, comment, [input as CreateAction]);
 }
 
 export async function removeCommentAction(

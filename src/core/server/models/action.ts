@@ -56,13 +56,54 @@ export type FLAG_REASON =
   | GQLCOMMENT_FLAG_REASON;
 
 export interface Action extends TenantResource {
+  /**
+   * id is the identifier for this specific Action.
+   */
   readonly id: string;
+
+  /**
+   * action_type is the type of Action that this represents.
+   */
   action_type: ACTION_TYPE;
+
+  /**
+   * item_type enables polymorphic behavior be allowing multiple item types
+   * to be represented in a single collection.
+   */
   item_type: ACTION_ITEM_TYPE;
+
+  /**
+   * item_id is the ID of the specific item that this Action is associated with.
+   */
   item_id: string;
+
+  /**
+   * reason is the reason or secondary grouping identifier for why this
+   * particular action was left.
+   */
   reason?: FLAG_REASON;
+
+  /**
+   * root_item_id represents the identifier for the item's associated item. In
+   * the case of a REACTION left on a Comment, this ID would be the Stories ID.
+   * In the case of a FLAG left on a User, this ID would be null.
+   */
+  root_item_id?: string;
+
+  /**
+   * user_id is the ID of the User that left this Action. In the event that the
+   * Action was left by Talk, it will be null.
+   */
   user_id?: string;
+
+  /**
+   * created_at is the date that this particular Action was created at.
+   */
   created_at: Date;
+
+  /**
+   * metadata is arbitrary information stored for this Action.
+   */
   metadata?: Record<string, any>;
 }
 
@@ -508,4 +549,19 @@ function incrementActionCounts(
   }
 
   return actionCounts;
+}
+
+/**
+ * removeRootActions will remove all the Action's associated with a given root
+ * identifier.
+ */
+export async function removeRootActions(
+  mongo: Db,
+  tenantID: string,
+  rootItemID: string
+) {
+  return collection(mongo).deleteMany({
+    tenant_id: tenantID,
+    root_item_id: rootItemID,
+  });
 }
