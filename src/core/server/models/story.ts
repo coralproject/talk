@@ -3,7 +3,10 @@ import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLStoryMetadata,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { EncodedActionCounts } from "talk-server/models/action";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
@@ -23,20 +26,21 @@ export interface CommentStatusCounts {
 
 export interface Story extends TenantResource {
   readonly id: string;
-  url: string;
-  scraped?: Date;
-  closedAt?: Date;
-  closedMessage?: string;
-  created_at: Date;
-  modified_date?: Date;
 
-  title?: string;
-  description?: string;
-  image?: string;
-  section?: string;
-  subsection?: string;
-  author?: string;
-  publication_date?: Date;
+  /**
+   * url is the URL to the Story page.
+   */
+  url: string;
+
+  /**
+   * metadata stores the scraped metadata from the Story page.
+   */
+  metadata?: GQLStoryMetadata;
+
+  /**
+   * scrapedAt is the Time that the Story had it's metadata scraped at.
+   */
+  scrapedAt?: Date;
 
   /**
    * action_counts stores all the action counts for all Comment's on this Story.
@@ -54,6 +58,17 @@ export interface Story extends TenantResource {
    * specific Story.
    */
   settings?: Partial<ModerationSettings>;
+
+  /**
+   * closedAt is the date that the Story was forced closed at, or false to
+   * indicate that the story was re-opened.
+   */
+  closedAt?: Date | false;
+
+  /**
+   * created_at is the date that the Story was added to the Talk database.
+   */
+  created_at: Date;
 }
 
 export interface UpsertStoryInput {
@@ -67,8 +82,6 @@ export async function upsertStory(
   { id, url }: UpsertStoryInput
 ) {
   const now = new Date();
-
-  // TODO: verify that the url for the given Story is whitelisted by the tenant.
 
   // Create the story, optionally sourcing the id from the input, additionally
   // porting in the tenant_id.
@@ -85,7 +98,7 @@ export async function upsertStory(
 
   // Perform the find and update operation to try and find and or create the
   // story.
-  const { value: story } = await collection(db).findOneAndUpdate(
+  const result = await collection(db).findOneAndUpdate(
     {
       url,
       tenant_id: tenantID,
@@ -100,15 +113,8 @@ export async function upsertStory(
       returnOriginal: false,
     }
   );
-  if (!story) {
-    return null;
-  }
 
-  if (!story.scraped) {
-    // TODO: create scrape job to collect story metadata
-  }
-
-  return story;
+  return result.value || null;
 }
 
 /**
@@ -127,7 +133,7 @@ export async function updateCommentStatusCount(
   id: string,
   commentStatusCounts: Partial<CommentStatusCounts>
 ) {
-  const { value: story } = await collection(mongo).findOneAndUpdate(
+  const result = await collection(mongo).findOneAndUpdate(
     {
       id,
       tenant_id: tenantID,
@@ -140,7 +146,7 @@ export async function updateCommentStatusCount(
     { returnOriginal: false }
   );
 
-  return story;
+  return result.value || null;
 }
 
 function createEmptyCommentCounts(): CommentStatusCounts {
@@ -283,5 +289,5 @@ export async function updateStoryActionCounts(
     { returnOriginal: false }
   );
 
-  return result.value;
+  return result.value || null;
 }

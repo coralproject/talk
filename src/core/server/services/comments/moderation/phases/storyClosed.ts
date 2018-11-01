@@ -6,9 +6,19 @@ import {
 // This phase checks to see if the story being processed is closed or not.
 export const storyClosed: IntermediateModerationPhase = ({
   story,
+  tenant,
 }): IntermediatePhaseResult | void => {
-  // Check to see if the story has closed commenting...
   if (story.closedAt && story.closedAt.valueOf() <= Date.now()) {
+    // TODO: (wyattjoh) return better error.
+    throw new Error("story is currently closed for commenting");
+  }
+
+  if (
+    story.closedAt !== false &&
+    tenant.autoCloseStream &&
+    tenant.closedTimeout &&
+    story.created_at.valueOf() + tenant.closedTimeout <= Date.now()
+  ) {
     // TODO: (wyattjoh) return better error.
     throw new Error("story is currently closed for commenting");
   }
