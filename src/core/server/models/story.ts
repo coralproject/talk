@@ -222,19 +222,20 @@ export async function findOrCreateStory(
   return upsertStory(db, tenantID, { url });
 }
 
-export type CreateStoryInput = Pick<Story, "id" | "url"> &
-  Partial<Pick<Story, "metadata">>;
+export type CreateStoryInput = Partial<Pick<Story, "metadata">>;
 
 export async function createStory(
   mongo: Db,
   tenantID: string,
-  { id, url, ...rest }: CreateStoryInput
+  id: string,
+  url: string,
+  input: CreateStoryInput
 ) {
   const now = new Date();
 
   // Create the story.
   const story: Story = {
-    ...rest,
+    ...input,
     id,
     url,
     tenant_id: tenantID,

@@ -183,18 +183,24 @@ export async function remove(
 
 export type CreateStory = CreateStoryInput;
 
-export async function create(mongo: Db, tenant: Tenant, input: CreateStory) {
+export async function create(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  storyURL: string,
+  input: CreateStory
+) {
   // Ensure that the given URL is allowed.
-  if (!isURLPermitted(tenant, input.url)) {
+  if (!isURLPermitted(tenant, storyURL)) {
     logger.warn(
-      { story_url: input.url, tenant_domains: tenant.domains },
+      { story_url: storyURL, tenant_domains: tenant.domains },
       "provided story url was not in the list of permitted tenant domains, story not created"
     );
     return null;
   }
 
   // Create the story in the database.
-  let newStory = await createStory(mongo, tenant.id, input);
+  let newStory = await createStory(mongo, tenant.id, storyID, storyURL, input);
   if (!input.metadata && !newStory.scrapedAt) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!

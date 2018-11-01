@@ -14,13 +14,13 @@ import { scrape } from "talk-server/services/stories/scraper";
 
 export default (ctx: TenantContext) => ({
   create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>
-    create(ctx.mongo, ctx.tenant, {
-      id: input.story.id,
-      url: input.story.url,
-      metadata: input.story.metadata
-        ? omitBy(input.story.metadata, isNull)
-        : {},
-    }),
+    create(
+      ctx.mongo,
+      ctx.tenant,
+      input.story.id,
+      input.story.url,
+      omitBy(input.story, isNull)
+    ),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     update(ctx.mongo, ctx.tenant, input.id, omitBy(input.story, isNull)),
   merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
