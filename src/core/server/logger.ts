@@ -18,6 +18,9 @@ function getStreams() {
 
 const logger = bunyan.createLogger({
   name: "talk",
+
+  // Include file references in log entries.
+  src: true,
   serializers,
   streams: getStreams(),
   level: config.get("logging_level") as LogLevelString,

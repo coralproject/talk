@@ -8,6 +8,8 @@ const Query: GQLQueryTypeResolver<void> = {
   me: (source, args, ctx) => ctx.user,
   discoverOIDCConfiguration: (source, { issuer }, ctx) =>
     ctx.loaders.Auth.discoverOIDCConfiguration.load(issuer),
+  debugScrapeStoryMetadata: (source, { url }, ctx) =>
+    ctx.loaders.Stories.debugScrapeMetadata.load(url),
 };
 
 export default Query;

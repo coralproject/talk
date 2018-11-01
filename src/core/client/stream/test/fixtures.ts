@@ -215,6 +215,9 @@ export const commentWithDeepestReplies = denormalizeComment({
 });
 
 export const baseStory = {
+  metadata: {
+    title: "title",
+  },
   isClosed: false,
   comments: {
     edges: [],

@@ -1,12 +1,13 @@
 import builder from "content-security-policy-builder";
 import {
   doesRequireSchemePrefixing,
-  extractParentsOrigin,
+  extractParentsURL,
   getOrigin,
   isURLSecure,
   prefixSchemeIfRequired,
 } from "talk-server/app/url";
 import { Tenant } from "talk-server/models/tenant";
+import { isURLPermitted } from "talk-server/services/stories";
 import { Request, RequestHandler } from "talk-server/types/express";
 
 /**
@@ -65,8 +66,13 @@ export function generateFrameOptions(
     return `allow-from ${getOrigin(tenant.domains[0])}`;
   }
 
-  // Grab the parent's hostname.
-  const parentsOrigin = extractParentsOrigin(req);
+  const parentsURL = extractParentsURL(req);
+  if (!parentsURL) {
+    return "deny";
+  }
+
+  // Grab the parent's origin.
+  const parentsOrigin = getOrigin(parentsURL);
   if (!parentsOrigin) {
     return "deny";
   }
@@ -86,6 +92,11 @@ export function generateFrameOptions(
     return `allow-from ${getOrigin(
       prefixSchemeIfRequired(parentSecure, tenant.domains[0])
     )}`;
+  }
+
+  // Determine if this origin is allowed.
+  if (!isURLPermitted(tenant, parentsURL)) {
+    return "deny";
   }
 
   // As we can only return a single domain in the `allow-from` directive as per

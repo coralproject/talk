@@ -15,7 +15,9 @@ it("renders correctly", () => {
     createdAt: "2018-07-06T18:24:00.000Z",
     replyCount: 4,
     story: {
-      title: "Story Title",
+      metadata: {
+        title: "Story Title",
+      },
     },
     conversationURL: "http://localhost/conversation",
     onGotoConversation: noop,

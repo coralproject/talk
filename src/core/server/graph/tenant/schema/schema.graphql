@@ -1212,6 +1212,49 @@ enum COMMENT_SORT {
 }
 
 """
+StoryMetadata stores all the metadata that is scraped using the scraping tools
+inside Talk. Talk utilizes [metascraper](https://metascraper.js.org/) which uses
+a variety of filters derived from [The Open Graph Protocol](https://ogp.me/) to
+scan for metadata on the page.
+"""
+type StoryMetadata {
+  """
+  title stores the scraped title from the Story page.
+  """
+  title: String
+
+  """
+  author stores the scraped author from the Story page.
+  """
+  author: String
+
+  """
+  description stores the scraped description from the Story page.
+  """
+  description: String
+
+  """
+  image stores the scraped image from the Story page.
+  """
+  image: String
+
+  """
+  publishedAt stores the scraped publication date from the Story page.
+  """
+  publishedAt: Time
+
+  """
+  modifiedAt stores the scraped modified date from the Story page.
+  """
+  modifiedAt: Time
+
+  """
+  section stores the scraped section from the Story page.
+  """
+  section: String
+}
+
+"""
 Story is an Article or Page where Comments are written on by Users.
 """
 type Story {
@@ -1226,9 +1269,14 @@ type Story {
   url: String!
 
   """
-  title is the title of the scraped Story.
+  metadata stores the scraped metadata from the Story page.
   """
-  title: String
+  metadata: StoryMetadata
+
+  """
+  scrapedAt is the Time that the Story had it's metadata scraped at.
+  """
+  scrapedAt: Time
 
   """
   comments are the comments on the Story.
@@ -1244,11 +1292,6 @@ type Story {
   Comments.
   """
   actionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
-
-  """
-  author is the authors listed in the meta tags for the Story.
-  """
-  author: String
 
   """
   closedAt is the Time that the Story is closed for commenting.
@@ -1338,6 +1381,13 @@ type Query {
   """
   discoverOIDCConfiguration(issuer: String!): DiscoveredOIDCConfiguration
     @auth(roles: [ADMIN])
+
+  """
+  debugScrapeStoryMetadata will return the information that Talk was able to
+  scrape from the given URL. No data will be saved related to the Story based
+  on this scrape.
+  """
+  debugScrapeStoryMetadata(url: String!): StoryMetadata @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1679,7 +1729,7 @@ SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
   """
-  domains will return a given list of whitelisted domains.
+  domains will return a given list of domains that hosts Stories.
   """
   domains: [String!]
 
