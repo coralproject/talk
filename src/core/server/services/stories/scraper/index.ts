@@ -1,4 +1,3 @@
-import Queue, { Job } from "bull";
 import Logger from "bunyan";
 import cheerio from "cheerio";
 import authorScraper from "metascraper-author";
@@ -10,86 +9,10 @@ import { Db } from "mongodb";
 
 import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
-import { updateStory } from "talk-server/models/story";
-import Task from "talk-server/services/queue/Task";
+import { retrieveStory, updateStory } from "talk-server/models/story";
+
 import { modifiedScraper } from "./rules/modified";
 import { sectionScraper } from "./rules/section";
-
-const JOB_NAME = "scraper";
-
-export interface ScrapeProcessorOptions {
-  mongo: Db;
-}
-
-export interface ScraperData {
-  storyID: string;
-  storyURL: string;
-  tenantID: string;
-}
-
-const createJobProcessor = (options: ScrapeProcessorOptions) => async (
-  job: Job<ScraperData>
-) => {
-  // Pull out the job data.
-  const { storyID: id, storyURL: url, tenantID } = job.data;
-
-  logger.debug(
-    {
-      job_id: job.id,
-      job_name: JOB_NAME,
-      story_id: id,
-      story_url: url,
-      tenant_id: tenantID,
-    },
-    "starting to scrap the story"
-  );
-
-  // Get the metadata from the scraped html.
-  const metadata = await scraper.scrape(url);
-  if (!metadata) {
-    logger.error(
-      {
-        job_id: job.id,
-        job_name: JOB_NAME,
-        story_id: id,
-        story_url: url,
-        tenant_id: tenantID,
-      },
-      "story at specified url not found, can not scrape"
-    );
-    return;
-  }
-
-  // Update the Story with the scraped details.
-  const story = await updateStory(options.mongo, tenantID, id, {
-    metadata,
-    scrapedAt: new Date(),
-  });
-  if (!story) {
-    logger.error(
-      {
-        job_id: job.id,
-        job_name: JOB_NAME,
-        story_id: id,
-        story_url: url,
-        tenant_id: tenantID,
-      },
-      "story at specified id not found, can not update with metadata"
-    );
-    return;
-  }
-
-  logger.debug(
-    {
-      job_id: job.id,
-      job_name: JOB_NAME,
-      story_id: story.id,
-      story_url: url,
-      tenant_id: tenantID,
-    },
-    "scraped the story"
-  );
-};
 
 export type Rule = Record<
   string,
@@ -188,13 +111,37 @@ function createScraper() {
 
 export const scraper = createScraper();
 
-export function createScraperTask(
-  queue: Queue.QueueOptions,
-  options: ScrapeProcessorOptions
+export async function scrape(
+  mongo: Db,
+  tenantID: string,
+  storyID: string,
+  storyURL?: string
 ) {
-  return new Task({
-    jobName: JOB_NAME,
-    jobProcessor: createJobProcessor(options),
-    queue,
+  // If the URL wasn't provided, grab it from the database.
+  if (!storyURL) {
+    const retrievedStory = await retrieveStory(mongo, tenantID, storyID);
+    if (!retrievedStory) {
+      throw new Error("story at specified id not found");
+    }
+
+    // Update the story URL.
+    storyURL = retrievedStory.url;
+  }
+
+  // Get the metadata from the scraped html.
+  const metadata = await scraper.scrape(storyURL);
+  if (!metadata) {
+    throw new Error("story at specified url not found");
+  }
+
+  // Update the Story with the scraped details.
+  const story = await updateStory(mongo, tenantID, storyID, {
+    metadata,
+    scrapedAt: new Date(),
   });
+  if (!story) {
+    throw new Error("story at specified id not found");
+  }
+
+  return story;
 }

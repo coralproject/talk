@@ -4,7 +4,7 @@ import { Db } from "mongodb";
 
 import { Config } from "talk-common/config";
 import TenantContext from "talk-server/graph/tenant/context";
-import { TaskQueue } from "talk-server/services/queue";
+import { TaskQueue } from "talk-server/queue";
 import { Request } from "talk-server/types/express";
 
 export interface TenantContextMiddlewareOptions {

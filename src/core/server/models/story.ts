@@ -1,4 +1,4 @@
-import { Db } from "mongodb";
+import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
@@ -149,6 +149,37 @@ export async function updateCommentStatusCount(
   return result.value || null;
 }
 
+/**
+ * mergeCommentStatusCount will merge an array of commentStatusCount's into one.
+ */
+export function mergeCommentStatusCount(
+  commentStatusCounts: CommentStatusCounts[]
+): CommentStatusCounts {
+  const statusCounts = createEmptyCommentCounts();
+  for (const commentCounts of commentStatusCounts) {
+    for (const status in commentCounts) {
+      if (!commentCounts.hasOwnProperty(status)) {
+        continue;
+      }
+
+      // Because the CommentStatusCounts are not indexable, it should be accessed
+      // by walking the structure.
+      switch (status) {
+        case GQLCOMMENT_STATUS.ACCEPTED:
+        case GQLCOMMENT_STATUS.NONE:
+        case GQLCOMMENT_STATUS.PREMOD:
+        case GQLCOMMENT_STATUS.REJECTED:
+        case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
+          statusCounts[status] += commentCounts[status];
+          break;
+        default:
+          throw new Error("unrecognized status");
+      }
+    }
+  }
+  return statusCounts;
+}
+
 function createEmptyCommentCounts(): CommentStatusCounts {
   return {
     [GQLCOMMENT_STATUS.ACCEPTED]: 0,
@@ -189,6 +220,46 @@ export async function findOrCreateStory(
   }
 
   return upsertStory(db, tenantID, { url });
+}
+
+export type CreateStoryInput = Partial<Pick<Story, "metadata">>;
+
+export async function createStory(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  url: string,
+  input: CreateStoryInput
+) {
+  const now = new Date();
+
+  // Create the story.
+  const story: Story = {
+    ...input,
+    id,
+    url,
+    tenant_id: tenantID,
+    created_at: now,
+    action_counts: {},
+    comment_counts: createEmptyCommentCounts(),
+  };
+
+  try {
+    // Insert the story into the database.
+    await collection(mongo).insertOne(story);
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (err instanceof MongoError && err.code === 11000) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("story with this url already exists");
+    }
+
+    throw err;
+  }
+
+  // Return the created story.
+  return story;
 }
 
 export async function retrieveStoryByURL(
@@ -235,7 +306,7 @@ export async function retrieveManyStoriesByURL(
 
 export type UpdateStoryInput = Omit<
   Partial<Story>,
-  "id" | "tenant_id" | "url" | "created_at"
+  "id" | "tenant_id" | "created_at"
 >;
 
 export async function updateStory(
@@ -253,15 +324,26 @@ export async function updateStory(
     },
   };
 
-  const result = await collection(db).findOneAndUpdate(
-    { id, tenant_id: tenantID },
-    update,
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
+  try {
+    const result = await collection(db).findOneAndUpdate(
+      { id, tenant_id: tenantID },
+      update,
+      // False to return the updated document instead of the original
+      // document.
+      { returnOriginal: false }
+    );
 
-  return result.value || null;
+    return result.value || null;
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (input.url && err instanceof MongoError && err.code === 11000) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("story with this url already exists");
+    }
+
+    throw err;
+  }
 }
 
 /**
@@ -290,4 +372,59 @@ export async function updateStoryActionCounts(
   );
 
   return result.value || null;
+}
+
+export async function removeStory(mongo: Db, tenantID: string, id: string) {
+  const result = await collection(mongo).findOneAndDelete({
+    id,
+    tenant_id: tenantID,
+  });
+
+  return result.value || null;
+}
+
+/**
+ * removeStories will remove the stories specified by the set of id's.
+ */
+export async function removeStories(
+  mongo: Db,
+  tenantID: string,
+  ids: string[]
+) {
+  return collection(mongo).deleteMany({
+    tenant_id: tenantID,
+    id: {
+      $in: ids,
+    },
+  });
+}
+
+/**
+ * calculateTotalCommentCount will compute the total amount of comments left on
+ * an Asset by parsing the `CommentStatusCounts`.
+ */
+export function calculateTotalCommentCount(
+  commentCounts: CommentStatusCounts
+): number {
+  let count = 0;
+  for (const status in commentCounts) {
+    if (!commentCounts.hasOwnProperty(status)) {
+      continue;
+    }
+
+    // Because the CommentStatusCounts are not indexable, it should be accessed
+    // by walking the structure.
+    switch (status) {
+      case GQLCOMMENT_STATUS.ACCEPTED:
+      case GQLCOMMENT_STATUS.NONE:
+      case GQLCOMMENT_STATUS.PREMOD:
+      case GQLCOMMENT_STATUS.REJECTED:
+      case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
+        count += commentCounts[status];
+        break;
+      default:
+        throw new Error("unrecognized status");
+    }
+  }
+  return count;
 }

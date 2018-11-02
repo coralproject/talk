@@ -3,15 +3,15 @@ import { isNull, omitBy } from "lodash";
 import TenantContext from "talk-server/graph/tenant/context";
 import {
   GQLCreateOIDCAuthIntegrationInput,
-  GQLDeleteOIDCAuthIntegrationInput,
+  GQLRemoveOIDCAuthIntegrationInput,
   GQLSettingsInput,
   GQLUpdateOIDCAuthIntegrationInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import {
   createOIDCAuthIntegration,
-  deleteOIDCAuthIntegration,
   regenerateSSOKey,
+  removeOIDCAuthIntegration,
   update,
   updateOIDCAuthIntegration,
 } from "talk-server/services/tenant";
@@ -38,6 +38,6 @@ export default ({ mongo, redis, tenantCache, tenant }: TenantContext) => ({
       input.id,
       input.configuration
     ),
-  deleteOIDCAuthIntegration: (input: GQLDeleteOIDCAuthIntegrationInput) =>
-    deleteOIDCAuthIntegration(mongo, redis, tenantCache, tenant, input.id),
+  removeOIDCAuthIntegration: (input: GQLRemoveOIDCAuthIntegrationInput) =>
+    removeOIDCAuthIntegration(mongo, redis, tenantCache, tenant, input.id),
 });

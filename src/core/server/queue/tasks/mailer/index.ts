@@ -6,8 +6,8 @@ import { createTransport } from "nodemailer";
 
 import { Config } from "talk-common/config";
 import logger from "talk-server/logger";
-import Task from "talk-server/services/queue/Task";
-import MailerContent from "talk-server/services/queue/tasks/mailer/content";
+import Task from "talk-server/queue/Task";
+import MailerContent from "talk-server/queue/tasks/mailer/content";
 import TenantCache from "talk-server/services/tenant/cache";
 import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
 

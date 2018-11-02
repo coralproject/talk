@@ -56,13 +56,54 @@ export type FLAG_REASON =
   | GQLCOMMENT_FLAG_REASON;
 
 export interface Action extends TenantResource {
+  /**
+   * id is the identifier for this specific Action.
+   */
   readonly id: string;
+
+  /**
+   * action_type is the type of Action that this represents.
+   */
   action_type: ACTION_TYPE;
+
+  /**
+   * item_type enables polymorphic behavior be allowing multiple item types
+   * to be represented in a single collection.
+   */
   item_type: ACTION_ITEM_TYPE;
+
+  /**
+   * item_id is the ID of the specific item that this Action is associated with.
+   */
   item_id: string;
+
+  /**
+   * reason is the reason or secondary grouping identifier for why this
+   * particular action was left.
+   */
   reason?: FLAG_REASON;
+
+  /**
+   * root_item_id represents the identifier for the item's associated item. In
+   * the case of a REACTION left on a Comment, this ID would be the Stories ID.
+   * In the case of a FLAG left on a User, this ID would be null.
+   */
+  root_item_id?: string;
+
+  /**
+   * user_id is the ID of the User that left this Action. In the event that the
+   * Action was left by Talk, it will be null.
+   */
   user_id?: string;
+
+  /**
+   * created_at is the date that this particular Action was created at.
+   */
   created_at: Date;
+
+  /**
+   * metadata is arbitrary information stored for this Action.
+   */
   metadata?: Record<string, any>;
 }
 
@@ -248,36 +289,36 @@ export async function retrieveManyUserActionPresence(
     );
 }
 
-export type DeleteActionInput = Pick<
+export type RemoveActionInput = Pick<
   Action,
   "action_type" | "item_type" | "item_id" | "reason" | "user_id"
 >;
 
 /**
- * The result returned by `deleteAction`.
+ * The result returned by `removeAction`.
  */
-export interface DeletedActionResultObject {
+export interface RemovedActionResultObject {
   /**
    * action is the action that was deleted.
    */
   action?: Action;
 
   /**
-   * wasDeleted is true when the action that was supposed to be deleted was
+   * wasRemoved is true when the action that was supposed to be deleted was
    * actually deleted.
    */
-  wasDeleted: boolean;
+  wasRemoved: boolean;
 }
 
 /**
- * deleteAction will delete the action based on the form of the action rather
+ * removeAction will delete the action based on the form of the action rather
  * than a specific action by ID.
  */
-export async function deleteAction(
+export async function removeAction(
   mongo: Db,
   tenantID: string,
-  input: DeleteActionInput
-): Promise<DeletedActionResultObject> {
+  input: RemoveActionInput
+): Promise<RemovedActionResultObject> {
   // Extract the filter parameters.
   const filter: FilterQuery<Action> = {
     tenant_id: tenantID,
@@ -297,7 +338,7 @@ export async function deleteAction(
   const result = await collection(mongo).findOneAndDelete(filter);
   return {
     action: result.value,
-    wasDeleted: Boolean(result.ok && result.value),
+    wasRemoved: Boolean(result.ok && result.value),
   };
 }
 
@@ -455,6 +496,30 @@ function createEmptyActionCounts(): GQLActionCounts {
   };
 }
 
+export function mergeActionCounts(
+  actionCounts: EncodedActionCounts[]
+): EncodedActionCounts {
+  const mergedActionCounts: EncodedActionCounts = {};
+
+  for (const counts of actionCounts) {
+    for (const [key, count] of Object.entries(counts)) {
+      if (key in mergedActionCounts) {
+        mergedActionCounts[key] += count;
+      } else {
+        mergedActionCounts[key] += 1;
+      }
+    }
+  }
+
+  return mergedActionCounts;
+}
+
+export function countTotalActionCounts(
+  actionCounts: EncodedActionCounts
+): number {
+  return Object.values(actionCounts).reduce((total, count) => total + count, 0);
+}
+
 /**
  * decodeActionCounts will take the encoded action counts and decode them into
  * a useable format.
@@ -469,7 +534,7 @@ export function decodeActionCounts(
 
   // Loop over all the encoded action counts to extract each of the action
   // counts as they are encoded.
-  Object.entries(encodedActionCounts).map(([key, count]) => {
+  Object.entries(encodedActionCounts).forEach(([key, count]) => {
     // Pull out the action type and the reason from the key.
     const { actionType, reason } = decodeActionCountKey(key);
 
@@ -508,4 +573,44 @@ function incrementActionCounts(
   }
 
   return actionCounts;
+}
+
+/**
+ * removeRootActions will remove all the Action's associated with a given root
+ * identifier.
+ */
+export async function removeRootActions(
+  mongo: Db,
+  tenantID: string,
+  rootItemID: string
+) {
+  return collection(mongo).deleteMany({
+    tenant_id: tenantID,
+    root_item_id: rootItemID,
+  });
+}
+
+/**
+ * mergeManyRootActions will update many Action `root_item_id'`s from one to
+ * another.
+ */
+export async function mergeManyRootActions(
+  mongo: Db,
+  tenantID: string,
+  newRootItemID: string,
+  oldRootItemIDs: string[]
+) {
+  return collection(mongo).updateMany(
+    {
+      tenant_id: tenantID,
+      root_item_id: {
+        $in: oldRootItemIDs,
+      },
+    },
+    {
+      $set: {
+        root_item_id: newRootItemID,
+      },
+    }
+  );
 }

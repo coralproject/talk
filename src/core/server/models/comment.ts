@@ -550,3 +550,43 @@ export async function updateCommentActionCounts(
 
   return result.value;
 }
+
+/**
+ * removeStoryComments will remove all comments associated with a particular
+ * Story.
+ */
+export async function removeStoryComments(
+  mongo: Db,
+  tenantID: string,
+  storyID: string
+) {
+  // Delete all the comments written on a specific story.
+  return collection(mongo).deleteMany({
+    tenant_id: tenantID,
+    story_id: storyID,
+  });
+}
+
+/**
+ * mergeManyCommentStories will update many comment's storyID's.
+ */
+export async function mergeManyCommentStories(
+  mongo: Db,
+  tenantID: string,
+  newStoryID: string,
+  oldStoryIDs: string[]
+) {
+  return collection(mongo).updateMany(
+    {
+      tenant_id: tenantID,
+      story_id: {
+        $in: oldStoryIDs,
+      },
+    },
+    {
+      $set: {
+        story_id: newStoryID,
+      },
+    }
+  );
+}

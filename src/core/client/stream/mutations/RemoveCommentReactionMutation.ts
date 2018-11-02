@@ -6,12 +6,12 @@ import {
   createMutationContainer,
 } from "talk-framework/lib/relay";
 
-import { DeleteCommentReactionMutation as MutationTypes } from "talk-stream/__generated__/DeleteCommentReactionMutation.graphql";
-import { CreateCommentReactionInput } from "./CreateCommentReactionMutation";
+import { RemoveCommentReactionMutation as MutationTypes } from "talk-stream/__generated__/RemoveCommentReactionMutation.graphql";
+import { CreateCommentReactionInput } from "talk-stream/mutations/CreateCommentReactionMutation";
 
 const mutation = graphql`
-  mutation DeleteCommentReactionMutation($input: CreateCommentReactionInput!) {
-    deleteCommentReaction(input: $input) {
+  mutation RemoveCommentReactionMutation($input: CreateCommentReactionInput!) {
+    removeCommentReaction(input: $input) {
       comment {
         ...ReactionButtonContainer_comment
       }
@@ -36,7 +36,7 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
       },
     },
     optimisticResponse: {
-      deleteCommentReaction: {
+      removeCommentReaction: {
         comment: {
           id: input.commentID,
           myActionPresence: {
@@ -54,11 +54,11 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
   });
 }
 
-export const withDeleteCommentReactionMutation = createMutationContainer(
-  "deleteCommentReaction",
+export const withRemoveCommentReactionMutation = createMutationContainer(
+  "removeCommentReaction",
   commit
 );
 
-export type DeleteCommentReactionMutation = (
+export type RemoveCommentReactionMutation = (
   input: CreateCommentReactionInput
-) => Promise<MutationTypes["response"]["deleteCommentReaction"]>;
+) => Promise<MutationTypes["response"]["removeCommentReaction"]>;

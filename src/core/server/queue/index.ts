@@ -2,15 +2,12 @@ import Queue from "bull";
 import { Db } from "mongodb";
 
 import { Config } from "talk-common/config";
-import Task from "talk-server/services/queue/Task";
-import {
-  createMailerTask,
-  Mailer,
-} from "talk-server/services/queue/tasks/mailer";
+import Task from "talk-server/queue/Task";
+import { createMailerTask, Mailer } from "talk-server/queue/tasks/mailer";
 import {
   createScraperTask,
   ScraperData,
-} from "talk-server/services/queue/tasks/scraper";
+} from "talk-server/queue/tasks/scraper";
 import { createRedisClient } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 

@@ -1,15 +1,16 @@
 import { Db } from "mongodb";
 
+import { Omit } from "talk-common/types";
 import { GQLCOMMENT_FLAG_REPORTED_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_ITEM_TYPE,
   ACTION_TYPE,
   CreateActionInput,
   createActions,
-  deleteAction,
-  DeleteActionInput,
   encodeActionCounts,
   invertEncodedActionCounts,
+  removeAction,
+  RemoveActionInput,
 } from "talk-server/models/action";
 import {
   retrieveComment,
@@ -20,11 +21,14 @@ import { updateStoryActionCounts } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 
+export type CreateAction = Omit<CreateActionInput, "root_item_id"> &
+  Required<Pick<CreateActionInput, "root_item_id">>;
+
 export async function addCommentActions(
   mongo: Db,
   tenant: Tenant,
   comment: Readonly<Comment>,
-  inputs: CreateActionInput[]
+  inputs: CreateAction[]
 ): Promise<Readonly<Comment>> {
   // Create each of the actions, returning each of the action results.
   const results = await createActions(mongo, tenant.id, inputs);
@@ -79,13 +83,19 @@ async function addCommentAction(
     throw new Error("comment not found");
   }
 
-  return addCommentActions(mongo, tenant, comment, [input]);
+  // Store the story ID on the action as a story_id.
+  input.root_item_id = comment.story_id;
+
+  // We have to perform a type assertion here because for some reason, the type
+  // coercion is not determining that because we filled in the `root_item_id`
+  // above, that at this point, it satisfies the CreateAction type.
+  return addCommentActions(mongo, tenant, comment, [input as CreateAction]);
 }
 
 export async function removeCommentAction(
   mongo: Db,
   tenant: Tenant,
-  input: DeleteActionInput
+  input: RemoveActionInput
 ): Promise<Readonly<Comment>> {
   // Get the Comment that we are leaving the Action on.
   const comment = await retrieveComment(mongo, tenant.id, input.item_id);
@@ -95,8 +105,8 @@ export async function removeCommentAction(
   }
 
   // Create each of the actions, returning each of the action results.
-  const { wasDeleted, action } = await deleteAction(mongo, tenant.id, input);
-  if (wasDeleted) {
+  const { wasRemoved, action } = await removeAction(mongo, tenant.id, input);
+  if (wasRemoved) {
     // Compute the action counts, and invert them (because we're deleting an
     // action).
     const actionCounts = invertEncodedActionCounts(encodeActionCounts(action!));
@@ -145,13 +155,13 @@ export async function createReaction(
   });
 }
 
-export type DeleteCommentReaction = Pick<DeleteActionInput, "item_id">;
+export type RemoveCommentReaction = Pick<RemoveActionInput, "item_id">;
 
-export async function deleteReaction(
+export async function removeReaction(
   mongo: Db,
   tenant: Tenant,
   author: User,
-  input: DeleteCommentReaction
+  input: RemoveCommentReaction
 ) {
   return removeCommentAction(mongo, tenant, {
     action_type: ACTION_TYPE.REACTION,
@@ -177,13 +187,13 @@ export async function createDontAgree(
   });
 }
 
-export type DeleteCommentDontAgree = Pick<DeleteActionInput, "item_id">;
+export type RemoveCommentDontAgree = Pick<RemoveActionInput, "item_id">;
 
-export async function deleteDontAgree(
+export async function removeDontAgree(
   mongo: Db,
   tenant: Tenant,
   author: User,
-  input: DeleteCommentDontAgree
+  input: RemoveCommentDontAgree
 ) {
   return removeCommentAction(mongo, tenant, {
     action_type: ACTION_TYPE.DONT_AGREE,
@@ -212,13 +222,13 @@ export async function createFlag(
   });
 }
 
-export type DeleteCommentFlag = Pick<DeleteActionInput, "item_id">;
+export type RemoveCommentFlag = Pick<RemoveActionInput, "item_id">;
 
-export async function deleteFlag(
+export async function removeFlag(
   mongo: Db,
   tenant: Tenant,
   author: User,
-  input: DeleteCommentFlag
+  input: RemoveCommentFlag
 ) {
   return removeCommentAction(mongo, tenant, {
     action_type: ACTION_TYPE.FLAG,

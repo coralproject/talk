@@ -5,7 +5,7 @@ import config, { Config } from "talk-common/config";
 import getManagementSchema from "talk-server/graph/management/schema";
 import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
-import { createQueue } from "talk-server/services/queue";
+import { createQueue } from "talk-server/queue";
 import TenantCache from "talk-server/services/tenant/cache";
 
 import { createJWTSigningConfig } from "talk-server/services/jwt";
