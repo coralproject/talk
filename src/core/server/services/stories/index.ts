@@ -9,6 +9,7 @@ import {
 } from "talk-server/app/url";
 import logger from "talk-server/logger";
 import {
+  countTotalActionCounts,
   mergeActionCounts,
   mergeManyRootActions,
   removeRootActions,
@@ -303,7 +304,7 @@ export async function merge(
   // Merge the comment and action counts for all the source stories.
   const [, ...sourceStories] = stories;
 
-  await updateCommentStatusCount(
+  let destinationStory = await updateCommentStatusCount(
     mongo,
     tenant.id,
     destinationID,
@@ -314,16 +315,19 @@ export async function merge(
     )
   );
 
-  const destinationStory = await updateStoryActionCounts(
-    mongo,
-    tenant.id,
-    destinationID,
-    mergeActionCounts(
-      // We perform the type assertion here because above, we already verified
-      // that none of the stories are null.
-      (sourceStories as Story[]).map(({ action_counts }) => action_counts)
-    )
+  const mergedActionCounts = mergeActionCounts(
+    // We perform the type assertion here because above, we already verified
+    // that none of the stories are null.
+    (sourceStories as Story[]).map(({ action_counts }) => action_counts)
   );
+  if (countTotalActionCounts(mergedActionCounts) > 0) {
+    destinationStory = await updateStoryActionCounts(
+      mongo,
+      tenant.id,
+      destinationID,
+      mergedActionCounts
+    );
+  }
 
   if (!destinationStory) {
     log.warn("destination story cannot be updated with new comment counts");

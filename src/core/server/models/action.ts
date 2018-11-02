@@ -514,6 +514,12 @@ export function mergeActionCounts(
   return mergedActionCounts;
 }
 
+export function countTotalActionCounts(
+  actionCounts: EncodedActionCounts
+): number {
+  return Object.values(actionCounts).reduce((total, count) => total + count, 0);
+}
+
 /**
  * decodeActionCounts will take the encoded action counts and decode them into
  * a useable format.
