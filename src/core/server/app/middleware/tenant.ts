@@ -3,15 +3,21 @@ import { RequestHandler } from "talk-server/types/express";
 
 export interface MiddlewareOptions {
   cache: TenantCache;
+  passNoTenant?: boolean;
 }
 
 export const tenantMiddleware = ({
   cache,
+  passNoTenant = false,
 }: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   try {
     // Attach the tenant to the request.
     const tenant = await cache.retrieveByDomain(req.hostname);
     if (!tenant) {
+      if (passNoTenant) {
+        return next();
+      }
+
       // TODO: send a http.StatusNotFound?
       return next(new Error("tenant not found"));
     }

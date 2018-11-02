@@ -23,7 +23,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     attachGraphiQL(router, app);
   }
 
-  router.use(tenantMiddleware({ cache: app.tenantCache }));
+  router.use(tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }));
   router.use(cspTenantMiddleware);
 
   const staticURI = app.config.get("static_uri");
