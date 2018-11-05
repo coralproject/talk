@@ -1,8 +1,8 @@
 import TenantContext from "talk-server/graph/tenant/context";
 
-import Comment from "./comment";
-import Settings from "./settings";
-import Story from "./story";
+import { Comment } from "./Comment";
+import { Settings } from "./Settings";
+import { Story } from "./Story";
 
 export default (ctx: TenantContext) => ({
   Comment: Comment(ctx),

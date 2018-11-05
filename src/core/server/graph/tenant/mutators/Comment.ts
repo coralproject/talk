@@ -19,7 +19,7 @@ import {
   removeReaction,
 } from "talk-server/services/comments/actions";
 
-export default (ctx: TenantContext) => ({
+export const Comment = (ctx: TenantContext) => ({
   create: (input: GQLCreateCommentInput) =>
     create(
       ctx.mongo,
