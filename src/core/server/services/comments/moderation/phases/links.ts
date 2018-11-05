@@ -39,7 +39,7 @@ export const links: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
-          action_type: ACTION_TYPE.FLAG,
+          actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
           metadata: {
             links: comment.body,

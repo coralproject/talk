@@ -1093,7 +1093,7 @@ type Comment {
   actionCounts: ActionCounts!
 
   """
-  myActionPresence stores the presense information for all the actions
+  myActionPresence stores the presence information for all the actions
   left by the current User on this Comment.
   """
   myActionPresence: ActionPresence

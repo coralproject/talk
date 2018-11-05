@@ -15,7 +15,7 @@ function collection(db: Db) {
 }
 
 export interface TenantResource {
-  readonly tenant_id: string;
+  readonly tenantID: string;
 }
 
 /**

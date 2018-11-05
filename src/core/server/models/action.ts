@@ -62,20 +62,20 @@ export interface Action extends TenantResource {
   readonly id: string;
 
   /**
-   * action_type is the type of Action that this represents.
+   * actionType is the type of Action that this represents.
    */
-  action_type: ACTION_TYPE;
+  actionType: ACTION_TYPE;
 
   /**
-   * item_type enables polymorphic behavior be allowing multiple item types
+   * itemType enables polymorphic behavior be allowing multiple item types
    * to be represented in a single collection.
    */
-  item_type: ACTION_ITEM_TYPE;
+  itemType: ACTION_ITEM_TYPE;
 
   /**
-   * item_id is the ID of the specific item that this Action is associated with.
+   * itemID is the ID of the specific item that this Action is associated with.
    */
-  item_id: string;
+  itemID: string;
 
   /**
    * reason is the reason or secondary grouping identifier for why this
@@ -84,22 +84,22 @@ export interface Action extends TenantResource {
   reason?: FLAG_REASON;
 
   /**
-   * root_item_id represents the identifier for the item's associated item. In
+   * rootItemID represents the identifier for the item's associated item. In
    * the case of a REACTION left on a Comment, this ID would be the Stories ID.
    * In the case of a FLAG left on a User, this ID would be null.
    */
-  root_item_id?: string;
+  rootItemID?: string;
 
   /**
-   * user_id is the ID of the User that left this Action. In the event that the
+   * userID is the ID of the User that left this Action. In the event that the
    * Action was left by Talk, it will be null.
    */
-  user_id?: string;
+  userID?: string;
 
   /**
-   * created_at is the date that this particular Action was created at.
+   * createdAt is the date that this particular Action was created at.
    */
-  created_at: Date;
+  createdAt: Date;
 
   /**
    * metadata is arbitrary information stored for this Action.
@@ -110,21 +110,21 @@ export interface Action extends TenantResource {
 const ActionSchema = [
   // Flags
   {
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    action_type: ACTION_TYPE.FLAG,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    actionType: ACTION_TYPE.FLAG,
     // Only reasons for the flag action will be allowed here, and it must be
     // specified.
     reason: Object.keys(GQLCOMMENT_FLAG_REASON),
   },
   // Don't Agree
   {
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    action_type: ACTION_TYPE.DONT_AGREE,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    actionType: ACTION_TYPE.DONT_AGREE,
   },
   // Reaction
   {
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    action_type: ACTION_TYPE.REACTION,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    actionType: ACTION_TYPE.REACTION,
   },
 ];
 
@@ -133,12 +133,12 @@ const ActionSchema = [
  * expected schema, `ActionSchema`.
  */
 export function validateAction(
-  action: Pick<Action, "item_type" | "action_type" | "reason">
+  action: Pick<Action, "itemType" | "actionType" | "reason">
 ) {
   const { error } = Joi.validate(
     // In typescript, this isn't an issue, but when this is transpiled to
     // javascript, it will contain additional elements.
-    pick(action, ["item_type", "action_type", "reason"]),
+    pick(action, ["itemType", "actionType", "reason"]),
     ActionSchema,
     {
       presence: "required",
@@ -151,7 +151,7 @@ export function validateAction(
   }
 }
 
-export type CreateActionInput = Omit<Action, "id" | "tenant_id" | "created_at">;
+export type CreateActionInput = Omit<Action, "id" | "tenantID" | "createdAt">;
 
 export interface CreateActionResultObject {
   /**
@@ -179,8 +179,8 @@ export async function createAction(
   // created.
   const defaults: Sub<Action, CreateActionInput> = {
     id,
-    tenant_id: tenantID,
-    created_at: new Date(),
+    tenantID,
+    createdAt: new Date(),
   };
 
   // Merge the defaults with the input.
@@ -192,11 +192,11 @@ export async function createAction(
   // This filter ensures that a given user can't flag/respect a given user more
   // than once.
   const filter: FilterQuery<Action> = {
-    action_type: input.action_type,
-    item_type: input.item_type,
-    item_id: input.item_id,
+    actionType: input.actionType,
+    itemType: input.itemType,
+    itemID: input.itemID,
     reason: input.reason,
-    user_id: input.user_id,
+    userID: input.userID,
   };
 
   // Create the upsert/update operation.
@@ -254,16 +254,16 @@ export async function retrieveManyUserActionPresence(
 ): Promise<GQLActionPresence[]> {
   const cursor = await collection(mongo).find(
     {
-      tenant_id: tenantID,
-      user_id: userID,
-      item_type: itemType,
-      item_id: { $in: itemIDs },
+      tenantID,
+      userID,
+      itemType,
+      itemID: { $in: itemIDs },
     },
     {
-      // We only need the item_id and action_type from the database.
+      // We only need the item_id and actionType from the database.
       projection: {
-        item_id: 1,
-        action_type: 1,
+        itemID: 1,
+        actionType: 1,
       },
     }
   );
@@ -273,12 +273,12 @@ export async function retrieveManyUserActionPresence(
   // For each of the actions returned by the query, group the actions by the
   // item id. Then compute the action presence for each of the actions.
   return itemIDs
-    .map(itemID => actions.filter(action => action.item_id === itemID))
+    .map(itemID => actions.filter(action => action.itemID === itemID))
     .map(itemActions =>
       itemActions.reduce(
-        (actionPresence, { action_type }) => ({
+        (actionPresence, { actionType }) => ({
           ...actionPresence,
-          [camelCase(action_type)]: true,
+          [camelCase(actionType)]: true,
         }),
         {
           reaction: false,
@@ -291,7 +291,7 @@ export async function retrieveManyUserActionPresence(
 
 export type RemoveActionInput = Pick<
   Action,
-  "action_type" | "item_type" | "item_id" | "reason" | "user_id"
+  "actionType" | "itemType" | "itemID" | "reason" | "userID"
 >;
 
 /**
@@ -321,11 +321,11 @@ export async function removeAction(
 ): Promise<RemovedActionResultObject> {
   // Extract the filter parameters.
   const filter: FilterQuery<Action> = {
-    tenant_id: tenantID,
-    action_type: input.action_type,
-    item_type: input.item_type,
-    item_id: input.item_id,
-    user_id: input.user_id,
+    tenantID,
+    actionType: input.actionType,
+    itemType: input.itemType,
+    itemID: input.itemID,
+    userID: input.userID,
   };
 
   // Only add the reason to the filter if it's been specified, otherwise we'll
@@ -397,10 +397,10 @@ export function invertEncodedActionCounts(
  * the groupings as seen in `EncodedActionCounts`.
  */
 function encodeActionCountKeys(action: Action): string[] {
-  const keys = [action.action_type as string];
+  const keys = [action.actionType as string];
   if (action.reason) {
     keys.push(
-      [action.action_type as string, action.reason as string].join(
+      [action.actionType as string, action.reason as string].join(
         ACTION_COUNT_JOIN_CHAR
       )
     );
@@ -585,13 +585,13 @@ export async function removeRootActions(
   rootItemID: string
 ) {
   return collection(mongo).deleteMany({
-    tenant_id: tenantID,
-    root_item_id: rootItemID,
+    tenantID,
+    rootItemID,
   });
 }
 
 /**
- * mergeManyRootActions will update many Action `root_item_id'`s from one to
+ * mergeManyRootActions will update many Action `rootItemID`'s from one to
  * another.
  */
 export async function mergeManyRootActions(
@@ -602,14 +602,14 @@ export async function mergeManyRootActions(
 ) {
   return collection(mongo).updateMany(
     {
-      tenant_id: tenantID,
-      root_item_id: {
+      tenantID,
+      rootItemID: {
         $in: oldRootItemIDs,
       },
     },
     {
       $set: {
-        root_item_id: newRootItemID,
+        rootItemID: newRootItemID,
       },
     }
   );

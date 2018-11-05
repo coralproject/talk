@@ -26,10 +26,10 @@ export const Comment = (ctx: TenantContext) => ({
       ctx.tenant,
       ctx.user!,
       {
-        author_id: ctx.user!.id,
-        story_id: input.storyID,
+        authorID: ctx.user!.id,
+        storyID: input.storyID,
         body: input.body,
-        parent_id: input.parentID,
+        parentID: input.parentID,
       },
       ctx.req
     ),
@@ -46,27 +46,27 @@ export const Comment = (ctx: TenantContext) => ({
     ),
   createReaction: (input: GQLCreateCommentReactionInput) =>
     createReaction(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      itemID: input.commentID,
     }),
   removeReaction: (input: GQLRemoveCommentReactionInput) =>
     removeReaction(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      itemID: input.commentID,
     }),
   createDontAgree: (input: GQLCreateCommentDontAgreeInput) =>
     createDontAgree(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      itemID: input.commentID,
     }),
   removeDontAgree: (input: GQLRemoveCommentDontAgreeInput) =>
     removeDontAgree(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      itemID: input.commentID,
     }),
   createFlag: (input: GQLCreateCommentFlagInput) =>
     createFlag(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      itemID: input.commentID,
       reason: input.reason,
     }),
   removeFlag: (input: GQLRemoveCommentFlagInput) =>
     removeFlag(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      itemID: input.commentID,
     }),
 });

@@ -33,7 +33,7 @@ export const karma: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
-          action_type: ACTION_TYPE.FLAG,
+          actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
           metadata: {
             trust: getCommentTrustScore(author),

@@ -21,8 +21,8 @@ import { updateStoryActionCounts } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 
-export type CreateAction = Omit<CreateActionInput, "root_item_id"> &
-  Required<Pick<CreateActionInput, "root_item_id">>;
+export type CreateAction = Omit<CreateActionInput, "rootItemID"> &
+  Required<Pick<CreateActionInput, "rootItemID">>;
 
 export async function addCommentActions(
   mongo: Db,
@@ -55,7 +55,7 @@ export async function addCommentActions(
     await updateStoryActionCounts(
       mongo,
       tenant.id,
-      comment.story_id,
+      comment.storyID,
       actionCounts
     );
 
@@ -77,14 +77,14 @@ async function addCommentAction(
   tenant: Tenant,
   input: CreateActionInput
 ): Promise<Readonly<Comment>> {
-  const comment = await retrieveComment(mongo, tenant.id, input.item_id);
+  const comment = await retrieveComment(mongo, tenant.id, input.itemID);
   if (!comment) {
     // TODO: replace to match error returned by the models/comments.ts
     throw new Error("comment not found");
   }
 
   // Store the story ID on the action as a story_id.
-  input.root_item_id = comment.story_id;
+  input.rootItemID = comment.storyID;
 
   // We have to perform a type assertion here because for some reason, the type
   // coercion is not determining that because we filled in the `root_item_id`
@@ -98,7 +98,7 @@ export async function removeCommentAction(
   input: RemoveActionInput
 ): Promise<Readonly<Comment>> {
   // Get the Comment that we are leaving the Action on.
-  const comment = await retrieveComment(mongo, tenant.id, input.item_id);
+  const comment = await retrieveComment(mongo, tenant.id, input.itemID);
   if (!comment) {
     // TODO: replace to match error returned by the models/comments.ts
     throw new Error("comment not found");
@@ -123,7 +123,7 @@ export async function removeCommentAction(
     await updateStoryActionCounts(
       mongo,
       tenant.id,
-      comment.story_id,
+      comment.storyID,
       actionCounts
     );
 
@@ -139,7 +139,7 @@ export async function removeCommentAction(
   return comment;
 }
 
-export type CreateCommentReaction = Pick<CreateActionInput, "item_id">;
+export type CreateCommentReaction = Pick<CreateActionInput, "itemID">;
 
 export async function createReaction(
   mongo: Db,
@@ -148,14 +148,14 @@ export async function createReaction(
   input: CreateCommentReaction
 ) {
   return addCommentAction(mongo, tenant, {
-    action_type: ACTION_TYPE.REACTION,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
+    actionType: ACTION_TYPE.REACTION,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    itemID: input.itemID,
+    userID: author.id,
   });
 }
 
-export type RemoveCommentReaction = Pick<RemoveActionInput, "item_id">;
+export type RemoveCommentReaction = Pick<RemoveActionInput, "itemID">;
 
 export async function removeReaction(
   mongo: Db,
@@ -164,14 +164,14 @@ export async function removeReaction(
   input: RemoveCommentReaction
 ) {
   return removeCommentAction(mongo, tenant, {
-    action_type: ACTION_TYPE.REACTION,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
+    actionType: ACTION_TYPE.REACTION,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    itemID: input.itemID,
+    userID: author.id,
   });
 }
 
-export type CreateCommentDontAgree = Pick<CreateActionInput, "item_id">;
+export type CreateCommentDontAgree = Pick<CreateActionInput, "itemID">;
 
 export async function createDontAgree(
   mongo: Db,
@@ -180,14 +180,14 @@ export async function createDontAgree(
   input: CreateCommentDontAgree
 ) {
   return addCommentAction(mongo, tenant, {
-    action_type: ACTION_TYPE.DONT_AGREE,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
+    actionType: ACTION_TYPE.DONT_AGREE,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    itemID: input.itemID,
+    userID: author.id,
   });
 }
 
-export type RemoveCommentDontAgree = Pick<RemoveActionInput, "item_id">;
+export type RemoveCommentDontAgree = Pick<RemoveActionInput, "itemID">;
 
 export async function removeDontAgree(
   mongo: Db,
@@ -196,14 +196,14 @@ export async function removeDontAgree(
   input: RemoveCommentDontAgree
 ) {
   return removeCommentAction(mongo, tenant, {
-    action_type: ACTION_TYPE.DONT_AGREE,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
+    actionType: ACTION_TYPE.DONT_AGREE,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    itemID: input.itemID,
+    userID: author.id,
   });
 }
 
-export type CreateCommentFlag = Pick<CreateActionInput, "item_id"> & {
+export type CreateCommentFlag = Pick<CreateActionInput, "itemID"> & {
   reason: GQLCOMMENT_FLAG_REPORTED_REASON;
 };
 
@@ -214,15 +214,15 @@ export async function createFlag(
   input: CreateCommentFlag
 ) {
   return addCommentAction(mongo, tenant, {
-    action_type: ACTION_TYPE.FLAG,
+    actionType: ACTION_TYPE.FLAG,
     reason: input.reason,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    itemID: input.itemID,
+    userID: author.id,
   });
 }
 
-export type RemoveCommentFlag = Pick<RemoveActionInput, "item_id">;
+export type RemoveCommentFlag = Pick<RemoveActionInput, "itemID">;
 
 export async function removeFlag(
   mongo: Db,
@@ -231,9 +231,9 @@ export async function removeFlag(
   input: RemoveCommentFlag
 ) {
   return removeCommentAction(mongo, tenant, {
-    action_type: ACTION_TYPE.FLAG,
-    item_type: ACTION_ITEM_TYPE.COMMENTS,
-    item_id: input.item_id,
-    user_id: author.id,
+    actionType: ACTION_TYPE.FLAG,
+    itemType: ACTION_ITEM_TYPE.COMMENTS,
+    itemID: input.itemID,
+    userID: author.id,
   });
 }

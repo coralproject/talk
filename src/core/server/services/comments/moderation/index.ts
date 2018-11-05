@@ -1,7 +1,7 @@
 import { Omit, Promiseable } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import { CreateActionInput } from "talk-server/models/action";
-import { Comment } from "talk-server/models/comment";
+import { EditCommentInput } from "talk-server/models/comment";
 import { Story } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
@@ -9,7 +9,7 @@ import { Request } from "talk-server/types/express";
 
 import { moderationPhases } from "./phases";
 
-export type ModerationAction = Omit<CreateActionInput, "item_id" | "item_type">;
+export type ModerationAction = Omit<CreateActionInput, "itemID" | "itemType">;
 
 export interface PhaseResult {
   actions: ModerationAction[];
@@ -20,7 +20,7 @@ export interface PhaseResult {
 export interface ModerationPhaseContext {
   story: Story;
   tenant: Tenant;
-  comment: Partial<Comment>;
+  comment: Partial<EditCommentInput>;
   author: User;
   req?: Request;
 }

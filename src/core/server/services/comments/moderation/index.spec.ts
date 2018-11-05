@@ -51,11 +51,11 @@ describe("compose", () => {
 
     const flags = [
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
       },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
     ];
@@ -71,7 +71,7 @@ describe("compose", () => {
       () => ({
         actions: [
           {
-            action_type: ACTION_TYPE.FLAG,
+            actionType: ACTION_TYPE.FLAG,
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
           },
         ],
@@ -85,7 +85,7 @@ describe("compose", () => {
     }
 
     expect(final.actions).not.toContainEqual({
-      action_type: ACTION_TYPE.FLAG,
+      actionType: ACTION_TYPE.FLAG,
       reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
     });
   });

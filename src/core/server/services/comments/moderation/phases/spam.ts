@@ -20,29 +20,31 @@ export const spam: IntermediateModerationPhase = async ({
 }): Promise<IntermediatePhaseResult | void> => {
   const integration = tenant.integrations.akismet;
 
+  const log = logger.child({
+    tenantID: tenant.id,
+  });
+
   // We can only check for spam if this comment originated from a graphql
   // request via an HTTP call.
   if (!req) {
-    logger.debug({ tenant_id: tenant.id }, "request was not available");
+    log.debug("request was not available");
     return;
   }
 
   if (!integration.enabled) {
-    logger.debug({ tenant_id: tenant.id }, "akismet integration was disabled");
+    log.debug("akismet integration was disabled");
     return;
   }
 
   if (!integration.key) {
-    logger.error(
-      { tenant_id: tenant.id },
+    log.error(
       "akismet integration was enabled but the key configuration was missing"
     );
     return;
   }
 
   if (!integration.site) {
-    logger.error(
-      { tenant_id: tenant.id },
+    log.error(
       "akismet integration was enabled but the site configuration was missing"
     );
     return;
@@ -62,33 +64,24 @@ export const spam: IntermediateModerationPhase = async ({
   // Grab the properties we need.
   const userIP = req.ip;
   if (!userIP) {
-    logger.debug(
-      { tenant_id: tenant.id },
-      "request did not contain ip address, aborting spam check"
-    );
+    log.debug("request did not contain ip address, aborting spam check");
     return;
   }
 
   const userAgent = req.get("User-Agent");
   if (!userAgent || userAgent.length === 0) {
-    logger.debug(
-      { tenant_id: tenant.id },
-      "request did not contain User-Agent header, aborting spam check"
-    );
+    log.debug("request did not contain User-Agent header, aborting spam check");
     return;
   }
 
   const referrer = req.get("Referrer");
   if (!referrer || referrer.length === 0) {
-    logger.debug(
-      { tenant_id: tenant.id },
-      "request did not contain Referrer header, aborting spam check"
-    );
+    log.debug("request did not contain Referrer header, aborting spam check");
     return;
   }
 
   try {
-    logger.trace({ tenant_id: tenant.id }, "checking comment for spam");
+    log.trace("checking comment for spam");
 
     // Check the comment for spam.
     const isSpam = await client.checkSpam({
@@ -102,15 +95,12 @@ export const spam: IntermediateModerationPhase = async ({
       is_test: false,
     });
     if (isSpam) {
-      logger.trace(
-        { tenant_id: tenant.id, is_spam: isSpam },
-        "comment contained spam"
-      );
+      log.trace({ isSpam }, "comment contained spam");
       return {
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
         actions: [
           {
-            action_type: ACTION_TYPE.FLAG,
+            actionType: ACTION_TYPE.FLAG,
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
           },
         ],
@@ -121,14 +111,8 @@ export const spam: IntermediateModerationPhase = async ({
       };
     }
 
-    logger.trace(
-      { tenant_id: tenant.id, is_spam: isSpam },
-      "comment did not contain spam"
-    );
+    log.trace({ isSpam }, "comment did not contain spam");
   } catch (err) {
-    logger.error(
-      { tenant_id: tenant.id, err },
-      "could not determine if comment contained spam"
-    );
+    log.error({ err }, "could not determine if comment contained spam");
   }
 };

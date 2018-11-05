@@ -10,14 +10,14 @@ import {
 
 describe("#encodeActionCounts", () => {
   it("generates the action counts correctly", () => {
-    const actions = [
-      { action_type: ACTION_TYPE.DONT_AGREE },
+    const actions: Array<Partial<Action>> = [
+      { actionType: ACTION_TYPE.DONT_AGREE },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
       },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
     ];
@@ -29,17 +29,17 @@ describe("#encodeActionCounts", () => {
 
 describe("#decodeActionCounts", () => {
   it("parses the action counts correctly", () => {
-    const actions = [
-      { action_type: ACTION_TYPE.REACTION },
-      { action_type: ACTION_TYPE.REACTION },
-      { action_type: ACTION_TYPE.REACTION },
-      { action_type: ACTION_TYPE.DONT_AGREE },
+    const actions: Array<Partial<Action>> = [
+      { actionType: ACTION_TYPE.REACTION },
+      { actionType: ACTION_TYPE.REACTION },
+      { actionType: ACTION_TYPE.REACTION },
+      { actionType: ACTION_TYPE.DONT_AGREE },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
       },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
     ];
@@ -56,48 +56,48 @@ describe("#decodeActionCounts", () => {
 
 describe("#validateAction", () => {
   it("allows a valid action", () => {
-    const actions = [
+    const actions: Array<Partial<Action>> = [
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.REACTION,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.REACTION,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.DONT_AGREE,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.DONT_AGREE,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TRUST,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
       },
     ];
@@ -108,20 +108,20 @@ describe("#validateAction", () => {
   });
 
   it("does not allow an invalid action", () => {
-    const actions = [
+    const actions: Array<Partial<Action>> = [
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.DONT_AGREE,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.DONT_AGREE,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.DONT_AGREE,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.DONT_AGREE,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        actionType: ACTION_TYPE.FLAG,
       },
     ];
 

@@ -50,7 +50,7 @@ export const commentLength: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
         {
-          action_type: ACTION_TYPE.FLAG,
+          actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
           metadata: {
             count: length,

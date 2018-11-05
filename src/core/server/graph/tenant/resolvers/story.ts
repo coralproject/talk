@@ -13,13 +13,13 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
     }
 
     if (ctx.tenant.autoCloseStream && ctx.tenant.closedTimeout) {
-      return DateTime.fromJSDate(s.created_at)
+      return DateTime.fromJSDate(s.createdAt)
         .plus(ctx.tenant.closedTimeout)
         .toJSDate();
     }
 
     return null;
   },
-  actionCounts: s => decodeActionCounts(s.action_counts),
-  commentCounts: s => s.comment_counts,
+  actionCounts: s => decodeActionCounts(s.actionCounts),
+  commentCounts: s => s.commentCounts,
 };

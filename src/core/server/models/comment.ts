@@ -27,40 +27,32 @@ export interface BodyHistoryItem {
   body: string;
   created_at: Date;
 }
-
-export interface StatusHistoryItem {
-  status: GQLCOMMENT_STATUS;
-  assigned_by?: string;
-  created_at: Date;
-}
-
 export interface Comment extends TenantResource {
   readonly id: string;
-  parent_id?: string;
-  author_id: string;
-  story_id: string;
+  parentID?: string;
+  authorID: string;
+  storyID: string;
   body: string;
-  body_history: BodyHistoryItem[];
+  bodyHistory: BodyHistoryItem[];
   status: GQLCOMMENT_STATUS;
-  status_history: StatusHistoryItem[];
-  action_counts: EncodedActionCounts;
-  grandparent_ids: string[];
-  reply_ids: string[];
-  reply_count: number;
-  created_at: Date;
-  deleted_at?: Date;
+  actionCounts: EncodedActionCounts;
+  grandparentIDs: string[];
+  replyIDs: string[];
+  replyCount: number;
+  createdAt: Date;
+  deletedAt?: Date;
   metadata?: Record<string, any>;
 }
 
 export type CreateCommentInput = Omit<
   Comment,
   | "id"
-  | "tenant_id"
-  | "created_at"
-  | "reply_ids"
-  | "reply_count"
-  | "body_history"
-  | "status_history"
+  | "tenantID"
+  | "createdAt"
+  | "replyIDs"
+  | "replyCount"
+  | "actionCounts"
+  | "bodyHistory"
 >;
 
 export async function createComment(
@@ -71,25 +63,20 @@ export async function createComment(
   const now = new Date();
 
   // Pull out some useful properties from the input.
-  const { body, status } = input;
+  const { body } = input;
 
   // default are the properties set by the application when a new comment is
   // created.
   const defaults: Sub<Comment, CreateCommentInput> = {
     id: uuid.v4(),
-    tenant_id: tenantID,
-    created_at: now,
-    reply_ids: [],
-    reply_count: 0,
-    body_history: [
+    tenantID,
+    createdAt: now,
+    replyIDs: [],
+    replyCount: 0,
+    actionCounts: {},
+    bodyHistory: [
       {
         body,
-        created_at: now,
-      },
-    ],
-    status_history: [
-      {
-        status,
         created_at: now,
       },
     ],
@@ -120,12 +107,12 @@ export async function pushChildCommentIDOntoParent(
   // This pushes the new child ID onto the parent comment.
   const result = await collection(mongo).findOneAndUpdate(
     {
-      tenant_id: tenantID,
+      tenantID,
       id: parentID,
     },
     {
-      $push: { reply_ids: childID },
-      $inc: { reply_count: 1 },
+      $push: { replyIDs: childID },
+      $inc: { replyCount: 1 },
     }
   );
 
@@ -134,7 +121,7 @@ export async function pushChildCommentIDOntoParent(
 
 export type EditCommentInput = Pick<
   Comment,
-  "id" | "author_id" | "body" | "status" | "metadata"
+  "id" | "authorID" | "body" | "status" | "metadata"
 > & {
   /**
    * lastEditableCommentCreatedAt is the date that the last comment would have
@@ -154,29 +141,27 @@ export async function editComment(
     GQLCOMMENT_STATUS.PREMOD,
     GQLCOMMENT_STATUS.ACCEPTED,
   ];
-  const createdAt = new Date();
+  const now = new Date();
 
   const {
     id,
     body,
     lastEditableCommentCreatedAt,
     status,
-    author_id,
+    authorID,
     metadata,
   } = input;
-
-  // TODO: (wyattjoh) consider resetting the action counts if we're starting fresh with a new comment
 
   const result = await collection(db).findOneAndUpdate(
     {
       id,
-      tenant_id: tenantID,
-      author_id,
+      tenantID,
+      authorID,
       status: {
         $in: EDITABLE_STATUSES,
       },
-      deleted_at: null,
-      created_at: {
+      deletedAt: null,
+      createdAt: {
         $gt: lastEditableCommentCreatedAt,
       },
     },
@@ -190,13 +175,9 @@ export async function editComment(
         ...dotize({ metadata }),
       },
       $push: {
-        body_history: {
+        bodyHistory: {
           body,
-          created_at: createdAt,
-        },
-        status_history: {
-          type: status,
-          created_at: createdAt,
+          createdAt: now,
         },
       },
     },
@@ -212,7 +193,7 @@ export async function editComment(
       throw new Error("comment not found");
     }
 
-    if (comment.author_id !== author_id) {
+    if (comment.authorID !== authorID) {
       // TODO: (wyattjoh) return better error
       throw new Error("comment author mismatch");
     }
@@ -224,7 +205,7 @@ export async function editComment(
     }
 
     // Check to see if the edit window expired.
-    if (comment.created_at <= lastEditableCommentCreatedAt) {
+    if (comment.createdAt <= lastEditableCommentCreatedAt) {
       // TODO: (wyattjoh) return better error
       throw new Error("edit window expired");
     }
@@ -237,7 +218,7 @@ export async function editComment(
 }
 
 export async function retrieveComment(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ id, tenant_id: tenantID });
+  return collection(db).findOne({ id, tenantID });
 }
 
 export async function retrieveManyComments(
@@ -249,7 +230,7 @@ export async function retrieveManyComments(
     id: {
       $in: ids,
     },
-    tenant_id: tenantID,
+    tenantID,
   });
 
   const comments = await cursor.toArray();
@@ -269,7 +250,7 @@ function cursorGetterFactory(
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
-      return comment => comment.created_at;
+      return comment => comment.createdAt;
     case GQLCOMMENT_SORT.REPLIES_DESC:
     case GQLCOMMENT_SORT.RESPECT_DESC:
       return (_, index) =>
@@ -294,9 +275,9 @@ export async function retrieveCommentRepliesConnection(
 ) {
   // Create the query.
   const query = new Query(collection(db)).where({
-    tenant_id: tenantID,
-    story_id: storyID,
-    parent_id: parentID,
+    tenantID,
+    storyID,
+    parentID,
   });
 
   // Return a connection for the comments query.
@@ -319,7 +300,7 @@ export async function retrieveCommentParentsConnection(
   { last: limit, before: skip = 0 }: { last: number; before?: number }
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Return nothing if this comment does not have any parents.
-  if (!comment.parent_id) {
+  if (!comment.parentID) {
     return createConnection({
       pageInfo: {
         hasNextPage: false,
@@ -334,7 +315,7 @@ export async function retrieveCommentParentsConnection(
     return createConnection({
       pageInfo: {
         hasNextPage: false,
-        hasPreviousPage: !!comment.parent_id,
+        hasPreviousPage: !!comment.parentID,
         endCursor: 0,
         startCursor: 0,
       },
@@ -344,7 +325,7 @@ export async function retrieveCommentParentsConnection(
   // If the last paramter is 1, and the after paramter is either unset or equal
   // to zero, then all we have to return is the direct parent.
   if (limit === 1 && skip <= 0) {
-    const parent = await retrieveComment(mongo, tenantID, comment.parent_id);
+    const parent = await retrieveComment(mongo, tenantID, comment.parentID);
     if (!parent) {
       throw new Error("parent comment not found");
     }
@@ -353,7 +334,7 @@ export async function retrieveCommentParentsConnection(
       edges: [{ node: parent, cursor: 1 }],
       pageInfo: {
         hasNextPage: false,
-        hasPreviousPage: comment.grandparent_ids.length > 0,
+        hasPreviousPage: comment.grandparentIDs.length > 0,
         endCursor: 1,
         startCursor: 1,
       },
@@ -361,7 +342,7 @@ export async function retrieveCommentParentsConnection(
   }
 
   // Create a list of all the comment parent ids, in reverse order.
-  const parentIDs = [comment.parent_id, ...comment.grandparent_ids.reverse()];
+  const parentIDs = [comment.parentID, ...comment.grandparentIDs.reverse()];
 
   // Fetch the subset of the comment id's that we are going to query for.
   const parentIDSubset = parentIDs.slice(skip, skip + limit);
@@ -415,9 +396,9 @@ export async function retrieveCommentStoryConnection(
 ) {
   // Create the query.
   const query = new Query(collection(db)).where({
-    tenant_id: tenantID,
-    story_id: storyID,
-    parent_id: null,
+    tenantID,
+    storyID,
+    parentID: null,
   });
 
   // Return a connection for the comments query.
@@ -440,8 +421,8 @@ export async function retrieveCommentUserConnection(
 ) {
   // Create the query.
   const query = new Query(collection(db)).where({
-    tenant_id: tenantID,
-    author_id: userID,
+    tenantID,
+    authorID: userID,
   });
 
   // Return a connection for the comments query.
@@ -498,25 +479,25 @@ async function retrieveConnection(
 function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
-      query.orderBy({ created_at: -1 });
+      query.orderBy({ createdAt: -1 });
       if (input.after) {
-        query.where({ created_at: { $lt: input.after as Date } });
+        query.where({ createdAt: { $lt: input.after as Date } });
       }
       break;
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
-      query.orderBy({ created_at: 1 });
+      query.orderBy({ createdAt: 1 });
       if (input.after) {
-        query.where({ created_at: { $gt: input.after as Date } });
+        query.where({ createdAt: { $gt: input.after as Date } });
       }
       break;
     case GQLCOMMENT_SORT.REPLIES_DESC:
-      query.orderBy({ reply_count: -1, created_at: -1 });
+      query.orderBy({ replyCount: -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
       break;
     case GQLCOMMENT_SORT.RESPECT_DESC:
-      query.orderBy({ "action_counts.REACTION": -1, created_at: -1 });
+      query.orderBy({ "actionCounts.REACTION": -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
@@ -539,10 +520,12 @@ export async function updateCommentActionCounts(
   actionCounts: EncodedActionCounts
 ) {
   const result = await collection(mongo).findOneAndUpdate(
-    { id, tenant_id: tenantID },
+    { id, tenantID },
     // Update all the specific action counts that are associated with each of
     // the counts.
-    { $inc: dotize({ action_counts: actionCounts }) },
+    {
+      $inc: dotize({ actionCounts }),
+    },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
@@ -562,8 +545,8 @@ export async function removeStoryComments(
 ) {
   // Delete all the comments written on a specific story.
   return collection(mongo).deleteMany({
-    tenant_id: tenantID,
-    story_id: storyID,
+    tenantID,
+    storyID,
   });
 }
 
@@ -578,14 +561,14 @@ export async function mergeManyCommentStories(
 ) {
   return collection(mongo).updateMany(
     {
-      tenant_id: tenantID,
-      story_id: {
+      tenantID,
+      storyID: {
         $in: oldStoryIDs,
       },
     },
     {
       $set: {
-        story_id: newStoryID,
+        storyID: newStoryID,
       },
     }
   );

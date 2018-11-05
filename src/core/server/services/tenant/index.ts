@@ -64,7 +64,7 @@ export async function install(
   await cache.update(redis, tenant);
 
   logger.info(
-    { tenant_id: tenant.id, tenant_domain: tenant.domain },
+    { tenantID: tenant.id, tenantDomain: tenant.domain },
     "a tenant has been installed"
   );
 
