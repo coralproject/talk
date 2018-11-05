@@ -2,27 +2,24 @@ import { DateTime } from "luxon";
 
 import { GQLStoryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 import { decodeActionCounts } from "talk-server/models/action";
-import { Story } from "talk-server/models/story";
+import * as story from "talk-server/models/story";
 
-const Story: GQLStoryTypeResolver<Story> = {
-  comments: (story, input, ctx) =>
-    ctx.loaders.Comments.forStory(story.id, input),
+export const Story: GQLStoryTypeResolver<story.Story> = {
+  comments: (s, input, ctx) => ctx.loaders.Comments.forStory(s.id, input),
   isClosed: () => false,
-  closedAt: (story, input, ctx) => {
-    if (story.closedAt) {
-      return story.closedAt;
+  closedAt: (s, input, ctx) => {
+    if (s.closedAt) {
+      return s.closedAt;
     }
 
     if (ctx.tenant.autoCloseStream && ctx.tenant.closedTimeout) {
-      return DateTime.fromJSDate(story.created_at)
+      return DateTime.fromJSDate(s.created_at)
         .plus(ctx.tenant.closedTimeout)
         .toJSDate();
     }
 
     return null;
   },
-  actionCounts: story => decodeActionCounts(story.action_counts),
-  commentCounts: story => story.comment_counts,
+  actionCounts: s => decodeActionCounts(s.action_counts),
+  commentCounts: s => s.comment_counts,
 };
-
-export default Story;

@@ -4,7 +4,7 @@ import {
   GQLOIDCAuthIntegrationTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
-const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
+export const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
   GQLOIDCAuthIntegration
 > = {
   callbackURL: (integration, args, ctx) => {
@@ -22,5 +22,3 @@ const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
     return constructTenantURL(ctx.config, ctx.tenant, path);
   },
 };
-
-export default OIDCAuthIntegration;

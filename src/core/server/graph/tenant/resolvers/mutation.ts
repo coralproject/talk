@@ -1,6 +1,6 @@
 import { GQLMutationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
-const Mutation: GQLMutationTypeResolver<void> = {
+export const Mutation: GQLMutationTypeResolver<void> = {
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comment.edit(input),
     clientMutationId: input.clientMutationId,
@@ -108,5 +108,3 @@ const Mutation: GQLMutationTypeResolver<void> = {
     clientMutationId: input.clientMutationId,
   }),
 };
-
-export default Mutation;

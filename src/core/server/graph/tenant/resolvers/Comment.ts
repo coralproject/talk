@@ -4,48 +4,41 @@ import {
   GQLCommentTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { decodeActionCounts } from "talk-server/models/action";
-import { Comment } from "talk-server/models/comment";
+import * as comment from "talk-server/models/comment";
 import { createConnection } from "talk-server/models/connection";
 
-const Comment: GQLCommentTypeResolver<Comment> = {
-  editing: (comment, input, ctx) => ({
+export const Comment: GQLCommentTypeResolver<comment.Comment> = {
+  editing: (c, input, ctx) => ({
     // When there is more than one body history, then the comment has been
     // edited.
-    edited: comment.body_history.length > 1,
+    edited: c.body_history.length > 1,
     // The date that the comment is editable until is the tenant's edit window
     // length added to the comment created date.
     editableUntil: new Date(
-      comment.created_at.valueOf() + ctx.tenant.editCommentWindowLength
+      c.created_at.valueOf() + ctx.tenant.editCommentWindowLength
     ),
   }),
-  createdAt: comment => comment.created_at,
-  author: (comment, input, ctx) =>
-    ctx.loaders.Users.user.load(comment.author_id),
-  replies: (comment, input, ctx) =>
-    comment.reply_count > 0
-      ? ctx.loaders.Comments.forParent(comment.story_id, comment.id, input)
+  createdAt: c => c.created_at,
+  author: (c, input, ctx) => ctx.loaders.Users.user.load(c.author_id),
+  replies: (c, input, ctx) =>
+    c.reply_count > 0
+      ? ctx.loaders.Comments.forParent(c.story_id, c.id, input)
       : createConnection(),
-  actionCounts: comment => decodeActionCounts(comment.action_counts),
-  myActionPresence: (comment, input, ctx) =>
-    ctx.user
-      ? ctx.loaders.Comments.retrieveMyActionPresence.load(comment.id)
-      : null,
-  parentCount: comment =>
-    comment.parent_id ? comment.grandparent_ids.length + 1 : 0,
-  depth: comment =>
-    comment.parent_id ? comment.grandparent_ids.length + 1 : 0,
-  replyCount: comment => comment.reply_count,
-  rootParent: (comment, input, ctx, info) => {
+  actionCounts: c => decodeActionCounts(c.action_counts),
+  myActionPresence: (c, input, ctx) =>
+    ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,
+  parentCount: c => (c.parent_id ? c.grandparent_ids.length + 1 : 0),
+  depth: c => (c.parent_id ? c.grandparent_ids.length + 1 : 0),
+  replyCount: c => c.reply_count,
+  rootParent: (c, input, ctx, info) => {
     // If there isn't a parent, then return nothing!
-    if (!comment.parent_id) {
+    if (!c.parent_id) {
       return null;
     }
 
     // rootParentID is the root parent id for a given comment.
     const rootParentID =
-      comment.grandparent_ids.length > 0
-        ? comment.grandparent_ids[0]
-        : comment.parent_id;
+      c.grandparent_ids.length > 0 ? c.grandparent_ids[0] : c.parent_id;
 
     // Get the field names of the fields being requested, if it's only the ID,
     // we have that, so no need to make a database request.
@@ -60,9 +53,9 @@ const Comment: GQLCommentTypeResolver<Comment> = {
     // TODO: (wyattjoh) if the parent and the parents (containing the parent) are requested, the parent comment is retrieved from the database twice. Investigate ways of reducing i/o.
     return ctx.loaders.Comments.comment.load(rootParentID);
   },
-  parent: (comment, input, ctx, info) => {
+  parent: (c, input, ctx, info) => {
     // If there isn't a parent, then return nothing!
-    if (!comment.parent_id) {
+    if (!c.parent_id) {
       return null;
     }
 
@@ -71,21 +64,16 @@ const Comment: GQLCommentTypeResolver<Comment> = {
     const fields = getRequestedFields<GQLComment>(info);
     if (fields.length === 1 && fields[0] === "id") {
       return {
-        id: comment.parent_id,
+        id: c.parent_id,
       };
     }
 
     // We want more than the ID! Get the comment!
     // TODO: (wyattjoh) if the parent and the parents (containing the parent) are requested, the parent comment is retrieved from the database twice. Investigate ways of reducing i/o.
-    return ctx.loaders.Comments.comment.load(comment.parent_id);
+    return ctx.loaders.Comments.comment.load(c.parent_id);
   },
-  parents: (comment, input, ctx) =>
+  parents: (c, input, ctx) =>
     // Some resolver optimization.
-    comment.parent_id
-      ? ctx.loaders.Comments.parents(comment, input)
-      : createConnection(),
-  story: (comment, input, ctx) =>
-    ctx.loaders.Stories.story.load(comment.story_id),
+    c.parent_id ? ctx.loaders.Comments.parents(c, input) : createConnection(),
+  story: (c, input, ctx) => ctx.loaders.Stories.story.load(c.story_id),
 };
-
-export default Comment;
