@@ -27,3 +27,4 @@ Configuration:
   be processed before it will skip the toxicity analysis, parsed by
   [ms](https://www.npmjs.com/package/ms). (Default `300ms`)
 - `TALK_PERSPECTIVE_DO_NOT_STORE` - Whether the API stores or deletes the comment text and context from this request after it has been evaluated. Stored comments will be used for future research and community model building purposes to improve the API over time. (Default `true`) [Perspective API - Analyze Comment Request](https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#analyzecomment-request)
+- `TALK_PERSPECTIVE_SEND_FEEDBACK` - If set to `TRUE`, this plugin will send back moderation actions as feedback to [Perspective](http://perspectiveapi.com/) to improve their model. (Default `FALSE`)
