@@ -1,4 +1,3 @@
-const { URL } = require('url');
 const fetch = require('node-fetch');
 const {
   API_ENDPOINT,
@@ -14,7 +13,7 @@ const { ROOT_URL } = require('config');
 
 // Use the ROOT_URL to grab the domain to construct a communityID for the
 // feedback.
-const communityId = `Coral:${new URL(ROOT_URL).domain}`;
+const communityId = `Coral:${ROOT_URL}`;
 
 async function send(method, body) {
   // Perform the fetch.
