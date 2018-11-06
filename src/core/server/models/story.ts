@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLStoryMetadata,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/action";
+import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -45,7 +45,7 @@ export interface Story extends TenantResource {
   /**
    * actionCounts stores all the action counts for all Comment's on this Story.
    */
-  actionCounts: EncodedActionCounts;
+  commentActionCounts: EncodedCommentActionCounts;
 
   /**
    * commentCounts stores the different counts for each comment on the Story
@@ -91,7 +91,7 @@ export async function upsertStory(
       url,
       tenantID,
       createdAt: now,
-      actionCounts: {},
+      commentActionCounts: {},
       commentCounts: createEmptyCommentCounts(),
     },
   };
@@ -240,7 +240,7 @@ export async function createStory(
     url,
     tenantID,
     createdAt: now,
-    actionCounts: {},
+    commentActionCounts: {},
     commentCounts: createEmptyCommentCounts(),
   };
 
@@ -359,7 +359,7 @@ export async function updateStoryActionCounts(
   mongo: Db,
   tenantID: string,
   id: string,
-  actionCounts: EncodedActionCounts
+  actionCounts: EncodedCommentActionCounts
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },

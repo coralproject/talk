@@ -15,7 +15,7 @@ import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(db: Db) {
-  return db.collection<Readonly<Action>>("actions");
+  return db.collection<Readonly<CommentAction>>("commentActions");
 }
 
 export enum ACTION_TYPE {
@@ -37,15 +37,7 @@ export enum ACTION_TYPE {
   FLAG = "FLAG",
 }
 
-export type EncodedActionCounts = Record<string, number>;
-
-export interface ActionCountGroup {
-  total: number;
-}
-
-export enum ACTION_ITEM_TYPE {
-  COMMENTS = "COMMENTS",
-}
+export type EncodedCommentActionCounts = Record<string, number>;
 
 /**
  * FLAG_REASON is the reason that a given Flag has been created.
@@ -55,7 +47,7 @@ export type FLAG_REASON =
   | GQLCOMMENT_FLAG_REPORTED_REASON
   | GQLCOMMENT_FLAG_REASON;
 
-export interface Action extends TenantResource {
+export interface CommentAction extends TenantResource {
   /**
    * id is the identifier for this specific Action.
    */
@@ -67,15 +59,15 @@ export interface Action extends TenantResource {
   actionType: ACTION_TYPE;
 
   /**
-   * itemType enables polymorphic behavior be allowing multiple item types
-   * to be represented in a single collection.
+   * commentID is the ID of the specific item that this Action is associated with.
    */
-  itemType: ACTION_ITEM_TYPE;
+  commentID: string;
 
   /**
-   * itemID is the ID of the specific item that this Action is associated with.
+   * commentRevisionID is the ID of the specific comment text that the Action
+   * is relating to.
    */
-  itemID: string;
+  commentRevisionID: string;
 
   /**
    * reason is the reason or secondary grouping identifier for why this
@@ -84,17 +76,17 @@ export interface Action extends TenantResource {
   reason?: FLAG_REASON;
 
   /**
-   * rootItemID represents the identifier for the item's associated item. In
+   * storyID represents the identifier for the item's associated item. In
    * the case of a REACTION left on a Comment, this ID would be the Stories ID.
    * In the case of a FLAG left on a User, this ID would be null.
    */
-  rootItemID?: string;
+  storyID?: string;
 
   /**
    * userID is the ID of the User that left this Action. In the event that the
    * Action was left by Talk, it will be null.
    */
-  userID?: string;
+  userID: string | null;
 
   /**
    * createdAt is the date that this particular Action was created at.
@@ -110,7 +102,6 @@ export interface Action extends TenantResource {
 const ActionSchema = [
   // Flags
   {
-    itemType: ACTION_ITEM_TYPE.COMMENTS,
     actionType: ACTION_TYPE.FLAG,
     // Only reasons for the flag action will be allowed here, and it must be
     // specified.
@@ -118,12 +109,10 @@ const ActionSchema = [
   },
   // Don't Agree
   {
-    itemType: ACTION_ITEM_TYPE.COMMENTS,
     actionType: ACTION_TYPE.DONT_AGREE,
   },
   // Reaction
   {
-    itemType: ACTION_ITEM_TYPE.COMMENTS,
     actionType: ACTION_TYPE.REACTION,
   },
 ];
@@ -133,12 +122,12 @@ const ActionSchema = [
  * expected schema, `ActionSchema`.
  */
 export function validateAction(
-  action: Pick<Action, "itemType" | "actionType" | "reason">
+  action: Pick<CommentAction, "actionType" | "reason">
 ) {
   const { error } = Joi.validate(
     // In typescript, this isn't an issue, but when this is transpiled to
     // javascript, it will contain additional elements.
-    pick(action, ["itemType", "actionType", "reason"]),
+    pick(action, ["actionType", "reason"]),
     ActionSchema,
     {
       presence: "required",
@@ -151,13 +140,16 @@ export function validateAction(
   }
 }
 
-export type CreateActionInput = Omit<Action, "id" | "tenantID" | "createdAt">;
+export type CreateActionInput = Omit<
+  CommentAction,
+  "id" | "tenantID" | "createdAt"
+>;
 
 export interface CreateActionResultObject {
   /**
    * action contains the resultant action that was created.
    */
-  action: Action;
+  action: CommentAction;
 
   /**
    * wasUpserted when true, indicates that this action was just newly created.
@@ -172,35 +164,27 @@ export async function createAction(
   tenantID: string,
   input: CreateActionInput
 ): Promise<CreateActionResultObject> {
+  const { metadata, ...filter } = input;
+
   // Create a new ID for the action.
   const id = uuid.v4();
 
   // defaults are the properties set by the application when a new action is
   // created.
-  const defaults: Sub<Action, CreateActionInput> = {
+  const defaults: Sub<CommentAction, CreateActionInput> = {
     id,
     tenantID,
     createdAt: new Date(),
   };
 
   // Merge the defaults with the input.
-  const action: Readonly<Action> = {
+  const action: Readonly<CommentAction> = {
     ...defaults,
     ...input,
   };
 
-  // This filter ensures that a given user can't flag/respect a given user more
-  // than once.
-  const filter: FilterQuery<Action> = {
-    actionType: input.actionType,
-    itemType: input.itemType,
-    itemID: input.itemID,
-    reason: input.reason,
-    userID: input.userID,
-  };
-
   // Create the upsert/update operation.
-  const update: { $setOnInsert: Readonly<Action> } = {
+  const update: { $setOnInsert: Readonly<CommentAction> } = {
     $setOnInsert: action,
   };
 
@@ -241,6 +225,21 @@ export async function createActions(
   return Promise.all(inputs.map(input => createAction(mongo, tenantID, input)));
 }
 
+export async function retrieveUserAction(
+  mongo: Db,
+  tenantID: string,
+  userID: string | null,
+  commentID: string,
+  actionType: ACTION_TYPE
+) {
+  return collection(mongo).findOne({
+    tenantID,
+    commentID,
+    userID,
+    actionType,
+  });
+}
+
 /**
  * retrieveManyUserActionPresence returns the action presence for a specific
  * user.
@@ -249,20 +248,18 @@ export async function retrieveManyUserActionPresence(
   mongo: Db,
   tenantID: string,
   userID: string | null,
-  itemType: ACTION_ITEM_TYPE,
-  itemIDs: string[]
+  commentIDs: string[]
 ): Promise<GQLActionPresence[]> {
   const cursor = await collection(mongo).find(
     {
       tenantID,
       userID,
-      itemType,
-      itemID: { $in: itemIDs },
+      commentID: { $in: commentIDs },
     },
     {
-      // We only need the item_id and actionType from the database.
+      // We only need the commentID and actionType from the database.
       projection: {
-        itemID: 1,
+        commentID: 1,
         actionType: 1,
       },
     }
@@ -272,8 +269,8 @@ export async function retrieveManyUserActionPresence(
 
   // For each of the actions returned by the query, group the actions by the
   // item id. Then compute the action presence for each of the actions.
-  return itemIDs
-    .map(itemID => actions.filter(action => action.itemID === itemID))
+  return commentIDs
+    .map(commentID => actions.filter(action => action.commentID === commentID))
     .map(itemActions =>
       itemActions.reduce(
         (actionPresence, { actionType }) => ({
@@ -290,8 +287,8 @@ export async function retrieveManyUserActionPresence(
 }
 
 export type RemoveActionInput = Pick<
-  Action,
-  "actionType" | "itemType" | "itemID" | "reason" | "userID"
+  CommentAction,
+  "actionType" | "commentID" | "commentRevisionID" | "reason" | "userID"
 >;
 
 /**
@@ -301,7 +298,7 @@ export interface RemovedActionResultObject {
   /**
    * action is the action that was deleted.
    */
-  action?: Action;
+  action?: CommentAction;
 
   /**
    * wasRemoved is true when the action that was supposed to be deleted was
@@ -319,19 +316,18 @@ export async function removeAction(
   tenantID: string,
   input: RemoveActionInput
 ): Promise<RemovedActionResultObject> {
+  const { reason, ...rest } = input;
+
   // Extract the filter parameters.
-  const filter: FilterQuery<Action> = {
+  const filter: FilterQuery<CommentAction> = {
     tenantID,
-    actionType: input.actionType,
-    itemType: input.itemType,
-    itemID: input.itemID,
-    userID: input.userID,
+    ...rest,
   };
 
   // Only add the reason to the filter if it's been specified, otherwise we'll
   // never match a Flag that has an unspecified reason.
-  if (input.reason) {
-    filter.reason = input.reason;
+  if (reason) {
+    filter.reason = reason;
   }
 
   // Remove the action from the database, returning the action that was deleted.
@@ -354,8 +350,10 @@ export const ACTION_COUNT_JOIN_CHAR = "__";
  *
  * @param actions list of actions to generate the action counts from
  */
-export function encodeActionCounts(...actions: Action[]): EncodedActionCounts {
-  const actionCounts: EncodedActionCounts = {};
+export function encodeActionCounts(
+  ...actions: CommentAction[]
+): EncodedCommentActionCounts {
+  const actionCounts: EncodedCommentActionCounts = {};
 
   // Loop over the actions, and increment them.
   for (const action of actions) {
@@ -377,8 +375,8 @@ export function encodeActionCounts(...actions: Action[]): EncodedActionCounts {
  * @param actionCounts the encoded action counts to invert
  */
 export function invertEncodedActionCounts(
-  actionCounts: EncodedActionCounts
-): EncodedActionCounts {
+  actionCounts: EncodedCommentActionCounts
+): EncodedCommentActionCounts {
   for (const key in actionCounts) {
     if (!actionCounts.hasOwnProperty(key)) {
       continue;
@@ -396,7 +394,7 @@ export function invertEncodedActionCounts(
  * encodeActionCountKeys encodes the action into string keys which represents
  * the groupings as seen in `EncodedActionCounts`.
  */
-function encodeActionCountKeys(action: Action): string[] {
+function encodeActionCountKeys(action: CommentAction): string[] {
   const keys = [action.actionType as string];
   if (action.reason) {
     keys.push(
@@ -496,10 +494,10 @@ function createEmptyActionCounts(): GQLActionCounts {
   };
 }
 
-export function mergeActionCounts(
-  actionCounts: EncodedActionCounts[]
-): EncodedActionCounts {
-  const mergedActionCounts: EncodedActionCounts = {};
+export function mergeCommentActionCounts(
+  actionCounts: EncodedCommentActionCounts[]
+): EncodedCommentActionCounts {
+  const mergedActionCounts: EncodedCommentActionCounts = {};
 
   for (const counts of actionCounts) {
     for (const [key, count] of Object.entries(counts)) {
@@ -515,7 +513,7 @@ export function mergeActionCounts(
 }
 
 export function countTotalActionCounts(
-  actionCounts: EncodedActionCounts
+  actionCounts: EncodedCommentActionCounts
 ): number {
   return Object.values(actionCounts).reduce((total, count) => total + count, 0);
 }
@@ -527,7 +525,7 @@ export function countTotalActionCounts(
  * @param encodedActionCounts the action counts to decode
  */
 export function decodeActionCounts(
-  encodedActionCounts: EncodedActionCounts
+  encodedActionCounts: EncodedCommentActionCounts
 ): GQLActionCounts {
   // Default all the action counts to zero.
   const actionCounts: GQLActionCounts = createEmptyActionCounts();
@@ -579,37 +577,37 @@ function incrementActionCounts(
  * removeRootActions will remove all the Action's associated with a given root
  * identifier.
  */
-export async function removeRootActions(
+export async function removeStoryActions(
   mongo: Db,
   tenantID: string,
-  rootItemID: string
+  storyID: string
 ) {
   return collection(mongo).deleteMany({
     tenantID,
-    rootItemID,
+    storyID,
   });
 }
 
 /**
- * mergeManyRootActions will update many Action `rootItemID`'s from one to
+ * mergeManyRootActions will update many Action `storyID`'s from one to
  * another.
  */
-export async function mergeManyRootActions(
+export async function mergeManyStoryActions(
   mongo: Db,
   tenantID: string,
-  newRootItemID: string,
-  oldRootItemIDs: string[]
+  newStoryID: string,
+  oldStoryIDs: string[]
 ) {
   return collection(mongo).updateMany(
     {
       tenantID,
-      rootItemID: {
-        $in: oldRootItemIDs,
+      storyID: {
+        $in: oldStoryIDs,
       },
     },
     {
       $set: {
-        rootItemID: newRootItemID,
+        storyID: newStoryID,
       },
     }
   );

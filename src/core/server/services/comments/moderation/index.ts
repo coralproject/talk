@@ -1,6 +1,6 @@
 import { Omit, Promiseable } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import { CreateActionInput } from "talk-server/models/action";
+import { CreateActionInput } from "talk-server/models/action/comment";
 import { EditCommentInput } from "talk-server/models/comment";
 import { Story } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
@@ -9,7 +9,10 @@ import { Request } from "talk-server/types/express";
 
 import { moderationPhases } from "./phases";
 
-export type ModerationAction = Omit<CreateActionInput, "itemID" | "itemType">;
+export type ModerationAction = Omit<
+  CreateActionInput,
+  "commentID" | "commentRevisionID"
+>;
 
 export interface PhaseResult {
   actions: ModerationAction[];

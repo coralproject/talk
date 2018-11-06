@@ -15,6 +15,10 @@ function collection(db: Db) {
 }
 
 export interface TenantResource {
+  /**
+   * tenantID is the reference to the specific Tenant that owns this particular
+   * resource.
+   */
   readonly tenantID: string;
 }
 

@@ -1,12 +1,12 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
-import { ACTION_ITEM_TYPE } from "talk-server/models/action";
 import {
   createComment,
   CreateCommentInput,
   editComment,
   EditCommentInput,
+  getLatestRevision,
   pushChildCommentIDOntoParent,
   retrieveComment,
 } from "talk-server/models/comment";
@@ -81,17 +81,17 @@ export async function create(
   });
 
   if (actions.length > 0) {
-    // The actions coming from the moderation phases didn't know the item_id
+    // The actions coming from the moderation phases didn't know the commentID
     // at the time, and we didn't want the repetitive nature of adding the
     // item_type each time, so this mapping function adds them!
     const inputs = actions.map(
       (action): CreateAction => ({
         ...action,
-        itemID: comment.id,
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        commentID: comment.id,
+        commentRevisionID: getLatestRevision(comment!).id,
 
         // Store the Story ID on the action.
-        rootItemID: story.id,
+        storyID: story.id,
       })
     );
 
@@ -172,7 +172,7 @@ export async function edit(
   }
 
   if (actions.length > 0) {
-    // The actions coming from the moderation phases didn't know the item_id
+    // The actions coming from the moderation phases didn't know the commentID
     // at the time, and we didn't want the repetitive nature of adding the
     // item_type each time, so this mapping function adds them!
     const inputs = actions.map(
@@ -180,11 +180,11 @@ export async function edit(
         ...action,
         // Strict null check seems to have failed here... Null checking was done
         // above where we errored if the comment was falsely.
-        itemID: comment!.id,
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
+        commentID: comment!.id,
+        commentRevisionID: getLatestRevision(comment!).id,
 
         // Store the Story ID on the action.
-        rootItemID: story.id,
+        storyID: story.id,
       })
     );
 

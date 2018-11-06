@@ -1010,6 +1010,36 @@ enum COMMENT_STATUS {
   SYSTEM_WITHHELD
 }
 
+type CommentRevision {
+  """
+  id is the identifier of the CommentRevision.
+  """
+  id: ID!
+
+  """
+  comment is the reference to the original Comment associated with the current
+  Comment.
+  """
+  comment: Comment!
+
+  """
+  actionCounts stores the counts of all the actions for the CommentRevision
+  specifically.
+  """
+  actionCounts: ActionCounts! @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  body is the content of the CommentRevision. If null, it indicates that the
+  body text was deleted.
+  """
+  body: String
+
+  """
+  createdAt is the time that the CommentRevision was created.
+  """
+  createdAt: Time!
+}
+
 """
 Comment is a comment left by a User on an Story or another Comment as a reply.
 """
@@ -1020,9 +1050,22 @@ type Comment {
   id: ID!
 
   """
-  body is the content of the Comment.
+  body is the content of the Comment, and is an alias to the body of the
+  `currentRevision.body`.
   """
   body: String
+
+  """
+  revision is the current revision of the Comment's body.
+  """
+  revision: CommentRevision!
+
+  """
+  revisionHistory stores the previous CommentRevision's, with the most recent
+  edit last.
+  """
+  revisionHistory: [CommentRevision!]!
+    @auth(roles: [MODERATOR, ADMIN], userIDField: "author_id")
 
   """
   createdAt is the date in which the Comment was created.
@@ -1900,6 +1943,12 @@ input CreateCommentReactionInput {
   commentID: ID!
 
   """
+  commentRevisionID is the revision ID of the Comment that we're creating the
+  Reaction on.
+  """
+  commentRevisionID: ID!
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -1956,6 +2005,12 @@ input CreateCommentDontAgreeInput {
   commentID: ID!
 
   """
+  commentRevisionID is the revision ID of the Comment that we're creating the
+  DontAgree on.
+  """
+  commentRevisionID: ID!
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -2010,6 +2065,12 @@ input CreateCommentFlagInput {
   commentID is the Comment's ID that we want to create a Flag on.
   """
   commentID: ID!
+
+  """
+  commentRevisionID is the revision ID of the Comment that we're creating the
+  Flag on.
+  """
+  commentRevisionID: ID!
 
   """
   reason is the selected reason why the Flag is being created.

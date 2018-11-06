@@ -2,7 +2,7 @@ import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/action";
+import { ACTION_TYPE } from "talk-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -29,6 +29,7 @@ export const wordList: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.REJECTED,
       actions: [
         {
+          userID: null,
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
         },
@@ -46,6 +47,7 @@ export const wordList: IntermediateModerationPhase = ({
     return {
       actions: [
         {
+          userID: null,
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
         },

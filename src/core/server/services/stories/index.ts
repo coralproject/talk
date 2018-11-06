@@ -10,10 +10,10 @@ import {
 import logger from "talk-server/logger";
 import {
   countTotalActionCounts,
-  mergeActionCounts,
-  mergeManyRootActions,
-  removeRootActions,
-} from "talk-server/models/action";
+  mergeCommentActionCounts,
+  mergeManyStoryActions,
+  removeStoryActions,
+} from "talk-server/models/action/comment";
 import {
   mergeManyCommentStories,
   removeStoryComments,
@@ -139,7 +139,7 @@ export async function remove(
 
   if (includeComments) {
     // Remove the actions associated with the comments we just removed.
-    const { deletedCount: removedActions } = await removeRootActions(
+    const { deletedCount: removedActions } = await removeStoryActions(
       mongo,
       tenant.id,
       story.id
@@ -276,7 +276,7 @@ export async function merge(
 
   // Update all the action's that referenced the old story to reference the new
   // story.
-  const { modifiedCount: updatedActions } = await mergeManyRootActions(
+  const { modifiedCount: updatedActions } = await mergeManyStoryActions(
     mongo,
     tenant.id,
     destinationID,
@@ -299,10 +299,12 @@ export async function merge(
     )
   );
 
-  const mergedActionCounts = mergeActionCounts(
+  const mergedActionCounts = mergeCommentActionCounts(
     // We perform the type assertion here because above, we already verified
     // that none of the stories are null.
-    (sourceStories as Story[]).map(({ actionCounts }) => actionCounts)
+    (sourceStories as Story[]).map(
+      ({ commentActionCounts }) => commentActionCounts
+    )
   );
   if (countTotalActionCounts(mergedActionCounts) > 0) {
     destinationStory = await updateStoryActionCounts(

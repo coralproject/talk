@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 
 import { GQLStoryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import { decodeActionCounts } from "talk-server/models/action";
+import { decodeActionCounts } from "talk-server/models/action/comment";
 import * as story from "talk-server/models/story";
 
 export const Story: GQLStoryTypeResolver<story.Story> = {
@@ -20,6 +20,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
 
     return null;
   },
-  actionCounts: s => decodeActionCounts(s.actionCounts),
+  commentActionCounts: s => decodeActionCounts(s.commentActionCounts),
   commentCounts: s => s.commentCounts,
 };

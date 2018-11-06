@@ -7,7 +7,6 @@ import {
   GQLUSER_ROLE,
   GQLUSER_USERNAME_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/action";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -85,20 +84,13 @@ export interface User extends TenantResource {
   tokens: Token[];
   role: GQLUSER_ROLE;
   status: UserStatus;
-  actionCounts: EncodedActionCounts;
   ignoredUserIDs: string[];
   createdAt: Date;
 }
 
 export type UpsertUserInput = Omit<
   User,
-  | "id"
-  | "tenantID"
-  | "tokens"
-  | "status"
-  | "actionCounts"
-  | "ignoredUserIDs"
-  | "createdAt"
+  "id" | "tenantID" | "tokens" | "status" | "ignoredUserIDs" | "createdAt"
 >;
 
 export async function upsertUser(
@@ -117,7 +109,6 @@ export async function upsertUser(
     id,
     tenantID,
     tokens: [],
-    actionCounts: {},
     ignoredUserIDs: [],
     status: {
       banned: {

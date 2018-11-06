@@ -5,7 +5,7 @@ import {
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
-import { ACTION_TYPE } from "talk-server/models/action";
+import { ACTION_TYPE } from "talk-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -100,6 +100,7 @@ export const spam: IntermediateModerationPhase = async ({
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
         actions: [
           {
+            userID: null,
             actionType: ACTION_TYPE.FLAG,
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
           },

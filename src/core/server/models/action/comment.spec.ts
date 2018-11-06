@@ -1,16 +1,15 @@
 import { GQLCOMMENT_FLAG_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
-  Action,
-  ACTION_ITEM_TYPE,
   ACTION_TYPE,
+  CommentAction,
   decodeActionCounts,
   encodeActionCounts,
   validateAction,
-} from "talk-server/models/action";
+} from "talk-server/models/action/comment";
 
 describe("#encodeActionCounts", () => {
   it("generates the action counts correctly", () => {
-    const actions: Array<Partial<Action>> = [
+    const actions: Array<Partial<CommentAction>> = [
       { actionType: ACTION_TYPE.DONT_AGREE },
       {
         actionType: ACTION_TYPE.FLAG,
@@ -21,7 +20,7 @@ describe("#encodeActionCounts", () => {
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
     ];
-    const actionCounts = encodeActionCounts(...(actions as Action[]));
+    const actionCounts = encodeActionCounts(...(actions as CommentAction[]));
 
     expect(actionCounts).toMatchSnapshot();
   });
@@ -29,7 +28,7 @@ describe("#encodeActionCounts", () => {
 
 describe("#decodeActionCounts", () => {
   it("parses the action counts correctly", () => {
-    const actions: Array<Partial<Action>> = [
+    const actions: Array<Partial<CommentAction>> = [
       { actionType: ACTION_TYPE.REACTION },
       { actionType: ACTION_TYPE.REACTION },
       { actionType: ACTION_TYPE.REACTION },
@@ -44,7 +43,9 @@ describe("#decodeActionCounts", () => {
       },
     ];
 
-    const modelActionCounts = encodeActionCounts(...(actions as Action[]));
+    const modelActionCounts = encodeActionCounts(
+      ...(actions as CommentAction[])
+    );
 
     expect(modelActionCounts).toMatchSnapshot();
 
@@ -56,77 +57,65 @@ describe("#decodeActionCounts", () => {
 
 describe("#validateAction", () => {
   it("allows a valid action", () => {
-    const actions: Array<Partial<Action>> = [
+    const actions: Array<Partial<CommentAction>> = [
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.REACTION,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.DONT_AGREE,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TRUST,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
       },
     ];
 
     for (const action of actions) {
-      validateAction(action as Action);
+      validateAction(action as CommentAction);
     }
   });
 
   it("does not allow an invalid action", () => {
-    const actions: Array<Partial<Action>> = [
+    const actions: Array<Partial<CommentAction>> = [
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.DONT_AGREE,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.DONT_AGREE,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
       {
-        itemType: ACTION_ITEM_TYPE.COMMENTS,
         actionType: ACTION_TYPE.FLAG,
       },
     ];
 
     for (const action of actions) {
-      expect(() => validateAction(action as Action)).toThrow();
+      expect(() => validateAction(action as CommentAction)).toThrow();
     }
   });
 });

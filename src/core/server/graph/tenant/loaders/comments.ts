@@ -8,10 +8,7 @@ import {
   GQLCOMMENT_SORT,
   StoryToCommentsArgs,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import {
-  ACTION_ITEM_TYPE,
-  retrieveManyUserActionPresence,
-} from "talk-server/models/action";
+import { retrieveManyUserActionPresence } from "talk-server/models/action/comment";
 import {
   Comment,
   retrieveCommentParentsConnection,
@@ -44,14 +41,13 @@ export default (ctx: Context) => ({
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
   ),
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
-    (itemIDs: string[]) =>
+    (commentIDs: string[]) =>
       retrieveManyUserActionPresence(
         ctx.mongo,
         ctx.tenant.id,
         // This should only ever be accessed when a user is logged in.
         ctx.user!.id,
-        ACTION_ITEM_TYPE.COMMENTS,
-        itemIDs
+        commentIDs
       )
   ),
   forUser: (

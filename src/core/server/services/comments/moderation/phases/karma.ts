@@ -2,7 +2,7 @@ import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/action";
+import { ACTION_TYPE } from "talk-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -33,6 +33,7 @@ export const karma: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
+          userID: null,
           actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
           metadata: {

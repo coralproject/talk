@@ -4,8 +4,9 @@ import {
   GQLComment,
   GQLCommentTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { decodeActionCounts } from "talk-server/models/action";
+import { decodeActionCounts } from "talk-server/models/action/comment";
 import * as comment from "talk-server/models/comment";
+import { getLatestRevision } from "talk-server/models/comment";
 import { createConnection } from "talk-server/models/connection";
 
 import TenantContext from "../context";
@@ -35,14 +36,20 @@ const maybeLoadOnlyID = (
 };
 
 export const Comment: GQLCommentTypeResolver<comment.Comment> = {
-  editing: (c, input, ctx) => ({
+  body: c => getLatestRevision(c).body,
+  // Send the whole comment back when you request revisions. This way, we get to
+  // know the comment ID. The field mapping is handled by the CommentRevision
+  // resolver.
+  revision: c => ({ revision: getLatestRevision(c), comment: c }),
+  revisionHistory: c => c.revisions.map(revision => ({ revision, comment: c })),
+  editing: ({ revisions, createdAt }, input, ctx) => ({
     // When there is more than one body history, then the comment has been
     // edited.
-    edited: c.bodyHistory.length > 1,
+    edited: revisions.length > 1,
     // The date that the comment is editable until is the tenant's edit window
     // length added to the comment created date.
     editableUntil: new Date(
-      c.createdAt.valueOf() + ctx.tenant.editCommentWindowLength
+      createdAt.valueOf() + ctx.tenant.editCommentWindowLength
     ),
   }),
   author: (c, input, ctx) => ctx.loaders.Users.user.load(c.authorID),

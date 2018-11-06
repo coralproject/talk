@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/action";
+import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
 import {
   Connection,
   createConnection,
@@ -23,24 +23,107 @@ function collection(db: Db) {
   return db.collection<Readonly<Comment>>("comments");
 }
 
-export interface BodyHistoryItem {
-  body: string;
-  created_at: Date;
-}
-export interface Comment extends TenantResource {
+/**
+ * Revision stores a Comment's body for a specific edit. Actions can be tied to
+ * a Revision, as can moderation actions.
+ */
+export interface Revision {
+  /**
+   * id identifies this Revision.
+   */
   readonly id: string;
-  parentID?: string;
-  authorID: string;
-  storyID: string;
+
+  /**
+   * body is the body text for this revision.
+   */
   body: string;
-  bodyHistory: BodyHistoryItem[];
-  status: GQLCOMMENT_STATUS;
-  actionCounts: EncodedActionCounts;
-  grandparentIDs: string[];
-  replyIDs: string[];
-  replyCount: number;
+
+  /**
+   * actionCounts is the cached action counts on this revision.
+   */
+  actionCounts: EncodedCommentActionCounts;
+
+  /**
+   * createdAt is the date that this revision was created at.
+   */
   createdAt: Date;
+}
+
+/**
+ * Comment's are created by User's on Stories. Each Comment contains a body, and
+ * can be moderated by another Moderator or Admin User.
+ */
+export interface Comment extends TenantResource {
+  /**
+   * id identifies this Comment specifically.
+   */
+  readonly id: string;
+
+  /**
+   * parentID stores the ID of a parent Comment if this Comment is a reply.
+   */
+  parentID?: string;
+
+  /**
+   * authorID stores the ID of the User that created this Comment.
+   */
+  authorID: string;
+
+  /**
+   * storyID stores the ID of the Story that this Comment was left on.
+   */
+  storyID: string;
+
+  /**
+   * revisions stores all the revisions of the Comment body including the most
+   * recent revision, the last revision is the most recent.
+   */
+  revisions: Revision[];
+
+  /**
+   * status is the current Comment Status.
+   */
+  status: GQLCOMMENT_STATUS;
+
+  /**
+   * actionCounts stores a cached count of all the Action's against this
+   * Comment.
+   */
+  actionCounts: EncodedCommentActionCounts;
+
+  /**
+   * grandparentIDs stores all the ID's of all the Comment's that came before.
+   * This prevents the need for performing multiple queries to retrieve the
+   * Comment ancestors.
+   */
+  grandparentIDs: string[];
+
+  /**
+   * replyIDs are the ID's of all the Comment's that are direct replies.
+   */
+  replyIDs: string[];
+
+  /**
+   * replyCount is the count of direct replies. It is stored as a separate value
+   * here even though the replyIDs field technically contained the same data in
+   * it's length because we needed to sort by this field sometimes.
+   */
+  replyCount: number;
+
+  /**
+   * createdAt is the date that this Comment was created.
+   */
+  createdAt: Date;
+
+  /**
+   * deletedAt is the date that this Comment was deleted on. If null or
+   * undefined, this Comment is not deleted.
+   */
   deletedAt?: Date;
+
+  /**
+   * metadata stores the deep Comment properties.
+   */
   metadata?: Record<string, any>;
 }
 
@@ -52,40 +135,44 @@ export type CreateCommentInput = Omit<
   | "replyIDs"
   | "replyCount"
   | "actionCounts"
-  | "bodyHistory"
->;
+  | "revisions"
+> &
+  Required<Pick<Revision, "body">>;
 
 export async function createComment(
   db: Db,
   tenantID: string,
   input: CreateCommentInput
 ) {
-  const now = new Date();
+  const createdAt = new Date();
 
   // Pull out some useful properties from the input.
-  const { body } = input;
+  const { body, ...rest } = input;
+
+  // Generate the revision.
+  const revision: Revision = {
+    id: uuid.v4(),
+    body,
+    actionCounts: {},
+    createdAt,
+  };
 
   // default are the properties set by the application when a new comment is
   // created.
   const defaults: Sub<Comment, CreateCommentInput> = {
     id: uuid.v4(),
     tenantID,
-    createdAt: now,
+    createdAt,
     replyIDs: [],
     replyCount: 0,
     actionCounts: {},
-    bodyHistory: [
-      {
-        body,
-        created_at: now,
-      },
-    ],
+    revisions: [revision],
   };
 
   // Merge the defaults and the input together.
   const comment: Readonly<Comment> = {
     ...defaults,
-    ...input,
+    ...rest,
   };
 
   // Insert it into the database.
@@ -121,7 +208,7 @@ export async function pushChildCommentIDOntoParent(
 
 export type EditCommentInput = Pick<
   Comment,
-  "id" | "authorID" | "body" | "status" | "metadata"
+  "id" | "authorID" | "status" | "metadata"
 > & {
   /**
    * lastEditableCommentCreatedAt is the date that the last comment would have
@@ -129,19 +216,23 @@ export type EditCommentInput = Pick<
    * `editCommentWindowLength` property.
    */
   lastEditableCommentCreatedAt: Date;
-};
+} & Required<Pick<Revision, "body">>;
 
 export async function editComment(
   db: Db,
   tenantID: string,
   input: EditCommentInput
 ) {
+  // TODO: (wyattjoh) now that we have revisions, do we really have this restriction?
+
+  // Only comments with the following status's can be edited.
   const EDITABLE_STATUSES = [
     GQLCOMMENT_STATUS.NONE,
     GQLCOMMENT_STATUS.PREMOD,
     GQLCOMMENT_STATUS.ACCEPTED,
   ];
-  const now = new Date();
+
+  const createdAt = new Date();
 
   const {
     id,
@@ -151,6 +242,14 @@ export async function editComment(
     authorID,
     metadata,
   } = input;
+
+  // Generate the revision.
+  const revision: Revision = {
+    id: uuid.v4(),
+    body,
+    actionCounts: {},
+    createdAt,
+  };
 
   const result = await collection(db).findOneAndUpdate(
     {
@@ -167,7 +266,6 @@ export async function editComment(
     },
     {
       $set: {
-        body,
         status,
         // Embed all the metadata properties, this may override the existing
         // metadata, but we won't replace metadata that has been recalculated.
@@ -175,10 +273,7 @@ export async function editComment(
         ...dotize({ metadata }),
       },
       $push: {
-        bodyHistory: {
-          body,
-          createdAt: now,
-        },
+        revisions: revision,
       },
     },
     // False to return the updated document instead of the original
@@ -398,7 +493,13 @@ export async function retrieveCommentStoryConnection(
   const query = new Query(collection(db)).where({
     tenantID,
     storyID,
+    // Only get Comments that are top level. If the client wants to load another
+    // layer, they can request another nested connection.
     parentID: null,
+    // Only get Comment's that are visible.
+    status: {
+      $in: [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.ACCEPTED],
+    },
   });
 
   // Return a connection for the comments query.
@@ -517,18 +618,27 @@ export async function updateCommentActionCounts(
   mongo: Db,
   tenantID: string,
   id: string,
-  actionCounts: EncodedActionCounts
+  revisionID: string,
+  actionCounts: EncodedCommentActionCounts
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     // Update all the specific action counts that are associated with each of
     // the counts.
     {
-      $inc: dotize({ actionCounts }),
+      $inc: dotize({
+        actionCounts,
+        "revisions.$[revision]": { actionCounts },
+      }),
     },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
+    {
+      // Add an ArrayFilter to only update one of the OpenID Connect
+      // integrations.
+      arrayFilters: [{ "revision.id": revisionID }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
   );
 
   return result.value;
@@ -572,4 +682,15 @@ export async function mergeManyCommentStories(
       },
     }
   );
+}
+
+/**
+ * getLatestRevision will get the latest revision from a Comment.
+ *
+ * @param comment the comment that contains the revisions
+ */
+export function getLatestRevision(
+  comment: Pick<Comment, "revisions">
+): Revision {
+  return comment.revisions[comment.revisions.length - 1];
 }

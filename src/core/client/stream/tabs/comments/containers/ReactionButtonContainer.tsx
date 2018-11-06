@@ -39,6 +39,7 @@ class ReactionButtonContainer extends React.Component<
 
     const input = {
       commentID: this.props.comment.id,
+      commentRevisionID: this.props.comment.revision.id,
     };
 
     const { createCommentReaction, removeCommentReaction } = this.props;
@@ -50,6 +51,7 @@ class ReactionButtonContainer extends React.Component<
       ? removeCommentReaction(input)
       : createCommentReaction(input);
   };
+
   public render() {
     const {
       actionCounts: {
@@ -90,6 +92,9 @@ export default withShowAuthPopupMutation(
         comment: graphql`
           fragment ReactionButtonContainer_comment on Comment {
             id
+            revision {
+              id
+            }
             myActionPresence {
               reaction
             }
