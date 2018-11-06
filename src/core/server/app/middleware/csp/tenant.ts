@@ -14,11 +14,12 @@ import { Request, RequestHandler } from "talk-server/types/express";
  * cspMiddleware handles adding the CSP middleware to each outgoing request.
  */
 export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
-  const tenant = req.talk!.tenant;
-  if (!tenant) {
+  if (!req.talk || !req.talk.tenant) {
     // There is no tenant for the request, don't add any headers.
     return next();
   }
+
+  const tenant = req.talk.tenant;
 
   res.setHeader(
     "Content-Security-Policy",
