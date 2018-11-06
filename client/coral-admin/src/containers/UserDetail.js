@@ -49,14 +49,26 @@ const slots = ['userProfile'];
 class UserDetailContainer extends React.Component {
   isLoadingMore = false;
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isBatchUpdating: false,
+    };
+  }
   // status can be 'ACCEPTED' or 'REJECTED'
   bulkSetCommentStatus = async status => {
     // When all user comments are selected, this processor will trigger a batch process to update all comments
     if (this.props.allUserCommentsSelected) {
+      this.setState({
+        isBatchUpdating: true,
+      });
       await this.batchUpdateAllComments(
         status,
         this.props.root.batchCommentIds
       );
+      this.setState({
+        isBatchUpdating: false,
+      });
     } else {
       const changes = this.props.selectedCommentIds.map(commentId => {
         return this.props.setCommentStatus({ commentId, status });
@@ -70,7 +82,6 @@ class UserDetailContainer extends React.Component {
 
   // Batch load all of the users comments and switch their status
   batchUpdateAllComments = async (newStatus, batchCommentIds) => {
-    // TODO - progress indicator, lock during progress (with cancel button?)
     const batchUpdates = batchCommentIds.nodes.map(({ id, status }) => {
       // Only update dirty status comments or Karma is updated incorrectly
       if (status !== newStatus) {
@@ -89,11 +100,18 @@ class UserDetailContainer extends React.Component {
       const variables = {
         cursor: batchCommentIds.endCursor,
         author_id: this.props.data.variables.author_id,
+        statuses: null,
       };
       let { data } = await this.props.data.fetchMore({
         query: LOAD_MORE_IDS_QUERY,
         variables,
-        updateQuery: (prev, { fetchMoreResult: { batchCommentIds } }) => {
+        updateQuery: (
+          prev,
+          { fetchMoreResult, fetchMoreResult: { batchCommentIds } }
+        ) => {
+          if (!fetchMoreResult) {
+            return prev;
+          }
           return update(prev, {
             batchCommentIds: {
               nodes: { $push: batchCommentIds.nodes },
@@ -174,8 +192,7 @@ class UserDetailContainer extends React.Component {
       return null;
     }
 
-    const loading = this.props.data.loading;
-
+    const loading = this.props.data.loading || this.state.isBatchUpdating;
     return (
       <UserDetail
         bulkReject={this.bulkReject}
@@ -241,9 +258,15 @@ const LOAD_MORE_IDS_QUERY = gql`
     $limit: Int = 5
     $cursor: Cursor
     $author_id: ID!
+    $statuses: [COMMENT_STATUS!]
   ) {
     batchCommentIds: comments(
-      query: { limit: $limit, cursor: $cursor, author_id: $author_id }
+      query: {
+        limit: $limit
+        cursor: $cursor
+        author_id: $author_id
+        statuses: $statuses
+      }
     ) {
       nodes {
         id
@@ -261,7 +284,7 @@ const LOAD_MORE_IDS_QUERY = gql`
 
 export const withUserDetailQuery = withQuery(
   gql`
-  query CoralAdmin_UserDetail($author_id: ID!, $statuses: [COMMENT_STATUS!]) {
+  query CoralAdmin_UserDetail($author_id: ID!, $statuses: [COMMENT_STATUS!], $batchCommentStatus: [COMMENT_STATUS!]) {
     user(id: $author_id) {
       id
       username
@@ -330,7 +353,7 @@ export const withUserDetailQuery = withQuery(
     batchCommentIds: comments(query: {
       author_id: $author_id,
       limit: 5,
-      statuses: $statuses
+      statuses: $batchCommentStatus
     }) {
       nodes {
         id
@@ -358,7 +381,7 @@ export const withUserDetailQuery = withQuery(
   {
     options: ({ userId, statuses }) => {
       return {
-        variables: { author_id: userId, statuses },
+        variables: { author_id: userId, statuses, batchCommentStatus: null },
       };
     },
     skip: ownProps => !ownProps.userId,
