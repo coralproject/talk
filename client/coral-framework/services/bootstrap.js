@@ -22,6 +22,7 @@ import {
 } from 'coral-framework/services/storage';
 import { createHistory } from 'coral-framework/services/history';
 import { createIntrospection } from 'coral-framework/services/introspection';
+import { setStorageAuthToken } from 'coral-framework/services/auth';
 import introspectionData from 'coral-framework/graphql/introspection.json';
 import coreReducers from '../reducers';
 import { checkLogin as checkLoginAction } from '../actions/auth';
@@ -46,7 +47,30 @@ const getAuthToken = (store, storage) => {
     // capable of storing the token in localStorage, then we would have
     // persisted it to the redux state.
     return state.config.auth_token || state.auth.token;
-  } else if (!bowser.safari && !bowser.ios && storage) {
+  } else if (location.hash && location.hash.startsWith('#access_token=')) {
+    // Check to see if the access token is living in the URL as a hash.
+    const token = location.hash.substring(14);
+
+    history.replaceState(
+      {},
+      document.title,
+      window.location.pathname + window.location.search
+    );
+
+    // Once we clear the hash above, this login method will not persist across
+    // refreshes. We will need to persist the token to storage if it's
+    // available.
+    if (storage) {
+      setStorageAuthToken(storage, token);
+    }
+
+    return token;
+  } else if (
+    !bowser.safari &&
+    !bowser.ios &&
+    storage &&
+    storage.getItem('token')
+  ) {
     // Use local storage auth tokens where there's a stable api.
     return storage.getItem('token');
   }

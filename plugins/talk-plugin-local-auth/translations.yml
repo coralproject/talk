@@ -351,7 +351,7 @@ es:
       cancel: "Cancelar"
       change_email_msg: "Dirección de correo electrónico modificada. Esta dirección de correo electrónico ahora se utilizará para iniciar sesión y notificaciones por correo electrónico."
     add_email:
-      add_email_address: "Agregar dirección de correo electrónico"
+      add_email_address: "Confirmar"
       enter_email_address: "Introducir la dirección de correo electrónico:"
       invalid_email_address: "Dirección de correo electrónico no válida"
       confirm_email_address: "Confirmar el correo:"

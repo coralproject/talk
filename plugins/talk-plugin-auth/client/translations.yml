@@ -219,7 +219,7 @@ es:
       register: "Registrar"
       sign_up: "Registro"
       confirm_password: "Confirmar Contraseña"
-      username: "Nombre"
+      username: "Nombre de Usuario"
       already_have_an_account: "¿Ya tienes una cuenta?"
       recover_password: "Recuperar la contraseña"
       email_in_use: "Este correo se encuentra en uso"

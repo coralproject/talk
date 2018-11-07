@@ -8,7 +8,7 @@
     <h1>{{ t('password_reset.set_new_password') }}</h1>
     <p>{{ t('password_reset.change_password_help') }}</p>
     <div class="error-console"><span></span></div>
-    <form id="reset-password-form">
+    <form id="reset-password-form" method="post">
       <label for="password">
         {{ t('password_reset.new_password') }}
         <input type="password" name="password" placeholder="{{ t('password_reset.new_password') }}" />
