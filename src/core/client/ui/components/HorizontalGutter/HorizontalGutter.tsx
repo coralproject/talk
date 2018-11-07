@@ -4,7 +4,7 @@ import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./HorizontalGutter.css";
+import styles from "./HorizontalGutter.css";
 
 interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   /**

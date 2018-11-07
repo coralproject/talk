@@ -10,7 +10,7 @@ import { StatelessComponent } from "react";
 import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
 import Icon from "../Icon";
 
-import * as styles from "./SelectField.css";
+import styles from "./SelectField.css";
 
 export interface SelectFieldProps {
   /**

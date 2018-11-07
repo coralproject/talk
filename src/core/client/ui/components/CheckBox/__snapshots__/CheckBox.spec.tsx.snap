@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Flex-root CheckBox-root custom Flex-flex Flex-alignCenter"
+>
+  <input
+    className="CheckBox-input"
+    id="checkboxID"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    type="checkbox"
+    value="true"
+  />
+  <label
+    className="CheckBox-label"
+    htmlFor="checkboxID"
+  >
+    Yes I agree
+  </label>
+</div>
+`;

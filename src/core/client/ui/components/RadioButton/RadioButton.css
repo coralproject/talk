@@ -1,0 +1,79 @@
+.root {
+}
+
+.input {
+  cursor: pointer;
+  position: absolute; /* take it out of document flow */
+  opacity: 0; /* hide it */
+}
+
+.label {
+  composes: bodyCopy from "talk-ui/shared/typography.css";
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  &:not(:empty) {
+    margin-left: calc(0.5 * var(--spacing-unit));
+  }
+}
+
+.labelLight {
+  color: var(--palette-text-light);
+}
+
+/* Box. */
+.input + .label:before {
+  content: "";
+  margin-right: 10px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--palette-common-white);
+  border: 1px solid var(--palette-text-primary);
+  border-radius: 50%;
+}
+
+/* Box focus */
+.label.focus:before {
+  outline-width: 3px;
+  outline-color: Highlight;
+  outline-color: -webkit-focus-ring-color;
+  outline-style: auto;
+}
+
+/* Box checked */
+.input:checked + .label:before {
+  border: 1px solid var(--palette-primary-main);
+  background: var(--palette-common-white);
+}
+
+/* Disabled state label. */
+.input:disabled + .label {
+  cursor: auto;
+  opacity: 0.6;
+}
+
+/* Disabled box. */
+.input:disabled + .label:before {
+  box-shadow: none;
+  border: 1px solid var(--palette-grey-main);
+  background: var(--palette-grey-light);
+}
+
+/* Checkmark. Could be replaced with an image */
+.input:checked + .label:after {
+  content: "";
+  background: var(--palette-primary-main);
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  top: 5px;
+  width: 8px;
+  height: 8px;
+}
+
+.input:checked:disabled + .label:after {
+  background: var(--palette-text-primary);
+}

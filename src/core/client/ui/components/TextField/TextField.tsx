@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { ChangeEvent, EventHandler } from "react";
 import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
-import * as styles from "./TextField.css";
+import styles from "./TextField.css";
 
 export interface TextFieldProps {
   id?: string;

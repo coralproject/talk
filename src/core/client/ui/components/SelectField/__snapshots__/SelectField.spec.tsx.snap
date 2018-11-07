@@ -13,7 +13,6 @@ exports[`renders correctly 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
-    onMouseDown={[Function]}
     value="pie"
   />
   <span

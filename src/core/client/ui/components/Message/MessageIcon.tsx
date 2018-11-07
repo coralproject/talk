@@ -4,7 +4,7 @@ import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
 import Icon, { IconProps } from "talk-ui/components/Icon";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 
-import * as styles from "./MessageIcon.css";
+import styles from "./MessageIcon.css";
 
 interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   /**
