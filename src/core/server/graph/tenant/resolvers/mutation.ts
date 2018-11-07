@@ -107,4 +107,12 @@ export const Mutation: GQLMutationTypeResolver<void> = {
     story: await ctx.mutators.Story.scrape(input),
     clientMutationId: input.clientMutationId,
   }),
+  acceptComment: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Actions.acceptComment(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  rejectComment: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Actions.rejectComment(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

@@ -6,6 +6,7 @@ import { GQLResolver } from "talk-server/graph/tenant/schema/__generated__/types
 import { AuthIntegrations } from "./AuthIntegrations";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
+import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentRevision } from "./CommentRevision";
 import { Mutation } from "./Mutation";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
@@ -18,6 +19,7 @@ const Resolvers: GQLResolver = {
   AuthIntegrations,
   Comment,
   CommentCounts,
+  CommentModerationAction,
   CommentRevision,
   Cursor,
   Mutation,

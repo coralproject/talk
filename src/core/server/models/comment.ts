@@ -606,6 +606,52 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
   }
 }
 
+export interface UpdateCommentStatus {
+  comment: Readonly<Comment>;
+  oldStatus: GQLCOMMENT_STATUS;
+}
+
+export async function updateCommentStatus(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  revisionID: string,
+  status: GQLCOMMENT_STATUS
+): Promise<UpdateCommentStatus | null> {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "revisions.id": revisionID,
+      status: {
+        $ne: status,
+      },
+    },
+    {
+      $set: { status },
+    },
+    {
+      // True to return the original document instead of the updated
+      // document.
+      returnOriginal: true,
+    }
+  );
+  if (!result.value) {
+    return null;
+  }
+
+  // Grab the old status.
+  const oldStatus = result.value.status;
+
+  return {
+    comment: {
+      ...result.value,
+      status,
+    },
+    oldStatus,
+  };
+}
+
 /**
  * updateCommentActionCounts will update the given comment's action counts.
  *
@@ -641,7 +687,7 @@ export async function updateCommentActionCounts(
     }
   );
 
-  return result.value;
+  return result.value || null;
 }
 
 /**
