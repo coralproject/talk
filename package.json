@@ -253,7 +253,7 @@
     "relay-compiler-language-typescript": "^1.1.0",
     "relay-local-schema": "^0.7.0",
     "relay-runtime": "^1.7.0-rc.1",
-    "sane": "^2.5.2",
+    "sane": "^4.0.2",
     "simulant": "^0.2.2",
     "sinon": "^6.1.5",
     "style-loader": "^0.21.0",
