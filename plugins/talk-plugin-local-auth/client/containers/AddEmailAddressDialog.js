@@ -1,4 +1,6 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
+
 import PropTypes from 'prop-types';
 import { compose, gql } from 'react-apollo';
 import { bindActionCreators } from 'redux';
@@ -23,6 +25,12 @@ class AddEmailAddressDialog extends React.Component {
 
   componentDidMount() {
     this.props.startAttach();
+    document.body.style.minHeight =
+      `${document.getElementById('talk-plugin-local-auth-email-dialog').clientHeight}px`
+  }
+
+  componentWillUnmount() {
+    document.body.style.removeProperty("min-height");
   }
 
   handleDone = () => {
@@ -63,7 +71,7 @@ class AddEmailAddressDialog extends React.Component {
     } = this.props;
 
     return (
-      <Dialog open={true}>
+      <Dialog open={true} id="talk-plugin-local-auth-email-dialog">
         {step === 0 && <AddEmailForm onSubmit={this.handleSubmit} />}
         {step === 1 &&
           !requireEmailConfirmation && (
