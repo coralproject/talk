@@ -1,24 +1,30 @@
 import { GQLMutationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
-export const Mutation: GQLMutationTypeResolver<void> = {
+export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comment.edit(input),
     clientMutationId: input.clientMutationId,
   }),
-  createComment: async (source, { input }, ctx) => {
-    const comment = await ctx.mutators.Comment.create(input);
-    return {
-      edge: {
-        // NOTE: (cvle)
-        // Depending on the sort we can't determine the accurate cursor in a
-        // performant way, so we return null instead. It seems that Relay does
-        // not directly use this value.
-        cursor: null,
-        node: comment,
-      },
-      clientMutationId: input.clientMutationId,
-    };
-  },
+  createComment: async (source, { input }, ctx) => ({
+    edge: {
+      // Depending on the sort we can't determine the accurate cursor in a
+      // performant way, so we return null instead. It seems that Relay does
+      // not directly use this value.
+      cursor: null,
+      node: await ctx.mutators.Comment.create(input),
+    },
+    clientMutationId: input.clientMutationId,
+  }),
+  createCommentReply: async (source, { input }, ctx) => ({
+    edge: {
+      // Depending on the sort we can't determine the accurate cursor in a
+      // performant way, so we return null instead. It seems that Relay does
+      // not directly use this value.
+      cursor: null,
+      node: await ctx.mutators.Comment.create(input),
+    },
+    clientMutationId: input.clientMutationId,
+  }),
   updateSettings: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.update(input.settings),
     clientMutationId: input.clientMutationId,

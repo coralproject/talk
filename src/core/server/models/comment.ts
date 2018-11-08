@@ -65,6 +65,12 @@ export interface Comment extends TenantResource {
   parentID?: string;
 
   /**
+   * parentRevisionID is the ID of the Revision on the parent Comment that this
+   * was a reply to.
+   */
+  parentRevisionID?: string;
+
+  /**
    * authorID stores the ID of the User that created this Comment.
    */
   authorID: string;
