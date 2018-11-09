@@ -5,7 +5,7 @@ import React, { Ref, StatelessComponent } from "react";
 import { Icon } from "talk-ui/components";
 
 import { PropTypesOf } from "talk-ui/types";
-import * as styles from "./RTE.css";
+import styles from "./RTE.css";
 
 // Use a special Localized version that forwards
 // ref and passes the api prop to the children.

@@ -3,3 +3,8 @@ export {
   withSetRedirectPathMutation,
   SetRedirectPathMutation,
 } from "./SetRedirectPathMutation";
+export {
+  withUpdateSettingsMutation,
+  UpdateSettingsMutation,
+  UpdateSettingsInput,
+} from "./UpdateSettingsMutation";

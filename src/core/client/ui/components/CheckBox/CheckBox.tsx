@@ -2,20 +2,15 @@ import cn from "classnames";
 import React, { ChangeEvent, Component, EventHandler, FocusEvent } from "react";
 import uuid from "uuid/v4";
 
-import { Flex } from "talk-ui/components";
 import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
 
 import styles from "./CheckBox.css";
 export interface CheckBoxProps {
   id?: string;
   /**
-   * The content value of the component.
+   * checked or not.
    */
-  defaultValue?: string;
-  /**
-   * The content value of the component.
-   */
-  value?: string;
+  checked?: boolean;
   /**
    * Convenient prop to override the root styling.
    */
@@ -69,7 +64,7 @@ class CheckBox extends Component<CheckBoxProps> {
     const finalID = this.props.id || this.state.randomID;
 
     return (
-      <Flex alignItems="center" className={rootClassName}>
+      <div className={rootClassName}>
         <input
           className={classes.input}
           type="checkbox"
@@ -83,9 +78,9 @@ class CheckBox extends Component<CheckBoxProps> {
           })}
           htmlFor={finalID}
         >
-          {children}
+          <span className={classes.labelSpan}>{children}</span>
         </label>
-      </Flex>
+      </div>
     );
   }
 }

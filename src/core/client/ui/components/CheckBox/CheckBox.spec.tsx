@@ -9,7 +9,7 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof CheckBox> = {
     className: "custom",
     id: "checkboxID",
-    value: "true",
+    checked: true,
     children: "Yes I agree",
   };
   const renderer = TestRenderer.create(<CheckBox {...props} />);

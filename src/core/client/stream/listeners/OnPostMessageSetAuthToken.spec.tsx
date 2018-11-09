@@ -20,7 +20,18 @@ beforeAll(() => {
 });
 
 it("Sets auth token", () => {
-  const token = "auth-token";
+  const token = `${btoa(
+    JSON.stringify({
+      alg: "HS256",
+      typ: "JWT",
+    })
+  )}.${btoa(
+    JSON.stringify({
+      exp: 1540503165,
+      jti: "31b26591-4e9a-4388-a7ff-e1bdc5d97cce",
+    })
+  )}`;
+
   const context: Partial<TalkContext> = {
     postMessage: {
       on: (name: string, cb: (token: string) => void) => {

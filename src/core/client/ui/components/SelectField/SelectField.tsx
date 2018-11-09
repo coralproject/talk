@@ -1,10 +1,5 @@
 import cn from "classnames";
-import React, {
-  ChangeEvent,
-  EventHandler,
-  FocusEvent,
-  MouseEvent,
-} from "react";
+import React, { ChangeEvent, EventHandler, FocusEvent } from "react";
 import { StatelessComponent } from "react";
 
 import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
@@ -42,7 +37,6 @@ export interface SelectFieldProps {
   // These handlers are passed down by the `withKeyboardFocus` HOC.
   onFocus: EventHandler<FocusEvent<HTMLSelectElement>>;
   onBlur: EventHandler<FocusEvent<HTMLSelectElement>>;
-  onMouseDown: EventHandler<MouseEvent<HTMLSelectElement>>;
   keyboardFocus: boolean;
 }
 

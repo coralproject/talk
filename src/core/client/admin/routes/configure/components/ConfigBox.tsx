@@ -1,22 +1,24 @@
 import React, { StatelessComponent } from "react";
 
-import { CheckBox, Flex } from "talk-ui/components";
+import { Flex } from "talk-ui/components";
 
 import styles from "./ConfigBox.css";
 
 interface Props {
-  enabled?: boolean;
-  title?: React.Component<any> | string;
+  topRight?: React.ReactElement<any>;
+  title?: React.ReactNode;
   children: React.ReactNode;
 }
 
-const ConfigBox: StatelessComponent<Props> = ({ title, children }) => (
+const ConfigBox: StatelessComponent<Props> = ({
+  title,
+  topRight,
+  children,
+}) => (
   <div className={styles.root}>
     <Flex className={styles.title} justifyContent="space-between">
       <div>{title}</div>
-      <div>
-        <CheckBox light>Enabled</CheckBox>
-      </div>
+      <div>{topRight}</div>
     </Flex>
     <div className={styles.content}>{children}</div>
   </div>

@@ -11,7 +11,7 @@ import {
   Typography,
 } from "talk-ui/components";
 import HTMLContent from "../../../components/HTMLContent";
-import * as styles from "./HistoryComment.css";
+import styles from "./HistoryComment.css";
 
 export interface HistoryCommentProps {
   body: string | null;

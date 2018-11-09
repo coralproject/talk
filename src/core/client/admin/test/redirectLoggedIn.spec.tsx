@@ -23,9 +23,9 @@ it("redirect to redirectPath when already logged in", async () => {
     logNetwork: false,
     initLocalState: localRecord => {
       localRecord.setValue(true, "loggedIn");
-      localRecord.setValue("/admin/configure", "redirectPath");
+      localRecord.setValue("/admin/community", "redirectPath");
     },
   });
   await timeout();
-  expect(window.location.toString()).toBe("http://localhost/admin/configure");
+  expect(window.location.toString()).toBe("http://localhost/admin/community");
 });

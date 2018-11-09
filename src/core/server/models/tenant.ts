@@ -1,9 +1,10 @@
 import crypto from "crypto";
+import { isNull, omitBy } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { DeepPartial, Omit, Sub } from "talk-common/types";
-import { dotize } from "talk-common/utils/dotize";
+import { dotize, DotizeOptions } from "talk-common/utils/dotize";
 import {
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
@@ -12,6 +13,10 @@ import { Settings } from "talk-server/models/settings";
 
 function collection(db: Db) {
   return db.collection<Readonly<Tenant>>("tenants");
+}
+
+function dotizeDropNull(o: Record<string, any>, options?: DotizeOptions) {
+  return omitBy(dotize(o, options), isNull);
 }
 
 export interface TenantResource {
@@ -87,19 +92,37 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
         local: {
           enabled: true,
           allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
         sso: {
           enabled: false,
           allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
         oidc: [],
         google: {
           enabled: false,
           allowRegistration: false,
+          callbackURL: "" as any, // FIXME: this should not be required
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
         facebook: {
           enabled: false,
           allowRegistration: false,
+          callbackURL: "", // FIXME: this should not be required
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
       },
     },
@@ -201,7 +224,7 @@ export async function updateTenant(
   const result = await collection(db).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotize(update, { embedArrays: true }) },
+    { $set: dotizeDropNull(update, { embedArrays: true }) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
@@ -320,7 +343,7 @@ export async function updateTenantOIDCAuthIntegration(
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
-      $set: dotize({
+      $set: dotizeDropNull({
         "auth.integrations.oidc.$[oidc]": input,
       }),
     },

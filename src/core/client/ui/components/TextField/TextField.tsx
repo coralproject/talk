@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { ChangeEvent, EventHandler } from "react";
+import React, { AllHTMLAttributes, ChangeEvent, EventHandler } from "react";
 import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 import styles from "./TextField.css";
@@ -52,6 +52,11 @@ export interface TextFieldProps {
   onChange?: EventHandler<ChangeEvent<HTMLInputElement>>;
 
   disabled?: boolean;
+
+  autoComplete?: AllHTMLAttributes<HTMLInputElement>["autoComplete"];
+  autoCorrect?: AllHTMLAttributes<HTMLInputElement>["autoCorrect"];
+  autoCapitalize?: AllHTMLAttributes<HTMLInputElement>["autoCapitalize"];
+  spellCheck?: AllHTMLAttributes<HTMLInputElement>["spellCheck"];
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {

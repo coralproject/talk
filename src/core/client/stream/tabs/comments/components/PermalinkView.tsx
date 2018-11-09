@@ -7,7 +7,7 @@ import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
 import UserBoxContainer from "../../../containers/UserBoxContainer";
 import ConversationThreadContainer from "../containers/ConversationThreadContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
-import * as styles from "./PermalinkView.css";
+import styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {
   me: PropTypesOf<typeof ConversationThreadContainer>["me"] &

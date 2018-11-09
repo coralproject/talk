@@ -2,21 +2,25 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Flex-root CheckBox-root custom Flex-flex Flex-alignCenter"
+  className="CheckBox-root custom"
 >
   <input
+    checked={true}
     className="CheckBox-input"
     id="checkboxID"
     onBlur={[Function]}
     onFocus={[Function]}
     type="checkbox"
-    value="true"
   />
   <label
     className="CheckBox-label"
     htmlFor="checkboxID"
   >
-    Yes I agree
+    <span
+      className="CheckBox-labelSpan"
+    >
+      Yes I agree
+    </span>
   </label>
 </div>
 `;

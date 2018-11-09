@@ -14,9 +14,6 @@
   position: relative;
   cursor: pointer;
   user-select: none;
-  &:not(:empty) {
-    margin-left: calc(0.5 * var(--spacing-unit));
-  }
 }
 
 .labelLight {
@@ -59,7 +56,7 @@
 .input:disabled + .label:before {
   box-shadow: none;
   border: 1px solid var(--palette-grey-main);
-  background: var(--palette-grey-light);
+  background: var(--palette-grey-lightest);
 }
 
 /* Checkmark. Could be replaced with an image */
