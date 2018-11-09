@@ -38,6 +38,9 @@ es:
     name: Nombre
     post: Publicar
     reply: Responder
+  comment_history_blank:
+    info: 'Una historia de tus comentarios aparecerá aquí'
+    title: 'No has escrito ningún comentario'
   comment_offensive: 'Este comentario es ofensivo'
   comment_plural: Comentarios
   comment_post_banned_word: 'Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contactate con nuestro equipo de moderación.'
