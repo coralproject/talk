@@ -544,7 +544,7 @@ type Auth {
   displayName contains configuration related to the use of Display Names across
   AuthIntegrations.
   """
-  displayName: AuthDisplayNameConfiguration @auth(roles: [ADMIN])
+  displayName: AuthDisplayNameConfiguration! @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1612,11 +1612,25 @@ input SettingsAuthIntegrationsInput {
   facebook: SettingsFacebookAuthIntegrationInput
 }
 
+input SettingsAuthDisplayNameInput {
+  """
+  enabled when true will allow the display name to be used by other
+  AuthIntegrations.
+  """
+  enabled: Boolean!
+}
+
 """
 Auth contains all the settings related to authentication and
 authorization.
 """
 input SettingsAuthInput {
+  """
+  "
+  displayName allows configuration related to Display Names.
+  """
+  displayName: SettingsAuthDisplayNameInput
+
   """
   integrations are the set of configurations for the variations of
   authentication solutions.

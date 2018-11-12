@@ -23,6 +23,9 @@ const mutation = graphql`
           ...FacebookConfigContainer_authReadOnly
           ...GoogleConfigContainer_auth
           ...GoogleConfigContainer_authReadOnly
+          ...SSOConfigContainer_auth
+          ...SSOConfigContainer_authReadOnly
+          ...DisplayNamesConfigContainer_auth
         }
       }
       clientMutationId

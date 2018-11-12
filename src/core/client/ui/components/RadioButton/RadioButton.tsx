@@ -11,11 +11,10 @@ export interface RadioButtonProps {
   /**
    * The content value of the component.
    */
-  defaultValue?: string;
-  /**
-   * The content value of the component.
-   */
   value?: string;
+
+  checked?: boolean;
+
   /**
    * Convenient prop to override the root styling.
    */

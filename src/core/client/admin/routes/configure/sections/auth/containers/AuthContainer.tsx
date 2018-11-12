@@ -24,6 +24,10 @@ export const routeConfig: RouteProps = {
           ...FacebookConfigContainer_authReadOnly
           ...GoogleConfigContainer_auth
           ...GoogleConfigContainer_authReadOnly
+          ...SSOConfigContainer_auth
+          ...SSOConfigContainer_authReadOnly
+          ...LocalAuthConfigContainer_auth
+          ...DisplayNamesConfigContainer_auth
         }
       }
     }

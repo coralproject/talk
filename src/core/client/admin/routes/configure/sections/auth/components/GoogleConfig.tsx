@@ -46,6 +46,9 @@ const GoogleConfig: StatelessComponent<Props> = ({ disabled, callbackURL }) => (
             https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
           </Typography>
         </Localized>
+        <HorizontalRule />
+        <RedirectField url={callbackURL} />
+        <HorizontalRule />
         <ClientIDField
           name="auth.integrations.google.clientID"
           disabled={disabledInside}
@@ -67,8 +70,6 @@ const GoogleConfig: StatelessComponent<Props> = ({ disabled, callbackURL }) => (
           name="auth.integrations.google.allowRegistration"
           disabled={disabledInside}
         />
-        <HorizontalRule />
-        <RedirectField url={callbackURL} />
       </HorizontalGutter>
     )}
   </ConfigBoxWithToggleField>

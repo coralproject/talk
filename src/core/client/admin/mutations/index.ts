@@ -8,3 +8,7 @@ export {
   UpdateSettingsMutation,
   UpdateSettingsInput,
 } from "./UpdateSettingsMutation";
+export {
+  withRegenerateSSOKeyMutation,
+  RegenerateSSOKeyMutation,
+} from "./RegenerateSSOKeyMutation";

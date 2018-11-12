@@ -13,7 +13,7 @@ const RedirectField: StatelessComponent<Props> = ({ url }) => (
     <Localized id="configure-auth-redirectURI">
       <InputLabel>Redirect URI</InputLabel>
     </Localized>
-    <Flex direction="row" itemGutter="half">
+    <Flex direction="row" itemGutter="half" alignItems="center">
       <TextField name="redirectURI" value={url} readOnly />
       <CopyButton text={url} />
     </Flex>

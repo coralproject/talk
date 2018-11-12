@@ -88,6 +88,9 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       banned: [],
     },
     auth: {
+      displayName: {
+        enabled: false,
+      },
       integrations: {
         local: {
           enabled: true,

@@ -47,6 +47,9 @@ const FacebookConfig: StatelessComponent<Props> = ({
             https://developers.facebook.com/docs/facebook-login/web
           </Typography>
         </Localized>
+        <HorizontalRule />
+        <RedirectField url={callbackURL} />
+        <HorizontalRule />
         <ClientIDField
           name="auth.integrations.facebook.clientID"
           disabled={disabledInside}
@@ -68,8 +71,6 @@ const FacebookConfig: StatelessComponent<Props> = ({
           name="auth.integrations.facebook.allowRegistration"
           disabled={disabledInside}
         />
-        <HorizontalRule />
-        <RedirectField url={callbackURL} />
       </HorizontalGutter>
     )}
   </ConfigBoxWithToggleField>

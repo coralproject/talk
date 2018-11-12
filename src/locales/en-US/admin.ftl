@@ -46,7 +46,7 @@ configure-auth-targetFilterEmbedStream = Embed Stream
 configure-auth-redirectURI = Redirect URI
 configure-auth-registration = Registration
 configure-auth-registrationDescription =
-  Allow users to create a new account with this provider.
+  Allow users that have not signed up before with this authentication integration to register for a new account.
 configure-auth-registrationCheckBox = Registration
 
 configure-auth-facebook-loginWith = Login with Facebook
@@ -62,3 +62,27 @@ configure-auth-google-toEnableIntegration =
   to create and set up a web application. For more information visit:
   <link></link>
 configure-auth-google-useLoginOn = Use Google login on
+
+configure-auth-sso-loginWith = Login with SSO
+configure-auth-sso-useLoginOn = Use SSO login on
+configure-auth-sso-key = Key
+configure-auth-sso-regenerate = Regenerate
+configure-auth-sso-regenerateAt = KEY GENERATED AT:
+  { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
+configure-auth-sso-regenerateWarning =
+  Regenerating a key will invalidate any existing user sessions,
+  and all signed-in users will be signed out
+
+configure-auth-local-loginWith = Login with Local Auth
+configure-auth-local-useLoginOn = Use Local Auth login on
+
+configure-auth-displayNamesConfig-title = Display Names
+configure-auth-displayNamesConfig-explanationShort =
+  Some AUTH integrations include a Display Name as well as a User Name.
+configure-auth-displayNamesConfig-explanationLong =
+  A User Name has to be unique (there can only be one Juan_Doe, for example),
+  whereas a Display Name does not. If your AUTH provider allows for Display Names,
+  you can enable this option. This allows for fewer strange names (Juan_Doe23245) –
+  however it could also be used to spoof/impersonate another user.
+configure-auth-displayNamesConfig-showDisplayNames = Show Display Names (if available)
+configure-auth-displayNamesConfig-hideDisplayNames = Hide Display Names (if available)

@@ -20,38 +20,34 @@ const TargetFilterField: StatelessComponent<Props> = ({
   <FormField>
     <InputLabel>{label}</InputLabel>
     <Flex direction="row" itemGutter="double">
-      <FormField>
-        <Field name={`${name}.admin`} type="checkbox" parse={bool}>
-          {({ input, meta }) => (
-            <Localized id="configure-auth-targetFilterAdmin">
-              <CheckBox
-                name={input.name}
-                onChange={input.onChange}
-                checked={!!input.value}
-                disabled={disabled}
-              >
-                Admin
-              </CheckBox>
-            </Localized>
-          )}
-        </Field>
-      </FormField>
-      <FormField>
-        <Field name={`${name}.stream`} type="checkbox" parse={bool}>
-          {({ input }) => (
-            <Localized id="configure-auth-targetFilterEmbedStream">
-              <CheckBox
-                name={input.name}
-                onChange={input.onChange}
-                checked={!!input.value}
-                disabled={disabled}
-              >
-                Embed Stream
-              </CheckBox>
-            </Localized>
-          )}
-        </Field>
-      </FormField>
+      <Field name={`${name}.admin`} type="checkbox" parse={bool}>
+        {({ input, meta }) => (
+          <Localized id="configure-auth-targetFilterAdmin">
+            <CheckBox
+              name={input.name}
+              onChange={input.onChange}
+              checked={!!input.value}
+              disabled={disabled}
+            >
+              Admin
+            </CheckBox>
+          </Localized>
+        )}
+      </Field>
+      <Field name={`${name}.stream`} type="checkbox" parse={bool}>
+        {({ input }) => (
+          <Localized id="configure-auth-targetFilterEmbedStream">
+            <CheckBox
+              name={input.name}
+              onChange={input.onChange}
+              checked={!!input.value}
+              disabled={disabled}
+            >
+              Embed Stream
+            </CheckBox>
+          </Localized>
+        )}
+      </Field>
     </Flex>
   </FormField>
 );

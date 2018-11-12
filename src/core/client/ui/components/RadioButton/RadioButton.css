@@ -30,6 +30,7 @@
   background: var(--palette-common-white);
   border: 1px solid var(--palette-text-primary);
   border-radius: 50%;
+  box-sizing: border-box;
 }
 
 /* Box focus */
@@ -66,9 +67,10 @@
   border-radius: 50%;
   position: absolute;
   left: 3px;
-  top: 5px;
+  top: 6px;
   width: 8px;
   height: 8px;
+  box-sizing: border-box;
 }
 
 .input:checked:disabled + .label:after {

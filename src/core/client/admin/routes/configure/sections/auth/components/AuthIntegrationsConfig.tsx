@@ -1,14 +1,14 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { HorizontalGutter } from "talk-ui/components";
 
-import DisplayNamesConfigContainer from "../containers/DisplayNamesConfigContainer";
+import Header from "../../../components/Header";
 import FacebookConfig from "../containers/FacebookConfigContainer";
 import GoogleConfig from "../containers/GoogleConfigContainer";
 import LocalAuthConfig from "../containers/LocalAuthConfigContainer";
 import SSOConfig from "../containers/SSOConfigContainer";
-import AuthIntegrationsConfig from "./AuthIntegrationsConfig";
 
 interface Props {
   disabled?: boolean;
@@ -18,24 +18,43 @@ interface Props {
     PropTypesOf<typeof GoogleConfig>["authReadOnly"] &
     PropTypesOf<typeof SSOConfig>["auth"] &
     PropTypesOf<typeof SSOConfig>["authReadOnly"] &
-    PropTypesOf<typeof LocalAuthConfig>["auth"] &
-    PropTypesOf<typeof DisplayNamesConfigContainer>["auth"];
+    PropTypesOf<typeof LocalAuthConfig>["auth"];
   onInitValues: (values: any) => void;
 }
 
-const Auth: StatelessComponent<Props> = ({ disabled, auth, onInitValues }) => (
+const AuthIntegrationsConfig: StatelessComponent<Props> = ({
+  disabled,
+  auth,
+  onInitValues,
+}) => (
   <HorizontalGutter size="double">
-    <DisplayNamesConfigContainer
+    <Localized id="configure-auth-authIntegrations">
+      <Header>Auth Integrations</Header>
+    </Localized>
+    <LocalAuthConfig
       disabled={disabled}
       auth={auth}
       onInitValues={onInitValues}
     />
-    <AuthIntegrationsConfig
+    <SSOConfig
       disabled={disabled}
       auth={auth}
+      authReadOnly={auth}
+      onInitValues={onInitValues}
+    />
+    <GoogleConfig
+      disabled={disabled}
+      auth={auth}
+      authReadOnly={auth}
+      onInitValues={onInitValues}
+    />
+    <FacebookConfig
+      disabled={disabled}
+      auth={auth}
+      authReadOnly={auth}
       onInitValues={onInitValues}
     />
   </HorizontalGutter>
 );
 
-export default Auth;
+export default AuthIntegrationsConfig;

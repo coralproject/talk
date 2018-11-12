@@ -26,3 +26,4 @@ export { StepBar, Step } from "./Steps";
 export { SelectField, Option, OptGroup } from "./SelectField";
 export { default as TextLink } from "./TextLink";
 export { default as CheckBox } from "./CheckBox";
+export { default as RadioButton } from "./RadioButton";

@@ -3,10 +3,10 @@ import { Typography } from "talk-ui/components";
 
 import styles from "./Header.css";
 
-const Configure: StatelessComponent = ({ children }) => (
+const Header: StatelessComponent = ({ children }) => (
   <Typography variant="heading1" className={styles.root}>
     {children}
   </Typography>
 );
 
-export default Configure;
+export default Header;

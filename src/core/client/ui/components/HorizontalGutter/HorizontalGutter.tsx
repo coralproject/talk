@@ -13,7 +13,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
    */
   classes: typeof styles;
 
-  size?: "half" | "full" | "double";
+  size?: "half" | "full" | "double" | "oneAndAHalf";
 
   /** The name of the HorizontalGutter to render */
   children?: React.ReactNode;
