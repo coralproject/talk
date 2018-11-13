@@ -24,6 +24,7 @@ const TargetFilterField: StatelessComponent<Props> = ({
         {({ input, meta }) => (
           <Localized id="configure-auth-targetFilterAdmin">
             <CheckBox
+              id={input.name}
               name={input.name}
               onChange={input.onChange}
               checked={!!input.value}
@@ -38,6 +39,7 @@ const TargetFilterField: StatelessComponent<Props> = ({
         {({ input }) => (
           <Localized id="configure-auth-targetFilterEmbedStream">
             <CheckBox
+              id={input.name}
               name={input.name}
               onChange={input.onChange}
               checked={!!input.value}

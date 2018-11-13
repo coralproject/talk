@@ -7,6 +7,7 @@ import { CheckBox, FormField } from "talk-ui/components";
 import ConfigBox from "../../../components/ConfigBox";
 
 interface Props {
+  id?: string;
   name: string;
   title: React.ReactNode;
   disabled?: boolean;
@@ -16,6 +17,7 @@ interface Props {
 const bool = (v: any) => !!v;
 
 const ConfigBoxWithToggleField: StatelessComponent<Props> = ({
+  id,
   name,
   title,
   disabled,
@@ -24,11 +26,13 @@ const ConfigBoxWithToggleField: StatelessComponent<Props> = ({
   <Field name={name} type="checkbox" parse={bool}>
     {({ input }) => (
       <ConfigBox
+        id={id}
         title={title}
         topRight={
           <FormField>
             <Localized id="configure-auth-configBoxEnabled">
               <CheckBox
+                id={input.name}
                 name={input.name}
                 onChange={input.onChange}
                 checked={input.value}

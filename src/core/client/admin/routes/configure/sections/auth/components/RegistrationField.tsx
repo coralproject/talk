@@ -31,6 +31,7 @@ const RegistrationField: StatelessComponent<Props> = ({ name, disabled }) => (
         {({ input }) => (
           <Localized id="configure-auth-registrationCheckBox">
             <CheckBox
+              id={input.name}
               name={input.name}
               onChange={input.onChange}
               checked={input.value}
