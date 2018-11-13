@@ -44,6 +44,21 @@ const commentConnectionFragment = gql`
   ${UserDetailComment.fragments.comment}
 `;
 
+const batchCommentConnectionFragment = gql`
+  fragment CoralAdmin_UserDetailBatch_CommentConnection on CommentConnection {
+    nodes {
+      id
+      status
+      status_history {
+        type
+      }
+    }
+    hasNextPage
+    startCursor
+    endCursor
+  }
+`;
+
 const slots = ['userProfile'];
 
 class UserDetailContainer extends React.Component {
@@ -255,7 +270,7 @@ const LOAD_MORE_QUERY = gql`
 
 const LOAD_MORE_IDS_QUERY = gql`
   query CoralAdmin_Moderation_LoadMoreIds(
-    $limit: Int = 5
+    $limit: Int = 50
     $cursor: Cursor
     $author_id: ID!
     $statuses: [COMMENT_STATUS!]
@@ -268,18 +283,10 @@ const LOAD_MORE_IDS_QUERY = gql`
         statuses: $statuses
       }
     ) {
-      nodes {
-        id
-        status
-        status_history {
-          type
-        }
-      }
-      hasNextPage
-      startCursor
-      endCursor
+      ...CoralAdmin_UserDetailBatch_CommentConnection
     }
   }
+  ${batchCommentConnectionFragment}
 `;
 
 export const withUserDetailQuery = withQuery(
@@ -352,19 +359,10 @@ export const withUserDetailQuery = withQuery(
     rejectedComments: commentCount(query: {author_id: $author_id, statuses: [REJECTED]})
     batchCommentIds: comments(query: {
       author_id: $author_id,
-      limit: 5,
+      limit: 1,
       statuses: $batchCommentStatus
     }) {
-      nodes {
-        id
-        status
-        status_history {
-          type
-        }
-      }
-      hasNextPage
-      startCursor
-      endCursor
+      ...CoralAdmin_UserDetailBatch_CommentConnection
     }
     comments: comments(query: {
       author_id: $author_id,
@@ -375,6 +373,7 @@ export const withUserDetailQuery = withQuery(
     ...${getDefinitionName(UserDetailComment.fragments.root)}
     ${getSlotFragmentSpreads(slots, 'root')}
   }
+  ${batchCommentConnectionFragment}
   ${UserDetailComment.fragments.root}
   ${commentConnectionFragment}
 `,
