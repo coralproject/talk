@@ -1,0 +1,8 @@
+# Base packages
+pip==18.0
+python==3.5
+appdirs==1.4.3
+virtualenv==16.0.0
+docutils==0.14
+Sphinx==1.7.8
+sphinx_rtd_theme==0.4.1
