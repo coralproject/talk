@@ -40,6 +40,23 @@ beforeEach(async () => {
           };
         })
       ),
+      regenerateSSOKey: createSinonStub(s =>
+        s.callsFake((_: any, data: any) => {
+          return {
+            settings: {
+              auth: {
+                integrations: {
+                  sso: {
+                    key: "==GENERATED_KEY==",
+                    keyGeneratedAt: "2018-11-12T23:26:06.239Z",
+                  },
+                },
+              },
+            },
+            clientMutationId: data.input.clientMutationId,
+          };
+        })
+      ),
     },
   };
 
@@ -60,7 +77,7 @@ it("renders configure auth", async () => {
   ).toMatchSnapshot();
 });
 
-it("change settings", async () => {
+it("change facebook settings", async () => {
   testRenderer.root
     .find(inputPredicate("auth.integrations.facebook.enabled"))
     .props.onChange({});
@@ -94,4 +111,20 @@ it("change settings", async () => {
     testRenderer.root.find(inputPredicate("auth.integrations.facebook.enabled"))
       .props.disabled
   ).toBe(false);
+});
+
+it("regenerate sso key", async () => {
+  testRenderer.root
+    .find(inputPredicate("auth.integrations.sso.enabled"))
+    .props.onChange({});
+
+  testRenderer.root
+    .find(inputPredicate("configure-auth-sso-regenerate"))
+    .props.onClick();
+
+  await timeout();
+
+  expect(
+    limitSnapshotTo("configure-auth-sso-key", testRenderer.toJSON())
+  ).toMatchSnapshot();
 });

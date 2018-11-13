@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`change settings: enable facebook configure box 1`] = `
+exports[`change facebook settings: enable facebook configure box 1`] = `
 <div
   className="ConfigBox-root"
   id="configure-auth-facebook-container"
@@ -259,6 +259,67 @@ For more information visit:
         </div>
       </div>
     </div>
+  </div>
+</div>
+`;
+
+exports[`regenerate sso key 1`] = `
+<div
+  className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+  id="configure-auth-sso-key"
+>
+  <label
+    className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+  >
+    Key
+  </label>
+  <div
+    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+  >
+    <input
+      className="TextField-root TextField-colorRegular"
+      name="key"
+      placeholder=""
+      readOnly={true}
+      type="text"
+      value="==GENERATED_KEY=="
+    />
+    <button
+      className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+      disabled={false}
+      id="configure-auth-sso-regenerate"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="button"
+    >
+      Regenerate
+    </button>
+  </div>
+  <div
+    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
+    >
+      KEY GENERATED AT:
+⁨11/13/2018, 12:26 AM⁩
+    </p>
+    <span
+      aria-hidden="true"
+      className="Icon-root SSOKeyField-warnIcon Icon-sm"
+    >
+      warning
+    </span>
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
+    >
+      Regenerating a key will invalidate any existing user sessions,
+and all signed-in users will be signed out
+    </p>
   </div>
 </div>
 `;
@@ -621,6 +682,7 @@ however it could also be used to spoof/impersonate another user.
                 >
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    id="configure-auth-sso-key"
                   >
                     <label
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -640,6 +702,7 @@ however it could also be used to spoof/impersonate another user.
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
                         disabled={true}
+                        id="configure-auth-sso-regenerate"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}

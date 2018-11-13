@@ -26,7 +26,7 @@ const SSOKeyField: StatelessComponent<Props> = ({
   disabled,
   onRegenerate,
 }) => (
-  <FormField>
+  <FormField id="configure-auth-sso-key">
     <Localized id="configure-auth-sso-key">
       <InputLabel>Key</InputLabel>
     </Localized>
@@ -34,6 +34,7 @@ const SSOKeyField: StatelessComponent<Props> = ({
       <TextField name="key" value={generatedKey} readOnly />
       <Localized id="configure-auth-sso-regenerate">
         <Button
+          id="configure-auth-sso-regenerate"
           variant="filled"
           color="primary"
           size="small"
