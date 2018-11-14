@@ -107,6 +107,8 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
             admin: true,
             stream: true,
           },
+          key: generateSSOKey(),
+          keyGeneratedAt: new Date(),
         },
         oidc: [],
         google: {
@@ -236,26 +238,26 @@ export async function updateTenant(
   return result.value || null;
 }
 
+function generateSSOKey() {
+  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
+  // as 16 was the minimum length recommended.
+  //
+  // Reference: https://security.stackexchange.com/a/96176
+  return crypto.randomBytes(32 + Math.floor(Math.random() * 5)).toString("hex");
+}
+
 /**
  * regenerateTenantSSOKey will regenerate the SSO key used for Single Sing-On
  * for the specified Tenant. All existing user sessions signed with the old
  * secret will be invalidated.
  */
 export async function regenerateTenantSSOKey(db: Db, id: string) {
-  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
-  // as 16 was the minimum length recommended.
-  //
-  // Reference: https://security.stackexchange.com/a/96176
-  const key = crypto
-    .randomBytes(32 + Math.floor(Math.random() * 5))
-    .toString("hex");
-
   // Construct the update.
   const update: DeepPartial<Tenant> = {
     auth: {
       integrations: {
         sso: {
-          key,
+          key: generateSSOKey(),
           keyGeneratedAt: new Date(),
         },
       },
