@@ -1,0 +1,12 @@
+# .readthedocs.yml configuration file
+
+build:
+  image: latest
+
+python:
+  version: 3.6.6
+  setup_py_install: false
+
+
+# Don't build any extra formats
+formats: []
