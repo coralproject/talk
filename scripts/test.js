@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 "use strict";
+// Set timezone to UTC for stable tests.
+process.env.TZ = "UTC";
 
 // Allow importing typescript files.
 require("ts-node/register");
