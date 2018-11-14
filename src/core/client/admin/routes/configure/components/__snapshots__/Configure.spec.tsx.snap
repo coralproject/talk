@@ -1,9 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ReactFinalForm
-  onSubmit={[Function]}
+<div
+  id="configure-container"
 >
-  <Component />
-</ReactFinalForm>
+  <ReactFinalForm
+    onSubmit={[Function]}
+  >
+    <Component />
+  </ReactFinalForm>
+</div>
 `;

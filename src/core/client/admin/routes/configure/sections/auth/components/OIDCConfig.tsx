@@ -176,6 +176,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
                       spellCheck={false}
                     />
                     <Button
+                      id="configure-auth-oidc-discover-0"
                       variant="filled"
                       color="primary"
                       size="small"
