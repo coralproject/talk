@@ -5,20 +5,23 @@ import { PropTypesOf } from "talk-framework/types";
 import { HorizontalGutter } from "talk-ui/components";
 
 import Header from "../../../components/Header";
-import FacebookConfig from "../containers/FacebookConfigContainer";
-import GoogleConfig from "../containers/GoogleConfigContainer";
-import LocalAuthConfig from "../containers/LocalAuthConfigContainer";
-import SSOConfig from "../containers/SSOConfigContainer";
+import FacebookConfigContainer from "../containers/FacebookConfigContainer";
+import GoogleConfigContainer from "../containers/GoogleConfigContainer";
+import LocalAuthConfigContainer from "../containers/LocalAuthConfigContainer";
+import OIDCConfigListContainer from "../containers/OIDCConfigListContainer";
+import SSOConfigContainer from "../containers/SSOConfigContainer";
 
 interface Props {
   disabled?: boolean;
-  auth: PropTypesOf<typeof FacebookConfig>["auth"] &
-    PropTypesOf<typeof FacebookConfig>["authReadOnly"] &
-    PropTypesOf<typeof GoogleConfig>["auth"] &
-    PropTypesOf<typeof GoogleConfig>["authReadOnly"] &
-    PropTypesOf<typeof SSOConfig>["auth"] &
-    PropTypesOf<typeof SSOConfig>["authReadOnly"] &
-    PropTypesOf<typeof LocalAuthConfig>["auth"];
+  auth: PropTypesOf<typeof FacebookConfigContainer>["auth"] &
+    PropTypesOf<typeof FacebookConfigContainer>["authReadOnly"] &
+    PropTypesOf<typeof GoogleConfigContainer>["auth"] &
+    PropTypesOf<typeof GoogleConfigContainer>["authReadOnly"] &
+    PropTypesOf<typeof SSOConfigContainer>["auth"] &
+    PropTypesOf<typeof SSOConfigContainer>["authReadOnly"] &
+    PropTypesOf<typeof LocalAuthConfigContainer>["auth"] &
+    PropTypesOf<typeof OIDCConfigListContainer>["auth"] &
+    PropTypesOf<typeof OIDCConfigListContainer>["authReadOnly"];
   onInitValues: (values: any) => void;
 }
 
@@ -31,24 +34,30 @@ const AuthIntegrationsConfig: StatelessComponent<Props> = ({
     <Localized id="configure-auth-authIntegrations">
       <Header>Auth Integrations</Header>
     </Localized>
-    <LocalAuthConfig
+    <LocalAuthConfigContainer
       disabled={disabled}
       auth={auth}
       onInitValues={onInitValues}
     />
-    <SSOConfig
-      disabled={disabled}
-      auth={auth}
-      authReadOnly={auth}
-      onInitValues={onInitValues}
-    />
-    <GoogleConfig
+    <OIDCConfigListContainer
       disabled={disabled}
       auth={auth}
       authReadOnly={auth}
       onInitValues={onInitValues}
     />
-    <FacebookConfig
+    <SSOConfigContainer
+      disabled={disabled}
+      auth={auth}
+      authReadOnly={auth}
+      onInitValues={onInitValues}
+    />
+    <GoogleConfigContainer
+      disabled={disabled}
+      auth={auth}
+      authReadOnly={auth}
+      onInitValues={onInitValues}
+    />
+    <FacebookConfigContainer
       disabled={disabled}
       auth={auth}
       authReadOnly={auth}

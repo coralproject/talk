@@ -12,3 +12,11 @@ export {
   withRegenerateSSOKeyMutation,
   RegenerateSSOKeyMutation,
 } from "./RegenerateSSOKeyMutation";
+export {
+  withCreateOIDCAuthIntegrationMutation,
+  CreateOIDCAuthIntegrationMutation,
+} from "./CreateOIDCAuthIntegrationMutation";
+export {
+  withUpdateOIDCAuthIntegrationMutation,
+  UpdateOIDCAuthIntegrationMutation,
+} from "./UpdateOIDCAuthIntegrationMutation";

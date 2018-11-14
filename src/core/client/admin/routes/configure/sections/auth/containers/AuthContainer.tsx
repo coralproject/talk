@@ -28,6 +28,8 @@ export const routeConfig: RouteProps = {
           ...SSOConfigContainer_authReadOnly
           ...LocalAuthConfigContainer_auth
           ...DisplayNamesConfigContainer_auth
+          ...OIDCConfigListContainer_auth
+          ...OIDCConfigListContainer_authReadOnly
         }
       }
     }

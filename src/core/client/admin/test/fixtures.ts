@@ -4,6 +4,7 @@ export const settings = {
       enabled: false,
     },
     integrations: {
+      oidc: [],
       local: {
         enabled: false,
         allowRegistration: true,

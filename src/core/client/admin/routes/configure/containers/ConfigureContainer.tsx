@@ -12,6 +12,11 @@ import { BadUserInputError } from "talk-framework/lib/errors";
 import { getMessage } from "talk-framework/lib/i18n";
 
 import Configure from "../components/Configure";
+import {
+  AddSubmitHook,
+  SubmitHook,
+  SubmitHookContextProvider,
+} from "../submitHook";
 
 interface Props {
   localeBundles: TalkContext["localeBundles"];
@@ -23,6 +28,7 @@ interface Props {
 class ConfigureContainer extends React.Component<Props> {
   private dirty = false;
   private removeTransitionHook: () => void;
+  private submitHooks: SubmitHook[] = [];
 
   constructor(props: Props) {
     super(props);
@@ -44,12 +50,22 @@ class ConfigureContainer extends React.Component<Props> {
   }
 
   private handleSave = async (
-    settings: UpdateSettingsInput["settings"],
+    data: UpdateSettingsInput["settings"],
     form: FormApi
   ) => {
     try {
-      await this.props.updateSettings({ settings });
-      form.initialize(settings);
+      // Call submit hooks, that can manipulate what
+      // we send as the mutation.
+      let nextData = data;
+      for (const hook of this.submitHooks) {
+        const result = await hook(nextData);
+        if (result) {
+          nextData = result;
+        }
+      }
+
+      await this.props.updateSettings({ settings: nextData });
+      form.initialize(data);
     } catch (error) {
       if (error instanceof BadUserInputError) {
         return error.invalidArgsLocalized;
@@ -64,11 +80,20 @@ class ConfigureContainer extends React.Component<Props> {
     this.dirty = dirty;
   };
 
+  private addSubmitHook: AddSubmitHook = hook => {
+    this.submitHooks.push(hook);
+    return () => {
+      this.submitHooks = this.submitHooks.filter(h => h === hook);
+    };
+  };
+
   public render() {
     return (
-      <Configure onChange={this.handleChange} onSave={this.handleSave}>
-        {this.props.children}
-      </Configure>
+      <SubmitHookContextProvider value={this.addSubmitHook}>
+        <Configure onChange={this.handleChange} onSave={this.handleSave}>
+          {this.props.children}
+        </Configure>
+      </SubmitHookContextProvider>
     );
   }
 }

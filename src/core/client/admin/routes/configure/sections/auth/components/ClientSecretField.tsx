@@ -3,30 +3,51 @@ import { identity } from "lodash";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
+import { Validator } from "talk-framework/lib/validation";
 import { FormField, InputLabel, TextField } from "talk-ui/components";
 
+import ValidationMessage from "./ValidationMessage";
+
 interface Props {
+  validate?: Validator;
   name: string;
   disabled: boolean;
 }
 
-const ClientSecretField: StatelessComponent<Props> = ({ name, disabled }) => (
+const ClientSecretField: StatelessComponent<Props> = ({
+  name,
+  disabled,
+  validate,
+}) => (
   <FormField>
     <Localized id="configure-auth-clientSecret">
       <InputLabel>Client Secret</InputLabel>
     </Localized>
-    <Field parse={identity} name={name}>
-      {({ input }) => (
-        <TextField
-          name={input.name}
-          onChange={input.onChange}
-          value={input.value}
-          disabled={disabled}
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          spellCheck={false}
-        />
+    <Field
+      name={name}
+      key={(disabled && "on") || "off"}
+      parse={identity}
+      validate={validate}
+    >
+      {({ input, meta }) => (
+        <>
+          <TextField
+            name={input.name}
+            onChange={input.onChange}
+            value={input.value}
+            disabled={disabled}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+          />
+          {meta.touched &&
+            (meta.error || meta.submitError) && (
+              <ValidationMessage>
+                {meta.error || meta.submitError}
+              </ValidationMessage>
+            )}
+        </>
       )}
     </Field>
   </FormField>

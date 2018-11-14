@@ -1,5 +1,4 @@
-import { merge } from "lodash";
-import { ReactTestRenderer } from "react-test-renderer";
+import { get, merge } from "lodash";
 import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
@@ -13,14 +12,41 @@ import {
 import create from "../create";
 import { settings } from "../fixtures";
 
-let testRenderer: ReactTestRenderer;
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/configure/auth");
+});
 
+const createTestRenderer = async (resolver: any = {}) => {
   const resolvers = {
+    ...resolver,
     Query: {
-      settings: sinon.stub().returns(settings),
+      ...resolver.Query,
+      settings: sinon
+        .stub()
+        .returns(merge(settings, get(resolver, "Query.settings"))),
     },
+  };
+  const { testRenderer } = create({
+    // Set this to true, to see graphql responses.
+    logNetwork: false,
+    resolvers,
+    initLocalState: localRecord => {
+      localRecord.setValue(true, "loggedIn");
+    },
+  });
+  await timeout();
+  return testRenderer;
+};
+
+it("renders configure auth", async () => {
+  const testRenderer = await createTestRenderer();
+  expect(
+    limitSnapshotTo("configure-container", testRenderer.toJSON())
+  ).toMatchSnapshot();
+});
+
+it("change facebook settings", async () => {
+  const testRenderer = await createTestRenderer({
     Mutation: {
       updateSettings: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
@@ -40,44 +66,8 @@ beforeEach(async () => {
           };
         })
       ),
-      regenerateSSOKey: createSinonStub(s =>
-        s.callsFake((_: any, data: any) => {
-          return {
-            settings: {
-              auth: {
-                integrations: {
-                  sso: {
-                    key: "==GENERATED_KEY==",
-                    keyGeneratedAt: "2018-11-12T23:26:06.239Z",
-                  },
-                },
-              },
-            },
-            clientMutationId: data.input.clientMutationId,
-          };
-        })
-      ),
     },
-  };
-
-  ({ testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
-      localRecord.setValue(true, "loggedIn");
-    },
-  }));
-  await timeout();
-});
-
-it("renders configure auth", async () => {
-  expect(
-    limitSnapshotTo("configure-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
-});
-
-it("change facebook settings", async () => {
+  });
   testRenderer.root
     .find(inputPredicate("auth.integrations.facebook.enabled"))
     .props.onChange({});
@@ -114,6 +104,27 @@ it("change facebook settings", async () => {
 });
 
 it("regenerate sso key", async () => {
+  const testRenderer = await createTestRenderer({
+    Mutation: {
+      regenerateSSOKey: createSinonStub(s =>
+        s.callsFake((_: any, data: any) => {
+          return {
+            settings: {
+              auth: {
+                integrations: {
+                  sso: {
+                    key: "==GENERATED_KEY==",
+                    keyGeneratedAt: "2018-11-12T23:26:06.239Z",
+                  },
+                },
+              },
+            },
+            clientMutationId: data.input.clientMutationId,
+          };
+        })
+      ),
+    },
+  });
   testRenderer.root
     .find(inputPredicate("auth.integrations.sso.enabled"))
     .props.onChange({});

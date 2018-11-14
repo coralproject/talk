@@ -49,7 +49,7 @@ const DisplayNamesConfig: StatelessComponent<Props> = ({ disabled }) => (
           {({ input }) => (
             <Localized id="configure-auth-displayNamesConfig-showDisplayNames">
               <RadioButton
-                id={input.name}
+                id={`${input.name}-true`}
                 name={input.name}
                 onChange={input.onChange}
                 onFocus={input.onFocus}
@@ -72,7 +72,7 @@ const DisplayNamesConfig: StatelessComponent<Props> = ({ disabled }) => (
           {({ input }) => (
             <Localized id="configure-auth-displayNamesConfig-hideDisplayNames">
               <RadioButton
-                id={input.name}
+                id={`${input.name}-false`}
                 name={input.name}
                 onChange={input.onChange}
                 onFocus={input.onFocus}

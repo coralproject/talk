@@ -2119,6 +2119,24 @@ type RegenerateSSOKeyPayload {
 
 input CreateOIDCAuthIntegrationConfigurationInput {
   """
+  enabled, when true, allows the integration to be enabled.
+  """
+  enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
   name is the label assigned to reference the provider of the OIDC integration,
   and will be used in situations where the name of the provider needs to be
   displayed, like the login button.

@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
+import { required, Validator } from "talk-framework/lib/validation";
 import { HorizontalGutter, TextLink, Typography } from "talk-ui/components";
 
 import HorizontalRule from "../../../components/HorizontalRule";
@@ -24,6 +25,16 @@ const GoogleLink = () => (
   </TextLink>
 );
 
+const validateWhenEnabled = (validator: Validator): Validator => (
+  v,
+  values
+) => {
+  if (values.auth.integrations.google.enabled) {
+    return validator(v, values);
+  }
+  return "";
+};
+
 const GoogleConfig: StatelessComponent<Props> = ({ disabled, callbackURL }) => (
   <ConfigBoxWithToggleField
     title={
@@ -43,7 +54,9 @@ const GoogleConfig: StatelessComponent<Props> = ({ disabled, callbackURL }) => (
           <Typography>
             To enable the integration with Google Authentication you need to
             create and set up a web application. For more information visit:<br />
-            https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
+            {
+              "https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred"
+            }
           </Typography>
         </Localized>
         <HorizontalRule />
@@ -51,10 +64,12 @@ const GoogleConfig: StatelessComponent<Props> = ({ disabled, callbackURL }) => (
         <HorizontalRule />
         <ClientIDField
           name="auth.integrations.google.clientID"
+          validate={validateWhenEnabled(required)}
           disabled={disabledInside}
         />
         <ClientSecretField
           name="auth.integrations.google.clientSecret"
+          validate={validateWhenEnabled(required)}
           disabled={disabledInside}
         />
         <TargetFilterField

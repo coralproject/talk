@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
+import { required, Validator } from "talk-framework/lib/validation";
 import { HorizontalGutter, TextLink, Typography } from "talk-ui/components";
 
 import HorizontalRule from "../../../components/HorizontalRule";
@@ -21,6 +22,16 @@ const FacebookLink = () => (
     {"https://developers.facebook.com/docs/facebook-login/web"}
   </TextLink>
 );
+
+const validateWhenEnabled = (validator: Validator): Validator => (
+  v,
+  values
+) => {
+  if (values.auth.integrations.facebook.enabled) {
+    return validator(v, values);
+  }
+  return "";
+};
 
 const FacebookConfig: StatelessComponent<Props> = ({
   disabled,
@@ -45,7 +56,7 @@ const FacebookConfig: StatelessComponent<Props> = ({
           <Typography>
             To enable the integration with Facebook Authentication, you need to
             create and set up a web application. For more information visit:<br />
-            https://developers.facebook.com/docs/facebook-login/web
+            {"https://developers.facebook.com/docs/facebook-login/web"}
           </Typography>
         </Localized>
         <HorizontalRule />
@@ -53,10 +64,12 @@ const FacebookConfig: StatelessComponent<Props> = ({
         <HorizontalRule />
         <ClientIDField
           name="auth.integrations.facebook.clientID"
+          validate={validateWhenEnabled(required)}
           disabled={disabledInside}
         />
         <ClientSecretField
           name="auth.integrations.facebook.clientSecret"
+          validate={validateWhenEnabled(required)}
           disabled={disabledInside}
         />
         <TargetFilterField

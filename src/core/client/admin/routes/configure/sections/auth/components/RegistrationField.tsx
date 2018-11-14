@@ -2,19 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
-import {
-  CheckBox,
-  FormField,
-  InputDescription,
-  InputLabel,
-} from "talk-ui/components";
+import { CheckBox, FormField, InputLabel } from "talk-ui/components";
+
+import ConfigDescription from "./ConfigDescription";
 
 interface Props {
   name: string;
   disabled: boolean;
 }
-
-import styles from "./RegistrationField.css";
 
 const RegistrationField: StatelessComponent<Props> = ({ name, disabled }) => (
   <FormField>
@@ -22,9 +17,9 @@ const RegistrationField: StatelessComponent<Props> = ({ name, disabled }) => (
       <InputLabel>Registration</InputLabel>
     </Localized>
     <Localized id="configure-auth-registrationDescription">
-      <InputDescription className={styles.description}>
+      <ConfigDescription>
         Allow users to create a new account with this provider.
-      </InputDescription>
+      </ConfigDescription>
     </Localized>
     <FormField>
       <Field name={name} type="checkbox">
