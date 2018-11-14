@@ -1,7 +1,7 @@
+import { fetchQuery as relayFetchQuery } from "react-relay";
 import {
   CacheConfig,
   Environment,
-  fetchQuery as relayFetchQuery,
   GraphQLTaggedNode,
   Variables,
 } from "relay-runtime";
