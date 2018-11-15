@@ -9,7 +9,6 @@ import { Spinner } from "talk-ui/components";
 
 import Auth from "../components/Auth";
 
-// tslint:disable-next-line:no-empty-interface
 interface Props extends AuthContainerQueryResponse {
   form: FormApi;
   submitting?: boolean;
