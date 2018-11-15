@@ -7,9 +7,7 @@ import RedirectLoginContainer from "./containers/RedirectLoginContainer";
 import Community from "./routes/community/components/Community";
 import ConfigureMisc from "./routes/configure/components/Misc";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
-import ConfigureAuthContainer, {
-  routeConfig as configureAuthConfig,
-} from "./routes/configure/sections/auth/containers/AuthContainer";
+import ConfigureAuthContainer from "./routes/configure/sections/auth/containers/AuthContainer";
 import Login from "./routes/login/components/Login";
 import Moderate from "./routes/moderate/components/Moderate";
 import Stories from "./routes/stories/components/Stories";
@@ -24,11 +22,7 @@ export default makeRouteConfig(
         <Route path="stories" Component={Stories} />
         <Route path="configure" Component={ConfigureContainer}>
           <Redirect from="/" to="/admin/configure/auth" />
-          <Route
-            path="auth"
-            Component={ConfigureAuthContainer}
-            {...configureAuthConfig}
-          />
+          <Route path="auth" {...ConfigureAuthContainer.routeConfig} />
           <Route path="misc" Component={ConfigureMisc} />
         </Route>
       </Route>

@@ -15,31 +15,8 @@ interface Props extends AuthContainerQueryResponse {
   submitting?: boolean;
 }
 
-export const routeConfig: RouteProps = {
-  query: graphql`
-    query AuthContainerQuery {
-      settings {
-        auth {
-          ...FacebookConfigContainer_auth
-          ...FacebookConfigContainer_authReadOnly
-          ...GoogleConfigContainer_auth
-          ...GoogleConfigContainer_authReadOnly
-          ...SSOConfigContainer_auth
-          ...SSOConfigContainer_authReadOnly
-          ...LocalAuthConfigContainer_auth
-          ...DisplayNamesConfigContainer_auth
-          ...OIDCConfigListContainer_auth
-          ...OIDCConfigListContainer_authReadOnly
-        }
-      }
-    }
-  `,
-  cacheConfig: { force: true },
-  render: ({ Component, props }) =>
-    props && Component ? <Component {...props} /> : <Spinner />,
-};
-
 export default class AuthContainer extends React.Component<Props> {
+  public static routeConfig: RouteProps;
   private initialValues = {};
 
   constructor(props: Props) {
@@ -64,3 +41,28 @@ export default class AuthContainer extends React.Component<Props> {
     );
   }
 }
+
+AuthContainer.routeConfig = {
+  Component: AuthContainer,
+  query: graphql`
+    query AuthContainerQuery {
+      settings {
+        auth {
+          ...FacebookConfigContainer_auth
+          ...FacebookConfigContainer_authReadOnly
+          ...GoogleConfigContainer_auth
+          ...GoogleConfigContainer_authReadOnly
+          ...SSOConfigContainer_auth
+          ...SSOConfigContainer_authReadOnly
+          ...LocalAuthConfigContainer_auth
+          ...DisplayNamesConfigContainer_auth
+          ...OIDCConfigListContainer_auth
+          ...OIDCConfigListContainer_authReadOnly
+        }
+      }
+    }
+  `,
+  cacheConfig: { force: true },
+  render: ({ Component, props }) =>
+    props && Component ? <Component {...props} /> : <Spinner />,
+};
