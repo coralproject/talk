@@ -6,6 +6,23 @@ import {
 } from "talk-framework/testHelpers";
 
 export const settings = {
+  auth: {
+    integrations: {
+      facebook: {
+        enabled: false,
+      },
+      google: {
+        enabled: false,
+      },
+      sso: {
+        enabled: false,
+      },
+      local: {
+        enabled: true,
+      },
+      oidc: [],
+    },
+  },
   reaction: {
     icon: "thumb_up",
     label: "Respect",

@@ -88,6 +88,7 @@ const enhanced = withContext(ctx => ({
         fragment PermalinkViewContainer_settings on Settings {
           ...ConversationThreadContainer_settings
           ...ReplyListContainer1_settings
+          ...UserBoxContainer_settings
         }
       `,
     })(PermalinkViewContainer)

@@ -7,6 +7,7 @@ exports[`renders comment not found 1`] = `
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
     me={Object {}}
+    settings={Object {}}
   />
   <withPropsOnChange(Flex)
     alignItems="center"
@@ -64,6 +65,7 @@ exports[`renders correctly 1`] = `
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
     me={Object {}}
+    settings={Object {}}
   />
   <withPropsOnChange(Flex)
     alignItems="center"

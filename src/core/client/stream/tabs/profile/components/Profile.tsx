@@ -9,12 +9,13 @@ export interface ProfileProps {
   story: PropTypesOf<typeof CommentHistoryContainer>["story"];
   me: PropTypesOf<typeof UserBoxContainer>["me"] &
     PropTypesOf<typeof CommentHistoryContainer>["me"];
+  settings: PropTypesOf<typeof UserBoxContainer>["settings"];
 }
 
 const Profile: StatelessComponent<ProfileProps> = props => {
   return (
     <HorizontalGutter size="double">
-      <UserBoxContainer me={props.me} />
+      <UserBoxContainer me={props.me} settings={props.settings} />
       <CommentHistoryContainer me={props.me} story={props.story} />
     </HorizontalGutter>
   );

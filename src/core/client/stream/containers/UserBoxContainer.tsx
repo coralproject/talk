@@ -8,6 +8,7 @@ import {
 } from "talk-framework/lib/relay";
 import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
 import { UserBoxContainer_me as MeData } from "talk-stream/__generated__/UserBoxContainer_me.graphql";
+import { UserBoxContainer_settings as SettingsData } from "talk-stream/__generated__/UserBoxContainer_settings.graphql";
 import { UserBoxContainerLocal as Local } from "talk-stream/__generated__/UserBoxContainerLocal.graphql";
 import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
 import {
@@ -24,6 +25,7 @@ import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 interface InnerProps {
   local: Local;
   me: MeData | null;
+  settings: SettingsData;
   showAuthPopup: ShowAuthPopupMutation;
   setAuthPopupState: SetAuthPopupStateMutation;
   signOut: SignOutMutation;
@@ -37,6 +39,21 @@ export class UserBoxContainer extends Component<InnerProps> {
   private handleRegister = () => this.props.showAuthPopup({ view: "SIGN_UP" });
   private handleSignOut = () => this.props.signOut();
 
+  private get needLogout() {
+    return !!this.props.local.authJTI;
+  }
+
+  private get weControlAuth() {
+    const integrations = this.props.settings.auth.integrations;
+    return (
+      integrations.facebook.enabled ||
+      integrations.google.enabled ||
+      integrations.local.enabled ||
+      integrations.oidc.some(c => c.enabled) ||
+      integrations.google.enabled
+    );
+  }
+
   public render() {
     const {
       local: {
@@ -48,11 +65,15 @@ export class UserBoxContainer extends Component<InnerProps> {
     if (me) {
       return (
         <UserBoxAuthenticated
-          onSignOut={this.handleSignOut}
-          // TODO: why nullable?
+          onSignOut={(this.weControlAuth && this.handleSignOut) || undefined}
           username={me.username!}
+          showLogoutButton={this.needLogout}
         />
       );
+    }
+
+    if (!this.weControlAuth) {
+      return null;
     }
 
     return (
@@ -87,6 +108,7 @@ const enhanced = withSignOutMutation(
               focus
               view
             }
+            authJTI
           }
         `
       )(
@@ -94,6 +116,29 @@ const enhanced = withSignOutMutation(
           me: graphql`
             fragment UserBoxContainer_me on User {
               username
+            }
+          `,
+          settings: graphql`
+            fragment UserBoxContainer_settings on Settings {
+              auth {
+                integrations {
+                  local {
+                    enabled
+                  }
+                  sso {
+                    enabled
+                  }
+                  oidc {
+                    enabled
+                  }
+                  google {
+                    enabled
+                  }
+                  facebook {
+                    enabled
+                  }
+                }
+              }
             }
           `,
         })(UserBoxContainer)
