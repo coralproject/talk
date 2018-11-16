@@ -5,12 +5,19 @@
 """
 auth is a directive that will enforce authorization rules on the schema
 definition. It will restrict the viewer of the field based on roles or if the
-`userIDField` is specified, it  will see if the current users ID equals the field
+`userIDField` is specified, it will see if the current users ID equals the field
 specified. This allows users that own a specific resource (like a comment, or a
 flag) see their own content, but restrict it to everyone else. If the directive
-is used without options, it simply requires a logged in user.
+is used without options, it simply requires a logged in user. If
+`allowUnregistered` is provided and is true, then users that have not currently
+completed their registration will be allowed, otherwise, unregistered users
+cannot access.
 """
-directive @auth(roles: [USER_ROLE!], userIDField: String) on FIELD_DEFINITION
+directive @auth(
+  roles: [USER_ROLE!]
+  allowUnregistered: Boolean
+  userIDField: String
+) on FIELD_DEFINITION
 
 ################################################################################
 ## Custom Scalar Types
@@ -946,12 +953,22 @@ type User {
   """
   profiles is the array of profiles assigned to the user.
   """
-  profiles: [Profile!] @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  profiles: [Profile!]
+    @auth(roles: [ADMIN, MODERATOR], userIDField: "id", allowUnregistered: true)
 
   """
   role is the current role of the User.
   """
-  role: USER_ROLE! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  role: USER_ROLE!
+    @auth(roles: [ADMIN, MODERATOR], userIDField: "id", allowUnregistered: true)
+
+  """
+  registrationCompleted is used to determine if the given User has completed their
+  User registration. Note that for Users signing in with SSO/OIDC, this is not
+  required.
+  """
+  registrationCompleted: Boolean!
+    @auth(roles: [ADMIN, MODERATOR], userIDField: "id", allowUnregistered: true)
 
   """
   comments are the comments of the User.
@@ -2558,14 +2575,60 @@ type ScrapeStoryPayload {
 }
 
 ##################
+## completeUserRegistration
+##################
+
+input CompleteUserRegistrationInput {
+  """
+  email is the email address for the User.
+  """
+  email: String!
+
+  """
+  username is the desired username for the User.
+  """
+  username: String!
+
+  """
+  password is the password for logging in.
+  """
+  password: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CompleteUserRegistrationPayload {
+  """
+  user is returned with the created User if successful.
+  """
+  user: User
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
 type Mutation {
   """
+  completeUserRegistration is called when a user has not completed their profile
+  and are doing so now.
+  """
+  completeUserRegistration(
+    input: CompleteUserRegistrationInput!
+  ): CompleteUserRegistrationPayload @auth(allowUnregistered: true)
+
+  """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload
+  createComment(input: CreateCommentInput!): CreateCommentPayload @auth
 
   """
   editComment will allow the author of a comment to change the body within the

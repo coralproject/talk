@@ -67,13 +67,13 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
     const profile: LocalProfile = {
       id: email,
       type: "local",
+      password,
     };
 
     // Create the new user.
     const user = await upsert(options.db, tenant, {
       email,
       username,
-      password,
       profiles: [profile],
       // New users signing up via local auth will have the commenter role to
       // start with.

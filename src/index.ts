@@ -21,7 +21,7 @@ async function bootstrap() {
     // Start the server.
     await server.start(app);
   } catch (err) {
-    logger.error({ err }, "can not bootstrap server");
+    logger.error({ err }, "cannot bootstrap server");
   }
 }
 

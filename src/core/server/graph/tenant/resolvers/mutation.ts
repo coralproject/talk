@@ -1,6 +1,10 @@
 import { GQLMutationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
 const Mutation: GQLMutationTypeResolver<void> = {
+  completeUserRegistration: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.User.completeRegistration(input),
+    clientMutationId: input.clientMutationId,
+  }),
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comment.edit(input),
     clientMutationId: input.clientMutationId,

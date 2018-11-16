@@ -80,7 +80,6 @@ export default class GoogleStrategy extends OAuth2Strategy<
       }
 
       user = await upsert(this.mongo, tenant, {
-        username: null,
         displayName,
         role: GQLUSER_ROLE.COMMENTER,
         email,

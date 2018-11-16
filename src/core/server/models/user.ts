@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { isNil } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -15,9 +16,14 @@ function collection(db: Db) {
   return db.collection<Readonly<User>>("users");
 }
 
+function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
+}
+
 export interface LocalProfile {
   type: "local";
   id: string;
+  password: string;
 }
 
 export interface OIDCProfile {
@@ -75,9 +81,8 @@ export interface UserStatus {
 
 export interface User extends TenantResource {
   readonly id: string;
-  username: string | null;
+  username?: string;
   displayName?: string;
-  password?: string;
   avatar?: string;
   email?: string;
   email_verified?: boolean;
@@ -138,20 +143,29 @@ export async function upsertUser(
     created_at: now,
   };
 
-  let hashedPassword;
-  if (input.password) {
-    // Hash the user's password with bcrypt.
-    hashedPassword = await bcrypt.hash(input.password, 10);
+  // Mutate the profiles to ensure we mask handle any secrets.
+  const profiles: Profile[] = [];
+  for (let profile of input.profiles) {
+    switch (profile.type) {
+      case "local":
+        // Hash the user's password with bcrypt.
+        const password = await hashPassword(profile.password);
+        profile = {
+          ...profile,
+          password,
+        };
+        break;
+    }
+
+    // Save a copy.
+    profiles.push(profile);
   }
 
   // Merge the defaults and the input together.
   const user: Readonly<User> = {
     ...defaults,
     ...input,
-
-    // Specified last in the merge call, it will override any existing password
-    // entry if it is defined.
-    password: hashedPassword,
+    profiles,
   };
 
   // Create a query that will utilize a findOneAndUpdate to facilitate an upsert
@@ -225,7 +239,7 @@ export async function retrieveManyUsers(
 export async function retrieveUserWithProfile(
   db: Db,
   tenantID: string,
-  profile: Profile
+  profile: Partial<Profile>
 ) {
   return collection(db).findOne({
     tenant_id: tenantID,
@@ -244,16 +258,98 @@ export async function updateUserRole(
   const result = await collection(db).findOneAndUpdate(
     { id, tenant_id: tenantID },
     { $set: { role } },
-    { returnOriginal: false }
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
   );
 
   return result.value || null;
 }
 
 export async function verifyUserPassword(user: User, password: string) {
-  if (user.password) {
-    return bcrypt.compare(password, user.password);
+  const profile: LocalProfile | undefined = user.profiles.find(
+    ({ type }) => type === "local"
+  ) as LocalProfile | undefined;
+  if (!profile) {
+    throw new Error("no local profile exists for this user");
   }
 
-  return false;
+  return bcrypt.compare(password, profile.password);
+}
+
+export async function updateUserPassword(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  password: string
+) {
+  const hashedPassword = await hashPassword(password);
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenant_id: tenantID },
+    {
+      $set: {
+        "profiles.$[profiles].password": hashedPassword,
+      },
+    },
+    {
+      arrayFilters: [{ "profiles.type": "local" }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
+}
+
+/**
+ * Given a User, verifyUserRegistrationCompleted will determine if the user has
+ * completed their user registration.
+ */
+export function verifyUserRegistrationCompleted(
+  user: Pick<User, "email" | "username">
+): boolean {
+  return !isNil(user.email) && !isNil(user.username);
+}
+
+export type UserRegistrationInput = Required<
+  Pick<User, "email" | "username">
+> & {
+  password: string;
+};
+
+export async function completeUserRegistration(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  { email, username, password }: UserRegistrationInput
+) {
+  const profile: LocalProfile = {
+    type: "local",
+    id: email,
+    password: await hashPassword(password),
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { tenantID, id, email: null, username: null },
+    {
+      $set: {
+        email,
+        username,
+      },
+      $push: {
+        profiles: profile,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  return result.value || null;
 }
