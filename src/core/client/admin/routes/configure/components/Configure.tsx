@@ -19,7 +19,7 @@ const Configure: StatelessComponent<Props> = ({
   onChange,
   children,
 }) => (
-  <div id="configure-container">
+  <div data-test="configure-container">
     <Form onSubmit={onSave}>
       {({ handleSubmit, submitting, pristine, form, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
@@ -37,7 +37,7 @@ const Configure: StatelessComponent<Props> = ({
               <HorizontalGutter size="double">
                 <Localized id="configure-sideBar-saveChanges">
                   <Button
-                    id="configure-sideBar-saveChanges"
+                    data-test="configure-sideBar-saveChanges"
                     color="success"
                     variant="filled"
                     type="submit"

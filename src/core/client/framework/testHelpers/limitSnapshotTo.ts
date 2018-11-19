@@ -1,10 +1,10 @@
-export default function limitSnapshotTo(id: string, node: any) {
-  if (node.props && node.props.id === id) {
+export default function limitSnapshotTo(dataTest: string, node: any) {
+  if (node.props && node.props["data-test"] === dataTest) {
     return node;
   }
   if (node.children) {
     for (const child of node.children) {
-      const result: any = limitSnapshotTo(id, child);
+      const result: any = limitSnapshotTo(dataTest, child);
       if (result) {
         return result;
       }
