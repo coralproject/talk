@@ -1829,7 +1829,7 @@ however it could also be used to spoof/impersonate another user.
               >
                 <div>
                   <span>
-                    Login with Local Authentication
+                    Login with Email Authentication
                   </span>
                 </div>
                 <div>
@@ -1877,7 +1877,7 @@ however it could also be used to spoof/impersonate another user.
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
-                        Use Local Authentication login on
+                        Use Email Authentication login on
                       </span>
                     </label>
                     <div

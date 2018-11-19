@@ -74,8 +74,8 @@ configure-auth-sso-regenerateWarning =
   Regenerating a key will invalidate any existing user sessions,
   and all signed-in users will be signed out.
 
-configure-auth-local-loginWith = Login with Local Authentication
-configure-auth-local-useLoginOn = Use Local Authentication login on
+configure-auth-local-loginWith = Login with Email Authentication
+configure-auth-local-useLoginOn = Use Email Authentication login on
 
 configure-auth-displayNamesConfig-title = Display Names
 configure-auth-displayNamesConfig-explanationShort =
