@@ -35,6 +35,7 @@ export class UserBoxContainer extends Component<InnerProps> {
   private handleClose = () => this.props.setAuthPopupState({ open: false });
   private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
   private handleRegister = () => this.props.showAuthPopup({ view: "SIGN_UP" });
+  private handleSignOut = () => this.props.signOut();
 
   public render() {
     const {
@@ -42,13 +43,12 @@ export class UserBoxContainer extends Component<InnerProps> {
         authPopup: { open, focus, view },
       },
       me,
-      signOut,
     } = this.props;
 
     if (me) {
       return (
         <UserBoxAuthenticated
-          onSignOut={signOut}
+          onSignOut={this.handleSignOut}
           // TODO: why nullable?
           username={me.username!}
         />
