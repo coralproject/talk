@@ -39,8 +39,19 @@ export class UserBoxContainer extends Component<InnerProps> {
   private handleRegister = () => this.props.showAuthPopup({ view: "SIGN_UP" });
   private handleSignOut = () => this.props.signOut();
 
-  private get needLogout() {
+  private get supportsLogout() {
     return !!this.props.local.authJTI;
+  }
+
+  private get supportsRegister() {
+    const integrations = this.props.settings.auth.integrations;
+    return (
+      (integrations.facebook.allowRegistration &&
+        integrations.facebook.enabled) ||
+      (integrations.google.allowRegistration && integrations.google.enabled) ||
+      (integrations.local.allowRegistration && integrations.local.enabled) ||
+      integrations.oidc.some(c => c.allowRegistration && c.enabled)
+    );
   }
 
   private get weControlAuth() {
@@ -49,8 +60,7 @@ export class UserBoxContainer extends Component<InnerProps> {
       integrations.facebook.enabled ||
       integrations.google.enabled ||
       integrations.local.enabled ||
-      integrations.oidc.some(c => c.enabled) ||
-      integrations.google.enabled
+      integrations.oidc.some(c => c.enabled)
     );
   }
 
@@ -67,7 +77,7 @@ export class UserBoxContainer extends Component<InnerProps> {
         <UserBoxAuthenticated
           onSignOut={(this.weControlAuth && this.handleSignOut) || undefined}
           username={me.username!}
-          showLogoutButton={this.needLogout}
+          showLogoutButton={this.supportsLogout}
         />
       );
     }
@@ -90,7 +100,10 @@ export class UserBoxContainer extends Component<InnerProps> {
         />
         <UserBoxUnauthenticated
           onSignIn={this.handleSignIn}
-          onRegister={this.handleRegister}
+          onRegister={
+            (this.supportsRegister && this.handleRegister) || undefined
+          }
+          showRegisterButton={this.supportsRegister}
         />
       </>
     );
@@ -124,18 +137,23 @@ const enhanced = withSignOutMutation(
                 integrations {
                   local {
                     enabled
+                    allowRegistration
                   }
                   sso {
                     enabled
+                    allowRegistration
                   }
                   oidc {
                     enabled
+                    allowRegistration
                   }
                   google {
                     enabled
+                    allowRegistration
                   }
                   facebook {
                     enabled
+                    allowRegistration
                   }
                 }
               }

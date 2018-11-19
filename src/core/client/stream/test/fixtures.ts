@@ -10,15 +10,19 @@ export const settings = {
     integrations: {
       facebook: {
         enabled: false,
+        allowRegistration: true,
       },
       google: {
         enabled: false,
+        allowRegistration: true,
       },
       sso: {
         enabled: false,
+        allowRegistration: true,
       },
       local: {
         enabled: true,
+        allowRegistration: true,
       },
       oidc: [],
     },
