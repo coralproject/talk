@@ -5,7 +5,7 @@ import { createSinonStub } from "talk-framework/testHelpers";
 
 import { OnEvents } from "./OnEvents";
 
-it("Sets auth token", () => {
+it("Broadcasts events to pym", () => {
   const value = { value: true };
   const eventName = "eventName";
   const eventEmitter: any = {
