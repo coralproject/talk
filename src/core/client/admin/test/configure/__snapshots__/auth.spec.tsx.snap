@@ -10,7 +10,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
   >
     <div>
       <span>
-        Login with OIDC
+        Login with OpenID Connect
       </span>
     </div>
     <div>
@@ -132,7 +132,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          The provider of the OIDC integration. This will be used when the name of the provider
+          The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
         <input
@@ -245,7 +245,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          authorizationURL
+          Authorization URL
         </label>
         <input
           autoCapitalize="off"
@@ -267,7 +267,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          tokenURL
+          Token URL
         </label>
         <input
           autoCapitalize="off"
@@ -289,7 +289,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          jwksURI
+          JWKS URI
         </label>
         <input
           autoCapitalize="off"
@@ -312,7 +312,7 @@ the remaining fields. You may also enter the information manually.
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           <span>
-            Use OIDC login on
+            Use OpenID Connect login on
           </span>
         </label>
         <div
@@ -694,7 +694,7 @@ exports[`change settings: enable oidc configure box 1`] = `
   >
     <div>
       <span>
-        Login with OIDC
+        Login with OpenID Connect
       </span>
     </div>
     <div>
@@ -816,7 +816,7 @@ exports[`change settings: enable oidc configure box 1`] = `
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          The provider of the OIDC integration. This will be used when the name of the provider
+          The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
         <input
@@ -929,7 +929,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          authorizationURL
+          Authorization URL
         </label>
         <input
           autoCapitalize="off"
@@ -951,7 +951,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          tokenURL
+          Token URL
         </label>
         <input
           autoCapitalize="off"
@@ -973,7 +973,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          jwksURI
+          JWKS URI
         </label>
         <input
           autoCapitalize="off"
@@ -996,7 +996,7 @@ the remaining fields. You may also enter the information manually.
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           <span>
-            Use OIDC login on
+            Use OpenID Connect login on
           </span>
         </label>
         <div
@@ -1113,7 +1113,7 @@ exports[`change settings: oidc validation errors 1`] = `
   >
     <div>
       <span>
-        Login with OIDC
+        Login with OpenID Connect
       </span>
     </div>
     <div>
@@ -1235,7 +1235,7 @@ exports[`change settings: oidc validation errors 1`] = `
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          The provider of the OIDC integration. This will be used when the name of the provider
+          The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
         <input
@@ -1400,7 +1400,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          authorizationURL
+          Authorization URL
         </label>
         <input
           autoCapitalize="off"
@@ -1435,7 +1435,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          tokenURL
+          Token URL
         </label>
         <input
           autoCapitalize="off"
@@ -1470,7 +1470,7 @@ the remaining fields. You may also enter the information manually.
         <label
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
-          jwksURI
+          JWKS URI
         </label>
         <input
           autoCapitalize="off"
@@ -1506,7 +1506,7 @@ the remaining fields. You may also enter the information manually.
           className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           <span>
-            Use OIDC login on
+            Use OpenID Connect login on
           </span>
         </label>
         <div
@@ -1991,7 +1991,7 @@ integration to register for a new account.
               >
                 <div>
                   <span>
-                    Login with OIDC
+                    Login with OpenID Connect
                   </span>
                 </div>
                 <div>
@@ -2113,7 +2113,7 @@ integration to register for a new account.
                     <p
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
-                      The provider of the OIDC integration. This will be used when the name of the provider
+                      The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     </p>
                     <input
@@ -2226,7 +2226,7 @@ the remaining fields. You may also enter the information manually.
                     <label
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
-                      authorizationURL
+                      Authorization URL
                     </label>
                     <input
                       autoCapitalize="off"
@@ -2248,7 +2248,7 @@ the remaining fields. You may also enter the information manually.
                     <label
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
-                      tokenURL
+                      Token URL
                     </label>
                     <input
                       autoCapitalize="off"
@@ -2270,7 +2270,7 @@ the remaining fields. You may also enter the information manually.
                     <label
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
-                      jwksURI
+                      JWKS URI
                     </label>
                     <input
                       autoCapitalize="off"
@@ -2293,7 +2293,7 @@ the remaining fields. You may also enter the information manually.
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
-                        Use OIDC login on
+                        Use OpenID Connect login on
                       </span>
                     </label>
                     <div
@@ -2406,7 +2406,7 @@ integration to register for a new account.
               >
                 <div>
                   <span>
-                    Login with SSO
+                    Login with Single Sign On
                   </span>
                 </div>
                 <div>
@@ -2511,7 +2511,7 @@ and all signed-in users will be signed out.
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
-                        Use SSO login on
+                        Use Single Sign On login on
                       </span>
                     </label>
                     <div
