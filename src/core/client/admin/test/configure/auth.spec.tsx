@@ -82,6 +82,38 @@ it("regenerate sso key", async () => {
   ).toMatchSnapshot();
 });
 
+it("prevents admin lock out", async () => {
+  const testRenderer = await createTestRenderer();
+
+  // Let's disable local auth.
+  testRenderer.root
+    .find(inputPredicate("auth.integrations.local.enabled"))
+    .props.onChange();
+
+  // Send form
+  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+  await timeout();
+  expect(
+    limitSnapshotTo("configure-auth-submitError", testRenderer.toJSON())
+  ).toMatchSnapshot();
+});
+
+it("prevents stream lock out", async () => {
+  const testRenderer = await createTestRenderer();
+
+  // Let's disable stream target in local auth.
+  testRenderer.root
+    .find(inputPredicate("auth.integrations.local.targetFilter.stream"))
+    .props.onChange();
+
+  // Send form
+  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+  await timeout();
+  expect(
+    limitSnapshotTo("configure-container", testRenderer.toJSON())
+  ).toMatchSnapshot();
+});
+
 it("change settings", async () => {
   let settingsRecord = cloneDeep(settings);
   const testRenderer = await createTestRenderer({
