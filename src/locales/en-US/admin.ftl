@@ -64,8 +64,8 @@ configure-auth-google-toEnableIntegration =
   <link></link>.
 configure-auth-google-useLoginOn = Use Google login on
 
-configure-auth-sso-loginWith = Login with SSO
-configure-auth-sso-useLoginOn = Use SSO login on
+configure-auth-sso-loginWith = Login with Single Sign On
+configure-auth-sso-useLoginOn = Use Single Sign On login on
 configure-auth-sso-key = Key
 configure-auth-sso-regenerate = Regenerate
 configure-auth-sso-regenerateAt = KEY GENERATED AT:
@@ -88,19 +88,19 @@ configure-auth-displayNamesConfig-explanationLong =
 configure-auth-displayNamesConfig-showDisplayNames = Show Display Names (if available)
 configure-auth-displayNamesConfig-hideDisplayNames = Hide Display Names (if available)
 
-configure-auth-oidc-loginWith = Login with OIDC
+configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <link></link>
 configure-auth-oidc-redirectDescription =
   For OIDC, your Redirect URI will not appear until you after you save this integration.
 configure-auth-oidc-providerName = Provider Name
 configure-auth-oidc-providerNameDescription =
-  The provider of the OIDC integration. This will be used when the name of the provider
+  The provider of the OpenID Connect integration. This will be used when the name of the provider
   needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
 configure-auth-oidc-issuer = Issuer
 configure-auth-oidc-issuerDescription =
   After entering your Issuer information, click the Discover button to have Talk complete
   the remaining fields. You may also enter the information manually.
-configure-auth-oidc-authorizationURL = authorizationURL
+configure-auth-oidc-authorizationURL = Authorization URL
 configure-auth-oidc-tokenURL = Token URL
-configure-auth-oidc-jwksURI = jwksURI
-configure-auth-oidc-useLoginOn = Use OIDC login on
+configure-auth-oidc-jwksURI = JWKS URI
+configure-auth-oidc-useLoginOn = Use OpenID Connect login on
