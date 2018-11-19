@@ -101,6 +101,6 @@ configure-auth-oidc-issuerDescription =
   After entering your Issuer information, click the Discover button to have Talk complete
   the remaining fields. You may also enter the information manually.
 configure-auth-oidc-authorizationURL = authorizationURL
-configure-auth-oidc-tokenURL = tokenURL
+configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = jwksURI
 configure-auth-oidc-useLoginOn = Use OIDC login on
