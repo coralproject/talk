@@ -5,7 +5,7 @@ import { createSinonStub } from "talk-framework/testHelpers";
 
 import { OnPostMessageSetAuthToken } from "./OnPostMessageSetAuthToken";
 
-it("Sets auth token", () => {
+it("Listens to event and sets auth token", () => {
   const token = "auth-token";
   const postMessage: any = {
     on: (name: string, cb: (token: string) => void) => {

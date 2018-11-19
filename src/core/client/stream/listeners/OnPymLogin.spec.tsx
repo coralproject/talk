@@ -5,7 +5,7 @@ import { createSinonStub } from "talk-framework/testHelpers";
 
 import { OnPymLogin } from "./OnPymLogin";
 
-it("Sets auth token", () => {
+it("Listens to event and calls setAuthToken", () => {
   const authToken = "auth-token";
   const pym: any = {
     onMessage: (eventName: string, cb: (authToken: string) => void) => {

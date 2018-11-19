@@ -4,7 +4,7 @@ import sinon from "sinon";
 
 import { OnPymLogout } from "./OnPymLogout";
 
-it("Sets auth token", () => {
+it("Listens to event and calls signOut", () => {
   const authToken = "auth-token";
   const pym: any = {
     onMessage: (eventName: string, cb: (authToken: string) => void) => {
