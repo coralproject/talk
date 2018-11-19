@@ -87,8 +87,8 @@ const OIDCConfig: StatelessComponent<Props> = ({
                   <Icon className={styles.redirectDescriptionIcon}>error</Icon>
                   <Localized id="configure-auth-oidc-redirectDescription">
                     <div>
-                      For OIDC, your Redirect URI will not appear until you
-                      after you save this integration
+                      For OpenID Connect, your Redirect URI will not appear
+                      until you after you save this integration
                     </div>
                   </Localized>
                 </Flex>

@@ -32,7 +32,7 @@ const RegistrationField: StatelessComponent<Props> = ({ name, disabled }) => (
               checked={input.value}
               disabled={disabled}
             >
-              Registration
+              Allow Registration
             </CheckBox>
           </Localized>
         )}

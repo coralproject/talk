@@ -48,7 +48,7 @@ configure-auth-registration = Registration
 configure-auth-registrationDescription =
   Allow users that have not signed up before with this authentication
   integration to register for a new account.
-configure-auth-registrationCheckBox = Registration
+configure-auth-registrationCheckBox = Allow Registration
 
 configure-auth-facebook-loginWith = Login with Facebook
 configure-auth-facebook-toEnableIntegration =
@@ -91,7 +91,7 @@ configure-auth-displayNamesConfig-hideDisplayNames = Hide Display Names (if avai
 configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <link></link>
 configure-auth-oidc-redirectDescription =
-  For OIDC, your Redirect URI will not appear until you after you save this integration.
+  For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
 configure-auth-oidc-providerName = Provider Name
 configure-auth-oidc-providerNameDescription =
   The provider of the OpenID Connect integration. This will be used when the name of the provider

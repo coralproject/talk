@@ -87,7 +87,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
               error
             </span>
             <div>
-              For OIDC, your Redirect URI will not appear until you after you save this integration.
+              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
             </div>
           </div>
         </div>
@@ -408,7 +408,7 @@ integration to register for a new account.
               <span
                 className="CheckBox-labelSpan"
               >
-                Registration
+                Allow Registration
               </span>
             </label>
           </div>
@@ -673,7 +673,7 @@ integration to register for a new account.
               <span
                 className="CheckBox-labelSpan"
               >
-                Registration
+                Allow Registration
               </span>
             </label>
           </div>
@@ -771,7 +771,7 @@ exports[`change settings: enable oidc configure box 1`] = `
               error
             </span>
             <div>
-              For OIDC, your Redirect URI will not appear until you after you save this integration.
+              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
             </div>
           </div>
         </div>
@@ -1092,7 +1092,7 @@ integration to register for a new account.
               <span
                 className="CheckBox-labelSpan"
               >
-                Registration
+                Allow Registration
               </span>
             </label>
           </div>
@@ -1190,7 +1190,7 @@ exports[`change settings: oidc validation errors 1`] = `
               error
             </span>
             <div>
-              For OIDC, your Redirect URI will not appear until you after you save this integration.
+              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
             </div>
           </div>
         </div>
@@ -1602,7 +1602,7 @@ integration to register for a new account.
               <span
                 className="CheckBox-labelSpan"
               >
-                Registration
+                Allow Registration
               </span>
             </label>
           </div>
@@ -1973,7 +1973,7 @@ integration to register for a new account.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Registration
+                            Allow Registration
                           </span>
                         </label>
                       </div>
@@ -2068,7 +2068,7 @@ integration to register for a new account.
                           error
                         </span>
                         <div>
-                          For OIDC, your Redirect URI will not appear until you after you save this integration.
+                          For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
                         </div>
                       </div>
                     </div>
@@ -2389,7 +2389,7 @@ integration to register for a new account.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Registration
+                            Allow Registration
                           </span>
                         </label>
                       </div>
@@ -2607,7 +2607,7 @@ integration to register for a new account.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Registration
+                            Allow Registration
                           </span>
                         </label>
                       </div>
@@ -2868,7 +2868,7 @@ integration to register for a new account.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Registration
+                            Allow Registration
                           </span>
                         </label>
                       </div>
@@ -3130,7 +3130,7 @@ integration to register for a new account.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Registration
+                            Allow Registration
                           </span>
                         </label>
                       </div>
