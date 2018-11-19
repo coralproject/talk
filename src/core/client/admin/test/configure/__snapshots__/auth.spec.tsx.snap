@@ -100,7 +100,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
             placeholder=""
             readOnly={true}
             type="text"
-            value="http://localhost/oidc/callback"
+            value=""
           />
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -782,7 +782,7 @@ exports[`change settings: enable oidc configure box 1`] = `
             placeholder=""
             readOnly={true}
             type="text"
-            value="http://localhost/oidc/callback"
+            value=""
           />
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -1201,7 +1201,7 @@ exports[`change settings: oidc validation errors 1`] = `
             placeholder=""
             readOnly={true}
             type="text"
-            value="http://localhost/oidc/callback"
+            value=""
           />
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"

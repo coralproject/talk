@@ -121,18 +121,19 @@ it("change settings", async () => {
       createOIDCAuthIntegration: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
           expect(data.input.configuration).toEqual({
+            enabled: true,
             allowRegistration: false,
             targetFilter: {
               admin: true,
               stream: true,
             },
-            clientID: "",
-            clientSecret: "",
-            issuer: "",
-            jwksURI: "",
-            authorizationURL: "",
-            name: "",
-            tokenURL: "",
+            name: "name",
+            clientID: "clientID",
+            clientSecret: "clientSecret",
+            issuer: "http://issuer.com",
+            jwksURI: "http://issuer.com/jwksURI",
+            authorizationURL: "http://issuer.com/authorizationURL",
+            tokenURL: "http://issuer.com/tokenURL",
           });
           (settingsRecord.auth.integrations.oidc as any).push({
             id: "generatedID",
@@ -157,7 +158,7 @@ it("change settings", async () => {
             },
             name: "name",
             clientID: "clientID",
-            clientSecret: "clientSecret",
+            clientSecret: "clientSecret2",
             issuer: "http://issuer.com",
             jwksURI: "http://issuer.com/jwksURI",
             authorizationURL: "http://issuer.com/authorizationURL",
@@ -252,6 +253,25 @@ it("change settings", async () => {
   expect(
     limitSnapshotTo("configure-auth-oidc-container-0", testRenderer.toJSON())
   ).toMatchSnapshot("during submit: oidc without errors");
+
+  // Disable other fields while submitting
+  // We are only testing for one here right now..
+  expect(
+    testRenderer.root.find(inputPredicate("auth.integrations.oidc.0.enabled"))
+      .props.disabled
+  ).toBe(true);
+  await timeout();
+  expect(
+    testRenderer.root.find(inputPredicate("auth.integrations.oidc.0.enabled"))
+      .props.disabled
+  ).toBe(false);
+
+  // Change clientSecret
+  testRenderer.root
+    .find(inputPredicate("auth.integrations.oidc.0.clientSecret"))
+    .props.onChange("clientSecret2");
+
+  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
 
   // Disable other fields while submitting
   // We are only testing for one here right now..

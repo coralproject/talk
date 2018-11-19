@@ -48,7 +48,9 @@ class OIDCConfigListContainer extends React.Component<Props> {
     const oidc = cloned.auth.integrations.oidc;
     delete cloned.auth.integrations.oidc;
     if (this.props.auth.integrations.oidc.length === 0) {
-      await this.props.createOIDCAuthIntegration({ configuration: oidc[0] });
+      if (oidc[0].enabled) {
+        await this.props.createOIDCAuthIntegration({ configuration: oidc[0] });
+      }
     } else {
       await this.props.updateOIDCAuthIntegration({
         configuration: oidc[0],
