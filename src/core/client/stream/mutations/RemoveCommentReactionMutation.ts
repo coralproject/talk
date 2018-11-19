@@ -20,7 +20,7 @@ const mutation = graphql`
   }
 `;
 
-const clientMutationId = 0;
+let clientMutationId = 0;
 
 function commit(environment: Environment, input: CreateCommentReactionInput) {
   const source = environment.getStore().getSource();
@@ -32,7 +32,7 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
     variables: {
       input: {
         ...input,
-        clientMutationId: clientMutationId.toString(),
+        clientMutationId: (clientMutationId++).toString(),
       },
     },
     optimisticResponse: {

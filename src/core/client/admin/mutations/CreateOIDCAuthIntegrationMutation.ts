@@ -29,7 +29,7 @@ const mutation = graphql`
   }
 `;
 
-const clientMutationId = 0;
+let clientMutationId = 0;
 
 function commit(
   environment: Environment,
@@ -40,7 +40,7 @@ function commit(
     variables: {
       input: {
         ...input,
-        clientMutationId: clientMutationId.toString(),
+        clientMutationId: (clientMutationId++).toString(),
       },
     },
     updater: store => {

@@ -35,7 +35,7 @@ const mutation = graphql`
   }
 `;
 
-const clientMutationId = 0;
+let clientMutationId = 0;
 
 function commit(environment: Environment, input: UpdateSettingsInput) {
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -43,7 +43,7 @@ function commit(environment: Environment, input: UpdateSettingsInput) {
     variables: {
       input: {
         ...input,
-        clientMutationId: clientMutationId.toString(),
+        clientMutationId: (clientMutationId++).toString(),
       },
     },
     updater: store => {
