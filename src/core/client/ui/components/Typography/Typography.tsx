@@ -5,7 +5,7 @@ import { HTMLAttributes, ReactNode, StatelessComponent } from "react";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./Typography.css";
+import styles from "./Typography.css";
 
 type Variant =
   | "heading1"

@@ -1,10 +1,12 @@
 import React, { ReactNode, StatelessComponent } from "react";
 import { Typography } from "talk-ui/components";
+import { PropTypesOf } from "talk-ui/types";
 
 interface InputDescriptionProps {
   children: ReactNode;
   id?: string;
   className?: string;
+  container?: PropTypesOf<typeof Typography>["container"];
 }
 
 const InputDescription: StatelessComponent<InputDescriptionProps> = props => {

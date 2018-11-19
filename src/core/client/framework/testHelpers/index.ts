@@ -11,3 +11,5 @@ export {
 export { default as createUUIDGenerator } from "./createUUIDGenerator";
 export * from "./denormalize";
 export { default as replaceHistoryLocation } from "./replaceHistoryLocation";
+export { default as limitSnapshotTo } from "./limitSnapshotTo";
+export { default as inputPredicate } from "./inputPredicate";

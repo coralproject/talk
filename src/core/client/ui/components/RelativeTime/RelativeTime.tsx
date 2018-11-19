@@ -6,7 +6,7 @@ import { UIContext } from "talk-ui/components";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./RelativeTime.css";
+import styles from "./RelativeTime.css";
 
 interface InnerProps {
   date: string;

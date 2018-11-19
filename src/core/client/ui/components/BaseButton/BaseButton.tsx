@@ -16,7 +16,7 @@ import {
 } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./BaseButton.css";
+import styles from "./BaseButton.css";
 
 interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** If set renders an anchor tag instead */
@@ -44,7 +44,6 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   // These handlers are passed down by the `withKeyboardFocus` HOC.
   onFocus: EventHandler<FocusEvent<HTMLElement>>;
   onBlur: EventHandler<FocusEvent<HTMLElement>>;
-  onMouseDown: EventHandler<MouseEvent<HTMLElement>>;
   keyboardFocus: boolean;
 }
 

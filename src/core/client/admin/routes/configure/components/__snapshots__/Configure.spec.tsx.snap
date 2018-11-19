@@ -1,11 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(Typography)
-    variant="heading3"
+<div
+  id="configure-container"
+>
+  <ReactFinalForm
+    onSubmit={[Function]}
   >
-    Configure
-  </withPropsOnChange(Typography)>
-</withPropsOnChange(HorizontalGutter)>
+    <Component />
+  </ReactFinalForm>
+</div>
 `;

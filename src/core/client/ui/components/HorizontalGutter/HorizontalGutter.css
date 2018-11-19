@@ -17,6 +17,14 @@
     margin: 0 !important;
   }
 }
+.oneAndAHalf {
+  & > * {
+    margin: 0 0 calc(1.5 * var(--spacing-unit)) 0 !important;
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
 .double {
   & > * {
     margin: 0 0 calc(2 * var(--spacing-unit)) 0 !important;

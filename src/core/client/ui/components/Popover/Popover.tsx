@@ -11,7 +11,7 @@ import {
 import { withStyles } from "talk-ui/hocs";
 
 import AriaInfo from "../AriaInfo";
-import * as styles from "./Popover.css";
+import styles from "./Popover.css";
 
 type Placement =
   | "top-start"

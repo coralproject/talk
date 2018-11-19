@@ -6,6 +6,8 @@ import { GQLResolver } from "talk-server/graph/tenant/schema/__generated__/types
 import AuthIntegrations from "./auth_integrations";
 import Comment from "./comment";
 import CommentCounts from "./comment_counts";
+import FacebookAuthIntegration from "./facebook_auth_integration";
+import GoogleAuthIntegration from "./google_auth_integration";
 import Mutation from "./mutation";
 import OIDCAuthIntegration from "./oidc_auth_integration";
 import Profile from "./profile";
@@ -20,6 +22,8 @@ const Resolvers: GQLResolver = {
   Cursor,
   Mutation,
   OIDCAuthIntegration,
+  FacebookAuthIntegration,
+  GoogleAuthIntegration,
   Profile,
   Query,
   Time,

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="ConfigBox-root"
+>
+  <withPropsOnChange(Flex)
+    className="ConfigBox-title"
+    justifyContent="space-between"
+  >
+    <div>
+      <span>
+        title
+      </span>
+    </div>
+    <div>
+      <span>
+        topRight
+      </span>
+    </div>
+  </withPropsOnChange(Flex)>
+  <div
+    className="ConfigBox-content"
+  >
+    child
+  </div>
+</div>
+`;

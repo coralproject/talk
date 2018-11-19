@@ -68,3 +68,8 @@ framework-timeago =
     [ago] {framework-timeago-time} ago
     [noSuffix] {framework-timeago-time}
   }
+
+## Components
+
+framework-copyButton-copy = Copy
+framework-copyButton-copied = Copied

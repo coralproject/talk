@@ -10,7 +10,7 @@ import {
   Popover,
 } from "talk-ui/components";
 
-import * as styles from "./PermalinkButton.css";
+import styles from "./PermalinkButton.css";
 import PermalinkPopover from "./PermalinkPopover";
 
 interface PermalinkProps {
@@ -42,10 +42,7 @@ class Permalink extends React.Component<PermalinkProps> {
               this.toggleVisibilityOncePerFrame(toggleVisibility)
             }
           >
-            <PermalinkPopover
-              permalinkURL={url}
-              toggleVisibility={toggleVisibility}
-            />
+            <PermalinkPopover permalinkURL={url} />
           </ClickOutside>
         )}
       >

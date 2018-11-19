@@ -3,7 +3,7 @@ import { StatelessComponent } from "react";
 
 import { RelativeTime } from "talk-ui/components";
 
-import * as styles from "./Timestamp.css";
+import styles from "./Timestamp.css";
 
 export interface TimestampProps {
   children: string;
