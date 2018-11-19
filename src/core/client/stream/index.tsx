@@ -10,6 +10,8 @@ import {
   OnEvents,
   OnPostMessageAuthError,
   OnPostMessageSetAuthToken,
+  OnPymLogin,
+  OnPymLogout,
   OnPymSetCommentID,
 } from "./listeners";
 import { initLocalState } from "./local";
@@ -17,6 +19,8 @@ import localesData from "./locales";
 
 const listeners = (
   <>
+    <OnPymLogin />
+    <OnPymLogout />
     <OnPymSetCommentID />
     <OnPostMessageSetAuthToken />
     <OnPostMessageAuthError />

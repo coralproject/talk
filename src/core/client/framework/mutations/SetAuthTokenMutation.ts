@@ -18,7 +18,7 @@ export async function commit(
   input: SetAuthTokenInput,
   { localStorage, clearSession }: TalkContext
 ) {
-  return await commitLocalUpdatePromisified(environment, async store => {
+  await commitLocalUpdatePromisified(environment, async store => {
     setAuthTokenInLocalState(input.authToken, store);
     if (input.authToken) {
       await localStorage.setItem("authToken", input.authToken);
@@ -28,9 +28,10 @@ export async function commit(
     // Clear current session, as we are starting a new one.
     clearSession();
   });
+  return;
 }
 
 export const withSetAuthTokenMutation = createMutationContainer(
-  "setCommentID",
+  "setAuthToken",
   commit
 );
