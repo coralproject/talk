@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  id="configure-container"
+  data-test="configure-container"
 >
   <ReactFinalForm
     onSubmit={[Function]}
