@@ -28,7 +28,7 @@ const Configure: StatelessComponent<Props> = ({
             <SideBar>
               <HorizontalGutter size="double">
                 <Navigation>
-                  <Localized id="configure-sideBarNavigation-auth">
+                  <Localized id="configure-sideBarNavigation-authentication">
                     <Link to="/admin/configure/auth">Auth</Link>
                   </Localized>
                   <Link to="/admin/configure/misc">Misc</Link>

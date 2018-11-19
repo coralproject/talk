@@ -22,7 +22,7 @@ const TargetFilterField: StatelessComponent<Props> = ({
     <Flex direction="row" itemGutter="double">
       <Field name={`${name}.admin`} type="checkbox" parse={bool}>
         {({ input, meta }) => (
-          <Localized id="configure-auth-targetFilterAdmin">
+          <Localized id="configure-auth-targetFilterTalkAdmin">
             <CheckBox
               id={input.name}
               name={input.name}
@@ -30,14 +30,14 @@ const TargetFilterField: StatelessComponent<Props> = ({
               checked={!!input.value}
               disabled={disabled}
             >
-              Admin
+              Talk Admin
             </CheckBox>
           </Localized>
         )}
       </Field>
       <Field name={`${name}.stream`} type="checkbox" parse={bool}>
         {({ input }) => (
-          <Localized id="configure-auth-targetFilterEmbedStream">
+          <Localized id="configure-auth-targetFilterCommentStream">
             <CheckBox
               id={input.name}
               name={input.name}
@@ -45,7 +45,7 @@ const TargetFilterField: StatelessComponent<Props> = ({
               checked={!!input.value}
               disabled={disabled}
             >
-              Embed Stream
+              Comment Stream
             </CheckBox>
           </Localized>
         )}
