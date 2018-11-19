@@ -87,7 +87,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
               error
             </span>
             <div>
-              For OIDC, your Redirect URI will not appear until you after you save this integration
+              For OIDC, your Redirect URI will not appear until you after you save this integration.
             </div>
           </div>
         </div>
@@ -133,8 +133,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           The provider of the OIDC integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with 
-          ”
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
         <input
           autoCapitalize="off"
@@ -206,7 +205,7 @@ needs to be displayed, e.g. “Log in with
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           After entering your Issuer information, click the Discover button to have Talk complete
-the remaining fields. You may also enter the information manually
+the remaining fields. You may also enter the information manually.
         </p>
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
@@ -340,7 +339,7 @@ the remaining fields. You may also enter the information manually
               <span
                 className="CheckBox-labelSpan"
               >
-                Admin
+                Talk Admin
               </span>
             </label>
           </div>
@@ -365,7 +364,7 @@ the remaining fields. You may also enter the information manually
               <span
                 className="CheckBox-labelSpan"
               >
-                Embed Stream
+                Comment Stream
               </span>
             </label>
           </div>
@@ -382,7 +381,8 @@ the remaining fields. You may also enter the information manually
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          Allow users that have not signed up before with this authentication integration to register for a new account.
+          Allow users that have not signed up before with this authentication
+integration to register for a new account.
         </p>
         <div
           className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -483,6 +483,7 @@ For more information visit:
         >
           https://developers.facebook.com/docs/facebook-login/web
         </a>
+        .
       </p>
       <hr
         className="HorizontalRule-root"
@@ -603,7 +604,7 @@ For more information visit:
               <span
                 className="CheckBox-labelSpan"
               >
-                Admin
+                Talk Admin
               </span>
             </label>
           </div>
@@ -628,7 +629,7 @@ For more information visit:
               <span
                 className="CheckBox-labelSpan"
               >
-                Embed Stream
+                Comment Stream
               </span>
             </label>
           </div>
@@ -645,7 +646,8 @@ For more information visit:
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          Allow users that have not signed up before with this authentication integration to register for a new account.
+          Allow users that have not signed up before with this authentication
+integration to register for a new account.
         </p>
         <div
           className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -769,7 +771,7 @@ exports[`change settings: enable oidc configure box 1`] = `
               error
             </span>
             <div>
-              For OIDC, your Redirect URI will not appear until you after you save this integration
+              For OIDC, your Redirect URI will not appear until you after you save this integration.
             </div>
           </div>
         </div>
@@ -815,8 +817,7 @@ exports[`change settings: enable oidc configure box 1`] = `
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           The provider of the OIDC integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with 
-          ”
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
         <input
           autoCapitalize="off"
@@ -888,7 +889,7 @@ needs to be displayed, e.g. “Log in with
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           After entering your Issuer information, click the Discover button to have Talk complete
-the remaining fields. You may also enter the information manually
+the remaining fields. You may also enter the information manually.
         </p>
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
@@ -1022,7 +1023,7 @@ the remaining fields. You may also enter the information manually
               <span
                 className="CheckBox-labelSpan"
               >
-                Admin
+                Talk Admin
               </span>
             </label>
           </div>
@@ -1047,7 +1048,7 @@ the remaining fields. You may also enter the information manually
               <span
                 className="CheckBox-labelSpan"
               >
-                Embed Stream
+                Comment Stream
               </span>
             </label>
           </div>
@@ -1064,7 +1065,8 @@ the remaining fields. You may also enter the information manually
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          Allow users that have not signed up before with this authentication integration to register for a new account.
+          Allow users that have not signed up before with this authentication
+integration to register for a new account.
         </p>
         <div
           className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1188,7 +1190,7 @@ exports[`change settings: oidc validation errors 1`] = `
               error
             </span>
             <div>
-              For OIDC, your Redirect URI will not appear until you after you save this integration
+              For OIDC, your Redirect URI will not appear until you after you save this integration.
             </div>
           </div>
         </div>
@@ -1234,8 +1236,7 @@ exports[`change settings: oidc validation errors 1`] = `
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           The provider of the OIDC integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with 
-          ”
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
         <input
           autoCapitalize="off"
@@ -1346,7 +1347,7 @@ needs to be displayed, e.g. “Log in with
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           After entering your Issuer information, click the Discover button to have Talk complete
-the remaining fields. You may also enter the information manually
+the remaining fields. You may also enter the information manually.
         </p>
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
@@ -1532,7 +1533,7 @@ the remaining fields. You may also enter the information manually
               <span
                 className="CheckBox-labelSpan"
               >
-                Admin
+                Talk Admin
               </span>
             </label>
           </div>
@@ -1557,7 +1558,7 @@ the remaining fields. You may also enter the information manually
               <span
                 className="CheckBox-labelSpan"
               >
-                Embed Stream
+                Comment Stream
               </span>
             </label>
           </div>
@@ -1574,7 +1575,8 @@ the remaining fields. You may also enter the information manually
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          Allow users that have not signed up before with this authentication integration to register for a new account.
+          Allow users that have not signed up before with this authentication
+integration to register for a new account.
         </p>
         <div
           className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1666,7 +1668,7 @@ exports[`regenerate sso key 1`] = `
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
     >
       Regenerating a key will invalidate any existing user sessions,
-and all signed-in users will be signed out
+and all signed-in users will be signed out.
     </p>
   </div>
 </div>
@@ -1702,7 +1704,7 @@ exports[`renders configure auth 1`] = `
                   href="/admin/configure/auth"
                   onClick={[Function]}
                 >
-                  Auth
+                  Authentication
                 </a>
               </li>
               <li>
@@ -1748,13 +1750,13 @@ exports[`renders configure auth 1`] = `
             <p
               className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
-              Some AUTH integrations include a Display Name as well as a User Name.
+              Some Authentication Integrations include a Display Name as well as a User Name.
             </p>
             <p
               className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               A User Name has to be unique (there can only be one Juan_Doe, for example),
-whereas a Display Name does not. If your AUTH provider allows for Display Names,
+whereas a Display Name does not. If your authentication provider allows for Display Names,
 you can enable this option. This allows for fewer strange names (Juan_Doe23245) –
 however it could also be used to spoof/impersonate another user.
             </p>
@@ -1817,7 +1819,7 @@ however it could also be used to spoof/impersonate another user.
             <h1
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
-              Auth Integrations
+              Authentication Integrations
             </h1>
             <div
               className="ConfigBox-root"
@@ -1827,7 +1829,7 @@ however it could also be used to spoof/impersonate another user.
               >
                 <div>
                   <span>
-                    Login with Local Auth
+                    Login with Local Authentication
                   </span>
                 </div>
                 <div>
@@ -1875,7 +1877,7 @@ however it could also be used to spoof/impersonate another user.
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
-                        Use Local Auth login on
+                        Use Local Authentication login on
                       </span>
                     </label>
                     <div
@@ -1902,7 +1904,7 @@ however it could also be used to spoof/impersonate another user.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Admin
+                            Talk Admin
                           </span>
                         </label>
                       </div>
@@ -1927,7 +1929,7 @@ however it could also be used to spoof/impersonate another user.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Embed Stream
+                            Comment Stream
                           </span>
                         </label>
                       </div>
@@ -1944,7 +1946,8 @@ however it could also be used to spoof/impersonate another user.
                     <p
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
-                      Allow users that have not signed up before with this authentication integration to register for a new account.
+                      Allow users that have not signed up before with this authentication
+integration to register for a new account.
                     </p>
                     <div
                       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2065,7 +2068,7 @@ however it could also be used to spoof/impersonate another user.
                           error
                         </span>
                         <div>
-                          For OIDC, your Redirect URI will not appear until you after you save this integration
+                          For OIDC, your Redirect URI will not appear until you after you save this integration.
                         </div>
                       </div>
                     </div>
@@ -2111,8 +2114,7 @@ however it could also be used to spoof/impersonate another user.
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       The provider of the OIDC integration. This will be used when the name of the provider
-needs to be displayed, e.g. “Log in with 
-                      ”
+needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     </p>
                     <input
                       autoCapitalize="off"
@@ -2184,7 +2186,7 @@ needs to be displayed, e.g. “Log in with
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       After entering your Issuer information, click the Discover button to have Talk complete
-the remaining fields. You may also enter the information manually
+the remaining fields. You may also enter the information manually.
                     </p>
                     <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
@@ -2318,7 +2320,7 @@ the remaining fields. You may also enter the information manually
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Admin
+                            Talk Admin
                           </span>
                         </label>
                       </div>
@@ -2343,7 +2345,7 @@ the remaining fields. You may also enter the information manually
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Embed Stream
+                            Comment Stream
                           </span>
                         </label>
                       </div>
@@ -2360,7 +2362,8 @@ the remaining fields. You may also enter the information manually
                     <p
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
-                      Allow users that have not signed up before with this authentication integration to register for a new account.
+                      Allow users that have not signed up before with this authentication
+integration to register for a new account.
                     </p>
                     <div
                       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2497,7 +2500,7 @@ the remaining fields. You may also enter the information manually
                         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
                       >
                         Regenerating a key will invalidate any existing user sessions,
-and all signed-in users will be signed out
+and all signed-in users will be signed out.
                       </p>
                     </div>
                   </div>
@@ -2535,7 +2538,7 @@ and all signed-in users will be signed out
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Admin
+                            Talk Admin
                           </span>
                         </label>
                       </div>
@@ -2560,7 +2563,7 @@ and all signed-in users will be signed out
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Embed Stream
+                            Comment Stream
                           </span>
                         </label>
                       </div>
@@ -2577,7 +2580,8 @@ and all signed-in users will be signed out
                     <p
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
-                      Allow users that have not signed up before with this authentication integration to register for a new account.
+                      Allow users that have not signed up before with this authentication
+integration to register for a new account.
                     </p>
                     <div
                       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2674,6 +2678,7 @@ to create and set up a web application. For more information visit:
                     >
                       https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
                     </a>
+                    .
                   </p>
                   <hr
                     className="HorizontalRule-root"
@@ -2794,7 +2799,7 @@ to create and set up a web application. For more information visit:
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Admin
+                            Talk Admin
                           </span>
                         </label>
                       </div>
@@ -2819,7 +2824,7 @@ to create and set up a web application. For more information visit:
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Embed Stream
+                            Comment Stream
                           </span>
                         </label>
                       </div>
@@ -2836,7 +2841,8 @@ to create and set up a web application. For more information visit:
                     <p
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
-                      Allow users that have not signed up before with this authentication integration to register for a new account.
+                      Allow users that have not signed up before with this authentication
+integration to register for a new account.
                     </p>
                     <div
                       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2934,6 +2940,7 @@ For more information visit:
                     >
                       https://developers.facebook.com/docs/facebook-login/web
                     </a>
+                    .
                   </p>
                   <hr
                     className="HorizontalRule-root"
@@ -3054,7 +3061,7 @@ For more information visit:
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Admin
+                            Talk Admin
                           </span>
                         </label>
                       </div>
@@ -3079,7 +3086,7 @@ For more information visit:
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Embed Stream
+                            Comment Stream
                           </span>
                         </label>
                       </div>
@@ -3096,7 +3103,8 @@ For more information visit:
                     <p
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
-                      Allow users that have not signed up before with this authentication integration to register for a new account.
+                      Allow users that have not signed up before with this authentication
+integration to register for a new account.
                     </p>
                     <div
                       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
