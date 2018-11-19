@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
-import * as styles from "./TabBar.css";
+import styles from "./TabBar.css";
 
 export interface TabBarProps {
   /**

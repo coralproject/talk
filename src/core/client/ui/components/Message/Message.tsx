@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { ReactNode, StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
-import * as styles from "./Message.css";
+import styles from "./Message.css";
 
 export interface MessageProps {
   /**

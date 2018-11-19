@@ -1,9 +1,10 @@
 import crypto from "crypto";
+import { isNull, omitBy } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { DeepPartial, Omit, Sub } from "talk-common/types";
-import { dotize } from "talk-common/utils/dotize";
+import { dotize, DotizeOptions } from "talk-common/utils/dotize";
 import {
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
@@ -12,6 +13,10 @@ import { Settings } from "talk-server/models/settings";
 
 function collection(db: Db) {
   return db.collection<Readonly<Tenant>>("tenants");
+}
+
+function dotizeDropNull(o: Record<string, any>, options?: DotizeOptions) {
+  return omitBy(dotize(o, options), isNull);
 }
 
 export interface TenantResource {
@@ -83,23 +88,46 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       banned: [],
     },
     auth: {
+      displayName: {
+        enabled: false,
+      },
       integrations: {
         local: {
           enabled: true,
           allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
         sso: {
           enabled: false,
           allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          key: generateSSOKey(),
+          keyGeneratedAt: new Date(),
         },
         oidc: [],
         google: {
           enabled: false,
           allowRegistration: false,
+          callbackURL: "" as any, // FIXME: this should not be required
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
         facebook: {
           enabled: false,
           allowRegistration: false,
+          callbackURL: "", // FIXME: this should not be required
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
       },
     },
@@ -201,7 +229,7 @@ export async function updateTenant(
   const result = await collection(db).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotize(update, { embedArrays: true }) },
+    { $set: dotizeDropNull(update, { embedArrays: true }) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
@@ -210,26 +238,26 @@ export async function updateTenant(
   return result.value || null;
 }
 
+function generateSSOKey() {
+  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
+  // as 16 was the minimum length recommended.
+  //
+  // Reference: https://security.stackexchange.com/a/96176
+  return crypto.randomBytes(32 + Math.floor(Math.random() * 5)).toString("hex");
+}
+
 /**
  * regenerateTenantSSOKey will regenerate the SSO key used for Single Sing-On
  * for the specified Tenant. All existing user sessions signed with the old
  * secret will be invalidated.
  */
 export async function regenerateTenantSSOKey(db: Db, id: string) {
-  // Generate a new key. We generate a key of minimum length 32 up to 37 bytes,
-  // as 16 was the minimum length recommended.
-  //
-  // Reference: https://security.stackexchange.com/a/96176
-  const key = crypto
-    .randomBytes(32 + Math.floor(Math.random() * 5))
-    .toString("hex");
-
   // Construct the update.
   const update: DeepPartial<Tenant> = {
     auth: {
       integrations: {
         sso: {
-          key,
+          key: generateSSOKey(),
           keyGeneratedAt: new Date(),
         },
       },
@@ -320,7 +348,7 @@ export async function updateTenantOIDCAuthIntegration(
   const result = await collection(mongo).findOneAndUpdate(
     { id },
     {
-      $set: dotize({
+      $set: dotizeDropNull({
         "auth.integrations.oidc.$[oidc]": input,
       }),
     },

@@ -5,7 +5,7 @@ import Icon, { IconProps } from "talk-ui/components/Icon";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./ButtonIcon.css";
+import styles from "./ButtonIcon.css";
 
 interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   /**

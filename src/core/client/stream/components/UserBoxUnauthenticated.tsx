@@ -4,7 +4,7 @@ import React, { StatelessComponent } from "react";
 import { Button, Flex, Typography } from "talk-ui/components";
 
 import MatchMedia from "talk-ui/components/MatchMedia";
-import * as styles from "./UserBoxUnauthenticated.css";
+import styles from "./UserBoxUnauthenticated.css";
 
 export interface UserBoxUnauthenticatedProps {
   onSignIn: () => void;
