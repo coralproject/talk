@@ -7,6 +7,7 @@ import { createManaged } from "talk-framework/lib/bootstrap";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import {
+  OnEvents,
   OnPostMessageAuthError,
   OnPostMessageSetAuthToken,
   OnPymSetCommentID,
@@ -19,6 +20,7 @@ const listeners = (
     <OnPymSetCommentID />
     <OnPostMessageSetAuthToken />
     <OnPostMessageAuthError />
+    <OnEvents />
   </>
 );
 
