@@ -1,11 +1,9 @@
 import { constructTenantURL, reconstructURL } from "talk-server/app/url";
-import {
-  GQLGoogleAuthIntegration,
-  GQLGoogleAuthIntegrationTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLGoogleAuthIntegrationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GoogleAuthIntegration } from "talk-server/models/settings";
 
 const GoogleAuthIntegration: GQLGoogleAuthIntegrationTypeResolver<
-  GQLGoogleAuthIntegration
+  GoogleAuthIntegration
 > = {
   callbackURL: (integration, args, ctx) => {
     const path = `/api/tenant/auth/google/callback`;

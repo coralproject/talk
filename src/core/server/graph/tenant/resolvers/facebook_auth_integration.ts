@@ -1,11 +1,9 @@
 import { constructTenantURL, reconstructURL } from "talk-server/app/url";
-import {
-  GQLFacebookAuthIntegration,
-  GQLFacebookAuthIntegrationTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLFacebookAuthIntegrationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { FacebookAuthIntegration } from "talk-server/models/settings";
 
 const FacebookAuthIntegration: GQLFacebookAuthIntegrationTypeResolver<
-  GQLFacebookAuthIntegration
+  FacebookAuthIntegration
 > = {
   callbackURL: (integration, args, ctx) => {
     const path = `/api/tenant/auth/facebook/callback`;

@@ -29,11 +29,15 @@ export interface TenantResource {
 export interface Tenant extends Settings {
   readonly id: string;
 
-  // Domain is set when the tenant is created, and is used to retrieve the
-  // specific tenant that the API request pertains to.
+  /**
+   * Domain is set when the tenant is created, and is used to retrieve the
+   * specific tenant that the API request pertains to.
+   */
   domain: string;
 
-  // domains is the list of domains that are allowed to have the iframe load on.
+  /**
+   * domains is the list of domains that are allowed to have the iframe load on.
+   */
   domains: string[];
 
   organizationName: string;
@@ -74,10 +78,11 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
     infoBoxEnable: false,
     questionBoxEnable: false,
     premodLinksEnable: false,
-    autoCloseStream: false,
 
     // Two weeks timeout.
     closedTimeout: 60 * 60 * 24 * 7 * 2,
+    autoCloseStream: false,
+
     disableCommenting: false,
     editCommentWindowLength: 30 * 1000,
     charCount: {
@@ -114,7 +119,6 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
         google: {
           enabled: false,
           allowRegistration: false,
-          callbackURL: "" as any, // FIXME: this should not be required
           targetFilter: {
             admin: true,
             stream: true,
@@ -123,7 +127,6 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
         facebook: {
           enabled: false,
           allowRegistration: false,
-          callbackURL: "", // FIXME: this should not be required
           targetFilter: {
             admin: true,
             stream: true,

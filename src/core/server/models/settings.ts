@@ -1,11 +1,18 @@
+import { Omit } from "talk-common/types";
 import {
-  GQLAuth,
+  GQLAuthDisplayNameConfiguration,
+  GQLAuthIntegrations,
   GQLCharCount,
   GQLEmail,
   GQLExternalIntegrations,
+  GQLFacebookAuthIntegration,
+  GQLGoogleAuthIntegration,
   GQLKarma,
+  GQLLocalAuthIntegration,
   GQLMODERATION_MODE,
+  GQLOIDCAuthIntegration,
   GQLReactionConfiguration,
+  GQLSSOAuthIntegration,
   GQLWordList,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
@@ -67,6 +74,40 @@ export interface ModerationSettings {
   charCount: GQLCharCount;
 }
 
+export type LocalAuthIntegration = GQLLocalAuthIntegration;
+export type SSOAuthIntegration = GQLSSOAuthIntegration;
+export type OIDCAuthIntegration = Omit<GQLOIDCAuthIntegration, "callbackURL">;
+export type GoogleAuthIntegration = Omit<
+  GQLGoogleAuthIntegration,
+  "callbackURL"
+>;
+export type FacebookAuthIntegration = Omit<
+  GQLFacebookAuthIntegration,
+  "callbackURL"
+>;
+
+export interface AuthIntegrations {
+  local: LocalAuthIntegration;
+  sso: SSOAuthIntegration;
+  oidc: OIDCAuthIntegration[];
+  google: GoogleAuthIntegration;
+  facebook: FacebookAuthIntegration;
+}
+
+export interface Auth {
+  /**
+   * integrations are the set of configurations for the variations of
+   * authentication solutions.
+   */
+  integrations: AuthIntegrations;
+
+  /**
+   * displayName contains configuration related to the use of Display Names
+   * across AuthIntegrations.
+   */
+  displayName: GQLAuthDisplayNameConfiguration;
+}
+
 export interface Settings extends ModerationSettings {
   customCssUrl?: string;
 
@@ -96,7 +137,7 @@ export interface Settings extends ModerationSettings {
   /**
    * Set of configured authentication integrations.
    */
-  auth: GQLAuth;
+  auth: Auth;
 
   /**
    * Various integrations with external services.

@@ -1,11 +1,9 @@
 import { constructTenantURL, reconstructURL } from "talk-server/app/url";
-import {
-  GQLOIDCAuthIntegration,
-  GQLOIDCAuthIntegrationTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLOIDCAuthIntegrationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { OIDCAuthIntegration } from "talk-server/models/settings";
 
 const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
-  GQLOIDCAuthIntegration
+  OIDCAuthIntegration
 > = {
   callbackURL: (integration, args, ctx) => {
     const path = `/api/tenant/auth/oidc/${integration.id}`;
