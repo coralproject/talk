@@ -22,10 +22,12 @@ const ConfigBoxWithToggleField: StatelessComponent<Props> = ({
   title,
   disabled,
   children,
+  ...rest
 }) => (
   <Field name={name} type="checkbox" parse={bool}>
     {({ input }) => (
       <ConfigBox
+        {...rest}
         id={id}
         title={title}
         topRight={

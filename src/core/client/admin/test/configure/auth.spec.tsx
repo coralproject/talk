@@ -82,6 +82,82 @@ it("regenerate sso key", async () => {
   ).toMatchSnapshot();
 });
 
+it("prevents admin lock out", async () => {
+  const testRenderer = await createTestRenderer();
+
+  // Let's disable local auth.
+  testRenderer.root
+    .find(inputPredicate("auth.integrations.local.enabled"))
+    .props.onChange();
+
+  // Send form
+  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+  await timeout();
+  expect(
+    limitSnapshotTo("configure-auth-submitError", testRenderer.toJSON())
+  ).toMatchSnapshot();
+});
+
+it("prevents stream lock out", async () => {
+  let settingsRecord = cloneDeep(settings);
+  const testRenderer = await createTestRenderer({
+    Mutation: {
+      updateSettings: createSinonStub(s =>
+        s.callsFake((_: any, data: any) => {
+          expect(data.input.settings.auth.integrations.local).toEqual({
+            enabled: true,
+            allowRegistration: true,
+            targetFilter: {
+              admin: true,
+              stream: false,
+            },
+          });
+          settingsRecord = merge(settingsRecord, data.input.settings);
+          return {
+            settings: settingsRecord,
+            clientMutationId: data.input.clientMutationId,
+          };
+        })
+      ),
+    },
+  });
+  const origConfirm = window.confirm;
+  const stubContinue = sinon.stub().returns(true);
+  const stubCancel = sinon.stub().returns(false);
+
+  try {
+    window.confirm = stubCancel;
+    // Let's disable stream target in local auth.
+    testRenderer.root
+      .find(inputPredicate("auth.integrations.local.targetFilter.stream"))
+      .props.onChange();
+
+    // Send form
+    testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+
+    // Submit button should not be disabled because we canceled the submit.
+    expect(
+      testRenderer.root.findByProps({
+        "data-test": "configure-sideBar-saveChanges",
+      }).props.disabled
+    ).toBe(true);
+    expect(stubCancel.calledOnce).toBe(true);
+
+    window.confirm = stubContinue;
+    // Let's enable stream target in local auth.
+    testRenderer.root
+      .find(inputPredicate("auth.integrations.local.targetFilter.stream"))
+      .props.onChange();
+
+    // Send form
+    testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
+
+    expect(stubContinue.calledOnce).toBe(true);
+  } finally {
+    window.confirm = origConfirm;
+  }
+});
+
 it("change settings", async () => {
   let settingsRecord = cloneDeep(settings);
   const testRenderer = await createTestRenderer({
@@ -197,8 +273,9 @@ it("change settings", async () => {
 
   // Submit button should be disabled.
   expect(
-    testRenderer.root.find(inputPredicate("configure-sideBar-saveChanges"))
-      .props.disabled
+    testRenderer.root.findByProps({
+      "data-test": "configure-sideBar-saveChanges",
+    }).props.disabled
   ).toBe(true);
 
   // Disable other fields while submitting

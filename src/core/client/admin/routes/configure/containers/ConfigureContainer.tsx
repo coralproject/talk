@@ -34,6 +34,7 @@ class ConfigureContainer extends React.Component<Props> {
     super(props);
 
     this.dirty = false;
+
     const warningMessage = getMessage(
       props.localeBundles,
       "configure-unsavedInputWarning",
@@ -53,12 +54,21 @@ class ConfigureContainer extends React.Component<Props> {
     data: UpdateSettingsInput["settings"],
     form: FormApi
   ) => {
+    let cancelled = false;
+    let formErrors: Record<string, React.ReactNode> = {};
+    const cancel = (errors: Record<string, React.ReactNode>) => {
+      cancelled = true;
+      formErrors = { ...errors, ...formErrors };
+    };
     try {
       // Call submit hooks, that can manipulate what
       // we send as the mutation.
       let nextData = data;
       for (const hook of this.submitHooks) {
-        const result = await hook(nextData);
+        const result = await hook(nextData, cancel);
+        if (cancelled) {
+          return formErrors;
+        }
         if (result) {
           nextData = result;
         }

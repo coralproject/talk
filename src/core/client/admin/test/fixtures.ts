@@ -6,7 +6,7 @@ export const settings = {
     integrations: {
       oidc: [],
       local: {
-        enabled: false,
+        enabled: true,
         allowRegistration: true,
         targetFilter: {
           admin: true,
