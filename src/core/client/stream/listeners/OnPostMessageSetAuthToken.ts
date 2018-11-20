@@ -1,22 +1,22 @@
 import { Component } from "react";
 
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
-import { commit as setAuthToken } from "talk-framework/mutations/SetAuthTokenMutation";
+import {
+  SetAuthTokenMutation,
+  withSetAuthTokenMutation,
+} from "talk-framework/mutations/SetAuthTokenMutation";
 
 interface Props {
-  context: TalkContext;
+  postMessage: TalkContext["postMessage"];
+  setAuthToken: SetAuthTokenMutation;
 }
 
 export class OnPostMessageSetAuthToken extends Component<Props> {
   constructor(props: Props) {
     super(props);
     // Auth popup will use this to handle a successful login.
-    props.context.postMessage!.on("setAuthToken", (authToken: string) => {
-      setAuthToken(
-        this.props.context.relayEnvironment,
-        { authToken },
-        this.props.context
-      );
+    props.postMessage!.on("setAuthToken", (authToken: string) => {
+      props.setAuthToken({ authToken });
     });
   }
 
@@ -25,7 +25,7 @@ export class OnPostMessageSetAuthToken extends Component<Props> {
   }
 }
 
-const enhanced = withContext(context => ({ context }))(
-  OnPostMessageSetAuthToken
+const enhanced = withContext(({ postMessage }) => ({ postMessage }))(
+  withSetAuthTokenMutation(OnPostMessageSetAuthToken)
 );
 export default enhanced;
