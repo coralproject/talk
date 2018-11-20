@@ -16,8 +16,9 @@ const ConfigBox: StatelessComponent<Props> = ({
   title,
   topRight,
   children,
+  ...rest
 }) => (
-  <div className={styles.root} id={id}>
+  <div {...rest} className={styles.root} id={id}>
     <Flex className={styles.title} justifyContent="space-between">
       <div>{title}</div>
       <div>{topRight}</div>
