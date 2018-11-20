@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { StatelessComponent } from "react";
-import * as styles from "./Line.css";
+import styles from "./Line.css";
 
 interface CircleProps {
   active?: boolean;

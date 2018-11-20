@@ -5,7 +5,7 @@ import HTMLContent from "talk-stream/components/HTMLContent";
 import Timestamp from "talk-stream/components/Timestamp";
 import { Flex, HorizontalGutter } from "talk-ui/components";
 
-import * as styles from "./Comment.css";
+import styles from "./Comment.css";
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
 import TopBarLeft from "./TopBarLeft";

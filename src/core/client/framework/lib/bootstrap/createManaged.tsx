@@ -92,7 +92,7 @@ function createRelayEnvironment() {
   const tokenGetter: TokenGetter = () => {
     const localState = source.get(LOCAL_ID);
     if (localState) {
-      return localState.authToken || "";
+      return (localState.loggedIn && localState.authToken) || "";
     }
     return "";
   };

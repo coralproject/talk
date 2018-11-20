@@ -7,7 +7,7 @@ export default (process.env.NODE_ENV !== "development"
       },
     }
   : {
-      admin: "/admin.html",
+      admin: "/admin",
       embed: {
         stream: "/stream.html",
         auth: "/auth.html",

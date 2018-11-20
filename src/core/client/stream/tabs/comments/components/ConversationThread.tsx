@@ -8,7 +8,7 @@ import { Button, Flex, HorizontalGutter } from "talk-ui/components";
 import CommentContainer from "../containers/CommentContainer";
 import LocalReplyListContainer from "../containers/LocalReplyListContainer";
 import { RootParent } from "./Comment";
-import * as styles from "./ConversationThread.css";
+import styles from "./ConversationThread.css";
 import Counter from "./Counter";
 import { Circle, Line } from "./Timeline";
 

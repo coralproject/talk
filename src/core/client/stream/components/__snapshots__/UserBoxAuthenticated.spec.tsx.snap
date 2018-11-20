@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders correctly with logout button 1`] = `
 <withPropsOnChange(Flex)
   itemGutter="half"
   wrap={true}
@@ -32,6 +32,25 @@ exports[`renders correctly 1`] = `
       variant="bodyCopy"
     >
       Not you? &lt;button&gt;Sign Out&lt;/button&gt;
+    </withPropsOnChange(Typography)>
+  </Localized>
+</withPropsOnChange(Flex)>
+`;
+
+exports[`renders correctly without logout button 1`] = `
+<withPropsOnChange(Flex)
+  itemGutter="half"
+  wrap={true}
+>
+  <Localized
+    id="general-userBoxAuthenticated-signedInAs"
+    username={<Username />}
+  >
+    <withPropsOnChange(Typography)
+      container="div"
+      variant="bodyCopy"
+    >
+      Signed in as &lt;username&gt;&lt;/username&gt;.
     </withPropsOnChange(Typography)>
   </Localized>
 </withPropsOnChange(Flex)>

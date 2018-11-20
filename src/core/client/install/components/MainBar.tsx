@@ -2,7 +2,7 @@ import React from "react";
 
 import { Typography } from "talk-ui/components";
 
-import * as styles from "./MainBar.css";
+import styles from "./MainBar.css";
 
 const MainBar = () => {
   return (

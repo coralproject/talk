@@ -1,0 +1,26 @@
+.link {
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit)
+    calc(0.5 * var(--spacing-unit)) calc(var(--spacing-unit) + 2px);
+  margin-left: 2px;
+  border-left: 1px solid var(--palette-grey-lighter);
+
+  color: var(--palette-text-primary);
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-bold);
+  font-size: calc(18rem / var(--rem-base));
+  line-height: calc(20em / 18);
+  letter-spacing: calc(-0.1em / 18);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.linkActive {
+  margin-left: 0px;
+  border-left: calc(0.5 * var(--spacing-unit)) solid var(--palette-brand);
+  padding-left: var(--spacing-unit);
+}

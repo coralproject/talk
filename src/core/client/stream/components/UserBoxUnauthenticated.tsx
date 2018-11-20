@@ -4,11 +4,12 @@ import React, { StatelessComponent } from "react";
 import { Button, Flex, Typography } from "talk-ui/components";
 
 import MatchMedia from "talk-ui/components/MatchMedia";
-import * as styles from "./UserBoxUnauthenticated.css";
+import styles from "./UserBoxUnauthenticated.css";
 
 export interface UserBoxUnauthenticatedProps {
   onSignIn: () => void;
-  onRegister: () => void;
+  onRegister?: () => void;
+  showRegisterButton?: boolean;
 }
 
 const UserBoxUnauthenticated: StatelessComponent<
@@ -40,16 +41,18 @@ const UserBoxUnauthenticated: StatelessComponent<
           Sign in
         </Button>
       </Localized>
-      <Localized id="general-userBoxUnauthenticated-register">
-        <Button
-          color="primary"
-          size="small"
-          variant="outlined"
-          onClick={props.onRegister}
-        >
-          Register
-        </Button>
-      </Localized>
+      {props.showRegisterButton && (
+        <Localized id="general-userBoxUnauthenticated-register">
+          <Button
+            color="primary"
+            size="small"
+            variant="outlined"
+            onClick={props.onRegister}
+          >
+            Register
+          </Button>
+        </Localized>
+      )}
     </Flex>
   );
 };

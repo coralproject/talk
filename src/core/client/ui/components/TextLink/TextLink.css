@@ -1,0 +1,4 @@
+.root {
+  color: var(--palette-primary-main);
+  text-decoration: underline;
+}

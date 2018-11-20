@@ -1,0 +1,16 @@
+.keyGenerated {
+  composes: button from "talk-ui/shared/typography.css";
+  color: var(--palette-text-secondary);
+  width: calc(29 * var(--spacing-unit));
+  flex-shrink: 0;
+}
+
+.warnIcon {
+  color: var(--palette-text-secondary);
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+
+.warn {
+  color: var(--palette-text-secondary);
+}

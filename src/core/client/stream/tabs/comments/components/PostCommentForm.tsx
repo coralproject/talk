@@ -13,7 +13,7 @@ import {
   Typography,
 } from "talk-ui/components";
 
-import * as styles from "./PostCommentForm.css";
+import styles from "./PostCommentForm.css";
 import PoweredBy from "./PoweredBy";
 import RTE from "./RTE";
 
