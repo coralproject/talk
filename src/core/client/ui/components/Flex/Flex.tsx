@@ -6,7 +6,7 @@ import { pascalCase } from "talk-common/utils";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./Flex.css";
+import styles from "./Flex.css";
 
 interface InnerProps {
   /**

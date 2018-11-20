@@ -4,7 +4,7 @@ import React, { AllHTMLAttributes, Ref, StatelessComponent } from "react";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./AriaInfo.css";
+import styles from "./AriaInfo.css";
 
 interface InnerProps extends AllHTMLAttributes<HTMLElement> {
   /**

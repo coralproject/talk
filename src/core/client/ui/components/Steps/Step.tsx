@@ -3,7 +3,7 @@ import Flex from "../Flex";
 import Typography from "../Typography";
 import Circle from "./Circle";
 import Line from "./Line";
-import * as styles from "./Step.css";
+import styles from "./Step.css";
 
 interface StepProps {
   children: ReactText | ReactNode;

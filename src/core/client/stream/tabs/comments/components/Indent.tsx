@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { StatelessComponent } from "react";
 
-import * as styles from "./Indent.css";
+import styles from "./Indent.css";
 
 export interface IndentProps {
   className?: string;

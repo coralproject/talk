@@ -1,5 +1,5 @@
 import React, { StatelessComponent } from "react";
-import * as styles from "./App.css";
+import styles from "./App.css";
 
 import ForgotPasswordContainer from "../containers/ForgotPasswordContainer";
 import ResetPasswordContainer from "../containers/ResetPasswordContainer";

@@ -4,7 +4,7 @@ import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
-import * as styles from "./HorizontalGutter.css";
+import styles from "./HorizontalGutter.css";
 
 interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   /**
@@ -13,7 +13,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
    */
   classes: typeof styles;
 
-  size?: "half" | "full" | "double";
+  size?: "half" | "full" | "double" | "oneAndAHalf";
 
   /** The name of the HorizontalGutter to render */
   children?: React.ReactNode;

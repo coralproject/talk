@@ -5,7 +5,7 @@ import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 
 import HorizontalGutter from "../HorizontalGutter";
-import * as styles from "./FormField.css";
+import styles from "./FormField.css";
 
 interface InnerProps {
   children: ReactNode;

@@ -1,0 +1,5 @@
+.root {
+  border: 0;
+  border-bottom: 1px solid var(--palette-divider);
+  padding-top: 1px;
+}
