@@ -49,6 +49,11 @@ configure-auth-registrationDescription =
   Allow users that have not signed up before with this authentication
   integration to register for a new account.
 configure-auth-registrationCheckBox = Allow Registration
+configure-auth-pleaseEnableAuthForAdmin =
+  Please enable at least one authentication integration for Talk Admin
+configure-auth-confirmNoAuthForCommentStream =
+  No authentication integration has been enabled for the Comment Stream.
+  Do you really want to continue?
 
 configure-auth-facebook-loginWith = Login with Facebook
 configure-auth-facebook-toEnableIntegration =

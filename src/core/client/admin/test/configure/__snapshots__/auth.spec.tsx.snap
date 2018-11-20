@@ -3,7 +3,7 @@
 exports[`change settings: during submit: oidc without errors 1`] = `
 <div
   className="ConfigBox-root"
-  id="configure-auth-oidc-container-0"
+  data-test="configure-auth-oidc-container-0"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -422,7 +422,7 @@ integration to register for a new account.
 exports[`change settings: enable facebook configure box 1`] = `
 <div
   className="ConfigBox-root"
-  id="configure-auth-facebook-container"
+  data-test="configure-auth-facebook-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -687,7 +687,7 @@ integration to register for a new account.
 exports[`change settings: enable oidc configure box 1`] = `
 <div
   className="ConfigBox-root"
-  id="configure-auth-oidc-container-0"
+  data-test="configure-auth-oidc-container-0"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -1106,7 +1106,7 @@ integration to register for a new account.
 exports[`change settings: oidc validation errors 1`] = `
 <div
   className="ConfigBox-root"
-  id="configure-auth-oidc-container-0"
+  data-test="configure-auth-oidc-container-0"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -1613,10 +1613,21 @@ integration to register for a new account.
 </div>
 `;
 
+exports[`prevents admin lock out 1`] = `
+<div
+  className="CallOut-root CallOut-colorError CallOut-fullWidth"
+  data-test="configure-auth-submitError"
+>
+  <span>
+    Please enable at least one authentication integration for Talk Admin
+  </span>
+</div>
+`;
+
 exports[`regenerate sso key 1`] = `
 <div
   className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-  id="configure-auth-sso-key"
+  data-test="configure-auth-sso-key"
 >
   <label
     className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -1676,7 +1687,7 @@ and all signed-in users will be signed out.
 
 exports[`renders configure auth 1`] = `
 <div
-  id="configure-container"
+  data-test="configure-container"
 >
   <form
     autoComplete="off"
@@ -1719,19 +1730,23 @@ exports[`renders configure auth 1`] = `
             </ul>
           </nav>
         </div>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
-          disabled={true}
-          id="configure-sideBar-saveChanges"
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
         >
-          Save Changes
-        </button>
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+            data-test="configure-sideBar-saveChanges"
+            disabled={true}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Save Changes
+          </button>
+        </div>
       </div>
       <div
         className="Main-root"
@@ -1840,7 +1855,7 @@ however it could also be used to spoof/impersonate another user.
                       className="CheckBox-root"
                     >
                       <input
-                        checked={false}
+                        checked={true}
                         className="CheckBox-input"
                         disabled={false}
                         id="auth.integrations.local.enabled"
@@ -1889,7 +1904,7 @@ however it could also be used to spoof/impersonate another user.
                         <input
                           checked={true}
                           className="CheckBox-input"
-                          disabled={true}
+                          disabled={false}
                           id="auth.integrations.local.targetFilter.admin"
                           name="auth.integrations.local.targetFilter.admin"
                           onBlur={[Function]}
@@ -1914,7 +1929,7 @@ however it could also be used to spoof/impersonate another user.
                         <input
                           checked={true}
                           className="CheckBox-input"
-                          disabled={true}
+                          disabled={false}
                           id="auth.integrations.local.targetFilter.stream"
                           name="auth.integrations.local.targetFilter.stream"
                           onBlur={[Function]}
@@ -1958,7 +1973,7 @@ integration to register for a new account.
                         <input
                           checked={true}
                           className="CheckBox-input"
-                          disabled={true}
+                          disabled={false}
                           id="auth.integrations.local.allowRegistration"
                           name="auth.integrations.local.allowRegistration"
                           onBlur={[Function]}
@@ -1984,7 +1999,7 @@ integration to register for a new account.
             </div>
             <div
               className="ConfigBox-root"
-              id="configure-auth-oidc-container-0"
+              data-test="configure-auth-oidc-container-0"
             >
               <div
                 className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -2449,7 +2464,7 @@ integration to register for a new account.
                 >
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-                    id="configure-auth-sso-key"
+                    data-test="configure-auth-sso-key"
                   >
                     <label
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -2879,7 +2894,7 @@ integration to register for a new account.
             </div>
             <div
               className="ConfigBox-root"
-              id="configure-auth-facebook-container"
+              data-test="configure-auth-facebook-container"
             >
               <div
                 className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"

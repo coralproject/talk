@@ -62,7 +62,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
   };
   return (
     <ConfigBoxWithToggleField
-      id={`configure-auth-oidc-container-${index}`}
+      data-test={`configure-auth-oidc-container-${index}`}
       title={
         <Localized id="configure-auth-oidc-loginWith">
           <span>Login with OIDC</span>

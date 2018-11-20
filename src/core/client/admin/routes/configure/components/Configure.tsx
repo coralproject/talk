@@ -3,7 +3,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
 
-import { Button, HorizontalGutter } from "talk-ui/components";
+import { Button, CallOut, HorizontalGutter } from "talk-ui/components";
 import Layout from "./Layout";
 import Main from "./Main";
 import { Link, Navigation } from "./Navigation";
@@ -19,9 +19,9 @@ const Configure: StatelessComponent<Props> = ({
   onChange,
   children,
 }) => (
-  <div id="configure-container">
+  <div data-test="configure-container">
     <Form onSubmit={onSave}>
-      {({ handleSubmit, submitting, pristine, form }) => (
+      {({ handleSubmit, submitting, pristine, form, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
           <FormSpy onChange={onChange} />
           <Layout>
@@ -34,17 +34,28 @@ const Configure: StatelessComponent<Props> = ({
                   <Link to="/admin/configure/misc">Misc</Link>
                 </Navigation>
               </HorizontalGutter>
-              <Localized id="configure-sideBar-saveChanges">
-                <Button
-                  id="configure-sideBar-saveChanges"
-                  color="success"
-                  variant="filled"
-                  type="submit"
-                  disabled={submitting || pristine}
-                >
-                  Save Changes
-                </Button>
-              </Localized>
+              <HorizontalGutter size="double">
+                <Localized id="configure-sideBar-saveChanges">
+                  <Button
+                    data-test="configure-sideBar-saveChanges"
+                    color="success"
+                    variant="filled"
+                    type="submit"
+                    disabled={submitting || pristine}
+                  >
+                    Save Changes
+                  </Button>
+                </Localized>
+                {submitError && (
+                  <CallOut
+                    color="error"
+                    fullWidth
+                    data-test="configure-auth-submitError"
+                  >
+                    {submitError}
+                  </CallOut>
+                )}
+              </HorizontalGutter>
             </SideBar>
             <Main>
               {React.cloneElement(React.Children.only(children), {
