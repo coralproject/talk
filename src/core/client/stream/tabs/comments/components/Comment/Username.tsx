@@ -3,7 +3,7 @@ import { StatelessComponent } from "react";
 
 import { MatchMedia, Typography } from "talk-ui/components";
 
-import * as styles from "./Username.css";
+import styles from "./Username.css";
 
 export interface UsernameProps {
   children: string;

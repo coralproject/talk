@@ -8,6 +8,8 @@ import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
 import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentRevision } from "./CommentRevision";
+import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
+import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { Mutation } from "./Mutation";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
 import { Profile } from "./Profile";
@@ -24,6 +26,8 @@ const Resolvers: GQLResolver = {
   Cursor,
   Mutation,
   OIDCAuthIntegration,
+  FacebookAuthIntegration,
+  GoogleAuthIntegration,
   Profile,
   Query,
   Time,

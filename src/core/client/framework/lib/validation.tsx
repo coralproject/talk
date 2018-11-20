@@ -10,7 +10,7 @@ import {
   VALIDATION_REQUIRED,
 } from "./messages";
 
-type Validator<T, V> = (v: T, values: V) => ReactNode;
+export type Validator<T = any, V = any> = (v: T, values: V) => ReactNode;
 
 /**
  * createValidator returns a Validator that returns given `error` when `condition` is falsey.
@@ -62,7 +62,7 @@ export const validateUsernameCharacters = createValidator(
  */
 export const validateURL = createValidator(
   v =>
-    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(
+    /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-zA-Z0-9]+([\-\.]{1}[a-zA-Z0-9]+)*\.[a-zA-Z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(
       v
     ),
   INVALID_URL()

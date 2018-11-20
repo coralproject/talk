@@ -233,6 +233,7 @@
     "postcss-prepend-imports": "^1.0.1",
     "postcss-preset-env": "^5.2.1",
     "prettier": "^1.13.7",
+    "prop-types": "^15.6.2",
     "pstree.remy": "^1.1.0",
     "pym.js": "^1.3.2",
     "query-string": "^6.1.0",

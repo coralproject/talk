@@ -12,6 +12,7 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof ProfileN> = {
     story: {},
     me: {},
+    settings: {},
   };
   const wrapper = shallow(<ProfileN {...props} />);
   expect(wrapper).toMatchSnapshot();

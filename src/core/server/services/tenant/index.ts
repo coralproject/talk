@@ -137,6 +137,10 @@ export async function createOIDCAuthIntegration(
   const result = await createTenantOIDCAuthIntegration(mongo, tenant.id, {
     enabled: false,
     allowRegistration: false,
+    targetFilter: {
+      admin: true,
+      stream: true,
+    },
     ...input,
   });
   if (!result.wasCreated || !result.tenant) {

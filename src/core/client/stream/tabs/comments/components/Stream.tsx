@@ -10,7 +10,7 @@ import CommentContainer from "../containers/CommentContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
 import PostCommentFormFake from "./PostCommentFormFake";
-import * as styles from "./Stream.css";
+import styles from "./Stream.css";
 
 export interface StreamProps {
   story: {
@@ -19,7 +19,8 @@ export interface StreamProps {
   } & PropTypesOf<typeof CommentContainer>["story"] &
     PropTypesOf<typeof ReplyListContainer>["story"];
   settings: PropTypesOf<typeof CommentContainer>["settings"] &
-    PropTypesOf<typeof ReplyListContainer>["settings"];
+    PropTypesOf<typeof ReplyListContainer>["settings"] &
+    PropTypesOf<typeof UserBoxContainer>["settings"];
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof ReplyListContainer>["comment"]
@@ -38,7 +39,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <HorizontalGutter className={styles.root} size="double">
       <HorizontalGutter size="half">
-        <UserBoxContainer me={props.me} />
+        <UserBoxContainer me={props.me} settings={props.settings} />
         {props.me ? (
           <PostCommentFormContainer storyID={props.story.id} />
         ) : (

@@ -7,7 +7,7 @@ import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
 import UserBoxContainer from "../../../containers/UserBoxContainer";
 import ConversationThreadContainer from "../containers/ConversationThreadContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
-import * as styles from "./PermalinkView.css";
+import styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {
   me: PropTypesOf<typeof ConversationThreadContainer>["me"] &
@@ -20,7 +20,8 @@ export interface PermalinkViewProps {
         PropTypesOf<typeof ReplyListContainer>["comment"]
     | null;
   settings: PropTypesOf<typeof ConversationThreadContainer>["settings"] &
-    PropTypesOf<typeof ReplyListContainer>["settings"];
+    PropTypesOf<typeof ReplyListContainer>["settings"] &
+    PropTypesOf<typeof UserBoxContainer>["settings"];
   showAllCommentsHref: string | null;
   onShowAllComments: (e: MouseEvent<any>) => void;
 }
@@ -35,7 +36,7 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
 }) => {
   return (
     <HorizontalGutter className={styles.root} size="double">
-      <UserBoxContainer me={me} />
+      <UserBoxContainer me={me} settings={settings} />
       <Flex alignItems="center" justifyContent="center" direction="column">
         <Localized id="comments-permalinkView-currentViewing">
           <Typography className={styles.title1}>

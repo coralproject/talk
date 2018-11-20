@@ -1,0 +1,8 @@
+.root {
+  width: calc(25 * var(--spacing-unit));
+  padding-top: calc(0.5 * var(--spacing-unit));
+  padding-right: calc(3 * var(--spacing-unit));
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+}

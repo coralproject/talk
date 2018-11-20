@@ -3,6 +3,8 @@ import { Environment, MutationConfig, OperationBase } from "relay-runtime";
 
 import { Omit } from "talk-framework/types";
 
+import extractPayload from "./extractPayload";
+
 /**
  * Like `MutationConfig` but omits `onCompleted` and `onError`
  * because we are going to use a Promise API.
@@ -11,15 +13,6 @@ export type MutationPromiseConfig<T extends OperationBase> = Omit<
   MutationConfig<T>,
   "onCompleted" | "onError"
 >;
-
-// Extract the payload from the response,
-function getPayload(response: { [key: string]: any }): any {
-  const keys = Object.keys(response);
-  if (keys.length !== 1) {
-    return response;
-  }
-  return response[keys[0]];
-}
 
 /**
  * Normalizes response and error from `commitMutationPromise`.
@@ -33,7 +26,7 @@ export async function commitMutationPromiseNormalized<T extends OperationBase>(
 ): Promise<T["response"][keyof T["response"]]> {
   try {
     const response = await commitMutationPromise(environment, config);
-    return getPayload(response);
+    return extractPayload(response);
   } catch (e) {
     throw e;
   }
@@ -57,7 +50,7 @@ export function commitMutationPromise<T extends OperationBase>(
           reject(errors);
           return;
         }
-        resolve(getPayload(response));
+        resolve(extractPayload(response));
       },
       onError: error => {
         reject(error);

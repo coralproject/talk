@@ -7,6 +7,15 @@
   border-radius: var(--round-corners);
   height: 36px;
   line-height: 36px;
+  width: calc(29 * var(--spacing-unit));
+
+  &:read-only {
+    background-color: var(--palette-grey-lightest);
+  }
+  &:disabled {
+    color: var(--palette-text-secondary);
+    background-color: var(--palette-grey-lightest);
+  }
 }
 
 .colorRegular {

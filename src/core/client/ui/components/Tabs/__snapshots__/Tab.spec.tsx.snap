@@ -12,7 +12,6 @@ exports[`renders correctly 1`] = `
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
-    onMouseDown={[Function]}
     onMouseOut={[Function]}
     onMouseOver={[Function]}
     onTouchEnd={[Function]}

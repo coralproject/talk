@@ -4,13 +4,14 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createSinonStub } from "talk-framework/testHelpers";
 
-import { meWithComments, stories } from "../fixtures";
+import { meWithComments, settings, stories } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const resolvers = {
     Query: {
+      settings: sinon.stub().returns(settings),
       story: createSinonStub(
         s => s.throws(),
         s =>

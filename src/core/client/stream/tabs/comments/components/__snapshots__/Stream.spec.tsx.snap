@@ -10,6 +10,14 @@ exports[`renders correctly 1`] = `
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
@@ -128,6 +136,14 @@ exports[`when there is more disables load more button 1`] = `
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
@@ -260,6 +276,14 @@ exports[`when there is more renders a load more button 1`] = `
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
     />
     <PostCommentFormFake />
   </withPropsOnChange(HorizontalGutter)>
@@ -392,6 +416,14 @@ exports[`when use is logged in renders correctly 1`] = `
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={Object {}}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
     />
     <withContext(withContext(createMutationContainer(PostCommentFormContainer)))
       storyID="story-id"

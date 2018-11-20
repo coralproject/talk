@@ -1,11 +1,10 @@
 import * as React from "react";
-import { FocusEvent, MouseEvent } from "react";
+import { FocusEvent } from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
 interface InjectedProps {
   onFocus: React.EventHandler<FocusEvent<any>>;
   onBlur: React.EventHandler<FocusEvent<any>>;
-  onMouseDown: React.EventHandler<MouseEvent<any>>;
   keyboardFocus: boolean;
 }
 
@@ -24,6 +23,15 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
         keyboardFocus: false,
       };
 
+      constructor(props: any) {
+        super(props);
+        document.addEventListener("mousedown", this.handleMouseDown);
+      }
+
+      public componentWillUnmount() {
+        document.removeEventListener("mousedown", this.handleMouseDown);
+      }
+
       private handleFocus: React.EventHandler<FocusEvent<any>> = event => {
         if (this.props.onFocus) {
           this.props.onFocus(event);
@@ -41,10 +49,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
         this.setState({ keyboardFocus: false });
       };
 
-      private handleMouseDown: React.EventHandler<MouseEvent<any>> = event => {
-        if (this.props.onMouseDown) {
-          this.props.onMouseDown(event);
-        }
+      private handleMouseDown = () => {
         this.lastMouseDownTime = new Date().getTime();
       };
 
@@ -54,7 +59,6 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
             {...this.props}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
-            onMouseDown={this.handleMouseDown}
             keyboardFocus={this.state.keyboardFocus}
           />
         );

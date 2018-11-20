@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { StatelessComponent } from "react";
 
-import * as styles from "./Counter.css";
+import styles from "./Counter.css";
 
 interface Props {
   className?: string;

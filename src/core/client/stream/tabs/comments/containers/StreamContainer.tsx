@@ -112,6 +112,7 @@ const enhanced = withPaginationContainer<
       fragment StreamContainer_settings on Settings {
         ...ReplyListContainer1_settings
         ...CommentContainer_settings
+        ...UserBoxContainer_settings
       }
     `,
   },

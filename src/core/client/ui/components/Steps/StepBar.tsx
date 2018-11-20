@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { Component, ReactNode } from "react";
 import Flex from "../Flex";
-import * as styles from "./StepBar.css";
+import styles from "./StepBar.css";
 
 interface StepBarProps {
   children: ReactNode;

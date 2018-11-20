@@ -27,13 +27,16 @@ function createMutationContainer<T extends string, I, R>(
   return compose(
     withContext(context => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
-      class CreateMutationContainer extends React.Component<any> {
+      class CreateMutationContainer extends React.Component<{
+        context: TalkContext;
+      }> {
         public static displayName = wrapDisplayName(
           BaseComponent,
           "createMutationContainer"
         );
 
         private commit = (input: I) => {
+          this.props.context.eventEmitter.emit(`mutation.${propName}`, input);
           return commit(
             this.props.context.relayEnvironment,
             input,

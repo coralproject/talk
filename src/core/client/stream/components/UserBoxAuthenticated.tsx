@@ -4,8 +4,9 @@ import React, { StatelessComponent } from "react";
 import { Button, Flex, Typography } from "talk-ui/components";
 
 export interface UserBoxAuthenticatedProps {
-  onSignOut: () => void;
+  onSignOut?: () => void;
   username: string;
+  showLogoutButton?: boolean;
 }
 
 const UserBoxAuthenticated: StatelessComponent<
@@ -27,21 +28,23 @@ const UserBoxAuthenticated: StatelessComponent<
           {"Signed in as <username></username>."}
         </Typography>
       </Localized>
-      <Localized
-        id="general-userBoxAuthenticated-notYou"
-        button={
-          <Button
-            color="primary"
-            size="small"
-            variant="underlined"
-            onClick={props.onSignOut}
-          />
-        }
-      >
-        <Typography variant="bodyCopy" container={Flex}>
-          {"Not you? <button>Sign Out</button>"}
-        </Typography>
-      </Localized>
+      {props.showLogoutButton && (
+        <Localized
+          id="general-userBoxAuthenticated-notYou"
+          button={
+            <Button
+              color="primary"
+              size="small"
+              variant="underlined"
+              onClick={props.onSignOut}
+            />
+          }
+        >
+          <Typography variant="bodyCopy" container={Flex}>
+            {"Not you? <button>Sign Out</button>"}
+          </Typography>
+        </Localized>
+      )}
     </Flex>
   );
 };

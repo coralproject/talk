@@ -7,8 +7,11 @@ import { createManaged } from "talk-framework/lib/bootstrap";
 import AppContainer from "talk-stream/containers/AppContainer";
 
 import {
+  OnEvents,
   OnPostMessageAuthError,
   OnPostMessageSetAuthToken,
+  OnPymLogin,
+  OnPymLogout,
   OnPymSetCommentID,
 } from "./listeners";
 import { initLocalState } from "./local";
@@ -16,9 +19,12 @@ import localesData from "./locales";
 
 const listeners = (
   <>
+    <OnPymLogin />
+    <OnPymLogout />
     <OnPymSetCommentID />
     <OnPostMessageSetAuthToken />
     <OnPostMessageAuthError />
+    <OnEvents />
   </>
 );
 

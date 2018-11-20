@@ -6,6 +6,10 @@ enum View {
 }
 
 type Local {
+  authToken: String
+  authExp: Int
+  authJTI: String
+  loggedIn: Boolean!
   view: View!
 }
 
