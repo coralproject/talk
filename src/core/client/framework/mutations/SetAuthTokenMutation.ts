@@ -28,7 +28,6 @@ export async function commit(
     // Clear current session, as we are starting a new one.
     clearSession();
   });
-  return;
 }
 
 export const withSetAuthTokenMutation = createMutationContainer(
