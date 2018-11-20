@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders fully 1`] = `
 <Fragment>
   <Popup
     features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
@@ -15,6 +15,50 @@ exports[`renders correctly 1`] = `
   <UserBoxUnauthenticated
     onRegister={[Function]}
     onSignIn={[Function]}
+    showRegisterButton={true}
+  />
+</Fragment>
+`;
+
+exports[`renders sso only 1`] = `""`;
+
+exports[`renders sso only without logut button 1`] = `""`;
+
+exports[`renders without logout button 1`] = `
+<Fragment>
+  <Popup
+    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    focus={false}
+    href="/embed/auth?view=SIGN_IN"
+    onBlur={[Function]}
+    onClose={[Function]}
+    onFocus={[Function]}
+    open={false}
+    title="Talk Auth"
+  />
+  <UserBoxUnauthenticated
+    onRegister={[Function]}
+    onSignIn={[Function]}
+    showRegisterButton={true}
+  />
+</Fragment>
+`;
+
+exports[`renders without register button 1`] = `
+<Fragment>
+  <Popup
+    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    focus={false}
+    href="/embed/auth?view=SIGN_IN"
+    onBlur={[Function]}
+    onClose={[Function]}
+    onFocus={[Function]}
+    open={false}
+    title="Talk Auth"
+  />
+  <UserBoxUnauthenticated
+    onSignIn={[Function]}
+    showRegisterButton={false}
   />
 </Fragment>
 `;

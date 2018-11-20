@@ -6,6 +6,7 @@ exports[`renders correctly 1`] = `
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
     me={Object {}}
+    settings={Object {}}
   />
   <Relay(CommentHistoryContainer)
     me={Object {}}

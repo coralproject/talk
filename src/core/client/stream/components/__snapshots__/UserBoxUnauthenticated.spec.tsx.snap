@@ -52,3 +52,44 @@ exports[`renders correctly 1`] = `
   </Localized>
 </withPropsOnChange(Flex)>
 `;
+
+exports[`renders correctly hides showRegisterButton 1`] = `
+<withPropsOnChange(Flex)
+  alignItems="center"
+  itemGutter={true}
+>
+  <MatchMediaWithContext
+    gteWidth="sm"
+  >
+    <Localized
+      id="general-userBoxUnauthenticated-joinTheConversation"
+    >
+      <withPropsOnChange(Typography)
+        className="UserBoxUnauthenticated-joinText"
+        container="span"
+        variant="bodyCopyBold"
+      >
+        Join the conversation
+      </withPropsOnChange(Typography)>
+    </Localized>
+    <withPropsOnChange(Typography)
+      container="span"
+      variant="bodyCopyBold"
+    >
+      |
+    </withPropsOnChange(Typography)>
+  </MatchMediaWithContext>
+  <Localized
+    id="general-userBoxUnauthenticated-signIn"
+  >
+    <withPropsOnChange(Button)
+      color="primary"
+      onClick={[Function]}
+      size="small"
+      variant="underlined"
+    >
+      Sign in
+    </withPropsOnChange(Button)>
+  </Localized>
+</withPropsOnChange(Flex)>
+`;

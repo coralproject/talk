@@ -40,7 +40,13 @@ export const render = ({
         </Localized>
       );
     }
-    return <ProfileContainer me={props.me} story={props.story} />;
+    return (
+      <ProfileContainer
+        me={props.me}
+        story={props.story}
+        settings={props.settings}
+      />
+    );
   }
 
   return <Spinner />;
@@ -57,6 +63,9 @@ const ProfileQuery: StatelessComponent<InnerProps> = ({
         }
         me {
           ...ProfileContainer_me
+        }
+        settings {
+          ...ProfileContainer_settings
         }
       }
     `}
