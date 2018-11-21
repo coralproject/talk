@@ -9,7 +9,7 @@ import {
   GQLPerspectiveExternalIntegration,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
-import { ACTION_TYPE } from "talk-server/models/action";
+import { ACTION_TYPE } from "talk-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -23,21 +23,19 @@ export const toxic: IntermediateModerationPhase = async ({
     return;
   }
 
+  const log = logger.child({ tenantID: tenant.id });
+
   const integration = tenant.integrations.perspective;
 
   if (!integration.enabled) {
     // The Toxic comment plugin is not enabled.
-    logger.debug(
-      { tenant_id: tenant.id },
-      "perspective integration was disabled"
-    );
+    log.debug("perspective integration was disabled");
     return;
   }
 
   if (!integration.key) {
     // The Toxic comment requires a key in order to communicate with the API.
-    logger.error(
-      { tenant_id: tenant.id },
+    log.error(
       "perspective integration was enabled but the key configuration was missing"
     );
     return;
@@ -48,8 +46,8 @@ export const toxic: IntermediateModerationPhase = async ({
     // TODO: (wyattjoh) replace hardcoded default with config.
     endpoint = "https://commentanalyzer.googleapis.com/v1alpha1";
 
-    logger.trace(
-      { tenant_id: tenant.id, endpoint },
+    log.trace(
+      { endpoint },
       "endpoint missing in integration settings, using defaults"
     );
   }
@@ -59,8 +57,8 @@ export const toxic: IntermediateModerationPhase = async ({
     // TODO: (wyattjoh) replace hardcoded default with config.
     threshold = 0.8;
 
-    logger.trace(
-      { tenant_id: tenant.id, threshold },
+    log.trace(
+      { threshold },
       "threshold missing in integration settings, using defaults"
     );
   }
@@ -69,8 +67,8 @@ export const toxic: IntermediateModerationPhase = async ({
   if (isNil(doNotStore)) {
     doNotStore = true;
 
-    logger.trace(
-      { tenant_id: tenant.id, do_not_store: doNotStore },
+    log.trace(
+      { doNotStore },
       "doNotStore missing in integration settings, using defaults"
     );
   }
@@ -79,7 +77,7 @@ export const toxic: IntermediateModerationPhase = async ({
   const timeout = ms("300ms");
 
   try {
-    logger.trace({ tenant_id: tenant.id }, "checking comment toxicity");
+    logger.trace("checking comment toxicity");
 
     // Call into the Toxic comment API.
     const scores = await getScores(
@@ -95,15 +93,13 @@ export const toxic: IntermediateModerationPhase = async ({
     const score = scores.SEVERE_TOXICITY.summaryScore;
     const isToxic = score > threshold;
     if (isToxic) {
-      logger.trace(
-        { tenant_id: tenant.id, score, is_toxic: isToxic, threshold },
-        "comment was toxic"
-      );
+      log.trace({ score, isToxic, threshold }, "comment was toxic");
       return {
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
         actions: [
           {
-            action_type: ACTION_TYPE.FLAG,
+            userID: null,
+            actionType: ACTION_TYPE.FLAG,
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
           },
         ],
@@ -114,15 +110,9 @@ export const toxic: IntermediateModerationPhase = async ({
       };
     }
 
-    logger.trace(
-      { tenant_id: tenant.id, score, is_toxic: isToxic, threshold },
-      "comment was not toxic"
-    );
+    log.trace({ score, isToxic, threshold }, "comment was not toxic");
   } catch (err) {
-    logger.error(
-      { tenant_id: tenant.id, err },
-      "could not determine comment toxicity"
-    );
+    log.error({ err }, "could not determine comment toxicity");
   }
 };
 

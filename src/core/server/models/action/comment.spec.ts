@@ -1,27 +1,26 @@
 import { GQLCOMMENT_FLAG_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
-  Action,
-  ACTION_ITEM_TYPE,
   ACTION_TYPE,
+  CommentAction,
   decodeActionCounts,
   encodeActionCounts,
   validateAction,
-} from "talk-server/models/action";
+} from "talk-server/models/action/comment";
 
 describe("#encodeActionCounts", () => {
   it("generates the action counts correctly", () => {
-    const actions = [
-      { action_type: ACTION_TYPE.DONT_AGREE },
+    const actions: Array<Partial<CommentAction>> = [
+      { actionType: ACTION_TYPE.DONT_AGREE },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
       },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
     ];
-    const actionCounts = encodeActionCounts(...(actions as Action[]));
+    const actionCounts = encodeActionCounts(...(actions as CommentAction[]));
 
     expect(actionCounts).toMatchSnapshot();
   });
@@ -29,22 +28,24 @@ describe("#encodeActionCounts", () => {
 
 describe("#decodeActionCounts", () => {
   it("parses the action counts correctly", () => {
-    const actions = [
-      { action_type: ACTION_TYPE.REACTION },
-      { action_type: ACTION_TYPE.REACTION },
-      { action_type: ACTION_TYPE.REACTION },
-      { action_type: ACTION_TYPE.DONT_AGREE },
+    const actions: Array<Partial<CommentAction>> = [
+      { actionType: ACTION_TYPE.REACTION },
+      { actionType: ACTION_TYPE.REACTION },
+      { actionType: ACTION_TYPE.REACTION },
+      { actionType: ACTION_TYPE.DONT_AGREE },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
       },
       {
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
     ];
 
-    const modelActionCounts = encodeActionCounts(...(actions as Action[]));
+    const modelActionCounts = encodeActionCounts(
+      ...(actions as CommentAction[])
+    );
 
     expect(modelActionCounts).toMatchSnapshot();
 
@@ -56,77 +57,65 @@ describe("#decodeActionCounts", () => {
 
 describe("#validateAction", () => {
   it("allows a valid action", () => {
-    const actions = [
+    const actions: Array<Partial<CommentAction>> = [
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.REACTION,
+        actionType: ACTION_TYPE.REACTION,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.DONT_AGREE,
+        actionType: ACTION_TYPE.DONT_AGREE,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TRUST,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
       },
     ];
 
     for (const action of actions) {
-      validateAction(action as Action);
+      validateAction(action as CommentAction);
     }
   });
 
   it("does not allow an invalid action", () => {
-    const actions = [
+    const actions: Array<Partial<CommentAction>> = [
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.DONT_AGREE,
+        actionType: ACTION_TYPE.DONT_AGREE,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.DONT_AGREE,
+        actionType: ACTION_TYPE.DONT_AGREE,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
       },
       {
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
-        action_type: ACTION_TYPE.FLAG,
+        actionType: ACTION_TYPE.FLAG,
       },
     ];
 
     for (const action of actions) {
-      expect(() => validateAction(action as Action)).toThrow();
+      expect(() => validateAction(action as CommentAction)).toThrow();
     }
   });
 });

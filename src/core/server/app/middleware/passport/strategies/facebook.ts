@@ -71,7 +71,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
         displayName,
         role: GQLUSER_ROLE.COMMENTER,
         email,
-        email_verified: emailVerified,
+        emailVerified,
         avatar,
         profiles: [profile],
       });

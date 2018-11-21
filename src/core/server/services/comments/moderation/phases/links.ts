@@ -5,7 +5,7 @@ import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/action";
+import { ACTION_TYPE } from "talk-server/models/action/comment";
 import { ModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
@@ -39,7 +39,8 @@ export const links: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
-          action_type: ACTION_TYPE.FLAG,
+          userID: null,
+          actionType: ACTION_TYPE.FLAG,
           reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
           metadata: {
             links: comment.body,

@@ -1,12 +1,12 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
-import { ACTION_ITEM_TYPE } from "talk-server/models/action";
 import {
   createComment,
   CreateCommentInput,
   editComment,
   EditCommentInput,
+  getLatestRevision,
   pushChildCommentIDOntoParent,
   retrieveComment,
 } from "talk-server/models/comment";
@@ -25,7 +25,7 @@ import { Request } from "talk-server/types/express";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "action_counts" | "metadata" | "grandparent_ids"
+  "status" | "metadata" | "grandparentIDs"
 >;
 
 export async function create(
@@ -36,7 +36,7 @@ export async function create(
   req?: Request
 ) {
   // Grab the story that we'll use to check moderation pieces with.
-  const story = await retrieveStory(mongo, tenant.id, input.story_id);
+  const story = await retrieveStory(mongo, tenant.id, input.storyID);
   if (!story) {
     // TODO: (wyattjoh) return better error.
     throw new Error("story referenced does not exist");
@@ -45,9 +45,9 @@ export async function create(
   // TODO: (wyattjoh) Check that the story was visible.
 
   const grandparentIDs: string[] = [];
-  if (input.parent_id) {
+  if (input.parentID) {
     // Check to see that the reference parent ID exists.
-    const parent = await retrieveComment(mongo, tenant.id, input.parent_id);
+    const parent = await retrieveComment(mongo, tenant.id, input.parentID);
     if (!parent) {
       // TODO: (wyattjoh) return better error.
       throw new Error("parent comment referenced does not exist");
@@ -56,10 +56,10 @@ export async function create(
     // TODO: (wyattjoh) Check that the parent comment was visible.
 
     // Push the parent's parent id's into the comment's grandparent id's.
-    grandparentIDs.push(...parent.grandparent_ids);
-    if (parent.parent_id) {
+    grandparentIDs.push(...parent.grandparentIDs);
+    if (parent.parentID) {
       // If this parent has a parent, push it down as well.
-      grandparentIDs.push(parent.parent_id);
+      grandparentIDs.push(parent.parentID);
     }
   }
 
@@ -76,23 +76,22 @@ export async function create(
   let comment = await createComment(mongo, tenant.id, {
     ...input,
     status,
-    action_counts: {},
-    grandparent_ids: grandparentIDs,
+    grandparentIDs,
     metadata,
   });
 
   if (actions.length > 0) {
-    // The actions coming from the moderation phases didn't know the item_id
+    // The actions coming from the moderation phases didn't know the commentID
     // at the time, and we didn't want the repetitive nature of adding the
     // item_type each time, so this mapping function adds them!
     const inputs = actions.map(
       (action): CreateAction => ({
         ...action,
-        item_id: comment.id,
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
+        commentID: comment.id,
+        commentRevisionID: getLatestRevision(comment!).id,
 
         // Store the Story ID on the action.
-        root_item_id: story.id,
+        storyID: story.id,
       })
     );
 
@@ -100,12 +99,12 @@ export async function create(
     comment = await addCommentActions(mongo, tenant, comment, inputs);
   }
 
-  if (input.parent_id) {
+  if (input.parentID) {
     // Push the child's ID onto the parent.
     await pushChildCommentIDOntoParent(
       mongo,
       tenant.id,
-      input.parent_id,
+      input.parentID,
       comment.id
     );
   }
@@ -120,7 +119,7 @@ export async function create(
 
 export type EditComment = Omit<
   EditCommentInput,
-  "status" | "author_id" | "lastEditableCommentCreatedAt"
+  "status" | "authorID" | "lastEditableCommentCreatedAt"
 >;
 
 export async function edit(
@@ -138,7 +137,7 @@ export async function edit(
   }
 
   // Grab the story that we'll use to check moderation pieces with.
-  const story = await retrieveStory(mongo, tenant.id, comment.story_id);
+  const story = await retrieveStory(mongo, tenant.id, comment.storyID);
   if (!story) {
     // TODO: (wyattjoh) return better error.
     throw new Error("story referenced does not exist");
@@ -155,7 +154,7 @@ export async function edit(
 
   let editedComment = await editComment(mongo, tenant.id, {
     id: input.id,
-    author_id: author.id,
+    authorID: author.id,
     body: input.body,
     status,
     metadata,
@@ -173,7 +172,7 @@ export async function edit(
   }
 
   if (actions.length > 0) {
-    // The actions coming from the moderation phases didn't know the item_id
+    // The actions coming from the moderation phases didn't know the commentID
     // at the time, and we didn't want the repetitive nature of adding the
     // item_type each time, so this mapping function adds them!
     const inputs = actions.map(
@@ -181,11 +180,11 @@ export async function edit(
         ...action,
         // Strict null check seems to have failed here... Null checking was done
         // above where we errored if the comment was falsely.
-        item_id: comment!.id,
-        item_type: ACTION_ITEM_TYPE.COMMENTS,
+        commentID: comment!.id,
+        commentRevisionID: getLatestRevision(comment!).id,
 
         // Store the Story ID on the action.
-        root_item_id: story.id,
+        storyID: story.id,
       })
     );
 

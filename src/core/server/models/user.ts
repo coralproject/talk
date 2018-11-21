@@ -7,7 +7,6 @@ import {
   GQLUSER_ROLE,
   GQLUSER_USERNAME_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/action";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -57,9 +56,9 @@ export interface Token {
 
 export interface UserStatusHistory<T> {
   status: T;
-  assigned_by?: string;
+  assignedBy?: string;
   reason?: string;
-  created_at: Date;
+  createdAt: Date;
 }
 
 export interface UserStatusItem<T> {
@@ -80,25 +79,18 @@ export interface User extends TenantResource {
   password?: string;
   avatar?: string;
   email?: string;
-  email_verified?: boolean;
+  emailVerified?: boolean;
   profiles: Profile[];
   tokens: Token[];
   role: GQLUSER_ROLE;
   status: UserStatus;
-  action_counts: EncodedActionCounts;
-  ignored_users: string[];
-  created_at: Date;
+  ignoredUserIDs: string[];
+  createdAt: Date;
 }
 
 export type UpsertUserInput = Omit<
   User,
-  | "id"
-  | "tenant_id"
-  | "tokens"
-  | "status"
-  | "action_counts"
-  | "ignored_users"
-  | "created_at"
+  "id" | "tenantID" | "tokens" | "status" | "ignoredUserIDs" | "createdAt"
 >;
 
 export async function upsertUser(
@@ -115,10 +107,9 @@ export async function upsertUser(
   // created.
   const defaults: Sub<User, UpsertUserInput> = {
     id,
-    tenant_id: tenantID,
+    tenantID,
     tokens: [],
-    action_counts: {},
-    ignored_users: [],
+    ignoredUserIDs: [],
     status: {
       banned: {
         status: false,
@@ -135,7 +126,7 @@ export async function upsertUser(
         history: [],
       },
     },
-    created_at: now,
+    createdAt: now,
   };
 
   let hashedPassword;
@@ -202,7 +193,7 @@ const createUpsertUserFilter = (user: Readonly<User>) => {
 };
 
 export async function retrieveUser(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ id, tenant_id: tenantID });
+  return collection(db).findOne({ id, tenantID });
 }
 
 export async function retrieveManyUsers(
@@ -214,7 +205,7 @@ export async function retrieveManyUsers(
     id: {
       $in: ids,
     },
-    tenant_id: tenantID,
+    tenantID,
   });
 
   const users = await cursor.toArray();
@@ -228,7 +219,7 @@ export async function retrieveUserWithProfile(
   profile: Profile
 ) {
   return collection(db).findOne({
-    tenant_id: tenantID,
+    tenantID,
     profiles: {
       $elemMatch: profile,
     },
@@ -242,7 +233,7 @@ export async function updateUserRole(
   role: GQLUSER_ROLE
 ) {
   const result = await collection(db).findOneAndUpdate(
-    { id, tenant_id: tenantID },
+    { id, tenantID },
     { $set: { role } },
     { returnOriginal: false }
   );
