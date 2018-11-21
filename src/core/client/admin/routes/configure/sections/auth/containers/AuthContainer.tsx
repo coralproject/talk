@@ -43,7 +43,7 @@ export default class AuthContainer extends React.Component<Props> {
     this.removeSubmitHook();
   }
 
-  private submitHook: SubmitHook = async (data, cancel) => {
+  private submitHook: SubmitHook = async (data, { cancel }) => {
     const integrations = [
       get(data, "auth.integrations.google"),
       get(data, "auth.integrations.facebook"),
