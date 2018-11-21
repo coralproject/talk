@@ -10,10 +10,10 @@ import {
 import logger from "talk-server/logger";
 import {
   countTotalActionCounts,
-  mergeActionCounts,
-  mergeManyRootActions,
-  removeRootActions,
-} from "talk-server/models/action";
+  mergeCommentActionCounts,
+  mergeManyStoryActions,
+  removeStoryActions,
+} from "talk-server/models/action/comment";
 import {
   mergeManyCommentStories,
   removeStoryComments,
@@ -123,8 +123,8 @@ export async function remove(
 ) {
   // Create a logger for this function.
   const log = logger.child({
-    story_id: storyID,
-    include_comments: includeComments,
+    storyID,
+    includeComments,
   });
 
   log.debug("starting to remove story");
@@ -138,32 +138,24 @@ export async function remove(
   }
 
   if (includeComments) {
-    let removedCount: number | undefined;
-
     // Remove the actions associated with the comments we just removed.
-    ({ deletedCount: removedCount } = await removeRootActions(
+    const { deletedCount: removedActions } = await removeStoryActions(
       mongo,
       tenant.id,
       story.id
-    ));
-
-    log.debug(
-      { removed_actions: removedCount },
-      "removed actions while deleting story"
     );
+
+    log.debug({ removedActions }, "removed actions while deleting story");
 
     // Remove the comments for the story.
-    ({ deletedCount: removedCount } = await removeStoryComments(
+    const { deletedCount: removedComments } = await removeStoryComments(
       mongo,
       tenant.id,
       story.id
-    ));
-
-    log.debug(
-      { removed_comments: removedCount },
-      "removed comments while deleting story"
     );
-  } else if (calculateTotalCommentCount(story.comment_counts) > 0) {
+
+    log.debug({ removedComments }, "removed comments while deleting story");
+  } else if (calculateTotalCommentCount(story.commentCounts) > 0) {
     log.warn(
       "attempted to remove story that has linked comments without consent for deleting comments"
     );
@@ -196,7 +188,7 @@ export async function create(
   // Ensure that the given URL is allowed.
   if (!isURLPermitted(tenant, storyURL)) {
     logger.warn(
-      { story_url: storyURL, tenant_domains: tenant.domains },
+      { storyURL, tenantDomains: tenant.domains },
       "provided story url was not in the list of permitted tenant domains, story not created"
     );
     return null;
@@ -224,7 +216,7 @@ export async function update(
   // Ensure that the given URL is allowed.
   if (input.url && !isURLPermitted(tenant, input.url)) {
     logger.warn(
-      { story_url: input.url, tenant_domains: tenant.domains },
+      { storyURL: input.url, tenantDomains: tenant.domains },
       "provided story url was not in the list of permitted tenant domains, story not updated"
     );
     return null;
@@ -241,8 +233,8 @@ export async function merge(
 ) {
   // Create a logger for this operation.
   const log = logger.child({
-    destination_id: destinationID,
-    source_ids: sourceIDs,
+    destinationID,
+    sourceIDs,
   });
 
   if (sourceIDs.length === 0) {
@@ -259,7 +251,7 @@ export async function merge(
     zip(storyIDs, stories).some(([storyID, story]) => {
       if (!story) {
         log.warn(
-          { story_id: storyID },
+          { storyID },
           "story that was going to be merged was not found"
         );
         return true;
@@ -271,35 +263,27 @@ export async function merge(
     return null;
   }
 
-  let updatedCount: number | undefined;
-
   // Move all the comment's from the source stories over to the destination
   // story.
-  ({ modifiedCount: updatedCount } = await mergeManyCommentStories(
+  const { modifiedCount: updatedComments } = await mergeManyCommentStories(
     mongo,
     tenant.id,
     destinationID,
     sourceIDs
-  ));
-
-  log.debug(
-    { updated_comments: updatedCount },
-    "updated comments while merging stories"
   );
+
+  log.debug({ updatedComments }, "updated comments while merging stories");
 
   // Update all the action's that referenced the old story to reference the new
   // story.
-  ({ modifiedCount: updatedCount } = await mergeManyRootActions(
+  const { modifiedCount: updatedActions } = await mergeManyStoryActions(
     mongo,
     tenant.id,
     destinationID,
     sourceIDs
-  ));
-
-  log.debug(
-    { updated_actions: updatedCount },
-    "updated actions while merging stories"
   );
+
+  log.debug({ updatedActions }, "updated actions while merging stories");
 
   // Merge the comment and action counts for all the source stories.
   const [, ...sourceStories] = stories;
@@ -311,14 +295,16 @@ export async function merge(
     mergeCommentStatusCount(
       // We perform the type assertion here because above, we already verified
       // that none of the stories are null.
-      (sourceStories as Story[]).map(({ comment_counts }) => comment_counts)
+      (sourceStories as Story[]).map(({ commentCounts }) => commentCounts)
     )
   );
 
-  const mergedActionCounts = mergeActionCounts(
+  const mergedActionCounts = mergeCommentActionCounts(
     // We perform the type assertion here because above, we already verified
     // that none of the stories are null.
-    (sourceStories as Story[]).map(({ action_counts }) => action_counts)
+    (sourceStories as Story[]).map(
+      ({ commentActionCounts }) => commentActionCounts
+    )
   );
   if (countTotalActionCounts(mergedActionCounts) > 0) {
     destinationStory = await updateStoryActionCounts(
@@ -335,13 +321,13 @@ export async function merge(
   }
 
   log.debug(
-    { comment_counts: destinationStory.comment_counts },
+    { commentCounts: destinationStory.commentCounts },
     "updated destination story with new comment counts"
   );
 
   const { deletedCount } = await removeStories(mongo, tenant.id, sourceIDs);
 
-  log.debug({ deleted_stories: deletedCount }, "deleted source stories");
+  log.debug({ deletedStories: deletedCount }, "deleted source stories");
 
   // Return the story that had the other stories merged into.
   return destinationStory;

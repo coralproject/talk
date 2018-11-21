@@ -195,7 +195,7 @@ export default class TenantCache {
         return;
       }
 
-      logger.debug({ tenant_id: tenant.id }, "received updated tenant");
+      logger.debug({ tenantID: tenant.id }, "received updated tenant");
 
       // Update the tenant cache.
       this.tenantsByID.clear(tenant.id).prime(tenant.id, tenant);
@@ -261,7 +261,7 @@ export default class TenantCache {
       JSON.stringify(message)
     );
 
-    logger.debug({ tenant_id: tenant.id, subscribers }, "updated tenant");
+    logger.debug({ tenantID: tenant.id, subscribers }, "updated tenant");
 
     // Publish the event for the connected listeners.
     this.emitter.emit(EMITTER_EVENT_NAME, tenant);

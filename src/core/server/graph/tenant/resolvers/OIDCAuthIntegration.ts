@@ -1,14 +1,14 @@
 import { constructTenantURL, reconstructURL } from "talk-server/app/url";
 import {
-  GQLGoogleAuthIntegration,
-  GQLGoogleAuthIntegrationTypeResolver,
+  GQLOIDCAuthIntegration,
+  GQLOIDCAuthIntegrationTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
-const GoogleAuthIntegration: GQLGoogleAuthIntegrationTypeResolver<
-  GQLGoogleAuthIntegration
+export const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
+  GQLOIDCAuthIntegration
 > = {
   callbackURL: (integration, args, ctx) => {
-    const path = `/api/tenant/auth/google/callback`;
+    const path = `/api/tenant/auth/oidc/${integration.id}`;
 
     // If the request is available, then prefer it over building from the tenant
     // as the tenant does not include the port number. This should only really
@@ -22,5 +22,3 @@ const GoogleAuthIntegration: GQLGoogleAuthIntegrationTypeResolver<
     return constructTenantURL(ctx.config, ctx.tenant, path);
   },
 };
-
-export default GoogleAuthIntegration;

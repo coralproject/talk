@@ -1,8 +1,8 @@
 import { GQLProfileTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
-import { Profile } from "talk-server/models/user";
+import * as user from "talk-server/models/user";
 
-const resolveType: GQLProfileTypeResolver<Profile> = profile => {
+const resolveType: GQLProfileTypeResolver<user.Profile> = profile => {
   switch (profile.type) {
     case "local":
       return "LocalProfile";
@@ -16,6 +16,6 @@ const resolveType: GQLProfileTypeResolver<Profile> = profile => {
   }
 };
 
-export default {
+export const Profile = {
   __resolveType: resolveType,
 };

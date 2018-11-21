@@ -20,7 +20,11 @@ function dotizeDropNull(o: Record<string, any>, options?: DotizeOptions) {
 }
 
 export interface TenantResource {
-  readonly tenant_id: string;
+  /**
+   * tenantID is the reference to the specific Tenant that owns this particular
+   * resource.
+   */
+  readonly tenantID: string;
 }
 
 /**

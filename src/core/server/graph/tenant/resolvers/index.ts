@@ -3,22 +3,26 @@ import Time from "talk-server/graph/common/scalars/time";
 
 import { GQLResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
-import AuthIntegrations from "./auth_integrations";
-import Comment from "./comment";
-import CommentCounts from "./comment_counts";
-import FacebookAuthIntegration from "./facebook_auth_integration";
-import GoogleAuthIntegration from "./google_auth_integration";
-import Mutation from "./mutation";
-import OIDCAuthIntegration from "./oidc_auth_integration";
-import Profile from "./profile";
-import Query from "./query";
-import Story from "./story";
-import User from "./user";
+import { AuthIntegrations } from "./AuthIntegrations";
+import { Comment } from "./Comment";
+import { CommentCounts } from "./CommentCounts";
+import { CommentModerationAction } from "./CommentModerationAction";
+import { CommentRevision } from "./CommentRevision";
+import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
+import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
+import { Mutation } from "./Mutation";
+import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
+import { Profile } from "./Profile";
+import { Query } from "./Query";
+import { Story } from "./Story";
+import { User } from "./User";
 
 const Resolvers: GQLResolver = {
   AuthIntegrations,
   Comment,
   CommentCounts,
+  CommentModerationAction,
+  CommentRevision,
   Cursor,
   Mutation,
   OIDCAuthIntegration,

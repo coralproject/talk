@@ -16,7 +16,12 @@ import {
   updateOIDCAuthIntegration,
 } from "talk-server/services/tenant";
 
-export default ({ mongo, redis, tenantCache, tenant }: TenantContext) => ({
+export const Settings = ({
+  mongo,
+  redis,
+  tenantCache,
+  tenant,
+}: TenantContext) => ({
   update: (input: GQLSettingsInput): Promise<Tenant | null> =>
     update(mongo, redis, tenantCache, tenant, omitBy(input, isNull)),
   regenerateSSOKey: (): Promise<Tenant | null> =>

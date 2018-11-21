@@ -106,7 +106,7 @@ it("cancel edit", async () => {
     .findByProps({ id: "comments-commentContainer-editButton-comment-0" })
     .props.onClick();
 
-  // Cacnel edit form.
+  // Cancel edit form.
   testRenderer.root
     .findByProps({ id: "comments-editCommentForm-cancelButton-comment-0" })
     .props.onClick();

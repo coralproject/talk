@@ -1,4 +1,6 @@
 import Queue, { Job, Queue as QueueType } from "bull";
+import Logger from "bunyan";
+
 import logger from "talk-server/logger";
 
 export interface TaskOptions<T, U = any> {
@@ -10,9 +12,12 @@ export interface TaskOptions<T, U = any> {
 export default class Task<T, U = any> {
   private options: TaskOptions<T, U>;
   private queue: QueueType<T>;
+  private log: Logger;
+
   constructor(options: TaskOptions<T, U>) {
     this.queue = new Queue(options.jobName, options.queue);
     this.options = options;
+    this.log = logger.child({ jobName: options.jobName });
 
     // Sets up and attaches the job processor to the queue.
     this.setupAndAttachProcessor();
@@ -31,31 +36,21 @@ export default class Task<T, U = any> {
       removeOnComplete: true,
     });
 
-    logger.trace(
-      { job_id: job.id, job_name: this.options.jobName },
-      "added job to queue"
-    );
+    this.log.trace({ jobID: job.id }, "added job to queue");
     return job;
   }
   private setupAndAttachProcessor() {
     this.queue.process(async (job: Job<T>) => {
-      logger.trace(
-        { job_id: job.id, job_name: this.options.jobName },
-        "processing job from queue"
-      );
+      const log = this.log.child({ jobID: job.id });
+
+      log.trace("processing job from queue");
 
       // Send the job off to the job processor to be handled.
       const promise: U = await this.options.jobProcessor(job);
-      logger.trace(
-        { job_id: job.id, job_name: this.options.jobName },
-        "processing completed"
-      );
+      log.trace("processing completed");
       return promise;
     });
 
-    logger.trace(
-      { job_name: this.options.jobName },
-      "registered processor for job type"
-    );
+    this.log.trace("registered processor for job type");
   }
 }

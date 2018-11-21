@@ -2,7 +2,7 @@ import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/action";
+import { ACTION_TYPE } from "talk-server/models/action/comment";
 import {
   compose,
   ModerationPhaseContext,
@@ -51,11 +51,13 @@ describe("compose", () => {
 
     const flags = [
       {
-        action_type: ACTION_TYPE.FLAG,
+        userID: null,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TOXIC,
       },
       {
-        action_type: ACTION_TYPE.FLAG,
+        userID: null,
+        actionType: ACTION_TYPE.FLAG,
         reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SPAM,
       },
     ];
@@ -71,7 +73,8 @@ describe("compose", () => {
       () => ({
         actions: [
           {
-            action_type: ACTION_TYPE.FLAG,
+            userID: null,
+            actionType: ACTION_TYPE.FLAG,
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
           },
         ],
@@ -85,7 +88,7 @@ describe("compose", () => {
     }
 
     expect(final.actions).not.toContainEqual({
-      action_type: ACTION_TYPE.FLAG,
+      actionType: ACTION_TYPE.FLAG,
       reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
     });
   });

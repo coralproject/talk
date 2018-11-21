@@ -1,14 +1,14 @@
 import { constructTenantURL, reconstructURL } from "talk-server/app/url";
 import {
-  GQLOIDCAuthIntegration,
-  GQLOIDCAuthIntegrationTypeResolver,
+  GQLFacebookAuthIntegration,
+  GQLFacebookAuthIntegrationTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
-const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
-  GQLOIDCAuthIntegration
+export const FacebookAuthIntegration: GQLFacebookAuthIntegrationTypeResolver<
+  GQLFacebookAuthIntegration
 > = {
   callbackURL: (integration, args, ctx) => {
-    const path = `/api/tenant/auth/oidc/${integration.id}`;
+    const path = `/api/tenant/auth/facebook/callback`;
 
     // If the request is available, then prefer it over building from the tenant
     // as the tenant does not include the port number. This should only really
@@ -22,5 +22,3 @@ const OIDCAuthIntegration: GQLOIDCAuthIntegrationTypeResolver<
     return constructTenantURL(ctx.config, ctx.tenant, path);
   },
 };
-
-export default OIDCAuthIntegration;
