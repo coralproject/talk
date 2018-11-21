@@ -52,6 +52,9 @@ export const users = [
 export const baseComment = {
   author: users[0],
   body: "Comment Body",
+  revision: {
+    id: "revision-0",
+  },
   createdAt: "2018-07-06T18:24:00.000Z",
   replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   replyCount: 0,

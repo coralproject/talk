@@ -19,54 +19,62 @@ import {
   removeReaction,
 } from "talk-server/services/comments/actions";
 
-export default (ctx: TenantContext) => ({
-  create: (input: GQLCreateCommentInput) =>
+export const Comment = (ctx: TenantContext) => ({
+  create: ({ storyID, body, parentID }: GQLCreateCommentInput) =>
     create(
       ctx.mongo,
       ctx.tenant,
       ctx.user!,
-      {
-        author_id: ctx.user!.id,
-        story_id: input.storyID,
-        body: input.body,
-        parent_id: input.parentID,
-      },
+      { authorID: ctx.user!.id, storyID, body, parentID },
       ctx.req
     ),
-  edit: (input: GQLEditCommentInput) =>
+  edit: ({ commentID, body }: GQLEditCommentInput) =>
     edit(
       ctx.mongo,
       ctx.tenant,
       ctx.user!,
       {
-        id: input.commentID,
-        body: input.body,
+        id: commentID,
+        body,
       },
       ctx.req
     ),
-  createReaction: (input: GQLCreateCommentReactionInput) =>
+  createReaction: ({
+    commentID,
+    commentRevisionID,
+  }: GQLCreateCommentReactionInput) =>
     createReaction(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      commentID,
+      commentRevisionID,
     }),
-  removeReaction: (input: GQLRemoveCommentReactionInput) =>
+  removeReaction: ({ commentID }: GQLRemoveCommentReactionInput) =>
     removeReaction(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      commentID,
     }),
-  createDontAgree: (input: GQLCreateCommentDontAgreeInput) =>
+  createDontAgree: ({
+    commentID,
+    commentRevisionID,
+  }: GQLCreateCommentDontAgreeInput) =>
     createDontAgree(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      commentID,
+      commentRevisionID,
     }),
-  removeDontAgree: (input: GQLRemoveCommentDontAgreeInput) =>
+  removeDontAgree: ({ commentID }: GQLRemoveCommentDontAgreeInput) =>
     removeDontAgree(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      commentID,
     }),
-  createFlag: (input: GQLCreateCommentFlagInput) =>
+  createFlag: ({
+    commentID,
+    commentRevisionID,
+    reason,
+  }: GQLCreateCommentFlagInput) =>
     createFlag(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
-      reason: input.reason,
+      commentID,
+      commentRevisionID,
+      reason,
     }),
-  removeFlag: (input: GQLRemoveCommentFlagInput) =>
+  removeFlag: ({ commentID }: GQLRemoveCommentFlagInput) =>
     removeFlag(ctx.mongo, ctx.tenant, ctx.user!, {
-      item_id: input.commentID,
+      commentID,
     }),
 });
