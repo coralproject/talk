@@ -8,7 +8,7 @@ import {
 } from "talk-framework/lib/relay";
 import { StreamQuery as QueryTypes } from "talk-stream/__generated__/StreamQuery.graphql";
 import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQueryLocal.graphql";
-import { Spinner } from "talk-ui/components";
+import { Delay, Spinner } from "talk-ui/components";
 import StreamContainer from "../containers/StreamContainer";
 
 interface InnerProps {
@@ -40,7 +40,11 @@ export const render = ({
     );
   }
 
-  return <Spinner />;
+  return (
+    <Delay>
+      <Spinner />
+    </Delay>
+  );
 };
 
 const StreamQuery: StatelessComponent<InnerProps> = ({
