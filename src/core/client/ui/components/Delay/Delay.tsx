@@ -12,7 +12,7 @@ interface State {
 
 export class Delay extends Component<Props, State> {
   public static defaultProps: Partial<Props> = {
-    ms: 750,
+    ms: 500,
   };
   private timeout: any;
   public state = {

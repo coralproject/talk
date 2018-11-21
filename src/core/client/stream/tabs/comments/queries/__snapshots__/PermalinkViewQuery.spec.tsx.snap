@@ -8,7 +8,7 @@ exports[`renders error 1`] = `
 
 exports[`renders loading 1`] = `
 <Delay
-  ms={750}
+  ms={500}
 >
   <withPropsOnChange(Spinner) />
 </Delay>
