@@ -9,7 +9,7 @@ import {
 } from "talk-framework/lib/relay";
 import { ProfileQuery as QueryTypes } from "talk-stream/__generated__/ProfileQuery.graphql";
 import { ProfileQueryLocal as Local } from "talk-stream/__generated__/ProfileQueryLocal.graphql";
-import { Spinner } from "talk-ui/components";
+import { Delay, Spinner } from "talk-ui/components";
 
 import ProfileContainer from "../containers/ProfileContainer";
 
@@ -49,7 +49,11 @@ export const render = ({
     );
   }
 
-  return <Spinner />;
+  return (
+    <Delay>
+      <Spinner />
+    </Delay>
+  );
 };
 
 const ProfileQuery: StatelessComponent<InnerProps> = ({
