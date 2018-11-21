@@ -185,7 +185,7 @@ export async function findOrCreateOIDCUser(
       displayName,
       role: GQLUSER_ROLE.COMMENTER,
       email,
-      email_verified,
+      emailVerified: email_verified,
       avatar: picture,
       profiles: [profile],
     });

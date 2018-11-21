@@ -26,7 +26,7 @@ describe("storyClosed", () => {
 
     expect(() =>
       storyClosed({
-        story: { created_at: new Date() } as Story,
+        story: { createdAt: new Date() } as Story,
         tenant: { autoCloseStream: true, closedTimeout: -6000 } as Tenant,
         comment: {} as Comment,
         author: {} as User,

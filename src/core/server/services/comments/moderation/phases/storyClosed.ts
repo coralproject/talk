@@ -17,7 +17,7 @@ export const storyClosed: IntermediateModerationPhase = ({
     story.closedAt !== false &&
     tenant.autoCloseStream &&
     tenant.closedTimeout &&
-    story.created_at.valueOf() + tenant.closedTimeout <= Date.now()
+    story.createdAt.valueOf() + tenant.closedTimeout <= Date.now()
   ) {
     // TODO: (wyattjoh) return better error.
     throw new Error("story is currently closed for commenting");
