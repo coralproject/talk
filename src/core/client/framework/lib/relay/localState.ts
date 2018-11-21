@@ -41,9 +41,12 @@ export function setAuthTokenInLocalState(
 
 export async function initLocalBaseState(
   environment: Environment,
-  { localStorage }: TalkContext
+  { localStorage }: TalkContext,
+  authToken?: string | null
 ) {
-  const authToken = await localStorage!.getItem("authToken");
+  if (authToken === undefined) {
+    authToken = await localStorage!.getItem("authToken");
+  }
 
   commitLocalUpdate(environment, s => {
     const root = s.getRoot();
@@ -53,7 +56,7 @@ export async function initLocalBaseState(
     root.setLinkedRecord(localRecord, "local");
 
     // Set auth token
-    setAuthTokenInLocalState(authToken, s);
+    setAuthTokenInLocalState(authToken || null, s);
 
     // Create network Record
     const networkRecord = createAndRetain(
