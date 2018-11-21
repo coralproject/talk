@@ -6,7 +6,13 @@ exports[`renders error 1`] = `
 </div>
 `;
 
-exports[`renders loading 1`] = `<withPropsOnChange(Spinner) />`;
+exports[`renders loading 1`] = `
+<Delay
+  ms={750}
+>
+  <withPropsOnChange(Spinner) />
+</Delay>
+`;
 
 exports[`renders permalink view container 1`] = `
 <withContext(withContext(createMutationContainer(Relay(PermalinkViewContainer))))
