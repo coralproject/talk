@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["dom", "es5"],
+    "lib": ["dom", "es6"],
     "types": ["jest", "node"],
     "baseUrl": "./",
     "paths": {
