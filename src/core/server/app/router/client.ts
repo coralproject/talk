@@ -28,9 +28,11 @@ export function createClientTargetRouter({
   // Create a router.
   const router = express.Router();
 
+  // Always send the cache headers.
   router.use(cacheHeadersMiddleware(cacheDuration));
 
-  router.get("/", (req, res) => res.render(view, { staticURI }));
+  // Wildcard display all the client routes under the provided prefix.
+  router.get("/*", (req, res) => res.render(view, { staticURI }));
 
   return router;
 }
