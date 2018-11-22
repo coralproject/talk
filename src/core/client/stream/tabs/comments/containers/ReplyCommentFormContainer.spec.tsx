@@ -19,7 +19,7 @@ function getContextKey(commentID: string) {
 
 it("renders correctly", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    createComment: noop as any,
+    createCommentReply: noop as any,
     story: {
       id: "story-id",
     },
@@ -27,6 +27,9 @@ it("renders correctly", async () => {
       id: "comment-id",
       author: {
         username: "Joe",
+      },
+      revision: {
+        id: "revision-id",
       },
     },
     sessionStorage: createPromisifiedStorage(),
@@ -41,7 +44,7 @@ it("renders correctly", async () => {
 
 it("renders with initialValues", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    createComment: noop as any,
+    createCommentReply: noop as any,
     story: {
       id: "story-id",
     },
@@ -49,6 +52,9 @@ it("renders with initialValues", async () => {
       id: "comment-id",
       author: {
         username: "Joe",
+      },
+      revision: {
+        id: "revision-id",
       },
     },
     sessionStorage: createPromisifiedStorage(),
@@ -68,7 +74,7 @@ it("renders with initialValues", async () => {
 
 it("save values", async () => {
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    createComment: noop as any,
+    createCommentReply: noop as any,
     story: {
       id: "story-id",
     },
@@ -76,6 +82,9 @@ it("save values", async () => {
       id: "comment-id",
       author: {
         username: "Joe",
+      },
+      revision: {
+        id: "revision-id",
       },
     },
     sessionStorage: createPromisifiedStorage(),
@@ -107,7 +116,7 @@ it("creates a comment", async () => {
   const onCloseStub = sinon.stub();
 
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    createComment: createCommentStub,
+    createCommentReply: createCommentStub,
     story: {
       id: "story-id",
     },
@@ -115,6 +124,9 @@ it("creates a comment", async () => {
       id: "comment-id",
       author: {
         username: "Joe",
+      },
+      revision: {
+        id: "revision-id",
       },
     },
     sessionStorage: createPromisifiedStorage(),
@@ -138,6 +150,7 @@ it("creates a comment", async () => {
     createCommentStub.calledWith({
       storyID,
       parentID: props.comment.id,
+      parentRevisionID: "revision-id",
       ...input,
     })
   ).toBeTruthy();
@@ -148,7 +161,7 @@ it("creates a comment", async () => {
 it("closes on cancel", async () => {
   const onCloseStub = sinon.stub();
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    createComment: noop as any,
+    createCommentReply: noop as any,
     story: {
       id: "story-id",
     },
@@ -156,6 +169,9 @@ it("closes on cancel", async () => {
       id: "comment-id",
       author: {
         username: "Joe",
+      },
+      revision: {
+        id: "revision-id",
       },
     },
     sessionStorage: createPromisifiedStorage(),
@@ -186,7 +202,7 @@ it("autofocuses", async () => {
   const focusStub = sinon.stub();
   const rte = { focus: focusStub };
   const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    createComment: noop as any,
+    createCommentReply: noop as any,
     story: {
       id: "story-id",
     },
@@ -194,6 +210,9 @@ it("autofocuses", async () => {
       id: "comment-id",
       author: {
         username: "Joe",
+      },
+      revision: {
+        id: "revision-id",
       },
     },
     sessionStorage: createPromisifiedStorage(),

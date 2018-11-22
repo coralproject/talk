@@ -10,8 +10,8 @@ import { PropTypesOf } from "talk-framework/types";
 import { ReplyCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
 import { ReplyCommentFormContainer_story as StoryData } from "talk-stream/__generated__/ReplyCommentFormContainer_story.graphql";
 import {
-  CreateCommentMutation,
-  withCreateCommentMutation,
+  CreateCommentReplyMutation,
+  withCreateCommentReplyMutation,
 } from "talk-stream/mutations";
 
 import ReplyCommentForm, {
@@ -19,7 +19,7 @@ import ReplyCommentForm, {
 } from "../components/ReplyCommentForm";
 
 interface InnerProps {
-  createComment: CreateCommentMutation;
+  createCommentReply: CreateCommentReplyMutation;
   sessionStorage: PromisifiedStorage;
   comment: CommentData;
   story: StoryData;
@@ -74,9 +74,10 @@ export class ReplyCommentFormContainer extends Component<InnerProps, State> {
     form
   ) => {
     try {
-      await this.props.createComment({
+      await this.props.createCommentReply({
         storyID: this.props.story.id,
         parentID: this.props.comment.id,
+        parentRevisionID: this.props.comment.revision.id,
         local: this.props.localReply,
         ...input,
       });
@@ -127,7 +128,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(
-  withCreateCommentMutation(
+  withCreateCommentReplyMutation(
     withFragmentContainer<InnerProps>({
       story: graphql`
         fragment ReplyCommentFormContainer_story on Story {
@@ -139,6 +140,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
           id
           author {
             username
+          }
+          revision {
+            id
           }
         }
       `,

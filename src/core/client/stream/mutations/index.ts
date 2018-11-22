@@ -4,6 +4,11 @@ export {
   CreateCommentInput,
 } from "./CreateCommentMutation";
 export {
+  withCreateCommentReplyMutation,
+  CreateCommentReplyMutation,
+  CreateCommentReplyInput,
+} from "./CreateCommentReplyMutation";
+export {
   withEditCommentMutation,
   EditCommentMutation,
   EditCommentInput,

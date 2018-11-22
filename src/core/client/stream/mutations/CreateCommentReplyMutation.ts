@@ -12,65 +12,95 @@ import {
   createMutationContainer,
 } from "talk-framework/lib/relay";
 import { Omit } from "talk-framework/types";
-import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentMutation.graphql";
+import { CreateCommentReplyMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentReplyMutation.graphql";
 
 import {
   incrementStoryCommentCounts,
   prependCommentEdgeToProfile,
 } from "../helpers";
 
-export type CreateCommentInput = Omit<
+export type CreateCommentReplyInput = Omit<
   MutationTypes["variables"]["input"],
   "clientMutationId"
->;
+> & { local?: boolean };
 
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
-  input: CreateCommentInput
+  input: CreateCommentReplyInput
 ) {
   incrementStoryCommentCounts(store, input.storyID);
   prependCommentEdgeToProfile(
     environment,
     store,
-    store.getRootField("createComment")!.getLinkedRecord("edge")!
+    store.getRootField("createCommentReply")!.getLinkedRecord("edge")!
   );
-  addCommentToStory(store, input);
+  if (input.local) {
+    addLocalCommentReplyToStory(store, input);
+  } else {
+    addCommentReplyToStory(store, input);
+  }
 }
 
 /**
  * update integrates new comment into the CommentConnection.
  */
-function addCommentToStory(
+function addCommentReplyToStory(
   store: RecordSourceSelectorProxy,
-  input: CreateCommentInput
+  input: CreateCommentReplyInput
 ) {
   // Get the payload returned from the server.
-  const payload = store.getRootField("createComment")!;
+  const payload = store.getRootField("createCommentReply")!;
 
   // Get the edge of the newly created comment.
   const newEdge = payload.getLinkedRecord("edge")!;
 
-  // Get stream proxy.
-  const streamProxy = store.get(input.storyID);
-  const connectionKey = "Stream_comments";
-  const filters = { orderBy: "CREATED_AT_DESC" };
+  // Get parent proxy.
+  const parentProxy = store.get(input.parentID);
+  const connectionKey = "ReplyList_replies";
+  const filters = { orderBy: "CREATED_AT_ASC" };
 
-  if (streamProxy) {
+  if (parentProxy) {
     const con = ConnectionHandler.getConnection(
-      streamProxy,
+      parentProxy,
       connectionKey,
       filters
     );
     if (con) {
-      ConnectionHandler.insertEdgeBefore(con, newEdge);
+      ConnectionHandler.insertEdgeAfter(con, newEdge);
     }
   }
 }
 
+/**
+ * localUpdate is like update but updates the `localReplies` endpoint.
+ */
+function addLocalCommentReplyToStory(
+  store: RecordSourceSelectorProxy,
+  input: CreateCommentReplyInput
+) {
+  // Get the payload returned from the server.
+  const payload = store.getRootField("createCommentReply")!;
+
+  // Get the edge of the newly created comment.
+  const newEdge = payload.getLinkedRecord("edge")!;
+  const newComment = newEdge.getLinkedRecord("node");
+
+  // Get parent proxy.
+  const parentProxy = store.get(input.parentID!);
+
+  if (parentProxy) {
+    const localReplies = parentProxy.getLinkedRecords("localReplies");
+    const nextLocalReplies = localReplies
+      ? localReplies.concat(newComment)
+      : [newComment];
+    parentProxy.setLinkedRecords(nextLocalReplies, "localReplies");
+  }
+}
+
 const mutation = graphql`
-  mutation CreateCommentMutation($input: CreateCommentInput!) {
-    createComment(input: $input) {
+  mutation CreateCommentReplyMutation($input: CreateCommentReplyInput!) {
+    createCommentReply(input: $input) {
       edge {
         cursor
         node {
@@ -86,7 +116,7 @@ let clientMutationId = 0;
 
 function commit(
   environment: Environment,
-  input: CreateCommentInput,
+  input: CreateCommentReplyInput,
   { uuidGenerator }: TalkContext
 ) {
   const me = getMe(environment)!;
@@ -97,12 +127,14 @@ function commit(
     variables: {
       input: {
         storyID: input.storyID,
+        parentID: input.parentID,
+        parentRevisionID: input.parentRevisionID,
         body: input.body,
         clientMutationId: clientMutationId.toString(),
       },
     },
     optimisticResponse: {
-      createComment: {
+      createCommentReply: {
         edge: {
           cursor: currentDate,
           node: {
@@ -136,11 +168,11 @@ function commit(
   });
 }
 
-export const withCreateCommentMutation = createMutationContainer(
-  "createComment",
+export const withCreateCommentReplyMutation = createMutationContainer(
+  "createCommentReply",
   commit
 );
 
-export type CreateCommentMutation = (
-  input: CreateCommentInput
-) => Promise<MutationTypes["response"]["createComment"]>;
+export type CreateCommentReplyMutation = (
+  input: CreateCommentReplyInput
+) => Promise<MutationTypes["response"]["createCommentReply"]>;
