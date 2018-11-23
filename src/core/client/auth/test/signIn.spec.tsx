@@ -5,6 +5,7 @@ import { animationFrame, timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 
 import create from "./create";
+import { settings } from "./fixtures";
 
 const inputPredicate = (name: string) => (n: ReactTestInstance) => {
   return n.props.name === name && n.props.onChange;
@@ -13,15 +14,26 @@ const inputPredicate = (name: string) => (n: ReactTestInstance) => {
 let context: TalkContext;
 let testRenderer: ReactTestRenderer;
 let form: ReactTestInstance;
-beforeEach(() => {
+beforeEach(async () => {
+  const resolvers = {
+    Query: {
+      settings: sinon.stub().returns(settings),
+    },
+  };
+
+  const windowMock = sinon.mock(window);
+  windowMock.expects("resizeTo");
   ({ testRenderer, context } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
+    resolvers,
     initLocalState: localRecord => {
       localRecord.setValue("SIGN_IN", "view");
     },
   }));
+  await timeout();
   form = testRenderer.root.findByType("form");
+  windowMock.restore();
 });
 
 it("renders sign in form", async () => {
