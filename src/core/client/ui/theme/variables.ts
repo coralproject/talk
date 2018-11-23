@@ -61,8 +61,12 @@ const variables = {
     },
     /* Divider */
     divider: "rgba(0, 0, 0, 0.12)",
-    brand: "#F77160",
     highlight: "#FFD863",
+    brand: {
+      main: "#f77160",
+      light: "#f97f70",
+      lighter: "#fc9e92",
+    },
   },
   /* gitter and spacing */
   spacingUnitSmall: 5,

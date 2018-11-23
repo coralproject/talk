@@ -24,7 +24,7 @@
 }
 
 .fullWidth {
-  display: block;
+  display: flex;
   width: 100%;
   box-sizing: border-box;
 }
@@ -56,6 +56,9 @@
   }
   &.colorSuccess {
     color: var(--palette-success-main);
+  }
+  &.colorBrand {
+    color: var(--palette-brand-main);
   }
 
   &:not(.disabled) {
@@ -95,6 +98,15 @@
         color: var(--palette-success-lighter);
       }
     }
+    &.colorBrand {
+      &.mouseHover {
+        color: var(--palette-brand-light);
+      }
+      &:active,
+      &.active {
+        color: var(--palette-brand-lighter);
+      }
+    }
   }
 }
 
@@ -111,6 +123,9 @@
   }
   &.colorSuccess {
     background-color: var(--palette-success-main);
+  }
+  &.colorBrand {
+    background-color: var(--palette-brand-main);
   }
 
   &:not(.disabled) {
@@ -150,6 +165,15 @@
         background-color: var(--palette-success-lighter);
       }
     }
+    &.colorBrand {
+      &.mouseHover {
+        background-color: var(--palette-brand-light);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-brand-lighter);
+      }
+    }
   }
 }
 
@@ -169,6 +193,10 @@
   }
   &.colorSuccess {
     color: var(--palette-success-main);
+    border: 1px solid currentColor;
+  }
+  &.colorBrand {
+    color: var(--palette-brand-main);
     border: 1px solid currentColor;
   }
 
@@ -217,6 +245,17 @@
         border: 1px solid currentColor;
       }
     }
+    &.colorBrand {
+      &.mouseHover {
+        color: var(--palette-brand-light);
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        color: var(--palette-brand-lighter);
+        border: 1px solid currentColor;
+      }
+    }
   }
 }
 
@@ -233,6 +272,9 @@
   }
   &.colorSuccess {
     color: var(--palette-success-main);
+  }
+  &.colorBrand {
+    color: var(--palette-brand-main);
   }
 
   &:not(.disabled) {
@@ -280,6 +322,17 @@
         background-color: var(--palette-success-main);
       }
     }
+    &.colorBrand {
+      &.mouseHover {
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
+        color: var(--palette-text-light);
+        background-color: var(--palette-brand-main);
+      }
+    }
   }
 }
 
@@ -301,6 +354,9 @@
   }
   &.colorSuccess {
     color: var(--palette-success-main);
+  }
+  &.colorBrand {
+    color: var(--palette-brand-main);
   }
 
   &:not(.disabled) {
@@ -338,6 +394,15 @@
       &:active,
       &.active {
         color: var(--palette-success-lighter);
+      }
+    }
+    &.colorBrand {
+      &.mouseHover {
+        color: var(--palette-brand-light);
+      }
+      &:active,
+      &.active {
+        color: var(--palette-brand-lighter);
       }
     }
   }

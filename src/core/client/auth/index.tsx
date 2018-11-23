@@ -4,10 +4,10 @@ import ReactDOM from "react-dom";
 
 import { createManaged } from "talk-framework/lib/bootstrap";
 
-import AppContainer from "./containers/AppContainer";
 import resizePopup from "./dom/resizePopup";
 import { initLocalState } from "./local";
 import localesData from "./locales";
+import AppQuery from "./queries/AppQuery";
 
 /**
  * Adapt popup height to current content every 100ms.
@@ -37,7 +37,7 @@ async function main() {
 
   const Index: StatelessComponent = () => (
     <ManagedTalkContextProvider>
-      <AppContainer />
+      <AppQuery />
     </ManagedTalkContextProvider>
   );
 

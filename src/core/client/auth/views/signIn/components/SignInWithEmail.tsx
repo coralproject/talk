@@ -9,44 +9,36 @@ import {
   validateEmail,
 } from "talk-framework/lib/validation";
 
+import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
 import {
   Button,
+  ButtonIcon,
   CallOut,
   Flex,
   FormField,
   HorizontalGutter,
   InputLabel,
   TextField,
-  Typography,
   ValidationMessage,
 } from "talk-ui/components";
-
-import AutoHeightContainer from "../containers/AutoHeightContainer";
 
 interface FormProps {
   email: string;
   password: string;
 }
 
-export interface SignInForm {
+export interface SignInWithEmailForm {
   onSubmit: OnSubmit<FormProps>;
-  onGotoSignUp: () => void;
   onGotoForgotPassword: () => void;
 }
 
-const SignIn: StatelessComponent<SignInForm> = props => {
+const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
           <HorizontalGutter size="double">
-            <Localized id="signIn-signInToJoinHeader">
-              <Typography variant="heading1" align="center">
-                Sign in to join the conversation
-              </Typography>
-            </Localized>
-
             {submitError && (
               <CallOut color="error" fullWidth>
                 {submitError}
@@ -138,37 +130,19 @@ const SignIn: StatelessComponent<SignInForm> = props => {
                 </FormField>
               )}
             </Field>
-            <Localized id="signIn-signInAndJoinButton">
-              <Button
-                variant="filled"
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                Sign in and join the conversation
-              </Button>
-            </Localized>
-            <Flex justifyContent="center">
-              <Localized
-                id="signIn-noAccountSignUp"
-                button={
-                  <Button
-                    id="signIn-gotoSignUpButton"
-                    variant="underlined"
-                    size="small"
-                    color="primary"
-                    disabled={submitting}
-                    onClick={props.onGotoSignUp}
-                  />
-                }
-              >
-                <Typography variant="bodyCopy" container={Flex}>
-                  {"Don't have an account? <button>Sign Up</button>"}
-                </Typography>
+            <Button
+              variant="filled"
+              color="brand"
+              size="large"
+              type="submit"
+              disabled={submitting}
+              fullWidth
+            >
+              <ButtonIcon size="md">email</ButtonIcon>
+              <Localized id="signIn-signInWithEmail">
+                <span>Sign in with Email</span>
               </Localized>
-            </Flex>
+            </Button>
           </HorizontalGutter>
         </form>
       )}
@@ -176,4 +150,4 @@ const SignIn: StatelessComponent<SignInForm> = props => {
   );
 };
 
-export default SignIn;
+export default SignInWithEmail;

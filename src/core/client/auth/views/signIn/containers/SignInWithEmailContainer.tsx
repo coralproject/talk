@@ -1,12 +1,16 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
-import SignIn, { SignInForm } from "../components/SignIn";
+
 import {
   SetViewMutation,
   SignInMutation,
   withSetViewMutation,
   withSignInMutation,
-} from "../mutations";
+} from "talk-auth/mutations";
+
+import SignInWithEmail, {
+  SignInWithEmailForm,
+} from "../components/SignInWithEmail";
 
 interface SignInContainerProps {
   signIn: SignInMutation;
@@ -14,7 +18,7 @@ interface SignInContainerProps {
 }
 
 class SignInContainer extends Component<SignInContainerProps> {
-  private onSubmit: SignInForm["onSubmit"] = async (input, form) => {
+  private onSubmit: SignInWithEmailForm["onSubmit"] = async (input, form) => {
     try {
       await this.props.signIn(input);
       return form.reset();
@@ -24,13 +28,11 @@ class SignInContainer extends Component<SignInContainerProps> {
   };
   private goToForgotPassword = () =>
     this.props.setView({ view: "FORGOT_PASSWORD" });
-  private goToSignUp = () => this.props.setView({ view: "SIGN_UP" });
   public render() {
     return (
-      <SignIn
+      <SignInWithEmail
         onSubmit={this.onSubmit}
         onGotoForgotPassword={this.goToForgotPassword}
-        onGotoSignUp={this.goToSignUp}
       />
     );
   }

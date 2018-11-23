@@ -1,10 +1,17 @@
 ### Localization for the Auth Popup
 
+## General
+general-orSeparator = Or
+
 ## Sign In
 
-signIn-signInToJoinHeader = Sign in to join the conversation
+signIn-signInToJoinHeader =
+  <title>Sign In</title><subtitle>to join the conversation<subtitle>
 
-signIn-signInAndJoinButton = Sign in to Join the Conversation
+signIn-signInWithEmail = Sign in with Email
+signIn-signInWithFacebook = Sign in with Facebook
+signIn-signInWithGoogle = Sign in with Google
+signIn-signInWithOIDC = Sign in with { $name }
 
 signIn-emailAddressLabel = Email Address
 signIn-emailAddressTextField =
