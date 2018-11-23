@@ -1,17 +1,11 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
-import SignUp, { SignUpForm } from "../components/SignUp";
+import SignUp, { SignUpForm } from "../components/SignUpWithEmail";
 
-import {
-  SetViewMutation,
-  SignUpMutation,
-  withSetViewMutation,
-  withSignUpMutation,
-} from "../mutations";
+import { SignUpMutation, withSignUpMutation } from "talk-auth/mutations";
 
 interface SignUpContainerProps {
   signUp: SignUpMutation;
-  setView: SetViewMutation;
 }
 
 class SignUpContainer extends Component<SignUpContainerProps> {
@@ -23,11 +17,10 @@ class SignUpContainer extends Component<SignUpContainerProps> {
       return { [FORM_ERROR]: error.message };
     }
   };
-  private goToSignIn = () => this.props.setView({ view: "SIGN_IN" });
   public render() {
-    return <SignUp onSubmit={this.onSubmit} onGotoSignIn={this.goToSignIn} />;
+    return <SignUp onSubmit={this.onSubmit} />;
   }
 }
 
-const enhanced = withSetViewMutation(withSignUpMutation(SignUpContainer));
+const enhanced = withSignUpMutation(SignUpContainer);
 export default enhanced;

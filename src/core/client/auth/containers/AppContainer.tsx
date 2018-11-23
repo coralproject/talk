@@ -34,6 +34,7 @@ const enhanced = withLocalStateContainer(
     auth: graphql`
       fragment AppContainer_auth on Auth {
         ...SignInContainer_auth
+        ...SignUpContainer_auth
       }
     `,
   })(AppContainer)

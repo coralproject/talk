@@ -7,24 +7,22 @@ import {
   composeValidators,
   required,
   validateEmail,
-  validateEqualPasswords,
   validatePassword,
   validateUsername,
 } from "talk-framework/lib/validation";
 import {
   Button,
+  ButtonIcon,
   CallOut,
-  Flex,
   FormField,
   HorizontalGutter,
   InputDescription,
   InputLabel,
   TextField,
-  Typography,
   ValidationMessage,
 } from "talk-ui/components";
 
-import AutoHeightContainer from "../containers/AutoHeightContainer";
+import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
 
 interface FormProps {
   email: string;
@@ -35,7 +33,6 @@ interface FormProps {
 
 export interface SignUpForm {
   onSubmit: OnSubmit<FormProps>;
-  onGotoSignIn: () => void;
 }
 
 const SignUp: StatelessComponent<SignUpForm> = props => {
@@ -45,11 +42,6 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
         <form autoComplete="off" onSubmit={handleSubmit}>
           <AutoHeightContainer />
           <HorizontalGutter size="double">
-            <Localized id="signUp-signUpToJoinHeader">
-              <Typography variant="heading1" align="center">
-                Sign up to join the conversation
-              </Typography>
-            </Localized>
             {submitError && (
               <CallOut color="error" fullWidth>
                 {submitError}
@@ -101,10 +93,7 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                     <InputLabel>Username</InputLabel>
                   </Localized>
                   <Localized id="signUp-usernameDescription">
-                    <InputDescription>
-                      A unique identifier displayed on your comments. You may
-                      use “_” and “.”
-                    </InputDescription>
+                    <InputDescription>You may use “_” and “.”</InputDescription>
                   </Localized>
                   <Localized
                     id="signUp-usernameTextField"
@@ -175,74 +164,19 @@ const SignUp: StatelessComponent<SignUpForm> = props => {
                 </FormField>
               )}
             </Field>
-            <Field
-              name="confirmPassword"
-              validate={composeValidators(required, validateEqualPasswords)}
+            <Button
+              variant="filled"
+              color="brand"
+              size="large"
+              type="submit"
+              disabled={submitting}
+              fullWidth
             >
-              {({ input, meta }) => (
-                <FormField>
-                  <Localized id="signUp-confirmPasswordLabel">
-                    <InputLabel>Confirm Password</InputLabel>
-                  </Localized>
-                  <Localized
-                    id="signUp-confirmPasswordTextField"
-                    attrs={{ placeholder: true }}
-                  >
-                    <TextField
-                      name={input.name}
-                      onChange={input.onChange}
-                      value={input.value}
-                      placeholder="Confirm Password"
-                      type="password"
-                      color={
-                        meta.touched && (meta.error || meta.submitError)
-                          ? "error"
-                          : "regular"
-                      }
-                      disabled={submitting}
-                      fullWidth
-                    />
-                  </Localized>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
-                </FormField>
-              )}
-            </Field>
-            <Localized id="signUp-signUpAndJoinButton">
-              <Button
-                variant="filled"
-                color="primary"
-                size="large"
-                type="submit"
-                disabled={submitting}
-                fullWidth
-              >
-                Sign up and join the conversation
-              </Button>
-            </Localized>
-            <Flex justifyContent="center">
-              <Localized
-                id="signUp-accountAvailableSignIn"
-                button={
-                  <Button
-                    id="signUp-gotoSignInButton"
-                    variant="underlined"
-                    size="small"
-                    color="primary"
-                    onClick={props.onGotoSignIn}
-                    disabled={submitting}
-                  />
-                }
-              >
-                <Typography variant="bodyCopy" container={Flex}>
-                  {"Already have an account? <button>Sign In </button>"}
-                </Typography>
+              <ButtonIcon size="md">email</ButtonIcon>
+              <Localized id="signUp-signUpWithEmail">
+                <span>Sign up with Email</span>
               </Localized>
-            </Flex>
+            </Button>
           </HorizontalGutter>
         </form>
       )}

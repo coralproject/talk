@@ -20,7 +20,6 @@ import {
   InputDescription,
   InputLabel,
   TextField,
-  Typography,
   ValidationMessage,
 } from "talk-ui/components";
 

@@ -27,16 +27,21 @@ signIn-noAccountSignUp = Don't have an account? <button>Sign Up</button>
 
 ## Sign Up
 
-signUp-signUpToJoinHeader = Sign up to join the conversation
+signUp-signUpToJoinHeader =
+  <title>Sign Up</title><subtitle>to join the conversation</subtitle>
 
-signUp-signUpAndJoinButton = Sign up and Join the Conversation
+signUp-signUpWithEmail = Sign up with Email
+signUp-signUpWithFacebook = Sign up with Facebook
+signUp-signUpWithGoogle = Sign up with Google
+signUp-signUpWithOIDC = Sign up with { $name }
+
 
 signUp-emailAddressLabel = Email Address
 signUp-emailAddressTextField =
   .placeholder = Email Address
 
 signUp-usernameLabel = Username
-signUp-usernameDescription = A unique identifier displayed on your comments. You may use “_” and “.”
+signUp-usernameDescription = You may use “_” and “.”
 signUp-usernameTextField =
   .placeholder = Username
 
