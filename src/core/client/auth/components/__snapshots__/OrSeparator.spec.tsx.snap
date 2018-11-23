@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Flex)
+  alignItems="center"
+  className="OrSeparator-root"
+  justifyContent="center"
+>
+  <hr
+    className="OrSeparator-hr"
+  />
+  <Localized
+    id="general-orSeparator"
+  >
+    <div
+      className="OrSeparator-text"
+    >
+      Or
+    </div>
+  </Localized>
+</withPropsOnChange(Flex)>
+`;

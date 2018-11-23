@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Button)
+  classes={
+    Object {
+      "active": "OIDCButton-active",
+      "colorRegular": "OIDCButton-colorRegular",
+      "disabled)": "OIDCButton-disabled)",
+      "mouseHover": "OIDCButton-mouseHover",
+      "variantFilled": "OIDCButton-variantFilled",
+    }
+  }
+  fullWidth={true}
+  onClick={[Function]}
+  size="large"
+  variant="filled"
+>
+  <span>
+    Login with OIDC
+  </span>
+</withPropsOnChange(Button)>
+`;

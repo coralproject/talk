@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <Localized
+    id="signIn-signInToJoinHeader"
+    subtitle={<Subtitle />}
+    title={<Title />}
+  >
+    <Bar>
+      &lt;title&gt;Sign In&lt;/title&gt;&lt;subtitle&gt;to join the conversation&lt;/subtitle&gt;
+    </Bar>
+  </Localized>
+  <SubBar>
+    <Localized
+      button={
+        <withPropsOnChange(Button)
+          color="primary"
+          id="signIn-gotoSignUpButton"
+          onClick={[Function]}
+          size="small"
+          variant="underlined"
+        />
+      }
+      id="signIn-noAccountSignUp"
+    >
+      <withPropsOnChange(Typography)
+        container={[Function]}
+        variant="bodyCopy"
+      >
+        Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+      </withPropsOnChange(Typography)>
+    </Localized>
+  </SubBar>
+  <Main>
+    <withPropsOnChange(HorizontalGutter)
+      size="oneAndAHalf"
+    >
+      <withContext(createMutationContainer(withContext(createMutationContainer(SignInContainer)))) />
+      <OrSeparator />
+      <withPropsOnChange(HorizontalGutter)>
+        <SignInWithFacebookContainer />
+        <SignInWithGoogleContainer />
+        <Relay(SignInWithOIDCContainer)
+          auth={Object {}}
+        />
+      </withPropsOnChange(HorizontalGutter)>
+    </withPropsOnChange(HorizontalGutter)>
+  </Main>
+</div>
+`;
+
+exports[`renders without email login 1`] = `
+<div>
+  <Localized
+    id="signIn-signInToJoinHeader"
+    subtitle={<Subtitle />}
+    title={<Title />}
+  >
+    <Bar>
+      &lt;title&gt;Sign In&lt;/title&gt;&lt;subtitle&gt;to join the conversation&lt;/subtitle&gt;
+    </Bar>
+  </Localized>
+  <SubBar>
+    <Localized
+      button={
+        <withPropsOnChange(Button)
+          color="primary"
+          id="signIn-gotoSignUpButton"
+          onClick={[Function]}
+          size="small"
+          variant="underlined"
+        />
+      }
+      id="signIn-noAccountSignUp"
+    >
+      <withPropsOnChange(Typography)
+        container={[Function]}
+        variant="bodyCopy"
+      >
+        Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+      </withPropsOnChange(Typography)>
+    </Localized>
+  </SubBar>
+  <Main>
+    <withPropsOnChange(HorizontalGutter)
+      size="oneAndAHalf"
+    >
+      <withPropsOnChange(HorizontalGutter)>
+        <SignInWithFacebookContainer />
+        <SignInWithGoogleContainer />
+        <Relay(SignInWithOIDCContainer)
+          auth={Object {}}
+        />
+      </withPropsOnChange(HorizontalGutter)>
+    </withPropsOnChange(HorizontalGutter)>
+  </Main>
+</div>
+`;

@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders sign in 1`] = `
-<div
-  className="App-root"
->
-  <withContext(createMutationContainer(withContext(createMutationContainer(SignInContainer)))) />
+<div>
+  <withContext(createMutationContainer(withContext(createMutationContainer(Relay(SignInContainer)))))
+    auth={Object {}}
+  />
 </div>
 `;
