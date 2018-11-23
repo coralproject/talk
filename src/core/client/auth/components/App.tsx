@@ -2,9 +2,9 @@ import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
-import ForgotPasswordContainer from "../containers/ForgotPasswordContainer";
-import ResetPasswordContainer from "../containers/ResetPasswordContainer";
 import SignUpContainer from "../containers/SignUpContainer";
+import ForgotPasswordContainer from "../views/forgotPassword/containers/ForgotPasswordContainer";
+import ResetPasswordContainer from "../views/resetPassword/containers/ResetPasswordContainer";
 import SignInContainer from "../views/signIn/containers/SignInContainer";
 import "./App.css";
 
