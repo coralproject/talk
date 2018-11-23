@@ -63,7 +63,7 @@ const SignUp: StatelessComponent<SignUpForm> = ({
         </Localized>
       </SubBar>
       <Main>
-        <HorizontalGutter size="double">
+        <HorizontalGutter size="oneAndAHalf">
           {emailEnabled && <SignUpWithEmailContainer />}
           {emailEnabled && oneClickUptegrationEnabled && <OrSeparator />}
           <HorizontalGutter>

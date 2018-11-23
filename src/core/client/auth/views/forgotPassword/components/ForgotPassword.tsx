@@ -43,7 +43,7 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
               <AutoHeightContainer />
-              <HorizontalGutter size="double">
+              <HorizontalGutter size="full">
                 <Localized id="forgotPassword-enterEmailAndGetALink">
                   <Typography variant="bodyCopy">
                     Enter your email address below and we will send you a link

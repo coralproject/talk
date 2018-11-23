@@ -45,7 +45,7 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
               <AutoHeightContainer />
-              <HorizontalGutter size="double">
+              <HorizontalGutter size="full">
                 {submitError && (
                   <CallOut color="error" fullWidth>
                     {submitError}
