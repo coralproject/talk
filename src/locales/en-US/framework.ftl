@@ -73,3 +73,6 @@ framework-timeago =
 
 framework-copyButton-copy = Copy
 framework-copyButton-copied = Copied
+framework-passwordField =
+  .showPasswordTitle = Show password
+  .hidePasswordTitle = Hide password

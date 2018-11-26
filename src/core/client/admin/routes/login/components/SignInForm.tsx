@@ -4,12 +4,12 @@ import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
 
+import { PasswordField } from "talk-framework/components";
 import {
   composeValidators,
   required,
   validateEmail,
 } from "talk-framework/lib/validation";
-
 import {
   Button,
   CallOut,
@@ -87,12 +87,11 @@ const SignIn: StatelessComponent<Props> = props => (
                   id="login-signIn-passwordTextField"
                   attrs={{ placeholder: true }}
                 >
-                  <TextField
+                  <PasswordField
                     name={input.name}
                     onChange={input.onChange}
                     value={input.value}
                     placeholder="Password"
-                    type="password"
                     color={
                       meta.touched && (meta.error || meta.submitError)
                         ? "error"

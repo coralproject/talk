@@ -97,15 +97,37 @@ exports[`accepts correct password 1`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-justifyFlexEnd"
               >
@@ -240,15 +262,37 @@ exports[`accepts valid email 1`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -409,15 +453,37 @@ exports[`checks for invalid email 1`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -565,15 +631,37 @@ exports[`renders sign in form 1`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-justifyFlexEnd"
               >
@@ -721,15 +809,37 @@ exports[`shows error when submitting empty form 1`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -877,15 +987,37 @@ exports[`shows server error 1`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={true}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={true}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-justifyFlexEnd"
               >
@@ -1025,15 +1157,37 @@ exports[`shows server error 2`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-justifyFlexEnd"
               >
@@ -1168,15 +1322,37 @@ exports[`submits form successfully 1`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={true}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={true}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-justifyFlexEnd"
               >
@@ -1311,15 +1487,37 @@ exports[`submits form successfully 2`] = `
               >
                 Password
               </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-justifyFlexEnd"
               >

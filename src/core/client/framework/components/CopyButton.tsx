@@ -13,7 +13,7 @@ interface State {
   copied: boolean;
 }
 
-class PermalinkPopover extends React.Component<InnerProps> {
+class CopyButton extends React.Component<InnerProps> {
   private timeout: any = null;
 
   public state: State = {
@@ -59,4 +59,4 @@ class PermalinkPopover extends React.Component<InnerProps> {
   }
 }
 
-export default PermalinkPopover;
+export default CopyButton;

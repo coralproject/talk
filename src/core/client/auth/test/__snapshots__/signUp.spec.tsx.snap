@@ -138,15 +138,37 @@ exports[`accepts correct password 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <button
               className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
@@ -304,15 +326,37 @@ exports[`accepts valid email 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -483,15 +527,37 @@ exports[`accepts valid username 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -675,15 +741,37 @@ exports[`checks for invalid characters in username 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -867,15 +955,37 @@ exports[`checks for invalid email 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -1059,15 +1169,37 @@ exports[`checks for too long username 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -1251,15 +1383,37 @@ exports[`checks for too short password 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="pass"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="pass"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -1443,15 +1597,37 @@ exports[`checks for too short username 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -1609,15 +1785,37 @@ exports[`renders sign up form 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <button
               className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
@@ -1788,15 +1986,37 @@ exports[`shows error when submitting empty form 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorError TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div
                 className="Message-root Message-colorError Message-fullWidth"
               >
@@ -1954,15 +2174,37 @@ exports[`shows server error 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={true}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={true}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <button
               className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth Button-disabled"
@@ -2112,15 +2354,37 @@ exports[`shows server error 2`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <button
               className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
@@ -2265,15 +2529,37 @@ exports[`submits form successfully 1`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={true}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value="testtest"
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={true}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value="testtest"
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <button
               className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth Button-disabled"
@@ -2418,15 +2704,37 @@ exports[`submits form successfully 2`] = `
               >
                 Must be at least ⁨8⁩ characters
               </p>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={false}
-                name="password"
-                onChange={[Function]}
-                placeholder="Password"
-                type="password"
-                value=""
-              />
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
             <button
               className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"

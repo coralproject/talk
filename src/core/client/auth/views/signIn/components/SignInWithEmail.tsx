@@ -10,6 +10,7 @@ import {
 } from "talk-framework/lib/validation";
 
 import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
+import { PasswordField } from "talk-framework/components";
 import {
   Button,
   ButtonIcon,
@@ -92,12 +93,11 @@ const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
                     id="signIn-passwordTextField"
                     attrs={{ placeholder: true }}
                   >
-                    <TextField
+                    <PasswordField
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
                       placeholder="Password"
-                      type="password"
                       color={
                         meta.touched && (meta.error || meta.submitError)
                           ? "error"
