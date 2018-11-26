@@ -19,6 +19,9 @@ const mutation = graphql`
     editComment(input: $input) {
       comment {
         body
+        revision {
+          id
+        }
         editing {
           edited
         }
