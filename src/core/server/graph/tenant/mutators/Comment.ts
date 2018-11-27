@@ -4,6 +4,7 @@ import {
   GQLCreateCommentFlagInput,
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
+  GQLCreateCommentReplyInput,
   GQLEditCommentInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentFlagInput,
@@ -20,12 +21,15 @@ import {
 } from "talk-server/services/comments/actions";
 
 export const Comment = (ctx: TenantContext) => ({
-  create: ({ storyID, body, parentID }: GQLCreateCommentInput) =>
+  create: ({
+    clientMutationId,
+    ...comment
+  }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     create(
       ctx.mongo,
       ctx.tenant,
       ctx.user!,
-      { authorID: ctx.user!.id, storyID, body, parentID },
+      { authorID: ctx.user!.id, ...comment },
       ctx.req
     ),
   edit: ({ commentID, body }: GQLEditCommentInput) =>

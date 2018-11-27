@@ -1530,11 +1530,6 @@ input CreateCommentInput {
   storyID: ID!
 
   """
-  parentID is the optional ID of the Comment that we are replying to.
-  """
-  parentID: ID
-
-  """
   body is the Comment body, the content of the Comment.
   """
   body: String!
@@ -1550,6 +1545,56 @@ CreateCommentPayload contains the created Comment after the createComment
 mutation.
 """
 type CreateCommentPayload {
+  """
+  edge is the possibly created comment edge.
+  """
+  edge: CommentEdge
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## createCommentReply
+##################
+
+"""
+CreateCommentReplyInput provides the input for the createCommentReply Mutation.
+"""
+input CreateCommentReplyInput {
+  """
+  storyID is the ID of the Story where we are creating a comment on.
+  """
+  storyID: ID!
+
+  """
+  parentID is the ID of the Comment that we are replying to.
+  """
+  parentID: ID!
+
+  """
+  parentRevisionID is the ID of the CommentRevision that we are replying to.
+  """
+  parentRevisionID: ID!
+
+  """
+  body is the Comment body, the content of the Comment.
+  """
+  body: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+"""
+CreateCommentReplyPayload contains the created Comment after the createCommentReply
+mutation.
+"""
+type CreateCommentReplyPayload {
   """
   edge is the possibly created comment edge.
   """
@@ -2804,6 +2849,12 @@ type Mutation {
   createComment will create a Comment as the current logged in User.
   """
   createComment(input: CreateCommentInput!): CreateCommentPayload
+
+  """
+  createCommentReply will create a Comment as the current logged in User that is
+  in reply to another Comment.
+  """
+  createCommentReply(input: CreateCommentReplyInput!): CreateCommentReplyPayload
 
   """
   editComment will allow the author of a comment to change the body within the

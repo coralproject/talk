@@ -28,7 +28,7 @@ beforeEach(() => {
       ),
     },
     Mutation: {
-      createComment: createSinonStub(
+      createCommentReply: createSinonStub(
         s => s.throws(),
         s =>
           s
@@ -36,6 +36,7 @@ beforeEach(() => {
               input: {
                 storyID: storyWithDeepestReplies.id,
                 parentID: "comment-with-deepest-replies-5",
+                parentRevisionID: "revision-0",
                 body: "<strong>Hello world!</strong>",
                 clientMutationId: "0",
               },

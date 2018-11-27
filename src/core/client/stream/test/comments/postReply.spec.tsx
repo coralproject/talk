@@ -23,7 +23,7 @@ beforeEach(() => {
       ),
     },
     Mutation: {
-      createComment: createSinonStub(
+      createCommentReply: createSinonStub(
         s => s.throws(),
         s =>
           s
@@ -31,6 +31,7 @@ beforeEach(() => {
               input: {
                 storyID: stories[0].id,
                 parentID: stories[0].comments.edges[0].node.id,
+                parentRevisionID: stories[0].comments.edges[0].node.revision.id,
                 body: "<strong>Hello world!</strong>",
                 clientMutationId: "0",
               },
