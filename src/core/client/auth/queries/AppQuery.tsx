@@ -11,6 +11,9 @@ export default class AppQuery extends Component {
       <QueryRenderer<QueryTypes>
         query={graphql`
           query AppQuery {
+            me {
+              ...AppContainer_me
+            }
             settings {
               auth {
                 ...AppContainer_auth
@@ -26,7 +29,7 @@ export default class AppQuery extends Component {
           if (!props) {
             return null;
           }
-          return <AppContainer auth={props.settings.auth} />;
+          return <AppContainer auth={props.settings.auth} me={props.me} />;
         }}
       />
     );

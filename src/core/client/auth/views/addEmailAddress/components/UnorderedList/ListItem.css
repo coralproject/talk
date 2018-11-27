@@ -1,0 +1,10 @@
+.root {
+  list-style-type: none;
+  display: flex;
+}
+
+.leftCol {
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 20px;
+}

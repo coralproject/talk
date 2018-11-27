@@ -3,14 +3,10 @@ import React, { StatelessComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
 
-import {
-  composeValidators,
-  required,
-  validateEmail,
-} from "talk-framework/lib/validation";
-
+import EmailField from "talk-auth/components/EmailField";
 import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
 import { PasswordField } from "talk-framework/components";
+import { composeValidators, required } from "talk-framework/lib/validation";
 import {
   Button,
   ButtonIcon,
@@ -19,7 +15,6 @@ import {
   FormField,
   HorizontalGutter,
   InputLabel,
-  TextField,
   ValidationMessage,
 } from "talk-ui/components";
 
@@ -46,43 +41,7 @@ const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
               </CallOut>
             )}
 
-            <Field
-              name="email"
-              validate={composeValidators(required, validateEmail)}
-            >
-              {({ input, meta }) => (
-                <FormField>
-                  <Localized id="signIn-emailAddressLabel">
-                    <InputLabel>Email Address</InputLabel>
-                  </Localized>
-                  <Localized
-                    id="signIn-emailAddressTextField"
-                    attrs={{ placeholder: true }}
-                  >
-                    <TextField
-                      name={input.name}
-                      onChange={input.onChange}
-                      value={input.value}
-                      placeholder="Email Address"
-                      color={
-                        meta.touched && (meta.error || meta.submitError)
-                          ? "error"
-                          : "regular"
-                      }
-                      disabled={submitting}
-                      fullWidth
-                    />
-                  </Localized>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
-                </FormField>
-              )}
-            </Field>
-
+            <EmailField disabled={submitting} />
             <Field name="password" validate={composeValidators(required)}>
               {({ input, meta }) => (
                 <FormField>

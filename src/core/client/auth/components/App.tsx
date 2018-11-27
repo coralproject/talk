@@ -2,6 +2,9 @@ import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
+import AddEmailAddressContainer from "../views/addEmailAddress/containers/AddEmailAddressContainer";
+import CreatePasswordContainer from "../views/createPassword/containers/CreatePasswordContainer";
+import CreateUsernameContainer from "../views/createUsername/containers/CreateUsernameContainer";
 import ForgotPasswordContainer from "../views/forgotPassword/containers/ForgotPasswordContainer";
 import ResetPasswordContainer from "../views/resetPassword/containers/ResetPasswordContainer";
 import SignInContainer from "../views/signIn/containers/SignInContainer";
@@ -13,6 +16,9 @@ export type View =
   | "SIGN_IN"
   | "FORGOT_PASSWORD"
   | "RESET_PASSWORD"
+  | "CREATE_USERNAME"
+  | "CREATE_PASSWORD"
+  | "ADD_EMAIL_ADDRESS"
   | "%future added value";
 
 export interface AppProps {
@@ -31,6 +37,12 @@ const renderView = (view: AppProps["view"], auth: AppProps["auth"]) => {
       return <ForgotPasswordContainer />;
     case "RESET_PASSWORD":
       return <ResetPasswordContainer />;
+    case "CREATE_USERNAME":
+      return <CreateUsernameContainer />;
+    case "CREATE_PASSWORD":
+      return <CreatePasswordContainer />;
+    case "ADD_EMAIL_ADDRESS":
+      return <AddEmailAddressContainer />;
     default:
       throw new Error(`Unknown view ${view}`);
   }

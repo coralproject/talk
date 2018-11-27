@@ -91,7 +91,7 @@ export class UserBoxContainer extends Component<InnerProps> {
         <Popup
           href={`${urls.embed.auth}?view=${view}`}
           title="Talk Auth"
-          features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+          features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
           open={open}
           focus={focus}
           onFocus={this.handleFocus}

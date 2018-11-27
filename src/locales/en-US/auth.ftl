@@ -3,6 +3,21 @@
 ## General
 general-orSeparator = Or
 
+general-usernameLabel = Username
+general-usernameDescription = You may use “_” and “.” Spaces not permitted.
+general-usernameTextField =
+  .placeholder = Username
+general-emailAddressLabel = Email Address
+general-emailAddressTextField =
+  .placeholder = Email Address
+general-passwordLabel = Password
+general-passwordDescription = Must be at least {$minLength} characters
+general-passwordTextField =
+  .placeholder = Password
+general-confirmPasswordLabel = Confirm Password
+general-confirmPasswordTextField =
+  .placeholder = Confirm Password
+
 ## Sign In
 
 signIn-signInToJoinHeader =
@@ -12,10 +27,6 @@ signIn-signInWithEmail = Sign in with Email
 signIn-signInWithFacebook = Sign in with Facebook
 signIn-signInWithGoogle = Sign in with Google
 signIn-signInWithOIDC = Sign in with { $name }
-
-signIn-emailAddressLabel = Email Address
-signIn-emailAddressTextField =
-  .placeholder = Email Address
 
 signIn-passwordLabel = Password
 signIn-passwordTextField =
@@ -34,25 +45,6 @@ signUp-signUpWithEmail = Sign up with Email
 signUp-signUpWithFacebook = Sign up with Facebook
 signUp-signUpWithGoogle = Sign up with Google
 signUp-signUpWithOIDC = Sign up with { $name }
-
-
-signUp-emailAddressLabel = Email Address
-signUp-emailAddressTextField =
-  .placeholder = Email Address
-
-signUp-usernameLabel = Username
-signUp-usernameDescription = You may use “_” and “.”
-signUp-usernameTextField =
-  .placeholder = Username
-
-signUp-passwordLabel = Password
-signUp-passwordDescription = Must be at least {$minLength} characters
-signUp-passwordTextField =
-  .placeholder = Password
-
-signUp-confirmPasswordLabel = Confirm Password
-signUp-confirmPasswordTextField =
-  .placeholder = Confirm Password
 
 signUp-accountAvailableSignIn = Already have an account? <button>Sign In</button>
 
@@ -74,11 +66,37 @@ forgotPassword-emailAddressTextField =
 resetPassword-resetPasswordHeader = Reset Password
 resetPassword-resetPasswordButton = Reset Password
 
-resetPassword-passwordLabel = Password
-resetPassword-passwordDescription = Must be at least {$minLength} characters
-resetPassword-passwordTextField =
-  .placeholder = Password
+## Create Username
 
-resetPassword-confirmPasswordLabel = Confirm Password
-resetPassword-confirmPasswordTextField =
-  .placeholder = Confirm Password
+createUsername-createUsernameHeader = Create Username
+createUsername-whatItIs =
+  Your username is a unique identifier that will appear on all of your comments.
+createUsername-createUsernameButton = Create Username
+
+## Add Email Address
+addEmailAddress-addEmailAddressHeader = Add Email Address
+
+addEmailAddress-whatItIs =
+  For your added security, we require users to add an email address to their accounts.
+  Your email address will be used to:
+
+addEmailAddress-receiveUpdates =
+  Receive updates regarding any changes to your account
+  (email address, username, password, etc.)
+
+addEmailAddress-allowDownload =
+  Allow you to download your comments.
+
+addEmailAddress-sendNotifications =
+  Send comment notifications that you have chosen to receive.
+
+addEmailAddress-addEmailAddressButton =
+  Add Email Address
+
+## Create Password
+createPassword-createPasswordHeader = Create Password
+createPassword-whatItIs =
+  To protect against unauthorized changes to your account,
+  we require users to create a password.
+createPassword-createPasswordButton =
+  Create Password

@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import {
+  EMAILS_DO_NOT_MATCH,
   INVALID_CHARACTERS,
   INVALID_EMAIL,
   INVALID_URL,
@@ -101,10 +102,18 @@ export const validatePassword = createValidator(
   PASSWORD_TOO_SHORT(8)
 );
 
-/**s
- * validateUsername is a Validator that checks that the value is a valid username.
+/**
+ * validateEqualPasswords is a Validator that checks for correct password confirmation.
  */
 export const validateEqualPasswords = createValidator(
   (v, values) => v === values.password,
   PASSWORDS_DO_NOT_MATCH()
+);
+
+/**
+ * validateEqualEmails is a Validator that checks for correct email confirmation.
+ */
+export const validateEqualEmails = createValidator(
+  (v, values) => v === values.email,
+  EMAILS_DO_NOT_MATCH()
 );

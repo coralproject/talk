@@ -1,30 +1,34 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Form } from "react-final-form";
-import { OnSubmit } from "talk-framework/lib/form";
 
 import { Bar, Title } from "talk-auth/components//Header";
-import ConfirmPasswordField from "talk-auth/components/ConfirmPasswordField";
 import Main from "talk-auth/components/Main";
-import SetPasswordField from "talk-auth/components/SetPasswordField";
 import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
-import { Button, CallOut, HorizontalGutter } from "talk-ui/components";
+import { OnSubmit } from "talk-framework/lib/form";
+import {
+  Button,
+  CallOut,
+  HorizontalGutter,
+  Typography,
+} from "talk-ui/components";
+
+import UsernameField from "talk-auth/components/UsernameField";
 
 interface FormProps {
-  password: string;
-  confirmPassword: string;
+  username: string;
 }
 
-export interface ResetPasswordForm {
+export interface CreateUsernameForm {
   onSubmit: OnSubmit<FormProps>;
 }
 
-const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
+const CreateUsername: StatelessComponent<CreateUsernameForm> = props => {
   return (
     <div>
       <Bar>
-        <Localized id="resetPassword-resetPasswordHeader">
-          <Title>Reset Password</Title>
+        <Localized id="createUsername-createUsernameHeader">
+          <Title>Create Username</Title>
         </Localized>
       </Bar>
       <Main>
@@ -32,23 +36,29 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
               <AutoHeightContainer />
-              <HorizontalGutter size="full">
+              <HorizontalGutter size="oneAndAHalf">
+                <Localized id="createUsername-whatItIs">
+                  <Typography variant="bodyCopy">
+                    Your username is a unique identifier that will appear on all
+                    of your comments.
+                  </Typography>
+                </Localized>
                 {submitError && (
                   <CallOut color="error" fullWidth>
                     {submitError}
                   </CallOut>
                 )}
-                <SetPasswordField disabled={submitting} />
-                <ConfirmPasswordField disabled={submitting} />
-                <Localized id="resetPassword-resetPasswordButton">
+                <UsernameField disabled={submitting} />
+                <Localized id="createUsername-createUsernameButton">
                   <Button
                     variant="filled"
                     color="primary"
                     size="large"
+                    type="submit"
                     fullWidth
                     disabled={submitting}
                   >
-                    Reset Password
+                    Create Username
                   </Button>
                 </Localized>
               </HorizontalGutter>
@@ -60,4 +70,4 @@ const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
   );
 };
 
-export default ResetPassword;
+export default CreateUsername;

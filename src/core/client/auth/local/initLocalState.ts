@@ -1,34 +1,33 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "talk-common/utils";
-import {
-  createAndRetain,
-  LOCAL_ID,
-  LOCAL_TYPE,
-} from "talk-framework/lib/relay";
+import { TalkContext } from "talk-framework/lib/bootstrap";
+import { initLocalBaseState, LOCAL_ID } from "talk-framework/lib/relay";
 
 /**
  * Initializes the local state, before we start the App.
  */
-export default async function initLocalState(environment: Environment) {
-  commitLocalUpdate(environment, s => {
-    const root = s.getRoot();
+export default async function initLocalState(
+  environment: Environment,
+  context: TalkContext
+) {
+  const authToken = window.location.hash
+    ? window.location.hash.substr(1)
+    : null;
+  // Remove hash with token.
+  if (window.location.hash) {
+    window.history.replaceState(null, document.title, location.pathname);
+  }
 
-    // Create the Local Record which is the Root for the client states.
-    const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
+  await initLocalBaseState(environment, context, authToken);
+
+  commitLocalUpdate(environment, s => {
+    const localRecord = s.get(LOCAL_ID)!;
 
     // Parse query params
     const query = parseQuery(location.search);
 
     // Set default view.
     localRecord.setValue(query.view || "SIGN_IN", "view");
-
-    // Get tokenResponse
-    if (window.location.hash) {
-      localRecord.setValue(window.location.hash.substr(1), "tokenResponse");
-      window.history.replaceState(null, undefined, location.pathname);
-    }
-
-    root.setLinkedRecord(localRecord, "local");
   });
 }
