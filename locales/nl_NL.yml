@@ -166,7 +166,7 @@ nl_NL:
     suspect_word_text: 'Reacties die deze woorden of zinsdelen bevatten (niet hoofdlettergevoelig) zullen worden gemarkeerd in de conversatie. Type een woord en druk op enter of tab om toe te voegen. Je kunt optioneel een komma-gescheiden lijst plakken.'
     suspect_word_title: 'Lijst met verdachte woorden'
     tech_settings: 'Technische instellingen'
-    title: 'Conversatie cnfigureren'
+    title: 'Conversatie configureren'
     weeks: Weken
     wordlist: 'Zwarte woordenlijst'
   confirm_email:
