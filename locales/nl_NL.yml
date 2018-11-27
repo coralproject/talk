@@ -143,7 +143,7 @@ nl_NL:
     open_stream: 'Open Stream'
     open_stream_configuration: 'Deze converstatie is momenteel open. Door deze te sluiten kunnen geen nieuwe reacties meer worden geplaatst, maar de oude zullen nog steeds worden weergegeven.'
     organization_contact_email: 'Organisatie Contact E-mailadres'
-    organization_info_copy: 'We gebruiken deze informatie in e-mail meldingen die door Talk worden verstuurd. Dit verbind de berichten met je organisatie en biedt gebruikers een manier om contact op te nemen mochten ze een probleem met hun account ondervinden.'
+    organization_info_copy: 'We gebruiken deze informatie in e-mail notificaties die door Talk worden verstuurd. Dit verbind de berichten met je organisatie en biedt gebruikers een manier om contact op te nemen mochten ze een probleem met hun account ondervinden.'
     organization_info_copy_2: 'We raden aan om een algemeen e-mail account (bijvoorbeeld community@yournewsroom.com) te gebruiken voor dit doeleinde. Dit betekent dat dit adres onveranderd kan blijven en deze geen naam blootstelt die gebruikers kunnen gebruiken mocht hun account geblokkeerd worden.'
     organization_information: 'Organisatie Informatie'
     organization_name: 'Organisatie Naam'

@@ -14,3 +14,7 @@ de:
   talk-plugin-notifications:
     digest_enum:
       DAILY: Einmal täglich
+nl_NL:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: In een dagelijkse samenvatting
