@@ -10,7 +10,7 @@ import { ModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/moderation";
+} from "talk-server/services/comments/pipeline";
 
 const testCharCount = (
   settings: Partial<ModerationSettings>,

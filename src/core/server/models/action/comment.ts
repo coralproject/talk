@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { camelCase, pick } from "lodash";
+import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -76,11 +76,9 @@ export interface CommentAction extends TenantResource {
   reason?: FLAG_REASON;
 
   /**
-   * storyID represents the identifier for the item's associated item. In
-   * the case of a REACTION left on a Comment, this ID would be the Stories ID.
-   * In the case of a FLAG left on a User, this ID would be null.
+   * storyID represents the ID of the Story where the comment was left on.
    */
-  storyID?: string;
+  storyID: string;
 
   /**
    * userID is the ID of the User that left this Action. In the event that the
@@ -157,6 +155,12 @@ export interface CreateActionResultObject {
    * existed prior to the `createAction` call.
    */
   wasUpserted: boolean;
+}
+
+export function filterDuplicateActions<T extends {}>(actions: T[]): T[] {
+  return uniqWith(actions, (first, second) =>
+    isEqual(omit(first, "metadata"), omit(second, "metadata"))
+  );
 }
 
 export async function createAction(
@@ -351,7 +355,7 @@ export const ACTION_COUNT_JOIN_CHAR = "__";
  * @param actions list of actions to generate the action counts from
  */
 export function encodeActionCounts(
-  ...actions: CommentAction[]
+  ...actions: Array<Pick<CommentAction, "actionType" | "reason">>
 ): EncodedCommentActionCounts {
   const actionCounts: EncodedCommentActionCounts = {};
 
@@ -394,7 +398,9 @@ export function invertEncodedActionCounts(
  * encodeActionCountKeys encodes the action into string keys which represents
  * the groupings as seen in `EncodedActionCounts`.
  */
-function encodeActionCountKeys(action: CommentAction): string[] {
+function encodeActionCountKeys(
+  action: Pick<CommentAction, "actionType" | "reason">
+): string[] {
   const keys = [action.actionType as string];
   if (action.reason) {
     keys.push(
@@ -495,7 +501,7 @@ function createEmptyActionCounts(): GQLActionCounts {
 }
 
 export function mergeCommentActionCounts(
-  actionCounts: EncodedCommentActionCounts[]
+  ...actionCounts: EncodedCommentActionCounts[]
 ): EncodedCommentActionCounts {
   const mergedActionCounts: EncodedCommentActionCounts = {};
 
@@ -504,7 +510,7 @@ export function mergeCommentActionCounts(
       if (key in mergedActionCounts) {
         mergedActionCounts[key] += count;
       } else {
-        mergedActionCounts[key] += 1;
+        mergedActionCounts[key] = count;
       }
     }
   }

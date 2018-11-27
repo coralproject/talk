@@ -1,91 +1,96 @@
-import { Omit, Promiseable } from "talk-common/types";
+import { Db } from "mongodb";
+
+import { Omit } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import { CreateActionInput } from "talk-server/models/action/comment";
-import { EditCommentInput } from "talk-server/models/comment";
-import { Story } from "talk-server/models/story";
+import logger from "talk-server/logger";
+import {
+  createCommentModerationAction,
+  CreateCommentModerationActionInput,
+} from "talk-server/models/action/moderation/comment";
+import { updateCommentStatus } from "talk-server/models/comment";
+import { updateStoryCounts } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import { Request } from "talk-server/types/express";
+import { calculateCountsDiff } from "./counts";
 
-import { moderationPhases } from "./phases";
+export type Moderate = Omit<CreateCommentModerationActionInput, "status">;
 
-export type ModerationAction = Omit<
-  CreateActionInput,
-  "commentID" | "commentRevisionID"
->;
+const moderate = (
+  status: GQLCOMMENT_STATUS.ACCEPTED | GQLCOMMENT_STATUS.REJECTED
+) => async (mongo: Db, tenant: Tenant, input: Moderate) => {
+  // TODO: wrap these operations in a transaction?
 
-export interface PhaseResult {
-  actions: ModerationAction[];
-  status: GQLCOMMENT_STATUS;
-  metadata: Record<string, any>;
-}
+  // Create the logger.
+  const log = logger.child({
+    ...input,
+    tenantID: tenant.id,
+    newStatus: status,
+  });
 
-export interface ModerationPhaseContext {
-  story: Story;
-  tenant: Tenant;
-  comment: Partial<EditCommentInput>;
-  author: User;
-  req?: Request;
-}
-
-export type ModerationPhase = (
-  context: ModerationPhaseContext
-) => Promiseable<PhaseResult>;
-
-export type IntermediatePhaseResult = Partial<PhaseResult> | void;
-
-export type IntermediateModerationPhase = (
-  context: ModerationPhaseContext
-) => Promiseable<IntermediatePhaseResult>;
-
-/**
- * compose will create a moderation pipeline for which is executable with the
- * passed actions.
- */
-export const compose = (
-  phases: IntermediateModerationPhase[]
-): ModerationPhase => async context => {
-  const final: PhaseResult = {
-    status: GQLCOMMENT_STATUS.NONE,
-    actions: [],
-    metadata: {},
-  };
-
-  // Loop over all the moderation phases and see if we've resolved the status.
-  for (const phase of phases) {
-    const result = await phase(context);
-    if (result) {
-      // If this result contained actions, then we should push it into the
-      // other actions.
-      const { actions } = result;
-      if (actions) {
-        final.actions.push(...actions);
-      }
-
-      // If this result contained metadata, then we should merge it into the
-      // other metadata.
-      const { metadata } = result;
-      if (metadata) {
-        final.metadata = {
-          ...final.metadata,
-          ...metadata,
-        };
-      }
-
-      // If this result contained a status, then we've finished resolving
-      // phases!
-      const { status } = result;
-      if (status) {
-        final.status = status;
-        break;
-      }
-    }
+  // Update the Comment's status.
+  const result = await updateCommentStatus(
+    mongo,
+    tenant.id,
+    input.commentID,
+    input.commentRevisionID,
+    status
+  );
+  if (!result) {
+    // TODO: wrap in better error?
+    throw new Error("specified comment not found");
   }
 
-  return final;
+  log.trace("updated comment status");
+
+  // Create the moderation action in the audit log.
+  const action = await createCommentModerationAction(mongo, tenant.id, {
+    ...input,
+    status,
+  });
+  if (!action) {
+    // TODO: wrap in better error?
+    throw new Error("could not create moderation action");
+  }
+
+  log.trace(
+    { commentModerationActionID: action.id },
+    "created the moderation action"
+  );
+
+  // Update the story comment counts.
+  const story = await updateStoryCounts(
+    mongo,
+    tenant.id,
+    result.comment.storyID,
+    {
+      // Update the comment counts.
+      status: {
+        [result.oldStatus]: -1,
+        [status]: 1,
+      },
+      // Compute the queue difference as a result of the old status and the new
+      // status.
+      moderationQueue: calculateCountsDiff(
+        {
+          status: result.oldStatus,
+          actionCounts: result.comment.actionCounts,
+        },
+        {
+          status,
+          actionCounts: result.comment.actionCounts,
+        }
+      ),
+    }
+  );
+  if (!story) {
+    // TODO: wrap in better error?
+    throw new Error("specified story not found");
+  }
+
+  log.trace({ oldStatus: result.oldStatus }, "adjusted story comment counts");
+
+  return result.comment;
 };
 
-/**
- * process the comment and return moderation details.
- */
-export const processForModeration: ModerationPhase = compose(moderationPhases);
+export const accept = moderate(GQLCOMMENT_STATUS.ACCEPTED);
+
+export const reject = moderate(GQLCOMMENT_STATUS.REJECTED);

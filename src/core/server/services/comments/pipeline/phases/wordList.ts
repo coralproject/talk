@@ -6,8 +6,8 @@ import { ACTION_TYPE } from "talk-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/moderation";
-import { containsMatchingPhraseMemoized } from "talk-server/services/comments/moderation/wordList";
+} from "talk-server/services/comments/pipeline";
+import { containsMatchingPhraseMemoized } from "talk-server/services/comments/pipeline/wordList";
 
 // This phase checks the comment against the wordList.
 export const wordList: IntermediateModerationPhase = ({

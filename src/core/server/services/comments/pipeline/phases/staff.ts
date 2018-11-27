@@ -5,7 +5,7 @@ import {
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/moderation";
+} from "talk-server/services/comments/pipeline";
 
 // If a given user is a staff member, always approve their comment.
 export const staff: IntermediateModerationPhase = ({

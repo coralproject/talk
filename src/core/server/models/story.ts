@@ -1,7 +1,8 @@
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { Omit } from "talk-common/types";
+import { identity, isEmpty, pickBy } from "lodash";
+import { DeepPartial, Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import {
   GQLCOMMENT_STATUS,
@@ -24,6 +25,59 @@ export interface CommentStatusCounts {
   [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
 }
 
+/**
+ * CommentModerationQueueCounts stores the number of Comments that exist in each
+ * of the ModerationQueue's on this Story.
+ */
+export interface CommentModerationQueueCounts {
+  /**
+   * total is the number of Comment's that exist in the below moderation queues.
+   */
+  total: number;
+
+  /**
+   * queues contains all the queue specific counts.
+   */
+  queues: {
+    /**
+     * unmoderated is the number of Comment's that have not been moderated. This
+     * includes all Comment's that are NONE, PREMOD, SYSTEM_WITHHELD.
+     */
+    unmoderated: number;
+
+    /**
+     * pending is the number of Comment's that are not published and are pending
+     * moderation.
+     */
+    pending: number;
+
+    /**
+     * reported is the number of Comment's that have not been moderated but have
+     * been flagged.
+     */
+    reported: number;
+  };
+}
+
+export interface StoryCommentCounts {
+  /**
+   * actionCounts stores all the action counts for all Comment's on this Story.
+   */
+  action: EncodedCommentActionCounts;
+
+  /**
+   * commentCounts stores the different counts for each comment on the Story
+   * according to their statuses.
+   */
+  status: CommentStatusCounts;
+
+  /**
+   * moderationQueue stores the number of Comments that exist in
+   * each of the ModerationQueue's on this Story.
+   */
+  moderationQueue: CommentModerationQueueCounts;
+}
+
 export interface Story extends TenantResource {
   readonly id: string;
 
@@ -43,15 +97,9 @@ export interface Story extends TenantResource {
   scrapedAt?: Date;
 
   /**
-   * actionCounts stores all the action counts for all Comment's on this Story.
+   * commentCounts stores all the comment counters.
    */
-  commentActionCounts: EncodedCommentActionCounts;
-
-  /**
-   * commentCounts stores the different counts for each comment on the Story
-   * according to their statuses.
-   */
-  commentCounts: CommentStatusCounts;
+  commentCounts: StoryCommentCounts;
 
   /**
    * settings provides a point where the settings can be overridden for a
@@ -91,8 +139,11 @@ export async function upsertStory(
       url,
       tenantID,
       createdAt: now,
-      commentActionCounts: {},
-      commentCounts: createEmptyCommentCounts(),
+      commentCounts: {
+        action: {},
+        status: createEmptyCommentCounts(),
+        moderationQueue: createEmptyCommentModerationQueueCounts(),
+      },
     },
   };
 
@@ -117,30 +168,45 @@ export async function upsertStory(
   return result.value || null;
 }
 
-/**
- * updateCommentStatusCount increments the number of status counts for the
- * given Story ID.
- *
- * @param mongo the database handle
- * @param tenantID the tenant that the Story is on.
- * @param id the ID of the Story.
- * @param commentStatusCounts the update document that contains a positive or
- *  negative number of comments to increment on the given Story.
- */
-export async function updateCommentStatusCount(
+export const updateStoryCommentStatusCount = (
   mongo: Db,
   tenantID: string,
   id: string,
-  commentStatusCounts: Partial<CommentStatusCounts>
+  status: Partial<CommentStatusCounts>
+) => updateStoryCounts(mongo, tenantID, id, { status });
+
+export const updateStoryCommentModerationQueueCounts = (
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  moderationQueue: DeepPartial<CommentModerationQueueCounts>
+) => updateStoryCounts(mongo, tenantID, id, { moderationQueue });
+
+export const updateStoryActionCounts = (
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  action: EncodedCommentActionCounts
+) => updateStoryCounts(mongo, tenantID, id, { action });
+
+export type StoryCounts = DeepPartial<StoryCommentCounts>;
+
+export async function updateStoryCounts(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  commentCounts: StoryCounts
 ) {
+  // Update all the specific comment moderation queue counts.
+  const update: DeepPartial<Story> = { commentCounts };
+  const $inc = pickBy(dotize(update), identity);
+  if (isEmpty($inc)) {
+    return retrieveStory(mongo, tenantID, id);
+  }
+
   const result = await collection(mongo).findOneAndUpdate(
-    {
-      id,
-      tenantID,
-    },
-    // Update all the specific comment status counts that are associated with
-    // each of the counts.
-    { $inc: dotize({ commentCounts: commentStatusCounts }) },
+    { id, tenantID },
+    { $inc },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
@@ -153,10 +219,10 @@ export async function updateCommentStatusCount(
  * mergeCommentStatusCount will merge an array of commentStatusCount's into one.
  */
 export function mergeCommentStatusCount(
-  commentStatusCounts: CommentStatusCounts[]
+  statusCounts: CommentStatusCounts[]
 ): CommentStatusCounts {
-  const statusCounts = createEmptyCommentCounts();
-  for (const commentCounts of commentStatusCounts) {
+  const mergedStatusCounts = createEmptyCommentCounts();
+  for (const commentCounts of statusCounts) {
     for (const status in commentCounts) {
       if (!commentCounts.hasOwnProperty(status)) {
         continue;
@@ -170,14 +236,25 @@ export function mergeCommentStatusCount(
         case GQLCOMMENT_STATUS.PREMOD:
         case GQLCOMMENT_STATUS.REJECTED:
         case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
-          statusCounts[status] += commentCounts[status];
+          mergedStatusCounts[status] += commentCounts[status];
           break;
         default:
           throw new Error("unrecognized status");
       }
     }
   }
-  return statusCounts;
+  return mergedStatusCounts;
+}
+
+function createEmptyCommentModerationQueueCounts(): CommentModerationQueueCounts {
+  return {
+    total: 0,
+    queues: {
+      unmoderated: 0,
+      reported: 0,
+      pending: 0,
+    },
+  };
 }
 
 function createEmptyCommentCounts(): CommentStatusCounts {
@@ -240,8 +317,11 @@ export async function createStory(
     url,
     tenantID,
     createdAt: now,
-    commentActionCounts: {},
-    commentCounts: createEmptyCommentCounts(),
+    commentCounts: {
+      action: {},
+      moderationQueue: createEmptyCommentModerationQueueCounts(),
+      status: createEmptyCommentCounts(),
+    },
   };
 
   try {
@@ -344,34 +424,6 @@ export async function updateStory(
 
     throw err;
   }
-}
-
-/**
- * updateStoryActionCounts will update the given comment's action counts on
- * the Story.
- *
- * @param mongo the database handle
- * @param tenantID the id of the Tenant
- * @param id the id of the Story being updated
- * @param actionCounts the action counts to merge into the Story
- */
-export async function updateStoryActionCounts(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  actionCounts: EncodedCommentActionCounts
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    { id, tenantID },
-    // Update all the specific action counts that are associated with each of
-    // the counts.
-    { $inc: dotize({ actionCounts }) },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-
-  return result.value || null;
 }
 
 export async function removeStory(mongo: Db, tenantID: string, id: string) {

@@ -1,3 +1,4 @@
+import { isEmpty, merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
@@ -7,20 +8,23 @@ import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
+import {
+  EncodedCommentActionCounts,
+  mergeCommentActionCounts,
+} from "talk-server/models/action/comment";
 import {
   Connection,
   createConnection,
-  Cursor,
   getPageInfo,
   nodesToEdges,
   NodeToCursorTransformer,
+  OrderedConnectionInput,
 } from "talk-server/models/connection";
 import Query from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
-function collection(db: Db) {
-  return db.collection<Readonly<Comment>>("comments");
+function collection(mongo: Db) {
+  return mongo.collection<Readonly<Comment>>("comments");
 }
 
 /**
@@ -143,23 +147,24 @@ export type CreateCommentInput = Omit<
   | "actionCounts"
   | "revisions"
 > &
-  Required<Pick<Revision, "body">>;
+  Required<Pick<Revision, "body">> &
+  Partial<Pick<Comment, "actionCounts">>;
 
 export async function createComment(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   input: CreateCommentInput
 ) {
   const createdAt = new Date();
 
   // Pull out some useful properties from the input.
-  const { body, ...rest } = input;
+  const { body, actionCounts = {}, ...rest } = input;
 
   // Generate the revision.
   const revision: Revision = {
     id: uuid.v4(),
     body,
-    actionCounts: {},
+    actionCounts,
     createdAt,
   };
 
@@ -168,21 +173,24 @@ export async function createComment(
   const defaults: Sub<Comment, CreateCommentInput> = {
     id: uuid.v4(),
     tenantID,
-    createdAt,
     replyIDs: [],
     replyCount: 0,
-    actionCounts: {},
     revisions: [revision],
+    createdAt,
   };
 
   // Merge the defaults and the input together.
   const comment: Readonly<Comment> = {
+    // Defaults for things that always stay the same, or are computed.
     ...defaults,
+    // Rest for things that are passed in and are not actionCounts.
     ...rest,
+    // ActionCounts because they may be passed in!
+    actionCounts,
   };
 
   // Insert it into the database.
-  await collection(db).insertOne(comment);
+  await collection(mongo).insertOne(comment);
 
   return comment;
 }
@@ -222,22 +230,70 @@ export type EditCommentInput = Pick<
    * `editCommentWindowLength` property.
    */
   lastEditableCommentCreatedAt: Date;
-} & Required<Pick<Revision, "body">>;
+} & Required<Pick<Revision, "body">> &
+  Partial<Pick<Comment, "actionCounts">>;
 
+// Only comments with the following status's can be edited.
+const EDITABLE_STATUSES = [
+  GQLCOMMENT_STATUS.NONE,
+  GQLCOMMENT_STATUS.PREMOD,
+  GQLCOMMENT_STATUS.ACCEPTED,
+];
+
+export function validateEditable(
+  comment: Comment,
+  {
+    authorID,
+    lastEditableCommentCreatedAt,
+  }: Pick<EditCommentInput, "authorID" | "lastEditableCommentCreatedAt">
+) {
+  if (comment.authorID !== authorID) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("comment author mismatch");
+  }
+
+  // Check to see if the comment had a status that was editable.
+  if (!EDITABLE_STATUSES.includes(comment.status)) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("comment status is not editable");
+  }
+
+  // Check to see if the edit window expired.
+  if (comment.createdAt <= lastEditableCommentCreatedAt) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("edit window expired");
+  }
+}
+
+export interface EditComment {
+  /**
+   * oldComment is the Comment that was previously set.
+   */
+  oldComment: Comment;
+
+  /**
+   * editedComment is the Comment after the edit was performed.
+   */
+  editedComment: Comment;
+
+  /**
+   * newRevision returns the new revision that was created in the Comment.
+   */
+  newRevision: Revision;
+}
+
+/**
+ * editComment will edit a comment if it's within the time allotment.
+ *
+ * @param mongo MongoDB database handle
+ * @param tenantID ID for the Tenant where the Comment exists
+ * @param input input for editing the comment
+ */
 export async function editComment(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   input: EditCommentInput
-) {
-  // TODO: (wyattjoh) now that we have revisions, do we really have this restriction?
-
-  // Only comments with the following status's can be edited.
-  const EDITABLE_STATUSES = [
-    GQLCOMMENT_STATUS.NONE,
-    GQLCOMMENT_STATUS.PREMOD,
-    GQLCOMMENT_STATUS.ACCEPTED,
-  ];
-
+): Promise<EditComment> {
   const createdAt = new Date();
 
   const {
@@ -247,17 +303,35 @@ export async function editComment(
     status,
     authorID,
     metadata,
+    actionCounts = {},
   } = input;
 
   // Generate the revision.
   const revision: Revision = {
     id: uuid.v4(),
     body,
-    actionCounts: {},
+    actionCounts,
     createdAt,
   };
 
-  const result = await collection(db).findOneAndUpdate(
+  const update: Record<string, any> = {
+    $set: {
+      status,
+      // Embed all the metadata properties, this may override the existing
+      // metadata, but we won't replace metadata that has been recalculated.
+      // TODO: (wyattjoh) consider if we want to replace the metadata for edited comments instead of supplementing it
+      ...dotize({ metadata }),
+    },
+    $push: {
+      revisions: revision,
+    },
+  };
+  if (!isEmpty(actionCounts)) {
+    // Action counts are being provided! Increment the base action counts too!
+    update.$inc = dotize({ actionCounts });
+  }
+
+  const result = await collection(mongo).findOneAndUpdate(
     {
       id,
       tenantID,
@@ -270,64 +344,59 @@ export async function editComment(
         $gt: lastEditableCommentCreatedAt,
       },
     },
+    update,
     {
-      $set: {
-        status,
-        // Embed all the metadata properties, this may override the existing
-        // metadata, but we won't replace metadata that has been recalculated.
-        // TODO: (wyattjoh) consider if we want to replace the metadata for edited comments instead of supplementing it
-        ...dotize({ metadata }),
-      },
-      $push: {
-        revisions: revision,
-      },
-    },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
+      // True to return the original document instead of the updated document.
+      returnOriginal: true,
+    }
   );
   if (!result.value) {
     // Try to get the comment.
-    const comment = await retrieveComment(db, tenantID, id);
+    const comment = await retrieveComment(mongo, tenantID, id);
     if (!comment) {
       // TODO: (wyattjoh) return better error
       throw new Error("comment not found");
     }
 
-    if (comment.authorID !== authorID) {
-      // TODO: (wyattjoh) return better error
-      throw new Error("comment author mismatch");
-    }
-
-    // Check to see if the comment had a status that was editable.
-    if (!EDITABLE_STATUSES.includes(comment.status)) {
-      // TODO: (wyattjoh) return better error
-      throw new Error("comment status is not editable");
-    }
-
-    // Check to see if the edit window expired.
-    if (comment.createdAt <= lastEditableCommentCreatedAt) {
-      // TODO: (wyattjoh) return better error
-      throw new Error("edit window expired");
-    }
+    // Validate and potentially return with a more useful error.
+    validateEditable(comment, input);
 
     // TODO: (wyattjoh) return better error
     throw new Error("comment edit failed for an unexpected reason");
   }
 
-  return result.value;
+  // Create a new "editedComment" where the same changes were applied to it as
+  // we did to the MongoDB document.
+  const editedComment: Comment = merge({}, result.value, {
+    // Add in all the $set operations.
+    status,
+    metadata,
+    // Merge the actionCounts from the old Comment with the new actionCounts.
+    actionCounts: mergeCommentActionCounts(
+      result.value.actionCounts,
+      actionCounts
+    ),
+    // Add in the $push operations.
+    revisions: [...result.value.revisions, revision],
+  });
+
+  return {
+    oldComment: result.value,
+    editedComment,
+    newRevision: revision,
+  };
 }
 
-export async function retrieveComment(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ id, tenantID });
+export async function retrieveComment(mongo: Db, tenantID: string, id: string) {
+  return collection(mongo).findOne({ id, tenantID });
 }
 
 export async function retrieveManyComments(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(db).find({
+  const cursor = await collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -339,14 +408,13 @@ export async function retrieveManyComments(
   return ids.map(id => comments.find(comment => comment.id === id) || null);
 }
 
-export interface ConnectionInput {
-  first: number;
-  orderBy: GQLCOMMENT_SORT;
-  after?: Cursor;
-}
+export type CommentConnectionInput = OrderedConnectionInput<
+  Comment,
+  GQLCOMMENT_SORT
+>;
 
 function cursorGetterFactory(
-  input: Pick<ConnectionInput, "orderBy" | "after">
+  input: Pick<CommentConnectionInput, "orderBy" | "after">
 ): NodeToCursorTransformer<Comment> {
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
@@ -363,27 +431,24 @@ function cursorGetterFactory(
  * retrieveRepliesConnection returns a Connection<Comment> for a given comments
  * replies.
  *
- * @param db database connection
+ * @param mongo database connection
  * @param parentID the parent id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveCommentRepliesConnection(
-  db: Db,
+export const retrieveCommentRepliesConnection = (
+  mongo: Db,
   tenantID: string,
   storyID: string,
   parentID: string,
-  input: ConnectionInput
-) {
-  // Create the query.
-  const query = new Query(collection(db)).where({
-    tenantID,
-    storyID,
-    parentID,
+  input: CommentConnectionInput
+) =>
+  retrieveCommentConnection(mongo, tenantID, {
+    ...input,
+    filter: {
+      storyID,
+      parentID,
+    },
   });
-
-  // Return a connection for the comments query.
-  return retrieveConnection(input, query);
-}
 
 /**
  * retrieveCommentParentsConnection will return a comment connection used to
@@ -485,54 +550,64 @@ export async function retrieveCommentParentsConnection(
  * retrieveStoryConnection returns a Connection<Comment> for a given Stories
  * comments.
  *
- * @param db database connection
+ * @param mongo database connection
  * @param storyID the Story id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveCommentStoryConnection(
-  db: Db,
+export const retrieveCommentStoryConnection = (
+  mongo: Db,
   tenantID: string,
   storyID: string,
-  input: ConnectionInput
-) {
-  // Create the query.
-  const query = new Query(collection(db)).where({
-    tenantID,
-    storyID,
-    // Only get Comments that are top level. If the client wants to load another
-    // layer, they can request another nested connection.
-    parentID: null,
-    // Only get Comment's that are visible.
-    status: {
-      $in: [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.ACCEPTED],
+  input: CommentConnectionInput
+) =>
+  retrieveCommentConnection(mongo, tenantID, {
+    ...input,
+    filter: {
+      storyID,
+      // Only get Comments that are top level. If the client wants to load another
+      // layer, they can request another nested connection.
+      parentID: null,
+      // Only get Comment's that are visible.
+      status: {
+        $in: [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.ACCEPTED],
+      },
     },
   });
-
-  // Return a connection for the comments query.
-  return retrieveConnection(input, query);
-}
 
 /**
  * retrieveCommentUserConnection returns a Connection<Comment> for a given User's
  * comments.
  *
- * @param db database connection
+ * @param mongo database connection
  * @param userID the User id for the comment to retrieve
  * @param input connection configuration
  */
-export async function retrieveCommentUserConnection(
-  db: Db,
+export const retrieveCommentUserConnection = (
+  mongo: Db,
   tenantID: string,
   userID: string,
-  input: ConnectionInput
-) {
-  // Create the query.
-  const query = new Query(collection(db)).where({
-    tenantID,
-    authorID: userID,
+  input: CommentConnectionInput
+) =>
+  retrieveCommentConnection(mongo, tenantID, {
+    ...input,
+    filter: {
+      authorID: userID,
+    },
   });
 
-  // Return a connection for the comments query.
+export async function retrieveCommentConnection(
+  mongo: Db,
+  tenantID: string,
+  input: CommentConnectionInput
+): Promise<Readonly<Connection<Readonly<Comment>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
   return retrieveConnection(input, query);
 }
 
@@ -545,7 +620,7 @@ export async function retrieveCommentUserConnection(
  *              configuration applied
  */
 async function retrieveConnection(
-  input: ConnectionInput,
+  input: CommentConnectionInput,
   query: Query<Comment>
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Apply some sorting options.
@@ -562,6 +637,14 @@ async function retrieveConnection(
   // Get the comments from the cursor.
   const nodes = await cursor.toArray();
 
+  // Return a connection.
+  return convertNodesToConnection(input, nodes);
+}
+
+export function convertNodesToConnection(
+  input: CommentConnectionInput,
+  nodes: Array<Readonly<Comment>>
+) {
   // Convert the nodes to edges (which will include the extra edge we don't need
   // if there is more results).
   const edges = nodesToEdges(nodes, cursorGetterFactory(input));
@@ -583,7 +666,10 @@ async function retrieveConnection(
   };
 }
 
-function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
+function applyInputToQuery(
+  input: CommentConnectionInput,
+  query: Query<Comment>
+) {
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ createdAt: -1 });
@@ -613,7 +699,14 @@ function applyInputToQuery(input: ConnectionInput, query: Query<Comment>) {
 }
 
 export interface UpdateCommentStatus {
+  /**
+   * comment is the updated Comment with the new status associated with it.
+   */
   comment: Readonly<Comment>;
+
+  /**
+   * oldStatus is the previous status that the given Comment had.
+   */
   oldStatus: GQLCOMMENT_STATUS;
 }
 

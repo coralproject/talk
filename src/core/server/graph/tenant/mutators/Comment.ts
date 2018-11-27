@@ -7,7 +7,6 @@ import {
   GQLCreateCommentReplyInput,
   GQLEditCommentInput,
   GQLRemoveCommentDontAgreeInput,
-  GQLRemoveCommentFlagInput,
   GQLRemoveCommentReactionInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { create, edit } from "talk-server/services/comments";
@@ -16,7 +15,6 @@ import {
   createFlag,
   createReaction,
   removeDontAgree,
-  removeFlag,
   removeReaction,
 } from "talk-server/services/comments/actions";
 
@@ -76,9 +74,5 @@ export const Comment = (ctx: TenantContext) => ({
       commentID,
       commentRevisionID,
       reason,
-    }),
-  removeFlag: ({ commentID }: GQLRemoveCommentFlagInput) =>
-    removeFlag(ctx.mongo, ctx.tenant, ctx.user!, {
-      commentID,
     }),
 });
