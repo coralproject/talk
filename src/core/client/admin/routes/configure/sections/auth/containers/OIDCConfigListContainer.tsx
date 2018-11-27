@@ -43,19 +43,23 @@ class OIDCConfigListContainer extends React.Component<Props> {
     this.removeSubmitHook();
   }
 
-  private submitHook: SubmitHook = async (data: any) => {
+  private submitHook: SubmitHook = async (data: any, { onExecute }) => {
     const cloned = cloneDeep(data);
     const oidc = cloned.auth.integrations.oidc;
     delete cloned.auth.integrations.oidc;
     if (this.props.auth.integrations.oidc.length === 0) {
       if (oidc[0].enabled) {
-        await this.props.createOIDCAuthIntegration({ configuration: oidc[0] });
+        onExecute(() =>
+          this.props.createOIDCAuthIntegration({ configuration: oidc[0] })
+        );
       }
     } else {
-      await this.props.updateOIDCAuthIntegration({
-        configuration: oidc[0],
-        id: this.props.authReadOnly.integrations.oidc[0].id,
-      });
+      onExecute(() =>
+        this.props.updateOIDCAuthIntegration({
+          configuration: oidc[0],
+          id: this.props.authReadOnly.integrations.oidc[0].id,
+        })
+      );
     }
     return cloned;
   };

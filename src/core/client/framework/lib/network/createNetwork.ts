@@ -26,7 +26,8 @@ export default function createNetwork(tokenGetter: TokenGetter) {
     }),
     batchMiddleware({
       batchUrl: (requestMap: any) => Promise.resolve(graphqlURL),
-      batchTimeout: 10,
+      batchTimeout: 0,
+      allowMutations: true,
     }),
     retryMiddleware({
       fetchTimeout: 15000,
