@@ -288,7 +288,7 @@ export default class OIDCStrategy extends Strategy {
     }
 
     // Grab the OIDC ID from the request.
-    const { oidcID }: { oidcID: string } = req.params;
+    const { oidc: oidcID }: { oidc: string } = req.params;
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
@@ -366,7 +366,7 @@ export default class OIDCStrategy extends Strategy {
     }
 
     // Get the OIDC ID.
-    const { oidcID }: { oidcID: string } = req.params;
+    const { oidc: oidcID }: { oidc: string } = req.params;
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.

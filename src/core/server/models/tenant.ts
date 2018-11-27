@@ -119,6 +119,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
           enabled: false,
           allowRegistration: false,
           callbackURL: "" as any, // FIXME: this should not be required
+          redirectURL: "" as any, // FIXME: this should not be required
           targetFilter: {
             admin: true,
             stream: true,
@@ -128,6 +129,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
           enabled: false,
           allowRegistration: false,
           callbackURL: "", // FIXME: this should not be required
+          redirectURL: "" as any, // FIXME: this should not be required
           targetFilter: {
             admin: true,
             stream: true,
@@ -285,12 +287,12 @@ export async function regenerateTenantSSOKey(db: Db, id: string) {
 
 export type CreateTenantOIDCAuthIntegrationInput = Omit<
   GQLOIDCAuthIntegration,
-  "id" | "callbackURL"
+  "id" | "callbackURL" | "redirectURL"
 >;
 
 export interface CreateTenantOIDCAuthIntegrationResultObject {
   tenant?: Tenant;
-  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL">;
+  integration?: Omit<GQLOIDCAuthIntegration, "callbackURL" | "redirectURL">;
   wasCreated: boolean;
 }
 

@@ -1,11 +1,18 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
+import { SignInWithFacebookContainer_auth as AuthData } from "talk-auth/__generated__/SignInWithFacebookContainer_auth.graphql";
 import FacebookButton from "talk-auth/components/FacebookButton";
+import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 
-export default class SignInWithFacebookContainer extends Component {
+interface Props {
+  auth: AuthData;
+}
+
+class SignInWithFacebookContainer extends Component<Props> {
   private handleOnClick = () => {
-    return;
+    sessionStorage.setItem("authRedirectBackTo", window.location.pathname);
+    window.location.href = this.props.auth.integrations.facebook.redirectURL;
   };
 
   public render() {
@@ -18,3 +25,17 @@ export default class SignInWithFacebookContainer extends Component {
     );
   }
 }
+
+const enhanced = withFragmentContainer<Props>({
+  auth: graphql`
+    fragment SignInWithFacebookContainer_auth on Auth {
+      integrations {
+        facebook {
+          redirectURL
+        }
+      }
+    }
+  `,
+})(SignInWithFacebookContainer);
+
+export default enhanced;

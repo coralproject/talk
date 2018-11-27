@@ -23,7 +23,7 @@ export function constructTenantURL(
 ): string {
   let url: URL = new URL(path, `https://${tenant.domain}`);
   if (config.get("env") === "development") {
-    url = new URL(path, `http://${tenant.domain}:${config.get("port")}`);
+    url = new URL(path, `http://${tenant.domain}:${config.get("dev_port")}`);
   }
 
   return url.href;

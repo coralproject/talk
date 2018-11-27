@@ -18,7 +18,9 @@ export interface SignInForm {
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
   oidcEnabled?: boolean;
-  auth: PropTypesOf<typeof SignInWithOIDCContainer>["auth"];
+  auth: PropTypesOf<typeof SignInWithOIDCContainer>["auth"] &
+    PropTypesOf<typeof SignInWithFacebookContainer>["auth"] &
+    PropTypesOf<typeof SignInWithGoogleContainer>["auth"];
 }
 
 const SignIn: StatelessComponent<SignInForm> = ({
@@ -67,8 +69,8 @@ const SignIn: StatelessComponent<SignInForm> = ({
           {emailEnabled && <SignInWithEmailContainer />}
           {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
           <HorizontalGutter>
-            {facebookEnabled && <SignInWithFacebookContainer />}
-            {googleEnabled && <SignInWithGoogleContainer />}
+            {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
+            {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
             {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
           </HorizontalGutter>
         </HorizontalGutter>

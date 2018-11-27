@@ -23,6 +23,12 @@ export default async function initLocalState(environment: Environment) {
     // Set default view.
     localRecord.setValue(query.view || "SIGN_IN", "view");
 
+    // Get tokenResponse
+    if (window.location.hash) {
+      localRecord.setValue(window.location.hash.substr(1), "tokenResponse");
+      window.history.replaceState(null, undefined, location.pathname);
+    }
+
     root.setLinkedRecord(localRecord, "local");
   });
 }

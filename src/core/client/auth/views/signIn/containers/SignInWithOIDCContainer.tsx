@@ -11,7 +11,8 @@ interface Props {
 
 class SignInWithOIDCContainer extends Component<Props> {
   private handleOnClick = () => {
-    return;
+    sessionStorage.setItem("authRedirectBackTo", window.location.pathname);
+    window.location.href = this.props.auth.integrations.oidc[0].redirectURL;
   };
 
   public render() {
@@ -32,6 +33,7 @@ const enhanced = withFragmentContainer<Props>({
       integrations {
         oidc {
           name
+          redirectURL
         }
       }
     }

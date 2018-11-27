@@ -62,6 +62,13 @@ const config = convict({
     env: "PORT",
     arg: "port",
   },
+  dev_port: {
+    doc: "The port to bind for the Webpack Dev Server.",
+    format: "port",
+    default: 8080,
+    env: "DEV_PORT",
+    arg: "dev-port",
+  },
   mongodb: {
     doc: "The MongoDB database to connect to.",
     format: "mongo-uri",
