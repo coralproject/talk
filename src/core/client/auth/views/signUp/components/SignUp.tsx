@@ -18,7 +18,9 @@ export interface SignUpForm {
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
   oidcEnabled?: boolean;
-  auth: PropTypesOf<typeof SignUpWithOIDCContainer>["auth"];
+  auth: PropTypesOf<typeof SignUpWithOIDCContainer>["auth"] &
+    PropTypesOf<typeof SignUpWithFacebookContainer>["auth"] &
+    PropTypesOf<typeof SignUpWithGoogleContainer>["auth"];
 }
 
 const SignUp: StatelessComponent<SignUpForm> = ({
@@ -67,8 +69,8 @@ const SignUp: StatelessComponent<SignUpForm> = ({
           {emailEnabled && <SignUpWithEmailContainer />}
           {emailEnabled && oneClickUptegrationEnabled && <OrSeparator />}
           <HorizontalGutter>
-            {facebookEnabled && <SignUpWithFacebookContainer />}
-            {googleEnabled && <SignUpWithGoogleContainer />}
+            {facebookEnabled && <SignUpWithFacebookContainer auth={auth} />}
+            {googleEnabled && <SignUpWithGoogleContainer auth={auth} />}
             {oidcEnabled && <SignUpWithOIDCContainer auth={auth} />}
           </HorizontalGutter>
         </HorizontalGutter>

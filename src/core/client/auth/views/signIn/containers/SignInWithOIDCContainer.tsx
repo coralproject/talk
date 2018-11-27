@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 import { SignInWithOIDCContainer_auth as AuthData } from "talk-auth/__generated__/SignInWithOIDCContainer_auth.graphql";
 import OIDCButton from "talk-auth/components/OIDCButton";
+import { redirectOAuth2 } from "talk-auth/helpers";
 import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 
 interface Props {
@@ -11,8 +12,7 @@ interface Props {
 
 class SignInWithOIDCContainer extends Component<Props> {
   private handleOnClick = () => {
-    sessionStorage.setItem("authRedirectBackTo", window.location.pathname);
-    window.location.href = this.props.auth.integrations.oidc[0].redirectURL;
+    redirectOAuth2(this.props.auth.integrations.oidc[0].redirectURL);
   };
 
   public render() {

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 
 import { SignInWithFacebookContainer_auth as AuthData } from "talk-auth/__generated__/SignInWithFacebookContainer_auth.graphql";
 import FacebookButton from "talk-auth/components/FacebookButton";
+import { redirectOAuth2 } from "talk-auth/helpers";
 import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 
 interface Props {
@@ -11,8 +12,7 @@ interface Props {
 
 class SignInWithFacebookContainer extends Component<Props> {
   private handleOnClick = () => {
-    sessionStorage.setItem("authRedirectBackTo", window.location.pathname);
-    window.location.href = this.props.auth.integrations.facebook.redirectURL;
+    redirectOAuth2(this.props.auth.integrations.facebook.redirectURL);
   };
 
   public render() {

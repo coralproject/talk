@@ -47,6 +47,8 @@ const enhanced = withSetViewMutation(
     auth: graphql`
       fragment SignUpContainer_auth on Auth {
         ...SignUpWithOIDCContainer_auth
+        ...SignUpWithGoogleContainer_auth
+        ...SignUpWithFacebookContainer_auth
         integrations {
           local {
             enabled
