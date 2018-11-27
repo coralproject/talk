@@ -109,7 +109,6 @@ it("submits form successfully", async () => {
     })
   )}.${btoa(
     JSON.stringify({
-      exp: 1540503165,
       jti: "31b26591-4e9a-4388-a7ff-e1bdc5d97cce",
     })
   )}`;
