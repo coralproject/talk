@@ -2,6 +2,7 @@ import qs from "query-string";
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { TalkContext } from "talk-framework/lib/bootstrap";
+import { getExternalConfig } from "talk-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "talk-framework/lib/relay";
 
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
@@ -13,7 +14,13 @@ export default async function initLocalState(
   environment: Environment,
   context: TalkContext
 ) {
-  await initLocalBaseState(environment, context);
+  const config = await getExternalConfig(context.pym);
+  await initLocalBaseState(
+    environment,
+    context,
+    config ? config.authToken : undefined
+  );
+
   commitLocalUpdate(environment, s => {
     const root = s.getRoot();
     const localRecord = root.getLinkedRecord("local")!;

@@ -24,7 +24,7 @@ export function parseJWT(token: string, skewTolerance = 300): JWT {
     header,
     payload,
     get expired() {
-      return Date.now() - skewTolerance < payload.exp;
+      return Date.now() / 1000 - skewTolerance >= payload.exp;
     },
   };
 }

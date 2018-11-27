@@ -975,6 +975,15 @@ type User {
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+
+  """
+  commentModerationActionHistory returns a CommentModerationActionConnection that this User has
+  created.
+  """
+  commentModerationActionHistory(
+    first: Int = 10
+    after: Cursor
+  ): CommentModerationActionConnection! @auth(role: [MODERATOR, ADMIN])
 }
 
 ################################################################################
@@ -1024,6 +1033,85 @@ enum COMMENT_STATUS {
   SYSTEM_WITHHELD
 }
 
+type CommentModerationAction {
+  id: ID!
+
+  """
+  revision is the moderated CommentRevision.
+  """
+  revision: CommentRevision!
+
+  """
+  status represents the status that was assigned by the moderator.
+  """
+  status: COMMENT_STATUS!
+
+  """
+  moderator is the User that performed the Moderator action. If null, this means
+  that the system has assigned the moderation status.
+  """
+  moderator: User
+
+  """
+  createdAt is the time that the CommentModerationAction was created.
+  """
+  createdAt: Time!
+}
+
+type CommentModerationActionEdge {
+  """
+  node is the CommentModerationAction for this edge.
+  """
+  node: CommentModerationAction!
+
+  """
+
+  """
+  cursor: Cursor
+}
+
+type CommentModerationActionConnection {
+  """
+  edges are a subset of CommentModerationActionEdge's.
+  """
+  edges: [CommentModerationActionEdge!]!
+
+  """
+  pageInfo is
+  """
+  pageInfo: PageInfo!
+}
+
+type CommentRevision {
+  """
+  id is the identifier of the CommentRevision.
+  """
+  id: ID!
+
+  """
+  comment is the reference to the original Comment associated with the current
+  Comment.
+  """
+  comment: Comment!
+
+  """
+  actionCounts stores the counts of all the actions for the CommentRevision
+  specifically.
+  """
+  actionCounts: ActionCounts! @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  body is the content of the CommentRevision. If null, it indicates that the
+  body text was deleted.
+  """
+  body: String
+
+  """
+  createdAt is the time that the CommentRevision was created.
+  """
+  createdAt: Time!
+}
+
 """
 Comment is a comment left by a User on an Story or another Comment as a reply.
 """
@@ -1034,9 +1122,22 @@ type Comment {
   id: ID!
 
   """
-  body is the content of the Comment.
+  body is the content of the Comment, and is an alias to the body of the
+  `currentRevision.body`.
   """
   body: String
+
+  """
+  revision is the current revision of the Comment's body.
+  """
+  revision: CommentRevision!
+
+  """
+  revisionHistory stores the previous CommentRevision's, with the most recent
+  edit last.
+  """
+  revisionHistory: [CommentRevision!]!
+    @auth(roles: [MODERATOR, ADMIN], userIDField: "author_id")
 
   """
   createdAt is the date in which the Comment was created.
@@ -1052,6 +1153,13 @@ type Comment {
   status represents the Comment's current status.
   """
   status: COMMENT_STATUS!
+
+  """
+  statusHistory returns a CommentModerationActionConnection that will list
+  the history of moderator actions performed on the Comment, with the most
+  recent last.
+  """
+  statusHistory: [CommentModerationAction!]! @auth(role: [MODERATOR, ADMIN])
 
   """
   parentCount is the number of direct parents for this Comment. Currently this
@@ -1107,7 +1215,7 @@ type Comment {
   actionCounts: ActionCounts!
 
   """
-  myActionPresence stores the presense information for all the actions
+  myActionPresence stores the presence information for all the actions
   left by the current User on this Comment.
   """
   myActionPresence: ActionPresence
@@ -1302,10 +1410,10 @@ type Story {
   ): CommentsConnection!
 
   """
-  actionCounts stores the counts of all the actions against this Story and it's
+  commentActionCounts stores the counts of all the actions against this Story and it's
   Comments.
   """
-  actionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
+  commentActionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
 
   """
   closedAt is the Time that the Story is closed for commenting.
@@ -1928,6 +2036,12 @@ input CreateCommentReactionInput {
   commentID: ID!
 
   """
+  commentRevisionID is the revision ID of the Comment that we're creating the
+  Reaction on.
+  """
+  commentRevisionID: ID!
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -1984,6 +2098,12 @@ input CreateCommentDontAgreeInput {
   commentID: ID!
 
   """
+  commentRevisionID is the revision ID of the Comment that we're creating the
+  DontAgree on.
+  """
+  commentRevisionID: ID!
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -2038,6 +2158,12 @@ input CreateCommentFlagInput {
   commentID is the Comment's ID that we want to create a Flag on.
   """
   commentID: ID!
+
+  """
+  commentRevisionID is the revision ID of the Comment that we're creating the
+  Flag on.
+  """
+  commentRevisionID: ID!
 
   """
   reason is the selected reason why the Flag is being created.
@@ -2604,6 +2730,72 @@ type ScrapeStoryPayload {
 }
 
 ##################
+# acceptComment
+##################
+
+input AcceptCommentInput {
+  """
+  commentID is the ID of the Comment that was accepted.
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the ID of the CommentRevision that is being accepted.
+  """
+  commentRevisionID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type AcceptCommentPayload {
+  """
+  comment is the Comment that was accepted.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# rejectComment
+##################
+
+input RejectCommentInput {
+  """
+  commentID is the ID of the Comment that was rejected.
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the ID of the CommentRevision that is being rejected.
+  """
+  commentRevisionID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RejectCommentPayload {
+  """
+  comment is the Comment that was rejected.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -2730,6 +2922,18 @@ type Mutation {
   """
   scrapeStory(input: ScrapeStoryInput!): ScrapeStoryPayload
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  acceptComment will mark the Comment as ACCEPTED.
+  """
+  acceptComment(input: AcceptCommentInput!): AcceptCommentPayload
+    @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  rejectComment will mark the Comment as REJECTED.
+  """
+  rejectComment(input: RejectCommentInput!): RejectCommentPayload
+    @auth(roles: [MODERATOR, ADMIN])
 }
 
 ################################################################################

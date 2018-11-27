@@ -24,11 +24,11 @@ const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
   const { storyID, storyURL, tenantID } = job.data;
 
   const log = logger.child({
-    job_id: job.id,
-    job_name: JOB_NAME,
-    story_id: storyID,
-    story_url: storyURL,
-    tenant_id: tenantID,
+    jobID: job.id,
+    jobName: JOB_NAME,
+    storyID,
+    storyURL,
+    tenantID,
   });
 
   log.debug("starting to scrape the story");

@@ -3,11 +3,13 @@ import qs from "query-string";
 
 import ensureNoEndSlash from "talk-common/utils/ensureNoEndSlash";
 import urls from "talk-framework/helpers/urls";
+import { ExternalConfig } from "talk-framework/lib/externalConfig";
 
 import {
   Decorator,
   withAutoHeight,
   withClickEvent,
+  withConfig,
   withEventEmitter,
   withIOSSafariWidthWorkaround,
   withPymStorage,
@@ -28,6 +30,7 @@ export interface StreamEmbedConfig {
   eventEmitter: EventEmitter2;
   id: string;
   rootURL: string;
+  authToken?: string;
 }
 
 export class StreamEmbed {
@@ -97,6 +100,11 @@ export class StreamEmbed {
     if (this.pymControl) {
       throw new Error("Stream Embed already rendered");
     }
+
+    const externalConfig: ExternalConfig = {
+      authToken: this.config.authToken,
+    };
+
     const streamDecorators: ReadonlyArray<Decorator> = [
       withIOSSafariWidthWorkaround,
       withAutoHeight,
@@ -105,6 +113,7 @@ export class StreamEmbed {
       withEventEmitter(this.config.eventEmitter),
       withPymStorage(localStorage, "localStorage"),
       withPymStorage(sessionStorage, "sessionStorage"),
+      withConfig(externalConfig),
     ];
 
     const query = qs.stringify({

@@ -8,7 +8,7 @@ import { graphql } from "react-relay";
 import { AuthContainerQueryResponse } from "talk-admin/__generated__/AuthContainerQuery.graphql";
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
 import { getMessage } from "talk-framework/lib/i18n";
-import { Spinner } from "talk-ui/components";
+import { Delay, Spinner } from "talk-ui/components";
 
 import {
   AddSubmitHook,
@@ -119,5 +119,11 @@ AuthContainer.routeConfig = {
   `,
   cacheConfig: { force: true },
   render: ({ Component, props }) =>
-    props && Component ? <Component {...props} /> : <Spinner />,
+    props && Component ? (
+      <Component {...props} />
+    ) : (
+      <Delay>
+        <Spinner />
+      </Delay>
+    ),
 };

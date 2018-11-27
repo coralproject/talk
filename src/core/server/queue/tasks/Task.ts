@@ -33,7 +33,7 @@ export default class Task<T, U = any> {
     });
 
     logger.trace(
-      { job_id: job.id, job_name: this.options.jobName },
+      { jobID: job.id, jobName: this.options.jobName },
       "added job to queue"
     );
     return job;
@@ -42,21 +42,21 @@ export default class Task<T, U = any> {
   private setupAndAttachProcessor() {
     this.queue.process(async (job: Job<T>) => {
       logger.trace(
-        { job_id: job.id, job_name: this.options.jobName },
+        { jobID: job.id, jobName: this.options.jobName },
         "processing job from queue"
       );
 
       // Send the job off to the job processor to be handled.
       const promise: U = await this.options.jobProcessor(job);
       logger.trace(
-        { job_id: job.id, job_name: this.options.jobName },
+        { jobID: job.id, jobName: this.options.jobName },
         "processing completed"
       );
       return promise;
     });
 
     logger.trace(
-      { job_name: this.options.jobName },
+      { jobName: this.options.jobName },
       "registered processor for job type"
     );
   }

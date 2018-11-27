@@ -7,7 +7,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLStoryMetadata,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedActionCounts } from "talk-server/models/action";
+import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -43,15 +43,15 @@ export interface Story extends TenantResource {
   scrapedAt?: Date;
 
   /**
-   * action_counts stores all the action counts for all Comment's on this Story.
+   * actionCounts stores all the action counts for all Comment's on this Story.
    */
-  action_counts: EncodedActionCounts;
+  commentActionCounts: EncodedCommentActionCounts;
 
   /**
-   * comment_counts stores the different counts for each comment on the Story
+   * commentCounts stores the different counts for each comment on the Story
    * according to their statuses.
    */
-  comment_counts: CommentStatusCounts;
+  commentCounts: CommentStatusCounts;
 
   /**
    * settings provides a point where the settings can be overridden for a
@@ -66,9 +66,9 @@ export interface Story extends TenantResource {
   closedAt?: Date | false;
 
   /**
-   * created_at is the date that the Story was added to the Talk database.
+   * createdAt is the date that the Story was added to the Talk database.
    */
-  created_at: Date;
+  createdAt: Date;
 }
 
 export interface UpsertStoryInput {
@@ -84,15 +84,15 @@ export async function upsertStory(
   const now = new Date();
 
   // Create the story, optionally sourcing the id from the input, additionally
-  // porting in the tenant_id.
+  // porting in the tenantID.
   const update: { $setOnInsert: Story } = {
     $setOnInsert: {
       id: id ? id : uuid.v4(),
       url,
-      tenant_id: tenantID,
-      created_at: now,
-      action_counts: {},
-      comment_counts: createEmptyCommentCounts(),
+      tenantID,
+      createdAt: now,
+      commentActionCounts: {},
+      commentCounts: createEmptyCommentCounts(),
     },
   };
 
@@ -101,7 +101,7 @@ export async function upsertStory(
   const result = await collection(db).findOneAndUpdate(
     {
       url,
-      tenant_id: tenantID,
+      tenantID,
     },
     update,
     {
@@ -136,11 +136,11 @@ export async function updateCommentStatusCount(
   const result = await collection(mongo).findOneAndUpdate(
     {
       id,
-      tenant_id: tenantID,
+      tenantID,
     },
     // Update all the specific comment status counts that are associated with
     // each of the counts.
-    { $inc: dotize({ comment_counts: commentStatusCounts }) },
+    { $inc: dotize({ commentCounts: commentStatusCounts }) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
@@ -238,10 +238,10 @@ export async function createStory(
     ...input,
     id,
     url,
-    tenant_id: tenantID,
-    created_at: now,
-    action_counts: {},
-    comment_counts: createEmptyCommentCounts(),
+    tenantID,
+    createdAt: now,
+    commentActionCounts: {},
+    commentCounts: createEmptyCommentCounts(),
   };
 
   try {
@@ -267,11 +267,11 @@ export async function retrieveStoryByURL(
   tenantID: string,
   url: string
 ) {
-  return collection(db).findOne({ url, tenant_id: tenantID });
+  return collection(db).findOne({ url, tenantID });
 }
 
 export async function retrieveStory(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ id, tenant_id: tenantID });
+  return collection(db).findOne({ id, tenantID });
 }
 
 export async function retrieveManyStories(
@@ -281,7 +281,7 @@ export async function retrieveManyStories(
 ) {
   const cursor = await collection(db).find({
     id: { $in: ids },
-    tenant_id: tenantID,
+    tenantID,
   });
 
   const stories = await cursor.toArray();
@@ -296,7 +296,7 @@ export async function retrieveManyStoriesByURL(
 ) {
   const cursor = await collection(db).find({
     url: { $in: urls },
-    tenant_id: tenantID,
+    tenantID,
   });
 
   const stories = await cursor.toArray();
@@ -306,7 +306,7 @@ export async function retrieveManyStoriesByURL(
 
 export type UpdateStoryInput = Omit<
   Partial<Story>,
-  "id" | "tenant_id" | "created_at"
+  "id" | "tenantID" | "createdAt"
 >;
 
 export async function updateStory(
@@ -320,13 +320,13 @@ export async function updateStory(
     $set: {
       ...dotize(input, { embedArrays: true }),
       // Always update the updated at time.
-      updated_at: new Date(),
+      updatedAt: new Date(),
     },
   };
 
   try {
     const result = await collection(db).findOneAndUpdate(
-      { id, tenant_id: tenantID },
+      { id, tenantID },
       update,
       // False to return the updated document instead of the original
       // document.
@@ -359,13 +359,13 @@ export async function updateStoryActionCounts(
   mongo: Db,
   tenantID: string,
   id: string,
-  actionCounts: EncodedActionCounts
+  actionCounts: EncodedCommentActionCounts
 ) {
   const result = await collection(mongo).findOneAndUpdate(
-    { id, tenant_id: tenantID },
+    { id, tenantID },
     // Update all the specific action counts that are associated with each of
     // the counts.
-    { $inc: dotize({ action_counts: actionCounts }) },
+    { $inc: dotize({ actionCounts }) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }
@@ -377,7 +377,7 @@ export async function updateStoryActionCounts(
 export async function removeStory(mongo: Db, tenantID: string, id: string) {
   const result = await collection(mongo).findOneAndDelete({
     id,
-    tenant_id: tenantID,
+    tenantID,
   });
 
   return result.value || null;
@@ -392,7 +392,7 @@ export async function removeStories(
   ids: string[]
 ) {
   return collection(mongo).deleteMany({
-    tenant_id: tenantID,
+    tenantID,
     id: {
       $in: ids,
     },
