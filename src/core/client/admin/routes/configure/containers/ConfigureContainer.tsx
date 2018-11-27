@@ -56,25 +56,32 @@ class ConfigureContainer extends React.Component<Props> {
   ) => {
     let cancelled = false;
     let formErrors: Record<string, React.ReactNode> = {};
+    const executeCallbacks: Array<() => Promise<any>> = [];
     const cancel = (errors: Record<string, React.ReactNode>) => {
       cancelled = true;
       formErrors = { ...errors, ...formErrors };
+    };
+    const onExecute = (cb: () => Promise<any>) => {
+      executeCallbacks.push(cb);
     };
     try {
       // Call submit hooks, that can manipulate what
       // we send as the mutation.
       let nextData = data;
       for (const hook of this.submitHooks) {
-        const result = await hook(nextData, cancel);
-        if (cancelled) {
-          return formErrors;
-        }
+        const result = await hook(nextData, { cancel, onExecute });
         if (result) {
           nextData = result;
         }
       }
+      if (cancelled) {
+        return formErrors;
+      }
 
-      await this.props.updateSettings({ settings: nextData });
+      executeCallbacks.push(() =>
+        this.props.updateSettings({ settings: nextData })
+      );
+      await Promise.all(executeCallbacks.map(cb => cb()));
       form.initialize(data);
     } catch (error) {
       if (error instanceof BadUserInputError) {
