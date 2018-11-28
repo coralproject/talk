@@ -112,10 +112,14 @@ const generateIntrospectionResult = async (resultLocation, options = {}) => {
     return;
   }
 
-  const { data } = await graphql(schema, getIntrospectionQuery(options));
+  const result = await graphql(schema, getIntrospectionQuery(options));
 
   // Serialize the introspection result as JSON.
-  const introspectionResult = JSON.stringify(data, null, 2);
+  const introspectionResult = JSON.stringify(
+    options.raw ? result : result.data,
+    null,
+    2
+  );
 
   // Write the introspection result to the filesystem.
   fs.writeFileSync(resultLocation, introspectionResult, 'utf8');
@@ -145,7 +149,9 @@ Promise.all([
   generateIntrospectionResult(graphIntrospectionFilename, {
     descriptions: false,
   }),
-  generateIntrospectionResult(docsIntrospectionFilename),
+  generateIntrospectionResult(docsIntrospectionFilename, {
+    raw: true,
+  }),
 ]).catch(err => {
   console.error(err);
   process.exit(1);

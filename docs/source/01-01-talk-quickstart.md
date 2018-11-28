@@ -187,7 +187,9 @@ and walk through the initial setup steps.
 
 * First, enter your **Organization Name** and **Organization Contact Email**. This will appear in emails when inviting new team members.
 * Next, create your Admin user. You can specify an **Email Address**, **Username**, and **Password**
+
 * Finally, enter your list of **Permitted Domains**, read [here](/talk/configuring-talk/#permitted-domains) about whitelisting domains 
+
 
 _During development, ensure you whitelist 127.0.0.1:3000 otherwise the
 [http://127.0.0.1:3000/](http://127.0.0.1:3000/) page will not
