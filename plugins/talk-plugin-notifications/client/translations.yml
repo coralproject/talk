@@ -70,3 +70,21 @@ de:
     digest_option: Benachrichtigungen senden
     digest_enum:
       NONE: Sofort
+nl_NL:
+  talk-plugin-notifications:
+    settings_title: Notificaties
+    settings_subtitle: Ontvang notificaties wanneer
+    turn_off_all: Ik wil geen notificaties ontvangen
+    banner_info:
+      title: E-mail bevestiging vereist
+      text: Je moet een geverifieerd e-mailadres hebben om e-mail notificaties te ontvangen
+      verify_now: Verifieer je e-mailadres nu
+    banner_success:
+      title: E-mail verificatie verzonden
+      text: Een e-mail met verificatielink is verstuurd naar {0}.
+    banner_error:
+      title: Fout
+      text: Er is een fout opgetreden tijdens het versturen van je verificatie e-mail. Probeer het later nog eens.
+    digest_option: Notificaties versturen
+    digest_enum:
+      NONE: Onmiddelijk
