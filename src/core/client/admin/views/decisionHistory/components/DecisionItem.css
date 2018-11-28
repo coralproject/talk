@@ -1,0 +1,13 @@
+.root {
+  padding: calc(0.5 * var(--spacing-unit)) calc(0.5 * var(--spacing-unit))
+    calc(0.5 * var(--spacing-unit)) 0;
+}
+
+.leftCol {
+  display: flex;
+  justify-content: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: calc(3 * var(--spacing-unit));
+  padding-top: 3px;
+}

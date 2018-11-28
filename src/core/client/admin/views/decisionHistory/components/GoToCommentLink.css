@@ -1,0 +1,9 @@
+.root {
+  font-size: calc(12rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(14em / 12);
+  letter-spacing: calc(0.2em / 12);
+  color: var(--palette-primary-main);
+  text-decoration: none;
+}

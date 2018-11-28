@@ -26,3 +26,8 @@
   text-decoration: none;
   color: var(--palette-text-light);
 }
+
+.historyIcon {
+  color: var(--palette-text-secondary);
+  padding: var(--spacing-unit) var(--spacing-unit);
+}

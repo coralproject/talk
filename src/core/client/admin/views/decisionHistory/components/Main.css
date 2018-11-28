@@ -1,0 +1,3 @@
+.root {
+  max-height: calc(25 * var(--spacing-unit));
+}
