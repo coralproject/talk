@@ -1,5 +1,5 @@
 import { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
-import sinon, { SinonMock } from "sinon";
+import sinon from "sinon";
 
 import { animationFrame, timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
