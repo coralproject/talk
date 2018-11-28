@@ -3,7 +3,7 @@
 exports[`renders fully 1`] = `
 <Fragment>
   <Popup
-    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
@@ -27,7 +27,7 @@ exports[`renders sso only without logut button 1`] = `""`;
 exports[`renders without logout button 1`] = `
 <Fragment>
   <Popup
-    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
@@ -47,7 +47,7 @@ exports[`renders without logout button 1`] = `
 exports[`renders without register button 1`] = `
 <Fragment>
   <Popup
-    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}

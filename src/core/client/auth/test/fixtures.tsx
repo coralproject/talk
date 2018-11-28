@@ -8,6 +8,7 @@ export const settings = {
           stream: true,
           admin: true,
         },
+        redirectURL: "http://localhost/facebook",
       },
       google: {
         enabled: false,
@@ -16,6 +17,7 @@ export const settings = {
           stream: true,
           admin: true,
         },
+        redirectURL: "http://localhost/google",
       },
       sso: {
         enabled: false,

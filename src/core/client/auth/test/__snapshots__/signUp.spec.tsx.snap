@@ -100,7 +100,7 @@ exports[`accepts correct password 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -288,7 +288,7 @@ exports[`accepts valid email 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -502,7 +502,7 @@ exports[`accepts valid username 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -703,7 +703,7 @@ exports[`checks for invalid characters in username 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -917,7 +917,7 @@ exports[`checks for invalid email 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1131,7 +1131,7 @@ exports[`checks for too long username 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1345,7 +1345,7 @@ exports[`checks for too short password 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1559,7 +1559,7 @@ exports[`checks for too short username 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -1760,7 +1760,7 @@ exports[`renders sign up form 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -1948,7 +1948,7 @@ exports[`shows error when submitting empty form 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
@@ -2149,7 +2149,7 @@ exports[`shows server error 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2329,7 +2329,7 @@ exports[`shows server error 2`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2504,7 +2504,7 @@ exports[`submits form successfully 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
@@ -2679,7 +2679,7 @@ exports[`submits form successfully 2`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                You may use “_” and “.”
+                You may use “_” and “.” Spaces not permitted.
               </p>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"

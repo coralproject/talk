@@ -12,7 +12,19 @@ exports[`init local state 1`] = `
   \\"client:root.local\\": {
     \\"__id\\": \\"client:root.local\\",
     \\"__typename\\": \\"Local\\",
+    \\"authToken\\": \\"\\",
+    \\"authExp\\": null,
+    \\"authJTI\\": null,
+    \\"loggedIn\\": false,
+    \\"network\\": {
+      \\"__ref\\": \\"client:root.local.network\\"
+    },
     \\"view\\": \\"SIGN_IN\\"
+  },
+  \\"client:root.local.network\\": {
+    \\"__id\\": \\"client:root.local.network\\",
+    \\"__typename\\": \\"Network\\",
+    \\"isOffline\\": false
   }
 }"
 `;

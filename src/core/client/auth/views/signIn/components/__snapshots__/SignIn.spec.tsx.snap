@@ -39,8 +39,12 @@ exports[`renders correctly 1`] = `
       <withContext(createMutationContainer(withContext(createMutationContainer(SignInContainer)))) />
       <OrSeparator />
       <withPropsOnChange(HorizontalGutter)>
-        <SignInWithFacebookContainer />
-        <SignInWithGoogleContainer />
+        <Relay(SignInWithFacebookContainer)
+          auth={Object {}}
+        />
+        <Relay(SignInWithGoogleContainer)
+          auth={Object {}}
+        />
         <Relay(SignInWithOIDCContainer)
           auth={Object {}}
         />
@@ -87,8 +91,12 @@ exports[`renders without email login 1`] = `
       size="oneAndAHalf"
     >
       <withPropsOnChange(HorizontalGutter)>
-        <SignInWithFacebookContainer />
-        <SignInWithGoogleContainer />
+        <Relay(SignInWithFacebookContainer)
+          auth={Object {}}
+        />
+        <Relay(SignInWithGoogleContainer)
+          auth={Object {}}
+        />
         <Relay(SignInWithOIDCContainer)
           auth={Object {}}
         />
