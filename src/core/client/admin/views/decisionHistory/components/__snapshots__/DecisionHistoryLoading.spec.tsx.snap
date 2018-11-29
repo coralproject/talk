@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <Title />
+  <Main>
+    <withPropsOnChange(Flex)
+      alignItems="center"
+      className="DecisionHistoryLoading-container"
+      justifyContent="center"
+    >
+      <Delay
+        ms={500}
+      >
+        <withPropsOnChange(Spinner)
+          size="sm"
+        />
+      </Delay>
+    </withPropsOnChange(Flex)>
+  </Main>
+</div>
+`;

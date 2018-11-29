@@ -18,11 +18,15 @@ class DecisionHistoryItemContainer extends React.Component<
     return;
   };
   public render() {
+    const username =
+      (this.props.action.revision.comment.author &&
+        this.props.action.revision.comment.author.username) ||
+      "Unknown"; // TODO: (cvle) Figure out what to display, when username is not available.
     if (this.props.action.status === "ACCEPTED") {
       return (
         <AcceptedComment
           href="#"
-          username={this.props.action.revision.comment.author!.username!}
+          username={username}
           date={this.props.action.createdAt}
           onGotoComment={this.handleGoToComment}
         />
@@ -31,7 +35,7 @@ class DecisionHistoryItemContainer extends React.Component<
       return (
         <RejectedComment
           href="#"
-          username={this.props.action.revision.comment.author!.username!}
+          username={username}
           date={this.props.action.createdAt}
           onGotoComment={this.handleGoToComment}
         />

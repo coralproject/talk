@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Flex)
+  alignItems="center"
+  className="Title-root"
+>
+  <withPropsOnChange(Icon)>
+    history
+  </withPropsOnChange(Icon)>
+   
+  <Localized
+    id="decisionHistory-yourDecisionHistory"
+  >
+    <withPropsOnChange(Typography)
+      className="Title-text"
+      container="span"
+    >
+      Your Decision History
+    </withPropsOnChange(Typography)>
+  </Localized>
+</withPropsOnChange(Flex)>
+`;

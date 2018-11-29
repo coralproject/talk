@@ -5,7 +5,7 @@ import { Flex, Typography } from "talk-ui/components";
 
 import styles from "./Empty.css";
 
-const Empty: StatelessComponent = () => (
+const Empty: StatelessComponent<{}> = () => (
   <Flex justifyContent="center" alignItems="center" className={styles.root}>
     <Localized id="decisionHistory-youWillSeeAList">
       <Typography>

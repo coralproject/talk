@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Flex)
+  alignItems="center"
+  className="Empty-root"
+  justifyContent="center"
+>
+  <Localized
+    id="decisionHistory-youWillSeeAList"
+  >
+    <withPropsOnChange(Typography)>
+      You will see a list of your post moderation actions here.
+    </withPropsOnChange(Typography)>
+  </Localized>
+</withPropsOnChange(Flex)>
+`;

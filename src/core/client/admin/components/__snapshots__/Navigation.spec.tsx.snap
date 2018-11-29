@@ -48,6 +48,8 @@ exports[`renders correctly 1`] = `
   <withPropsOnChange(Flex)
     alignItems="center"
   >
+    <DecisionHistoryButton />
+    <NavigationDivider />
     <withContext(createMutationContainer(RedirectAppContainer))
       id="navigation-signOutButton"
     />

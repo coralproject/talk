@@ -1,12 +1,12 @@
 import React, { StatelessComponent } from "react";
 
-import { Flex, Spinner } from "talk-ui/components";
+import { Delay, Flex, Spinner } from "talk-ui/components";
 
 import styles from "./DecisionHistoryLoading.css";
 import Main from "./Main";
 import Title from "./Title";
 
-const DecisionHistoryLoading: StatelessComponent = props => (
+const DecisionHistoryLoading: StatelessComponent = () => (
   <div>
     <Title />
     <Main>
@@ -15,7 +15,9 @@ const DecisionHistoryLoading: StatelessComponent = props => (
         alignItems="center"
         className={styles.container}
       >
-        <Spinner size="sm" />
+        <Delay>
+          <Spinner size="sm" />
+        </Delay>
       </Flex>
     </Main>
   </div>
