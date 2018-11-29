@@ -1,10 +1,7 @@
 import React from "react";
 import { ReactTestInstance } from "react-test-renderer";
 
-export default function findWithText(
-  text: string,
-  instance: ReactTestInstance
-) {
+export default function getByText(text: string, instance: ReactTestInstance) {
   return instance.find(i => {
     if (!i.props.children) {
       return false;

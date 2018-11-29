@@ -1,13 +1,14 @@
 import { get, merge } from "lodash";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
 import {
   createSinonStub,
-  findWithTestID,
-  findWithText,
+  getByTestID,
+  getByText,
   limitSnapshotTo,
   replaceHistoryLocation,
+  wait,
+  waitForElement,
 } from "talk-framework/testHelpers";
 
 import create from "../create";
@@ -78,7 +79,9 @@ const createTestRenderer = async (resolver: any = {}) => {
       localRecord.setValue(true, "loggedIn");
     },
   });
-  await timeout();
+  await waitForElement(() =>
+    getByTestID("decisionHistory-toggle", testRenderer.root)
+  );
   return testRenderer;
 };
 
@@ -101,15 +104,15 @@ it("renders decision history popover button", async () => {
 it("opens popover when clicked on button showing loading state", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
   expect(
-    limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
+    limitSnapshotTo("decisionHistory-loading-container", testRenderer.toJSON())
   ).toMatchSnapshot();
-  await timeout();
 });
 
 it("render popover content", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
-  // Wait for it to load.
-  await timeout();
+  await waitForElement(() =>
+    getByTestID("decisionHistory-container", testRenderer.root)
+  );
   expect(
     limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
   ).toMatchSnapshot();
@@ -117,16 +120,16 @@ it("render popover content", async () => {
 
 it("loads more", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
-  // Wait for it to load.
-  await timeout();
-  const ShowMoreButton = findWithText(
-    "Show More",
-    findWithTestID("decisionHistory-container", testRenderer.root)
+  const decisionHistoryContainer = await waitForElement(() =>
+    getByTestID("decisionHistory-container", testRenderer.root)
   );
+  const ShowMoreButton = getByText("Show More", decisionHistoryContainer)!;
   expect(ShowMoreButton.props.disabled).toBeFalsy();
   ShowMoreButton.props.onClick();
   expect(ShowMoreButton.props.disabled).toBeTruthy();
-  await timeout();
+  await wait(() => {
+    expect(() => getByText("Show More", decisionHistoryContainer)).toThrow();
+  });
   expect(
     limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
   ).toMatchSnapshot();

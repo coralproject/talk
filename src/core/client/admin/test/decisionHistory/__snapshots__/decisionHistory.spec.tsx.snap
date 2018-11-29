@@ -227,7 +227,7 @@ exports[`loads more 1`] = `
 
 exports[`opens popover when clicked on button showing loading state 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-test="decisionHistory-loading-container"
 >
   <div
     className="Flex-root Title-root Flex-flex Flex-alignCenter"

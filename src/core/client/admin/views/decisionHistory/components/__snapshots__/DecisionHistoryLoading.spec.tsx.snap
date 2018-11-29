@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-test="decisionHistory-loading-container"
 >
   <Title />
   <Main>
