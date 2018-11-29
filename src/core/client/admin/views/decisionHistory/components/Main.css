@@ -1,3 +1,5 @@
 .root {
-  max-height: calc(25 * var(--spacing-unit));
+  max-height: calc(26 * var(--spacing-unit));
+  overflow: hidden;
+  overflow-y: scroll;
 }

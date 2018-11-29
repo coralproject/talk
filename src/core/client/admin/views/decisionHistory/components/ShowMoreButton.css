@@ -9,4 +9,8 @@
   width: 100%;
   border-top: 1px solid var(--palette-divider);
   text-align: center;
+
+  &:disabled {
+    color: var(--palette-grey-lighter);
+  }
 }

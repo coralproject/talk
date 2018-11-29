@@ -8,9 +8,9 @@ import styles from "./Title.css";
 const Title: StatelessComponent = () => (
   <Flex className={styles.root} alignItems="center">
     <Icon>history</Icon>{" "}
-    <Localized id="decisionHistory-title">
+    <Localized id="decisionHistory-yourDecisionHistory">
       <Typography container="span" className={styles.text}>
-        Decision History
+        Your Decision History
       </Typography>
     </Localized>
   </Flex>

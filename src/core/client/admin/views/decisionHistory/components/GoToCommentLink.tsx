@@ -6,11 +6,12 @@ import { Icon, TextLink } from "talk-ui/components";
 import styles from "./GoToCommentLink.css";
 
 interface Props {
-  id?: string;
+  href?: string;
+  onClick?: React.EventHandler<React.MouseEvent>;
 }
 
 const GoToCommentLink: StatelessComponent<Props> = props => (
-  <TextLink className={styles.root} href="#">
+  <TextLink className={styles.root} onClick={props.onClick} href={props.href}>
     <Localized id="decisionHistory-goToComment">
       <span>Go to comment</span>
     </Localized>{" "}

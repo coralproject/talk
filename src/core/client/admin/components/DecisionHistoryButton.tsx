@@ -3,7 +3,7 @@ import React from "react";
 import { oncePerFrame } from "talk-common/utils";
 import { BaseButton, ClickOutside, Icon, Popover } from "talk-ui/components";
 
-import DecisionHistoryContainer from "../views/decisionHistory/containers/DecisionHistoryContainer";
+import DecisionHistoryQuery from "../views/decisionHistory/queries/DecisionHistoryQuery";
 import styles from "./DecisionHistoryButton.css";
 
 class DecisionHistoryButton extends React.Component {
@@ -29,7 +29,9 @@ class DecisionHistoryButton extends React.Component {
               this.toggleVisibilityOncePerFrame(toggleVisibility)
             }
           >
-            <DecisionHistoryContainer />
+            <div>
+              <DecisionHistoryQuery />
+            </div>
           </ClickOutside>
         )}
       >

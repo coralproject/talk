@@ -115,7 +115,7 @@ decisionHistory-youWillSeeAList =
   You will see a list of your post moderation actions here.
 decisionHistory-showMoreButton =
   Show More
-decisionHistory-title = Decision History
+decisionHistory-yourDecisionHistory = Your Decision History
 decisionHistory-rejectedCommentBy = Rejected comment by <username></username>
 decisionHistory-acceptedCommentBy = Accepted comment by <username></username>
 decisionHistory-goToComment = Go to comment

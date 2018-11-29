@@ -12,8 +12,10 @@ import Timestamp from "./Timestamp";
 import { Typography } from "talk-ui/components";
 
 interface Props {
+  href: string;
   username: string;
   date: string;
+  onGotoComment?: React.EventHandler<React.MouseEvent>;
 }
 
 const Username: StatelessComponent<{ username: string }> = ({ username }) => (
@@ -33,7 +35,7 @@ const ApprovedComment: StatelessComponent<Props> = props => (
         <Timestamp>{props.date}</Timestamp>
       </Typography>
       <DotDivider />
-      <GoToCommentLink />
+      <GoToCommentLink href={props.href} onClick={props.onGotoComment} />
     </Footer>
   </DecisionItem>
 );

@@ -1,27 +1,39 @@
 import React, { StatelessComponent } from "react";
 
-import ApprovedComment from "./ApprovedComment";
+import { PropTypesOf } from "talk-framework/types";
+
+import DecisionHistoryItemContainer from "../containers/DecisionHistoryItemContainer";
 import DecisionList from "./DecisionList";
+import Empty from "./Empty";
 import Main from "./Main";
-import RejectedComment from "./RejectedComment";
 import ShowMoreButton from "./ShowMoreButton";
 import Title from "./Title";
 
-const DecisionHistory: StatelessComponent = () => (
+interface Props {
+  actions: Array<
+    { id: string } & PropTypesOf<typeof DecisionHistoryItemContainer>["action"]
+  >;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  disableLoadMore?: boolean;
+}
+
+const DecisionHistory: StatelessComponent<Props> = props => (
   <div>
     <Title />
     <Main>
       <DecisionList>
-        <ApprovedComment
-          username="twelvedognight"
-          date={new Date().toISOString()}
-        />
-        <RejectedComment
-          username="twelvedognight"
-          date={new Date().toISOString()}
-        />
+        {props.actions.length === 0 && <Empty />}
+        {props.actions.map(action => (
+          <DecisionHistoryItemContainer key={action.id} action={action} />
+        ))}
       </DecisionList>
-      <ShowMoreButton />
+      {props.hasMore && (
+        <ShowMoreButton
+          onClick={props.onLoadMore}
+          disabled={props.disableLoadMore}
+        />
+      )}
     </Main>
   </div>
 );
