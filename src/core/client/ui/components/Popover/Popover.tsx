@@ -43,7 +43,6 @@ interface PopoverProps {
   children: (props: ChildrenRenderProps) => React.ReactNode;
   description: string;
   id: string;
-  onClose?: () => void;
   className?: string;
   placement?: Placement;
   classes: typeof styles;
@@ -97,6 +96,7 @@ class Popover extends React.Component<PopoverProps> {
       className,
       placement,
       classes,
+      ...rest
     } = this.props;
 
     const { visible } = this.state;
@@ -108,7 +108,7 @@ class Popover extends React.Component<PopoverProps> {
     });
 
     return (
-      <div className={cn(classes.root, className)}>
+      <div className={cn(classes.root, className)} {...rest}>
         <Manager>
           <Reference>
             {(props: PopperArrowProps) =>

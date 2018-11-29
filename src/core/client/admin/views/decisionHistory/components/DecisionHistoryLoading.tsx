@@ -7,7 +7,7 @@ import Main from "./Main";
 import Title from "./Title";
 
 const DecisionHistoryLoading: StatelessComponent = () => (
-  <div>
+  <div data-test="decisionHistory-container">
     <Title />
     <Main>
       <Flex

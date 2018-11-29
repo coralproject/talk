@@ -19,7 +19,7 @@ interface Props {
 }
 
 const DecisionHistory: StatelessComponent<Props> = props => (
-  <div>
+  <div data-test="decisionHistory-container">
     <Title />
     <Main>
       <DecisionList>
