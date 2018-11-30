@@ -40,6 +40,8 @@ import Task from "talk-server/queue/Task";
 import { ScraperData } from "talk-server/queue/tasks/scraper";
 import { scrape } from "talk-server/services/stories/scraper";
 
+import { AugmentedRedis } from "../redis";
+
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
 export async function findOrCreate(
@@ -227,6 +229,7 @@ export async function update(
 
 export async function merge(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   destinationID: string,
   sourceIDs: string[]
@@ -290,6 +293,7 @@ export async function merge(
 
   let destinationStory = await updateStoryCommentStatusCount(
     mongo,
+    redis,
     tenant.id,
     destinationID,
     mergeCommentStatusCount(
@@ -307,6 +311,7 @@ export async function merge(
   if (countTotalActionCounts(mergedActionCounts) > 0) {
     destinationStory = await updateStoryActionCounts(
       mongo,
+      redis,
       tenant.id,
       destinationID,
       mergedActionCounts

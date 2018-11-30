@@ -1,6 +1,11 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
+import logger from "talk-server/logger";
+import {
+  encodeActionCounts,
+  filterDuplicateActions,
+} from "talk-server/models/action/comment";
 import {
   createComment,
   CreateCommentInput,
@@ -20,11 +25,7 @@ import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
-import logger from "talk-server/logger";
-import {
-  encodeActionCounts,
-  filterDuplicateActions,
-} from "talk-server/models/action/comment";
+import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
 import { processForModeration } from "./pipeline";
@@ -36,6 +37,7 @@ export type CreateComment = Omit<
 
 export async function create(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -174,7 +176,7 @@ export async function create(
   log.trace({ storyCounts }, "updating story status counts");
 
   // Increment the status count for the particular status on the Story.
-  await updateStoryCounts(mongo, tenant.id, story.id, storyCounts);
+  await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
   return comment;
 }
@@ -186,6 +188,7 @@ export type EditComment = Omit<
 
 export async function edit(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: EditComment,
@@ -322,7 +325,7 @@ export async function edit(
   log.trace({ storyCounts }, "updating story status counts");
 
   // Update the story counts as a result.
-  await updateStoryCounts(mongo, tenant.id, story.id, storyCounts);
+  await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
   return editedComment;
 }

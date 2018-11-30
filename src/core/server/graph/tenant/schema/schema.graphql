@@ -1586,6 +1586,12 @@ type Query {
   on this scrape.
   """
   debugScrapeStoryMetadata(url: String!): StoryMetadata @auth(roles: [ADMIN])
+
+  """
+  moderationQueues returns the set of ModerationQueues that are available for
+  all stories.
+  """
+  moderationQueues: ModerationQueues @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################

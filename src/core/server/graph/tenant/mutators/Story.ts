@@ -30,7 +30,13 @@ export const Story = (ctx: TenantContext) => ({
   merge: async (
     input: GQLMergeStoriesInput
   ): Promise<Readonly<story.Story> | null> =>
-    merge(ctx.mongo, ctx.tenant, input.destinationID, input.sourceIDs),
+    merge(
+      ctx.mongo,
+      ctx.redis,
+      ctx.tenant,
+      input.destinationID,
+      input.sourceIDs
+    ),
   remove: async (
     input: GQLRemoveStoryInput
   ): Promise<Readonly<story.Story> | null> =>

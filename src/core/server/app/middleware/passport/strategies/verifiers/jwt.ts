@@ -1,7 +1,9 @@
 import { Redis } from "ioredis";
 import jwt from "jsonwebtoken";
 import { Db } from "mongodb";
+import now from "performance-now";
 
+import logger from "talk-server/logger";
 import { Tenant } from "talk-server/models/tenant";
 import { retrieveUser } from "talk-server/models/user";
 import { checkBlacklistJWT, JWTSigningConfig } from "talk-server/services/jwt";
@@ -46,11 +48,18 @@ export class JWTVerifier {
   }
 
   public async verify(tokenString: string, token: JWTToken, tenant: Tenant) {
+    const startTime = now();
+
     // Verify that the token is valid. This will throw an error if it isn't.
     jwt.verify(tokenString, this.signingConfig.secret, {
       issuer: tenant.id,
       algorithms: [this.signingConfig.algorithm],
     });
+
+    // Compute the end time.
+    const responseTime = Math.round(now() - startTime);
+
+    logger.trace({ responseTime }, "jwt verification complete");
 
     // Check to see if the token has been blacklisted, as these tokens can be
     // revoked.

@@ -25,6 +25,8 @@ import {
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
+
+import { AugmentedRedis } from "../redis";
 import { calculateCountsDiff } from "./moderation/counts";
 
 export type CreateAction = CreateActionInput;
@@ -74,6 +76,7 @@ export async function addCommentActionCounts(
 
 async function addCommentAction(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID">
 ): Promise<Readonly<Comment>> {
@@ -101,7 +104,7 @@ async function addCommentAction(
     );
 
     // Calculate the new story counts.
-    await updateStoryCounts(mongo, tenant.id, updatedComment.storyID, {
+    await updateStoryCounts(mongo, redis, tenant.id, updatedComment.storyID, {
       action: encodeActionCounts(...commentActions),
       moderationQueue: calculateCountsDiff(oldComment, updatedComment),
     });
@@ -114,6 +117,7 @@ async function addCommentAction(
 
 export async function removeCommentAction(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   input: Omit<RemoveActionInput, "commentRevisionID" | "reason">
 ): Promise<Readonly<Comment>> {
@@ -166,6 +170,7 @@ export async function removeCommentAction(
     // Update the Story with the updated action counts.
     await updateStoryActionCounts(
       mongo,
+      redis,
       tenant.id,
       comment.storyID,
       actionCounts
@@ -190,11 +195,12 @@ export type CreateCommentReaction = Pick<
 
 export async function createReaction(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: CreateCommentReaction
 ) {
-  return addCommentAction(mongo, tenant, {
+  return addCommentAction(mongo, redis, tenant, {
     actionType: ACTION_TYPE.REACTION,
     commentID: input.commentID,
     commentRevisionID: input.commentRevisionID,
@@ -206,11 +212,12 @@ export type RemoveCommentReaction = Pick<RemoveActionInput, "commentID">;
 
 export async function removeReaction(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: RemoveCommentReaction
 ) {
-  return removeCommentAction(mongo, tenant, {
+  return removeCommentAction(mongo, redis, tenant, {
     actionType: ACTION_TYPE.REACTION,
     commentID: input.commentID,
     userID: author.id,
@@ -224,11 +231,12 @@ export type CreateCommentDontAgree = Pick<
 
 export async function createDontAgree(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: CreateCommentDontAgree
 ) {
-  return addCommentAction(mongo, tenant, {
+  return addCommentAction(mongo, redis, tenant, {
     actionType: ACTION_TYPE.DONT_AGREE,
     commentID: input.commentID,
     commentRevisionID: input.commentRevisionID,
@@ -240,11 +248,12 @@ export type RemoveCommentDontAgree = Pick<RemoveActionInput, "commentID">;
 
 export async function removeDontAgree(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: RemoveCommentDontAgree
 ) {
-  return removeCommentAction(mongo, tenant, {
+  return removeCommentAction(mongo, redis, tenant, {
     actionType: ACTION_TYPE.DONT_AGREE,
     commentID: input.commentID,
     userID: author.id,
@@ -260,11 +269,12 @@ export type CreateCommentFlag = Pick<
 
 export async function createFlag(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: CreateCommentFlag
 ) {
-  return addCommentAction(mongo, tenant, {
+  return addCommentAction(mongo, redis, tenant, {
     actionType: ACTION_TYPE.FLAG,
     reason: input.reason,
     commentID: input.commentID,

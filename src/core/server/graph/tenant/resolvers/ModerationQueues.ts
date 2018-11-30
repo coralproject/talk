@@ -1,22 +1,23 @@
 import { CommentConnectionInput } from "talk-server/models/comment";
 import { FilterQuery } from "talk-server/models/query";
-import { CommentModerationQueueCounts } from "talk-server/models/story";
+import { CommentModerationCountsPerQueue } from "talk-server/models/story";
 import {
   PENDING_STATUS,
   REPORTED_STATUS,
   UNMODERATED_STATUSES,
 } from "talk-server/services/comments/moderation/counts";
+
 import { GQLModerationQueuesTypeResolver } from "../schema/__generated__/types";
 import { ModerationQueueInput } from "./ModerationQueue";
 
 export interface ModerationQueuesInput {
   connection: Partial<CommentConnectionInput>;
-  counts: CommentModerationQueueCounts;
+  counts: CommentModerationCountsPerQueue;
 }
 
 const mergeModerationInputFilters = (
   filter: FilterQuery<Comment>,
-  selector: keyof CommentModerationQueueCounts["queues"]
+  selector: keyof CommentModerationCountsPerQueue
 ) => (input: ModerationQueuesInput): ModerationQueueInput => ({
   connection: {
     ...input.connection,
@@ -25,7 +26,7 @@ const mergeModerationInputFilters = (
       ...filter,
     },
   },
-  count: input.counts.queues[selector],
+  count: input.counts[selector],
 });
 
 export const ModerationQueues: GQLModerationQueuesTypeResolver<

@@ -10,13 +10,19 @@ import {
 import { updateCommentStatus } from "talk-server/models/comment";
 import { updateStoryCounts } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
+import { AugmentedRedis } from "talk-server/services/redis";
 import { calculateCountsDiff } from "./counts";
 
 export type Moderate = Omit<CreateCommentModerationActionInput, "status">;
 
 const moderate = (
   status: GQLCOMMENT_STATUS.ACCEPTED | GQLCOMMENT_STATUS.REJECTED
-) => async (mongo: Db, tenant: Tenant, input: Moderate) => {
+) => async (
+  mongo: Db,
+  redis: AugmentedRedis,
+  tenant: Tenant,
+  input: Moderate
+) => {
   // TODO: wrap these operations in a transaction?
 
   // Create the logger.
@@ -59,6 +65,7 @@ const moderate = (
   // Update the story comment counts.
   const story = await updateStoryCounts(
     mongo,
+    redis,
     tenant.id,
     result.comment.storyID,
     {

@@ -23,7 +23,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   },
   commentActionCounts: s => decodeActionCounts(s.commentCounts.action),
   commentCounts: s => s.commentCounts.status,
-  moderationQueues: (s, input, ctx): ModerationQueuesInput => ({
+  moderationQueues: (s): ModerationQueuesInput => ({
     connection: {
       filter: {
         // This moderationQueues is being sourced from the Story, so require
@@ -31,6 +31,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
         storyID: s.id,
       },
     },
-    counts: s.commentCounts.moderationQueue,
+    counts: s.commentCounts.moderationQueue.queues,
   }),
 };
