@@ -3,11 +3,11 @@ import {
   GQLGoogleAuthIntegrationTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
-import { reconstructTenantURL } from "./util";
+import { reconstructTenantURLResolver } from "./util";
 
 export const GoogleAuthIntegration: GQLGoogleAuthIntegrationTypeResolver<
   GQLGoogleAuthIntegration
 > = {
-  callbackURL: reconstructTenantURL("/api/tenant/auth/google/callback"),
-  redirectURL: reconstructTenantURL("/api/tenant/auth/google"),
+  callbackURL: reconstructTenantURLResolver("/api/tenant/auth/google/callback"),
+  redirectURL: reconstructTenantURLResolver("/api/tenant/auth/google"),
 };
