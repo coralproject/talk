@@ -28,6 +28,8 @@ permalink: /pre-launch-checklist/
 - [ ] Do you want to provide single sign-on (SSO) by integrating with an external auth system?
   - See [Authenticating with Talk](/talk/integrating/authentication/)
 
+- [ ] Do you want to integrate Talk with your CMS to automate embedding Talk Comment Stream into your site?
+  - See [Asset Management](/talk/integrating/asset-management/)
 
 - [ ] Do you want to use Social sign-on?
   - Facebook
