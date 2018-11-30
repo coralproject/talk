@@ -21,22 +21,22 @@ class SignUpContainer extends Component<Props> {
         onGotoSignIn={this.goToSignIn}
         emailEnabled={
           integrations.local.enabled &&
-          integrations.local.targetFilter.admin &&
+          integrations.local.targetFilter.stream &&
           integrations.local.allowRegistration
         }
         facebookEnabled={
           integrations.facebook.enabled &&
-          integrations.facebook.targetFilter.admin &&
+          integrations.facebook.targetFilter.stream &&
           integrations.facebook.allowRegistration
         }
         googleEnabled={
           integrations.google.enabled &&
-          integrations.google.targetFilter.admin &&
+          integrations.google.targetFilter.stream &&
           integrations.google.allowRegistration
         }
         oidcEnabled={
           integrations.oidc.enabled &&
-          integrations.oidc.targetFilter.admin &&
+          integrations.oidc.targetFilter.stream &&
           integrations.oidc.allowRegistration
         }
       />
@@ -55,28 +55,28 @@ const enhanced = withSetViewMutation(
           local {
             enabled
             targetFilter {
-              admin
+              stream
             }
             allowRegistration
           }
           facebook {
             enabled
             targetFilter {
-              admin
+              stream
             }
             allowRegistration
           }
           google {
             enabled
             targetFilter {
-              admin
+              stream
             }
             allowRegistration
           }
           oidc {
             enabled
             targetFilter {
-              admin
+              stream
             }
             allowRegistration
           }
