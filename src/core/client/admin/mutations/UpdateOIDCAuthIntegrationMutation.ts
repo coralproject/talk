@@ -21,6 +21,7 @@ const mutation = graphql`
     updateOIDCAuthIntegration(input: $input) {
       settings {
         auth {
+          ...OIDCConfigListContainer_auth
           ...OIDCConfigListContainer_authReadOnly
         }
       }
