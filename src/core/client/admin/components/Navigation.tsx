@@ -4,7 +4,9 @@ import React, { StatelessComponent } from "react";
 import { Flex } from "talk-ui/components";
 
 import SignOutButtonContainer from "../containers/SignOutButtonContainer";
+import DecisionHistoryButton from "./DecisionHistoryButton";
 import styles from "./Navigation.css";
+import NavigationDivider from "./NavigationDivider";
 import NavigationLink from "./NavigationLink";
 
 const Navigation: StatelessComponent = () => (
@@ -24,6 +26,8 @@ const Navigation: StatelessComponent = () => (
       </Localized>
     </Flex>
     <Flex alignItems="center">
+      <DecisionHistoryButton />
+      <NavigationDivider />
       <SignOutButtonContainer id="navigation-signOutButton" />
     </Flex>
   </Flex>

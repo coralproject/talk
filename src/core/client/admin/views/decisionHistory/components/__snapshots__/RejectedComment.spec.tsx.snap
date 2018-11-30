@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<DecisionItem
+  icon={<RejectedIcon />}
+>
+  <Localized
+    id="decisionHistory-rejectedCommentBy"
+    username={
+      <Username
+        username="InTheExpensiveSeats"
+      />
+    }
+  >
+    <Info>
+      Rejected comment by &lt;username&gt;&lt;/username&gt;
+    </Info>
+  </Localized>
+  <Footer>
+    <withPropsOnChange(Typography)
+      variant="timestamp"
+    >
+      <DecisionHistory>
+        2018-07-06T18:24:00.000Z
+      </DecisionHistory>
+    </withPropsOnChange(Typography)>
+    <Footer />
+    <GoToCommentLink
+      href="#"
+      onClick={[Function]}
+    />
+  </Footer>
+</DecisionItem>
+`;

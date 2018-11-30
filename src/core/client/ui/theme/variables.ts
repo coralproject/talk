@@ -84,6 +84,9 @@ const variables = {
     lg: 1400,
     xl: 1600,
   },
+  zindex: {
+    popover: 300,
+  },
 };
 
 export default variables;

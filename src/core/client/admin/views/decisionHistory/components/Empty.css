@@ -1,0 +1,3 @@
+.root {
+  padding: calc(1.5 * var(--spacing-unit)) calc(2 * var(--spacing-unit));
+}

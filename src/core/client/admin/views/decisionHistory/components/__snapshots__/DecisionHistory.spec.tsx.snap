@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  data-test="decisionHistory-container"
+>
+  <Title />
+  <Main>
+    <DecisionList>
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "1",
+          }
+        }
+        key="1"
+      />
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "2",
+          }
+        }
+        key="2"
+      />
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "3",
+          }
+        }
+        key="3"
+      />
+    </DecisionList>
+  </Main>
+</div>
+`;
+
+exports[`renders disable load more 1`] = `
+<div
+  data-test="decisionHistory-container"
+>
+  <Title />
+  <Main>
+    <DecisionList>
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "1",
+          }
+        }
+        key="1"
+      />
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "2",
+          }
+        }
+        key="2"
+      />
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "3",
+          }
+        }
+        key="3"
+      />
+    </DecisionList>
+    <ShowMoreButton
+      disabled={true}
+      onClick={[Function]}
+    />
+  </Main>
+</div>
+`;
+
+exports[`renders empty state 1`] = `
+<div
+  data-test="decisionHistory-container"
+>
+  <Title />
+  <Main>
+    <DecisionList>
+      <Empty />
+    </DecisionList>
+  </Main>
+</div>
+`;
+
+exports[`renders hasMore 1`] = `
+<div
+  data-test="decisionHistory-container"
+>
+  <Title />
+  <Main>
+    <DecisionList>
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "1",
+          }
+        }
+        key="1"
+      />
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "2",
+          }
+        }
+        key="2"
+      />
+      <Relay(DecisionHistoryItemContainer)
+        action={
+          Object {
+            "id": "3",
+          }
+        }
+        key="3"
+      />
+    </DecisionList>
+    <ShowMoreButton
+      disabled={false}
+      onClick={[Function]}
+    />
+  </Main>
+</div>
+`;

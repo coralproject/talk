@@ -1,0 +1,16 @@
+.root {
+  padding: 0 calc(0.5 * var(--spacing-unit));
+  background-color: #f2f2f2;
+  color: var(--palette-text-primary);
+  border-bottom: 1px solid var(--palette-grey-lighter);
+}
+
+.text {
+  text-transform: uppercase;
+  font-size: calc(12rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(12em / 12);
+  letter-spacing: calc(0.2em / 12);
+  color: var(--palette-text-primary);
+}

@@ -1,4 +1,5 @@
 .root {
+  padding: calc(0.5 * var(--spacing-unit));
 }
 
 .textField {

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Localized
+  id="decisionHistory-showMoreButton"
+>
+  <withPropsOnChange(WithMouseHover)
+    className="ShowMoreButton-root"
+    disabled={false}
+    onClick={[Function]}
+  >
+    Show More
+  </withPropsOnChange(WithMouseHover)>
+</Localized>
+`;

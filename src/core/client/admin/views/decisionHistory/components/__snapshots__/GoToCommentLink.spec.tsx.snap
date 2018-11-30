@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(TextLinkProps)
+  className="GoToCommentLink-root"
+  href="#"
+  onClick={[Function]}
+>
+  <Localized
+    id="decisionHistory-goToComment"
+  >
+    <span>
+      Go to comment
+    </span>
+  </Localized>
+   
+  <withPropsOnChange(Icon)>
+    chevron_right
+  </withPropsOnChange(Icon)>
+</withPropsOnChange(TextLinkProps)>
+`;

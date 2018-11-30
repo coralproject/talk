@@ -3,6 +3,8 @@ import React, { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 import styles from "./Spinner.css";
 
+type Size = "sm" | "md";
+
 export interface SpinnerProps {
   /**
    * Convenient prop to override the root styling.
@@ -12,18 +14,32 @@ export interface SpinnerProps {
    * Override or extend the styles applied to the component.
    */
   classes: typeof styles;
+
+  size?: Size;
+}
+
+function calculateSize(size: Size): number {
+  switch (size) {
+    case "sm":
+      return 30;
+    case "md":
+      return 40;
+    default:
+      throw new Error(`Unknown ${size}`);
+  }
 }
 
 const Spinner: StatelessComponent<SpinnerProps> = props => {
   const { className, classes } = props;
 
   const rootClassName = cn(classes.spinner, className);
+  const s = calculateSize(props.size!);
 
   return (
     <svg
       className={rootClassName}
-      width="40px"
-      height="40px"
+      width={`${s}px`}
+      height={`${s}px`}
       viewBox="0 0 66 66"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -38,6 +54,10 @@ const Spinner: StatelessComponent<SpinnerProps> = props => {
       />
     </svg>
   );
+};
+
+Spinner.defaultProps = {
+  size: "md",
 };
 
 const enhanced = withStyles(styles)(Spinner);

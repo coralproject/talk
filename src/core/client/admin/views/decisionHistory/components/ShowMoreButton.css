@@ -1,0 +1,16 @@
+.root {
+  text-transform: uppercase;
+  font-size: calc(12rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(2 * var(--spacing-unit));
+  letter-spacing: calc(0.2em / 12);
+  color: var(--palette-grey-main);
+  width: 100%;
+  border-top: 1px solid var(--palette-divider);
+  text-align: center;
+
+  &:disabled {
+    color: var(--palette-grey-lighter);
+  }
+}

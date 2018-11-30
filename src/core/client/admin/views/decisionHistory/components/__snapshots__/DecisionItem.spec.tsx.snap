@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<li
+  className="DecisionItem-root"
+>
+  <withPropsOnChange(Flex)>
+    <div
+      className="DecisionItem-leftCol"
+    >
+      icon
+    </div>
+    <div>
+      children
+    </div>
+  </withPropsOnChange(Flex)>
+</li>
+`;

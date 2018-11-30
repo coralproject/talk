@@ -1,7 +1,7 @@
 .root {
   color: var(--palette-text-secondary);
   font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-medium);
   font-size: calc(18rem / var(--rem-base));
   line-height: calc(20em / 18);
   letter-spacing: calc(-0.1em / 18);

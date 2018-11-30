@@ -1,0 +1,12 @@
+.root {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  & > * {
+    border-bottom: 1px solid var(--palette-divider);
+  }
+  & > *:last-child {
+    border-bottom: 0;
+  }
+}

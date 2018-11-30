@@ -5,6 +5,7 @@ exports[`renders correctly 1`] = `
   id="navigation-signOutButton"
 >
   <withPropsOnChange(Button)
+    className="SignOutButton-root"
     id="id"
     onClick={[Function]}
   >
