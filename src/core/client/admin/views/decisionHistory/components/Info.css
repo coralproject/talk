@@ -1,4 +1,5 @@
 .root {
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(16em / 12);
+  word-break: break-word;
 }
