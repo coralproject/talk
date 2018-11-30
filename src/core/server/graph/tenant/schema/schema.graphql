@@ -414,11 +414,6 @@ will be used in the admin to provide staff logins for users.
 """
 type OIDCAuthIntegration {
   """
-  id is the identifier of the OIDCAuthIntegration.
-  """
-  id: ID!
-
-  """
   enabled, when true, allows the integration to be enabled.
   """
   enabled: Boolean!
@@ -455,49 +450,49 @@ type OIDCAuthIntegration {
   an authentication flow with the given integration. This field is not stored,
   and is instead computed from the Tenant.
   """
-  redirectURL: String!
+  redirectURL: String
 
   """
   clientID is the Client Identifier as defined in:
 
   https://tools.ietf.org/html/rfc6749#section-2.2
   """
-  clientID: String! @auth(roles: [ADMIN])
+  clientID: String @auth(roles: [ADMIN])
 
   """
   clientSecret is the Client Secret as defined in:
 
   https://tools.ietf.org/html/rfc6749#section-2.3.1
   """
-  clientSecret: String! @auth(roles: [ADMIN])
+  clientSecret: String @auth(roles: [ADMIN])
 
   """
   authorizationURL is defined as the `authorization_endpoint` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  authorizationURL: String! @auth(roles: [ADMIN])
+  authorizationURL: String @auth(roles: [ADMIN])
 
   """
   tokenURL is defined as the `token_endpoint` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  tokenURL: String! @auth(roles: [ADMIN])
+  tokenURL: String @auth(roles: [ADMIN])
 
   """
   jwksURI is defined as the `jwks_uri` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  jwksURI: String! @auth(roles: [ADMIN])
+  jwksURI: String @auth(roles: [ADMIN])
 
   """
   issuer is defined as the `issuer` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  issuer: String! @auth(roles: [ADMIN])
+  issuer: String @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -583,7 +578,7 @@ type FacebookAuthIntegration {
 type AuthIntegrations {
   local: LocalAuthIntegration!
   sso: SSOAuthIntegration!
-  oidc: [OIDCAuthIntegration!]!
+  oidc: OIDCAuthIntegration!
   google: GoogleAuthIntegration!
   facebook: FacebookAuthIntegration!
 }
@@ -1768,6 +1763,75 @@ type EditCommentPayload {
 ## updateSettings
 ##################
 
+input SettingsOIDCAuthIntegrationInput {
+  """
+  enabled, when true, allows the integration to be enabled.
+  """
+  enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
+  name: String
+
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
+  clientID: String
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
+  clientSecret: String
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String
+}
+
 input SettingsEmailInput {
   """
   enabled when True, will enable the emailing functionality in Talk.
@@ -1879,6 +1943,7 @@ input SettingsFacebookAuthIntegrationInput {
 input SettingsAuthIntegrationsInput {
   local: SettingsLocalAuthIntegrationInput
   sso: SettingsSSOAuthIntegrationInput
+  oidc: SettingsOIDCAuthIntegrationInput
   google: SettingsGoogleAuthIntegrationInput
   facebook: SettingsFacebookAuthIntegrationInput
 }
@@ -2387,250 +2452,6 @@ type RegenerateSSOKeyPayload {
 }
 
 ##################
-# createOIDCAuthIntegration
-##################
-
-input CreateOIDCAuthIntegrationConfigurationInput {
-  """
-  enabled, when true, allows the integration to be enabled.
-  """
-  enabled: Boolean
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: SettingsAuthenticationTargetFilterInput
-
-  """
-  name is the label assigned to reference the provider of the OIDC integration,
-  and will be used in situations where the name of the provider needs to be
-  displayed, like the login button.
-  """
-  name: String!
-
-  """
-  clientID is the Client Identifier as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.2
-  """
-  clientID: String!
-
-  """
-  clientSecret is the Client Secret as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.3.1
-  """
-  clientSecret: String!
-
-  """
-  authorizationURL is defined as the `authorization_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  authorizationURL: String!
-
-  """
-  tokenURL is defined as the `token_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  tokenURL: String!
-
-  """
-  jwksURI is defined as the `jwks_uri` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  jwksURI: String!
-
-  """
-  issuer is defined as the `issuer` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  issuer: String!
-}
-
-input CreateOIDCAuthIntegrationInput {
-  """
-  configuration contains the configuration to be used to create the auth integration.
-  """
-  configuration: CreateOIDCAuthIntegrationConfigurationInput!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type CreateOIDCAuthIntegrationPayload {
-  """
-  integration is the OIDCAuthIntegration we just created.
-  """
-  integration: OIDCAuthIntegration
-
-  """
-  settings is the Settings that the OIDCAuthIntegration was created on.
-  """
-  settings: Settings
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
-# updateOIDCAuthIntegration
-##################
-
-input UpdateOIDCAuthIntegrationConfigurationInput {
-  """
-  enabled, when true, allows the integration to be enabled.
-  """
-  enabled: Boolean
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: SettingsAuthenticationTargetFilterInput
-
-  """
-  name is the label assigned to reference the provider of the OIDC integration,
-  and will be used in situations where the name of the provider needs to be
-  displayed, like the login button.
-  """
-  name: String
-
-  """
-  clientID is the Client Identifier as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.2
-  """
-  clientID: String
-
-  """
-  clientSecret is the Client Secret as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.3.1
-  """
-  clientSecret: String
-
-  """
-  authorizationURL is defined as the `authorization_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  authorizationURL: String
-
-  """
-  tokenURL is defined as the `token_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  tokenURL: String
-
-  """
-  jwksURI is defined as the `jwks_uri` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  jwksURI: String
-
-  """
-  issuer is defined as the `issuer` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  issuer: String
-}
-
-input UpdateOIDCAuthIntegrationInput {
-  """
-  id is the ID of the specific OpenID Connect integration that we are updating.
-  """
-  id: ID!
-
-  """
-  configuration contains the configuration to be used to update the OpenID
-  Connect integration.
-  """
-  configuration: UpdateOIDCAuthIntegrationConfigurationInput!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type UpdateOIDCAuthIntegrationPayload {
-  """
-  integration is the OIDCAuthIntegration we just updated.
-  """
-  integration: OIDCAuthIntegration
-
-  """
-  settings is the Settings that the OIDCAuthIntegration was updated on.
-  """
-  settings: Settings
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
-# removeOIDCAuthIntegration
-##################
-
-input RemoveOIDCAuthIntegrationInput {
-  """
-  id is the ID of the specific OpenID Connect integration that we are deleting.
-  """
-  id: ID!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type RemoveOIDCAuthIntegrationPayload {
-  """
-  integration is the OIDCAuthIntegration we just removed.
-  """
-  integration: OIDCAuthIntegration
-
-  """
-  settings is the Settings that the OIDCAuthIntegration was removed on with the
-  OIDCAuthIntegration removed from it.
-  """
-  settings: Settings
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
 ## createStory
 ##################
 
@@ -2990,28 +2811,6 @@ type Mutation {
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
     @auth(roles: [ADMIN])
-
-  """
-  createOIDCAuthIntegration will create a OpenID Connect auth integration.
-  """
-  createOIDCAuthIntegration(
-    input: CreateOIDCAuthIntegrationInput!
-  ): CreateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
-
-  """
-  updateOIDCAuthIntegration will update a given OpenID Connect auth integration.
-  """
-  updateOIDCAuthIntegration(
-    input: UpdateOIDCAuthIntegrationInput!
-  ): UpdateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
-
-  """
-  removeOIDCAuthIntegration will remove the specified OpenID Connect auth
-  integration.
-  """
-  removeOIDCAuthIntegration(
-    input: RemoveOIDCAuthIntegrationInput!
-  ): RemoveOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in

@@ -39,13 +39,10 @@ export interface OIDCIDToken {
   nickname?: string;
 }
 
-export type StrategyItem = Record<
-  string,
-  {
-    strategy: OAuth2Strategy;
-    jwksClient?: JwksClient;
-  }
->;
+export interface StrategyItem {
+  strategy: OAuth2Strategy;
+  jwksClient?: JwksClient;
+}
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
   if (
@@ -88,24 +85,10 @@ const signingKeyFactory = (client: jwks.JwksClient): jwt.KeyFunction => (
 };
 
 function getEnabledIntegration(
-  tenant: Tenant,
-  oidcID: string
+  tenant: Tenant
 ): Required<GQLOIDCAuthIntegration> {
-  if (!tenant.auth.integrations.oidc) {
-    // TODO: return a better error.
-    throw new Error("integration not found");
-  }
-
-  // Grab the OIDC Integration from the list of integrations.
-  const integration = tenant.auth.integrations.oidc.find(
-    ({ id }) => id === oidcID
-  );
-  if (!integration) {
-    // TODO: return a better error.
-    throw new Error("integration not found");
-  }
-
-  // Handle when the integration is enabled/disabled.
+  // Grab the OIDC Integration.
+  const integration = tenant.auth.integrations.oidc;
   if (!integration.enabled) {
     // TODO: return a better error.
     throw new Error("integration not enabled");
@@ -224,23 +207,18 @@ export default class OIDCStrategy extends Strategy {
     tenantID: string,
     oidc: Required<GQLOIDCAuthIntegration>
   ): jwks.JwksClient {
-    let tenantIntegrations = this.cache.get(tenantID);
-    if (!tenantIntegrations || !tenantIntegrations[oidc.id]) {
+    let tenantIntegration = this.cache.get(tenantID);
+    if (!tenantIntegration) {
       const strategy = this.createStrategy(req, oidc);
 
       // Create the entry.
-      tenantIntegrations = {
-        [oidc.id]: {
-          strategy,
-        },
-        ...(tenantIntegrations || {}),
+      tenantIntegration = {
+        strategy,
       };
 
       // We don't reset the entry in the cache here because if we just created
       // it, we'll be creating the jwksClient anyways, so we'll update it there.
     }
-
-    const tenantIntegration = tenantIntegrations[oidc.id];
 
     if (!tenantIntegration.jwksClient) {
       // Create the new JWKS client.
@@ -252,13 +230,7 @@ export default class OIDCStrategy extends Strategy {
       tenantIntegration.jwksClient = jwksClient;
 
       // Update the cached entry.
-      this.cache.set(tenantID, {
-        [oidc.id]: {
-          ...tenantIntegration,
-          jwksClient,
-        },
-        ...tenantIntegrations,
-      });
+      this.cache.set(tenantID, tenantIntegration);
     }
 
     return tenantIntegration.jwksClient;
@@ -287,14 +259,11 @@ export default class OIDCStrategy extends Strategy {
       return done(new Error("tenant not found"));
     }
 
-    // Grab the OIDC ID from the request.
-    const { oidc: oidcID }: { oidc: string } = req.params;
-
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
     let integration: Required<GQLOIDCAuthIntegration>;
     try {
-      integration = getEnabledIntegration(tenant, oidcID);
+      integration = getEnabledIntegration(tenant);
     } catch (err) {
       // TODO: wrap error?
       return done(err);
@@ -338,10 +307,7 @@ export default class OIDCStrategy extends Strategy {
     const { clientID, clientSecret, authorizationURL, tokenURL } = integration;
 
     // Construct the callbackURL from the request.
-    const callbackURL = reconstructURL(
-      req,
-      `/api/tenant/auth/oidc/${integration.id}/callback`
-    );
+    const callbackURL = reconstructURL(req, `/api/tenant/auth/oidc/callback`);
 
     // Create a new OAuth2Strategy, where we pass the verify callback bound to
     // this OIDCStrategy instance.
@@ -365,32 +331,26 @@ export default class OIDCStrategy extends Strategy {
       throw new Error("tenant not found");
     }
 
-    // Get the OIDC ID.
-    const { oidc: oidcID }: { oidc: string } = req.params;
-
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    const integration = getEnabledIntegration(tenant, oidcID);
+    const integration = getEnabledIntegration(tenant);
 
     // Try to get the Tenant's cached integrations.
-    let tenantIntegrations = this.cache.get(tenant.id);
-    if (!tenantIntegrations || !tenantIntegrations[oidcID]) {
+    let tenantIntegration = this.cache.get(tenant.id);
+    if (!tenantIntegration) {
       // Create the strategy.
       const strategy = this.createStrategy(req, integration);
 
       // Reset the entry.
-      tenantIntegrations = {
-        [oidcID]: {
-          strategy,
-        },
-        ...(tenantIntegrations || {}),
+      tenantIntegration = {
+        strategy,
       };
 
       // Update the cached integrations value.
-      this.cache.set(tenant.id, tenantIntegrations);
+      this.cache.set(tenant.id, tenantIntegration);
     }
 
-    return tenantIntegrations[oidcID].strategy;
+    return tenantIntegration.strategy;
   }
 
   public authenticate(req: Request) {
