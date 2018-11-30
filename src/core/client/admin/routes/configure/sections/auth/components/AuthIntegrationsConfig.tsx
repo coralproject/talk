@@ -8,7 +8,7 @@ import Header from "../../../components/Header";
 import FacebookConfigContainer from "../containers/FacebookConfigContainer";
 import GoogleConfigContainer from "../containers/GoogleConfigContainer";
 import LocalAuthConfigContainer from "../containers/LocalAuthConfigContainer";
-import OIDCConfigListContainer from "../containers/OIDCConfigListContainer";
+import OIDCConfigContainer from "../containers/OIDCConfigContainer";
 import SSOConfigContainer from "../containers/SSOConfigContainer";
 
 interface Props {
@@ -20,8 +20,8 @@ interface Props {
     PropTypesOf<typeof SSOConfigContainer>["auth"] &
     PropTypesOf<typeof SSOConfigContainer>["authReadOnly"] &
     PropTypesOf<typeof LocalAuthConfigContainer>["auth"] &
-    PropTypesOf<typeof OIDCConfigListContainer>["auth"] &
-    PropTypesOf<typeof OIDCConfigListContainer>["authReadOnly"];
+    PropTypesOf<typeof OIDCConfigContainer>["auth"] &
+    PropTypesOf<typeof OIDCConfigContainer>["authReadOnly"];
   onInitValues: (values: any) => void;
 }
 
@@ -39,7 +39,7 @@ const AuthIntegrationsConfig: StatelessComponent<Props> = ({
       auth={auth}
       onInitValues={onInitValues}
     />
-    <OIDCConfigListContainer
+    <OIDCConfigContainer
       disabled={disabled}
       auth={auth}
       authReadOnly={auth}

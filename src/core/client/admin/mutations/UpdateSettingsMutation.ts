@@ -25,8 +25,8 @@ const mutation = graphql`
           ...GoogleConfigContainer_authReadOnly
           ...SSOConfigContainer_auth
           ...SSOConfigContainer_authReadOnly
-          ...OIDCConfigListContainer_auth
-          ...OIDCConfigListContainer_authReadOnly
+          ...OIDCConfigContainer_auth
+          ...OIDCConfigContainer_authReadOnly
           ...DisplayNamesConfigContainer_auth
         }
       }

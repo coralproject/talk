@@ -22,7 +22,7 @@ exports[`renders fully 1`] = `
 
 exports[`renders sso only 1`] = `""`;
 
-exports[`renders sso only without logut button 1`] = `""`;
+exports[`renders sso only without logout button 1`] = `""`;
 
 exports[`renders without logout button 1`] = `
 <Fragment>

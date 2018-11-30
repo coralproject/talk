@@ -49,7 +49,7 @@ export default class AuthContainer extends React.Component<Props> {
       get(data, "auth.integrations.facebook"),
       get(data, "auth.integrations.sso"),
       get(data, "auth.integrations.local"),
-      ...(get(data, "auth.integrations.oidc") || []),
+      get(data, "auth.integrations.oidc"),
     ];
     if (!integrations.some((i: any) => i.enabled && i.targetFilter.admin)) {
       cancel({
@@ -111,8 +111,8 @@ AuthContainer.routeConfig = {
           ...SSOConfigContainer_authReadOnly
           ...LocalAuthConfigContainer_auth
           ...DisplayNamesConfigContainer_auth
-          ...OIDCConfigListContainer_auth
-          ...OIDCConfigListContainer_authReadOnly
+          ...OIDCConfigContainer_auth
+          ...OIDCConfigContainer_authReadOnly
         }
       }
     }

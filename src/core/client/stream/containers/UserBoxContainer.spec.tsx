@@ -31,6 +31,10 @@ it("renders fully", () => {
             enabled: false,
             allowRegistration: true,
           },
+          oidc: {
+            enabled: false,
+            allowRegistration: true,
+          },
           sso: {
             enabled: false,
             allowRegistration: true,
@@ -39,7 +43,6 @@ it("renders fully", () => {
             enabled: true,
             allowRegistration: true,
           },
-          oidc: [],
         },
       },
     },
@@ -76,6 +79,10 @@ it("renders without logout button", () => {
             enabled: false,
             allowRegistration: true,
           },
+          oidc: {
+            enabled: false,
+            allowRegistration: true,
+          },
           sso: {
             enabled: false,
             allowRegistration: true,
@@ -84,7 +91,6 @@ it("renders without logout button", () => {
             enabled: true,
             allowRegistration: true,
           },
-          oidc: [],
         },
       },
     },
@@ -121,6 +127,10 @@ it("renders sso only", () => {
             enabled: false,
             allowRegistration: true,
           },
+          oidc: {
+            enabled: false,
+            allowRegistration: true,
+          },
           sso: {
             enabled: true,
             allowRegistration: true,
@@ -129,7 +139,6 @@ it("renders sso only", () => {
             enabled: false,
             allowRegistration: true,
           },
-          oidc: [],
         },
       },
     },
@@ -144,7 +153,7 @@ it("renders sso only", () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-it("renders sso only without logut button", () => {
+it("renders sso only without logout button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
       authPopup: {
@@ -166,6 +175,10 @@ it("renders sso only without logut button", () => {
             enabled: false,
             allowRegistration: true,
           },
+          oidc: {
+            enabled: false,
+            allowRegistration: true,
+          },
           sso: {
             enabled: true,
             allowRegistration: true,
@@ -174,7 +187,6 @@ it("renders sso only without logut button", () => {
             enabled: false,
             allowRegistration: true,
           },
-          oidc: [],
         },
       },
     },
@@ -211,6 +223,10 @@ it("renders without register button", () => {
             enabled: false,
             allowRegistration: false,
           },
+          oidc: {
+            enabled: false,
+            allowRegistration: true,
+          },
           sso: {
             enabled: false,
             allowRegistration: true,
@@ -219,7 +235,6 @@ it("renders without register button", () => {
             enabled: true,
             allowRegistration: false,
           },
-          oidc: [],
         },
       },
     },

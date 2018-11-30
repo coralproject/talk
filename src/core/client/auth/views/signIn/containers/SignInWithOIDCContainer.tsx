@@ -12,14 +12,14 @@ interface Props {
 
 class SignInWithOIDCContainer extends Component<Props> {
   private handleOnClick = () => {
-    redirectOAuth2(this.props.auth.integrations.oidc[0].redirectURL);
+    redirectOAuth2(this.props.auth.integrations.oidc.redirectURL!);
   };
 
   public render() {
     return (
       <Localized
         id="signIn-signInWithOIDC"
-        $name={this.props.auth.integrations.oidc[0].name}
+        $name={this.props.auth.integrations.oidc.name}
       >
         <OIDCButton onClick={this.handleOnClick}>Sign in with $name</OIDCButton>
       </Localized>

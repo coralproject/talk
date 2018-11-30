@@ -35,9 +35,9 @@ class SignInContainer extends Component<Props> {
         googleEnabled={
           integrations.google.enabled && integrations.google.targetFilter.stream
         }
-        oidcEnabled={integrations.oidc.some(
-          i => i.enabled && i.targetFilter.stream
-        )}
+        oidcEnabled={
+          integrations.oidc.enabled && integrations.oidc.targetFilter.stream
+        }
       />
     );
   }

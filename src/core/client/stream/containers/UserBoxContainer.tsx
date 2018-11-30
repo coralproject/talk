@@ -50,7 +50,7 @@ export class UserBoxContainer extends Component<InnerProps> {
         integrations.facebook.enabled) ||
       (integrations.google.allowRegistration && integrations.google.enabled) ||
       (integrations.local.allowRegistration && integrations.local.enabled) ||
-      integrations.oidc.some(c => c.allowRegistration && c.enabled)
+      (integrations.oidc.allowRegistration && integrations.oidc.enabled)
     );
   }
 
@@ -60,7 +60,7 @@ export class UserBoxContainer extends Component<InnerProps> {
       integrations.facebook.enabled ||
       integrations.google.enabled ||
       integrations.local.enabled ||
-      integrations.oidc.some(c => c.enabled)
+      integrations.oidc.enabled
     );
   }
 

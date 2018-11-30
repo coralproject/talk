@@ -27,6 +27,14 @@ export const settings = {
           admin: true,
         },
       },
+      oidc: {
+        enabled: false,
+        allowRegistration: true,
+        targetFilter: {
+          stream: true,
+          admin: true,
+        },
+      },
       local: {
         enabled: true,
         allowRegistration: true,
@@ -35,7 +43,6 @@ export const settings = {
           admin: true,
         },
       },
-      oidc: [],
     },
   },
 };

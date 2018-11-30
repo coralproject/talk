@@ -81,7 +81,9 @@ class ConfigureContainer extends React.Component<Props> {
       executeCallbacks.push(() =>
         this.props.updateSettings({ settings: nextData })
       );
-      await Promise.all(executeCallbacks.map(cb => cb()));
+      for (const c of executeCallbacks.map(cb => cb())) {
+        await c;
+      }
       form.initialize(data);
     } catch (error) {
       if (error instanceof BadUserInputError) {

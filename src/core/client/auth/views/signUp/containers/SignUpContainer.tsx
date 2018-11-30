@@ -34,9 +34,11 @@ class SignUpContainer extends Component<Props> {
           integrations.google.targetFilter.admin &&
           integrations.google.allowRegistration
         }
-        oidcEnabled={integrations.oidc.some(
-          i => i.enabled && i.targetFilter.admin && i.allowRegistration
-        )}
+        oidcEnabled={
+          integrations.oidc.enabled &&
+          integrations.oidc.targetFilter.admin &&
+          integrations.oidc.allowRegistration
+        }
       />
     );
   }
