@@ -68,7 +68,12 @@
   margin-top: 0px;
   flex: 1;
   color: black;
-  max-width: 500px;
+  /*
+    IE11 fix – Next line was supposed to be:
+    max-width: 500px;
+  */
+  padding-right: 20px;
+  /** IE11 fix end **/
   font-weight: 300;
   font-size: 16px;
   overflow-wrap: break-word;

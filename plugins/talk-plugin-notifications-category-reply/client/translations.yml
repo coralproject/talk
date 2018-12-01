@@ -10,3 +10,6 @@ es:
 de:
   talk-plugin-notifications-category-reply:
     toggle_description: Jemand antwortet auf meinen Kommentar
+nl_NL:
+  talk-plugin-notifications-category-reply:
+    toggle_description: Iemand antwoord op mijn reactie
