@@ -3,8 +3,10 @@ title: Authenticating with Talk
 permalink: /integrating/authentication/
 ---
 
-You can integrate Talk with any external authentication service that will enable
-seamless single sign-on for users within your organization. There are a few
+Out of the box Talk supports account registration with username and password, as well as features like forgot password. 
+
+You can also integrate Talk with any external authentication service that will enable
+seamless single sign-on (SSO) for users within your organization. There are a few
 methods of doing so:
 
 1. Passport Middleware
@@ -17,8 +19,12 @@ choice.
 
 You would choose the **Passport Middleware** route when you are OK using an auth
 that is triggered from inside Talk that is not connected to an external auth
-state (you don't use the auth anywhere else now). A great example of this is our
-[talk-plugin-facebook-auth](/talk/plugin/talk-plugin-facebook-auth/) plugin.
+state (you don't use the auth anywhere else now). 
+
+Plugins are available for the follwing 3rd party authentication providers:
+
+* [Facebook](/talk/plugin/talk-plugin-facebook-auth/)
+* [Google](/talk/plugin/talk-plugin-google-auth/) 
 
 ## Custom Token Integration 
 
