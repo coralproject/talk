@@ -222,6 +222,17 @@ Once you have added the domain of these docs, you can click the button below.
   <div class="mount"></div>
 </div>
 
+### Developer Endpoints
+
+With your local instance of Talk running in development mode (env variable `NODE_ENV=development`) you should now also be able to access the following developer routes:
+
+[http://127.0.0.1:3000/dev](http://127.0.0.1:3000/dev]) provides a sample comment stream 
+
+[http://127.0.0.1:3000/dev/assets](http://127.0.0.1:3000/dev/assets]) provides a list of all stories in Talk and can generate new sample assets
+
+###Conclusion
 At this point you've successfully installed, configured, and ran your very own
 instance of Talk! Continue through this documentation on this site to learn more
 on how to configure, develop with, and contribute to Talk!
+
+
