@@ -21,7 +21,7 @@ You would choose the **Passport Middleware** route when you are OK using an auth
 that is triggered from inside Talk that is not connected to an external auth
 state (you don't use the auth anywhere else now). 
 
-Plugins are available for the follwing 3rd party authentication providers:
+Plugins are available for the following 3rd party authentication providers:
 
 * [Facebook](/talk/plugin/talk-plugin-facebook-auth/)
 * [Google](/talk/plugin/talk-plugin-google-auth/) 
