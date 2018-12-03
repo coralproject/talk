@@ -75,23 +75,6 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           Redirect URI
         </label>
         <div
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-        >
-          <div
-            className="Flex-root Flex-flex Flex-halfItemGutter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-            >
-              error
-            </span>
-            <div>
-              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-            </div>
-          </div>
-        </div>
-        <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
           <input
@@ -759,23 +742,6 @@ exports[`change settings: enable oidc configure box 1`] = `
           Redirect URI
         </label>
         <div
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-        >
-          <div
-            className="Flex-root Flex-flex Flex-halfItemGutter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-            >
-              error
-            </span>
-            <div>
-              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-            </div>
-          </div>
-        </div>
-        <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
           <input
@@ -1177,23 +1143,6 @@ exports[`change settings: oidc validation errors 1`] = `
         >
           Redirect URI
         </label>
-        <div
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-        >
-          <div
-            className="Flex-root Flex-flex Flex-halfItemGutter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-            >
-              error
-            </span>
-            <div>
-              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-            </div>
-          </div>
-        </div>
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
@@ -2071,23 +2020,6 @@ integration to register for a new account.
                     >
                       Redirect URI
                     </label>
-                    <div
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-                    >
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-                        >
-                          error
-                        </span>
-                        <div>
-                          For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-                        </div>
-                      </div>
-                    </div>
                     <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >

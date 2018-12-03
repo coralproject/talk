@@ -78,22 +78,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
             </Typography>
           </Localized>
           <HorizontalRule />
-          <RedirectField
-            url={callbackURL}
-            description={
-              <ConfigDescription container="div">
-                <Flex itemGutter="half">
-                  <Icon className={styles.redirectDescriptionIcon}>error</Icon>
-                  <Localized id="configure-auth-oidc-redirectDescription">
-                    <div>
-                      For OpenID Connect, your Redirect URI will not appear
-                      until you after you save this integration
-                    </div>
-                  </Localized>
-                </Flex>
-              </ConfigDescription>
-            }
-          />
+          <RedirectField url={callbackURL} />
           <HorizontalRule />
           <FormField>
             <Localized id="configure-auth-oidc-providerName">
