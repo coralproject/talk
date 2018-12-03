@@ -3,59 +3,7 @@ const scraper = require('../../services/scraper');
 const Assets = require('../../services/assets');
 const { createLogger } = require('../../services/logging');
 const logger = createLogger('jobs:scraper');
-const fetch = require('node-fetch');
 const { merge } = require('lodash');
-const { version } = require('../../package.json');
-const { SCRAPER_HEADERS, SCRAPER_PROXY_URL } = require('../../config');
-const ProxyAgent = require('proxy-agent');
-
-// Load the scraper with the rules.
-const metascraper = require('metascraper').load([
-  require('metascraper-title')(),
-  require('metascraper-description')(),
-  require('metascraper-image')(),
-  require('metascraper-author')(),
-  require('metascraper-date')(),
-  require('./rules/modified')(),
-  require('./rules/section')(),
-]);
-
-let customHeaders = {};
-try {
-  customHeaders = JSON.parse(SCRAPER_HEADERS);
-} catch (err) {
-  console.error('Cannot parse TALK_SCRAPER_HEADERS');
-  throw err;
-}
-
-// Parse the headers to be added to the scraper.
-const headers = merge(
-  {
-    'User-Agent': `Coral-Talk/${version}`,
-  },
-  customHeaders
-);
-
-// Add proxy configuration if exists.
-const agent = SCRAPER_PROXY_URL ? new ProxyAgent(SCRAPER_PROXY_URL) : null;
-
-/**
- * Scrapes the given asset for metadata.
- */
-async function scrape({ url }) {
-  const res = await fetch(url, {
-    headers,
-    agent,
-  });
-  const html = await res.text();
-
-  // Get the metadata from the scraped html.
-  const metadata = await metascraper({
-    html,
-    url,
-  });
-  return metadata;
-}
 
 /**
  * Updates an Asset based on scraped asset metadata.
@@ -64,16 +12,9 @@ function update(id, meta) {
   return Asset.update(
     { id },
     {
-      $set: {
-        title: meta.title || '',
-        description: meta.description || '',
-        image: meta.image ? meta.image : '',
-        author: meta.author || '',
-        publication_date: meta.date || '',
-        modified_date: meta.modified || '',
-        section: meta.section || '',
+      $set: merge(meta, {
         scraped: new Date(),
-      },
+      }),
     }
   );
 }
@@ -95,7 +36,7 @@ module.exports = () => {
       }
 
       // Scrape the metadata from the asset.
-      const meta = await scrape(asset);
+      const meta = await scraper.scrape(asset.url);
 
       log.info('Finished scraping');
 

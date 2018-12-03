@@ -11,10 +11,10 @@ const getInfo = (toxicity, actions) => {
   let text = t('talk-plugin-toxic-comments.unlikely');
   if (toxicity > 0.8) {
     text = t('talk-plugin-toxic-comments.highly_likely');
-  } else if (toxicity >= 0.5) {
-    text = t('talk-plugin-toxic-comments.possibly');
   } else if (toxicity >= 0.7) {
     text = t('talk-plugin-toxic-comments.likely');
+  } else if (toxicity >= 0.5) {
+    text = t('talk-plugin-toxic-comments.possibly');
   }
 
   return (

@@ -315,8 +315,8 @@ es:
       save: "Salvar"
       cancel: "Cancelar"
       edit: "Editar"
-      changed_password_msg: "Senha alterada - Sua senha foi alterada com sucesso"
-      forgot_password_sent: "Esqueceu a senha - Nós enviamos um email para recuperação da senha"
+      changed_password_msg: "Contraseña cambiada - Su contraseña ha sido cambiado"
+      forgot_password_sent: "Contraseña olvidada - Enviamos un email para recuperar la contraseña"
       change_password: "Cambiar Contraseña"
       passwords_dont_match: "Las contraseñas no coinciden"
       required_field: "Este campo es requerido"
@@ -351,7 +351,7 @@ es:
       cancel: "Cancelar"
       change_email_msg: "Dirección de correo electrónico modificada. Esta dirección de correo electrónico ahora se utilizará para iniciar sesión y notificaciones por correo electrónico."
     add_email:
-      add_email_address: "Agregar dirección de correo electrónico"
+      add_email_address: "Confirmar"
       enter_email_address: "Introducir la dirección de correo electrónico:"
       invalid_email_address: "Dirección de correo electrónico no válida"
       confirm_email_address: "Confirmar el correo:"
@@ -376,3 +376,79 @@ es:
         description_2: "Puedes cambiar la configuración de tu cuenta visitando"
         path: "Mi perfil > Configuración"
         alert: "¡Correo electrónico agregado!"
+nl_NL:
+  email:
+    email_change_original:
+      subject: E-mailadres wijziging
+      body: "Je e-mailadres is gewijzigd van {0} naar {1}. Als je deze wijziging niet hebt aangevraagd, neem dan s.v.p. contact op: {2}."
+  error:
+    NO_LOCAL_PROFILE: Er is geen bestaand e-mailadres geassocieerd met dit account.
+    LOCAL_PROFILE: Er is reeds een e-mailadres geassocieerd met dit account.
+    INCORRECT_PASSWORD: Het opgegeven wachtwoord is onjuist.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Wachtwoord wijzigen"
+      passwords_dont_match: "Wachtwoorden komen niet overeen"
+      required_field: "Dit veld is verplicht"
+      forgot_password: "Wachtwoord vergeten?"
+      old_password: "Oud Wachtwoord"
+      new_password: "Nieuw Wachtwoord"
+      confirm_new_password: "Bevestig Nieuw Wachtwoord"
+      save: "Opslaan"
+      cancel: "Annuleren"
+      edit: "Wijzigen"
+      changed_password_msg: "Wachtwoord Gewijzigd - Je wachtwoord is succesvol gewijzigd"
+      forgot_password_sent: "Wachtwoord Vergeten - We hebben je een e-mail gestuurd om je wachtwoord te herstellen"
+    change_username:
+      change_username_note: "Gebruikersnamen kunnen eens per 14 dagen worden gewijzigd."
+      is_not_eligible: "Je kunt je gebruikersnaam momenteel niet wijzigen."
+      save: "Opslaan"
+      edit_profile: "Profiel wijzigen"
+      cancel: "Annuleren"
+      confirm_username_change: "Bevestig Gebruikersnaam Wijziging"
+      description: "Je probeert je gebruikersnaam te wijzigen. Je nieuwe gebruikersnaam zal verschijnen bij al je huidige en toekomstige reacties."
+      old_username: "Oude Gebruikersnaam"
+      new_username: "Nieuwe Gebruikersnaam"
+      re_enter: "Voer je nieuwe gebruikersnaam opnieuw in"
+      bottom_note: "Let op: Je kan je gebruikersnaam niet opnieuw wijzigen in de komende 14 dagen."
+      confirm_changes: "Bevestig Wijzigingen"
+      username_does_not_match: "Gebruikersnaam komt niet overeen"
+      cant_be_equal: "Je nieuwe {0} moet verschillen van je huidige"
+      changed_username_success_msg: "Gebruikersnaam Gewijzigd - Je gebruikersnaam is succesvol gewijzigd. Je kan je gebruikersnaam niet wijzigen voor de komende 14 dagen."
+      change_username_attempt: "Gebruikersnaam kan niet worden gewijzigd. Gebruikersnamen kunnen eens per 14 dagen worden gewijzigd."
+    change_email:
+      confirm_email_change: "Bevestig E-mailadres Wijziging"
+      description: "Je probeert je e-mailadres te wijzigen. Je nieuwe e-mailadres zal worden gebruikt om in te loggen en voor het ontvangen van account notificaties."
+      old_email: "Oude E-mailadres"
+      new_email: "Nieuwe E-mailadres"
+      enter_password: "Wachtwoord Invoeren"
+      incorrect_password: "Ongeldig Wachtwoord"
+      confirm_change: "Bevestig Wijziging"
+      cancel: "Annuleren"
+      change_email_msg: "E-mailadres Gewijzigd. Dit E-mailadres zal nu worden gebruikt om in te loggen en voor het ontvangen van account notificaties."
+    add_email:
+      add_email_address: "E-mailadres Toevoegen"
+      enter_email_address: "E-mailadres Invoeren:"
+      invalid_email_address: "Ongeldig E-mailadres"
+      confirm_email_address: "Bevestig E-mailadres:"
+      email_does_not_match: "E-mailadres komt niet overeen"
+      insert_password: "Wachtwoord Invoeren:"
+      confirm_password: "Wachtwoord Bevestigen:"
+      required_field: "Dit veld is verplicht"
+      done: "Klaar"
+      content:
+        title: "Voeg een e-mailadres toe"
+        description: "Voor je veiligheid vragen we gebruikers om een e-mailadres toe te voegen aan hun account. Je e-mailadres zal worden gebruikt om:"
+        item_1: "Updates te ontvangen omtrent wijzigingen in je account (e-mailadres, gebruikersnaam, wachtwoord, etc.)"
+        item_2: "Je reacties te kunnen downloaden."
+        item_3: "Reactie notificaties te sturen indien je hebt gekozen deze te ontvangen."
+      verify:
+        title: "Bevestig Je E-mailadres"
+        description: "We hebben een e-mail gestuurd aan {0} om je account te bevestigen. Je moet je e-mailadres verifiëren zodat deze gebruikt kan worden voor bevestigingen omtrent account wijzigingen en voor notificaties."
+      added:
+        title: "E-mailadres Toegevoegd"
+        description: "Je e-mailadres is toegevoegd aan je account."
+        subtitle: "Wil je je e-mailadres wijzigen?"
+        description_2: "Je kan je account instellingen wijzigen door te gaan naar"
+        path: "Mijn Profiel > Instellingen"
+        alert: "E-mailadres Toegevoegd!"
