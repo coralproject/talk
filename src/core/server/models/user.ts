@@ -17,6 +17,7 @@ function collection(db: Db) {
 export interface LocalProfile {
   type: "local";
   id: string;
+  password: string;
 }
 
 export interface OIDCProfile {
@@ -74,9 +75,8 @@ export interface UserStatus {
 
 export interface User extends TenantResource {
   readonly id: string;
-  username: string | null;
+  username?: string;
   displayName?: string;
-  password?: string;
   avatar?: string;
   email?: string;
   emailVerified?: boolean;
@@ -86,6 +86,10 @@ export interface User extends TenantResource {
   status: UserStatus;
   ignoredUserIDs: string[];
   createdAt: Date;
+}
+
+function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
 }
 
 export type UpsertUserInput = Omit<
@@ -129,20 +133,28 @@ export async function upsertUser(
     createdAt: now,
   };
 
-  let hashedPassword;
-  if (input.password) {
-    // Hash the user's password with bcrypt.
-    hashedPassword = await bcrypt.hash(input.password, 10);
+  // Mutate the profiles to ensure we mask handle any secrets.
+  const profiles: Profile[] = [];
+  for (let profile of input.profiles) {
+    switch (profile.type) {
+      case "local":
+        // Hash the user's password with bcrypt.
+        const password = await hashPassword(profile.password);
+        profile = {
+          ...profile,
+          password,
+        };
+        break;
+    }
+    // Save a copy.
+    profiles.push(profile);
   }
 
   // Merge the defaults and the input together.
   const user: Readonly<User> = {
     ...defaults,
     ...input,
-
-    // Specified last in the merge call, it will override any existing password
-    // entry if it is defined.
-    password: hashedPassword,
+    profiles,
   };
 
   // Create a query that will utilize a findOneAndUpdate to facilitate an upsert
@@ -216,7 +228,7 @@ export async function retrieveManyUsers(
 export async function retrieveUserWithProfile(
   db: Db,
   tenantID: string,
-  profile: Profile
+  profile: Partial<Profile>
 ) {
   return collection(db).findOne({
     tenantID,
@@ -235,16 +247,47 @@ export async function updateUserRole(
   const result = await collection(db).findOneAndUpdate(
     { id, tenantID },
     { $set: { role } },
-    { returnOriginal: false }
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
   );
 
   return result.value || null;
 }
 
 export async function verifyUserPassword(user: User, password: string) {
-  if (user.password) {
-    return bcrypt.compare(password, user.password);
+  const profile: LocalProfile | undefined = user.profiles.find(
+    ({ type }) => type === "local"
+  ) as LocalProfile | undefined;
+  if (!profile) {
+    throw new Error("no local profile exists for this user");
   }
 
-  return false;
+  return bcrypt.compare(password, profile.password);
+}
+
+export async function updateUserPassword(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  password: string
+) {
+  const hashedPassword = await hashPassword(password);
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenant_id: tenantID },
+    {
+      $set: {
+        "profiles.$[profiles].password": hashedPassword,
+      },
+    },
+    {
+      arrayFilters: [{ "profiles.type": "local" }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  return result.value || null;
 }

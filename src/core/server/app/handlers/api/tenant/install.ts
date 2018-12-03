@@ -14,7 +14,7 @@ import { Request } from "talk-server/types/express";
 
 export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain">;
-  user: Required<Pick<UpsertUser, "username" | "email" | "password">>;
+  user: Required<Pick<UpsertUser, "username" | "email"> & { password: string }>;
 }
 
 const TenantInstallBodySchema = Joi.object().keys({
@@ -79,15 +79,15 @@ export const tenantInstallHandler = ({
 
     // Configure with profile.
     const profile: LocalProfile = {
-      id: email,
       type: "local",
+      id: email,
+      password,
     };
 
     // Create the first admin user.
     await upsert(mongo, tenant, {
       email,
       username,
-      password,
       profiles: [profile],
       role: GQLUSER_ROLE.ADMIN,
     });
