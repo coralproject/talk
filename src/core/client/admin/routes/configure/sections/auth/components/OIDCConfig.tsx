@@ -14,7 +14,6 @@ import {
   Flex,
   FormField,
   HorizontalGutter,
-  Icon,
   InputLabel,
   TextField,
   TextLink,
