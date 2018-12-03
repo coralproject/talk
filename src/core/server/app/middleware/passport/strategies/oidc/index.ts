@@ -164,7 +164,6 @@ export async function findOrCreateOIDCUser(
 
     // Create the new user, as one didn't exist before!
     user = await upsert(db, tenant, {
-      username: null,
       displayName,
       role: GQLUSER_ROLE.COMMENTER,
       email,
