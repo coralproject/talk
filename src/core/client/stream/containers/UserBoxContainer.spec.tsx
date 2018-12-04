@@ -26,22 +26,30 @@ it("renders fully", () => {
           facebook: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           oidc: {
             enabled: false,
             allowRegistration: true,
-          },
-          sso: {
-            enabled: false,
-            allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
         },
       },
@@ -74,22 +82,30 @@ it("renders without logout button", () => {
           facebook: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           oidc: {
             enabled: false,
             allowRegistration: true,
-          },
-          sso: {
-            enabled: false,
-            allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
         },
       },
@@ -122,22 +138,30 @@ it("renders sso only", () => {
           facebook: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
-            enabled: false,
+            enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
           },
           oidc: {
             enabled: false,
             allowRegistration: true,
-          },
-          sso: {
-            enabled: true,
-            allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
         },
       },
@@ -170,22 +194,30 @@ it("renders sso only without logout button", () => {
           facebook: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           oidc: {
             enabled: false,
             allowRegistration: true,
-          },
-          sso: {
-            enabled: true,
-            allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
         },
       },
@@ -218,22 +250,30 @@ it("renders without register button", () => {
           facebook: {
             enabled: true,
             allowRegistration: false,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
-            allowRegistration: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
           },
           oidc: {
             enabled: false,
             allowRegistration: true,
-          },
-          sso: {
-            enabled: false,
-            allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: true,
             allowRegistration: false,
+            targetFilter: {
+              stream: true,
+            },
           },
         },
       },

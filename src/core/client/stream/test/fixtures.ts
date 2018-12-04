@@ -12,22 +12,37 @@ export const settings = {
       facebook: {
         enabled: false,
         allowRegistration: true,
+        targetFilter: {
+          stream: true,
+        },
       },
       google: {
         enabled: false,
         allowRegistration: true,
+        targetFilter: {
+          stream: true,
+        },
       },
       oidc: {
         enabled: false,
         allowRegistration: true,
+        targetFilter: {
+          stream: true,
+        },
       },
       sso: {
         enabled: false,
         allowRegistration: true,
+        targetFilter: {
+          stream: true,
+        },
       },
       local: {
         enabled: true,
         allowRegistration: true,
+        targetFilter: {
+          stream: true,
+        },
       },
     },
   },

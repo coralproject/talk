@@ -45,23 +45,22 @@ export class UserBoxContainer extends Component<InnerProps> {
 
   private get supportsRegister() {
     const integrations = this.props.settings.auth.integrations;
-    return (
-      (integrations.facebook.allowRegistration &&
-        integrations.facebook.enabled) ||
-      (integrations.google.allowRegistration && integrations.google.enabled) ||
-      (integrations.local.allowRegistration && integrations.local.enabled) ||
-      (integrations.oidc.allowRegistration && integrations.oidc.enabled)
-    );
+    return [
+      integrations.facebook,
+      integrations.google,
+      integrations.local,
+      integrations.oidc,
+    ].some(i => i.allowRegistration && i.enabled && i.targetFilter.stream);
   }
 
   private get weControlAuth() {
     const integrations = this.props.settings.auth.integrations;
-    return (
-      integrations.facebook.enabled ||
-      integrations.google.enabled ||
-      integrations.local.enabled ||
-      integrations.oidc.enabled
-    );
+    return [
+      integrations.facebook,
+      integrations.google,
+      integrations.local,
+      integrations.oidc,
+    ].some(i => i.enabled && i.targetFilter.stream);
   }
 
   public render() {
@@ -75,7 +74,7 @@ export class UserBoxContainer extends Component<InnerProps> {
     if (me) {
       return (
         <UserBoxAuthenticated
-          onSignOut={(this.weControlAuth && this.handleSignOut) || undefined}
+          onSignOut={this.handleSignOut}
           username={me.username!}
           showLogoutButton={this.supportsLogout}
         />
@@ -138,22 +137,30 @@ const enhanced = withSignOutMutation(
                   local {
                     enabled
                     allowRegistration
-                  }
-                  sso {
-                    enabled
-                    allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                   oidc {
                     enabled
                     allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                   google {
                     enabled
                     allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                   facebook {
                     enabled
                     allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                 }
               }
