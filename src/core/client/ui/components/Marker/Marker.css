@@ -1,0 +1,37 @@
+.root {
+  composes: markerText from "talk-ui/shared/typography.css";
+  color: var(--palette-error-main);
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  padding: 1px var(--spacing-unit);
+  white-space: nowrap;
+}
+
+.colorPrimary {
+  color: var(--palette-primary-darkest);
+}
+
+.colorGrey {
+  color: var(--palette-grey-darkest);
+}
+
+.colorError {
+  color: var(--palette-error-darkest);
+}
+
+.variantRegular {
+}
+
+.variantFilled {
+  &.colorPrimary {
+    background-color: var(--palette-primary-lightest);
+  }
+
+  &.colorGrey {
+    background-color: var(--palette-grey-lightest);
+  }
+
+  &.colorError {
+    background-color: var(--palette-error-lightest);
+  }
+}

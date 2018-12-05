@@ -1,0 +1,28 @@
+.root {
+  height: 100%;
+}
+
+.anchor {
+  composes: adminTabItem from "talk-ui/shared/typography.css";
+  color: var(--palette-grey-dark);
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+  }
+  & > * {
+    margin: 0 calc(0.5 * var(--spacing-unit)) 0 0;
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}
+
+.active {
+  composes: adminTabItemActive from "talk-ui/shared/typography.css";
+  border-bottom: 3px solid var(--palette-primary-main);
+  color: var(--palette-primary-main);
+}

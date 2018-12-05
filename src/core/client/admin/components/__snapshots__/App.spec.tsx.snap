@@ -2,9 +2,24 @@
 
 exports[`renders correctly 1`] = `
 <div>
-  <AppBar>
-    <Navigation />
-  </AppBar>
+  <withPropsOnChange(AppBar)
+    gutterBegin={true}
+    gutterEnd={true}
+  >
+    <withPropsOnChange(Begin)
+      itemGutter="double"
+    >
+      <withPropsOnChange(Logo) />
+      <Navigation />
+    </withPropsOnChange(Begin)>
+    <withPropsOnChange(End)>
+      <DecisionHistoryButton />
+      <withPropsOnChange(Divider) />
+      <withContext(createMutationContainer(RedirectAppContainer))
+        id="navigation-signOutButton"
+      />
+    </withPropsOnChange(End)>
+  </withPropsOnChange(AppBar)>
   <div
     className="App-container"
   >

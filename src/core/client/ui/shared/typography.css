@@ -207,3 +207,42 @@
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
 }
+
+.navItem {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(16rem / var(--rem-base));
+  letter-spacing: calc(-0.1em / 16);
+  text-transform: uppercase;
+}
+
+.navItemActive {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-bold);
+  font-size: calc(16rem / var(--rem-base));
+  letter-spacing: calc(-0.35em / 16);
+  text-transform: uppercase;
+}
+
+.adminTabItem {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(14rem / var(--rem-base));
+  letter-spacing: calc(-0.1em / 14);
+  text-transform: uppercase;
+}
+
+.adminTabItemActive {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-bold);
+  font-size: calc(14rem / var(--rem-base));
+  letter-spacing: calc(-0.35em / 14);
+  text-transform: uppercase;
+}
+
+.markerText {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(13rem / var(--rem-base));
+  letter-spacing: calc(-0.35em / 13);
+}

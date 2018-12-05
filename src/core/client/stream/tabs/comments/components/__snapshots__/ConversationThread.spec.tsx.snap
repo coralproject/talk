@@ -53,9 +53,9 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
             Show hidden comments
           </withPropsOnChange(Button)>
         </Localized>
-        <Counter>
+        <withPropsOnChange(Counter)>
           2
-        </Counter>
+        </withPropsOnChange(Counter)>
       </withPropsOnChange(Flex)>
     </Circle>
   </withPropsOnChange(HorizontalGutter)>
@@ -116,9 +116,9 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
             Show hidden comments
           </withPropsOnChange(Button)>
         </Localized>
-        <Counter>
+        <withPropsOnChange(Counter)>
           2
-        </Counter>
+        </withPropsOnChange(Counter)>
       </withPropsOnChange(Flex)>
     </Circle>
   </withPropsOnChange(HorizontalGutter)>

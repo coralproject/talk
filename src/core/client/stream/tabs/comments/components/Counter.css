@@ -1,8 +1,0 @@
-.root {
-  composes: subTabCounter from "talk-ui/shared/typography.css";
-
-  background-color: var(--palette-grey-dark);
-  color: var(--palette-text-light);
-  border-radius: 1px;
-  padding: 2px 3px 3px 3px;
-}

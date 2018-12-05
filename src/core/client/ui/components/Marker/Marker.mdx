@@ -1,0 +1,43 @@
+---
+name: Marker
+menu: UI Kit
+---
+
+import { Playground, PropsTable } from "docz";
+import Marker from "./Marker";
+import Count from "./Count";
+import HorizontalGutter from "../HorizontalGutter";
+import Flex from "../Flex";
+
+# Marker
+
+## Basic Use
+
+<Playground>
+  <HorizontalGutter>
+    <Flex itemGutter>
+      <Marker color="error">Toxic</Marker>
+      <Marker color="error">Karma</Marker>
+      <Marker color="error">Spam</Marker>
+      <Marker color="error">Banned Word</Marker>
+      <Marker color="error">
+        With a count <Count>1</Count>
+      </Marker>
+    </Flex>
+    <Flex itemGutter>
+      <Marker color="primary">Premod</Marker>
+      <Marker color="primary">Link</Marker>
+    </Flex>
+    <Flex itemGutter>
+      <Marker color="error" variant="filled">
+        Spam <Count>2</Count>
+      </Marker>
+      <Marker color="error" variant="filled">
+        Suspect Word
+      </Marker>
+      <Marker color="error" variant="filled">
+        Offensive <Count>1</Count>
+      </Marker>
+    </Flex>
+  </HorizontalGutter>
+</Playground>

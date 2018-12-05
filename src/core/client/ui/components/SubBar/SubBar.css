@@ -1,0 +1,17 @@
+.root {
+  background-color: var(--palette-common-white);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: calc(5 * var(--spacing-unit));
+  box-sizing: border-box;
+}
+
+.gutterBegin {
+  padding-left: calc(2 * var(--spacing-unit));
+}
+.gutterEnd {
+  padding-right: calc(2 * var(--spacing-unit));
+}

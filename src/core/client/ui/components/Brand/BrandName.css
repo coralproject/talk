@@ -1,0 +1,15 @@
+.root {
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-sans-serif);
+  color: var(--palette-brand);
+  margin: 0;
+}
+
+.md {
+  font-size: calc(24rem / var(--rem-base));
+  line-height: calc(26em / 24);
+}
+.lg {
+  font-size: calc(48rem / var(--rem-base));
+  line-height: 1;
+}

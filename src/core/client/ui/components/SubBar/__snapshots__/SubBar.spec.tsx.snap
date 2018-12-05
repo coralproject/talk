@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<SubBar
+  className="custom"
+  classes={
+    Object {
+      "container": "SubBar-container",
+      "gutterBegin": "SubBar-gutterBegin",
+      "gutterEnd": "SubBar-gutterEnd",
+      "root": "SubBar-root",
+    }
+  }
+  gutterBegin={true}
+  gutterEnd={true}
+>
+  child
+</SubBar>
+`;

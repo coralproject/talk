@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<BrandIcon
+  className="custom"
+  classes={
+    Object {
+      "base": "BrandIcon-base",
+      "lg": "BrandIcon-lg",
+      "md": "BrandIcon-md",
+    }
+  }
+  size="lg"
+/>
+`;

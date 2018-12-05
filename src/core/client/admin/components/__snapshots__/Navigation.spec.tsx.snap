@@ -1,58 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
-  className="Navigation-root"
-  justifyContent="space-between"
->
-  <withPropsOnChange(Flex)
-    alignItems="center"
+<withPropsOnChange(Navigation)>
+  <Localized
+    id="navigation-moderate"
   >
-    <Localized
-      id="navigation-moderate"
+    <NavigationLink
+      to="/admin/moderate"
     >
-      <NavigationLink
-        to="/admin/moderate"
-      >
-        Moderate
-      </NavigationLink>
-    </Localized>
-    <Localized
-      id="navigation-community"
-    >
-      <NavigationLink
-        to="/admin/community"
-      >
-        Community
-      </NavigationLink>
-    </Localized>
-    <Localized
-      id="navigation-stories"
-    >
-      <NavigationLink
-        to="/admin/stories"
-      >
-        Stories
-      </NavigationLink>
-    </Localized>
-    <Localized
-      id="navigation-configure"
-    >
-      <NavigationLink
-        to="/admin/configure"
-      >
-        Configure
-      </NavigationLink>
-    </Localized>
-  </withPropsOnChange(Flex)>
-  <withPropsOnChange(Flex)
-    alignItems="center"
+      Moderate
+    </NavigationLink>
+  </Localized>
+  <Localized
+    id="navigation-community"
   >
-    <DecisionHistoryButton />
-    <NavigationDivider />
-    <withContext(createMutationContainer(RedirectAppContainer))
-      id="navigation-signOutButton"
-    />
-  </withPropsOnChange(Flex)>
-</withPropsOnChange(Flex)>
+    <NavigationLink
+      to="/admin/community"
+    >
+      Community
+    </NavigationLink>
+  </Localized>
+  <Localized
+    id="navigation-stories"
+  >
+    <NavigationLink
+      to="/admin/stories"
+    >
+      Stories
+    </NavigationLink>
+  </Localized>
+  <Localized
+    id="navigation-configure"
+  >
+    <NavigationLink
+      to="/admin/configure"
+    >
+      Configure
+    </NavigationLink>
+  </Localized>
+</withPropsOnChange(Navigation)>
 `;

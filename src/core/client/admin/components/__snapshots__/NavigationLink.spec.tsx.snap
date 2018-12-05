@@ -2,8 +2,8 @@
 
 exports[`renders correctly 1`] = `
 <Link
-  activeClassName="NavigationLink-active"
-  className="NavigationLink-root"
+  Component={[Function]}
+  activePropName="active"
   to="/moderate"
 >
   link

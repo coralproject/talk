@@ -189,7 +189,7 @@ exports[`renders permalink view 1`] = `
                   SHOW HIDDEN COMMENTS
                 </button>
                 <span
-                  className="Counter-root"
+                  className="Counter-root Counter-colorGrey"
                 >
                   2
                 </span>
