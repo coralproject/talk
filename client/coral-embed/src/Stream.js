@@ -1,3 +1,5 @@
+/* global __webpack_public_path__ */ // eslint-disable-line no-unused-vars
+
 import queryString from 'querystringify';
 import pym from 'pym.js';
 import EventEmitter from 'eventemitter2';
@@ -11,13 +13,14 @@ import {
 
 const NOTIFICATION_OFFSET = 200;
 
+// Ensure there is a trailing slash.
+function ensureEndSlash(p) {
+  return p.match(/\/$/) ? p : `${p}/`;
+}
+
 // Build the URL to load in the pym iframe.
 function buildStreamIframeUrl(talkBaseUrl, query) {
-  let url = [
-    talkBaseUrl,
-    talkBaseUrl.match(/\/$/) ? '' : '/', // make sure no double-'/' if opts.talk already ends with '/'
-    'embed/stream?',
-  ].join('');
+  let url = talkBaseUrl + 'embed/stream?';
 
   url += queryString.stringify(query);
 
@@ -48,15 +51,26 @@ export default class Stream {
       events = null,
       snackBarStyles = null,
       onAuthChanged = null,
+      talkStaticUrl = talkBaseUrl,
       ...opts
     } = config;
 
     this.onAuthChanged = onAuthChanged;
     this.el = el;
-    this.talkBaseUrl = talkBaseUrl;
+    this.talkBaseUrl = ensureEndSlash(talkBaseUrl);
+    this.talkStaticUrl = ensureEndSlash(talkStaticUrl);
     this.opts = opts;
     this.snackBar = new Snackbar(snackBarStyles || {});
     this.emitter = new EventEmitter({ wildcard: true });
+
+    // Because we're loading chunks dynamically below, we need to point to the
+    // static URL.
+    //
+    // The __webpack_public_path__ can be referenced:
+    // https://webpack.js.org/configuration/output/#output-publicpath
+    //
+    __webpack_public_path__ = this.talkStaticUrl + 'static/';
+
     // Attach to the events emitted by the pym parent.
     if (events) {
       events(this.emitter);
