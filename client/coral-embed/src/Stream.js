@@ -61,8 +61,24 @@ export default class Stream {
     if (events) {
       events(this.emitter);
     }
-    if (config.lazy || process.env.TALK_DEFAULT_LAZY_RENDER === 'true') {
-      onIntersect(this.el, () => this.render());
+    if (config.lazy || process.env.TALK_DEFAULT_LAZY_RENDER === 'TRUE') {
+      const renderOnIntersect = () => onIntersect(this.el, () => this.render());
+      if (!window.IntersectionObserver) {
+        // Include a polyfill for the intersection observer.
+        import('intersection-observer')
+          .then(() => {
+            // Polyfill applied.
+            renderOnIntersect();
+          })
+          .catch(e => {
+            console.error(e);
+            // Loading polyfill failed, just render it directly.
+            this.render();
+          });
+      } else {
+        // No need for polyfill.
+        renderOnIntersect();
+      }
     } else {
       this.render();
     }

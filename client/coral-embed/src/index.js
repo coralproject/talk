@@ -2,9 +2,6 @@ import URLSearchParams from 'url-search-params';
 import Stream from './Stream';
 import StreamInterface from './StreamInterface';
 
-// Require the polyfill before requiring any other modules.
-import 'intersection-observer';
-
 // Rebuild the origin if it isn't defined. This is our poor-mans polyfill
 // for the location API's.
 if (!window.location.origin) {
