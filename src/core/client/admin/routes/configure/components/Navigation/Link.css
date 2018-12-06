@@ -9,10 +9,10 @@
 
   color: var(--palette-text-primary);
   font-family: var(--font-family-sans-serif);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-regular);
   font-size: calc(18rem / var(--rem-base));
   line-height: calc(20em / 18);
-  letter-spacing: calc(-0.1em / 18);
+  letter-spacing: calc(0.2em / 18);
 
   &:hover {
     cursor: pointer;
@@ -20,6 +20,7 @@
 }
 
 .linkActive {
+  font-weight: var(--font-weight-bold);
   margin-left: 0px;
   border-left: calc(0.5 * var(--spacing-unit)) solid var(--palette-brand);
   padding-left: var(--spacing-unit);

@@ -3,12 +3,12 @@ import React from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
-import Misc from "./Misc";
+import MainLayout from "./MainLayout";
 
 it("renders correctly", () => {
-  const props: PropTypesOf<typeof Misc> = {
-    children: "child",
+  const props: PropTypesOf<typeof MainLayout> = {
+    children: "content",
   };
-  const wrapper = shallow(<Misc {...props} />);
+  const wrapper = shallow(<MainLayout {...props} />);
   expect(wrapper).toMatchSnapshot();
 });

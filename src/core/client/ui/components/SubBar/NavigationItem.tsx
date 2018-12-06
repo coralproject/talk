@@ -7,7 +7,7 @@ import styles from "./NavigationItem.css";
 
 interface Props {
   children: React.ReactNode;
-  href: string;
+  href?: string;
   className?: string;
   active?: boolean;
   onClick?: React.EventHandler<React.MouseEvent>;

@@ -3,7 +3,9 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
 
+import MainLayout from "talk-admin/components/MainLayout";
 import { Button, CallOut, HorizontalGutter } from "talk-ui/components";
+
 import Layout from "./Layout";
 import Main from "./Main";
 import { Link, Navigation } from "./Navigation";
@@ -19,7 +21,7 @@ const Configure: StatelessComponent<Props> = ({
   onChange,
   children,
 }) => (
-  <div data-test="configure-container">
+  <MainLayout data-test="configure-container">
     <Form onSubmit={onSave}>
       {({ handleSubmit, submitting, pristine, form, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
@@ -28,10 +30,10 @@ const Configure: StatelessComponent<Props> = ({
             <SideBar>
               <HorizontalGutter size="double">
                 <Navigation>
+                  <Link to="/admin/configure/moderation">Moderation</Link>
                   <Localized id="configure-sideBarNavigation-authentication">
                     <Link to="/admin/configure/auth">Auth</Link>
                   </Localized>
-                  <Link to="/admin/configure/misc">Misc</Link>
                 </Navigation>
               </HorizontalGutter>
               <HorizontalGutter size="double">
@@ -67,7 +69,7 @@ const Configure: StatelessComponent<Props> = ({
         </form>
       )}
     </Form>
-  </div>
+  </MainLayout>
 );
 
 export default Configure;

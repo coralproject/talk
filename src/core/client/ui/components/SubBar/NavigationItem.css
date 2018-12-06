@@ -10,6 +10,7 @@
   align-items: center;
   text-transform: uppercase;
   text-decoration: none;
+  box-sizing: border-box;
   &:hover {
     cursor: pointer;
   }

@@ -1,10 +1,12 @@
 import React, { StatelessComponent } from "react";
-import { HorizontalGutter, Typography } from "talk-ui/components";
+
+import MainLayout from "talk-admin/components/MainLayout";
+import { Typography } from "talk-ui/components";
 
 const Community: StatelessComponent = () => (
-  <HorizontalGutter>
+  <MainLayout>
     <Typography variant="heading3">Community</Typography>
-  </HorizontalGutter>
+  </MainLayout>
 );
 
 export default Community;

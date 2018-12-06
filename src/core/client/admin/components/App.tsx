@@ -9,7 +9,7 @@ import DecisionHistoryButton from "./DecisionHistoryButton";
 import Navigation from "./Navigation";
 
 const App: StatelessComponent = ({ children }) => (
-  <div>
+  <div className={styles.root}>
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">
         <Logo />
@@ -21,7 +21,7 @@ const App: StatelessComponent = ({ children }) => (
         <SignOutButtonContainer id="navigation-signOutButton" />
       </End>
     </AppBar>
-    <div className={styles.container}>{children}</div>
+    {children}
   </div>
 );
 

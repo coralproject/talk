@@ -1,0 +1,87 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: var(--palette-background-light);
+}
+
+.main {
+  margin: calc(2 * var(--spacing-unit)) 0 calc(4 * var(--spacing-unit)) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.modQueue {
+  width: calc(75 * var(--spacing-unit));
+}
+
+.topBar {
+  margin-bottom: var(--spacing-unit);
+}
+
+.username {
+  margin-right: var(--spacing-unit);
+}
+
+.footer {
+  margin-top: calc(2 * var(--spacing-unit));
+}
+
+.content {
+  min-height: calc(7.5 * var(--spacing-unit));
+}
+
+.aside {
+  padding-top: 25px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  box-sizing: border-box;
+}
+
+.reject {
+  border: 1px solid var(--palette-error-main);
+  box-sizing: border-box;
+  border-radius: 2px;
+  width: 65px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--palette-error-main);
+}
+
+.approve {
+  border: 1px solid var(--palette-success-main);
+  box-sizing: border-box;
+  border-radius: 2px;
+  width: 65px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--palette-success-main);
+}
+
+.icon {
+  font-weight: var(--font-weight-bold);
+}
+
+.decision {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(16em / 14);
+  letter-spacing: calc(0.2em / 14);
+  color: var(--palette-text-primary);
+  text-transform: uppercase;
+}
+
+.separator {
+  flex-shrink: 0;
+  flex-grow: 0;
+  border-right: 1px solid var(--palette-divider);
+  margin: 0 calc(2 * var(--spacing-unit));
+}

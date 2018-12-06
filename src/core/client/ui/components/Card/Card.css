@@ -1,8 +1,18 @@
 .root {
   position: relative;
-  padding: var(--spacing-unit) calc(2 * var(--spacing-unit));
+  padding: calc(2 * var(--spacing-unit));
   box-sizing: border-box;
   border: 1px solid var(--palette-grey-lighter);
   box-shadow: 1px 1px 5px var(--palette-grey-lighter);
   border-radius: var(--round-corners);
+  background-color: var(--palette-common-white);
+  /*
+    Fallback begin
+
+    Unfortunately Firefox / IE does not support
+    `word-break: break-word` yet.
+  */
+  word-break: break-all;
+  /* Fallback end */
+  word-break: break-word;
 }

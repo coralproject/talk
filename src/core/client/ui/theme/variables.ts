@@ -52,7 +52,7 @@ const variables = {
     },
     /* Background colors */
     background: {
-      light: "#f5f6fa",
+      light: "#F6F6F6",
     },
     /* Common colors */
     common: {

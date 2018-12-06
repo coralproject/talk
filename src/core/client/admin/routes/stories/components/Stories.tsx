@@ -1,10 +1,12 @@
 import React, { StatelessComponent } from "react";
-import { HorizontalGutter, Typography } from "talk-ui/components";
+
+import MainLayout from "talk-admin/components/MainLayout";
+import { Typography } from "talk-ui/components";
 
 const Stories: StatelessComponent = ({ children }) => (
-  <HorizontalGutter>
+  <MainLayout>
     <Typography variant="heading3">Stories</Typography>
-  </HorizontalGutter>
+  </MainLayout>
 );
 
 export default Stories;
