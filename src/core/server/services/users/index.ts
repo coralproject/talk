@@ -5,6 +5,7 @@ import {
   setUserEmail,
   setUserLocalProfile,
   setUserUsername,
+  updateUserPassword,
   upsertUser,
   UpsertUserInput,
   User,
@@ -65,4 +66,26 @@ export async function setPassword(
   }
 
   return setUserLocalProfile(mongo, tenant.id, user.id, user.email, password);
+}
+
+export async function updatePassword(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  password: string
+) {
+  // We require that the email address for the user be defined for this method.
+  if (!user.email) {
+    throw new Error("no email address associated with user");
+  }
+
+  // We also don't allow this method to be used by users that don't have a local
+  // profile already.
+  if (
+    !user.profiles.some(({ id, type }) => type === "local" && id === user.email)
+  ) {
+    throw new Error("user does not have a local profile");
+  }
+
+  return updateUserPassword(mongo, tenant.id, user.id, password);
 }

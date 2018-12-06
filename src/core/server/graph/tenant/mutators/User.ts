@@ -1,10 +1,16 @@
 import TenantContext from "talk-server/graph/tenant/context";
 import * as user from "talk-server/models/user";
-import { setEmail, setPassword, setUsername } from "talk-server/services/users";
+import {
+  setEmail,
+  setPassword,
+  setUsername,
+  updatePassword,
+} from "talk-server/services/users";
 import {
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
+  GQLUpdatePasswordInput,
 } from "../schema/__generated__/types";
 
 export const User = (ctx: TenantContext) => ({
@@ -20,4 +26,8 @@ export const User = (ctx: TenantContext) => ({
     input: GQLSetPasswordInput
   ): Promise<Readonly<user.User> | null> =>
     setPassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
+  updatePassword: async (
+    input: GQLUpdatePasswordInput
+  ): Promise<Readonly<user.User> | null> =>
+    updatePassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
 });
