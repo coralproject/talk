@@ -2,6 +2,9 @@ import URLSearchParams from 'url-search-params';
 import Stream from './Stream';
 import StreamInterface from './StreamInterface';
 
+// Require the polyfill before requiring any other modules.
+import 'intersection-observer';
+
 // Rebuild the origin if it isn't defined. This is our poor-mans polyfill
 // for the location API's.
 if (!window.location.origin) {
@@ -34,6 +37,7 @@ export class Talk {
    * @param {String} [config.asset_url] - Asset URL
    * @param {String} [config.asset_id] - Asset ID
    * @param {String} [config.auth_token] - (optional) A jwt representing the session
+   * @param {String} [config.lazy] - (optional) If set the stream will only render lazily.
    * @return {Object}
    *
    * Example:
