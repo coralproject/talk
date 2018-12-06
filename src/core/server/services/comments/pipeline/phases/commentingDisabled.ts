@@ -2,7 +2,7 @@ import { ModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/moderation";
+} from "talk-server/services/comments/pipeline";
 
 const testDisabledCommenting = (settings: Partial<ModerationSettings>) =>
   settings.disableCommenting;

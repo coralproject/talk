@@ -1,6 +1,11 @@
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
+import logger from "talk-server/logger";
+import {
+  encodeActionCounts,
+  filterDuplicateActions,
+} from "talk-server/models/action/comment";
 import {
   createComment,
   CreateCommentInput,
@@ -9,40 +14,52 @@ import {
   getLatestRevision,
   pushChildCommentIDOntoParent,
   retrieveComment,
+  validateEditable,
 } from "talk-server/models/comment";
 import {
   retrieveStory,
-  updateCommentStatusCount,
+  StoryCounts,
+  updateStoryCounts,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
-import {
-  addCommentActions,
-  CreateAction,
-} from "talk-server/services/comments/actions";
-import { processForModeration } from "talk-server/services/comments/moderation";
 import { Request } from "talk-server/types/express";
+
+import { AugmentedRedis } from "../redis";
+import { addCommentActions, CreateAction } from "./actions";
+import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
+import { processForModeration } from "./pipeline";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "metadata" | "grandparentIDs"
+  "status" | "metadata" | "grandparentIDs" | "actionCounts"
 >;
 
 export async function create(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: CreateComment,
   req?: Request
 ) {
+  let log = logger.child({
+    authorID: author.id,
+    tenantID: tenant.id,
+    storyID: input.storyID,
+    parentID: input.parentID,
+  });
+
+  // TODO: (wyattjoh) perform rate limiting based on the user?
+
+  log.trace("creating comment on story");
+
   // Grab the story that we'll use to check moderation pieces with.
   const story = await retrieveStory(mongo, tenant.id, input.storyID);
   if (!story) {
     // TODO: (wyattjoh) return better error.
     throw new Error("story referenced does not exist");
   }
-
-  // TODO: (wyattjoh) Check that the story was visible.
 
   const grandparentIDs: string[] = [];
   if (input.parentID) {
@@ -53,7 +70,7 @@ export async function create(
       throw new Error("parent comment referenced does not exist");
     }
 
-    // TODO: (wyattjoh) Check that the parent comment was visible.
+    // FIXME: (wyattjoh) Check that the parent comment was visible!
 
     // Push the parent's parent id's into the comment's grandparent id's.
     grandparentIDs.push(...parent.grandparentIDs);
@@ -61,6 +78,11 @@ export async function create(
       // If this parent has a parent, push it down as well.
       grandparentIDs.push(parent.parentID);
     }
+
+    log.trace(
+      { grandparentIDs: grandparentIDs.length },
+      "pushed grandparent id's into comment creation"
+    );
   }
 
   // Run the comment through the moderation phases.
@@ -72,32 +94,42 @@ export async function create(
     req,
   });
 
+  // This is the first time this comment is being published.. So we need to
+  // ensure we don't run into any race conditions when we create the comment.
+  // One of the situations where we could encounter a race is when the comment
+  // is created, and does not have it's flag data associated with it. This would
+  // cause the comment to not be added to the flagged queue. If a flag is
+  // pending, and a user flags this comment before the next step can proceed,
+  // then we would end up double adding the comment to the flagged queue.
+  // Instead, we need to add the action metadata to the comment before we add it
+  // for the first time to ensure that the data is there for when the next flag
+  // is added, that it can already know that the comment is already in the
+  // queue.
+  let actionCounts = {};
+  if (actions.length > 0) {
+    // Determine the unique actions, we will use this to compute the comment
+    // action counts. This should match what is added below.
+    const deDuplicatedActions = filterDuplicateActions(actions);
+
+    // Encode the action counts.
+    actionCounts = encodeActionCounts(...deDuplicatedActions);
+  }
+
   // Create the comment!
-  let comment = await createComment(mongo, tenant.id, {
+  const comment = await createComment(mongo, tenant.id, {
     ...input,
     status,
     grandparentIDs,
     metadata,
+    actionCounts,
   });
 
-  if (actions.length > 0) {
-    // The actions coming from the moderation phases didn't know the commentID
-    // at the time, and we didn't want the repetitive nature of adding the
-    // item_type each time, so this mapping function adds them!
-    const inputs = actions.map(
-      (action): CreateAction => ({
-        ...action,
-        commentID: comment.id,
-        commentRevisionID: getLatestRevision(comment!).id,
+  // Pull the revision out.
+  const revision = getLatestRevision(comment);
 
-        // Store the Story ID on the action.
-        storyID: story.id,
-      })
-    );
+  log = log.child({ commentID: comment.id, status, revisionID: revision.id });
 
-    // Insert and handle creating the actions.
-    comment = await addCommentActions(mongo, tenant, comment, inputs);
-  }
+  log.trace("comment created");
 
   if (input.parentID) {
     // Push the child's ID onto the parent.
@@ -107,12 +139,44 @@ export async function create(
       input.parentID,
       comment.id
     );
+
+    log.trace("pushed child comment id onto parent");
   }
 
+  if (actions.length > 0) {
+    // Actually add the actions to the database. This will not interact with the
+    // counts at all.
+    const upsertedActions = await addCommentActions(
+      mongo,
+      tenant,
+      ...actions.map(
+        (action): CreateAction => ({
+          ...action,
+          commentID: comment.id,
+          commentRevisionID: revision.id,
+
+          // Store the Story ID on the action.
+          storyID: story.id,
+        })
+      )
+    );
+
+    log.trace({ actions: upsertedActions.length }, "added actions to comment");
+  }
+
+  // Compile the changes we want to apply to the story counts.
+  const storyCounts: Required<Omit<StoryCounts, "action">> = {
+    // This is a new comment, so we need to increment for this status.
+    status: { [status]: 1 },
+    // This comment is being created, so we can compute it raw from the comment
+    // that we created.
+    moderationQueue: calculateCounts(comment),
+  };
+
+  log.trace({ storyCounts }, "updating story status counts");
+
   // Increment the status count for the particular status on the Story.
-  await updateCommentStatusCount(mongo, tenant.id, story.id, {
-    [status]: 1,
-  });
+  await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
   return comment;
 }
@@ -124,20 +188,46 @@ export type EditComment = Omit<
 
 export async function edit(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
   input: EditComment,
   req?: Request
 ) {
-  // Get the comment that we're editing.
-  const comment = await retrieveComment(mongo, tenant.id, input.id);
-  if (!comment) {
+  let log = logger.child({ commentID: input.id, tenantID: tenant.id });
+
+  // Get the comment that we're editing. This comment is considered stale,
+  // because it wasn't involved in the atomic transaction.
+  const originalStaleComment = await retrieveComment(
+    mongo,
+    tenant.id,
+    input.id
+  );
+  if (!originalStaleComment) {
     // TODO: replace to match error returned by the models/comments.ts
     throw new Error("comment not found");
   }
 
+  // The editable time is based on the current time, and the edit window
+  // length. By subtracting the current date from the edit window length, we
+  // get the maximum value for the `created_at` time that would be permitted
+  // for the comment edit to succeed.
+  const lastEditableCommentCreatedAt = new Date(
+    Date.now() - tenant.editCommentWindowLength
+  );
+
+  // Validate and potentially return with a more useful error.
+  validateEditable(originalStaleComment, {
+    authorID: author.id,
+    lastEditableCommentCreatedAt,
+  });
+
   // Grab the story that we'll use to check moderation pieces with.
-  const story = await retrieveStory(mongo, tenant.id, comment.storyID);
+  const story = await retrieveStory(
+    mongo,
+    tenant.id,
+    originalStaleComment.storyID
+  );
   if (!story) {
     // TODO: (wyattjoh) return better error.
     throw new Error("story referenced does not exist");
@@ -152,54 +242,90 @@ export async function edit(
     req,
   });
 
-  let editedComment = await editComment(mongo, tenant.id, {
+  let actionCounts = {};
+  if (actions.length > 0) {
+    // Encode the new action counts that are going to be added to the new
+    // revision.
+    actionCounts = encodeActionCounts(...filterDuplicateActions(actions));
+  }
+
+  log.trace(
+    { predictedActionCounts: actionCounts },
+    "associating action counts with comment"
+  );
+
+  // Perform the edit.
+  const result = await editComment(mongo, tenant.id, {
     id: input.id,
     authorID: author.id,
     body: input.body,
     status,
     metadata,
-    // The editable time is based on the current time, and the edit window
-    // length. By subtracting the current date from the edit window length, we
-    // get the maximum value for the `created_at` time that would be permitted
-    // for the comment edit to succeed.
-    lastEditableCommentCreatedAt: new Date(
-      Date.now() - tenant.editCommentWindowLength
-    ),
+    actionCounts,
+    lastEditableCommentCreatedAt,
   });
-  if (!comment) {
+  if (!result) {
     // TODO: replace to match error returned by the models/comments.ts
     throw new Error("comment not found");
   }
 
-  if (actions.length > 0) {
-    // The actions coming from the moderation phases didn't know the commentID
-    // at the time, and we didn't want the repetitive nature of adding the
-    // item_type each time, so this mapping function adds them!
-    const inputs = actions.map(
-      (action): CreateAction => ({
-        ...action,
-        // Strict null check seems to have failed here... Null checking was done
-        // above where we errored if the comment was falsely.
-        commentID: comment!.id,
-        commentRevisionID: getLatestRevision(comment!).id,
+  // Pull the old/edited comments out of the edit result.
+  const { oldComment, editedComment, newRevision } = result;
 
-        // Store the Story ID on the action.
-        storyID: story.id,
-      })
+  log = log.child({ revisionID: newRevision.id });
+
+  if (actions.length > 0) {
+    // Insert and handle creating the actions.
+    const upsertedActions = await addCommentActions(
+      mongo,
+      tenant,
+      ...actions.map(
+        (action): CreateAction => ({
+          ...action,
+          commentID: editedComment.id,
+          commentRevisionID: newRevision.id,
+          storyID: story.id,
+        })
+      )
     );
 
-    // Insert and handle creating the actions.
-    editedComment = await addCommentActions(mongo, tenant, comment, inputs);
+    log.trace(
+      {
+        actualActionCounts: encodeActionCounts(...upsertedActions),
+        actions: upsertedActions.length,
+      },
+      "added actions to comment"
+    );
   }
 
-  if (comment.status !== editedComment.status) {
+  // Compile the changes we want to apply to the story counts.
+  const storyCounts: Required<Omit<StoryCounts, "action">> = {
+    // Status is updated below if it has been changed.
+    status: {},
+    // Compute the changes in queue counts. This looks at the action counts that
+    // are encoded, as well as the comment status's. We however may have had the
+    // comment status when we grabbed the updated comment after changing the
+    // action counts, so we extract the action counts out of the edited comment
+    // and use the status from the moderation decision.
+    moderationQueue: calculateCountsDiff(oldComment, {
+      status,
+      actionCounts: editedComment.actionCounts,
+    }),
+  };
+
+  if (oldComment.status !== editedComment.status) {
     // Increment the status count for the particular status on the Story, and
-    // decrement the status on the comment's previous status.
-    await updateCommentStatusCount(mongo, tenant.id, story.id, {
-      [comment.status]: -1,
-      [editedComment.status]: 1,
-    });
+    // decrement the status on the comment's previous status. The old comment
+    // status was only there before the atomic mutation. The new status is based
+    // on the moderation pipeline.
+    storyCounts.status[oldComment.status] = -1;
+    storyCounts.status[status] = 1;
   }
+
+  log.trace({ storyCounts }, "updating story status counts");
+
+  // Update the story counts as a result.
+  await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
   return editedComment;
 }

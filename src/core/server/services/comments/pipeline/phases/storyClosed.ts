@@ -1,7 +1,7 @@
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/moderation";
+} from "talk-server/services/comments/pipeline";
 
 // This phase checks to see if the story being processed is closed or not.
 export const storyClosed: IntermediateModerationPhase = ({

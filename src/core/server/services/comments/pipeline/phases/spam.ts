@@ -9,7 +9,7 @@ import { ACTION_TYPE } from "talk-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/moderation";
+} from "talk-server/services/comments/pipeline";
 
 export const spam: IntermediateModerationPhase = async ({
   story,

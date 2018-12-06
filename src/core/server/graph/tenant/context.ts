@@ -1,20 +1,20 @@
-import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
+import { Config } from "talk-common/config";
 import CommonContext from "talk-server/graph/common/context";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { TaskQueue } from "talk-server/queue";
+import { AugmentedRedis } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
-import { Config } from "talk-common/config";
 import loaders from "./loaders";
 import mutators from "./mutators";
 
 export interface TenantContextOptions {
   mongo: Db;
-  redis: Redis;
+  redis: AugmentedRedis;
   tenant: Tenant;
   tenantCache: TenantCache;
   queue: TaskQueue;
@@ -28,7 +28,7 @@ export default class TenantContext extends CommonContext {
   public readonly tenantCache: TenantCache;
   public readonly user?: User;
   public readonly mongo: Db;
-  public readonly redis: Redis;
+  public readonly redis: AugmentedRedis;
   public readonly queue: TaskQueue;
   public readonly loaders: ReturnType<typeof loaders>;
   public readonly mutators: ReturnType<typeof mutators>;

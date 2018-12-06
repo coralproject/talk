@@ -6,11 +6,13 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  QueryToCommentsArgs,
   StoryToCommentsArgs,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { retrieveManyUserActionPresence } from "talk-server/models/action/comment";
 import {
   Comment,
+  retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
   retrieveCommentStoryConnection,
@@ -40,6 +42,13 @@ export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
   ),
+  forFilter: ({ first = 10, after, filter }: QueryToCommentsArgs) =>
+    retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
+      first,
+      after,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      filter,
+    }).then(primeCommentsFromConnection(ctx)),
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
     (commentIDs: string[]) =>
       retrieveManyUserActionPresence(
@@ -63,7 +72,7 @@ export default (ctx: Context) => ({
       first,
       orderBy,
       after,
-    }),
+    }).then(primeCommentsFromConnection(ctx)),
   forStory: (
     storyID: string,
     // Apply the graph schema defaults at the loader.

@@ -241,6 +241,50 @@ type WordList {
 }
 
 ################################################################################
+## Moderation
+################################################################################
+
+"""
+ModerationQueue returns the Comments associated with a Moderation Queue.
+"""
+type ModerationQueue {
+  """
+  count will return the number of Comments that are in this queue.
+  """
+  count: Int!
+
+  """
+  comments are the comments on the ModerationQueue.
+  """
+  comments(first: Int = 10, after: Cursor): CommentsConnection!
+}
+
+"""
+ModerationQueues are the list of ModerationQueue's that are supported inside
+Talk that can be used to moderate Comments.
+"""
+type ModerationQueues {
+  """
+  unmoderated will return a ModerationQueue for all Comments that have not been
+  moderated yet.
+  """
+  unmoderated: ModerationQueue!
+
+  """
+  reported will return a ModerationQueue for all Comments that have been
+  published, have not been moderated by a human yet, and have been reported by
+  a User via a flag.
+  """
+  reported: ModerationQueue!
+
+  """
+  pending will return a ModerationQueue for all Comments that were held back by
+  the system and require moderation in order to be published.
+  """
+  pending: ModerationQueue!
+}
+
+################################################################################
 ## Auth
 ################################################################################
 
@@ -1249,7 +1293,7 @@ type PageInfo {
 }
 
 """
-CommentEdge represents a unique Comment in a CommentConnection.
+CommentEdge represents a unique Comment in a CommentsConnection.
 """
 type CommentEdge {
   """
@@ -1416,6 +1460,12 @@ type Story {
   commentActionCounts: ActionCounts! @auth(roles: [ADMIN, MODERATOR])
 
   """
+  moderationQueues returns the set of ModerationQueues that are available for
+  this Story.
+  """
+  moderationQueues: ModerationQueues @auth(roles: [ADMIN, MODERATOR])
+
+  """
   closedAt is the Time that the Story is closed for commenting.
   """
   closedAt: Time
@@ -1467,6 +1517,23 @@ type StoriesConnection {
 }
 
 ################################################################################
+## CommentsFilterInput
+################################################################################
+
+input CommentsFilterInput {
+  """
+  storyID when specified, will filter to show only Comment's on that Story.
+  """
+  storyID: ID
+
+  """
+  status when specified, will filter to show only Comment's with that
+  COMMENT_STATUS.
+  """
+  status: COMMENT_STATUS
+}
+
+################################################################################
 ## Query
 ################################################################################
 
@@ -1475,6 +1542,15 @@ type Query {
   comment returns a specific comment.
   """
   comment(id: ID!): Comment
+
+  """
+  comments returns a filtered comments connection that can be paginated.
+  """
+  comments(
+    first: Int = 10
+    after: Cursor
+    filter: CommentsFilterInput!
+  ): CommentsConnection @auth(roles: [ADMIN, MODERATOR])
 
   """
   story is the Story specified by its ID/URL.
@@ -1510,6 +1586,12 @@ type Query {
   on this scrape.
   """
   debugScrapeStoryMetadata(url: String!): StoryMetadata @auth(roles: [ADMIN])
+
+  """
+  moderationQueues returns the set of ModerationQueues that are available for
+  all stories.
+  """
+  moderationQueues: ModerationQueues @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -2234,34 +2316,6 @@ type CreateCommentFlagPayload {
 }
 
 ##################
-## removeCommentFlag
-##################
-
-input RemoveCommentFlagInput {
-  """
-  commentID is the Comment's ID that we want to remove a Flag on.
-  """
-  commentID: ID!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type RemoveCommentFlagPayload {
-  """
-  comment is the Comment that the Flag was removed on.
-  """
-  comment: Comment
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
 ## regenerateSSOKey
 ##################
 
@@ -2934,13 +2988,6 @@ type Mutation {
   a given Comment.
   """
   createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload
-    @auth
-
-  """
-  removeCommentFlag will create a Flag authored by the current logged in User on
-  a given Comment.
-  """
-  removeCommentFlag(input: RemoveCommentFlagInput!): RemoveCommentFlagPayload
     @auth
 
   """

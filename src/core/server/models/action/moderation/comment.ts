@@ -5,7 +5,7 @@ import { Omit, Sub } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   Connection,
-  Cursor,
+  ConnectionInput,
   getPageInfo,
   nodesToEdges,
 } from "talk-server/models/connection";
@@ -107,16 +107,14 @@ export async function retrieveCommentModerationActions(
   return result.toArray();
 }
 
-export interface ConnectionInput {
-  first: number;
-  after?: Cursor;
-  filter?: CommentModerationActionFilter;
-}
+export type CommentModerationActionConnectionInput = ConnectionInput<
+  CommentModerationAction
+>;
 
 export async function retrieveCommentModerationActionConnection(
   mongo: Db,
   tenantID: string,
-  input: ConnectionInput
+  input: CommentModerationActionConnectionInput
 ): Promise<Readonly<Connection<Readonly<CommentModerationAction>>>> {
   // Create the query.
   const query = new Query(collection(mongo)).where({ tenantID });
@@ -130,7 +128,7 @@ export async function retrieveCommentModerationActionConnection(
 }
 
 async function retrieveConnection(
-  input: ConnectionInput,
+  input: CommentModerationActionConnectionInput,
   query: Query<CommentModerationAction>
 ): Promise<Readonly<Connection<Readonly<CommentModerationAction>>>> {
   // Apply the cursor to the query. Currently only supporting sorting by the

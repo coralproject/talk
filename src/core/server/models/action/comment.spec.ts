@@ -2,8 +2,10 @@ import { GQLCOMMENT_FLAG_REASON } from "talk-server/graph/tenant/schema/__genera
 import {
   ACTION_TYPE,
   CommentAction,
+  CreateActionInput,
   decodeActionCounts,
   encodeActionCounts,
+  filterDuplicateActions,
   validateAction,
 } from "talk-server/models/action/comment";
 
@@ -117,5 +119,38 @@ describe("#validateAction", () => {
     for (const action of actions) {
       expect(() => validateAction(action as CommentAction)).toThrow();
     }
+  });
+});
+
+describe("#filterDuplicateActions", () => {
+  it("removes duplicate action items", () => {
+    const actions: CreateActionInput[] = [
+      {
+        storyID: "1",
+        actionType: ACTION_TYPE.FLAG,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
+        commentID: "1",
+        commentRevisionID: "1",
+        userID: null,
+      },
+      {
+        storyID: "1",
+        actionType: ACTION_TYPE.FLAG,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BANNED_WORD,
+        commentID: "1",
+        commentRevisionID: "1",
+        userID: null,
+      },
+      {
+        storyID: "1",
+        actionType: ACTION_TYPE.FLAG,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_SUSPECT_WORD,
+        commentID: "1",
+        commentRevisionID: "1",
+        userID: null,
+      },
+    ];
+
+    expect(filterDuplicateActions(actions)).toHaveLength(2);
   });
 });

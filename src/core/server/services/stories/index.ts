@@ -30,15 +30,17 @@ import {
   retrieveManyStories,
   retrieveStory,
   Story,
-  updateCommentStatusCount,
   updateStory,
   updateStoryActionCounts,
+  updateStoryCommentStatusCount,
   UpdateStoryInput,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import Task from "talk-server/queue/Task";
 import { ScraperData } from "talk-server/queue/tasks/scraper";
 import { scrape } from "talk-server/services/stories/scraper";
+
+import { AugmentedRedis } from "../redis";
 
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
@@ -155,7 +157,7 @@ export async function remove(
     );
 
     log.debug({ removedComments }, "removed comments while deleting story");
-  } else if (calculateTotalCommentCount(story.commentCounts) > 0) {
+  } else if (calculateTotalCommentCount(story.commentCounts.status) > 0) {
     log.warn(
       "attempted to remove story that has linked comments without consent for deleting comments"
     );
@@ -227,6 +229,7 @@ export async function update(
 
 export async function merge(
   mongo: Db,
+  redis: AugmentedRedis,
   tenant: Tenant,
   destinationID: string,
   sourceIDs: string[]
@@ -288,27 +291,27 @@ export async function merge(
   // Merge the comment and action counts for all the source stories.
   const [, ...sourceStories] = stories;
 
-  let destinationStory = await updateCommentStatusCount(
+  let destinationStory = await updateStoryCommentStatusCount(
     mongo,
+    redis,
     tenant.id,
     destinationID,
     mergeCommentStatusCount(
       // We perform the type assertion here because above, we already verified
       // that none of the stories are null.
-      (sourceStories as Story[]).map(({ commentCounts }) => commentCounts)
+      (sourceStories as Story[]).map(({ commentCounts: { status } }) => status)
     )
   );
 
   const mergedActionCounts = mergeCommentActionCounts(
     // We perform the type assertion here because above, we already verified
     // that none of the stories are null.
-    (sourceStories as Story[]).map(
-      ({ commentActionCounts }) => commentActionCounts
-    )
+    ...(sourceStories as Story[]).map(({ commentCounts: { action } }) => action)
   );
   if (countTotalActionCounts(mergedActionCounts) > 0) {
     destinationStory = await updateStoryActionCounts(
       mongo,
+      redis,
       tenant.id,
       destinationID,
       mergedActionCounts
@@ -321,7 +324,7 @@ export async function merge(
   }
 
   log.debug(
-    { commentCounts: destinationStory.commentCounts },
+    { commentCounts: destinationStory.commentCounts.status },
     "updated destination story with new comment counts"
   );
 

@@ -2,7 +2,6 @@ import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
 import http from "http";
-import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
 import path from "path";
@@ -16,6 +15,7 @@ import { handleSubscriptions } from "talk-server/graph/common/subscriptions/midd
 import { Schemas } from "talk-server/graph/schemas";
 import { TaskQueue } from "talk-server/queue";
 import { JWTSigningConfig } from "talk-server/services/jwt";
+import { AugmentedRedis } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 
 import { accessLogger, errorLogger } from "./middleware/logging";
@@ -27,7 +27,7 @@ export interface AppOptions {
   queue: TaskQueue;
   config: Config;
   mongo: Db;
-  redis: Redis;
+  redis: AugmentedRedis;
   schemas: Schemas;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;

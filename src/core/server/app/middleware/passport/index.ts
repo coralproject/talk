@@ -4,6 +4,7 @@ import Joi from "joi";
 import jwt from "jsonwebtoken";
 import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
+import now from "performance-now";
 
 import { Config } from "talk-common/config";
 import FacebookStrategy from "talk-server/app/middleware/passport/strategies/facebook";
@@ -12,6 +13,7 @@ import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt"
 import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
 import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
+import logger from "talk-server/logger";
 import { User } from "talk-server/models/user";
 import {
   blacklistJWT,
@@ -149,11 +151,18 @@ export const wrapAuthn = (
   signingConfig: JWTSigningConfig,
   name: string,
   options?: any
-): RequestHandler => (req: Request, res, next) =>
+): RequestHandler => (req: Request, res, next) => {
+  const startTime = now();
+
   authenticator.authenticate(
     name,
     { ...options, session: false },
     (err: Error | null, user: User | null) => {
+      // Compute the end time.
+      const responseTime = Math.round(now() - startTime);
+
+      logger.debug({ responseTime }, "user token generated");
+
       if (err) {
         return next(err);
       }
@@ -165,3 +174,4 @@ export const wrapAuthn = (
       handleSuccessfulLogin(user, signingConfig, req, res, next);
     }
   )(req, res, next);
+};

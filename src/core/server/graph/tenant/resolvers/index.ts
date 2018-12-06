@@ -10,6 +10,8 @@ import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentRevision } from "./CommentRevision";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
+import { ModerationQueue } from "./ModerationQueue";
+import { ModerationQueues } from "./ModerationQueues";
 import { Mutation } from "./Mutation";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
 import { Profile } from "./Profile";
@@ -25,6 +27,8 @@ const Resolvers: GQLResolver = {
   CommentRevision,
   Cursor,
   Mutation,
+  ModerationQueue,
+  ModerationQueues,
   OIDCAuthIntegration,
   FacebookAuthIntegration,
   GoogleAuthIntegration,

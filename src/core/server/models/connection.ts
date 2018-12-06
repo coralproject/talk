@@ -1,4 +1,5 @@
 import { merge } from "lodash";
+import { FilterQuery } from "./query";
 
 export type Cursor = Date | number | string | null;
 
@@ -17,6 +18,31 @@ export interface PageInfo {
 export interface Connection<T> {
   edges: Array<Edge<T>>;
   pageInfo: PageInfo;
+}
+
+export interface ConnectionInput<T> {
+  /**
+   * first is the number of items to load for the connection. The returned
+   * amount of items may be less.
+   */
+  first: number;
+
+  /**
+   * after is an optional cursor that can be used to paginate the result set.
+   */
+  after?: Cursor;
+
+  /**
+   * filter is an optional query that can be used to constrain the result set.
+   */
+  filter?: FilterQuery<T>;
+}
+
+export interface OrderedConnectionInput<T, U> extends ConnectionInput<T> {
+  /**
+   * orderBy allows ordering of the returned connection.
+   */
+  orderBy: U;
 }
 
 /**

@@ -1,4 +1,4 @@
-import { IntermediateModerationPhase } from "talk-server/services/comments/moderation";
+import { IntermediateModerationPhase } from "talk-server/services/comments/pipeline";
 
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";

@@ -3,25 +3,20 @@ import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
-import {
-  GQLCOMMENT_STATUS,
-  GQLStoryMetadata,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
+import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
+import {
+  createEmptyCommentModerationQueueCounts,
+  createEmptyCommentStatusCounts,
+  StoryCommentCounts,
+} from "./counts";
 
-function collection(db: Db) {
-  return db.collection<Readonly<Story>>("stories");
-}
+// Export everything under counts.
+export * from "./counts";
 
-// TODO: (wyattjoh) write a test to verify that this set of counts is always in sync with GQLCOMMENT_STATUS.
-export interface CommentStatusCounts {
-  [GQLCOMMENT_STATUS.ACCEPTED]: number;
-  [GQLCOMMENT_STATUS.NONE]: number;
-  [GQLCOMMENT_STATUS.PREMOD]: number;
-  [GQLCOMMENT_STATUS.REJECTED]: number;
-  [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
+function collection<T = Story>(db: Db) {
+  return db.collection<Readonly<T>>("stories");
 }
 
 export interface Story extends TenantResource {
@@ -43,15 +38,9 @@ export interface Story extends TenantResource {
   scrapedAt?: Date;
 
   /**
-   * actionCounts stores all the action counts for all Comment's on this Story.
+   * commentCounts stores all the comment counters.
    */
-  commentActionCounts: EncodedCommentActionCounts;
-
-  /**
-   * commentCounts stores the different counts for each comment on the Story
-   * according to their statuses.
-   */
-  commentCounts: CommentStatusCounts;
+  commentCounts: StoryCommentCounts;
 
   /**
    * settings provides a point where the settings can be overridden for a
@@ -91,8 +80,11 @@ export async function upsertStory(
       url,
       tenantID,
       createdAt: now,
-      commentActionCounts: {},
-      commentCounts: createEmptyCommentCounts(),
+      commentCounts: {
+        action: {},
+        status: createEmptyCommentStatusCounts(),
+        moderationQueue: createEmptyCommentModerationQueueCounts(),
+      },
     },
   };
 
@@ -115,79 +107,6 @@ export async function upsertStory(
   );
 
   return result.value || null;
-}
-
-/**
- * updateCommentStatusCount increments the number of status counts for the
- * given Story ID.
- *
- * @param mongo the database handle
- * @param tenantID the tenant that the Story is on.
- * @param id the ID of the Story.
- * @param commentStatusCounts the update document that contains a positive or
- *  negative number of comments to increment on the given Story.
- */
-export async function updateCommentStatusCount(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  commentStatusCounts: Partial<CommentStatusCounts>
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      id,
-      tenantID,
-    },
-    // Update all the specific comment status counts that are associated with
-    // each of the counts.
-    { $inc: dotize({ commentCounts: commentStatusCounts }) },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-
-  return result.value || null;
-}
-
-/**
- * mergeCommentStatusCount will merge an array of commentStatusCount's into one.
- */
-export function mergeCommentStatusCount(
-  commentStatusCounts: CommentStatusCounts[]
-): CommentStatusCounts {
-  const statusCounts = createEmptyCommentCounts();
-  for (const commentCounts of commentStatusCounts) {
-    for (const status in commentCounts) {
-      if (!commentCounts.hasOwnProperty(status)) {
-        continue;
-      }
-
-      // Because the CommentStatusCounts are not indexable, it should be accessed
-      // by walking the structure.
-      switch (status) {
-        case GQLCOMMENT_STATUS.ACCEPTED:
-        case GQLCOMMENT_STATUS.NONE:
-        case GQLCOMMENT_STATUS.PREMOD:
-        case GQLCOMMENT_STATUS.REJECTED:
-        case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
-          statusCounts[status] += commentCounts[status];
-          break;
-        default:
-          throw new Error("unrecognized status");
-      }
-    }
-  }
-  return statusCounts;
-}
-
-function createEmptyCommentCounts(): CommentStatusCounts {
-  return {
-    [GQLCOMMENT_STATUS.ACCEPTED]: 0,
-    [GQLCOMMENT_STATUS.NONE]: 0,
-    [GQLCOMMENT_STATUS.PREMOD]: 0,
-    [GQLCOMMENT_STATUS.REJECTED]: 0,
-    [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: 0,
-  };
 }
 
 export interface FindOrCreateStoryInput {
@@ -240,8 +159,11 @@ export async function createStory(
     url,
     tenantID,
     createdAt: now,
-    commentActionCounts: {},
-    commentCounts: createEmptyCommentCounts(),
+    commentCounts: {
+      action: {},
+      moderationQueue: createEmptyCommentModerationQueueCounts(),
+      status: createEmptyCommentStatusCounts(),
+    },
   };
 
   try {
@@ -346,34 +268,6 @@ export async function updateStory(
   }
 }
 
-/**
- * updateStoryActionCounts will update the given comment's action counts on
- * the Story.
- *
- * @param mongo the database handle
- * @param tenantID the id of the Tenant
- * @param id the id of the Story being updated
- * @param actionCounts the action counts to merge into the Story
- */
-export async function updateStoryActionCounts(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  actionCounts: EncodedCommentActionCounts
-) {
-  const result = await collection(mongo).findOneAndUpdate(
-    { id, tenantID },
-    // Update all the specific action counts that are associated with each of
-    // the counts.
-    { $inc: dotize({ actionCounts }) },
-    // False to return the updated document instead of the original
-    // document.
-    { returnOriginal: false }
-  );
-
-  return result.value || null;
-}
-
 export async function removeStory(mongo: Db, tenantID: string, id: string) {
   const result = await collection(mongo).findOneAndDelete({
     id,
@@ -397,34 +291,4 @@ export async function removeStories(
       $in: ids,
     },
   });
-}
-
-/**
- * calculateTotalCommentCount will compute the total amount of comments left on
- * an Asset by parsing the `CommentStatusCounts`.
- */
-export function calculateTotalCommentCount(
-  commentCounts: CommentStatusCounts
-): number {
-  let count = 0;
-  for (const status in commentCounts) {
-    if (!commentCounts.hasOwnProperty(status)) {
-      continue;
-    }
-
-    // Because the CommentStatusCounts are not indexable, it should be accessed
-    // by walking the structure.
-    switch (status) {
-      case GQLCOMMENT_STATUS.ACCEPTED:
-      case GQLCOMMENT_STATUS.NONE:
-      case GQLCOMMENT_STATUS.PREMOD:
-      case GQLCOMMENT_STATUS.REJECTED:
-      case GQLCOMMENT_STATUS.SYSTEM_WITHHELD:
-        count += commentCounts[status];
-        break;
-      default:
-        throw new Error("unrecognized status");
-    }
-  }
-  return count;
 }

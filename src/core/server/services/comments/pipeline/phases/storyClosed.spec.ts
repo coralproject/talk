@@ -4,7 +4,7 @@ import { Comment } from "talk-server/models/comment";
 import { Story } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
-import { storyClosed } from "talk-server/services/comments/moderation/phases/storyClosed";
+import { storyClosed } from "talk-server/services/comments/pipeline/phases/storyClosed";
 
 describe("storyClosed", () => {
   it("throws an error when the story is closed", () => {

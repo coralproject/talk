@@ -40,6 +40,9 @@ function createTestRenderer() {
                 editing: {
                   edited: true,
                 },
+                revision: {
+                  id: stories[0].comments.edges[0].node.revision.id,
+                },
               },
               clientMutationId: "0",
             })

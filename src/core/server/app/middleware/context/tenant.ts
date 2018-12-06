@@ -1,15 +1,15 @@
 import { RequestHandler } from "express-jwt";
-import { Redis } from "ioredis";
 import { Db } from "mongodb";
 
 import { Config } from "talk-common/config";
 import TenantContext from "talk-server/graph/tenant/context";
 import { TaskQueue } from "talk-server/queue";
+import { AugmentedRedis } from "talk-server/services/redis";
 import { Request } from "talk-server/types/express";
 
 export interface TenantContextMiddlewareOptions {
   mongo: Db;
-  redis: Redis;
+  redis: AugmentedRedis;
   queue: TaskQueue;
   config: Config;
 }
