@@ -294,9 +294,18 @@ export async function updateUserPassword(
 ) {
   // FIXME: (wyattjoh) add password validation here.
 
+  // Hash the password.
   const hashedPassword = await hashPassword(password);
+
+  // Update the user with the new password.
   const result = await collection(mongo).findOneAndUpdate(
-    { id, tenant_id: tenantID },
+    {
+      tenantID,
+      id,
+      // This ensures that the document we're updating already has a local
+      // profile associated with them.
+      "profiles.type": "local",
+    },
     {
       $set: {
         "profiles.$[profiles].password": hashedPassword,
@@ -309,6 +318,26 @@ export async function updateUserPassword(
       returnOriginal: false,
     }
   );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    if (
+      !user.profiles.some(
+        profile => profile.type === "local" && profile.id === user.email
+      )
+    ) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user does not have a local profile");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
   return result.value || null;
 }
 
@@ -355,6 +384,11 @@ export async function setUserUsername(
         lowercaseUsername,
         "status.username.status": GQLUSER_USERNAME_STATUS.SET,
       },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
     }
   );
   if (!result.value) {
@@ -418,6 +452,11 @@ export async function setUserEmail(
       $set: {
         email,
       },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
     }
   );
   if (!result.value) {
@@ -439,6 +478,7 @@ export async function setUserEmail(
 
   return result.value;
 }
+
 /**
  * setUserLocalProfile will set the local profile for a User if they don't
  * already have one associated with them and the profile doesn't exist on any
@@ -473,11 +513,14 @@ export async function setUserLocalProfile(
     throw new Error("duplicate profile found");
   }
 
+  // Hash the password.
+  const hashedPassword = await hashPassword(password);
+
   // Create the profile that we'll use.
   const profile: LocalProfile = {
     type: "local",
     id: email,
-    password: await hashPassword(password),
+    password: hashedPassword,
   };
 
   // The profile wasn't found, so add it to the User.
@@ -493,6 +536,11 @@ export async function setUserLocalProfile(
       $push: {
         profiles: profile,
       },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
     }
   );
   if (!result.value) {
