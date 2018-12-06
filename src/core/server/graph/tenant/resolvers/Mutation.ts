@@ -81,4 +81,16 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     comment: await ctx.mutators.Actions.rejectComment(input),
     clientMutationId: input.clientMutationId,
   }),
+  setUsername: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.User.setUsername(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  setEmail: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.User.setEmail(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  setPassword: async (source, { input }, ctx) => ({
+    user: await ctx.mutators.User.setPassword(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

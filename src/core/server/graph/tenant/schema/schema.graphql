@@ -3,14 +3,40 @@
 ################################################################################
 
 """
+USER_AUTH_CONDITIONS describes conditions that would prevent a given User to
+execute any set of mutations or reserved queries.
+"""
+enum USER_AUTH_CONDITIONS {
+  """
+  MISSING_NAME is provided when the User does not have an associated username or
+  display name.
+  """
+  MISSING_NAME
+
+  """
+  MISSING_EMAIL is provided when the User does not have an associated email
+  address.
+  """
+  MISSING_EMAIL
+}
+
+"""
 auth is a directive that will enforce authorization rules on the schema
 definition. It will restrict the viewer of the field based on roles or if the
 `userIDField` is specified, it  will see if the current users ID equals the field
 specified. This allows users that own a specific resource (like a comment, or a
 flag) see their own content, but restrict it to everyone else. If the directive
-is used without options, it simply requires a logged in user.
+is used without options, it simply requires a logged in user. `permit` can be
+used to allow specific `USER_AUTH_CONDITIONS` that normally (if present) would
+deny access to any edge associated with the `@auth` directive. If a User has
+only some of the conditions listed, they will pass, but if they have at least
+one more that isn't in the list, the request will be denied.
 """
-directive @auth(roles: [USER_ROLE!], userIDField: String) on FIELD_DEFINITION
+directive @auth(
+  roles: [USER_ROLE!]
+  userIDField: String
+  permit: [USER_AUTH_CONDITIONS!]
+) on FIELD_DEFINITION
 
 ################################################################################
 ## Custom Scalar Types
@@ -1028,9 +1054,24 @@ type User {
   displayName: String
 
   """
+  email is the current email address for the User.
+  """
+  email: String
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [MISSING_NAME, MISSING_EMAIL]
+    )
+
+  """
   profiles is the array of profiles assigned to the user.
   """
-  profiles: [Profile!] @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  profiles: [Profile!]!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [MISSING_NAME, MISSING_EMAIL]
+    )
 
   """
   role is the current role of the User.
@@ -2778,6 +2819,90 @@ type RejectCommentPayload {
 }
 
 ##################
+# setUsername
+##################
+
+input SetUsernameInput {
+  """
+  username is the desired username that should be set to the current User.
+  """
+  username: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type SetUsernamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# setEmail
+##################
+
+input SetEmailInput {
+  """
+  email is the email address to be associated with the User.
+  """
+  email: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type SetEmailPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# setPassword
+##################
+
+input SetPasswordInput {
+  """
+  password is the password that should be associated with the User.
+  """
+  password: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type SetPasswordPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -2785,7 +2910,7 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload
+  createComment(input: CreateCommentInput!): CreateCommentPayload @auth
 
   """
   createCommentReply will create a Comment as the current logged in User that is
@@ -2893,6 +3018,26 @@ type Mutation {
   """
   rejectComment(input: RejectCommentInput!): RejectCommentPayload
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  setUsername will set the username on the current User if they have not set one
+  before. This mutation will fail if the username is already set.
+  """
+  setUsername(input: SetUsernameInput!): SetUsernamePayload
+    @auth(permit: [MISSING_NAME, MISSING_EMAIL])
+
+  """
+  setEmail will set the email address on the current User if they have not set
+  one already. This mutation will fail if the email address is already set.
+  """
+  setEmail(input: SetEmailInput!): SetEmailPayload
+    @auth(permit: [MISSING_EMAIL])
+
+  """
+  setPassword will set the password on the current User if they have not set
+  one already. This mutation will fail if the password is already set.
+  """
+  setPassword(input: SetPasswordInput!): SetPasswordPayload @auth
 }
 
 ################################################################################
