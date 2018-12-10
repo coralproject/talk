@@ -1,11 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(Typography)
-    variant="heading3"
-  >
-    Moderate
-  </withPropsOnChange(Typography)>
-</withPropsOnChange(HorizontalGutter)>
+<Fragment>
+  <withPropsOnChange(SubBar)>
+    <withPropsOnChange(Navigation)>
+      <NavigationLink
+        to="/admin/moderate/reported"
+      >
+        <withPropsOnChange(Icon)>
+          flag
+        </withPropsOnChange(Icon)>
+        <span>
+          Reported
+        </span>
+      </NavigationLink>
+      <NavigationLink
+        to="/admin/moderate/pending"
+      >
+        <withPropsOnChange(Icon)>
+          access_time
+        </withPropsOnChange(Icon)>
+        <span>
+          Pending
+        </span>
+      </NavigationLink>
+      <NavigationLink
+        to="/admin/moderate/unmoderated"
+      >
+        <withPropsOnChange(Icon)>
+          forum
+        </withPropsOnChange(Icon)>
+        <span>
+          Unmoderated
+        </span>
+      </NavigationLink>
+      <NavigationLink
+        to="/admin/moderate/rejected"
+      >
+        <withPropsOnChange(Icon)>
+          cancel
+        </withPropsOnChange(Icon)>
+        <span>
+          Rejected
+        </span>
+      </NavigationLink>
+    </withPropsOnChange(Navigation)>
+  </withPropsOnChange(SubBar)>
+  <div
+    className="Moderate-background"
+  />
+  <MainLayout>
+    <main
+      className="Moderate-main"
+    />
+  </MainLayout>
+</Fragment>
 `;

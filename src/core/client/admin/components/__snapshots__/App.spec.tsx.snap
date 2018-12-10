@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div>
+<div
+  className="App-root"
+>
   <withPropsOnChange(AppBar)
     gutterBegin={true}
     gutterEnd={true}
@@ -20,10 +22,6 @@ exports[`renders correctly 1`] = `
       />
     </withPropsOnChange(End)>
   </withPropsOnChange(AppBar)>
-  <div
-    className="App-container"
-  >
-    child
-  </div>
+  child
 </div>
 `;

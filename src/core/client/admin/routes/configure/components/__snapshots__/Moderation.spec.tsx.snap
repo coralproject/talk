@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <Header>
+    Perspective Toxic Comment Filter
+  </Header>
+  <withPropsOnChange(Typography)>
+    Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity threshold. Toxic comments will not be published and are placed in the Pending Queue for review by a moderator. If approved by a moderator, the comment will be published.
+  </withPropsOnChange(Typography)>
+</div>
+`;

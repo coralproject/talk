@@ -14,7 +14,7 @@ interface Props {
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
    */
-  color?: "grey" | "primary";
+  color?: "inherit" | "grey" | "primary";
 }
 
 const Counter: StatelessComponent<Props> = ({
@@ -29,18 +29,19 @@ const Counter: StatelessComponent<Props> = ({
     {
       [classes.colorPrimary]: color === "primary",
       [classes.colorGrey]: color === "grey",
+      [classes.colorInherit]: color === "inherit",
     },
     className
   );
   return (
     <span className={rootClassName} {...rest}>
-      {children}
+      <span className={classes.text}>{children}</span>
     </span>
   );
 };
 
 Counter.defaultProps = {
-  color: "grey",
+  color: "inherit",
 };
 
 const enhanced = withStyles(styles)(Counter);

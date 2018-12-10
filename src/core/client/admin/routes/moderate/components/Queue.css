@@ -1,0 +1,16 @@
+.root {
+  width: calc(75 * var(--spacing-unit));
+}
+
+.exitTransition {
+  opacity: 1;
+  transition: 300ms opacity;
+}
+
+.exitTransitionActive {
+  opacity: 0;
+}
+
+.exitTransitionDone {
+  opacity: 0;
+}

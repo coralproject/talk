@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div
+<MainLayout
   data-test="configure-container"
 >
   <ReactFinalForm
@@ -9,5 +9,5 @@ exports[`renders correctly 1`] = `
   >
     <Component />
   </ReactFinalForm>
-</div>
+</MainLayout>
 `;

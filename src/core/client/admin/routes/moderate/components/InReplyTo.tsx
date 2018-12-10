@@ -18,7 +18,7 @@ const InReplyTo: StatelessComponent<Props> = ({ children }) => {
   return (
     <Flex alignItems="center">
       <Icon className={styles.icon}>reply</Icon>{" "}
-      <Localized id="comments-inReplyTo" username={<Username />}>
+      <Localized id="moderate-inReplyTo" username={<Username />}>
         <Typography
           variant="timestamp"
           container="span"

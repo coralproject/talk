@@ -1,4 +1,28 @@
+export const emptyModerationQueues = {
+  reported: {
+    count: 0,
+    comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  },
+  pending: {
+    count: 0,
+    comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  },
+  unmoderated: {
+    count: 0,
+    comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  },
+};
+
+export const emptyRejectedComments = {
+  edges: [],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};
+
 export const settings = {
+  wordList: {
+    banned: [],
+    suspect: [],
+  },
   auth: {
     displayName: {
       enabled: false,

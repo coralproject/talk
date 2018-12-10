@@ -1268,6 +1268,11 @@ type Comment {
   story is the Story that the Comment was written on.
   """
   story: Story!
+
+  """
+  The permalink for this comment.
+  """
+  permalink: String!
 }
 
 type PageInfo {
@@ -1463,7 +1468,7 @@ type Story {
   moderationQueues returns the set of ModerationQueues that are available for
   this Story.
   """
-  moderationQueues: ModerationQueues @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
 
   """
   closedAt is the Time that the Story is closed for commenting.
@@ -1591,7 +1596,7 @@ type Query {
   moderationQueues returns the set of ModerationQueues that are available for
   all stories.
   """
-  moderationQueues: ModerationQueues @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################

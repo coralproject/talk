@@ -11,6 +11,7 @@
   text-transform: uppercase;
   text-decoration: none;
   box-sizing: border-box;
+  border-bottom: 3px solid transparent;
   &:hover {
     cursor: pointer;
   }

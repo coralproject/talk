@@ -5,11 +5,13 @@ exports[`renders correctly 1`] = `
   classes={
     Object {
       "colorGrey": "Counter-colorGrey",
+      "colorInherit": "Counter-colorInherit",
       "colorPrimary": "Counter-colorPrimary",
       "root": "Counter-root",
+      "text": "Counter-text",
     }
   }
-  color="grey"
+  color="inherit"
 >
   20
 </Counter>

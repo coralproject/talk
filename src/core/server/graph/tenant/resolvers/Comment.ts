@@ -10,6 +10,7 @@ import { getLatestRevision } from "talk-server/models/comment";
 import { createConnection } from "talk-server/models/connection";
 
 import TenantContext from "../context";
+import { getURLWithCommentID } from "./util";
 
 const maybeLoadOnlyID = (
   ctx: TenantContext,
@@ -77,4 +78,12 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     // Some resolver optimization.
     c.parentID ? ctx.loaders.Comments.parents(c, input) : createConnection(),
   story: (c, input, ctx) => ctx.loaders.Stories.story.load(c.storyID),
+  permalink: async (c, input, ctx) => {
+    const story = await ctx.loaders.Stories.story.load(c.storyID);
+    if (!story) {
+      // TODO: better error reporting?
+      throw new Error("Story not found");
+    }
+    return getURLWithCommentID(story.url, c.id);
+  },
 };

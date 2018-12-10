@@ -1,0 +1,9 @@
+.root {
+  mark {
+    background-color: var(--palette-highlight);
+    padding: 0 2px;
+  }
+  a {
+    color: var(--palette-primary-dark);
+  }
+}

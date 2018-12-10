@@ -36,6 +36,11 @@ export {
   Navigation as AppBarNavigation,
   NavigationItem as AppBarNavigationItem,
 } from "./AppBar";
+export {
+  SubBar,
+  Navigation as SubBarNavigation,
+  NavigationItem as SubBarNavigationItem,
+} from "./SubBar";
 export { BrandIcon, BrandName, Logo } from "./Brand";
 export { default as Counter } from "./Counter";
 export { Marker, Count as MarkerCount } from "./Marker";
