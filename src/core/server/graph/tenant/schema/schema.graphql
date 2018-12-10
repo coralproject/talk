@@ -2964,8 +2964,8 @@ type Mutation {
   User on a Comment if it exists.
   """
   removeCommentReaction(
-    input: CreateCommentReactionInput!
-  ): CreateCommentReactionPayload @auth
+    input: RemoveCommentReactionInput!
+  ): RemoveCommentReactionPayload @auth
 
   """
   createCommentDontAgree will create a DontAgree authored by the current logged in
@@ -2980,8 +2980,8 @@ type Mutation {
   User on a Comment if it exists.
   """
   removeCommentDontAgree(
-    input: CreateCommentDontAgreeInput!
-  ): CreateCommentDontAgreePayload @auth
+    input: RemoveCommentDontAgreeInput!
+  ): RemoveCommentDontAgreePayload @auth
 
   """
   createCommentFlag will create a Flag authored by the current logged in User on
