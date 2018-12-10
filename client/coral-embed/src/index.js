@@ -34,6 +34,7 @@ export class Talk {
    * @param {String} [config.asset_url] - Asset URL
    * @param {String} [config.asset_id] - Asset ID
    * @param {String} [config.auth_token] - (optional) A jwt representing the session
+   * @param {String} [config.lazy] - (optional) If set the stream will only render lazily.
    * @return {Object}
    *
    * Example:
