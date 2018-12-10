@@ -96,7 +96,7 @@ const markers: Array<(c: CommentData) => React.ReactElement<any> | null> = [
     null,
 ];
 
-class MarkersContainer extends React.Component<MarkersContainerProps> {
+export class MarkersContainer extends React.Component<MarkersContainerProps> {
   public render() {
     return markers.map(cb => cb(this.props.comment));
   }

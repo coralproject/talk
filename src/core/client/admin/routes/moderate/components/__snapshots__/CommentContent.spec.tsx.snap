@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Typography)
+  className="custom CommentContent-root"
+  container="div"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "Hello <strong><span><mark>idiot</mark></span></strong><span>, you <mark>fucking</mark> bastard</span>",
+    }
+  }
+/>
+`;

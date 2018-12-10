@@ -1,0 +1,545 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders accepted correctly 1`] = `
+<withPropsOnChange(Card)
+  className="ModerateCard-root"
+>
+  <withPropsOnChange(Flex)>
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div>
+          <Username
+            className="ModerateCard-username"
+          >
+            Theon
+          </Username>
+          <Timestamp>
+            2018-11-29T16:01:51.897Z
+          </Timestamp>
+        </div>
+      </div>
+      <CommentContent
+        bannedWords={
+          Array [
+            "fuck",
+          ]
+        }
+        className="ModerateCard-content"
+        suspectWords={
+          Array [
+            "idiot",
+          ]
+        }
+      >
+        content
+      </CommentContent>
+      <div
+        className="ModerateCard-footer"
+      >
+        <withPropsOnChange(Flex)
+          justifyContent="flex-end"
+        >
+          <withPropsOnChange(Button)
+            anchor={true}
+            color="primary"
+            href="http://localhost/comment"
+            target="_blank"
+            variant="underlined"
+          >
+            <Localized
+              id="moderate-viewContext"
+            >
+              <span>
+                View Context
+              </span>
+            </Localized>
+             
+            <withPropsOnChange(Icon)>
+              arrow_forward
+            </withPropsOnChange(Icon)>
+          </withPropsOnChange(Button)>
+        </withPropsOnChange(Flex)>
+        <withPropsOnChange(Flex)
+          itemGutter={true}
+        >
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
+        </withPropsOnChange(Flex)>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator"
+    />
+    <withPropsOnChange(Flex)
+      alignItems="center"
+      className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
+      direction="column"
+      itemGutter={true}
+    >
+      <Localized
+        id="moderate-decision"
+      >
+        <div
+          className="ModerateCard-decision"
+        >
+          DECISION
+        </div>
+      </Localized>
+      <withPropsOnChange(Flex)
+        itemGutter={true}
+      >
+        <RejectButton
+          invert={false}
+          onClick={[Function]}
+        />
+        <AcceptButton
+          disabled={true}
+          invert={true}
+          onClick={[Function]}
+        />
+      </withPropsOnChange(Flex)>
+    </withPropsOnChange(Flex)>
+  </withPropsOnChange(Flex)>
+</withPropsOnChange(Card)>
+`;
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(Card)
+  className="ModerateCard-root"
+>
+  <withPropsOnChange(Flex)>
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div>
+          <Username
+            className="ModerateCard-username"
+          >
+            Theon
+          </Username>
+          <Timestamp>
+            2018-11-29T16:01:51.897Z
+          </Timestamp>
+        </div>
+      </div>
+      <CommentContent
+        bannedWords={
+          Array [
+            "fuck",
+          ]
+        }
+        className="ModerateCard-content"
+        suspectWords={
+          Array [
+            "idiot",
+          ]
+        }
+      >
+        content
+      </CommentContent>
+      <div
+        className="ModerateCard-footer"
+      >
+        <withPropsOnChange(Flex)
+          justifyContent="flex-end"
+        >
+          <withPropsOnChange(Button)
+            anchor={true}
+            color="primary"
+            href="http://localhost/comment"
+            target="_blank"
+            variant="underlined"
+          >
+            <Localized
+              id="moderate-viewContext"
+            >
+              <span>
+                View Context
+              </span>
+            </Localized>
+             
+            <withPropsOnChange(Icon)>
+              arrow_forward
+            </withPropsOnChange(Icon)>
+          </withPropsOnChange(Button)>
+        </withPropsOnChange(Flex)>
+        <withPropsOnChange(Flex)
+          itemGutter={true}
+        >
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
+        </withPropsOnChange(Flex)>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator"
+    />
+    <withPropsOnChange(Flex)
+      alignItems="center"
+      className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
+      direction="column"
+      itemGutter={true}
+    >
+      <Localized
+        id="moderate-decision"
+      >
+        <div
+          className="ModerateCard-decision"
+        >
+          DECISION
+        </div>
+      </Localized>
+      <withPropsOnChange(Flex)
+        itemGutter={true}
+      >
+        <RejectButton
+          invert={false}
+          onClick={[Function]}
+        />
+        <AcceptButton
+          invert={false}
+          onClick={[Function]}
+        />
+      </withPropsOnChange(Flex)>
+    </withPropsOnChange(Flex)>
+  </withPropsOnChange(Flex)>
+</withPropsOnChange(Card)>
+`;
+
+exports[`renders dangling correctly 1`] = `
+<withPropsOnChange(Card)
+  className="ModerateCard-root ModerateCard-dangling"
+>
+  <withPropsOnChange(Flex)>
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div>
+          <Username
+            className="ModerateCard-username"
+          >
+            Theon
+          </Username>
+          <Timestamp>
+            2018-11-29T16:01:51.897Z
+          </Timestamp>
+        </div>
+      </div>
+      <CommentContent
+        bannedWords={
+          Array [
+            "fuck",
+          ]
+        }
+        className="ModerateCard-content"
+        suspectWords={
+          Array [
+            "idiot",
+          ]
+        }
+      >
+        content
+      </CommentContent>
+      <div
+        className="ModerateCard-footer"
+      >
+        <withPropsOnChange(Flex)
+          justifyContent="flex-end"
+        >
+          <withPropsOnChange(Button)
+            anchor={true}
+            color="primary"
+            href="http://localhost/comment"
+            target="_blank"
+            variant="underlined"
+          >
+            <Localized
+              id="moderate-viewContext"
+            >
+              <span>
+                View Context
+              </span>
+            </Localized>
+             
+            <withPropsOnChange(Icon)>
+              arrow_forward
+            </withPropsOnChange(Icon)>
+          </withPropsOnChange(Button)>
+        </withPropsOnChange(Flex)>
+        <withPropsOnChange(Flex)
+          itemGutter={true}
+        >
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
+        </withPropsOnChange(Flex)>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator"
+    />
+    <withPropsOnChange(Flex)
+      alignItems="center"
+      className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
+      direction="column"
+      itemGutter={true}
+    >
+      <Localized
+        id="moderate-decision"
+      >
+        <div
+          className="ModerateCard-decision"
+        >
+          DECISION
+        </div>
+      </Localized>
+      <withPropsOnChange(Flex)
+        itemGutter={true}
+      >
+        <RejectButton
+          disabled={true}
+          invert={false}
+          onClick={[Function]}
+        />
+        <AcceptButton
+          disabled={true}
+          invert={false}
+          onClick={[Function]}
+        />
+      </withPropsOnChange(Flex)>
+    </withPropsOnChange(Flex)>
+  </withPropsOnChange(Flex)>
+</withPropsOnChange(Card)>
+`;
+
+exports[`renders rejected correctly 1`] = `
+<withPropsOnChange(Card)
+  className="ModerateCard-root"
+>
+  <withPropsOnChange(Flex)>
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div>
+          <Username
+            className="ModerateCard-username"
+          >
+            Theon
+          </Username>
+          <Timestamp>
+            2018-11-29T16:01:51.897Z
+          </Timestamp>
+        </div>
+      </div>
+      <CommentContent
+        bannedWords={
+          Array [
+            "fuck",
+          ]
+        }
+        className="ModerateCard-content"
+        suspectWords={
+          Array [
+            "idiot",
+          ]
+        }
+      >
+        content
+      </CommentContent>
+      <div
+        className="ModerateCard-footer"
+      >
+        <withPropsOnChange(Flex)
+          justifyContent="flex-end"
+        >
+          <withPropsOnChange(Button)
+            anchor={true}
+            color="primary"
+            href="http://localhost/comment"
+            target="_blank"
+            variant="underlined"
+          >
+            <Localized
+              id="moderate-viewContext"
+            >
+              <span>
+                View Context
+              </span>
+            </Localized>
+             
+            <withPropsOnChange(Icon)>
+              arrow_forward
+            </withPropsOnChange(Icon)>
+          </withPropsOnChange(Button)>
+        </withPropsOnChange(Flex)>
+        <withPropsOnChange(Flex)
+          itemGutter={true}
+        >
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
+        </withPropsOnChange(Flex)>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator"
+    />
+    <withPropsOnChange(Flex)
+      alignItems="center"
+      className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
+      direction="column"
+      itemGutter={true}
+    >
+      <Localized
+        id="moderate-decision"
+      >
+        <div
+          className="ModerateCard-decision"
+        >
+          DECISION
+        </div>
+      </Localized>
+      <withPropsOnChange(Flex)
+        itemGutter={true}
+      >
+        <RejectButton
+          disabled={true}
+          invert={true}
+          onClick={[Function]}
+        />
+        <AcceptButton
+          invert={false}
+          onClick={[Function]}
+        />
+      </withPropsOnChange(Flex)>
+    </withPropsOnChange(Flex)>
+  </withPropsOnChange(Flex)>
+</withPropsOnChange(Card)>
+`;
+
+exports[`renders reply correctly 1`] = `
+<withPropsOnChange(Card)
+  className="ModerateCard-root"
+>
+  <withPropsOnChange(Flex)>
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div>
+          <Username
+            className="ModerateCard-username"
+          >
+            Theon
+          </Username>
+          <Timestamp>
+            2018-11-29T16:01:51.897Z
+          </Timestamp>
+        </div>
+        <div>
+          <InReplyTo>
+            Julian
+          </InReplyTo>
+        </div>
+      </div>
+      <CommentContent
+        bannedWords={
+          Array [
+            "fuck",
+          ]
+        }
+        className="ModerateCard-content"
+        suspectWords={
+          Array [
+            "idiot",
+          ]
+        }
+      >
+        content
+      </CommentContent>
+      <div
+        className="ModerateCard-footer"
+      >
+        <withPropsOnChange(Flex)
+          justifyContent="flex-end"
+        >
+          <withPropsOnChange(Button)
+            anchor={true}
+            color="primary"
+            href="http://localhost/comment"
+            target="_blank"
+            variant="underlined"
+          >
+            <Localized
+              id="moderate-viewContext"
+            >
+              <span>
+                View Context
+              </span>
+            </Localized>
+             
+            <withPropsOnChange(Icon)>
+              arrow_forward
+            </withPropsOnChange(Icon)>
+          </withPropsOnChange(Button)>
+        </withPropsOnChange(Flex)>
+        <withPropsOnChange(Flex)
+          itemGutter={true}
+        >
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
+        </withPropsOnChange(Flex)>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator"
+    />
+    <withPropsOnChange(Flex)
+      alignItems="center"
+      className="ModerateCard-aside"
+      direction="column"
+      itemGutter={true}
+    >
+      <Localized
+        id="moderate-decision"
+      >
+        <div
+          className="ModerateCard-decision"
+        >
+          DECISION
+        </div>
+      </Localized>
+      <withPropsOnChange(Flex)
+        itemGutter={true}
+      >
+        <RejectButton
+          invert={false}
+          onClick={[Function]}
+        />
+        <AcceptButton
+          invert={false}
+          onClick={[Function]}
+        />
+      </withPropsOnChange(Flex)>
+    </withPropsOnChange(Flex)>
+  </withPropsOnChange(Flex)>
+</withPropsOnChange(Card)>
+`;

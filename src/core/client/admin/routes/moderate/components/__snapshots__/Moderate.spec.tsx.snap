@@ -15,3 +15,23 @@ exports[`renders correctly 1`] = `
   </MainLayout>
 </Fragment>
 `;
+
+exports[`renders correctly with counts 1`] = `
+<Fragment>
+  <withPropsOnChange(SubBar)>
+    <Navigation
+      pendingCount={0}
+      reportedCount={4}
+      unmoderatedCount={3}
+    />
+  </withPropsOnChange(SubBar)>
+  <div
+    className="Moderate-background"
+  />
+  <MainLayout>
+    <main
+      className="Moderate-main"
+    />
+  </MainLayout>
+</Fragment>
+`;

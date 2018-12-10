@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly with load more 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  className="Queue-root"
+  size="double"
+>
+  <TransitionGroup
+    appear={false}
+    childFactory={[Function]}
+    component={null}
+    enter={false}
+    exit={true}
+  />
+  <withPropsOnChange(Flex)
+    justifyContent="center"
+  >
+    <withContext(WithInView)
+      disableLoadMore={false}
+      onLoadMore={[Function]}
+    />
+  </withPropsOnChange(Flex)>
+</withPropsOnChange(HorizontalGutter)>
+`;
+
+exports[`renders correctly without load more 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  className="Queue-root"
+  size="double"
+>
+  <TransitionGroup
+    appear={false}
+    childFactory={[Function]}
+    component={null}
+    enter={false}
+    exit={true}
+  />
+</withPropsOnChange(HorizontalGutter)>
+`;

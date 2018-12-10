@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Localized
+  attrs={
+    Object {
+      "aria-label": true,
+    }
+  }
+  id="moderate-acceptButton"
+>
+  <withPropsOnChange(WithMouseHover)
+    aria-label="Accept"
+    className="AcceptButton-root"
+  >
+    <withPropsOnChange(Icon)
+      className="AcceptButton-icon"
+      size="lg"
+    >
+      done
+    </withPropsOnChange(Icon)>
+  </withPropsOnChange(WithMouseHover)>
+</Localized>
+`;
+
+exports[`renders correctly inverted 1`] = `
+<Localized
+  attrs={
+    Object {
+      "aria-label": true,
+    }
+  }
+  id="moderate-acceptButton"
+>
+  <withPropsOnChange(WithMouseHover)
+    aria-label="Accept"
+    className="AcceptButton-root AcceptButton-invert"
+  >
+    <withPropsOnChange(Icon)
+      className="AcceptButton-icon"
+      size="lg"
+    >
+      done
+    </withPropsOnChange(Icon)>
+  </withPropsOnChange(WithMouseHover)>
+</Localized>
+`;
