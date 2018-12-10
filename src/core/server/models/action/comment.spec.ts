@@ -19,7 +19,7 @@ describe("#encodeActionCounts", () => {
       },
       {
         actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER,
       },
     ];
     const actionCounts = encodeActionCounts(...(actions as CommentAction[]));
@@ -41,7 +41,7 @@ describe("#decodeActionCounts", () => {
       },
       {
         actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER,
       },
     ];
 
@@ -76,7 +76,7 @@ describe("#validateAction", () => {
       },
       {
         actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER,
       },
       {
         actionType: ACTION_TYPE.FLAG,
@@ -109,7 +109,7 @@ describe("#validateAction", () => {
       },
       {
         actionType: ACTION_TYPE.DONT_AGREE,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_BODY_COUNT,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OTHER,
       },
       {
         actionType: ACTION_TYPE.FLAG,
