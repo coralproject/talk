@@ -1,11 +1,10 @@
 import React, { StatelessComponent } from "react";
 
 import MainLayout from "talk-admin/components/MainLayout";
-import { Counter, Icon } from "talk-ui/components";
-import { Navigation, SubBar } from "talk-ui/components/SubBar";
+import { SubBar } from "talk-ui/components/SubBar";
 
 import styles from "./Moderate.css";
-import NavigationLink from "./NavigationLink";
+import Navigation from "./Navigation";
 
 interface Props {
   unmoderatedCount?: number;
@@ -22,29 +21,11 @@ const Moderate: StatelessComponent<Props> = ({
 }) => (
   <>
     <SubBar>
-      <Navigation>
-        <NavigationLink to="/admin/moderate/reported">
-          <Icon>flag</Icon>
-          <span>Reported</span>
-          {reportedCount !== undefined && <Counter>{reportedCount}</Counter>}
-        </NavigationLink>
-        <NavigationLink to="/admin/moderate/pending">
-          <Icon>access_time</Icon>
-          <span>Pending</span>
-          {pendingCount !== undefined && <Counter>{pendingCount}</Counter>}
-        </NavigationLink>
-        <NavigationLink to="/admin/moderate/unmoderated">
-          <Icon>forum</Icon>
-          <span>Unmoderated</span>
-          {unmoderatedCount !== undefined && (
-            <Counter>{unmoderatedCount}</Counter>
-          )}
-        </NavigationLink>
-        <NavigationLink to="/admin/moderate/rejected">
-          <Icon>cancel</Icon>
-          <span>Rejected</span>
-        </NavigationLink>
-      </Navigation>
+      <Navigation
+        unmoderatedCount={unmoderatedCount}
+        reportedCount={reportedCount}
+        pendingCount={pendingCount}
+      />
     </SubBar>
     <div className={styles.background} />
     <MainLayout>

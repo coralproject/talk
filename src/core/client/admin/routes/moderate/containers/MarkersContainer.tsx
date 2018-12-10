@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -13,64 +14,68 @@ let keyCounter = 0;
 const markers: Array<(c: CommentData) => React.ReactElement<any> | null> = [
   c =>
     (c.status === "PREMOD" && (
-      <Marker key={keyCounter++} color="primary">
-        Pre-Mod
-      </Marker>
+      <Localized id="moderate-marker-preMod" key={keyCounter++}>
+        <Marker color="primary">Pre-Mod</Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_DETECTED_LINKS && (
-      <Marker key={keyCounter++} color="primary">
-        Link
-      </Marker>
+      <Localized id="moderate-marker-link" key={keyCounter++}>
+        <Marker color="primary">Link</Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_DETECTED_BANNED_WORD && (
-      <Marker key={keyCounter++} color="error">
-        Banned Word
-      </Marker>
+      <Localized id="moderate-marker-bannedWord" key={keyCounter++}>
+        <Marker color="error">Banned Word</Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_DETECTED_SUSPECT_WORD && (
-      <Marker key={keyCounter++} color="error" variant="filled">
-        Suspect Word
-      </Marker>
+      <Localized id="moderate-marker-suspectWord" key={keyCounter++}>
+        <Marker color="error" variant="filled">
+          Suspect Word
+        </Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_DETECTED_SPAM && (
-      <Marker key={keyCounter++} color="error">
-        Spam
-      </Marker>
+      <Localized id="moderate-marker-spam" key={keyCounter++}>
+        <Marker color="error">Spam</Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_DETECTED_TOXIC && (
-      <Marker key={keyCounter++} color="error">
-        Toxic
-      </Marker>
+      <Localized id="moderate-marker-toxic" key={keyCounter++}>
+        <Marker color="error">Toxic</Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_DETECTED_TRUST && (
-      <Marker key={keyCounter++} color="error">
-        Karma
-      </Marker>
+      <Localized id="moderate-marker-karma" key={keyCounter++}>
+        <Marker color="error">Karma</Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_DETECTED_BODY_COUNT && (
-      <Marker key={keyCounter++} color="error">
-        Body Count
-      </Marker>
+      <Localized id="moderate-marker-bodyCount" key={keyCounter++}>
+        <Marker color="error">Body Count</Marker>
+      </Localized>
     )) ||
     null,
   c =>
     (c.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
       <Marker key={keyCounter++} color="error">
-        Offensive{" "}
+        <Localized id="moderate-marker-offensive">
+          <span>Offensive</span>
+        </Localized>{" "}
         <MarkerCount>
           {c.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE}
         </MarkerCount>
@@ -80,7 +85,9 @@ const markers: Array<(c: CommentData) => React.ReactElement<any> | null> = [
   c =>
     (c.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM && (
       <Marker key={keyCounter++} color="error">
-        Spam{" "}
+        <Localized id="moderate-marker-spam">
+          <span>Spam</span>
+        </Localized>{" "}
         <MarkerCount>
           {c.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM}
         </MarkerCount>

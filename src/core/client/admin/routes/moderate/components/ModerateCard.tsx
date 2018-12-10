@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
@@ -77,7 +78,10 @@ const ModerateCard: StatelessComponent<Props> = ({
               href={viewContextHref}
               target="_blank"
             >
-              View Context <Icon>arrow_forward</Icon>
+              <Localized id="moderate-viewContext">
+                <span>View Context</span>
+              </Localized>{" "}
+              <Icon>arrow_forward</Icon>
             </Button>
           </Flex>
           <Flex itemGutter>
@@ -94,7 +98,9 @@ const ModerateCard: StatelessComponent<Props> = ({
         direction="column"
         itemGutter
       >
-        <div className={styles.decision}>DECISION</div>
+        <Localized id="moderate-decision">
+          <div className={styles.decision}>DECISION</div>
+        </Localized>
         <Flex itemGutter>
           <RejectButton
             onClick={onReject}

@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
@@ -15,16 +16,19 @@ const RejectButton: StatelessComponent<Props> = ({
   className,
   ...rest
 }) => (
-  <BaseButton
-    {...rest}
-    className={cn(className, styles.root, {
-      [styles.invert]: invert,
-    })}
-  >
-    <Icon size="lg" className={styles.icon}>
-      close
-    </Icon>
-  </BaseButton>
+  <Localized id="moderate-rejectButton" attrs={{ "aria-label": true }}>
+    <BaseButton
+      {...rest}
+      className={cn(className, styles.root, {
+        [styles.invert]: invert,
+      })}
+      aria-label="Reject"
+    >
+      <Icon size="lg" className={styles.icon}>
+        close
+      </Icon>
+    </BaseButton>
+  </Localized>
 );
 
 export default RejectButton;
