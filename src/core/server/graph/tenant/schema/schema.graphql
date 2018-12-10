@@ -2223,6 +2223,12 @@ input CreateCommentDontAgreeInput {
   commentRevisionID: ID!
 
   """
+  additionalDetails stores information from the User as to why the Flag was
+  created or is relevant.
+  """
+  additionalDetails: String
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -2288,6 +2294,12 @@ input CreateCommentFlagInput {
   reason is the selected reason why the Flag is being created.
   """
   reason: COMMENT_FLAG_REPORTED_REASON!
+
+  """
+  additionalDetails stores information from the User as to why the Flag was
+  created or is relevant.
+  """
+  additionalDetails: String
 
   """
   clientMutationId is required for Relay support.

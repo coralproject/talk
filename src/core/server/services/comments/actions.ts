@@ -226,7 +226,7 @@ export async function removeReaction(
 
 export type CreateCommentDontAgree = Pick<
   CreateActionInput,
-  "commentID" | "commentRevisionID"
+  "commentID" | "commentRevisionID" | "additionalDetails"
 >;
 
 export async function createDontAgree(
@@ -240,6 +240,7 @@ export async function createDontAgree(
     actionType: ACTION_TYPE.DONT_AGREE,
     commentID: input.commentID,
     commentRevisionID: input.commentRevisionID,
+    additionalDetails: input.additionalDetails,
     userID: author.id,
   });
 }
@@ -262,7 +263,7 @@ export async function removeDontAgree(
 
 export type CreateCommentFlag = Pick<
   CreateActionInput,
-  "commentID" | "commentRevisionID"
+  "commentID" | "commentRevisionID" | "additionalDetails"
 > & {
   reason: GQLCOMMENT_FLAG_REPORTED_REASON;
 };
@@ -279,6 +280,7 @@ export async function createFlag(
     reason: input.reason,
     commentID: input.commentID,
     commentRevisionID: input.commentRevisionID,
+    additionalDetails: input.additionalDetails,
     userID: author.id,
   });
 }

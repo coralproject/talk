@@ -76,6 +76,12 @@ export interface CommentAction extends TenantResource {
   reason?: FLAG_REASON;
 
   /**
+   * additionalDetails stores information from the User as to why the Flag was
+   * created or is relevant.
+   */
+  additionalDetails?: string;
+
+  /**
    * storyID represents the ID of the Story where the comment was left on.
    */
   storyID: string;
@@ -168,7 +174,7 @@ export async function createAction(
   tenantID: string,
   input: CreateActionInput
 ): Promise<CreateActionResultObject> {
-  const { metadata, ...filter } = input;
+  const { metadata, additionalDetails, ...filter } = input;
 
   // Create a new ID for the action.
   const id = uuid.v4();
@@ -185,6 +191,7 @@ export async function createAction(
   const action: Readonly<CommentAction> = {
     ...defaults,
     ...input,
+    additionalDetails,
   };
 
   // Create the upsert/update operation.
