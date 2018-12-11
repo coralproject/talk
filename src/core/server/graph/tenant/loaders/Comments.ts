@@ -20,6 +20,9 @@ import {
   retrieveManyComments,
 } from "talk-server/models/comment";
 import { Connection } from "talk-server/models/connection";
+import { retrieveSharedModerationQueueQueuesCounts } from "talk-server/models/story/counts/shared";
+
+import { SingletonResolver } from "./util";
 
 /**
  * primeCommentsFromConnection will prime a given context with the comments
@@ -114,4 +117,11 @@ export default (ctx: Context) => ({
       // The cursor passed here is always going to be a number.
       before: before as number,
     }).then(primeCommentsFromConnection(ctx)),
+  sharedModerationQueueQueuesCounts: new SingletonResolver(() =>
+    retrieveSharedModerationQueueQueuesCounts(
+      ctx.mongo,
+      ctx.redis,
+      ctx.tenant.id
+    )
+  ),
 });
