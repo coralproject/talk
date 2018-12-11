@@ -1,18 +1,21 @@
 import newDOMPurify, { DOMPurify } from "dompurify";
 
-export function createPurify(window: Window) {
+export function createPurify<T extends boolean = true>(
+  window: Window,
+  returnDOM: T = true as T
+) {
   // Initializing JSDOM and DOMPurify
-  const purify = newDOMPurify(window);
+  const purify = newDOMPurify<T>(window);
 
   // Setting our DOMPurify config.
   purify.setConfig({
     // Only forward anchor tags, bold, italics, blockquote, breaks, divs, and
     // spans.
-    ALLOWED_TAGS: ["a", "b", "i", "blockquote", "br", "div", "span"],
+    ALLOWED_TAGS: ["a", "strong", "i", "blockquote", "br", "div", "span"],
     // Only allow href tags for anchor tags.
     ALLOWED_ATTR: ["href"],
     // Always return the DOM to the caller of sanitize.
-    RETURN_DOM: true,
+    RETURN_DOM: returnDOM,
   });
 
   // Ensure that each anchor tag has a "target" and "rel" attributes set, and
