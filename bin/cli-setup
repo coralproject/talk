@@ -45,7 +45,7 @@ const performSetup = async () => {
   } catch (err) {
     // If the error is `not init`, then we're good, otherwise, it's something
     // else.
-    if (err instanceof ErrSettingsNotInit) {
+    if (!err instanceof ErrSettingsNotInit) {
       throw err;
       return;
     }
