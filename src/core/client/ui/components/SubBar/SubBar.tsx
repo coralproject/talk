@@ -30,7 +30,11 @@ const SubBar: StatelessComponent<Props> = ({
         [classes.gutterEnd]: gutterEnd,
       })}
     >
-      <Flex className={classes.container} justifyContent="center">
+      <Flex
+        className={classes.container}
+        justifyContent="center"
+        alignItems="center"
+      >
         {children}
       </Flex>
     </div>

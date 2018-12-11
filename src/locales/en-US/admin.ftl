@@ -143,3 +143,6 @@ moderate-rejectButton =
 moderate-acceptButton =
   .aria-label = Accept
 moderate-decision = Decision
+
+moderate-single-goToModerationQueues = Go to moderation queues
+moderate-single-singleCommentView = Single Comment View

@@ -13,6 +13,9 @@ export default function getQueueConnection(
     });
   }
   const queuesRecord = root.getLinkedRecord("moderationQueues")!;
+  if (!queuesRecord) {
+    return null;
+  }
   return ConnectionHandler.getConnection(
     queuesRecord.getLinkedRecord(queue),
     "Queue_comments"

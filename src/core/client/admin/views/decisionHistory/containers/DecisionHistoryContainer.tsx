@@ -10,6 +10,7 @@ import DecisionHistory from "../components/DecisionHistory";
 interface DecisionHistoryContainerProps {
   me: MeData;
   relay: RelayPaginationProp;
+  onClosePopover: () => void;
 }
 
 export class DecisionHistoryContainer extends React.Component<
@@ -29,6 +30,7 @@ export class DecisionHistoryContainer extends React.Component<
         onLoadMore={this.loadMore}
         hasMore={this.props.relay.hasMore()}
         disableLoadMore={this.state.disableLoadMore}
+        onClosePopover={this.props.onClosePopover}
       />
     );
   }

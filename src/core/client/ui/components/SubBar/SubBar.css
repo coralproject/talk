@@ -1,12 +1,14 @@
 .root {
   background-color: var(--palette-common-white);
+  height: calc(5 * var(--spacing-unit));
 }
 
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  height: calc(5 * var(--spacing-unit));
+  height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .gutterBegin {

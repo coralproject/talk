@@ -16,6 +16,7 @@ interface Props {
   onLoadMore?: () => void;
   hasMore?: boolean;
   disableLoadMore?: boolean;
+  onClosePopover: () => void;
 }
 
 const DecisionHistory: StatelessComponent<Props> = props => (
@@ -25,7 +26,11 @@ const DecisionHistory: StatelessComponent<Props> = props => (
       <DecisionList>
         {props.actions.length === 0 && <Empty />}
         {props.actions.map(action => (
-          <DecisionHistoryItemContainer key={action.id} action={action} />
+          <DecisionHistoryItemContainer
+            key={action.id}
+            action={action}
+            onClosePopover={props.onClosePopover}
+          />
         ))}
       </DecisionList>
       {props.hasMore && (

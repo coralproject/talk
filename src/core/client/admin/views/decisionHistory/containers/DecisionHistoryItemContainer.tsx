@@ -9,15 +9,16 @@ import RejectedComment from "../components/RejectedComment";
 
 interface DecisionHistoryItemContainerProps {
   action: ActionData;
+  onClosePopover: () => void;
 }
 
 class DecisionHistoryItemContainer extends React.Component<
   DecisionHistoryItemContainerProps
 > {
-  private handleGoToComment = (e: React.MouseEvent) => {
-    return;
-  };
   public render() {
+    const href = `/admin/moderate/comment/${
+      this.props.action.revision.comment.id
+    }`;
     const username =
       (this.props.action.revision.comment.author &&
         this.props.action.revision.comment.author.username) ||
@@ -25,19 +26,19 @@ class DecisionHistoryItemContainer extends React.Component<
     if (this.props.action.status === "ACCEPTED") {
       return (
         <AcceptedComment
-          href="#"
+          href={href}
           username={username}
           date={this.props.action.createdAt}
-          onGotoComment={this.handleGoToComment}
+          onGotoComment={this.props.onClosePopover}
         />
       );
     } else if (this.props.action.status === "REJECTED") {
       return (
         <RejectedComment
-          href="#"
+          href={href}
           username={username}
           date={this.props.action.createdAt}
-          onGotoComment={this.handleGoToComment}
+          onGotoComment={this.props.onClosePopover}
         />
       );
     }
@@ -52,6 +53,7 @@ const enhanced = withFragmentContainer<DecisionHistoryItemContainerProps>({
       revision {
         id
         comment {
+          id
           author {
             username
           }

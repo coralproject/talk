@@ -74,7 +74,7 @@ exports[`loads more 1`] = `
               </div>
               <a
                 className="TextLink-root GoToCommentLink-root"
-                href="#"
+                href="/admin/moderate/comment/1b41be9f-510f-41f3-a1df-5a431dc98bf3"
                 onClick={[Function]}
               >
                 <span>
@@ -138,7 +138,7 @@ exports[`loads more 1`] = `
               </div>
               <a
                 className="TextLink-root GoToCommentLink-root"
-                href="#"
+                href="/admin/moderate/comment/1b41be9f-510f-41f3-a1df-5a431dc98bf3"
                 onClick={[Function]}
               >
                 <span>
@@ -202,7 +202,7 @@ exports[`loads more 1`] = `
               </div>
               <a
                 className="TextLink-root GoToCommentLink-root"
-                href="#"
+                href="/admin/moderate/comment/1b41be9f-510f-41f3-a1df-5a431dc98bf3"
                 onClick={[Function]}
               >
                 <span>
@@ -331,7 +331,7 @@ exports[`render popover content 1`] = `
               </div>
               <a
                 className="TextLink-root GoToCommentLink-root"
-                href="#"
+                href="/admin/moderate/comment/1b41be9f-510f-41f3-a1df-5a431dc98bf3"
                 onClick={[Function]}
               >
                 <span>
@@ -395,7 +395,7 @@ exports[`render popover content 1`] = `
               </div>
               <a
                 className="TextLink-root GoToCommentLink-root"
-                href="#"
+                href="/admin/moderate/comment/1b41be9f-510f-41f3-a1df-5a431dc98bf3"
                 onClick={[Function]}
               >
                 <span>

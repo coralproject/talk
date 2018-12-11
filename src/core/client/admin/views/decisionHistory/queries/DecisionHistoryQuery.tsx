@@ -6,7 +6,11 @@ import { DecisionHistoryQuery as QueryTypes } from "talk-admin/__generated__/Dec
 import DecisionHistoryLoading from "../components/DecisionHistoryLoading";
 import DecisionHistoryContainer from "../containers/DecisionHistoryContainer";
 
-class DecisionHistoryQuery extends Component {
+interface Props {
+  onClosePopover: () => void;
+}
+
+class DecisionHistoryQuery extends Component<Props> {
   public render() {
     return (
       <QueryRenderer<QueryTypes>
@@ -26,7 +30,12 @@ class DecisionHistoryQuery extends Component {
             return <DecisionHistoryLoading />;
           }
 
-          return <DecisionHistoryContainer me={props.me} />;
+          return (
+            <DecisionHistoryContainer
+              me={props.me}
+              onClosePopover={this.props.onClosePopover}
+            />
+          );
         }}
       />
     );

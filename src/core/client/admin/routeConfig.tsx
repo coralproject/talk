@@ -16,6 +16,7 @@ import {
   UnmoderatedQueueContainer,
 } from "./routes/moderate/containers/QueueContainer";
 import RejectedQueueContainer from "./routes/moderate/containers/RejectedQueueContainer";
+import SingleModerateContainer from "./routes/moderate/containers/SingleModerateContainer";
 import Stories from "./routes/stories/components/Stories";
 
 export default makeRouteConfig(
@@ -23,6 +24,10 @@ export default makeRouteConfig(
     <Route Component={RedirectLoginContainer}>
       <Route Component={App}>
         <Redirect from="/" to="/admin/moderate" />
+        <Route
+          path="moderate/comment/:commentID"
+          {...SingleModerateContainer.routeConfig}
+        />
         <Route path="moderate" {...ModerateContainer.routeConfig}>
           <Redirect from="/" to="/admin/moderate/reported" />
           <Route path="reported" {...ReportedQueueContainer.routeConfig} />
