@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`allows anchor links 1`] = `
+Object {
+  "body": "<a href=\\"test\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">This is a link</a>",
+  "linkCount": 1,
+}
+`;
+
+exports[`allows anchor tags and counts them correctly 1`] = `
+"<div>
+      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">Mozilla</a>
+      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">Mozilla</a>
+    </div>
+  "
+`;
+
+exports[`sanitizes out attributes not allowed 1`] = `
+Object {
+  "body": "<div>Test</div>",
+  "linkCount": 0,
+}
+`;
+
+exports[`sanitizes out tags not allowed 1`] = `
+Object {
+  "body": "",
+  "linkCount": 0,
+}
+`;
+
+exports[`sanitizes out tags not allowed 2`] = `
+Object {
+  "body": "",
+  "linkCount": 0,
+}
+`;

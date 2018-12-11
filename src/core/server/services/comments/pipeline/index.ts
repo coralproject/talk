@@ -18,12 +18,14 @@ export interface PhaseResult {
   actions: ModerationAction[];
   status: GQLCOMMENT_STATUS;
   metadata: Record<string, any>;
+  body: string;
 }
 
 export interface ModerationPhaseContext {
   story: Story;
   tenant: Tenant;
-  comment: Partial<EditCommentInput>;
+  comment: Omit<Partial<EditCommentInput>, "body"> &
+    Required<Pick<EditCommentInput, "body">>;
   author: User;
   req?: Request;
 }
@@ -47,13 +49,21 @@ export const compose = (
 ): ModerationPhase => async context => {
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
+    body: context.comment.body,
     actions: [],
-    metadata: {},
+    metadata: context.comment.metadata || {},
   };
 
   // Loop over all the moderation phases and see if we've resolved the status.
   for (const phase of phases) {
-    const result = await phase(context);
+    const result = await phase({
+      ...context,
+      comment: {
+        ...context.comment,
+        body: final.body,
+        metadata: final.metadata,
+      },
+    });
     if (result) {
       // If this result contained actions, then we should push it into the
       // other actions.
@@ -70,6 +80,12 @@ export const compose = (
           ...final.metadata,
           ...metadata,
         };
+      }
+
+      // If the result modified the comment body, we should replace it.
+      const { body } = result;
+      if (body) {
+        final.body = body;
       }
 
       // If this result contained a status, then we've finished resolving

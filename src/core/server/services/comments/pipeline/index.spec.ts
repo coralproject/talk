@@ -8,6 +8,10 @@ import {
   ModerationPhaseContext,
 } from "talk-server/services/comments/pipeline";
 
+const context = {
+  comment: { body: "This is a test" },
+} as ModerationPhaseContext;
+
 describe("compose", () => {
   it("handles when a phase throws an error", async () => {
     const err = new Error("this is an error");
@@ -17,14 +21,15 @@ describe("compose", () => {
       },
     ]);
 
-    await expect(enhanced({} as ModerationPhaseContext)).rejects.toEqual(err);
+    await expect(enhanced(context)).rejects.toEqual(err);
   });
 
   it("handles when it returns a status", async () => {
     const status = GQLCOMMENT_STATUS.ACCEPTED;
     const enhanced = compose([() => ({ status })]);
 
-    await expect(enhanced({} as ModerationPhaseContext)).resolves.toEqual({
+    await expect(enhanced(context)).resolves.toEqual({
+      body: context.comment.body,
       status,
       metadata: {},
       actions: [],
@@ -39,7 +44,8 @@ describe("compose", () => {
       () => ({ metadata: { third: true } }),
     ]);
 
-    await expect(enhanced({} as ModerationPhaseContext)).resolves.toEqual({
+    await expect(enhanced(context)).resolves.toEqual({
+      body: context.comment.body,
       status,
       metadata: { first: true, second: true },
       actions: [],
@@ -81,13 +87,14 @@ describe("compose", () => {
       }),
     ]);
 
-    const final = await enhanced({} as ModerationPhaseContext);
+    const final = await enhanced(context);
 
     for (const flag of flags) {
       expect(final.actions).toContainEqual(flag);
     }
 
     expect(final.actions).not.toContainEqual({
+      body: context.comment.body,
       actionType: ACTION_TYPE.FLAG,
       reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_LINKS,
     });
@@ -99,7 +106,8 @@ describe("compose", () => {
       () => ({ metadata: { second: true } }),
     ]);
 
-    await expect(enhanced({} as ModerationPhaseContext)).resolves.toEqual({
+    await expect(enhanced(context)).resolves.toEqual({
+      body: context.comment.body,
       status: GQLCOMMENT_STATUS.NONE,
       metadata: { first: true, second: true },
       actions: [],

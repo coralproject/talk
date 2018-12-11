@@ -86,7 +86,7 @@ export async function create(
   }
 
   // Run the comment through the moderation phases.
-  const { actions, status, metadata } = await processForModeration({
+  const { actions, body, status, metadata } = await processForModeration({
     story,
     tenant,
     comment: input,
@@ -118,6 +118,7 @@ export async function create(
   // Create the comment!
   const comment = await createComment(mongo, tenant.id, {
     ...input,
+    body,
     status,
     grandparentIDs,
     metadata,
@@ -234,7 +235,7 @@ export async function edit(
   }
 
   // Run the comment through the moderation phases.
-  const { status, metadata, actions } = await processForModeration({
+  const { body, status, metadata, actions } = await processForModeration({
     story,
     tenant,
     comment: input,
@@ -258,7 +259,7 @@ export async function edit(
   const result = await editComment(mongo, tenant.id, {
     id: input.id,
     authorID: author.id,
-    body: input.body,
+    body,
     status,
     metadata,
     actionCounts,
