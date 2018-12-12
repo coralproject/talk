@@ -1,4 +1,4 @@
-import { Omit, Promiseable } from "talk-common/types";
+import { Omit, Promiseable, RequireProperty } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import { CreateActionInput } from "talk-server/models/action/comment";
 import { EditCommentInput } from "talk-server/models/comment";
@@ -24,8 +24,7 @@ export interface PhaseResult {
 export interface ModerationPhaseContext {
   story: Story;
   tenant: Tenant;
-  comment: Omit<Partial<EditCommentInput>, "body"> &
-    Required<Pick<EditCommentInput, "body">>;
+  comment: RequireProperty<Partial<EditCommentInput>, "body">;
   author: User;
   req?: Request;
 }

@@ -7,6 +7,9 @@ export type Overwrite<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;
 
 export type Sub<T, U> = Pick<T, Diff<keyof T, keyof U>>;
 
+export type RequireProperty<T, P extends keyof T> = Omit<Partial<T>, P> &
+  Required<Pick<T, P>>;
+
 /**
  * Make all properties in T writeable
  */
