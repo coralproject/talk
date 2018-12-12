@@ -14,7 +14,6 @@ export function toJSONRecursive(
   const { children: _, ...props }: any = inst.props || {};
   let renderedChildren = null;
   if (inst.children) {
-    // tslint:disable-next-line:prefer-for-of
     for (const child of inst.children) {
       const renderedChild =
         typeof child === "string" ? [child] : toJSONRecursive(child);
@@ -41,6 +40,9 @@ export function toJSONRecursive(
   return renderedChildren;
 }
 
+/**
+ * Turns a ReactTestInstance into JSON for snapshotting purposes.
+ */
 export default function toJSON(
   inst: ReactTestInstance
 ): ReactTestRendererNode | ReactTestRendererNode[] | null {
