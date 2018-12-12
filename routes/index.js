@@ -66,7 +66,7 @@ if (!DISABLE_STATIC_SERVER) {
    * Serve the directories under dist.
    */
   const dist = path.resolve(path.join(__dirname, '../dist'));
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'production') {
     router.use(
       '/static',
       staticServer(dist, {
