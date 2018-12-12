@@ -46,6 +46,12 @@ enum COMMENT_FLAG_REPORTED_REASON {
   spam.
   """
   COMMENT_REPORTED_SPAM
+
+  """
+  COMMENT_REPORTED_OTHER is used when a User reported a Comment that doesn't
+  fit into the other reported reasons.
+  """
+  COMMENT_REPORTED_OTHER
 }
 
 """
@@ -64,12 +70,6 @@ enum COMMENT_FLAG_DETECTED_REASON {
   the system.
   """
   COMMENT_DETECTED_SPAM
-
-  """
-  COMMENT_DETECTED_BODY_COUNT is used when the Comment was detected as exceeding
-  the body length by the system.
-  """
-  COMMENT_DETECTED_BODY_COUNT
 
   """
   COMMENT_DETECTED_TRUST is used when the Comment being left was done by a User
@@ -103,9 +103,9 @@ and COMMENT_FLAG_DETECTED_REASON types.
 enum COMMENT_FLAG_REASON {
   COMMENT_REPORTED_OFFENSIVE
   COMMENT_REPORTED_SPAM
+  COMMENT_REPORTED_OTHER
   COMMENT_DETECTED_TOXIC
   COMMENT_DETECTED_SPAM
-  COMMENT_DETECTED_BODY_COUNT
   COMMENT_DETECTED_TRUST
   COMMENT_DETECTED_LINKS
   COMMENT_DETECTED_BANNED_WORD
@@ -137,9 +137,9 @@ type DontAgreeActionCounts {
 type FlagReasonActionCounts {
   COMMENT_REPORTED_OFFENSIVE: Int!
   COMMENT_REPORTED_SPAM: Int!
+  COMMENT_REPORTED_OTHER: Int!
   COMMENT_DETECTED_TOXIC: Int!
   COMMENT_DETECTED_SPAM: Int!
-  COMMENT_DETECTED_BODY_COUNT: Int!
   COMMENT_DETECTED_TRUST: Int!
   COMMENT_DETECTED_LINKS: Int!
   COMMENT_DETECTED_BANNED_WORD: Int!
@@ -2231,6 +2231,12 @@ input CreateCommentDontAgreeInput {
   commentRevisionID: ID!
 
   """
+  additionalDetails stores information from the User as to why the Flag was
+  created or is relevant.
+  """
+  additionalDetails: String
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -2296,6 +2302,12 @@ input CreateCommentFlagInput {
   reason is the selected reason why the Flag is being created.
   """
   reason: COMMENT_FLAG_REPORTED_REASON!
+
+  """
+  additionalDetails stores information from the User as to why the Flag was
+  created or is relevant.
+  """
+  additionalDetails: String
 
   """
   clientMutationId is required for Relay support.
@@ -2964,8 +2976,8 @@ type Mutation {
   User on a Comment if it exists.
   """
   removeCommentReaction(
-    input: CreateCommentReactionInput!
-  ): CreateCommentReactionPayload @auth
+    input: RemoveCommentReactionInput!
+  ): RemoveCommentReactionPayload @auth
 
   """
   createCommentDontAgree will create a DontAgree authored by the current logged in
@@ -2980,8 +2992,8 @@ type Mutation {
   User on a Comment if it exists.
   """
   removeCommentDontAgree(
-    input: CreateCommentDontAgreeInput!
-  ): CreateCommentDontAgreePayload @auth
+    input: RemoveCommentDontAgreeInput!
+  ): RemoveCommentDontAgreePayload @auth
 
   """
   createCommentFlag will create a Flag authored by the current logged in User on
