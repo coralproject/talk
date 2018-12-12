@@ -1,9 +1,9 @@
 import { GQLQueryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import { retrieveSharedModerationQueueQueuesCounts } from "talk-server/models/story";
+
 import { ModerationQueuesInput } from "./ModerationQueues";
 
 export const Query: GQLQueryTypeResolver<void> = {
-  story: (source, args, ctx) => ctx.loaders.Stories.findOrCreate(args),
+  story: (source, args, ctx) => ctx.loaders.Stories.findOrCreate.load(args),
   comment: (source, { id }, ctx) =>
     id ? ctx.loaders.Comments.comment.load(id) : null,
   comments: (source, args, ctx) => ctx.loaders.Comments.forFilter(args),
@@ -21,10 +21,6 @@ export const Query: GQLQueryTypeResolver<void> = {
     // We don't need to filter the connection, as this is tenant wide (tenant
     // filtering is completed at the model layer).
     connection: {},
-    counts: await retrieveSharedModerationQueueQueuesCounts(
-      ctx.mongo,
-      ctx.redis,
-      ctx.tenant.id
-    ),
+    counts: await ctx.loaders.Comments.sharedModerationQueueQueuesCounts.load(),
   }),
 };

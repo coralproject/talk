@@ -11,8 +11,18 @@ import { findOrCreate } from "talk-server/services/stories";
 import { scraper } from "talk-server/services/stories/scraper";
 
 export default (ctx: TenantContext) => ({
-  findOrCreate: (input: FindOrCreateStoryInput) =>
-    findOrCreate(ctx.mongo, ctx.tenant, input, ctx.queue.scraper),
+  findOrCreate: new DataLoader(
+    (inputs: FindOrCreateStoryInput[]) =>
+      Promise.all(
+        inputs.map(input =>
+          findOrCreate(ctx.mongo, ctx.tenant, input, ctx.queue.scraper)
+        )
+      ),
+    {
+      // TODO: (wyattjoh) see if there's something we can do to improve the cache key
+      cacheKeyFn: (input: FindOrCreateStoryInput) => `${input.id}:${input.url}`,
+    }
+  ),
   story: new DataLoader<string, Story | null>(ids =>
     retrieveManyStories(ctx.mongo, ctx.tenant.id, ids)
   ),
