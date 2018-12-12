@@ -3,7 +3,7 @@ import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { RejectedQueueContainer_query as QueryData } from "talk-admin/__generated__/RejectedQueueContainer_query.graphql";
-import { RejectedQueueContainerPaginationPendingQueryVariables } from "talk-admin/__generated__/RejectedQueueContainerPaginationPendingQuery.graphql";
+import { RejectedQueueContainerPaginationQueryVariables } from "talk-admin/__generated__/RejectedQueueContainerPaginationQuery.graphql";
 import { IntersectionProvider } from "talk-framework/lib/intersection";
 import { withPaginationContainer } from "talk-framework/lib/relay";
 
@@ -69,7 +69,7 @@ interface FragmentVariables {
 
 const enhanced = (withPaginationContainer<
   RejectedQueueContainerProps,
-  RejectedQueueContainerPaginationPendingQueryVariables,
+  RejectedQueueContainerPaginationQueryVariables,
   FragmentVariables
 >(
   {
@@ -115,7 +115,7 @@ const enhanced = (withPaginationContainer<
     query: graphql`
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-      query RejectedQueueContainerPaginationPendingQuery(
+      query RejectedQueueContainerPaginationQuery(
         $count: Int!
         $cursor: Cursor
       ) {
@@ -129,7 +129,7 @@ const enhanced = (withPaginationContainer<
 enhanced.routeConfig = {
   Component: enhanced,
   query: graphql`
-    query RejectedQueueContainerPendingQuery {
+    query RejectedQueueContainerQuery {
       ...RejectedQueueContainer_query
     }
   `,

@@ -14,6 +14,7 @@ import { createUUIDGenerator } from "talk-framework/testHelpers";
 
 import createEnvironment from "./createEnvironment";
 import createFluentBundle from "./createFluentBundle";
+import createNodeMock from "./createNodeMock";
 
 interface CreateParams {
   logNetwork?: boolean;
@@ -53,7 +54,8 @@ export default function create(params: CreateParams) {
   const testRenderer = TestRenderer.create(
     <TalkContextProvider value={context}>
       <AppContainer />
-    </TalkContextProvider>
+    </TalkContextProvider>,
+    { createNodeMock }
   );
 
   return { context, testRenderer };

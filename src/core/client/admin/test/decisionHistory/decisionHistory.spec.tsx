@@ -68,7 +68,7 @@ const createTestRenderer = async (resolver: any = {}) => {
       }),
       settings: sinon
         .stub()
-        .returns(merge(settings, get(resolver, "Query.settings"))),
+        .returns(merge({}, settings, get(resolver, "Query.settings"))),
     },
   };
   const { testRenderer } = create({

@@ -15,6 +15,7 @@ import Timestamp from "./Timestamp";
 import Username from "./Username";
 
 interface Props {
+  id: string;
   username: string;
   createdAt: string;
   body: string;
@@ -35,6 +36,7 @@ interface Props {
 }
 
 const ModerateCard: StatelessComponent<Props> = ({
+  id,
   username,
   createdAt,
   body,
@@ -48,7 +50,10 @@ const ModerateCard: StatelessComponent<Props> = ({
   onReject,
   dangling,
 }) => (
-  <Card className={cn(styles.root, { [styles.dangling]: dangling })}>
+  <Card
+    className={cn(styles.root, { [styles.dangling]: dangling })}
+    data-test={`moderate-comment-${id}`}
+  >
     <Flex>
       <div className={styles.mainContainer}>
         <div className={styles.topBar}>

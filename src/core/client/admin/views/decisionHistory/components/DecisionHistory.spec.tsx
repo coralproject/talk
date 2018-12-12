@@ -9,12 +9,18 @@ import DecisionHistory from "./DecisionHistory";
 
 const DecisionHistoryN = removeFragmentRefs(DecisionHistory);
 
+const baseProps: PropTypesOf<typeof DecisionHistoryN> = {
+  actions: [],
+  onLoadMore: noop,
+  hasMore: false,
+  disableLoadMore: false,
+  onClosePopover: noop,
+};
+
 it("renders correctly", () => {
   const props: PropTypesOf<typeof DecisionHistoryN> = {
+    ...baseProps,
     actions: [{ id: "1" }, { id: "2" }, { id: "3" }],
-    onLoadMore: noop,
-    hasMore: false,
-    disableLoadMore: false,
   };
   const wrapper = shallow(<DecisionHistoryN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -22,10 +28,7 @@ it("renders correctly", () => {
 
 it("renders empty state", () => {
   const props: PropTypesOf<typeof DecisionHistoryN> = {
-    actions: [],
-    onLoadMore: noop,
-    hasMore: false,
-    disableLoadMore: false,
+    ...baseProps,
   };
   const wrapper = shallow(<DecisionHistoryN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -33,10 +36,9 @@ it("renders empty state", () => {
 
 it("renders hasMore", () => {
   const props: PropTypesOf<typeof DecisionHistoryN> = {
+    ...baseProps,
     actions: [{ id: "1" }, { id: "2" }, { id: "3" }],
-    onLoadMore: noop,
     hasMore: true,
-    disableLoadMore: false,
   };
   const wrapper = shallow(<DecisionHistoryN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -44,8 +46,8 @@ it("renders hasMore", () => {
 
 it("renders disable load more", () => {
   const props: PropTypesOf<typeof DecisionHistoryN> = {
+    ...baseProps,
     actions: [{ id: "1" }, { id: "2" }, { id: "3" }],
-    onLoadMore: noop,
     hasMore: true,
     disableLoadMore: true,
   };

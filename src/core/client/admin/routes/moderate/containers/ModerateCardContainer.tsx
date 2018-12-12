@@ -58,6 +58,7 @@ class ModerateCardContainer extends React.Component<
     const { comment, settings, danglingLogic } = this.props;
     return (
       <ModerateCard
+        id={comment.id}
         username={comment.author!.username!}
         createdAt={comment.createdAt}
         body={comment.body!}

@@ -10,6 +10,7 @@ import ModerateCard from "./ModerateCard";
 const ModerateCardN = removeFragmentRefs(ModerateCard);
 
 const baseProps: PropTypesOf<typeof ModerateCardN> = {
+  id: "comment-id",
   username: "Theon",
   createdAt: "2018-11-29T16:01:51.897Z",
   body: "content",
