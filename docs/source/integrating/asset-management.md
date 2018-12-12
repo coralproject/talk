@@ -3,27 +3,84 @@ title: Asset Management
 permalink: /integrating/asset-management/
 ---
 
+## Embedding Comments on Your Site
+Talk provides an embed script that you can drop into your site where you want a comments section to appear. By default that script dynamically generate Assets
+in Talk in order to make it easier for lighter installations.
+
+You can find the embed script inside talk under `Configure > Tech Settings > Embed Script`. It should look something like this, but with your domain in place of `<TALK_ROOT_URL>`:
+```
+<div id="coral_talk_stream"></div>
+<script src="<TALK_ROOT_URL>/static/embed.js" async onload="
+  Coral.Talk.render(document.getElementById('coral_talk_stream'), {
+    talk: '<TALK_ROOT_URL>'
+  });
+"></script>
+```
+
+## Triggering the Comments Section (client side, i.e. Your site)
+
+When the embed script is triggered on your page load several things are initiated inside Talk, including fetching all comments for the specified article, establishing websocket connections for this user, and checking user’s session for SSO/authentication. 
+
+Instead of greedily triggering the embed to render on _EVERY PAGE LOAD_, we highly recommend implementing a _“lazy”_ rendering strategy to only render the comments section if a user wants to interact with it. This will greatly improve your initial page load performance, and will be critical to managing server resources if you’re running Talk on a heavy-traffic production site. 
+
+We recommend using one of these _“lazy”_ loading strategies:
+
+#### Scroll to Comments Section
+Wait for user to scroll to the comment section before triggering the embed to render. 
+
+You can pass lazy: true to the render options, like so:
+```
+Coral.Talk.render(document.getElementById('container'), {
+    talk: 'https://my-talk-installation.com',
+    lazy: true,
+});
+```
+
+Or you can enable lazy rendering by default on all assets using ENV variable `TALK_DEFAULT_LAZY_RENDER=TRUE`
+
+#### Show Comments Button
+ You can hide the comments section until a user clicks button, then trigger the embed to render
+
+This example uses jQuery to render the embed on the button's click event
+```
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<div id="coral_talk_stream">
+  <button>Show Comments</button>
+</div>
+
+<script type="text/javascript">
+  $('#coral_talk_stream button').on('click', function() {
+    $.getScript('<TALK_ROOT_URL>/static/embed.js', function() {
+      Coral.Talk.render(document.getElementById('coral_talk_stream'), {
+        talk: '<TALK_ROOT_URL>',
+      });
+    });
+  });
+</script>
+```
+
+## Creating Assets in Talk (server side, i.e. What you need to send to Talk)
 One of the most frequent questions that we get asked by organizations trying to
 integrate Talk is: _How do we hook our CMS up to Talk so that articles are in
 sync?_
 
-This guide is designed to explain the steps to take your base installation of
-Talk and configure it to allow only assets pushed into it from your CMS, and
-keep your URL/title in sync. We won't cover here how to install the plugin, as
-it is covered in our [Plugins Overview](/talk/plugins/).
+### “Lazy Asset Creation”
+Talk’s provided embed script by default dynamically generates Assets in Talk based on each unique url that triggers it. The url must reference an existing Permitted Domain. If your articles/stories always have unique urls, then you will not need to modify the default behavior. 
 
-## Why do we need to create a plugin?
+## Customizing the Integration with a Plugin
+In order to have more strict control over the asset creation flow to allow only assets pushed into it from your CMS, and keep your URL/title in sync we will create a plugin. 
 
-By default, Talk will use "Lazy Asset Creation" to dynamically generate Assets
-in Talk in order to make it easier for lighter installations. In order to have
-more strict control over this flow, we will create a plugin that will:
-
+We will create a plugin that will:
 
 1. Disable "Lazy Asset Creation" by [Overriding a Resolver](#overriding-a-resolver).
 2. Create Assets from our CMS by [Creating a New Asset Route](#creating-a-new-asset-route).
 3. Facilitate updates from our CMS to keep Talk in sync by [Creating an Asset Update Route](#creating-an-asset-update-route).
 
 We will then modify our embed so that we can [Target the Asset](#target-the-asset).
+
+
+This guide is designed to explain the steps to take your base installation of Talk and configure it. We won't cover here how to install the plugin, as it is covered in our [Plugins Overview](/talk/plugins/).
 
 But first we should grab our basic plugin structure:
 
