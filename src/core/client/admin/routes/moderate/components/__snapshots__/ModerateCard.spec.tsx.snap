@@ -3,6 +3,7 @@
 exports[`renders accepted correctly 1`] = `
 <withPropsOnChange(Card)
   className="ModerateCard-root"
+  data-test="moderate-comment-comment-id"
 >
   <withPropsOnChange(Flex)>
     <div
@@ -111,6 +112,7 @@ exports[`renders accepted correctly 1`] = `
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Card)
   className="ModerateCard-root"
+  data-test="moderate-comment-comment-id"
 >
   <withPropsOnChange(Flex)>
     <div
@@ -218,6 +220,7 @@ exports[`renders correctly 1`] = `
 exports[`renders dangling correctly 1`] = `
 <withPropsOnChange(Card)
   className="ModerateCard-root ModerateCard-dangling"
+  data-test="moderate-comment-comment-id"
 >
   <withPropsOnChange(Flex)>
     <div
@@ -327,6 +330,7 @@ exports[`renders dangling correctly 1`] = `
 exports[`renders rejected correctly 1`] = `
 <withPropsOnChange(Card)
   className="ModerateCard-root"
+  data-test="moderate-comment-comment-id"
 >
   <withPropsOnChange(Flex)>
     <div
@@ -435,6 +439,7 @@ exports[`renders rejected correctly 1`] = `
 exports[`renders reply correctly 1`] = `
 <withPropsOnChange(Card)
   className="ModerateCard-root"
+  data-test="moderate-comment-comment-id"
 >
   <withPropsOnChange(Flex)>
     <div

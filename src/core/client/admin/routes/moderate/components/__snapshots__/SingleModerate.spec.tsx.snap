@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Fragment>
+<div
+  data-test="single-moderate-container"
+>
   <withPropsOnChange(SubBar)
     className="SingleModerate-subBar"
     gutterBegin={true}
@@ -37,5 +39,5 @@ exports[`renders correctly 1`] = `
       singe comment queue
     </main>
   </MainLayout>
-</Fragment>
+</div>
 `;

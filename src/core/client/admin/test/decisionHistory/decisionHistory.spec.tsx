@@ -3,12 +3,11 @@ import sinon from "sinon";
 
 import {
   createSinonStub,
-  getByTestID,
-  getByText,
   limitSnapshotTo,
   replaceHistoryLocation,
   wait,
   waitForElement,
+  within,
 } from "talk-framework/testHelpers";
 
 import create from "../create";
@@ -80,7 +79,7 @@ const createTestRenderer = async (resolver: any = {}) => {
     },
   });
   await waitForElement(() =>
-    getByTestID("decisionHistory-toggle", testRenderer.root)
+    within(testRenderer.root).getByTestID("decisionHistory-toggle")
   );
   return testRenderer;
 };
@@ -111,7 +110,7 @@ it("opens popover when clicked on button showing loading state", async () => {
 it("render popover content", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
   await waitForElement(() =>
-    getByTestID("decisionHistory-container", testRenderer.root)
+    within(testRenderer.root).getByTestID("decisionHistory-container")
   );
   expect(
     limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
@@ -121,14 +120,15 @@ it("render popover content", async () => {
 it("loads more", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
   const decisionHistoryContainer = await waitForElement(() =>
-    getByTestID("decisionHistory-container", testRenderer.root)
+    within(testRenderer.root).getByTestID("decisionHistory-container")
   );
-  const ShowMoreButton = getByText("Show More", decisionHistoryContainer)!;
+  const { getByText } = within(decisionHistoryContainer);
+  const ShowMoreButton = getByText("Show More")!;
   expect(ShowMoreButton.props.disabled).toBeFalsy();
   ShowMoreButton.props.onClick();
   expect(ShowMoreButton.props.disabled).toBeTruthy();
   await wait(() => {
-    expect(() => getByText("Show More", decisionHistoryContainer)).toThrow();
+    expect(() => getByText("Show More")).toThrow();
   });
   expect(
     limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
