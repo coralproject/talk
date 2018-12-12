@@ -49,7 +49,6 @@ const performSetup = async () => {
       throw err;
       return;
     }
-    
   }
 
   if (program.defaults) {
@@ -138,7 +137,7 @@ const performSetup = async () => {
 
   console.log("\nWe'll ask you some questions about your first admin user.\n");
 
-  let user = await inquirer.prompt([
+  let { username, email } = await inquirer.prompt([
     {
       type: 'input',
       name: 'username',
@@ -161,39 +160,46 @@ const performSetup = async () => {
         return 'Email is required';
       },
     },
-    {
-      name: 'password',
-      message: 'Password',
-      type: 'password',
-      filter: password => {
-        return UsersService.isValidPassword(password).catch(err => {
-          throw err.message;
-        });
-      },
-    },
-    {
-      name: 'confirmPassword',
-      message: 'Confirm Password',
-      type: 'password',
-      filter: (confirmPassword, { password }) => {
-        if (password !== confirmPassword) {
-          return Promise.reject(new Error('Passwords do not match'));
-        }
-
-        return UsersService.isValidPassword(confirmPassword).catch(err => {
-          throw err.message;
-        });
-      },
-    },
   ]);
+
+  let password = '';
+  while (!password) {
+    answers = await inquirer.prompt([
+      {
+        name: 'password',
+        message: 'Password',
+        type: 'password',
+        filter: password => {
+          try {
+            UsersService.isValidPassword(password);
+          } catch (err) {
+            throw err.message;
+          }
+
+          return password;
+        },
+      },
+      {
+        name: 'confirmPassword',
+        message: 'Confirm Password',
+        type: 'password',
+      },
+    ]);
+
+    if (answers.password !== answers.confirmPassword) {
+      console.error('Passwords do not match');
+    } else {
+      password = answers.password;
+    }
+  }
 
   const ctx = Context.forSystem();
   let { user: newUser } = await SetupService.setup(ctx, {
     settings: settings.toObject(),
     user: {
-      email: user.email,
-      username: user.username,
-      password: user.password,
+      email,
+      username,
+      password,
     },
   });
 
