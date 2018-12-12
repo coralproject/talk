@@ -1,10 +1,14 @@
 import cn from "classnames";
-import dompurify from "dompurify";
-import linkify from "linkifyjs/html";
 import { memoize } from "lodash";
 import React, { StatelessComponent } from "react";
 
+import { createPurify } from "talk-common/utils/purify";
 import { Typography } from "talk-ui/components";
+
+/**
+ * Create a purify instance that will be used to handle HTML content.
+ */
+const purify = createPurify(window, false);
 
 import styles from "./CommentContent.css";
 
@@ -104,14 +108,6 @@ function markHTMLNode(
   });
 }
 
-function markLinks(html: string) {
-  return linkify(html, {
-    className: "",
-    tagName: "a",
-    target: "_blank",
-  });
-}
-
 const CommentContent: StatelessComponent<Props> = ({
   suspectWords,
   bannedWords,
@@ -127,7 +123,7 @@ const CommentContent: StatelessComponent<Props> = ({
   // and banned words.
   markHTMLNode(node, suspectWords, bannedWords);
 
-  const html = markLinks(dompurify.sanitize(node.innerHTML));
+  const html = purify.sanitize(node.innerHTML);
 
   // Finally we render the content of the Shadow DOM Tree
   return (
