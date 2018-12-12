@@ -127,7 +127,7 @@ it("loads more", async () => {
   const { getByText } = within(decisionHistoryContainer);
 
   // Find active show more button.
-  const ShowMoreButton = getByText("Show More")!;
+  const ShowMoreButton = getByText("Show More");
   expect(ShowMoreButton.props.disabled).toBeFalsy();
 
   // Click show more!
