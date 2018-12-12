@@ -110,8 +110,8 @@ it("opens popover when clicked on button showing loading state", async () => {
 
 it("render popover content", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
-  const container = within(testRenderer.root).getByTestID(
-    "decisionHistory-container"
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("decisionHistory-container")
   );
   expect(toJSON(container)).toMatchSnapshot();
 });
