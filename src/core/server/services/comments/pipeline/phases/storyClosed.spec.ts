@@ -1,35 +1,35 @@
 import { DateTime } from "luxon";
 
-import { Comment } from "talk-server/models/comment";
-import { Story } from "talk-server/models/story";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
 import { storyClosed } from "talk-server/services/comments/pipeline/phases/storyClosed";
+import { ModerationPhaseContext } from "..";
 
 describe("storyClosed", () => {
   it("throws an error when the story is closed", () => {
     expect(() =>
       storyClosed({
-        story: { closedAt: new Date() } as Story,
-        tenant: {} as Tenant,
-        comment: {} as Comment,
-        author: {} as User,
+        story: { closedAt: new Date() } as ModerationPhaseContext["story"],
+        tenant: {} as ModerationPhaseContext["tenant"],
+        comment: {} as ModerationPhaseContext["comment"],
+        author: {} as ModerationPhaseContext["author"],
       })
     ).toThrow();
 
     storyClosed({
-      story: {} as Story,
-      tenant: { autoCloseStream: true } as Tenant,
-      comment: {} as Comment,
-      author: {} as User,
+      story: {} as ModerationPhaseContext["story"],
+      tenant: { autoCloseStream: true } as ModerationPhaseContext["tenant"],
+      comment: {} as ModerationPhaseContext["comment"],
+      author: {} as ModerationPhaseContext["author"],
     });
 
     expect(() =>
       storyClosed({
-        story: { createdAt: new Date() } as Story,
-        tenant: { autoCloseStream: true, closedTimeout: -6000 } as Tenant,
-        comment: {} as Comment,
-        author: {} as User,
+        story: { createdAt: new Date() } as ModerationPhaseContext["story"],
+        tenant: {
+          autoCloseStream: true,
+          closedTimeout: -6000,
+        } as ModerationPhaseContext["tenant"],
+        comment: {} as ModerationPhaseContext["comment"],
+        author: {} as ModerationPhaseContext["author"],
       })
     ).toThrow();
   });
@@ -43,19 +43,19 @@ describe("storyClosed", () => {
           closedAt: DateTime.fromJSDate(now)
             .plus(60000)
             .toJSDate(),
-        } as Story,
-        tenant: {} as Tenant,
-        comment: {} as Comment,
-        author: {} as User,
+        } as ModerationPhaseContext["story"],
+        tenant: {} as ModerationPhaseContext["tenant"],
+        comment: {} as ModerationPhaseContext["comment"],
+        author: {} as ModerationPhaseContext["author"],
       })
     ).toBeUndefined();
 
     expect(
       storyClosed({
-        story: {} as Story,
-        tenant: {} as Tenant,
-        comment: {} as Comment,
-        author: {} as User,
+        story: {} as ModerationPhaseContext["story"],
+        tenant: {} as ModerationPhaseContext["tenant"],
+        comment: {} as ModerationPhaseContext["comment"],
+        author: {} as ModerationPhaseContext["author"],
       })
     ).toBeUndefined();
   });

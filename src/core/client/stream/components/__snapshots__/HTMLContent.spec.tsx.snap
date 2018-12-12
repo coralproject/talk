@@ -16,7 +16,7 @@ exports[`sanitizes evil html 1`] = `
   className="HTMLContent-root"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "<span title=\\"test\\">Hello world</span>
+      "__html": "<span>Hello world</span>
       ",
     }
   }

@@ -2,9 +2,11 @@ import { IntermediateModerationPhase } from "talk-server/services/comments/pipel
 
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
+import { detectLinks } from "./detectLinks";
 import { karma } from "./karma";
-import { links } from "./links";
+import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
+import { purify } from "./purify";
 import { spam } from "./spam";
 import { staff } from "./staff";
 import { storyClosed } from "./storyClosed";
@@ -18,9 +20,11 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   commentLength,
   storyClosed,
   commentingDisabled,
+  linkify,
+  purify,
+  detectLinks,
   wordList,
   staff,
-  links,
   karma,
   spam,
   toxic,

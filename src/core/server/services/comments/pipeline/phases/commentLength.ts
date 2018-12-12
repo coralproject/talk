@@ -38,7 +38,7 @@ export const commentLength: IntermediateModerationPhase = ({
   tenant,
   comment,
 }): IntermediatePhaseResult | void => {
-  const length = comment.body ? striptags(comment.body).length : 0;
+  const length = striptags(comment.body).length;
 
   // Reject if the comment is too long or too short.
   testCharCount(tenant, length);
