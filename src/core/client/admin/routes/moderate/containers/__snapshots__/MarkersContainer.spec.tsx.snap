@@ -73,19 +73,9 @@ Array [
       Karma
     </withPropsOnChange(Marker)>
   </Localized>,
-  <Localized
-    id="moderate-marker-bodyCount"
-    key="7"
-  >
-    <withPropsOnChange(Marker)
-      color="error"
-    >
-      Body Count
-    </withPropsOnChange(Marker)>
-  </Localized>,
   <withPropsOnChange(Marker)
     color="error"
-    key="8"
+    key="7"
   >
     <Localized
       id="moderate-marker-offensive"
@@ -101,7 +91,7 @@ Array [
   </withPropsOnChange(Marker)>,
   <withPropsOnChange(Marker)
     color="error"
-    key="9"
+    key="8"
   >
     <Localized
       id="moderate-marker-spam"
@@ -122,7 +112,7 @@ exports[`renders some markers 1`] = `
 Array [
   <Localized
     id="moderate-marker-preMod"
-    key="10"
+    key="9"
   >
     <withPropsOnChange(Marker)
       color="primary"
@@ -133,7 +123,7 @@ Array [
   "",
   <Localized
     id="moderate-marker-bannedWord"
-    key="11"
+    key="10"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -145,7 +135,7 @@ Array [
   "",
   <Localized
     id="moderate-marker-toxic"
-    key="12"
+    key="11"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -155,7 +145,7 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-karma"
-    key="13"
+    key="12"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -163,19 +153,9 @@ Array [
       Karma
     </withPropsOnChange(Marker)>
   </Localized>,
-  <Localized
-    id="moderate-marker-bodyCount"
-    key="14"
-  >
-    <withPropsOnChange(Marker)
-      color="error"
-    >
-      Body Count
-    </withPropsOnChange(Marker)>
-  </Localized>,
   <withPropsOnChange(Marker)
     color="error"
-    key="15"
+    key="13"
   >
     <Localized
       id="moderate-marker-offensive"

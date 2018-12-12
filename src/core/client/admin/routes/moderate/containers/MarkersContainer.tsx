@@ -64,13 +64,6 @@ const markers: Array<(c: CommentData) => React.ReactElement<any> | null> = [
     )) ||
     null,
   c =>
-    (c.actionCounts.flag.reasons.COMMENT_DETECTED_BODY_COUNT && (
-      <Localized id="moderate-marker-bodyCount" key={keyCounter++}>
-        <Marker color="error">Body Count</Marker>
-      </Localized>
-    )) ||
-    null,
-  c =>
     (c.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE && (
       <Marker key={keyCounter++} color="error">
         <Localized id="moderate-marker-offensive">
@@ -111,7 +104,6 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
           reasons {
             COMMENT_DETECTED_TOXIC
             COMMENT_DETECTED_SPAM
-            COMMENT_DETECTED_BODY_COUNT
             COMMENT_DETECTED_TRUST
             COMMENT_DETECTED_LINKS
             COMMENT_DETECTED_BANNED_WORD
