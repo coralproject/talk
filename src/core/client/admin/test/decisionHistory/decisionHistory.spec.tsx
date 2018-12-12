@@ -5,8 +5,8 @@ import {
   createSinonStub,
   replaceHistoryLocation,
   toJSON,
-  wait,
   waitForElement,
+  waitUntilThrow,
   within,
 } from "talk-framework/testHelpers";
 
@@ -118,16 +118,27 @@ it("render popover content", async () => {
 
 it("loads more", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
+
+  // Wait for decision history to render.
   const decisionHistoryContainer = await waitForElement(() =>
     within(testRenderer.root).getByTestID("decisionHistory-container")
   );
+
   const { getByText } = within(decisionHistoryContainer);
+
+  // Find active show more button.
   const ShowMoreButton = getByText("Show More")!;
   expect(ShowMoreButton.props.disabled).toBeFalsy();
+
+  // Click show more!
   ShowMoreButton.props.onClick();
+
+  // Disable show more while loading.
   expect(ShowMoreButton.props.disabled).toBeTruthy();
-  await wait(() => {
-    expect(() => getByText("Show More")).toThrow();
-  });
+
+  // Wait until show more disappears.
+  await waitUntilThrow(() => getByText("Show More"));
+
+  // Make a snapshot.
   expect(toJSON(decisionHistoryContainer)).toMatchSnapshot();
 });
