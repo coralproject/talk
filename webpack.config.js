@@ -159,6 +159,9 @@ const config = {
       'process.env': {
         VERSION: `"${require('./package.json').version}"`,
         NODE_ENV: `${JSON.stringify(process.env.NODE_ENV)}`,
+        TALK_DEFAULT_LAZY_RENDER: `${JSON.stringify(
+          process.env.TALK_DEFAULT_LAZY_RENDER
+        )}`,
       },
     }),
     new webpack.EnvironmentPlugin({

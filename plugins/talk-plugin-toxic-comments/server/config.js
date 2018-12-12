@@ -8,6 +8,7 @@ const config = {
   THRESHOLD: process.env.TALK_TOXICITY_THRESHOLD || 0.8,
   API_TIMEOUT: ms(process.env.TALK_PERSPECTIVE_TIMEOUT || '300ms'),
   DO_NOT_STORE: process.env.TALK_PERSPECTIVE_DO_NOT_STORE || true,
+  SEND_FEEDBACK: process.env.TALK_PERSPECTIVE_SEND_FEEDBACK === 'TRUE',
 };
 
 if (process.env.NODE_ENV !== 'test' && !config.API_KEY) {

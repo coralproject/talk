@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "4.6.5",
+  "version": "4.6.8",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "private": true,
@@ -130,6 +130,7 @@
     "imports-loader": "^0.7.1",
     "inquirer": "^3.2.2",
     "inquirer-autocomplete-prompt": "^0.12.1",
+    "intersection-observer": "^0.5.1",
     "ioredis": "3.1.4",
     "ip": "^1.1.5",
     "jest": "^23.0.0",

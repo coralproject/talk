@@ -1,5 +1,8 @@
-const { getScores, isToxic } = require('./perspective');
+const { getScores, submitFeedback, isToxic } = require('./perspective');
+const { SEND_FEEDBACK } = require('./config');
 const { ErrToxic } = require('./errors');
+
+const { merge } = require('lodash');
 const debug = require('debug')('talk:plugin:toxic-comments');
 
 function handlePositiveToxic(input) {
@@ -28,7 +31,8 @@ async function getScore(body) {
   return scores;
 }
 
-module.exports = {
+// Create all the hooks that will enable Perspective to add scores to Comments.
+const hooks = {
   RootMutation: {
     editComment: {
       pre: async (_, { edit: { body }, edit }) => {
@@ -59,3 +63,57 @@ module.exports = {
     },
   },
 };
+
+// If feedback sending is enabled, we need to add in the hooks for processing
+// feedback.
+if (SEND_FEEDBACK) {
+  // statusMap provides a map of Talk names to ones Perspective are expecting.
+  const statusMap = {
+    ACCEPTED: 'APPROVED',
+    REJECTED: 'DELETED',
+  };
+
+  // Merge these hooks into the hooks for plugging into the graph operations.
+  merge(hooks, {
+    RootMutation: {
+      // Hook into mutations associated with accepting/rejecting comments.
+      setCommentStatus: {
+        async post(root, args, ctx) {
+          if (ctx.user && args.status in statusMap) {
+            const comment = await ctx.loaders.Comments.get.load(args.id);
+            if (comment) {
+              const asset = await ctx.loaders.Assets.getByID.load(
+                comment.asset_id
+              );
+
+              // Submit feedback.
+              submitFeedback(comment, asset, statusMap[args.status]);
+            }
+          }
+        },
+      },
+      // Hook into mutations associated with featuring comments.
+      addTag: {
+        async post(root, args, ctx) {
+          if (
+            ctx.user &&
+            args.tag.name === 'FEATURED' &&
+            args.tag.item_type === 'COMMENTS'
+          ) {
+            const comment = await ctx.loaders.Comments.get.load(args.tag.id);
+            if (comment) {
+              const asset = await ctx.loaders.Assets.getByID.load(
+                comment.asset_id
+              );
+
+              // Submit feedback.
+              submitFeedback(comment, asset, 'HIGHLIGHTED');
+            }
+          }
+        },
+      },
+    },
+  });
+}
+
+module.exports = hooks;

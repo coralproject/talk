@@ -1,8 +1,11 @@
+/* global __webpack_public_path__ */ // eslint-disable-line no-unused-vars
+
 import queryString from 'querystringify';
 import pym from 'pym.js';
 import EventEmitter from 'eventemitter2';
 import { buildUrl } from 'coral-framework/utils/url';
 import Snackbar from './Snackbar';
+import onIntersect from './onIntersect';
 import {
   createStorage,
   connectStorageToPym,
@@ -10,13 +13,14 @@ import {
 
 const NOTIFICATION_OFFSET = 200;
 
+// Ensure there is a trailing slash.
+function ensureEndSlash(p) {
+  return p.match(/\/$/) ? p : `${p}/`;
+}
+
 // Build the URL to load in the pym iframe.
 function buildStreamIframeUrl(talkBaseUrl, query) {
-  let url = [
-    talkBaseUrl,
-    talkBaseUrl.match(/\/$/) ? '' : '/', // make sure no double-'/' if opts.talk already ends with '/'
-    'embed/stream?',
-  ].join('');
+  let url = talkBaseUrl + 'embed/stream?';
 
   url += queryString.stringify(query);
 
@@ -47,18 +51,76 @@ export default class Stream {
       events = null,
       snackBarStyles = null,
       onAuthChanged = null,
+      talkStaticUrl = talkBaseUrl,
       ...opts
     } = config;
 
+    this.onAuthChanged = onAuthChanged;
+    this.el = el;
+    this.talkBaseUrl = ensureEndSlash(talkBaseUrl);
+    this.talkStaticUrl = ensureEndSlash(talkStaticUrl);
     this.opts = opts;
-
-    this.emitter = new EventEmitter({ wildcard: true });
-    this.pym = new pym.Parent(el.id, buildStreamIframeUrl(talkBaseUrl, query), {
-      title: opts.title,
-      id: `${el.id}_iframe`,
-      name: `${el.id}_iframe`,
-    });
     this.snackBar = new Snackbar(snackBarStyles || {});
+    this.emitter = new EventEmitter({ wildcard: true });
+
+    // Because we're loading chunks dynamically below, we need to point to the
+    // static URL.
+    //
+    // The __webpack_public_path__ can be referenced:
+    // https://webpack.js.org/configuration/output/#output-publicpath
+    //
+    __webpack_public_path__ = this.talkStaticUrl + 'static/';
+
+    // Attach to the events emitted by the pym parent.
+    if (events) {
+      events(this.emitter);
+    }
+    if (config.lazy || process.env.TALK_DEFAULT_LAZY_RENDER === 'TRUE') {
+      const renderOnIntersect = () => onIntersect(this.el, () => this.render());
+      if (!window.IntersectionObserver) {
+        // Include a polyfill for the intersection observer.
+        import('intersection-observer')
+          .then(() => {
+            // Polyfill applied.
+            renderOnIntersect();
+          })
+          .catch(e => {
+            console.error(e);
+            // Loading polyfill failed, just render it directly.
+            this.render();
+          });
+      } else {
+        // No need for polyfill.
+        renderOnIntersect();
+      }
+    } else {
+      this.render();
+    }
+  }
+
+  assertRendered() {
+    if (!this.pym) {
+      throw new Error('Stream Embed must be rendered first');
+    }
+  }
+
+  isRendered() {
+    return !!this.pym;
+  }
+
+  render() {
+    if (this.pym) {
+      throw new Error('Stream Embed already rendered');
+    }
+    this.pym = new pym.Parent(
+      this.el.id,
+      buildStreamIframeUrl(this.talkBaseUrl, this.query),
+      {
+        title: this.opts.title,
+        id: `${this.el.id}_iframe`,
+        name: `${this.el.id}_iframe`,
+      }
+    );
 
     // Workaround: IOS Safari ignores `width` but respects `min-width` value.
     this.pym.el.firstChild.style.width = '1px';
@@ -73,19 +135,14 @@ export default class Stream {
       }
     });
 
-    // Attach to the events emitted by the pym parent.
-    if (events) {
-      events(this.emitter);
-    }
-
     this.pym.onMessage('getConfig', () => {
-      this.pym.sendMessage('config', JSON.stringify(opts));
+      this.pym.sendMessage('config', JSON.stringify(this.opts));
     });
 
     // If the auth changes, and someone is listening for it, then re-emit it.
-    if (onAuthChanged) {
+    if (this.onAuthChanged) {
       this.pym.onMessage('coral-auth-changed', message => {
-        onAuthChanged(message ? JSON.parse(message) : null);
+        this.onAuthChanged(message ? JSON.parse(message) : null);
       });
     }
 
@@ -163,22 +220,27 @@ export default class Stream {
   }
 
   enablePluginsDebug() {
+    this.assertRendered();
     this.pym.sendMessage('enablePluginsDebug');
   }
 
   disablePluginsDebug() {
+    this.assertRendered();
     this.pym.sendMessage('disablePluginsDebug');
   }
 
   login(token) {
+    this.assertRendered();
     this.pym.sendMessage('login', token);
   }
 
   logout() {
+    this.assertRendered();
     this.pym.sendMessage('logout');
   }
 
   remove() {
+    this.assertRendered();
     // Remove the event listeners.
     document.removeEventListener('click', this.handleClick.bind(this));
     this.emitter.removeAllListeners();
@@ -191,6 +253,7 @@ export default class Stream {
   }
 
   handleClick() {
+    this.assertRendered();
     this.pym.sendMessage('click');
   }
 }

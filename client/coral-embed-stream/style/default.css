@@ -112,11 +112,6 @@ body {
   position: relative;
 }
 
-.talk-stream-comment {
-  display: flex;
-  flex-direction: row;
-}
-
 /* Comment styles */
 .comment {
   margin-bottom: 10px;

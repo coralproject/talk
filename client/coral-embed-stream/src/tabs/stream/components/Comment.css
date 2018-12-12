@@ -18,6 +18,11 @@
 .comment {
   position: relative;
   padding-left: 15px;
+  display: flex;
+}
+
+.commentContainer {
+  width: 100%;
 }
 
 .commentLevel0 {

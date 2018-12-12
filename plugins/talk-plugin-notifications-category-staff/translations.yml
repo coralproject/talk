@@ -23,3 +23,9 @@ de:
       staff:
         subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
         body: "{0}\n{1} arbeitet für {2} und hat auf Ihren Kommentar geantwortet: {3}"
+nl_NL:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Iemand bij {0} heeft geantwoord op je reactie"
+        body: "{0}\n{1} werkt voor {2} en heeft geantwoord op je reactie: {3}"

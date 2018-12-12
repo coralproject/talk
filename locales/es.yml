@@ -4,19 +4,19 @@ es:
     view_options: 'Ver opciones'
   already_flagged_username: 'Usted ya reportó a este usuario.'
   bandialog:
-    are_you_sure: '¿Estás segura que quieres suspender a {0}?'
-    ban_user: '¿Quieres suspender el Usuario?'
+    are_you_sure: '¿Estás seguro que quieres suspender a {0}?'
+    ban_user: '¿Quieres suspender al Usuario?'
     banned_user: 'Usuario Suspendido'
     cancel: Cancelar
-    email_message_ban: "Estimado/a {0},\n\nUsted o alguien con acceso a su cuenta a violado los lineamientos de nuestra comunidad. Como consecuencia de esto, su cuenta fue bloqueada. No podrá realizar ni reportar más comentarios. Si usted piensa que esto ha sido un error, por favor contáctese con nosotros."
+    email_message_ban: "Estimado/a {0},\n\nUsted o alguien con acceso a su cuenta ha violado los lineamientos de nuestra comunidad. Como consecuencia de esto, su cuenta fue bloqueada. No podrá realizar ni reportar más comentarios. Si usted piensa que esto ha sido un error, por favor contáctese con nosotros."
     note: 'Nota: {0}'
     note_ban_user: 'Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar.'
     note_reject_comment: 'Suspender a este usuario también va a colocar este comentario en la cola de Rechazados.'
-    notify_ban_description: 'Esto notificará al usuario por email que fueron suspendidos de la comunidad'
+    notify_ban_description: 'Esto notificará al usuario por correo electrónico que fueron suspendidos de la comunidad'
     notify_ban_headline: 'Notificar al usuario de la suspensión'
     send: Enviar
     write_a_message: 'Escribe un mensaje'
-    yes_ban_user: 'Si, Suspender al usuario'
+    yes_ban_user: 'Si, suspender al usuario'
   bio_offensive: 'Esta biografia es ofensiva'
   cancel: Cancelar
   characters_remaining: 'caracteres restantes'
@@ -30,17 +30,20 @@ es:
     view_context: 'Ver contexto'
   comment_box:
     cancel: Cancelar
-    characters_remaining: 'carácteres restantes'
+    characters_remaining: 'caracteres restantes'
     comment: 'Publicar un comentario'
-    comment_post_banned_word: 'Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación.'
+    comment_post_banned_word: 'Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contactate a nuestro equipo de moderación.'
     comment_post_notif: 'Tu comentario ha sido publicado.'
     comment_post_notif_premod: 'Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto.'
     name: Nombre
     post: Publicar
     reply: Responder
+  comment_history_blank:
+    info: 'Una historia de tus comentarios aparecerá aquí'
+    title: 'No has escrito ningún comentario'
   comment_offensive: 'Este comentario es ofensivo'
   comment_plural: Comentarios
-  comment_post_banned_word: 'Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contacta a nuestro equipo de moderación.'
+  comment_post_banned_word: 'Tu comentario contiene una o más palabras que no están permitidas en nuestro espacio, por lo que no será publicado. Si crees que es un error, por favor contactate con nuestro equipo de moderación.'
   comment_post_notif: 'Tu comentario ha sido publicado.'
   comment_post_notif_premod: 'Gracias por el comentario. Nuestro equipo de moderación va a revisarlo muy pronto.'
   comment_singular: Comentario
@@ -57,40 +60,40 @@ es:
     account_creation_date: 'Fecha de creación de la cuenta'
     active: Activa
     admin: Administrator
-    ads_marketing: 'Esto parece ser un ad/marketing'
+    ads_marketing: 'Esto parece ser un publicidad/acción de comercialización'
     all: 'Todos'
-    are_you_sure: '¿Estás segura que quieres suspender a {0}?'
+    are_you_sure: '¿Estás seguro que quieres suspender a {0}?'
     ban_user: '¿Quieres suspender al Usuario?'
     banned: Suspendido
-    banned_user: 'Usuario Suspendido'
+    banned_user: 'Usuario suspendido'
     cancel: Cancelar
     commenter: Comentarista
     dont_like_username: 'No me gusta este nombre de usuario'
-    filter_users: 'Filter users'
+    filter_users: 'Filtrarr usuarios'
     filter_role: Rol
-    flaggedaccounts: 'Nombres de Usuario Reportados'
+    flaggedaccounts: 'Nombres de usuario reportados'
     flags: Reportes
     impersonating: Impersonando
     loading: 'Cargando resultados'
     moderator: Moderator
     newsroom_role: 'Rol en la redacción'
-    no_flagged_accounts: 'No hay ningún nombre de usario reportado en este momento.'
+    no_flagged_accounts: 'No hay ningún nombre de usuario reportado en este momento.'
     no_results: 'No se encontraron usuarios con ese nombre o correo.'
     offensive: Ofensivo
     other: Otro
     people: Gente
     role: 'Seleccionar rol...'
     select_status: 'Seleccionar estado...'
-    spam_ads: Spam/Publicidad
+    spam_ads: Correo basura/Publicidad
     staff: Personal
     status: Estado
     suspended: Suspendido
     username_and_email: 'Usuario y Correo'
-    yes_ban_user: 'Si, Suspendan el usuario'
+    yes_ban_user: 'Sí, suspendan el usuario'
   configure:
-    access_message: 'Usted debe ser un administrador para acceder a esta página. Encuentre a otro admin y actualice los permisos de su cuenta!'
+    access_message: 'Usted debe ser un administrador para acceder a esta página. Encuentre a otro administrador y actualice los permisos de su cuenta!'
     apply: Aplicar
-    banned_word_text: 'Comentarios que contengan estas palabras o frases,  en mayusculas o minúsculas, serán automáticamente eliminados del hilo de comentario. Escribir una palabra y apretar Enter o Tabulador para agregarla. O pueden pegar una lista de palabras separadas por coma.'
+    banned_word_text: 'Comentarios que contengan estas palabras o frases, en mayúsculas o minúsculas, serán automáticamente eliminados del hilo de comentarios. Escribir una palabra y apretar Enter o Tabulador para agregarla. O pueden pegar una lista de palabras separadas por coma.'
     banned_words_title: 'Lista de palabras prohibidas'
     close: Cerrar
     close_after: 'Cerrar comentarios luego de'
@@ -98,14 +101,14 @@ es:
     close_stream_configuration: 'Este hilo de comentario está en este momento cerrado. Al abrirlo, nuevos comentarios serán publicados y mostrados.'
     closed_comments_desc: 'Escribe un mensaje que será mostrado cuando los comentarios estén cerrados y no se acepten más comentarios.'
     closed_comments_label: 'Escribe un mensaje...'
-    closed_stream_settings: 'Mensaje que se muestra cuando no se aceptan más comentarios en el articulo'
+    closed_stream_settings: 'Mensaje que se muestra cuando no se aceptan más comentarios en el artículo'
     comment_count_error: 'Por favor escribir un número válido'
     comment_count_header: 'Limitar el largo del comentario'
-    comment_count_text_post: carácteres
+    comment_count_text_post: caracteres
     comment_count_text_pre: 'Los comentarios serán limitados a'
     comment_settings: Configuración
     comment_stream: 'Hilo de Comentarios'
-    comment_stream_will_close: 'El hilo de comentarios se cerrara'
+    comment_stream_will_close: 'El hilo de comentarios se cerrará'
     community: Comunidad
     configure: Configurar
     copy_and_paste: 'Copiar y pegar el código de más abajo en tu CMS para colocar la caja de comentarios en tus artículos'
@@ -122,9 +125,9 @@ es:
     embed_comment_stream: 'Colocar Hilo de Comentarios'
     enable_pre_moderation: 'Permitir pre-moderación'
     enable_pre_moderation_text: 'Los moderadores deben aprobar todo comentario antes que sea publicado.'
-    enable_premod: 'Activar Pre Moderación'
+    enable_premod: 'Activar Pre-Moderación'
     enable_premod_description: 'Los y las moderadoras deben aprobar cualquier comentario antes de su publicación'
-    enable_premod_links: 'Pre-Moderar Comentarios que contienen Enlaces'
+    enable_premod_links: 'Pre-Moderar comentarios que contienen Enlaces'
     enable_premod_links_description: 'Los y las moderadoras deben aprobar cualquier comentario que contengan enlaces antes de su publicación.'
     enable_premod_links_text: 'Los moderadores deben aprobar todo comentario que contenga un enlace antes de que sea publicado.'
     enable_questionbox: 'Hacer una pregunta a los y las lectoras.'
@@ -140,7 +143,7 @@ es:
     open_stream: 'Abrir Hilo de Comentarios'
     open_stream_configuration: 'Este hilo de comentarios está abierto. Al cerrarlo no se podrán publicar nuevos comentarios pero todos los comentarios anteriores aún serán mostrados.'
     organization_contact_email: 'Email de la Organización'
-    organization_info_copy: 'Nosotros usamos esta información en las notificaciones de email generadas por Talk. Esto conecta los mensajes de tu organización, y provee una forma para que los usuarios se comuniquen si tienen un inconveniente con su cuenta.'
+    organization_info_copy: 'Nosotros usamos esta información en las notificaciones de correo electrónico generadas por Talk. Esto conecta los mensajes de tu organización, y provee una forma para que los usuarios se comuniquen si tienen un inconveniente con su cuenta.'
     organization_info_copy_2: 'Recomendamos crear un email genérico (ej: community@yournewsroom.com) for this purpose. Esto significa que puede permanecer consistente con el tiempo y no expone un nombre que los usuarios puedan atacar si su cuenta fue bloqueada.'
     organization_information: 'Información de la Organización'
     organization_name: 'Nombre de la Organización'
@@ -290,6 +293,7 @@ es:
     comments: comentarios
     configure_stream: 'Configurar'
     content_not_available: 'Este contenido no se encuentra disponible'
+    edit: Editar
     edit_name:
       button: Enviar
       error: 'Nombres de usuarios pueden solamente incluir letras, números y _'
@@ -315,14 +319,14 @@ es:
       save: Guardar
     create:
       confirm_password: 'Confirmar Contraseña'
-      email: 'Dirección de correo'
-      organization_contact_email: 'Organización: Email de contacto'
+      email: 'Dirección de correo electrónico'
+      organization_contact_email: 'Organización: correo electrónico de contacto'
       password: Contraseña
       save: Guardar
       username: 'Nombre de Usuario'
     final:
       close: 'Cerrar este instalador'
-      description: '¡Gracias por instalar Talk! Enviamos un correo para verificar su dirección de correo. Mientras esta terminando de configurar su cuenta, ya puede comenzar a involucrarse con sus lectores.'
+      description: '¡Gracias por instalar Talk! Enviamos un correo para verificar su dirección de correo electrónico. Mientras esta terminando de configurar su cuenta, ya puede comenzar a involucrarse con sus lectores.'
       launch: 'Iniciar Talk'
     initial:
       description: 'Vamos a crear su comunidad Talk en unos pocos pasos.'
