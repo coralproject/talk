@@ -3,8 +3,8 @@ import sinon from "sinon";
 
 import {
   createSinonStub,
-  limitSnapshotTo,
   replaceHistoryLocation,
+  toJSON,
   wait,
   waitForElement,
   within,
@@ -78,9 +78,8 @@ const createTestRenderer = async (resolver: any = {}) => {
       localRecord.setValue(true, "loggedIn");
     },
   });
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("decisionHistory-toggle")
-  );
+  const { getByTestID } = within(testRenderer.root);
+  await waitForElement(() => getByTestID("decisionHistory-toggle"));
   return testRenderer;
 };
 
@@ -95,26 +94,26 @@ async function createTestRendererAndOpenPopover() {
 
 it("renders decision history popover button", async () => {
   const testRenderer = await createTestRenderer();
-  expect(
-    limitSnapshotTo("decisionHistory-popover", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  const popover = within(testRenderer.root).getByTestID(
+    "decisionHistory-popover"
+  );
+  expect(toJSON(popover)).toMatchSnapshot();
 });
 
 it("opens popover when clicked on button showing loading state", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
-  expect(
-    limitSnapshotTo("decisionHistory-loading-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  const container = within(testRenderer.root).getByTestID(
+    "decisionHistory-loading-container"
+  );
+  expect(toJSON(container)).toMatchSnapshot();
 });
 
 it("render popover content", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("decisionHistory-container")
+  const container = within(testRenderer.root).getByTestID(
+    "decisionHistory-container"
   );
-  expect(
-    limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  expect(toJSON(container)).toMatchSnapshot();
 });
 
 it("loads more", async () => {
@@ -130,7 +129,5 @@ it("loads more", async () => {
   await wait(() => {
     expect(() => getByText("Show More")).toThrow();
   });
-  expect(
-    limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  expect(toJSON(decisionHistoryContainer)).toMatchSnapshot();
 });

@@ -31,3 +31,4 @@ export { default as wait } from "./wait";
 export { default as waitForElement } from "./waitForElement";
 export { default as waitUntilThrow } from "./waitUntilThrow";
 export { default as matchText } from "./matchText";
+export { default as toJSON } from "./toJSON";

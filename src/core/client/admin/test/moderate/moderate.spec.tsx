@@ -3,8 +3,8 @@ import sinon from "sinon";
 
 import {
   createSinonStub,
-  limitSnapshotTo,
   replaceHistoryLocation,
+  toJSON,
   waitForElement,
   waitUntilThrow,
   within,
@@ -60,11 +60,8 @@ describe("navigation bar", () => {
   it("renders navigation bar (empty queues)", async () => {
     const testRenderer = await createTestRenderer();
     const { getByTestID } = within(testRenderer.root);
-
     await waitForElement(() => getByTestID("moderate-container"));
-    expect(
-      limitSnapshotTo("moderate-subBar-container", testRenderer.toJSON())
-    ).toMatchSnapshot();
+    expect(toJSON(getByTestID("moderate-subBar-container"))).toMatchSnapshot();
   });
 });
 
@@ -74,9 +71,7 @@ describe("reported queue", () => {
     const { getByTestID } = within(testRenderer.root);
 
     await waitForElement(() => getByTestID("moderate-container"));
-    expect(
-      limitSnapshotTo("moderate-main-container", testRenderer.toJSON())
-    ).toMatchSnapshot();
+    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
   });
 
   it("renders reported queue with comments", async () => {
@@ -108,12 +103,9 @@ describe("reported queue", () => {
         },
       },
     });
-    await waitForElement(() =>
-      within(testRenderer.root).getByTestID("moderate-container")
-    );
-    expect(
-      limitSnapshotTo("moderate-main-container", testRenderer.toJSON())
-    ).toMatchSnapshot();
+    const { getByTestID } = within(testRenderer.root);
+    await waitForElement(() => getByTestID("moderate-container"));
+    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
   });
 
   it("renders reported queue with comments and load more", async () => {
@@ -171,7 +163,9 @@ describe("reported queue", () => {
       within(testRenderer.root).getByTestID("moderate-container")
     );
 
-    const { getByText, getAllByTestID } = within(moderateContainer);
+    const { getByText, getAllByTestID, getByTestID } = within(
+      moderateContainer
+    );
 
     // Get previous count of comments.
     const previousCount = getAllByTestID(/^moderate-comment-.*$/).length;
@@ -193,10 +187,7 @@ describe("reported queue", () => {
 
     // Snapshot of added comment.
     expect(
-      limitSnapshotTo(
-        `moderate-comment-${reportedComments[2].id}`,
-        testRenderer.toJSON()
-      )
+      toJSON(getByTestID(`moderate-comment-${reportedComments[2].id}`))
     ).toMatchSnapshot();
   });
 
@@ -259,9 +250,7 @@ describe("reported queue", () => {
     AcceptButton.props.onClick();
 
     // Snapshot dangling state of comment.
-    expect(limitSnapshotTo(testID, testRenderer.toJSON())).toMatchSnapshot(
-      "dangling"
-    );
+    expect(toJSON(comment)).toMatchSnapshot("dangling");
 
     // Wait until comment is gone.
     await waitUntilThrow(() => getByTestID(testID));
@@ -328,9 +317,7 @@ describe("reported queue", () => {
     RejectButton.props.onClick();
 
     // Snapshot dangling state of comment.
-    expect(limitSnapshotTo(testID, testRenderer.toJSON())).toMatchSnapshot(
-      "dangling"
-    );
+    expect(toJSON(comment)).toMatchSnapshot("dangling");
 
     // Wait until comment is gone.
     await waitUntilThrow(() => getByTestID(testID));
@@ -368,12 +355,9 @@ describe("rejected queue", () => {
         }),
       },
     });
-    await waitForElement(() =>
-      within(testRenderer.root).getByTestID("moderate-container")
-    );
-    expect(
-      limitSnapshotTo("moderate-main-container", testRenderer.toJSON())
-    ).toMatchSnapshot();
+    const { getByTestID } = within(testRenderer.root);
+    await waitForElement(() => getByTestID("moderate-container"));
+    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
   });
 
   it("renders rejected queue with comments and load more", async () => {
@@ -431,7 +415,9 @@ describe("rejected queue", () => {
       within(testRenderer.root).getByTestID("moderate-container")
     );
 
-    const { getByText, getAllByTestID } = within(moderateContainer);
+    const { getByText, getAllByTestID, getByTestID } = within(
+      moderateContainer
+    );
 
     // Get previous count of comments.
     const previousCount = getAllByTestID(/^moderate-comment-.*$/).length;
@@ -453,10 +439,7 @@ describe("rejected queue", () => {
 
     // Snapshot of added comment.
     expect(
-      limitSnapshotTo(
-        `moderate-comment-${rejectedComments[2].id}`,
-        testRenderer.toJSON()
-      )
+      toJSON(getByTestID(`moderate-comment-${rejectedComments[2].id}`))
     ).toMatchSnapshot();
   });
 
@@ -514,9 +497,7 @@ describe("rejected queue", () => {
     AcceptButton.props.onClick();
 
     // Snapshot dangling state of comment.
-    expect(limitSnapshotTo(testID, testRenderer.toJSON())).toMatchSnapshot(
-      "dangling"
-    );
+    expect(toJSON(getByTestID(testID))).toMatchSnapshot("dangling");
 
     // Wait until comment is gone.
     await waitUntilThrow(() => getByTestID(testID));
@@ -545,10 +526,10 @@ describe("single comment view", () => {
       },
     });
     const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("single-moderate-container"));
-    expect(
-      limitSnapshotTo("single-moderate-container", testRenderer.toJSON())
-    ).toMatchSnapshot();
+    const container = await waitForElement(() =>
+      getByTestID("single-moderate-container")
+    );
+    expect(toJSON(container)).toMatchSnapshot();
   });
 
   it("accepts single comment", async () => {
@@ -577,13 +558,12 @@ describe("single comment view", () => {
       },
     });
 
-    const AcceptButton = await waitForElement(() =>
-      within(testRenderer.root).getByLabelText("Accept")
-    );
+    const { getByLabelText, getByTestID } = within(testRenderer.root);
+    const AcceptButton = await waitForElement(() => getByLabelText("Accept"));
     AcceptButton.props.onClick();
 
     expect(
-      limitSnapshotTo(`moderate-comment-${comment.id}`, testRenderer.toJSON())
+      toJSON(getByTestID(`moderate-comment-${comment.id}`))
     ).toMatchSnapshot();
 
     expect(acceptCommentStub.called).toBe(true);
@@ -615,15 +595,13 @@ describe("single comment view", () => {
       },
     });
 
-    const RejectButton = await waitForElement(() =>
-      within(testRenderer.root).getByLabelText("Reject")
-    );
+    const { getByLabelText, getByTestID } = within(testRenderer.root);
+    const RejectButton = await waitForElement(() => getByLabelText("Reject"));
     RejectButton.props.onClick();
 
     expect(
-      limitSnapshotTo(`moderate-comment-${comment.id}`, testRenderer.toJSON())
+      toJSON(getByTestID(`moderate-comment-${comment.id}`))
     ).toMatchSnapshot();
-
     expect(rejectCommentStub.called).toBe(true);
   });
 });
