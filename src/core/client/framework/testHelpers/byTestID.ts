@@ -1,8 +1,8 @@
 import { ReactTestInstance } from "react-test-renderer";
 
-import matchText, { TextMatchOptions } from "./matchText";
+import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
-const matcher = (pattern: string | RegExp, options?: TextMatchOptions) => (
+const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   i: ReactTestInstance
 ) => {
   // Only look at dom components.
@@ -17,7 +17,7 @@ const matcher = (pattern: string | RegExp, options?: TextMatchOptions) => (
 
 export function getByTestID(
   container: ReactTestInstance,
-  pattern: string | RegExp,
+  pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
   return container.find(matcher(pattern, options));
@@ -25,7 +25,7 @@ export function getByTestID(
 
 export function queryByTestID(
   container: ReactTestInstance,
-  pattern: string | RegExp,
+  pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
   try {
@@ -37,7 +37,7 @@ export function queryByTestID(
 
 export function queryAllByTestID(
   container: ReactTestInstance,
-  pattern: string | RegExp,
+  pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
   try {
@@ -49,7 +49,7 @@ export function queryAllByTestID(
 
 export function getAllByTestID(
   container: ReactTestInstance,
-  pattern: string | RegExp,
+  pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
   return container.findAll(matcher(pattern, options));

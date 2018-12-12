@@ -4,8 +4,10 @@ export interface TextMatchOptions {
   trim?: boolean; // defaults to true
 }
 
+export type TextMatchPattern = string | RegExp;
+
 export default function matchText(
-  pattern: string | RegExp,
+  pattern: TextMatchPattern,
   text: string,
   options: TextMatchOptions = {}
 ) {
