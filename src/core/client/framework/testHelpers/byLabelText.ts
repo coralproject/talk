@@ -1,28 +1,35 @@
 import { ReactTestInstance } from "react-test-renderer";
 
-import matchText from "./matchText";
+import matchText, { TextMatchOptions } from "./matchText";
 
-const matcher = (pattern: string | RegExp) => (i: ReactTestInstance) => {
+const matcher = (pattern: string | RegExp, options?: TextMatchOptions) => (
+  i: ReactTestInstance
+) => {
   // Only look at dom components.
   if (typeof i.type !== "string" || !i.props["aria-label"]) {
     return false;
   }
-  return matchText(pattern, i.props["aria-label"]);
+  return matchText(pattern, i.props["aria-label"], {
+    collapseWhitespace: false,
+    ...options,
+  });
 };
 
 export function getByLabelText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
-  return container.find(matcher(pattern));
+  return container.find(matcher(pattern, options));
 }
 
 export function queryByLabelText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
   try {
-    return container.find(matcher(pattern));
+    return container.find(matcher(pattern, options));
   } catch {
     return null;
   }
@@ -30,10 +37,11 @@ export function queryByLabelText(
 
 export function queryAllByLabelText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
   try {
-    return container.findAll(matcher(pattern));
+    return container.findAll(matcher(pattern, options));
   } catch {
     return [];
   }
@@ -41,7 +49,8 @@ export function queryAllByLabelText(
 
 export function getAllByLabelText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
-  return container.findAll(matcher(pattern));
+  return container.findAll(matcher(pattern, options));
 }

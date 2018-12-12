@@ -1,9 +1,11 @@
 import React from "react";
 import { ReactTestInstance } from "react-test-renderer";
 
-import matchText from "./matchText";
+import matchText, { TextMatchOptions } from "./matchText";
 
-const matcher = (pattern: string | RegExp) => (i: ReactTestInstance) => {
+const matcher = (pattern: string | RegExp, options?: TextMatchOptions) => (
+  i: ReactTestInstance
+) => {
   // Only look at dom components.
   if (typeof i.type !== "string") {
     return false;
@@ -13,7 +15,7 @@ const matcher = (pattern: string | RegExp) => (i: ReactTestInstance) => {
   }
   const children = React.Children.toArray(i.props.children);
   for (const c of children) {
-    if (typeof c === "string" && matchText(pattern, c, { loose: true })) {
+    if (typeof c === "string" && matchText(pattern, c, options)) {
       return true;
     }
   }
@@ -22,17 +24,19 @@ const matcher = (pattern: string | RegExp) => (i: ReactTestInstance) => {
 
 export function getByText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
-  return container.find(matcher(pattern));
+  return container.find(matcher(pattern, options));
 }
 
 export function queryByText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
   try {
-    return container.find(matcher(pattern));
+    return container.find(matcher(pattern, options));
   } catch {
     return null;
   }
@@ -40,10 +44,11 @@ export function queryByText(
 
 export function queryAllByText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
   try {
-    return container.findAll(matcher(pattern));
+    return container.findAll(matcher(pattern, options));
   } catch {
     return [];
   }
@@ -51,7 +56,8 @@ export function queryAllByText(
 
 export function getAllByText(
   container: ReactTestInstance,
-  pattern: string | RegExp
+  pattern: string | RegExp,
+  options?: TextMatchOptions
 ) {
-  return container.findAll(matcher(pattern));
+  return container.findAll(matcher(pattern, options));
 }
