@@ -76,6 +76,10 @@ const CONFIG = {
   // on the scraper when it makes requests.
   SCRAPER_HEADERS: process.env.TALK_SCRAPER_HEADERS || '{}',
 
+  // HTTP_X_REQUEST_ID is a string which represents the request header where we
+  // should source the request ID from, otherwise, a new one will be generated.
+  HTTP_X_REQUEST_ID: process.env.TALK_HTTP_X_REQUEST_ID || null,
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------
