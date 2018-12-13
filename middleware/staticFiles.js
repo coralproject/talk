@@ -39,6 +39,6 @@ const dist = path.resolve(path.join(__dirname, '../dist'));
  * it will use express's static middleware.
  */
 module.exports =
-  process.env.NODE_ENV !== 'production'
+  process.env.NODE_ENV === 'production'
     ? staticServer(dist, merge(compressionOpts, defaultOpts))
     : express.static(dist, defaultOpts);
