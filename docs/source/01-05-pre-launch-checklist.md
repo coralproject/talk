@@ -29,7 +29,7 @@ permalink: /pre-launch-checklist/
   - See [Authenticating with Talk](/talk/integrating/authentication/)
 
 - [ ] Do you want to integrate Talk with your CMS to automate embedding Talk Comment Stream into your site?
-  - See [Asset Management](/talk/integrating/asset-management/)
+  - See [CMS Integration](/talk/integrating/cms-integration/)
 
 - [ ] Do you want to use Social sign-on?
   - Facebook

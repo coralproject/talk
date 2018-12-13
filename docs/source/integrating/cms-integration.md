@@ -1,6 +1,6 @@
 ---
-title: Asset Management
-permalink: /integrating/asset-management/
+title: CMS Integration
+permalink: /integrating/cms-integration/
 ---
 
 ## Embedding Comments on Your Site
@@ -37,6 +37,7 @@ Coral.Talk.render(document.getElementById('container'), {
 ```
 
 Or you can enable lazy rendering by default on all assets using ENV variable `TALK_DEFAULT_LAZY_RENDER=TRUE`
+
 _*Note: This feature requires Talk version 4.6.8 or greater_
 
 #### Show Comments Button
