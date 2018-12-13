@@ -22,7 +22,7 @@ it("should emit events from pym to eventEmitter", () => {
   eventEmitterMock.emit.verify();
 });
 
-it("should ready event from pym to eventEmitter", () => {
+it("should emit ready event from pym to eventEmitter", () => {
   const eventEmitterMock = {
     emit: sinon
       .mock()
