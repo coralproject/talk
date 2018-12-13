@@ -70,6 +70,8 @@ sync?_
 ### “Lazy Asset Creation”
 Talk’s provided embed script by default dynamically generates Assets in Talk based on each unique url that triggers it. The url must reference an existing Permitted Domain. If your articles/stories always have unique urls, then you will not need to modify the default behavior. 
 
+Assets created in this way will then be scraped to load metadata, see [Asset Scraping](/talk/integrating/asset-scraping/)
+
 ## Customizing the Integration with a Plugin
 In order to have more strict control over the asset creation flow to allow only assets pushed into it from your CMS, and keep your URL/title in sync we will create a plugin. 
 
