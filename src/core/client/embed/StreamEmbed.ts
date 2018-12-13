@@ -37,6 +37,7 @@ export class StreamEmbed {
   private config: StreamEmbedConfig;
   private pymControl?: PymControl;
   private pymControlFactory: PymControlFactory;
+  private ready = false;
 
   constructor(
     config: StreamEmbedConfig,
@@ -60,6 +61,9 @@ export class StreamEmbed {
         });
       }
     }
+    config.eventEmitter.once("ready", () => {
+      this.ready = true;
+    });
   }
 
   private assertRendered() {
@@ -77,12 +81,18 @@ export class StreamEmbed {
   }
 
   public login(token: string) {
-    this.assertRendered();
+    if (!this.ready) {
+      this.config.eventEmitter.once("ready", () => this.login(token));
+      return;
+    }
     this.pymControl!.sendMessage("login", token);
   }
 
   public logout() {
-    this.assertRendered();
+    if (!this.ready) {
+      this.config.eventEmitter.once("ready", () => this.logout());
+      return;
+    }
     this.pymControl!.sendMessage("logout");
   }
 
