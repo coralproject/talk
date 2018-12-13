@@ -1,10 +1,11 @@
-export default function onIntersect(el: HTMLElement, callback: () => void) {
-  if (!IntersectionObserver) {
-    // tslint:disable-next-line:no-console
-    console.warn("IntersectionObserver not available");
-    callback();
-    return;
-  }
+// Polyfill intersection observer.
+import "intersection-observer";
+export type IntersectCancelation = () => void;
+
+export default function onIntersect(
+  el: HTMLElement,
+  callback: () => void
+): IntersectCancelation {
   const options = {
     rootMargin: "100px",
     threshold: 1.0,
@@ -17,4 +18,5 @@ export default function onIntersect(el: HTMLElement, callback: () => void) {
     }
   }, options);
   observer.observe(el);
+  return () => observer.disconnect();
 }

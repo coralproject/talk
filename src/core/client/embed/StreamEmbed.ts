@@ -15,7 +15,7 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
-import onIntersect from "./onIntersect";
+import onIntersect, { IntersectCancelation } from "./onIntersect";
 import PymControl, {
   defaultPymControlFactory,
   PymControlFactory,
@@ -38,6 +38,7 @@ export class StreamEmbed {
   private pymControl?: PymControl;
   private pymControlFactory: PymControlFactory;
   private ready = false;
+  private cancelAutoRender: IntersectCancelation | null = null;
 
   constructor(
     config: StreamEmbedConfig,
@@ -54,11 +55,15 @@ export class StreamEmbed {
       if (config.commentID) {
         this.render();
       } else {
-        onIntersect(document.getElementById(config.id)!, () => {
-          if (!this.rendered) {
-            this.render();
+        this.cancelAutoRender = onIntersect(
+          document.getElementById(config.id)!,
+          () => {
+            this.cancelAutoRender = null;
+            if (!this.rendered) {
+              this.render();
+            }
           }
-        });
+        );
       }
     }
     config.eventEmitter.once("ready", () => {
@@ -97,6 +102,12 @@ export class StreamEmbed {
   }
 
   public remove() {
+    // If lazy render was enabled, just cancel it.
+    if (this.cancelAutoRender) {
+      this.cancelAutoRender();
+      this.cancelAutoRender = null;
+      return;
+    }
     this.assertRendered();
     this.pymControl!.remove();
     this.pymControl = undefined;
