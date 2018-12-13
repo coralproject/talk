@@ -1,11 +1,11 @@
 // Polyfill intersection observer.
 import "intersection-observer";
-export type IntersectCancelation = () => void;
+export type OnIntersectCancellation = () => void;
 
 export default function onIntersect(
   el: HTMLElement,
   callback: () => void
-): IntersectCancelation {
+): OnIntersectCancellation {
   const options = {
     rootMargin: "100px",
     threshold: 1.0,

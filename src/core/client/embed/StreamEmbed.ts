@@ -15,7 +15,7 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
-import onIntersect, { IntersectCancelation } from "./onIntersect";
+import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import PymControl, {
   defaultPymControlFactory,
   PymControlFactory,
@@ -38,7 +38,7 @@ export class StreamEmbed {
   private pymControl?: PymControl;
   private pymControlFactory: PymControlFactory;
   private ready = false;
-  private cancelAutoRender: IntersectCancelation | null = null;
+  private cancelAutoRender: OnIntersectCancellation | null = null;
 
   constructor(
     config: StreamEmbedConfig,
