@@ -117,19 +117,17 @@ const CommentContent: StatelessComponent<Props> = ({
   // We create a Shadow DOM Tree with the HTML body content and
   // use it as a parser.
   const node = document.createElement("div");
-  node.innerHTML = children;
+  node.innerHTML = purify.sanitize(children);
 
   // Then we traverse it recursively and manipulate it to highlight suspect words
   // and banned words.
   markHTMLNode(node, suspectWords, bannedWords);
 
-  const html = purify.sanitize(node.innerHTML);
-
   // Finally we render the content of the Shadow DOM Tree
   return (
     <Typography
       className={cn(className, styles.root)}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: node.innerHTML }}
       container="div"
     />
   );
