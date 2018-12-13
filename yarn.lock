@@ -221,6 +221,11 @@
   dependencies:
     "@types/node" "*"
 
+"@ungap/url-search-params@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ungap/url-search-params/-/url-search-params-0.1.2.tgz#8ba8c0527543fe675d1c29ae0a2daca842e8ee4f"
+  integrity sha512-WVk5+lJ+AoNLh2sIDMhnEAgLsVQuI067hWLJCzirErH1GYiy1gs09q4+XZxYWSvdAsslKsaO4q1iXXMx2c72dA==
+
 JSONStream@^1.0.7:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.3.tgz#27b4b8fbbfeab4e71bcf551e7f27be8d952239bf"
@@ -13361,11 +13366,6 @@ url-regex@~4.1.1:
   dependencies:
     ip-regex "^1.0.1"
     tlds "^1.187.0"
-
-url-search-params@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/url-search-params/-/url-search-params-0.9.0.tgz#e71d7764a6503533cbfe9771b2963cb61ea1c225"
-  integrity sha1-5x13ZKZQNTPL/pdxspY8th6hwiU=
 
 url@^0.11.0:
   version "0.11.0"

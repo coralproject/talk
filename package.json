@@ -58,6 +58,7 @@
   "dependencies": {
     "@coralproject/gql-merge": "^0.1.0",
     "@coralproject/graphql-anywhere-optimized": "^0.1.0",
+    "@ungap/url-search-params": "^0.1.2",
     "apollo-client": "^1.9.1",
     "apollo-engine": "^0.8.1",
     "apollo-server-express": "^1.2.0",
@@ -211,7 +212,6 @@
     "url-join": "^2.0.2",
     "url-loader": "^0.6.0",
     "url-parse": "^1.4.3",
-    "url-search-params": "^0.9.0",
     "uuid": "^3.1.0",
     "webpack": "^3.10.0",
     "webpack-manifest-plugin": "^2.0.0-rc.2",
