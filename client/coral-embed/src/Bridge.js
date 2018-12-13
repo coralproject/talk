@@ -1,5 +1,3 @@
-/* global __webpack_public_path__ */ // eslint-disable-line no-unused-vars
-
 import queryString from 'querystringify';
 import URLSearchParams from '@ungap/url-search-params';
 import pym from 'pym.js';
@@ -81,52 +79,22 @@ function buildQuery({ asset_id, asset_url }) {
 
 // Get dimensions of viewport.
 function viewportDimensions() {
-  let e = window;
+  let target = window;
   let prefix = 'inner';
   if (!('innerWidth' in window)) {
     prefix = 'client';
-    e = document.documentElement || document.body;
+    target = document.documentElement || document.body;
   }
 
   return {
-    width: e[`${prefix}Width`],
-    height: e[`${prefix}Height`],
+    width: target[`${prefix}Width`],
+    height: target[`${prefix}Height`],
   };
-}
-
-/**
- * loadWithIntersection will call the loader when the selected element is in
- * view.
- *
- * @param {HTMLElement} element the element to watch for intersection before
- *                              using the loader
- * @param {Function} loader a function that when called, will do something when
- *                          the element is in view
- */
-function loadWithIntersection(element, loader) {
-  // Conditionally apply the intersection observer polyfill.
-  if (!window.IntersectionObserver) {
-    // Include a polyfill for the intersection observer as it's not loaded.
-    import(/* webpackChunkName: "intersection-observer" */ 'intersection-observer')
-      .then(() => {
-        // The polyfill has been loaded, attach it now.
-        onIntersect(element, loader);
-      })
-      .catch(err => {
-        window.console.error(err);
-
-        // Loading polyfill failed, just call the loader now.
-        loader();
-      });
-  } else {
-    // The polyfill wasn't required, attach it now.
-    onIntersect(element, loader);
-  }
 }
 
 export default class Bridge {
   constructor(
-    el,
+    element,
     {
       // Pull out the URLs used to setup Talk.
       talk: talkBaseUrl,
@@ -146,7 +114,7 @@ export default class Bridge {
     }
   ) {
     this.pym = null;
-    this.el = el;
+    this.element = element;
     this.opts = opts;
     this.query = buildQuery(this.opts);
     this.emitter = new EventEmitter({ wildcard: true });
@@ -167,17 +135,9 @@ export default class Bridge {
 
     // Start the embed loading process.
     if (this.lazy) {
-      // Because we're loading chunks dynamically, we need to point to the static
-      // URL.
-      //
-      // The __webpack_public_path__ can be referenced:
-      // https://webpack.js.org/configuration/output/#output-publicpath
-      //
-      __webpack_public_path__ = this.talkStaticUrl + 'static/';
-
       // When the dom element containing the talk embed container is in view,
       // render the stream with force turned on so that it skips this portion.
-      loadWithIntersection(this.el, () => this.load());
+      onIntersect(this.element, () => this.load());
     } else {
       // We aren't being lazy, load it now!
       this.load();
@@ -201,12 +161,12 @@ export default class Bridge {
     }
   }
 
-  setupPYM() {
+  setupPym() {
     const url = buildStreamIframeUrl(this.talkBaseUrl, this.query);
-    this.pym = new pym.Parent(this.el.id, url, {
+    this.pym = new pym.Parent(this.element.id, url, {
       title: this.opts.title,
-      id: `${this.el.id}_iframe`,
-      name: `${this.el.id}_iframe`,
+      id: `${this.element.id}_iframe`,
+      name: `${this.element.id}_iframe`,
     });
 
     // NOTE: Workaround for iOS Safari which ignores `width` but respects `min-width` value.
@@ -304,8 +264,8 @@ export default class Bridge {
       throw new Error('Stream Embed already rendered');
     }
 
-    // Setup PYM.
-    this.setupPYM();
+    // Setup Pym.
+    this.setupPym();
 
     // Attach the snackBar to the pym parent and to the body of the page.
     this.snackBar.attach(window.document.body, this.pym);

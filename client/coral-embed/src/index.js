@@ -1,3 +1,9 @@
+// Polyfill IntersectionObserver always, the alternative is that we have to also
+// polyfill for Promise, which itself adds 1KB gziped, which means that the
+// 4KB that the intersection observer really doesn't take up that much in terms
+// of size.
+import 'intersection-observer';
+
 import Bridge from './Bridge';
 import wrapBridge from './wrapBridge';
 
