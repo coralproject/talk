@@ -79,7 +79,7 @@ export default class Stream {
       const renderOnIntersect = () => onIntersect(this.el, () => this.render());
       if (!window.IntersectionObserver) {
         // Include a polyfill for the intersection observer.
-        import('intersection-observer')
+        import(/* webpackChunkName: "intersection-observer" */ 'intersection-observer')
           .then(() => {
             // Polyfill applied.
             renderOnIntersect();
