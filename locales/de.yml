@@ -136,6 +136,7 @@ de:
     code_of_conduct_summary_desc: 'Verfassen Sie eine Einleitung, die über jedem Kommentarbereich erscheint. Nützlich z.B. für Community-Richtlinien.'
     include_question_here: 'Stellen Sie Ihre Frage hier:'
     include_text: 'Fügen Sie Ihren Text hier ein.'
+    include_an_icon: 'Fügen Sie ein Icon hinzu'
     moderate: Moderieren
     moderation_settings: Moderations-Einstellungen
     open: Öffnen
