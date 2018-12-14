@@ -1,4 +1,4 @@
 / /talk/
 /talk/reference/server/ /talk/api/server/
 /talk/reference/graphql/ /talk/api/graphql/
-/talk/integrating/asset-management/ /talk/integrating/cms-integration
+/talk/integrating/asset-management/ /talk/integrating/cms-integration/
