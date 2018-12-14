@@ -8,7 +8,7 @@ import {
 import { Omit } from "talk-framework/types";
 
 import { RejectCommentMutation as MutationTypes } from "talk-admin/__generated__/RejectCommentMutation.graphql";
-import { getQueueConnection } from "talk-admin/helpers";
+import { getQueueConnection, updateModqueueCounts } from "talk-admin/helpers";
 
 export type RejectCommentInput = Omit<
   MutationTypes["variables"]["input"],
@@ -21,6 +21,17 @@ const mutation = graphql`
       comment {
         id
         status
+      }
+      moderationQueues {
+        unmoderated {
+          count
+        }
+        reported {
+          count
+        }
+        pending {
+          count
+        }
       }
       clientMutationId
     }
@@ -55,6 +66,12 @@ function commit(environment: Environment, input: RejectCommentInput) {
       ].filter(c => c);
       connections.forEach(con =>
         ConnectionHandler.deleteNode(con, input.commentID)
+      );
+      updateModqueueCounts(
+        store
+          .getRootField("rejectComment")!
+          .getLinkedRecord("moderationQueues")!,
+        store
       );
     },
   });
