@@ -27,6 +27,7 @@ const mergeModerationInputFilters = (
   filter: FilterQuery<Comment>,
   selector: keyof CommentModerationCountsPerQueue
 ) => (input: ModerationQueuesInput): ModerationQueueInput => ({
+  selector,
   connection: {
     ...input.connection,
     filter: {

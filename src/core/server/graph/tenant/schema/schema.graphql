@@ -249,6 +249,11 @@ ModerationQueue returns the Comments associated with a Moderation Queue.
 """
 type ModerationQueue {
   """
+  id is a canonical identifier for this specific moderation queue.
+  """
+  id: ID!
+
+  """
   count will return the number of Comments that are in this queue.
   """
   count: Int!
@@ -782,6 +787,11 @@ type ReactionConfiguration {
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
+  """
+  id is a canonical identifier for this Tenant.
+  """
+  id: ID!
+
   """
   domain is the domain that is associated with this Tenant.
   """
