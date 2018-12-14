@@ -33,6 +33,7 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
             </span>
             <span
               className="Counter-root Counter-colorInherit"
+              data-test="moderate-navigation-reported-count"
             >
               <span
                 className="Counter-text"
@@ -61,6 +62,7 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
             </span>
             <span
               className="Counter-root Counter-colorInherit"
+              data-test="moderate-navigation-pending-count"
             >
               <span
                 className="Counter-text"
@@ -89,6 +91,7 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
             </span>
             <span
               className="Counter-root Counter-colorInherit"
+              data-test="moderate-navigation-unmoderated-count"
             >
               <span
                 className="Counter-text"
@@ -121,6 +124,19 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
     </nav>
   </div>
 </div>
+`;
+
+exports[`rejected queue accepts comment in rejected queue: count should be 1 1`] = `
+<span
+  className="Counter-root Counter-colorInherit"
+  data-test="moderate-navigation-reported-count"
+>
+  <span
+    className="Counter-text"
+  >
+    1
+  </span>
+</span>
 `;
 
 exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
@@ -719,6 +735,19 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
 </div>
 `;
 
+exports[`reported queue accepts comment in reported queue: count should be 1 1`] = `
+<span
+  className="Counter-root Counter-colorInherit"
+  data-test="moderate-navigation-reported-count"
+>
+  <span
+    className="Counter-text"
+  >
+    1
+  </span>
+</span>
+`;
+
 exports[`reported queue accepts comment in reported queue: dangling 1`] = `
 <div
   className="Card-root ModerateCard-root ModerateCard-dangling"
@@ -860,6 +889,19 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
     </div>
   </div>
 </div>
+`;
+
+exports[`reported queue rejects comment in reported queue: count should be 1 1`] = `
+<span
+  className="Counter-root Counter-colorInherit"
+  data-test="moderate-navigation-reported-count"
+>
+  <span
+    className="Counter-text"
+  >
+    1
+  </span>
+</span>
 `;
 
 exports[`reported queue rejects comment in reported queue: dangling 1`] = `

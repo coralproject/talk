@@ -76,7 +76,9 @@ exports[`renders correctly with counts 1`] = `
         Reported
       </span>
     </Localized>
-    <withPropsOnChange(Counter)>
+    <withPropsOnChange(Counter)
+      data-test="moderate-navigation-reported-count"
+    >
       4
     </withPropsOnChange(Counter)>
   </NavigationLink>
@@ -93,7 +95,9 @@ exports[`renders correctly with counts 1`] = `
         Pending
       </span>
     </Localized>
-    <withPropsOnChange(Counter)>
+    <withPropsOnChange(Counter)
+      data-test="moderate-navigation-pending-count"
+    >
       0
     </withPropsOnChange(Counter)>
   </NavigationLink>
@@ -110,7 +114,9 @@ exports[`renders correctly with counts 1`] = `
         Unmoderated
       </span>
     </Localized>
-    <withPropsOnChange(Counter)>
+    <withPropsOnChange(Counter)
+      data-test="moderate-navigation-unmoderated-count"
+    >
       3
     </withPropsOnChange(Counter)>
   </NavigationLink>

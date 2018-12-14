@@ -204,6 +204,12 @@ describe("reported queue", () => {
           id: reportedComments[0].id,
           status: "ACCEPTED",
         },
+        moderationQueues: {
+          ...emptyModerationQueues,
+          reported: {
+            count: 1,
+          },
+        },
         clientMutationId: data.input.clientMutationId,
       };
     });
@@ -256,6 +262,11 @@ describe("reported queue", () => {
     await waitUntilThrow(() => getByTestID(testID));
 
     expect(acceptCommentStub.called).toBe(true);
+
+    // Count should have been updated.
+    expect(
+      toJSON(getByTestID("moderate-navigation-reported-count"))
+    ).toMatchSnapshot("count should be 1");
   });
 
   it("rejects comment in reported queue", async () => {
@@ -270,6 +281,12 @@ describe("reported queue", () => {
         comment: {
           id: reportedComments[0].id,
           status: "REJECTED",
+        },
+        moderationQueues: {
+          ...emptyModerationQueues,
+          reported: {
+            count: 1,
+          },
         },
         clientMutationId: data.input.clientMutationId,
       };
@@ -323,6 +340,11 @@ describe("reported queue", () => {
     await waitUntilThrow(() => getByTestID(testID));
 
     expect(rejectCommentStub.called).toBe(true);
+
+    // Count should have been updated.
+    expect(
+      toJSON(getByTestID("moderate-navigation-reported-count"))
+    ).toMatchSnapshot("count should be 1");
   });
 });
 
@@ -456,6 +478,12 @@ describe("rejected queue", () => {
           id: rejectedComments[0].id,
           status: "ACCEPTED",
         },
+        moderationQueues: {
+          ...emptyModerationQueues,
+          reported: {
+            count: 1,
+          },
+        },
         clientMutationId: data.input.clientMutationId,
       };
     });
@@ -503,6 +531,11 @@ describe("rejected queue", () => {
     await waitUntilThrow(() => getByTestID(testID));
 
     expect(acceptCommentStub.called).toBe(true);
+
+    // Count should have been updated.
+    expect(
+      toJSON(getByTestID("moderate-navigation-reported-count"))
+    ).toMatchSnapshot("count should be 1");
   });
 });
 
@@ -545,6 +578,7 @@ describe("single comment view", () => {
           id: comment.id,
           status: "ACCEPTED",
         },
+        moderationQueues: emptyModerationQueues,
         clientMutationId: data.input.clientMutationId,
       };
     });
@@ -582,6 +616,7 @@ describe("single comment view", () => {
           id: comment.id,
           status: "REJECTED",
         },
+        moderationQueues: emptyModerationQueues,
         clientMutationId: data.input.clientMutationId,
       };
     });

@@ -23,21 +23,33 @@ const Navigation: StatelessComponent<Props> = ({
       <Localized id="moderate-navigation-reported">
         <span>Reported</span>
       </Localized>
-      {reportedCount !== undefined && <Counter>{reportedCount}</Counter>}
+      {reportedCount !== undefined && (
+        <Counter data-test="moderate-navigation-reported-count">
+          {reportedCount}
+        </Counter>
+      )}
     </NavigationLink>
     <NavigationLink to="/admin/moderate/pending">
       <Icon>access_time</Icon>
       <Localized id="moderate-navigation-pending">
         <span>Pending</span>
       </Localized>
-      {pendingCount !== undefined && <Counter>{pendingCount}</Counter>}
+      {pendingCount !== undefined && (
+        <Counter data-test="moderate-navigation-pending-count">
+          {pendingCount}
+        </Counter>
+      )}
     </NavigationLink>
     <NavigationLink to="/admin/moderate/unmoderated">
       <Icon>forum</Icon>
       <Localized id="moderate-navigation-unmoderated">
         <span>Unmoderated</span>
       </Localized>
-      {unmoderatedCount !== undefined && <Counter>{unmoderatedCount}</Counter>}
+      {unmoderatedCount !== undefined && (
+        <Counter data-test="moderate-navigation-unmoderated-count">
+          {unmoderatedCount}
+        </Counter>
+      )}
     </NavigationLink>
     <NavigationLink to="/admin/moderate/rejected">
       <Icon>cancel</Icon>

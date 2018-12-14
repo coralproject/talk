@@ -8,6 +8,9 @@ function setCount(
   store: RecordSourceSelectorProxy
 ) {
   const root = store.getRoot();
+  if (!root.getLinkedRecord("moderationQueues")) {
+    return;
+  }
   const count = modqueuesProxy.getLinkedRecord(queue)!.getValue("count")!;
   root
     .getLinkedRecord("moderationQueues")!
