@@ -2,6 +2,7 @@ import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
 import { identity } from "lodash";
+import LodashModuleReplacementPlugin from "lodash-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
@@ -11,9 +12,9 @@ import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 import webpack, { Configuration, Plugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ManifestPlugin from "webpack-manifest-plugin";
-import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
 import paths from "./paths";
+import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
 /**
  * filterPlugins will filter out null values from the array of plugins, allowing
@@ -350,6 +351,9 @@ export default function createWebpackConfig({
                 {
                   loader: require.resolve("babel-loader"),
                   options: {
+                    // This will ensure that all packages in node_modules that
+                    // import lodash do so in a way that supports tree shaking.
+                    plugins: ["lodash"],
                     presets: [
                       [
                         "@babel/env",
@@ -413,6 +417,7 @@ export default function createWebpackConfig({
       ],
     },
     plugins: [
+      new LodashModuleReplacementPlugin(),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
