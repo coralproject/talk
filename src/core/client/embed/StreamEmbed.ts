@@ -1,7 +1,7 @@
 import { EventEmitter2 } from "eventemitter2";
 
+import { stringifyQuery } from "talk-common/utils";
 import ensureNoEndSlash from "talk-common/utils/ensureNoEndSlash";
-import * as qs from "talk-common/utils/queryStringify";
 import urls from "talk-framework/helpers/urls";
 import { ExternalConfig } from "talk-framework/lib/externalConfig";
 
@@ -137,7 +137,7 @@ export class StreamEmbed {
       withConfig(externalConfig),
     ];
 
-    const query = qs.stringify({
+    const query = stringifyQuery({
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
       commentID: this.config.commentID,

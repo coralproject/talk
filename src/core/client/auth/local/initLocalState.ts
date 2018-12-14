@@ -1,6 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import * as qs from "talk-common/utils/queryStringify";
+import { parseQuery } from "talk-common/utils";
 import {
   createAndRetain,
   LOCAL_ID,
@@ -18,7 +18,7 @@ export default async function initLocalState(environment: Environment) {
     const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
 
     // Parse query params
-    const query = qs.parse(location.search);
+    const query = parseQuery(location.search);
 
     // Set default view.
     localRecord.setValue(query.view || "SIGN_IN", "view");

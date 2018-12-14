@@ -2,7 +2,7 @@ import { Environment, RecordSource } from "relay-runtime";
 import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
-import * as qs from "talk-common/utils/queryStringify";
+import { parseQuery } from "talk-common/utils";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
@@ -29,7 +29,7 @@ it("Sets comment id", () => {
   const id = "comment1-id";
   commit(environment, { id }, {} as any);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
-  expect(qs.parse(location.search).commentID).toEqual(id);
+  expect(parseQuery(location.search).commentID).toEqual(id);
 });
 
 it("Should call setCommentID in pym", async () => {
@@ -60,6 +60,6 @@ it("Should call setCommentID in pym with empty id", async () => {
   commit(environment, { id: null }, context as any);
   await timeout();
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
-  expect(qs.parse(location.search).commentID).toBeUndefined();
+  expect(parseQuery(location.search).commentID).toBeUndefined();
   context.pym.sendMessage.verify();
 });
