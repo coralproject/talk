@@ -1,5 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
-import qs from "query-string";
+
+import * as qs from "talk-common/utils/queryStringify";
 
 import { default as create, StreamEmbed } from "./StreamEmbed";
 

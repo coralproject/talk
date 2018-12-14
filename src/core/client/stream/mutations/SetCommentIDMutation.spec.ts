@@ -1,8 +1,8 @@
-import qs from "query-string";
 import { Environment, RecordSource } from "relay-runtime";
 import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
+import * as qs from "talk-common/utils/queryStringify";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 

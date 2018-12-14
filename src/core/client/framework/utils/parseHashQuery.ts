@@ -1,5 +1,9 @@
-import qs from "query-string";
+import * as qs from "talk-common/utils/queryStringify";
 
 export default function parseQueryHash(hash: string): Record<string, string> {
-  return qs.parse(hash);
+  let normalized = hash;
+  if (normalized[0] === "#") {
+    normalized = normalized.substr(1);
+  }
+  return qs.parse(normalized);
 }

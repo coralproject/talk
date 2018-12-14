@@ -534,9 +534,7 @@ export default function createWebpackConfig({
       ...baseConfig,
       entry: [
         /* Use minimal amount of polyfills (for IE) */
-        "core-js/fn/object/assign",
-        "core-js/fn/symbol",
-        "core-js/fn/symbol/iterator",
+        "intersection-observer", // also for Safari
         ...devServerEntries,
         paths.appEmbedIndex,
       ],

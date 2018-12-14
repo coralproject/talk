@@ -9,10 +9,6 @@
       "talk-framework/*": ["../framework/*"]
     }
   },
-  "include": [
-    "./**/*",
-    "../../../types/pym.d.ts",
-    "../../../types/simulant.d.ts"
-  ],
+  "include": ["./**/*", "../../../types/*.d.ts"],
   "exclude": ["node_modules"]
 }

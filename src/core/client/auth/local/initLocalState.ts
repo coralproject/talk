@@ -1,6 +1,6 @@
-import qs from "query-string";
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
+import * as qs from "talk-common/utils/queryStringify";
 import {
   createAndRetain,
   LOCAL_ID,

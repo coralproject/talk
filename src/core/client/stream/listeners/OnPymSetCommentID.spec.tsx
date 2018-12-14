@@ -1,8 +1,8 @@
 import { shallow } from "enzyme";
-import qs from "query-string";
 import React from "react";
 import { Environment, RecordSource } from "relay-runtime";
 
+import * as qs from "talk-common/utils/queryStringify";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 

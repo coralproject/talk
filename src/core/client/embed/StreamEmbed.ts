@@ -1,7 +1,7 @@
 import { EventEmitter2 } from "eventemitter2";
-import qs from "query-string";
 
 import ensureNoEndSlash from "talk-common/utils/ensureNoEndSlash";
+import * as qs from "talk-common/utils/queryStringify";
 import urls from "talk-framework/helpers/urls";
 import { ExternalConfig } from "talk-framework/lib/externalConfig";
 

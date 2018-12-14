@@ -1,4 +1,4 @@
-import qs from "query-string";
+import * as qs from "talk-common/utils/queryStringify";
 
 import buildURL from "./buildURL";
 import parseURL from "./parseURL";

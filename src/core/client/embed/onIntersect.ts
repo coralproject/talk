@@ -1,5 +1,3 @@
-// Polyfill intersection observer.
-import "intersection-observer";
 export type OnIntersectCancellation = () => void;
 
 export default function onIntersect(

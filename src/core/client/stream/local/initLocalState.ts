@@ -1,6 +1,6 @@
-import qs from "query-string";
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
+import * as qs from "talk-common/utils/queryStringify";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { getExternalConfig } from "talk-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "talk-framework/lib/relay";
