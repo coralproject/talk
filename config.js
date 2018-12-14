@@ -224,6 +224,14 @@ const CONFIG = {
   CACHE_EXPIRY_COMMENT_COUNT:
     process.env.TALK_CACHE_EXPIRY_COMMENT_COUNT || '1hr',
 
+  // EMBED_EXPIRY_TIME is the time that the embed will be cacheable for, sent as
+  // the max-age= directive on the Cache-Control header.
+  EMBED_EXPIRY_TIME: ms(process.env.TALK_EMBED_EXPIRY || '24hr'),
+
+  // EMBED_EXPIRY_TIME is the time that the rest of the static files will be
+  // cacheable for, sent as the max-age= directive on the Cache-Control header.
+  STATIC_EXPIRY_TIME: ms(process.env.TALK_STATIC_EXPIRY || '1w'),
+
   //------------------------------------------------------------------------------
   // Recaptcha configuration
   //------------------------------------------------------------------------------

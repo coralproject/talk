@@ -10,7 +10,7 @@ const compression = require('compression');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
 const nonce = require('../middleware/nonce');
-const staticServer = require('express-static-gzip');
+const staticFiles = require('../middleware/staticFiles');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
@@ -32,6 +32,8 @@ if (!DISABLE_STATIC_SERVER) {
 
   /**
    * Redirect old embed calls.
+   *
+   * TODO: (wyattjoh) remove this on the next minor release
    */
   const oldEmbed = url.resolve(MOUNT_PATH, 'embed.js');
   const newEmbed = url.resolve(MOUNT_PATH, 'static/embed.js');
@@ -43,48 +45,14 @@ if (!DISABLE_STATIC_SERVER) {
   });
 
   /**
-   * setHeaders adds new headers related to caching to the static files that are
-   * served.
-   *
-   * @param res the response that can be used to set headers on
-   * @param path the path on the filesystem where the files are being served from
+   * Setup static file serving.
    */
-  const setHeaders = (res, path) => {
-    if (path.endsWith('embed.js')) {
-      // The embed.js file itself should not be cached for a long duration of
-      // time, as it may change based on the deploy.
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-    } else {
-      // All static files besides the embed.js file contain hashes, we should
-      // ensure that any other file is cached for a long duration of time. This
-      // is cached for 1 week.
-      res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
-    }
-  };
-
-  /**
-   * Serve the directories under dist.
-   */
-  const dist = path.resolve(path.join(__dirname, '../dist'));
-  if (process.env.NODE_ENV === 'production') {
-    router.use(
-      '/static',
-      staticServer(dist, {
-        indexFromEmptyFile: false,
-        enableBrotli: true,
-        customCompressions: [
-          {
-            encodingName: 'deflate',
-            fileExtension: 'zz',
-          },
-        ],
-        setHeaders,
-      })
-    );
-  } else {
-    router.use('/static', express.static(dist, { setHeaders }));
-  }
+  router.use('/static', staticFiles);
 }
+
+//==============================================================================
+// Shared Middleware
+//==============================================================================
 
 // Add the i18n middleware to all routes.
 router.use(i18n);
