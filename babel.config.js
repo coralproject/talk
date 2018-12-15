@@ -6,6 +6,7 @@
  * for testing with jest.
  */
 module.exports = {
+  plugins: ["use-lodash-es", "lodash"],
   env: {
     test: {
       presets: [

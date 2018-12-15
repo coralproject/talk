@@ -7,8 +7,8 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
+import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import UglifyJsPlugin from "uglifyjs-webpack-plugin";
 import webpack, { Configuration, Plugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ManifestPlugin from "webpack-manifest-plugin";
@@ -105,29 +105,6 @@ export default function createWebpackConfig({
 
   const additionalPlugins = isProduction
     ? [
-        // Minify the code.
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              warnings: false,
-              // Disabled because of an issue with Uglify breaking seemingly valid code:
-              // https://github.com/facebookincubator/create-react-app/issues/2376
-              // Pending further investigation:
-              // https://github.com/mishoo/UglifyJS2/issues/2011
-              comparisons: false,
-            },
-            mangle: {
-              safari10: true,
-            },
-            output: {
-              comments: false,
-              // Turned on because emoji and regex is not minified properly using default
-              // https://github.com/facebookincubator/create-react-app/issues/2488
-              ascii_only: true,
-            },
-          },
-          sourceMap: !disableSourcemaps,
-        }),
         new MiniCssExtractPlugin({
           filename: "assets/css/[name].[hash].css",
           chunkFilename: "assets/css/[id].[hash].css",
@@ -157,7 +134,47 @@ export default function createWebpackConfig({
   const baseConfig: Configuration = {
     // Set webpack mode.
     mode: isProduction ? "production" : "development",
-
+    optimization: {
+      concatenateModules: isProduction,
+      providedExports: true,
+      usedExports: true,
+      sideEffects: true,
+      // We also minimize during development but only
+      // limit it to dead code and unused code elemination
+      // to be sure nothing breaks later in the production build.
+      //
+      // If modules are written in a side-effects free way this
+      // should not happen. We strive to write side-effects free
+      // modules but no one is perfect ;-)
+      minimize: true,
+      minimizer: [
+        // Minify the code.
+        new TerserPlugin({
+          terserOptions: {
+            compress: isProduction
+              ? {}
+              : {
+                  defaults: false,
+                  dead_code: true,
+                  pure_getters: true,
+                  side_effects: true,
+                  unused: true,
+                },
+            mangle: isProduction && {},
+            output: {
+              comments: !isProduction,
+              // Turned on because emoji and regex is not minified properly using default
+              // https://github.com/facebookincubator/create-react-app/issues/2488
+              ascii_only: true,
+            },
+            safari10: true,
+          },
+          cache: true,
+          parallel: true,
+          sourceMap: !disableSourcemaps,
+        }),
+      ],
+    },
     devtool:
       !disableSourcemaps && isProduction
         ? // We generate sourcemaps in production. This is slow but gives good results.

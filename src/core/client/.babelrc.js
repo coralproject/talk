@@ -3,7 +3,7 @@ module.exports = {
     ["@babel/env", { targets: "last 2 versions, ie 11", modules: false }],
     "@babel/react",
   ],
-  plugins: ["@babel/syntax-dynamic-import", "lodash"],
+  plugins: ["@babel/syntax-dynamic-import", "use-lodash-es", "lodash"],
   env: {
     production: {
       plugins: [],
