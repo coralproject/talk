@@ -1,8 +1,8 @@
 import { shallow } from "enzyme";
-import qs from "query-string";
 import React from "react";
 import { Environment, RecordSource } from "relay-runtime";
 
+import { parseQuery } from "talk-common/utils";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
@@ -38,7 +38,7 @@ it("Sets comment id", () => {
   };
   shallow(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
-  expect(qs.parse(location.search).commentID).toEqual(id);
+  expect(parseQuery(location.search).commentID).toEqual(id);
 });
 
 it("Sets comment id to null when empty", () => {
@@ -54,5 +54,5 @@ it("Sets comment id to null when empty", () => {
   };
   shallow(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
-  expect(qs.parse(location.search).commentID).toBeUndefined();
+  expect(parseQuery(location.search).commentID).toBeUndefined();
 });

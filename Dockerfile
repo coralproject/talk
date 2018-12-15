@@ -15,7 +15,7 @@ COPY . /usr/src/app
 
 # Install build static assets and clear caches.
 RUN NODE_ENV=development npm install && \
-  npm run compile && \
+  npm run generate && \
   npm run build && \
   npm prune --production
 

@@ -1,4 +1,4 @@
-import merge from "lodash/merge";
+import { merge } from "lodash";
 import { Overwrite } from "talk-framework/types";
 
 const buildOptions = (inputOptions: RequestInit = {}) => {

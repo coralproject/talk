@@ -1,6 +1,6 @@
-import qs from "query-string";
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
+import { parseQuery } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { getExternalConfig } from "talk-framework/lib/externalConfig";
 import { createAndRetain, initLocalBaseState } from "talk-framework/lib/relay";
@@ -26,7 +26,7 @@ export default async function initLocalState(
     const localRecord = root.getLinkedRecord("local")!;
 
     // Parse query params
-    const query = qs.parse(location.search);
+    const query = parseQuery(location.search);
 
     if (query.storyID) {
       localRecord.setValue(query.storyID, "storyID");

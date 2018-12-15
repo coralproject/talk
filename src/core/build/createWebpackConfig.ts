@@ -1,17 +1,29 @@
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
+import { identity } from "lodash";
+import LodashModuleReplacementPlugin from "lodash-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import UglifyJsPlugin from "uglifyjs-webpack-plugin";
-import webpack, { Configuration } from "webpack";
+import webpack, { Configuration, Plugin } from "webpack";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ManifestPlugin from "webpack-manifest-plugin";
-import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
 import paths from "./paths";
+import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
+
+/**
+ * filterPlugins will filter out null values from the array of plugins, allowing
+ * easy embedded ternaries.
+ *
+ * @param plugins array of plugins and null values
+ */
+const filterPlugins = (plugins: Array<Plugin | null>): Plugin[] =>
+  plugins.filter(identity) as Plugin[];
 
 interface CreateWebpackConfig {
   publicPath?: string;
@@ -138,6 +150,9 @@ export default function createWebpackConfig({
         // See https://github.com/facebookincubator/create-react-app/issues/186
         new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       ];
+
+  // If the WEBPACK_STATS environment variable is specified, output the stats!
+  const includeStats = Boolean(process.env.WEBPACK_STATS);
 
   const baseConfig: Configuration = {
     // Set webpack mode.
@@ -336,6 +351,9 @@ export default function createWebpackConfig({
                 {
                   loader: require.resolve("babel-loader"),
                   options: {
+                    // This will ensure that all packages in node_modules that
+                    // import lodash do so in a way that supports tree shaking.
+                    plugins: ["lodash"],
                     presets: [
                       [
                         "@babel/env",
@@ -399,6 +417,7 @@ export default function createWebpackConfig({
       ],
     },
     plugins: [
+      new LodashModuleReplacementPlugin(),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
@@ -473,7 +492,7 @@ export default function createWebpackConfig({
           paths.appAdminIndex,
         ],
       },
-      plugins: [
+      plugins: filterPlugins([
         ...baseConfig.plugins!,
         // Generates an `stream.html` file with the <script> injected.
         new HtmlWebpackPlugin({
@@ -527,16 +546,21 @@ export default function createWebpackConfig({
         new ManifestPlugin({
           fileName: "asset-manifest.json",
         }),
-      ],
+        // If stats are enabled, output them!
+        includeStats
+          ? new BundleAnalyzerPlugin({
+              analyzerMode: "static",
+              reportFilename: "report-assets.html",
+            })
+          : null,
+      ]),
     },
     /* Webpack config for our embed */
     {
       ...baseConfig,
       entry: [
         /* Use minimal amount of polyfills (for IE) */
-        "core-js/fn/object/assign",
-        "core-js/fn/symbol",
-        "core-js/fn/symbol/iterator",
+        "intersection-observer", // also for Safari
         ...devServerEntries,
         paths.appEmbedIndex,
       ],
@@ -547,7 +571,7 @@ export default function createWebpackConfig({
         // as this lives in a static template on the embed site.
         filename: "assets/js/embed.js",
       },
-      plugins: [
+      plugins: filterPlugins([
         ...baseConfig.plugins!,
         ...(isProduction
           ? []
@@ -583,7 +607,14 @@ export default function createWebpackConfig({
         new ManifestPlugin({
           fileName: "embed-manifest.json",
         }),
-      ],
+        // If stats are enabled, output them!
+        includeStats
+          ? new BundleAnalyzerPlugin({
+              analyzerMode: "static",
+              reportFilename: "report-embed.html",
+            })
+          : null,
+      ]),
     },
   ];
 }

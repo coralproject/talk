@@ -56,8 +56,8 @@ jobs:
       - attach_workspace:
           at: ~/coralproject/talk
       - run:
-          name: Compile schemas and types
-          command: npm run compile
+          name: Generate schemas and types
+          command: npm run generate
       - run:
           name: Perform linting
           command: npm run lint
@@ -74,8 +74,8 @@ jobs:
       - attach_workspace:
           at: ~/coralproject/talk
       - run:
-          name: Compile schemas and types
-          command: npm run compile
+          name: Generate schemas and types
+          command: npm run generate
       - run:
           name: Perform testing
           # We're running these tests in band to avoid errors where the circleci

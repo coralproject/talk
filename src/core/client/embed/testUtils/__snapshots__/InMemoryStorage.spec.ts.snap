@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`accepts predefined data 1`] = `"{\\"a\\":\\"0\\",\\"b\\":\\"1\\",\\"c\\":\\"2\\"}"`;

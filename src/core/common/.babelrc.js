@@ -1,5 +1,5 @@
-module.exports = {
-  presets: [
-    ["@babel/env", { targets: "last 2 versions, ie 11", modules: "commonjs" }],
-  ],
-};
+if (process.env.WEBPACK === "true") {
+  module.exports = require("./.babelrc.client.js");
+} else {
+  module.exports = require("./.babelrc.server.js");
+}

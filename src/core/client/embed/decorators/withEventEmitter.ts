@@ -8,6 +8,11 @@ const withEventEmitter = (eventEmitter: EventEmitter2): Decorator => pym => {
     const { eventName, value } = JSON.parse(raw);
     eventEmitter.emit(eventName, value);
   });
+
+  // Notify ready state.
+  pym.onMessage("ready", () => {
+    eventEmitter.emit("ready");
+  });
 };
 
 export default withEventEmitter;

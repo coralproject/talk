@@ -1,17 +1,17 @@
-import qs from "query-string";
-
+import { parseQuery, stringifyQuery } from "talk-common/utils";
 import { buildURL } from "talk-framework/utils";
+
 import { Decorator } from "./types";
 
 function getCurrentCommentID() {
-  return qs.parse(location.search).commentID;
+  return parseQuery(location.search).commentID;
 }
 
 const withSetCommentID: Decorator = pym => {
   // Add the permalink comment id to the query.
   pym.onMessage("setCommentID", (id: string) => {
-    const search = qs.stringify({
-      ...qs.parse(location.search),
+    const search = stringifyQuery({
+      ...parseQuery(location.search),
       commentID: id || undefined,
     });
 

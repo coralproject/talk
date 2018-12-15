@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { createInMemoryStorage } from "../testUtils";
+import { createInMemoryStorage } from "talk-framework/lib/storage";
 import withPymStorage from "./withPymStorage";
 
 class PymStub {
