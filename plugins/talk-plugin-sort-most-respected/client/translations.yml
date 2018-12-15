@@ -7,6 +7,9 @@ da:
 en:
   talk-plugin-sort-most-respected:
     label: Most respected first
+sr:
+  talk-plugin-sort-most-respected:
+    label: Prvo naj-"respekovaniji"
 de:
   talk-plugin-sort-most-respected:
     label: Häufigste "Respektiert" zuerst

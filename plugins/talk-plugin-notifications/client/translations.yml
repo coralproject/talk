@@ -34,6 +34,24 @@ en:
     digest_option: Send notifications
     digest_enum:
       NONE: Immediately
+sr:
+  talk-plugin-notifications:
+    settings_title: Obaveštenja
+    settings_subtitle: Primaj obaveštenja kada
+    turn_off_all: Ne želim da primam obaveštenja
+    banner_info:
+      title: Neophodna je potvrda e-mail adrese
+      text: Da biste primali e-mail obaveštenja morate potvrditi svoju e-mail adresu.
+      verify_now: Potvrdite svoj email
+    banner_success:
+      title: E-mail za potvrdu poslat
+      text: E-mail koji sadrži link za potvrdu je poslat na {0} .
+    banner_error:
+      title: Greška
+      text: Došlo je do greške pri slanju e-maila za potvrdu. Molimo pokušajte kasnije.
+    digest_option: Pošalji obaveštenja
+    digest_enum:
+      NONE: Odmah      
 es:
   talk-plugin-notifications:
     settings_title: Notificaciones

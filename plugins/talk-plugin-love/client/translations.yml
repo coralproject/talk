@@ -10,6 +10,10 @@ en:
   talk-plugin-love:
     love: Love
     loved: Loved
+sr:
+  talk-plugin-love:
+    love: Volim ovo
+    loved: Volite ovo    
 de:
   talk-plugin-love:
     love: Ich liebe es

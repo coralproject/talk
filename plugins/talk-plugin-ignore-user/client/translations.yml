@@ -38,6 +38,20 @@ en:
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
     confirmation_title: Ignore {0}?
+sr:
+  talk-plugin-ignore-user:
+    blank_info: Trenutno ne ignorišete ni jednog korisnika
+    section_title: Ignorisani korisnici
+    section_info: Pošto ste ignorisali sledeće komentatore, njihovi komentari su sakriveni.
+    stop_ignoring: Prestani sa ignorisanjem
+    ignore_user: Ignoriši korisnika
+    cancel: Poništi
+    confirmation: |
+      Kada ignorišete nekog korisnika, svi njegovi komentari na sajtu biće skriveni od vas. Ovo podešavanje možete
+      uvek isključiti u prikazu Moj profil.
+    notify_success: |
+      Sada ignorišete {0}. Možete poništiti ovu radnju iz prikaza Moj profil.
+    confirmation_title: Ignoriši {0}?    
 de:
   talk-plugin-ignore-user:
     blank_info: Sie ignorieren derzeit keine Nutzer
