@@ -1,5 +1,6 @@
 import cn from "classnames";
 import React, { StatelessComponent } from "react";
+
 import styles from "./Line.css";
 
 interface CircleProps {

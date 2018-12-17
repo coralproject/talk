@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { Flex, Icon, Typography } from "talk-ui/components";
+
 import styles from "./InReplyTo.css";
 
 interface Props {

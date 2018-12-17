@@ -2,9 +2,10 @@ import React, { StatelessComponent } from "react";
 
 import { Delay, Flex, Spinner } from "talk-ui/components";
 
-import styles from "./DecisionHistoryLoading.css";
 import Main from "./Main";
 import Title from "./Title";
+
+import styles from "./DecisionHistoryLoading.css";
 
 const DecisionHistoryLoading: StatelessComponent = () => (
   <div data-test="decisionHistory-loading-container">

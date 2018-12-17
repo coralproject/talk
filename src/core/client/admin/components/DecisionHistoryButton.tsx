@@ -4,6 +4,7 @@ import { oncePerFrame } from "talk-common/utils";
 import { BaseButton, ClickOutside, Icon, Popover } from "talk-ui/components";
 
 import DecisionHistoryQuery from "../views/decisionHistory/queries/DecisionHistoryQuery";
+
 import styles from "./DecisionHistoryButton.css";
 
 class DecisionHistoryButton extends React.Component {

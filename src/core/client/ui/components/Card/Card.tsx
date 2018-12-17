@@ -2,6 +2,7 @@ import cn from "classnames";
 import React from "react";
 import { ReactNode, StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
+
 import styles from "./Card.css";
 
 export interface CardProps {

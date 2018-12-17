@@ -6,6 +6,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import AutoLoadMoreContainer from "../containers/AutoLoadMoreContainer";
 import ModerateCardContainer from "../containers/ModerateCardContainer";
+
 import styles from "./Queue.css";
 
 interface Props {

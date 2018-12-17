@@ -3,6 +3,7 @@ import Flex from "../Flex";
 import Typography from "../Typography";
 import Circle from "./Circle";
 import Line from "./Line";
+
 import styles from "./Step.css";
 
 interface StepProps {

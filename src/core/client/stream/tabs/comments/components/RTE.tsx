@@ -3,8 +3,8 @@ import { Localized as LocalizedOriginal } from "fluent-react/compat";
 import React, { Ref, StatelessComponent } from "react";
 
 import { Icon } from "talk-ui/components";
-
 import { PropTypesOf } from "talk-ui/types";
+
 import styles from "./RTE.css";
 
 // Use a special Localized version that forwards

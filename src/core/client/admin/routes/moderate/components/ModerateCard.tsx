@@ -9,10 +9,11 @@ import MarkersContainer from "../containers/MarkersContainer";
 import AcceptButton from "./AcceptButton";
 import CommentContent from "./CommentContent";
 import InReplyTo from "./InReplyTo";
-import styles from "./ModerateCard.css";
 import RejectButton from "./RejectButton";
 import Timestamp from "./Timestamp";
 import Username from "./Username";
+
+import styles from "./ModerateCard.css";
 
 interface Props {
   id: string;

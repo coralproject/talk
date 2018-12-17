@@ -6,6 +6,7 @@ import { withStyles } from "talk-ui/hocs";
 
 import BrandIcon from "./BrandIcon";
 import BrandName from "./BrandName";
+
 import styles from "./Logo.css";
 
 interface Props {

@@ -13,9 +13,10 @@ import {
   Typography,
 } from "talk-ui/components";
 
-import styles from "./PostCommentForm.css";
 import PoweredBy from "./PoweredBy";
 import RTE from "./RTE";
+
+import styles from "./PostCommentForm.css";
 
 interface FormProps {
   body: string;

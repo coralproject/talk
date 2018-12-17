@@ -1,8 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
+
 import { Button, HorizontalGutter } from "talk-ui/components";
-import styles from "./PostCommentFormFake.css";
+
 import RTE from "./RTE";
+
+import styles from "./PostCommentFormFake.css";
 
 const PostCommentFormFake: StatelessComponent = props => (
   <HorizontalGutter className={styles.root}>

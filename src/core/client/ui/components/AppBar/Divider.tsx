@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { StatelessComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
+
 import styles from "./Divider.css";
 
 interface Props {

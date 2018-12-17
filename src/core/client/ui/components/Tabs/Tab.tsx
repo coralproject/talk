@@ -1,7 +1,10 @@
 import cn from "classnames";
 import React from "react";
+
 import { withStyles } from "talk-ui/hocs";
+
 import BaseButton from "../BaseButton";
+
 import styles from "./Tab.css";
 
 export interface TabProps {

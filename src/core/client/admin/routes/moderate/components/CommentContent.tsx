@@ -5,12 +5,12 @@ import React, { StatelessComponent } from "react";
 import { createPurify } from "talk-common/utils/purify";
 import { Typography } from "talk-ui/components";
 
+import styles from "./CommentContent.css";
+
 /**
  * Create a purify instance that will be used to handle HTML content.
  */
 const purify = createPurify(window, false);
-
-import styles from "./CommentContent.css";
 
 interface Props {
   className?: string;

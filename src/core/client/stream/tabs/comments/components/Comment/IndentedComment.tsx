@@ -5,6 +5,7 @@ import { PropTypesOf } from "talk-framework/types";
 
 import Indent from "../Indent";
 import Comment from "./Comment";
+
 import styles from "./IndentedComment.css";
 
 export interface IndentedCommentProps extends PropTypesOf<typeof Comment> {

@@ -3,8 +3,9 @@ import React, { StatelessComponent } from "react";
 import MainLayout from "talk-admin/components/MainLayout";
 import { SubBar } from "talk-ui/components/SubBar";
 
-import styles from "./Moderate.css";
 import Navigation from "./Navigation";
+
+import styles from "./Moderate.css";
 
 interface Props {
   unmoderatedCount?: number;

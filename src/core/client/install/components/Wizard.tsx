@@ -6,6 +6,7 @@ import { Step, StepBar } from "talk-ui/components";
 
 import { WizardProps } from "../components/Wizard";
 import Header from "./Header";
+
 import styles from "./Wizard.css";
 
 export interface WizardProps {

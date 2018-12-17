@@ -1,3 +1,4 @@
+import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
@@ -109,6 +110,19 @@ export default function createWebpackConfig({
           filename: "assets/css/[name].[hash].css",
           chunkFilename: "assets/css/[id].[hash].css",
         }),
+        new OptimizeCssnanoPlugin({
+          sourceMap: true,
+          cssnanoOptions: {
+            preset: [
+              "default",
+              {
+                discardComments: {
+                  removeAll: true,
+                },
+              },
+            ],
+          },
+        }),
         // Pre-compress all the assets as they will be served as is.
         new CompressionPlugin({}),
       ]
@@ -138,7 +152,9 @@ export default function createWebpackConfig({
       concatenateModules: isProduction,
       providedExports: true,
       usedExports: true,
-      sideEffects: true,
+      // We can't use side effects because it disturbs css order
+      // https://github.com/webpack/webpack/issues/7094.
+      sideEffects: false,
       // We also minimize during development but only
       // limit it to dead code and unused code elemination
       // to be sure nothing breaks later in the production build.
@@ -397,7 +413,6 @@ export default function createWebpackConfig({
                     modules: true,
                     importLoaders: 1,
                     localIdentName: "[name]-[local]-[hash:base64:5]",
-                    minimize: isProduction,
                     sourceMap: isProduction && !disableSourcemaps,
                   },
                 },
@@ -575,6 +590,12 @@ export default function createWebpackConfig({
     /* Webpack config for our embed */
     {
       ...baseConfig,
+      optimization: {
+        ...baseConfig.optimization,
+        // We can turn on sideEffects here as we don't use
+        // css here and don't run into: https://github.com/webpack/webpack/issues/7094
+        sideEffects: true,
+      },
       entry: [
         /* Use minimal amount of polyfills (for IE) */
         "intersection-observer", // also for Safari
