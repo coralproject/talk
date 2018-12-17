@@ -69,6 +69,7 @@ class Settings extends React.Component {
             {questionBoxEnable && (
               <div className={styles.questionBoxContainer}>
                 <QuestionBoxBuilder
+                  title={t('configure.include_an_icon')}
                   questionBoxIcon={questionBoxIcon}
                   questionBoxContent={questionBoxContent}
                   onIconChange={onQuestionBoxIconChange}
