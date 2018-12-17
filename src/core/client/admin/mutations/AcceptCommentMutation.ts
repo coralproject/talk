@@ -8,7 +8,7 @@ import {
 import { Omit } from "talk-framework/types";
 
 import { AcceptCommentMutation as MutationTypes } from "talk-admin/__generated__/AcceptCommentMutation.graphql";
-import { getQueueConnection, updateModqueueCounts } from "talk-admin/helpers";
+import { getQueueConnection } from "talk-admin/helpers";
 
 export type AcceptCommentInput = Omit<
   MutationTypes["variables"]["input"],
@@ -67,12 +67,6 @@ function commit(environment: Environment, input: AcceptCommentInput) {
       ].filter(c => c);
       connections.forEach(con =>
         ConnectionHandler.deleteNode(con, input.commentID)
-      );
-      updateModqueueCounts(
-        store
-          .getRootField("acceptComment")!
-          .getLinkedRecord("moderationQueues")!,
-        store
       );
     },
   });

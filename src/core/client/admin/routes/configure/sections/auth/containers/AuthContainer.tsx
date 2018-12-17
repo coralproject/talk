@@ -79,7 +79,7 @@ export default class AuthContainer extends React.Component<Props> {
   };
 
   private handleOnInitValues = (values: any) => {
-    this.initialValues = merge(this.initialValues, values);
+    this.initialValues = merge({}, this.initialValues, values);
   };
 
   public render() {

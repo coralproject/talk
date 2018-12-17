@@ -6,6 +6,7 @@ import {
 } from "talk-framework/testHelpers";
 
 export const settings = {
+  id: "settings",
   auth: {
     integrations: {
       facebook: {

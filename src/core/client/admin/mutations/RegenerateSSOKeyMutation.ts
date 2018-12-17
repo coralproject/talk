@@ -36,23 +36,6 @@ function commit(environment: Environment) {
         clientMutationId: (clientMutationId++).toString(),
       },
     },
-    updater: store => {
-      const record = store
-        .getRootField("regenerateSSOKey")!
-        .getLinkedRecord("settings")!
-        .getLinkedRecord("auth")!
-        .getLinkedRecord("integrations")!
-        .getLinkedRecord("sso");
-      if (record) {
-        store
-          .getRoot()
-          .getLinkedRecord("settings")!
-          .getLinkedRecord("auth")!
-          .getLinkedRecord("integrations")!
-          .getLinkedRecord("sso")!
-          .copyFieldsFrom(record);
-      }
-    },
   });
 }
 

@@ -204,12 +204,11 @@ describe("reported queue", () => {
           id: reportedComments[0].id,
           status: "ACCEPTED",
         },
-        moderationQueues: {
-          ...emptyModerationQueues,
+        moderationQueues: merge({}, emptyModerationQueues, {
           reported: {
             count: 1,
           },
-        },
+        }),
         clientMutationId: data.input.clientMutationId,
       };
     });
@@ -282,12 +281,11 @@ describe("reported queue", () => {
           id: reportedComments[0].id,
           status: "REJECTED",
         },
-        moderationQueues: {
-          ...emptyModerationQueues,
+        moderationQueues: merge({}, emptyModerationQueues, {
           reported: {
             count: 1,
           },
-        },
+        }),
         clientMutationId: data.input.clientMutationId,
       };
     });
@@ -478,12 +476,11 @@ describe("rejected queue", () => {
           id: rejectedComments[0].id,
           status: "ACCEPTED",
         },
-        moderationQueues: {
-          ...emptyModerationQueues,
+        moderationQueues: merge({}, emptyModerationQueues, {
           reported: {
             count: 1,
           },
-        },
+        }),
         clientMutationId: data.input.clientMutationId,
       };
     });

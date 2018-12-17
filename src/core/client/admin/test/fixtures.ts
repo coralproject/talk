@@ -1,6 +1,7 @@
 import { merge } from "lodash";
 
 export const settings = {
+  id: "settings",
   wordList: {
     banned: [],
     suspect: [],
@@ -235,14 +236,17 @@ export const rejectedComments = reportedComments.map(c => ({
 
 export const emptyModerationQueues = {
   reported: {
+    id: "reported",
     count: 0,
     comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   },
   pending: {
+    id: "pending",
     count: 0,
     comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   },
   unmoderated: {
+    id: "unmoderated",
     count: 0,
     comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   },

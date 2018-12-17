@@ -43,21 +43,6 @@ function commit(
         clientMutationId: (clientMutationId++).toString(),
       },
     },
-    updater: store => {
-      const record = store
-        .getRootField("createOIDCAuthIntegration")!
-        .getLinkedRecord("settings")!
-        .getLinkedRecord("auth")!
-        .getLinkedRecord("integrations");
-      if (record) {
-        store
-          .getRoot()
-          .getLinkedRecord("settings")!
-          .getLinkedRecord("auth")!
-          .getLinkedRecord("integrations")!
-          .copyFieldsFrom(record);
-      }
-    },
   });
 }
 

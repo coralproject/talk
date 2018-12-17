@@ -51,7 +51,7 @@ it("regenerate sso key", async () => {
       regenerateSSOKey: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
           return {
-            settings: {
+            settings: merge({}, settings, {
               auth: {
                 integrations: {
                   sso: {
@@ -60,7 +60,7 @@ it("regenerate sso key", async () => {
                   },
                 },
               },
-            },
+            }),
             clientMutationId: data.input.clientMutationId,
           };
         })
