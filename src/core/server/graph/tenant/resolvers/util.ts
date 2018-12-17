@@ -1,7 +1,7 @@
 import { GraphQLResolveInfo } from "graphql";
 import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
-import qs from "query-string";
+import { parseQuery, stringifyQuery } from "talk-common/utils";
 import { URL } from "url";
 
 /**
@@ -21,8 +21,8 @@ export function getRequestedFields<T>(info: GraphQLResolveInfo) {
  */
 export function getURLWithCommentID(storyURL: string, commentID?: string) {
   const url = new URL(storyURL);
-  const query = qs.parse(url.search);
-  url.search = qs.stringify({ ...query, commentID });
+  const query = parseQuery(url.search);
+  url.search = stringifyQuery({ ...query, commentID });
 
   return url.toString();
 }
