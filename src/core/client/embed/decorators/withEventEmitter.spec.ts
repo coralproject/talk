@@ -11,8 +11,30 @@ it("should emit events from pym to eventEmitter", () => {
   };
   const fakePym = {
     onMessage: (type: string, callback: (raw: string) => void) => {
-      expect(type).toBe("event");
+      if (type !== "event") {
+        return;
+      }
       callback(JSON.stringify({ eventName: "eventName", value: "value" }));
+    },
+    el: document.createElement("div"),
+  };
+  withEventEmitter(eventEmitterMock as any)(fakePym as any);
+  eventEmitterMock.emit.verify();
+});
+
+it("should emit ready event from pym to eventEmitter", () => {
+  const eventEmitterMock = {
+    emit: sinon
+      .mock()
+      .once()
+      .withArgs("ready"),
+  };
+  const fakePym = {
+    onMessage: (type: string, callback: () => void) => {
+      if (type !== "ready") {
+        return;
+      }
+      callback();
     },
     el: document.createElement("div"),
   };

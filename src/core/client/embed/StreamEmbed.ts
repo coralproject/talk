@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
-import qs from "query-string";
 
+import { stringifyQuery } from "talk-common/utils";
 import ensureNoEndSlash from "talk-common/utils/ensureNoEndSlash";
 import urls from "talk-framework/helpers/urls";
 import { ExternalConfig } from "talk-framework/lib/externalConfig";
@@ -15,7 +15,7 @@ import {
   withPymStorage,
   withSetCommentID,
 } from "./decorators";
-import onIntersect from "./onIntersect";
+import onIntersect, { OnIntersectCancellation } from "./onIntersect";
 import PymControl, {
   defaultPymControlFactory,
   PymControlFactory,
@@ -37,6 +37,8 @@ export class StreamEmbed {
   private config: StreamEmbedConfig;
   private pymControl?: PymControl;
   private pymControlFactory: PymControlFactory;
+  private ready = false;
+  private cancelAutoRender: OnIntersectCancellation | null = null;
 
   constructor(
     config: StreamEmbedConfig,
@@ -53,13 +55,20 @@ export class StreamEmbed {
       if (config.commentID) {
         this.render();
       } else {
-        onIntersect(document.getElementById(config.id)!, () => {
-          if (!this.rendered) {
-            this.render();
+        this.cancelAutoRender = onIntersect(
+          document.getElementById(config.id)!,
+          () => {
+            this.cancelAutoRender = null;
+            if (!this.rendered) {
+              this.render();
+            }
           }
-        });
+        );
       }
     }
+    config.eventEmitter.once("ready", () => {
+      this.ready = true;
+    });
   }
 
   private assertRendered() {
@@ -77,16 +86,28 @@ export class StreamEmbed {
   }
 
   public login(token: string) {
-    this.assertRendered();
+    if (!this.ready) {
+      this.config.eventEmitter.once("ready", () => this.login(token));
+      return;
+    }
     this.pymControl!.sendMessage("login", token);
   }
 
   public logout() {
-    this.assertRendered();
+    if (!this.ready) {
+      this.config.eventEmitter.once("ready", () => this.logout());
+      return;
+    }
     this.pymControl!.sendMessage("logout");
   }
 
   public remove() {
+    // If lazy render was enabled, just cancel it.
+    if (this.cancelAutoRender) {
+      this.cancelAutoRender();
+      this.cancelAutoRender = null;
+      return;
+    }
     this.assertRendered();
     this.pymControl!.remove();
     this.pymControl = undefined;
@@ -116,7 +137,7 @@ export class StreamEmbed {
       withConfig(externalConfig),
     ];
 
-    const query = qs.stringify({
+    const query = stringifyQuery({
       storyID: this.config.storyID,
       storyURL: this.config.storyURL,
       commentID: this.config.commentID,

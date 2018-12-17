@@ -23,6 +23,7 @@ import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 import { generateBundles, LocalesData, negotiateLanguages } from "../i18n";
 import { createNetwork, TokenGetter } from "../network";
 import { PostMessageService } from "../postMessage";
+import SendPymReady from "./SendPymReady";
 import { TalkContext, TalkContextProvider } from "./TalkContext";
 
 export type InitLocalState = ((
@@ -159,6 +160,7 @@ function createMangedTalkContextProvider(
       return (
         <TalkContextProvider value={this.state.context}>
           {this.props.children}
+          {this.state.context.pym && <SendPymReady />}
         </TalkContextProvider>
       );
     }

@@ -22,6 +22,8 @@ import config, { createClientEnv } from "../src/core/common/config";
 
 // Enforce environment to be development.
 config.validate().set("env", "development");
+
+process.env.WEBPACK = "true";
 process.env.BABEL_ENV = "development";
 process.env.NODE_ENV = "development";
 

@@ -8,13 +8,13 @@ import {
 const config: Config = {
   rootDir: path.resolve(__dirname, "../src"),
   watchers: {
-    compileSchema: {
+    generateSchemaTypes: {
       paths: ["core/server/**/*.graphql"],
       executor: new CommandExecutor("npx gulp server:schema", {
         runOnInit: true,
       }),
     },
-    compileRelayStream: {
+    generateRelayStream: {
       paths: [
         "core/client/stream/**/*.ts",
         "core/client/stream/**/*.tsx",
@@ -27,11 +27,11 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run compile:relay-stream", {
+      executor: new CommandExecutor("npm run generate:relay-stream", {
         runOnInit: true,
       }),
     },
-    compileRelayAdmin: {
+    generateRelayAdmin: {
       paths: [
         "core/client/admin/**/*.ts",
         "core/client/admin/**/*.tsx",
@@ -44,11 +44,11 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run compile:relay-admin", {
+      executor: new CommandExecutor("npm run generate:relay-admin", {
         runOnInit: true,
       }),
     },
-    compileRelayAuth: {
+    generateRelayAuth: {
       paths: [
         "core/client/auth/**/*.ts",
         "core/client/auth/**/*.tsx",
@@ -61,11 +61,11 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run compile:relay-auth", {
+      executor: new CommandExecutor("npm run generate:relay-auth", {
         runOnInit: true,
       }),
     },
-    compileRelayInstall: {
+    generateRelayInstall: {
       paths: [
         "core/client/install/**/*.ts",
         "core/client/install/**/*.tsx",
@@ -78,13 +78,13 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run compile:relay-install", {
+      executor: new CommandExecutor("npm run generate:relay-install", {
         runOnInit: true,
       }),
     },
-    compileCSSTypes: {
+    generateCSSTypes: {
       paths: ["**/*.css"],
-      executor: new CommandExecutor("npm run compile:css-types", {
+      executor: new CommandExecutor("npm run generate:css-types", {
         runOnInit: true,
       }),
     },
@@ -104,24 +104,24 @@ const config: Config = {
   },
   defaultSet: "client",
   sets: {
-    server: ["compileSchema", "runServer"],
+    server: ["generateSchemaTypes", "runServer"],
     client: [
       "runServer",
       "runWebpackDevServer",
-      "compileCSSTypes",
-      "compileRelayStream",
-      "compileRelayAuth",
-      "compileRelayInstall",
-      "compileRelayAdmin",
-      "compileSchema",
+      "generateCSSTypes",
+      "generateRelayStream",
+      "generateRelayAuth",
+      "generateRelayInstall",
+      "generateRelayAdmin",
+      "generateSchemaTypes",
     ],
-    docz: ["runDocz", "compileCSSTypes"],
-    compile: [
-      "compileSchema",
-      "compileCSSTypes",
-      "compileRelayStream",
-      "compileRelayAuth",
-      "compileRelayInstall",
+    docz: ["runDocz", "generate"],
+    generate: [
+      "generateSchemaTypes",
+      "generateCSSTypes",
+      "generateRelayStream",
+      "generateRelayAuth",
+      "generateRelayInstall",
     ],
   },
 };

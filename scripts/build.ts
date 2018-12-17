@@ -21,6 +21,8 @@ import config, { createClientEnv } from "../src/core/common/config";
 
 // Enforce environment to be production.
 config.validate().set("env", "production");
+
+process.env.WEBPACK = "true";
 process.env.BABEL_ENV = "production";
 process.env.NODE_ENV = "production";
 

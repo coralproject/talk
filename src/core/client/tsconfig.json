@@ -10,6 +10,7 @@
     "paths": {
       "talk-admin/*": ["./admin/*"],
       "talk-auth/*": ["./auth/*"],
+      "talk-embed/*": ["./embed/*"],
       "talk-stream/*": ["./stream/*"],
       "talk-framework/*": ["./framework/*"],
       "talk-ui/*": ["./ui/*"],
@@ -18,5 +19,5 @@
     }
   },
   "include": ["./**/*", "../../types/**/*.d.ts"],
-  "exclude": ["node_modules", "./embed"]
+  "exclude": ["node_modules"]
 }

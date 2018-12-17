@@ -1,11 +1,11 @@
 import { EventEmitter2 } from "eventemitter2";
 import { omit } from "lodash";
-import sinon from "sinon";
+import sinon, { SinonMock } from "sinon";
 
 import { PymControlConfig } from "./PymControl";
 import { StreamEmbed, StreamEmbedConfig } from "./StreamEmbed";
 
-it("should throw when calling pym dependent methods but was not rendered", () => {
+it("should throw when calling remove but was not rendered", () => {
   const config: StreamEmbedConfig = {
     title: "StreamEmbed",
     eventEmitter: new EventEmitter2(),
@@ -13,13 +13,7 @@ it("should throw when calling pym dependent methods but was not rendered", () =>
     rootURL: "http://localhost/",
   };
   const streamEmbed = new StreamEmbed(config);
-  [
-    () => streamEmbed.login("token"),
-    () => streamEmbed.logout(),
-    () => streamEmbed.remove(),
-  ].forEach(cb => {
-    expect(cb).toThrow();
-  });
+  expect(() => streamEmbed.remove()).toThrow();
 });
 it("should return rendered", () => {
   const config: StreamEmbedConfig = {
@@ -65,44 +59,100 @@ it("should relay events methods to event emitter", () => {
   streamEmbed.off("event", callback);
 });
 
-it("should send login message to PymControl", () => {
-  const config: StreamEmbedConfig = {
-    title: "StreamEmbed",
-    eventEmitter: new EventEmitter2(),
-    id: "container-id",
-    rootURL: "http://localhost/",
-  };
-  const pymControl = {
-    // tslint:disable-next-line:no-empty
-    sendMessage: () => {},
-  };
-  const pymControlMock = sinon.mock(pymControl);
-  pymControlMock.expects("sendMessage").withArgs("login", "token");
-  const fakeFactory: any = () => pymControl;
-  const streamEmbed = new StreamEmbed(config, fakeFactory);
-  streamEmbed.render();
-  streamEmbed.login("token");
-  pymControlMock.verify();
+describe("should send login message to PymControl", () => {
+  let pymControlMock: SinonMock;
+  let streamEmbed: StreamEmbed;
+  let eventEmitter: EventEmitter2;
+
+  beforeEach(() => {
+    eventEmitter = new EventEmitter2();
+    const config: StreamEmbedConfig = {
+      title: "StreamEmbed",
+      eventEmitter,
+      id: "container-id",
+      rootURL: "http://localhost/",
+    };
+    const pymControl = {
+      // tslint:disable-next-line:no-empty
+      sendMessage: () => {},
+    };
+    const fakeFactory: any = () => pymControl;
+    pymControlMock = sinon.mock(pymControl);
+    pymControlMock.expects("sendMessage").withArgs("login", "token");
+    streamEmbed = new StreamEmbed(config, fakeFactory);
+  });
+
+  afterEach(() => {
+    pymControlMock.restore();
+  });
+
+  it("send login immediately when already ready", () => {
+    streamEmbed.render();
+    eventEmitter.emit("ready");
+    streamEmbed.login("token");
+    pymControlMock.verify();
+  });
+
+  it("defer login until ready", () => {
+    streamEmbed.login("token");
+    streamEmbed.render();
+    eventEmitter.emit("ready");
+    pymControlMock.verify();
+  });
+
+  it("do not call login when not ready", () => {
+    streamEmbed.login("token");
+    streamEmbed.render();
+    expect(() => pymControlMock.verify()).toThrow();
+  });
 });
 
-it("should send logout message to PymControl", () => {
-  const config: StreamEmbedConfig = {
-    title: "StreamEmbed",
-    eventEmitter: new EventEmitter2(),
-    id: "container-id",
-    rootURL: "http://localhost/",
-  };
-  const pymControl = {
-    // tslint:disable-next-line:no-empty
-    sendMessage: () => {},
-  };
-  const pymControlMock = sinon.mock(pymControl);
-  pymControlMock.expects("sendMessage").withArgs("logout");
-  const fakeFactory: any = () => pymControl;
-  const streamEmbed = new StreamEmbed(config, fakeFactory);
-  streamEmbed.render();
-  streamEmbed.logout();
-  pymControlMock.verify();
+describe("should send logout message to PymControl", () => {
+  let pymControlMock: SinonMock;
+  let streamEmbed: StreamEmbed;
+  let eventEmitter: EventEmitter2;
+
+  beforeEach(() => {
+    eventEmitter = new EventEmitter2();
+    const config: StreamEmbedConfig = {
+      title: "StreamEmbed",
+      eventEmitter,
+      id: "container-id",
+      rootURL: "http://localhost/",
+    };
+    const pymControl = {
+      // tslint:disable-next-line:no-empty
+      sendMessage: () => {},
+    };
+    const fakeFactory: any = () => pymControl;
+    pymControlMock = sinon.mock(pymControl);
+    pymControlMock.expects("sendMessage").withArgs("logout");
+    streamEmbed = new StreamEmbed(config, fakeFactory);
+  });
+
+  afterEach(() => {
+    pymControlMock.restore();
+  });
+
+  it("send logout immediately when already ready", () => {
+    streamEmbed.render();
+    eventEmitter.emit("ready");
+    streamEmbed.logout();
+    pymControlMock.verify();
+  });
+
+  it("defer logout until ready", () => {
+    streamEmbed.logout();
+    streamEmbed.render();
+    eventEmitter.emit("ready");
+    pymControlMock.verify();
+  });
+
+  it("do not call logout when not ready", () => {
+    streamEmbed.logout();
+    streamEmbed.render();
+    expect(() => pymControlMock.verify()).toThrow();
+  });
 });
 
 it("should pass default values to pymControl", () => {

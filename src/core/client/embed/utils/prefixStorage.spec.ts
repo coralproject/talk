@@ -1,5 +1,5 @@
 import sinon from "sinon";
-import { createInMemoryStorage } from "../testUtils";
+import { createInMemoryStorage } from "talk-framework/lib/storage";
 import prefixStorage from "./prefixStorage";
 
 it("should get nth key", () => {
