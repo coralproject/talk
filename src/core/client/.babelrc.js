@@ -1,12 +1,17 @@
+const lodashOptimizations = ["use-lodash-es", "lodash"];
+
 module.exports = {
   presets: [
     ["@babel/env", { targets: "last 2 versions, ie 11", modules: false }],
     "@babel/react",
   ],
-  plugins: ["@babel/syntax-dynamic-import", "use-lodash-es", "lodash"],
+  plugins: ["@babel/syntax-dynamic-import"],
   env: {
     production: {
-      plugins: [],
+      plugins: [...lodashOptimizations],
+    },
+    development: {
+      plugins: [...lodashOptimizations],
     },
     test: {
       plugins: ["@babel/transform-modules-commonjs"],
