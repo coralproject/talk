@@ -2991,6 +2991,173 @@ type DeactivateTokenPayload {
 }
 
 ##################
+# updateUserUsername
+##################
+
+input UpdateUserUsernameInput {
+  """
+  userID is the ID of the User that should have their username updated.
+  """
+  userID: ID!
+
+  """
+  username is the desired username to set for the User.
+  """
+  username: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserUsernamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserDisplayName
+##################
+
+input UpdateUserDisplayNameInput {
+  """
+  userID is the ID of the User that should have their display name updated.
+  """
+  userID: ID!
+
+  """
+  displayName is the desired display name to set for the User. If set to `null`
+  or not provided, it will be unset.
+  """
+  displayName: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserDisplayNamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserEmail
+##################
+
+input UpdateUserEmailInput {
+  """
+  userID is the ID of the User that should have their email address updated.
+  """
+  userID: ID!
+
+  """
+  email is the email address to set for the User.
+  """
+  email: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserEmailPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserAvatar
+##################
+
+input UpdateUserAvatarInput {
+  """
+  userID is the ID of the User that should have their avatar updated.
+  """
+  userID: ID!
+
+  """
+  avatar is the URL to the avatar to set for the User. If set to `null` or not
+  provided, it will be unset.
+  """
+  avatar: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserAvatarPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserRole
+##################
+
+input UpdateUserRoleInput {
+  """
+  userID is the ID of the User that should have their avatar updated.
+  """
+  userID: ID!
+
+  """
+  role is the `USER_ROLE` that the User should be set to.
+  """
+  role: USER_ROLE!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserRolePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -3145,6 +3312,42 @@ type Mutation {
   the input.
   """
   deactivateToken(input: DeactivateTokenInput!): DeactivateTokenPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  updateUserUsername allows administrators to update a given User's username to
+  the one provided.
+  """
+  updateUserUsername(
+    input: UpdateUserUsernameInput!
+  ): UpdateUserUsernamePayload! @auth(roles: [ADMIN])
+
+  """
+  updateUserDisplayName allows administrators to update a given User's display
+  name to the one provided.
+  """
+  updateUserDisplayName(
+    input: UpdateUserDisplayNameInput!
+  ): UpdateUserDisplayNamePayload @auth(roles: [ADMIN])
+
+  """
+  updateUserEmail allows administrators to update a given User's email address
+  to the one provided.
+  """
+  updateUserEmail(input: UpdateUserEmailInput!): UpdateUserEmailPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  updateUserAvatar allows administrators to update a given User's avatar to the
+  one provided.
+  """
+  updateUserAvatar(input: UpdateUserAvatarInput!): UpdateUserAvatarPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  updateUserRole will update a given User's role.
+  """
+  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
     @auth(roles: [ADMIN])
 }
 
