@@ -3350,11 +3350,3 @@ type Mutation {
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
     @auth(roles: [ADMIN])
 }
-
-################################################################################
-## Subscriptions
-################################################################################
-
-type Subscription {
-  commentCreated(storyID: ID!): Comment
-}
