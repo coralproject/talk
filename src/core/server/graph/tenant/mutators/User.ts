@@ -1,12 +1,16 @@
 import TenantContext from "talk-server/graph/tenant/context";
 import * as user from "talk-server/models/user";
 import {
+  createToken,
+  deactivateToken,
   setEmail,
   setPassword,
   setUsername,
   updatePassword,
 } from "talk-server/services/users";
 import {
+  GQLCreateTokenInput,
+  GQLDeactivateTokenInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
@@ -30,4 +34,15 @@ export const User = (ctx: TenantContext) => ({
     input: GQLUpdatePasswordInput
   ): Promise<Readonly<user.User> | null> =>
     updatePassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
+  createToken: async (input: GQLCreateTokenInput) =>
+    createToken(
+      ctx.mongo,
+      ctx.tenant,
+      // NOTE: (wyattjoh) this will error if not provided.
+      ctx.signingConfig!,
+      ctx.user!,
+      input.name
+    ),
+  deactivateToken: async (input: GQLDeactivateTokenInput) =>
+    deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
 });

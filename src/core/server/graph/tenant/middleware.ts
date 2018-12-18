@@ -1,5 +1,4 @@
 import { GraphQLSchema } from "graphql";
-// import { graphqlBatchHTTPWrapper } from "react-relay-network-layer";
 
 import { graphqlBatchMiddleware } from "talk-server/app/middleware/graphqlBatch";
 import { Config } from "talk-server/config";

@@ -82,7 +82,10 @@ export function createJWTSigningConfig(config: Config): JWTSigningConfig {
   throw new Error("invalid algorithm specified");
 }
 
-export type SigningTokenOptions = Pick<SignOptions, "audience" | "issuer">;
+export type SigningTokenOptions = Pick<
+  SignOptions,
+  "jwtid" | "audience" | "issuer" | "expiresIn" | "notBefore"
+>;
 
 export const signTokenString = async (
   { algorithm, secret }: JWTSigningConfig,
@@ -90,11 +93,23 @@ export const signTokenString = async (
   options: SigningTokenOptions
 ) =>
   jwt.sign({}, secret, {
-    ...options,
     jwtid: uuid(),
-    algorithm,
-    expiresIn: "1 day", // TODO: (wyattjoh) evaluate allowing configuration?
+    // TODO: (wyattjoh) evaluate allowing configuration?
+    expiresIn: "1 day",
+    ...options,
     subject: user.id,
+    algorithm,
+  });
+
+export const signPATString = async (
+  { algorithm, secret }: JWTSigningConfig,
+  user: User,
+  options: SigningTokenOptions
+) =>
+  jwt.sign({ pat: true }, secret, {
+    ...options,
+    subject: user.id,
+    algorithm,
   });
 
 export function extractJWTFromRequest(req: Request) {

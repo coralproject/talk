@@ -3,10 +3,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
-import {
-  GQLUSER_ROLE,
-  GQLUSER_USERNAME_STATUS,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -52,25 +49,7 @@ export type Profile =
 export interface Token {
   readonly id: string;
   name: string;
-  active: boolean;
-}
-
-export interface UserStatusHistory<T> {
-  status: T;
-  assignedBy?: string;
-  reason?: string;
   createdAt: Date;
-}
-
-export interface UserStatusItem<T> {
-  status: T;
-  history: Array<UserStatusHistory<T>>;
-}
-
-export interface UserStatus {
-  username: UserStatusItem<GQLUSER_USERNAME_STATUS>;
-  banned: UserStatusItem<boolean>;
-  suspension: UserStatusItem<Date | null>;
 }
 
 export interface User extends TenantResource {
@@ -84,8 +63,6 @@ export interface User extends TenantResource {
   profiles: Profile[];
   tokens: Token[];
   role: GQLUSER_ROLE;
-  status: UserStatus;
-  ignoredUserIDs: string[];
   createdAt: Date;
 }
 
@@ -95,13 +72,7 @@ function hashPassword(password: string): Promise<string> {
 
 export type UpsertUserInput = Omit<
   User,
-  | "id"
-  | "tenantID"
-  | "tokens"
-  | "status"
-  | "ignoredUserIDs"
-  | "createdAt"
-  | "lowercaseUsername"
+  "id" | "tenantID" | "tokens" | "createdAt" | "lowercaseUsername"
 >;
 
 export async function upsertUser(
@@ -120,23 +91,6 @@ export async function upsertUser(
     id,
     tenantID,
     tokens: [],
-    ignoredUserIDs: [],
-    status: {
-      banned: {
-        status: false,
-        history: [],
-      },
-      suspension: {
-        status: null,
-        history: [],
-      },
-      username: {
-        status: input.username
-          ? GQLUSER_USERNAME_STATUS.SET
-          : GQLUSER_USERNAME_STATUS.UNSET,
-        history: [],
-      },
-    },
     createdAt: now,
   };
 
@@ -372,7 +326,6 @@ export async function setUserUsername(
       $set: {
         username,
         lowercaseUsername,
-        "status.username.status": GQLUSER_USERNAME_STATUS.SET,
       },
     },
     {
@@ -546,4 +499,97 @@ export async function setUserLocalProfile(
   }
 
   return result.value;
+}
+
+export async function createUserToken(
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  name: string
+) {
+  // Create the Token that we'll be adding to the User.
+  const token: Readonly<Token> = {
+    id: uuid.v4(),
+    name,
+    createdAt: new Date(),
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $push: { tokens: token },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("user not found");
+  }
+
+  return {
+    user: result.value,
+    token,
+  };
+}
+
+export async function deactivateUserToken(
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  id: string
+) {
+  // Try to remove the Token from the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+      "tokens.id": id,
+    },
+    {
+      $pull: { tokens: { id } },
+    },
+    {
+      // True to return the original document instead of the updated
+      // document.
+      returnOriginal: true,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, userID);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    // Check to see if the User had that Token in the first place.
+    if (!user.tokens.find(t => t.id === id)) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("token not found on user");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("could not remove the token for an unknown reason");
+  }
+
+  // We have to typecast here because we know at this point that the record does
+  // contain the Token.
+  const token: Token = result.value.tokens.find(t => t.id === id) as Token;
+
+  // Mutate the user in order to remove the Token from the list of Token's.
+  const updatedUser: Readonly<User> = {
+    ...result.value,
+    tokens: result.value.tokens.filter(t => t.id !== id),
+  };
+
+  return {
+    user: updatedUser,
+    token,
+  };
 }
