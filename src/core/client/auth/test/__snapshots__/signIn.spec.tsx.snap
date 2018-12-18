@@ -2,7 +2,9 @@
 
 exports[`accepts correct password 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="signIn-container"
+  >
     <div
       className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
@@ -31,7 +33,7 @@ exports[`accepts correct password 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -47,6 +49,7 @@ exports[`accepts correct password 1`] = `
     </div>
     <div
       className="Main-root"
+      data-testid="signIn-main"
     >
       <div
         className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -63,12 +66,14 @@ exports[`accepts correct password 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="email"
               >
                 Email Address
               </label>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
                 disabled={false}
+                id="email"
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
@@ -94,6 +99,7 @@ exports[`accepts correct password 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="password"
               >
                 Password
               </label>
@@ -106,6 +112,7 @@ exports[`accepts correct password 1`] = `
                   <input
                     className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                     disabled={false}
+                    id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
@@ -133,8 +140,8 @@ exports[`accepts correct password 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
                   disabled={false}
-                  id="signIn-gotoForgotPasswordButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -180,7 +187,9 @@ exports[`accepts correct password 1`] = `
 
 exports[`accepts valid email 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="signIn-container"
+  >
     <div
       className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
@@ -209,7 +218,7 @@ exports[`accepts valid email 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -225,6 +234,7 @@ exports[`accepts valid email 1`] = `
     </div>
     <div
       className="Main-root"
+      data-testid="signIn-main"
     >
       <div
         className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -241,12 +251,14 @@ exports[`accepts valid email 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="email"
               >
                 Email Address
               </label>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
                 disabled={false}
+                id="email"
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
@@ -259,6 +271,7 @@ exports[`accepts valid email 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="password"
               >
                 Password
               </label>
@@ -271,6 +284,7 @@ exports[`accepts valid email 1`] = `
                   <input
                     className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                     disabled={false}
+                    id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
@@ -311,8 +325,8 @@ exports[`accepts valid email 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
                   disabled={false}
-                  id="signIn-gotoForgotPasswordButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -358,7 +372,9 @@ exports[`accepts valid email 1`] = `
 
 exports[`checks for invalid email 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="signIn-container"
+  >
     <div
       className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
@@ -387,7 +403,7 @@ exports[`checks for invalid email 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -403,6 +419,7 @@ exports[`checks for invalid email 1`] = `
     </div>
     <div
       className="Main-root"
+      data-testid="signIn-main"
     >
       <div
         className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -419,12 +436,14 @@ exports[`checks for invalid email 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="email"
               >
                 Email Address
               </label>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
                 disabled={false}
+                id="email"
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
@@ -450,6 +469,7 @@ exports[`checks for invalid email 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="password"
               >
                 Password
               </label>
@@ -462,6 +482,7 @@ exports[`checks for invalid email 1`] = `
                   <input
                     className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                     disabled={false}
+                    id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
@@ -502,8 +523,8 @@ exports[`checks for invalid email 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
                   disabled={false}
-                  id="signIn-gotoForgotPasswordButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -549,7 +570,9 @@ exports[`checks for invalid email 1`] = `
 
 exports[`renders sign in form 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="signIn-container"
+  >
     <div
       className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
@@ -578,7 +601,7 @@ exports[`renders sign in form 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -594,6 +617,7 @@ exports[`renders sign in form 1`] = `
     </div>
     <div
       className="Main-root"
+      data-testid="signIn-main"
     >
       <div
         className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -610,12 +634,14 @@ exports[`renders sign in form 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="email"
               >
                 Email Address
               </label>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
                 disabled={false}
+                id="email"
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
@@ -628,6 +654,7 @@ exports[`renders sign in form 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="password"
               >
                 Password
               </label>
@@ -640,6 +667,7 @@ exports[`renders sign in form 1`] = `
                   <input
                     className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                     disabled={false}
+                    id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
@@ -667,8 +695,8 @@ exports[`renders sign in form 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
                   disabled={false}
-                  id="signIn-gotoForgotPasswordButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -714,7 +742,9 @@ exports[`renders sign in form 1`] = `
 
 exports[`shows error when submitting empty form 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="signIn-container"
+  >
     <div
       className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
@@ -743,7 +773,7 @@ exports[`shows error when submitting empty form 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -759,6 +789,7 @@ exports[`shows error when submitting empty form 1`] = `
     </div>
     <div
       className="Main-root"
+      data-testid="signIn-main"
     >
       <div
         className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -775,12 +806,14 @@ exports[`shows error when submitting empty form 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="email"
               >
                 Email Address
               </label>
               <input
                 className="TextField-root TextField-colorError TextField-fullWidth"
                 disabled={false}
+                id="email"
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
@@ -806,6 +839,7 @@ exports[`shows error when submitting empty form 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="password"
               >
                 Password
               </label>
@@ -818,6 +852,7 @@ exports[`shows error when submitting empty form 1`] = `
                   <input
                     className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                     disabled={false}
+                    id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
@@ -858,8 +893,8 @@ exports[`shows error when submitting empty form 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
                   disabled={false}
-                  id="signIn-gotoForgotPasswordButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -905,7 +940,9 @@ exports[`shows error when submitting empty form 1`] = `
 
 exports[`shows server error 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="signIn-container"
+  >
     <div
       className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
@@ -934,7 +971,7 @@ exports[`shows server error 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -950,171 +987,7 @@ exports[`shows server error 1`] = `
     </div>
     <div
       className="Main-root"
-    >
-      <div
-        className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-      >
-        <form
-          autoComplete="off"
-          onSubmit={[Function]}
-        >
-          <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-          >
-            <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-            >
-              <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-              >
-                Email Address
-              </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={true}
-                name="email"
-                onChange={[Function]}
-                placeholder="Email Address"
-                type="text"
-                value="hans@test.com"
-              />
-            </div>
-            <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-            >
-              <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-              >
-                Password
-              </label>
-              <div
-                className="PasswordField-fullWidth PasswordField-root"
-              >
-                <div
-                  className="PasswordField-wrapper"
-                >
-                  <input
-                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
-                    disabled={true}
-                    name="password"
-                    onChange={[Function]}
-                    placeholder="Password"
-                    type="password"
-                    value="testtest"
-                  />
-                  <div
-                    className="PasswordField-icon"
-                    onClick={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Show password"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
-                    >
-                      visibility
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="Flex-root Flex-flex Flex-justifyFlexEnd"
-              >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
-                  disabled={true}
-                  id="signIn-gotoForgotPasswordButton"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Forgot your password?
-                </button>
-              </div>
-            </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth Button-disabled"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              <span
-                aria-hidden="true"
-                className="Icon-root ButtonIcon-root Icon-md"
-              >
-                email
-              </span>
-              <span>
-                Sign in with Email
-              </span>
-            </button>
-          </div>
-        </form>
-        <div
-          className="HorizontalGutter-root HorizontalGutter-full"
-        />
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`shows server error 2`] = `
-<div>
-  <div>
-    <div
-      className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <h1
-          className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
-        >
-          Sign In
-        </h1>
-        <h1
-          className="Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
-        >
-          to join the conversation
-        </h1>
-      </div>
-    </div>
-    <div
-      className="Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-        >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      className="Main-root"
+      data-testid="signIn-main"
     >
       <div
         className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -1136,12 +1009,14 @@ exports[`shows server error 2`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="email"
               >
                 Email Address
               </label>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
                 disabled={false}
+                id="email"
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
@@ -1154,6 +1029,7 @@ exports[`shows server error 2`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="password"
               >
                 Password
               </label>
@@ -1166,6 +1042,7 @@ exports[`shows server error 2`] = `
                   <input
                     className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                     disabled={false}
+                    id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
@@ -1193,8 +1070,8 @@ exports[`shows server error 2`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
                   disabled={false}
-                  id="signIn-gotoForgotPasswordButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1240,7 +1117,9 @@ exports[`shows server error 2`] = `
 
 exports[`submits form successfully 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="signIn-container"
+  >
     <div
       className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
@@ -1269,7 +1148,7 @@ exports[`submits form successfully 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -1285,6 +1164,7 @@ exports[`submits form successfully 1`] = `
     </div>
     <div
       className="Main-root"
+      data-testid="signIn-main"
     >
       <div
         className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
@@ -1301,177 +1181,14 @@ exports[`submits form successfully 1`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-              >
-                Email Address
-              </label>
-              <input
-                className="TextField-root TextField-colorRegular TextField-fullWidth"
-                disabled={true}
-                name="email"
-                onChange={[Function]}
-                placeholder="Email Address"
-                type="text"
-                value="hans@test.com"
-              />
-            </div>
-            <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-            >
-              <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-              >
-                Password
-              </label>
-              <div
-                className="PasswordField-fullWidth PasswordField-root"
-              >
-                <div
-                  className="PasswordField-wrapper"
-                >
-                  <input
-                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
-                    disabled={true}
-                    name="password"
-                    onChange={[Function]}
-                    placeholder="Password"
-                    type="password"
-                    value="testtest"
-                  />
-                  <div
-                    className="PasswordField-icon"
-                    onClick={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Show password"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
-                    >
-                      visibility
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="Flex-root Flex-flex Flex-justifyFlexEnd"
-              >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
-                  disabled={true}
-                  id="signIn-gotoForgotPasswordButton"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Forgot your password?
-                </button>
-              </div>
-            </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth Button-disabled"
-              disabled={true}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              <span
-                aria-hidden="true"
-                className="Icon-root ButtonIcon-root Icon-md"
-              >
-                email
-              </span>
-              <span>
-                Sign in with Email
-              </span>
-            </button>
-          </div>
-        </form>
-        <div
-          className="HorizontalGutter-root HorizontalGutter-full"
-        />
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`submits form successfully 2`] = `
-<div>
-  <div>
-    <div
-      className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <h1
-          className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
-        >
-          Sign In
-        </h1>
-        <h1
-          className="Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
-        >
-          to join the conversation
-        </h1>
-      </div>
-    </div>
-    <div
-      className="Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-        >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      className="Main-root"
-    >
-      <div
-        className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
-      >
-        <form
-          autoComplete="off"
-          onSubmit={[Function]}
-        >
-          <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-          >
-            <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-            >
-              <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="email"
               >
                 Email Address
               </label>
               <input
                 className="TextField-root TextField-colorRegular TextField-fullWidth"
                 disabled={false}
+                id="email"
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
@@ -1484,6 +1201,7 @@ exports[`submits form successfully 2`] = `
             >
               <label
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                for="password"
               >
                 Password
               </label>
@@ -1496,6 +1214,7 @@ exports[`submits form successfully 2`] = `
                   <input
                     className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                     disabled={false}
+                    id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
@@ -1523,8 +1242,8 @@ exports[`submits form successfully 2`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
                   disabled={false}
-                  id="signIn-gotoForgotPasswordButton"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}

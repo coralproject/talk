@@ -3,7 +3,7 @@ import React, { StatelessComponent } from "react";
 import { Flex, Spinner } from "talk-ui/components";
 
 const LoadingQueue: StatelessComponent = () => (
-  <Flex justifyContent="center" data-test="loading-moderate-container">
+  <Flex justifyContent="center" data-testid="loading-moderate-container">
     <Spinner />
   </Flex>
 );

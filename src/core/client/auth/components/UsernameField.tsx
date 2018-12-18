@@ -27,13 +27,14 @@ const CreateUsernameField: StatelessComponent<Props> = props => (
     {({ input, meta }) => (
       <FormField>
         <Localized id="general-usernameLabel">
-          <InputLabel>Username</InputLabel>
+          <InputLabel for={input.name}>Username</InputLabel>
         </Localized>
         <Localized id="general-usernameDescription">
           <InputDescription>You may use “_” and “.”</InputDescription>
         </Localized>
         <Localized id="general-usernameTextField" attrs={{ placeholder: true }}>
           <TextField
+            id={input.name}
             name={input.name}
             onChange={input.onChange}
             value={input.value}

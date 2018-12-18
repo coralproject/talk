@@ -25,13 +25,13 @@ export interface CreatePasswordForm {
 
 const CreatePassword: StatelessComponent<CreatePasswordForm> = props => {
   return (
-    <div>
+    <div data-testid="createPassword-container">
       <Bar>
         <Localized id="createPassword-createPasswordHeader">
           <Title>Create Password</Title>
         </Localized>
       </Bar>
-      <Main>
+      <Main data-testid="createPassword-main">
         <Form onSubmit={props.onSubmit}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>

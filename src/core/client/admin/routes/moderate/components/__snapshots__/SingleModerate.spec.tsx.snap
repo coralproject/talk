@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  data-test="single-moderate-container"
+  data-testid="single-moderate-container"
 >
   <withPropsOnChange(SubBar)
     className="SingleModerate-subBar"

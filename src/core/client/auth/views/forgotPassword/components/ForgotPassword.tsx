@@ -32,13 +32,13 @@ export interface ForgotPasswordForm {
 
 const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
   return (
-    <div>
+    <div data-testid="forgotPassword-container">
       <Bar>
         <Localized id="forgotPassword-forgotPasswordHeader">
           <Title>Forgot Password</Title>
         </Localized>
       </Bar>
-      <Main>
+      <Main data-testid="forgotPassword-main">
         <Form onSubmit={props.onSubmit}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>

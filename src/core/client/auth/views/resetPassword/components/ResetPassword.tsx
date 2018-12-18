@@ -21,13 +21,13 @@ export interface ResetPasswordForm {
 
 const ResetPassword: StatelessComponent<ResetPasswordForm> = props => {
   return (
-    <div>
+    <div data-testid="resetPassword-container">
       <Bar>
         <Localized id="resetPassword-resetPasswordHeader">
           <Title>Reset Password</Title>
         </Localized>
       </Bar>
-      <Main>
+      <Main data-testid="resetPassword-main">
         <Form onSubmit={props.onSubmit}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>

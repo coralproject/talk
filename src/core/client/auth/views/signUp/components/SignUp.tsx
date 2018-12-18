@@ -34,7 +34,7 @@ const SignUp: StatelessComponent<Props> = ({
   const oneClickUptegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
-    <div>
+    <div data-testid="signUp-container">
       <Localized
         id="signUp-signUpToJoinHeader"
         title={<Title />}
@@ -51,7 +51,7 @@ const SignUp: StatelessComponent<Props> = ({
           id="signUp-accountAvailableSignIn"
           button={
             <Button
-              id="signUp-gotoSignInButton"
+              data-testid="gotoSignInButton"
               variant="underlined"
               size="small"
               color="primary"
@@ -64,7 +64,7 @@ const SignUp: StatelessComponent<Props> = ({
           </Typography>
         </Localized>
       </SubBar>
-      <Main>
+      <Main data-testid="signUp-main">
         <HorizontalGutter size="oneAndAHalf">
           {emailEnabled && <SignUpWithEmailContainer />}
           {emailEnabled && oneClickUptegrationEnabled && <OrSeparator />}

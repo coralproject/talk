@@ -3,7 +3,7 @@
 exports[`change settings: during submit: oidc without errors 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-oidc-container"
+  data-testid="configure-auth-oidc-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -405,7 +405,7 @@ integration to register for a new account.
 exports[`change settings: enable facebook configure box 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-facebook-container"
+  data-testid="configure-auth-facebook-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -670,7 +670,7 @@ integration to register for a new account.
 exports[`change settings: enable oidc configure box 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-oidc-container"
+  data-testid="configure-auth-oidc-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -1072,7 +1072,7 @@ integration to register for a new account.
 exports[`change settings: oidc validation errors 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-oidc-container"
+  data-testid="configure-auth-oidc-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -1565,7 +1565,7 @@ integration to register for a new account.
 exports[`prevents admin lock out 1`] = `
 <div
   className="CallOut-root CallOut-colorError CallOut-fullWidth"
-  data-test="configure-auth-submitError"
+  data-testid="configure-auth-submitError"
 >
   <span>
     Please enable at least one authentication integration for Talk Admin
@@ -1576,7 +1576,7 @@ exports[`prevents admin lock out 1`] = `
 exports[`regenerate sso key 1`] = `
 <div
   className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-  data-test="configure-auth-sso-key"
+  data-testid="configure-auth-sso-key"
 >
   <label
     className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -1637,7 +1637,7 @@ and all signed-in users will be signed out.
 exports[`renders configure auth 1`] = `
 <div
   className="MainLayout-root"
-  data-test="configure-container"
+  data-testid="configure-container"
 >
   <form
     autoComplete="off"
@@ -1685,7 +1685,7 @@ exports[`renders configure auth 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
-            data-test="configure-sideBar-saveChanges"
+            data-testid="configure-sideBar-saveChanges"
             disabled={true}
             onBlur={[Function]}
             onFocus={[Function]}
@@ -1949,7 +1949,7 @@ integration to register for a new account.
             </div>
             <div
               className="ConfigBox-root"
-              data-test="configure-auth-oidc-container"
+              data-testid="configure-auth-oidc-container"
             >
               <div
                 className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -2397,7 +2397,7 @@ integration to register for a new account.
                 >
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-                    data-test="configure-auth-sso-key"
+                    data-testid="configure-auth-sso-key"
                   >
                     <label
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -2827,7 +2827,7 @@ integration to register for a new account.
             </div>
             <div
               className="ConfigBox-root"
-              data-test="configure-auth-facebook-container"
+              data-testid="configure-auth-facebook-container"
             >
               <div
                 className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"

@@ -36,7 +36,7 @@ export function queryByText(
   options?: TextMatchOptions
 ) {
   try {
-    return container.find(matcher(pattern, options));
+    return container.findAll(matcher(pattern, options))[0];
   } catch {
     return null;
   }

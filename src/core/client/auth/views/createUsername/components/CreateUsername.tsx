@@ -25,13 +25,13 @@ export interface CreateUsernameForm {
 
 const CreateUsername: StatelessComponent<CreateUsernameForm> = props => {
   return (
-    <div>
+    <div data-testid="createUsername-container">
       <Bar>
         <Localized id="createUsername-createUsernameHeader">
           <Title>Create Username</Title>
         </Localized>
       </Bar>
-      <Main>
+      <Main data-testid="createUsername-main">
         <Form onSubmit={props.onSubmit}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>

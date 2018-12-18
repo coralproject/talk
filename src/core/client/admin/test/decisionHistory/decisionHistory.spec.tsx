@@ -86,7 +86,7 @@ const createTestRenderer = async (resolver: any = {}) => {
 async function createTestRendererAndOpenPopover() {
   const testRenderer = await createTestRenderer();
   const toggle = testRenderer.root.findByProps({
-    "data-test": "decisionHistory-toggle",
+    "data-testid": "decisionHistory-toggle",
   })!;
   toggle.props.onClick();
   return testRenderer;

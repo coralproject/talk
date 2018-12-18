@@ -1,7 +1,8 @@
 import { ReactTestRenderer } from "react-test-renderer";
-import sinon from "sinon";
+import sinon, { SinonMock } from "sinon";
 
-import { timeout } from "talk-common/utils";
+import { waitForElement, within } from "talk-framework/testHelpers";
+
 import create from "./create";
 import { settings } from "./fixtures";
 
@@ -13,8 +14,6 @@ async function createTestRenderer(
       settings: sinon.stub().returns(settings),
     },
   };
-  const windowMock = sinon.mock(window);
-  windowMock.expects("resizeTo");
   const { testRenderer } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
@@ -23,36 +22,61 @@ async function createTestRenderer(
       localRecord.setValue(initialView, "view");
     },
   });
-  await timeout();
-  windowMock.restore();
   return testRenderer;
 }
 
+let windowMock: SinonMock = sinon.mock(window);
+beforeEach(() => {
+  windowMock = sinon.mock(window);
+  windowMock.expects("resizeTo");
+});
+
+afterEach(() => {
+  windowMock.restore();
+});
+
 it("renders sign in form", async () => {
   const testRenderer = await createTestRenderer("SIGN_IN");
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signIn-container")
+  );
 });
 
 it("navigates to sign up form", async () => {
   const testRenderer = await createTestRenderer("SIGN_IN");
-  testRenderer.root
-    .findByProps({ id: "signIn-gotoSignUpButton" })
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signIn-container")
+  );
+  within(container)
+    .getByTestID("gotoSignUpButton")
     .props.onClick();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signUp-container")
+  );
 });
 
 it("navigates to sign in form", async () => {
   const testRenderer = await createTestRenderer("SIGN_UP");
-  testRenderer.root
-    .findByProps({ id: "signUp-gotoSignInButton" })
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signUp-container")
+  );
+  within(container)
+    .getByTestID("gotoSignInButton")
     .props.onClick();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signIn-container")
+  );
 });
 
 it("navigates to forgot password form", async () => {
   const testRenderer = await createTestRenderer("SIGN_IN");
-  testRenderer.root
-    .findByProps({ id: "signIn-gotoForgotPasswordButton" })
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signIn-container")
+  );
+  within(container)
+    .getByTestID("gotoForgotPasswordButton")
     .props.onClick();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("forgotPassword-container")
+  );
 });

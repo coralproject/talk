@@ -138,7 +138,7 @@ it("prevents stream lock out", async () => {
     // Submit button should not be disabled because we canceled the submit.
     expect(
       testRenderer.root.findByProps({
-        "data-test": "configure-sideBar-saveChanges",
+        "data-testid": "configure-sideBar-saveChanges",
       }).props.disabled
     ).toBe(true);
     expect(stubCancel.calledOnce).toBe(true);
@@ -245,7 +245,7 @@ it("change settings", async () => {
   // Submit button should be disabled.
   expect(
     testRenderer.root.findByProps({
-      "data-test": "configure-sideBar-saveChanges",
+      "data-testid": "configure-sideBar-saveChanges",
     }).props.disabled
   ).toBe(true);
 

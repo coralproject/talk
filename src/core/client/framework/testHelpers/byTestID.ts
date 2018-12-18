@@ -6,10 +6,10 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   i: ReactTestInstance
 ) => {
   // Only look at dom components.
-  if (typeof i.type !== "string" || !i.props["data-test"]) {
+  if (typeof i.type !== "string" || !i.props["data-testid"]) {
     return false;
   }
-  return matchText(pattern, i.props["data-test"], {
+  return matchText(pattern, i.props["data-testid"], {
     collapseWhitespace: false,
     ...options,
   });
@@ -29,7 +29,7 @@ export function queryByTestID(
   options?: TextMatchOptions
 ) {
   try {
-    return container.find(matcher(pattern, options));
+    return container.findAll(matcher(pattern, options))[0];
   } catch {
     return null;
   }

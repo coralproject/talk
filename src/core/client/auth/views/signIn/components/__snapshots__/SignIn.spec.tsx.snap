@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div>
+<div
+  data-testid="signIn-container"
+>
   <Localized
     id="signIn-signInToJoinHeader"
     subtitle={<Subtitle />}
@@ -16,7 +18,7 @@ exports[`renders correctly 1`] = `
       button={
         <withPropsOnChange(Button)
           color="primary"
-          id="signIn-gotoSignUpButton"
+          data-testid="gotoSignUpButton"
           onClick={[Function]}
           size="small"
           variant="underlined"
@@ -32,7 +34,9 @@ exports[`renders correctly 1`] = `
       </withPropsOnChange(Typography)>
     </Localized>
   </SubBar>
-  <Main>
+  <Main
+    data-testid="signIn-main"
+  >
     <withPropsOnChange(HorizontalGutter)
       size="oneAndAHalf"
     >
@@ -55,7 +59,9 @@ exports[`renders correctly 1`] = `
 `;
 
 exports[`renders without email login 1`] = `
-<div>
+<div
+  data-testid="signIn-container"
+>
   <Localized
     id="signIn-signInToJoinHeader"
     subtitle={<Subtitle />}
@@ -70,7 +76,7 @@ exports[`renders without email login 1`] = `
       button={
         <withPropsOnChange(Button)
           color="primary"
-          id="signIn-gotoSignUpButton"
+          data-testid="gotoSignUpButton"
           onClick={[Function]}
           size="small"
           variant="underlined"
@@ -86,7 +92,9 @@ exports[`renders without email login 1`] = `
       </withPropsOnChange(Typography)>
     </Localized>
   </SubBar>
-  <Main>
+  <Main
+    data-testid="signIn-main"
+  >
     <withPropsOnChange(HorizontalGutter)
       size="oneAndAHalf"
     >

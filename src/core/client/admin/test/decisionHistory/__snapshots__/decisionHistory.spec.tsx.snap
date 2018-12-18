@@ -2,7 +2,7 @@
 
 exports[`loads more 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-testid="decisionHistory-container"
 >
   <div
     className="Flex-root Title-root Flex-flex Flex-alignCenter"
@@ -227,7 +227,7 @@ exports[`loads more 1`] = `
 
 exports[`opens popover when clicked on button showing loading state 1`] = `
 <div
-  data-test="decisionHistory-loading-container"
+  data-testid="decisionHistory-loading-container"
 >
   <div
     className="Flex-root Title-root Flex-flex Flex-alignCenter"
@@ -259,7 +259,7 @@ exports[`opens popover when clicked on button showing loading state 1`] = `
 
 exports[`render popover content 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-testid="decisionHistory-container"
 >
   <div
     className="Flex-root Title-root Flex-flex Flex-alignCenter"
@@ -434,12 +434,12 @@ exports[`render popover content 1`] = `
 exports[`renders decision history popover button 1`] = `
 <div
   className="Popover-root"
-  data-test="decisionHistory-popover"
+  data-testid="decisionHistory-popover"
 >
   <button
     aria-controls="decision-history-popover"
     className="BaseButton-root DecisionHistoryButton-historyIcon"
-    data-test="decisionHistory-toggle"
+    data-testid="decisionHistory-toggle"
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}

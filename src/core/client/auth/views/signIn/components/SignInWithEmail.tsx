@@ -46,13 +46,14 @@ const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="signIn-passwordLabel">
-                    <InputLabel>Password</InputLabel>
+                    <InputLabel for={input.name}>Password</InputLabel>
                   </Localized>
                   <Localized
                     id="signIn-passwordTextField"
                     attrs={{ placeholder: true }}
                   >
                     <PasswordField
+                      id={input.name}
                       name={input.name}
                       onChange={input.onChange}
                       value={input.value}
@@ -75,7 +76,7 @@ const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
                   <Flex justifyContent="flex-end">
                     <Localized id="signIn-forgotYourPassword">
                       <Button
-                        id="signIn-gotoForgotPasswordButton"
+                        data-testid="gotoForgotPasswordButton"
                         variant="underlined"
                         color="primary"
                         size="small"

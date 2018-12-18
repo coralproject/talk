@@ -28,13 +28,13 @@ export interface AddEmailAddressForm {
 
 const AddEmailAddress: StatelessComponent<AddEmailAddressForm> = props => {
   return (
-    <div>
+    <div data-testid="addEmailAddress-container">
       <Bar>
         <Localized id="addEmailAddress-addEmailAddressHeader">
           <Title>Add Email Address</Title>
         </Localized>
       </Bar>
-      <Main>
+      <Main data-testid="addEmailAddress-main">
         <Form onSubmit={props.onSubmit}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>

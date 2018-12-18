@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-testid="decisionHistory-container"
 >
   <Title />
   <Main>
@@ -41,7 +41,7 @@ exports[`renders correctly 1`] = `
 
 exports[`renders disable load more 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-testid="decisionHistory-container"
 >
   <Title />
   <Main>
@@ -84,7 +84,7 @@ exports[`renders disable load more 1`] = `
 
 exports[`renders empty state 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-testid="decisionHistory-container"
 >
   <Title />
   <Main>
@@ -97,7 +97,7 @@ exports[`renders empty state 1`] = `
 
 exports[`renders hasMore 1`] = `
 <div
-  data-test="decisionHistory-container"
+  data-testid="decisionHistory-container"
 >
   <Title />
   <Main>

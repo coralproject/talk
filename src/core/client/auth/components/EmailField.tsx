@@ -23,13 +23,14 @@ const EmailField: StatelessComponent<Props> = props => (
     {({ input, meta }) => (
       <FormField>
         <Localized id="general-emailAddressLabel">
-          <InputLabel>Email Address</InputLabel>
+          <InputLabel for={input.name}>Email Address</InputLabel>
         </Localized>
         <Localized
           id="general-emailAddressTextField"
           attrs={{ placeholder: true }}
         >
           <TextField
+            id={input.name}
             name={input.name}
             onChange={input.onChange}
             value={input.value}

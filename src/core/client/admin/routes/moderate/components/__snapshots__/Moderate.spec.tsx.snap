@@ -2,10 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <div
-  data-test="moderate-container"
+  data-testid="moderate-container"
 >
   <withPropsOnChange(SubBar)
-    data-test="moderate-subBar-container"
+    data-testid="moderate-subBar-container"
   >
     <Navigation />
   </withPropsOnChange(SubBar)>
@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
     className="Moderate-background"
   />
   <MainLayout
-    data-test="moderate-main-container"
+    data-testid="moderate-main-container"
   >
     <main
       className="Moderate-main"
@@ -24,10 +24,10 @@ exports[`renders correctly 1`] = `
 
 exports[`renders correctly with counts 1`] = `
 <div
-  data-test="moderate-container"
+  data-testid="moderate-container"
 >
   <withPropsOnChange(SubBar)
-    data-test="moderate-subBar-container"
+    data-testid="moderate-subBar-container"
   >
     <Navigation
       pendingCount={0}
@@ -39,7 +39,7 @@ exports[`renders correctly with counts 1`] = `
     className="Moderate-background"
   />
   <MainLayout
-    data-test="moderate-main-container"
+    data-testid="moderate-main-container"
   >
     <main
       className="Moderate-main"

@@ -50,5 +50,7 @@ export default function within(container: ReactTestInstance) {
     queryByLabelText: applyContainer(container, queryByLabelText),
     queryAllByLabelText: applyContainer(container, queryAllByLabelText),
     toJSON: () => toJSON(container),
+    getByType: container.findByType.bind(container) as typeof container.findByType,
+    getAllByType: container.findAllByType.bind(container) as typeof container.findByType,
   }
 }

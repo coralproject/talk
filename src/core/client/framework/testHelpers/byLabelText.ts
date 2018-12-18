@@ -1,10 +1,12 @@
 import { ReactTestInstance } from "react-test-renderer";
 
+import { queryAllByText } from "./byText";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
-const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
-  i: ReactTestInstance
-) => {
+const ariaLabelMatcher = (
+  pattern: TextMatchPattern,
+  options?: TextMatchOptions
+) => (i: ReactTestInstance) => {
   // Only look at dom components.
   if (typeof i.type !== "string" || !i.props["aria-label"]) {
     return false;
@@ -20,7 +22,26 @@ export function getByLabelText(
   pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
-  return container.find(matcher(pattern, options));
+  const results = queryAllByLabelText(container, pattern, options);
+  if (results.length === 1) {
+    return results[0];
+  }
+  if (results.length === 0) {
+    throw new Error(`Could't find element with label text ${pattern}`);
+  }
+  throw new Error(`Found multiple elements with label text ${pattern}`);
+}
+
+export function getAllByLabelText(
+  container: ReactTestInstance,
+  pattern: TextMatchPattern,
+  options?: TextMatchOptions
+) {
+  const results = queryAllByLabelText(container, pattern, options);
+  if (results.length) {
+    return results;
+  }
+  throw new Error(`Could't find element with label text ${pattern}`);
 }
 
 export function queryByLabelText(
@@ -28,11 +49,11 @@ export function queryByLabelText(
   pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
-  try {
-    return container.find(matcher(pattern, options));
-  } catch {
-    return null;
+  const results = queryAllByLabelText(container, pattern, options);
+  if (results.length) {
+    return results[0];
   }
+  return null;
 }
 
 export function queryAllByLabelText(
@@ -41,16 +62,34 @@ export function queryAllByLabelText(
   options?: TextMatchOptions
 ) {
   try {
-    return container.findAll(matcher(pattern, options));
+    const matches = container.findAll(ariaLabelMatcher(pattern, options));
+    queryAllByText(container, pattern).forEach(i => {
+      if (typeof i.type !== "string") {
+        return;
+      }
+      if (i.props.id) {
+        try {
+          matches.push(
+            container.find(
+              x =>
+                typeof x.type === "string" &&
+                x.props["aria-labelledby"] === i.props.id
+            )
+          );
+        } catch {} // tslint:disable-line:no-empty
+      }
+      if (i.type === "label" && i.props.for) {
+        try {
+          matches.push(
+            container.find(
+              x => typeof x.type === "string" && x.props.id === i.props.for
+            )
+          );
+        } catch {} // tslint:disable-line:no-empty
+      }
+    });
+    return matches;
   } catch {
     return [];
   }
-}
-
-export function getAllByLabelText(
-  container: ReactTestInstance,
-  pattern: TextMatchPattern,
-  options?: TextMatchOptions
-) {
-  return container.findAll(matcher(pattern, options));
 }

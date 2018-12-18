@@ -181,7 +181,7 @@ describe("reported queue", () => {
     expect(comments.length).toBe(previousCount + 1);
 
     // Verify last one added was our new one
-    expect(comments[comments.length - 1].props["data-test"]).toBe(
+    expect(comments[comments.length - 1].props["data-testid"]).toBe(
       `moderate-comment-${reportedComments[2].id}`
     );
 
@@ -453,7 +453,7 @@ describe("rejected queue", () => {
     expect(comments.length).toBe(previousCount + 1);
 
     // Verify last one added was our new one
-    expect(comments[comments.length - 1].props["data-test"]).toBe(
+    expect(comments[comments.length - 1].props["data-testid"]).toBe(
       `moderate-comment-${rejectedComments[2].id}`
     );
 

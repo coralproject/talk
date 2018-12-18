@@ -27,7 +27,7 @@ const SetPasswordField: StatelessComponent<Props> = props => (
     {({ input, meta }) => (
       <FormField>
         <Localized id="general-passwordLabel">
-          <InputLabel>Password</InputLabel>
+          <InputLabel for={input.name}>Password</InputLabel>
         </Localized>
         <Localized id="general-passwordDescription" $minLength={8}>
           <InputDescription>
@@ -36,6 +36,7 @@ const SetPasswordField: StatelessComponent<Props> = props => (
         </Localized>
         <Localized id="general-passwordTextField" attrs={{ placeholder: true }}>
           <PasswordField
+            id={input.name}
             name={input.name}
             onChange={input.onChange}
             value={input.value}

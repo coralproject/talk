@@ -34,7 +34,7 @@ const SignIn: StatelessComponent<SignInForm> = ({
   const oneClickIntegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
-    <div>
+    <div data-testid="signIn-container">
       <Localized
         id="signIn-signInToJoinHeader"
         title={<Title />}
@@ -51,7 +51,7 @@ const SignIn: StatelessComponent<SignInForm> = ({
           id="signIn-noAccountSignUp"
           button={
             <Button
-              id="signIn-gotoSignUpButton"
+              data-testid="gotoSignUpButton"
               variant="underlined"
               size="small"
               color="primary"
@@ -64,7 +64,7 @@ const SignIn: StatelessComponent<SignInForm> = ({
           </Typography>
         </Localized>
       </SubBar>
-      <Main>
+      <Main data-testid="signIn-main">
         <HorizontalGutter size="oneAndAHalf">
           {emailEnabled && <SignInWithEmailContainer />}
           {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
