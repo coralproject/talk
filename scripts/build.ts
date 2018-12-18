@@ -14,8 +14,8 @@ import printBuildError from "react-dev-utils/printBuildError";
 import webpack from "webpack";
 
 import paths from "../config/paths";
+import config from "../src/core/build/config";
 import createWebpackConfig from "../src/core/build/createWebpackConfig";
-import config, { createClientEnv } from "../src/core/common/config";
 
 // tslint:disable: no-console
 
@@ -103,9 +103,7 @@ measureFileSizesBeforeBuild(paths.appDistStatic)
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes: any) {
   console.log("Creating an optimized production build...");
-  const webpackConfig = createWebpackConfig({
-    env: createClientEnv(config),
-  });
+  const webpackConfig = createWebpackConfig(config);
   const compiler = webpack(webpackConfig);
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {

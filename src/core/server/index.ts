@@ -1,7 +1,6 @@
 import express, { Express } from "express";
 import http from "http";
 
-import config, { Config } from "talk-common/config";
 import getManagementSchema from "talk-server/graph/management/schema";
 import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
@@ -10,6 +9,7 @@ import TenantCache from "talk-server/services/tenant/cache";
 
 import { createJWTSigningConfig } from "talk-server/services/jwt";
 import { attachSubscriptionHandlers, createApp, listenAndServe } from "./app";
+import config, { Config } from "./config";
 import logger from "./logger";
 import { createMongoDB } from "./services/mongodb";
 import { createRedisClient } from "./services/redis";

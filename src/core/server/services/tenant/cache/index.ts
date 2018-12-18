@@ -4,7 +4,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { EventEmitter } from "events";
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import logger from "talk-server/logger";
 import {
   countTenants,

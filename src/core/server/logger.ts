@@ -1,7 +1,7 @@
 import bunyan, { LogLevelString, stdSerializers as serializers } from "bunyan";
 import PrettyStream from "bunyan-prettystream";
 
-import config from "talk-common/config";
+import config from "talk-server/config";
 
 function getStreams() {
   // If we aren't in production mode, use the pretty stream printer.

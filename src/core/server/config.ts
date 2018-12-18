@@ -129,9 +129,5 @@ const config = convict({
 
 export type Config = typeof config;
 
-export const createClientEnv = (c: Config) => ({
-  NODE_ENV: c.get("env"),
-});
-
 // Setup the base configuration.
 export default config;

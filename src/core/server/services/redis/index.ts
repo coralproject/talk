@@ -1,7 +1,7 @@
 import RedisClient, { Pipeline, Redis } from "ioredis";
 
-import { Config } from "talk-common/config";
 import { Omit } from "talk-common/types";
+import { Config } from "talk-server/config";
 
 export interface AugmentedRedisCommands {
   mhincrby(key: string, ...args: any[]): Promise<void>;

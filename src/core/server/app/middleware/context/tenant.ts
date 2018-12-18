@@ -1,7 +1,7 @@
 import { RequestHandler } from "express-jwt";
 import { Db } from "mongodb";
 
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import TenantContext from "talk-server/graph/tenant/context";
 import { TaskQueue } from "talk-server/queue";
 import { AugmentedRedis } from "talk-server/services/redis";

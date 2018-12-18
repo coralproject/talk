@@ -6,13 +6,13 @@ import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 import now from "performance-now";
 
-import { Config } from "talk-common/config";
 import FacebookStrategy from "talk-server/app/middleware/passport/strategies/facebook";
 import GoogleStrategy from "talk-server/app/middleware/passport/strategies/google";
 import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt";
 import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
 import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
+import { Config } from "talk-server/config";
 import logger from "talk-server/logger";
 import { User } from "talk-server/models/user";
 import {

@@ -8,8 +8,8 @@ import {
   graphqlExpress,
 } from "apollo-server-express/dist/expressApollo";
 
-import { Config } from "talk-common/config";
 import { Omit } from "talk-common/types";
+import { Config } from "talk-server/config";
 import { LoggerExtension } from "talk-server/graph/common/middleware/extensions/logger";
 
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57
