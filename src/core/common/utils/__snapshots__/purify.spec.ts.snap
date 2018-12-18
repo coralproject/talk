@@ -2,15 +2,15 @@
 
 exports[`allows anchor links 1`] = `
 Object {
-  "body": "<a href=\\"test\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">This is a link</a>",
+  "body": "<a href=\\"test\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">test</a>",
   "linkCount": 1,
 }
 `;
 
 exports[`allows anchor tags and counts them correctly 1`] = `
 "<div>
-      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">Mozilla</a>
-      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">Mozilla</a>
+      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">https://mozilla.org/</a>
+      <a href=\\"https://mozilla.org/\\" target=\\"_blank\\" rel=\\"noopener noreferrer\\">https://mozilla.org/</a>
     </div>
   "
 `;
