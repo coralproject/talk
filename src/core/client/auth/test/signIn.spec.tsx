@@ -1,12 +1,12 @@
 import { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { wait, waitForElement, within } from "talk-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
+import waitForResize from "./waitForResize";
 
 let context: TalkContext;
 let testRenderer: ReactTestRenderer;
@@ -110,8 +110,7 @@ it("shows server error", async () => {
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
   expect(testRenderer.toJSON()).toMatchSnapshot();
-  // Wait for resize to trigger.
-  await timeout();
+  await waitForResize();
 
   restMock.verify();
   postMessageMock.verify();
@@ -159,8 +158,7 @@ it("submits form successfully", async () => {
   expect(submitButton.props.disabled).toBe(true);
 
   await wait(() => expect(submitButton.props.disabled).toBe(false));
-  // Wait for resize to trigger.
-  await timeout();
+  await waitForResize();
 
   expect(testRenderer.toJSON()).toMatchSnapshot();
 
