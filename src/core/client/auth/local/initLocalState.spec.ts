@@ -2,6 +2,7 @@ import { Environment, RecordSource } from "relay-runtime";
 
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import {
+  createAuthToken,
   createRelayEnvironment,
   replaceHistoryLocation,
 } from "talk-framework/testHelpers";
@@ -35,5 +36,14 @@ it("set view from query", async () => {
   );
   await initLocalState(environment, context as any);
   expect(source.get(LOCAL_ID)!.view).toBe(view);
+  restoreHistoryLocation();
+});
+
+it("get auth token from url", async () => {
+  const restoreHistoryLocation = replaceHistoryLocation(
+    `http://localhost/#${createAuthToken()}`
+  );
+  await initLocalState(environment, context as any);
+  expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
   restoreHistoryLocation();
 });

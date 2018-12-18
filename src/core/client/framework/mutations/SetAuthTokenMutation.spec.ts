@@ -4,7 +4,10 @@ import sinon from "sinon";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
-import { createRelayEnvironment } from "talk-framework/testHelpers";
+import {
+  createAuthToken,
+  createRelayEnvironment,
+} from "talk-framework/testHelpers";
 
 import { commit } from "./SetAuthTokenMutation";
 
@@ -17,17 +20,7 @@ beforeAll(() => {
   });
 });
 
-const authToken = `${btoa(
-  JSON.stringify({
-    alg: "HS256",
-    typ: "JWT",
-  })
-)}.${btoa(
-  JSON.stringify({
-    exp: 1540503165,
-    jti: "31b26591-4e9a-4388-a7ff-e1bdc5d97cce",
-  })
-)}`;
+const authToken = createAuthToken();
 
 it("Sets auth token to localStorage", async () => {
   const clearSessionStub = sinon.stub();
