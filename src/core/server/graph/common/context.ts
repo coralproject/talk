@@ -1,6 +1,6 @@
 import uuid from "uuid";
 
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import logger from "talk-server/logger";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";

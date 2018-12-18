@@ -249,6 +249,11 @@ ModerationQueue returns the Comments associated with a Moderation Queue.
 """
 type ModerationQueue {
   """
+  id is a canonical identifier for this specific moderation queue.
+  """
+  id: ID!
+
+  """
   count will return the number of Comments that are in this queue.
   """
   count: Int!
@@ -783,6 +788,11 @@ Settings stores the global settings for a given Tenant.
 """
 type Settings {
   """
+  id is a canonical identifier for this Tenant.
+  """
+  id: ID!
+
+  """
   domain is the domain that is associated with this Tenant.
   """
   domain: String! @auth(roles: [ADMIN])
@@ -1268,6 +1278,11 @@ type Comment {
   story is the Story that the Comment was written on.
   """
   story: Story!
+
+  """
+  The permalink for this comment.
+  """
+  permalink: String!
 }
 
 type PageInfo {
@@ -1463,7 +1478,7 @@ type Story {
   moderationQueues returns the set of ModerationQueues that are available for
   this Story.
   """
-  moderationQueues: ModerationQueues @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
 
   """
   closedAt is the Time that the Story is closed for commenting.
@@ -1591,7 +1606,7 @@ type Query {
   moderationQueues returns the set of ModerationQueues that are available for
   all stories.
   """
-  moderationQueues: ModerationQueues @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################
@@ -2868,6 +2883,13 @@ type AcceptCommentPayload {
   comment: Comment
 
   """
+  moderationQueues will return the selected moderation queues. If the `storyID`
+  is provided, it will filter the moderation queues for only comments in that
+  Story.
+  """
+  moderationQueues(storyID: ID): ModerationQueues
+
+  """
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
@@ -2899,6 +2921,13 @@ type RejectCommentPayload {
   comment is the Comment that was rejected.
   """
   comment: Comment
+
+  """
+  moderationQueues will return the selected moderation queues. If the `storyID`
+  is provided, it will filter the moderation queues for only comments in that
+  Story.
+  """
+  moderationQueues(storyID: ID): ModerationQueues
 
   """
   clientMutationId is required for Relay support.

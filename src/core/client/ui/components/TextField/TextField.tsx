@@ -1,7 +1,9 @@
 import cn from "classnames";
 import React, { AllHTMLAttributes, ChangeEvent, EventHandler } from "react";
+
 import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
+
 import styles from "./TextField.css";
 
 export interface TextFieldProps {

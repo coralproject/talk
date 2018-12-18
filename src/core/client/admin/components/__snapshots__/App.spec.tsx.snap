@@ -1,14 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div>
-  <AppBar>
-    <Navigation />
-  </AppBar>
-  <div
-    className="App-container"
+<div
+  className="App-root"
+>
+  <withPropsOnChange(AppBar)
+    gutterBegin={true}
+    gutterEnd={true}
   >
-    child
-  </div>
+    <withPropsOnChange(Begin)
+      itemGutter="double"
+    >
+      <withPropsOnChange(Logo) />
+      <Navigation />
+    </withPropsOnChange(Begin)>
+    <withPropsOnChange(End)>
+      <DecisionHistoryButton />
+      <withPropsOnChange(Divider) />
+      <withContext(createMutationContainer(RedirectAppContainer))
+        id="navigation-signOutButton"
+      />
+    </withPropsOnChange(End)>
+  </withPropsOnChange(AppBar)>
+  child
 </div>
 `;

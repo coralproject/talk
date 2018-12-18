@@ -1,9 +1,9 @@
 import { Db } from "mongodb";
 import { Profile, Strategy } from "passport-google-oauth2";
 
-import { Config } from "talk-common/config";
 import OAuth2Strategy from "talk-server/app/middleware/passport/strategies/oauth2";
 import { constructTenantURL } from "talk-server/app/url";
+import { Config } from "talk-server/config";
 import {
   GQLAuthIntegrations,
   GQLGoogleAuthIntegration,

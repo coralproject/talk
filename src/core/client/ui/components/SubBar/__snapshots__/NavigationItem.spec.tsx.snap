@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<NavigationItem
+  active={true}
+  className="custom"
+  classes={
+    Object {
+      "active": "NavigationItem-active",
+      "anchor": "NavigationItem-anchor",
+      "root": "NavigationItem-root",
+    }
+  }
+  href="/moderate"
+  onClick={[Function]}
+>
+  link
+</NavigationItem>
+`;

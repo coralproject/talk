@@ -5,11 +5,12 @@ import HTMLContent from "talk-stream/components/HTMLContent";
 import Timestamp from "talk-stream/components/Timestamp";
 import { Flex, HorizontalGutter } from "talk-ui/components";
 
-import styles from "./Comment.css";
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
 import TopBarLeft from "./TopBarLeft";
 import Username from "./Username";
+
+import styles from "./Comment.css";
 
 export interface CommentProps {
   id?: string;

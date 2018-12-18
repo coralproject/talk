@@ -10,8 +10,9 @@ import {
   Popover,
 } from "talk-ui/components";
 
-import styles from "./PermalinkButton.css";
 import PermalinkPopover from "./PermalinkPopover";
+
+import styles from "./PermalinkButton.css";
 
 interface PermalinkProps {
   commentID: string;

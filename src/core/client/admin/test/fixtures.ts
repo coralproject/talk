@@ -1,4 +1,11 @@
+import { merge } from "lodash";
+
 export const settings = {
+  id: "settings",
+  wordList: {
+    banned: [],
+    suspect: [],
+  },
   auth: {
     displayName: {
       enabled: false,
@@ -131,3 +138,121 @@ export const moderationActions = [
     __typename: "CommentModerationAction",
   },
 ];
+
+export const users = [
+  {
+    id: "user-0",
+    username: "Markus",
+  },
+  {
+    id: "user-1",
+    username: "Lukas",
+  },
+  {
+    id: "user-2",
+    username: "Isabelle",
+  },
+];
+
+export const baseComment = {
+  author: users[0],
+  body: "Comment Body",
+  createdAt: "2018-07-06T18:24:00.000Z",
+  status: "NONE",
+  actionCounts: {
+    flag: {
+      reasons: {
+        COMMENT_DETECTED_TOXIC: 0,
+        COMMENT_DETECTED_SPAM: 0,
+        COMMENT_DETECTED_TRUST: 0,
+        COMMENT_DETECTED_LINKS: 0,
+        COMMENT_DETECTED_BANNED_WORD: 0,
+        COMMENT_DETECTED_SUSPECT_WORD: 0,
+        COMMENT_REPORTED_OFFENSIVE: 0,
+        COMMENT_REPORTED_SPAM: 0,
+      },
+    },
+  },
+};
+
+export const reportedComments = [
+  merge({}, baseComment, {
+    id: "comment-0",
+    author: users[0],
+    revision: {
+      id: "comment-0-revision-0",
+    },
+    permalink: "http://localhost/comment/0",
+    body:
+      "This is the last random sentence I will be writing and I am going to stop mid-sent",
+    actionCounts: {
+      flag: {
+        reasons: {
+          COMMENT_REPORTED_SPAM: 2,
+        },
+      },
+    },
+  }),
+  merge({}, baseComment, {
+    id: "comment-1",
+    revision: {
+      id: "comment-1-revision-1",
+    },
+    permalink: "http://localhost/comment/1",
+    author: users[1],
+    body: "Don't fool with me",
+    actionCounts: {
+      flag: {
+        reasons: {
+          COMMENT_REPORTED_OFFENSIVE: 3,
+        },
+      },
+    },
+  }),
+  merge({}, baseComment, {
+    id: "comment-2",
+    revision: {
+      id: "comment-2-revision-2",
+    },
+    permalink: "http://localhost/comment/2",
+    status: "PREMOD",
+    author: users[2],
+    body: "I think I deserve better",
+    actionCounts: {
+      flag: {
+        reasons: {
+          COMMENT_REPORTED_SPAM: 1,
+          COMMENT_REPORTED_OFFENSIVE: 1,
+        },
+      },
+    },
+  }),
+];
+
+export const rejectedComments = reportedComments.map(c => ({
+  ...c,
+  status: "REJECTED",
+}));
+
+export const emptyModerationQueues = {
+  reported: {
+    id: "reported",
+    count: 0,
+    comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  },
+  pending: {
+    id: "pending",
+    count: 0,
+    comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  },
+  unmoderated: {
+    id: "unmoderated",
+    count: 0,
+    comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+  },
+};
+
+export const emptyRejectedComments = {
+  edges: [],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};

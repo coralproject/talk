@@ -11,6 +11,7 @@ import {
 import { withStyles } from "talk-ui/hocs";
 
 import AriaInfo from "../AriaInfo";
+
 import styles from "./Popover.css";
 
 type Placement =

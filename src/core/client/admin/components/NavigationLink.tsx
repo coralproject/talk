@@ -1,7 +1,7 @@
 import { Link, LocationDescriptor } from "found";
 import React, { StatelessComponent } from "react";
 
-import styles from "./NavigationLink.css";
+import { AppBarNavigationItem } from "talk-ui/components";
 
 interface Props {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const NavigationLink: StatelessComponent<Props> = props => (
-  <Link to={props.to} className={styles.root} activeClassName={styles.active}>
+  <Link to={props.to} Component={AppBarNavigationItem} activePropName="active">
     {props.children}
   </Link>
 );

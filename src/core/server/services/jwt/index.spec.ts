@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import {
   createJWTSigningConfig,
   extractJWTFromRequest,

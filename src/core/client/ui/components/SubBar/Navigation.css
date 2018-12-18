@@ -1,0 +1,21 @@
+.root {
+  height: 100%;
+  border-bottom: 1px solid var(--palette-divider);
+  padding: 0 calc(1.5 * var(--spacing-unit));
+}
+
+.ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  height: 100%;
+  margin: 0;
+  align-items: flex-end;
+
+  & > * {
+    margin: 0 calc(3 * var(--spacing-unit)) 0 0;
+  }
+  & > *:last-child {
+    margin: 0;
+  }
+}

@@ -6,6 +6,7 @@ import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
 
 import BaseButton, { BaseButtonProps } from "../BaseButton";
+
 import styles from "./Button.css";
 
 // This should extend from BaseButton instead but we can't because of this bug

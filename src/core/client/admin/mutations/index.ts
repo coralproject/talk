@@ -4,6 +4,14 @@ export {
   SetRedirectPathMutation,
 } from "./SetRedirectPathMutation";
 export {
+  withAcceptCommentMutation,
+  AcceptCommentMutation,
+} from "./AcceptCommentMutation";
+export {
+  withRejectCommentMutation,
+  RejectCommentMutation,
+} from "./RejectCommentMutation";
+export {
   withUpdateSettingsMutation,
   UpdateSettingsMutation,
   UpdateSettingsInput,

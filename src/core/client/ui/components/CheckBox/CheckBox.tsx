@@ -5,6 +5,7 @@ import uuid from "uuid/v4";
 import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
 
 import styles from "./CheckBox.css";
+
 export interface CheckBoxProps {
   id?: string;
   /**

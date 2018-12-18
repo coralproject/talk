@@ -2,7 +2,6 @@
 
 exports[`renders correctly 1`] = `
 <div>
-  <AppBar />
   <withPropsOnChange(Flex)
     justifyContent="center"
   >
@@ -16,7 +15,7 @@ exports[`renders correctly 1`] = `
         <div
           className="Login-brandIcon"
         >
-          <BrandIcon
+          <withPropsOnChange(BrandIcon)
             size="lg"
           />
         </div>
@@ -32,7 +31,7 @@ exports[`renders correctly 1`] = `
             Sign in to
           </withPropsOnChange(Typography)>
         </Localized>
-        <BrandName
+        <withPropsOnChange(BrandName)
           align="center"
           size="lg"
         />

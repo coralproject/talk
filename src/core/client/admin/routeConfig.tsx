@@ -5,11 +5,18 @@ import App from "./components/App";
 import RedirectAppContainer from "./containers/RedirectAppContainer";
 import RedirectLoginContainer from "./containers/RedirectLoginContainer";
 import Community from "./routes/community/components/Community";
-import ConfigureMisc from "./routes/configure/components/Misc";
+import ConfigureModeration from "./routes/configure/components/Moderation";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
 import ConfigureAuthContainer from "./routes/configure/sections/auth/containers/AuthContainer";
 import Login from "./routes/login/components/Login";
-import Moderate from "./routes/moderate/components/Moderate";
+import ModerateContainer from "./routes/moderate/containers/ModerateContainer";
+import {
+  PendingQueueContainer,
+  ReportedQueueContainer,
+  UnmoderatedQueueContainer,
+} from "./routes/moderate/containers/QueueContainer";
+import RejectedQueueContainer from "./routes/moderate/containers/RejectedQueueContainer";
+import SingleModerateContainer from "./routes/moderate/containers/SingleModerateContainer";
 import Stories from "./routes/stories/components/Stories";
 
 export default makeRouteConfig(
@@ -17,13 +24,26 @@ export default makeRouteConfig(
     <Route Component={RedirectLoginContainer}>
       <Route Component={App}>
         <Redirect from="/" to="/admin/moderate" />
-        <Route path="moderate" Component={Moderate} />
+        <Route
+          path="moderate/comment/:commentID"
+          {...SingleModerateContainer.routeConfig}
+        />
+        <Route path="moderate" {...ModerateContainer.routeConfig}>
+          <Redirect from="/" to="/admin/moderate/reported" />
+          <Route path="reported" {...ReportedQueueContainer.routeConfig} />
+          <Route path="pending" {...PendingQueueContainer.routeConfig} />
+          <Route
+            path="unmoderated"
+            {...UnmoderatedQueueContainer.routeConfig}
+          />
+          <Route path="rejected" {...RejectedQueueContainer.routeConfig} />
+        </Route>
         <Route path="community" Component={Community} />
         <Route path="stories" Component={Stories} />
         <Route path="configure" Component={ConfigureContainer}>
-          <Redirect from="/" to="/admin/configure/auth" />
+          <Redirect from="/" to="/admin/configure/moderation" />
+          <Route path="moderation" Component={ConfigureModeration} />
           <Route path="auth" {...ConfigureAuthContainer.routeConfig} />
-          <Route path="misc" Component={ConfigureMisc} />
         </Route>
       </Route>
     </Route>

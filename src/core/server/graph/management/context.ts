@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import CommonContext from "talk-server/graph/common/context";
 import { Request } from "talk-server/types/express";
 

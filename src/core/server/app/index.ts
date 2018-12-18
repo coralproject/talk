@@ -6,11 +6,11 @@ import { Db } from "mongodb";
 import nunjucks from "nunjucks";
 import path from "path";
 
-import { Config } from "talk-common/config";
 import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
 import { errorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
+import { Config } from "talk-server/config";
 import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
 import { TaskQueue } from "talk-server/queue";

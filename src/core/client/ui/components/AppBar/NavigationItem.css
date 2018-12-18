@@ -1,0 +1,23 @@
+.root {
+}
+
+.anchor {
+  composes: navItem from "talk-ui/shared/typography.css";
+  color: var(--palette-grey-dark);
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--spacing-unit);
+  text-transform: uppercase;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.active {
+  composes: navItemActive from "talk-ui/shared/typography.css";
+  background-color: var(--palette-brand);
+  text-decoration: none;
+  color: var(--palette-text-light);
+}

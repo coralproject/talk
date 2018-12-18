@@ -5,10 +5,10 @@
 general-brandName = { -product-name }
 
 ## Navigation
-navigation-moderate = moderate
-navigation-community = community
-navigation-stories = stories
-navigation-configure = configure
+navigation-moderate = Moderate
+navigation-community = Community
+navigation-stories = Stories
+navigation-configure = Configure
 navigation-signOutButton = Sign Out
 
 ## Login
@@ -119,3 +119,30 @@ decisionHistory-yourDecisionHistory = Your Decision History
 decisionHistory-rejectedCommentBy = Rejected comment by <username></username>
 decisionHistory-acceptedCommentBy = Accepted comment by <username></username>
 decisionHistory-goToComment = Go to comment
+
+## moderate
+moderate-navigation-reported = reported
+moderate-navigation-pending = Pending
+moderate-navigation-unmoderated = unmoderated
+moderate-navigation-rejected = rejected
+
+moderate-marker-preMod = Pre-Mod
+moderate-marker-link = Link
+moderate-marker-bannedWord = Banned Word
+moderate-marker-suspectWord = Suspect Word
+moderate-marker-spam = Spam
+moderate-marker-toxic = Toxic
+moderate-marker-karma = Karma
+moderate-marker-bodyCount = Body Count
+moderate-marker-offensive = Offensive
+
+moderate-inReplyTo = Reply to <username><username>
+moderate-viewContext = View Context
+moderate-rejectButton =
+  .aria-label = Reject
+moderate-acceptButton =
+  .aria-label = Accept
+moderate-decision = Decision
+
+moderate-single-goToModerationQueues = Go to moderation queues
+moderate-single-singleCommentView = Single Comment View

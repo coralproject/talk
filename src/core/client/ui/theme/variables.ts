@@ -52,7 +52,7 @@ const variables = {
     },
     /* Background colors */
     background: {
-      light: "#f5f6fa",
+      light: "#F6F6F6",
     },
     /* Common colors */
     common: {
@@ -62,6 +62,7 @@ const variables = {
     /* Divider */
     divider: "rgba(0, 0, 0, 0.12)",
     brand: "#F77160",
+    highlight: "#FFD863",
   },
   /* gitter and spacing */
   spacingUnitSmall: 5,

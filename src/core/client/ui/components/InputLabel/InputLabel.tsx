@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 import Typography from "../Typography";
+
 import styles from "./InputLabel.css";
 
 export interface InputLabelProps {

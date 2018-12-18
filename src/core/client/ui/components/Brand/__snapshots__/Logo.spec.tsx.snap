@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Logo
+  className="custom"
+  classes={
+    Object {
+      "icon": "Logo-icon",
+      "root": "Logo-root",
+    }
+  }
+/>
+`;

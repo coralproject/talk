@@ -4,6 +4,7 @@ import { oncePerFrame } from "talk-common/utils";
 import { BaseButton, ClickOutside, Icon, Popover } from "talk-ui/components";
 
 import DecisionHistoryQuery from "../views/decisionHistory/queries/DecisionHistoryQuery";
+
 import styles from "./DecisionHistoryButton.css";
 
 class DecisionHistoryButton extends React.Component {
@@ -24,17 +25,17 @@ class DecisionHistoryButton extends React.Component {
         placement="bottom-end"
         description="A dialog showing a permalink to the comment"
         classes={{ popover: styles.popover }}
-        body={({ toggleVisibility }) => (
-          <ClickOutside
-            onClickOutside={() =>
-              this.toggleVisibilityOncePerFrame(toggleVisibility)
-            }
-          >
-            <div>
-              <DecisionHistoryQuery />
-            </div>
-          </ClickOutside>
-        )}
+        body={({ toggleVisibility }) => {
+          const hide = () =>
+            this.toggleVisibilityOncePerFrame(toggleVisibility);
+          return (
+            <ClickOutside onClickOutside={hide}>
+              <div>
+                <DecisionHistoryQuery onClosePopover={hide} />
+              </div>
+            </ClickOutside>
+          );
+        }}
       >
         {({ toggleVisibility, forwardRef, visible }) => (
           <BaseButton

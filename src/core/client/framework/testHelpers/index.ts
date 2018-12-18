@@ -13,7 +13,22 @@ export * from "./denormalize";
 export { default as replaceHistoryLocation } from "./replaceHistoryLocation";
 export { default as limitSnapshotTo } from "./limitSnapshotTo";
 export { default as inputPredicate } from "./inputPredicate";
-export { default as getByTestID } from "./getByTestID";
-export { default as getByText } from "./getByText";
+export {
+  getByTestID,
+  getAllByTestID,
+  queryByTestID,
+  queryAllByTestID,
+} from "./byTestID";
+export { getByText, getAllByText, queryByText, queryAllByText } from "./byText";
+export {
+  getByLabelText,
+  getAllByLabelText,
+  queryByLabelText,
+  queryAllByLabelText,
+} from "./byLabelText";
+export { default as within } from "./within";
 export { default as wait } from "./wait";
 export { default as waitForElement } from "./waitForElement";
+export { default as waitUntilThrow } from "./waitUntilThrow";
+export { default as matchText } from "./matchText";
+export { default as toJSON } from "./toJSON";

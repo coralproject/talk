@@ -1,10 +1,11 @@
 import React, { StatelessComponent } from "react";
-import styles from "./App.css";
 
 import ForgotPasswordContainer from "../containers/ForgotPasswordContainer";
 import ResetPasswordContainer from "../containers/ResetPasswordContainer";
 import SignInContainer from "../containers/SignInContainer";
 import SignUpContainer from "../containers/SignUpContainer";
+
+import styles from "./App.css";
 
 export type View =
   | "SIGN_UP"

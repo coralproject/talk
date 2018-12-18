@@ -4,7 +4,7 @@ import Joi from "joi";
 import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import logger from "talk-server/logger";
 import Task from "talk-server/queue/Task";
 import MailerContent from "talk-server/queue/tasks/mailer/content";

@@ -6,6 +6,7 @@ import { Flex } from "talk-ui/components";
 import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
 
 import styles from "./RadioButton.css";
+
 export interface RadioButtonProps {
   id?: string;
   /**

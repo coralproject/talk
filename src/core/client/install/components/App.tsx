@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import styles from "./App.css";
 
 import WizardContainer from "../containers/WizardContainer";
 import MainBar from "./MainBar";
+
+import styles from "./App.css";
 
 class App extends Component {
   public render() {

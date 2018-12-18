@@ -3,12 +3,11 @@ import sinon from "sinon";
 
 import {
   createSinonStub,
-  getByTestID,
-  getByText,
-  limitSnapshotTo,
   replaceHistoryLocation,
-  wait,
+  toJSON,
   waitForElement,
+  waitUntilThrow,
+  within,
 } from "talk-framework/testHelpers";
 
 import create from "../create";
@@ -68,7 +67,7 @@ const createTestRenderer = async (resolver: any = {}) => {
       }),
       settings: sinon
         .stub()
-        .returns(merge(settings, get(resolver, "Query.settings"))),
+        .returns(merge({}, settings, get(resolver, "Query.settings"))),
     },
   };
   const { testRenderer } = create({
@@ -79,9 +78,8 @@ const createTestRenderer = async (resolver: any = {}) => {
       localRecord.setValue(true, "loggedIn");
     },
   });
-  await waitForElement(() =>
-    getByTestID("decisionHistory-toggle", testRenderer.root)
-  );
+  const { getByTestID } = within(testRenderer.root);
+  await waitForElement(() => getByTestID("decisionHistory-toggle"));
   return testRenderer;
 };
 
@@ -96,41 +94,51 @@ async function createTestRendererAndOpenPopover() {
 
 it("renders decision history popover button", async () => {
   const testRenderer = await createTestRenderer();
-  expect(
-    limitSnapshotTo("decisionHistory-popover", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  const popover = within(testRenderer.root).getByTestID(
+    "decisionHistory-popover"
+  );
+  expect(toJSON(popover)).toMatchSnapshot();
 });
 
 it("opens popover when clicked on button showing loading state", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
-  expect(
-    limitSnapshotTo("decisionHistory-loading-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  const container = within(testRenderer.root).getByTestID(
+    "decisionHistory-loading-container"
+  );
+  expect(toJSON(container)).toMatchSnapshot();
 });
 
 it("render popover content", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
-  await waitForElement(() =>
-    getByTestID("decisionHistory-container", testRenderer.root)
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("decisionHistory-container")
   );
-  expect(
-    limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  expect(toJSON(container)).toMatchSnapshot();
 });
 
 it("loads more", async () => {
   const testRenderer = await createTestRendererAndOpenPopover();
+
+  // Wait for decision history to render.
   const decisionHistoryContainer = await waitForElement(() =>
-    getByTestID("decisionHistory-container", testRenderer.root)
+    within(testRenderer.root).getByTestID("decisionHistory-container")
   );
-  const ShowMoreButton = getByText("Show More", decisionHistoryContainer)!;
+
+  const { getByText } = within(decisionHistoryContainer);
+
+  // Find active show more button.
+  const ShowMoreButton = getByText("Show More");
   expect(ShowMoreButton.props.disabled).toBeFalsy();
+
+  // Click show more!
   ShowMoreButton.props.onClick();
+
+  // Disable show more while loading.
   expect(ShowMoreButton.props.disabled).toBeTruthy();
-  await wait(() => {
-    expect(() => getByText("Show More", decisionHistoryContainer)).toThrow();
-  });
-  expect(
-    limitSnapshotTo("decisionHistory-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
+
+  // Wait until show more disappears.
+  await waitUntilThrow(() => getByText("Show More"));
+
+  // Make a snapshot.
+  expect(toJSON(decisionHistoryContainer)).toMatchSnapshot();
 });

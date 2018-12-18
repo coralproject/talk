@@ -46,17 +46,6 @@ function commit(environment: Environment, input: UpdateSettingsInput) {
         clientMutationId: (clientMutationId++).toString(),
       },
     },
-    updater: store => {
-      const record = store
-        .getRootField("updateSettings")!
-        .getLinkedRecord("settings");
-      if (record) {
-        store
-          .getRoot()
-          .getLinkedRecord("settings")!
-          .copyFieldsFrom(record);
-      }
-    },
   });
 }
 

@@ -1687,6 +1687,7 @@ and all signed-in users will be signed out.
 
 exports[`renders configure auth 1`] = `
 <div
+  className="MainLayout-root"
   data-test="configure-container"
 >
   <form
@@ -1711,20 +1712,20 @@ exports[`renders configure auth 1`] = `
             >
               <li>
                 <a
+                  className="Link-link"
+                  href="/admin/configure/moderation"
+                  onClick={[Function]}
+                >
+                  Moderation
+                </a>
+              </li>
+              <li>
+                <a
                   className="Link-link Link-linkActive"
                   href="/admin/configure/auth"
                   onClick={[Function]}
                 >
                   Authentication
-                </a>
-              </li>
-              <li>
-                <a
-                  className="Link-link"
-                  href="/admin/configure/misc"
-                  onClick={[Function]}
-                >
-                  Misc
                 </a>
               </li>
             </ul>

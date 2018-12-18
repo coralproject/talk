@@ -3,7 +3,7 @@ import { Strategy } from "passport-strategy";
 
 import { Profile } from "passport";
 import { VerifyCallback } from "passport-oauth2";
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import { GQLAuthIntegrations } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";

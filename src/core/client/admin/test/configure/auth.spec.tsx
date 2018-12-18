@@ -23,7 +23,7 @@ const createTestRenderer = async (resolver: any = {}) => {
       ...resolver.Query,
       settings: sinon
         .stub()
-        .returns(merge(settings, get(resolver, "Query.settings"))),
+        .returns(merge({}, settings, get(resolver, "Query.settings"))),
     },
   };
   const { testRenderer } = create({
@@ -51,7 +51,7 @@ it("regenerate sso key", async () => {
       regenerateSSOKey: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
           return {
-            settings: {
+            settings: merge({}, settings, {
               auth: {
                 integrations: {
                   sso: {
@@ -60,7 +60,7 @@ it("regenerate sso key", async () => {
                   },
                 },
               },
-            },
+            }),
             clientMutationId: data.input.clientMutationId,
           };
         })
@@ -112,7 +112,7 @@ it("prevents stream lock out", async () => {
               stream: false,
             },
           });
-          settingsRecord = merge(settingsRecord, data.input.settings);
+          settingsRecord = merge({}, settingsRecord, data.input.settings);
           return {
             settings: settingsRecord,
             clientMutationId: data.input.clientMutationId,
@@ -187,7 +187,7 @@ it("change settings", async () => {
             clientID: "myClientID",
             clientSecret: "myClientSecret",
           });
-          settingsRecord = merge(settingsRecord, data.input.settings);
+          settingsRecord = merge({}, settingsRecord, data.input.settings);
           return {
             settings: settingsRecord,
             clientMutationId: data.input.clientMutationId,
@@ -241,6 +241,7 @@ it("change settings", async () => {
             tokenURL: "http://issuer.com/tokenURL",
           });
           (settingsRecord.auth.integrations.oidc[0] as any) = merge(
+            {},
             settingsRecord.auth.integrations.oidc[0],
             data.input.configuration
           );

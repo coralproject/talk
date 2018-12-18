@@ -1,7 +1,8 @@
 import cn from "classnames";
-import React, { AnchorHTMLAttributes } from "react";
-import { StatelessComponent } from "react";
+import React, { AnchorHTMLAttributes, StatelessComponent } from "react";
+
 import { withStyles } from "talk-ui/hocs";
+
 import styles from "./TextLink.css";
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {

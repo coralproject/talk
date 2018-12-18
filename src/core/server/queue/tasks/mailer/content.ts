@@ -1,7 +1,7 @@
 import nunjucks from "nunjucks";
 import path from "path";
 
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 
 /**
  * templateDirectory is the directory containing the email templates.

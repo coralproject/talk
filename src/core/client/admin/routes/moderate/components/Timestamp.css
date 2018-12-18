@@ -1,0 +1,4 @@
+.root {
+  composes: timestamp from "talk-ui/shared/typography.css";
+  color: var(--palette-grey-lighter);
+}

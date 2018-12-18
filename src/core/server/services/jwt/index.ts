@@ -3,7 +3,7 @@ import jwt, { SignOptions } from "jsonwebtoken";
 import { Bearer } from "permit";
 import uuid from "uuid/v4";
 
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 

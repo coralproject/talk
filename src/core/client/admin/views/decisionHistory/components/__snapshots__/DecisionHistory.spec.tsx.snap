@@ -14,6 +14,7 @@ exports[`renders correctly 1`] = `
           }
         }
         key="1"
+        onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
         action={
@@ -22,6 +23,7 @@ exports[`renders correctly 1`] = `
           }
         }
         key="2"
+        onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
         action={
@@ -30,6 +32,7 @@ exports[`renders correctly 1`] = `
           }
         }
         key="3"
+        onClosePopover={[Function]}
       />
     </DecisionList>
   </Main>
@@ -50,6 +53,7 @@ exports[`renders disable load more 1`] = `
           }
         }
         key="1"
+        onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
         action={
@@ -58,6 +62,7 @@ exports[`renders disable load more 1`] = `
           }
         }
         key="2"
+        onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
         action={
@@ -66,6 +71,7 @@ exports[`renders disable load more 1`] = `
           }
         }
         key="3"
+        onClosePopover={[Function]}
       />
     </DecisionList>
     <ShowMoreButton
@@ -103,6 +109,7 @@ exports[`renders hasMore 1`] = `
           }
         }
         key="1"
+        onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
         action={
@@ -111,6 +118,7 @@ exports[`renders hasMore 1`] = `
           }
         }
         key="2"
+        onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
         action={
@@ -119,6 +127,7 @@ exports[`renders hasMore 1`] = `
           }
         }
         key="3"
+        onClosePopover={[Function]}
       />
     </DecisionList>
     <ShowMoreButton

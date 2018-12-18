@@ -5,6 +5,7 @@ import { HorizontalGutter, TabContent, TabPane } from "talk-ui/components";
 
 import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneContainer";
 import ProfileQuery from "../tabs/profile/queries/ProfileQuery";
+
 import styles from "./App.css";
 
 type TabValue = "COMMENTS" | "PROFILE" | "%future added value";

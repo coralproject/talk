@@ -1,12 +1,13 @@
 import cn from "classnames";
 import React, {
+  ButtonHTMLAttributes,
   EventHandler,
   FocusEvent,
   MouseEvent,
   Ref,
+  StatelessComponent,
   TouchEvent,
 } from "react";
-import { ButtonHTMLAttributes, StatelessComponent } from "react";
 
 import {
   withForwardRef,

@@ -1,5 +1,5 @@
 import { Db, MongoClient } from "mongodb";
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 
 export async function createMongoClient(config: Config): Promise<MongoClient> {
   return MongoClient.connect(

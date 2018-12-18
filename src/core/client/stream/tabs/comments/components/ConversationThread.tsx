@@ -3,14 +3,14 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
-import { Button, Flex, HorizontalGutter } from "talk-ui/components";
+import { Button, Counter, Flex, HorizontalGutter } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import LocalReplyListContainer from "../containers/LocalReplyListContainer";
 import { RootParent } from "./Comment";
-import styles from "./ConversationThread.css";
-import Counter from "./Counter";
 import { Circle, Line } from "./Timeline";
+
+import styles from "./ConversationThread.css";
 
 export interface ConversationThreadProps {
   className?: string;

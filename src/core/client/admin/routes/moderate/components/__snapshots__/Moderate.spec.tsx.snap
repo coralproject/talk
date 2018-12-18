@@ -1,11 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(Typography)
-    variant="heading3"
+<div
+  data-test="moderate-container"
+>
+  <withPropsOnChange(SubBar)
+    data-test="moderate-subBar-container"
   >
-    Moderate
-  </withPropsOnChange(Typography)>
-</withPropsOnChange(HorizontalGutter)>
+    <Navigation />
+  </withPropsOnChange(SubBar)>
+  <div
+    className="Moderate-background"
+  />
+  <MainLayout
+    data-test="moderate-main-container"
+  >
+    <main
+      className="Moderate-main"
+    />
+  </MainLayout>
+</div>
+`;
+
+exports[`renders correctly with counts 1`] = `
+<div
+  data-test="moderate-container"
+>
+  <withPropsOnChange(SubBar)
+    data-test="moderate-subBar-container"
+  >
+    <Navigation
+      pendingCount={0}
+      reportedCount={4}
+      unmoderatedCount={3}
+    />
+  </withPropsOnChange(SubBar)>
+  <div
+    className="Moderate-background"
+  />
+  <MainLayout
+    data-test="moderate-main-container"
+  >
+    <main
+      className="Moderate-main"
+    />
+  </MainLayout>
+</div>
 `;

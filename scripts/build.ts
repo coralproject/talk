@@ -1,5 +1,11 @@
 #!/usr/bin/env ts-node
 
+import dotenv from "dotenv";
+
+// Apply all the configuration provided in the .env file if it isn't already in
+// the environment.
+dotenv.config();
+
 import chalk from "chalk";
 import fs from "fs-extra";
 import FileSizeReporter from "react-dev-utils/FileSizeReporter";
@@ -8,8 +14,8 @@ import printBuildError from "react-dev-utils/printBuildError";
 import webpack from "webpack";
 
 import paths from "../config/paths";
+import config from "../src/core/build/config";
 import createWebpackConfig from "../src/core/build/createWebpackConfig";
-import config, { createClientEnv } from "../src/core/common/config";
 
 // tslint:disable: no-console
 
@@ -97,9 +103,7 @@ measureFileSizesBeforeBuild(paths.appDistStatic)
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes: any) {
   console.log("Creating an optimized production build...");
-  const webpackConfig = createWebpackConfig({
-    env: createClientEnv(config),
-  });
+  const webpackConfig = createWebpackConfig(config);
   const compiler = webpack(webpackConfig);
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {

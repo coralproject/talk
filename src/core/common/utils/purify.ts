@@ -25,6 +25,12 @@ export function createPurify<T extends boolean = true>(
       // Ensure we wrap all the links with the target + rel set.
       node.setAttribute("target", "_blank");
       node.setAttribute("rel", "noopener noreferrer");
+
+      // Ensure that all the links have the same link as they do text.
+      const href = node.getAttribute("href");
+      if (node.textContent !== href) {
+        node.textContent = href;
+      }
     } else {
       // The only tag that's allowed attributes is the "A" tag.
       node.removeAttribute("href");

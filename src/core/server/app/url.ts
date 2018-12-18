@@ -1,4 +1,4 @@
-import { Config } from "talk-common/config";
+import { Config } from "talk-server/config";
 import { Tenant } from "talk-server/models/tenant";
 import { Request } from "talk-server/types/express";
 import { URL } from "url";

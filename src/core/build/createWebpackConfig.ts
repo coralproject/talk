@@ -1,3 +1,4 @@
+import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
@@ -13,6 +14,8 @@ import webpack, { Configuration, Plugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ManifestPlugin from "webpack-manifest-plugin";
 
+import { Config } from "./config";
+import { createClientEnv } from "./config";
 import paths from "./paths";
 import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
@@ -25,32 +28,33 @@ import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 const filterPlugins = (plugins: Array<Plugin | null>): Plugin[] =>
   plugins.filter(identity) as Plugin[];
 
-interface CreateWebpackConfig {
-  publicPath?: string;
-  publicURL?: string;
-  env?: Record<string, string>;
-  disableSourcemaps?: boolean;
+interface CreateWebpackOptions {
   appendPlugins?: any[];
 }
 
-export default function createWebpackConfig({
-  publicPath = "/",
-  publicURL = "",
-  env = process.env as Record<string, string>,
-  appendPlugins = [],
-  disableSourcemaps,
-}: CreateWebpackConfig = {}): Configuration[] {
+const publicPath = "/";
+
+export default function createWebpackConfig(
+  config: Config,
+  { appendPlugins = [] }: CreateWebpackOptions = {}
+): Configuration[] {
+  const env = createClientEnv(config);
+  const disableSourcemaps = config.get("disableSourcemaps");
+  const generateReport = config.get("generateReport");
+
+  const isProduction = env.NODE_ENV === "production";
+  const minimize = isProduction && !config.get("disableMinimize");
+  const treeShake = config.get("enableTreeShake");
+
   const envStringified = {
     "process.env": Object.keys(env).reduce<Record<string, string>>(
       (result, key) => {
-        result[key] = JSON.stringify(env[key]);
+        result[key] = JSON.stringify((env as any)[key]);
         return result;
       },
       {}
     ),
   };
-
-  const isProduction = env.NODE_ENV === "production";
 
   /**
    * ifProduction will only include the nodes if we're in production mode.
@@ -60,7 +64,7 @@ export default function createWebpackConfig({
     : <T extends {}>(...nodes: T[]) => [];
 
   const htmlWebpackConfig: Options = {
-    minify: isProduction && {
+    minify: minimize && {
       removeComments: true,
       collapseWhitespace: true,
       removeRedundantAttributes: true,
@@ -109,6 +113,19 @@ export default function createWebpackConfig({
           filename: "assets/css/[name].[hash].css",
           chunkFilename: "assets/css/[id].[hash].css",
         }),
+        new OptimizeCssnanoPlugin({
+          sourceMap: true,
+          cssnanoOptions: {
+            preset: [
+              "default",
+              {
+                discardComments: {
+                  removeAll: true,
+                },
+              },
+            ],
+          },
+        }),
         // Pre-compress all the assets as they will be served as is.
         new CompressionPlugin({}),
       ]
@@ -128,9 +145,6 @@ export default function createWebpackConfig({
         new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       ];
 
-  // If the WEBPACK_STATS environment variable is specified, output the stats!
-  const includeStats = Boolean(process.env.WEBPACK_STATS);
-
   const baseConfig: Configuration = {
     // Set webpack mode.
     mode: isProduction ? "production" : "development",
@@ -138,20 +152,15 @@ export default function createWebpackConfig({
       concatenateModules: isProduction,
       providedExports: true,
       usedExports: true,
-      sideEffects: true,
-      // We also minimize during development but only
-      // limit it to dead code and unused code elemination
-      // to be sure nothing breaks later in the production build.
-      //
-      // If modules are written in a side-effects free way this
-      // should not happen. We strive to write side-effects free
-      // modules but no one is perfect ;-)
-      minimize: true,
+      // We can't use side effects because it disturbs css order
+      // https://github.com/webpack/webpack/issues/7094.
+      sideEffects: false,
+      minimize: minimize || treeShake,
       minimizer: [
         // Minify the code.
         new TerserPlugin({
           terserOptions: {
-            compress: isProduction
+            compress: minimize
               ? {}
               : {
                   defaults: false,
@@ -160,9 +169,9 @@ export default function createWebpackConfig({
                   side_effects: true,
                   unused: true,
                 },
-            mangle: isProduction && {},
+            mangle: minimize && {},
             output: {
-              comments: !isProduction,
+              comments: !minimize,
               // Turned on because emoji and regex is not minified properly using default
               // https://github.com/facebookincubator/create-react-app/issues/2488
               ascii_only: true,
@@ -397,7 +406,6 @@ export default function createWebpackConfig({
                     modules: true,
                     importLoaders: 1,
                     localIdentName: "[name]-[local]-[hash:base64:5]",
-                    minimize: isProduction,
                     sourceMap: isProduction && !disableSourcemaps,
                   },
                 },
@@ -438,6 +446,13 @@ export default function createWebpackConfig({
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
+      // If stats are enabled, output them!
+      generateReport
+        ? new BundleAnalyzerPlugin({
+            analyzerMode: "static",
+            reportFilename: "report-assets.html",
+          })
+        : null,
       ...additionalPlugins,
       ...appendPlugins,
     ],
@@ -563,18 +578,17 @@ export default function createWebpackConfig({
         new ManifestPlugin({
           fileName: "asset-manifest.json",
         }),
-        // If stats are enabled, output them!
-        includeStats
-          ? new BundleAnalyzerPlugin({
-              analyzerMode: "static",
-              reportFilename: "report-assets.html",
-            })
-          : null,
       ]),
     },
     /* Webpack config for our embed */
     {
       ...baseConfig,
+      optimization: {
+        ...baseConfig.optimization,
+        // We can turn on sideEffects here as we don't use
+        // css here and don't run into: https://github.com/webpack/webpack/issues/7094
+        sideEffects: true,
+      },
       entry: [
         /* Use minimal amount of polyfills (for IE) */
         "intersection-observer", // also for Safari
@@ -624,13 +638,6 @@ export default function createWebpackConfig({
         new ManifestPlugin({
           fileName: "embed-manifest.json",
         }),
-        // If stats are enabled, output them!
-        includeStats
-          ? new BundleAnalyzerPlugin({
-              analyzerMode: "static",
-              reportFilename: "report-embed.html",
-            })
-          : null,
       ]),
     },
   ];

@@ -10,7 +10,9 @@ import {
   MatchMedia,
   Typography,
 } from "talk-ui/components";
+
 import HTMLContent from "../../../components/HTMLContent";
+
 import styles from "./HistoryComment.css";
 
 export interface HistoryCommentProps {
