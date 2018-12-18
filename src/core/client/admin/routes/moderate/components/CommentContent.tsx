@@ -78,6 +78,10 @@ function markPhrasesHTML(
   return tokens
     .map(
       (token, i) =>
+        // Using our Regexp patterns it returns tokens arranged this way
+        // [STRING_WITH_NO_MATCH, NEW_WORD_DELIMITER, MATCHED_WORD, ...].
+        // This pattern repeats throughout. Next line will mark MATCHED_WORD
+        // and escape all tokens.
         i % 3 === 2 ? `<mark>${escapeHTML(token)}</mark>` : escapeHTML(token)
     )
     .join("");
@@ -119,9 +123,11 @@ const CommentContent: StatelessComponent<Props> = ({
   const node = document.createElement("div");
   node.innerHTML = purify.sanitize(children);
 
-  // Then we traverse it recursively and manipulate it to highlight suspect words
-  // and banned words.
-  markHTMLNode(node, suspectWords, bannedWords);
+  if (suspectWords.length || bannedWords.length) {
+    // Then we traverse it recursively and manipulate it to highlight suspect words
+    // and banned words.
+    markHTMLNode(node, suspectWords, bannedWords);
+  }
 
   // Finally we render the content of the Shadow DOM Tree
   return (

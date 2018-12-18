@@ -15,3 +15,14 @@ it("renders correctly", () => {
   const wrapper = shallow(<CommentContent {...props} />);
   expect(wrapper).toMatchSnapshot();
 });
+
+it("renders empty words correctly", () => {
+  const props: PropTypesOf<typeof CommentContent> = {
+    suspectWords: [],
+    bannedWords: [],
+    className: "custom",
+    children: "Hello <strong>idiot</strong>, you fucking bastard",
+  };
+  const wrapper = shallow(<CommentContent {...props} />);
+  expect(wrapper).toMatchSnapshot();
+});

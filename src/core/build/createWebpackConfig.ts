@@ -155,14 +155,7 @@ export default function createWebpackConfig({
       // We can't use side effects because it disturbs css order
       // https://github.com/webpack/webpack/issues/7094.
       sideEffects: false,
-      // We also minimize during development but only
-      // limit it to dead code and unused code elemination
-      // to be sure nothing breaks later in the production build.
-      //
-      // If modules are written in a side-effects free way this
-      // should not happen. We strive to write side-effects free
-      // modules but no one is perfect ;-)
-      minimize: true,
+      minimize: isProduction,
       minimizer: [
         // Minify the code.
         new TerserPlugin({
