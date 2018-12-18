@@ -1,24 +1,33 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
-import SignUp, { SignUpForm } from "../components/SignUpWithEmail";
 
 import { SignUpMutation, withSignUpMutation } from "talk-auth/mutations";
+import { PropTypesOf } from "talk-framework/types";
+
+import SignUp from "../components/SignUpWithEmail";
 
 interface SignUpContainerProps {
   signUp: SignUpMutation;
 }
 
 class SignUpContainer extends Component<SignUpContainerProps> {
-  private onSubmit: SignUpForm["onSubmit"] = async (input, form) => {
+  private handleSubmit: PropTypesOf<typeof SignUp>["onSubmit"] = async (
+    input,
+    form
+  ) => {
     try {
-      await this.props.signUp(input);
+      await this.props.signUp({
+        email: input.email,
+        password: input.password,
+        username: input.username,
+      });
       return form.reset();
     } catch (error) {
       return { [FORM_ERROR]: error.message };
     }
   };
   public render() {
-    return <SignUp onSubmit={this.onSubmit} />;
+    return <SignUp onSubmit={this.handleSubmit} />;
   }
 }
 

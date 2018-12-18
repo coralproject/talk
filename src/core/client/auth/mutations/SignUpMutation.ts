@@ -1,6 +1,7 @@
 import { pick } from "lodash";
 import { Environment } from "relay-runtime";
 
+import { sendAuthError, sendAuthToken } from "talk-auth/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { createMutationContainer } from "talk-framework/lib/relay";
 import { signUp, SignUpInput } from "talk-framework/rest";
@@ -17,10 +18,10 @@ export async function commit(
       rest,
       pick(input, "email", "password", "username")
     );
-    postMessage.send("setAuthToken", result.token, window.opener);
+    sendAuthToken(postMessage, result.token);
     window.close();
   } catch (err) {
-    postMessage.send("authError", err.toString(), window.opener);
+    sendAuthError(postMessage, err.toString());
     throw err;
   }
 }

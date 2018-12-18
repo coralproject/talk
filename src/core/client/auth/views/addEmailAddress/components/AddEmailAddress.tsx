@@ -19,7 +19,7 @@ import {
 import { ListItem, UnorderedList } from "./UnorderedList";
 
 interface FormProps {
-  username: string;
+  email: string;
 }
 
 export interface AddEmailAddressForm {

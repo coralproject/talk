@@ -12,7 +12,7 @@ import SignUpWithFacebookContainer from "../containers/SignUpWithFacebookContain
 import SignUpWithGoogleContainer from "../containers/SignUpWithGoogleContainer";
 import SignUpWithOIDCContainer from "../containers/SignUpWithOIDCContainer";
 
-export interface SignUpForm {
+interface Props {
   onGotoSignIn: () => void;
   emailEnabled?: boolean;
   facebookEnabled?: boolean;
@@ -23,7 +23,7 @@ export interface SignUpForm {
     PropTypesOf<typeof SignUpWithGoogleContainer>["auth"];
 }
 
-const SignUp: StatelessComponent<SignUpForm> = ({
+const SignUp: StatelessComponent<Props> = ({
   onGotoSignIn,
   emailEnabled,
   facebookEnabled,

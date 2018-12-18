@@ -1,11 +1,36 @@
+import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
+
+import {
+  SetPasswordMutation,
+  withSetPasswordMutation,
+} from "talk-auth/mutations/SetPasswordMutation";
+import { PropTypesOf } from "talk-framework/types";
+
 import CreatePassword from "../components/CreatePassword";
 
-class CreatePasswordContainer extends Component {
+interface Props {
+  setPassword: SetPasswordMutation;
+}
+
+class CreatePasswordContainer extends Component<Props> {
+  private handleSubmit: PropTypesOf<typeof CreatePassword>["onSubmit"] = async (
+    input,
+    form
+  ) => {
+    try {
+      await this.props.setPassword({ password: input.password });
+      return form.reset();
+    } catch (error) {
+      return { [FORM_ERROR]: error.message };
+    }
+  };
+
   public render() {
     // tslint:disable-next-line:no-empty
-    return <CreatePassword onSubmit={() => {}} />;
+    return <CreatePassword onSubmit={this.handleSubmit} />;
   }
 }
 
-export default CreatePasswordContainer;
+const enhanced = withSetPasswordMutation(CreatePasswordContainer);
+export default enhanced;

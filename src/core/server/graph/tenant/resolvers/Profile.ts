@@ -10,6 +10,10 @@ const resolveType: GQLProfileTypeResolver<user.Profile> = profile => {
       return "OIDCProfile";
     case "sso":
       return "SSOProfile";
+    case "facebook":
+      return "FacebookProfile";
+    case "google":
+      return "GoogleProfile";
     default:
       // TODO: replace with better error.
       throw new Error("invalid profile type");

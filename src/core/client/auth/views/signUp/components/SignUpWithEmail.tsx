@@ -23,11 +23,11 @@ interface FormProps {
   confirmPassword: string;
 }
 
-export interface SignUpForm {
+interface Props {
   onSubmit: OnSubmit<FormProps>;
 }
 
-const SignUp: StatelessComponent<SignUpForm> = props => {
+const SignUp: StatelessComponent<Props> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (

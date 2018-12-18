@@ -1032,7 +1032,20 @@ type SSOProfile {
   id: String!
 }
 
-union Profile = LocalProfile | OIDCProfile | SSOProfile
+type FacebookProfile {
+  id: String!
+}
+
+type GoogleProfile {
+  id: String!
+}
+
+union Profile =
+    LocalProfile
+  | OIDCProfile
+  | SSOProfile
+  | FacebookProfile
+  | GoogleProfile
 
 """
 User is someone that leaves Comments, and logs in.
