@@ -30,8 +30,6 @@ import RegistrationField from "./RegistrationField";
 import TargetFilterField from "./TargetFilterField";
 import ValidationMessage from "./ValidationMessage";
 
-import styles from "./OIDCConfig.css";
-
 interface Props {
   disabled?: boolean;
   callbackURL: string;

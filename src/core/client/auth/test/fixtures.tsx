@@ -1,4 +1,5 @@
 export const settings = {
+  id: "settings",
   auth: {
     integrations: {
       facebook: {
