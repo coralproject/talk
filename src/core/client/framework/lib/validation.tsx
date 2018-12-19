@@ -81,8 +81,8 @@ export const validateUsernameMinLength = createValidator(
  * validateUsernameMaxLength is a Validator that checks that the username has a max length of characters
  */
 export const validateUsernameMaxLength = createValidator(
-  v => v.length <= 20,
-  USERNAME_TOO_LONG(20)
+  v => v.length <= 30,
+  USERNAME_TOO_LONG(30)
 );
 
 /**
