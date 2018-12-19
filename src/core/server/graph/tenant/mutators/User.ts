@@ -1,4 +1,3 @@
-import { async } from "q";
 import TenantContext from "talk-server/graph/tenant/context";
 import * as user from "talk-server/models/user";
 import {
