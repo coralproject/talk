@@ -4,6 +4,7 @@ import React, { StatelessComponent } from "react";
 import { Bar, SubBar, Subtitle, Title } from "talk-auth/components//Header";
 import Main from "talk-auth/components/Main";
 import OrSeparator from "talk-auth/components/OrSeparator";
+import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
 import { PropTypesOf } from "talk-framework/types";
 import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
 
@@ -35,6 +36,7 @@ const SignIn: StatelessComponent<SignInForm> = ({
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
     <div data-testid="signIn-container">
+      <AutoHeightContainer />
       <Localized
         id="signIn-signInToJoinHeader"
         title={<Title />}

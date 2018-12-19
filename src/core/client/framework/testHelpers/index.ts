@@ -12,19 +12,6 @@ export { default as createUUIDGenerator } from "./createUUIDGenerator";
 export * from "./denormalize";
 export { default as limitSnapshotTo } from "./limitSnapshotTo";
 export { default as inputPredicate } from "./inputPredicate";
-export {
-  getByTestID,
-  getAllByTestID,
-  queryByTestID,
-  queryAllByTestID,
-} from "./byTestID";
-export { getByText, getAllByText, queryByText, queryAllByText } from "./byText";
-export {
-  getByLabelText,
-  getAllByLabelText,
-  queryByLabelText,
-  queryAllByLabelText,
-} from "./byLabelText";
 export { default as within } from "./within";
 export { default as wait } from "./wait";
 export { default as waitForElement } from "./waitForElement";

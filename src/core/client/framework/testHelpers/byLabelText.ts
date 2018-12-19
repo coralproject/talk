@@ -61,35 +61,31 @@ export function queryAllByLabelText(
   pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
-  try {
-    const matches = container.findAll(ariaLabelMatcher(pattern, options));
-    queryAllByText(container, pattern).forEach(i => {
-      if (typeof i.type !== "string") {
-        return;
-      }
-      if (i.props.id) {
-        try {
-          matches.push(
-            container.find(
-              x =>
-                typeof x.type === "string" &&
-                x.props["aria-labelledby"] === i.props.id
-            )
-          );
-        } catch {} // tslint:disable-line:no-empty
-      }
-      if (i.type === "label" && i.props.for) {
-        try {
-          matches.push(
-            container.find(
-              x => typeof x.type === "string" && x.props.id === i.props.for
-            )
-          );
-        } catch {} // tslint:disable-line:no-empty
-      }
-    });
-    return matches;
-  } catch {
-    return [];
-  }
+  const matches = container.findAll(ariaLabelMatcher(pattern, options));
+  queryAllByText(container, pattern).forEach(i => {
+    if (typeof i.type !== "string") {
+      return;
+    }
+    if (i.props.id) {
+      try {
+        matches.push(
+          container.find(
+            x =>
+              typeof x.type === "string" &&
+              x.props["aria-labelledby"] === i.props.id
+          )
+        );
+      } catch {} // tslint:disable-line:no-empty
+    }
+    if (i.type === "label" && i.props.for) {
+      try {
+        matches.push(
+          container.find(
+            x => typeof x.type === "string" && x.props.id === i.props.for
+          )
+        );
+      } catch {} // tslint:disable-line:no-empty
+    }
+  });
+  return matches;
 }

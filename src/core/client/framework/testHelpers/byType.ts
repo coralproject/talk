@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactTestInstance } from "react-test-renderer";
 
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
@@ -10,19 +9,13 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   if (typeof i.type !== "string") {
     return false;
   }
-  if (!i.props.children) {
-    return false;
-  }
-  const children = React.Children.toArray(i.props.children);
-  for (const c of children) {
-    if (typeof c === "string" && matchText(pattern, c, options)) {
-      return true;
-    }
-  }
-  return false;
+  return matchText(pattern, i.type, {
+    collapseWhitespace: false,
+    ...options,
+  });
 };
 
-export function getByText(
+export function getByType(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions
@@ -30,19 +23,19 @@ export function getByText(
   return container.find(matcher(pattern, options));
 }
 
-export function getAllByText(
+export function getAllByType(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
   const results = container.findAll(matcher(pattern, options));
   if (!results.length) {
-    throw new Error(`Couldn't find text ${pattern}`);
+    throw new Error(`Couldn't find test id ${pattern}`);
   }
   return results;
 }
 
-export function queryByText(
+export function queryByType(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions
@@ -54,7 +47,7 @@ export function queryByText(
   return results[0];
 }
 
-export function queryAllByText(
+export function queryAllByType(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions

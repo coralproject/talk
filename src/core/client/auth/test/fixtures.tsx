@@ -35,6 +35,8 @@ export const settings = {
           stream: true,
           admin: true,
         },
+        name: "OIDC",
+        redirectURL: "http://localhost/oidc",
       },
       local: {
         enabled: true,

@@ -23,31 +23,31 @@ export function getByTestID(
   return container.find(matcher(pattern, options));
 }
 
+export function getAllByTestID(
+  container: ReactTestInstance,
+  pattern: TextMatchPattern,
+  options?: TextMatchOptions
+) {
+  const results = container.findAll(matcher(pattern, options));
+  if (!results.length) {
+    throw new Error(`Couldn't find test id ${pattern}`);
+  }
+  return results;
+}
+
 export function queryByTestID(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
-  try {
-    return container.findAll(matcher(pattern, options))[0];
-  } catch {
+  const results = container.findAll(matcher(pattern, options));
+  if (!results.length) {
     return null;
   }
+  return results[0];
 }
 
 export function queryAllByTestID(
-  container: ReactTestInstance,
-  pattern: TextMatchPattern,
-  options?: TextMatchOptions
-) {
-  try {
-    return container.findAll(matcher(pattern, options));
-  } catch {
-    return [];
-  }
-}
-
-export function getAllByTestID(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions
