@@ -96,6 +96,28 @@ it("renders createPassword view", async () => {
   );
 });
 
+it("do not render createPassword view when local auth is disabled", async () => {
+  await createTestRenderer({
+    Query: {
+      me: {
+        email: "hans@test.com",
+        username: "hans",
+      },
+      settings: {
+        auth: {
+          integrations: {
+            local: {
+              enabled: false,
+            },
+          },
+        },
+      },
+    },
+  });
+  // Wait till window is closed.
+  await wait(() => expect(windowMock.closeStub.called).toBe(true));
+});
+
 it("send back auth token", async () => {
   const { context } = await createTestRenderer({
     Query: {
