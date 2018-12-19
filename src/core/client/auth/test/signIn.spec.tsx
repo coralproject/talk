@@ -6,11 +6,13 @@ import { wait, waitForElement, within } from "talk-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
-import waitForResize from "./waitForResize";
+import mockWindow from "./mockWindow";
 
 let context: TalkContext;
 let testRenderer: ReactTestRenderer;
 let form: ReactTestInstance;
+let windowMock: ReturnType<typeof mockWindow>;
+
 beforeEach(async () => {
   const resolvers = {
     Query: {
@@ -18,8 +20,7 @@ beforeEach(async () => {
     },
   };
 
-  const windowMock = sinon.mock(window);
-  windowMock.expects("resizeTo");
+  windowMock = mockWindow();
   ({ testRenderer, context } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
@@ -32,6 +33,10 @@ beforeEach(async () => {
     within(testRenderer.root).getByTestID("signIn-container")
   );
   form = within(testRenderer.root).getByType("form");
+});
+
+afterEach(async () => {
+  await wait(() => expect(windowMock.resizeStub.called).toBe(true));
   windowMock.restore();
 });
 
@@ -79,9 +84,6 @@ it("shows server error", async () => {
   passwordField.props.onChange({ target: { value: "testtest" } });
   emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
 
-  const windowMock = sinon.mock(window);
-  windowMock.expects("resizeTo");
-
   const error = new Error("Server Error");
   const restMock = sinon.mock(context.rest);
   restMock
@@ -110,11 +112,9 @@ it("shows server error", async () => {
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
   expect(testRenderer.toJSON()).toMatchSnapshot();
-  await waitForResize();
 
   restMock.verify();
   postMessageMock.verify();
-  windowMock.verify();
 });
 
 it("submits form successfully", async () => {
@@ -127,10 +127,6 @@ it("submits form successfully", async () => {
 
   emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
   passwordField.props.onChange({ target: { value: "testtest" } });
-
-  const windowMock = sinon.mock(window);
-  windowMock.expects("close").once();
-  windowMock.expects("resizeTo");
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -158,11 +154,11 @@ it("submits form successfully", async () => {
   expect(submitButton.props.disabled).toBe(true);
 
   await wait(() => expect(submitButton.props.disabled).toBe(false));
-  await waitForResize();
 
   expect(testRenderer.toJSON()).toMatchSnapshot();
 
+  // Wait for window to be closed.
+  await wait(() => expect(windowMock.closeStub.called).toBe(true));
   restMock.verify();
   postMessageMock.verify();
-  windowMock.verify();
 });

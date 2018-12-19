@@ -1,10 +1,11 @@
 import { ReactTestRenderer } from "react-test-renderer";
-import sinon, { SinonMock } from "sinon";
+import sinon from "sinon";
 
-import { waitForElement, within } from "talk-framework/testHelpers";
+import { wait, waitForElement, within } from "talk-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
+import mockWindow from "./mockWindow";
 
 async function createTestRenderer(
   initialView: string
@@ -25,13 +26,13 @@ async function createTestRenderer(
   return testRenderer;
 }
 
-let windowMock: SinonMock = sinon.mock(window);
+let windowMock: ReturnType<typeof mockWindow>;
 beforeEach(() => {
-  windowMock = sinon.mock(window);
-  windowMock.expects("resizeTo");
+  windowMock = mockWindow();
 });
 
-afterEach(() => {
+afterEach(async () => {
+  await wait(() => expect(windowMock.resizeStub.called).toBe(true));
   windowMock.restore();
 });
 
