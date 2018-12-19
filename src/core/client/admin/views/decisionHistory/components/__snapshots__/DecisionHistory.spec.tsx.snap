@@ -13,7 +13,6 @@ exports[`renders correctly 1`] = `
             "id": "1",
           }
         }
-        key="1"
         onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
@@ -22,7 +21,6 @@ exports[`renders correctly 1`] = `
             "id": "2",
           }
         }
-        key="2"
         onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
@@ -31,7 +29,6 @@ exports[`renders correctly 1`] = `
             "id": "3",
           }
         }
-        key="3"
         onClosePopover={[Function]}
       />
     </DecisionList>
@@ -52,7 +49,6 @@ exports[`renders disable load more 1`] = `
             "id": "1",
           }
         }
-        key="1"
         onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
@@ -61,7 +57,6 @@ exports[`renders disable load more 1`] = `
             "id": "2",
           }
         }
-        key="2"
         onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
@@ -70,7 +65,6 @@ exports[`renders disable load more 1`] = `
             "id": "3",
           }
         }
-        key="3"
         onClosePopover={[Function]}
       />
     </DecisionList>
@@ -108,7 +102,6 @@ exports[`renders hasMore 1`] = `
             "id": "1",
           }
         }
-        key="1"
         onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
@@ -117,7 +110,6 @@ exports[`renders hasMore 1`] = `
             "id": "2",
           }
         }
-        key="2"
         onClosePopover={[Function]}
       />
       <Relay(DecisionHistoryItemContainer)
@@ -126,7 +118,6 @@ exports[`renders hasMore 1`] = `
             "id": "3",
           }
         }
-        key="3"
         onClosePopover={[Function]}
       />
     </DecisionList>

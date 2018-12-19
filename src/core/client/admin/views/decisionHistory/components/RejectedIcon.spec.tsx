@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import RejectedIcon from "./RejectedIcon";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<RejectedIcon />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<RejectedIcon />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { createSinonStub } from "talk-framework/testHelpers";
 
@@ -22,6 +22,8 @@ it("Broadcasts events to pym", () => {
     ),
   };
 
-  shallow(<OnEvents pym={pym as any} eventEmitter={eventEmitter} />);
+  createRenderer().render(
+    <OnEvents pym={pym as any} eventEmitter={eventEmitter} />
+  );
   expect(pym.sendMessage.calledOnce).toBe(true);
 });

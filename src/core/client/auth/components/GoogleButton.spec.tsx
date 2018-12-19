@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -11,6 +11,7 @@ it("renders correctly", () => {
     onClick: noop,
     children: "Login with Google",
   };
-  const wrapper = shallow(<GoogleButton {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<GoogleButton {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

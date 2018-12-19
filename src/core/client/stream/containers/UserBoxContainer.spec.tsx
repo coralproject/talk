@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -61,8 +61,9 @@ it("renders fully", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders without logout button", () => {
@@ -117,8 +118,9 @@ it("renders without logout button", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders sso only", () => {
@@ -173,8 +175,9 @@ it("renders sso only", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders sso only without logout button", () => {
@@ -229,8 +232,9 @@ it("renders sso only without logout button", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders without register button", () => {
@@ -285,6 +289,7 @@ it("renders without register button", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

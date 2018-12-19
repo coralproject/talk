@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { createSinonStub } from "talk-framework/testHelpers";
 
@@ -19,7 +19,7 @@ it("Listens to event and sets auth token", () => {
     s => s.withArgs({ authToken: token }).returns(null)
   );
 
-  shallow(
+  createRenderer().render(
     <OnPostMessageSetAuthToken
       postMessage={postMessage}
       setAuthToken={setAuthToken}

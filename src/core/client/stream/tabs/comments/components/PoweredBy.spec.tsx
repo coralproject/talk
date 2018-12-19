@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -9,6 +9,7 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof PoweredBy> = {
     className: "custom",
   };
-  const wrapper = shallow(<PoweredBy {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<PoweredBy {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

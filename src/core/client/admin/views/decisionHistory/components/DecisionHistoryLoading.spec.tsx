@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import DecisionHistoryLoading from "./DecisionHistoryLoading";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<DecisionHistoryLoading />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<DecisionHistoryLoading />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

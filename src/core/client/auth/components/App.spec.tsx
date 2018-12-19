@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -13,6 +13,7 @@ it("renders sign in", () => {
     view: "SIGN_IN",
     auth: {},
   };
-  const wrapper = shallow(<AppN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<AppN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

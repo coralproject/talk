@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -22,16 +22,18 @@ it("renders correctly", () => {
     ...baseProps,
     actions: [{ id: "1" }, { id: "2" }, { id: "3" }],
   };
-  const wrapper = shallow(<DecisionHistoryN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<DecisionHistoryN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders empty state", () => {
   const props: PropTypesOf<typeof DecisionHistoryN> = {
     ...baseProps,
   };
-  const wrapper = shallow(<DecisionHistoryN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<DecisionHistoryN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders hasMore", () => {
@@ -40,8 +42,9 @@ it("renders hasMore", () => {
     actions: [{ id: "1" }, { id: "2" }, { id: "3" }],
     hasMore: true,
   };
-  const wrapper = shallow(<DecisionHistoryN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<DecisionHistoryN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders disable load more", () => {
@@ -51,6 +54,7 @@ it("renders disable load more", () => {
     hasMore: true,
     disableLoadMore: true,
   };
-  const wrapper = shallow(<DecisionHistoryN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<DecisionHistoryN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

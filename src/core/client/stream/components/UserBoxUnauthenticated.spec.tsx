@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -12,8 +12,9 @@ it("renders correctly", () => {
     onRegister: noop,
     showRegisterButton: true,
   };
-  const wrapper = shallow(<UserBoxUnauthenticated {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxUnauthenticated {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders correctly hides showRegisterButton", () => {
@@ -22,6 +23,7 @@ it("renders correctly hides showRegisterButton", () => {
     onRegister: noop,
     showRegisterButton: false,
   };
-  const wrapper = shallow(<UserBoxUnauthenticated {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxUnauthenticated {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

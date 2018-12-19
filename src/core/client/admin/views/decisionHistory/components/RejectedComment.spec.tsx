@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -13,6 +13,7 @@ it("renders correctly", () => {
     date: "2018-07-06T18:24:00.000Z",
     onGotoComment: noop,
   };
-  const wrapper = shallow(<RejectedComment {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<RejectedComment {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

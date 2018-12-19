@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -9,8 +9,9 @@ it("renders level0", () => {
   const props: PropTypesOf<typeof Indent> = {
     children: <div>Hello World</div>,
   };
-  const wrapper = shallow(<Indent {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Indent {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders level1", () => {
@@ -18,8 +19,9 @@ it("renders level1", () => {
     level: 1,
     children: <div>Hello World</div>,
   };
-  const wrapper = shallow(<Indent {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Indent {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders without border", () => {
@@ -28,6 +30,7 @@ it("renders without border", () => {
     noBorder: true,
     children: <div>Hello World</div>,
   };
-  const wrapper = shallow(<Indent {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Indent {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

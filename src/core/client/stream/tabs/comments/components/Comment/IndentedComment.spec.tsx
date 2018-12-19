@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -12,6 +12,7 @@ it("renders correctly", () => {
     body: "Woof",
     createdAt: "1995-12-17T03:24:00.000Z",
   };
-  const wrapper = shallow(<IndentedComment {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<IndentedComment {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

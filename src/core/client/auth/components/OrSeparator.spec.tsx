@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import OrSeparator from "./OrSeparator";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<OrSeparator />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<OrSeparator />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

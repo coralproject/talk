@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -12,8 +12,9 @@ it("renders correctly with logout button", () => {
     username: "Username",
     showLogoutButton: true,
   };
-  const wrapper = shallow(<UserBoxAuthenticated {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxAuthenticated {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders correctly without logout button", () => {
@@ -22,6 +23,7 @@ it("renders correctly without logout button", () => {
     username: "Username",
     showLogoutButton: false,
   };
-  const wrapper = shallow(<UserBoxAuthenticated {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxAuthenticated {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

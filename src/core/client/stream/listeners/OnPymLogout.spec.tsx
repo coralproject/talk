@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 import sinon from "sinon";
 
 import { OnPymLogout } from "./OnPymLogout";
@@ -15,6 +15,6 @@ it("Listens to event and calls signOut", () => {
 
   const signOut = sinon.stub();
 
-  shallow(<OnPymLogout pym={pym} signOut={signOut} />);
+  createRenderer().render(<OnPymLogout pym={pym} signOut={signOut} />);
   expect(signOut.calledOnce);
 });

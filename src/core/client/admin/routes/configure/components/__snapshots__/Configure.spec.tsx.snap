@@ -7,7 +7,7 @@ exports[`renders correctly 1`] = `
   <ReactFinalForm
     onSubmit={[Function]}
   >
-    <Component />
+    [Function]
   </ReactFinalForm>
 </MainLayout>
 `;

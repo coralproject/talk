@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -18,8 +18,9 @@ it("renders correctly", () => {
     oidcEnabled: true,
     auth: {},
   };
-  const wrapper = shallow(<SignInN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<SignInN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders without email login", () => {
@@ -31,6 +32,7 @@ it("renders without email login", () => {
     oidcEnabled: true,
     auth: {},
   };
-  const wrapper = shallow(<SignInN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<SignInN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

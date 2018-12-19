@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import CommentContent from "./CommentContent";
 
@@ -12,8 +12,9 @@ it("renders correctly", () => {
     className: "custom",
     children: "Hello <strong>idiot</strong>, you fucking bastard",
   };
-  const wrapper = shallow(<CommentContent {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentContent {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders empty words correctly", () => {
@@ -23,6 +24,7 @@ it("renders empty words correctly", () => {
     className: "custom",
     children: "Hello <strong>idiot</strong>, you fucking bastard",
   };
-  const wrapper = shallow(<CommentContent {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentContent {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

@@ -37,7 +37,7 @@
     "lint:server": "tslint --project ./src/tsconfig.json",
     "lint:client": "tslint --project ./src/core/client/tsconfig.json",
     "lint:scripts": "tslint --project ./tsconfig.json",
-    "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:client-embed -- --fix && npm run lint:scripts -- --fix",
+    "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:scripts -- --fix",
     "test": "node scripts/test.js --env=jsdom",
     "tscheck": "npm-run-all --parallel tscheck:*",
     "tscheck:server": "tsc --project ./src/tsconfig.json --noEmit",

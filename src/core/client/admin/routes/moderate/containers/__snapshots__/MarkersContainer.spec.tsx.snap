@@ -4,7 +4,6 @@ exports[`renders all markers 1`] = `
 Array [
   <Localized
     id="moderate-marker-preMod"
-    key="0"
   >
     <withPropsOnChange(Marker)
       color="primary"
@@ -14,7 +13,6 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-link"
-    key="1"
   >
     <withPropsOnChange(Marker)
       color="primary"
@@ -24,7 +22,6 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-bannedWord"
-    key="2"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -34,7 +31,6 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-suspectWord"
-    key="3"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -45,7 +41,6 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-spam"
-    key="4"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -55,7 +50,6 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-toxic"
-    key="5"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -65,7 +59,6 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-karma"
-    key="6"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -75,7 +68,6 @@ Array [
   </Localized>,
   <withPropsOnChange(Marker)
     color="error"
-    key="7"
   >
     <Localized
       id="moderate-marker-offensive"
@@ -91,7 +83,6 @@ Array [
   </withPropsOnChange(Marker)>,
   <withPropsOnChange(Marker)
     color="error"
-    key="8"
   >
     <Localized
       id="moderate-marker-spam"
@@ -112,7 +103,6 @@ exports[`renders some markers 1`] = `
 Array [
   <Localized
     id="moderate-marker-preMod"
-    key="9"
   >
     <withPropsOnChange(Marker)
       color="primary"
@@ -120,10 +110,9 @@ Array [
       Pre-Mod
     </withPropsOnChange(Marker)>
   </Localized>,
-  "",
+  null,
   <Localized
     id="moderate-marker-bannedWord"
-    key="10"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -131,11 +120,10 @@ Array [
       Banned Word
     </withPropsOnChange(Marker)>
   </Localized>,
-  "",
-  "",
+  null,
+  null,
   <Localized
     id="moderate-marker-toxic"
-    key="11"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -145,7 +133,6 @@ Array [
   </Localized>,
   <Localized
     id="moderate-marker-karma"
-    key="12"
   >
     <withPropsOnChange(Marker)
       color="error"
@@ -155,7 +142,6 @@ Array [
   </Localized>,
   <withPropsOnChange(Marker)
     color="error"
-    key="13"
   >
     <Localized
       id="moderate-marker-offensive"
@@ -169,6 +155,6 @@ Array [
       2
     </withPropsOnChange(Count)>
   </withPropsOnChange(Marker)>,
-  "",
+  null,
 ]
 `;

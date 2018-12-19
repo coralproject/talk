@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -15,6 +15,7 @@ it("renders username and body", () => {
     footer: "footer",
     showEditedMarker: true,
   };
-  const wrapper = shallow(<Comment {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Comment {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

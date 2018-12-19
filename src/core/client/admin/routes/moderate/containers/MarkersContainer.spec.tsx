@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -28,8 +28,9 @@ it("renders all markers", () => {
       },
     },
   };
-  const wrapper = shallow(<MarkersContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<MarkersContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders some markers", () => {
@@ -52,6 +53,7 @@ it("renders some markers", () => {
       },
     },
   };
-  const wrapper = shallow(<MarkersContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<MarkersContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
