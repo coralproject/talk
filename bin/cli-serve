@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
+const throng = require('throng');
+const { CONCURRENCY } = require('../config');
+const { logger } = require('../services/logging');
 const util = require('./util');
 const program = require('commander');
-const serve = require('../serve');
 
 //==============================================================================
 // Setting up the program command line arguments.
@@ -22,8 +24,18 @@ program
   )
   .parse(process.argv);
 
-// Start serving.
-serve(program).catch(err => {
-  console.error(err);
-  util.shutdown(1);
+throng({
+  workers: CONCURRENCY,
+  start: i => {
+    logger.info({ workerID: i }, 'started worker');
+
+    // Load in the serve.
+    const serve = require('../serve');
+
+    // Start serving.
+    serve(program).catch(err => {
+      console.error(err);
+      util.shutdown(1);
+    });
+  },
 });

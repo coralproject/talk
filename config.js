@@ -217,6 +217,9 @@ const CONFIG = {
   // messages through the websocket to keep the socket alive.
   KEEP_ALIVE: process.env.TALK_KEEP_ALIVE || '30s',
 
+  // CONCURRENCY is the number of workers that will serve traffic.
+  CONCURRENCY: parseInt(process.env.TALK_CONCURRENCY || '1'),
+
   //------------------------------------------------------------------------------
   // Cache configuration
   //------------------------------------------------------------------------------
