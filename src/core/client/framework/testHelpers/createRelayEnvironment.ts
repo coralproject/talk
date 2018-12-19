@@ -26,6 +26,8 @@ export interface CreateRelayEnvironmentNetworkParams {
   resolvers: IResolvers<any, any>;
   /** If enabled, graphql responses will be logged to the console */
   logNetwork?: boolean;
+  /** If enabled, graphql errors will be muted */
+  muteNetworkErrors?: boolean;
 }
 
 export interface CreateRelayEnvironmentParams {
@@ -62,7 +64,10 @@ export default function createRelayEnvironment(
       { requireResolversForResolveType: false }
     );
     network = Network.create(
-      wrapFetchWithLogger(createFetch({ schema }), params.network.logNetwork)
+      wrapFetchWithLogger(createFetch({ schema }), {
+        logResult: params.network.logNetwork,
+        muteErrors: params.network.muteNetworkErrors,
+      })
     );
   }
   const environment = new Environment({

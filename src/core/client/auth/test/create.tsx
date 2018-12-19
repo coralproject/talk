@@ -17,6 +17,7 @@ import createFluentBundle from "./createFluentBundle";
 
 interface CreateParams {
   logNetwork?: boolean;
+  muteNetworkErrors?: boolean;
   resolvers?: IResolvers<any, any>;
   initLocalState?: (
     local: RecordProxy,
@@ -29,6 +30,7 @@ export default function create(params: CreateParams) {
   const environment = createEnvironment({
     // Set this to true, to see graphql responses.
     logNetwork: params.logNetwork,
+    muteNetworkErrors: params.muteNetworkErrors,
     resolvers: params.resolvers,
     initLocalState: (localRecord, source, env) => {
       if (params.initLocalState) {

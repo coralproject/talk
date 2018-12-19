@@ -26,13 +26,14 @@ const ConfirmEmailField: StatelessComponent<Props> = props => (
     {({ input, meta }) => (
       <FormField>
         <Localized id="general-confirmEmailAddressLabel">
-          <InputLabel>Confirm Email Address</InputLabel>
+          <InputLabel htmlFor={input.name}>Confirm Email Address</InputLabel>
         </Localized>
         <Localized
           id="general-confirmEmailAddressTextField"
           attrs={{ placeholder: true }}
         >
           <TextField
+            id={input.name}
             name={input.name}
             onChange={input.onChange}
             value={input.value}

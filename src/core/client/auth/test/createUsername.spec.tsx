@@ -34,18 +34,15 @@ async function createTestRenderer(
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue("ADD_EMAIL_ADDRESS", "view");
+      localRecord.setValue("CREATE_USERNAME", "view");
     },
   });
   const container = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("addEmailAddress-container")
+    within(testRenderer.root).getByTestID("createUsername-container")
   );
   const main = within(testRenderer.root).getByTestID(/.*-main/);
   const form = within(main).getByType("form");
-  const emailAddressField = within(form).getByLabelText("Email Address");
-  const confirmEmailAddressField = within(form).getByLabelText(
-    "Confirm Email Address"
-  );
+  const usernameField = within(form).getByLabelText("Username");
 
   return {
     context,
@@ -53,8 +50,7 @@ async function createTestRenderer(
     form,
     main,
     root: testRenderer.root,
-    emailAddressField,
-    confirmEmailAddressField,
+    usernameField,
     container,
   };
 }
@@ -68,7 +64,7 @@ afterEach(async () => {
   windowMock.restore();
 });
 
-it("renders addEmailAddress view", async () => {
+it("renders createUsername view", async () => {
   const { root } = await createTestRenderer();
   expect(toJSON(root)).toMatchSnapshot();
 });
@@ -79,54 +75,29 @@ it("shows error when submitting empty form", async () => {
   expect(toJSON(form)).toMatchSnapshot();
 });
 
-it("checks for invalid email", async () => {
-  const {
-    form,
-    emailAddressField,
-    confirmEmailAddressField,
-  } = await createTestRenderer();
-  emailAddressField.props.onChange({ target: { value: "invalid-email" } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: "invalid-confirmation-email" },
-  });
+it("checks for invalid username", async () => {
+  const { form, usernameField } = await createTestRenderer();
+  usernameField.props.onChange({ target: { value: "x" } });
   form.props.onSubmit();
   expect(toJSON(form)).toMatchSnapshot();
 });
 
-it("accepts valid email", async () => {
-  const { form, emailAddressField } = await createTestRenderer();
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
-});
-
-it("accepts valid email confirmation", async () => {
-  const {
-    form,
-    emailAddressField,
-    confirmEmailAddressField,
-  } = await createTestRenderer();
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: "hans@test.com" },
-  });
+it("accepts valid username", async () => {
+  const { form, usernameField } = await createTestRenderer();
+  usernameField.props.onChange({ target: { value: "hans" } });
   form.props.onSubmit();
   expect(toJSON(form)).toMatchSnapshot();
 });
 
 it("shows server error", async () => {
-  const email = "hans@test.com";
-  const setEmail = sinon.stub().callsFake((_: any, data: any) => {
+  const username = "hans";
+  const setUsername = sinon.stub().callsFake((_: any, data: any) => {
     throw new Error("server error");
   });
-  const {
-    form,
-    emailAddressField,
-    confirmEmailAddressField,
-  } = await createTestRenderer(
+  const { form, usernameField } = await createTestRenderer(
     {
       Mutation: {
-        setEmail,
+        setUsername,
       },
     },
     { muteNetworkErrors: true }
@@ -135,14 +106,10 @@ it("shows server error", async () => {
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  emailAddressField.props.onChange({ target: { value: email } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: email },
-  });
+  usernameField.props.onChange({ target: { value: username } });
 
   form.props.onSubmit();
-  expect(emailAddressField.props.disabled).toBe(true);
-  expect(confirmEmailAddressField.props.disabled).toBe(true);
+  expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
   await wait(() => expect(submitButton.props.disabled).toBe(false));
@@ -150,46 +117,38 @@ it("shows server error", async () => {
   expect(toJSON(form)).toMatchSnapshot();
 });
 
-it("successfully sets email", async () => {
-  const email = "hans@test.com";
-  const setEmail = sinon.stub().callsFake((_: any, data: any) => {
+it("successfully sets username", async () => {
+  const username = "hans";
+  const setUsername = sinon.stub().callsFake((_: any, data: any) => {
     expect(data.input).toEqual({
-      email,
+      username,
       clientMutationId: data.input.clientMutationId,
     });
     return {
       user: {
         id: "me",
-        email,
+        username,
       },
       clientMutationId: data.input.clientMutationId,
     };
   });
-  const {
-    form,
-    emailAddressField,
-    confirmEmailAddressField,
-  } = await createTestRenderer({
+  const { form, usernameField } = await createTestRenderer({
     Mutation: {
-      setEmail,
+      setUsername,
     },
   });
   const submitButton = form.find(
     i => i.type === "button" && i.props.type === "submit"
   );
 
-  emailAddressField.props.onChange({ target: { value: email } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: email },
-  });
+  usernameField.props.onChange({ target: { value: username } });
 
   form.props.onSubmit();
-  expect(emailAddressField.props.disabled).toBe(true);
-  expect(confirmEmailAddressField.props.disabled).toBe(true);
+  expect(usernameField.props.disabled).toBe(true);
   expect(submitButton.props.disabled).toBe(true);
 
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
   expect(toJSON(form)).toMatchSnapshot();
-  expect(setEmail.called).toBe(true);
+  expect(setUsername.called).toBe(true);
 });

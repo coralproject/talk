@@ -4,6 +4,7 @@ import { createRelayEnvironment } from "talk-framework/testHelpers";
 
 interface CreateEnvironmentParams {
   logNetwork?: boolean;
+  muteNetworkErrors?: boolean;
   resolvers?: IResolvers<any, any>;
   initLocalState?: (
     local: RecordProxy,
@@ -16,6 +17,7 @@ export default function createEnvironment(params: CreateEnvironmentParams) {
   return createRelayEnvironment({
     network: {
       logNetwork: params.logNetwork,
+      muteNetworkErrors: params.muteNetworkErrors,
       resolvers: params.resolvers || {},
       projectName: "tenant",
     },

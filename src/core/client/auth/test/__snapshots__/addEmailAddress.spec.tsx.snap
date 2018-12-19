@@ -1,6 +1,459 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders sign in view 1`] = `
+exports[`accepts valid email 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      For your added security, we require users to add an email address to their accounts.
+Your email address will be used to:
+    </p>
+    <ul
+      className="UnorderedList-root"
+    >
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Receive updates regarding any changes to your account
+(email address, username, password, etc.)
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Allow you to download your comments.
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Send comment notifications that you have chosen to receive.
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
+      >
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value="hans@test.com"
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="confirmEmail"
+      >
+        Confirm Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
+        disabled={false}
+        id="confirmEmail"
+        name="confirmEmail"
+        onChange={[Function]}
+        placeholder="Confirm Email Address"
+        type="text"
+        value=""
+      />
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Add Email Address
+    </button>
+  </div>
+</form>
+`;
+
+exports[`accepts valid email confirmation 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      For your added security, we require users to add an email address to their accounts.
+Your email address will be used to:
+    </p>
+    <ul
+      className="UnorderedList-root"
+    >
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Receive updates regarding any changes to your account
+(email address, username, password, etc.)
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Allow you to download your comments.
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Send comment notifications that you have chosen to receive.
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
+      >
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={true}
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value="hans@test.com"
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="confirmEmail"
+      >
+        Confirm Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={true}
+        id="confirmEmail"
+        name="confirmEmail"
+        onChange={[Function]}
+        placeholder="Confirm Email Address"
+        type="text"
+        value="hans@test.com"
+      />
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+      disabled={true}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Add Email Address
+    </button>
+  </div>
+</form>
+`;
+
+exports[`checks for invalid email 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      For your added security, we require users to add an email address to their accounts.
+Your email address will be used to:
+    </p>
+    <ul
+      className="UnorderedList-root"
+    >
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Receive updates regarding any changes to your account
+(email address, username, password, etc.)
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Allow you to download your comments.
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Send comment notifications that you have chosen to receive.
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
+      >
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
+        disabled={false}
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value="invalid-email"
+      />
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          Please enter a valid email address.
+        </span>
+      </div>
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="confirmEmail"
+      >
+        Confirm Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
+        disabled={false}
+        id="confirmEmail"
+        name="confirmEmail"
+        onChange={[Function]}
+        placeholder="Confirm Email Address"
+        type="text"
+        value="invalid-confirmation-email"
+      />
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          Emails do not match. Try again.
+        </span>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Add Email Address
+    </button>
+  </div>
+</form>
+`;
+
+exports[`renders addEmailAddress view 1`] = `
 <div>
   <div
     data-testid="addEmailAddress-container"
@@ -126,12 +579,14 @@ Your email address will be used to:
           >
             <label
               className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              htmlFor="confirmEmail"
             >
               Confirm Email Address
             </label>
             <input
               className="TextField-root TextField-colorRegular TextField-fullWidth"
               disabled={false}
+              id="confirmEmail"
               name="confirmEmail"
               onChange={[Function]}
               placeholder="Confirm Email Address"
@@ -156,4 +611,456 @@ Your email address will be used to:
     </div>
   </div>
 </div>
+`;
+
+exports[`shows error when submitting empty form 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      For your added security, we require users to add an email address to their accounts.
+Your email address will be used to:
+    </p>
+    <ul
+      className="UnorderedList-root"
+    >
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Receive updates regarding any changes to your account
+(email address, username, password, etc.)
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Allow you to download your comments.
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Send comment notifications that you have chosen to receive.
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
+      >
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
+        disabled={false}
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value=""
+      />
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
+      </div>
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="confirmEmail"
+      >
+        Confirm Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
+        disabled={false}
+        id="confirmEmail"
+        name="confirmEmail"
+        onChange={[Function]}
+        placeholder="Confirm Email Address"
+        type="text"
+        value=""
+      />
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Add Email Address
+    </button>
+  </div>
+</form>
+`;
+
+exports[`shows server error 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      For your added security, we require users to add an email address to their accounts.
+Your email address will be used to:
+    </p>
+    <ul
+      className="UnorderedList-root"
+    >
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Receive updates regarding any changes to your account
+(email address, username, password, etc.)
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Allow you to download your comments.
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Send comment notifications that you have chosen to receive.
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div
+      className="CallOut-root CallOut-colorError CallOut-fullWidth"
+    >
+      server error
+
+GraphQL request (4:3)
+3: ) {
+4:   setEmail(input: $input) {
+     ^
+5:     user {
+
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
+      >
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value="hans@test.com"
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="confirmEmail"
+      >
+        Confirm Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="confirmEmail"
+        name="confirmEmail"
+        onChange={[Function]}
+        placeholder="Confirm Email Address"
+        type="text"
+        value="hans@test.com"
+      />
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Add Email Address
+    </button>
+  </div>
+</form>
+`;
+
+exports[`successfully sets email 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      For your added security, we require users to add an email address to their accounts.
+Your email address will be used to:
+    </p>
+    <ul
+      className="UnorderedList-root"
+    >
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Receive updates regarding any changes to your account
+(email address, username, password, etc.)
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Allow you to download your comments.
+          </div>
+        </div>
+      </li>
+      <li
+        className="ListItem-root"
+      >
+        <div
+          className="ListItem-leftCol"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            done
+          </span>
+        </div>
+        <div>
+          <div
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            Send comment notifications that you have chosen to receive.
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
+      >
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="confirmEmail"
+      >
+        Confirm Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="confirmEmail"
+        name="confirmEmail"
+        onChange={[Function]}
+        placeholder="Confirm Email Address"
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Add Email Address
+    </button>
+  </div>
+</form>
 `;

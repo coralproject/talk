@@ -27,13 +27,14 @@ const SetPasswordField: StatelessComponent<Props> = props => (
     {({ input, meta }) => (
       <FormField>
         <Localized id="general-confirmPasswordLabel">
-          <InputLabel>Confirm Password</InputLabel>
+          <InputLabel htmlFor={input.name}>Confirm Password</InputLabel>
         </Localized>
         <Localized
           id="general-confirmPasswordTextField"
           attrs={{ placeholder: true }}
         >
           <TextField
+            id={input.name}
             name={input.name}
             onChange={input.onChange}
             value={input.value}
