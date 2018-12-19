@@ -205,6 +205,7 @@
     "style-loader": "^0.16.0",
     "subscriptions-transport-ws": "^0.7.2",
     "supports-color": "^4",
+    "throng": "^4.0.0",
     "timeago.js": "^2.0.3",
     "timekeeper": "^1.0.0",
     "tlds": "^1.196.0",
