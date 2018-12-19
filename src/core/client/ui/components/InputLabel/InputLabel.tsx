@@ -8,7 +8,7 @@ import styles from "./InputLabel.css";
 
 export interface InputLabelProps {
   id?: string;
-  for?: string;
+  htmlFor?: string;
   /**
    * The content of the component.
    */

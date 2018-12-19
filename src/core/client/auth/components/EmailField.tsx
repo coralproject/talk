@@ -23,7 +23,7 @@ const EmailField: StatelessComponent<Props> = props => (
     {({ input, meta }) => (
       <FormField>
         <Localized id="general-emailAddressLabel">
-          <InputLabel for={input.name}>Email Address</InputLabel>
+          <InputLabel htmlFor={input.name}>Email Address</InputLabel>
         </Localized>
         <Localized
           id="general-emailAddressTextField"

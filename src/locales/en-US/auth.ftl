@@ -17,6 +17,9 @@ general-passwordTextField =
 general-confirmPasswordLabel = Confirm Password
 general-confirmPasswordTextField =
   .placeholder = Confirm Password
+general-confirmEmailAddressLabel = Confirm Email Address
+general-confirmEmailAddressTextField =
+  .placeholder = Confirm Email Address
 
 ## Sign In
 

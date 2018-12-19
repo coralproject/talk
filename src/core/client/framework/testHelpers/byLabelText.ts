@@ -77,11 +77,11 @@ export function queryAllByLabelText(
         );
       } catch {} // tslint:disable-line:no-empty
     }
-    if (i.type === "label" && i.props.for) {
+    if (i.type === "label" && i.props.htmlFor) {
       try {
         matches.push(
           container.find(
-            x => typeof x.type === "string" && x.props.id === i.props.for
+            x => typeof x.type === "string" && x.props.id === i.props.htmlFor
           )
         );
       } catch {} // tslint:disable-line:no-empty

@@ -27,7 +27,7 @@ const CreateUsernameField: StatelessComponent<Props> = props => (
     {({ input, meta }) => (
       <FormField>
         <Localized id="general-usernameLabel">
-          <InputLabel for={input.name}>Username</InputLabel>
+          <InputLabel htmlFor={input.name}>Username</InputLabel>
         </Localized>
         <Localized id="general-usernameDescription">
           <InputDescription>You may use “_” and “.”</InputDescription>

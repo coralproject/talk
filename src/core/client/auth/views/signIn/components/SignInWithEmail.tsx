@@ -46,7 +46,7 @@ const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="signIn-passwordLabel">
-                    <InputLabel for={input.name}>Password</InputLabel>
+                    <InputLabel htmlFor={input.name}>Password</InputLabel>
                   </Localized>
                   <Localized
                     id="signIn-passwordTextField"
