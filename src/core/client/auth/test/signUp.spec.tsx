@@ -1,7 +1,12 @@
-import { merge } from "lodash";
+import { get, merge } from "lodash";
 import sinon from "sinon";
 
-import { wait, waitForElement, within } from "talk-framework/testHelpers";
+import {
+  toJSON,
+  wait,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
@@ -14,7 +19,9 @@ async function createTestRenderer(customResolver: any = {}) {
     ...customResolver,
     Query: {
       ...customResolver.Query,
-      settings: sinon.stub().returns(merge({}, settings, customResolver)),
+      settings: sinon
+        .stub()
+        .returns(merge({}, settings, get(customResolver, "Query.settings"))),
     },
   };
 
@@ -29,12 +36,14 @@ async function createTestRenderer(customResolver: any = {}) {
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
-  const form = within(testRenderer.root).getByType("form");
+  const main = within(testRenderer.root).getByTestID(/.*-main/);
+  const form = within(main).queryByType("form");
 
   return {
     context,
     testRenderer,
     form,
+    main,
     container,
   };
 }
@@ -54,90 +63,90 @@ it("renders sign up form", async () => {
 });
 
 it("shows error when submitting empty form", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  const { main, form } = await createTestRenderer();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("checks for invalid email", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
   emailAddressField.props.onChange({ target: { value: "invalid-email" } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("accepts valid email", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
   emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("checks for too short username", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
   usernameField.props.onChange({ target: { value: "u" } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("checks for too long username", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
   usernameField.props.onChange({ target: { value: "a".repeat(100) } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("checks for invalid characters in username", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
   usernameField.props.onChange({ target: { value: "$%$§$%$§%" } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("accepts valid username", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const usernameField = getByLabelText("Username");
   usernameField.props.onChange({ target: { value: "hans" } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("checks for too short password", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const passwordField = getByLabelText("Password");
   passwordField.props.onChange({ target: { value: "pass" } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("accepts correct password", async () => {
-  const { testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const passwordField = getByLabelText("Password");
   passwordField.props.onChange({ target: { value: "testtest" } });
-  form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  form!.props.onSubmit();
+  expect(toJSON(main)).toMatchSnapshot();
 });
 
 it("shows server error", async () => {
-  const { context, testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { context, main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
   const usernameField = getByLabelText("Username");
   const passwordField = getByLabelText("Password");
-  const submitButton = form.find(
+  const submitButton = form!.find(
     i => i.type === "button" && i.props.type === "submit"
   );
 
@@ -166,7 +175,7 @@ it("shows server error", async () => {
     .withArgs("authError", error.toString(), window.opener)
     .once();
 
-  form.props.onSubmit();
+  form!.props.onSubmit();
 
   expect(emailAddressField.props.disabled).toBe(true);
   expect(passwordField.props.disabled).toBe(true);
@@ -175,19 +184,19 @@ it("shows server error", async () => {
 
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(toJSON(main)).toMatchSnapshot();
 
   restMock.verify();
   postMessageMock.verify();
 });
 
 it("submits form successfully", async () => {
-  const { context, testRenderer, form } = await createTestRenderer();
-  const { getByLabelText } = within(form);
+  const { context, main, form } = await createTestRenderer();
+  const { getByLabelText } = within(form!);
   const emailAddressField = getByLabelText("Email Address");
   const usernameField = getByLabelText("Username");
   const passwordField = getByLabelText("Password");
-  const submitButton = form.find(
+  const submitButton = form!.find(
     i => i.type === "button" && i.props.type === "submit"
   );
 
@@ -215,7 +224,7 @@ it("submits form successfully", async () => {
     .withArgs("setAuthToken", "auth-token", window.opener)
     .once();
 
-  form.props.onSubmit();
+  form!.props.onSubmit();
 
   expect(emailAddressField.props.disabled).toBe(true);
   expect(passwordField.props.disabled).toBe(true);
@@ -224,10 +233,144 @@ it("submits form successfully", async () => {
 
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(toJSON(main)).toMatchSnapshot();
 
   // Wait for window to be closed.
   await wait(() => expect(windowMock.closeStub.called).toBe(true));
   restMock.verify();
   postMessageMock.verify();
+});
+
+describe("auth configuration", () => {
+  it("renders all auth enabled", async () => {
+    const { main } = await createTestRenderer({
+      Query: {
+        settings: {
+          auth: {
+            integrations: {
+              facebook: {
+                enabled: true,
+              },
+              google: {
+                enabled: true,
+              },
+              oidc: {
+                enabled: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    expect(toJSON(main)).toMatchSnapshot();
+  });
+  it("renders all social login disabled", async () => {
+    const { main } = await createTestRenderer({
+      Query: {
+        settings: {
+          auth: {
+            integrations: {
+              facebook: {
+                enabled: false,
+              },
+              google: {
+                enabled: false,
+              },
+              oidc: {
+                enabled: false,
+              },
+            },
+          },
+        },
+      },
+    });
+    const { queryByText } = within(main);
+    expect(queryByText("facebook")).toBeNull();
+    expect(queryByText("google")).toBeNull();
+    expect(queryByText("oidc")).toBeNull();
+  });
+  it("renders all social login disabled for stream target", async () => {
+    const { main } = await createTestRenderer({
+      Query: {
+        settings: {
+          auth: {
+            integrations: {
+              facebook: {
+                enabled: true,
+                targetFilter: {
+                  stream: false,
+                },
+              },
+              google: {
+                enabled: true,
+                targetFilter: {
+                  stream: false,
+                },
+              },
+              oidc: {
+                enabled: true,
+                targetFilter: {
+                  stream: false,
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    const { queryByText } = within(main);
+    expect(queryByText("facebook")).toBeNull();
+    expect(queryByText("google")).toBeNull();
+    expect(queryByText("oidc")).toBeNull();
+  });
+  it("renders all social login disabled by turning off registration", async () => {
+    const { main } = await createTestRenderer({
+      Query: {
+        settings: {
+          auth: {
+            integrations: {
+              facebook: {
+                enabled: true,
+                allowRegistration: false,
+              },
+              google: {
+                enabled: true,
+                allowRegistration: false,
+              },
+              oidc: {
+                enabled: true,
+                allowRegistration: false,
+              },
+            },
+          },
+        },
+      },
+    });
+    const { queryByText } = within(main);
+    expect(queryByText("facebook")).toBeNull();
+    expect(queryByText("google")).toBeNull();
+    expect(queryByText("oidc")).toBeNull();
+  });
+  it("renders only some social login enabled", async () => {
+    const { main } = await createTestRenderer({
+      Query: {
+        settings: {
+          auth: {
+            integrations: {
+              local: {
+                enabled: false,
+              },
+              google: {
+                enabled: true,
+              },
+              facebook: {
+                enabled: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    expect(toJSON(main)).toMatchSnapshot();
+  });
 });
