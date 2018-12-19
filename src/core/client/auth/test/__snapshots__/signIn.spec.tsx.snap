@@ -1086,7 +1086,7 @@ exports[`shows server error 1`] = `
 </form>
 `;
 
-exports[`submits form! successfully 1`] = `
+exports[`submits form successfully 1`] = `
 <form
   autoComplete="off"
   onSubmit={[Function]}

@@ -121,12 +121,6 @@ it("shows server error", async () => {
     .once()
     .throws(error);
 
-  const postMessageMock = sinon.mock(context.postMessage);
-  postMessageMock
-    .expects("send")
-    .withArgs("authError", error.toString(), window.opener)
-    .once();
-
   form!.props.onSubmit();
   expect(emailAddressField.props.disabled).toBe(true);
   expect(passwordField.props.disabled).toBe(true);
@@ -137,12 +131,12 @@ it("shows server error", async () => {
   expect(toJSON(form!)).toMatchSnapshot();
 
   restMock.verify();
-  postMessageMock.verify();
 });
 
-it("submits form! successfully", async () => {
+it("submits form successfully", async () => {
   const { form, context } = await createTestRenderer();
   const { getByLabelText } = within(form!);
+  const authToken = "auth-token";
   const emailAddressField = getByLabelText("Email Address");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
@@ -163,13 +157,7 @@ it("submits form! successfully", async () => {
       },
     })
     .once()
-    .returns({ token: "auth-token" });
-
-  const postMessageMock = sinon.mock(context.postMessage);
-  postMessageMock
-    .expects("send")
-    .withArgs("setAuthToken", "auth-token", window.opener)
-    .once();
+    .returns({ token: authToken });
 
   form!.props.onSubmit();
 
@@ -181,10 +169,9 @@ it("submits form! successfully", async () => {
 
   expect(toJSON(form!)).toMatchSnapshot();
 
-  // Wait for window to be closed.
-  await wait(() => expect(windowMock.closeStub.called).toBe(true));
+  // Wait for window hash to contain a token.
+  await wait(() => expect(location.hash).toBe(`#${authToken}`));
   restMock.verify();
-  postMessageMock.verify();
 });
 
 describe("auth configuration", () => {

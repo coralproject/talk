@@ -1,9 +1,9 @@
 export { withSetViewMutation, SetViewMutation } from "./SetViewMutation";
 export { withSignInMutation, SignInMutation } from "./SignInMutation";
 export {
-  withCompleteSignInMutation,
-  CompleteSignInMutation,
-} from "./CompleteSignInMutation";
+  withCompleteAccountMutation,
+  CompleteAccountMutation,
+} from "./CompleteAccountMutation";
 export { withSignUpMutation, SignUpMutation } from "./SignUpMutation";
 export { withSetEmailMutation, SetEmailMutation } from "./SetEmailMutation";
 export {

@@ -8,7 +8,6 @@ import AppContainer from "talk-stream/containers/AppContainer";
 
 import {
   OnEvents,
-  OnPostMessageAuthError,
   OnPostMessageSetAuthToken,
   OnPymLogin,
   OnPymLogout,
@@ -23,7 +22,6 @@ const listeners = (
     <OnPymLogout />
     <OnPymSetCommentID />
     <OnPostMessageSetAuthToken />
-    <OnPostMessageAuthError />
     <OnEvents />
   </>
 );
