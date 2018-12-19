@@ -58,7 +58,8 @@ export default function createRelayEnvironment(
   if (params.network) {
     const schema = loadSchema(
       params.network.projectName,
-      params.network.resolvers
+      params.network.resolvers,
+      { requireResolversForResolveType: false }
     );
     network = Network.create(
       wrapFetchWithLogger(createFetch({ schema }), params.network.logNetwork)
