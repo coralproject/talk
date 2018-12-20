@@ -4,6 +4,19 @@ import { parseQuery } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "talk-framework/lib/relay";
 
+function getAuthTokenFromHashAndClearIt() {
+  const authToken = window.location.hash
+    ? window.location.hash.substr(1)
+    : null;
+
+  // Remove hash with token.
+  if (window.location.hash) {
+    window.history.replaceState(null, document.title, location.pathname);
+  }
+
+  return authToken;
+}
+
 /**
  * Initializes the local state, before we start the App.
  */
@@ -11,14 +24,7 @@ export default async function initLocalState(
   environment: Environment,
   context: TalkContext
 ) {
-  const authToken = window.location.hash
-    ? window.location.hash.substr(1)
-    : null;
-  // Remove hash with token.
-  if (window.location.hash) {
-    window.history.replaceState(null, document.title, location.pathname);
-  }
-
+  const authToken = getAuthTokenFromHashAndClearIt();
   await initLocalBaseState(environment, context, authToken);
 
   commitLocalUpdate(environment, s => {
