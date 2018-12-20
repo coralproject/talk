@@ -21,7 +21,7 @@ export interface OAuth2StrategyOptions {
   config: Config;
   mongo: Db;
   tenantCache: TenantCache;
-  authenticateOptions: Record<string, any>;
+  authenticateOptions?: Record<string, any>;
 }
 
 export default abstract class OAuth2Strategy<
@@ -44,7 +44,7 @@ export default abstract class OAuth2Strategy<
     this.config = config;
     this.mongo = mongo;
     this.cache = new TenantCacheAdapter(tenantCache);
-    this.authenticateOptions = authenticateOptions;
+    this.authenticateOptions = authenticateOptions || {};
   }
 
   protected abstract getIntegration(integrations: AuthIntegrations): T;
