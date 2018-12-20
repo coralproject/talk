@@ -29,6 +29,16 @@ export default class FacebookStrategy extends OAuth2Strategy<
 > {
   public name = "facebook";
 
+  constructor(options: FacebookStrategyOptions) {
+    super({
+      ...options,
+      authenticateOptions: {
+        display: "popup",
+        scope: ["email"],
+      },
+    });
+  }
+
   protected getIntegration = (integrations: GQLAuthIntegrations) =>
     integrations.facebook;
 

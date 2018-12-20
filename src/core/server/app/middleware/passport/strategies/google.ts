@@ -38,7 +38,9 @@ export default class GoogleStrategy extends OAuth2Strategy<
   constructor(options: GoogleStrategyOptions) {
     super({
       ...options,
-      scope: ["profile", "email"],
+      authenticateOptions: {
+        scope: ["profile", "email"],
+      },
     });
   }
 
