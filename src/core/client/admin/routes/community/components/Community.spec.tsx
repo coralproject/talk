@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import Community from "./Community";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<Community />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Community />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

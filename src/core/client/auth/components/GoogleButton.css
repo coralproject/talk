@@ -1,0 +1,16 @@
+.variantFilled {
+  &.colorRegular {
+    background-color: #db4437;
+  }
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        background-color: #e05f54;
+      }
+      &:active,
+      &.active {
+        background-color: #e57a71;
+      }
+    }
+  }
+}

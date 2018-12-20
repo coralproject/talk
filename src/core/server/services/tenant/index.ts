@@ -2,20 +2,13 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { URL } from "url";
 
-import {
-  GQLCreateOIDCAuthIntegrationConfigurationInput,
-  GQLSettingsInput,
-  GQLUpdateOIDCAuthIntegrationConfigurationInput,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
 import {
   createTenant,
   CreateTenantInput,
-  createTenantOIDCAuthIntegration,
   regenerateTenantSSOKey,
-  removeTenantOIDCAuthIntegration,
   Tenant,
   updateTenant,
-  updateTenantOIDCAuthIntegration,
 } from "talk-server/models/tenant";
 
 import { discover } from "talk-server/app/middleware/passport/strategies/oidc/discover";
@@ -122,83 +115,4 @@ export async function discoverOIDCConfiguration(issuerString: string) {
 
   // Discover the configuration.
   return discover(issuer);
-}
-
-export type CreateOIDCAuthIntegration = GQLCreateOIDCAuthIntegrationConfigurationInput;
-
-export async function createOIDCAuthIntegration(
-  mongo: Db,
-  redis: Redis,
-  cache: TenantCache,
-  tenant: Tenant,
-  input: CreateOIDCAuthIntegration
-) {
-  // Create the integration. By default, the integration is disabled.
-  const result = await createTenantOIDCAuthIntegration(mongo, tenant.id, {
-    enabled: false,
-    allowRegistration: false,
-    targetFilter: {
-      admin: true,
-      stream: true,
-    },
-    ...input,
-  });
-  if (!result.wasCreated || !result.tenant) {
-    return null;
-  }
-
-  // Update the tenant cache.
-  await cache.update(redis, result.tenant);
-
-  return result;
-}
-
-export type UpdateOIDCAuthIntegration = GQLUpdateOIDCAuthIntegrationConfigurationInput;
-
-export async function updateOIDCAuthIntegration(
-  mongo: Db,
-  redis: Redis,
-  cache: TenantCache,
-  tenant: Tenant,
-  oidcID: string,
-  input: UpdateOIDCAuthIntegration
-) {
-  // Update the integration. By default, the integration is disabled.
-  const result = await updateTenantOIDCAuthIntegration(
-    mongo,
-    tenant.id,
-    oidcID,
-    input
-  );
-  if (!result.wasUpdated || !result.tenant) {
-    return null;
-  }
-
-  // Update the tenant cache.
-  await cache.update(redis, result.tenant);
-
-  return result;
-}
-
-export async function removeOIDCAuthIntegration(
-  mongo: Db,
-  redis: Redis,
-  cache: TenantCache,
-  tenant: Tenant,
-  oidcID: string
-) {
-  // Delete the integration. By default, the integration is disabled.
-  const result = await removeTenantOIDCAuthIntegration(
-    mongo,
-    tenant.id,
-    oidcID
-  );
-  if (!result.wasRemoved || !result.tenant) {
-    return null;
-  }
-
-  // Update the tenant cache.
-  await cache.update(redis, result.tenant);
-
-  return result;
 }

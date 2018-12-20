@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -28,8 +28,9 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof ModerateCardN> = {
     ...baseProps,
   };
-  const wrapper = shallow(<ModerateCardN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ModerateCardN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders reply correctly", () => {
@@ -37,8 +38,9 @@ it("renders reply correctly", () => {
     ...baseProps,
     inReplyTo: "Julian",
   };
-  const wrapper = shallow(<ModerateCardN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ModerateCardN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders accepted correctly", () => {
@@ -46,8 +48,9 @@ it("renders accepted correctly", () => {
     ...baseProps,
     status: "accepted",
   };
-  const wrapper = shallow(<ModerateCardN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ModerateCardN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders rejected correctly", () => {
@@ -55,8 +58,9 @@ it("renders rejected correctly", () => {
     ...baseProps,
     status: "rejected",
   };
-  const wrapper = shallow(<ModerateCardN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ModerateCardN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders dangling correctly", () => {
@@ -64,6 +68,7 @@ it("renders dangling correctly", () => {
     ...baseProps,
     dangling: true,
   };
-  const wrapper = shallow(<ModerateCardN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ModerateCardN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

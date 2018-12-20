@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -11,6 +11,7 @@ it("renders correctly", () => {
     to: "/admin",
     children: "child",
   };
-  const wrapper = shallow(<Link {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Link {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

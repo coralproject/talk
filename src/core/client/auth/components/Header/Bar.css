@@ -1,0 +1,4 @@
+.root {
+  min-height: calc(var(--spacing-unit) * 8);
+  background-color: var(--palette-text-primary);
+}

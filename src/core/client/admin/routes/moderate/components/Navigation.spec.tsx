@@ -1,12 +1,13 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import Navigation from "./Navigation";
 
 import { PropTypesOf } from "talk-framework/types";
 it("renders correctly", () => {
-  const wrapper = shallow(<Navigation />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Navigation />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders correctly with counts", () => {
@@ -15,6 +16,7 @@ it("renders correctly with counts", () => {
     reportedCount: 4,
     pendingCount: 0,
   };
-  const wrapper = shallow(<Navigation {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Navigation {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

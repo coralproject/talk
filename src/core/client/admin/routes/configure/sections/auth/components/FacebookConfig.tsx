@@ -38,7 +38,7 @@ const FacebookConfig: StatelessComponent<Props> = ({
   callbackURL,
 }) => (
   <ConfigBoxWithToggleField
-    data-test="configure-auth-facebook-container"
+    data-testid="configure-auth-facebook-container"
     title={
       <Localized id="configure-auth-facebook-loginWith">
         <span>Login with Facebook</span>

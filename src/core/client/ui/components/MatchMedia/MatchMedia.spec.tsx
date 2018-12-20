@@ -1,6 +1,7 @@
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import React from "react";
 import { MediaQueryMatchers } from "react-responsive";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-ui/types";
 
@@ -15,8 +16,9 @@ it("renders correctly", () => {
     screen: true,
     children: <div>Hello World</div>,
   };
-  const wrapper = shallow(<MatchMedia {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<MatchMedia {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders less than and great than correctly", () => {
@@ -25,8 +27,9 @@ it("renders less than and great than correctly", () => {
     gtWidth: "sm",
     children: <div>Hello World</div>,
   };
-  const wrapper = shallow(<MatchMedia {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<MatchMedia {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("map new speech prop to older aural prop", () => {
@@ -34,8 +37,9 @@ it("map new speech prop to older aural prop", () => {
     speech: true,
     children: <div>Hello World</div>,
   };
-  const wrapper = shallow(<MatchMedia {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<MatchMedia {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("should get mediaQueryValues from context", () => {

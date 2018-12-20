@@ -20,8 +20,8 @@ const Moderate: StatelessComponent<Props> = ({
   pendingCount,
   children,
 }) => (
-  <div data-test="moderate-container">
-    <SubBar data-test="moderate-subBar-container">
+  <div data-testid="moderate-container">
+    <SubBar data-testid="moderate-subBar-container">
       <Navigation
         unmoderatedCount={unmoderatedCount}
         reportedCount={reportedCount}
@@ -29,7 +29,7 @@ const Moderate: StatelessComponent<Props> = ({
       />
     </SubBar>
     <div className={styles.background} />
-    <MainLayout data-test="moderate-main-container">
+    <MainLayout data-testid="moderate-main-container">
       <main className={styles.main}>{children}</main>
     </MainLayout>
   </div>

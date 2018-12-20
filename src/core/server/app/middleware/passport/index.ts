@@ -137,6 +137,90 @@ export async function handleSuccessfulLogin(
   }
 }
 
+export async function handleOAuth2Callback(
+  user: User,
+  signingConfig: JWTSigningConfig,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    // Talk is guaranteed at this point.
+    const { tenant } = req.talk!;
+
+    const options: SigningTokenOptions = {};
+
+    if (tenant) {
+      // Attach the tenant's id to the issued token as a `iss` claim.
+      options.issuer = tenant.id;
+    }
+
+    // Grab the token.
+    const token = await signTokenString(signingConfig, user, options);
+
+    // Set the cache control headers.
+    res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+    res.header("Expires", "-1");
+    res.header("Pragma", "no-cache");
+
+    // Send back the details!
+    res.send(
+      `<html>
+        <head></head>
+        <body>
+          <script type="text/javascript">
+            const redirect = sessionStorage.getItem("authRedirectBackTo");
+            if (!redirect) {
+              var textnode = document.createTextNode("'authRedirectBackTo' not set in Session Storage");
+              document.body.appendChild(textnode);
+            }
+            else if (redirect[0] !== '/') {
+              var textnode = document.createTextNode("'authRedirectBackTo' must begin with '/'");
+              document.body.appendChild(textnode);
+            }
+            else {
+              location.href = \`\${redirect}#${token}\`;
+            }
+          </script>
+        </body>
+      </html>`
+    );
+  } catch (err) {
+    return next(err);
+  }
+}
+
+/**
+ * wrapCallbackAuthn will wrap a authenticators authenticate method with one that
+ * will render a redirect script for a valid login by a compatible strategy.
+ *
+ * @param authenticator the base authenticator instance
+ * @param signingConfig used to sign the tokens that are issued.
+ * @param name the name of the authenticator to use
+ * @param options any options to be passed to the authenticate call
+ */
+export const wrapOAuth2Authn = (
+  authenticator: passport.Authenticator,
+  signingConfig: JWTSigningConfig,
+  name: string,
+  options?: any
+): RequestHandler => (req: Request, res, next) =>
+  authenticator.authenticate(
+    name,
+    { ...options, session: false },
+    (err: Error | null, user: User | null) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        // TODO: (wyattjoh) replace with better error.
+        return next(new Error("no user on request"));
+      }
+
+      handleOAuth2Callback(user, signingConfig, req, res, next);
+    }
+  )(req, res, next);
+
 /**
  * wrapAuthn will wrap a authenticators authenticate method with one that
  * will return a valid login token for a valid login by a compatible strategy.

@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { createSinonStub } from "talk-framework/testHelpers";
 
@@ -19,6 +19,6 @@ it("Listens to event and calls setAuthToken", () => {
     s => s.withArgs({ authToken }).returns(null)
   );
 
-  shallow(<OnPymLogin pym={pym} setAuthToken={setAuthToken} />);
+  createRenderer().render(<OnPymLogin pym={pym} setAuthToken={setAuthToken} />);
   expect(setAuthToken.calledOnce);
 });

@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -18,8 +18,9 @@ it("renders correctly with load more", () => {
     disableLoadMore: false,
     danglingLogic: () => true,
   };
-  const wrapper = shallow(<QueueN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<QueueN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders correctly without load more", () => {
@@ -31,6 +32,7 @@ it("renders correctly without load more", () => {
     disableLoadMore: false,
     danglingLogic: () => true,
   };
-  const wrapper = shallow(<QueueN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<QueueN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

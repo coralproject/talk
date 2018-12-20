@@ -54,6 +54,12 @@ export const PASSWORDS_DO_NOT_MATCH = () => (
   </Localized>
 );
 
+export const EMAILS_DO_NOT_MATCH = () => (
+  <Localized id="framework-validation-emailsDoNotMatch">
+    <span>Emails do not match. Try again.</span>
+  </Localized>
+);
+
 export const INVALID_URL = () => (
   <Localized id="framework-validation-invalidURL">
     <span>Invalid URL</span>

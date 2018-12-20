@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -17,8 +17,9 @@ it("renders correctly", () => {
     hasMore: false,
     disableLoadMore: false,
   };
-  const wrapper = shallow(<CommentHistoryN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentHistoryN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 describe("has more", () => {
@@ -30,8 +31,9 @@ describe("has more", () => {
       hasMore: true,
       disableLoadMore: false,
     };
-    const wrapper = shallow(<CommentHistoryN {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const renderer = createRenderer();
+    renderer.render(<CommentHistoryN {...props} />);
+    expect(renderer.getRenderOutput()).toMatchSnapshot();
   });
   it("disables load more", () => {
     const props: PropTypesOf<typeof CommentHistoryN> = {
@@ -41,7 +43,8 @@ describe("has more", () => {
       hasMore: true,
       disableLoadMore: true,
     };
-    const wrapper = shallow(<CommentHistoryN {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const renderer = createRenderer();
+    renderer.render(<CommentHistoryN {...props} />);
+    expect(renderer.getRenderOutput()).toMatchSnapshot();
   });
 });

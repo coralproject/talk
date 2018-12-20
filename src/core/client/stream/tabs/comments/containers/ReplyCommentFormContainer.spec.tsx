@@ -1,6 +1,7 @@
 import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
@@ -36,10 +37,10 @@ it("renders correctly", async () => {
     autofocus: false,
   };
 
-  const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
+  const renderer = createRenderer();
+  renderer.render(<ReplyCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.update();
-  expect(wrapper).toMatchSnapshot();
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders with initialValues", async () => {
@@ -66,10 +67,10 @@ it("renders with initialValues", async () => {
     "Hello World!"
   );
 
-  const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
+  const renderer = createRenderer();
+  renderer.render(<ReplyCommentFormContainerN {...props} />);
   await timeout();
-  wrapper.update();
-  expect(wrapper).toMatchSnapshot();
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("save values", async () => {

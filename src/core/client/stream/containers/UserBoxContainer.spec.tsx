@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -26,20 +26,31 @@ it("renders fully", () => {
           facebook: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
-          sso: {
+          oidc: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
-          oidc: [],
         },
       },
     },
@@ -50,8 +61,9 @@ it("renders fully", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders without logout button", () => {
@@ -71,20 +83,31 @@ it("renders without logout button", () => {
           facebook: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
-          sso: {
+          oidc: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
-          oidc: [],
         },
       },
     },
@@ -95,8 +118,9 @@ it("renders without logout button", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders sso only", () => {
@@ -116,20 +140,31 @@ it("renders sso only", () => {
           facebook: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
-            enabled: false,
-            allowRegistration: true,
-          },
-          sso: {
             enabled: true,
             allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
+          },
+          oidc: {
+            enabled: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
-          oidc: [],
         },
       },
     },
@@ -140,11 +175,12 @@ it("renders sso only", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
-it("renders sso only without logut button", () => {
+it("renders sso only without logout button", () => {
   const props: PropTypesOf<typeof UserBoxContainerN> = {
     local: {
       authPopup: {
@@ -161,20 +197,31 @@ it("renders sso only without logut button", () => {
           facebook: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
-          sso: {
-            enabled: true,
+          oidc: {
+            enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
-          oidc: [],
         },
       },
     },
@@ -185,8 +232,9 @@ it("renders sso only without logut button", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders without register button", () => {
@@ -206,20 +254,31 @@ it("renders without register button", () => {
           facebook: {
             enabled: true,
             allowRegistration: false,
+            targetFilter: {
+              stream: true,
+            },
           },
           google: {
             enabled: false,
-            allowRegistration: false,
+            allowRegistration: true,
+            targetFilter: {
+              stream: false,
+            },
           },
-          sso: {
+          oidc: {
             enabled: false,
             allowRegistration: true,
+            targetFilter: {
+              stream: true,
+            },
           },
           local: {
             enabled: true,
             allowRegistration: false,
+            targetFilter: {
+              stream: true,
+            },
           },
-          oidc: [],
         },
       },
     },
@@ -230,6 +289,7 @@ it("renders without register button", () => {
     // tslint:disable-next-line:no-empty
     signOut: async () => {},
   };
-  const wrapper = shallow(<UserBoxContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<UserBoxContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

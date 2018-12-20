@@ -10,19 +10,16 @@ export type SignUpMutation = (input: SignUpInput) => Promise<void>;
 export async function commit(
   environment: Environment,
   input: SignUpInput,
-  { rest, postMessage }: TalkContext
+  { rest, clearSession }: TalkContext
 ) {
-  try {
-    const result = await signUp(
-      rest,
-      pick(input, "email", "password", "username")
-    );
-    postMessage.send("setAuthToken", result.token, window.opener);
-    window.close();
-  } catch (err) {
-    postMessage.send("authError", err.toString(), window.opener);
-    throw err;
-  }
+  const result = await signUp(
+    rest,
+    pick(input, ["email", "password", "username"])
+  );
+  // Put the token on the hash and clean the session.
+  // It'll be picked up by initLocalState.
+  location.hash = result.token;
+  clearSession();
 }
 
 export const withSignUpMutation = createMutationContainer("signUp", commit);

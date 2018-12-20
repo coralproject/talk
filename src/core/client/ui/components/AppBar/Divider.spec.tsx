@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import Divider from "./Divider";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<Divider />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Divider />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -22,6 +22,7 @@ it("renders correctly", () => {
     conversationURL: "http://localhost/conversation",
     onGotoConversation: noop,
   };
-  const wrapper = shallow(<HistoryCommentN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<HistoryCommentN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

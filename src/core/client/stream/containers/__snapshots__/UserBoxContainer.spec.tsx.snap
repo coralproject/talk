@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders fully 1`] = `
-<Fragment>
+<React.Fragment>
   <Popup
-    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
@@ -17,17 +17,17 @@ exports[`renders fully 1`] = `
     onSignIn={[Function]}
     showRegisterButton={true}
   />
-</Fragment>
+</React.Fragment>
 `;
 
-exports[`renders sso only 1`] = `""`;
+exports[`renders sso only 1`] = `null`;
 
-exports[`renders sso only without logut button 1`] = `""`;
+exports[`renders sso only without logout button 1`] = `null`;
 
 exports[`renders without logout button 1`] = `
-<Fragment>
+<React.Fragment>
   <Popup
-    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
@@ -41,13 +41,13 @@ exports[`renders without logout button 1`] = `
     onSignIn={[Function]}
     showRegisterButton={true}
   />
-</Fragment>
+</React.Fragment>
 `;
 
 exports[`renders without register button 1`] = `
-<Fragment>
+<React.Fragment>
   <Popup
-    features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+    features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
     focus={false}
     href="/embed/auth?view=SIGN_IN"
     onBlur={[Function]}
@@ -60,5 +60,5 @@ exports[`renders without register button 1`] = `
     onSignIn={[Function]}
     showRegisterButton={false}
   />
-</Fragment>
+</React.Fragment>
 `;

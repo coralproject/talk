@@ -18,7 +18,7 @@ export interface SSOStrategyOptions {
 export interface SSOUserProfile {
   id: string;
   email: string;
-  username: string;
+  username?: string;
   avatar?: string;
   displayName?: string;
 }

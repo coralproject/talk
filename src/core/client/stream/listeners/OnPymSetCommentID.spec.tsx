@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 import { Environment, RecordSource } from "relay-runtime";
 
 import { parseQuery } from "talk-common/utils";
@@ -36,7 +36,7 @@ it("Sets comment id", () => {
     } as any,
     relayEnvironment,
   };
-  shallow(<OnPymSetCommentID {...props} />);
+  createRenderer().render(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(id);
   expect(parseQuery(location.search).commentID).toEqual(id);
 });
@@ -52,7 +52,7 @@ it("Sets comment id to null when empty", () => {
     } as any,
     relayEnvironment,
   };
-  shallow(<OnPymSetCommentID {...props} />);
+  createRenderer().render(<OnPymSetCommentID {...props} />);
   expect(source.get(LOCAL_ID)!.commentID).toEqual(null);
   expect(parseQuery(location.search).commentID).toBeUndefined();
 });

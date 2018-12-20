@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -9,6 +9,7 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof Timestamp> = {
     children: "2018-07-06T18:24:00.000Z",
   };
-  const wrapper = shallow(<Timestamp {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Timestamp {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

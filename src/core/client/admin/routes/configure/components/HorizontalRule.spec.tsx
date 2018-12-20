@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import HorizontalRule from "./HorizontalRule";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<HorizontalRule />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<HorizontalRule />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

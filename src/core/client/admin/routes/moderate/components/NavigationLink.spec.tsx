@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -10,6 +10,7 @@ it("renders correctly", () => {
     to: "/moderate",
     children: "link",
   };
-  const wrapper = shallow(<NavigationLink {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<NavigationLink {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

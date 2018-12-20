@@ -53,7 +53,7 @@ const ModerateCard: StatelessComponent<Props> = ({
 }) => (
   <Card
     className={cn(styles.root, { [styles.dangling]: dangling })}
-    data-test={`moderate-comment-${id}`}
+    data-testid={`moderate-comment-${id}`}
   >
     <Flex>
       <div className={styles.mainContainer}>

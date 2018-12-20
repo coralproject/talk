@@ -1,3 +1,4 @@
+import mockConsole from "jest-mock-console";
 import sinon from "sinon";
 
 import { createInMemoryStorage } from "talk-framework/lib/storage";
@@ -110,6 +111,7 @@ describe("withPymStorage", () => {
     expect(pym.messages).toMatchSnapshot();
   });
   it("should handle unknown method", () => {
+    mockConsole();
     const pym = new PymStub("localStorage");
     const storage = createInMemoryStorage();
     withPymStorage(storage, "localStorage", "talk:")(pym as any);
@@ -121,8 +123,11 @@ describe("withPymStorage", () => {
       })
     );
     expect(JSON.stringify(pym.messages)).toMatchSnapshot();
+    // tslint:disable-next-line: no-console
+    expect(console.error).toHaveBeenCalled();
   });
   it("should handle handle errors", () => {
+    mockConsole();
     const pym = new PymStub("localStorage");
     const storage = createInMemoryStorage();
     sinon
@@ -138,5 +143,7 @@ describe("withPymStorage", () => {
       })
     );
     expect(pym.messages).toMatchSnapshot();
+    // tslint:disable-next-line: no-console
+    expect(console.error).toHaveBeenCalled();
   });
 });

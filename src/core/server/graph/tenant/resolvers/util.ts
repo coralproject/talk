@@ -4,6 +4,10 @@ import { pull } from "lodash";
 import { parseQuery, stringifyQuery } from "talk-common/utils";
 import { URL } from "url";
 
+import { constructTenantURL, reconstructURL } from "talk-server/app/url";
+
+import TenantContext from "../context";
+
 /**
  * getRequestedFields returns the fields in an array that are being queried for.
  *
@@ -25,4 +29,19 @@ export function getURLWithCommentID(storyURL: string, commentID?: string) {
   url.search = stringifyQuery({ ...query, commentID });
 
   return url.toString();
+}
+
+export function reconstructTenantURLResolver<T = any>(path: string) {
+  return (parent: T, args: {}, ctx: TenantContext) => {
+    // If the request is available, then prefer it over building from the tenant
+    // as the tenant does not include the port number. This should only really
+    // be a problem if the graph API is called internally.
+    if (ctx.req) {
+      return reconstructURL(ctx.req, path);
+    }
+
+    // Note that when constructing the callback url with the tenant, the port
+    // information is lost.
+    return constructTenantURL(ctx.config, ctx.tenant, path);
+  };
 }

@@ -14,6 +14,13 @@ const config = convict({
     env: "PORT",
     arg: "port",
   },
+  dev_port: {
+    doc: "The port to bind for the Webpack Dev Server.",
+    format: "port",
+    default: 8080,
+    env: "DEV_PORT",
+    arg: "dev-port",
+  },
   generateReport: {
     doc: "Generate a report using webpack-bundle-analyzer",
     format: Boolean,

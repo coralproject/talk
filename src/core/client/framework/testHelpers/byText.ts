@@ -30,31 +30,31 @@ export function getByText(
   return container.find(matcher(pattern, options));
 }
 
+export function getAllByText(
+  container: ReactTestInstance,
+  pattern: TextMatchPattern,
+  options?: TextMatchOptions
+) {
+  const results = container.findAll(matcher(pattern, options));
+  if (!results.length) {
+    throw new Error(`Couldn't find text ${pattern}`);
+  }
+  return results;
+}
+
 export function queryByText(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions
 ) {
-  try {
-    return container.find(matcher(pattern, options));
-  } catch {
+  const results = container.findAll(matcher(pattern, options));
+  if (!results.length) {
     return null;
   }
+  return results[0];
 }
 
 export function queryAllByText(
-  container: ReactTestInstance,
-  pattern: TextMatchPattern,
-  options?: TextMatchOptions
-) {
-  try {
-    return container.findAll(matcher(pattern, options));
-  } catch {
-    return [];
-  }
-}
-
-export function getAllByText(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
   options?: TextMatchOptions

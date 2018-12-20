@@ -1,12 +1,13 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import Moderate from "./Moderate";
 
 import { PropTypesOf } from "talk-framework/types";
 it("renders correctly", () => {
-  const wrapper = shallow(<Moderate />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Moderate />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders correctly with counts", () => {
@@ -15,6 +16,7 @@ it("renders correctly with counts", () => {
     reportedCount: 4,
     pendingCount: 0,
   };
-  const wrapper = shallow(<Moderate {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Moderate {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

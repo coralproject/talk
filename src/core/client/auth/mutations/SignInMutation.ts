@@ -1,3 +1,4 @@
+import { pick } from "lodash";
 import { Environment } from "relay-runtime";
 
 import { TalkContext } from "talk-framework/lib/bootstrap";
@@ -9,16 +10,13 @@ export type SignInMutation = (input: SignInInput) => Promise<void>;
 export async function commit(
   environment: Environment,
   input: SignInInput,
-  { rest, postMessage }: TalkContext
+  { rest, clearSession }: TalkContext
 ) {
-  try {
-    const result = await signIn(rest, input);
-    postMessage.send("setAuthToken", result.token, window.opener);
-    window.close();
-  } catch (err) {
-    postMessage.send("authError", err.toString(), window.opener);
-    throw err;
-  }
+  const result = await signIn(rest, pick(input, ["email", "password"]));
+  // Put the token on the hash and clean the session.
+  // It'll be picked up by initLocalState.
+  location.hash = result.token;
+  clearSession();
 }
 
 export const withSignInMutation = createMutationContainer("signIn", commit);

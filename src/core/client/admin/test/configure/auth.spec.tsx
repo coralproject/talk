@@ -138,7 +138,7 @@ it("prevents stream lock out", async () => {
     // Submit button should not be disabled because we canceled the submit.
     expect(
       testRenderer.root.findByProps({
-        "data-test": "configure-sideBar-saveChanges",
+        "data-testid": "configure-sideBar-saveChanges",
       }).props.disabled
     ).toBe(true);
     expect(stubCancel.calledOnce).toBe(true);
@@ -175,82 +175,52 @@ it("change settings", async () => {
       ),
     },
     Mutation: {
-      updateSettings: createSinonStub(s =>
-        s.callsFake((_: any, data: any) => {
-          expect(data.input.settings.auth.integrations.facebook).toEqual({
-            enabled: true,
-            allowRegistration: true,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-            clientID: "myClientID",
-            clientSecret: "myClientSecret",
-          });
-          settingsRecord = merge({}, settingsRecord, data.input.settings);
-          return {
-            settings: settingsRecord,
-            clientMutationId: data.input.clientMutationId,
-          };
-        })
-      ),
-      createOIDCAuthIntegration: createSinonStub(s =>
-        s.callsFake((_: any, data: any) => {
-          expect(data.input.configuration).toEqual({
-            enabled: true,
-            allowRegistration: false,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-            name: "name",
-            clientID: "clientID",
-            clientSecret: "clientSecret",
-            issuer: "http://issuer.com",
-            jwksURI: "http://issuer.com/jwksURI",
-            authorizationURL: "http://issuer.com/authorizationURL",
-            tokenURL: "http://issuer.com/tokenURL",
-          });
-          (settingsRecord.auth.integrations.oidc as any).push({
-            id: "generatedID",
-            enabled: false,
-            callbackURL: "http://localhost/oidc/callback",
-            ...data.input.configuration,
-          });
-          return {
-            settings: settingsRecord,
-            clientMutationId: data.input.clientMutationId,
-          };
-        })
-      ),
-      updateOIDCAuthIntegration: createSinonStub(s =>
-        s.callsFake((_: any, data: any) => {
-          expect(data.input.configuration).toEqual({
-            enabled: true,
-            allowRegistration: false,
-            targetFilter: {
-              admin: true,
-              stream: true,
-            },
-            name: "name",
-            clientID: "clientID",
-            clientSecret: "clientSecret2",
-            issuer: "http://issuer.com",
-            jwksURI: "http://issuer.com/jwksURI",
-            authorizationURL: "http://issuer.com/authorizationURL",
-            tokenURL: "http://issuer.com/tokenURL",
-          });
-          (settingsRecord.auth.integrations.oidc[0] as any) = merge(
-            {},
-            settingsRecord.auth.integrations.oidc[0],
-            data.input.configuration
-          );
-          return {
-            integration: settingsRecord.auth.integrations.oidc[0],
-            settings: settingsRecord,
-            clientMutationId: data.input.clientMutationId,
-          };
-        })
+      updateSettings: createSinonStub(
+        s =>
+          s.onFirstCall().callsFake((_: any, data: any) => {
+            expect(data.input.settings.auth.integrations.facebook).toEqual({
+              enabled: true,
+              allowRegistration: true,
+              targetFilter: {
+                admin: true,
+                stream: true,
+              },
+              clientID: "myClientID",
+              clientSecret: "myClientSecret",
+            });
+            settingsRecord = merge(settingsRecord, data.input.settings);
+            return {
+              settings: settingsRecord,
+              clientMutationId: data.input.clientMutationId,
+            };
+          }),
+        s =>
+          s.onSecondCall().callsFake((_: any, data: any) => {
+            expect(data.input.settings.auth.integrations.oidc).toEqual({
+              enabled: true,
+              allowRegistration: false,
+              targetFilter: {
+                admin: true,
+                stream: true,
+              },
+              name: "name",
+              clientID: "clientID",
+              clientSecret: "clientSecret",
+              issuer: "http://issuer.com",
+              jwksURI: "http://issuer.com/jwksURI",
+              authorizationURL: "http://issuer.com/authorizationURL",
+              tokenURL: "http://issuer.com/tokenURL",
+            });
+            (settingsRecord.auth.integrations.oidc as any) = merge(
+              settingsRecord.auth.integrations.oidc,
+              data.input.configuration
+            );
+            return {
+              integration: settingsRecord.auth.integrations.oidc,
+              settings: settingsRecord,
+              clientMutationId: data.input.clientMutationId,
+            };
+          })
       ),
     },
   });
@@ -269,13 +239,13 @@ it("change settings", async () => {
     limitSnapshotTo("configure-auth-facebook-container", testRenderer.toJSON())
   ).toMatchSnapshot("enable facebook configure box");
 
-  // Send form, this will perform creating an initial oidc record and update settings.
+  // Send form
   testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
 
   // Submit button should be disabled.
   expect(
     testRenderer.root.findByProps({
-      "data-test": "configure-sideBar-saveChanges",
+      "data-testid": "configure-sideBar-saveChanges",
     }).props.disabled
   ).toBe(true);
 
@@ -293,73 +263,54 @@ it("change settings", async () => {
 
   // Now let's enable oidc
   testRenderer.root
-    .find(inputPredicate("auth.integrations.oidc.0.enabled"))
+    .find(inputPredicate("auth.integrations.oidc.enabled"))
     .props.onChange({});
 
   expect(
-    limitSnapshotTo("configure-auth-oidc-container-0", testRenderer.toJSON())
+    limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
   ).toMatchSnapshot("enable oidc configure box");
 
   // Try to submit form, this will give validation error messages.
   testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
   expect(
-    limitSnapshotTo("configure-auth-oidc-container-0", testRenderer.toJSON())
+    limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
   ).toMatchSnapshot("oidc validation errors");
 
   // Fill form
   testRenderer.root
-    .find(inputPredicate("auth.integrations.oidc.0.name"))
+    .find(inputPredicate("auth.integrations.oidc.name"))
     .props.onChange("name");
   testRenderer.root
-    .find(inputPredicate("auth.integrations.oidc.0.clientID"))
+    .find(inputPredicate("auth.integrations.oidc.clientID"))
     .props.onChange("clientID");
   testRenderer.root
-    .find(inputPredicate("auth.integrations.oidc.0.clientSecret"))
+    .find(inputPredicate("auth.integrations.oidc.clientSecret"))
     .props.onChange("clientSecret");
   testRenderer.root
-    .find(inputPredicate("auth.integrations.oidc.0.issuer"))
+    .find(inputPredicate("auth.integrations.oidc.issuer"))
     .props.onChange("http://issuer.com");
 
   // Discover the rest.
   testRenderer.root
-    .find(inputPredicate("configure-auth-oidc-discover-0"))
+    .find(inputPredicate("configure-auth-oidc-discover"))
     .props.onClick();
   await timeout();
 
   // Try to submit again, this should work now.
   testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
   expect(
-    limitSnapshotTo("configure-auth-oidc-container-0", testRenderer.toJSON())
+    limitSnapshotTo("configure-auth-oidc-container", testRenderer.toJSON())
   ).toMatchSnapshot("during submit: oidc without errors");
 
   // Disable other fields while submitting
   // We are only testing for one here right now..
   expect(
-    testRenderer.root.find(inputPredicate("auth.integrations.oidc.0.enabled"))
+    testRenderer.root.find(inputPredicate("auth.integrations.oidc.enabled"))
       .props.disabled
   ).toBe(true);
   await timeout();
   expect(
-    testRenderer.root.find(inputPredicate("auth.integrations.oidc.0.enabled"))
-      .props.disabled
-  ).toBe(false);
-
-  // Change clientSecret
-  testRenderer.root
-    .find(inputPredicate("auth.integrations.oidc.0.clientSecret"))
-    .props.onChange("clientSecret2");
-
-  testRenderer.root.findByProps({ id: "configure-form" }).props.onSubmit();
-
-  // Disable other fields while submitting
-  // We are only testing for one here right now..
-  expect(
-    testRenderer.root.find(inputPredicate("auth.integrations.oidc.0.enabled"))
-      .props.disabled
-  ).toBe(true);
-  await timeout();
-  expect(
-    testRenderer.root.find(inputPredicate("auth.integrations.oidc.0.enabled"))
+    testRenderer.root.find(inputPredicate("auth.integrations.oidc.enabled"))
       .props.disabled
   ).toBe(false);
 });

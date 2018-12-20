@@ -3,7 +3,7 @@
 exports[`change settings: during submit: oidc without errors 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-oidc-container-0"
+  data-testid="configure-auth-oidc-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -24,8 +24,8 @@ exports[`change settings: during submit: oidc without errors 1`] = `
             checked={true}
             className="CheckBox-input"
             disabled={true}
-            id="auth.integrations.oidc.0.enabled"
-            name="auth.integrations.oidc.0.enabled"
+            id="auth.integrations.oidc.enabled"
+            name="auth.integrations.oidc.enabled"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -33,7 +33,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           />
           <label
             className="CheckBox-label CheckBox-labelLight"
-            htmlFor="auth.integrations.oidc.0.enabled"
+            htmlFor="auth.integrations.oidc.enabled"
           >
             <span
               className="CheckBox-labelSpan"
@@ -75,23 +75,6 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           Redirect URI
         </label>
         <div
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-        >
-          <div
-            className="Flex-root Flex-flex Flex-halfItemGutter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-            >
-              error
-            </span>
-            <div>
-              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-            </div>
-          </div>
-        </div>
-        <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
           <input
@@ -100,7 +83,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
             placeholder=""
             readOnly={true}
             type="text"
-            value=""
+            value="http://localhost/oidc/callback"
           />
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -141,7 +124,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={true}
-          name="auth.integrations.oidc.0.name"
+          name="auth.integrations.oidc.name"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -163,7 +146,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={true}
-          name="auth.integrations.oidc.0.clientID"
+          name="auth.integrations.oidc.clientID"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -185,7 +168,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={true}
-          name="auth.integrations.oidc.0.clientSecret"
+          name="auth.integrations.oidc.clientSecret"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -216,7 +199,7 @@ the remaining fields. You may also enter the information manually.
             autoCorrect="off"
             className="TextField-root TextField-colorRegular"
             disabled={true}
-            name="auth.integrations.oidc.0.issuer"
+            name="auth.integrations.oidc.issuer"
             onChange={[Function]}
             placeholder=""
             spellCheck={false}
@@ -226,7 +209,7 @@ the remaining fields. You may also enter the information manually.
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
             disabled={true}
-            id="configure-auth-oidc-discover-0"
+            id="configure-auth-oidc-discover"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -253,7 +236,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={true}
-          name="auth.integrations.oidc.0.authorizationURL"
+          name="auth.integrations.oidc.authorizationURL"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -275,7 +258,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={true}
-          name="auth.integrations.oidc.0.tokenURL"
+          name="auth.integrations.oidc.tokenURL"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -297,7 +280,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={true}
-          name="auth.integrations.oidc.0.jwksURI"
+          name="auth.integrations.oidc.jwksURI"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -325,8 +308,8 @@ the remaining fields. You may also enter the information manually.
               checked={true}
               className="CheckBox-input"
               disabled={true}
-              id="auth.integrations.oidc.0.targetFilter.admin"
-              name="auth.integrations.oidc.0.targetFilter.admin"
+              id="auth.integrations.oidc.targetFilter.admin"
+              name="auth.integrations.oidc.targetFilter.admin"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -334,7 +317,7 @@ the remaining fields. You may also enter the information manually.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.targetFilter.admin"
+              htmlFor="auth.integrations.oidc.targetFilter.admin"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -350,8 +333,8 @@ the remaining fields. You may also enter the information manually.
               checked={true}
               className="CheckBox-input"
               disabled={true}
-              id="auth.integrations.oidc.0.targetFilter.stream"
-              name="auth.integrations.oidc.0.targetFilter.stream"
+              id="auth.integrations.oidc.targetFilter.stream"
+              name="auth.integrations.oidc.targetFilter.stream"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -359,7 +342,7 @@ the remaining fields. You may also enter the information manually.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.targetFilter.stream"
+              htmlFor="auth.integrations.oidc.targetFilter.stream"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -394,8 +377,8 @@ integration to register for a new account.
               checked={false}
               className="CheckBox-input"
               disabled={true}
-              id="auth.integrations.oidc.0.allowRegistration"
-              name="auth.integrations.oidc.0.allowRegistration"
+              id="auth.integrations.oidc.allowRegistration"
+              name="auth.integrations.oidc.allowRegistration"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -403,7 +386,7 @@ integration to register for a new account.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.allowRegistration"
+              htmlFor="auth.integrations.oidc.allowRegistration"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -422,7 +405,7 @@ integration to register for a new account.
 exports[`change settings: enable facebook configure box 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-facebook-container"
+  data-testid="configure-auth-facebook-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -687,7 +670,7 @@ integration to register for a new account.
 exports[`change settings: enable oidc configure box 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-oidc-container-0"
+  data-testid="configure-auth-oidc-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -708,8 +691,8 @@ exports[`change settings: enable oidc configure box 1`] = `
             checked={true}
             className="CheckBox-input"
             disabled={false}
-            id="auth.integrations.oidc.0.enabled"
-            name="auth.integrations.oidc.0.enabled"
+            id="auth.integrations.oidc.enabled"
+            name="auth.integrations.oidc.enabled"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -717,7 +700,7 @@ exports[`change settings: enable oidc configure box 1`] = `
           />
           <label
             className="CheckBox-label CheckBox-labelLight"
-            htmlFor="auth.integrations.oidc.0.enabled"
+            htmlFor="auth.integrations.oidc.enabled"
           >
             <span
               className="CheckBox-labelSpan"
@@ -759,23 +742,6 @@ exports[`change settings: enable oidc configure box 1`] = `
           Redirect URI
         </label>
         <div
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-        >
-          <div
-            className="Flex-root Flex-flex Flex-halfItemGutter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-            >
-              error
-            </span>
-            <div>
-              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-            </div>
-          </div>
-        </div>
-        <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
           <input
@@ -784,7 +750,7 @@ exports[`change settings: enable oidc configure box 1`] = `
             placeholder=""
             readOnly={true}
             type="text"
-            value=""
+            value="http://localhost/oidc/callback"
           />
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -825,7 +791,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.name"
+          name="auth.integrations.oidc.name"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -847,7 +813,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.clientID"
+          name="auth.integrations.oidc.clientID"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -869,7 +835,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.clientSecret"
+          name="auth.integrations.oidc.clientSecret"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -900,7 +866,7 @@ the remaining fields. You may also enter the information manually.
             autoCorrect="off"
             className="TextField-root TextField-colorRegular"
             disabled={false}
-            name="auth.integrations.oidc.0.issuer"
+            name="auth.integrations.oidc.issuer"
             onChange={[Function]}
             placeholder=""
             spellCheck={false}
@@ -910,7 +876,7 @@ the remaining fields. You may also enter the information manually.
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             disabled={false}
-            id="configure-auth-oidc-discover-0"
+            id="configure-auth-oidc-discover"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -937,7 +903,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.authorizationURL"
+          name="auth.integrations.oidc.authorizationURL"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -959,7 +925,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.tokenURL"
+          name="auth.integrations.oidc.tokenURL"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -981,7 +947,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.jwksURI"
+          name="auth.integrations.oidc.jwksURI"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -1009,8 +975,8 @@ the remaining fields. You may also enter the information manually.
               checked={true}
               className="CheckBox-input"
               disabled={false}
-              id="auth.integrations.oidc.0.targetFilter.admin"
-              name="auth.integrations.oidc.0.targetFilter.admin"
+              id="auth.integrations.oidc.targetFilter.admin"
+              name="auth.integrations.oidc.targetFilter.admin"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -1018,7 +984,7 @@ the remaining fields. You may also enter the information manually.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.targetFilter.admin"
+              htmlFor="auth.integrations.oidc.targetFilter.admin"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -1034,8 +1000,8 @@ the remaining fields. You may also enter the information manually.
               checked={true}
               className="CheckBox-input"
               disabled={false}
-              id="auth.integrations.oidc.0.targetFilter.stream"
-              name="auth.integrations.oidc.0.targetFilter.stream"
+              id="auth.integrations.oidc.targetFilter.stream"
+              name="auth.integrations.oidc.targetFilter.stream"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -1043,7 +1009,7 @@ the remaining fields. You may also enter the information manually.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.targetFilter.stream"
+              htmlFor="auth.integrations.oidc.targetFilter.stream"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -1078,8 +1044,8 @@ integration to register for a new account.
               checked={false}
               className="CheckBox-input"
               disabled={false}
-              id="auth.integrations.oidc.0.allowRegistration"
-              name="auth.integrations.oidc.0.allowRegistration"
+              id="auth.integrations.oidc.allowRegistration"
+              name="auth.integrations.oidc.allowRegistration"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -1087,7 +1053,7 @@ integration to register for a new account.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.allowRegistration"
+              htmlFor="auth.integrations.oidc.allowRegistration"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -1106,7 +1072,7 @@ integration to register for a new account.
 exports[`change settings: oidc validation errors 1`] = `
 <div
   className="ConfigBox-root"
-  data-test="configure-auth-oidc-container-0"
+  data-testid="configure-auth-oidc-container"
 >
   <div
     className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -1127,8 +1093,8 @@ exports[`change settings: oidc validation errors 1`] = `
             checked={true}
             className="CheckBox-input"
             disabled={false}
-            id="auth.integrations.oidc.0.enabled"
-            name="auth.integrations.oidc.0.enabled"
+            id="auth.integrations.oidc.enabled"
+            name="auth.integrations.oidc.enabled"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -1136,7 +1102,7 @@ exports[`change settings: oidc validation errors 1`] = `
           />
           <label
             className="CheckBox-label CheckBox-labelLight"
-            htmlFor="auth.integrations.oidc.0.enabled"
+            htmlFor="auth.integrations.oidc.enabled"
           >
             <span
               className="CheckBox-labelSpan"
@@ -1178,23 +1144,6 @@ exports[`change settings: oidc validation errors 1`] = `
           Redirect URI
         </label>
         <div
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-        >
-          <div
-            className="Flex-root Flex-flex Flex-halfItemGutter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-            >
-              error
-            </span>
-            <div>
-              For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-            </div>
-          </div>
-        </div>
-        <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
           <input
@@ -1203,7 +1152,7 @@ exports[`change settings: oidc validation errors 1`] = `
             placeholder=""
             readOnly={true}
             type="text"
-            value=""
+            value="http://localhost/oidc/callback"
           />
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -1244,7 +1193,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.name"
+          name="auth.integrations.oidc.name"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -1279,7 +1228,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.clientID"
+          name="auth.integrations.oidc.clientID"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -1314,7 +1263,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.clientSecret"
+          name="auth.integrations.oidc.clientSecret"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -1358,7 +1307,7 @@ the remaining fields. You may also enter the information manually.
             autoCorrect="off"
             className="TextField-root TextField-colorRegular"
             disabled={false}
-            name="auth.integrations.oidc.0.issuer"
+            name="auth.integrations.oidc.issuer"
             onChange={[Function]}
             placeholder=""
             spellCheck={false}
@@ -1368,7 +1317,7 @@ the remaining fields. You may also enter the information manually.
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             disabled={false}
-            id="configure-auth-oidc-discover-0"
+            id="configure-auth-oidc-discover"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -1408,7 +1357,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.authorizationURL"
+          name="auth.integrations.oidc.authorizationURL"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -1443,7 +1392,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.tokenURL"
+          name="auth.integrations.oidc.tokenURL"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -1478,7 +1427,7 @@ the remaining fields. You may also enter the information manually.
           autoCorrect="off"
           className="TextField-root TextField-colorRegular"
           disabled={false}
-          name="auth.integrations.oidc.0.jwksURI"
+          name="auth.integrations.oidc.jwksURI"
           onChange={[Function]}
           placeholder=""
           spellCheck={false}
@@ -1519,8 +1468,8 @@ the remaining fields. You may also enter the information manually.
               checked={true}
               className="CheckBox-input"
               disabled={false}
-              id="auth.integrations.oidc.0.targetFilter.admin"
-              name="auth.integrations.oidc.0.targetFilter.admin"
+              id="auth.integrations.oidc.targetFilter.admin"
+              name="auth.integrations.oidc.targetFilter.admin"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -1528,7 +1477,7 @@ the remaining fields. You may also enter the information manually.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.targetFilter.admin"
+              htmlFor="auth.integrations.oidc.targetFilter.admin"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -1544,8 +1493,8 @@ the remaining fields. You may also enter the information manually.
               checked={true}
               className="CheckBox-input"
               disabled={false}
-              id="auth.integrations.oidc.0.targetFilter.stream"
-              name="auth.integrations.oidc.0.targetFilter.stream"
+              id="auth.integrations.oidc.targetFilter.stream"
+              name="auth.integrations.oidc.targetFilter.stream"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -1553,7 +1502,7 @@ the remaining fields. You may also enter the information manually.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.targetFilter.stream"
+              htmlFor="auth.integrations.oidc.targetFilter.stream"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -1588,8 +1537,8 @@ integration to register for a new account.
               checked={false}
               className="CheckBox-input"
               disabled={false}
-              id="auth.integrations.oidc.0.allowRegistration"
-              name="auth.integrations.oidc.0.allowRegistration"
+              id="auth.integrations.oidc.allowRegistration"
+              name="auth.integrations.oidc.allowRegistration"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
@@ -1597,7 +1546,7 @@ integration to register for a new account.
             />
             <label
               className="CheckBox-label"
-              htmlFor="auth.integrations.oidc.0.allowRegistration"
+              htmlFor="auth.integrations.oidc.allowRegistration"
             >
               <span
                 className="CheckBox-labelSpan"
@@ -1616,7 +1565,7 @@ integration to register for a new account.
 exports[`prevents admin lock out 1`] = `
 <div
   className="CallOut-root CallOut-colorError CallOut-fullWidth"
-  data-test="configure-auth-submitError"
+  data-testid="configure-auth-submitError"
 >
   <span>
     Please enable at least one authentication integration for Talk Admin
@@ -1627,7 +1576,7 @@ exports[`prevents admin lock out 1`] = `
 exports[`regenerate sso key 1`] = `
 <div
   className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-  data-test="configure-auth-sso-key"
+  data-testid="configure-auth-sso-key"
 >
   <label
     className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -1688,7 +1637,7 @@ and all signed-in users will be signed out.
 exports[`renders configure auth 1`] = `
 <div
   className="MainLayout-root"
-  data-test="configure-container"
+  data-testid="configure-container"
 >
   <form
     autoComplete="off"
@@ -1736,7 +1685,7 @@ exports[`renders configure auth 1`] = `
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
-            data-test="configure-sideBar-saveChanges"
+            data-testid="configure-sideBar-saveChanges"
             disabled={true}
             onBlur={[Function]}
             onFocus={[Function]}
@@ -2000,7 +1949,7 @@ integration to register for a new account.
             </div>
             <div
               className="ConfigBox-root"
-              data-test="configure-auth-oidc-container-0"
+              data-testid="configure-auth-oidc-container"
             >
               <div
                 className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
@@ -2018,11 +1967,11 @@ integration to register for a new account.
                       className="CheckBox-root"
                     >
                       <input
-                        checked=""
+                        checked={false}
                         className="CheckBox-input"
                         disabled={false}
-                        id="auth.integrations.oidc.0.enabled"
-                        name="auth.integrations.oidc.0.enabled"
+                        id="auth.integrations.oidc.enabled"
+                        name="auth.integrations.oidc.enabled"
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -2030,7 +1979,7 @@ integration to register for a new account.
                       />
                       <label
                         className="CheckBox-label CheckBox-labelLight"
-                        htmlFor="auth.integrations.oidc.0.enabled"
+                        htmlFor="auth.integrations.oidc.enabled"
                       >
                         <span
                           className="CheckBox-labelSpan"
@@ -2072,23 +2021,6 @@ integration to register for a new account.
                       Redirect URI
                     </label>
                     <div
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
-                    >
-                      <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className="Icon-root OIDCConfig-redirectDescriptionIcon Icon-sm"
-                        >
-                          error
-                        </span>
-                        <div>
-                          For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
-                        </div>
-                      </div>
-                    </div>
-                    <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
                       <input
@@ -2097,7 +2029,7 @@ integration to register for a new account.
                         placeholder=""
                         readOnly={true}
                         type="text"
-                        value=""
+                        value="http://localhost/oidc/callback"
                       />
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -2138,7 +2070,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       autoCorrect="off"
                       className="TextField-root TextField-colorRegular"
                       disabled={true}
-                      name="auth.integrations.oidc.0.name"
+                      name="auth.integrations.oidc.name"
                       onChange={[Function]}
                       placeholder=""
                       spellCheck={false}
@@ -2160,7 +2092,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       autoCorrect="off"
                       className="TextField-root TextField-colorRegular"
                       disabled={true}
-                      name="auth.integrations.oidc.0.clientID"
+                      name="auth.integrations.oidc.clientID"
                       onChange={[Function]}
                       placeholder=""
                       spellCheck={false}
@@ -2182,7 +2114,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       autoCorrect="off"
                       className="TextField-root TextField-colorRegular"
                       disabled={true}
-                      name="auth.integrations.oidc.0.clientSecret"
+                      name="auth.integrations.oidc.clientSecret"
                       onChange={[Function]}
                       placeholder=""
                       spellCheck={false}
@@ -2213,7 +2145,7 @@ the remaining fields. You may also enter the information manually.
                         autoCorrect="off"
                         className="TextField-root TextField-colorRegular"
                         disabled={true}
-                        name="auth.integrations.oidc.0.issuer"
+                        name="auth.integrations.oidc.issuer"
                         onChange={[Function]}
                         placeholder=""
                         spellCheck={false}
@@ -2223,7 +2155,7 @@ the remaining fields. You may also enter the information manually.
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
                         disabled={true}
-                        id="configure-auth-oidc-discover-0"
+                        id="configure-auth-oidc-discover"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -2250,7 +2182,7 @@ the remaining fields. You may also enter the information manually.
                       autoCorrect="off"
                       className="TextField-root TextField-colorRegular"
                       disabled={true}
-                      name="auth.integrations.oidc.0.authorizationURL"
+                      name="auth.integrations.oidc.authorizationURL"
                       onChange={[Function]}
                       placeholder=""
                       spellCheck={false}
@@ -2272,7 +2204,7 @@ the remaining fields. You may also enter the information manually.
                       autoCorrect="off"
                       className="TextField-root TextField-colorRegular"
                       disabled={true}
-                      name="auth.integrations.oidc.0.tokenURL"
+                      name="auth.integrations.oidc.tokenURL"
                       onChange={[Function]}
                       placeholder=""
                       spellCheck={false}
@@ -2294,7 +2226,7 @@ the remaining fields. You may also enter the information manually.
                       autoCorrect="off"
                       className="TextField-root TextField-colorRegular"
                       disabled={true}
-                      name="auth.integrations.oidc.0.jwksURI"
+                      name="auth.integrations.oidc.jwksURI"
                       onChange={[Function]}
                       placeholder=""
                       spellCheck={false}
@@ -2322,8 +2254,8 @@ the remaining fields. You may also enter the information manually.
                           checked={true}
                           className="CheckBox-input"
                           disabled={true}
-                          id="auth.integrations.oidc.0.targetFilter.admin"
-                          name="auth.integrations.oidc.0.targetFilter.admin"
+                          id="auth.integrations.oidc.targetFilter.admin"
+                          name="auth.integrations.oidc.targetFilter.admin"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2331,7 +2263,7 @@ the remaining fields. You may also enter the information manually.
                         />
                         <label
                           className="CheckBox-label"
-                          htmlFor="auth.integrations.oidc.0.targetFilter.admin"
+                          htmlFor="auth.integrations.oidc.targetFilter.admin"
                         >
                           <span
                             className="CheckBox-labelSpan"
@@ -2347,8 +2279,8 @@ the remaining fields. You may also enter the information manually.
                           checked={true}
                           className="CheckBox-input"
                           disabled={true}
-                          id="auth.integrations.oidc.0.targetFilter.stream"
-                          name="auth.integrations.oidc.0.targetFilter.stream"
+                          id="auth.integrations.oidc.targetFilter.stream"
+                          name="auth.integrations.oidc.targetFilter.stream"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2356,7 +2288,7 @@ the remaining fields. You may also enter the information manually.
                         />
                         <label
                           className="CheckBox-label"
-                          htmlFor="auth.integrations.oidc.0.targetFilter.stream"
+                          htmlFor="auth.integrations.oidc.targetFilter.stream"
                         >
                           <span
                             className="CheckBox-labelSpan"
@@ -2391,8 +2323,8 @@ integration to register for a new account.
                           checked={false}
                           className="CheckBox-input"
                           disabled={true}
-                          id="auth.integrations.oidc.0.allowRegistration"
-                          name="auth.integrations.oidc.0.allowRegistration"
+                          id="auth.integrations.oidc.allowRegistration"
+                          name="auth.integrations.oidc.allowRegistration"
                           onBlur={[Function]}
                           onChange={[Function]}
                           onFocus={[Function]}
@@ -2400,7 +2332,7 @@ integration to register for a new account.
                         />
                         <label
                           className="CheckBox-label"
-                          htmlFor="auth.integrations.oidc.0.allowRegistration"
+                          htmlFor="auth.integrations.oidc.allowRegistration"
                         >
                           <span
                             className="CheckBox-labelSpan"
@@ -2465,7 +2397,7 @@ integration to register for a new account.
                 >
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-                    data-test="configure-auth-sso-key"
+                    data-testid="configure-auth-sso-key"
                   >
                     <label
                       className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -2895,7 +2827,7 @@ integration to register for a new account.
             </div>
             <div
               className="ConfigBox-root"
-              data-test="configure-auth-facebook-container"
+              data-testid="configure-auth-facebook-container"
             >
               <div
                 className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"

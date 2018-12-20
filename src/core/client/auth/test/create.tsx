@@ -5,7 +5,7 @@ import React from "react";
 import TestRenderer from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
-import AppContainer from "talk-auth/containers/AppContainer";
+import AppQuery from "talk-auth/queries/AppQuery";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
@@ -17,6 +17,7 @@ import createFluentBundle from "./createFluentBundle";
 
 interface CreateParams {
   logNetwork?: boolean;
+  muteNetworkErrors?: boolean;
   resolvers?: IResolvers<any, any>;
   initLocalState?: (
     local: RecordProxy,
@@ -29,6 +30,7 @@ export default function create(params: CreateParams) {
   const environment = createEnvironment({
     // Set this to true, to see graphql responses.
     logNetwork: params.logNetwork,
+    muteNetworkErrors: params.muteNetworkErrors,
     resolvers: params.resolvers,
     initLocalState: (localRecord, source, env) => {
       if (params.initLocalState) {
@@ -52,7 +54,7 @@ export default function create(params: CreateParams) {
 
   const testRenderer = TestRenderer.create(
     <TalkContextProvider value={context}>
-      <AppContainer />
+      <AppQuery />
     </TalkContextProvider>
   );
 

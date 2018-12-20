@@ -2,12 +2,12 @@
 
 exports[`renders correctly 1`] = `
 <MainLayout
-  data-test="configure-container"
+  data-testid="configure-container"
 >
   <ReactFinalForm
     onSubmit={[Function]}
   >
-    <Component />
+    [Function]
   </ReactFinalForm>
 </MainLayout>
 `;

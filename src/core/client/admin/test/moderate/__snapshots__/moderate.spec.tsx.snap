@@ -3,7 +3,7 @@
 exports[`navigation bar renders navigation bar (empty queues) 1`] = `
 <div
   className="SubBar-root"
-  data-test="moderate-subBar-container"
+  data-testid="moderate-subBar-container"
 >
   <div
     className="Flex-root SubBar-container Flex-flex Flex-justifyCenter Flex-alignCenter"
@@ -33,7 +33,7 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
             </span>
             <span
               className="Counter-root Counter-colorInherit"
-              data-test="moderate-navigation-reported-count"
+              data-testid="moderate-navigation-reported-count"
             >
               <span
                 className="Counter-text"
@@ -62,7 +62,7 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
             </span>
             <span
               className="Counter-root Counter-colorInherit"
-              data-test="moderate-navigation-pending-count"
+              data-testid="moderate-navigation-pending-count"
             >
               <span
                 className="Counter-text"
@@ -91,7 +91,7 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
             </span>
             <span
               className="Counter-root Counter-colorInherit"
-              data-test="moderate-navigation-unmoderated-count"
+              data-testid="moderate-navigation-unmoderated-count"
             >
               <span
                 className="Counter-text"
@@ -129,7 +129,7 @@ exports[`navigation bar renders navigation bar (empty queues) 1`] = `
 exports[`rejected queue accepts comment in rejected queue: count should be 1 1`] = `
 <span
   className="Counter-root Counter-colorInherit"
-  data-test="moderate-navigation-reported-count"
+  data-testid="moderate-navigation-reported-count"
 >
   <span
     className="Counter-text"
@@ -142,7 +142,7 @@ exports[`rejected queue accepts comment in rejected queue: count should be 1 1`]
 exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
 <div
   className="Card-root ModerateCard-root ModerateCard-dangling"
-  data-test="moderate-comment-comment-0"
+  data-testid="moderate-comment-comment-0"
 >
   <div
     className="Flex-root Flex-flex"
@@ -285,7 +285,7 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
 exports[`rejected queue renders rejected queue with comments 1`] = `
 <div
   className="MainLayout-root"
-  data-test="moderate-main-container"
+  data-testid="moderate-main-container"
 >
   <main
     className="Moderate-main"
@@ -295,7 +295,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
     >
       <div
         className="Card-root ModerateCard-root"
-        data-test="moderate-comment-comment-0"
+        data-testid="moderate-comment-comment-0"
       >
         <div
           className="Flex-root Flex-flex"
@@ -435,7 +435,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
       </div>
       <div
         className="Card-root ModerateCard-root"
-        data-test="moderate-comment-comment-1"
+        data-testid="moderate-comment-comment-1"
       >
         <div
           className="Flex-root Flex-flex"
@@ -582,7 +582,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
 exports[`rejected queue renders rejected queue with comments and load more 1`] = `
 <div
   className="Card-root ModerateCard-root"
-  data-test="moderate-comment-comment-2"
+  data-testid="moderate-comment-comment-2"
 >
   <div
     className="Flex-root Flex-flex"
@@ -738,7 +738,7 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
 exports[`reported queue accepts comment in reported queue: count should be 1 1`] = `
 <span
   className="Counter-root Counter-colorInherit"
-  data-test="moderate-navigation-reported-count"
+  data-testid="moderate-navigation-reported-count"
 >
   <span
     className="Counter-text"
@@ -751,7 +751,7 @@ exports[`reported queue accepts comment in reported queue: count should be 1 1`]
 exports[`reported queue accepts comment in reported queue: dangling 1`] = `
 <div
   className="Card-root ModerateCard-root ModerateCard-dangling"
-  data-test="moderate-comment-comment-0"
+  data-testid="moderate-comment-comment-0"
 >
   <div
     className="Flex-root Flex-flex"
@@ -894,7 +894,7 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
 exports[`reported queue rejects comment in reported queue: count should be 1 1`] = `
 <span
   className="Counter-root Counter-colorInherit"
-  data-test="moderate-navigation-reported-count"
+  data-testid="moderate-navigation-reported-count"
 >
   <span
     className="Counter-text"
@@ -907,7 +907,7 @@ exports[`reported queue rejects comment in reported queue: count should be 1 1`]
 exports[`reported queue rejects comment in reported queue: dangling 1`] = `
 <div
   className="Card-root ModerateCard-root ModerateCard-dangling"
-  data-test="moderate-comment-comment-0"
+  data-testid="moderate-comment-comment-0"
 >
   <div
     className="Flex-root Flex-flex"
@@ -1050,7 +1050,7 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
 exports[`reported queue renders empty reported queue 1`] = `
 <div
   className="MainLayout-root"
-  data-test="moderate-main-container"
+  data-testid="moderate-main-container"
 >
   <main
     className="Moderate-main"
@@ -1065,7 +1065,7 @@ exports[`reported queue renders empty reported queue 1`] = `
 exports[`reported queue renders reported queue with comments 1`] = `
 <div
   className="MainLayout-root"
-  data-test="moderate-main-container"
+  data-testid="moderate-main-container"
 >
   <main
     className="Moderate-main"
@@ -1075,7 +1075,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
     >
       <div
         className="Card-root ModerateCard-root"
-        data-test="moderate-comment-comment-0"
+        data-testid="moderate-comment-comment-0"
       >
         <div
           className="Flex-root Flex-flex"
@@ -1215,7 +1215,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
       </div>
       <div
         className="Card-root ModerateCard-root"
-        data-test="moderate-comment-comment-1"
+        data-testid="moderate-comment-comment-1"
       >
         <div
           className="Flex-root Flex-flex"
@@ -1361,7 +1361,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
 exports[`reported queue renders reported queue with comments and load more 1`] = `
 <div
   className="Card-root ModerateCard-root"
-  data-test="moderate-comment-comment-2"
+  data-testid="moderate-comment-comment-2"
 >
   <div
     className="Flex-root Flex-flex"
@@ -1522,7 +1522,7 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
 exports[`single comment view accepts single comment 1`] = `
 <div
   className="Card-root ModerateCard-root"
-  data-test="moderate-comment-comment-0"
+  data-testid="moderate-comment-comment-0"
 >
   <div
     className="Flex-root Flex-flex"
@@ -1665,7 +1665,7 @@ exports[`single comment view accepts single comment 1`] = `
 exports[`single comment view rejects single comment 1`] = `
 <div
   className="Card-root ModerateCard-root"
-  data-test="moderate-comment-comment-0"
+  data-testid="moderate-comment-comment-0"
 >
   <div
     className="Flex-root Flex-flex"
@@ -1807,7 +1807,7 @@ exports[`single comment view rejects single comment 1`] = `
 
 exports[`single comment view renders single comment view 1`] = `
 <div
-  data-test="single-moderate-container"
+  data-testid="single-moderate-container"
 >
   <div
     className="SubBar-root SingleModerate-subBar SubBar-gutterBegin SubBar-gutterEnd"
@@ -1843,7 +1843,7 @@ exports[`single comment view renders single comment view 1`] = `
       >
         <div
           className="Card-root ModerateCard-root"
-          data-test="moderate-comment-comment-0"
+          data-testid="moderate-comment-comment-0"
         >
           <div
             className="Flex-root Flex-flex"

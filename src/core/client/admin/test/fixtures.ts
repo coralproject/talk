@@ -11,7 +11,6 @@ export const settings = {
       enabled: false,
     },
     integrations: {
-      oidc: [],
       local: {
         enabled: true,
         allowRegistration: true,
@@ -51,6 +50,15 @@ export const settings = {
         clientID: "",
         clientSecret: "",
         callbackURL: "http://localhost/facebook/callback",
+      },
+      oidc: {
+        enabled: false,
+        allowRegistration: false,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+        callbackURL: "http://localhost/oidc/callback",
       },
     },
   },

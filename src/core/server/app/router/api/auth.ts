@@ -5,7 +5,10 @@ import {
   logoutHandler,
   signupHandler,
 } from "talk-server/app/handlers/api/tenant/auth/local";
-import { wrapAuthn } from "talk-server/app/middleware/passport";
+import {
+  wrapAuthn,
+  wrapOAuth2Authn,
+} from "talk-server/app/middleware/passport";
 import { RouterOptions } from "talk-server/app/router/types";
 
 function wrapPath(
@@ -15,7 +18,11 @@ function wrapPath(
   strategy: string,
   path: string = `/${strategy}`
 ) {
-  const handler = wrapAuthn(options.passport, app.signingConfig, strategy);
+  const handler = wrapOAuth2Authn(
+    options.passport,
+    app.signingConfig,
+    strategy
+  );
 
   router.get(path, handler);
   router.get(path + "/callback", handler);
@@ -46,7 +53,7 @@ export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   // Mount the external auth integrations with middleware/handle wrappers.
   wrapPath(app, options, router, "facebook");
   wrapPath(app, options, router, "google");
-  wrapPath(app, options, router, "oidc", "/oidc/:oidc");
+  wrapPath(app, options, router, "oidc");
 
   return router;
 }

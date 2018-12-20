@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import Counter from "./Counter";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<Counter>20</Counter>);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Counter>20</Counter>);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

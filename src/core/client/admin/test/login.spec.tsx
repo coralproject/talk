@@ -5,7 +5,10 @@ import { timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 
 import { LOCAL_ID } from "talk-framework/lib/relay";
-import { replaceHistoryLocation } from "talk-framework/testHelpers";
+import {
+  createAuthToken,
+  replaceHistoryLocation,
+} from "talk-framework/testHelpers";
 
 import create from "./create";
 import {
@@ -116,16 +119,7 @@ it("submits form successfully", async () => {
     .find(inputPredicate("password"))
     .props.onChange({ target: { value: "testtest" } });
 
-  const authToken = `${btoa(
-    JSON.stringify({
-      alg: "HS256",
-      typ: "JWT",
-    })
-  )}.${btoa(
-    JSON.stringify({
-      jti: "31b26591-4e9a-4388-a7ff-e1bdc5d97cce",
-    })
-  )}`;
+  const authToken = createAuthToken();
 
   const restMock = sinon.mock(context.rest);
   restMock

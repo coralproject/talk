@@ -1,9 +1,10 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import Login from "./Login";
 
 it("renders correctly", () => {
-  const wrapper = shallow(<Login />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<Login />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

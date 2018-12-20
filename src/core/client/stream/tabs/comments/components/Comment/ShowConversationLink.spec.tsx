@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -12,6 +12,7 @@ it("renders correctly", () => {
     onClick: noop,
     href: "http://localhost/comment",
   };
-  const wrapper = shallow(<ShowConversationLink {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ShowConversationLink {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

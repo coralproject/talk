@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -44,8 +44,9 @@ it("renders username and body", () => {
     disableReplies: false,
   };
 
-  const wrapper = shallow(<CommentContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders body only", () => {
@@ -80,8 +81,9 @@ it("renders body only", () => {
     setCommentID: noop as any,
   };
 
-  const wrapper = shallow(<CommentContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("hide reply button", () => {
@@ -118,8 +120,9 @@ it("hide reply button", () => {
     disableReplies: true,
   };
 
-  const wrapper = shallow(<CommentContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("shows conversation link", () => {
@@ -158,8 +161,9 @@ it("shows conversation link", () => {
     showConversationLink: true,
   };
 
-  const wrapper = shallow(<CommentContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders in reply to", () => {
@@ -200,6 +204,7 @@ it("renders in reply to", () => {
     disableReplies: false,
   };
 
-  const wrapper = shallow(<CommentContainerN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

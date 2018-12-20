@@ -1,478 +1,689 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`accepts correct password 1`] = `
-<div
-  className="App-root"
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
 >
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
+  <div
+    className="HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
       >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorError TextField-fullWidth"
-          disabled={false}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value=""
-        />
-        <div
-          className="Message-root Message-colorError Message-fullWidth"
-        >
-          <span
-            aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
-          >
-            warning
-          </span>
-          <span>
-            This field is required.
-          </span>
-        </div>
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value="testtest"
-        />
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
         disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Sign in to Join the Conversation
-      </button>
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value=""
+      />
       <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
+        className="Message-root Message-colorError Message-fullWidth"
       >
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
         >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
       </div>
     </div>
-  </form>
-</div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="password"
+      >
+        Password
+      </label>
+      <div
+        className="PasswordField-fullWidth PasswordField-root"
+      >
+        <div
+          className="PasswordField-wrapper"
+        >
+          <input
+            className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+            disabled={false}
+            id="password"
+            name="password"
+            onChange={[Function]}
+            placeholder="Password"
+            type="password"
+            value="testtest"
+          />
+          <div
+            className="PasswordField-icon"
+            onClick={[Function]}
+            role="button"
+            tabIndex={0}
+            title="Show password"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              visibility
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          data-testid="gotoForgotPasswordButton"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Forgot your password?
+        </button>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root ButtonIcon-root Icon-md"
+      >
+        email
+      </span>
+      <span>
+        Sign in with Email
+      </span>
+    </button>
+  </div>
+</form>
 `;
 
 exports[`accepts valid email 1`] = `
-<div
-  className="App-root"
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
 >
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
+  <div
+    className="HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
       >
-        Sign in to join the conversation
-      </h1>
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value="hans@test.com"
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="password"
+      >
+        Password
+      </label>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="PasswordField-fullWidth PasswordField-root"
       >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        <div
+          className="PasswordField-wrapper"
         >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="hans@test.com"
-        />
+          <input
+            className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+            disabled={false}
+            id="password"
+            name="password"
+            onChange={[Function]}
+            placeholder="Password"
+            type="password"
+            value=""
+          />
+          <div
+            className="PasswordField-icon"
+            onClick={[Function]}
+            role="button"
+            tabIndex={0}
+            title="Show password"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              visibility
+            </span>
+          </div>
+        </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Message-root Message-colorError Message-fullWidth"
       >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
         >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorError TextField-fullWidth"
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          data-testid="gotoForgotPasswordButton"
           disabled={false}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value=""
-        />
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Forgot your password?
+        </button>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root ButtonIcon-root Icon-md"
+      >
+        email
+      </span>
+      <span>
+        Sign in with Email
+      </span>
+    </button>
+  </div>
+</form>
+`;
+
+exports[`auth configuration renders all auth enabled 1`] = `
+<div
+  className="Main-root"
+  data-testid="signIn-main"
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <form
+      autoComplete="off"
+      onSubmit={[Function]}
+    >
+      <div
+        className="HorizontalGutter-root HorizontalGutter-full"
+      >
         <div
-          className="Message-root Message-colorError Message-fullWidth"
+          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        >
+          <label
+            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            htmlFor="email"
+          >
+            Email Address
+          </label>
+          <input
+            className="TextField-root TextField-colorRegular TextField-fullWidth"
+            disabled={false}
+            id="email"
+            name="email"
+            onChange={[Function]}
+            placeholder="Email Address"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        >
+          <label
+            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <div
+            className="PasswordField-fullWidth PasswordField-root"
+          >
+            <div
+              className="PasswordField-wrapper"
+            >
+              <input
+                className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                disabled={false}
+                id="password"
+                name="password"
+                onChange={[Function]}
+                placeholder="Password"
+                type="password"
+                value=""
+              />
+              <div
+                className="PasswordField-icon"
+                onClick={[Function]}
+                role="button"
+                tabIndex={0}
+                title="Show password"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  visibility
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+              data-testid="gotoForgotPasswordButton"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Forgot your password?
+            </button>
+          </div>
+        </div>
+        <button
+          className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root ButtonIcon-root Icon-md"
           >
-            warning
+            email
           </span>
           <span>
-            This field is required.
+            Sign in with Email
           </span>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
+        </button>
       </div>
+    </form>
+    <div
+      className="Flex-root OrSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+    >
+      <hr
+        className="OrSeparator-hr"
+      />
+      <div
+        className="OrSeparator-text"
+      >
+        Or
+      </div>
+    </div>
+    <div
+      className="HorizontalGutter-root HorizontalGutter-full"
+    >
       <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-        disabled={false}
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
         onBlur={[Function]}
+        onClick={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
         onTouchEnd={[Function]}
-        type="submit"
+        type="button"
       >
-        Sign in to Join the Conversation
-      </button>
-      <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
-      >
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        <svg
+          fill="none"
+          height="17"
+          viewBox="0 0 17 17"
+          width="17"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
-      </div>
+          <path
+            d="M16.0893 1.25391C16.0893 1.00781 15.9838 0.796875 15.808 0.621094C15.6323 0.480469 15.4213 0.375 15.2104 0.375H1.21819C0.936942 0.375 0.726005 0.480469 0.58538 0.621094C0.409598 0.796875 0.339286 1.00781 0.339286 1.25391V15.2461C0.339286 15.4922 0.409598 15.7031 0.58538 15.8789C0.726005 16.0547 0.936942 16.125 1.21819 16.125H8.74163V10.0078H6.70257V7.65234H8.74163V5.89453C8.74163 4.91016 9.02288 4.13672 9.58538 3.57422C10.1479 3.04688 10.8862 2.76562 11.8002 2.76562C12.5033 2.76562 13.1362 2.80078 13.6283 2.83594V4.98047H12.3627C11.9057 4.98047 11.5893 5.08594 11.4135 5.29688C11.2729 5.47266 11.2026 5.75391 11.2026 6.14062V7.65234H13.558L13.2416 10.0078H11.2026V16.125H15.2104C15.4565 16.125 15.6674 16.0547 15.8432 15.8789C15.9838 15.7031 16.0893 15.4922 16.0893 15.2461V1.25391Z"
+            fill="white"
+          />
+        </svg>
+        <span>
+          Sign in with Facebook
+        </span>
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantFilled GoogleButton-variantFilled Button-fullWidth"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <svg
+          fill="none"
+          height="18"
+          viewBox="0 0 18 18"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M17.2924 9.46094C17.2924 9.00391 17.2221 8.51172 17.1518 7.98438H8.85491V11.0078H13.8119C13.7065 11.5352 13.4955 12.0625 13.2143 12.5547C12.7924 13.1875 12.2651 13.7148 11.6323 14.0664C10.8237 14.5586 9.9096 14.7695 8.85491 14.7695C7.87054 14.7695 6.95647 14.5234 6.14788 14.0312C5.30413 13.5391 4.67132 12.8711 4.17913 12.0273C3.68694 11.1836 3.44085 10.2695 3.44085 9.25C3.44085 8.08984 3.75725 7.03516 4.39007 6.12109C4.95257 5.27734 5.726 4.64453 6.71038 4.22266C7.6596 3.80078 8.64397 3.66016 9.62835 3.80078C10.683 3.94141 11.5619 4.39844 12.3354 5.10156L14.6908 2.81641C13.0737 1.30469 11.1049 0.53125 8.85491 0.53125C7.27288 0.53125 5.83147 0.953125 4.49554 1.72656C3.1596 2.5 2.06975 3.55469 1.29632 4.89062C0.52288 6.22656 0.136161 7.70312 0.136161 9.25C0.136161 10.832 0.52288 12.2734 1.29632 13.6094C2.06975 14.9453 3.1596 16.0352 4.49554 16.8086C5.83147 17.582 7.27288 17.9688 8.85491 17.9688C10.5073 17.9688 11.9838 17.6172 13.2494 16.8789C14.5151 16.1758 15.5346 15.1562 16.2377 13.8555C16.9408 12.5898 17.2924 11.1133 17.2924 9.46094Z"
+            fill="white"
+          />
+        </svg>
+        <span>
+          Sign in with Google
+        </span>
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular OIDCButton-colorRegular Button-variantFilled OIDCButton-variantFilled Button-fullWidth"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <span>
+          Sign in with ⁨OIDC⁩
+        </span>
+      </button>
     </div>
-  </form>
+  </div>
+</div>
+`;
+
+exports[`auth configuration renders only some social login enabled 1`] = `
+<div
+  className="Main-root"
+  data-testid="signIn-main"
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-full"
+    >
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <svg
+          fill="none"
+          height="17"
+          viewBox="0 0 17 17"
+          width="17"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M16.0893 1.25391C16.0893 1.00781 15.9838 0.796875 15.808 0.621094C15.6323 0.480469 15.4213 0.375 15.2104 0.375H1.21819C0.936942 0.375 0.726005 0.480469 0.58538 0.621094C0.409598 0.796875 0.339286 1.00781 0.339286 1.25391V15.2461C0.339286 15.4922 0.409598 15.7031 0.58538 15.8789C0.726005 16.0547 0.936942 16.125 1.21819 16.125H8.74163V10.0078H6.70257V7.65234H8.74163V5.89453C8.74163 4.91016 9.02288 4.13672 9.58538 3.57422C10.1479 3.04688 10.8862 2.76562 11.8002 2.76562C12.5033 2.76562 13.1362 2.80078 13.6283 2.83594V4.98047H12.3627C11.9057 4.98047 11.5893 5.08594 11.4135 5.29688C11.2729 5.47266 11.2026 5.75391 11.2026 6.14062V7.65234H13.558L13.2416 10.0078H11.2026V16.125H15.2104C15.4565 16.125 15.6674 16.0547 15.8432 15.8789C15.9838 15.7031 16.0893 15.4922 16.0893 15.2461V1.25391Z"
+            fill="white"
+          />
+        </svg>
+        <span>
+          Sign in with Facebook
+        </span>
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular GoogleButton-colorRegular Button-variantFilled GoogleButton-variantFilled Button-fullWidth"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <svg
+          fill="none"
+          height="18"
+          viewBox="0 0 18 18"
+          width="18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M17.2924 9.46094C17.2924 9.00391 17.2221 8.51172 17.1518 7.98438H8.85491V11.0078H13.8119C13.7065 11.5352 13.4955 12.0625 13.2143 12.5547C12.7924 13.1875 12.2651 13.7148 11.6323 14.0664C10.8237 14.5586 9.9096 14.7695 8.85491 14.7695C7.87054 14.7695 6.95647 14.5234 6.14788 14.0312C5.30413 13.5391 4.67132 12.8711 4.17913 12.0273C3.68694 11.1836 3.44085 10.2695 3.44085 9.25C3.44085 8.08984 3.75725 7.03516 4.39007 6.12109C4.95257 5.27734 5.726 4.64453 6.71038 4.22266C7.6596 3.80078 8.64397 3.66016 9.62835 3.80078C10.683 3.94141 11.5619 4.39844 12.3354 5.10156L14.6908 2.81641C13.0737 1.30469 11.1049 0.53125 8.85491 0.53125C7.27288 0.53125 5.83147 0.953125 4.49554 1.72656C3.1596 2.5 2.06975 3.55469 1.29632 4.89062C0.52288 6.22656 0.136161 7.70312 0.136161 9.25C0.136161 10.832 0.52288 12.2734 1.29632 13.6094C2.06975 14.9453 3.1596 16.0352 4.49554 16.8086C5.83147 17.582 7.27288 17.9688 8.85491 17.9688C10.5073 17.9688 11.9838 17.6172 13.2494 16.8789C14.5151 16.1758 15.5346 15.1562 16.2377 13.8555C16.9408 12.5898 17.2924 11.1133 17.2924 9.46094Z"
+            fill="white"
+          />
+        </svg>
+        <span>
+          Sign in with Google
+        </span>
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`checks for invalid email 1`] = `
-<div
-  className="App-root"
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
 >
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
+  <div
+    className="HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
       >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorError TextField-fullWidth"
-          disabled={false}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="invalid-email"
-        />
-        <div
-          className="Message-root Message-colorError Message-fullWidth"
-        >
-          <span
-            aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
-          >
-            warning
-          </span>
-          <span>
-            Please enter a valid email address.
-          </span>
-        </div>
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorError TextField-fullWidth"
-          disabled={false}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value=""
-        />
-        <div
-          className="Message-root Message-colorError Message-fullWidth"
-        >
-          <span
-            aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
-          >
-            warning
-          </span>
-          <span>
-            This field is required.
-          </span>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
         disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Sign in to Join the Conversation
-      </button>
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value="invalid-email"
+      />
       <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
+        className="Message-root Message-colorError Message-fullWidth"
       >
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
         >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
+          warning
+        </span>
+        <span>
+          Please enter a valid email address.
+        </span>
       </div>
     </div>
-  </form>
-</div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="password"
+      >
+        Password
+      </label>
+      <div
+        className="PasswordField-fullWidth PasswordField-root"
+      >
+        <div
+          className="PasswordField-wrapper"
+        >
+          <input
+            className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+            disabled={false}
+            id="password"
+            name="password"
+            onChange={[Function]}
+            placeholder="Password"
+            type="password"
+            value=""
+          />
+          <div
+            className="PasswordField-icon"
+            onClick={[Function]}
+            role="button"
+            tabIndex={0}
+            title="Show password"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              visibility
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          data-testid="gotoForgotPasswordButton"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Forgot your password?
+        </button>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root ButtonIcon-root Icon-md"
+      >
+        email
+      </span>
+      <span>
+        Sign in with Email
+      </span>
+    </button>
+  </div>
+</form>
 `;
 
-exports[`renders sign in form 1`] = `
-<div
-  className="App-root"
->
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
+exports[`renders sign in view 1`] = `
+<div>
+  <div
+    data-testid="signIn-container"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
-      >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+      <div>
+        <h1
+          className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
         >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value=""
-        />
+          Sign In
+        </h1>
+        <h1
+          className="Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
+        >
+          to join the conversation
+        </h1>
       </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value=""
-        />
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
-        disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Sign in to Join the Conversation
-      </button>
-      <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
-      >
+    </div>
+    <div
+      className="Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+    >
+      <div>
         <div
           className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
@@ -481,8 +692,7 @@ exports[`renders sign in form 1`] = `
           </span>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoSignUpButton"
+            data-testid="gotoSignUpButton"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -496,597 +706,494 @@ exports[`renders sign in form 1`] = `
         </div>
       </div>
     </div>
-  </form>
+    <div
+      className="Main-root"
+      data-testid="signIn-main"
+    >
+      <div
+        className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+      >
+        <form
+          autoComplete="off"
+          onSubmit={[Function]}
+        >
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="email"
+              >
+                Email Address
+              </label>
+              <input
+                className="TextField-root TextField-colorRegular TextField-fullWidth"
+                disabled={false}
+                id="email"
+                name="email"
+                onChange={[Function]}
+                placeholder="Email Address"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <div
+                className="PasswordField-fullWidth PasswordField-root"
+              >
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    disabled={false}
+                    id="password"
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="Password"
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Show password"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="Flex-root Flex-flex Flex-justifyFlexEnd"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                  data-testid="gotoForgotPasswordButton"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Forgot your password?
+                </button>
+              </div>
+            </div>
+            <button
+              className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+              disabled={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root ButtonIcon-root Icon-md"
+              >
+                email
+              </span>
+              <span>
+                Sign in with Email
+              </span>
+            </button>
+          </div>
+        </form>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        />
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
 exports[`shows error when submitting empty form 1`] = `
-<div
-  className="App-root"
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
 >
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
+  <div
+    className="HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
       >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorError TextField-fullWidth"
-          disabled={false}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value=""
-        />
-        <div
-          className="Message-root Message-colorError Message-fullWidth"
-        >
-          <span
-            aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
-          >
-            warning
-          </span>
-          <span>
-            This field is required.
-          </span>
-        </div>
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorError TextField-fullWidth"
-          disabled={false}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value=""
-        />
-        <div
-          className="Message-root Message-colorError Message-fullWidth"
-        >
-          <span
-            aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
-          >
-            warning
-          </span>
-          <span>
-            This field is required.
-          </span>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
         disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Sign in to Join the Conversation
-      </button>
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value=""
+      />
       <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
+        className="Message-root Message-colorError Message-fullWidth"
       >
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
         >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
       </div>
     </div>
-  </form>
-</div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="password"
+      >
+        Password
+      </label>
+      <div
+        className="PasswordField-fullWidth PasswordField-root"
+      >
+        <div
+          className="PasswordField-wrapper"
+        >
+          <input
+            className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
+            disabled={false}
+            id="password"
+            name="password"
+            onChange={[Function]}
+            placeholder="Password"
+            type="password"
+            value=""
+          />
+          <div
+            className="PasswordField-icon"
+            onClick={[Function]}
+            role="button"
+            tabIndex={0}
+            title="Show password"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              visibility
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          data-testid="gotoForgotPasswordButton"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Forgot your password?
+        </button>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root ButtonIcon-root Icon-md"
+      >
+        email
+      </span>
+      <span>
+        Sign in with Email
+      </span>
+    </button>
+  </div>
+</form>
 `;
 
 exports[`shows server error 1`] = `
-<div
-  className="App-root"
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
 >
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
+  <div
+    className="HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
-      >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={true}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="hans@test.com"
-        />
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={true}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value="testtest"
-        />
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
-            disabled={true}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
-        disabled={true}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Sign in to Join the Conversation
-      </button>
-      <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
-      >
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-        >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
-            disabled={true}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
-      </div>
+      Server Error
     </div>
-  </form>
-</div>
-`;
-
-exports[`shows server error 2`] = `
-<div
-  className="App-root"
->
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
-  >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
       >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="CallOut-root CallOut-colorError CallOut-fullWidth"
-      >
-        Server Error
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="hans@test.com"
-        />
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value="testtest"
-        />
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
         disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value="hans@test.com"
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="password"
       >
-        Sign in to Join the Conversation
-      </button>
+        Password
+      </label>
       <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
+        className="PasswordField-fullWidth PasswordField-root"
       >
         <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          className="PasswordField-wrapper"
         >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          <input
+            className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
             disabled={false}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
+            id="password"
+            name="password"
+            onChange={[Function]}
+            placeholder="Password"
+            type="password"
+            value="testtest"
+          />
+          <div
+            className="PasswordField-icon"
             onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+            role="button"
+            tabIndex={0}
+            title="Show password"
           >
-            Sign Up
-          </button>
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              visibility
+            </span>
+          </div>
         </div>
       </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          data-testid="gotoForgotPasswordButton"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Forgot your password?
+        </button>
+      </div>
     </div>
-  </form>
-</div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root ButtonIcon-root Icon-md"
+      >
+        email
+      </span>
+      <span>
+        Sign in with Email
+      </span>
+    </button>
+  </div>
+</form>
 `;
 
 exports[`submits form successfully 1`] = `
-<div
-  className="App-root"
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
 >
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
+  <div
+    className="HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="email"
       >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={true}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value="hans@test.com"
-        />
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={true}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value="testtest"
-        />
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
-            disabled={true}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
-        disabled={true}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Sign in to Join the Conversation
-      </button>
-      <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
-      >
-        <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-        >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined Button-disabled"
-            disabled={true}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Sign Up
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
-</div>
-`;
-
-exports[`submits form successfully 2`] = `
-<div
-  className="App-root"
->
-  <form
-    autoComplete="off"
-    onSubmit={[Function]}
-  >
-    <div
-      className="HorizontalGutter-root HorizontalGutter-double"
-    >
-      <h1
-        className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
-      >
-        Sign in to join the conversation
-      </h1>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Email Address
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="email"
-          onChange={[Function]}
-          placeholder="Email Address"
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
-      >
-        <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-        >
-          Password
-        </label>
-        <input
-          className="TextField-root TextField-colorRegular TextField-fullWidth"
-          disabled={false}
-          name="password"
-          onChange={[Function]}
-          placeholder="Password"
-          type="password"
-          value=""
-        />
-        <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
-        >
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            disabled={false}
-            id="signIn-gotoForgotPasswordButton"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
-          >
-            Forgot your password?
-          </button>
-        </div>
-      </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+        Email Address
+      </label>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
         disabled={false}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
+        id="email"
+        name="email"
+        onChange={[Function]}
+        placeholder="Email Address"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="password"
       >
-        Sign in to Join the Conversation
-      </button>
+        Password
+      </label>
       <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
+        className="PasswordField-fullWidth PasswordField-root"
       >
         <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          className="PasswordField-wrapper"
         >
-          <span>
-            Don't have an account? 
-          </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          <input
+            className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
             disabled={false}
-            id="signIn-gotoSignUpButton"
-            onBlur={[Function]}
+            id="password"
+            name="password"
+            onChange={[Function]}
+            placeholder="Password"
+            type="password"
+            value=""
+          />
+          <div
+            className="PasswordField-icon"
             onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
+            role="button"
+            tabIndex={0}
+            title="Show password"
           >
-            Sign Up
-          </button>
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              visibility
+            </span>
+          </div>
         </div>
       </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          data-testid="gotoForgotPasswordButton"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Forgot your password?
+        </button>
+      </div>
     </div>
-  </form>
-</div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root ButtonIcon-root Icon-md"
+      >
+        email
+      </span>
+      <span>
+        Sign in with Email
+      </span>
+    </button>
+  </div>
+</form>
 `;

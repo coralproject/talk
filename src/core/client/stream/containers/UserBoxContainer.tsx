@@ -45,23 +45,22 @@ export class UserBoxContainer extends Component<InnerProps> {
 
   private get supportsRegister() {
     const integrations = this.props.settings.auth.integrations;
-    return (
-      (integrations.facebook.allowRegistration &&
-        integrations.facebook.enabled) ||
-      (integrations.google.allowRegistration && integrations.google.enabled) ||
-      (integrations.local.allowRegistration && integrations.local.enabled) ||
-      integrations.oidc.some(c => c.allowRegistration && c.enabled)
-    );
+    return [
+      integrations.facebook,
+      integrations.google,
+      integrations.local,
+      integrations.oidc,
+    ].some(i => i.allowRegistration && i.enabled && i.targetFilter.stream);
   }
 
   private get weControlAuth() {
     const integrations = this.props.settings.auth.integrations;
-    return (
-      integrations.facebook.enabled ||
-      integrations.google.enabled ||
-      integrations.local.enabled ||
-      integrations.oidc.some(c => c.enabled)
-    );
+    return [
+      integrations.facebook,
+      integrations.google,
+      integrations.local,
+      integrations.oidc,
+    ].some(i => i.enabled && i.targetFilter.stream);
   }
 
   public render() {
@@ -75,7 +74,7 @@ export class UserBoxContainer extends Component<InnerProps> {
     if (me) {
       return (
         <UserBoxAuthenticated
-          onSignOut={(this.weControlAuth && this.handleSignOut) || undefined}
+          onSignOut={this.handleSignOut}
           username={me.username!}
           showLogoutButton={this.supportsLogout}
         />
@@ -91,7 +90,7 @@ export class UserBoxContainer extends Component<InnerProps> {
         <Popup
           href={`${urls.embed.auth}?view=${view}`}
           title="Talk Auth"
-          features="menubar=0,resizable=0,width=350,height=395,top=200,left=500"
+          features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
           open={open}
           focus={focus}
           onFocus={this.handleFocus}
@@ -138,22 +137,30 @@ const enhanced = withSignOutMutation(
                   local {
                     enabled
                     allowRegistration
-                  }
-                  sso {
-                    enabled
-                    allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                   oidc {
                     enabled
                     allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                   google {
                     enabled
                     allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                   facebook {
                     enabled
                     allowRegistration
+                    targetFilter {
+                      stream
+                    }
                   }
                 }
               }

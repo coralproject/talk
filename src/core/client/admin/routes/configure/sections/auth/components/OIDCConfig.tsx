@@ -14,7 +14,6 @@ import {
   Flex,
   FormField,
   HorizontalGutter,
-  Icon,
   InputLabel,
   TextField,
   TextLink,
@@ -31,10 +30,7 @@ import RegistrationField from "./RegistrationField";
 import TargetFilterField from "./TargetFilterField";
 import ValidationMessage from "./ValidationMessage";
 
-import styles from "./OIDCConfig.css";
-
 interface Props {
-  index: number;
   disabled?: boolean;
   callbackURL: string;
   disableForDiscover?: boolean;
@@ -48,7 +44,6 @@ const OIDCLink = () => (
 const OIDCConfig: StatelessComponent<Props> = ({
   disabled,
   callbackURL,
-  index,
   onDiscover,
   disableForDiscover,
 }) => {
@@ -56,20 +51,20 @@ const OIDCConfig: StatelessComponent<Props> = ({
     v,
     values
   ) => {
-    if (values.auth.integrations.oidc[0].enabled) {
+    if (values.auth.integrations.oidc.enabled) {
       return validator(v, values);
     }
     return "";
   };
   return (
     <ConfigBoxWithToggleField
-      data-test={`configure-auth-oidc-container-${index}`}
+      data-testid={`configure-auth-oidc-container`}
       title={
         <Localized id="configure-auth-oidc-loginWith">
           <span>Login with OIDC</span>
         </Localized>
       }
-      name={`auth.integrations.oidc.${index}.enabled`}
+      name={`auth.integrations.oidc.enabled`}
       disabled={disabled}
     >
       {disabledInside => (
@@ -80,22 +75,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
             </Typography>
           </Localized>
           <HorizontalRule />
-          <RedirectField
-            url={callbackURL}
-            description={
-              <ConfigDescription container="div">
-                <Flex itemGutter="half">
-                  <Icon className={styles.redirectDescriptionIcon}>error</Icon>
-                  <Localized id="configure-auth-oidc-redirectDescription">
-                    <div>
-                      For OpenID Connect, your Redirect URI will not appear
-                      until you after you save this integration
-                    </div>
-                  </Localized>
-                </Flex>
-              </ConfigDescription>
-            }
-          />
+          <RedirectField url={callbackURL} />
           <HorizontalRule />
           <FormField>
             <Localized id="configure-auth-oidc-providerName">
@@ -109,7 +89,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
               </ConfigDescription>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.${index}.name`}
+              name={`auth.integrations.oidc.name`}
               validate={validateWhenEnabled(required)}
               parse={identity}
             >
@@ -137,12 +117,12 @@ const OIDCConfig: StatelessComponent<Props> = ({
           </FormField>
           <ClientIDField
             validate={validateWhenEnabled(required)}
-            name={`auth.integrations.oidc.${index}.clientID`}
+            name={`auth.integrations.oidc.clientID`}
             disabled={disabledInside}
           />
           <ClientSecretField
             validate={validateWhenEnabled(required)}
-            name={`auth.integrations.oidc.${index}.clientSecret`}
+            name={`auth.integrations.oidc.clientSecret`}
             disabled={disabledInside}
           />
           <FormField>
@@ -157,7 +137,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
               </ConfigDescription>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.${index}.issuer`}
+              name={`auth.integrations.oidc.issuer`}
               validate={validateWhenEnabled(
                 composeValidators(required, validateURL)
               )}
@@ -177,7 +157,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
                       spellCheck={false}
                     />
                     <Button
-                      id="configure-auth-oidc-discover-0"
+                      id="configure-auth-oidc-discover"
                       variant="filled"
                       color="primary"
                       size="small"
@@ -202,7 +182,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
               <InputLabel>authorizationURL</InputLabel>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.${index}.authorizationURL`}
+              name={`auth.integrations.oidc.authorizationURL`}
               validate={validateWhenEnabled(
                 composeValidators(required, validateURL)
               )}
@@ -235,7 +215,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
               <InputLabel>tokenURL</InputLabel>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.${index}.tokenURL`}
+              name={`auth.integrations.oidc.tokenURL`}
               validate={validateWhenEnabled(
                 composeValidators(required, validateURL)
               )}
@@ -268,7 +248,7 @@ const OIDCConfig: StatelessComponent<Props> = ({
               <InputLabel>jwksURI</InputLabel>
             </Localized>
             <Field
-              name={`auth.integrations.oidc.${index}.jwksURI`}
+              name={`auth.integrations.oidc.jwksURI`}
               validate={validateWhenEnabled(
                 composeValidators(required, validateURL)
               )}
@@ -302,11 +282,11 @@ const OIDCConfig: StatelessComponent<Props> = ({
                 <span>Use OIDC login on</span>
               </Localized>
             }
-            name={`auth.integrations.oidc.${index}.targetFilter`}
+            name={`auth.integrations.oidc.targetFilter`}
             disabled={disabledInside}
           />
           <RegistrationField
-            name={`auth.integrations.oidc.${index}.allowRegistration`}
+            name={`auth.integrations.oidc.allowRegistration`}
             disabled={disabledInside}
           />
         </HorizontalGutter>

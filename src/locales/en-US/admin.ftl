@@ -95,8 +95,6 @@ configure-auth-displayNamesConfig-hideDisplayNames = Hide Display Names (if avai
 
 configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <link></link>
-configure-auth-oidc-redirectDescription =
-  For OpenID Connect, your Redirect URI will not appear until you after you save this integration.
 configure-auth-oidc-providerName = Provider Name
 configure-auth-oidc-providerNameDescription =
   The provider of the OpenID Connect integration. This will be used when the name of the provider

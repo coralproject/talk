@@ -20,7 +20,7 @@ class DecisionHistoryButton extends React.Component {
     const popoverID = `decision-history-popover`;
     return (
       <Popover
-        data-test="decisionHistory-popover"
+        data-testid="decisionHistory-popover"
         id={popoverID}
         placement="bottom-end"
         description="A dialog showing a permalink to the comment"
@@ -43,7 +43,7 @@ class DecisionHistoryButton extends React.Component {
             aria-controls={popoverID}
             forwardRef={forwardRef}
             className={styles.historyIcon}
-            data-test="decisionHistory-toggle"
+            data-testid="decisionHistory-toggle"
           >
             <Icon size="lg">history</Icon>
           </BaseButton>

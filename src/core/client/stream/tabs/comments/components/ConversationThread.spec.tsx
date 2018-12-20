@@ -1,6 +1,6 @@
-import { shallow } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -27,8 +27,9 @@ describe("with 2 remaining parent comments", () => {
         username: "parentAuthor",
       },
     };
-    const wrapper = shallow(<ConversationThreadN {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const renderer = createRenderer();
+    renderer.render(<ConversationThreadN {...props} />);
+    expect(renderer.getRenderOutput()).toMatchSnapshot();
   });
   it("renders with disabled load more", () => {
     const props: PropTypesOf<typeof ConversationThreadN> = {
@@ -47,8 +48,9 @@ describe("with 2 remaining parent comments", () => {
         username: "parentAuthor",
       },
     };
-    const wrapper = shallow(<ConversationThreadN {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const renderer = createRenderer();
+    renderer.render(<ConversationThreadN {...props} />);
+    expect(renderer.getRenderOutput()).toMatchSnapshot();
   });
 });
 
@@ -65,6 +67,7 @@ it("renders with no parent comments", () => {
     parents: [],
     rootParent: null,
   };
-  const wrapper = shallow(<ConversationThreadN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ConversationThreadN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

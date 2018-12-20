@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
@@ -14,6 +14,7 @@ it("renders correctly", () => {
     me: {},
     settings: {},
   };
-  const wrapper = shallow(<ProfileN {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<ProfileN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

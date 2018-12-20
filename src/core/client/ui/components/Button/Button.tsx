@@ -26,7 +26,7 @@ interface InnerProps extends BaseButtonProps {
   size?: "small" | "regular" | "large";
 
   /** Color of the button */
-  color?: "regular" | "primary" | "error" | "success";
+  color?: "regular" | "primary" | "error" | "success" | "brand";
 
   /** Variant of the button */
   variant?: "regular" | "filled" | "outlined" | "ghost" | "underlined";
@@ -72,6 +72,7 @@ export class Button extends React.Component<InnerProps> {
       [classes.colorPrimary]: color === "primary",
       [classes.colorError]: color === "error",
       [classes.colorSuccess]: color === "success",
+      [classes.colorBrand]: color === "brand",
       [classes.variantRegular]: variant === "regular",
       [classes.variantFilled]: variant === "filled",
       [classes.variantOutlined]: variant === "outlined",

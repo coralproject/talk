@@ -1,7 +1,7 @@
 .root {
   font-weight: var(--font-weight-bold);
   font-family: var(--font-family-sans-serif);
-  color: var(--palette-brand);
+  color: var(--palette-brand-main);
   margin: 0;
 }
 

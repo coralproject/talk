@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import { render } from "./PermalinkViewQuery";
 
@@ -11,8 +11,9 @@ it("renders permalink view container", () => {
     } as any,
     error: null,
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(React.createElement(() => render(data)));
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders loading", () => {
@@ -20,8 +21,9 @@ it("renders loading", () => {
     props: null,
     error: null,
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(React.createElement(() => render(data)));
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders error", () => {
@@ -29,6 +31,7 @@ it("renders error", () => {
     props: null,
     error: new Error("error"),
   };
-  const wrapper = shallow(React.createElement(() => render(data)));
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(React.createElement(() => render(data)));
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

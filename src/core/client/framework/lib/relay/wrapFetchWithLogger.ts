@@ -6,19 +6,21 @@ import { FetchFunction } from "relay-runtime";
  */
 export default function wrapFetchWithLogger(
   fetch: FetchFunction,
-  logResult?: boolean
+  options: { logResult?: boolean; muteErrors?: boolean } = {}
 ): FetchFunction {
   return async (...args: any[]) => {
     try {
       const result = await (fetch as any)(...args);
-      if (logResult) {
+      if (options.logResult) {
         // tslint:disable-next-line:no-console
         console.log(JSON.stringify(result));
       }
       return result;
     } catch (err) {
-      // tslint:disable-next-line:no-console
-      console.error(err);
+      if (!options.muteErrors) {
+        // tslint:disable-next-line:no-console
+        console.error(err);
+      }
       throw err;
     }
   };

@@ -4,7 +4,7 @@ import { Strategy } from "passport-strategy";
 import { Profile } from "passport";
 import { VerifyCallback } from "passport-oauth2";
 import { Config } from "talk-server/config";
-import { GQLAuthIntegrations } from "talk-server/graph/tenant/schema/__generated__/types";
+import { AuthIntegrations } from "talk-server/models/settings";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
@@ -42,7 +42,7 @@ export default abstract class OAuth2Strategy<
     this.scope = scope;
   }
 
-  protected abstract getIntegration(integrations: GQLAuthIntegrations): T;
+  protected abstract getIntegration(integrations: AuthIntegrations): T;
 
   protected abstract createStrategy(
     tenant: Tenant,

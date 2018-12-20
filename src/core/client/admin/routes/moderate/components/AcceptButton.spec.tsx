@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
 import AcceptButton from "./AcceptButton";
 
@@ -9,14 +9,16 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof AcceptButton> = {
     invert: false,
   };
-  const wrapper = shallow(<AcceptButton {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<AcceptButton {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
 it("renders correctly inverted", () => {
   const props: PropTypesOf<typeof AcceptButton> = {
     invert: true,
   };
-  const wrapper = shallow(<AcceptButton {...props} />);
-  expect(wrapper).toMatchSnapshot();
+  const renderer = createRenderer();
+  renderer.render(<AcceptButton {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

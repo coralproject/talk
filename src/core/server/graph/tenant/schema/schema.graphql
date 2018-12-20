@@ -3,14 +3,40 @@
 ################################################################################
 
 """
+USER_AUTH_CONDITIONS describes conditions that would prevent a given User to
+execute any set of mutations or reserved queries.
+"""
+enum USER_AUTH_CONDITIONS {
+  """
+  MISSING_NAME is provided when the User does not have an associated username or
+  display name.
+  """
+  MISSING_NAME
+
+  """
+  MISSING_EMAIL is provided when the User does not have an associated email
+  address.
+  """
+  MISSING_EMAIL
+}
+
+"""
 auth is a directive that will enforce authorization rules on the schema
 definition. It will restrict the viewer of the field based on roles or if the
 `userIDField` is specified, it  will see if the current users ID equals the field
 specified. This allows users that own a specific resource (like a comment, or a
 flag) see their own content, but restrict it to everyone else. If the directive
-is used without options, it simply requires a logged in user.
+is used without options, it simply requires a logged in user. `permit` can be
+used to allow specific `USER_AUTH_CONDITIONS` that normally (if present) would
+deny access to any edge associated with the `@auth` directive. If a User has
+only some of the conditions listed, they will pass, but if they have at least
+one more that isn't in the list, the request will be denied.
 """
-directive @auth(roles: [USER_ROLE!], userIDField: String) on FIELD_DEFINITION
+directive @auth(
+  roles: [USER_ROLE!]
+  userIDField: String
+  permit: [USER_AUTH_CONDITIONS!]
+) on FIELD_DEFINITION
 
 ################################################################################
 ## Custom Scalar Types
@@ -414,11 +440,6 @@ will be used in the admin to provide staff logins for users.
 """
 type OIDCAuthIntegration {
   """
-  id is the identifier of the OIDCAuthIntegration.
-  """
-  id: ID!
-
-  """
   enabled, when true, allows the integration to be enabled.
   """
   enabled: Boolean!
@@ -444,53 +465,60 @@ type OIDCAuthIntegration {
   name: String
 
   """
-  callbackURL is the URL that the user should be redirected to in order to start
-  an authentication flow with the given integration. This field is not stored,
+  callbackURL is the URL that the user should be redirected to in order to continue
+  the authentication flow with the given integration. This field is not stored,
   and is instead computed from the Tenant.
   """
   callbackURL: String!
+
+  """
+  redirectURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  redirectURL: String
 
   """
   clientID is the Client Identifier as defined in:
 
   https://tools.ietf.org/html/rfc6749#section-2.2
   """
-  clientID: String! @auth(roles: [ADMIN])
+  clientID: String @auth(roles: [ADMIN])
 
   """
   clientSecret is the Client Secret as defined in:
 
   https://tools.ietf.org/html/rfc6749#section-2.3.1
   """
-  clientSecret: String! @auth(roles: [ADMIN])
+  clientSecret: String @auth(roles: [ADMIN])
 
   """
   authorizationURL is defined as the `authorization_endpoint` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  authorizationURL: String! @auth(roles: [ADMIN])
+  authorizationURL: String @auth(roles: [ADMIN])
 
   """
   tokenURL is defined as the `token_endpoint` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  tokenURL: String! @auth(roles: [ADMIN])
+  tokenURL: String @auth(roles: [ADMIN])
 
   """
   jwksURI is defined as the `jwks_uri` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  jwksURI: String! @auth(roles: [ADMIN])
+  jwksURI: String @auth(roles: [ADMIN])
 
   """
   issuer is defined as the `issuer` in:
 
   https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
   """
-  issuer: String! @auth(roles: [ADMIN])
+  issuer: String @auth(roles: [ADMIN])
 }
 
 ##########################
@@ -517,11 +545,18 @@ type GoogleAuthIntegration {
   clientSecret: String @auth(roles: [ADMIN])
 
   """
-  callbackURL is the URL that the user should be redirected to in order to start
+  callbackURL is the URL that the user should be redirected to in order to continue
   the authentication flow. This field is not stored, and is instead computed from
   the Tenant.
   """
   callbackURL: String!
+
+  """
+  redirectURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  redirectURL: String!
 }
 
 ##########################
@@ -548,11 +583,18 @@ type FacebookAuthIntegration {
   clientSecret: String @auth(roles: [ADMIN])
 
   """
-  callbackURL is the URL that the user should be redirected to in order to start
+  callbackURL is the URL that the user should be redirected to in order to continue
   the authentication flow. This field is not stored, and is instead computed from
   the Tenant.
   """
   callbackURL: String!
+
+  """
+  redirectURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  redirectURL: String!
 }
 
 ##########################
@@ -562,7 +604,7 @@ type FacebookAuthIntegration {
 type AuthIntegrations {
   local: LocalAuthIntegration!
   sso: SSOAuthIntegration!
-  oidc: [OIDCAuthIntegration!]!
+  oidc: OIDCAuthIntegration!
   google: GoogleAuthIntegration!
   facebook: FacebookAuthIntegration!
 }
@@ -990,7 +1032,20 @@ type SSOProfile {
   id: String!
 }
 
-union Profile = LocalProfile | OIDCProfile | SSOProfile
+type FacebookProfile {
+  id: String!
+}
+
+type GoogleProfile {
+  id: String!
+}
+
+union Profile =
+    LocalProfile
+  | OIDCProfile
+  | SSOProfile
+  | FacebookProfile
+  | GoogleProfile
 
 """
 User is someone that leaves Comments, and logs in.
@@ -1012,9 +1067,24 @@ type User {
   displayName: String
 
   """
+  email is the current email address for the User.
+  """
+  email: String
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [MISSING_NAME, MISSING_EMAIL]
+    )
+
+  """
   profiles is the array of profiles assigned to the user.
   """
-  profiles: [Profile!] @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  profiles: [Profile!]!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [MISSING_NAME, MISSING_EMAIL]
+    )
 
   """
   role is the current role of the User.
@@ -1747,6 +1817,75 @@ type EditCommentPayload {
 ## updateSettings
 ##################
 
+input SettingsOIDCAuthIntegrationInput {
+  """
+  enabled, when true, allows the integration to be enabled.
+  """
+  enabled: Boolean
+
+  """
+  allowRegistration when true will allow users that have not signed up
+  before with this authentication integration to sign up.
+  """
+  allowRegistration: Boolean
+
+  """
+  targetFilter will restrict where the authentication integration should be
+  displayed. If the value of targetFilter is null, then the authentication
+  integration should be displayed in all targets.
+  """
+  targetFilter: SettingsAuthenticationTargetFilterInput
+
+  """
+  name is the label assigned to reference the provider of the OIDC integration,
+  and will be used in situations where the name of the provider needs to be
+  displayed, like the login button.
+  """
+  name: String
+
+  """
+  clientID is the Client Identifier as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.2
+  """
+  clientID: String
+
+  """
+  clientSecret is the Client Secret as defined in:
+
+  https://tools.ietf.org/html/rfc6749#section-2.3.1
+  """
+  clientSecret: String
+
+  """
+  authorizationURL is defined as the `authorization_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  authorizationURL: String
+
+  """
+  tokenURL is defined as the `token_endpoint` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  tokenURL: String
+
+  """
+  jwksURI is defined as the `jwks_uri` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  jwksURI: String
+
+  """
+  issuer is defined as the `issuer` in:
+
+  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
+  """
+  issuer: String
+}
+
 input SettingsEmailInput {
   """
   enabled when True, will enable the emailing functionality in Talk.
@@ -1858,6 +1997,7 @@ input SettingsFacebookAuthIntegrationInput {
 input SettingsAuthIntegrationsInput {
   local: SettingsLocalAuthIntegrationInput
   sso: SettingsSSOAuthIntegrationInput
+  oidc: SettingsOIDCAuthIntegrationInput
   google: SettingsGoogleAuthIntegrationInput
   facebook: SettingsFacebookAuthIntegrationInput
 }
@@ -2366,250 +2506,6 @@ type RegenerateSSOKeyPayload {
 }
 
 ##################
-# createOIDCAuthIntegration
-##################
-
-input CreateOIDCAuthIntegrationConfigurationInput {
-  """
-  enabled, when true, allows the integration to be enabled.
-  """
-  enabled: Boolean
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: SettingsAuthenticationTargetFilterInput
-
-  """
-  name is the label assigned to reference the provider of the OIDC integration,
-  and will be used in situations where the name of the provider needs to be
-  displayed, like the login button.
-  """
-  name: String!
-
-  """
-  clientID is the Client Identifier as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.2
-  """
-  clientID: String!
-
-  """
-  clientSecret is the Client Secret as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.3.1
-  """
-  clientSecret: String!
-
-  """
-  authorizationURL is defined as the `authorization_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  authorizationURL: String!
-
-  """
-  tokenURL is defined as the `token_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  tokenURL: String!
-
-  """
-  jwksURI is defined as the `jwks_uri` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  jwksURI: String!
-
-  """
-  issuer is defined as the `issuer` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  issuer: String!
-}
-
-input CreateOIDCAuthIntegrationInput {
-  """
-  configuration contains the configuration to be used to create the auth integration.
-  """
-  configuration: CreateOIDCAuthIntegrationConfigurationInput!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type CreateOIDCAuthIntegrationPayload {
-  """
-  integration is the OIDCAuthIntegration we just created.
-  """
-  integration: OIDCAuthIntegration
-
-  """
-  settings is the Settings that the OIDCAuthIntegration was created on.
-  """
-  settings: Settings
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
-# updateOIDCAuthIntegration
-##################
-
-input UpdateOIDCAuthIntegrationConfigurationInput {
-  """
-  enabled, when true, allows the integration to be enabled.
-  """
-  enabled: Boolean
-
-  """
-  allowRegistration when true will allow users that have not signed up
-  before with this authentication integration to sign up.
-  """
-  allowRegistration: Boolean
-
-  """
-  targetFilter will restrict where the authentication integration should be
-  displayed. If the value of targetFilter is null, then the authentication
-  integration should be displayed in all targets.
-  """
-  targetFilter: SettingsAuthenticationTargetFilterInput
-
-  """
-  name is the label assigned to reference the provider of the OIDC integration,
-  and will be used in situations where the name of the provider needs to be
-  displayed, like the login button.
-  """
-  name: String
-
-  """
-  clientID is the Client Identifier as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.2
-  """
-  clientID: String
-
-  """
-  clientSecret is the Client Secret as defined in:
-
-  https://tools.ietf.org/html/rfc6749#section-2.3.1
-  """
-  clientSecret: String
-
-  """
-  authorizationURL is defined as the `authorization_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  authorizationURL: String
-
-  """
-  tokenURL is defined as the `token_endpoint` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  tokenURL: String
-
-  """
-  jwksURI is defined as the `jwks_uri` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  jwksURI: String
-
-  """
-  issuer is defined as the `issuer` in:
-
-  https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderMetadata
-  """
-  issuer: String
-}
-
-input UpdateOIDCAuthIntegrationInput {
-  """
-  id is the ID of the specific OpenID Connect integration that we are updating.
-  """
-  id: ID!
-
-  """
-  configuration contains the configuration to be used to update the OpenID
-  Connect integration.
-  """
-  configuration: UpdateOIDCAuthIntegrationConfigurationInput!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type UpdateOIDCAuthIntegrationPayload {
-  """
-  integration is the OIDCAuthIntegration we just updated.
-  """
-  integration: OIDCAuthIntegration
-
-  """
-  settings is the Settings that the OIDCAuthIntegration was updated on.
-  """
-  settings: Settings
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
-# removeOIDCAuthIntegration
-##################
-
-input RemoveOIDCAuthIntegrationInput {
-  """
-  id is the ID of the specific OpenID Connect integration that we are deleting.
-  """
-  id: ID!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type RemoveOIDCAuthIntegrationPayload {
-  """
-  integration is the OIDCAuthIntegration we just removed.
-  """
-  integration: OIDCAuthIntegration
-
-  """
-  settings is the Settings that the OIDCAuthIntegration was removed on with the
-  OIDCAuthIntegration removed from it.
-  """
-  settings: Settings
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
 ## createStory
 ##################
 
@@ -2936,6 +2832,118 @@ type RejectCommentPayload {
 }
 
 ##################
+# setUsername
+##################
+
+input SetUsernameInput {
+  """
+  username is the desired username that should be set to the current User.
+  """
+  username: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type SetUsernamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# setEmail
+##################
+
+input SetEmailInput {
+  """
+  email is the email address to be associated with the User.
+  """
+  email: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type SetEmailPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# setPassword
+##################
+
+input SetPasswordInput {
+  """
+  password is the password that should be associated with the User.
+  """
+  password: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type SetPasswordPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updatePassword
+##################
+
+input UpdatePasswordInput {
+  """
+  password is the new password that should be associated with the User.
+  """
+  password: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdatePasswordPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -2943,7 +2951,7 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload
+  createComment(input: CreateCommentInput!): CreateCommentPayload @auth
 
   """
   createCommentReply will create a Comment as the current logged in User that is
@@ -2969,28 +2977,6 @@ type Mutation {
   """
   regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
     @auth(roles: [ADMIN])
-
-  """
-  createOIDCAuthIntegration will create a OpenID Connect auth integration.
-  """
-  createOIDCAuthIntegration(
-    input: CreateOIDCAuthIntegrationInput!
-  ): CreateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
-
-  """
-  updateOIDCAuthIntegration will update a given OpenID Connect auth integration.
-  """
-  updateOIDCAuthIntegration(
-    input: UpdateOIDCAuthIntegrationInput!
-  ): UpdateOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
-
-  """
-  removeOIDCAuthIntegration will remove the specified OpenID Connect auth
-  integration.
-  """
-  removeOIDCAuthIntegration(
-    input: RemoveOIDCAuthIntegrationInput!
-  ): RemoveOIDCAuthIntegrationPayload @auth(roles: [ADMIN])
 
   """
   createCommentReaction will create a Reaction authored by the current logged in
@@ -3073,6 +3059,32 @@ type Mutation {
   """
   rejectComment(input: RejectCommentInput!): RejectCommentPayload
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  setUsername will set the username on the current User if they have not set one
+  before. This mutation will fail if the username is already set.
+  """
+  setUsername(input: SetUsernameInput!): SetUsernamePayload
+    @auth(permit: [MISSING_NAME, MISSING_EMAIL])
+
+  """
+  setEmail will set the email address on the current User if they have not set
+  one already. This mutation will fail if the email address is already set.
+  """
+  setEmail(input: SetEmailInput!): SetEmailPayload
+    @auth(permit: [MISSING_EMAIL])
+
+  """
+  setPassword will set the password on the current User if they have not set
+  one already. This mutation will fail if the password is already set.
+  """
+  setPassword(input: SetPasswordInput!): SetPasswordPayload @auth
+
+  """
+  updatePassword allows the current logged in User to change their password if
+  they already have one associated with them.
+  """
+  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload @auth
 }
 
 ################################################################################

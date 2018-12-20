@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Moderate: StatelessComponent<Props> = ({ children }) => (
-  <div data-test="single-moderate-container">
+  <div data-testid="single-moderate-container">
     <SubBar className={styles.subBar} gutterBegin gutterEnd>
       <Localized id="moderate-single-goToModerationQueues">
         <Link className={styles.subBarBegin} to="/admin/moderate/">

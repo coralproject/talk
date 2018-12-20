@@ -17,6 +17,7 @@ function collection(db: Db) {
 export interface LocalProfile {
   type: "local";
   id: string;
+  password: string;
 }
 
 export interface OIDCProfile {
@@ -74,9 +75,9 @@ export interface UserStatus {
 
 export interface User extends TenantResource {
   readonly id: string;
-  username: string | null;
+  username?: string;
+  lowercaseUsername?: string;
   displayName?: string;
-  password?: string;
   avatar?: string;
   email?: string;
   emailVerified?: boolean;
@@ -88,9 +89,19 @@ export interface User extends TenantResource {
   createdAt: Date;
 }
 
+function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
+}
+
 export type UpsertUserInput = Omit<
   User,
-  "id" | "tenantID" | "tokens" | "status" | "ignoredUserIDs" | "createdAt"
+  | "id"
+  | "tenantID"
+  | "tokens"
+  | "status"
+  | "ignoredUserIDs"
+  | "createdAt"
+  | "lowercaseUsername"
 >;
 
 export async function upsertUser(
@@ -129,20 +140,39 @@ export async function upsertUser(
     createdAt: now,
   };
 
-  let hashedPassword;
-  if (input.password) {
-    // Hash the user's password with bcrypt.
-    hashedPassword = await bcrypt.hash(input.password, 10);
+  // Mutate the profiles to ensure we mask handle any secrets.
+  const profiles: Profile[] = [];
+  for (let profile of input.profiles) {
+    switch (profile.type) {
+      case "local":
+        // FIXME: (wyattjoh) add password validation here.
+
+        // Hash the user's password with bcrypt.
+        const password = await hashPassword(profile.password);
+        profile = {
+          ...profile,
+          password,
+        };
+        break;
+    }
+    // Save a copy.
+    profiles.push(profile);
   }
+
+  // Add in the lowercase username if it was sent.
+  if (input.username) {
+    defaults.lowercaseUsername = input.username.toLowerCase();
+
+    // FIXME: (wyattjoh) add username checking regex here.
+  }
+
+  // FIXME: (wyattjoh) add email validation here.
 
   // Merge the defaults and the input together.
   const user: Readonly<User> = {
     ...defaults,
     ...input,
-
-    // Specified last in the merge call, it will override any existing password
-    // entry if it is defined.
-    password: hashedPassword,
+    profiles,
   };
 
   // Create a query that will utilize a findOneAndUpdate to facilitate an upsert
@@ -216,7 +246,7 @@ export async function retrieveManyUsers(
 export async function retrieveUserWithProfile(
   db: Db,
   tenantID: string,
-  profile: Profile
+  profile: Partial<Profile>
 ) {
   return collection(db).findOne({
     tenantID,
@@ -235,16 +265,300 @@ export async function updateUserRole(
   const result = await collection(db).findOneAndUpdate(
     { id, tenantID },
     { $set: { role } },
-    { returnOriginal: false }
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
   );
 
   return result.value || null;
 }
 
 export async function verifyUserPassword(user: User, password: string) {
-  if (user.password) {
-    return bcrypt.compare(password, user.password);
+  const profile: LocalProfile | undefined = user.profiles.find(
+    ({ type }) => type === "local"
+  ) as LocalProfile | undefined;
+  if (!profile) {
+    throw new Error("no local profile exists for this user");
   }
 
-  return false;
+  return bcrypt.compare(password, profile.password);
+}
+
+export async function updateUserPassword(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  password: string
+) {
+  // FIXME: (wyattjoh) add password validation here.
+
+  // Hash the password.
+  const hashedPassword = await hashPassword(password);
+
+  // Update the user with the new password.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      // This ensures that the document we're updating already has a local
+      // profile associated with them.
+      "profiles.type": "local",
+    },
+    {
+      $set: {
+        "profiles.$[profiles].password": hashedPassword,
+      },
+    },
+    {
+      arrayFilters: [{ "profiles.type": "local" }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    if (
+      !user.profiles.some(
+        profile => profile.type === "local" && profile.id === user.email
+      )
+    ) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user does not have a local profile");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value || null;
+}
+
+/**
+ * setUserUsername will set the username of the User if the username hasn't
+ * already been used before.
+ *
+ * @param mongo the database handle
+ * @param tenantID the ID to the Tenant
+ * @param id the ID of the User where we are setting the username on
+ * @param username the username that we want to set
+ */
+export async function setUserUsername(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  username: string
+) {
+  // Lowercase the username.
+  const lowercaseUsername = username.toLowerCase();
+
+  // FIXME: (wyattjoh) add username checking regex here.
+
+  // Search to see if this username has been used before.
+  let user = await collection(mongo).findOne({
+    tenantID,
+    lowercaseUsername,
+  });
+  if (user) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("duplicate username found");
+  }
+
+  // The username wasn't found, so add it to the user.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      username: null,
+    },
+    {
+      $set: {
+        username,
+        lowercaseUsername,
+        "status.username.status": GQLUSER_USERNAME_STATUS.SET,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    if (user.username) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user already has username");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * setUserEmail will set the email address of the User if they don't already
+ * have one associated with them, and it hasn't been used before.
+ *
+ * @param mongo the database handle
+ * @param tenantID the ID to the Tenant
+ * @param id the ID of the User where we are setting the email address on
+ * @param emailAddress the email address we want to set
+ */
+export async function setUserEmail(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  emailAddress: string
+) {
+  // Lowercase the email address.
+  const email = emailAddress.toLowerCase();
+
+  // FIXME: (wyattjoh) add email validation here.
+
+  // Search to see if this email has been used before.
+  let user = await collection(mongo).findOne({
+    tenantID,
+    email,
+  });
+  if (user) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("duplicate email found");
+  }
+
+  // The email wasn't found, so try to update the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      email: null,
+    },
+    {
+      $set: {
+        email,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    if (user.email) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user already has email");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * setUserLocalProfile will set the local profile for a User if they don't
+ * already have one associated with them and the profile doesn't exist on any
+ * other User already.
+ *
+ * @param mongo the database handle
+ * @param tenantID the ID to the Tenant
+ * @param id the ID of the User where we are setting the local profile on
+ * @param emailAddress the email address we want to set
+ * @param password the password we want to set
+ */
+export async function setUserLocalProfile(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  emailAddress: string,
+  password: string
+) {
+  // Lowercase the email address.
+  const email = emailAddress.toLowerCase();
+
+  // FIXME: (wyattjoh) add email validation here.
+  // FIXME: (wyattjoh) add password validation here.
+
+  // Try to see if this local profile already exists on a User.
+  let user = await retrieveUserWithProfile(mongo, tenantID, {
+    type: "local",
+    id: email,
+  });
+  if (user) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("duplicate profile found");
+  }
+
+  // Hash the password.
+  const hashedPassword = await hashPassword(password);
+
+  // Create the profile that we'll use.
+  const profile: LocalProfile = {
+    type: "local",
+    id: email,
+    password: hashedPassword,
+  };
+
+  // The profile wasn't found, so add it to the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      // This ensures that the document we're updating does not contain a local
+      // profile.
+      "profiles.type": { $ne: "local" },
+    },
+    {
+      $push: {
+        profiles: profile,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    if (user.profiles.some(({ type }) => type === "local")) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user already has local profile");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value;
 }

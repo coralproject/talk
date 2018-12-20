@@ -7,6 +7,8 @@ import Typography from "../Typography";
 import styles from "./InputLabel.css";
 
 export interface InputLabelProps {
+  id?: string;
+  htmlFor?: string;
   /**
    * The content of the component.
    */

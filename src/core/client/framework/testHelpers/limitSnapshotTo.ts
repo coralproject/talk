@@ -1,5 +1,5 @@
 export default function limitSnapshotTo(dataTest: string, node: any) {
-  if (node.props && node.props["data-test"] === dataTest) {
+  if (node.props && node.props["data-testid"] === dataTest) {
     return node;
   }
   if (node.children) {

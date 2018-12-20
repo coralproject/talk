@@ -24,7 +24,7 @@ const Navigation: StatelessComponent<Props> = ({
         <span>Reported</span>
       </Localized>
       {reportedCount !== undefined && (
-        <Counter data-test="moderate-navigation-reported-count">
+        <Counter data-testid="moderate-navigation-reported-count">
           {reportedCount}
         </Counter>
       )}
@@ -35,7 +35,7 @@ const Navigation: StatelessComponent<Props> = ({
         <span>Pending</span>
       </Localized>
       {pendingCount !== undefined && (
-        <Counter data-test="moderate-navigation-pending-count">
+        <Counter data-testid="moderate-navigation-pending-count">
           {pendingCount}
         </Counter>
       )}
@@ -46,7 +46,7 @@ const Navigation: StatelessComponent<Props> = ({
         <span>Unmoderated</span>
       </Localized>
       {unmoderatedCount !== undefined && (
-        <Counter data-test="moderate-navigation-unmoderated-count">
+        <Counter data-testid="moderate-navigation-unmoderated-count">
           {unmoderatedCount}
         </Counter>
       )}
