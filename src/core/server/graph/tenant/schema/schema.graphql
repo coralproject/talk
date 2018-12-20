@@ -984,41 +984,6 @@ enum USER_ROLE {
   ADMIN
 }
 
-enum USER_USERNAME_STATUS {
-  """
-  UNSET is used when the username can be changed, and does not necessarily
-  require moderator action to become active. This can be used when the user
-  signs up with a social login and has the option of setting their own
-  username.
-  """
-  UNSET
-
-  """
-  SET is used when the username has been set for the first time, but cannot
-  change without the username being rejected by a moderator and that moderator
-  agreeing that the username should be allowed to change.
-  """
-  SET
-
-  """
-  APPROVED is used when the username was changed, and subsequently approved by
-  said moderator.
-  """
-  APPROVED
-
-  """
-  REJECTED is used when the username was changed, and subsequently rejected by
-  said moderator.
-  """
-  REJECTED
-
-  """
-  CHANGED is used after a user has changed their username after it was
-  rejected.
-  """
-  CHANGED
-}
-
 type LocalProfile {
   id: String!
 }
@@ -1046,6 +1011,12 @@ union Profile =
   | SSOProfile
   | FacebookProfile
   | GoogleProfile
+
+type Token {
+  id: ID!
+  name: String!
+  createdAt: Time!
+}
 
 """
 User is someone that leaves Comments, and logs in.
@@ -1108,6 +1079,11 @@ type User {
     first: Int = 10
     after: Cursor
   ): CommentModerationActionConnection! @auth(role: [MODERATOR, ADMIN])
+
+  """
+  tokens lists the access tokens associated with the account.
+  """
+  tokens: [Token!]! @auth(role: [ADMIN], userIDField: "id")
 }
 
 ################################################################################
@@ -2944,6 +2920,244 @@ type UpdatePasswordPayload {
 }
 
 ##################
+# createToken
+##################
+
+input CreateTokenInput {
+  """
+  name is the desired name for the Token.
+  """
+  name: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CreateTokenPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  token is the Token that was created.
+  """
+  token: Token!
+
+  """
+  signedToken is the signed Token associated with the account.
+  """
+  signedToken: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# deactivateToken
+##################
+
+input DeactivateTokenInput {
+  """
+  id is the ID of the Token that should be deactivated.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type DeactivateTokenPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  token is the Token that was deleted.
+  """
+  token: Token
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserUsername
+##################
+
+input UpdateUserUsernameInput {
+  """
+  userID is the ID of the User that should have their username updated.
+  """
+  userID: ID!
+
+  """
+  username is the desired username to set for the User.
+  """
+  username: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserUsernamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserDisplayName
+##################
+
+input UpdateUserDisplayNameInput {
+  """
+  userID is the ID of the User that should have their display name updated.
+  """
+  userID: ID!
+
+  """
+  displayName is the desired display name to set for the User. If set to `null`
+  or not provided, it will be unset.
+  """
+  displayName: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserDisplayNamePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserEmail
+##################
+
+input UpdateUserEmailInput {
+  """
+  userID is the ID of the User that should have their email address updated.
+  """
+  userID: ID!
+
+  """
+  email is the email address to set for the User.
+  """
+  email: String!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserEmailPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserAvatar
+##################
+
+input UpdateUserAvatarInput {
+  """
+  userID is the ID of the User that should have their avatar updated.
+  """
+  userID: ID!
+
+  """
+  avatar is the URL to the avatar to set for the User. If set to `null` or not
+  provided, it will be unset.
+  """
+  avatar: String
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserAvatarPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# updateUserRole
+##################
+
+input UpdateUserRoleInput {
+  """
+  userID is the ID of the User that should have their avatar updated.
+  """
+  userID: ID!
+
+  """
+  role is the `USER_ROLE` that the User should be set to.
+  """
+  role: USER_ROLE!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateUserRolePayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -3085,12 +3299,54 @@ type Mutation {
   they already have one associated with them.
   """
   updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload @auth
-}
 
-################################################################################
-## Subscriptions
-################################################################################
+  """
+  createToken allows an administrator to create a Token based on the current
+  logged in User.
+  """
+  createToken(input: CreateTokenInput!): CreateTokenPayload!
+    @auth(roles: [ADMIN])
 
-type Subscription {
-  commentCreated(storyID: ID!): Comment
+  """
+  deactivateToken will deactivate the current logged in User's Token based on
+  the input.
+  """
+  deactivateToken(input: DeactivateTokenInput!): DeactivateTokenPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  updateUserUsername allows administrators to update a given User's username to
+  the one provided.
+  """
+  updateUserUsername(
+    input: UpdateUserUsernameInput!
+  ): UpdateUserUsernamePayload! @auth(roles: [ADMIN])
+
+  """
+  updateUserDisplayName allows administrators to update a given User's display
+  name to the one provided.
+  """
+  updateUserDisplayName(
+    input: UpdateUserDisplayNameInput!
+  ): UpdateUserDisplayNamePayload @auth(roles: [ADMIN])
+
+  """
+  updateUserEmail allows administrators to update a given User's email address
+  to the one provided.
+  """
+  updateUserEmail(input: UpdateUserEmailInput!): UpdateUserEmailPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  updateUserAvatar allows administrators to update a given User's avatar to the
+  one provided.
+  """
+  updateUserAvatar(input: UpdateUserAvatarInput!): UpdateUserAvatarPayload!
+    @auth(roles: [ADMIN])
+
+  """
+  updateUserRole will update a given User's role.
+  """
+  updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
+    @auth(roles: [ADMIN])
 }

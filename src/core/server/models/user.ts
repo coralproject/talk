@@ -3,10 +3,7 @@ import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
-import {
-  GQLUSER_ROLE,
-  GQLUSER_USERNAME_STATUS,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -52,25 +49,7 @@ export type Profile =
 export interface Token {
   readonly id: string;
   name: string;
-  active: boolean;
-}
-
-export interface UserStatusHistory<T> {
-  status: T;
-  assignedBy?: string;
-  reason?: string;
   createdAt: Date;
-}
-
-export interface UserStatusItem<T> {
-  status: T;
-  history: Array<UserStatusHistory<T>>;
-}
-
-export interface UserStatus {
-  username: UserStatusItem<GQLUSER_USERNAME_STATUS>;
-  banned: UserStatusItem<boolean>;
-  suspension: UserStatusItem<Date | null>;
 }
 
 export interface User extends TenantResource {
@@ -84,8 +63,6 @@ export interface User extends TenantResource {
   profiles: Profile[];
   tokens: Token[];
   role: GQLUSER_ROLE;
-  status: UserStatus;
-  ignoredUserIDs: string[];
   createdAt: Date;
 }
 
@@ -95,13 +72,7 @@ function hashPassword(password: string): Promise<string> {
 
 export type UpsertUserInput = Omit<
   User,
-  | "id"
-  | "tenantID"
-  | "tokens"
-  | "status"
-  | "ignoredUserIDs"
-  | "createdAt"
-  | "lowercaseUsername"
+  "id" | "tenantID" | "tokens" | "createdAt" | "lowercaseUsername"
 >;
 
 export async function upsertUser(
@@ -120,23 +91,6 @@ export async function upsertUser(
     id,
     tenantID,
     tokens: [],
-    ignoredUserIDs: [],
-    status: {
-      banned: {
-        status: false,
-        history: [],
-      },
-      suspension: {
-        status: null,
-        history: [],
-      },
-      username: {
-        status: input.username
-          ? GQLUSER_USERNAME_STATUS.SET
-          : GQLUSER_USERNAME_STATUS.UNSET,
-        history: [],
-      },
-    },
     createdAt: now,
   };
 
@@ -250,13 +204,21 @@ export async function retrieveUserWithProfile(
   });
 }
 
+/**
+ * updateUserRole updates a given User's role.
+ *
+ * @param mongo mongodb database to interact with
+ * @param tenantID Tenant ID where the User resides
+ * @param id ID of the User that we are updating
+ * @param role new role to set to the User
+ */
 export async function updateUserRole(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   id: string,
   role: GQLUSER_ROLE
 ) {
-  const result = await collection(db).findOneAndUpdate(
+  const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     { $set: { role } },
     {
@@ -265,8 +227,12 @@ export async function updateUserRole(
       returnOriginal: false,
     }
   );
+  if (!result.value) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("user not found");
+  }
 
-  return result.value || null;
+  return result.value;
 }
 
 export async function verifyUserPassword(user: User, password: string) {
@@ -372,7 +338,6 @@ export async function setUserUsername(
       $set: {
         username,
         lowercaseUsername,
-        "status.username.status": GQLUSER_USERNAME_STATUS.SET,
       },
     },
     {
@@ -392,6 +357,115 @@ export async function setUserUsername(
     if (user.username) {
       // TODO: (wyattjoh) return better error
       throw new Error("user already has username");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * updateUserUsername will set the username of the User.
+ *
+ * @param mongo the database handle
+ * @param tenantID the ID to the Tenant
+ * @param id the ID of the User where we are setting the username on
+ * @param username the username that we want to set
+ */
+export async function updateUserUsername(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  username: string
+) {
+  // Lowercase the username.
+  const lowercaseUsername = username.toLowerCase();
+
+  // Search to see if this username has been used before.
+  let user = await collection(mongo).findOne({
+    tenantID,
+    lowercaseUsername,
+  });
+  if (user) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("duplicate username found");
+  }
+
+  // The username wasn't found, so add it to the user.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+    },
+    {
+      $set: {
+        username,
+        lowercaseUsername,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * updateUserDisplayName will set the displayName of the User. If the display
+ * name is not provided, it will be unset.
+ *
+ * @param mongo the database handle
+ * @param tenantID the ID to the Tenant
+ * @param id the ID of the User where we are setting the displayName on
+ * @param displayName the displayName that we want to set
+ */
+export async function updateUserDisplayName(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  displayName?: string
+) {
+  // The username wasn't found, so add it to the user.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+    },
+    {
+      // This will ensure that if the display name isn't provided, it will unset
+      // the display name on the User.
+      [displayName ? "$set" : "$unset"]: {
+        displayName: displayName ? displayName : 1,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
     }
 
     // TODO: (wyattjoh) return better error
@@ -458,6 +532,114 @@ export async function setUserEmail(
     if (user.email) {
       // TODO: (wyattjoh) return better error
       throw new Error("user already has email");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * updateUserEmail will update a given User's email address to the one provided.
+ *
+ * @param mongo the database that we are interacting with
+ * @param tenantID the Tenant ID of the Tenant where the User exists
+ * @param id the User ID that we are updating
+ * @param emailAddress email address that we are setting on the User
+ */
+export async function updateUserEmail(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  emailAddress: string
+) {
+  // Lowercase the email address.
+  const email = emailAddress.toLowerCase();
+
+  // Search to see if this email has been used before.
+  let user = await collection(mongo).findOne({
+    tenantID,
+    email,
+  });
+  if (user) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("duplicate email found");
+  }
+
+  // The email wasn't found, so try to update the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+    },
+    {
+      $set: {
+        email,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * updateUserAvatar will update the avatar associated with a User. If the avatar
+ * is not provided, it will be unset.
+ *
+ * @param mongo the database that we are interacting with
+ * @param tenantID the Tenant ID of the Tenant where the User exists
+ * @param id the User ID that we are updating
+ * @param avatar URL that the avatar exists at
+ */
+export async function updateUserAvatar(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  avatar?: string
+) {
+  // The email wasn't found, so try to update the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+    },
+    {
+      // This will ensure that if the avatar isn't provided, it will unset the
+      // avatar on the User.
+      [avatar ? "$set" : "$unset"]: {
+        avatar: avatar ? avatar : 1,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Try to get the current user to discover what happened.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
     }
 
     // TODO: (wyattjoh) return better error
@@ -546,4 +728,97 @@ export async function setUserLocalProfile(
   }
 
   return result.value;
+}
+
+export async function createUserToken(
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  name: string
+) {
+  // Create the Token that we'll be adding to the User.
+  const token: Readonly<Token> = {
+    id: uuid.v4(),
+    name,
+    createdAt: new Date(),
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+    },
+    {
+      $push: { tokens: token },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("user not found");
+  }
+
+  return {
+    user: result.value,
+    token,
+  };
+}
+
+export async function deactivateUserToken(
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  id: string
+) {
+  // Try to remove the Token from the User.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id: userID,
+      tenantID,
+      "tokens.id": id,
+    },
+    {
+      $pull: { tokens: { id } },
+    },
+    {
+      // True to return the original document instead of the updated
+      // document.
+      returnOriginal: true,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, userID);
+    if (!user) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("user not found");
+    }
+
+    // Check to see if the User had that Token in the first place.
+    if (!user.tokens.find(t => t.id === id)) {
+      // TODO: (wyattjoh) return better error
+      throw new Error("token not found on user");
+    }
+
+    // TODO: (wyattjoh) return better error
+    throw new Error("could not remove the token for an unknown reason");
+  }
+
+  // We have to typecast here because we know at this point that the record does
+  // contain the Token.
+  const token: Token = result.value.tokens.find(t => t.id === id) as Token;
+
+  // Mutate the user in order to remove the Token from the list of Token's.
+  const updatedUser: Readonly<User> = {
+    ...result.value,
+    tokens: result.value.tokens.filter(t => t.id !== id),
+  };
+
+  return {
+    user: updatedUser,
+    token,
+  };
 }

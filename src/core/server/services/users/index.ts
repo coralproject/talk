@@ -7,17 +7,26 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "talk-common/helpers/validate";
+import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import {
+  createUserToken,
+  deactivateUserToken,
   LocalProfile,
   setUserEmail,
   setUserLocalProfile,
   setUserUsername,
+  updateUserAvatar,
+  updateUserDisplayName,
+  updateUserEmail,
   updateUserPassword,
+  updateUserRole,
+  updateUserUsername,
   upsertUser,
   UpsertUserInput,
   User,
 } from "talk-server/models/user";
+import { JWTSigningConfig, signPATString } from "../jwt";
 
 /**
  * validateUsername will validate that the username is valid. Current
@@ -40,6 +49,22 @@ function validateUsername(tenant: Tenant, username: string) {
 
   if (username.length < USERNAME_MIN_LENGTH) {
     throw new Error("username is too short");
+  }
+}
+
+const DISPLAY_NAME_MAX_LENGTH = USERNAME_MAX_LENGTH;
+
+/**
+ * validateDisplayName will validate that the username is valid.
+ *
+ * @param tenant tenant where the User is associated with
+ * @param displayName the display name to be tested
+ */
+function validateDisplayName(tenant: Tenant, displayName: string) {
+  // TODO: replace these static regex/length with database options in the Tenant eventually
+
+  if (displayName.length > DISPLAY_NAME_MAX_LENGTH) {
+    throw new Error("displayName exceeded maximum length");
   }
 }
 
@@ -226,4 +251,156 @@ export async function updatePassword(
   validatePassword(tenant, password);
 
   return updateUserPassword(mongo, tenant.id, user.id, password);
+}
+
+/**
+ * createToken will create a Token for the User as well as return a signed Token
+ * that can be used to authenticate.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param config signing configuration to create the signed token
+ * @param user User that should get updated
+ * @param name name of the Token
+ */
+export async function createToken(
+  mongo: Db,
+  tenant: Tenant,
+  config: JWTSigningConfig,
+  user: User,
+  name: string
+) {
+  // Create the token for the User!
+  const result = await createUserToken(mongo, tenant.id, user.id, name);
+
+  // Sign the token!
+  const signedToken = await signPATString(config, user, {
+    // Tokens are issued with the token ID as their JWT ID.
+    jwtid: result.token.id,
+
+    // Tokens are issued with the tenant ID.
+    issuer: tenant.id,
+  });
+
+  return { ...result, signedToken };
+}
+
+/**
+ * deactivateToken will disable the given Token so that it can not be used to
+ * authenticate any more.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param config signing configuration to create the signed token
+ * @param user User that should get updated
+ * @param id of the Token to be deactivated
+ */
+export async function deactivateToken(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  id: string
+) {
+  if (!user.tokens.find(t => t.id === id)) {
+    // TODO: (wyattjoh) return better error
+    throw new Error("token not found on user");
+  }
+
+  return deactivateUserToken(mongo, tenant.id, user.id, id);
+}
+
+/**
+ * updateUsername will update a given User's username.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param username the username that we are setting on the User
+ */
+export async function updateUsername(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  username: string
+) {
+  // Validate the username.
+  validateUsername(tenant, username);
+
+  return updateUserUsername(mongo, tenant.id, userID, username);
+}
+
+/**
+ * updateDisplayName will update a given User's display name.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param displayName the display name that we are setting on the User
+ */
+export async function updateDisplayName(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  displayName?: string
+) {
+  if (displayName) {
+    // Validate the display name.
+    validateDisplayName(tenant, displayName);
+  }
+
+  return updateUserDisplayName(mongo, tenant.id, userID, displayName);
+}
+
+/**
+ * updateRole will update the given User to the specified role.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param role the role that we are setting on the User
+ */
+export async function updateRole(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  role: GQLUSER_ROLE
+) {
+  return updateUserRole(mongo, tenant.id, userID, role);
+}
+
+/**
+ * updateEmail will update the given User's email address.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param email the email address that we are setting on the User
+ */
+export async function updateEmail(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  email: string
+) {
+  // Validate the email address.
+  validateEmail(tenant, email);
+
+  return updateUserEmail(mongo, tenant.id, userID, email);
+}
+
+/**
+ * updateAvatar will update the given User's avatar.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param avatar the avatar that we are setting on the User
+ */
+export async function updateAvatar(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  avatar?: string
+) {
+  return updateUserAvatar(mongo, tenant.id, userID, avatar);
 }

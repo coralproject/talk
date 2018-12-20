@@ -5,6 +5,7 @@ import CommonContext from "talk-server/graph/common/context";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { TaskQueue } from "talk-server/queue";
+import { JWTSigningConfig } from "talk-server/services/jwt";
 import { AugmentedRedis } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
@@ -19,6 +20,7 @@ export interface TenantContextOptions {
   tenantCache: TenantCache;
   queue: TaskQueue;
   config: Config;
+  signingConfig?: JWTSigningConfig;
   req?: Request;
   user?: User;
 }
@@ -26,12 +28,13 @@ export interface TenantContextOptions {
 export default class TenantContext extends CommonContext {
   public readonly tenant: Tenant;
   public readonly tenantCache: TenantCache;
-  public readonly user?: User;
   public readonly mongo: Db;
   public readonly redis: AugmentedRedis;
   public readonly queue: TaskQueue;
   public readonly loaders: ReturnType<typeof loaders>;
   public readonly mutators: ReturnType<typeof mutators>;
+  public readonly user?: User;
+  public readonly signingConfig?: JWTSigningConfig;
 
   constructor({
     req,
@@ -42,6 +45,7 @@ export default class TenantContext extends CommonContext {
     config,
     tenantCache,
     queue,
+    signingConfig,
   }: TenantContextOptions) {
     super({ user, req, config });
 
@@ -51,6 +55,7 @@ export default class TenantContext extends CommonContext {
     this.mongo = mongo;
     this.redis = redis;
     this.queue = queue;
+    this.signingConfig = signingConfig;
     this.loaders = loaders(this);
     this.mutators = mutators(this);
   }
