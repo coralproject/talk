@@ -1,3 +1,4 @@
+import { ADDITIONAL_DETAILS_MAX_LENGTH } from "talk-common/utils/validate";
 import TenantContext from "talk-server/graph/tenant/context";
 import {
   GQLCreateCommentDontAgreeInput,
@@ -17,13 +18,8 @@ import {
   removeDontAgree,
   removeReaction,
 } from "talk-server/services/comments/actions";
-import { validateMaximumLength } from "./util";
 
-/**
- * MAX_ADDITIONAL_DETAILS_LENGTH defines the maximum length for the
- * additionalDetails field.
- */
-const MAX_ADDITIONAL_DETAILS_LENGTH = 500;
+import { validateMaximumLength } from "./util";
 
 export const Comment = (ctx: TenantContext) => ({
   create: ({
@@ -72,7 +68,7 @@ export const Comment = (ctx: TenantContext) => ({
       commentRevisionID,
       // TODO: (wyattjoh) move this validation to the schema when bug is fixed: https://github.com/apollographql/graphql-tools/issues/842
       additionalDetails: validateMaximumLength(
-        MAX_ADDITIONAL_DETAILS_LENGTH,
+        ADDITIONAL_DETAILS_MAX_LENGTH,
         additionalDetails
       ),
     }),
@@ -92,7 +88,7 @@ export const Comment = (ctx: TenantContext) => ({
       reason,
       // TODO: (wyattjoh) move this validation to the schema when bug is fixed: https://github.com/apollographql/graphql-tools/issues/842
       additionalDetails: validateMaximumLength(
-        MAX_ADDITIONAL_DETAILS_LENGTH,
+        ADDITIONAL_DETAILS_MAX_LENGTH,
         additionalDetails
       ),
     }),

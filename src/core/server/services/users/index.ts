@@ -1,5 +1,12 @@
 import { Db } from "mongodb";
 
+import {
+  EMAIL_REGEX,
+  PASSWORD_MIN_LENGTH,
+  USERNAME_MAX_LENGTH,
+  USERNAME_MIN_LENGTH,
+  USERNAME_REGEX,
+} from "talk-common/utils/validate";
 import { Tenant } from "talk-server/models/tenant";
 import {
   LocalProfile,
@@ -11,9 +18,6 @@ import {
   UpsertUserInput,
   User,
 } from "talk-server/models/user";
-
-const USERNAME_REGEX = new RegExp(/^[a-zA-Z0-9_]+$/);
-const USERNAME_MAX_LENGTH = 30;
 
 /**
  * validateUsername will validate that the username is valid. Current
@@ -33,6 +37,10 @@ function validateUsername(tenant: Tenant, username: string) {
   if (username.length > USERNAME_MAX_LENGTH) {
     throw new Error("username exceeded maximum length");
   }
+
+  if (username.length < USERNAME_MIN_LENGTH) {
+    throw new Error("username is too short");
+  }
 }
 
 /**
@@ -45,12 +53,10 @@ function validateUsername(tenant: Tenant, username: string) {
  */
 function validatePassword(tenant: Tenant, password: string) {
   // TODO: replace these static length with database options in the Tenant eventually
-  if (password.length < 8) {
+  if (password.length < PASSWORD_MIN_LENGTH) {
     throw new Error("password is too short");
   }
 }
-
-const EMAIL_REGEX = new RegExp(/^\S+@\S+.\S+$/);
 
 /**
  * validateEmail will validate that the email is valid. Current implementation
