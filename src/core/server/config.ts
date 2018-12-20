@@ -1,5 +1,6 @@
 import convict from "convict";
 import Joi from "joi";
+import os from "os";
 
 // Add custom format for the mongo uri scheme.
 convict.addFormat({
@@ -54,6 +55,13 @@ const config = convict({
     default: false,
     env: "ENABLE_GRAPHIQL",
     arg: "enableGraphiQL",
+  },
+  concurrency: {
+    doc: "The number of worker nodes to spawn to handle traffic",
+    format: Number,
+    default: os.cpus().length,
+    env: "CONCURRENCY",
+    arg: "concurrency",
   },
   port: {
     doc: "The port to bind.",

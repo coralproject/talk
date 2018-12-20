@@ -18,9 +18,6 @@ export default class Task<T, U = any> {
     this.queue = new Queue(options.jobName, options.queue);
     this.options = options;
     this.log = logger.child({ jobName: options.jobName });
-
-    // Sets up and attaches the job processor to the queue.
-    this.setupAndAttachProcessor();
   }
 
   /**
@@ -39,7 +36,12 @@ export default class Task<T, U = any> {
     this.log.trace({ jobID: job.id }, "added job to queue");
     return job;
   }
-  private setupAndAttachProcessor() {
+
+  /**
+   * process will connect the queue to the processor so that it may process the
+   * job requests.
+   */
+  public process() {
     this.queue.process(async (job: Job<T>) => {
       const log = this.log.child({ jobID: job.id });
 
