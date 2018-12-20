@@ -1,4 +1,4 @@
-import { ADDITIONAL_DETAILS_MAX_LENGTH } from "talk-common/utils/validate";
+import { ADDITIONAL_DETAILS_MAX_LENGTH } from "talk-common/helpers/validate";
 import TenantContext from "talk-server/graph/tenant/context";
 import {
   GQLCreateCommentDontAgreeInput,

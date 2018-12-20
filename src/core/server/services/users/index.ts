@@ -6,7 +6,7 @@ import {
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
-} from "talk-common/utils/validate";
+} from "talk-common/helpers/validate";
 import { Tenant } from "talk-server/models/tenant";
 import {
   LocalProfile,
