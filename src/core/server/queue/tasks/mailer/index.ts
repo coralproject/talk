@@ -193,6 +193,13 @@ export class Mailer {
       },
     });
   }
+
+  /**
+   * process maps the interface to the task process function.
+   */
+  public process() {
+    return this.task.process();
+  }
 }
 
 export const createMailerTask = (
