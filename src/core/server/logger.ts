@@ -1,5 +1,6 @@
 import bunyan, { LogLevelString, stdSerializers as serializers } from "bunyan";
 import PrettyStream from "bunyan-prettystream";
+import cluster from "cluster";
 
 import config from "talk-server/config";
 
@@ -18,6 +19,9 @@ function getStreams() {
 
 const logger = bunyan.createLogger({
   name: "talk",
+
+  // Attach the cluster node information to the log entries.
+  clusterNode: cluster.worker ? `worker.${cluster.worker.id}` : "master",
 
   // Include file references in log entries.
   src: true,
