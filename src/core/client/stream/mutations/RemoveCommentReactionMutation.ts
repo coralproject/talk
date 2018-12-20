@@ -1,3 +1,4 @@
+import { pick } from "lodash";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
@@ -36,7 +37,7 @@ function commit(environment: Environment, input: RemoveCommentReactionInput) {
     mutation,
     variables: {
       input: {
-        ...input,
+        ...pick(input, ["commentID"]),
         clientMutationId: (clientMutationId++).toString(),
       },
     },
