@@ -1201,7 +1201,7 @@ exports[`checks for too long username 1`] = `
               warning
             </span>
             <span>
-              Usernames cannot be longer than ⁨20⁩ characters.
+              Usernames cannot be longer than ⁨30⁩ characters.
             </span>
           </div>
         </div>

@@ -145,8 +145,6 @@ export async function upsertUser(
   for (let profile of input.profiles) {
     switch (profile.type) {
       case "local":
-        // FIXME: (wyattjoh) add password validation here.
-
         // Hash the user's password with bcrypt.
         const password = await hashPassword(profile.password);
         profile = {
@@ -162,11 +160,7 @@ export async function upsertUser(
   // Add in the lowercase username if it was sent.
   if (input.username) {
     defaults.lowercaseUsername = input.username.toLowerCase();
-
-    // FIXME: (wyattjoh) add username checking regex here.
   }
-
-  // FIXME: (wyattjoh) add email validation here.
 
   // Merge the defaults and the input together.
   const user: Readonly<User> = {
@@ -292,8 +286,6 @@ export async function updateUserPassword(
   id: string,
   password: string
 ) {
-  // FIXME: (wyattjoh) add password validation here.
-
   // Hash the password.
   const hashedPassword = await hashPassword(password);
 
@@ -358,8 +350,6 @@ export async function setUserUsername(
 ) {
   // Lowercase the username.
   const lowercaseUsername = username.toLowerCase();
-
-  // FIXME: (wyattjoh) add username checking regex here.
 
   // Search to see if this username has been used before.
   let user = await collection(mongo).findOne({
@@ -429,8 +419,6 @@ export async function setUserEmail(
   // Lowercase the email address.
   const email = emailAddress.toLowerCase();
 
-  // FIXME: (wyattjoh) add email validation here.
-
   // Search to see if this email has been used before.
   let user = await collection(mongo).findOne({
     tenantID,
@@ -499,9 +487,6 @@ export async function setUserLocalProfile(
 ) {
   // Lowercase the email address.
   const email = emailAddress.toLowerCase();
-
-  // FIXME: (wyattjoh) add email validation here.
-  // FIXME: (wyattjoh) add password validation here.
 
   // Try to see if this local profile already exists on a User.
   let user = await retrieveUserWithProfile(mongo, tenantID, {
