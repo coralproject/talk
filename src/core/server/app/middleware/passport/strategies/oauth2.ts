@@ -21,7 +21,7 @@ export interface OAuth2StrategyOptions {
   config: Config;
   mongo: Db;
   tenantCache: TenantCache;
-  scope?: string[];
+  authenticateOptions?: Record<string, any>;
 }
 
 export default abstract class OAuth2Strategy<
@@ -31,15 +31,20 @@ export default abstract class OAuth2Strategy<
   protected config: Config;
   protected mongo: Db;
   protected cache: TenantCacheAdapter<U>;
-  private scope?: string[];
+  private authenticateOptions: Record<string, any>;
 
-  constructor({ config, mongo, tenantCache, scope }: OAuth2StrategyOptions) {
+  constructor({
+    config,
+    mongo,
+    tenantCache,
+    authenticateOptions,
+  }: OAuth2StrategyOptions) {
     super();
 
     this.config = config;
     this.mongo = mongo;
     this.cache = new TenantCacheAdapter(tenantCache);
-    this.scope = scope;
+    this.authenticateOptions = authenticateOptions || {};
   }
 
   protected abstract getIntegration(integrations: AuthIntegrations): T;
@@ -119,7 +124,7 @@ export default abstract class OAuth2Strategy<
 
       strategy.authenticate(req, {
         session: false,
-        scope: this.scope,
+        ...this.authenticateOptions,
       });
     } catch (err) {
       return this.error(err);
