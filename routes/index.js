@@ -10,7 +10,7 @@ const compression = require('compression');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
 const nonce = require('../middleware/nonce');
-const staticServer = require('express-static-gzip');
+const staticFiles = require('../middleware/staticFiles');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
@@ -32,6 +32,8 @@ if (!DISABLE_STATIC_SERVER) {
 
   /**
    * Redirect old embed calls.
+   *
+   * TODO: (wyattjoh) remove this on the next minor release
    */
   const oldEmbed = url.resolve(MOUNT_PATH, 'embed.js');
   const newEmbed = url.resolve(MOUNT_PATH, 'static/embed.js');
@@ -43,27 +45,14 @@ if (!DISABLE_STATIC_SERVER) {
   });
 
   /**
-   * Serve the directories under dist.
+   * Setup static file serving.
    */
-  const dist = path.resolve(path.join(__dirname, '../dist'));
-  if (process.env.NODE_ENV === 'production') {
-    router.use(
-      '/static',
-      staticServer(dist, {
-        indexFromEmptyFile: false,
-        enableBrotli: true,
-        customCompressions: [
-          {
-            encodingName: 'deflate',
-            fileExtension: 'zz',
-          },
-        ],
-      })
-    );
-  } else {
-    router.use('/static', express.static(dist));
-  }
+  router.use('/static', staticFiles);
 }
+
+//==============================================================================
+// Shared Middleware
+//==============================================================================
 
 // Add the i18n middleware to all routes.
 router.use(i18n);

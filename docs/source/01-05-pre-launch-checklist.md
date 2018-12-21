@@ -23,11 +23,13 @@ permalink: /pre-launch-checklist/
 
 - [ ] Do you need to migrate comments from a legacy system? We currently support Disqus, Livefyre, and Civil Comments.
   - Use the [Talk Import](https://github.com/coralproject/talk-importer) framework
-
+  
 
 - [ ] Do you want to provide single sign-on (SSO) by integrating with an external auth system?
   - See [Authenticating with Talk](/talk/integrating/authentication/)
 
+- [ ] Do you want to integrate Talk with your CMS to automate embedding Talk Comment Stream into your site?
+  - See [CMS Integration](/talk/integrating/cms-integration/)
 
 - [ ] Do you want to use Social sign-on?
   - Facebook

@@ -38,6 +38,9 @@ nl_NL:
     name: Naam
     post: Plaats
     reply: Beantwoord
+  comment_history_blank:
+    info: 'Reacties die je hebt geplaatst zullen hier verschijnen'
+    title: 'Je hebt nog geen reacties geplaatst'
   comment_offensive: 'Deze reactie is aanstootgevend'
   comment_plural: Reacties
   comment_post_banned_word: 'Je reactie bevat een of meerdere termen die wij niet toestaan. Neem contact op wanneer je het er niet mee eens bent.'
@@ -45,7 +48,10 @@ nl_NL:
   comment_post_notif_premod: 'Dank voor je reactie! Deze wordt zo snel mogelijk gemodereerd.'
   comment_singular: Reactie
   common:
+    contains_link: 'Bevat link'
     copy: Kopieer
+    copied: Gekopieerd
+    notsupported: 'Niet ondersteund'
     error: 'Er is een fout opgetreden.'
     reaction: reactie
     reactions: reacties
@@ -80,9 +86,11 @@ nl_NL:
     spam_ads: Spam/Ads
     staff: Staff
     status: Status
+    suspended: Geschorst
     username_and_email: 'Gebruikersnaam en e-mailadres'
     yes_ban_user: 'Ja, verban gebruiker'
   configure:
+    access_message: 'Je moet een admin zijn om toegang te krijgen tot de configuratie instellingen. Vraag de dichtsbijzijnde Admin om toegang!'
     apply: Toepassen
     banned_word_text: 'Reacties die deze woorden of zinnen bevatten (niet hoofdlettergevoelig) worden automatisch uit de conversatie verwijderd. Voer een woord in, en druk op enter of Tab om toe te passen. Je kunt ook een kommagescheiden lijst plakken.'
     banned_words_title: 'Lijst met verbannen woorden'
@@ -107,6 +115,8 @@ nl_NL:
     custom_css_url_desc: 'URL van CSS stylesheet die de standaard Embed Conversatie stylesheet overschrijft. Kan intern of extern zijn.'
     days: Dagen
     description: 'Als admin kun je de instellingen aanpassen voor de conversatie bij dit verhaal:'
+    disable_commenting_desc: 'Schrijf een bericht dat wordt weergeven wanneer reageren is afgesloten.'
+    disable_commenting_title: 'Reacties afsluiten voor de gehele site'
     domain_list_text: 'Voer de domeinen in die je wil toestaan voor Talk, bijvoorbeeld je staging en productie-omgevingen (bijv. localhost:3000 staging.domeinnaam.com domeinnaam.com).'
     domain_list_title: 'Toegestane domeinnamen'
     edit_comment_timeframe_heading: 'Wijzig reactie tijdsduur'
@@ -132,9 +142,23 @@ nl_NL:
     open: Open
     open_stream: 'Open Stream'
     open_stream_configuration: 'Deze converstatie is momenteel open. Door deze te sluiten kunnen geen nieuwe reacties meer worden geplaatst, maar de oude zullen nog steeds worden weergegeven.'
+    organization_contact_email: 'Organisatie Contact E-mailadres'
+    organization_info_copy: 'We gebruiken deze informatie in e-mail notificaties die door Talk worden verstuurd. Dit verbind de berichten met je organisatie en biedt gebruikers een manier om contact op te nemen mochten ze een probleem met hun account ondervinden.'
+    organization_info_copy_2: 'We raden aan om een algemeen e-mail account (bijvoorbeeld community@yournewsroom.com) te gebruiken voor dit doeleinde. Dit betekent dat dit adres onveranderd kan blijven en deze geen naam blootstelt die gebruikers kunnen gebruiken mocht hun account geblokkeerd worden.'
+    organization_information: 'Organisatie Informatie'
+    organization_name: 'Organisatie Naam'
+    suspect_or_forbidden_words_placeholder: 'Woord of uitdrukking'
+    product_guide_link: 'Product Handleiding'
+    report_bug_or_feedback: 'Rapporteer een bug of geef feedback'
     require_email_verification: 'Maak e-mail verificatie vereist'
     require_email_verification_text: 'Nieuwe gebruikers moeten hun e-mailadres verifiëren voordat ze door kunnen gaan.'
     save_changes: 'Wijzigingen opslaan'
+    save_changes_dialog:
+      cancel: Annuleren
+      copy: 'Je hebt een of meerdere wijzigingen gedaan zonder op te slaan. Wil je je wijzigingen opslaan of ongedaan maken?'
+      discard: 'Ongedaan maken'
+      save_settings: 'Instellingen Opslaan'
+      unsaved_changes: 'Niet-opgeslagen wijzigingen'
     shortcuts: Sneltoetsen
     sign_out: Uitloggen
     stories: Conversaties
@@ -142,7 +166,7 @@ nl_NL:
     suspect_word_text: 'Reacties die deze woorden of zinsdelen bevatten (niet hoofdlettergevoelig) zullen worden gemarkeerd in de conversatie. Type een woord en druk op enter of tab om toe te voegen. Je kunt optioneel een komma-gescheiden lijst plakken.'
     suspect_word_title: 'Lijst met verdachte woorden'
     tech_settings: 'Technische instellingen'
-    title: 'Conversatie cnfigureren'
+    title: 'Conversatie configureren'
     weeks: Weken
     wordlist: 'Zwarte woordenlijst'
   confirm_email:
@@ -183,6 +207,9 @@ nl_NL:
       if_you_did_not: 'Wanneer jij dit niet hebt aangevraagd, kun je deze e-mail negeren.'
       subject: 'Email bevestiging'
       to_confirm: 'Ga naar de volgende link om het account te bevestigen:'
+    password_change:
+      body: 'Het wachtwoord voor je account is gewijzigd.\n\nAls je deze wijziging niet hebt aangevraagd, neem dan contact met ons op: {0}'
+      subject: '{0} wachtwoord wijziging'
     password_reset:
       if_you_did: 'Wanneer je dit zelf was,'
       please_click: 'klik dan hier om je wachtwoord te veranderen'
@@ -192,44 +219,61 @@ nl_NL:
   embed_comments_tab: Reacties
   embedlink:
     copy: 'Kopieer naar klembord'
+    copied: Gekopieerd
   error:
     ALREADY_EXISTS: 'Bron bestaat al'
+    AUTHENTICATION: 'Er is een fout opgetreden tijdens het aanmelden van je account'
     CANNOT_IGNORE_STAFF: 'Kan geen Staff-leden negeren.'
     COMMENT_PARENT_NOT_VISIBLE: 'De reactie waarop je probeert te reageren bestaat niet of is inmiddels verwijderd.'
     COMMENT_TOO_SHORT: 'Reacties moeten meer dan één teken hebben. Herzie je reactie en probeer opnieuw.'
     COMMENT_TOO_LONG: 'Tekst is te lang'
     COMMENTING_CLOSED: 'Reageren is al afgesloten.'
+    COMMENTING_DISABLED: 'Reageren is momenteel uigeschakeld op deze site'
     confirm_password: 'Wachtwoorden komen niet overeen. Controleer opnieuw.'
+    DELETION_NOT_SCHEDULED: 'Verwijdering was niet ingepland'
     EDIT_USERNAME_NOT_AUTHORIZED: 'Je bent niet gemachtigd om je gebruikersnaam te wijzigen.'
     EDIT_WINDOW_ENDED: 'Dit commentaar kan niet langer worden gewijzigd. Het tijdsbestek is verstreken.'
     email: 'Geen geldig e-mailadres'
+    EMAIL_ALREADY_VERIFIED: 'E-mailadres is reeds geverifiëerd'
     EMAIL_IN_USE: 'E-mailadres al in gebruik'
     email_not_verified: 'E-mailadres {0} is niet geverifiëerd'
     EMAIL_NOT_VERIFIED: 'E-mailadres is niet geverifiëerd'
     email_password: 'E-mail en/of wachtwoord combinatie onjuist'
     EMAIL_REQUIRED: 'Een e-mailadres is vereist'
     EMAIL_VERIFICATION_TOKEN_INVALID: 'Ongeldig e-mail verificatie token'
+    INCORRECT_PASSWORD: 'Ongeldig wachtwoord'
     INVALID_ASSET_URL: 'Ongeldige URL'
     LOGIN_MAXIMUM_EXCEEDED: 'Je hebt te veel mislukte inlogpogingen gedaan. Even geduld aub.'
     network_error: 'Kon geen verbinding maken met server. Controleer je internetverbinding en probeer het opnieuw.'
     NO_SPECIAL_CHARACTERS: 'Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten.'
     NOT_AUTHORIZED: 'Je bent niet geauthoriseerd om dit te doen.'
     NOT_FOUND: 'Bron niet gevonden'
+    organization_contact_email: 'Organisatie e-mailadres is niet geldig.'
     organization_name: 'Organisatienaam kan alleen cijfers en letters bevatten.'
     password: 'Wachtwoord moet minimaal 8 karakters lang zijn'
+    PAGE_NOT_AVAILABLE_ROLE: 'Deze pagina is enkel voor toegankelijk voor teamleden. Neem contact op met een admin als je toegang tot dit team wilt.'
+    PASSWORD_INCORRECT: 'Je huidige wachtwoord is incorrect ingevuld'
     PASSWORD_LENGTH: 'Wachtwoord is te kort'
     PASSWORD_REQUIRED: 'Je moet een wachtwoord invoeren.'
     PASSWORD_RESET_TOKEN_INVALID: 'Je wachtwoord-herstel token is ongeldig.'
     PROFANITY_ERROR: 'Gebruikersnamen mogen niet aanstootgevend zijn. Neem contact op met de administrator wanneer je denkt dat dit niet klopt.'
     RATE_LIMIT_EXCEEDED: 'Gebruikslimiet overschreden'
+    required_field: 'Dit veld is verplicht'
     SAME_USERNAME_PROVIDED: 'Je moet een andere gebruikersnaam invoeren.'
-    temporarily_suspended: 'Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions.'
+    temporarily_suspended: 'Je account is momenteel geschorst. Deze zal worden gereactiveerd {0}. Neem s.v.p. contact met ons op voor vragen.'
     unexpected: 'Onverwachte fout opgetreden. Sorry!'
     username: 'Gebruikersnamen kunnen alleen cijfers, letters en _ bevatten.'
     USERNAME_IN_USE: 'Gebruikersnaam al in gebruik'
     USERNAME_REQUIRED: 'Gebruikersnaam is vereist'
   flag_comment: 'Rapporteer reactie'
   flag_reason: 'Reden voor rapporteren (optioneel)'
+  flag_reasons:
+    username:
+      impersonating: 'Deze gebruiker doet zich voor als iemand anders'
+      nolike: 'Ik vind deze gebruikersnaam niet leuk'
+      offensive: 'Deze gebruikersnaam is aanstootgevend'
+      other: Andere
+      spam: 'Dit lijkt op een advertentie/marketing'
   flag_username: 'Rapporteer gebruikersnaam'
   flagged_usernames:
     notify_approved: '{0} heeft gebruikersnaam {1} goedgekeurd'
@@ -258,6 +302,7 @@ nl_NL:
     changed_name:
       msg: 'De verandering van je gebruikersnaam wordt door ons moderatieteam gecontroleerd.'
     comment: reactie
+    comment_is_deleted: 'De reageerder heeft zijn account verwijderd.'
     comment_is_hidden: 'Deze reactie is niet beschikbaar.'
     comment_is_ignored: 'Deze reactie is verborgen omdat je de gebruiker negeert.'
     comment_is_rejected: 'Je hebt deze reactie afgewezen.'
@@ -306,6 +351,17 @@ nl_NL:
       title: 'Toegestane domeinnamen'
   like: Like
   loading_results: 'Resultaten worden geladen'
+  login:
+    email_address: E-mailadres
+    forgot_password: 'Wachtwoord vergeten?'
+    go_back: 'Ga terug'
+    sign_in: Inloggen
+    sign_in_button: Inloggen
+    sign_in_message: 'Log in om te communiceren met je community'
+    password: Wachtwoord
+    reset_password_send_button: 'Wachtwoord ophalen'
+    request_passowrd: 'Vraag een nieuwe aan.'
+    team_sign_in: 'Team login'
   marketing: 'Dit lijkt op een advertentie/marketing'
   moderate_this_stream: 'Modereer deze conversatie'
   modqueue:
@@ -350,6 +406,8 @@ nl_NL:
     show_shortcuts: 'Toon sneltoetsen'
     singleview: Zen-modus
     sort: Sorteer
+    suspend: 'Schors gebruiker'
+    system_withheld: 'Achtergehouden door systeem'
     thismenu: 'Open dit menu'
     thousand: k
     toggle_search: 'Open zoekvenster'
@@ -363,6 +421,7 @@ nl_NL:
   other: Ander
   password_reset:
     change_password: 'Verander wachtwoord'
+    change_password_help: 'Voer een nieuw wachtwoord in om mee in te loggen. Gebruik een veilig wachtwoord!'
     confirm_new_password: 'Bevestig nieuw wachtwoord'
     new_password: 'Nieuw wachtwoord'
     new_password_help: 'Wachtwoord moet minimaal 8 karakters lang zijn.'
@@ -384,6 +443,13 @@ nl_NL:
     username: gebruikersnaam
     write_message: 'Schrijf een bericht'
     yes_suspend: 'Ja, schors'
+  reject_username_dialog:
+    cancel: Annuleren
+    description: 'Help ons dit te begrijpen'
+    message: 'Reden voor rapporteren (Optioneel)'
+    reason: Reden
+    reject_username: 'Gebruikersnaam afwijzen'
+    title: 'Gebruikersnaam afwijzen'
   reply: Beantwoord
   report: Rapporteer
   report_notif: 'Dank voor het rapporteren van deze reactie. Deze wordt zo snel mogelijk gemodereerd.'
@@ -443,30 +509,43 @@ nl_NL:
   user_detail:
     all: Alle
     ban: 'Gebruiker verbannen'
-    email: Email
+    email: E-mailadres
+    id: ID
+    karma: Karma
+    karma_docs_link: 'https://docs.coralproject.net/talk/trust/#user-karma-score'
+    learn_more: 'Meer informatie'
     member_since: 'Lid sinds'
     reject_rate: 'Beoordeling verwijderen'
+    reject_username: 'Gebruikersnaam afwijzen'
     rejected: Afgewezen
     remove_ban: 'Verbanning verwijderen'
     remove_suspension: 'Schorsing opheffen'
     suspend: 'Gebruiker schorsen'
+    suspended: Geschorst
     total_comments: 'Totaal aantal reacties'
+    unreliable: Onbetrouwbaar
     user_history: Accountgeschiedenis
+    user_karma_score: 'Gebruiker Karma Score'
+    username: Gebruikersnaam
+    username_needs_approval: 'Gebruikersnaam heeft goedkeuring nodig'
+    username_rejected: 'Gebruikersnaam afgewezen'
   user_history:
-    action: Action
-    ban_removed: 'Ban removed'
-    date: Date
-    suspended: 'Suspended, {0}'
-    suspension_removed: 'Suspension removed'
-    system: System
-    taken_by: 'Taken By'
-    user_banned: 'User banned'
-    username_status: 'Username {0}'
-  user_impersonating: 'Deze gebruiker imiteert'
+    action: Actie
+    ban_removed: 'Schorsing opgeheven'
+    date: Datum
+    suspended: 'Geschorst, {0}'
+    suspension_removed: 'Schorsing opgeheven'
+    system: Systeem
+    taken_by: 'Genomen door'
+    user_banned: 'Gebruiker geschorst'
+    username_status: 'Gebruikersnaam {0}'
+  user_impersonating: 'Deze gebruiker doet zich voor als iemand anders'
   user_no_comment: 'Je hebt nog niet eerder gereageerd. Laat je mening horen!'
   username_offensive: 'Dit is een aanstootgevende gebruikersnaam.'
   validators:
-    confirm_password: 'Wachtwoorden komen niet overeen. Controleer opnieuw.'
+    confirm_email: 'E-mailadressen komen niet overeen. Controleer opnieuw.'
+    confirm_password: Wachtwoorden komen niet overeen. Controleer opnieuw.
+    required: 'Dit veld is verplicht'
     verify_email: 'Geen geldig e-mailadres'
     verify_organization_name: 'Organisatienaam kan alleen cijfers en letters bevatten.'
     verify_password: 'Wachtwoord moet minimaal 8 karakters lang zijn'

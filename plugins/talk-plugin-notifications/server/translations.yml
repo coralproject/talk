@@ -40,3 +40,17 @@ de:
       confirm: "Bestätigen"
       are_unsubscribed: "Sie haben haben alle Benachrichtigungen erfolgreich abbestellt."
       token_invalid: "Der Abbestell-Link ist ungültig. Klicken Sie den Link einer neueren E-Mail oder gehen Sie zu einem Kommentarbereich, melden Sie sich an und ändern Sie dort Ihre Benachrichtigungseinstellungen"
+nl_NL:
+  talk-plugin-notifications:
+    templates:
+      digest:
+        subject: "Je recente reactie-activiteit op {0}"
+      footer: "Je hebt deze notificatie ontvangen omdat je een reageerder bent op {0} en je hebt je aangemeld om notificaties te ontvangen."
+      links:
+        unsubscribe: "Afmelden voor reactie notificaties"
+    unsubscribe_page:
+      unsubscribe: "Afmelden voor reactie notificaties"
+      click_to_confirm: "Klik onderstaande om te bevestigen dat je je wilt afmelden voor alle notificaties"
+      confirm: "Bevestigen"
+      are_unsubscribed: "Je bent nu afgemeld voor alle notificaties."
+      token_invalid: "Afmeldlink is ongeldig, klik de link van een recentere e-mail of bezoek een pagina met reacties en log in om je notificatie voorkeuren te wijzigen"

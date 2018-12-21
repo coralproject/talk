@@ -76,6 +76,10 @@ const CONFIG = {
   // on the scraper when it makes requests.
   SCRAPER_HEADERS: process.env.TALK_SCRAPER_HEADERS || '{}',
 
+  // HTTP_X_REQUEST_ID is a string which represents the request header where we
+  // should source the request ID from, otherwise, a new one will be generated.
+  HTTP_X_REQUEST_ID: process.env.TALK_HTTP_X_REQUEST_ID || null,
+
   //------------------------------------------------------------------------------
   // JWT based configuration
   //------------------------------------------------------------------------------
@@ -213,12 +217,23 @@ const CONFIG = {
   // messages through the websocket to keep the socket alive.
   KEEP_ALIVE: process.env.TALK_KEEP_ALIVE || '30s',
 
+  // CONCURRENCY is the number of workers that will serve traffic.
+  CONCURRENCY: parseInt(process.env.TALK_CONCURRENCY || '1'),
+
   //------------------------------------------------------------------------------
   // Cache configuration
   //------------------------------------------------------------------------------
 
   CACHE_EXPIRY_COMMENT_COUNT:
     process.env.TALK_CACHE_EXPIRY_COMMENT_COUNT || '1hr',
+
+  // EMBED_EXPIRY_TIME is the time that the embed will be cacheable for, sent as
+  // the max-age= directive on the Cache-Control header.
+  EMBED_EXPIRY_TIME: ms(process.env.TALK_EMBED_EXPIRY || '24hr'),
+
+  // EMBED_EXPIRY_TIME is the time that the rest of the static files will be
+  // cacheable for, sent as the max-age= directive on the Cache-Control header.
+  STATIC_EXPIRY_TIME: ms(process.env.TALK_STATIC_EXPIRY || '1w'),
 
   //------------------------------------------------------------------------------
   // Recaptcha configuration

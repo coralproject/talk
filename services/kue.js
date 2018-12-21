@@ -91,12 +91,12 @@ class Task {
   static shutdown() {
     debug('Shutting down the Queue');
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       // Shutdown and give the queue 5 seconds to shutdown before we start
       // killing jobs.
       getQueue().shutdown(5000, err => {
         if (err) {
-          return reject(err);
+          return resolve();
         }
 
         debug('Queue shut down.');
