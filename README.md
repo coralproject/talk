@@ -18,7 +18,7 @@ You’ve installed Talk on your server, and you’re preparing to launch it on y
 
 ## Advanced Usage
 
-For advanced configuration and usage of Talk, check out our [Configuration](https://docs.coralproject.net/talk/advanced-configuration/) and [Integration](https://docs.coralproject.net/talk/integrating/authentication/) how-tos. This covers topics in whih you will need dev support to fully customize and integrate Talk, such as SSO/authentication, creating and managing assets and articles, styling Talk with custom CSS, and setting up Notifications and SMTP support.
+For advanced configuration and usage of Talk, check out our [Configuration](https://docs.coralproject.net/talk/advanced-configuration/) and [Integration](https://docs.coralproject.net/talk/integrating/authentication/) how-tos. This covers topics in which you will need dev support to fully customize and integrate Talk, such as SSO/authentication, creating and managing assets and articles, styling Talk with custom CSS, and setting up Notifications and SMTP support.
 
 ## Versions & Upgrading
 

@@ -219,6 +219,28 @@ async function rewrite(search, replace, options) {
   }
 }
 
+/**
+ * debugAssetURL will scrape the given URL and print it's scraped values.
+ */
+async function debugAssetURL(url) {
+  try {
+    const meta = await scraper.scrape(url);
+
+    const table = new Table({ head: ['Property', 'Value'] });
+
+    for (const [property, value] of Object.entries(meta)) {
+      table.push([property, value]);
+    }
+
+    console.log(table.toString());
+
+    util.shutdown(0);
+  } catch (err) {
+    console.error(err);
+    util.shutdown(1);
+  }
+}
+
 //==============================================================================
 // Setting up the program command line arguments.
 //==============================================================================
@@ -233,6 +255,13 @@ program
   )
   .description('list all the assets in the database')
   .action(listAssets);
+
+program
+  .command('debug [url]')
+  .description(
+    'prints the scraped metadata that would be added to the given asset'
+  )
+  .action(debugAssetURL);
 
 program
   .command('refresh [age]')

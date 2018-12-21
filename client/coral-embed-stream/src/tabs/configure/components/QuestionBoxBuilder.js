@@ -1,6 +1,7 @@
 import React from 'react';
 import QuestionBox from '../../../components/QuestionBox';
 import DefaultQuestionBoxIcon from '../../../components/DefaultQuestionBoxIcon';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './QuestionBoxBuilder.css';
 import { Icon } from 'coral-ui';
@@ -12,6 +13,7 @@ const icons = [{ default: DefaultIcon }, 'forum', 'build', 'format_quote'];
 class QuestionBoxBuilder extends React.Component {
   render() {
     const {
+      title,
       questionBoxIcon,
       questionBoxContent,
       onContentChange,
@@ -20,7 +22,7 @@ class QuestionBoxBuilder extends React.Component {
 
     return (
       <div className={styles.root}>
-        <h4>Include an Icon</h4>
+        <h4>{title}</h4>
 
         <ul className={styles.iconList}>
           {icons.map(item => {
@@ -52,5 +54,13 @@ class QuestionBoxBuilder extends React.Component {
     );
   }
 }
+
+QuestionBoxBuilder.propTypes = {
+  title: PropTypes.string,
+  questionBoxIcon: PropTypes.string,
+  questionBoxContent: PropTypes.string,
+  onContentChange: PropTypes.func,
+  onIconChange: PropTypes.func,
+};
 
 export default QuestionBoxBuilder;

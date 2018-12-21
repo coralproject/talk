@@ -139,6 +139,7 @@ en:
     hours: Hours
     code_of_conduct_summary: 'Summary of your Code of Conduct'
     code_of_conduct_summary_desc: 'This message will appear above every comments stream on your site. Click here to learn more about writing a good code.'
+    include_an_icon: 'Include an Icon'
     include_question_here: 'Write your question here:'
     include_text: 'Include your text here.'
     moderate: Moderate
@@ -318,6 +319,7 @@ en:
     comments: comments
     configure_stream: Configure
     content_not_available: 'This content is not available'
+    edit: Edit
     edit_name:
       button: Submit
       error: 'Usernames can contain letters numbers and _ only'

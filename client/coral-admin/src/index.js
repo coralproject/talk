@@ -14,6 +14,11 @@ import { hideShortcutsNote } from './actions/moderation';
 
 smoothscroll.polyfill();
 
+if (!NodeList.prototype.forEach) {
+  // Polyfill IE11 missing forEach in NodeList.
+  NodeList.prototype.forEach = Array.prototype.forEach;
+}
+
 function init({ store, localStorage }) {
   const shouldHide = localStorage.getItem('coral:shortcutsNote') === 'hide';
   if (shouldHide) {

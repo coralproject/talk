@@ -10,3 +10,6 @@ es:
 de:
   talk-plugin-notifications-category-staff:
     toggle_description: Ein Redaktionsmitglied antwortet auf meinen Kommentar
+nl_NL:
+  talk-plugin-notifications-category-staff:
+    toggle_description: Een redactielid antwoord op mijn reactie
