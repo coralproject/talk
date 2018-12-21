@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { createContextHOC } from "talk-framework/helpers";
-import ensurePolyfill from "./ensurePolyfill";
 
 export type IntersectionCallback = (entry: IntersectionObserverEntry) => void;
 export type Observe = (
@@ -24,18 +23,16 @@ export class IntersectionProvider extends React.Component<any, any> {
   private unmounted = false;
 
   public componentDidMount() {
-    ensurePolyfill().then(() => {
-      if (this.unmounted) {
-        return;
-      }
-      this.observer = new IntersectionObserver(this.onIntersect, {
-        root: this.props.node ? this.props.node : undefined,
-        rootMargin: "0px",
-        threshold: 0.25,
-      });
-      this.elementBuffer.forEach(element => this.observer.observe(element));
-      this.elementBuffer = [];
+    if (this.unmounted) {
+      return;
+    }
+    this.observer = new IntersectionObserver(this.onIntersect, {
+      root: this.props.node ? this.props.node : undefined,
+      rootMargin: "0px",
+      threshold: 0.25,
     });
+    this.elementBuffer.forEach(element => this.observer.observe(element));
+    this.elementBuffer = [];
   }
 
   public componentWillUnmount() {
