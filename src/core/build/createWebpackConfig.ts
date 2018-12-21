@@ -155,6 +155,10 @@ export default function createWebpackConfig(
       // We can't use side effects because it disturbs css order
       // https://github.com/webpack/webpack/issues/7094.
       sideEffects: false,
+      splitChunks: {
+        chunks: "async",
+        minChunks: 2,
+      },
       minimize: minimize || treeShake,
       minimizer: [
         // Minify the code.
