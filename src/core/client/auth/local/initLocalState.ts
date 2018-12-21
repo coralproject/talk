@@ -4,17 +4,22 @@ import { parseQuery } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "talk-framework/lib/relay";
 
-function getAuthTokenFromHashAndClearIt() {
-  const authToken = window.location.hash
-    ? window.location.hash.substr(1)
-    : null;
+function getParamsFromHashAndClearIt() {
+  try {
+    const params = window.location.hash
+      ? parseQuery(window.location.hash.substr(1))
+      : {};
 
-  // Remove hash with token.
-  if (window.location.hash) {
-    window.history.replaceState(null, document.title, location.pathname);
+    // Remove hash with token.
+    if (window.location.hash) {
+      window.history.replaceState(null, document.title, location.pathname);
+    }
+
+    return params;
+  } catch (err) {
+    window.console.error(err);
+    return {};
   }
-
-  return authToken;
 }
 
 /**
@@ -24,8 +29,14 @@ export default async function initLocalState(
   environment: Environment,
   context: TalkContext
 ) {
-  const authToken = getAuthTokenFromHashAndClearIt();
-  await initLocalBaseState(environment, context, authToken);
+  const { error = null, access_token = null } = getParamsFromHashAndClearIt();
+
+  if (error) {
+    // FIXME: (wyattjoh) replace with actual error handling code.
+    alert(error);
+  }
+
+  await initLocalBaseState(environment, context, access_token);
 
   commitLocalUpdate(environment, s => {
     const localRecord = s.get(LOCAL_ID)!;

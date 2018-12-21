@@ -60,7 +60,10 @@ export default function({
     overlay: false,
     historyApiFallback: {
       disableDotRule: true,
-      rewrites: [{ from: /^\/admin/, to: "/admin.html" }],
+      rewrites: [
+        { from: /^\/admin/, to: "/admin.html" },
+        { from: /^\/embed\/auth\/callback/, to: "/auth-callback.html" },
+      ],
     },
     public: allowedHost,
     index: "embed.html",

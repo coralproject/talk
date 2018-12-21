@@ -44,6 +44,14 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
       cacheDuration: false,
     })
   );
+  router.use(
+    "/embed/auth/callback",
+    createClientTargetRouter({
+      staticURI,
+      view: "auth-callback",
+      cacheDuration: false,
+    })
+  );
 
   // Add the standalone targets.
   router.use(

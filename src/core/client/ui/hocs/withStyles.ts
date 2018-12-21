@@ -20,7 +20,7 @@ function withStyles<T>(
           resolvedClasses[k] += ` ${props.classes[k]}`;
         } else if (process.env.NODE_ENV !== "production") {
           // tslint:disable:next-line: no-console
-          console.warn("Extending non existant className", k);
+          console.warn("Extending non existent className", k);
         }
       });
     }

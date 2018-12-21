@@ -4,6 +4,7 @@ export default (process.env.NODE_ENV !== "development"
       embed: {
         stream: "/embed/stream",
         auth: "/embed/auth",
+        authCallback: "/embed/auth/callback",
       },
     }
   : {
@@ -11,5 +12,6 @@ export default (process.env.NODE_ENV !== "development"
       embed: {
         stream: "/stream.html",
         auth: "/auth.html",
+        authCallback: "/auth-callback.html",
       },
     });
