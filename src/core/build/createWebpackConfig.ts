@@ -6,7 +6,6 @@ import { identity } from "lodash";
 import LodashModuleReplacementPlugin from "lodash-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
-import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
@@ -17,6 +16,7 @@ import ManifestPlugin from "webpack-manifest-plugin";
 import { Config } from "./config";
 import { createClientEnv } from "./config";
 import paths from "./paths";
+import InterpolateHtmlPlugin from "./plugins/InterpolateHtmlPlugin";
 import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
 /**
@@ -156,8 +156,7 @@ export default function createWebpackConfig(
       // https://github.com/webpack/webpack/issues/7094.
       sideEffects: false,
       splitChunks: {
-        chunks: "async",
-        minChunks: 2,
+        chunks: config.get("disableChunkSplitting") ? "async" : "all",
       },
       minimize: minimize || treeShake,
       minimizer: [
@@ -602,6 +601,10 @@ export default function createWebpackConfig(
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
+        // Ensure that we never split the embed into chunks.
+        splitChunks: {
+          chunks: "async",
+        },
         // We can turn on sideEffects here as we don't use
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: true,
