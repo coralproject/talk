@@ -67,7 +67,7 @@ sr:
   flags:
     reasons:
       comment:
-        toxic_comment: "Vrlo verovatno 'toksičan'"        
+        toxic_comment: "Vrlo verovatno toksičan"        
 de:
   error:
     COMMENT_IS_TOXIC: |
