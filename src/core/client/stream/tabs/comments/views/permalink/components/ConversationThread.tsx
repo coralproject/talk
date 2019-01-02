@@ -5,12 +5,12 @@ import React, { StatelessComponent } from "react";
 import { PropTypesOf } from "talk-framework/types";
 import { Button, Counter, Flex, HorizontalGutter } from "talk-ui/components";
 
-import CommentContainer from "../containers/CommentContainer";
-import LocalReplyListContainer from "../containers/LocalReplyListContainer";
-import { RootParent } from "./Comment";
-import { Circle, Line } from "./Timeline";
+import { RootParent } from "talk-stream/tabs/comments/components/Comment";
+import CommentContainer from "talk-stream/tabs/comments/containers/CommentContainer";
+import LocalReplyListContainer from "talk-stream/tabs/comments/containers/LocalReplyListContainer";
 
 import styles from "./ConversationThread.css";
+import { Circle, Line } from "./Timeline";
 
 export interface ConversationThreadProps {
   className?: string;

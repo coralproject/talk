@@ -1,0 +1,11 @@
+.root {
+  width: 260px;
+}
+
+.title {
+  padding-right: calc(2 * var(--spacing-unit));
+}
+
+.dismiss {
+  margin-top: -3px;
+}

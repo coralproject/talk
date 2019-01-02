@@ -1,5 +1,4 @@
 .popover {
-  z-index: var(--zindex-popover);
   width: 350px;
 }
 

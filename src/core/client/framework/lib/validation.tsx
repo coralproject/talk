@@ -19,6 +19,8 @@ import {
   USERNAME_TOO_LONG,
   USERNAME_TOO_SHORT,
   VALIDATION_REQUIRED,
+  VALIDATION_TOO_LONG,
+  VALIDATION_TOO_SHORT,
 } from "./messages";
 
 export type Validator<T = any, V = any> = (v: T, values: V) => ReactNode;
@@ -75,6 +77,24 @@ export const validateURL = createValidator(
   v => URL_REGEX.test(v),
   INVALID_URL()
 );
+
+/**
+ * validateMinLength is a Validator that checks that the field has a min length of characters
+ */
+export const validateMinLength = (minLength: number) =>
+  createValidator(
+    v => !v || v.length >= minLength,
+    VALIDATION_TOO_SHORT(minLength)
+  );
+
+/**
+ * validateMaxLength is a Validator that checks that the field has max length of characters
+ */
+export const validateMaxLength = (maxLength: number) =>
+  createValidator(
+    v => !v || v.length <= maxLength,
+    VALIDATION_TOO_LONG(maxLength)
+  );
 
 /**
  * validateUsernameMinLength is a Validator that checks that the username has a min length of characters

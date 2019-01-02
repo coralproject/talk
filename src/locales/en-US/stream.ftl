@@ -85,6 +85,9 @@ comments-permalinkView-singleConversation = SINGLE CONVERSATION
 comments-inReplyTo = In reply to <username></username>
 comments-replyTo = Replying to: <username></username>
 
+comments-reportButton-report = Report
+comments-reportButton-reported = Reported
+
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
@@ -93,3 +96,25 @@ profile-historyComment-story = Story: {$title}
 profile-profileQuery-errorLoadingProfile = Error loading profile
 profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
+
+## Report Comment Popover
+comments-reportPopover-reportThisComment = Report This Comment
+comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
+
+comments-reportPopover-reasonOffensive = This comment is offensive
+comments-reportPopover-reasonIDisagree = I disagree with this comment
+comments-reportPopover-reasonSpam = This looks like an ad or marketing
+comments-reportPopover-reasonOther = Other
+
+comments-reportPopover-pleaseLeaveAdditionalInformation =
+  Please leave any additional information that may be helpful to our moderators. (Optional)
+
+comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
+comments-reportPopover-cancel = Cancel
+comments-reportPopover-submit = Submit
+
+comments-reportPopover-thankYou = Thank you!
+comments-reportPopover-receivedMessage =
+  We’ve received your message. Reports from members like you keep the community safe.
+
+comments-reportPopover-dismiss = Dismiss

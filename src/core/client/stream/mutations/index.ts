@@ -4,6 +4,16 @@ export {
   CreateCommentInput,
 } from "./CreateCommentMutation";
 export {
+  withCreateCommentFlagMutation,
+  CreateCommentFlagMutation,
+  CreateCommentFlagInput,
+} from "./CreateCommentFlagMutation";
+export {
+  withCreateCommentDontAgreeMutation,
+  CreateCommentDontAgreeMutation,
+  CreateCommentDontAgreeInput,
+} from "./CreateCommentDontAgreeMutation";
+export {
   withCreateCommentReplyMutation,
   CreateCommentReplyMutation,
   CreateCommentReplyInput,

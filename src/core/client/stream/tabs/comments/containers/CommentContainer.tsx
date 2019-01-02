@@ -17,7 +17,7 @@ import {
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
-import { Button, HorizontalGutter } from "talk-ui/components";
+import { Button, Flex, HorizontalGutter } from "talk-ui/components";
 import ReactionButtonContainer from "./ReactionButtonContainer";
 
 import Comment, {
@@ -28,6 +28,7 @@ import ReplyButton from "../components/Comment/ReplyButton";
 import EditCommentFormContainer from "./EditCommentFormContainer";
 import PermalinkButtonContainer from "./PermalinkButtonContainer";
 import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
+import ReportButtonContainer from "./ReportButtonContainer";
 
 interface InnerProps {
   me: MeData | null;
@@ -187,24 +188,29 @@ export class CommentContainer extends Component<InnerProps, State> {
           }
           footer={
             <>
-              <ButtonsBar>
-                {!disableReplies && (
-                  <ReplyButton
-                    id={`comments-commentContainer-replyButton-${comment.id}`}
-                    onClick={this.openReplyDialog}
-                    active={showReplyDialog}
+              <Flex justifyContent="space-between">
+                <ButtonsBar>
+                  {!disableReplies && (
+                    <ReplyButton
+                      id={`comments-commentContainer-replyButton-${comment.id}`}
+                      onClick={this.openReplyDialog}
+                      active={showReplyDialog}
+                    />
+                  )}
+                  <PermalinkButtonContainer
+                    story={story}
+                    commentID={comment.id}
                   />
-                )}
-                <PermalinkButtonContainer
-                  story={story}
-                  commentID={comment.id}
-                />
-                <ReactionButtonContainer
-                  comment={comment}
-                  settings={settings}
-                  me={me}
-                />
-              </ButtonsBar>
+                  <ReactionButtonContainer
+                    comment={comment}
+                    settings={settings}
+                    me={me}
+                  />
+                </ButtonsBar>
+                <ButtonsBar>
+                  <ReportButtonContainer comment={comment} me={me} />
+                </ButtonsBar>
+              </Flex>
               {showConversationLink && (
                 <ShowConversationLink
                   id={`comments-commentContainer-showConversation-${
@@ -240,6 +246,7 @@ const enhanced = withSetCommentIDMutation(
         fragment CommentContainer_me on User {
           id
           ...ReactionButtonContainer_me
+          ...ReportButtonContainer_me
         }
       `,
       story: graphql`
@@ -271,6 +278,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReplyCommentFormContainer_comment
           ...EditCommentFormContainer_comment
           ...ReactionButtonContainer_comment
+          ...ReportButtonContainer_comment
         }
       `,
       settings: graphql`

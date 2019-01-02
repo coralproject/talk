@@ -13,8 +13,14 @@ export const VALIDATION_REQUIRED = () => (
 );
 
 export const VALIDATION_TOO_SHORT = (minLength: number) => (
-  <Localized id="framework-validation-tooShort">
-    <span>{"This field must contain at least {$minLength} characters."}</span>
+  <Localized id="framework-validation-tooShort" $minLength={minLength}>
+    <span>{"Please enter at least {$minLength} characters."}</span>
+  </Localized>
+);
+
+export const VALIDATION_TOO_LONG = (maxLength: number) => (
+  <Localized id="framework-validation-tooLong" $maxLength={maxLength}>
+    <span>{"Please enter at max {$maxLength} characters."}</span>
   </Localized>
 );
 
