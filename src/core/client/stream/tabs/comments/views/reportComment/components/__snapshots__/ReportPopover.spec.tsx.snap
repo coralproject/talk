@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="ReportPopover-root"
+>
+  <withPropsOnChange(WithMouseHover)
+    className="ReportPopover-close"
+    onClick={[Function]}
+  >
+    <withPropsOnChange(Icon)>
+      close
+    </withPropsOnChange(Icon)>
+  </withPropsOnChange(WithMouseHover)>
+  <withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReportCommentFormContainer)))))
+    comment={Object {}}
+    onClose={[Function]}
+    onResize={[Function]}
+  />
+</div>
+`;
