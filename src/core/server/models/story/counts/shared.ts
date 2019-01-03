@@ -350,8 +350,9 @@ export async function recalculateSharedCommentCounts(
 }
 
 function fillAndConvertStringToNumber<
-  T extends { [P in keyof T]?: string },
-  U extends { [P in keyof U | keyof T]: number }
+  T extends { [P in keyof T]?: string } &
+    { [P in Exclude<keyof T, keyof U>]?: never },
+  U extends { [P in keyof U]: number }
 >(input: T, initial: U): U {
   const result: U = Object.assign({}, initial);
   for (const key in input) {
@@ -366,7 +367,7 @@ function fillAndConvertStringToNumber<
     }
 
     // I know, not ideal, but...
-    result[key] = parseInt(value, 10) || 0;
+    (result as any)[key] = parseInt(value, 10) || 0;
   }
 
   return result;
@@ -510,7 +511,7 @@ export async function retrieveSharedModerationQueueQueuesCounts(
   logger.debug({ tenantID }, "comment moderation counts were cached");
 
   return fillAndConvertStringToNumber(
-    queues,
+    { unmoderated: "awfwa" },
     createEmptyCommentModerationCountsPerQueue()
   );
 }
