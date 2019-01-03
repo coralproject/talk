@@ -4,11 +4,11 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { FilterQuery } from "talk-server/models/query";
+import { createIndexFactory, FilterQuery } from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
-function collection(db: Db) {
-  return db.collection<Readonly<User>>("users");
+function collection(mongo: Db) {
+  return mongo.collection<Readonly<User>>("users");
 }
 
 export interface LocalProfile {
@@ -64,6 +64,34 @@ export interface User extends TenantResource {
   tokens: Token[];
   role: GQLUSER_ROLE;
   createdAt: Date;
+}
+
+export async function createUserIndexes(mongo: Db) {
+  const createIndex = createIndexFactory(collection(mongo));
+
+  // UNIQUE { id }
+  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
+
+  // UNIQUE - PARTIAL { lowercaseUsername }
+  await createIndex(
+    { tenantID: 1, lowercaseUsername: 1 },
+    {
+      unique: true,
+      partialFilterExpression: { lowercaseUsername: { $exists: true } },
+    }
+  );
+
+  // UNIQUE - PARTIAL { email }
+  await createIndex(
+    { tenantID: 1, email: 1 },
+    { unique: true, partialFilterExpression: { email: { $exists: true } } }
+  );
+
+  // UNIQUE { profiles.type, profiles.id }
+  await createIndex(
+    { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
+    { unique: true }
+  );
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -171,7 +199,7 @@ const createUpsertUserFilter = (user: Readonly<User>) => {
 };
 
 export async function retrieveUser(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ id, tenantID });
+  return collection(db).findOne({ tenantID, id });
 }
 
 export async function retrieveManyUsers(
@@ -194,7 +222,7 @@ export async function retrieveManyUsers(
 export async function retrieveUserWithProfile(
   db: Db,
   tenantID: string,
-  profile: Partial<Profile>
+  profile: Partial<Pick<Profile, "id" | "type">>
 ) {
   return collection(db).findOne({
     tenantID,

@@ -13,6 +13,7 @@ import {
 } from ".";
 import { Story } from "..";
 import {
+  createEmptyCommentModerationCountsPerQueue,
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
 } from "./empty";
@@ -352,17 +353,20 @@ export async function recalculateSharedCommentCounts(
  * stringObjectToNumber will convert an object that has string keys and string
  * values into string keys and number values.
  */
-function stringObjectToNumber<T>(
-  input: Record<string, string>,
+function stringObjectToNumber<T extends Record<string, number>>(
+  input: { [P in keyof T]: string },
+  initialValue: T,
   defaultValue: number = 0
 ): T {
-  return Object.entries(input).reduce(
-    (acc, [key, value]) => ({
-      ...acc,
-      [key]: parseInt(value, 10) || defaultValue,
-    }),
-    {}
-  ) as T;
+  const value = {};
+  for (const key in input) {
+    if (!input.hasOwnProperty(key)) {
+      continue;
+    }
+
+    value[key] = parseInt(input[key], 10) || defaultValue;
+  }
+  return value as T;
 }
 
 /**
@@ -395,7 +399,7 @@ export async function retrieveSharedActionCommentCounts(
     return recalculateSharedActionCommentCounts(mongo, redis, tenantID);
   }
 
-  return stringObjectToNumber<EncodedCommentActionCounts>(actions);
+  return stringObjectToNumber<EncodedCommentActionCounts>(actions, {});
 }
 
 /**
@@ -428,7 +432,10 @@ export async function retrieveSharedStatusCommentCounts(
     return recalculateSharedStatusCommentCounts(mongo, redis, tenantID);
   }
 
-  return stringObjectToNumber<CommentStatusCounts>(statuses);
+  return stringObjectToNumber<CommentStatusCounts>(
+    statuses,
+    createEmptyCommentStatusCounts()
+  );
 }
 
 /**
@@ -493,7 +500,10 @@ export async function retrieveSharedModerationQueueQueuesCounts(
 
   logger.debug({ tenantID }, "comment moderation counts were cached");
 
-  return stringObjectToNumber<CommentModerationCountsPerQueue>(queues);
+  return stringObjectToNumber<CommentModerationCountsPerQueue>(
+    queues,
+    createEmptyCommentModerationCountsPerQueue()
+  );
 }
 
 export async function updateSharedCommentCounts(

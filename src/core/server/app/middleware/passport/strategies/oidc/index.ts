@@ -151,7 +151,11 @@ export async function findOrCreateOIDCUser(
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(db, tenant.id, profile);
+  let user = await retrieveUserWithProfile(db, tenant.id, {
+    // NOTE: (wyattjoh) as the current requirements do not allow multiple OIDC integrations, we are only getting the profile based on the OIDC provider.
+    type: "oidc",
+    id: sub,
+  });
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.

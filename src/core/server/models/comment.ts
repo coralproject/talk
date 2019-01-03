@@ -20,7 +20,10 @@ import {
   NodeToCursorTransformer,
   OrderedConnectionInput,
 } from "talk-server/models/connection";
-import Query from "talk-server/models/query";
+import Query, {
+  createConnectionOrderVariants,
+  createIndexFactory,
+} from "talk-server/models/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(mongo: Db) {
@@ -135,6 +138,56 @@ export interface Comment extends TenantResource {
    * metadata stores the deep Comment properties.
    */
   metadata?: Record<string, any>;
+}
+
+const createCommentConnectionOrderVariants = createConnectionOrderVariants<
+  Readonly<Comment>
+>([
+  { createdAt: -1 },
+  { createdAt: 1 },
+  { replyCount: -1, createdAt: -1 },
+  { "actionCounts.REACTION": -1, createdAt: -1 },
+]);
+
+export async function createCommentIndexes(mongo: Db) {
+  const createIndex = createIndexFactory(collection(mongo));
+
+  // UNIQUE { id }
+  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
+
+  // Story based Comment Connection pagination.
+  // { storyID, ...connectionParams }
+  await createCommentConnectionOrderVariants(createIndex, {
+    tenantID: 1,
+    storyID: 1,
+    status: 1,
+  });
+
+  // Story based Comment Connection pagination that are flagged.
+  // { storyID, ...connectionParams }
+  await createCommentConnectionOrderVariants(createIndex, {
+    tenantID: 1,
+    storyID: 1,
+    status: 1,
+    "actionCounts.FLAG": 1,
+  });
+
+  // Story + Reply based Comment Connection pagination.
+  // { storyID, ...connectionParams }
+  await createCommentConnectionOrderVariants(createIndex, {
+    tenantID: 1,
+    storyID: 1,
+    parentID: 1,
+    status: 1,
+  });
+
+  // Author based Comment Connection pagination.
+  // { authorID, ...connectionParams }
+  await createCommentConnectionOrderVariants(createIndex, {
+    tenantID: 1,
+    authorID: 1,
+    status: 1,
+  });
 }
 
 export type CreateCommentInput = Omit<
@@ -670,6 +723,7 @@ function applyInputToQuery(
   input: CommentConnectionInput,
   query: Query<Comment>
 ) {
+  // NOTE: (wyattjoh) if we ever extend these, ensure that the new order variant is added as an index into the `createCommentConnectionOrderVariants` function.
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ createdAt: -1 });

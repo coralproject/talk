@@ -1,15 +1,23 @@
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 
-import { CommentModerationQueueCounts, CommentStatusCounts } from ".";
+import {
+  CommentModerationCountsPerQueue,
+  CommentModerationQueueCounts,
+  CommentStatusCounts,
+} from ".";
+
+export function createEmptyCommentModerationCountsPerQueue(): CommentModerationCountsPerQueue {
+  return {
+    unmoderated: 0,
+    reported: 0,
+    pending: 0,
+  };
+}
 
 export function createEmptyCommentModerationQueueCounts(): CommentModerationQueueCounts {
   return {
     total: 0,
-    queues: {
-      unmoderated: 0,
-      reported: 0,
-      pending: 0,
-    },
+    queues: createEmptyCommentModerationCountsPerQueue(),
   };
 }
 

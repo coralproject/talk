@@ -20,7 +20,7 @@ async function worker(server: Server) {
     logger.debug("started server worker");
 
     // Connect the server to databases.
-    await server.connect();
+    await server.connect({ isWorker: true });
 
     // Start the server.
     await server.start(app);
@@ -31,9 +31,12 @@ async function worker(server: Server) {
 
 // master will start the master process.
 async function master(server: Server) {
+  const workerCount = server.config.get("concurrency");
+  logger.debug({ workerCount }, "spawning workers to handle traffic");
+
   try {
     // Connect the server to databases.
-    await server.connect();
+    await server.connect({});
 
     // Process jobs.
     await server.process();
@@ -60,7 +63,7 @@ async function bootstrap() {
       );
 
       // Connect the server to databases.
-      await server.connect();
+      await server.connect({});
 
       // Process jobs.
       await server.process();
@@ -68,8 +71,6 @@ async function bootstrap() {
       // Start the server.
       await server.start(app);
     } else {
-      logger.debug({ workerCount }, "spawning workers to handle traffic");
-
       // Launch the server start within throng.
       throng({
         workers: workerCount,

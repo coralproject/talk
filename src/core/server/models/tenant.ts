@@ -7,6 +7,7 @@ import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize, DotizeOptions } from "talk-common/utils/dotize";
 import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Settings } from "talk-server/models/settings";
+import { createIndexFactory } from "./query";
 
 function collection(db: Db) {
   return db.collection<Readonly<Tenant>>("tenants");
@@ -40,6 +41,16 @@ export interface Tenant extends Settings {
   organizationName: string;
   organizationURL: string;
   organizationContactEmail: string;
+}
+
+export async function createTenantIndexes(mongo: Db) {
+  const createIndex = createIndexFactory(collection(mongo));
+
+  // UNIQUE { id }
+  await createIndex({ id: 1 }, { unique: true });
+
+  // UNIQUE { domain }
+  await createIndex({ domain: 1 }, { unique: true });
 }
 
 /**
