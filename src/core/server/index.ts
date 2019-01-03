@@ -86,8 +86,8 @@ class Server {
     this.mongo = await createMongoDB(config);
 
     // If the instance being connected is not a worker process, then create the
-    // database indexes.
-    if (!isWorker) {
+    // database indexes if it isn't disabled.
+    if (!isWorker && !this.config.get("disable_mongodb_autoindexing")) {
       // Setup the database indexes.
       await ensureIndexes(this.mongo);
     }

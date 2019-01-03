@@ -140,6 +140,13 @@ const config = convict({
     env: "DISABLE_TENANT_CACHING",
     arg: "disableTenantCaching",
   },
+  disable_mongodb_autoindexing: {
+    doc: "Disables the creation of new MongoDB indexes",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_MONGODB_AUTOINDEXING",
+    arg: "disableMongodbAutoindexing",
+  },
 });
 
 export type Config = typeof config;
