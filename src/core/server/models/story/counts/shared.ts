@@ -361,7 +361,7 @@ function fillAndConvertStringToNumber<
     }
 
     // Pull out the value.
-    const value: string | undefined = input[key];
+    const value: string | undefined = input[key] as any;
     if (!value) {
       continue;
     }
