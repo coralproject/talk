@@ -3,7 +3,6 @@ import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
 import { identity } from "lodash";
-import LodashModuleReplacementPlugin from "lodash-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
@@ -445,7 +444,6 @@ export default function createWebpackConfig(
       ],
     },
     plugins: [
-      new LodashModuleReplacementPlugin(),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
