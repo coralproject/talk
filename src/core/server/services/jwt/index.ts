@@ -115,7 +115,7 @@ export const signPATString = async (
 export function extractJWTFromRequest(req: Request) {
   const permit = new Bearer({
     basic: "password",
-    query: "access_token",
+    query: "accessToken",
   });
 
   return permit.check(req) || null;

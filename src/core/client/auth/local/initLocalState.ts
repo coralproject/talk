@@ -29,14 +29,14 @@ export default async function initLocalState(
   environment: Environment,
   context: TalkContext
 ) {
-  const { error = null, access_token = null } = getParamsFromHashAndClearIt();
+  const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
 
   if (error) {
     // FIXME: (wyattjoh) replace with actual error handling code.
     alert(error);
   }
 
-  await initLocalBaseState(environment, context, access_token);
+  await initLocalBaseState(environment, context, accessToken);
 
   commitLocalUpdate(environment, s => {
     const localRecord = s.get(LOCAL_ID)!;

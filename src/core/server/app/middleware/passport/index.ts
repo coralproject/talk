@@ -170,7 +170,7 @@ export async function handleOAuth2Callback(
     const token = await signTokenString(signingConfig, user, options);
 
     // Send back the details!
-    res.redirect(path + `#access_token=${token}`);
+    res.redirect(path + `#accessToken=${token}`);
   } catch (err) {
     res.redirect(path + `#error=${encodeURIComponent(err.message)}`);
   }

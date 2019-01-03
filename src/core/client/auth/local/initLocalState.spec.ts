@@ -41,7 +41,7 @@ it("set view from query", async () => {
 
 it("get auth token from url", async () => {
   const restoreHistoryLocation = replaceHistoryLocation(
-    `http://localhost/#access_token=${createAuthToken()}`
+    `http://localhost/#accessToken=${createAuthToken()}`
   );
   await initLocalState(environment, context as any);
   expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
