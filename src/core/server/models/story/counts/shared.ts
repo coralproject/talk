@@ -511,7 +511,7 @@ export async function retrieveSharedModerationQueueQueuesCounts(
   logger.debug({ tenantID }, "comment moderation counts were cached");
 
   return fillAndConvertStringToNumber(
-    { unmoderated: "awfwa" },
+    queues,
     createEmptyCommentModerationCountsPerQueue()
   );
 }
