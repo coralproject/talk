@@ -1,18 +1,18 @@
 export * from "./empty";
 export * from "./shared";
 
+import { identity, isEmpty, pickBy } from "lodash";
 import { Db } from "mongodb";
 
-import { identity, isEmpty, pickBy } from "lodash";
 import { DeepPartial } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
 import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
+import { createIndexFactory } from "talk-server/models/query";
+import { retrieveStory, Story } from "talk-server/models/story";
 import { AugmentedRedis } from "talk-server/services/redis";
 
-import { createIndexFactory } from "talk-server/models/query";
-import { retrieveStory, Story } from "..";
 import { createEmptyCommentStatusCounts } from "./empty";
 import { updateSharedCommentCounts } from "./shared";
 

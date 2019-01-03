@@ -4,9 +4,10 @@ import uuid from "uuid";
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
+import { createIndexFactory } from "talk-server/models/query";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
-import { createIndexFactory } from "../query";
+
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,

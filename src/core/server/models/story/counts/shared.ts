@@ -4,14 +4,14 @@ import ms from "ms";
 
 import logger from "talk-server/logger";
 import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
-import { AugmentedPipeline, AugmentedRedis } from "talk-server/services/redis";
-
+import { Story } from "talk-server/models/story";
 import {
   CommentModerationCountsPerQueue,
   CommentStatusCounts,
   StoryCounts,
-} from ".";
-import { Story } from "..";
+} from "talk-server/models/story/counts";
+import { AugmentedPipeline, AugmentedRedis } from "talk-server/services/redis";
+
 import {
   createEmptyCommentModerationCountsPerQueue,
   createEmptyCommentModerationQueueCounts,
