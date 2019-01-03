@@ -349,24 +349,27 @@ export async function recalculateSharedCommentCounts(
   ]);
 }
 
-/**
- * stringObjectToNumber will convert an object that has string keys and string
- * values into string keys and number values.
- */
-function stringObjectToNumber<T extends Record<string, number>>(
-  input: { [P in keyof T]: string },
-  initialValue: T,
-  defaultValue: number = 0
-): T {
-  const value = {};
+function fillAndConvertStringToNumber<
+  T extends { [P in keyof T]?: string },
+  U extends { [P in keyof U | keyof T]: number }
+>(input: T, initial: U): U {
+  const result: U = Object.assign({}, initial);
   for (const key in input) {
     if (!input.hasOwnProperty(key)) {
       continue;
     }
 
-    value[key] = parseInt(input[key], 10) || defaultValue;
+    // Pull out the value.
+    const value: string | undefined = input[key];
+    if (!value) {
+      continue;
+    }
+
+    // I know, not ideal, but...
+    result[key] = parseInt(value, 10) || 0;
   }
-  return value as T;
+
+  return result;
 }
 
 /**
@@ -382,7 +385,7 @@ export async function retrieveSharedActionCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string
-) {
+): Promise<EncodedCommentActionCounts> {
   const key = commentCountsActionKey(tenantID);
   const freshKey = freshenKey(key);
 
@@ -399,7 +402,10 @@ export async function retrieveSharedActionCommentCounts(
     return recalculateSharedActionCommentCounts(mongo, redis, tenantID);
   }
 
-  return stringObjectToNumber<EncodedCommentActionCounts>(actions, {});
+  return fillAndConvertStringToNumber(
+    actions,
+    {} as EncodedCommentActionCounts
+  );
 }
 
 /**
@@ -415,13 +421,13 @@ export async function retrieveSharedStatusCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string
-) {
+): Promise<CommentStatusCounts> {
   const key = commentCountsStatusKey(tenantID);
   const freshKey = freshenKey(key);
 
   // Get the values, and the freshness key.
   const [[, statuses], [, fresh]]: [
-    [Error | undefined, Record<string, string> | null],
+    [Error | undefined, Record<keyof CommentStatusCounts, string> | null],
     [Error | undefined, string | null]
   ] = await redis
     .pipeline()
@@ -432,7 +438,7 @@ export async function retrieveSharedStatusCommentCounts(
     return recalculateSharedStatusCommentCounts(mongo, redis, tenantID);
   }
 
-  return stringObjectToNumber<CommentStatusCounts>(
+  return fillAndConvertStringToNumber(
     statuses,
     createEmptyCommentStatusCounts()
   );
@@ -480,13 +486,16 @@ export async function retrieveSharedModerationQueueQueuesCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string
-) {
+): Promise<CommentModerationCountsPerQueue> {
   const key = commentCountsModerationQueueQueuesKey(tenantID);
   const freshKey = freshenKey(key);
 
   // Get the values, and the freshness key.
   const [[, queues], [, fresh]]: [
-    [Error | undefined, Record<string, string> | null],
+    [
+      Error | undefined,
+      Record<keyof CommentModerationCountsPerQueue, string> | null
+    ],
     [Error | undefined, string | null]
   ] = await redis
     .pipeline()
@@ -500,7 +509,7 @@ export async function retrieveSharedModerationQueueQueuesCounts(
 
   logger.debug({ tenantID }, "comment moderation counts were cached");
 
-  return stringObjectToNumber<CommentModerationCountsPerQueue>(
+  return fillAndConvertStringToNumber(
     queues,
     createEmptyCommentModerationCountsPerQueue()
   );
