@@ -10,11 +10,13 @@ exports[`renders correctly 1`] = `
     className="App-tabContent"
   >
     <TabPane
+      data-testid="current-tab-pane"
       tabId="COMMENTS"
     >
       <withContext(withLocalStateContainer(CommentsPaneContainer)) />
     </TabPane>
     <TabPane
+      data-testid="current-tab-pane"
       tabId="PROFILE"
     >
       <withContext(withLocalStateContainer(ProfileQuery)) />

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders error 1`] = `
+<div>
+  error
+</div>
+`;
+
+exports[`renders loading 1`] = `
+<Delay
+  ms={500}
+>
+  <withPropsOnChange(Spinner) />
+</Delay>
+`;
+
+exports[`renders permalink view container 1`] = `
+<withContext(withContext(createMutationContainer(Relay(PermalinkViewContainer))))
+  comment={Object {}}
+  story={Object {}}
+/>
+`;

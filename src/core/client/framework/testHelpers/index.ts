@@ -20,3 +20,5 @@ export { default as matchText } from "./matchText";
 export { default as toJSON } from "./toJSON";
 export { default as replaceHistoryLocation } from "./replaceHistoryLocation";
 export { default as createAuthToken } from "./createAuthToken";
+export { default as findParentsWithType } from "./findParentsWithType";
+export { default as findParentWithType } from "./findParentWithType";

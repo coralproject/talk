@@ -38,9 +38,13 @@ export interface ConversationThreadProps {
 const ConversationThread: StatelessComponent<
   ConversationThreadProps
 > = props => {
+  const dataTestID = "comments-permalinkView-conversationThread";
   if (props.remaining === 0 && props.parents.length === 0) {
     return (
-      <div className={cn(props.className, styles.root)}>
+      <div
+        className={cn(props.className, styles.root)}
+        data-testid={dataTestID}
+      >
         <CommentContainer
           comment={props.comment}
           story={props.story}
@@ -52,7 +56,7 @@ const ConversationThread: StatelessComponent<
     );
   }
   return (
-    <div className={cn(props.className, styles.root)}>
+    <div className={cn(props.className, styles.root)} data-testid={dataTestID}>
       <HorizontalGutter container={<Line dotted />}>
         {props.rootParent && (
           <Circle>

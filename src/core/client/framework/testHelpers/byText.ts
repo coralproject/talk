@@ -1,6 +1,8 @@
 import React from "react";
 import { ReactTestInstance } from "react-test-renderer";
 
+import findParentsWithType from "./findParentsWithType";
+import findParentWithType from "./findParentWithType";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
 const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
@@ -9,6 +11,12 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   // Only look at dom components.
   if (typeof i.type !== "string") {
     return false;
+  }
+  if (
+    i.props.dangerouslySetInnerHTML &&
+    matchText(pattern, i.props.dangerouslySetInnerHTML.__html, options)
+  ) {
+    return true;
   }
   if (!i.props.children) {
     return false;
@@ -22,20 +30,34 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   return false;
 };
 
+interface SelectorOptions {
+  selector?: string | React.ComponentClass<any> | React.StatelessComponent<any>;
+}
+
 export function getByText(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
-  options?: TextMatchOptions
+  options?: TextMatchOptions & SelectorOptions
 ) {
-  return container.find(matcher(pattern, options));
+  const result = findParentWithType(
+    container.find(matcher(pattern, options)),
+    options && options.selector
+  );
+  if (!result) {
+    throw new Error(`Couldn't find text ${pattern}`);
+  }
+  return result;
 }
 
 export function getAllByText(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
-  options?: TextMatchOptions
+  options?: TextMatchOptions & SelectorOptions
 ) {
-  const results = container.findAll(matcher(pattern, options));
+  const results = findParentsWithType(
+    container.findAll(matcher(pattern, options)),
+    options && options.selector
+  );
   if (!results.length) {
     throw new Error(`Couldn't find text ${pattern}`);
   }
@@ -45,9 +67,12 @@ export function getAllByText(
 export function queryByText(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
-  options?: TextMatchOptions
+  options?: TextMatchOptions & SelectorOptions
 ) {
-  const results = container.findAll(matcher(pattern, options));
+  const results = findParentsWithType(
+    container.findAll(matcher(pattern, options)),
+    options && options.selector
+  );
   if (!results.length) {
     return null;
   }
@@ -57,7 +82,10 @@ export function queryByText(
 export function queryAllByText(
   container: ReactTestInstance,
   pattern: TextMatchPattern,
-  options?: TextMatchOptions
+  options?: TextMatchOptions & SelectorOptions
 ) {
-  return container.findAll(matcher(pattern, options));
+  return findParentsWithType(
+    container.findAll(matcher(pattern, options)),
+    options && options.selector
+  );
 }

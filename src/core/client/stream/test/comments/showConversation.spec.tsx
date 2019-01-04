@@ -1,8 +1,11 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { comments, settings, storyWithDeepestReplies } from "../fixtures";
 import create from "./create";
@@ -39,29 +42,28 @@ beforeEach(() => {
   }));
 });
 
-it("renders comment stream", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+it("renders deepest comment with link", async () => {
+  const streamLog = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+  const deepestReply = within(streamLog).getByTestID(
+    "comment-comment-with-deepest-replies-5"
+  );
+  expect(within(deepestReply).toJSON()).toMatchSnapshot();
 });
 
 it("shows conversation", async () => {
   const mockEvent = {
     preventDefault: sinon.mock().once(),
   };
-
-  // Wait for loading.
-  await timeout();
-
-  testRenderer.root
-    .findByProps({
-      id:
-        "comments-commentContainer-showConversation-comment-with-deepest-replies-5",
-    })
+  const streamLog = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+  within(streamLog)
+    .getByText("Read More of this Conversation", { exact: false })
     .props.onClick(mockEvent);
 
-  // Wait for loading.
-  await timeout();
-
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  await waitForElement(() =>
+    within(testRenderer.root).getByText("SINGLE CONVERSATION")
+  );
 });

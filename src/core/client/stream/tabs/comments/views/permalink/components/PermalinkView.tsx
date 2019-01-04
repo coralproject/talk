@@ -51,7 +51,6 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
         {showAllCommentsHref && (
           <Localized id="comments-permalinkView-viewFullDiscussion">
             <Button
-              id="talk-comments-permalinkView-viewFullDiscussion"
               variant="underlined"
               color="primary"
               onClick={onShowAllComments}

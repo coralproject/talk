@@ -1,8 +1,11 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { settings, storyWithDeepReplies } from "../fixtures";
 import create from "./create";
@@ -32,8 +35,11 @@ beforeEach(() => {
   }));
 });
 
-it("renders comment stream", async () => {
+it("renders reply list", async () => {
+  const commentID = storyWithDeepReplies.comments.edges[1].node.id;
+  const commentReplyList = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`commentReplyList-${commentID}`)
+  );
   // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(within(commentReplyList).toJSON()).toMatchSnapshot();
 });

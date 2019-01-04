@@ -13,7 +13,6 @@ import Username from "./Username";
 import styles from "./Comment.css";
 
 export interface CommentProps {
-  id?: string;
   className?: string;
   username: string | null;
   body: string | null;
@@ -31,7 +30,7 @@ const Comment: StatelessComponent<CommentProps> = props => {
       role="article"
       className={cn(styles.root, { [styles.highlight]: props.highlight })}
     >
-      <Flex direction="row" justifyContent="space-between" id={props.id}>
+      <Flex direction="row" justifyContent="space-between">
         <TopBarLeft>
           {props.username && <Username>{props.username}</Username>}
           <Flex direction="row" alignItems="baseline" itemGutter>

@@ -1,8 +1,11 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { comments, settings, stories } from "../fixtures";
 import create from "./create";
@@ -54,9 +57,10 @@ beforeEach(() => {
 });
 
 it("renders permalink view with unknown comment", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  const tabPane = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("current-tab-pane")
+  );
+  expect(within(tabPane).toJSON()).toMatchSnapshot();
 });
 
 it("show all comments", async () => {
@@ -64,12 +68,16 @@ it("show all comments", async () => {
     preventDefault: sinon.mock().once(),
   };
 
-  testRenderer.root
-    .findByProps({
-      id: "talk-comments-permalinkView-viewFullDiscussion",
-    })
+  const tabPane = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("current-tab-pane")
+  );
+
+  within(tabPane)
+    .getByText("View Full Discussion")
     .props.onClick(mockEvent);
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+
+  await waitForElement(() =>
+    within(tabPane).getByTestID("comments-stream-log")
+  );
   mockEvent.preventDefault.verify();
 });

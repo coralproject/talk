@@ -19,10 +19,10 @@ const App: StatelessComponent<AppProps> = props => {
     <HorizontalGutter className={styles.root}>
       <TabBarQuery />
       <TabContent activeTab={props.activeTab} className={styles.tabContent}>
-        <TabPane tabId="COMMENTS">
+        <TabPane tabId="COMMENTS" data-testid="current-tab-pane">
           <CommentsPaneContainer />
         </TabPane>
-        <TabPane tabId="PROFILE">
+        <TabPane tabId="PROFILE" data-testid="current-tab-pane">
           <ProfileQuery />
         </TabPane>
       </TabContent>

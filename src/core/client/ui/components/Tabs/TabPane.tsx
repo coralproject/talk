@@ -12,9 +12,10 @@ export interface TabBarProps {
 }
 
 const TabPane: StatelessComponent<TabBarProps> = props => {
-  const { className, children, tabId } = props;
+  const { className, children, tabId, ...rest } = props;
   return (
     <section
+      {...rest}
       className={className}
       key={tabId}
       id={`tabPane-${tabId}`}

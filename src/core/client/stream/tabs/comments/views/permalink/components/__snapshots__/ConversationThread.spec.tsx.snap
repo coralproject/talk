@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with no parent comments 1`] = `
+<div
+  className="root ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
+>
+  <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+    comment={Object {}}
+    highlight={true}
+    me={Object {}}
+    settings={Object {}}
+    story={Object {}}
+  />
+</div>
+`;
+
+exports[`with 2 remaining parent comments renders correctly 1`] = `
+<div
+  className="root ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
+>
+  <withPropsOnChange(HorizontalGutter)
+    container={
+      <Line
+        dotted={true}
+      />
+    }
+  >
+    <Circle>
+      <RootParent
+        createdAt="1995-12-17T03:24:00.000Z"
+        id="root-parent"
+        username="parentAuthor"
+      />
+    </Circle>
+    <Circle
+      className="ConversationThread-loadMore"
+      hollow={true}
+    >
+      <withPropsOnChange(Flex)
+        alignItems="center"
+        itemGutter="half"
+      >
+        <Localized
+          $count={2}
+          id="comments-conversationThread-showHiddenComments"
+        >
+          <withPropsOnChange(Button)
+            disabled={false}
+            id="comments-conversationThread-showHiddenComments"
+            onClick={[Function]}
+            variant="underlined"
+          >
+            Show hidden comments
+          </withPropsOnChange(Button)>
+        </Localized>
+        <withPropsOnChange(Counter)>
+          2
+        </withPropsOnChange(Counter)>
+      </withPropsOnChange(Flex)>
+    </Circle>
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
+    container={[Function]}
+  >
+    <Circle
+      end={true}
+    >
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        comment={Object {}}
+        highlight={true}
+        me={Object {}}
+        settings={Object {}}
+        story={Object {}}
+      />
+    </Circle>
+  </withPropsOnChange(HorizontalGutter)>
+</div>
+`;
+
+exports[`with 2 remaining parent comments renders with disabled load more 1`] = `
+<div
+  className="root ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
+>
+  <withPropsOnChange(HorizontalGutter)
+    container={
+      <Line
+        dotted={true}
+      />
+    }
+  >
+    <Circle>
+      <RootParent
+        createdAt="1995-12-17T03:24:00.000Z"
+        id="root-parent"
+        username="parentAuthor"
+      />
+    </Circle>
+    <Circle
+      className="ConversationThread-loadMore"
+      hollow={true}
+    >
+      <withPropsOnChange(Flex)
+        alignItems="center"
+        itemGutter="half"
+      >
+        <Localized
+          $count={2}
+          id="comments-conversationThread-showHiddenComments"
+        >
+          <withPropsOnChange(Button)
+            disabled={true}
+            id="comments-conversationThread-showHiddenComments"
+            onClick={[Function]}
+            variant="underlined"
+          >
+            Show hidden comments
+          </withPropsOnChange(Button)>
+        </Localized>
+        <withPropsOnChange(Counter)>
+          2
+        </withPropsOnChange(Counter)>
+      </withPropsOnChange(Flex)>
+    </Circle>
+  </withPropsOnChange(HorizontalGutter)>
+  <withPropsOnChange(HorizontalGutter)
+    container={[Function]}
+  >
+    <Circle
+      end={true}
+    >
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        comment={Object {}}
+        highlight={true}
+        me={Object {}}
+        settings={Object {}}
+        story={Object {}}
+      />
+    </Circle>
+  </withPropsOnChange(HorizontalGutter)>
+</div>
+`;

@@ -49,6 +49,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
       </HorizontalGutter>
       <HorizontalGutter
         id="talk-comments-stream-log"
+        data-testid="comments-stream-log"
         role="log"
         aria-live="polite"
       >

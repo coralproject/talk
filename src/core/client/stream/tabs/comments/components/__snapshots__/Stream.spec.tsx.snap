@@ -23,6 +23,7 @@ exports[`renders correctly 1`] = `
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
+    data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >
@@ -149,6 +150,7 @@ exports[`when there is more disables load more button 1`] = `
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
+    data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >
@@ -289,6 +291,7 @@ exports[`when there is more renders a load more button 1`] = `
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
+    data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >
@@ -431,6 +434,7 @@ exports[`when use is logged in renders correctly 1`] = `
   </withPropsOnChange(HorizontalGutter)>
   <withPropsOnChange(HorizontalGutter)
     aria-live="polite"
+    data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >

@@ -7,7 +7,6 @@ exports[`renders username and body 1`] = `
 >
   <withPropsOnChange(Flex)
     direction="row"
-    id="comment-id"
     justifyContent="space-between"
   >
     <TopBarLeft>

@@ -18,7 +18,7 @@ interface CommentHistoryProps {
 
 const CommentHistory: StatelessComponent<CommentHistoryProps> = props => {
   return (
-    <HorizontalGutter size="double">
+    <HorizontalGutter size="double" data-testid="profile-commentHistory">
       <Localized id="profile-historyComment-commentHistory">
         <Typography variant="heading3">Comment History</Typography>
       </Localized>

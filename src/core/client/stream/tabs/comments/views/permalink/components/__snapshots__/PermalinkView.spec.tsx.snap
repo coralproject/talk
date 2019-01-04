@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders comment not found 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  className="PermalinkView-root"
+  size="double"
+>
+  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+    me={Object {}}
+    settings={Object {}}
+  />
+  <withPropsOnChange(Flex)
+    alignItems="center"
+    direction="column"
+    justifyContent="center"
+  >
+    <Localized
+      id="comments-permalinkView-currentViewing"
+    >
+      <withPropsOnChange(Typography)
+        className="PermalinkView-title1"
+      >
+        You are currently viewing a
+      </withPropsOnChange(Typography)>
+    </Localized>
+    <Localized
+      id="comments-permalinkView-singleConversation"
+    >
+      <withPropsOnChange(Typography)
+        className="PermalinkView-title2"
+      >
+        SINGLE CONVERSATION
+      </withPropsOnChange(Typography)>
+    </Localized>
+    <Localized
+      id="comments-permalinkView-viewFullDiscussion"
+    >
+      <withPropsOnChange(Button)
+        anchor={true}
+        color="primary"
+        href="http://localhost/link"
+        onClick={[Function]}
+        target="_parent"
+        variant="underlined"
+      >
+        View Full Discussion
+      </withPropsOnChange(Button)>
+    </Localized>
+  </withPropsOnChange(Flex)>
+  <Localized
+    id="comments-permalinkView-commentNotFound"
+  >
+    <withPropsOnChange(Typography)>
+      Comment not found
+    </withPropsOnChange(Typography)>
+  </Localized>
+</withPropsOnChange(HorizontalGutter)>
+`;
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  className="PermalinkView-root"
+  size="double"
+>
+  <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
+    me={Object {}}
+    settings={Object {}}
+  />
+  <withPropsOnChange(Flex)
+    alignItems="center"
+    direction="column"
+    justifyContent="center"
+  >
+    <Localized
+      id="comments-permalinkView-currentViewing"
+    >
+      <withPropsOnChange(Typography)
+        className="PermalinkView-title1"
+      >
+        You are currently viewing a
+      </withPropsOnChange(Typography)>
+    </Localized>
+    <Localized
+      id="comments-permalinkView-singleConversation"
+    >
+      <withPropsOnChange(Typography)
+        className="PermalinkView-title2"
+      >
+        SINGLE CONVERSATION
+      </withPropsOnChange(Typography)>
+    </Localized>
+    <Localized
+      id="comments-permalinkView-viewFullDiscussion"
+    >
+      <withPropsOnChange(Button)
+        anchor={true}
+        color="primary"
+        href="http://localhost/link"
+        onClick={[Function]}
+        target="_parent"
+        variant="underlined"
+      >
+        View Full Discussion
+      </withPropsOnChange(Button)>
+    </Localized>
+  </withPropsOnChange(Flex)>
+  <withPropsOnChange(HorizontalGutter)>
+    <withContext(withContext(createMutationContainer(Relay(ConversationThreadContainer))))
+      comment={Object {}}
+      me={Object {}}
+      settings={Object {}}
+      story={Object {}}
+    />
+    <div
+      className="PermalinkView-replyList"
+    >
+      <withProps(Relay(ReplyListContainer))
+        comment={Object {}}
+        me={Object {}}
+        settings={Object {}}
+        story={Object {}}
+      />
+    </div>
+  </withPropsOnChange(HorizontalGutter)>
+</withPropsOnChange(HorizontalGutter)>
+`;

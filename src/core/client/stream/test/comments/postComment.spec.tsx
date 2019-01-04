@@ -2,8 +2,11 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { baseComment, settings, stories, users } from "../fixtures";
 import create from "./create";
@@ -62,15 +65,11 @@ beforeEach(() => {
   }));
 });
 
-it("renders comment stream", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
-});
-
 it("post a comment", async () => {
-  // Wait for loading.
-  await timeout();
+  const tabPane = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("current-tab-pane")
+  );
+
   testRenderer.root
     .findByProps({ inputId: "comments-postCommentForm-field" })
     .props.onChange({ html: "<strong>Hello world!</strong>" });
@@ -84,11 +83,14 @@ it("post a comment", async () => {
   timekeeper.reset();
 
   // Test optimistic response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("optimistic response");
+  expect(
+    within(within(tabPane).queryAllByTestID(/^comment-/)[0]).toJSON()
+  ).toMatchSnapshot("optimistic response");
 
-  // Wait for loading.
-  await timeout();
-
-  // Test after server response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("server response");
+  // Test for server response.
+  await waitForElement(() =>
+    within(within(tabPane).queryAllByTestID(/^comment-/)[0]).getByText(
+      "<strong>Hello world! (from server)</strong>"
+    )
+  );
 });

@@ -1,8 +1,7 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-
+import { waitForElement, within } from "talk-framework/testHelpers";
 import create from "talk-stream/test/comments/create";
 import { settings } from "talk-stream/test/fixtures";
 
@@ -28,7 +27,8 @@ beforeEach(() => {
 });
 
 it("renders permalink view with unknown story", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  const tabPane = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("current-tab-pane")
+  );
+  expect(within(tabPane).toJSON()).toMatchSnapshot();
 });

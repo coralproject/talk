@@ -1,8 +1,11 @@
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { settings, stories, users } from "../fixtures";
 import create from "./create";
@@ -67,75 +70,90 @@ afterAll(() => {
 });
 
 it("edit a comment", async () => {
-  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
+  const commentData = stories[0].comments.edges[0].node;
+  timekeeper.freeze(commentData.createdAt);
   const testRenderer = createTestRenderer();
 
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot("render stream");
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${commentData.id}`)
+  );
+  expect(within(comment).toJSON()).toMatchSnapshot(
+    "render comment with edit button"
+  );
 
   // Open edit form.
-  testRenderer.root
-    .findByProps({ id: "comments-commentContainer-editButton-comment-0" })
+  within(comment)
+    .getByText("Edit")
     .props.onClick();
-  expect(testRenderer.toJSON()).toMatchSnapshot("edit form");
+  expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
   testRenderer.root
-    .findByProps({ inputId: "comments-editCommentForm-rte-comment-0" })
+    .findByProps({ inputId: `comments-editCommentForm-rte-${commentData.id}` })
     .props.onChange({ html: "Edited!" });
 
-  testRenderer.root
-    .findByProps({ id: "comments-editCommentForm-form-comment-0" })
+  within(comment)
+    .getByType("form")
     .props.onSubmit();
 
   // Test optimistic response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("optimistic response");
+  expect(within(comment).toJSON()).toMatchSnapshot("optimistic response");
 
-  // Wait for loading.
-  await timeout();
+  // Wait for server response.
+  await waitForElement(() =>
+    within(comment).getByText("Edited! (from server)")
+  );
 
   // Test after server response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("server response");
+  expect(within(comment).toJSON()).toMatchSnapshot("server response");
 });
 
 it("cancel edit", async () => {
-  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
+  const commentData = stories[0].comments.edges[0].node;
+  timekeeper.freeze(commentData.createdAt);
   const testRenderer = createTestRenderer();
 
-  await timeout();
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${commentData.id}`)
+  );
 
   // Open edit form.
-  testRenderer.root
-    .findByProps({ id: "comments-commentContainer-editButton-comment-0" })
+  within(comment)
+    .getByText("Edit")
     .props.onClick();
 
   // Cancel edit form.
-  testRenderer.root
-    .findByProps({ id: "comments-editCommentForm-cancelButton-comment-0" })
+  within(comment)
+    .getByText("Cancel")
     .props.onClick();
-  expect(testRenderer.toJSON()).toMatchSnapshot("edit canceled");
+
+  expect(within(comment).toJSON()).toMatchSnapshot();
 });
 
 it("shows expiry message", async () => {
-  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
+  const commentData = stories[0].comments.edges[0].node;
+  timekeeper.freeze(commentData.createdAt);
   const testRenderer = createTestRenderer();
 
-  await timeout();
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${commentData.id}`)
+  );
+
   jest.useFakeTimers();
+
   // Open edit form.
-  testRenderer.root
-    .findByProps({ id: "comments-commentContainer-editButton-comment-0" })
+  within(comment)
+    .getByText("Edit")
     .props.onClick();
 
   timekeeper.reset();
   jest.runOnlyPendingTimers();
 
   // Show edit time expired.
-  expect(testRenderer.toJSON()).toMatchSnapshot("edit time expired");
+  expect(within(comment).toJSON()).toMatchSnapshot("edit time expired");
 
   // Close edit form.
-  testRenderer.root
-    .findByProps({ id: "comments-editCommentForm-closeButton-comment-0" })
+  within(comment)
+    .getByText("Close")
     .props.onClick();
-  expect(testRenderer.toJSON()).toMatchSnapshot("edit form closed");
+  expect(within(comment).toJSON()).toMatchSnapshot("edit form closed");
 });

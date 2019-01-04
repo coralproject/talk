@@ -1,8 +1,12 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  wait,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { comments, settings, stories } from "../fixtures";
 import create from "./create";
@@ -91,17 +95,33 @@ beforeEach(() => {
 });
 
 it("renders comment stream", async () => {
+  const commentID = comments[0].id;
+  const commentReplyList = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`commentReplyList-${commentID}`)
+  );
   // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(within(commentReplyList).toJSON()).toMatchSnapshot();
 });
 
 it("show all replies", async () => {
-  testRenderer.root
-    .findByProps({ id: `talk-comments-replyList-showAll--${comments[0].id}` })
-    .props.onClick();
+  const commentID = comments[0].id;
+  const commentReplyList = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`commentReplyList-${commentID}`)
+  );
 
+  // Get amount of comments before.
+  const commentsBefore = within(commentReplyList).getAllByTestID(/^comment-/)
+    .length;
+
+  within(commentReplyList)
+    .getByText("Show All")
+    .props.onClick();
   // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  await wait(() =>
+    expect(within(commentReplyList).queryByText("Show All")).toBeNull()
+  );
+
+  expect(within(commentReplyList).getAllByTestID(/^comment-/).length).toBe(
+    commentsBefore + 1
+  );
 });

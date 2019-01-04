@@ -2,6 +2,7 @@
 
 exports[`has more disables load more 1`] = `
 <withPropsOnChange(HorizontalGutter)
+  data-testid="profile-commentHistory"
   size="double"
 >
   <Localized
@@ -48,6 +49,7 @@ exports[`has more disables load more 1`] = `
 
 exports[`has more renders correctly 1`] = `
 <withPropsOnChange(HorizontalGutter)
+  data-testid="profile-commentHistory"
   size="double"
 >
   <Localized
@@ -94,6 +96,7 @@ exports[`has more renders correctly 1`] = `
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(HorizontalGutter)
+  data-testid="profile-commentHistory"
   size="double"
 >
   <Localized
