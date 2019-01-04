@@ -17,7 +17,11 @@ class ReportPopover extends React.Component<InnerProps> {
     const { onClose, onResize, comment } = this.props;
     return (
       <div className={styles.root}>
-        <BaseButton onClick={onClose} className={styles.close}>
+        <BaseButton
+          onClick={onClose}
+          className={styles.close}
+          aria-label="Close Popover"
+        >
           <Icon>close</Icon>
         </BaseButton>
         <ReportCommentFormContainer

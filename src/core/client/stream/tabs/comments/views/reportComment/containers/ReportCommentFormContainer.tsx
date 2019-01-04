@@ -66,6 +66,7 @@ export class ReportCommentFormContainer extends Component<InnerProps, State> {
     if (!this.state.done) {
       return (
         <ReportCommentForm
+          id={this.props.comment.id}
           onSubmit={this.handleOnSubmit}
           onCancel={this.props.onClose}
           onResize={this.props.onResize}

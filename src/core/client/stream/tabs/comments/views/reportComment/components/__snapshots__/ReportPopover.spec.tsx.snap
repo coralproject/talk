@@ -5,6 +5,7 @@ exports[`renders correctly 1`] = `
   className="ReportPopover-root"
 >
   <withPropsOnChange(WithMouseHover)
+    aria-label="Close Popover"
     className="ReportPopover-close"
     onClick={[Function]}
   >

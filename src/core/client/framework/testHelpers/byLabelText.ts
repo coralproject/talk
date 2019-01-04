@@ -62,7 +62,7 @@ export function queryAllByLabelText(
   options?: TextMatchOptions
 ) {
   const matches = container.findAll(ariaLabelMatcher(pattern, options));
-  queryAllByText(container, pattern).forEach(i => {
+  queryAllByText(container, pattern, options).forEach(i => {
     if (typeof i.type !== "string") {
       return;
     }

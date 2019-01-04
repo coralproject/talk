@@ -26,6 +26,7 @@ const RadioField: StatelessComponent<
   <Field name={name} type="radio" value={value}>
     {({ input }) => (
       <RadioButton
+        id={`reportComment-popover--${input.name}-${value}`}
         name={input.name}
         onChange={input.onChange}
         onFocus={input.onFocus}
@@ -41,6 +42,7 @@ const RadioField: StatelessComponent<
 );
 
 interface InnerProps {
+  id: string;
   onCancel: () => void;
   onResize: () => void;
   onSubmit: OnSubmit<FormProps>;
@@ -57,7 +59,7 @@ export interface FormProps {
 
 class ReportCommentForm extends React.Component<InnerProps> {
   public render() {
-    const { onCancel, onSubmit, onResize } = this.props;
+    const { onCancel, onSubmit, onResize, id } = this.props;
     return (
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitting, hasValidationErrors, form }) => (
@@ -129,7 +131,15 @@ class ReportCommentForm extends React.Component<InnerProps> {
                 {get(form.getFieldState("reason"), "value") && (
                   <>
                     <Localized id="comments-reportPopover-pleaseLeaveAdditionalInformation">
-                      <Typography variant="detail" className={styles.detail}>
+                      <Typography
+                        variant="detail"
+                        className={styles.detail}
+                        container={
+                          <label
+                            htmlFor={`comments-reportCommentForm-aditionalDetails--${id}`}
+                          />
+                        }
+                      >
                         Please leave any additional information that may be
                         helpful to our moderators. (Optional)
                       </Typography>
@@ -142,6 +152,7 @@ class ReportCommentForm extends React.Component<InnerProps> {
                         {({ input, meta }) => (
                           <div>
                             <textarea
+                              id={`comments-reportCommentForm-aditionalDetails--${id}`}
                               className={styles.textarea}
                               onChange={input.onChange}
                               onFocus={input.onFocus}

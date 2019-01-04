@@ -1,10 +1,6 @@
 import sinon from "sinon";
 
-import {
-  createSinonStub,
-  waitForElement,
-  within,
-} from "talk-framework/testHelpers";
+import { waitForElement, within } from "talk-framework/testHelpers";
 
 import { settings, stories, users } from "../fixtures";
 import create from "./create";
@@ -12,59 +8,48 @@ import create from "./create";
 function createTestRenderer() {
   const resolvers = {
     Query: {
-      story: createSinonStub(
-        s => s.throws(),
-        s =>
-          s
-            .withArgs(undefined, { id: stories[0].id, url: null })
-            .returns(stories[0])
-      ),
+      story: sinon.stub().callsFake((_: any, data: any) => {
+        expect(data).toEqual({
+          id: stories[0].id,
+          url: null,
+        });
+        return stories[0];
+      }),
       me: sinon.stub().returns(users[0]),
       settings: sinon.stub().returns(settings),
     },
     Mutation: {
-      createCommentReaction: createSinonStub(
-        s => s.throws(),
-        s =>
-          s
-            .withArgs(undefined, {
-              input: {
-                commentID: stories[0].comments.edges[0].node.id,
-                commentRevisionID:
-                  stories[0].comments.edges[0].node.revision.id,
-                clientMutationId: "0",
-              },
-            })
-            .returns({
-              comment: {
-                id: stories[0].comments.edges[0].node.id,
-                revision: { id: stories[0].comments.edges[0].node.revision.id },
-                myActionPresence: { reaction: true },
-                actionCounts: { reaction: { total: 1 } },
-              },
-              clientMutationId: "0",
-            })
-      ),
-      removeCommentReaction: createSinonStub(
-        s => s.throws(),
-        s =>
-          s
-            .withArgs(undefined, {
-              input: {
-                commentID: stories[0].comments.edges[0].node.id,
-                clientMutationId: "0",
-              },
-            })
-            .returns({
-              comment: {
-                id: stories[0].comments.edges[0].node.id,
-                revision: { id: stories[0].comments.edges[0].node.revision.id },
-                myActionPresence: { reaction: false },
-                actionCounts: { reaction: { total: 0 } },
-              },
-              clientMutationId: "0",
-            })
-      ),
+      createCommentReaction: sinon.stub().callsFake((_: any, data: any) => {
+        expect(data.input).toEqual({
+          commentID: stories[0].comments.edges[0].node.id,
+          commentRevisionID: stories[0].comments.edges[0].node.revision.id,
+          clientMutationId: "0",
+        });
+        return {
+          comment: {
+            id: stories[0].comments.edges[0].node.id,
+            revision: { id: stories[0].comments.edges[0].node.revision.id },
+            myActionPresence: { reaction: true },
+            actionCounts: { reaction: { total: 1 } },
+          },
+          clientMutationId: "0",
+        };
+      }),
+      removeCommentReaction: sinon.stub().callsFake((_: any, data: any) => {
+        expect(data.input).toEqual({
+          commentID: stories[0].comments.edges[0].node.id,
+          clientMutationId: "0",
+        });
+        return {
+          comment: {
+            id: stories[0].comments.edges[0].node.id,
+            revision: { id: stories[0].comments.edges[0].node.revision.id },
+            myActionPresence: { reaction: false },
+            actionCounts: { reaction: { total: 0 } },
+          },
+          clientMutationId: "0",
+        };
+      }),
     },
   };
 
