@@ -61,6 +61,9 @@ The generated JWT must contain the following claims:
 - [`iss`](https://tools.ietf.org/html/rfc7519#section-4.1.1): the issuer for the token must match the value of `TALK_JWT_ISSUER`
 - [`aud`](https://tools.ietf.org/html/rfc7519#section-4.1.3): the audience for the token must match the value of `TALK_JWT_AUDIENCE`
 
+### Generate a key to sign the JWT
+Optionally you can use https://github.com/coralproject/coralcert to generate a key with which to sign the JWTs and specify the secret as an environment variable. 
+
 ### Push token into embed
 
 We're assuming that your CMS is capable of authenticating a user account, or 
