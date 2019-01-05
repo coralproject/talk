@@ -6,7 +6,13 @@ import Main from "talk-auth/components/Main";
 import OrSeparator from "talk-auth/components/OrSeparator";
 import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
 import { PropTypesOf } from "talk-framework/types";
-import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
+import {
+  Button,
+  CallOut,
+  Flex,
+  HorizontalGutter,
+  Typography,
+} from "talk-ui/components";
 
 import SignInWithEmailContainer from "../containers/SignInWithEmailContainer";
 import SignInWithFacebookContainer from "../containers/SignInWithFacebookContainer";
@@ -14,6 +20,7 @@ import SignInWithGoogleContainer from "../containers/SignInWithGoogleContainer";
 import SignInWithOIDCContainer from "../containers/SignInWithOIDCContainer";
 
 export interface SignInForm {
+  error: string | null;
   onGotoSignUp: () => void;
   emailEnabled?: boolean;
   facebookEnabled?: boolean;
@@ -31,6 +38,7 @@ const SignIn: StatelessComponent<SignInForm> = ({
   googleEnabled,
   oidcEnabled,
   auth,
+  error,
 }) => {
   const oneClickIntegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
@@ -68,6 +76,11 @@ const SignIn: StatelessComponent<SignInForm> = ({
       </SubBar>
       <Main data-testid="signIn-main">
         <HorizontalGutter size="oneAndAHalf">
+          {error && (
+            <CallOut color="error" fullWidth>
+              {error}
+            </CallOut>
+          )}
           {emailEnabled && <SignInWithEmailContainer />}
           {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
           <HorizontalGutter>

@@ -44,6 +44,15 @@ it("get auth token from url", async () => {
     `http://localhost/#accessToken=${createAuthToken()}`
   );
   await initLocalState(environment, context as any);
-  expect(JSON.stringify(source.toJSON(), null, 2)).toMatchSnapshot();
+  expect(JSON.stringify(source.get(LOCAL_ID), null, 2)).toMatchSnapshot();
+  restoreHistoryLocation();
+});
+
+it("get error from url", async () => {
+  const restoreHistoryLocation = replaceHistoryLocation(
+    `http://localhost/#error=error`
+  );
+  await initLocalState(environment, context as any);
+  expect(source.get(LOCAL_ID)!.error).toBe("error");
   restoreHistoryLocation();
 });

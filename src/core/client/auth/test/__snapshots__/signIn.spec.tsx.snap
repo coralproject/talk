@@ -831,6 +831,181 @@ exports[`renders sign in view 1`] = `
 </div>
 `;
 
+exports[`renders sign in view with error 1`] = `
+<div
+  data-testid="signIn-container"
+>
+  <div
+    className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+  >
+    <div>
+      <h1
+        className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+      >
+        Sign In
+      </h1>
+      <h1
+        className="Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
+      >
+        to join the conversation
+      </h1>
+    </div>
+  </div>
+  <div
+    className="Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+  >
+    <div>
+      <div
+        className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+      >
+        <span>
+          Don't have an account? 
+        </span>
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          data-testid="gotoSignUpButton"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="Main-root"
+    data-testid="signIn-main"
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    >
+      <div
+        className="CallOut-root CallOut-colorError CallOut-fullWidth"
+      >
+        Social Login Error
+      </div>
+      <form
+        autoComplete="off"
+        onSubmit={[Function]}
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <label
+              className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              htmlFor="email"
+            >
+              Email Address
+            </label>
+            <input
+              className="TextField-root TextField-colorRegular TextField-fullWidth"
+              disabled={false}
+              id="email"
+              name="email"
+              onChange={[Function]}
+              placeholder="Email Address"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <label
+              className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <div
+              className="PasswordField-fullWidth PasswordField-root"
+            >
+              <div
+                className="PasswordField-wrapper"
+              >
+                <input
+                  className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                  disabled={false}
+                  id="password"
+                  name="password"
+                  onChange={[Function]}
+                  placeholder="Password"
+                  type="password"
+                  value=""
+                />
+                <div
+                  className="PasswordField-icon"
+                  onClick={[Function]}
+                  role="button"
+                  tabIndex={0}
+                  title="Show password"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm"
+                  >
+                    visibility
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="Flex-root Flex-flex Flex-justifyFlexEnd"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+                data-testid="gotoForgotPasswordButton"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Forgot your password?
+              </button>
+            </div>
+          </div>
+          <button
+            className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+            disabled={false}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root ButtonIcon-root Icon-md"
+            >
+              email
+            </span>
+            <span>
+              Sign in with Email
+            </span>
+          </button>
+        </div>
+      </form>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-full"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`shows error when submitting empty form 1`] = `
 <form
   autoComplete="off"

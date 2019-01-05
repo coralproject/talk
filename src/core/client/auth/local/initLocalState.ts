@@ -31,11 +31,6 @@ export default async function initLocalState(
 ) {
   const { error = null, accessToken = null } = getParamsFromHashAndClearIt();
 
-  if (error) {
-    // FIXME: (wyattjoh) replace with actual error handling code.
-    alert(error);
-  }
-
   await initLocalBaseState(environment, context, accessToken);
 
   commitLocalUpdate(environment, s => {
@@ -46,5 +41,8 @@ export default async function initLocalState(
 
     // Set default view.
     localRecord.setValue(query.view || "SIGN_IN", "view");
+
+    // Set error.
+    localRecord.setValue(error, "error");
   });
 }
