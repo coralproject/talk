@@ -149,6 +149,12 @@
   color: white;
 }
 
+.actionsMenuAlwaysPremod {
+  background-color: #F0B50B;
+  border-color: #F0B50B;
+  color: white;
+}
+
 .userDetailItem {
   padding: 2px 0;
 }

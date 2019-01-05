@@ -10,6 +10,7 @@ const {
   SET_USERNAME,
   SET_USER_USERNAME_STATUS,
   SET_USER_BAN_STATUS,
+  SET_USER_ALWAYS_PREMOD_STATUS,
   SET_USER_SUSPENSION_STATUS,
   UPDATE_USER_ROLES,
   DELETE_OTHER_USER,
@@ -29,6 +30,13 @@ const setUserBanStatus = async (ctx, id, status = false, message = null) => {
   const user = await Users.setBanStatus(id, status, ctx.user.id, message);
   if (user.banned) {
     ctx.pubsub.publish('userBanned', user);
+  }
+};
+
+const setUserAlwaysPremodStatus = async (ctx, id, status = false) => {
+  const user = await Users.setAlwaysPremodStatus(id, status, ctx.user.id);
+  if (user.alwaysPremod) {
+    ctx.pubsub.publish('userAlwaysPremod', user);
   }
 };
 
@@ -220,6 +228,7 @@ module.exports = ctx => {
       setRole: () => Promise.reject(new ErrNotAuthorized()),
       setUserBanStatus: () => Promise.reject(new ErrNotAuthorized()),
       setUserSuspensionStatus: () => Promise.reject(new ErrNotAuthorized()),
+      setUserAlwaysPremodStatus: () => Promise.reject(new ErrNotAuthorized()),
       setUserUsernameStatus: () => Promise.reject(new ErrNotAuthorized()),
       setUsername: () => Promise.reject(new ErrNotAuthorized()),
       stopIgnoringUser: () => Promise.reject(new ErrNotAuthorized()),
@@ -254,6 +263,11 @@ module.exports = ctx => {
     if (ctx.user.can(SET_USER_BAN_STATUS)) {
       mutators.User.setUserBanStatus = (id, status, message) =>
         setUserBanStatus(ctx, id, status, message);
+    }
+
+    if (ctx.user.can(SET_USER_ALWAYS_PREMOD_STATUS)) {
+      mutators.User.setUserAlwaysPremodStatus = (id, status) =>
+        setUserAlwaysPremodStatus(ctx, id, status);
     }
 
     if (ctx.user.can(SET_USER_SUSPENSION_STATUS)) {

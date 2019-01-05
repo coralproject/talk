@@ -3,6 +3,13 @@ es:
     sort_comments: 'Ordenar comentarios'
     view_options: 'Ver opciones'
   already_flagged_username: 'Usted ya reportó a este usuario.'
+  alwayspremoddialog:
+    are_you_sure: '¿Estás seguro que quieres pre-moderar a {0}?'
+    always_premod_user: '¿Pre-moderar al Usuario?'
+    cancel: Cancelar
+    note: 'Nota: {0}'
+    note_always_premod_user: 'Pre-moderar a un usuario pondrá todos sus comentarios en la fila de Pre-Moderación.'
+    yes_always_premod_user: 'Sí, pre-moderar al usuario.'
   bandialog:
     are_you_sure: '¿Estás seguro que quieres suspender a {0}?'
     ban_user: '¿Quieres suspender al Usuario?'
@@ -62,6 +69,7 @@ es:
     admin: Administrator
     ads_marketing: 'Esto parece ser un publicidad/acción de comercialización'
     all: 'Todos'
+    always_premod: 'Pre-moderado'
     are_you_sure: '¿Estás seguro que quieres suspender a {0}?'
     ban_user: '¿Quieres suspender al Usuario?'
     banned: Suspendido
@@ -355,6 +363,7 @@ es:
     actions: Acciones
     all: todos
     all_streams: 'Todos los Hilos'
+    always_premod_user_actions: 'Siempre Pre-moderar Usuario'
     approve: Aprobar
     approved: Aprobado
     ban_user: Bloquear
@@ -486,12 +495,15 @@ es:
     username_flags: 'reportes para este nombre de usuario'
   user_detail:
     all: Todos
+    always_premod: 'Siempre pre-moderar usuario'
+    always_premoded: 'Siempre pre-moderado'
     ban: 'Bloquear usuario'
     banned: Baneado
     email: 'Correo electrónico'
     member_since: 'Miembro desde'
     reject_rate: 'Promedio de rechazo'
     rejected: Rechazado
+    remove_always_premod: 'Cancelar siempre pre-moderar'
     remove_ban: 'Cancelar bloqueo'
     remove_suspension: 'Cancelar suspensión'
     suspend: 'Suspender usuario'
@@ -503,12 +515,14 @@ es:
     username_rejected: 'Usuario rechazado'
   user_history:
     action: Acción
+    always_premod_removed: 'Siempre pre-moderar cancelado'
     ban_removed: 'Bloqueo cancelado'
     date: Fecha
     suspended: 'Suspendido, {0}'
     suspension_removed: 'Suspensión cancelada'
     system: Sistema
     taken_by: 'Está en uso'
+    user_always_premoded: 'Usuario siempre pre-moderado'
     user_banned: 'Usuario bloqueado'
     username_status: 'Nombre de usuario {0}'
   user_impersonating: 'Este usuario suplanta a alguien'

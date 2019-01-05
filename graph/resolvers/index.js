@@ -3,6 +3,7 @@ const debug = require('debug')('talk:graph:resolvers');
 
 const Action = require('./action');
 const ActionSummary = require('./action_summary');
+const AlwaysPremodStatusHistory = require('./always_premod_status_history');
 const Asset = require('./asset');
 const AssetActionSummary = require('./asset_action_summary');
 const BannedStatusHistory = require('./banned_status_history');
@@ -37,6 +38,7 @@ const plugins = require('../../services/plugins');
 let resolvers = {
   Action,
   ActionSummary,
+  AlwaysPremodStatusHistory,
   Asset,
   AssetActionSummary,
   BannedStatusHistory,
