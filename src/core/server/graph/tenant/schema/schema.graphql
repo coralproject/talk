@@ -826,6 +826,16 @@ type ReactionConfiguration {
 ################################################################################
 
 """
+LOCALES list all the supported locales in a modified BCP 47 format, where the
+hyphen is replaced by an underscore.
+"""
+enum LOCALES {
+  en_US
+  es
+  de
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -840,9 +850,14 @@ type Settings {
   domain: String! @auth(roles: [ADMIN])
 
   """
-  domains will return a given list of whitelisted domains.
+  domains will return a given list of permitted domains.
   """
   domains: [String!] @auth(roles: [ADMIN])
+
+  """
+  locale is the specified locale for this Tenant.
+  """
+  locale: LOCALES!
 
   """
   moderation is the moderation mode for all Stories on the site.

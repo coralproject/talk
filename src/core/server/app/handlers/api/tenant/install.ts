@@ -5,6 +5,7 @@ import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
 import { validate } from "talk-server/app/request/body";
+import { LOCALES } from "talk-server/graph/tenant/resolvers/LOCALES";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
 import { install, InstallTenant } from "talk-server/services/tenant";
@@ -18,21 +19,27 @@ export interface TenantInstallBody {
 }
 
 const TenantInstallBodySchema = Joi.object().keys({
-  tenant: Joi.object().keys({
-    organizationName: Joi.string().trim(),
-    organizationURL: Joi.string()
-      .trim()
-      .uri(),
-    organizationContactEmail: Joi.string()
-      .trim()
-      .lowercase()
-      .email(),
-    domains: Joi.array().items(
-      Joi.string()
+  tenant: Joi.object()
+    .keys({
+      organizationName: Joi.string().trim(),
+      organizationURL: Joi.string()
         .trim()
-        .uri()
-    ),
-  }),
+        .uri(),
+      organizationContactEmail: Joi.string()
+        .trim()
+        .lowercase()
+        .email(),
+      domains: Joi.array().items(
+        Joi.string()
+          .trim()
+          .uri()
+      ),
+      // NOTE: (wyattjoh) ensure that this default is always in the BCP 47 format
+      locale: Joi.string()
+        .default("en-US")
+        .valid(Object.values(LOCALES)),
+    })
+    .optionalKeys("locale"),
   user: Joi.object().keys({
     username: Joi.string().trim(),
     password: Joi.string(),

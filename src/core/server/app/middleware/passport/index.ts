@@ -16,9 +16,9 @@ import { Config } from "talk-server/config";
 import logger from "talk-server/logger";
 import { User } from "talk-server/models/user";
 import {
-  blacklistJWT,
   extractJWTFromRequest,
   JWTSigningConfig,
+  revokeJWT,
   SigningTokenOptions,
   signTokenString,
 } from "talk-server/services/jwt";
@@ -97,8 +97,8 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   const validFor = exp - Date.now() / 1000;
   if (validFor > 0) {
     // Invalidate the token, the expiry is in the future and it needs to be
-    // blacklisted.
-    await blacklistJWT(redis, jti, validFor);
+    // revoked.
+    await revokeJWT(redis, jti, validFor);
   }
 
   return res.sendStatus(204);

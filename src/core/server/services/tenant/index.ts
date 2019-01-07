@@ -54,16 +54,15 @@ export async function install(
 
   // TODO: (wyattjoh) setup database indexes.
 
+  logger.info({ tenant: input }, "installing tenant");
+
   // Create the Tenant.
   const tenant = await createTenant(mongo, input);
 
   // Update the tenant cache.
   await cache.update(redis, tenant);
 
-  logger.info(
-    { tenantID: tenant.id, tenantDomain: tenant.domain },
-    "a tenant has been installed"
-  );
+  logger.info({ tenant }, "a tenant has been installed");
 
   return tenant;
 }
