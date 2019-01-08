@@ -26,6 +26,9 @@ Plugins are available for the following 3rd party authentication providers:
 * [Facebook](/talk/plugin/talk-plugin-facebook-auth/)
 * [Google](/talk/plugin/talk-plugin-google-auth/) 
 
+_FAQ: Can I create a Twitter auth plugin?_ 
+This is currently not possible because Talk uses passport.js which does not support Twitter's oAuth2 requirements.
+
 ## Custom Token Integration 
 
 You can integrate Talk with any authentication service to enable single sign-on
