@@ -67,9 +67,9 @@ External plugins can be resolved by running:
 This achieves two things:
 
 1. It will traverse into local plugin folders and install their dependencies.
-  _Note that if the plugin is already installed and available in the
+  __Note that if the plugin is already installed and available in the
   node_modules folder, it will not be fetched again unless there is a version
-  mismatch._ This will result in the project `package.json` and `yarn.lock`
+  mismatch.__ This will result in the project `package.json` and `yarn.lock`
   files to be modified, this is normal as this ensures that repeated deployments
   (with the same config) will have the same config, these changes should not be
   committed to source control.
