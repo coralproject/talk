@@ -41,6 +41,8 @@ https://docs.coralproject.net/talk/plugins-directory/?q=notifications
 * When user changes username, sends confirmation
 * When a user is banned or suspended
 
+_NOTE: Users can not opt-out of User Profile Notifications_
+
 #### Type: GDPR Notifications (optional)
 `talk-plugin-profile-data:`
 * When my comment history is ready for download (only one link can be generated every 7 days, and the link is valid for 24 hours)
