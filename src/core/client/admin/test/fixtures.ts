@@ -39,6 +39,7 @@ export const settings = {
         clientID: "",
         clientSecret: "",
         callbackURL: "http://localhost/google/callback",
+        redirectURL: "http://localhost/google",
       },
       facebook: {
         enabled: false,
@@ -50,6 +51,7 @@ export const settings = {
         clientID: "",
         clientSecret: "",
         callbackURL: "http://localhost/facebook/callback",
+        redirectURL: "http://localhost/facebook",
       },
       oidc: {
         enabled: false,
@@ -58,7 +60,74 @@ export const settings = {
           admin: true,
           stream: true,
         },
+        name: "OIDC",
         callbackURL: "http://localhost/oidc/callback",
+        redirectURL: "http://localhost/oidc",
+      },
+    },
+  },
+};
+
+export const settingsWithEmptyAuth = {
+  ...settings,
+  id: "settings",
+  auth: {
+    displayName: {
+      enabled: false,
+    },
+    integrations: {
+      local: {
+        enabled: true,
+        allowRegistration: true,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+      },
+      sso: {
+        enabled: false,
+        allowRegistration: true,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+        key: null,
+        keyGeneratedAt: null,
+      },
+      google: {
+        enabled: false,
+        allowRegistration: true,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+        clientID: "",
+        clientSecret: "",
+        callbackURL: "http://localhost/google/callback",
+        redirectURL: "http://localhost/google",
+      },
+      facebook: {
+        enabled: false,
+        allowRegistration: true,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+        clientID: "",
+        clientSecret: "",
+        callbackURL: "http://localhost/facebook/callback",
+        redirectURL: "http://localhost/facebook",
+      },
+      oidc: {
+        enabled: false,
+        allowRegistration: false,
+        targetFilter: {
+          admin: true,
+          stream: true,
+        },
+        name: "",
+        callbackURL: "http://localhost/oidc/callback",
+        redirectURL: "http://localhost/oidc",
       },
     },
   },
@@ -151,14 +220,23 @@ export const users = [
   {
     id: "user-0",
     username: "Markus",
+    email: "markus@test.com",
+    role: "ADMIN",
+    profiles: [{ __typename: "LocalProfile" }],
   },
   {
     id: "user-1",
     username: "Lukas",
+    email: "lukas@test.com",
+    role: "ADMIN",
+    profiles: [{ __typename: "LocalProfile" }],
   },
   {
     id: "user-2",
     username: "Isabelle",
+    email: "isabelle@test.com",
+    role: "ADMIN",
+    profiles: [{ __typename: "LocalProfile" }],
   },
 ];
 

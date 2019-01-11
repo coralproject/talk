@@ -3,20 +3,16 @@
 exports[`renders correctly 1`] = `
 <withPropsOnChange(Flex)
   alignItems="center"
-  className="OrSeparator-root"
+  className="HorizontalSeparator-root"
   justifyContent="center"
 >
   <hr
-    className="OrSeparator-hr"
+    className="HorizontalSeparator-hr"
   />
-  <Localized
-    id="general-orSeparator"
+  <div
+    className="HorizontalSeparator-text"
   >
-    <div
-      className="OrSeparator-text"
-    >
-      Or
-    </div>
-  </Localized>
+    Or
+  </div>
 </withPropsOnChange(Flex)>
 `;

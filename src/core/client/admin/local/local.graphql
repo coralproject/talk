@@ -3,6 +3,13 @@ type Network {
   isOffline: Boolean!
 }
 
+enum View {
+  SIGN_IN
+  CREATE_USERNAME
+  CREATE_PASSWORD
+  ADD_EMAIL_ADDRESS
+}
+
 type Local {
   network: Network!
   authToken: String
@@ -10,6 +17,8 @@ type Local {
   authJTI: String
   loggedIn: Boolean!
   redirectPath: String
+  authView: View
+  authError: String
 }
 
 extend type Query {

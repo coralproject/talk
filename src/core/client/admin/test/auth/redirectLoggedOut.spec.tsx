@@ -1,17 +1,16 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
-import { replaceHistoryLocation } from "talk-framework/testHelpers";
+import { replaceHistoryLocation, wait } from "talk-framework/testHelpers";
 
-import create from "./create";
+import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
   settings,
-} from "./fixtures";
+} from "../fixtures";
 
 function createTestRenderer(): {
   testRenderer: ReactTestRenderer;
@@ -38,12 +37,13 @@ function createTestRenderer(): {
 
 it("redirect when not logged in", async () => {
   const { context } = createTestRenderer();
-  await timeout();
-  expect(
-    context.relayEnvironment
-      .getStore()
-      .getSource()
-      .get(LOCAL_ID)!.redirectPath
-  ).toBe("/admin/moderate/reported");
-  expect(window.location.toString()).toBe("http://localhost/admin/login");
+  await wait(() => {
+    expect(
+      context.relayEnvironment
+        .getStore()
+        .getSource()
+        .get(LOCAL_ID)!.redirectPath
+    ).toBe("/admin/moderate/reported");
+    expect(window.location.toString()).toBe("http://localhost/admin/login");
+  });
 });

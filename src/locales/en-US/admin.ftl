@@ -13,19 +13,24 @@ navigation-signOutButton = Sign Out
 
 ## Login
 
-login-login-signInTo = Sign in to
-login-login-enterAccountDetailsBelow = Enter your account details below
+# Sign In
+login-signInTo = Sign in to
+login-signIn-enterAccountDetailsBelow = Enter your account details below
 
-login-signIn-emailAddressLabel = Email Address
-login-signIn-emailAddressTextField =
+login-emailAddressLabel = Email Address
+login-emailAddressTextField =
   .placeholder = Email Address
 
 login-signIn-passwordLabel = Password
 login-signIn-passwordTextField =
   .placeholder = Password
 
-login-signIn-signIn = Sign in
+login-signIn-signInWithEmail = Sign in with Email
+login-signIn-orSeparator = Or
 
+login-signInWithFacebook = Sign in with Facebook
+login-signInWithGoogle = Sign in with Google
+login-signInWithOIDC = Sign in with { $name }
 
 ## Configure
 

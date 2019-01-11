@@ -1,21 +1,27 @@
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
 import { LOCAL_ID } from "talk-framework/lib/relay";
-import { replaceHistoryLocation } from "talk-framework/testHelpers";
+import {
+  replaceHistoryLocation,
+  wait,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
-import create from "./create";
+import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
   settings,
-} from "./fixtures";
+  users,
+} from "../fixtures";
 
 const resolvers = {
   Query: {
     settings: sinon.stub().returns(settings),
     moderationQueues: sinon.stub().returns(emptyModerationQueues),
     comments: sinon.stub().returns(emptyRejectedComments),
+    me: sinon.stub().returns(users[0]),
   },
 };
 
@@ -40,17 +46,17 @@ it("logs out", async () => {
     .once()
     .returns({});
 
-  await timeout();
-  testRenderer.root
-    .find(i => i.props.id === "navigation-signOutButton" && i.props.onClick)
-    .props.onClick();
+  const signOutButton = await waitForElement(() =>
+    within(testRenderer.root).getByText("Sign Out")
+  );
+  signOutButton.props.onClick();
 
-  await timeout();
-
-  expect(
-    context.relayEnvironment
-      .getStore()
-      .getSource()
-      .get(LOCAL_ID)!.loggedIn
-  ).toBeFalsy();
+  await wait(() => {
+    expect(
+      context.relayEnvironment
+        .getStore()
+        .getSource()
+        .get(LOCAL_ID)!.loggedIn
+    ).toBeFalsy();
+  });
 });

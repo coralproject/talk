@@ -368,13 +368,13 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </form>
     <div
-      className="Flex-root OrSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Flex-root HorizontalSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <hr
-        className="OrSeparator-hr"
+        className="HorizontalSeparator-hr"
       />
       <div
-        className="OrSeparator-text"
+        className="HorizontalSeparator-text"
       >
         Or
       </div>

@@ -5,11 +5,11 @@ import { get, merge } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AuthContainerQueryResponse } from "talk-admin/__generated__/AuthContainerQuery.graphql";
+import { AuthContainer_auth as AuthData } from "talk-admin/__generated__/AuthContainer_auth.graphql";
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
 import { getMessage } from "talk-framework/lib/i18n";
-import { Delay, Spinner } from "talk-ui/components";
 
+import { withFragmentContainer } from "talk-framework/lib/relay";
 import {
   AddSubmitHook,
   RemoveSubmitHook,
@@ -18,14 +18,15 @@ import {
 } from "../../../submitHook";
 import Auth from "../components/Auth";
 
-interface Props extends AuthContainerQueryResponse {
+interface Props {
   localeBundles: TalkContext["localeBundles"];
   form: FormApi;
   submitting?: boolean;
   addSubmitHook: AddSubmitHook;
+  auth: AuthData;
 }
 
-export default class AuthContainer extends React.Component<Props> {
+class AuthContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
   private initialValues = {};
   private removeSubmitHook: RemoveSubmitHook;
@@ -86,44 +87,32 @@ export default class AuthContainer extends React.Component<Props> {
     return (
       <Auth
         disabled={this.props.submitting}
-        auth={this.props.settings.auth}
+        auth={this.props.auth}
         onInitValues={this.handleOnInitValues}
       />
     );
   }
 }
 
-const enhanced = withSubmitHookContext(addSubmitHook => ({ addSubmitHook }))(
-  withContext(({ localeBundles }) => ({ localeBundles }))(AuthContainer)
-);
-
-AuthContainer.routeConfig = {
-  Component: enhanced,
-  query: graphql`
-    query AuthContainerQuery {
-      settings {
-        auth {
-          ...FacebookConfigContainer_auth
-          ...FacebookConfigContainer_authReadOnly
-          ...GoogleConfigContainer_auth
-          ...GoogleConfigContainer_authReadOnly
-          ...SSOConfigContainer_auth
-          ...SSOConfigContainer_authReadOnly
-          ...LocalAuthConfigContainer_auth
-          ...DisplayNamesConfigContainer_auth
-          ...OIDCConfigContainer_auth
-          ...OIDCConfigContainer_authReadOnly
-        }
-      }
+const enhanced = withFragmentContainer<Props>({
+  auth: graphql`
+    fragment AuthContainer_auth on Auth {
+      ...FacebookConfigContainer_auth
+      ...FacebookConfigContainer_authReadOnly
+      ...GoogleConfigContainer_auth
+      ...GoogleConfigContainer_authReadOnly
+      ...SSOConfigContainer_auth
+      ...SSOConfigContainer_authReadOnly
+      ...LocalAuthConfigContainer_auth
+      ...DisplayNamesConfigContainer_auth
+      ...OIDCConfigContainer_auth
+      ...OIDCConfigContainer_authReadOnly
     }
   `,
-  cacheConfig: { force: true },
-  render: ({ Component, props }) =>
-    props && Component ? (
-      <Component {...props} />
-    ) : (
-      <Delay>
-        <Spinner />
-      </Delay>
-    ),
-};
+})(
+  withSubmitHookContext(addSubmitHook => ({ addSubmitHook }))(
+    withContext(({ localeBundles }) => ({ localeBundles }))(AuthContainer)
+  )
+);
+
+export default enhanced;

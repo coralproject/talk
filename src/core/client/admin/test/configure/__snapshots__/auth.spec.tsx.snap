@@ -1703,6 +1703,7 @@ exports[`renders configure auth 1`] = `
       >
         <div
           className="HorizontalGutter-root HorizontalGutter-double"
+          data-testid="configure-authContainer"
         >
           <div
             className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"

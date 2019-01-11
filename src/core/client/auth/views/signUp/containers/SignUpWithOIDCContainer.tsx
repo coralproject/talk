@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
 import { SignUpWithOIDCContainer_auth as AuthData } from "talk-auth/__generated__/SignUpWithOIDCContainer_auth.graphql";
-import OIDCButton from "talk-auth/components/OIDCButton";
-import { redirectOAuth2 } from "talk-auth/helpers";
+import OIDCButton from "talk-framework/components/OIDCButton";
+import { redirectOAuth2 } from "talk-framework/helpers";
 import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 
 interface Props {

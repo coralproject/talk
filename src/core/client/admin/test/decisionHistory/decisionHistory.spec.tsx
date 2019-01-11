@@ -11,7 +11,7 @@ import {
 } from "talk-framework/testHelpers";
 
 import create from "../create";
-import { moderationActions, settings } from "../fixtures";
+import { moderationActions, settings, users } from "../fixtures";
 
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/configure/auth");
@@ -62,7 +62,7 @@ const createTestRenderer = async (resolver: any = {}) => {
     Query: {
       ...resolver.Query,
       me: sinon.stub().returns({
-        id: "me",
+        ...users[0],
         commentModerationActionHistory,
       }),
       settings: sinon

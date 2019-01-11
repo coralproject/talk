@@ -7,10 +7,12 @@ import {
   inputPredicate,
   limitSnapshotTo,
   replaceHistoryLocation,
+  waitForElement,
+  within,
 } from "talk-framework/testHelpers";
 
 import create from "../create";
-import { settings } from "../fixtures";
+import { settingsWithEmptyAuth, users } from "../fixtures";
 
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/configure/auth");
@@ -23,7 +25,10 @@ const createTestRenderer = async (resolver: any = {}) => {
       ...resolver.Query,
       settings: sinon
         .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
+        .returns(
+          merge({}, settingsWithEmptyAuth, get(resolver, "Query.settings"))
+        ),
+      me: sinon.stub().returns(users[0]),
     },
   };
   const { testRenderer } = create({
@@ -34,24 +39,27 @@ const createTestRenderer = async (resolver: any = {}) => {
       localRecord.setValue(true, "loggedIn");
     },
   });
-  await timeout();
-  return testRenderer;
+  const configureContainer = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("configure-container")
+  );
+  const authContainer = await waitForElement(() =>
+    within(configureContainer).getByTestID("configure-authContainer")
+  );
+  return { testRenderer, configureContainer, authContainer };
 };
 
 it("renders configure auth", async () => {
-  const testRenderer = await createTestRenderer();
-  expect(
-    limitSnapshotTo("configure-container", testRenderer.toJSON())
-  ).toMatchSnapshot();
+  const { configureContainer } = await createTestRenderer();
+  expect(within(configureContainer).toJSON()).toMatchSnapshot();
 });
 
 it("regenerate sso key", async () => {
-  const testRenderer = await createTestRenderer({
+  const { testRenderer } = await createTestRenderer({
     Mutation: {
       regenerateSSOKey: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
           return {
-            settings: merge({}, settings, {
+            settings: merge({}, settingsWithEmptyAuth, {
               auth: {
                 integrations: {
                   sso: {
@@ -83,7 +91,7 @@ it("regenerate sso key", async () => {
 });
 
 it("prevents admin lock out", async () => {
-  const testRenderer = await createTestRenderer();
+  const { testRenderer } = await createTestRenderer();
 
   // Let's disable local auth.
   testRenderer.root
@@ -99,8 +107,8 @@ it("prevents admin lock out", async () => {
 });
 
 it("prevents stream lock out", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const testRenderer = await createTestRenderer({
+  let settingsRecord = cloneDeep(settingsWithEmptyAuth);
+  const { testRenderer } = await createTestRenderer({
     Mutation: {
       updateSettings: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
@@ -159,8 +167,8 @@ it("prevents stream lock out", async () => {
 });
 
 it("change settings", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const testRenderer = await createTestRenderer({
+  let settingsRecord = cloneDeep(settingsWithEmptyAuth);
+  const { testRenderer } = await createTestRenderer({
     Query: {
       discoverOIDCConfiguration: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {

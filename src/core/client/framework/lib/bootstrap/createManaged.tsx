@@ -251,7 +251,7 @@ export default async function createManaged({
     uuidGenerator: uuid,
     // Noop, this is later replaced by the
     // managed TalkContextProvider.
-    clearSession: noop,
+    clearSession: () => Promise.resolve(),
   };
 
   // Initialize local state.

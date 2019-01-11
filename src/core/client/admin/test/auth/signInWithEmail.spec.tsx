@@ -1,21 +1,20 @@
-import { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
+import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { TalkContext } from "talk-framework/lib/bootstrap";
-
-import { LOCAL_ID } from "talk-framework/lib/relay";
 import {
   createAuthToken,
   replaceHistoryLocation,
+  wait,
+  waitForElement,
+  within,
 } from "talk-framework/testHelpers";
 
-import create from "./create";
+import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
   settings,
-} from "./fixtures";
+} from "../fixtures";
 
 const resolvers = {
   Query: {
@@ -29,65 +28,70 @@ const inputPredicate = (name: string) => (n: ReactTestInstance) => {
   return n.props.name === name && n.props.onChange;
 };
 
-let context: TalkContext;
-let testRenderer: ReactTestRenderer;
-let form: ReactTestInstance;
-beforeEach(async () => {
+async function createTestRenderer() {
   // deliberately setting to a different route,
   // it should be smart enough to reroute to /admin/login.
   replaceHistoryLocation("http://localhost/admin/moderate");
 
-  ({ testRenderer, context } = create({
+  const { testRenderer, context } = create({
     resolvers,
     // Set this to true, to see graphql responses.
     logNetwork: false,
     initLocalState: localRecord => {
       localRecord.setValue(false, "loggedIn");
     },
-  }));
-  await timeout();
-  form = testRenderer.root.findByType("form");
-});
+  });
+  const form = await waitForElement(() =>
+    within(testRenderer.root).getByType("form")
+  );
+  return { testRenderer, form, context };
+}
 
 it("renders sign in form", async () => {
+  const { testRenderer } = await createTestRenderer();
   expect(testRenderer.toJSON()).toMatchSnapshot();
 });
 
 it("shows error when submitting empty form", async () => {
+  const { form } = await createTestRenderer();
   form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(within(form).toJSON()).toMatchSnapshot();
 });
 
 it("checks for invalid email", async () => {
-  form
-    .find(inputPredicate("email"))
+  const { form } = await createTestRenderer();
+  within(form)
+    .getByLabelText("Email Address")
     .props.onChange({ target: { value: "invalid-email" } });
   form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(within(form).toJSON()).toMatchSnapshot();
 });
 
 it("accepts valid email", async () => {
-  form
-    .find(inputPredicate("email"))
+  const { form } = await createTestRenderer();
+  within(form)
+    .getByLabelText("Email Address")
     .props.onChange({ target: { value: "hans@test.com" } });
   form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(within(form).toJSON()).toMatchSnapshot();
 });
 
 it("accepts correct password", async () => {
-  form
-    .find(inputPredicate("password"))
+  const { form } = await createTestRenderer();
+  within(form)
+    .getByLabelText("Password")
     .props.onChange({ target: { value: "testtest" } });
   form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(within(form).toJSON()).toMatchSnapshot();
 });
 
 it("shows server error", async () => {
-  form
-    .find(inputPredicate("email"))
+  const { form, context } = await createTestRenderer();
+  within(form)
+    .getByLabelText("Email Address")
     .props.onChange({ target: { value: "hans@test.com" } });
-  form
-    .find(inputPredicate("password"))
+  within(form)
+    .getByLabelText("Password")
     .props.onChange({ target: { value: "testtest" } });
 
   const error = new Error("Server Error");
@@ -105,13 +109,17 @@ it("shows server error", async () => {
     .throws(error);
 
   form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  const submitButton = within(form).getByText("Sign in with Email", {
+    selector: "button",
+  });
+  expect(submitButton.props.disabled).toBe(true);
+  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  expect(within(form).toJSON()).toMatchSnapshot();
   restMock.verify();
 });
 
 it("submits form successfully", async () => {
+  const { form, context } = await createTestRenderer();
   form
     .find(inputPredicate("email"))
     .props.onChange({ target: { value: "hans@test.com" } });
@@ -137,17 +145,12 @@ it("submits form successfully", async () => {
   const historyMock = sinon.mock(window.history);
 
   form.props.onSubmit();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  const submitButton = within(form).getByText("Sign in with Email", {
+    selector: "button",
+  });
+  expect(submitButton.props.disabled).toBe(true);
+  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  expect(location.toString()).toMatchSnapshot();
   restMock.verify();
-  await timeout();
-  expect(
-    context.relayEnvironment
-      .getStore()
-      .getSource()
-      .get(LOCAL_ID)!.loggedIn
-  ).toBeTruthy();
-  await timeout();
   historyMock.verify();
 });

@@ -16,7 +16,7 @@ export async function commit(
   // Put the token on the hash and clean the session.
   // It'll be picked up by initLocalState.
   location.hash = `accessToken=${result.token}`;
-  clearSession();
+  await clearSession();
 }
 
 export const withSignInMutation = createMutationContainer("signIn", commit);

@@ -6,14 +6,14 @@ exports[`renders correctly 1`] = `
     justifyContent="center"
   >
     <withPropsOnChange(HorizontalGutter)
-      className="Login-loginContainer"
+      className="SignIn-loginContainer"
       size="double"
     >
       <withPropsOnChange(Flex)
         justifyContent="center"
       >
         <div
-          className="Login-brandIcon"
+          className="SignIn-brandIcon"
         >
           <withPropsOnChange(BrandIcon)
             size="lg"
@@ -22,7 +22,7 @@ exports[`renders correctly 1`] = `
       </withPropsOnChange(Flex)>
       <div>
         <Localized
-          id="login-login-signInTo"
+          id="login-signInTo"
         >
           <withPropsOnChange(Typography)
             align="center"
@@ -36,16 +36,11 @@ exports[`renders correctly 1`] = `
           size="lg"
         />
       </div>
-      <Localized
-        id="login-login-enterAccountDetailsBelow"
+      <withPropsOnChange(HorizontalGutter)
+        size="oneAndAHalf"
       >
-        <withPropsOnChange(Typography)
-          align="center"
-        >
-          Enter your account details below
-        </withPropsOnChange(Typography)>
-      </Localized>
-      <withContext(createMutationContainer(SignInContainer)) />
+        <withPropsOnChange(HorizontalGutter) />
+      </withPropsOnChange(HorizontalGutter)>
     </withPropsOnChange(HorizontalGutter)>
   </withPropsOnChange(Flex)>
 </div>

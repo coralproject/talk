@@ -1,6 +1,5 @@
 import { EventEmitter2 } from "eventemitter2";
 import { IResolvers } from "graphql-tools";
-import { noop } from "lodash";
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
@@ -48,7 +47,7 @@ export default function create(params: CreateParams) {
     browserInfo: { ios: false },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
-    clearSession: noop,
+    clearSession: () => Promise.resolve(),
   };
 
   const testRenderer = TestRenderer.create(
