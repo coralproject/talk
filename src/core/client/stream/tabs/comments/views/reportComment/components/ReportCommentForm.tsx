@@ -5,6 +5,7 @@ import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
 import { validateMaxLength } from "talk-framework/lib/validation";
+import { PropTypesOf } from "talk-framework/types";
 import {
   Button,
   Flex,
@@ -13,7 +14,6 @@ import {
   Typography,
 } from "talk-ui/components";
 
-import { PropTypesOf } from "talk-ui/types";
 import PropagateUpdate from "./PropagateUpdate";
 import styles from "./ReportCommentForm.css";
 
