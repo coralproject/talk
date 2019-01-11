@@ -14,7 +14,10 @@ import mockWindow from "./mockWindow";
 
 let windowMock: ReturnType<typeof mockWindow>;
 
-async function createTestRenderer(customResolver: any = {}) {
+async function createTestRenderer(
+  customResolver: any = {},
+  error: string | null = null
+) {
   const resolvers = {
     ...customResolver,
     Query: {
@@ -31,6 +34,7 @@ async function createTestRenderer(customResolver: any = {}) {
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue("SIGN_IN", "view");
+      localRecord.setValue(error, "error");
     },
   });
   const container = await waitForElement(() =>
@@ -60,6 +64,30 @@ afterEach(async () => {
 it("renders sign in view", async () => {
   const { testRenderer } = await createTestRenderer();
   expect(testRenderer.toJSON()).toMatchSnapshot();
+});
+
+it("renders sign in view with error", async () => {
+  const { testRenderer, container } = await createTestRenderer(
+    {},
+    "Social Login Error"
+  );
+  expect(within(container).toJSON()).toMatchSnapshot();
+  within(testRenderer.root)
+    .getByTestID("gotoSignUpButton")
+    .props.onClick();
+  within(testRenderer.root)
+    .getByTestID("gotoSignInButton")
+    .props.onClick();
+  const container2 = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signIn-container")
+  );
+
+  // Error shouldn't be there anymore.
+  await wait(() =>
+    expect(
+      within(container2).queryByText("Social Login Error", { exact: false })
+    ).toBeNull()
+  );
 });
 
 it("shows error when submitting empty form", async () => {
@@ -170,7 +198,7 @@ it("submits form successfully", async () => {
   expect(toJSON(form!)).toMatchSnapshot();
 
   // Wait for window hash to contain a token.
-  await wait(() => expect(location.hash).toBe(`#${authToken}`));
+  await wait(() => expect(location.hash).toBe(`#accessToken=${authToken}`));
   restMock.verify();
 });
 

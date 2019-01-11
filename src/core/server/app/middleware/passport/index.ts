@@ -138,12 +138,23 @@ export async function handleSuccessfulLogin(
 }
 
 export async function handleOAuth2Callback(
-  user: User,
+  err: Error | null,
+  user: User | null,
   signingConfig: JWTSigningConfig,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
+  const path = "/embed/auth/callback";
+  if (!user) {
+    if (!err) {
+      // TODO: (wyattjoh) replace with better error
+      err = new Error("user not on request");
+    }
+
+    return res.redirect(path + `#error=${encodeURIComponent(err.message)}`);
+  }
+
   try {
     // Talk is guaranteed at this point.
     const { tenant } = req.talk!;
@@ -158,35 +169,10 @@ export async function handleOAuth2Callback(
     // Grab the token.
     const token = await signTokenString(signingConfig, user, options);
 
-    // Set the cache control headers.
-    res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-    res.header("Expires", "-1");
-    res.header("Pragma", "no-cache");
-
     // Send back the details!
-    res.send(
-      `<html>
-        <head></head>
-        <body>
-          <script type="text/javascript">
-            const redirect = sessionStorage.getItem("authRedirectBackTo");
-            if (!redirect) {
-              var textnode = document.createTextNode("'authRedirectBackTo' not set in Session Storage");
-              document.body.appendChild(textnode);
-            }
-            else if (redirect[0] !== '/') {
-              var textnode = document.createTextNode("'authRedirectBackTo' must begin with '/'");
-              document.body.appendChild(textnode);
-            }
-            else {
-              location.href = \`\${redirect}#${token}\`;
-            }
-          </script>
-        </body>
-      </html>`
-    );
+    res.redirect(path + `#accessToken=${token}`);
   } catch (err) {
-    return next(err);
+    res.redirect(path + `#error=${encodeURIComponent(err.message)}`);
   }
 }
 
@@ -209,15 +195,7 @@ export const wrapOAuth2Authn = (
     name,
     { ...options, session: false },
     (err: Error | null, user: User | null) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        // TODO: (wyattjoh) replace with better error.
-        return next(new Error("no user on request"));
-      }
-
-      handleOAuth2Callback(user, signingConfig, req, res, next);
+      handleOAuth2Callback(err, user, signingConfig, req, res, next);
     }
   )(req, res, next);
 

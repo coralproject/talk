@@ -26,7 +26,7 @@ describe("extractJWTFromRequest", () => {
     };
     expect(extractJWTFromRequest((req as any) as Request)).toEqual(null);
 
-    req.url = "https://talk.coralproject.net/api?access_token=token";
+    req.url = "https://talk.coralproject.net/api?accessToken=token";
 
     expect(extractJWTFromRequest((req as any) as Request)).toEqual("token");
   });

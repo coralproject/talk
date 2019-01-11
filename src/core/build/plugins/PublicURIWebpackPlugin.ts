@@ -1,5 +1,37 @@
-import { Hooks } from "html-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { AsyncSeriesWaterfallHook } from "tapable";
 import { Compiler, Plugin } from "webpack";
+
+// Copied from @types/html-webpack-plugin
+interface HtmlTagObject {
+  /**
+   * Attributes of the html tag
+   * E.g. `{'disabled': true, 'value': 'demo'}`
+   */
+  attributes: {
+    [attributeName: string]: string | boolean;
+  };
+  /**
+   * Wether this html must not contain innerHTML
+   * @see https://www.w3.org/TR/html5/syntax.html#void-elements
+   */
+  voidTag: boolean;
+  /**
+   * The tag name e.g. `'div'`
+   */
+  tagName: string;
+  /**
+   * Inner HTML The
+   */
+  innerHTML?: string;
+}
+
+type AlterAssetTagGroupsHook = AsyncSeriesWaterfallHook<{
+  headTags: Array<HtmlTagObject | HtmlTagObject>;
+  bodyTags: Array<HtmlTagObject | HtmlTagObject>;
+  outputName: string;
+  plugin: HtmlWebpackPlugin;
+}>;
 
 export default class PublicURIWebpackPlugin implements Plugin {
   private configTemplate: string;
@@ -33,16 +65,17 @@ export default class PublicURIWebpackPlugin implements Plugin {
   };
 
   public apply = (compiler: Compiler) => {
-    compiler.hooks.compilation.tap("CDNWebpackPlugin", compilation => {
-      (compilation.hooks as Hooks).htmlWebpackPluginAlterAssetTags.tapAsync(
-        "CDNWebpackPlugin",
+    compiler.hooks.compilation.tap("PublicURIWebpackPlugin", compilation => {
+      const hooks = (HtmlWebpackPlugin as any).getHooks(compilation);
+      (hooks.alterAssetTagGroups as AlterAssetTagGroupsHook).tapAsync(
+        "PublicURIWebpackPlugin",
         (htmlPluginData, cb) => {
           // Prefix all the asset's url's with the template.
-          htmlPluginData.head.forEach(this.prefixTag);
-          htmlPluginData.body.forEach(this.prefixTag);
+          htmlPluginData.headTags.forEach(this.prefixTag);
+          htmlPluginData.bodyTags.forEach(this.prefixTag);
 
           // Insert the public path reference.
-          htmlPluginData.body.unshift({
+          htmlPluginData.bodyTags.unshift({
             tagName: "script",
             attributes: {
               type: "application/json",

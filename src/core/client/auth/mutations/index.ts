@@ -14,3 +14,7 @@ export {
   withSetPasswordMutation,
   SetPasswordMutation,
 } from "./SetPasswordMutation";
+export {
+  withClearErrorMutation,
+  ClearErrorMutation,
+} from "./ClearErrorMutation";

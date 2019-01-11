@@ -3,10 +3,8 @@ import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
 import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
 import { identity } from "lodash";
-import LodashModuleReplacementPlugin from "lodash-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
-import InterpolateHtmlPlugin from "react-dev-utils/InterpolateHtmlPlugin";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
@@ -17,6 +15,7 @@ import ManifestPlugin from "webpack-manifest-plugin";
 import { Config } from "./config";
 import { createClientEnv } from "./config";
 import paths from "./paths";
+import InterpolateHtmlPlugin from "./plugins/InterpolateHtmlPlugin";
 import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
 /**
@@ -155,6 +154,9 @@ export default function createWebpackConfig(
       // We can't use side effects because it disturbs css order
       // https://github.com/webpack/webpack/issues/7094.
       sideEffects: false,
+      splitChunks: {
+        chunks: config.get("disableChunkSplitting") ? "async" : "all",
+      },
       minimize: minimize || treeShake,
       minimizer: [
         // Minify the code.
@@ -442,7 +444,6 @@ export default function createWebpackConfig(
       ],
     },
     plugins: [
-      new LodashModuleReplacementPlugin(),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
@@ -509,6 +510,11 @@ export default function createWebpackConfig(
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
+        authCallback: [
+          ...ifProduction(paths.appPublicPath),
+          ...devServerEntries,
+          paths.appAuthCallbackIndex,
+        ],
         install: [
           // We ship polyfills by default
           paths.appPolyfill,
@@ -539,6 +545,14 @@ export default function createWebpackConfig(
           filename: "auth.html",
           template: paths.appAuthHTML,
           chunks: ["auth"],
+          inject: "body",
+          ...htmlWebpackConfig,
+        }),
+        // Generates an `auth-callback.html` file with the <script> injected.
+        new HtmlWebpackPlugin({
+          filename: "auth-callback.html",
+          template: paths.appAuthCallbackHTML,
+          chunks: ["authCallback"],
           inject: "body",
           ...htmlWebpackConfig,
         }),
@@ -585,6 +599,10 @@ export default function createWebpackConfig(
       ...baseConfig,
       optimization: {
         ...baseConfig.optimization,
+        // Ensure that we never split the embed into chunks.
+        splitChunks: {
+          chunks: "async",
+        },
         // We can turn on sideEffects here as we don't use
         // css here and don't run into: https://github.com/webpack/webpack/issues/7094
         sideEffects: true,

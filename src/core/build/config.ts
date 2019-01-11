@@ -42,6 +42,13 @@ const config = convict({
     env: "WEBPACK_DISABLE_MINIMIZE",
     arg: "disableMinimize",
   },
+  disableChunkSplitting: {
+    doc: "Disables chunk splitting beheviour",
+    format: Boolean,
+    default: false,
+    env: "WEBPACK_DISABLE_CHUNK_SPLITTING",
+    arg: "disableChunkSplitting",
+  },
   enableTreeShake: {
     doc: "Enabled tree shaking in development",
     format: Boolean,

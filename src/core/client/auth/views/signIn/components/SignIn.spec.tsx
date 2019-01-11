@@ -17,6 +17,22 @@ it("renders correctly", () => {
     googleEnabled: true,
     oidcEnabled: true,
     auth: {},
+    error: null,
+  };
+  const renderer = createRenderer();
+  renderer.render(<SignInN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+it("renders error", () => {
+  const props: PropTypesOf<typeof SignInN> = {
+    onGotoSignUp: noop,
+    emailEnabled: true,
+    facebookEnabled: true,
+    googleEnabled: true,
+    oidcEnabled: true,
+    auth: {},
+    error: "Server Error",
   };
   const renderer = createRenderer();
   renderer.render(<SignInN {...props} />);
@@ -31,6 +47,7 @@ it("renders without email login", () => {
     googleEnabled: true,
     oidcEnabled: true,
     auth: {},
+    error: null,
   };
   const renderer = createRenderer();
   renderer.render(<SignInN {...props} />);

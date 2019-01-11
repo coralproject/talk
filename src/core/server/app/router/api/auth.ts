@@ -5,6 +5,7 @@ import {
   logoutHandler,
   signupHandler,
 } from "talk-server/app/handlers/api/tenant/auth/local";
+import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
 import {
   wrapAuthn,
   wrapOAuth2Authn,
@@ -24,8 +25,8 @@ function wrapPath(
     strategy
   );
 
-  router.get(path, handler);
-  router.get(path + "/callback", handler);
+  router.get(path, noCacheMiddleware, handler);
+  router.get(path + "/callback", noCacheMiddleware, handler);
 }
 
 export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {

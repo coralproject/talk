@@ -15,7 +15,7 @@ export async function commit(
   const result = await signIn(rest, pick(input, ["email", "password"]));
   // Put the token on the hash and clean the session.
   // It'll be picked up by initLocalState.
-  location.hash = result.token;
+  location.hash = `accessToken=${result.token}`;
   clearSession();
 }
 

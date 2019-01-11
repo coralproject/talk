@@ -224,7 +224,7 @@ it("submits form successfully", async () => {
   expect(toJSON(main)).toMatchSnapshot();
 
   // Wait for window hash to contain a token.
-  await wait(() => expect(location.hash).toBe(`#${authToken}`));
+  await wait(() => expect(location.hash).toBe(`#accessToken=${authToken}`));
   restMock.verify();
 });
 

@@ -4,7 +4,11 @@ import ms from "ms";
 export const noCacheMiddleware: RequestHandler = (req, res, next) => {
   // Set cache control headers to prevent browsers/cdn's from caching these
   // requests.
-  res.set({ "Cache-Control": "no-cache, no-store, must-revalidate" });
+  res.set({
+    "Cache-Control": "private, no-cache, no-store, must-revalidate",
+    Expires: "-1",
+    Pragma: "no-cache",
+  });
 
   next();
 };

@@ -42,6 +42,9 @@ async function main() {
   );
 
   ReactDOM.render(<Index />, document.getElementById("app"));
+  // Set width.
+  window.resizeTo(350, window.outerHeight);
+  // Poll height.
   pollPopupHeight();
 }
 
