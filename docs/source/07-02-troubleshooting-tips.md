@@ -38,3 +38,6 @@ If you're using `talk-plugin-auth`:
 * See if you can isolate if it's a particular group of users that are experiencing this issue, e.g. mods, admins, subscribers? Confirm they have the appropriate permissions to comment.
 * Note if this is a new issue that happened after an upgrade - did you read the [migration docs](/talk/migration/3/) and the [release notes](https://github.com/coralproject/talk/releases)? This might help you resolve the issue.
 * If you're still experiencing issues, log a [support ticket](mailto:support@coralproject.net) so we can help diagnose the issue
+
+If a user has been locked out due to too many failed login attempts:
+* How long does the user have to wait before they will be allowed to login? 10 mins
