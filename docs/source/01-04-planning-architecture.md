@@ -49,6 +49,8 @@ When you are ready to launch your production instance of Talk update your NODE_E
 
 Then launch talk with `yarn start` or with the command `NODE_ENV=production ./bin/cli-serve -j -w`
 
+By default Talk will run on a single thread, but you can also run multiple Talk threads on a single application instance by setting the environment variable `TALK_CONCURRENCY`. [See Advanced Configuration](/talk/advanced-configuration/#talk-concurrency)
+
 
 
 
