@@ -29,10 +29,6 @@ export {
   ClearAuthErrorMutation,
 } from "./ClearAuthErrorMutation";
 export {
-  withSetAuthErrorMutation,
-  SetAuthErrorMutation,
-} from "./SetAuthErrorMutation";
-export {
   withCompleteAccountMutation,
   CompleteAccountMutation,
 } from "./CompleteAccountMutation";

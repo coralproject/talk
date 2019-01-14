@@ -340,13 +340,13 @@ exports[`renders sign in form 1`] = `
     className="Flex-root Flex-flex Flex-justifyCenter"
   >
     <div
-      className="HorizontalGutter-root SignIn-loginContainer HorizontalGutter-double"
+      className="HorizontalGutter-root AuthBox-container HorizontalGutter-double"
     >
       <div
         className="Flex-root Flex-flex Flex-justifyCenter"
       >
         <div
-          className="SignIn-brandIcon"
+          className="AuthBox-brandIcon"
         >
           <svg
             className="BrandIcon-base BrandIcon-lg"
@@ -396,7 +396,9 @@ exports[`renders sign in form 1`] = `
         <h1
           className="Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
         >
-          Sign in to
+          <span>
+            Sign in to
+          </span>
         </h1>
         <h1
           className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"

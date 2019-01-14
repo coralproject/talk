@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div>
+  <withPropsOnChange(Flex)
+    justifyContent="center"
+  >
+    <withPropsOnChange(HorizontalGutter)
+      className="AuthBox-container"
+      size="double"
+    >
+      <withPropsOnChange(Flex)
+        justifyContent="center"
+      >
+        <div
+          className="AuthBox-brandIcon"
+        >
+          <withPropsOnChange(BrandIcon)
+            size="lg"
+          />
+        </div>
+      </withPropsOnChange(Flex)>
+      <div>
+        <withPropsOnChange(Typography)
+          align="center"
+          variant="heading3"
+        >
+          title
+        </withPropsOnChange(Typography)>
+        <withPropsOnChange(BrandName)
+          align="center"
+          size="lg"
+        />
+      </div>
+      content
+    </withPropsOnChange(HorizontalGutter)>
+  </withPropsOnChange(Flex)>
+</div>
+`;
