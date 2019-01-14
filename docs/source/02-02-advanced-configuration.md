@@ -23,6 +23,10 @@ otherwise the application will fail to start.
 Configure the duration for which comment counts are cached for, parsed by
 [ms](https://www.npmjs.com/package/ms). (Default `1hr`)
 
+## TALK_CONCURRENCY
+
+This environment variable allows multiple worker processes to be spawned to handle traffic. Defaults to 1 if not set. 
+
 ## TALK_DEFAULT_LANG
 
 This is a **Build Variable** and must be consumed during build. If using the
