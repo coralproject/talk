@@ -7,11 +7,11 @@ import { AccountCompletionContainer_me as UserData } from "talk-admin/__generate
 import { AccountCompletionContainerLocal as Local } from "talk-admin/__generated__/AccountCompletionContainerLocal.graphql";
 import {
   CompleteAccountMutation,
-  SetAuthErrorMutation,
   SetAuthViewMutation,
+  SetRedirectPathMutation,
   withCompleteAccountMutation,
-  withSetAuthErrorMutation,
   withSetAuthViewMutation,
+  withSetRedirectPathMutation,
 } from "talk-admin/mutations";
 import {
   graphql,
@@ -25,7 +25,7 @@ type Props = {
   local: Local;
   auth: AuthData;
   me: UserData | null;
-  setAuthError: SetAuthErrorMutation;
+  setRedirectPath: SetRedirectPathMutation;
 } & WithRouter;
 
 function handleAccountCompletion(props: Props) {
@@ -34,12 +34,9 @@ function handleAccountCompletion(props: Props) {
     me,
     auth,
     setAuthView,
-    setAuthError,
   } = props;
   if (me) {
-    if (me.role === "COMMENTER") {
-      setAuthError({ authError: "Access Denied" });
-    } else if (!me.email) {
+    if (!me.email) {
       if (authView !== "ADD_EMAIL_ADDRESS") {
         setAuthView({ view: "ADD_EMAIL_ADDRESS" });
       }
@@ -135,7 +132,7 @@ const enhanced = withLocalStateContainer(
     `,
   })(
     withSetAuthViewMutation(
-      withSetAuthErrorMutation(
+      withSetRedirectPathMutation(
         withCompleteAccountMutation(withRouter(AccountCompletionContainer))
       )
     )

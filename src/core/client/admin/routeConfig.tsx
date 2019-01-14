@@ -2,7 +2,7 @@ import { makeRouteConfig, Redirect, Route } from "found";
 import React from "react";
 
 import App from "./components/App";
-import RedirectLoginContainer from "./containers/RedirectLoginContainer";
+import AuthCheckContainer from "./containers/AuthCheckContainer";
 import Community from "./routes/community/components/Community";
 import ConfigureModeration from "./routes/configure/components/Moderation";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
@@ -20,7 +20,7 @@ import Stories from "./routes/stories/components/Stories";
 
 export default makeRouteConfig(
   <Route path="admin">
-    <Route {...RedirectLoginContainer.routeConfig}>
+    <Route {...AuthCheckContainer.routeConfig}>
       <Route Component={App}>
         <Redirect from="/" to="/admin/moderate" />
         <Route

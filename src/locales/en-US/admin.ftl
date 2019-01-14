@@ -11,6 +11,13 @@ navigation-stories = Stories
 navigation-configure = Configure
 navigation-signOutButton = Sign Out
 
+## Restricted
+restricted-currentlySignedInTo = Currently signed in to
+restricted-noPermissionInfo = You do not have permission to access this page.
+restricted-signedInAs = You are signed in as: <username></username>
+restricted-signInWithADifferentAccount = Sign in with a different account
+restricted-contactAdmin = If you think this is an error, please contact your administrator for assistance.
+
 ## Login
 
 # Sign In
