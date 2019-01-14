@@ -25,7 +25,7 @@ Configure the duration for which comment counts are cached for, parsed by
 
 ## TALK_CONCURRENCY
 
-This environment variable allows multiple worker processes to be spawned to handle traffic. Defaults to 1 if not set. 
+This environment variable allows multiple worker processes to be spawned to handle traffic. (Default `1`) 
 
 ## TALK_DEFAULT_LANG
 
