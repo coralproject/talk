@@ -1,8 +1,20 @@
 import dotenv from "dotenv";
+import sourceMapSupport from "source-map-support";
+
+// Configure the source map support so stack traces will reference the source
+// files rather than the transpiled code.
+sourceMapSupport.install();
 
 // Apply all the configuration provided in the .env file if it isn't already in
 // the environment.
 dotenv.config();
+
+// Makes the script crash on unhandled rejections instead of silently
+// ignoring them. In the future, promise rejections that are not handled will
+// terminate the Node.js process with a non-zero exit code.
+process.on("unhandledRejection", err => {
+  throw err;
+});
 
 import express from "express";
 import throng from "throng";
@@ -26,6 +38,7 @@ async function worker(server: Server) {
     await server.start(app);
   } catch (err) {
     logger.error({ err }, "can not start server in worker mode");
+    throw err;
   }
 }
 
@@ -42,6 +55,7 @@ async function master(server: Server) {
     await server.process();
   } catch (err) {
     logger.error({ err }, "can not start server in master mode");
+    throw err;
   }
 }
 

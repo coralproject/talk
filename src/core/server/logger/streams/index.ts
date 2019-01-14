@@ -1,19 +1,16 @@
-import PrettyStream from "bunyan-prettystream";
-
-import config from "talk-server/config";
-
 import { SecretStream } from "./SecretStream";
 
 export function getStreams() {
+  // TODO: (wyattjoh) re-evaluate a new solution to pretty printing
   // If we aren't in production mode, use the pretty stream printer.
-  if (config.get("env") === "production") {
-    const pretty = new PrettyStream();
+  // if (config.get("env") !== "production") {
+  //   const pretty = new PrettyStream();
 
-    // Pipe the pretty stream to stdout.
-    pretty.pipe(process.stdout);
+  //   // Pipe the pretty stream to stdout.
+  //   pretty.pipe(process.stdout);
 
-    return [{ type: "raw", stream: pretty }];
-  }
+  //   return [{ type: "raw", stream: pretty }];
+  // }
 
   // Create a new secret stream.
   const secret = new SecretStream();

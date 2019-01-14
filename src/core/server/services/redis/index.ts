@@ -1,4 +1,5 @@
 import RedisClient, { Pipeline, Redis } from "ioredis";
+import TraceError from "trace-error";
 
 import { Omit } from "talk-common/types";
 import { Config } from "talk-server/config";
@@ -31,11 +32,17 @@ function configureRedisClient(redis: Redis) {
  *
  * @param config application configuration.
  */
-export function createRedisClient(config: Config): AugmentedRedis {
-  const redis = new RedisClient(config.get("redis"), {});
+export async function createRedisClient(
+  config: Config
+): Promise<AugmentedRedis> {
+  try {
+    const redis = new RedisClient(config.get("redis"), {});
 
-  // Configure the redis client for use with the custom commands.
-  configureRedisClient(redis);
+    // Configure the redis client for use with the custom commands.
+    configureRedisClient(redis);
 
-  return redis as AugmentedRedis;
+    return redis as AugmentedRedis;
+  } catch (err) {
+    throw new TraceError("could not connect to redis", err);
+  }
 }
