@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<SignIn
+  title={
+    <Localized
+      id="restricted-currentlySignedInTo"
+    >
+      <span>
+        Currently signed in to
+      </span>
+    </Localized>
+  }
+>
+  <withPropsOnChange(HorizontalGutter)
+    size="double"
+  >
+    <div>
+      <withPropsOnChange(Flex)
+        justifyContent="center"
+      >
+        <withPropsOnChange(Icon)
+          className="Restricted-lockIcon"
+          size="lg"
+        >
+          lock
+        </withPropsOnChange(Icon)>
+      </withPropsOnChange(Flex)>
+      <Localized
+        id="restricted-noPermissionInfo"
+      >
+        <withPropsOnChange(Typography)
+          align="center"
+          className="Restricted-noPermission"
+          variant="heading3"
+        >
+          You do not have permission to access this page.
+        </withPropsOnChange(Typography)>
+      </Localized>
+    </div>
+    <div>
+      <Localized
+        id="restricted-signedInAs"
+        username={<Username />}
+      >
+        <withPropsOnChange(Typography)
+          align="center"
+          container="div"
+          variant="bodyCopy"
+        >
+          You are signed in as: &lt;username&gt;&lt;/username&gt;
+        </withPropsOnChange(Typography)>
+      </Localized>
+    </div>
+    <withPropsOnChange(Flex)
+      justifyContent="center"
+    >
+      <Localized
+        id="restricted-signInWithADifferentAccount"
+      >
+        <withPropsOnChange(Button)
+          color="primary"
+          onClick={[Function]}
+          variant="filled"
+        >
+          Sign in with a different account
+        </withPropsOnChange(Button)>
+      </Localized>
+    </withPropsOnChange(Flex)>
+    <Localized
+      id="restricted-contactAdmin"
+    >
+      <withPropsOnChange(Typography)
+        align="center"
+        className="Restricted-contactAdmin"
+        variant="bodyCopy"
+      >
+        If you think this is an error, please contact your administrator for assistance.
+      </withPropsOnChange(Typography)>
+    </Localized>
+  </withPropsOnChange(HorizontalGutter)>
+</SignIn>
+`;

@@ -1,47 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div>
-  <withPropsOnChange(Flex)
-    justifyContent="center"
-  >
-    <withPropsOnChange(HorizontalGutter)
-      className="SignIn-loginContainer"
-      size="double"
+<SignIn
+  title={
+    <Localized
+      id="login-signInTo"
     >
-      <withPropsOnChange(Flex)
-        justifyContent="center"
-      >
-        <div
-          className="SignIn-brandIcon"
-        >
-          <withPropsOnChange(BrandIcon)
-            size="lg"
-          />
-        </div>
-      </withPropsOnChange(Flex)>
-      <div>
-        <Localized
-          id="login-signInTo"
-        >
-          <withPropsOnChange(Typography)
-            align="center"
-            variant="heading3"
-          >
-            Sign in to
-          </withPropsOnChange(Typography)>
-        </Localized>
-        <withPropsOnChange(BrandName)
-          align="center"
-          size="lg"
-        />
-      </div>
-      <withPropsOnChange(HorizontalGutter)
-        size="oneAndAHalf"
-      >
-        <withPropsOnChange(HorizontalGutter) />
-      </withPropsOnChange(HorizontalGutter)>
-    </withPropsOnChange(HorizontalGutter)>
-  </withPropsOnChange(Flex)>
-</div>
+      <span>
+        Sign in to
+      </span>
+    </Localized>
+  }
+>
+  <withPropsOnChange(HorizontalGutter)
+    size="oneAndAHalf"
+  >
+    <withPropsOnChange(HorizontalGutter) />
+  </withPropsOnChange(HorizontalGutter)>
+</SignIn>
 `;
