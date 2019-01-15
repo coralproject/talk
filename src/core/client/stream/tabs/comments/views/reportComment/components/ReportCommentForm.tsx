@@ -14,7 +14,7 @@ import {
   Typography,
 } from "talk-ui/components";
 
-import PropagateUpdate from "./PropagateUpdate";
+import PropagateMount from "./PropagateMount";
 import styles from "./ReportCommentForm.css";
 
 const RadioField: StatelessComponent<
@@ -69,7 +69,6 @@ class ReportCommentForm extends React.Component<InnerProps> {
             className={styles.root}
             id="report-comments-form"
           >
-            <PropagateUpdate onUpdate={onResize} />
             <HorizontalGutter className={styles.root}>
               <Localized id="comments-reportPopover-reportThisComment">
                 <Typography variant="heading2" className={styles.title}>
@@ -130,6 +129,7 @@ class ReportCommentForm extends React.Component<InnerProps> {
                 </ul>
                 {get(form.getFieldState("reason"), "value") && (
                   <>
+                    <PropagateMount onMount={onResize} />
                     <Localized id="comments-reportPopover-pleaseLeaveAdditionalInformation">
                       <Typography
                         variant="detail"

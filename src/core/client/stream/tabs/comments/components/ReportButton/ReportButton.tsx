@@ -12,12 +12,13 @@ interface Props extends PropTypesOf<typeof Button> {
 
 class ReportButton extends React.Component<Props> {
   public render() {
-    const { reported, ...rest } = this.props;
+    const { reported, accessKey, active, ...rest } = this.props;
     return (
       <Button
         {...rest}
-        disabled={reported}
-        classes={(reported && styles) || {}}
+        active={active}
+        disabled={!active && reported}
+        classes={(reported && !active && styles) || {}}
         variant="ghost"
         size="small"
       >

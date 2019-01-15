@@ -15,7 +15,7 @@ import {
 import ReportCommentForm from "../components/ReportCommentForm";
 import ThankYou from "../components/ThankYou";
 
-interface InnerProps {
+interface Props {
   comment: CommentData;
   createCommentFlag: CreateCommentFlagMutation;
   createCommentDontAgree: CreateCommentDontAgreeMutation;
@@ -27,7 +27,7 @@ interface State {
   done: boolean;
 }
 
-export class ReportCommentFormContainer extends Component<InnerProps, State> {
+export class ReportCommentFormContainer extends Component<Props, State> {
   public state = {
     done: false,
   };
@@ -50,7 +50,6 @@ export class ReportCommentFormContainer extends Component<InnerProps, State> {
           additionalDetails: input.additionalDetails,
         });
       }
-
       this.setState({ done: true });
     } catch (error) {
       if (error instanceof BadUserInputError) {
@@ -61,6 +60,13 @@ export class ReportCommentFormContainer extends Component<InnerProps, State> {
     }
     return undefined;
   };
+
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    // Reposition popper after switching view.
+    if (this.state.done && !prevState.done) {
+      this.props.onResize();
+    }
+  }
 
   public render() {
     if (!this.state.done) {
@@ -79,7 +85,7 @@ export class ReportCommentFormContainer extends Component<InnerProps, State> {
 
 const enhanced = withCreateCommentDontAgreeMutation(
   withCreateCommentFlagMutation(
-    withFragmentContainer<InnerProps>({
+    withFragmentContainer<Props>({
       comment: graphql`
         fragment ReportCommentFormContainer_comment on Comment {
           id

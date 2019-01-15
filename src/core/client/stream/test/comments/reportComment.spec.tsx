@@ -165,6 +165,10 @@ it("report comment as offensive", async () => {
   const reportedButton = within(comment).getByText("Reported", {
     selector: "button",
   });
+  expect(reportedButton.props.disabled).toBe(false);
+  within(comment)
+    .getByText("Dismiss")
+    .props.onClick();
   expect(reportedButton.props.disabled).toBe(true);
   expect(resolvers.Mutation.createCommentFlag.called).toBe(true);
 });

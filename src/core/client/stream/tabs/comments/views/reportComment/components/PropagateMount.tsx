@@ -1,16 +1,15 @@
 import { Component } from "react";
 
 interface Props {
-  onUpdate: () => void;
+  onMount: () => void;
 }
 
 /**
- * A component that calls onUpdate, after componentDidMount and
- * componentDidUpdate.
+ * A component that calls onMount, after componentDidMount.
  */
 export default class PropagateUpdate extends Component<Props> {
-  public componentDidUpdate() {
-    this.props.onUpdate();
+  public componentDidMount() {
+    this.props.onMount();
   }
 
   public render() {
