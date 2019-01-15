@@ -17,7 +17,7 @@ interface Props {
 
 const SignIn: StatelessComponent<Props> = ({ title, children }) => {
   return (
-    <div>
+    <div data-testid="authBox">
       <Flex justifyContent="center">
         <HorizontalGutter className={styles.container} size="double">
           <Flex justifyContent="center">

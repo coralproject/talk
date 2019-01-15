@@ -228,14 +228,14 @@ export const users = [
     id: "user-1",
     username: "Lukas",
     email: "lukas@test.com",
-    role: "ADMIN",
+    role: "MODERATOR",
     profiles: [{ __typename: "LocalProfile" }],
   },
   {
     id: "user-2",
     username: "Isabelle",
     email: "isabelle@test.com",
-    role: "ADMIN",
+    role: "COMMENTER",
     profiles: [{ __typename: "LocalProfile" }],
   },
 ];

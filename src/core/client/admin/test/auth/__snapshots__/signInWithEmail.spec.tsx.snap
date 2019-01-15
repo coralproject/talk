@@ -335,7 +335,9 @@ exports[`checks for invalid email 1`] = `
 `;
 
 exports[`renders sign in form 1`] = `
-<div>
+<div
+  data-testid="authBox"
+>
   <div
     className="Flex-root Flex-flex Flex-justifyCenter"
   >
