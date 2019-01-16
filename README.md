@@ -27,8 +27,7 @@ The current recommended release version is v4.5.0. ^4.5 (and all future even-num
 ## More Resources
 
 - [Talk Product Roadmap](https://www.pivotaltracker.com/n/projects/1863625)
-- [Our Blog](https://blog.coralproject.net/)
-- [Community Forums](https://community.coralproject.net/)
+- [Our Blog](https://coralproject.net/blog)
 - [Community Guides for Journalism](https://guides.coralproject.net/)
 - [More About Us](https://coralproject.net/)
 
