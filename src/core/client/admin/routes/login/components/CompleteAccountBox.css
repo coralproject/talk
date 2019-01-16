@@ -1,0 +1,23 @@
+.container {
+  width: 350px;
+  background-color: var(--palette-common-white);
+  border: 1px solid var(--palette-divider);
+  margin-top: 70px;
+  box-sizing: border-box;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.header {
+  background-color: var(--palette-text-primary);
+  padding: calc(1.5 * var(--spacing-unit));
+  color: var(--palette-text-light);
+}
+
+.heading3 {
+  margin-bottom: calc(0.25 * var(--spacing-unit));
+}
+
+.main {
+  padding: calc(2.5 * var(--spacing-unit)) calc(2 * var(--spacing-unit))
+    calc(2 * var(--spacing-unit)) calc(2 * var(--spacing-unit));
+}

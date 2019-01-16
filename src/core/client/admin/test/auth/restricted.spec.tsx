@@ -41,6 +41,7 @@ function createTestRenderer(
     initLocalState: localRecord => {
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAuthToken(), "authToken");
+      localRecord.setValue("SIGN_IN", "authView");
     },
   });
   return { testRenderer, context };

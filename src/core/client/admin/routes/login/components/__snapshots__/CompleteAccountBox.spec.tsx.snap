@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  data-testid="completeAccountBox"
+>
+  <withPropsOnChange(Flex)
+    justifyContent="center"
+  >
+    <div
+      className="CompleteAccountBox-container"
+    >
+      <div
+        className="CompleteAccountBox-header"
+      >
+        <withPropsOnChange(Typography)
+          align="center"
+          className="CompleteAccountBox-heading3"
+          color="textLight"
+          variant="heading3"
+        >
+          Finish Setting Up Your Account
+        </withPropsOnChange(Typography)>
+        <withPropsOnChange(Typography)
+          align="center"
+          color="textLight"
+          variant="heading1"
+        >
+          title
+        </withPropsOnChange(Typography)>
+      </div>
+      <div
+        className="CompleteAccountBox-main"
+      >
+        content
+      </div>
+    </div>
+  </withPropsOnChange(Flex)>
+</div>
+`;

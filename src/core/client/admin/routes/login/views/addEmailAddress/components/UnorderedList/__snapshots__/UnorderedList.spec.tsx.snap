@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ul
+  className="UnorderedList-root"
+>
+  <ListItem
+    icon={
+      <span>
+        -
+      </span>
+    }
+  >
+    1
+  </ListItem>
+  <ListItem
+    icon={
+      <withPropsOnChange(Icon)>
+        keyboard_arrow_right
+      </withPropsOnChange(Icon)>
+    }
+  >
+    2
+  </ListItem>
+</ul>
+`;

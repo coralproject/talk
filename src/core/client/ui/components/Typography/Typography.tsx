@@ -47,6 +47,7 @@ interface InnerProps extends HTMLAttributes<any> {
     | "primary"
     | "textPrimary"
     | "textSecondary"
+    | "textLight"
     | "error"
     | "success";
   /**
@@ -104,6 +105,7 @@ const Typography: StatelessComponent<InnerProps> = props => {
     {
       [classes.colorTextPrimary]: color === "textPrimary",
       [classes.colorTextSecondary]: color === "textSecondary",
+      [classes.colorTextLight]: color === "textLight",
       [classes.colorPrimary]: color === "primary",
       [classes.colorError]: color === "error",
       [classes.colorSuccess]: color === "success",

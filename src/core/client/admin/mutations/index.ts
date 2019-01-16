@@ -32,3 +32,12 @@ export {
   withCompleteAccountMutation,
   CompleteAccountMutation,
 } from "./CompleteAccountMutation";
+export { withSetEmailMutation, SetEmailMutation } from "./SetEmailMutation";
+export {
+  withSetUsernameMutation,
+  SetUsernameMutation,
+} from "./SetUsernameMutation";
+export {
+  withSetPasswordMutation,
+  SetPasswordMutation,
+} from "./SetPasswordMutation";

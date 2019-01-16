@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const SignIn: StatelessComponent<Props> = ({ title, children }) => {
+const AuthBox: StatelessComponent<Props> = ({ title, children }) => {
   return (
     <div data-testid="authBox">
       <Flex justifyContent="center">
@@ -38,4 +38,4 @@ const SignIn: StatelessComponent<Props> = ({ title, children }) => {
   );
 };
 
-export default SignIn;
+export default AuthBox;

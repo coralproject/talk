@@ -39,6 +39,7 @@ async function createTestRenderer() {
     logNetwork: false,
     initLocalState: localRecord => {
       localRecord.setValue(false, "loggedIn");
+      localRecord.setValue("SIGN_IN", "authView");
     },
   });
   const form = await waitForElement(() =>

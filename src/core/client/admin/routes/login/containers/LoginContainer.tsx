@@ -6,7 +6,7 @@ import { LoginContainerQueryResponse } from "talk-admin/__generated__/LoginConta
 import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
 import { withRouteConfig } from "talk-framework/lib/router";
 
-import SignInContainer from "../views/signIn/containers/SignInContainer";
+import Login from "../components/Login";
 import AccountCompletionContainer from "./AccountCompletionContainer";
 
 interface Props {
@@ -28,7 +28,10 @@ class LoginContainer extends Component<Props> {
         auth={this.props.data.settings.auth}
         me={this.props.data.me}
       >
-        <SignInContainer auth={this.props.data.settings.auth} />
+        <Login
+          auth={this.props.data.settings.auth}
+          view={this.props.local.authView!}
+        />
       </AccountCompletionContainer>
     );
   }

@@ -29,8 +29,7 @@ export default async function initLocalState(
     const localRecord = s.get(LOCAL_ID)!;
 
     localRecord.setValue(redirectPath, "redirectPath");
-
-    // Set auth error.
+    localRecord.setValue("SIGN_IN", "authView");
     localRecord.setValue(error, "authError");
   });
 }

@@ -118,3 +118,4 @@ comments-reportPopover-receivedMessage =
   We’ve received your message. Reports from members like you keep the community safe.
 
 comments-reportPopover-dismiss = Dismiss
+

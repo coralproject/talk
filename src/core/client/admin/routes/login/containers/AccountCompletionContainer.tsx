@@ -127,7 +127,6 @@ const enhanced = withLocalStateContainer(
         profiles {
           __typename
         }
-        role
       }
     `,
   })(

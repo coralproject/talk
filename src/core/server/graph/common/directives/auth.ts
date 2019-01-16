@@ -49,7 +49,7 @@ const auth: DirectiveResolverFn<
     const conditions = calculateAuthConditionsMemoized(user);
     if (!permit && conditions.length > 0) {
       // TODO: return better error.
-      throw new Error("not authorized");
+      throw new Error("not authorized 1");
     }
 
     // If the permit was specified, and some of the conditions for the user
@@ -59,7 +59,7 @@ const auth: DirectiveResolverFn<
       conditions.some(condition => permit.indexOf(condition) === -1)
     ) {
       // TODO: return better error.
-      throw new Error("not authorized");
+      throw new Error("not authorized 2");
     }
 
     // If the role and user owner checks are disabled, then allow them based on
