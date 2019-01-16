@@ -146,3 +146,8 @@
   tags:
     - default
     - sorting
+- name: talk-plugin-comment-count
+  description: This plugin enables adding comment counts to Talk’s embed or in other locations on your site. 
+  link: https://github.com/coralproject/talk-plugin-comment-count
+  tags:
+    - counts

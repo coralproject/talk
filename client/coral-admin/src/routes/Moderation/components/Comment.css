@@ -62,6 +62,7 @@
   font-weight: 300;
   margin-bottom: 8px;
   overflow-wrap: break-word;
+  word-break:break-word;
 }
 
 .body {

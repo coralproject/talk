@@ -29,7 +29,7 @@ permalink: /pre-launch-checklist/
   - See [Authenticating with Talk](/talk/integrating/authentication/)
 
 - [ ] Do you want to integrate Talk with your CMS to automate embedding Talk Comment Stream into your site?
-  - See [Asset Management](/talk/integrating/asset-management/)
+  - See [CMS Integration](/talk/integrating/cms-integration/)
 
 - [ ] Do you want to use Social sign-on?
   - Facebook
@@ -58,9 +58,10 @@ permalink: /pre-launch-checklist/
   - Install [talk-plugin-rich-text](/talk/plugin/talk-plugin-rich-text)
 
 
-- [ ] Do you want to display comment counts?
-  - Use the GraphQL [CommentCountQuery](https://docs.coralproject.net/talk/api/graphql/#CommentCountQuery)
-  - Install [talk-plugin-deep-reply-count](/talk/plugin/talk-plugin-deep-reply-count) if necessary.
+- [ ] Do you want to display comment counts on your embed stream or on a homepage with dozens of articles?
+  - Install [talk-plugin-comment-count](https://github.com/coralproject/talk-plugin-comment-count) for summary counts on multiple articles
+  - Install [talk-plugin-deep-reply-count](/talk/plugin/talk-plugin-deep-reply-count) to add counts to the embed stream
+  - Or use the GraphQL [CommentCountQuery](https://docs.coralproject.net/talk/api/graphql/#CommentCountQuery)
 
 
 - [ ] Do you want to translate Talk to a different language?

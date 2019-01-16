@@ -104,8 +104,8 @@ sidebar:
       children:
         - title: Authentication
           url: /integrating/authentication/
-        - title: Asset Management
-          url: /integrating/asset-management/
+        - title: CMS Integration
+          url: /integrating/cms-integration/
         - title: Asset Scraping
           url: /integrating/asset-scraping/
         - title: Configuring the Comment Stream

@@ -26,6 +26,9 @@ Plugins are available for the following 3rd party authentication providers:
 * [Facebook](/talk/plugin/talk-plugin-facebook-auth/)
 * [Google](/talk/plugin/talk-plugin-google-auth/) 
 
+_FAQ: Can I create a Twitter auth plugin?_ 
+This is currently not possible because Talk uses passport.js which does not support Twitter's oAuth2 requirements.
+
 ## Custom Token Integration 
 
 You can integrate Talk with any authentication service to enable single sign-on
@@ -60,6 +63,9 @@ The generated JWT must contain the following claims:
     of the [`tokenUserNotFound`](#implement-tokenusernotfound) hook.
 - [`iss`](https://tools.ietf.org/html/rfc7519#section-4.1.1): the issuer for the token must match the value of `TALK_JWT_ISSUER`
 - [`aud`](https://tools.ietf.org/html/rfc7519#section-4.1.3): the audience for the token must match the value of `TALK_JWT_AUDIENCE`
+
+### Generate a key to sign the JWT
+Optionally you can use https://github.com/coralproject/coralcert to generate a key with which to sign the JWTs and specify the secret as an environment variable. 
 
 ### Push token into embed
 
