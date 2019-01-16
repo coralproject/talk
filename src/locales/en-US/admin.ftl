@@ -162,7 +162,7 @@ moderate-single-singleCommentView = Single Comment View
 
 createUsername-createUsernameHeader = Create Username
 createUsername-whatItIs =
-  For your added security, we require users to add an email address to their accounts.
+  Your username is a unique identifier that will appear on all of your comments.
 createUsername-createUsernameButton = Create Username
 createUsername-usernameLabel = Username
 createUsername-usernameDescription = You may use “_” and “.” Spaces not permitted.
