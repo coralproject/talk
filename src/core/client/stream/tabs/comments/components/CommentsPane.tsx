@@ -1,15 +1,15 @@
 import * as React from "react";
 import { StatelessComponent } from "react";
 
-import PermalinkViewQuery from "../queries/PermalinkViewQuery";
 import StreamQuery from "../queries/StreamQuery";
+import PermalinkView from "../views/permalink";
 
 export interface CommentsPaneProps {
   showPermalinkView: boolean;
 }
 
 const CommentsPane: StatelessComponent<CommentsPaneProps> = props => {
-  return props.showPermalinkView ? <PermalinkViewQuery /> : <StreamQuery />;
+  return props.showPermalinkView ? <PermalinkView /> : <StreamQuery />;
 };
 
 export default CommentsPane;

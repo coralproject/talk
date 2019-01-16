@@ -2,8 +2,11 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import {
   baseComment,
@@ -69,25 +72,31 @@ beforeEach(() => {
 });
 
 it("renders comment stream", async () => {
+  const streamLog = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
   // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  expect(within(streamLog).toJSON()).toMatchSnapshot();
 });
 
 it("post a reply", async () => {
-  // Wait for loading.
-  await timeout();
+  const streamLog = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+
+  const deepestReply = within(streamLog).getByTestID(
+    "comment-comment-with-deepest-replies-5"
+  );
 
   // Open reply form.
-  testRenderer.root
-    .findByProps({
-      id:
-        "comments-commentContainer-replyButton-comment-with-deepest-replies-5",
-    })
+  within(deepestReply)
+    .getByText("Reply", { selector: "button" })
     .props.onClick();
 
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot("open reply form");
+  const form = await waitForElement(() =>
+    within(deepestReply).getByType("form")
+  );
+  expect(within(deepestReply).toJSON()).toMatchSnapshot("open reply form");
 
   // Write reply .
   testRenderer.root
@@ -97,18 +106,20 @@ it("post a reply", async () => {
     .props.onChange({ html: "<strong>Hello world!</strong>" });
 
   timekeeper.freeze(new Date(baseComment.createdAt));
-  testRenderer.root
-    .findByProps({
-      id: "comments-replyCommentForm-form-comment-with-deepest-replies-5",
-    })
-    .props.onSubmit();
+  form.props.onSubmit();
+
+  const deepestReplyList = within(streamLog).getByTestID(
+    "commentReplyList-comment-with-deepest-replies-5"
+  );
+
   // Test optimistic response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("optimistic response");
+  expect(within(deepestReplyList).toJSON()).toMatchSnapshot(
+    "optimistic response"
+  );
   timekeeper.reset();
 
-  // Wait for loading.
-  await timeout();
-
   // Test after server response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("server response");
+  await waitForElement(() =>
+    within(deepestReplyList).getByText("(from server)", { exact: false })
+  );
 });

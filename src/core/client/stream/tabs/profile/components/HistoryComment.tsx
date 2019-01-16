@@ -16,6 +16,7 @@ import HTMLContent from "../../../components/HTMLContent";
 import styles from "./HistoryComment.css";
 
 export interface HistoryCommentProps {
+  id: string;
   body: string | null;
   createdAt: string;
   replyCount: number | null;
@@ -30,7 +31,7 @@ export interface HistoryCommentProps {
 
 const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
   return (
-    <HorizontalGutter>
+    <HorizontalGutter data-testid={`historyComment-${props.id}`}>
       <Localized
         id="profile-historyComment-story"
         $title={props.story.metadata ? props.story.metadata.title : "N/A"} // FIXME: (wyattjoh) When a title for a Story isn't available, we need a fallback.

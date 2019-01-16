@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders report button 1`] = `
+<withPropsOnChange(Button)
+  classes={Object {}}
+  disabled={false}
+  size="small"
+  variant="ghost"
+>
+  <MatchMediaWithContext
+    gtWidth="xs"
+  >
+    <withPropsOnChange(ButtonIcon)>
+      flag
+    </withPropsOnChange(ButtonIcon)>
+  </MatchMediaWithContext>
+  <Localized
+    id="comments-reportButton-report"
+  >
+    <span>
+      Report
+    </span>
+  </Localized>
+</withPropsOnChange(Button)>
+`;
+
+exports[`renders reported button 1`] = `
+<withPropsOnChange(Button)
+  classes={
+    Object {
+      "colorRegular": "ReportButton-colorRegular",
+      "variantGhost": "ReportButton-variantGhost",
+    }
+  }
+  disabled={true}
+  size="small"
+  variant="ghost"
+>
+  <MatchMediaWithContext
+    gtWidth="xs"
+  >
+    <withPropsOnChange(ButtonIcon)>
+      flag
+    </withPropsOnChange(ButtonIcon)>
+  </MatchMediaWithContext>
+  <Localized
+    id="comments-reportButton-reported"
+  >
+    <span>
+      Reported
+    </span>
+  </Localized>
+</withPropsOnChange(Button)>
+`;

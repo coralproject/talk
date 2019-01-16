@@ -1,12 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import {
-  Manager,
-  Popper,
-  PopperArrowProps,
-  Reference,
-  RefHandler,
-} from "react-popper";
+import { Manager, Popper, Reference, RefHandler } from "react-popper";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -31,6 +25,7 @@ type Placement =
 interface BodyRenderProps {
   toggleVisibility: () => void;
   visible: boolean;
+  scheduleUpdate: () => void;
 }
 
 interface ChildrenRenderProps {
@@ -112,7 +107,7 @@ class Popover extends React.Component<PopoverProps> {
       <div className={cn(classes.root, className)} {...rest}>
         <Manager>
           <Reference>
-            {(props: PopperArrowProps) =>
+            {props =>
               children({
                 forwardRef: props.ref,
                 toggleVisibility: this.toggleVisibility,
@@ -121,7 +116,7 @@ class Popover extends React.Component<PopoverProps> {
             }
           </Reference>
           <Popper placement={placement} eventsEnabled positionFixed={false}>
-            {(props: PopperArrowProps) => (
+            {props => (
               <div
                 id={id}
                 role="popup"
@@ -137,6 +132,7 @@ class Popover extends React.Component<PopoverProps> {
                   >
                     {typeof body === "function"
                       ? body({
+                          scheduleUpdate: props.scheduleUpdate,
                           toggleVisibility: this.toggleVisibility,
                           visible: this.state.visible,
                         })

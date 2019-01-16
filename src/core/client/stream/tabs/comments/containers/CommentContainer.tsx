@@ -17,7 +17,7 @@ import {
   withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
-import { Button, HorizontalGutter } from "talk-ui/components";
+import { Button, Flex, HorizontalGutter } from "talk-ui/components";
 import ReactionButtonContainer from "./ReactionButtonContainer";
 
 import Comment, {
@@ -28,6 +28,7 @@ import ReplyButton from "../components/Comment/ReplyButton";
 import EditCommentFormContainer from "./EditCommentFormContainer";
 import PermalinkButtonContainer from "./PermalinkButtonContainer";
 import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
+import ReportButtonContainer from "./ReportButtonContainer";
 
 interface InnerProps {
   me: MeData | null;
@@ -148,87 +149,96 @@ export class CommentContainer extends Component<InnerProps, State> {
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
       return (
-        <EditCommentFormContainer
-          comment={comment}
-          onClose={this.closeEditDialog}
-        />
+        <div data-testid={`comment-${comment.id}`}>
+          <EditCommentFormContainer
+            comment={comment}
+            onClose={this.closeEditDialog}
+          />
+        </div>
       );
     }
     return (
-      <HorizontalGutter>
-        <Comment
-          id={`comment-${comment.id}`}
-          indentLevel={indentLevel}
-          username={comment.author && comment.author.username}
-          body={comment.body}
-          createdAt={comment.createdAt}
-          blur={comment.pending || false}
-          showEditedMarker={comment.editing.edited}
-          highlight={highlight}
-          parentAuthorName={
-            comment.parent &&
-            comment.parent.author &&
-            comment.parent.author.username
-          }
-          topBarRight={
-            (editable && (
-              <Localized id="comments-commentContainer-editButton">
-                <Button
-                  id={`comments-commentContainer-editButton-${comment.id}`}
-                  color="primary"
-                  variant="underlined"
-                  onClick={this.openEditDialog}
-                >
-                  Edit
-                </Button>
-              </Localized>
-            )) ||
-            undefined
-          }
-          footer={
-            <>
-              <ButtonsBar>
-                {!disableReplies && (
-                  <ReplyButton
-                    id={`comments-commentContainer-replyButton-${comment.id}`}
-                    onClick={this.openReplyDialog}
-                    active={showReplyDialog}
+      <div data-testid={`comment-${comment.id}`}>
+        <HorizontalGutter>
+          <Comment
+            indentLevel={indentLevel}
+            username={comment.author && comment.author.username}
+            body={comment.body}
+            createdAt={comment.createdAt}
+            blur={comment.pending || false}
+            showEditedMarker={comment.editing.edited}
+            highlight={highlight}
+            parentAuthorName={
+              comment.parent &&
+              comment.parent.author &&
+              comment.parent.author.username
+            }
+            topBarRight={
+              (editable && (
+                <Localized id="comments-commentContainer-editButton">
+                  <Button
+                    color="primary"
+                    variant="underlined"
+                    onClick={this.openEditDialog}
+                  >
+                    Edit
+                  </Button>
+                </Localized>
+              )) ||
+              undefined
+            }
+            footer={
+              <>
+                <Flex justifyContent="space-between">
+                  <ButtonsBar>
+                    {!disableReplies && (
+                      <ReplyButton
+                        id={`comments-commentContainer-replyButton-${
+                          comment.id
+                        }`}
+                        onClick={this.openReplyDialog}
+                        active={showReplyDialog}
+                      />
+                    )}
+                    <PermalinkButtonContainer
+                      story={story}
+                      commentID={comment.id}
+                    />
+                    <ReactionButtonContainer
+                      comment={comment}
+                      settings={settings}
+                      me={me}
+                    />
+                  </ButtonsBar>
+                  <ButtonsBar>
+                    <ReportButtonContainer comment={comment} me={me} />
+                  </ButtonsBar>
+                </Flex>
+                {showConversationLink && (
+                  <ShowConversationLink
+                    id={`comments-commentContainer-showConversation-${
+                      comment.id
+                    }`}
+                    onClick={this.handleShowConversation}
+                    href={getURLWithCommentID(
+                      this.props.story.url,
+                      this.props.comment.id
+                    )}
                   />
                 )}
-                <PermalinkButtonContainer
-                  story={story}
-                  commentID={comment.id}
-                />
-                <ReactionButtonContainer
-                  comment={comment}
-                  settings={settings}
-                  me={me}
-                />
-              </ButtonsBar>
-              {showConversationLink && (
-                <ShowConversationLink
-                  id={`comments-commentContainer-showConversation-${
-                    comment.id
-                  }`}
-                  onClick={this.handleShowConversation}
-                  href={getURLWithCommentID(
-                    this.props.story.url,
-                    this.props.comment.id
-                  )}
-                />
-              )}
-            </>
-          }
-        />
-        {showReplyDialog && (
-          <ReplyCommentFormContainer
-            comment={comment}
-            story={story}
-            onClose={this.closeReplyDialog}
-            localReply={localReply}
+              </>
+            }
           />
-        )}
-      </HorizontalGutter>
+          {showReplyDialog && (
+            <ReplyCommentFormContainer
+              comment={comment}
+              story={story}
+              onClose={this.closeReplyDialog}
+              localReply={localReply}
+            />
+          )}
+        </HorizontalGutter>
+      </div>
     );
   }
 }
@@ -240,6 +250,7 @@ const enhanced = withSetCommentIDMutation(
         fragment CommentContainer_me on User {
           id
           ...ReactionButtonContainer_me
+          ...ReportButtonContainer_me
         }
       `,
       story: graphql`
@@ -271,6 +282,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReplyCommentFormContainer_comment
           ...EditCommentFormContainer_comment
           ...ReactionButtonContainer_comment
+          ...ReportButtonContainer_comment
         }
       `,
       settings: graphql`

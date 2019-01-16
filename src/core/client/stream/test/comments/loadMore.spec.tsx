@@ -1,8 +1,12 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  wait,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { comments, settings, stories } from "../fixtures";
 import create from "./create";
@@ -80,18 +84,33 @@ beforeEach(() => {
   }));
 });
 
-it("renders comment stream", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+it("renders comment stream with load more button", async () => {
+  const streamLog = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+  expect(within(streamLog).toJSON()).toMatchSnapshot();
 });
 
 it("loads more comments", async () => {
-  testRenderer.root
-    .findByProps({ id: "talk-comments-stream-loadMore" })
+  const streamLog = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+
+  // Get amount of comments before.
+  const commentsBefore = within(streamLog).getAllByTestID(/^comment-/).length;
+
+  within(streamLog)
+    .getByText("Load More")
     .props.onClick();
 
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  // Wait for load more button to disappear
+
+  // Should now have one more comment
+  await wait(() =>
+    expect(within(streamLog).queryByText("Load More")).toBeNull()
+  );
+
+  expect(within(streamLog).getAllByTestID(/^comment-/).length).toBe(
+    commentsBefore + 1
+  );
 });

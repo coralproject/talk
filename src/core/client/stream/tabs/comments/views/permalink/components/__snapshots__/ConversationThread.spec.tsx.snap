@@ -3,6 +3,7 @@
 exports[`renders with no parent comments 1`] = `
 <div
   className="root ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
     comment={Object {}}
@@ -17,6 +18,7 @@ exports[`renders with no parent comments 1`] = `
 exports[`with 2 remaining parent comments renders correctly 1`] = `
 <div
   className="root ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
 >
   <withPropsOnChange(HorizontalGutter)
     container={
@@ -80,6 +82,7 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
 exports[`with 2 remaining parent comments renders with disabled load more 1`] = `
 <div
   className="root ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
 >
   <withPropsOnChange(HorizontalGutter)
     container={

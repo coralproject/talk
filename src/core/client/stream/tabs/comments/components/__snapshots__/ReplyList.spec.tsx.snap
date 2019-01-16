@@ -2,6 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <withPropsOnChange(HorizontalGutter)
+  data-testid="commentReplyList-comment-id"
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
@@ -71,6 +72,7 @@ exports[`renders correctly 1`] = `
 
 exports[`when there is more disables load more button 1`] = `
 <withPropsOnChange(HorizontalGutter)
+  data-testid="commentReplyList-comment-id"
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
@@ -154,6 +156,7 @@ exports[`when there is more disables load more button 1`] = `
 
 exports[`when there is more renders a load more button 1`] = `
 <withPropsOnChange(HorizontalGutter)
+  data-testid="commentReplyList-comment-id"
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >

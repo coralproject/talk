@@ -11,6 +11,7 @@ const HistoryCommentN = removeFragmentRefs(HistoryComment);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof HistoryCommentN> = {
+    id: "comment-id",
     body: "Hello World",
     createdAt: "2018-07-06T18:24:00.000Z",
     replyCount: 4,

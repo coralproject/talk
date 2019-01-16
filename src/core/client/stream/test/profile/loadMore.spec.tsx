@@ -1,8 +1,12 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  wait,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { comments, meWithComments, settings, stories } from "../fixtures";
 import create from "./create";
@@ -76,18 +80,33 @@ beforeEach(() => {
   }));
 });
 
-it("renders comment stream", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+it("renders profile", async () => {
+  const commentHistory = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("profile-commentHistory")
+  );
+  expect(within(commentHistory).toJSON()).toMatchSnapshot();
 });
 
 it("loads more comments", async () => {
-  testRenderer.root
-    .findByProps({ id: "talk-profile-commentHistory-loadMore" })
+  const commentHistory = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("profile-commentHistory")
+  );
+
+  // Get amount of comments before.
+  const commentsBefore = within(commentHistory).getAllByTestID(
+    /^historyComment-/
+  ).length;
+
+  within(commentHistory)
+    .getByText("Load More")
     .props.onClick();
 
   // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+  await wait(() =>
+    expect(within(commentHistory).queryByText("Load More")).toBeNull()
+  );
+
+  expect(within(commentHistory).getAllByTestID(/^historyComment-/).length).toBe(
+    commentsBefore + 1
+  );
 });

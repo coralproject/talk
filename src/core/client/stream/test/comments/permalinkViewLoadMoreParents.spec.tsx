@@ -1,8 +1,12 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  wait,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { comments, settings, stories } from "../fixtures";
 import create from "./create";
@@ -86,20 +90,33 @@ beforeEach(() => {
   }));
 });
 
-it("renders permalink view", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+it("renders conversation thread", async () => {
+  const conversationThread = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(
+      "comments-permalinkView-conversationThread"
+    )
+  );
+  expect(within(conversationThread).toJSON()).toMatchSnapshot();
 });
 
-it("views pervious comments", async () => {
-  testRenderer.root
-    .find(
-      node =>
-        node.props.onClick &&
-        node.props.id === "comments-conversationThread-showHiddenComments"
+it("shows hidden comments", async () => {
+  const conversationThread = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(
+      "comments-permalinkView-conversationThread"
     )
+  );
+
+  // Show hidden comments.
+  within(conversationThread)
+    .getByText("SHOW HIDDEN COMMENTS")
     .props.onClick();
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+
+  // Wait until button disappears.
+  await wait(() =>
+    expect(
+      within(conversationThread).queryByText("SHOW HIDDEN COMMENTS")
+    ).toBeNull()
+  );
+
+  expect(within(conversationThread).toJSON()).toMatchSnapshot();
 });

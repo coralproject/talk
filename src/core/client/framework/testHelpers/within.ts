@@ -1,6 +1,10 @@
 import { ReactTestInstance } from "react-test-renderer";
 
 import {
+  getByID,
+  queryByID,
+} from "./byID";
+import {
   getAllByLabelText,
   getByLabelText,
   queryAllByLabelText,
@@ -47,6 +51,8 @@ export default function within(container: ReactTestInstance) {
     getAllByTestID: applyContainer(container, getAllByTestID),
     queryByTestID: applyContainer(container, queryByTestID),
     queryAllByTestID: applyContainer(container, queryAllByTestID),
+    getByID: applyContainer(container, getByID),
+    queryByID: applyContainer(container, queryByID),
     getByText: applyContainer(container, getByText),
     getAllByText: applyContainer(container, getAllByText),
     queryByText: applyContainer(container, queryByText),

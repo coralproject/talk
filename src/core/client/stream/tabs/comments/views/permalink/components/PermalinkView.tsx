@@ -4,9 +4,10 @@ import React, { MouseEvent, StatelessComponent } from "react";
 import { PropTypesOf } from "talk-framework/types";
 import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
 
-import UserBoxContainer from "../../../containers/UserBoxContainer";
+import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
+import ReplyListContainer from "talk-stream/tabs/comments/containers/ReplyListContainer";
+
 import ConversationThreadContainer from "../containers/ConversationThreadContainer";
-import ReplyListContainer from "../containers/ReplyListContainer";
 
 import styles from "./PermalinkView.css";
 
@@ -50,7 +51,6 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
         {showAllCommentsHref && (
           <Localized id="comments-permalinkView-viewFullDiscussion">
             <Button
-              id="talk-comments-permalinkView-viewFullDiscussion"
               variant="underlined"
               color="primary"
               onClick={onShowAllComments}

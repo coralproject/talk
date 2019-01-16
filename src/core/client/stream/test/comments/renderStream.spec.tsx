@@ -1,8 +1,11 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { settings, stories } from "../fixtures";
 import create from "./create";
@@ -32,8 +35,9 @@ beforeEach(() => {
   }));
 });
 
-it("renders comment stream", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
+it("renders app with comment stream", async () => {
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+  expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
 });

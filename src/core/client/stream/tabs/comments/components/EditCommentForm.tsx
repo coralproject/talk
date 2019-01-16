@@ -56,7 +56,6 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
           className={props.className}
           autoComplete="off"
           onSubmit={handleSubmit}
-          id={`comments-editCommentForm-form-${props.id}`}
         >
           <HorizontalGutter>
             <div>
@@ -120,7 +119,6 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
               {props.expired ? (
                 <Localized id="comments-editCommentForm-close">
                   <Button
-                    id={`comments-editCommentForm-closeButton-${props.id}`}
                     variant="outlined"
                     disabled={submitting}
                     onClick={props.onClose}
@@ -134,9 +132,6 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
                     <>
                       <Localized id="comments-editCommentForm-cancel">
                         <Button
-                          id={`comments-editCommentForm-cancelButton-${
-                            props.id
-                          }`}
                           variant="outlined"
                           disabled={submitting}
                           onClick={props.onCancel}

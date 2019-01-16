@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)>
+<withPropsOnChange(HorizontalGutter)
+  data-testid="historyComment-comment-id"
+>
   <Localized
     $title="Story Title"
     id="profile-historyComment-story"

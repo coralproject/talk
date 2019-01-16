@@ -5,12 +5,12 @@ import React, { StatelessComponent } from "react";
 import { PropTypesOf } from "talk-framework/types";
 import { Button, Counter, Flex, HorizontalGutter } from "talk-ui/components";
 
-import CommentContainer from "../containers/CommentContainer";
-import LocalReplyListContainer from "../containers/LocalReplyListContainer";
-import { RootParent } from "./Comment";
-import { Circle, Line } from "./Timeline";
+import { RootParent } from "talk-stream/tabs/comments/components/Comment";
+import CommentContainer from "talk-stream/tabs/comments/containers/CommentContainer";
+import LocalReplyListContainer from "talk-stream/tabs/comments/containers/LocalReplyListContainer";
 
 import styles from "./ConversationThread.css";
+import { Circle, Line } from "./Timeline";
 
 export interface ConversationThreadProps {
   className?: string;
@@ -38,9 +38,13 @@ export interface ConversationThreadProps {
 const ConversationThread: StatelessComponent<
   ConversationThreadProps
 > = props => {
+  const dataTestID = "comments-permalinkView-conversationThread";
   if (props.remaining === 0 && props.parents.length === 0) {
     return (
-      <div className={cn(props.className, styles.root)}>
+      <div
+        className={cn(props.className, styles.root)}
+        data-testid={dataTestID}
+      >
         <CommentContainer
           comment={props.comment}
           story={props.story}
@@ -52,7 +56,7 @@ const ConversationThread: StatelessComponent<
     );
   }
   return (
-    <div className={cn(props.className, styles.root)}>
+    <div className={cn(props.className, styles.root)} data-testid={dataTestID}>
       <HorizontalGutter container={<Line dotted />}>
         {props.rootParent && (
           <Circle>

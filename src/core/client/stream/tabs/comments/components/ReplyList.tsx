@@ -34,6 +34,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
   return (
     <HorizontalGutter
       id={`talk-comments-replyList-log--${props.comment.id}`}
+      data-testid={`commentReplyList-${props.comment.id}`}
       role="log"
     >
       {props.comments.map(comment => (

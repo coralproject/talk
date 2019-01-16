@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<withPropsOnChange(HorizontalGutter)
+  className="ThankYou-root"
+>
+  <Localized
+    id="comments-reportPopover-thankYou"
+  >
+    <withPropsOnChange(Typography)
+      className="ThankYou-title"
+      variant="heading2"
+    >
+      Thank you!
+    </withPropsOnChange(Typography)>
+  </Localized>
+  <div>
+    <Localized
+      id="comments-reportPopover-receivedMessage"
+    >
+      <Content>
+        We’ve received your message. Reports from members like you keep the community safe.
+      </Content>
+    </Localized>
+  </div>
+</withPropsOnChange(HorizontalGutter)>
+`;

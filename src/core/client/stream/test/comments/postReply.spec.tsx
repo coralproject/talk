@@ -2,8 +2,11 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import { timeout } from "talk-common/utils";
-import { createSinonStub } from "talk-framework/testHelpers";
+import {
+  createSinonStub,
+  waitForElement,
+  within,
+} from "talk-framework/testHelpers";
 
 import { baseComment, settings, stories, users } from "../fixtures";
 import create from "./create";
@@ -63,23 +66,20 @@ beforeEach(() => {
   }));
 });
 
-it("renders comment stream", async () => {
-  // Wait for loading.
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot();
-});
-
 it("post a reply", async () => {
-  // Wait for loading.
-  await timeout();
+  const streamLog = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+
+  const comment = within(streamLog).getByTestID("comment-comment-0");
 
   // Open reply form.
-  testRenderer.root
-    .findByProps({ id: "comments-commentContainer-replyButton-comment-0" })
+  within(comment)
+    .getByText("Reply", { selector: "button" })
     .props.onClick();
 
-  await timeout();
-  expect(testRenderer.toJSON()).toMatchSnapshot("open reply form");
+  const form = await waitForElement(() => within(comment).getByType("form"));
+  expect(within(comment).toJSON()).toMatchSnapshot("open reply form");
 
   // Write reply .
   testRenderer.root
@@ -87,16 +87,20 @@ it("post a reply", async () => {
     .props.onChange({ html: "<strong>Hello world!</strong>" });
 
   timekeeper.freeze(new Date(baseComment.createdAt));
-  testRenderer.root
-    .findByProps({ id: "comments-replyCommentForm-form-comment-0" })
-    .props.onSubmit();
+  form.props.onSubmit();
+
+  const commentReplyList = within(streamLog).getByTestID(
+    "commentReplyList-comment-0"
+  );
+
   // Test optimistic response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("optimistic response");
+  expect(within(commentReplyList).toJSON()).toMatchSnapshot(
+    "optimistic response"
+  );
   timekeeper.reset();
 
-  // Wait for loading.
-  await timeout();
-
   // Test after server response.
-  expect(testRenderer.toJSON()).toMatchSnapshot("server response");
+  await waitForElement(() =>
+    within(commentReplyList).getByText("(from server)", { exact: false })
+  );
 });

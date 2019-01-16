@@ -18,7 +18,8 @@ framework-shortNumber-1000000000 = 0.0B
 ## Validation
 
 framework-validation-required = This field is required.
-framework-validation-tooShort = The field must contain at least {$minLength} characters.
+framework-validation-tooShort = Please enter at least {$minLength} characters.
+framework-validation-tooLong = Please enter at max {$maxLength} characters.
 framework-validation-usernameTooShort = Username must contain at least {$minLength} characters.
 framework-validation-usernameTooLong = Usernames cannot be longer than {$maxLength} characters.
 framework-validation-invalidCharacters = Invalid characters. Try again.
