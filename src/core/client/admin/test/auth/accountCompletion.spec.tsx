@@ -84,7 +84,7 @@ it("renders createPassword view", async () => {
 });
 
 it("do not render createPassword view when local auth is disabled", async () => {
-  const { root } = await createTestRenderer({
+  await createTestRenderer({
     Query: {
       me: {
         email: "hans@test.com",
