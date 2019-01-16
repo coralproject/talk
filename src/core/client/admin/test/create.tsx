@@ -18,6 +18,7 @@ import createNodeMock from "./createNodeMock";
 interface CreateParams {
   logNetwork?: boolean;
   resolvers?: IResolvers<any, any>;
+  muteNetworkErrors?: boolean;
   initLocalState?: (
     local: RecordProxy,
     source: RecordSourceProxy,
@@ -30,6 +31,7 @@ export default function create(params: CreateParams) {
     // Set this to true, to see graphql responses.
     logNetwork: params.logNetwork,
     resolvers: params.resolvers,
+    muteNetworkErrors: params.muteNetworkErrors,
     initLocalState: (localRecord, source, env) => {
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, env);
