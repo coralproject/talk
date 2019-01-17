@@ -47,6 +47,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@coralproject/bunyan-prettystream": "^0.1.4",
     "akismet-api": "^4.2.0",
     "apollo-server-express": "^2.1.0",
     "bcryptjs": "^2.4.3",
