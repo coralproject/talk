@@ -166,6 +166,8 @@ sidebar:
           url: /customizing-plugins-coral-ui/
         - title: When You've Installed Talk
           url: /when-youve-installed-talk/
+        - title: Embedding Talk in Native Mobile Apps
+          url: /embedding-in-native-mobile-apps/
     - title: Migrating
       children:
         - title: Migrating from v3.x.x
