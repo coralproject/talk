@@ -1,10 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<input
-  className="TextField-root TextField-colorRegular custom"
-  defaultValue="Hello World"
-  placeholder=""
-  type="text"
-/>
+<div
+  className="TextField-root custom"
+>
+  <input
+    className="TextField-input TextField-colorRegular"
+    defaultValue="Hello World"
+    placeholder=""
+    type="text"
+  />
+  Unit
+</div>
 `;

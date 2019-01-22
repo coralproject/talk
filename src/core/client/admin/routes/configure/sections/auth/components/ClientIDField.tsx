@@ -6,7 +6,7 @@ import { Field } from "react-final-form";
 import { Validator } from "talk-framework/lib/validation";
 import { FormField, InputLabel, TextField } from "talk-ui/components";
 
-import ValidationMessage from "./ValidationMessage";
+import ValidationMessage from "../../../components/ValidationMessage";
 
 interface Props {
   validate?: Validator;

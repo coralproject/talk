@@ -3,13 +3,13 @@ import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
-import Moderation from "./Moderation";
+import ExternalLink from "./ExternalLink";
 
 it("renders correctly", () => {
-  const props: PropTypesOf<typeof Moderation> = {
-    children: "child",
+  const props: PropTypesOf<typeof ExternalLink> = {
+    children: "http://test.com",
   };
   const renderer = createRenderer();
-  renderer.render(<Moderation {...props} />);
+  renderer.render(<ExternalLink {...props} />);
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

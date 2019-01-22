@@ -27,16 +27,20 @@ exports[`accepts valid username 1`] = `
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
-      <input
-        className="TextField-root TextField-colorRegular TextField-fullWidth"
-        disabled={true}
-        id="username"
-        name="username"
-        onChange={[Function]}
-        placeholder="Username"
-        type="text"
-        value="hans"
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorRegular"
+          disabled={true}
+          id="username"
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="hans"
+        />
+      </div>
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
@@ -81,16 +85,20 @@ exports[`checks for invalid username 1`] = `
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
-      <input
-        className="TextField-root TextField-colorError TextField-fullWidth"
-        disabled={false}
-        id="username"
-        name="username"
-        onChange={[Function]}
-        placeholder="Username"
-        type="text"
-        value="x"
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorError"
+          disabled={false}
+          id="username"
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="x"
+        />
+      </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
@@ -177,16 +185,20 @@ exports[`renders createUsername view 1`] = `
                 >
                   You may use “_” and “.” Spaces not permitted.
                 </p>
-                <input
-                  className="TextField-root TextField-colorRegular TextField-fullWidth"
-                  disabled={false}
-                  id="username"
-                  name="username"
-                  onChange={[Function]}
-                  placeholder="Username"
-                  type="text"
-                  value=""
-                />
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="username"
+                    name="username"
+                    onChange={[Function]}
+                    placeholder="Username"
+                    type="text"
+                    value=""
+                  />
+                </div>
               </div>
               <button
                 className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
@@ -236,16 +248,20 @@ exports[`shows error when submitting empty form 1`] = `
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
-      <input
-        className="TextField-root TextField-colorError TextField-fullWidth"
-        disabled={false}
-        id="username"
-        name="username"
-        onChange={[Function]}
-        placeholder="Username"
-        type="text"
-        value=""
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorError"
+          disabled={false}
+          id="username"
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+      </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
@@ -315,16 +331,20 @@ GraphQL request (4:3)
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
-      <input
-        className="TextField-root TextField-colorRegular TextField-fullWidth"
-        disabled={false}
-        id="username"
-        name="username"
-        onChange={[Function]}
-        placeholder="Username"
-        type="text"
-        value="hans"
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorRegular"
+          disabled={false}
+          id="username"
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value="hans"
+        />
+      </div>
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
@@ -369,16 +389,20 @@ exports[`successfully sets username 1`] = `
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
-      <input
-        className="TextField-root TextField-colorRegular TextField-fullWidth"
-        disabled={false}
-        id="username"
-        name="username"
-        onChange={[Function]}
-        placeholder="Username"
-        type="text"
-        value=""
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorRegular"
+          disabled={false}
+          id="username"
+          name="username"
+          onChange={[Function]}
+          placeholder="Username"
+          type="text"
+          value=""
+        />
+      </div>
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"

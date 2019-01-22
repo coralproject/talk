@@ -1,4 +1,10 @@
 .root {
+  display: flex;
+  width: calc(29 * var(--spacing-unit));
+  align-items: center;
+}
+
+.input {
   composes: inputText placeholderPseudo from "talk-ui/shared/typography.css";
   position: relative;
   display: block;
@@ -7,7 +13,7 @@
   border-radius: var(--round-corners);
   height: 36px;
   line-height: 36px;
-  width: calc(29 * var(--spacing-unit));
+  width: 100%;
 
   &:read-only {
     background-color: var(--palette-grey-lightest);
@@ -16,6 +22,10 @@
     color: var(--palette-text-secondary);
     background-color: var(--palette-grey-lightest);
   }
+}
+
+.input + * {
+  padding-left: calc(0.5 * var(--spacing-unit));
 }
 
 .colorRegular {
@@ -32,4 +42,8 @@
 
 .fullWidth {
   width: 100%;
+}
+
+.textAlignCenter {
+  text-align: center;
 }

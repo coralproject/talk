@@ -173,6 +173,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       },
       perspective: {
         enabled: false,
+        doNotStore: true,
       },
     },
     reaction: {

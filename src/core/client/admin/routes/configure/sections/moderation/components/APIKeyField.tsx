@@ -14,21 +14,16 @@ interface Props {
   disabled: boolean;
 }
 
-const ClientSecretField: StatelessComponent<Props> = ({
+const APIKeyField: StatelessComponent<Props> = ({
   name,
   disabled,
   validate,
 }) => (
   <FormField>
-    <Localized id="configure-auth-clientSecret">
-      <InputLabel>Client Secret</InputLabel>
+    <Localized id="configure-moderation-apiKey">
+      <InputLabel>API Key</InputLabel>
     </Localized>
-    <Field
-      name={name}
-      key={(disabled && "on") || "off"}
-      parse={identity}
-      validate={validate}
-    >
+    <Field name={name} parse={identity} validate={validate}>
       {({ input, meta }) => (
         <>
           <TextField
@@ -53,4 +48,4 @@ const ClientSecretField: StatelessComponent<Props> = ({
   </FormField>
 );
 
-export default ClientSecretField;
+export default APIKeyField;

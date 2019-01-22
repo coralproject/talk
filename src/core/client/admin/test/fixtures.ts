@@ -6,6 +6,14 @@ export const settings = {
     banned: [],
     suspect: [],
   },
+  integrations: {
+    akismet: {
+      enabled: false,
+    },
+    perspective: {
+      enabled: false,
+    },
+  },
   auth: {
     displayName: {
       enabled: false,

@@ -59,6 +59,9 @@ export interface TextFieldProps {
   autoCorrect?: AllHTMLAttributes<HTMLInputElement>["autoCorrect"];
   autoCapitalize?: AllHTMLAttributes<HTMLInputElement>["autoCapitalize"];
   spellCheck?: AllHTMLAttributes<HTMLInputElement>["spellCheck"];
+
+  textAlignCenter?: boolean;
+  adornment?: React.ReactNode;
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {
@@ -69,26 +72,35 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
     fullWidth,
     value,
     placeholder,
+    adornment,
+    textAlignCenter,
     ...rest
   } = props;
 
   const rootClassName = cn(
     classes.root,
     {
-      [classes.colorRegular]: color === "regular",
-      [classes.colorError]: color === "error",
       [classes.fullWidth]: fullWidth,
     },
     className
   );
 
+  const inputClassName = cn(classes.input, {
+    [classes.colorRegular]: color === "regular",
+    [classes.colorError]: color === "error",
+    [classes.textAlignCenter]: textAlignCenter,
+  });
+
   return (
-    <input
-      className={rootClassName}
-      placeholder={placeholder}
-      value={value}
-      {...rest}
-    />
+    <div className={rootClassName}>
+      <input
+        className={inputClassName}
+        placeholder={placeholder}
+        value={value}
+        {...rest}
+      />
+      {adornment}
+    </div>
   );
 };
 

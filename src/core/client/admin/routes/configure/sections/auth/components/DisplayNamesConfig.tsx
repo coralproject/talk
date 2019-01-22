@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
+import { parseStringBool } from "talk-framework/lib/form";
 import {
   Flex,
   FormField,
@@ -16,20 +17,18 @@ interface Props {
   disabled?: boolean;
 }
 
-const parseStringBool = (v: string) => v === "true";
-
 const DisplayNamesConfig: StatelessComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-auth-displayNamesConfig-title">
       <Header>Display Names</Header>
     </Localized>
     <Localized id="configure-auth-displayNamesConfig-explanationShort">
-      <Typography>
+      <Typography variant="detail">
         Some AUTH integrations include a Display Name as well as a User Name.
       </Typography>
     </Localized>
     <Localized id="configure-auth-displayNamesConfig-explanationLong">
-      <Typography>
+      <Typography variant="detail">
         A User Name has to be unique (there can only be one Juan_Doe, for
         example), whereas a Display Name does not. If your AUTH provider allows
         for Display Names, you can enable this option. This allows for fewer

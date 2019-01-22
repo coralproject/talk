@@ -46,6 +46,11 @@ configure-unsavedInputWarning =
   Are you sure you want to leave this page?
 configure-sideBarNavigation-authentication = Authentication
 configure-sideBar-saveChanges = Save Changes
+configure-configurationSubHeader = Configuration
+configure-onOffField-on = On
+configure-onOffField-off = Off
+configure-permissionField-allow = Allow
+configure-permissionField-dontAllow = Don't allow
 
 # Authentication
 
@@ -119,6 +124,45 @@ configure-auth-oidc-authorizationURL = Authorization URL
 configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
+
+### Moderation
+configure-moderation-apiKey = API Key
+
+configure-moderation-akismet-title = Akismet Spam Detection Filter
+configure-moderation-akismet-explanation =
+  Submitted comments are passed to the Akismet API for spam detection.
+  If a comment is determined to be spam, it will prompt the user,
+  indicating that the comment might be considered spam.
+  If the user continues after this point with the still spam-like comment,
+  the comment will be marked as containing spam, <strong>will not be published</strong> and
+  are placed in the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator,
+  the comment will be published.
+
+configure-moderation-akismet-filter = Spam Detection Filter
+configure-moderation-akismet-accountNote =
+  Note: You must add your active domain(s)
+  in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
+configure-moderation-akismet-siteURL = Site URL
+
+configure-moderation-perspective-title = Perspective Toxic Comment Filter
+configure-moderation-perspective-explanation =
+  Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
+  threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
+  the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
+
+configure-moderation-perspective-filter = Toxic Comment Filter
+configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
+configure-moderation-perspective-toxicityThresholdDescription =
+  This value can be set a percentage between 0 and 100. This number represents the likelihood that a
+  comment is toxic, according to Perspective API.
+configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
+configure-moderation-perspective-allowStoreCommentDataDescription =
+  Stored comments will be used for future research and community model building purposes to
+  improve the API over time
+configure-moderation-perspective-endpoint = Endpoint
+configure-moderation-perspective-accountNote =
+  For additional information on how to set up the Perspective Toxic Comment Filter please visit:
+  <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
 
 ## Decision History
 decisionHistory-youWillSeeAList =

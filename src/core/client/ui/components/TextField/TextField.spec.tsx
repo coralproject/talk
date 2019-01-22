@@ -9,6 +9,7 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof TextField> = {
     className: "custom",
     defaultValue: "Hello World",
+    adornment: "Unit",
   };
   const renderer = TestRenderer.create(<TextField {...props} />);
   expect(renderer.toJSON()).toMatchSnapshot();

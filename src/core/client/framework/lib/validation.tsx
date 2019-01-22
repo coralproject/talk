@@ -58,7 +58,7 @@ export const required = createValidator(v => !!v, VALIDATION_REQUIRED());
  * validateEmail is a Validator that checks that the value is an email.
  */
 export const validateEmail = createValidator(
-  v => EMAIL_REGEX.test(v),
+  v => !v || EMAIL_REGEX.test(v),
   INVALID_EMAIL()
 );
 
@@ -66,7 +66,7 @@ export const validateEmail = createValidator(
  * validateUsernameCharacters is a Validator that checks that the username only contains valid characters.
  */
 export const validateUsernameCharacters = createValidator(
-  v => USERNAME_REGEX.test(v),
+  v => !v || USERNAME_REGEX.test(v),
   INVALID_CHARACTERS()
 );
 
@@ -74,7 +74,7 @@ export const validateUsernameCharacters = createValidator(
  * validateURL is a Validator that checks that the URL only contains valid characters.
  */
 export const validateURL = createValidator(
-  v => URL_REGEX.test(v),
+  v => !v || URL_REGEX.test(v),
   INVALID_URL()
 );
 
