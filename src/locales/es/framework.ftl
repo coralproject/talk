@@ -8,6 +8,7 @@ framework-timeago =
     *[other]
       { $suffix ->
         [ago] hace
+        *[unknown] desconocido
       }
       { $value }
       { $unit ->

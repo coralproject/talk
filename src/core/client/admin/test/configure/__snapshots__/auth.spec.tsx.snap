@@ -1782,6 +1782,15 @@ exports[`renders configure auth 1`] = `
               </li>
               <li>
                 <a
+                  className="Link-link"
+                  href="/admin/configure/wordList"
+                  onClick={[Function]}
+                >
+                  Banned and Suspect Words
+                </a>
+              </li>
+              <li>
+                <a
                   className="Link-link Link-linkActive"
                   href="/admin/configure/auth"
                   onClick={[Function]}

@@ -7,6 +7,7 @@ import Community from "./routes/community/components/Community";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
 import ConfigureAuthRouteContainer from "./routes/configure/sections/auth/containers/AuthRouteContainer";
 import ModerationRouteContainer from "./routes/configure/sections/moderation/containers/ModerationRouteContainer";
+import ConfigureWordListRouteContainer from "./routes/configure/sections/wordList/containers/WordListRouteContainer";
 import LoginContainer from "./routes/login/containers/LoginContainer";
 import ModerateContainer from "./routes/moderate/containers/ModerateContainer";
 import {
@@ -42,6 +43,10 @@ export default makeRouteConfig(
         <Route path="configure" Component={ConfigureContainer}>
           <Redirect from="/" to="/admin/configure/moderation" />
           <Route path="moderation" {...ModerationRouteContainer.routeConfig} />
+          <Route
+            path="wordList"
+            {...ConfigureWordListRouteContainer.routeConfig}
+          />
           <Route path="auth" {...ConfigureAuthRouteContainer.routeConfig} />
         </Route>
       </Route>

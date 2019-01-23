@@ -3,9 +3,10 @@ import React, { StatelessComponent } from "react";
 import styles from "./ExternalLink.css";
 
 const ExternalLink: StatelessComponent<{
+  href?: string;
   children?: string;
-}> = ({ children }) => (
-  <a href={children} target="_blank" className={styles.root}>
+}> = ({ href, children }) => (
+  <a href={href || children} target="_blank" className={styles.root}>
     {children}
   </a>
 );

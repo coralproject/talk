@@ -18,7 +18,7 @@ const Moderation: StatelessComponent<Props> = ({
   settings,
   onInitValues,
 }) => (
-  <HorizontalGutter size="double" data-testid="configure-settingsContainer">
+  <HorizontalGutter size="double" data-testid="configure-moderationContainer">
     <PerspectiveConfigContainer
       disabled={disabled}
       settings={settings}

@@ -4,6 +4,8 @@ import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
 import { formatPercentage, parsePercentage } from "talk-framework/lib/form";
+
+import { ExternalLink } from "talk-framework/lib/i18n/components";
 import {
   composeValidators,
   required,
@@ -25,7 +27,6 @@ import OnOffField from "../../../components/OnOffField";
 import PermissionField from "../../../components/PermissionField";
 import ValidationMessage from "../../../components/ValidationMessage";
 import APIKeyField from "./APIKeyField";
-import ExternalLink from "./ExternalLink";
 
 import styles from "./PerspectiveConfig.css";
 

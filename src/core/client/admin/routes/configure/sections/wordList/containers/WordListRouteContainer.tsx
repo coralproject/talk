@@ -2,19 +2,19 @@ import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ModerationRouteContainerQueryResponse } from "talk-admin/__generated__/ModerationRouteContainerQuery.graphql";
+import { WordListRouteContainerQueryResponse } from "talk-admin/__generated__/WordListRouteContainerQuery.graphql";
 import { withRouteConfig } from "talk-framework/lib/router";
 import { Delay, Spinner } from "talk-ui/components";
 
-import ModerationContainer from "./ModerationContainer";
+import WordListContainer from "./WordListContainer";
 
 interface Props {
-  data: ModerationRouteContainerQueryResponse | null;
+  data: WordListRouteContainerQueryResponse | null;
   form: FormApi;
   submitting: boolean;
 }
 
-class ModerationRouteContainer extends React.Component<Props> {
+class WordListRouteContainer extends React.Component<Props> {
   public render() {
     if (!this.props.data) {
       return (
@@ -24,7 +24,7 @@ class ModerationRouteContainer extends React.Component<Props> {
       );
     }
     return (
-      <ModerationContainer
+      <WordListContainer
         settings={this.props.data.settings}
         form={this.props.form}
         submitting={this.props.submitting}
@@ -35,13 +35,13 @@ class ModerationRouteContainer extends React.Component<Props> {
 
 const enhanced = withRouteConfig({
   query: graphql`
-    query ModerationRouteContainerQuery {
+    query WordListRouteContainerQuery {
       settings {
-        ...ModerationContainer_settings
+        ...WordListContainer_settings
       }
     }
   `,
   cacheConfig: { force: true },
-})(ModerationRouteContainer);
+})(WordListRouteContainer);
 
 export default enhanced;

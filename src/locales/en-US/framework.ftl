@@ -68,7 +68,7 @@ framework-timeago-time =
 framework-timeago =
   { $suffix ->
     [ago] {framework-timeago-time} ago
-    [noSuffix] {framework-timeago-time}
+    *[noSuffix] {framework-timeago-time}
   }
 
 ## Components

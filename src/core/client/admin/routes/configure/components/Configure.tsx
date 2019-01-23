@@ -30,9 +30,16 @@ const Configure: StatelessComponent<Props> = ({
             <SideBar>
               <HorizontalGutter size="double">
                 <Navigation>
-                  <Link to="/admin/configure/moderation">Moderation</Link>
+                  <Localized id="configure-sideBarNavigation-moderation">
+                    <Link to="/admin/configure/moderation">Moderation</Link>
+                  </Localized>
+                  <Localized id="configure-sideBarNavigation-bannedAndSuspectWords">
+                    <Link to="/admin/configure/wordList">
+                      Banned and Suspect Words
+                    </Link>
+                  </Localized>
                   <Localized id="configure-sideBarNavigation-authentication">
-                    <Link to="/admin/configure/auth">Auth</Link>
+                    <Link to="/admin/configure/auth">Authentication</Link>
                   </Localized>
                 </Navigation>
               </HorizontalGutter>

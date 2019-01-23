@@ -44,7 +44,11 @@ login-signInWithOIDC = Sign in with { $name }
 configure-unsavedInputWarning =
   You have unsaved input.
   Are you sure you want to leave this page?
+
 configure-sideBarNavigation-authentication = Authentication
+configure-sideBarNavigation-moderation = Moderation
+configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
+
 configure-sideBar-saveChanges = Save Changes
 configure-configurationSubHeader = Configuration
 configure-onOffField-on = On
@@ -138,6 +142,7 @@ configure-moderation-akismet-explanation =
   are placed in the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator,
   the comment will be published.
 
+#### Akismet
 configure-moderation-akismet-filter = Spam Detection Filter
 configure-moderation-akismet-accountNote =
   Note: You must add your active domain(s)
@@ -150,6 +155,7 @@ configure-moderation-perspective-explanation =
   threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
   the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
 
+#### Perspective
 configure-moderation-perspective-filter = Toxic Comment Filter
 configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
 configure-moderation-perspective-toxicityThresholdDescription =
@@ -163,6 +169,28 @@ configure-moderation-perspective-endpoint = Endpoint
 configure-moderation-perspective-accountNote =
   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
   <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+
+#### Banned Words Configuration
+configure-wordList-banned-bannedWordsAndPhrases = Banned Words and Phrases
+configure-wordList-banned-explanation =
+  Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
+configure-wordList-banned-wordList = Banned Word List
+configure-wordList-banned-wordListDetail =
+  Separate banned words or phrases with a new line. Attempting to copy
+  and paste a comma separated list? <externalLink>Learn how to convert your list
+  to a new line separated list.</externalLink>
+
+#### Suspect Words Configuration
+configure-wordList-suspect-bannedWordsAndPhrases = Suspect Words and Phrases
+configure-wordList-suspect-explanation =
+  Comments containing a word or phrase in the Suspect Words List
+  are <strong>placed into the Reported Queue for moderator review and are
+  published (if comments are not pre-moderated).</strong>
+configure-wordList-suspect-wordList = Suspect Word List
+configure-wordList-suspect-wordListDetail =
+  Separate suspect words or phrases with a new line. Attempting to copy
+  and paste a comma separated list? <externalLink>Learn how to convert your list
+  to a new line separated list.</externalLink>
 
 ## Decision History
 decisionHistory-youWillSeeAList =

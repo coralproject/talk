@@ -16,3 +16,8 @@ export const parsePercentage = (v: string) =>
 export const formatPercentage = (v: number) =>
   v || v === 0 ? Math.round(v * 100).toString() : null;
 export const parseStringBool = (v: string) => v === "true";
+
+export const parseNewLineDelimitedString = (v: string) => v.split("\n");
+export const formatNewLineDelimitedString = (
+  v: ReadonlyArray<string> | undefined | null
+) => (v && v.join("\n")) || "";

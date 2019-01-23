@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
+import { ExternalLink } from "talk-framework/lib/i18n/components";
 import { validateURL } from "talk-framework/lib/validation";
 import {
   FormField,
@@ -16,7 +17,6 @@ import ConfigurationSubHeader from "../../../components/ConfigurationSubHeader";
 import Header from "../../../components/Header";
 import OnOffField from "../../../components/OnOffField";
 import APIKeyField from "./APIKeyField";
-import ExternalLink from "./ExternalLink";
 
 interface Props {
   disabled: boolean;
