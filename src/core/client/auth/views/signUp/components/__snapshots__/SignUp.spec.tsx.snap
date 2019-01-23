@@ -17,7 +17,7 @@ exports[`renders correctly 1`] = `
   <SubBar>
     <Localized
       button={
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           color="primary"
           data-testid="gotoSignInButton"
           onClick={[Function]}
@@ -27,23 +27,28 @@ exports[`renders correctly 1`] = `
       }
       id="signUp-accountAvailableSignIn"
     >
-      <withPropsOnChange(Typography)
-        container={[Function]}
+      <ForwardRef(forwardRef)
+        container={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "render": [Function],
+          }
+        }
         variant="bodyCopy"
       >
         Already have an account? &lt;button&gt;Sign In&lt;/button&gt;
-      </withPropsOnChange(Typography)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>
   <Main
     data-testid="signUp-main"
   >
-    <withPropsOnChange(HorizontalGutter)
+    <ForwardRef(forwardRef)
       size="oneAndAHalf"
     >
       <withContext(createMutationContainer(SignUpContainer)) />
       <OrSeparator />
-      <withPropsOnChange(HorizontalGutter)>
+      <ForwardRef(forwardRef)>
         <Relay(SignUpWithFacebookContainer)
           auth={Object {}}
         />
@@ -53,8 +58,8 @@ exports[`renders correctly 1`] = `
         <Relay(SignUpWithOIDCContainer)
           auth={Object {}}
         />
-      </withPropsOnChange(HorizontalGutter)>
-    </withPropsOnChange(HorizontalGutter)>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
   </Main>
 </div>
 `;
@@ -76,7 +81,7 @@ exports[`renders without email sign up 1`] = `
   <SubBar>
     <Localized
       button={
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           color="primary"
           data-testid="gotoSignInButton"
           onClick={[Function]}
@@ -86,21 +91,26 @@ exports[`renders without email sign up 1`] = `
       }
       id="signUp-accountAvailableSignIn"
     >
-      <withPropsOnChange(Typography)
-        container={[Function]}
+      <ForwardRef(forwardRef)
+        container={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "render": [Function],
+          }
+        }
         variant="bodyCopy"
       >
         Already have an account? &lt;button&gt;Sign In&lt;/button&gt;
-      </withPropsOnChange(Typography)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>
   <Main
     data-testid="signUp-main"
   >
-    <withPropsOnChange(HorizontalGutter)
+    <ForwardRef(forwardRef)
       size="oneAndAHalf"
     >
-      <withPropsOnChange(HorizontalGutter)>
+      <ForwardRef(forwardRef)>
         <Relay(SignUpWithFacebookContainer)
           auth={Object {}}
         />
@@ -110,8 +120,8 @@ exports[`renders without email sign up 1`] = `
         <Relay(SignUpWithOIDCContainer)
           auth={Object {}}
         />
-      </withPropsOnChange(HorizontalGutter)>
-    </withPropsOnChange(HorizontalGutter)>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
   </Main>
 </div>
 `;

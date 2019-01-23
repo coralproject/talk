@@ -4,14 +4,14 @@ exports[`hide reply button 1`] = `
 <div
   data-testid="comment-comment-id"
 >
-  <withPropsOnChange(HorizontalGutter)>
+  <ForwardRef(forwardRef)>
     <IndentedComment
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
-          <withPropsOnChange(Flex)
+          <ForwardRef(forwardRef)
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -74,7 +74,7 @@ exports[`hide reply button 1`] = `
                 me={null}
               />
             </ButtonsBar>
-          </withPropsOnChange(Flex)>
+          </ForwardRef(forwardRef)>
         </React.Fragment>
       }
       indentLevel={1}
@@ -82,7 +82,7 @@ exports[`hide reply button 1`] = `
       showEditedMarker={false}
       username="Marvin"
     />
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;
 
@@ -90,14 +90,14 @@ exports[`renders body only 1`] = `
 <div
   data-testid="comment-comment-id"
 >
-  <withPropsOnChange(HorizontalGutter)>
+  <ForwardRef(forwardRef)>
     <IndentedComment
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
-          <withPropsOnChange(Flex)
+          <ForwardRef(forwardRef)
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -165,7 +165,7 @@ exports[`renders body only 1`] = `
                 me={null}
               />
             </ButtonsBar>
-          </withPropsOnChange(Flex)>
+          </ForwardRef(forwardRef)>
         </React.Fragment>
       }
       indentLevel={1}
@@ -173,7 +173,7 @@ exports[`renders body only 1`] = `
       showEditedMarker={false}
       username={null}
     />
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;
 
@@ -181,14 +181,14 @@ exports[`renders in reply to 1`] = `
 <div
   data-testid="comment-comment-id"
 >
-  <withPropsOnChange(HorizontalGutter)>
+  <ForwardRef(forwardRef)>
     <IndentedComment
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
-          <withPropsOnChange(Flex)
+          <ForwardRef(forwardRef)
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -264,7 +264,7 @@ exports[`renders in reply to 1`] = `
                 me={null}
               />
             </ButtonsBar>
-          </withPropsOnChange(Flex)>
+          </ForwardRef(forwardRef)>
         </React.Fragment>
       }
       indentLevel={1}
@@ -272,7 +272,7 @@ exports[`renders in reply to 1`] = `
       showEditedMarker={false}
       username="Marvin"
     />
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;
 
@@ -280,14 +280,14 @@ exports[`renders username and body 1`] = `
 <div
   data-testid="comment-comment-id"
 >
-  <withPropsOnChange(HorizontalGutter)>
+  <ForwardRef(forwardRef)>
     <IndentedComment
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
-          <withPropsOnChange(Flex)
+          <ForwardRef(forwardRef)
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -355,7 +355,7 @@ exports[`renders username and body 1`] = `
                 me={null}
               />
             </ButtonsBar>
-          </withPropsOnChange(Flex)>
+          </ForwardRef(forwardRef)>
         </React.Fragment>
       }
       indentLevel={1}
@@ -363,7 +363,7 @@ exports[`renders username and body 1`] = `
       showEditedMarker={false}
       username="Marvin"
     />
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;
 
@@ -371,14 +371,14 @@ exports[`shows conversation link 1`] = `
 <div
   data-testid="comment-comment-id"
 >
-  <withPropsOnChange(HorizontalGutter)>
+  <ForwardRef(forwardRef)>
     <IndentedComment
       blur={false}
       body="Woof"
       createdAt="1995-12-17T03:24:00.000Z"
       footer={
         <React.Fragment>
-          <withPropsOnChange(Flex)
+          <ForwardRef(forwardRef)
             justifyContent="space-between"
           >
             <ButtonsBar>
@@ -447,7 +447,7 @@ exports[`shows conversation link 1`] = `
                 me={null}
               />
             </ButtonsBar>
-          </withPropsOnChange(Flex)>
+          </ForwardRef(forwardRef)>
           <ShowConversationLink
             href="http://localhost/story?commentID=comment-id"
             id="comments-commentContainer-showConversation-comment-id"
@@ -460,6 +460,6 @@ exports[`shows conversation link 1`] = `
       showEditedMarker={false}
       username="Marvin"
     />
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;

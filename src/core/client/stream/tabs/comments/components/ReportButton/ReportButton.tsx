@@ -1,13 +1,17 @@
 import { Localized } from "fluent-react/compat";
-import React from "react";
+import React, { Ref } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button, ButtonIcon, MatchMedia } from "talk-ui/components";
+import { withForwardRef } from "talk-ui/hocs";
 
 import styles from "./ReportButton.css";
 
 interface Props extends PropTypesOf<typeof Button> {
   reported: boolean;
+
+  /** Internal: Forwarded Ref */
+  forwardRef?: Ref<HTMLButtonElement>;
 }
 
 class ReportButton extends React.Component<Props> {
@@ -40,4 +44,4 @@ class ReportButton extends React.Component<Props> {
   }
 }
 
-export default ReportButton;
+export default withForwardRef(ReportButton);

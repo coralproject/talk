@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="commentReplyList-comment-id"
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     key="comment-1"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -35,8 +35,8 @@ exports[`renders correctly 1`] = `
         }
       }
     />
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     key="comment-2"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -66,17 +66,17 @@ exports[`renders correctly 1`] = `
         }
       }
     />
-  </withPropsOnChange(HorizontalGutter)>
-</withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`when there is more disables load more button 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="commentReplyList-comment-id"
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     key="comment-1"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -103,8 +103,8 @@ exports[`when there is more disables load more button 1`] = `
         }
       }
     />
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     key="comment-2"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -131,7 +131,7 @@ exports[`when there is more disables load more button 1`] = `
         }
       }
     />
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
   <Indent
     level={1}
     noBorder={true}
@@ -139,7 +139,7 @@ exports[`when there is more disables load more button 1`] = `
     <Localized
       id="comments-replyList-showAll"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         aria-controls="talk-comments-replyList-log--comment-id"
         disabled={true}
         fullWidth={true}
@@ -148,19 +148,19 @@ exports[`when there is more disables load more button 1`] = `
         variant="outlined"
       >
         Show All Replies
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </Indent>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="commentReplyList-comment-id"
   id="talk-comments-replyList-log--comment-id"
   role="log"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     key="comment-1"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -187,8 +187,8 @@ exports[`when there is more renders a load more button 1`] = `
         }
       }
     />
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     key="comment-2"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -215,7 +215,7 @@ exports[`when there is more renders a load more button 1`] = `
         }
       }
     />
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
   <Indent
     level={1}
     noBorder={true}
@@ -223,7 +223,7 @@ exports[`when there is more renders a load more button 1`] = `
     <Localized
       id="comments-replyList-showAll"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         aria-controls="talk-comments-replyList-log--comment-id"
         disabled={false}
         fullWidth={true}
@@ -232,8 +232,8 @@ exports[`when there is more renders a load more button 1`] = `
         variant="outlined"
       >
         Show All Replies
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
   </Indent>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

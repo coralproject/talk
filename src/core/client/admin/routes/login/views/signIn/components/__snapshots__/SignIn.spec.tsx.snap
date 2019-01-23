@@ -12,10 +12,10 @@ exports[`renders correctly 1`] = `
     </Localized>
   }
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     size="oneAndAHalf"
   >
-    <withPropsOnChange(HorizontalGutter) />
-  </withPropsOnChange(HorizontalGutter)>
+    <ForwardRef(forwardRef) />
+  </ForwardRef(forwardRef)>
 </AuthBox>
 `;

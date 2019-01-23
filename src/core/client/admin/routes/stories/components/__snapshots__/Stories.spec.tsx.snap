@@ -2,10 +2,10 @@
 
 exports[`renders correctly 1`] = `
 <MainLayout>
-  <withPropsOnChange(Typography)
+  <ForwardRef(forwardRef)
     variant="heading3"
   >
     Stories
-  </withPropsOnChange(Typography)>
+  </ForwardRef(forwardRef)>
 </MainLayout>
 `;

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="PostCommentFormFake-root"
 >
   <div
@@ -24,7 +24,7 @@ exports[`renders correctly 1`] = `
   <Localized
     id="comments-postCommentFormFake-signInAndJoin"
   >
-    <withPropsOnChange(Button)
+    <ForwardRef(forwardRef)
       color="primary"
       disabled={true}
       fullWidth={true}
@@ -32,7 +32,7 @@ exports[`renders correctly 1`] = `
       variant="filled"
     >
       Sign in and join the conversation
-    </withPropsOnChange(Button)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

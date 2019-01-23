@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="configure-moderationContainer"
   size="double"
 >
@@ -15,5 +15,5 @@ exports[`renders correctly 1`] = `
     onInitValues={[Function]}
     settings={Object {}}
   />
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

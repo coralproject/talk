@@ -12,30 +12,30 @@ exports[`renders correctly 1`] = `
     </Localized>
   }
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     size="double"
   >
     <div>
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         justifyContent="center"
       >
-        <withPropsOnChange(Icon)
+        <ForwardRef(forwardRef)
           className="Restricted-lockIcon"
           size="lg"
         >
           lock
-        </withPropsOnChange(Icon)>
-      </withPropsOnChange(Flex)>
+        </ForwardRef(forwardRef)>
+      </ForwardRef(forwardRef)>
       <Localized
         id="restricted-noPermissionInfo"
       >
-        <withPropsOnChange(Typography)
+        <ForwardRef(forwardRef)
           align="center"
           className="Restricted-noPermission"
           variant="heading3"
         >
           You do not have permission to access this page.
-        </withPropsOnChange(Typography)>
+        </ForwardRef(forwardRef)>
       </Localized>
     </div>
     <div>
@@ -43,41 +43,41 @@ exports[`renders correctly 1`] = `
         id="restricted-signedInAs"
         username={<Username />}
       >
-        <withPropsOnChange(Typography)
+        <ForwardRef(forwardRef)
           align="center"
           container="div"
           variant="bodyCopy"
         >
           You are signed in as: &lt;username&gt;&lt;/username&gt;
-        </withPropsOnChange(Typography)>
+        </ForwardRef(forwardRef)>
       </Localized>
     </div>
-    <withPropsOnChange(Flex)
+    <ForwardRef(forwardRef)
       justifyContent="center"
     >
       <Localized
         id="restricted-signInWithADifferentAccount"
       >
-        <withPropsOnChange(Button)
+        <ForwardRef(forwardRef)
           color="primary"
           onClick={[Function]}
           variant="filled"
         >
           Sign in with a different account
-        </withPropsOnChange(Button)>
+        </ForwardRef(forwardRef)>
       </Localized>
-    </withPropsOnChange(Flex)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="restricted-contactAdmin"
     >
-      <withPropsOnChange(Typography)
+      <ForwardRef(forwardRef)
         align="center"
         className="Restricted-contactAdmin"
         variant="bodyCopy"
       >
         If you think this is an error, please contact your administrator for assistance.
-      </withPropsOnChange(Typography)>
+      </ForwardRef(forwardRef)>
     </Localized>
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </AuthBox>
 `;

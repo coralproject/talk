@@ -4,12 +4,12 @@ exports[`renders correctly 1`] = `
 <Localized
   id="navigation-signOutButton"
 >
-  <withPropsOnChange(Button)
+  <ForwardRef(forwardRef)
     className="SignOutButton-root"
     id="id"
     onClick={[Function]}
   >
     Sign Out
-  </withPropsOnChange(Button)>
+  </ForwardRef(forwardRef)>
 </Localized>
 `;

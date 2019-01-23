@@ -5,7 +5,7 @@ exports[`renders username and body 1`] = `
   className="Comment-root"
   role="article"
 >
-  <withPropsOnChange(Flex)
+  <ForwardRef(forwardRef)
     direction="row"
     justifyContent="space-between"
   >
@@ -13,7 +13,7 @@ exports[`renders username and body 1`] = `
       <Username>
         Marvin
       </Username>
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         alignItems="baseline"
         direction="row"
         itemGutter={true}
@@ -22,17 +22,17 @@ exports[`renders username and body 1`] = `
           1995-12-17T03:24:00.000Z
         </Timestamp>
         <EditedMarker />
-      </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
     </TopBarLeft>
     <div>
       topBarRight
     </div>
-  </withPropsOnChange(Flex)>
-  <withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)>
     <HTMLContent>
       Woof
     </HTMLContent>
     footer
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;

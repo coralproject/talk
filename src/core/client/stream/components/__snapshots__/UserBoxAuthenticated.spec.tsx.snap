@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly with logout button 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   itemGutter="half"
   wrap={true}
 >
@@ -9,16 +9,16 @@ exports[`renders correctly with logout button 1`] = `
     id="general-userBoxAuthenticated-signedInAs"
     username={<Username />}
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       container="div"
       variant="bodyCopy"
     >
       Signed in as &lt;username&gt;&lt;/username&gt;.
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
   <Localized
     button={
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         color="primary"
         onClick={[Function]}
         size="small"
@@ -27,18 +27,23 @@ exports[`renders correctly with logout button 1`] = `
     }
     id="general-userBoxAuthenticated-notYou"
   >
-    <withPropsOnChange(Typography)
-      container={[Function]}
+    <ForwardRef(forwardRef)
+      container={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "render": [Function],
+        }
+      }
       variant="bodyCopy"
     >
       Not you? &lt;button&gt;Sign Out&lt;/button&gt;
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders correctly without logout button 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   itemGutter="half"
   wrap={true}
 >
@@ -46,12 +51,12 @@ exports[`renders correctly without logout button 1`] = `
     id="general-userBoxAuthenticated-signedInAs"
     username={<Username />}
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       container="div"
       variant="bodyCopy"
     >
       Signed in as &lt;username&gt;&lt;/username&gt;.
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;

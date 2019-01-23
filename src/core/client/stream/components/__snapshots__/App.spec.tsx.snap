@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="App-root"
 >
   <withContext(withLocalStateContainer(TabBarQuery)) />
@@ -22,5 +22,5 @@ exports[`renders correctly 1`] = `
       <withContext(withLocalStateContainer(ProfileQuery)) />
     </TabPane>
   </TabContent>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

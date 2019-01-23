@@ -17,13 +17,13 @@ exports[`renders correctly 1`] = `
     </Info>
   </Localized>
   <Footer>
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       variant="timestamp"
     >
       <DecisionHistory>
         2018-07-06T18:24:00.000Z
       </DecisionHistory>
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
     <Footer />
     <GoToCommentLink
       href="#"

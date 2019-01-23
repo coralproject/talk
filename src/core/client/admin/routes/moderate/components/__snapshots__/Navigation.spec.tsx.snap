@@ -5,9 +5,9 @@ exports[`renders correctly 1`] = `
   <NavigationLink
     to="/admin/moderate/reported"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       flag
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-reported"
     >
@@ -19,9 +19,9 @@ exports[`renders correctly 1`] = `
   <NavigationLink
     to="/admin/moderate/pending"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       access_time
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-pending"
     >
@@ -33,9 +33,9 @@ exports[`renders correctly 1`] = `
   <NavigationLink
     to="/admin/moderate/unmoderated"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       forum
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-unmoderated"
     >
@@ -47,9 +47,9 @@ exports[`renders correctly 1`] = `
   <NavigationLink
     to="/admin/moderate/rejected"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       cancel
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-rejected"
     >
@@ -66,9 +66,9 @@ exports[`renders correctly with counts 1`] = `
   <NavigationLink
     to="/admin/moderate/reported"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       flag
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-reported"
     >
@@ -85,9 +85,9 @@ exports[`renders correctly with counts 1`] = `
   <NavigationLink
     to="/admin/moderate/pending"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       access_time
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-pending"
     >
@@ -104,9 +104,9 @@ exports[`renders correctly with counts 1`] = `
   <NavigationLink
     to="/admin/moderate/unmoderated"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       forum
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-unmoderated"
     >
@@ -123,9 +123,9 @@ exports[`renders correctly with counts 1`] = `
   <NavigationLink
     to="/admin/moderate/rejected"
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       cancel
-    </withPropsOnChange(Icon)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="moderate-navigation-rejected"
     >

@@ -25,7 +25,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
 export const MessageIcon: StatelessComponent<InnerProps> = props => {
   const { classes, className, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className);
-  return <Icon className={rootClassName} {...rest} forwardRef={forwardRef} />;
+  return <Icon className={rootClassName} {...rest} ref={forwardRef} />;
 };
 
 MessageIcon.defaultProps = {

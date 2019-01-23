@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   alignItems="center"
   className="Title-root"
 >
-  <withPropsOnChange(Icon)>
+  <ForwardRef(forwardRef)>
     history
-  </withPropsOnChange(Icon)>
+  </ForwardRef(forwardRef)>
    
   <Localized
     id="decisionHistory-yourDecisionHistory"
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       className="Title-text"
       container="span"
     >
       Your Decision History
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;

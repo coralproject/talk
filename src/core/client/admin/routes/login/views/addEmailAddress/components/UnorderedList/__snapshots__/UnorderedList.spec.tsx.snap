@@ -15,9 +15,9 @@ exports[`renders correctly 1`] = `
   </ListItem>
   <ListItem
     icon={
-      <withPropsOnChange(Icon)>
+      <ForwardRef(forwardRef)>
         keyboard_arrow_right
-      </withPropsOnChange(Icon)>
+      </ForwardRef(forwardRef)>
     }
   >
     2

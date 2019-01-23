@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`has more disables load more 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="profile-commentHistory"
   size="double"
 >
   <Localized
     id="profile-historyComment-commentHistory"
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       variant="heading3"
     >
       Comment History
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
     comment={
@@ -33,7 +33,7 @@ exports[`has more disables load more 1`] = `
   <Localized
     id="profile-commentHistory-loadMore"
   >
-    <withPropsOnChange(Button)
+    <ForwardRef(forwardRef)
       aria-controls="talk-profile-commentHistory-log"
       disabled={true}
       fullWidth={true}
@@ -42,24 +42,24 @@ exports[`has more disables load more 1`] = `
       variant="outlined"
     >
       Load More
-    </withPropsOnChange(Button)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`has more renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="profile-commentHistory"
   size="double"
 >
   <Localized
     id="profile-historyComment-commentHistory"
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       variant="heading3"
     >
       Comment History
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
     comment={
@@ -80,7 +80,7 @@ exports[`has more renders correctly 1`] = `
   <Localized
     id="profile-commentHistory-loadMore"
   >
-    <withPropsOnChange(Button)
+    <ForwardRef(forwardRef)
       aria-controls="talk-profile-commentHistory-log"
       disabled={false}
       fullWidth={true}
@@ -89,24 +89,24 @@ exports[`has more renders correctly 1`] = `
       variant="outlined"
     >
       Load More
-    </withPropsOnChange(Button)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="profile-commentHistory"
   size="double"
 >
   <Localized
     id="profile-historyComment-commentHistory"
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       variant="heading3"
     >
       Comment History
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
   <withContext(createMutationContainer(Relay(HistoryCommentContainer)))
     comment={
@@ -124,5 +124,5 @@ exports[`renders correctly 1`] = `
     }
     story={Object {}}
   />
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

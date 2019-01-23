@@ -4,15 +4,15 @@ exports[`renders correctly 1`] = `
 <div
   className="ReportPopover-root"
 >
-  <withPropsOnChange(WithMouseHover)
+  <ForwardRef(forwardRef)
     aria-label="Close Popover"
     className="ReportPopover-close"
     onClick={[Function]}
   >
-    <withPropsOnChange(Icon)>
+    <ForwardRef(forwardRef)>
       close
-    </withPropsOnChange(Icon)>
-  </withPropsOnChange(WithMouseHover)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
   <withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReportCommentFormContainer)))))
     comment={Object {}}
     onClose={[Function]}

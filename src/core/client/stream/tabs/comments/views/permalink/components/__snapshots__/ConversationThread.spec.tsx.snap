@@ -20,7 +20,7 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
   className="root ConversationThread-root"
   data-testid="comments-permalinkView-conversationThread"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     container={
       <Line
         dotted={true}
@@ -38,7 +38,7 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
       className="ConversationThread-loadMore"
       hollow={true}
     >
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         alignItems="center"
         itemGutter="half"
       >
@@ -46,22 +46,22 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
           $count={2}
           id="comments-conversationThread-showHiddenComments"
         >
-          <withPropsOnChange(Button)
+          <ForwardRef(forwardRef)
             disabled={false}
             id="comments-conversationThread-showHiddenComments"
             onClick={[Function]}
             variant="underlined"
           >
             Show hidden comments
-          </withPropsOnChange(Button)>
+          </ForwardRef(forwardRef)>
         </Localized>
         <withPropsOnChange(Counter)>
           2
         </withPropsOnChange(Counter)>
-      </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
     </Circle>
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     container={[Function]}
   >
     <Circle
@@ -75,7 +75,7 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
         story={Object {}}
       />
     </Circle>
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;
 
@@ -84,7 +84,7 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
   className="root ConversationThread-root"
   data-testid="comments-permalinkView-conversationThread"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     container={
       <Line
         dotted={true}
@@ -102,7 +102,7 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
       className="ConversationThread-loadMore"
       hollow={true}
     >
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         alignItems="center"
         itemGutter="half"
       >
@@ -110,22 +110,22 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
           $count={2}
           id="comments-conversationThread-showHiddenComments"
         >
-          <withPropsOnChange(Button)
+          <ForwardRef(forwardRef)
             disabled={true}
             id="comments-conversationThread-showHiddenComments"
             onClick={[Function]}
             variant="underlined"
           >
             Show hidden comments
-          </withPropsOnChange(Button)>
+          </ForwardRef(forwardRef)>
         </Localized>
         <withPropsOnChange(Counter)>
           2
         </withPropsOnChange(Counter)>
-      </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
     </Circle>
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     container={[Function]}
   >
     <Circle
@@ -139,6 +139,6 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
         story={Object {}}
       />
     </Circle>
-  </withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
 </div>
 `;

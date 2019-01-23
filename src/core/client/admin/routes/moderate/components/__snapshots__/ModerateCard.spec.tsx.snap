@@ -5,7 +5,7 @@ exports[`renders accepted correctly 1`] = `
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
 >
-  <withPropsOnChange(Flex)>
+  <ForwardRef(forwardRef)>
     <div
       className="ModerateCard-mainContainer"
     >
@@ -41,10 +41,10 @@ exports[`renders accepted correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <withPropsOnChange(Flex)
+        <ForwardRef(forwardRef)
           justifyContent="flex-end"
         >
-          <withPropsOnChange(Button)
+          <ForwardRef(forwardRef)
             anchor={true}
             color="primary"
             href="http://localhost/comment"
@@ -59,24 +59,24 @@ exports[`renders accepted correctly 1`] = `
               </span>
             </Localized>
              
-            <withPropsOnChange(Icon)>
+            <ForwardRef(forwardRef)>
               arrow_forward
-            </withPropsOnChange(Icon)>
-          </withPropsOnChange(Button)>
-        </withPropsOnChange(Flex)>
-        <withPropsOnChange(Flex)
+            </ForwardRef(forwardRef)>
+          </ForwardRef(forwardRef)>
+        </ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
           itemGutter={true}
         >
           <Relay(MarkersContainer)
             comment={Object {}}
           />
-        </withPropsOnChange(Flex)>
+        </ForwardRef(forwardRef)>
       </div>
     </div>
     <div
       className="ModerateCard-separator"
     />
-    <withPropsOnChange(Flex)
+    <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
       direction="column"
@@ -91,7 +91,7 @@ exports[`renders accepted correctly 1`] = `
           DECISION
         </div>
       </Localized>
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         itemGutter={true}
       >
         <RejectButton
@@ -103,9 +103,9 @@ exports[`renders accepted correctly 1`] = `
           invert={true}
           onClick={[Function]}
         />
-      </withPropsOnChange(Flex)>
-    </withPropsOnChange(Flex)>
-  </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </withPropsOnChange(Card)>
 `;
 
@@ -114,7 +114,7 @@ exports[`renders correctly 1`] = `
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
 >
-  <withPropsOnChange(Flex)>
+  <ForwardRef(forwardRef)>
     <div
       className="ModerateCard-mainContainer"
     >
@@ -150,10 +150,10 @@ exports[`renders correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <withPropsOnChange(Flex)
+        <ForwardRef(forwardRef)
           justifyContent="flex-end"
         >
-          <withPropsOnChange(Button)
+          <ForwardRef(forwardRef)
             anchor={true}
             color="primary"
             href="http://localhost/comment"
@@ -168,24 +168,24 @@ exports[`renders correctly 1`] = `
               </span>
             </Localized>
              
-            <withPropsOnChange(Icon)>
+            <ForwardRef(forwardRef)>
               arrow_forward
-            </withPropsOnChange(Icon)>
-          </withPropsOnChange(Button)>
-        </withPropsOnChange(Flex)>
-        <withPropsOnChange(Flex)
+            </ForwardRef(forwardRef)>
+          </ForwardRef(forwardRef)>
+        </ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
           itemGutter={true}
         >
           <Relay(MarkersContainer)
             comment={Object {}}
           />
-        </withPropsOnChange(Flex)>
+        </ForwardRef(forwardRef)>
       </div>
     </div>
     <div
       className="ModerateCard-separator"
     />
-    <withPropsOnChange(Flex)
+    <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
       direction="column"
@@ -200,7 +200,7 @@ exports[`renders correctly 1`] = `
           DECISION
         </div>
       </Localized>
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         itemGutter={true}
       >
         <RejectButton
@@ -211,9 +211,9 @@ exports[`renders correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-      </withPropsOnChange(Flex)>
-    </withPropsOnChange(Flex)>
-  </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </withPropsOnChange(Card)>
 `;
 
@@ -222,7 +222,7 @@ exports[`renders dangling correctly 1`] = `
   className="ModerateCard-root ModerateCard-dangling"
   data-testid="moderate-comment-comment-id"
 >
-  <withPropsOnChange(Flex)>
+  <ForwardRef(forwardRef)>
     <div
       className="ModerateCard-mainContainer"
     >
@@ -258,10 +258,10 @@ exports[`renders dangling correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <withPropsOnChange(Flex)
+        <ForwardRef(forwardRef)
           justifyContent="flex-end"
         >
-          <withPropsOnChange(Button)
+          <ForwardRef(forwardRef)
             anchor={true}
             color="primary"
             href="http://localhost/comment"
@@ -276,24 +276,24 @@ exports[`renders dangling correctly 1`] = `
               </span>
             </Localized>
              
-            <withPropsOnChange(Icon)>
+            <ForwardRef(forwardRef)>
               arrow_forward
-            </withPropsOnChange(Icon)>
-          </withPropsOnChange(Button)>
-        </withPropsOnChange(Flex)>
-        <withPropsOnChange(Flex)
+            </ForwardRef(forwardRef)>
+          </ForwardRef(forwardRef)>
+        </ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
           itemGutter={true}
         >
           <Relay(MarkersContainer)
             comment={Object {}}
           />
-        </withPropsOnChange(Flex)>
+        </ForwardRef(forwardRef)>
       </div>
     </div>
     <div
       className="ModerateCard-separator"
     />
-    <withPropsOnChange(Flex)
+    <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
       direction="column"
@@ -308,7 +308,7 @@ exports[`renders dangling correctly 1`] = `
           DECISION
         </div>
       </Localized>
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         itemGutter={true}
       >
         <RejectButton
@@ -321,9 +321,9 @@ exports[`renders dangling correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-      </withPropsOnChange(Flex)>
-    </withPropsOnChange(Flex)>
-  </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </withPropsOnChange(Card)>
 `;
 
@@ -332,7 +332,7 @@ exports[`renders rejected correctly 1`] = `
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
 >
-  <withPropsOnChange(Flex)>
+  <ForwardRef(forwardRef)>
     <div
       className="ModerateCard-mainContainer"
     >
@@ -368,10 +368,10 @@ exports[`renders rejected correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <withPropsOnChange(Flex)
+        <ForwardRef(forwardRef)
           justifyContent="flex-end"
         >
-          <withPropsOnChange(Button)
+          <ForwardRef(forwardRef)
             anchor={true}
             color="primary"
             href="http://localhost/comment"
@@ -386,24 +386,24 @@ exports[`renders rejected correctly 1`] = `
               </span>
             </Localized>
              
-            <withPropsOnChange(Icon)>
+            <ForwardRef(forwardRef)>
               arrow_forward
-            </withPropsOnChange(Icon)>
-          </withPropsOnChange(Button)>
-        </withPropsOnChange(Flex)>
-        <withPropsOnChange(Flex)
+            </ForwardRef(forwardRef)>
+          </ForwardRef(forwardRef)>
+        </ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
           itemGutter={true}
         >
           <Relay(MarkersContainer)
             comment={Object {}}
           />
-        </withPropsOnChange(Flex)>
+        </ForwardRef(forwardRef)>
       </div>
     </div>
     <div
       className="ModerateCard-separator"
     />
-    <withPropsOnChange(Flex)
+    <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside ModerateCard-asideWithoutReplyTo"
       direction="column"
@@ -418,7 +418,7 @@ exports[`renders rejected correctly 1`] = `
           DECISION
         </div>
       </Localized>
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         itemGutter={true}
       >
         <RejectButton
@@ -430,9 +430,9 @@ exports[`renders rejected correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-      </withPropsOnChange(Flex)>
-    </withPropsOnChange(Flex)>
-  </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </withPropsOnChange(Card)>
 `;
 
@@ -441,7 +441,7 @@ exports[`renders reply correctly 1`] = `
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
 >
-  <withPropsOnChange(Flex)>
+  <ForwardRef(forwardRef)>
     <div
       className="ModerateCard-mainContainer"
     >
@@ -482,10 +482,10 @@ exports[`renders reply correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <withPropsOnChange(Flex)
+        <ForwardRef(forwardRef)
           justifyContent="flex-end"
         >
-          <withPropsOnChange(Button)
+          <ForwardRef(forwardRef)
             anchor={true}
             color="primary"
             href="http://localhost/comment"
@@ -500,24 +500,24 @@ exports[`renders reply correctly 1`] = `
               </span>
             </Localized>
              
-            <withPropsOnChange(Icon)>
+            <ForwardRef(forwardRef)>
               arrow_forward
-            </withPropsOnChange(Icon)>
-          </withPropsOnChange(Button)>
-        </withPropsOnChange(Flex)>
-        <withPropsOnChange(Flex)
+            </ForwardRef(forwardRef)>
+          </ForwardRef(forwardRef)>
+        </ForwardRef(forwardRef)>
+        <ForwardRef(forwardRef)
           itemGutter={true}
         >
           <Relay(MarkersContainer)
             comment={Object {}}
           />
-        </withPropsOnChange(Flex)>
+        </ForwardRef(forwardRef)>
       </div>
     </div>
     <div
       className="ModerateCard-separator"
     />
-    <withPropsOnChange(Flex)
+    <ForwardRef(forwardRef)
       alignItems="center"
       className="ModerateCard-aside"
       direction="column"
@@ -532,7 +532,7 @@ exports[`renders reply correctly 1`] = `
           DECISION
         </div>
       </Localized>
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         itemGutter={true}
       >
         <RejectButton
@@ -543,8 +543,8 @@ exports[`renders reply correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-      </withPropsOnChange(Flex)>
-    </withPropsOnChange(Flex)>
-  </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </withPropsOnChange(Card)>
 `;

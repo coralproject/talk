@@ -51,7 +51,7 @@ class Permalink extends React.Component<PermalinkProps> {
           <Button
             onClick={() => this.toggleVisibilityOncePerFrame(toggleVisibility)}
             aria-controls={popoverID}
-            forwardRef={forwardRef}
+            ref={forwardRef}
             variant="ghost"
             active={visible}
             size="small"

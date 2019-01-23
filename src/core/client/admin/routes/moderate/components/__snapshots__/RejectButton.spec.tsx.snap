@@ -9,17 +9,17 @@ exports[`renders correctly 1`] = `
   }
   id="moderate-rejectButton"
 >
-  <withPropsOnChange(WithMouseHover)
+  <ForwardRef(forwardRef)
     aria-label="Reject"
     className="RejectButton-root"
   >
-    <withPropsOnChange(Icon)
+    <ForwardRef(forwardRef)
       className="RejectButton-icon"
       size="lg"
     >
       close
-    </withPropsOnChange(Icon)>
-  </withPropsOnChange(WithMouseHover)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </Localized>
 `;
 
@@ -32,16 +32,16 @@ exports[`renders correctly inverted 1`] = `
   }
   id="moderate-rejectButton"
 >
-  <withPropsOnChange(WithMouseHover)
+  <ForwardRef(forwardRef)
     aria-label="Reject"
     className="RejectButton-root RejectButton-invert"
   >
-    <withPropsOnChange(Icon)
+    <ForwardRef(forwardRef)
       className="RejectButton-icon"
       size="lg"
     >
       close
-    </withPropsOnChange(Icon)>
-  </withPropsOnChange(WithMouseHover)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </Localized>
 `;

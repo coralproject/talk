@@ -1,26 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   alignItems="center"
 >
-  <withPropsOnChange(Icon)
+  <ForwardRef(forwardRef)
     className="InReplyTo-icon"
   >
     reply
-  </withPropsOnChange(Icon)>
+  </ForwardRef(forwardRef)>
    
   <Localized
     id="comments-inReplyTo"
     username={<Username />}
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       className="InReplyTo-inReplyTo"
       container="span"
       variant="timestamp"
     >
       In reply to &lt;username&gt;&lt;username&gt;
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;

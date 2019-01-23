@@ -41,7 +41,7 @@ class DecisionHistoryButton extends React.Component {
           <BaseButton
             onClick={() => this.toggleVisibilityOncePerFrame(toggleVisibility)}
             aria-controls={popoverID}
-            forwardRef={forwardRef}
+            ref={forwardRef}
             className={styles.historyIcon}
             data-testid="decisionHistory-toggle"
           >

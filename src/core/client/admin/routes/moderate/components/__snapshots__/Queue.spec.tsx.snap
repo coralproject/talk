@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly with load more 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="Queue-root"
   size="double"
 >
@@ -11,19 +11,19 @@ exports[`renders correctly with load more 1`] = `
     enter={false}
     exit={true}
   />
-  <withPropsOnChange(Flex)
+  <ForwardRef(forwardRef)
     justifyContent="center"
   >
     <withContext(WithInView)
       disableLoadMore={false}
       onLoadMore={[Function]}
     />
-  </withPropsOnChange(Flex)>
-</withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders correctly without load more 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="Queue-root"
   size="double"
 >
@@ -33,5 +33,5 @@ exports[`renders correctly without load more 1`] = `
     enter={false}
     exit={true}
   />
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

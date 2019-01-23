@@ -15,8 +15,8 @@ exports[`renders correctly 1`] = `
     </span>
   </Localized>
    
-  <withPropsOnChange(Icon)>
+  <ForwardRef(forwardRef)>
     chevron_right
-  </withPropsOnChange(Icon)>
+  </ForwardRef(forwardRef)>
 </Link>
 `;

@@ -52,7 +52,7 @@ class ReportButtonWithPopover extends React.Component<Props> {
               !reported && this.toggleVisibilityOncePerFrame(toggleVisibility)
             }
             aria-controls={popoverID}
-            forwardRef={forwardRef}
+            ref={forwardRef}
             active={visible}
             reported={reported}
           />

@@ -32,7 +32,7 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   classes: typeof styles;
 
   /** Internal: Forwarded Ref */
-  forwardRef?: Ref<HTMLButtonElement>;
+  forwardRef?: Ref<HTMLButtonElement | HTMLAnchorElement>;
 
   type?: "submit" | "reset" | "button";
 
@@ -62,10 +62,13 @@ const BaseButton: StatelessComponent<InnerProps> = ({
   type,
   ...rest
 }) => {
-  let Element = "button";
+  let Element: React.ComponentType<
+    React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement> &
+      React.ClassAttributes<HTMLButtonElement | HTMLAnchorElement>
+  > = "button" as any;
 
   if (anchor) {
-    Element = "a";
+    Element = "a" as any;
   }
 
   if (anchor && type) {

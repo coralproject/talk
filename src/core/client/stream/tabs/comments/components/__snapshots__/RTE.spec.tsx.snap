@@ -18,11 +18,11 @@ exports[`renders correctly 1`] = `
           id="comments-rte-bold"
         >
           <Toggle>
-            <withPropsOnChange(Icon)
+            <ForwardRef(forwardRef)
               size="md"
             >
               format_bold
-            </withPropsOnChange(Icon)>
+            </ForwardRef(forwardRef)>
           </Toggle>
         </ForwardRef>,
         <ForwardRef
@@ -34,11 +34,11 @@ exports[`renders correctly 1`] = `
           id="comments-rte-italic"
         >
           <Toggle>
-            <withPropsOnChange(Icon)
+            <ForwardRef(forwardRef)
               size="md"
             >
               format_italic
-            </withPropsOnChange(Icon)>
+            </ForwardRef(forwardRef)>
           </Toggle>
         </ForwardRef>,
         <ForwardRef
@@ -50,11 +50,11 @@ exports[`renders correctly 1`] = `
           id="comments-rte-blockquote"
         >
           <Toggle>
-            <withPropsOnChange(Icon)
+            <ForwardRef(forwardRef)
               size="md"
             >
               format_quote
-            </withPropsOnChange(Icon)>
+            </ForwardRef(forwardRef)>
           </Toggle>
         </ForwardRef>,
       ]

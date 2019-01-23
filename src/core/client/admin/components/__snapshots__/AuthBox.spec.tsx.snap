@@ -4,14 +4,14 @@ exports[`renders correctly 1`] = `
 <div
   data-testid="authBox"
 >
-  <withPropsOnChange(Flex)
+  <ForwardRef(forwardRef)
     justifyContent="center"
   >
-    <withPropsOnChange(HorizontalGutter)
+    <ForwardRef(forwardRef)
       className="AuthBox-container"
       size="double"
     >
-      <withPropsOnChange(Flex)
+      <ForwardRef(forwardRef)
         justifyContent="center"
       >
         <div
@@ -21,21 +21,21 @@ exports[`renders correctly 1`] = `
             size="lg"
           />
         </div>
-      </withPropsOnChange(Flex)>
+      </ForwardRef(forwardRef)>
       <div>
-        <withPropsOnChange(Typography)
+        <ForwardRef(forwardRef)
           align="center"
           variant="heading3"
         >
           title
-        </withPropsOnChange(Typography)>
+        </ForwardRef(forwardRef)>
         <withPropsOnChange(BrandName)
           align="center"
           size="lg"
         />
       </div>
       content
-    </withPropsOnChange(HorizontalGutter)>
-  </withPropsOnChange(Flex)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </div>
 `;

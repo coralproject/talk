@@ -4,7 +4,7 @@ exports[`renders correctly 1`] = `
 <Localized
   id="comments-showConversationLink-readMore"
 >
-  <withPropsOnChange(Button)
+  <ForwardRef(forwardRef)
     anchor={true}
     color="primary"
     href="http://localhost/comment"
@@ -14,6 +14,6 @@ exports[`renders correctly 1`] = `
     variant="underlined"
   >
     Read More of this Conversation &gt;
-  </withPropsOnChange(Button)>
+  </ForwardRef(forwardRef)>
 </Localized>
 `;

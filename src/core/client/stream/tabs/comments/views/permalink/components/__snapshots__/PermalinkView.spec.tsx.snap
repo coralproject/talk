@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders comment not found 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="PermalinkView-root"
   size="double"
 >
@@ -9,7 +9,7 @@ exports[`renders comment not found 1`] = `
     me={Object {}}
     settings={Object {}}
   />
-  <withPropsOnChange(Flex)
+  <ForwardRef(forwardRef)
     alignItems="center"
     direction="column"
     justifyContent="center"
@@ -17,25 +17,25 @@ exports[`renders comment not found 1`] = `
     <Localized
       id="comments-permalinkView-currentViewing"
     >
-      <withPropsOnChange(Typography)
+      <ForwardRef(forwardRef)
         className="PermalinkView-title1"
       >
         You are currently viewing a
-      </withPropsOnChange(Typography)>
+      </ForwardRef(forwardRef)>
     </Localized>
     <Localized
       id="comments-permalinkView-singleConversation"
     >
-      <withPropsOnChange(Typography)
+      <ForwardRef(forwardRef)
         className="PermalinkView-title2"
       >
         SINGLE CONVERSATION
-      </withPropsOnChange(Typography)>
+      </ForwardRef(forwardRef)>
     </Localized>
     <Localized
       id="comments-permalinkView-viewFullDiscussion"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         anchor={true}
         color="primary"
         href="http://localhost/link"
@@ -44,21 +44,21 @@ exports[`renders comment not found 1`] = `
         variant="underlined"
       >
         View Full Discussion
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
-  </withPropsOnChange(Flex)>
+  </ForwardRef(forwardRef)>
   <Localized
     id="comments-permalinkView-commentNotFound"
   >
-    <withPropsOnChange(Typography)>
+    <ForwardRef(forwardRef)>
       Comment not found
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="PermalinkView-root"
   size="double"
 >
@@ -66,7 +66,7 @@ exports[`renders correctly 1`] = `
     me={Object {}}
     settings={Object {}}
   />
-  <withPropsOnChange(Flex)
+  <ForwardRef(forwardRef)
     alignItems="center"
     direction="column"
     justifyContent="center"
@@ -74,25 +74,25 @@ exports[`renders correctly 1`] = `
     <Localized
       id="comments-permalinkView-currentViewing"
     >
-      <withPropsOnChange(Typography)
+      <ForwardRef(forwardRef)
         className="PermalinkView-title1"
       >
         You are currently viewing a
-      </withPropsOnChange(Typography)>
+      </ForwardRef(forwardRef)>
     </Localized>
     <Localized
       id="comments-permalinkView-singleConversation"
     >
-      <withPropsOnChange(Typography)
+      <ForwardRef(forwardRef)
         className="PermalinkView-title2"
       >
         SINGLE CONVERSATION
-      </withPropsOnChange(Typography)>
+      </ForwardRef(forwardRef)>
     </Localized>
     <Localized
       id="comments-permalinkView-viewFullDiscussion"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         anchor={true}
         color="primary"
         href="http://localhost/link"
@@ -101,10 +101,10 @@ exports[`renders correctly 1`] = `
         variant="underlined"
       >
         View Full Discussion
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
-  </withPropsOnChange(Flex)>
-  <withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)>
     <withContext(withContext(createMutationContainer(Relay(ConversationThreadContainer))))
       comment={Object {}}
       me={Object {}}
@@ -121,6 +121,6 @@ exports[`renders correctly 1`] = `
         story={Object {}}
       />
     </div>
-  </withPropsOnChange(HorizontalGutter)>
-</withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
+</ForwardRef(forwardRef)>
 `;

@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
 >
   <Title />
   <Main>
-    <withPropsOnChange(Flex)
+    <ForwardRef(forwardRef)
       alignItems="center"
       className="DecisionHistoryLoading-container"
       justifyContent="center"
@@ -18,7 +18,7 @@ exports[`renders correctly 1`] = `
           size="sm"
         />
       </Delay>
-    </withPropsOnChange(Flex)>
+    </ForwardRef(forwardRef)>
   </Main>
 </div>
 `;
