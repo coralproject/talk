@@ -36,43 +36,6 @@ ar:
       body: "لقد ألغيت طلب حذف حسابك ل {0}. تم الآن إعادة تفعيل حسابك."
   error:
     DOWNLOAD_TOKEN_INVALID: "رابط التنزيل الخاص بك غير صالح."
-he:
-  download_landing:
-    download_your_account: "Download Your Comment History"
-    download_details: "Your comment history will be downloaded into a .zip file. After your comment history is unzipped you will have a comma separated value (or .csv) file that you can easily import into your favorite spreadsheet application."
-    all_information_included: "For each of your comments the following information is included:"
-    information_included:
-      date: "When you wrote the comment"
-      url: "The permalink URL for the comment"
-      body: "The comment text"
-      asset_url: "The URL of the article or story where the comment appears"
-    confirm: "Download My Comment History"
-  email:
-    download:
-      subject: "Your comments are ready for download from {0}"
-      download_link_ready: "Click here to download your comments from {0} as of {1}:"
-      download_archive: "Download Archive"
-    delete:
-      subject: "Your account for {0} is scheduled to be deleted"
-      body: |
-        A request to delete your account was received. Your account is scheduled for deletion on {1}.
-
-        After that time all of your comments will be removed from the site, all of your comments will be removed from our database, and your username and email address will be removed from our system.
-
-        If you change your mind you can sign into your account and cancel the request before your scheduled account deletion time.
-    deleted:
-      subject: "Your account for {0} has been deleted"
-      body: |
-        Your commenter account for {0} is now deleted. We're sorry to see you go!
-
-        If you'd like to re-join the discussion in the future, you can sign up for a new account.
-
-        If you'd like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {1}.
-    cancelDelete:
-      subject: "Your account deletion request for {0} has been cancelled"
-      body: "You have cancelled your account deletion request for {0}. Your account is now reactivated."
-  error:
-    DOWNLOAD_TOKEN_INVALID: "Your download link is not valid."
 en:
   download_landing:
     download_your_account: "Download Your Comment History"
@@ -184,3 +147,40 @@ de:
       body: "Sie haben die Lösch-Anfrage für Ihr Benutzerkonto bei {0} abgebrochen. Das Konto ist nun wieder aktiv."
   error:
     DOWNLOAD_TOKEN_INVALID: "Der Download-Link ist ungültig."
+he:
+  download_landing:
+    download_your_account: "הורד היסטורית תגובתך"
+    download_details: "היסטוריית התגובה שלך תועבר לקובץ zip. לאחר היסטוריית התגובה שלך הוא unzipped יהיה לך ערך מופרדים בפסיק (או. CSV) קובץ ואתה יכול בקלות לייבא לתוך היישום האהוב עליך גיליון אלקטרוני."
+    all_information_included: "עבור כל אחת מהתגובות את המידע הבא נכלל:"
+    information_included:
+      date: "כאשר כתבת את התגובה"
+      url: "כתובת האתר של הקישור עבור התגובה"
+      body: "טקסט התגובה"
+      asset_url: "כתובת האתר של הכתבה שבו מופיעה ההערה"
+    confirm: "הורד היסטוריית תגובות"
+  email:
+    download:
+      subject: "התגובות שלך מוכנות להורדה מ {0}"
+      download_link_ready: "לחץ כאן כדי להוריד את התגובות שלך מתוך {0} החל מ- {1}:"
+      download_archive: "הורד ארכיון"
+    delete:
+      subject: "החשבון שלך עבור {0} אמור להימחק"
+      body: |
+        בקשה למחיקת החשבון שלך התקבלה. החשבון שלך מתוזמן למחיקה ב- {1}.
+
+        לאחר מכן כל התגובות שלך יוסרו מהאתר, כל התגובות שלך יוסרו ממסד הנתונים שלנו, ושם המשתמש והכתובת האימייל שלך יוסרו מהמערכת שלנו.
+
+        אם תשנה את דעתך, תוכל להיכנס לחשבון ולבטל את הבקשה לפני מועד מחיקת החשבון המתוכנן.
+    deleted:
+      subject: "החשבון שלך עבור {0} נמחק"
+      body: |
+        חשבון המפרסם שלך עבור {0} נמחק כעת. אנחנו מצטערים לראות אותך הולך!
+
+        אם תרצה להצטרף מחדש לדיון בעתיד, תוכל להירשם לחשבון חדש.
+
+        אם תרצה לתת לנו משוב על הסיבות לכך שעזבת ומה ניתן לעשות כדי לשפר את חווית התגובות, שלח לנו דוא"ל לכתובת {1}.
+    cancelDelete:
+      subject: "בקשת מחיקת החשבון שלך עבור {0} בוטלה"
+      body: "ביטלת את בקשת מחיקת החשבון שלך עבור {0}. החשבון שלך מופעל מחדש כעת."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "קישור ההורדה שלך אינו חוקי."
