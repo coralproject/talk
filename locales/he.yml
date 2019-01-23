@@ -1,4 +1,4 @@
-en:
+he:
   your_account_has_been_suspended: החשבון שלך הושעה באופן זמני.
   your_account_has_been_banned: החשבון שלך הורחק.
   your_username_has_been_rejected: החשבון שלך הושעה מפני ששם המשתמש שלך נחשב לא הולם. כדי לשחזר את החשבון שלך, הזן שם משתמש חדש.
@@ -41,7 +41,7 @@ en:
   comment_box:
     post: "שלח"
     cancel: "בטל"
-    reply: "תשובה"
+    reply: "תשיב"
     comment: "פרסם תגובה"
     name: "שם"
     comment_post_notif: "התגובה שלך פורסמה."
@@ -57,30 +57,30 @@ en:
   common:
     copy: 'עותק'
     error: 'אירעה שגיאה.'
-    reply: 'הגבה'
-    replies: 'replies'
-    reaction: 'reaction'
-    reactions: 'reactions'
+    reply: 'תשובה'
+    replies: 'תשובות'
+    reaction: 'ריאקציה'
+    reactions: 'ריאקציות'
     story: 'כתבה'
   flagged_usernames:
-    notify_approved: '{0} approved username {1}'
-    notify_rejected: '{0} rejected username {1}'
-    notify_flagged: '{0} reported username {1}'
-    notify_changed: 'user {0} changed their username to {1}'
+    notify_approved: '{0} אישר את שם המשתמש {1}'
+    notify_rejected: '{0} דחה את שם המשתמש {1}'
+    notify_flagged: '{0} דיווח על שם המשתמש {1}'
+    notify_changed: 'המשתמש {0} שינה את שם המשתמש שלו ל {1}'
   community:
     account_creation_date: "תאריך היצירה של החשבון"
     active: פעיל
     admin: מנהל
     ads_marketing: "זה נראה כמו מודעה / שיווק"
-    are_you_sure: "Are you sure you would like to ban {0}?"
+    are_you_sure: "האם אתה בטוח שברצונך לאסור {0}?"
     ban_user: "חסום משתמש?"
     banned: אסור
     banned_user: "משתמש מורשה"
     cancel: בטל
     dont_like_username: "לא אוהב את שם המשתמש"
-    flaggedaccounts: "Reported Usernames"
-    flags: Flags
-    impersonating: "Impersonation"
+    flaggedaccounts: "שמות משתמש שדווחו"
+    flags: דגלים
+    impersonating: "התחזות"
     loading: "טוען תוצאות"
     moderator: מנהל
     newsroom_role: "תפקיד בחדר החדשות"
@@ -125,163 +125,163 @@ en:
     domain_list_text: "הזן את הדומיינים שברצונך להרשות עבור Talk. כלומר, סביבות האחסון הזמני וההפקה המקומית שלך (לדוגמה localhost: 3000, staging.domain.com, domain.com)."
     domain_list_title: "דומיינים מותרים"
     edit_comment_timeframe_heading: "עריכת מסגרת זמן של תגובה"
-    edit_comment_timeframe_text_pre: "Commenters will have"
+    edit_comment_timeframe_text_pre: "למשתמשים יהיו"
     edit_comment_timeframe_text_post: "שניות כדי לערוך את התגובות שלהם."
-    embed_comment_stream: "Embed Stream"
-    enable_premod_links_text: "Moderators must approve any comment containing a link before it is published."
+    embed_comment_stream: "הטמע את הזרם"
+    enable_premod_links_text: "על המתווכים לאשר כל תגובה המכילה קישור לפני פרסומה."
     enable_pre_moderation: "אפשר התנהלות מראש"
     enable_pre_moderation_text: "על המנחים לאשר כל הערה לפני פרסומה."
-    enable_premod_links: "Pre-Moderate Comments Containing Links"
-    enable_premod: "Enable Premoderation"
+    enable_premod_links: "תגובות המכילות קישורים צריך להיות מנוהל מראש"
+    enable_premod: "אפשר התנהלות מראש"
     enable_premod_description: "על המנחים לאשר כל הערה לפני פרסומה."
-    enable_premod_links_description: "Moderators must approve any comment containing a link before it is published."
-    enable_questionbox: "Ask Readers a Question"
-    enable_questionbox_description: "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc."
-    hours: Hours
-    include_comment_stream: "Include Comment Stream Description for Readers"
-    include_comment_stream_desc: "Write a message to be added to the top of your comment stream. Pose a topic include community guidelines etc."
-    include_text: "Include your text here."
-    include_question_here: "Write your question here:"
-    moderate: Moderate
-    moderation_settings: "Moderation Settings"
-    open: "Open"
-    open_stream: "Open Stream"
-    open_stream_configuration: "This comment stream is currently open. By closing this comment stream no new comments may be submitted and all previous comments will still be displayed."
-    require_email_verification: "Require Email Verification"
-    require_email_verification_text: "New Users must verify their email before commenting"
-    save_changes: "Save Changes"
-    shortcuts: Shortcuts
-    sign_out: "Sign Out"
-    stories: Stories
-    stream_settings: "Stream Settings"
-    suspect_word_title: "Suspect words list"
-    suspect_word_text: "Comments which contain these words or phrases (not case-sensitive) will be highlighted in the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
-    tech_settings: "Tech Settings"
-    title: "Configure Comment Stream"
-    weeks: Weeks
-    wordlist: "Banned Words"
-  continue: "Continue"
+    enable_premod_links_description: "על המתווכים לאשר כל תגובה המכילה קישור לפני פרסומה."
+    enable_questionbox: "שאל את הקוראים שאלה"
+    enable_questionbox_description: "שאלה זו תופיע בחלק העליון של זרם תגובות זה. לשאול את הקוראים על בעיה מסוימת במאמר או להציג שאלות דיון וכו '"
+    hours: שעות
+    include_comment_stream: "כלול תיאור בזרם תגובות עבור הקוראים"
+    include_comment_stream_desc: "כתוב הודעה שתופיע בחלק העליון של זרם התגובה שלך. הוסף נושא להנחיות הקהילה וכו '."
+    include_text: "כלול את הטקסט שלך כאן."
+    include_question_here: "כתוב את השאלה שלך כאן:"
+    moderate: מתון
+    moderation_settings: "הגדרות פיקוח"
+    open: "פתח"
+    open_stream: "פתח את הזרם"
+    open_stream_configuration: "זרם תגובות זה פתוח כעת. על ידי סגירת זרם תגובות זה לא ניתן להגיש תגובות חדשות וכל התגובות הקודמות עדיין יוצגו."
+    require_email_verification: "דרוש אימות דוא"ל"
+    require_email_verification_text: "משתמשים חדשים חייבים לאמת את הדוא"ל שלהם לפני שתגיב"
+    save_changes: "שמור שינויים"
+    shortcuts: קיצורי דרך
+    sign_out: "התנתק"
+    stories: כתבות
+    stream_settings: "הגדרות זרם"
+    suspect_word_title: "רשימת מילים חשוד"
+    suspect_word_text: "תגובות שמכילות מילים או ביטויים אלה (לא תלויי רישיות) יודגשו בזרם התגובות. הקלד מילה ולחץ על Enter או על Tab כדי להוסיף. אפשר להדביק רשימה מופרדת בפסיקים."
+    tech_settings: "הגדרות טכנולוגיה"
+    title: "הגדר זרם תגובות"
+    weeks: שבועות
+    wordlist: "מילים אסורות"
+  continue: "המשך"
   createdisplay:
-    check_the_form: "Invalid Form. Please check the fields"
-    continue: "Continue with the same Facebook username"
-    error_create: "Error when changing username"
-    fake_comment_body: "This is an example comment. Readers can share their thoughts and opinions with newsrooms in the comments section."
-    fake_comment_date: "1 minute ago"
-    if_you_dont_change_your_name: "If you don't change your username at this step your Facebook display name will appear alongside of all your comments."
-    required_field: "Required field"
-    save: Save
-    special_characters: "Usernames can contain letters numbers and _ only"
+    check_the_form: "טופס לא חוקי. בדוק את השדות"
+    continue: "המשך עם אותו שם משתמש ב- Facebook"
+    error_create: "שגיאה בעת שינוי שם המשתמש"
+    fake_comment_body: "זוהי תגובה לדוגמה. הקוראים יכולים לשתף את מחשבותיהם ואת דעותיהם עם צוות החדשות בקטע התגובות."
+    fake_comment_date: "לפני 1 דקה"
+    if_you_dont_change_your_name: "אם לא תשנה את שם המשתמש שלך בשלב זה שם התצוגה שלך ב- Facebook יופיע לצד כל ההערות שלך."
+    required_field: "שדה נדרש"
+    save: שמור
+    special_characters: "שמות משתמש יכולים להכיל מספרי אותיות ו- _ בלבד"
     username: שם משתמש
-    write_your_username: "Edit your username"
-    your_username: "Your username appears on every comment you post."
-  done: Done
+    write_your_username: "ערוך את שם המשתמש שלך"
+    your_username: "שם המשתמש שלך מופיע בכל תגובה שתפרסם."
+  done: בוצע
   edit_comment:
-    body_input_label: "Edit this comment"
-    save_button: "Save changes"
-    edit_window_expired: "You can no longer edit this comment. The time window to do so has expired. Why not post another one?"
-    edit_window_expired_close: "Close"
-    edit_window_timer_prefix: "Edit Window: "
-    second: "second"
-    seconds_plural: "seconds"
-    minute: "minute"
-    minutes_plural: "minutes"
+    body_input_label: "ערוך תגובה זו"
+    save_button: "שמור שינויים"
+    edit_window_expired: "לא ניתן עוד לערוך את ההערה הזו. פרק הזמן לביצוע זה פג. למה לא לכתוב עוד אחד?"
+    edit_window_expired_close: "סגור"
+    edit_window_timer_prefix: "פרק זמן זה לעריכה: "
+    second: "שנייה"
+    seconds_plural: "שניות"
+    minute: "דקה"
+    minutes_plural: "דקות"
   email:
     suspended:
-      subject: "Your account has been suspended"
+      subject: "חשבונך הושעה"
     banned:
-      subject: "Your account has been banned"
-      body: "In accordance with The Coral Project’s community guidelines, your account has been banned. You are now longer allowed to comment, flag or engage with our community."
+      subject: "החשבון שלך הורחק"
+      body: "בהתאם להנחיות הקהילה של פרויקט אלמוגים, החשבון שלך נאסר. כעת אתה מורשה יותר להגיב, לדגל או ליצור מעורבות עם הקהילה שלנו."
     confirm:
-      has_been_requested: "A email confirmation has been requested for the following account:"
-      to_confirm: "To confirm the account, please visit the following link:"
-      confirm_email: "Confirm Email"
-      if_you_did_not: "If you did not request this, you can safely ignore this email."
-      subject: "Email Confirmation"
+      has_been_requested: "התבקש אישור בדוא"ל עבור החשבון הבא:"
+      to_confirm: "כדי לאשר את החשבון, בקר בקישור הבא:"
+      confirm_email: "אשר אימייל"
+      if_you_did_not: "אם לא ביקשת זאת, תוכל להתעלם בבטחה מדוא"ל זה."
+      subject: "אישור דואר אלקטרוני"
     password_reset:
-      we_received_a_request: "We received a request to reset your password. If you did not request this change, you can ignore this email."
-      if_you_did: "If you did,"
-      please_click: "please click here to reset password"
+      we_received_a_request: "קיבלנו בקשה לאפס את הסיסמה שלך. אם לא ביקשת שינוי זה, תוכל להתעלם מהודעת אימייל זו."
+      if_you_did: "אם עשית,"
+      please_click: "לחץ כאן כדי לאפס את הסיסמה"
   embedlink:
     copy: "העתק ללוח"
   error:
-    COMMENT_PARENT_NOT_VISIBLE: "The comment that you're replying to has been removed or doesn't exist."
-    EMAIL_VERIFICATION_TOKEN_INVALID: "Email verification token is invalid."
-    PASSWORD_RESET_TOKEN_INVALID: "Your password reset link is invalid."
-    COMMENT_TOO_SHORT: "Comments should be more than one character, please revise your comment and try again."
-    NOT_AUTHORIZED: "You are not authorized to perform this action."
-    NO_SPECIAL_CHARACTERS: "Usernames can contain letters numbers and _ only"
-    PASSWORD_LENGTH: "Password is too short"
-    PROFANITY_ERROR: "Usernames must not contain profanity. Please contact the administrator if you believe this to be in error."
-    RATE_LIMIT_EXCEEDED: "Rate limit exceeded"
-    USERNAME_IN_USE: "Username already in use"
-    USERNAME_REQUIRED: "Must input a username"
-    EMAIL_NOT_VERIFIED: "E-mail address not verified"
-    EDIT_WINDOW_ENDED: "You can no longer edit this comment. The time window to do so has expired."
-    EDIT_USERNAME_NOT_AUTHORIZED: "You do not have permission to update your username."
-    SAME_USERNAME_PROVIDED: "You must submit a different username."
-    EMAIL_IN_USE: "Email address already in use"
-    EMAIL_REQUIRED: "An email address is required"
-    LOGIN_MAXIMUM_EXCEEDED: "You have made too many unsuccessful password attempts. Please wait."
-    PASSWORD_REQUIRED: "Must input a password"
-    COMMENTING_CLOSED: "Commenting is already closed"
-    NOT_FOUND: "Resource not found"
-    ALREADY_EXISTS: "Resource already exists"
-    INVALID_ASSET_URL: "Assert URL is invalid"
-    CANNOT_IGNORE_STAFF: "Cannot ignore Staff members."
-    email: "Not a valid E-Mail"
-    confirm_password: "Passwords don't match. Please check again"
-    network_error: "Failed to connect to server. Check your internet connection and try again."
-    email_not_verified: "E-mail address {0} not verified."
-    email_password: "E-mail and/or password combination incorrect."
-    organization_name: "Organization name must only contain letters or numbers."
-    password: "Password must be at least 8 characters"
-    username: "Usernames can contain letters numbers and _ only"
-    unexpected: "Unexpected error occurred. Sorry!"
-    required_field: "This field is required"
-    temporarily_suspended: "Your account is currently suspended. It will be reactivated {0}. Please contact us if you have any questions."
-  flag_comment: "Report comment"
-  flag_reason: "Reason for reporting (Optional)"
-  flag_username: "Report username"
+    COMMENT_PARENT_NOT_VISIBLE: "התגובה שאתה משיב לה הוסרה או אינה קיימת."
+    EMAIL_VERIFICATION_TOKEN_INVALID: "אסימון האימייל אינו חוקי."
+    PASSWORD_RESET_TOKEN_INVALID: "הקישור לאיפוס הסיסמה אינו חוקי."
+    COMMENT_TOO_SHORT: "התגובות צריכות להיות יותר מתו אחד, אנא שנה את תגובתך ונסה שוב."
+    NOT_AUTHORIZED: "אינך מורשה לבצע פעולה זו."
+    NO_SPECIAL_CHARACTERS: "שמות משתמש יכולים להכיל מספרי אותיות ו- _ בלבד"
+    PASSWORD_LENGTH: "הסיסמה קצרה מדי"
+    PROFANITY_ERROR: "שמות משתמש לא יכולים להכיל גסות. פנה למנהל המערכת אם אתה סבור שמדובר בטעות."
+    RATE_LIMIT_EXCEEDED: "חרגת מגבלת התעריף"
+    USERNAME_IN_USE: "שם משתמש כבר בשימוש"
+    USERNAME_REQUIRED: "חייב להזין שם משתמש"
+    EMAIL_NOT_VERIFIED: "כתובת האימייל לא אומתה"
+    EDIT_WINDOW_ENDED: "לא ניתן עוד לערוך את התגובה הזו. פרק הזמן לביצוע זה פג."
+    EDIT_USERNAME_NOT_AUTHORIZED: "אין לך הרשאה לעדכן את שם המשתמש שלך."
+    SAME_USERNAME_PROVIDED: "עליך לשלוח שם משתמש אחר."
+    EMAIL_IN_USE: "כתובת הדוא"ל כבר בשימוש"
+    EMAIL_REQUIRED: "נדרשת כתובת דוא"ל"
+    LOGIN_MAXIMUM_EXCEEDED: "עשית יותר מדי ניסיונות סיסמה לא מוצלחים. המתן בבקשה."
+    PASSWORD_REQUIRED: "יש להזין סיסמה"
+    COMMENTING_CLOSED: "התגובה כבר סגורה"
+    NOT_FOUND: "זרם התגובה כבר סגור"
+    ALREADY_EXISTS: "המשאב כבר קיים"
+    INVALID_ASSET_URL: "כתובת האתר של הנכס אינה חוקית"
+    CANNOT_IGNORE_STAFF: "לא ניתן להתעלם מחברי צוות."
+    email: "אימייל לא חוקי"
+    confirm_password: "סיסמאות אינן תואמות. אנא בדוק שוב"
+    network_error: "נכשל נסיון להתחבר לשרת. בדוק את חיבור האינטרנט שלך ונסה שוב."
+    email_not_verified: "כתובת האימייל {0} לא אומתה."
+    email_password: "שילוב דואר אלקטרוני ו / או סיסמה שגוי."
+    organization_name: "שם הארגון חייב להכיל רק אותיות או מספרים."
+    password: "הסיסמה צריכה להיות לפחות 8 תווים"
+    username: "שמות משתמש יכולים להכיל מספרי אותיות ו- _ בלבד"
+    unexpected: "אירעה שגיאה לא צפויה. מצטער!"
+    required_field: "שדה חובה"
+    temporarily_suspended: "החשבון שלך מושעה כעת. הוא יופעל מחדש {0}. אנא צור איתנו קשר אם יש לך שאלות."
+  flag_comment: "דווח על תגובה"
+  flag_reason: "סיבה לדיווח (אופציונלי)"
+  flag_username: "דווח על שם משתמש"
   framework:
-    banned_account_header: "Your account is currently banned."
-    banned_account_body: "This means that you cannot Like, Report, or write comments."
-    comment: comment
-    comment_is_ignored: "This comment is hidden because you ignored this user."
-    comment_is_rejected: "You have rejected this comment."
-    comment_is_hidden: "This comment is not available."
-    comments: comments
-    configure_stream: "Configure"
-    content_not_available: "This content is not available"
+    banned_account_header: "החשבון שלך מוחרם כעת."
+    banned_account_body: "פירוש הדבר שאינך אוהב, לדווח או לכתוב תגובות."
+    comment: תגובה
+    comment_is_ignored: "תגובה זו מוסתרת מפני שהתעלמת ממשתמש זה."
+    comment_is_rejected: "דחית את התגובה הזו."
+    comment_is_hidden: "תגובה זו אינה זמינה."
+    comments: תגובות
+    configure_stream: "הגדר"
+    content_not_available: "תוכן זה אינו זמין"
     edit_name:
-      button: Submit
-      error: "Usernames can contain letters numbers and _ only"
-      label: "New Username"
-      msg: "Your account is currently suspended because your username has been deemed inappropriate. To restore your account please enter a new username. Please contact us if you have any questions."
+      button: שלח
+      error: "שמות משתמש יכולים להכיל מספרי אותיות ו- _ בלבד"
+      label: "שם משתמש חדש"
+      msg: "החשבון שלך מושעה כרגע מפני ששם המשתמש שלך נחשב לא הולם. כדי לשחזר את החשבון שלך, הזן שם משתמש חדש. אנא צור איתנו קשר אם יש לך שאלות."
     changed_name:
-      msg: "Your username change is under review by our moderation team."
-    my_comments: "My Comments"
-    my_profile: "My profile"
-    new_count: "View {0} more {1}"
-    profile: Profile
-    show_all_comments: "Show all comments"
-    success_bio_update: "Your biography has been updated"
-    success_name_update: "Your username has been updated"
-    success_update_settings: "The changes you have made have been applied to the comment stream on this article"
-    show_all_replies: Show all replies
-    show_more_replies: Show more replies
-    view_more_comments: "view more comments"
-    view_reply: "view reply"
-  from_settings_page: "From the Profile Page you can see your comment history."
-  like: Like
-  loading_results: "Loading Results"
-  marketing: "This looks like an ad/marketing"
-  moderate_this_stream: "Moderate this stream"
+      msg: "שינוי שם המשתמש שלך נמצא בבדיקה על ידי צוות הניהול שלנו."
+    my_comments: "התגובות שלי"
+    my_profile: "הפרופיל שלי"
+    new_count: "הצג {0} עוד {1}"
+    profile: פרופיל
+    show_all_comments: "הצג את כל התגובות"
+    success_bio_update: "הביוגרפיה שלך עודכנה"
+    success_name_update: "שם המשתמש שלך עודכן"
+    success_update_settings: "השינויים שביצעת הוחלו על זרם התגובה בכתבה זה"
+    show_all_replies: הצג את כל התשובות
+    show_more_replies: הצג תשובות נוספות
+    view_more_comments: "הצג תגובות נוספות"
+    view_reply: "הצג תשובה"
+  from_settings_page: "בדף הפרופיל תוכל לראות את היסטוריית התגובות שלך."
+  like: לייק
+  loading_results: "טוען תוצאות"
+  marketing: "זה נראה כמו מודעה / שיווק"
+  moderate_this_stream: "נהל את הזרם הזה"
   flags:
     reasons:
        user:
          username_offensive: "פוגע"
          username_nolike: "לא אוהב"
-         username_impersonating: "Impersonation"
+         username_impersonating: "התחזות"
          username_spam: "ספאם"
          username_other: "אחר"
        comment:
@@ -295,125 +295,125 @@ en:
          trust: "אמון"
          links: "קישור"
   modqueue:
-    account: "account flags"
+    account: "דגלים של החשבון"
     actions: פעולות
-    all: all
-    all_streams: "All Streams"
-    notify_edited: '{0} edited comment "{1}"'
-    notify_accepted: '{0} accepted comment "{1}"'
-    notify_rejected: '{0} rejected comment "{1}"'
-    notify_flagged: '{0} flagged comment "{1}"'
-    notify_reset: '{0} reset status of comment "{1}"'
-    approve: "Approve"
-    approved: "Approved"
-    ban_user: "Ban"
-    billion: B
-    close: Close
-    empty_queue: "No more comments to moderate! You're all caught up. Go have some ☕️"
-    flagged: flagged
-    reported: reported
-    less_detail: "Less detail"
-    likes: likes
-    million: M
-    mod_faster: "Moderate faster with keyboard shortcuts"
-    moderate: "Moderate →"
-    more_detail: "More detail"
-    new: New
-    newest_first: "Newest First"
-    navigation: Navigation
-    next_comment: "Go to the next comment"
-    toggle_search: "Open search"
-    next_queue: "Switch queues"
-    oldest_first: "Oldest First"
-    premod: pre-mod
-    prev_comment: "Go to the previous comment"
-    reject: "Reject"
-    rejected: "Rejected"
-    reply: "Reply"
-    select_stream: "Select Stream"
+    all: הכל
+    all_streams: "כל הזרמים"
+    notify_edited: '{0} ערך תגובה "{1}"'
+    notify_accepted: '{0} קיבל תגובה "{1}"'
+    notify_rejected: '{0} דחה תגובה "{1}"'
+    notify_flagged: '{0} דגל תגובה "{1}"'
+    notify_reset: '{0} אפס את סטטוס התגובה "{1}"'
+    approve: "אישרו"
+    approved: "אושר"
+    ban_user: "חסום"
+    billion: ב
+    close: סגור
+    empty_queue: "אין תגובות נוספות כדי להתמתן! כולכם תקועים. לכי וליהנות קצת ☕️"
+    flagged: מסומנת
+    reported: דיווח
+    less_detail: "פחות פרטים"
+    likes: לייקס
+    million: מ
+    mod_faster: "מתון מהר יותר עם קיצורי מקשים"
+    moderate: "מתון ←"
+    more_detail: "פרטים נוספים"
+    new: חדש
+    newest_first: "הכי חדש קודם"
+    navigation: ניווט
+    next_comment: "עבור לתגובה הבאה"
+    toggle_search: "פתח חיפוש"
+    next_queue: "הפעל תורים"
+    oldest_first: "הכי עתיק קודם"
+    premod: מתינות מראש
+    prev_comment: "עבור לתגובה הקודמת"
+    reject: "דחה"
+    rejected: "נדחה"
+    reply: "תשיב"
+    select_stream: "בחר זרם"
     shift_key: "⇧"
-    shortcuts: "Shortcuts"
-    sort: "Sort"
-    show_shortcuts: "Show Shortcuts"
-    singleview: "Zen mode"
-    thismenu: "Open this menu"
-    jump_to_queue: "Jump to specific queue"
+    shortcuts: "קיצורי דרך"
+    sort: "מיין"
+    show_shortcuts: "הצג קיצורי דרך"
+    singleview: "מצב זן"
+    thismenu: "פתח את התפריט"
+    jump_to_queue: "קפיצה לתור ספציפי"
     thousand: k
-    try_these: "Try these"
-    view_more_shortcuts: "View more shortcuts"
-  my_comment_history: "My comment History"
-  name: Name
-  no_agree_comment: "I don't agree with this comment"
-  no_like_bio: "I don't like this bio"
-  no_like_username: "I don't like this username"
-  already_flagged_username: "You have already flagged this username."
-  other: Other
-  permalink: Share
-  personal_info: "This comment reveals personally identifiable information"
-  post: Post
-  profile: Profile
-  profile_settings: "Profile Settings"
-  reply: Reply
-  report: Report
-  report_notif: "Thank you for reporting this comment. Our moderation team has been notified and will review it shortly."
-  report_notif_remove: "Your report has been removed."
-  reported: Reported
+    try_these: "נסה את אלה"
+    view_more_shortcuts: "הצג קיצורי דרך נוספים"
+  my_comment_history: "ההיסטוריה של התגובות שלי"
+  name: שם
+  no_agree_comment: "אני לא מסכים עם תגובה זו"
+  no_like_bio: "אני לא אוהב את הביוגרפיה הזאת"
+  no_like_username: "אני לא אוהב את שם המשתמש הזה"
+  already_flagged_username: "כבר סימנת שם משתמש זה."
+  other: אחר
+  permalink: שתף
+  personal_info: "תגובה זו מגלה מידע המאפשר זיהוי אישי"
+  post: שלח
+  profile: פרופיל
+  profile_settings: "הגדרות פרופיל"
+  reply: תשיב
+  report: דווח
+  report_notif: "תודה שדיווחת על תגובה זו. צוות ההתייחסות שלנו קיבל הודעה על כך ויבדוק אותו בקרוב."
+  report_notif_remove: "הדוח שלך הוסר."
+  reported: דווח
   settings:
-    from_settings_page: "From the Profile Page you can see your comment history."
-    my_comment_history: "My comment History"
-    profile: Profile
-    profile_settings: "Profile Settings"
-    sign_in: "Sign in"
-    to_access: "to access Profile"
-    user_no_comment: "You've never left a comment. Join the conversation!"
+    from_settings_page: "בדף הפרופיל תוכל לראות את היסטוריית התגובות שלך."
+    my_comment_history: "ההיסטוריה של התגובות שלי"
+    profile: פרופיל
+    profile_settings: "הגדרות פרופיל"
+    sign_in: "היכנס"
+    to_access: "כדי לגשת לפרופיל"
+    user_no_comment: "מעולם לא השארת תגובה. הצטרף לשיחה!"
   stream:
-    all_comments: "All Comments"
-    temporarily_suspended: "In accordance with {0}'s community guidelines, your account has been temporarily suspended. Please rejoin the conversation {1}."
-    comment_not_found: "This comment has been removed or does not exist."
-    no_comments: "There are no comments yet, why don’t you write one?"
-    no_comments_and_closed: "There were no comments on this article."
-  step_1_header: "Report an issue"
-  step_2_header: "Help us understand"
-  step_3_header: "Thank you for your input"
+    all_comments: "כל התגובות"
+    temporarily_suspended: "בהתאם להנחיות הקהילה {0}, חשבונך הושעה באופן זמני. חזור לשיחה {1}."
+    comment_not_found: "תגובה זו הוסרה או אינה קיימת."
+    no_comments: "עדיין אין תגובות. האם אתה רוצה לכתוב אחד?"
+    no_comments_and_closed: "לא היו תגובות על כתבה זה."
+  step_1_header: "דווח על בעיה"
+  step_2_header: "עזור לנו להבין"
+  step_3_header: "תודה על הקלט שלך"
   streams:
-    all: All
-    article: Story
-    closed: Closed
-    empty_result: "No assets match this search. Maybe try widening your search?"
-    filter_streams: "Filter Streams"
+    all: הכל
+    article: כתבה
+    closed: סגור
+    empty_result: "אין נכסים שמתאימים לחיפוש זה. אולי לנסות להרחיב את החיפוש שלך?"
+    filter_streams: "סינון זרמים"
     newest: החדש ביותר
     oldest: הוותיק ביותר
-    open: Open
-    pubdate: "Publication Date"
-    search: Search
-    sort_by: "Sort By"
-    status: "Stream Status"
-    stream_status: "Stream Status"
+    open: פתח
+    pubdate: "תאריך פרסום"
+    search: לחפש
+    sort_by: "מיין לפי"
+    status: "מצב זרם"
+    stream_status: "מצב זרם"
   suspenduser:
-    title_suspend: "Suspend User"
-    description_suspend: "You are suspending {0}. This comment will go to the Rejected queue, and {0} will not be allowed to like, report, reply or post until the suspension time is complete."
-    select_duration: "Select suspension duration"
-    one_hour: "1 hour"
-    hours: "{0} hours"
-    days: "{0} days"
+    title_suspend: "להשעות משתמש"
+    description_suspend: "אתה משעה את {0}. תגובה זו תעבור לתור נדחה, ו- {0} לא יהיה יכול ללייק, לדווח, להשיב או לפרסם עד להשלמת זמן ההשעיה."
+    select_duration: "בחר משך השעיה"
+    one_hour: "1 שעה"
+    hours: "{0} שעות"
+    days: "{0} ימים"
     cancel: "בטל"
-    suspend_user: "Suspend User"
-    email_message_suspend: "Dear {0},\n\nIn accordance with {1}’s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation {2}."
-    title_notify: "Notify the user of their temporary suspension"
-    notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
-    description_notify: "Suspending this user will temporarily disable their account."
+    suspend_user: "להשעות משתמש"
+    email_message_suspend: "{0}, \n\n בהתאם להנחיות הקהילה {1}, חשבונך הושעה באופן זמני. במהלך ההשעיה, לא תוכל להגיב, לדגל או לשתף פעולה עם מפרסמים אחרים. חזור לשיחה {2}."
+    title_notify: "הודע למשתמש על השעיה זמנית"
+    notify_suspend_until: "המשתמש {0} הושעה באופן זמני. ההשעיה הזו תסתיים באופן אוטומטי {1}."
+    description_notify: "השעיית משתמש זה תשבית זמנית את החשבון שלו."
     write_message: "לכתוב הודעה"
     send: שלח
   reject_username:
     username: שם משתמש
     no_cancel: "אין ביטול"
-    description_reject: "Would you like to temporarily ban this user because of their {0}? Doing so will temporarily suspend this user until they rewrite their {0}."
-    title_notify: "Notify the user of their temporary suspension"
-    description_notify: "Suspending this user will temporarily disable their account."
-    title_reject: "We noticed you rejected a username"
-    suspend_user: "Suspend User"
-    yes_suspend: "Yes suspend"
-    email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
+    description_reject: "האם אתה רוצה לאסור את המשתמש הזה באופן זמני בגלל {0} שלו? פעולה זו תשעה את המשתמש הזה באופן זמני עד שיכתבו מחדש את {0}."
+    title_notify: "הודע למשתמש על השעיה זמנית"
+    description_notify: "השעיית משתמש זה תשבית זמנית את החשבון שלו."
+    title_reject: "שמנו לב שדחית שם משתמש"
+    suspend_user: "להשעות משתמש"
+    yes_suspend: "כן, להשעות"
+    email_message_reject: "לאחרונה חבר בקהילה שלנו סימן את שם המשתמש שלך לבדיקה. בגלל התוכן של שם המשתמש שלך, שם המשתמש שלך נדחה. פירוש הדבר שאינך יכול עוד להגיב או לסמן תוכן עד שתשנה את שם המשתמש שלך. אנא שלח לנו דוא"ל אם יש לך שאלות או חששות."
     write_message: "לכתוב הודעה"
     send: שלח
   thank_you: "אנו מעריכים את בטיחותך ומשובך. מנחה יסקור את הדוח שלך."
