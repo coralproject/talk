@@ -2,6 +2,10 @@ ar:
   talk-plugin-facebook-auth:
     sign_in: "تسجيل الدخول عبر حساب الفيسبوك"
     sign_up: "اشترك عبر حساب الفيسبوك"
+de:
+  talk-plugin-facebook-auth:
+    sign_in: "Mit Facebook anmelden"
+    sign_up: "Mit Facebook registrieren"
 en:
   talk-plugin-facebook-auth:
     sign_in: "Sign in with Facebook"
@@ -18,6 +22,10 @@ he:
   talk-plugin-facebook-auth:
     sign_in: "התחבר עם פייסבוק"
     sign_up: "הרשם עם פייסבוק"
+nl_NL:
+  talk-plugin-facebook-auth:
+    sign_in: "Inloggen met Facebook"
+    sign_up: "Registreren met Facebook"
 zh_CN:
   talk-plugin-facebook-auth:
     sign_in: "使用 Facebook 帐号"
@@ -26,7 +34,3 @@ zh_TW:
   talk-plugin-facebook-auth:
     sign_in: "使用 Facebook 帳號"
     sign_up: "使用 Facebook 帳號"
-de:
-  talk-plugin-facebook-auth:
-    sign_in: "Mit Facebook anmelden"
-    sign_up: "Mit Facebook registrieren"

@@ -39,11 +39,16 @@ export default compose(
         autoCloseStream
         closedTimeout
         closedMessage
+        disableCommenting
+        disableCommentingMessage
         ${getSlotFragmentSpreads(slots, 'settings')}
       }
     `,
   }),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   mapProps(({ root, settings, updatePending, errors, ...rest }) => ({
     slotPassthrough: {
       root,

@@ -67,9 +67,9 @@ External plugins can be resolved by running:
 This achieves two things:
 
 1. It will traverse into local plugin folders and install their dependencies.
-  _Note that if the plugin is already installed and available in the
+  __Note that if the plugin is already installed and available in the
   node_modules folder, it will not be fetched again unless there is a version
-  mismatch._ This will result in the project `package.json` and `yarn.lock`
+  mismatch.__ This will result in the project `package.json` and `yarn.lock`
   files to be modified, this is normal as this ensures that repeated deployments
   (with the same config) will have the same config, these changes should not be
   committed to source control.
@@ -105,20 +105,30 @@ Then the application can be started as is.
 
 ### Docker
 
+To deploy customized plugins to a production instance of Talk, we recommend using the Docker onbuild strategy outlined below.
+
 If you deploy using Docker, you can extend from the `*-onbuild` image, an
 example `Dockerfile` for your project could be:
 
 ```Dockerfile
-FROM coralproject/talk:latest-onbuild
+FROM coralproject/talk:4.5-onbuild
 ```
 
-Where the directory for your instance would contain a `plugins.json` file
-describing the plugin requirements and a `plugins` directory containing any
+Establish a private repository for your instance that includes the following:
+
+* a `plugins.json` file
+listing the plugin requirements
+* a `plugins` directory containing any
 other local plugins that should be included.
+* a Dockerfile as outlined above
+
+Git submodules can also be used to point to plugin directories that might be outside your primary repository. 
 
 Onbuild triggers will execute when the image is building with your custom
 configuration and will ensure that the image is ready to use by building all
 assets inside the image as well.
+
+Once built, you can deploy the docker image to your architecture by tagging the image and including it in your docker-compose.yml. 
 
 For more information on the onbuild image, refer to the
 [Installation from Docker](/talk/installation-from-docker/) documentation.

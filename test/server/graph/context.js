@@ -31,6 +31,18 @@ describe('graph.Context', () => {
     });
   });
 
+  describe('#rootParent', () => {
+    it('can access the root context parent', () => {
+      const ctx = new Context({ test: 1 });
+      const ctx2 = new Context(ctx);
+      const ctx3 = new Context(ctx2);
+
+      const parent = ctx3.rootParent;
+
+      expect(parent).to.have.property('test', 1);
+    });
+  });
+
   describe('#constructor: without a user', () => {
     let c;
 

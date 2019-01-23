@@ -8,6 +8,7 @@ import RTE from './rte/RTE';
 import { Icon } from 'plugin-api/beta/client/components/ui';
 import { Bold, Italic, Blockquote } from './rte/features';
 import { t } from 'plugin-api/beta/client/services';
+import bowser from 'bowser';
 
 class Editor extends React.Component {
   ref = null;
@@ -40,7 +41,9 @@ class Editor extends React.Component {
         }
       });
     }
-    if (this.props.isReply) {
+
+    // Skip IOS due to a bug, see https://www.pivotaltracker.com/story/show/157434928
+    if (this.props.isReply && !bowser.ios) {
       this.ref.focus();
     }
   }

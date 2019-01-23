@@ -24,6 +24,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  top: calc(50% - 2px);
+  left: 0;
 }
 
 .container {

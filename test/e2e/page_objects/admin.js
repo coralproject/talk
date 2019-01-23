@@ -30,6 +30,10 @@ module.exports = {
           .waitForElementVisible('@signOutButton')
           .click('@signOutButton');
       },
+      login(user) {
+        this.expect.section('@login').to.be.visible;
+        return this.section.login.login(user);
+      },
       navigateAndLogin(user) {
         this.navigate().expect.section('@login').to.be.visible;
         return this.section.login.login(user);
@@ -57,22 +61,41 @@ module.exports = {
         sendButton: '.talk-admin-suspend-user-dialog-send',
       },
     },
-    usernameDialog: {
-      selector: '.talk-admin-reject-username-dialog',
+    rejectReportedUsernameDialog: {
+      selector: '.talk-admin-reject-reported-username-dialog',
       elements: {
-        step0: '.talk-admin-reject-username-dialog-step-0',
-        step1: '.talk-admin-reject-username-dialog-step-1',
-        buttons: '.talk-admin-reject-username-dialog-buttons',
-        suspend: '.talk-admin-reject-username-dialog-button-k',
+        step0: '.talk-admin-reject-reported-username-dialog-step-0',
+        step1: '.talk-admin-reject-reported-username-dialog-step-1',
+        buttons: '.talk-admin-reject-reported-username-dialog-buttons',
+        suspend: '.talk-admin-reject-reported-username-dialog-button-k',
         suspensionMessage:
-          '.talk-admin-reject-username-dialog-suspension-message',
+          '.talk-admin-reject-reported-username-dialog-suspension-message',
       },
     },
     moderate: {
       selector: '.talk-admin-moderation-container',
+      commands: [
+        {
+          url: function() {
+            return `${this.api.launchUrl}/admin/moderate`;
+          },
+          ready() {
+            return this.waitForElementVisible('body');
+          },
+          goToQueue(queue) {
+            this.click(`#talk-admin-moderate-tab-${queue}`).expect.section(
+              `.talk-admin-moderate-queue-${queue}`
+            ).to.be.visible;
+            return this;
+          },
+        },
+      ],
       elements: {
-        comment: '.talk-admin-moderate-comment',
-        commentUsername: '.talk-admin-moderate-comment-username',
+        firstComment: '.talk-admin-moderate-comment',
+        firstCommentUsername: '.talk-admin-moderate-comment-username',
+        firstCommentContent: '.talk-admin-comment',
+        firstCommentApprove: '.talk-admin-approve-button',
+        firstCommentReject: '.talk-admin-reject-button',
       },
     },
     stories: {

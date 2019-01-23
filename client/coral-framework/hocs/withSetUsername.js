@@ -59,6 +59,7 @@ const withSetUsername = hoistStatics(WrappedComponent => {
         }
         const changeSet = { success: false, loading: false, error };
         this.setState(changeSet);
+        throw error;
       }
     };
 
@@ -94,7 +95,10 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators({ updateUsername, updateStatus }, dispatch);
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withSetUsernameMutation,
   withSetUsername
 );

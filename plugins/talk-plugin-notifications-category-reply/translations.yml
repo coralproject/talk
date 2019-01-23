@@ -1,6 +1,25 @@
+ar:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "رد شخص ما على تعليقك على {0}"
+        body: "{0}\n{1} رد على تعليقك
+        {2}"
 en:
   talk-plugin-notifications:
     categories:
       reply:
         subject: "Someone has replied to your comment on {0}"
         body: "{0}\n{1} replied to your comment: {2}"
+es:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Alguien ha respondido a tu comentario en {0}"
+        body: "{0}\n{1} respondió a tu comentario: {2}"
+de:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
+        body: "{0}\n{1} antwortete auf Ihren Kommentar: {2}"

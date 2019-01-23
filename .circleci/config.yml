@@ -41,9 +41,9 @@ integration_job: &integration_job
     - attach_workspace:
         at: ~/coralproject/talk
     - <<: *create_indexes
-    - run:
-        name: Setup the database with defaults
-        command: ./bin/cli setup --defaults
+    # - run:
+    #     name: Setup the database with defaults
+    #     command: ./bin/cli setup --defaults
     - run:
         name: Run the integration tests
         command: bash .circleci/e2e.sh

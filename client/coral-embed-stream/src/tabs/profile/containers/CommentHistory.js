@@ -22,7 +22,14 @@ class CommentHistoryContainer extends Component {
         limit: 5,
         cursor: this.props.root.me.comments.endCursor,
       },
-      updateQuery: (previous, { fetchMoreResult: { me: { comments } } }) => {
+      updateQuery: (
+        previous,
+        {
+          fetchMoreResult: {
+            me: { comments },
+          },
+        }
+      ) => {
         const updated = update(previous, {
           me: {
             comments: {
@@ -97,7 +104,10 @@ const mapStateToProps = state => ({
 });
 
 export default compose(
-  connect(mapStateToProps, null),
+  connect(
+    mapStateToProps,
+    null
+  ),
   withCommentHistoryFragments,
   withFetchMore
 )(CommentHistoryContainer);

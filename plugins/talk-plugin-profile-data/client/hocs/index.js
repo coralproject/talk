@@ -3,6 +3,8 @@ import { gql } from 'react-apollo';
 import moment from 'moment';
 import update from 'immutability-helper';
 
+import { scheduledDeletionDelayHours } from '../../config';
+
 export const withRequestDownloadLink = withMutation(
   gql`
     mutation DownloadCommentHistory {
@@ -48,7 +50,7 @@ export const withRequestAccountDeletion = withMutation(
             });
 
             const scheduledDeletionDate = moment()
-              .add(24, 'hours')
+              .add(scheduledDeletionDelayHours, 'hours')
               .toDate();
 
             const data = update(prev, {

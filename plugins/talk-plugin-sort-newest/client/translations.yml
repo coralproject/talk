@@ -24,7 +24,7 @@ nl_NL:
     label: Nieuwste eerst
 pt_BR:
   talk-plugin-sort-newest:
-    label: Newest first
+    label: Mais novos primeiro
 zh_CN:
   talk-plugin-sort-newest:
     label: "最新发表在前"

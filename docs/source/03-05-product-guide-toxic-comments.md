@@ -19,7 +19,7 @@ Talk (0.8 or 80% is the default), which works like this:
   queues
 
 Read more about Coral’s take on toxicity
-[on our blog](https://blog.coralproject.net/toxic-avenging/).
+[on our blog](https://coralproject.net/blog/toxic-avenging/).
 
 ## What is the Perspective API?
 

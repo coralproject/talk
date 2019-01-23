@@ -2,14 +2,15 @@ const SetupService = require('../services/setup');
 const authentication = require('../middleware/authentication');
 const logging = require('../middleware/logging');
 const cookieParser = require('cookie-parser');
-const { TalkError, ErrNotFound } = require('../errors');
+const { TalkError, ErrHTTPNotFound } = require('../errors');
 const express = require('express');
 const i18n = require('../middleware/i18n');
 const path = require('path');
 const compression = require('compression');
 const plugins = require('../services/plugins');
 const staticTemplate = require('../middleware/staticTemplate');
-const staticMiddleware = require('express-static-gzip');
+const nonce = require('../middleware/nonce');
+const staticFiles = require('../middleware/staticFiles');
 const { DISABLE_STATIC_SERVER } = require('../config');
 const { passport } = require('../services/passport');
 const { MOUNT_PATH } = require('../url');
@@ -31,6 +32,8 @@ if (!DISABLE_STATIC_SERVER) {
 
   /**
    * Redirect old embed calls.
+   *
+   * TODO: (wyattjoh) remove this on the next minor release
    */
   const oldEmbed = url.resolve(MOUNT_PATH, 'embed.js');
   const newEmbed = url.resolve(MOUNT_PATH, 'static/embed.js');
@@ -42,27 +45,14 @@ if (!DISABLE_STATIC_SERVER) {
   });
 
   /**
-   * Serve the directories under dist.
+   * Setup static file serving.
    */
-  const dist = path.resolve(path.join(__dirname, '../dist'));
-  if (process.env.NODE_ENV === 'production') {
-    router.use(
-      '/static',
-      staticMiddleware(dist, {
-        indexFromEmptyFile: false,
-        enableBrotli: true,
-        customCompressions: [
-          {
-            encodingName: 'deflate',
-            fileExtension: 'zz',
-          },
-        ],
-      })
-    );
-  } else {
-    router.use('/static', express.static(dist));
-  }
+  router.use('/static', staticFiles);
 }
+
+//==============================================================================
+// Shared Middleware
+//==============================================================================
 
 // Add the i18n middleware to all routes.
 router.use(i18n);
@@ -74,10 +64,13 @@ router.use(compression());
 // STATIC ROUTES
 //==============================================================================
 
-router.use('/admin', staticTemplate, require('./admin'));
-router.use('/account', staticTemplate, require('./account'));
-router.use('/login', staticTemplate, require('./login'));
-router.use('/embed', staticTemplate, require('./embed'));
+// TODO: re-add CSP once we've resolved issues with dynamic webpack loading.
+const staticMiddleware = [staticTemplate, nonce];
+
+router.use('/admin', ...staticMiddleware, require('./admin'));
+router.use('/account', ...staticMiddleware, require('./account'));
+router.use('/login', ...staticMiddleware, require('./login'));
+router.use('/embed', ...staticMiddleware, require('./embed'));
 
 //==============================================================================
 // PASSPORT MIDDLEWARE
@@ -142,7 +135,7 @@ router.use(require('./plugins'));
 
 // Catch 404 and forward to error handler.
 router.use((req, res, next) => {
-  next(new ErrNotFound());
+  next(new ErrHTTPNotFound());
 });
 
 // Add logging for errors.

@@ -1,5 +1,6 @@
 ar:
   talk-plugin-ignore-user:
+    blank_info: أنت لا تتجاهل حاليًا أي مستخدم
     section_title: المستخدمون الذين تم تجاهلهم
     section_info: لأنك تجاهلت المعلقين التاليين، يتم إخفاء تعليقاتهم.
     stop_ignoring: إيقاف التجاهل
@@ -25,6 +26,7 @@ da:
     confirmation_title: Ignore {0}?
 de:
   talk-plugin-ignore-user:
+    blank_info: Sie ignorieren derzeit keine Nutzer
     section_title: Ignorierte Nutzer
     section_info: Weil Sie die folgenden Nutzer ignorieren, sind deren Kommentare versteckt.
     stop_ignoring: Ignorieren beenden
@@ -35,22 +37,10 @@ de:
     confirmation_title: "{0} ignorieren?"
 en:
   talk-plugin-ignore-user:
+    blank_info: You are currently not ignoring any users
     section_title: Ignored users
     section_info: Because you ignored the following commenters, their comments are hidden.
     stop_ignoring: Stop ignoring
-    ignore_user: Ignore User
-    cancel: Cancel
-    confirmation: |
-    When you ignore a user, all comments they wrote on the site will be hidden from you. You can
-    undo this later from My Profile.
-    notify_success: |
-    You are now ignoring {0}. You can undo this action from My Profile.
-    confirmation_title: Ignore {0}?
-es:
-  talk-plugin-ignore-user:
-    section_title: "Usuarios ignorados"
-    section_info: Because you ignored the following commenters, their comments are hidden.
-    stop_ignoring: "No ignorar más"
     ignore_user: Ignore User
     cancel: Cancel
     confirmation: |
@@ -59,6 +49,20 @@ es:
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
     confirmation_title: Ignore {0}?
+es:
+  talk-plugin-ignore-user:
+    section_title: "Usuarios ignorados"
+    blank_info: Actualmente no ignoras a ningún usuario
+    section_info: Debido a que ignoró a los siguientes comentaristas, sus comentarios están ocultos.
+    stop_ignoring: "No ignorar más"
+    ignore_user: Ignorar usuario
+    cancel: Cancelar
+    confirmation: |
+      Cuando ignora a un usuario, todos los comentarios que escribió en el sitio estarán ocultos. 
+      Puede deshacer esto más tarde desde Mi Perfil.
+    notify_success: |
+      Ahora estás ignorando a {0}. Puede deshacer esta acción desde Mi Perfil.
+    confirmation_title: Ignorar a {0}?
 fr:
   talk-plugin-ignore-user:
     section_title: "Utilisateurs ignorés"
@@ -99,17 +103,18 @@ nl_NL:
     confirmation_title: Negeer {0}?
 pt_BR:
   talk-plugin-ignore-user:
+    blank_info: Atualmente você não está ignorando nenhum usuário
     section_title: "Usuários ignorados"
     section_info: "Porque você ignorou os seguintes comentadores, seus comentários estão ocultos."
-    stop_ignoring: "Pare de ignorar"
-    ignore_user: Ignore User
-    cancel: Cancel
-    confirmation: |
-      When you ignore a user, all comments they wrote on the site will be hidden from you. You can
-      undo this later from My Profile.
+    stop_ignoring: "Parar de ignorar"
+    ignore_user: Ignorar usuário
+    cancel: Cancelar
+    confirmation:
+      Quando você ignora um usuário, todos os comentários que ele ele(a) escreveu não serão exibidos para você. Você pode
+      desfazer isso depois no Meu Perfil
     notify_success: |
-      You are now ignoring {0}. You can undo this action from My Profile.
-    confirmation_title: Ignore {0}?
+      Agora você está ignorando {0}. Você pode desfazer essa ação em Meu Perfil.
+    confirmation_title: Ignorar {0}?
 zh_CN:
   talk-plugin-ignore-user:
     section_title: "被忽略用户"

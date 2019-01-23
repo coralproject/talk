@@ -11,10 +11,22 @@ function getReactionConfig(reaction) {
 
   if (CREATE_MONGO_INDEXES) {
     // Create the index on the comment model based on the reaction config.
-    Comment.collection.createIndex(
+    Comment.collection.ensureIndex(
       {
-        created_at: 1,
-        [`action_counts.${sc(reaction)}`]: 1,
+        asset_id: 1,
+        [`action_counts.${sc(reaction)}`]: -1,
+        created_at: -1,
+      },
+      {
+        background: true,
+      }
+    );
+
+    Comment.collection.ensureIndex(
+      {
+        asset_id: 1,
+        [`action_counts.${sc(reaction)}`]: -1,
+        created_at: -1,
       },
       {
         background: true,
@@ -168,7 +180,14 @@ function getReactionConfig(reaction) {
       [`${Reaction}Action`]: {
         // This will load the user for the specific action. We'll limit this to the
         // admin users only or the current logged in user.
-        user({ user_id }, _, { loaders: { Users }, user }) {
+        user(
+          { user_id },
+          _,
+          {
+            loaders: { Users },
+            user,
+          }
+        ) {
           if (user && (user.can(SEARCH_OTHER_USERS) || user_id === user.id)) {
             return Users.getByID.load(user_id);
           }

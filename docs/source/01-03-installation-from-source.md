@@ -70,5 +70,7 @@ You can now start the application by running:
 yarn watch:server
 ```
 
+If you are developing a custom plugin you can use `yarn watch:client` or `yarn watch` to run both client and server.
+
 At this stage, you should refer to the [configuration](/talk/configuration/) for
 configuration variables that are specific to your installation.

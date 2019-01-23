@@ -1,0 +1,19 @@
+{% extends "templates/base.njk" %}
+
+{% block title %}Talk{% endblock %}
+
+{% block css %}
+<link href="{{ resolve('embed/stream/default.css')}}" rel="stylesheet">
+<link href="{{ resolve('embed/stream/bundle.css')}}" rel="stylesheet">
+
+{# Custom CSS is included after the CSS block so that its overrides will apply #}
+{% include "partials/custom-css.njk" %}
+{% endblock %}
+
+{% block html %}
+<div id="talk-embed-stream-container"></div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ resolve('embed/stream/bundle.js')}}"></script>
+{% endblock %}

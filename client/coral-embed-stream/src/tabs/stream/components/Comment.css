@@ -18,6 +18,11 @@
 .comment {
   position: relative;
   padding-left: 15px;
+  display: flex;
+}
+
+.commentContainer {
+  width: 100%;
 }
 
 .commentLevel0 {
@@ -138,6 +143,7 @@
 }
 
 .commentAvatar {
+  margin-top: 10px;
   max-width: 60px;
 }
 

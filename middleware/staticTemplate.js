@@ -5,6 +5,7 @@ const { merge } = require('lodash');
 
 const {
   BASE_URL,
+  BASE_ORIGIN,
   BASE_PATH,
   MOUNT_PATH,
   STATIC_URL,
@@ -29,6 +30,7 @@ const TALK_CLIENT_ENV = Object.keys(process.env)
       LIVE_URI: WEBSOCKET_LIVE_URI,
       STATIC_URL,
       STATIC_ORIGIN,
+      BASE_ORIGIN,
     }
   );
 
@@ -48,7 +50,7 @@ const attachStaticLocals = locals => {
   for (const key in TEMPLATE_LOCALS) {
     const value = TEMPLATE_LOCALS[key];
 
-    locals[key] = value;
+    merge(locals, { [key]: value });
   }
 };
 
@@ -94,9 +96,13 @@ const createResolveFactory = (() => {
 
 module.exports = async (req, res, next) => {
   try {
-    // Attach the custom css url.
-    const { customCssUrl } = await SettingsService.select('customCssUrl');
+    // Attach the custom css url and organization name.
+    const { customCssUrl, organizationName } = await SettingsService.select(
+      'customCssUrl',
+      'organizationName'
+    );
     res.locals.customCssUrl = customCssUrl;
+    res.locals.organizationName = organizationName;
   } catch (err) {
     console.warn(err);
   }

@@ -1,5 +1,5 @@
 const iframeId = 'coralStreamEmbed_iframe';
-const SortedWindowHandler = require('../utils/SortedWindowHandler');
+const SortedWindowHandler = require('../helpers/SortedWindowHandler');
 
 module.exports = {
   commands: [

@@ -13,7 +13,11 @@ export default {
   mutations: {
     UpdateNotificationSettings: ({
       variables: { input },
-      state: { auth: { user: { id } } },
+      state: {
+        auth: {
+          user: { id },
+        },
+      },
     }) => ({
       optimisticResponse: {
         updateNotificationSettings: {

@@ -18,7 +18,15 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
   const {
     user,
     loaders: { Settings },
-    connectors: { models: { User }, services: { Mailer, I18n, Users } },
+    connectors: {
+      models: { User },
+      services: {
+        Mailer,
+        I18n,
+        Users,
+        Utils: { getRedirectUri },
+      },
+    },
   } = ctx;
 
   // Ensure that the user has a local profile associated with their account.
@@ -27,7 +35,7 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
   }
 
   // Ensure that the password provided matches what we have on file.
-  if (!await user.verifyPassword(confirmPassword)) {
+  if (!(await user.verifyPassword(confirmPassword))) {
     throw new ErrIncorrectPassword();
   }
 
@@ -74,14 +82,26 @@ async function updateUserEmailAddress(ctx, email, confirmPassword) {
     subject: I18n.t('email.email_change_original.subject'),
   });
 
+  // Try to get the root parent, and their redirect uri.
+  const redirectUri = getRedirectUri(ctx.rootParent);
+
   // Send off the email to the new email address that we need to verify the new
   // address.
-  await Users.sendEmailConfirmation(user, email);
+  await Users.sendEmailConfirmation(user, email, redirectUri);
 }
 
 // attachUserLocalAuth will attach a new local profile to an existing user.
 async function attachUserLocalAuth(ctx, email, password) {
-  const { user, connectors: { models: { User }, services: { Users } } } = ctx;
+  const {
+    user,
+    connectors: {
+      models: { User },
+      services: {
+        Users,
+        Utils: { getRedirectUri },
+      },
+    },
+  } = ctx;
 
   // Ensure that the current user doesn't already have a local account
   // associated with them.
@@ -132,9 +152,12 @@ async function attachUserLocalAuth(ctx, email, password) {
       throw new Error('local auth attachment failed due to unexpected reason');
     }
 
+    // Try to get the root parent, and their redirect uri.
+    const redirectUri = getRedirectUri(ctx.rootParent);
+
     // Send off the email to the new email address that we need to verify the
     // new address.
-    await Users.sendEmailConfirmation(updatedUser, email);
+    await Users.sendEmailConfirmation(updatedUser, email, redirectUri);
   } catch (err) {
     if (err.code === 11000) {
       throw new ErrEmailTaken();

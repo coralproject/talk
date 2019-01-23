@@ -2,6 +2,7 @@ const TagsService = require('../../../services/tags');
 const UsersService = require('../../../services/users');
 const SettingsService = require('../../../services/settings');
 const CommentModel = require('../../../models/comment');
+const AssetModel = require('../../../models/asset');
 const Context = require('../../../graph/context');
 
 const chai = require('chai');
@@ -18,6 +19,24 @@ describe('services.TagsService', () => {
       '1Coral!!',
       'Stampi'
     );
+    // We don't care about the asset value, just that it exists.
+    await AssetModel.create({
+      id: '123',
+      settings: {
+        tags: [
+          {
+            name: 'TEST',
+            permissions: {
+              public: true,
+              self: true,
+              roles: [],
+            },
+            models: ['COMMENTS'],
+            created_at: new Date(),
+          },
+        ],
+      },
+    });
     comment = await CommentModel.create({
       id: '1',
       body: 'comment 10',
@@ -25,6 +44,18 @@ describe('services.TagsService', () => {
       status_history: [],
       parent_id: null,
       author_id: user.id,
+    });
+  });
+
+  describe('#getAll', () => {
+    it('retrieves tags from the asset', async () => {
+      const tags = await TagsService.getAll({
+        item_type: 'COMMENTS',
+        asset_id: comment.asset_id,
+      });
+
+      expect(tags.length).to.equal(1);
+      expect(tags[0].name).to.equal('TEST');
     });
   });
 

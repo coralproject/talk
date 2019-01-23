@@ -1,4 +1,20 @@
+ar:
+  talk-plugin-notifications:
+    digest_enum:
+      HOURLY: في ملخص كل ساعة
 en:
   talk-plugin-notifications:
     digest_enum:
       HOURLY: In an hourly digest
+es:
+  talk-plugin-notifications:
+    digest_enum:
+      HOURLY: En un resumen por hora
+de:
+  talk-plugin-notifications:
+    digest_enum:
+      HOURLY: Stündlich
+nl_NL:
+  talk-plugin-notifications:
+    digest_enum:
+      HOURLY: In een uurlijkse samenvatting

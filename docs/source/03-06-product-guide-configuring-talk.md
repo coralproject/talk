@@ -19,7 +19,7 @@ Allows toggling of pre-moderating comments that have links.
 ### Ask Readers a Question & Question Icons
 
 Admins can choose to Ask Readers a Question in order to help guide the
-discussion. [Read more about why this is important on our blog](https://blog.coralproject.net/the-empty-box/).
+discussion. [Read more about why this is important on our blog](https://coralproject.net/blog/the-empty-box/).
 
 There are a selection of icons to display different messaging other than a
 question on a particular stream, like an announcement, or general information

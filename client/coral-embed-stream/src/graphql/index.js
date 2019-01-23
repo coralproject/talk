@@ -126,7 +126,9 @@ export default {
   },
   mutations: {
     PostComment: ({
-      variables: { input: { asset_id, body, parent_id, tags = [] } },
+      variables: {
+        input: { asset_id, body, parent_id, tags = [] },
+      },
       state: { auth },
     }) => ({
       optimisticResponse: {
@@ -193,7 +195,13 @@ export default {
       updateQueries: {
         CoralEmbedStream_Embed: (
           prev,
-          { mutationResult: { data: { createComment: { comment } } } }
+          {
+            mutationResult: {
+              data: {
+                createComment: { comment },
+              },
+            },
+          }
         ) => {
           if (
             (![ADMIN, MODERATOR].includes(prev.me.role) &&
@@ -208,7 +216,13 @@ export default {
         },
         CoralEmbedStream_Profile: (
           prev,
-          { mutationResult: { data: { createComment: { comment } } } }
+          {
+            mutationResult: {
+              data: {
+                createComment: { comment },
+              },
+            },
+          }
         ) => {
           return update(prev, {
             me: {
@@ -224,7 +238,13 @@ export default {
       updateQueries: {
         CoralEmbedStream_Embed: (
           prev,
-          { mutationResult: { data: { editComment: { comment } } } }
+          {
+            mutationResult: {
+              data: {
+                editComment: { comment },
+              },
+            },
+          }
         ) => {
           if (
             !['PREMOD', 'REJECTED', 'SYSTEM_WITHHELD'].includes(comment.status)

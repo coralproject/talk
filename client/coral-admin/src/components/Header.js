@@ -7,7 +7,6 @@ import styles from './Header.css';
 import t from 'coral-framework/services/i18n';
 import { Logo } from './Logo';
 import { can } from 'coral-framework/services/perms';
-import ModerationIndicator from '../routes/Moderation/containers/Indicator';
 import CommunityIndicator from '../routes/Community/containers/Indicator';
 
 const CoralHeader = ({
@@ -32,7 +31,6 @@ const CoralHeader = ({
                   activeClassName={styles.active}
                 >
                   {t('configure.moderate')}
-                  <ModerationIndicator root={root} data={data} />
                 </IndexLink>
               )}
               <Link
@@ -81,11 +79,20 @@ const CoralHeader = ({
                     </MenuItem>
                     <MenuItem>
                       <a
+                        href="https://docs.coralproject.net/talk/how-talk-works/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t('configure.product_guide_link')}
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
                         href="https://github.com/coralproject/talk/releases"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        View latest version
+                        {t('configure.view_last_version')}
                       </a>
                     </MenuItem>
                     <MenuItem>
@@ -94,7 +101,7 @@ const CoralHeader = ({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Report a bug or give feedback
+                        {t('configure.report_bug_or_feedback')}
                       </a>
                     </MenuItem>
                     {currentUser && (

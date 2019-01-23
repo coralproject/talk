@@ -34,7 +34,7 @@ class EmbedLink extends Component {
     `;
 
     return (
-      <ConfigureCard title={'Embed Comment Stream'}>
+      <ConfigureCard title={t('configure.embed_comment_stream')}>
         <p>{t('configure.copy_and_paste')}</p>
         <textarea
           rows={5}
@@ -53,7 +53,7 @@ class EmbedLink extends Component {
             {t('embedlink.copy')}
           </Button>
           <div className={styles.copiedText}>
-            {this.state.copied && 'Copied!'}
+            {this.state.copied && t('embedlink.copied')}
           </div>
         </div>
       </ConfigureCard>

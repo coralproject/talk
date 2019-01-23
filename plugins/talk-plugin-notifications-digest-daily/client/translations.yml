@@ -1,4 +1,20 @@
+ar:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: في ملخص يومي
 en:
   talk-plugin-notifications:
     digest_enum:
       DAILY: In a daily digest
+es:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: En un resumen diario
+de:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: Einmal täglich
+nl_NL:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: In een dagelijkse samenvatting

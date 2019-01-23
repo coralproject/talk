@@ -2,6 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styles from './styles.css';
 import { t } from 'plugin-api/beta/client/services';
+import { buildCommentURL } from 'plugin-api/beta/client/utils';
 import { ClickOutside } from 'plugin-api/beta/client/components';
 import { Icon, Button } from 'plugin-api/beta/client/components/ui';
 
@@ -90,7 +91,7 @@ export default class PermalinkButton extends React.Component {
               className={cn(styles.input, `${name}-copy-field`)}
               type="text"
               ref={input => (this.permalinkInput = input)}
-              defaultValue={`${asset.url}?commentId=${comment.id}`}
+              defaultValue={buildCommentURL(asset.url, comment.id)}
               readOnly
             />
 
@@ -105,9 +106,9 @@ export default class PermalinkButton extends React.Component {
                 },
               ])}
             >
-              {!copyFailure && !copySuccessful && 'Copy'}
-              {copySuccessful && 'Copied'}
-              {copyFailure && 'Not supported'}
+              {!copyFailure && !copySuccessful && t('common.copy')}
+              {copySuccessful && t('common.copied')}
+              {copyFailure && t('common.notsupported')}
             </Button>
           </div>
         </div>

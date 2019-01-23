@@ -32,8 +32,8 @@ nl_NL:
     respected: Gerespecteerd
 pt_BR:
   talk-plugin-respect:
-    respect: Respect
-    respected: Respected
+    respect: Respeitar
+    respected: Respeitado
 zh_CN:
   talk-plugin-respect:
     respect: "赞"

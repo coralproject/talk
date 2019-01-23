@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './Story.css';
+import t from 'coral-framework/services/i18n';
 
 const formatDate = date => {
   const d = new Date(date);
@@ -14,7 +15,9 @@ const Story = ({ author, title, createdAt, open, id, goToStory }) => {
       <div className={styles.meta}>
         <span className={styles.author}>By {author}</span>
         <span className={styles.createdAt}>{formatDate(createdAt)}</span>
-        <span className={styles.status}>{open ? 'Open' : 'Closed'}</span>
+        <span className={styles.status}>
+          {open ? t('streams.open') : t('streams.closed')}
+        </span>
       </div>
     </li>
   );

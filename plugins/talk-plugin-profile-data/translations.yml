@@ -1,3 +1,41 @@
+ar:
+  download_landing:
+    download_your_account: "قم بتنزيل سجل التعليقات الخاص بك"
+    download_details: "سيتم تنزيل سجل التعليقات في ملف .zip. بعد فك ضغط محفوظات التعليقات ، سيكون لديك ملف ذو قيمة مفصولة بفاصلة (أو .csv) يمكنك استيراده بسهولة إلى تطبيق جدول البيانات المفضل لديك."
+    all_information_included: "لكل من تعليقاتك يتم تضمين المعلومات التالية:"
+    information_included:
+      date: "متى كتبت التعليق"
+      url: "الرابط الثابت للتعليق"
+      body: "نص التعليق"
+      asset_url: "عنوان URL للمقال أو القصة التي يظهر فيها التعليق"
+    confirm: "تنزيل محفوظات تعليقاتي"
+  email:
+    download:
+      subject: "تعليقاتك جاهزة للتنزيل من {0}"
+      download_link_ready: "انقر هنا لتنزيل تعليقاتك من
+                             {0} اعتبارا من {1}:"
+      download_archive: "تنزيل الأرشيف"
+    delete:
+      subject: "حسابك ل {0} من المقرر أن يتم حذفه"
+      body: |
+        تم تلقي طلب لحذف حسابك. تمت جدولة حسابك للحذف في {1}.
+
+        بعد ذلك الوقت ، ستتم إزالة جميع تعليقاتك من الموقع ، وستتم إزالة جميع تعليقاتك من قاعدة بياناتنا ، وستتم إزالة اسم المستخدم وعنوان البريد الإلكتروني من نظامنا.
+
+        إذا غيرت رأيك ، يمكنك تسجيل الدخول إلى حسابك وإلغاء الطلب قبل وقت حذف الحساب المجدول.
+    deleted:
+      subject: "حسابك ل {0} قد تم حذفه"
+      body: |
+        حساب المعلق الخاص بك ل {0} تم حذفه الآن. نحن آسفون أن نراك تذهب!
+
+        إذا كنت ترغب في إعادة الانضمام إلى المناقشة في المستقبل ، يمكنك الاشتراك للحصول على حساب جديد.
+
+        إذا كنت ترغب في تزويدنا بتعليقات حول سبب تركك وما يمكننا فعله لجعل تجربة التعليق أفضل ، يرجى مراسلتنا عبر البريد الإلكتروني على {1}.
+    cancelDelete:
+      subject: "طلب حذف حسابك ل {0} تم إلغاؤه"
+      body: "لقد ألغيت طلب حذف حسابك ل {0}. تم الآن إعادة تفعيل حسابك."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "رابط التنزيل الخاص بك غير صالح."
 en:
   download_landing:
     download_your_account: "Download Your Comment History"
@@ -7,7 +45,7 @@ en:
       date: "When you wrote the comment"
       url: "The permalink URL for the comment"
       body: "The comment text"
-      asset_url: "The URL on the article or story where the comment appears"
+      asset_url: "The URL of the article or story where the comment appears"
     confirm: "Download My Comment History"
   email:
     download:
@@ -17,7 +55,7 @@ en:
     delete:
       subject: "Your account for {0} is scheduled to be deleted"
       body: |
-        A request to delete your account was received. Your account is scheduled for deletion on {1}. 
+        A request to delete your account was received. Your account is scheduled for deletion on {1}.
 
         After that time all of your comments will be removed from the site, all of your comments will be removed from our database, and your username and email address will be removed from our system.
 
@@ -35,3 +73,77 @@ en:
       body: "You have cancelled your account deletion request for {0}. Your account is now reactivated."
   error:
     DOWNLOAD_TOKEN_INVALID: "Your download link is not valid."
+es:
+  download_landing:
+    download_your_account: "Descargue su historial de comentarios"
+    download_details: "Su historial de comentarios se descargará en un archivo .zip. Después de descomprimir el historial de comentarios, tendrá un archivo de valores separados por comas (o .csv) que podrá importar fácilmente en su aplicación de hoja de cálculo favorita."
+    all_information_included: "Para cada uno de sus comentarios se incluye la siguiente información:"
+    information_included:
+      date: "Cuando escribiste el comentario"
+      url: "La URL del enlace permanente para el comentario"
+      body: "El texto de comentario"
+      asset_url: "La URL del artículo o historia donde aparece el comentario"
+    confirm: "Descargar el historial de mis comentarios"
+  email:
+    download:
+      subject: "Sus comentarios están listos para su descarga desde {0}"
+      download_link_ready: "Haga clic aquí para descargar sus comentarios de {0} a partir de {1}:"
+      download_archive: "Descargar archivo"
+    delete:
+      subject: "Su cuenta para {0} está programada para ser eliminada"
+      body: |
+        Se recibió una solicitud para eliminar su cuenta. Su cuenta está programada para ser eliminada {1}.
+
+        Después de ese momento, todos sus comentarios serán eliminados del sitio, todos sus comentarios serán eliminados de nuestra base de datos y su nombre de usuario y dirección de correo electrónico serán eliminados de nuestro sistema.
+
+        Si cambia de opinión, puede iniciar sesión en su cuenta y cancelar la solicitud antes de la hora programada para la eliminación de su cuenta.
+    deleted:
+      subject: "Su cuenta para {0} ha sido eliminada"
+      body: |
+        Su cuenta de comentarista para {0} ahora se borró. ¡Sentimos verte partir!
+
+        Si desea volver a unirse a la discusión en el futuro, puede registrarse para obtener una nueva cuenta.
+
+        Si desea darnos su opinión sobre por qué se fue y qué podemos hacer para mejorar la experiencia de comentarios, envíenos un correo electrónico a {1}.
+    cancelDelete:
+      subject: "La solicitud de eliminación de su cuenta para {0} ha sido cancelada"
+      body: "Ha cancelado la solicitud de eliminación de cuenta para {0}. Su cuenta ahora está reactivada."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "Su enlace de descarga no es válido."
+de:
+  download_landing:
+    download_your_account: "Mein Kommentar-Archiv herunterladen"
+    download_details: "Ihr Kommentar-Archiv wird als ZIP-Datei bereitgestellt. Nach dem Entpacken erhalten Sie eine CSV-Datei, die einfach in ein Tabellenkalkulationsprogramm importiert werden kann."
+    all_information_included: "Für jeden Ihrer Kommentare sind folgende Informationen enthalten:"
+    information_included:
+      date: "Wann Sie den Kommentar geschrieben haben"
+      url: "Die dauerhafte URL (Internetadresse) des Kommentars"
+      body: "Der Kommentar-Text"
+      asset_url: "Die URL (Internetadresse) des Artikels an dem der Kommentar erscheint"
+    confirm: "Kommentar-Archiv herunterladen"
+  email:
+    download:
+      subject: "Ihre Kommentare sind zum Download bereit: {0}"
+      download_link_ready: "Hier klicken, um Ihre Kommentare von {0} bis {1} herunterzuladen:"
+      download_archive: "Archiv herunterladen"
+    delete:
+      subject: "Ihr Benutzerkonto bei {0} ist zur Löschung vorgesehen"
+      body: |
+        Wir haben eine Anfrage erhalten, Ihr Benutzerkonto zu löschen. Die Löschung ist geplant für den {1}.
+
+        Nach diesem Zeitpunkt werden alle Ihre Kommentare von der Website und aus unserer Datenbank gelöscht. Außerdem werden Ihr Nutzername und Ihre E-Mail-Adresse aus unserem System enfernt.
+
+        Falls Sie es sich noch anders überlegen, können Sie sich bis spätestens zum angegebenen Lösch-Zeitpunkt einloggen und die Lösch-Anfrage abbrechen.
+    deleted:
+      subject: "Ihre Benutzerkonto bei {0} wurde gelöscht"
+      body: |
+        Ihr Kommentar-Konto bei {0} ist nun gelöscht. Schade, auf Wiedersehen!
+
+        Falls Sie sich in Zukunft erneut an der Diskussion beteiligen möchten, können Sie jederzeit ein neues Benutzerkonto einrichten.
+
+        Wenn Sie Lust haben, schreiben Sie uns doch eine Rückmeldung, Feedback, oder Kritik an {1}, damit wir unsere Community verbessern können. Vielen Dank!
+    cancelDelete:
+      subject: "Die Lösch-Anfrage für Ihr Benutzerkonto bei {0} wurde abgebrochen"
+      body: "Sie haben die Lösch-Anfrage für Ihr Benutzerkonto bei {0} abgebrochen. Das Konto ist nun wieder aktiv."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "Der Download-Link ist ungültig."

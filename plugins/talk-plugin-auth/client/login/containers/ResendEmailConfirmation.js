@@ -59,6 +59,9 @@ const mapDispatchToProps = dispatch =>
   );
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withResendEmailConfirmation
 )(ResendEmailConfirmatonContainer);

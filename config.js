@@ -30,11 +30,18 @@ const CONFIG = {
   ENABLE_TRACING: Boolean(process.env.APOLLO_ENGINE_KEY),
 
   // EMAIL_SUBJECT_PREFIX is the string before emails in the subject.
-  EMAIL_SUBJECT_PREFIX: process.env.TALK_EMAIL_SUBJECT_PREFIX || '[Talk]',
+  EMAIL_SUBJECT_PREFIX: process.env.TALK_EMAIL_SUBJECT_PREFIX,
 
   // DEFAULT_LANG is the default language used for server sent emails and
   // rendered text.
   DEFAULT_LANG: process.env.TALK_DEFAULT_LANG || 'en',
+
+  // WHITELISTED_LANGUAGES is a comma separated list of language/locales that
+  // should be supported. If the default language is not included in the
+  // whitelist list, the first entry will be used as the default.
+  WHITELISTED_LANGUAGES:
+    process.env.TALK_WHITELISTED_LANGUAGES &&
+    process.env.TALK_WHITELISTED_LANGUAGES.split(',').map(l => l.trim()),
 
   // When TRUE, it ensures that database indexes created in core will not add
   // indexes.
@@ -48,12 +55,18 @@ const CONFIG = {
   // request all of the records. Otherwise, minimum limits of 0 are enforced.
   ALLOW_NO_LIMIT_QUERIES: process.env.TALK_ALLOW_NO_LIMIT_QUERIES === 'TRUE',
 
+  // ENABLE_STRICT_CSP enables strict CSP enforcement, and will enforce as well
+  // as report CSP violations.
+  ENABLE_STRICT_CSP: process.env.TALK_ENABLE_STRICT_CSP === 'TRUE',
+
   // LOGGING_LEVEL specifies the logging level used by the bunyan logger.
   LOGGING_LEVEL: ['fatal', 'error', 'warn', 'info', 'debug', 'trace'].includes(
     process.env.TALK_LOGGING_LEVEL
   )
     ? process.env.TALK_LOGGING_LEVEL
-    : process.env.NODE_ENV === 'test' ? 'fatal' : 'info',
+    : process.env.NODE_ENV === 'test'
+      ? 'fatal'
+      : 'info',
 
   // REVISION_HASH when using the docker build will contain the build hash that
   // it was built at.
@@ -62,6 +75,10 @@ const CONFIG = {
   // SCRAPER_HEADERS is a JSON string that will be used to override the headers
   // on the scraper when it makes requests.
   SCRAPER_HEADERS: process.env.TALK_SCRAPER_HEADERS || '{}',
+
+  // HTTP_X_REQUEST_ID is a string which represents the request header where we
+  // should source the request ID from, otherwise, a new one will be generated.
+  HTTP_X_REQUEST_ID: process.env.TALK_HTTP_X_REQUEST_ID || null,
 
   //------------------------------------------------------------------------------
   // JWT based configuration
@@ -193,9 +210,15 @@ const CONFIG = {
   // STATIC_URI is the base uri where static files are hosted.
   STATIC_URI: process.env.TALK_STATIC_URI || process.env.TALK_ROOT_URL,
 
+  // SCRAPER_PROXY_URL is the url to be used as a proxy by the scraper
+  SCRAPER_PROXY_URL: process.env.TALK_SCRAPER_PROXY_URL || null,
+
   // The keepalive timeout (in ms) that should be used to send keep alive
   // messages through the websocket to keep the socket alive.
   KEEP_ALIVE: process.env.TALK_KEEP_ALIVE || '30s',
+
+  // CONCURRENCY is the number of workers that will serve traffic.
+  CONCURRENCY: parseInt(process.env.TALK_CONCURRENCY || '1'),
 
   //------------------------------------------------------------------------------
   // Cache configuration
@@ -203,6 +226,14 @@ const CONFIG = {
 
   CACHE_EXPIRY_COMMENT_COUNT:
     process.env.TALK_CACHE_EXPIRY_COMMENT_COUNT || '1hr',
+
+  // EMBED_EXPIRY_TIME is the time that the embed will be cacheable for, sent as
+  // the max-age= directive on the Cache-Control header.
+  EMBED_EXPIRY_TIME: ms(process.env.TALK_EMBED_EXPIRY || '24hr'),
+
+  // EMBED_EXPIRY_TIME is the time that the rest of the static files will be
+  // cacheable for, sent as the max-age= directive on the Cache-Control header.
+  STATIC_EXPIRY_TIME: ms(process.env.TALK_STATIC_EXPIRY || '1w'),
 
   //------------------------------------------------------------------------------
   // Recaptcha configuration
@@ -254,6 +285,10 @@ const CONFIG = {
 //==============================================================================
 // CONFIG VALIDATION
 //==============================================================================
+
+if (typeof CONFIG.EMAIL_SUBJECT_PREFIX === 'undefined') {
+  CONFIG.EMAIL_SUBJECT_PREFIX = '[Talk]';
+}
 
 if (process.env.NODE_ENV === 'test') {
   if (!CONFIG.ROOT_URL) {
@@ -312,6 +347,17 @@ CONFIG.JWT_COOKIE_NAMES = uniq(
     CONFIG.JWT_SIGNING_COOKIE_NAME,
   ])
 );
+
+//------------------------------------------------------------------------------
+// Locale validation
+//------------------------------------------------------------------------------
+
+if (
+  CONFIG.WHITELISTED_LANGUAGES &&
+  !CONFIG.WHITELISTED_LANGUAGES.includes(CONFIG.DEFAULT_LANG)
+) {
+  CONFIG.DEFAULT_LANG = CONFIG.WHITELISTED_LANGUAGES[0];
+}
 
 //------------------------------------------------------------------------------
 // External database url's

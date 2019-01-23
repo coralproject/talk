@@ -1,0 +1,37 @@
+{% extends "templates/development.njk" %}
+
+{% block title %}All Assets{% endblock %}
+
+{% block html %}
+<div class="container">
+  <div class="d-flex w-100 justify-content-between mt-3 mb-2">
+    <h1 class="mb-0">All Assets</h1>
+    <span class="text-muted">{{ skip + 1 }} - {{ skip + assets.length }} of {{ count }} Assets</span>
+  </div>
+  <div class="list-group">
+    {% if skip === 0 %}<a href="{{ BASE_PATH }}dev/assets/random" class="list-group-item list-group-item-action list-group-item-primary"><i class="fa fa-plus" aria-hidden="true"></i> Create a random article</a>{% endif %}
+    {% for asset in assets %}
+      <a href="{{ BASE_PATH }}dev/assets/id/{{ asset.id }}" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ asset.title }}</h5>
+          <small>Created {{ asset.created_at.toLocaleString('en-US') }}</small>
+        </div>
+        <small>{{ asset.url }}</small>
+      </a>
+    {% endfor %}
+  </div>
+  {% if count !== assets.length %}
+    <nav aria-label="Page navigation example" class="mt-2">
+      <ul class="pagination justify-content-center">
+        {% for i in range(0, count, limit) %}
+          {% if i === skip %}
+            <li class="page-item disabled"><a class="page-link" href="#">{{ i / limit + 1 | round }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="{{ BASE_PATH }}dev/assets?skip={{ i }}&amp;limit={{ limit }}">{{ i / limit + 1 | round }}</a></li>
+          {% endif  %}
+        {% endfor %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}

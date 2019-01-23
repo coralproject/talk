@@ -5,7 +5,7 @@ permalink: /moderator-features/
 
 ## The Talk Admin
 
-The Admin is your moderators will moderate your comments, and your Admins will
+The Admin is where your moderators will moderate your comments, and your Admins will
 configure and manage the different parts of Talk.
 
 ### Moderate
@@ -18,57 +18,99 @@ site-wide.
 
 **New**
 
-The New queue contains all comments that have not been moderated yet.
+>_Conditions:_ Pre-Mod disabled
 
-**Reported**
+Comments have been published? _**Yes**_
 
-The Reported queue contains all comments that need moderator attention.
+The New queue contains all comments that have not been moderated yet. This queue contains comments that haven’t yet been Accepted or Rejected by a moderator
 
-**Approved**
+**Pre-mod**
 
-The Approved queue contains all approved comments.
+>_Conditions:_ Pre-Mod enabled
+
+Comments have been published? _**No**_
+
+This queue contains comments that haven’t yet been Accepted or Rejected by a moderator
+
+**Accepted**
+
+Comments have been published? _**Yes**_
+
+Comments that have been approved by a moderator, written by a Staff member (and so auto approved), or Featured (and so auto approved). Tags for reports still appear on comments in this queue, but the comments will not go back into Reported.
 
 **Rejected**
 
-The Rejected queue contains all comments that have been rejected, either
-manually by moderators or automatically, e.g. they have used a banned word.
+Comments have been published? _**No**_
+
+Comments that have been rejected by a moderator, or rejected because they contained a banned word/phrase. Tags for reports still appear on comments in this queue, but the comments will not go back into Reported.
+
+
+**Reported**
+
+>_Conditions:_ Pre-Mod disabled
+
+Comments have been published? _**depends**_
+
+This queue contains comments that have been reported for moderator review, either by users or automatically by Talk, and have not yet been Approved or Rejected. If there are comments to review in this queue, a red dot will be displayed in the top menu. 
 
 **All**
 
 The All queue contains all comments that have been submitted either article or
 site-wide.
 
-#### Moderation Badges
+#### Moderation Tags that appear in Reported/other queues
 
 **Pre-mod**
 
-The Pre-mod badge signifies comments that are being pre-modded.
+_Comment published? No_
+
+The Pre-mod tag signifies comments that are being pre-modded.
 
 **User**
 
-The User badge signifies comments that have been reported by another user.
+_Comment published? Yes_
 
-**History**
+Comment has been reported by a user. The ‘More Details’ box contains the name/s of the users who reported the comment, and any additional information they provided.
 
-The History badge signifies comments that have been flagged because of a user’s
-history.
+**Staff**
+
+_Comment published? Yes_
+
+Comment has been reported by a staff member. The ‘More Details’ box contains the name/s of the staff member who reported the comment, and any additional information they provided.
+
+**Suspect Word**
+
+_Comment published? Yes_
+
+Comment contains a word or phrase that is on the ’Suspect words’ list in the Configure > Moderation tab (administrators only). The word/phrase will be highlighted in yellow.
+
+**Karma**
+
+_Comment published? No_
+
+The History tag signifies comments that have been flagged because the user’s history indicates their Accepted:Rejected ratio has reached below the karma threshold. [Read more about karma here.](/talk/trust/#user-karma-score)
+
+**Spam**
+
+_Comment published? No_
+
+If you are using the Akismet anti-spam plugin, this tag means that Akismet has flagged the comment as spam. You must Approve it for it to appear in the stream. **Requires:** [talk-plugin-akismet](/talk/plugin/talk-plugin-akismet/)
+
 
 **Toxic**
 
-The Toxic badge signifies comments that are above the set Toxicity Probability
-Threshold. Note you must have [talk-plugin-toxic-comments](/talk/additional-plugins/#talk-plugin-toxic-comments) enabled.
-[Read more about Toxic Comments here](/talk/toxic-comments/).
+_Comment published? No_
 
-**Suspect**
+If you are using the Toxic Comments plugin, this tag means that Perspective API has flagged the comment as likely to be toxic, above the threshold you have set (default: 80%). You must Approve it for it to appear in the stream. **Requires:** [talk-plugin-toxic-comments](/talk/additional-plugins/#talk-plugin-toxic-comments). 
+Read more about [Toxic Comments here](/talk/toxic-comments/).
 
-The Suspect badge signifies comments that contain a Suspect Word.
 
 **Contains Link**
 
-The Contains Link badge signifies a comment that contains a link, which can
+The Contains Link tag signifies a comment that contains a link, which can
 sometimes mean it is a spam or ad comment.
 
-**Flag Details View**
+**More Details View**
 
 At the bottom of each comment in the moderation queues, you can see more
 information about a comment’s flags by clicking on More Detail.
@@ -88,9 +130,35 @@ Rejecting a comment removes the comment from the stream.
 Featuring a comment adds that comment to the Featured Comments tab on the
 stream.
 
+#### Keyboard Shortcuts
+
+Talk also supports a number of keyboard shortcuts that moderators can leverage
+to moderate queues quickly:
+
+| Shortcut | Action                     |
+| -------- | -------------------------- |
+| `j`      | Go to the next comment     |
+| `k`      | Go to the previous comment |
+| `ctrl+f` | Open search                |
+| `1-5`    | Switch queues              |
+| `z`      | Zen mode                   |
+| `?`      | Open shortcuts menu        |
+| `d`      | Approve                    |
+| `f`      | Reject                     |
+
+Note: "Zen mode" allows a moderator to view and action only one comment at a time. Enjoy the silence!
+
+#### The User Drawer
+
+In order to get an idea of what sort of a commenter someone is, moderators can
+click on the commenter's username in any moderation queue/elsewhere in the admin (eg the Community page) to see details about
+their comments, and to take actions.
+
+#### User Drawer Actions
+
 **Suspend User**
 
-Suspending a user allows a moderator to give a commenter a “time-out”; during
+Suspending a user allows a moderator to give a commenter a “time-out” for a set time chosen from four options; during
 that time they won’t be allowed to post comments or react to comments.
 
 **Ban User**
@@ -99,15 +167,13 @@ Banning a user allows a moderator to permanently disallow a commenter to
 interact with their community. The commenters previous comments will remain on
 the site. This action can only be un-done manually by a moderator.
 
-#### Viewing a User’s Comment History
+**Reject Username**
 
-In order to get an idea of what sort of a commenter someone is, moderators can
-click on the commenters username in any moderation queue and see details about
-their history.
+If a username is violating your guidelines but isn't bad enough to lead to a ban (eg. they are impersonating a famous person), you can reject their username. This will prevent them from publishing comments until they submit a new username. The new name will appear on the Community page for moderator approval before they can publish comments again.
 
 **Username, Email and Member Since Date**
 
-This shows the basic details about a commenter.
+This shows the basic details about a commenter's account
 
 **Total Comments**
 
@@ -119,32 +185,17 @@ display on the site.
 This shows the % of comments a commenter has had rejected by moderators, or
 automatically.
 
-**Reports**
+**Karma score**
 
-This shows if a commenter is a reliable flagger, an unreliable flagger, or a
-neutral flagger. [Read more about reliable and unreliable flaggers here](/talk/trust/#reliable-and-unreliable-flaggers).
+The user's current score. To see the default threshhold, click on the 'i' next to the word Karma. If the user's score is equal to or below the default threshhold, the number will be highlighted red. [Read more about karma scores here.](/talk/trust/#user-karma-score)
+
+**User History**
+
+This shows the history of the account - if a user has changed their username, or been suspended or banned. The name of the moderator who suspended/banned them/lifted the suspection or ban is displayed here as well.
 
 **Moderating from this View**
 
-Talk also allows you to moderate a commenters recent comments from this view.
-
-#### Keyboard Shortcuts
-
-Talk also supports a number of keyboard shortcuts that moderators can leverage
-to moderate quickly:
-
-| Shortcut | Action                     |
-| -------- | -------------------------- |
-| `j`      | Go to the next comment     |
-| `k`      | Go to the previous comment |
-| `ctrl+f` | Open search                |
-| `t`      | Switch queues              |
-| `z`      | Zen mode                   |
-| `?`      | Open this menu             |
-| `d`      | Approve                    |
-| `f`      | Reject                     |
-
-Note: "Zen mode" allows a moderator to view and action only one comment at a time. Enjoy the silence!
+Talk also allows you to moderate a commenters recent comments from this view. You can 'Select all' to select up to ten previous comments, and take bulk accept/reject actions.
 
 ### Stories
 

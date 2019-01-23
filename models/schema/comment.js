@@ -55,12 +55,16 @@ const Comment = new Schema(
       type: String,
       default: uuid.v4,
       unique: true,
+      index: true,
     },
     body: {
       type: String,
     },
     body_history: [BodyHistoryItemSchema],
-    asset_id: String,
+    asset_id: {
+      type: String,
+      index: true,
+    },
     author_id: String,
     status_history: [Status],
     status: {
@@ -90,7 +94,6 @@ const Comment = new Schema(
     // deleted_at stores the date that the given comment was deleted.
     deleted_at: {
       type: Date,
-      default: null,
     },
 
     // Additional metadata stored on the field.
@@ -110,95 +113,73 @@ const Comment = new Schema(
   }
 );
 
-// Add the indexes for the id of the comment.
 Comment.index(
   {
-    id: 1,
-  },
-  {
-    unique: true,
-    background: false,
-  }
-);
-
-Comment.index(
-  {
-    status: 1,
-    created_at: 1,
-  },
-  {
-    background: true,
-  }
-);
-
-Comment.index(
-  {
-    status: 1,
-    created_at: 1,
-    asset_id: 1,
-  },
-  {
-    background: true,
-  }
-);
-
-// Create a sparse index to search across.
-Comment.index(
-  {
-    created_at: 1,
-    'action_counts.flag': 1,
-    status: 1,
-  },
-  {
-    background: true,
-    sparse: true,
-  }
-);
-
-// Create a sparse index to search across.
-Comment.index(
-  {
-    'action_counts.flag': 1,
-    status: 1,
-  },
-  {
-    background: true,
-    sparse: true,
-  }
-);
-
-// Add an index that is optimized for finding flagged comments.
-Comment.index(
-  {
-    asset_id: 1,
-    created_at: 1,
-    'action_counts.flag': 1,
-  },
-  {
-    background: true,
-  }
-);
-
-// Add an index for the reply sort.
-Comment.index(
-  {
-    asset_id: 1,
+    deleted_at: 1,
     created_at: -1,
-    reply_count: -1,
   },
-  {
-    background: true,
-  }
+  { partialFilterExpression: { deleted_at: null } }
 );
 
-// Add an index that is optimized for finding a user's comments.
 Comment.index(
   {
-    author_id: 1,
+    deleted_at: 1,
+    status: 1,
+    created_at: -1,
+  },
+  { partialFilterExpression: { deleted_at: null } }
+);
+
+Comment.index({
+  asset_id: 1,
+  created_at: -1,
+});
+
+Comment.index({
+  asset_id: 1,
+  created_at: 1,
+});
+
+Comment.index({
+  author_id: 1,
+  created_at: -1,
+});
+
+Comment.index({
+  asset_id: 1,
+  status: 1,
+});
+
+Comment.index({
+  asset_id: 1,
+  parent_id: 1,
+  reply_count: -1,
+  created_at: -1,
+});
+
+Comment.index({
+  asset_id: 1,
+  reply_count: -1,
+  created_at: -1,
+});
+
+Comment.index({
+  asset_id: 1,
+  parent_id: 1,
+  created_at: 1,
+});
+
+Comment.index(
+  {
+    'action_counts.flag': 1,
+    status: 1,
     created_at: -1,
   },
   {
-    background: true,
+    partialFilterExpression: {
+      'action_counts.flag': { $exists: true, $gt: 0 },
+      deleted_at: null,
+    },
   }
 );
 
@@ -210,31 +191,7 @@ Comment.index(
     status: 1,
   },
   {
-    background: true,
-  }
-);
-
-// Optimize for tag searches/counts.
-Comment.index(
-  {
-    'tags.tag.name': 1,
-    status: 1,
-  },
-  {
-    background: true,
     sparse: true,
-  }
-);
-
-// Add an index that is optimized for sorting based on the created_at timestamp
-// but also good at locating comments that have a specific asset id.
-Comment.index(
-  {
-    asset_id: 1,
-    created_at: 1,
-  },
-  {
-    background: true,
   }
 );
 

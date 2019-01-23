@@ -9,18 +9,9 @@ import cn from 'classnames';
 import { getTotalReactionsCount } from 'coral-framework/utils';
 
 import t from 'coral-framework/services/i18n';
+import { buildCommentURL } from 'coral-framework/utils/url';
 
 class Comment extends React.Component {
-  goToStory = () => {
-    this.props.navigate(this.props.comment.asset.url);
-  };
-
-  goToConversation = () => {
-    this.props.navigate(
-      `${this.props.comment.asset.url}?commentId=${this.props.comment.id}`
-    );
-  };
-
   render() {
     const { comment, root } = this.props;
     const reactionCount = getTotalReactionsCount(comment.action_summaries);
@@ -44,7 +35,7 @@ class Comment extends React.Component {
                 { [styles.countZero]: reactionCount === 0 }
               )}
             >
-              <Icon name="thumb_up" />
+              <Icon name="whatshot" />
               <span
                 className={cn(
                   styles.reactionCount,
@@ -76,8 +67,8 @@ class Comment extends React.Component {
           <div className="my-comment-asset">
             <a
               className={cn(styles.assetURL, 'my-comment-anchor')}
-              href="#"
-              onClick={this.goToStory}
+              href={this.props.comment.asset.url}
+              target="_parent"
             >
               {t('common.story')}:{' '}
               {comment.asset.title ? comment.asset.title : comment.asset.url}
@@ -87,7 +78,14 @@ class Comment extends React.Component {
         <div className={styles.sidebar}>
           <ul>
             <li>
-              <a onClick={this.goToConversation} className={styles.viewLink}>
+              <a
+                className={styles.viewLink}
+                href={buildCommentURL(
+                  this.props.comment.asset.url,
+                  this.props.comment.id
+                )}
+                target="_parent"
+              >
                 <Icon name="open_in_new" className={styles.iconView} />
                 {t('view_conversation')}
               </a>

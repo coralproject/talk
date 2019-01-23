@@ -34,6 +34,21 @@
   }
 }
 
+.filterHeader {
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.filterDetail {
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+.radioGroup {
+  margin: 5px 0;
+}
+
 .mainContent {
   width: calc(100% - 300px);
   padding: 34px 14px;
@@ -133,6 +148,7 @@ th.header:nth-child(2), th.header:nth-child(3) {
 
 .roleDropdown {
   width: 150px;
+  text-align: left;
 }
 
 .roleOption {

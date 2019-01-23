@@ -11,6 +11,8 @@ const BASE_URL = trailingSlash(ROOT_URL);
 // The BASE_PATH is simply the path component of the BASE_URL.
 const BASE_PATH = new URL(BASE_URL).pathname;
 
+const BASE_ORIGIN = new URL(BASE_URL).origin;
+
 // The MOUNT_PATH is derived from the BASE_PATH, if it is provided and enabled.
 // This will mount all the application routes onto it.
 const MOUNT_PATH = ROOT_URL_MOUNT_PATH ? BASE_PATH : '/';
@@ -22,6 +24,7 @@ const STATIC_ORIGIN = new URL(STATIC_URI).origin;
 
 module.exports = {
   BASE_URL,
+  BASE_ORIGIN,
   BASE_PATH,
   MOUNT_PATH,
   STATIC_URL,

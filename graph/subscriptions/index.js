@@ -1,11 +1,14 @@
 const { SubscriptionManager } = require('graphql-subscriptions');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const debug = require('debug')('talk:graph:subscriptions');
+const DataLoader = require('dataloader');
 
 const { getPubsub } = require('./pubsub');
 const schema = require('../schema');
 const Context = require('../context');
 const plugins = require('../../services/plugins');
+const User = require('../../models/user');
+const { singleJoinBy } = require('../loaders/util');
 
 const { deserializeUser } = require('../../services/subscriptions');
 const setupFunctions = require('./setupFunctions');
@@ -59,31 +62,103 @@ const onConnect = async (connectionParams, connection) => {
     }`;
   }
 
+  try {
+    // Pull the user off of the upgrade request.
+    const hydratedRequest = await deserializeUser(connection.upgradeReq);
+
+    // Update the connections upgrade request, as we'll use that to verify that
+    // the user is allowed each operation.
+    connection.upgradeReq = hydratedRequest;
+  } catch (err) {
+    console.error(err);
+  }
+
   // Call all the hooks.
   await Promise.all(
     hooks.onConnect.map(hook => hook(connectionParams, connection))
   );
 };
 
-const onOperation = (parsedMessage, baseParams, connection) => {
-  // Cache the upgrade request.
-  let upgradeReq = connection.upgradeReq;
+/**
+ * batchedUserRefresher will get users based on ID for websocket user refresh
+ * operations to reduce load related to user refreshing.
+ */
+const batchedUserRefresher = new DataLoader(
+  userIDs => {
+    debug(`OPERATION: refreshing ${userIDs.length} users.`);
+    return User.find({ id: { $in: userIDs } }).then(
+      singleJoinBy(userIDs, 'id')
+    );
+  },
+  {
+    // Disable the cache, as this dataloader is long lived, and the point of
+    // using this dataloader is to batch refetch operations rather than caching
+    // then as we normally would.
+    cache: false,
+  }
+);
 
-  // Attach the context per request.
-  baseParams.context = async () => {
-    let req;
+const contextGenerator = req => {
+  // Pull the user(?) off the request.
+  const { user, jwt } = req;
 
-    try {
-      req = await deserializeUser(upgradeReq);
-      debug(`user ${req.user ? 'was' : 'was not'} on websocket request`);
-    } catch (e) {
-      console.error(e);
+  if (!user || !jwt) {
+    // There is no valid user on the request, let it continue as is then.
+    return async () => new Context(req);
+  }
 
-      return new Context({});
+  // Provide a flag that can be used to short circuit invalid requests.
+  let expiredLogin = false;
+
+  async function refreshUser() {
+    // Check to see if this request has been short circuited.
+    if (expiredLogin) {
+      // It has, let's exit here.
+      return null;
     }
 
+    // Validate that the JWT for this user has not expired.
+    const { exp = false } = jwt;
+    if (exp && exp < Date.now() / 1000) {
+      // Mark that this token has expired, don't bother performing this syscall
+      // again to check the time.
+      expiredLogin = true;
+      return null;
+    }
+
+    try {
+      // Let's refresh the user from the database, as they may have changed.
+      const refreshedUser = await batchedUserRefresher.load(user.id);
+      if (!refreshedUser) {
+        return null;
+      }
+
+      return refreshedUser;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  // Return the context builder function that'll use the passed context to
+  // generate future contexts.
+  return async () => {
+    // Refresh the user (potentially null).
+    const refreshedUser = await refreshUser();
+
+    // Attach the refreshedUser to the request.
+    req.user = refreshedUser;
+
+    // Return the new context.
     return new Context(req);
   };
+};
+
+const onOperation = async (parsedMessage, baseParams, connection) => {
+  // Pull the upgrade request off of the connection.
+  const upgradeReq = connection.upgradeReq;
+
+  // Attach the context handler to the request.
+  baseParams.context = contextGenerator(upgradeReq);
 
   return baseParams;
 };

@@ -1,3 +1,17 @@
+ar:
+  talk-plugin-notifications:
+    templates:
+      digest:
+        subject: "نشاطك الأخير للتعليق على {0}"
+      footer: "لقد تلقيت هذا الإشعار نظرًا لأنك معلق على {0} وتم تمكين تلقي الإشعارات."
+      links:
+        unsubscribe: "إلغاء الاشتراك في إشعارات التعليقات"
+    unsubscribe_page:
+      unsubscribe: "إلغاء الاشتراك في إشعارات التعليقات"
+      click_to_confirm: "انقر أدناه لتأكيد رغبتك في إلغاء الاشتراك من جميع الإشعارات"
+      confirm: "أكد"
+      are_unsubscribed: "أنت الآن غير مشترك في جميع الإشعارات."
+      token_invalid: "رابط إلغاء الاشتراك غير صالح ، انقر الرابط من بريد إلكتروني أحدث أو قم بزيارة جدول تعليقات وتسجيل الدخول لتغيير تفضيلات الإشعارات الخاصة بك"
 en:
   talk-plugin-notifications:
     templates:
@@ -12,3 +26,31 @@ en:
       confirm: "Confirm"
       are_unsubscribed: "You are now unsubscribed from all notifications."
       token_invalid: "Unsubscribe link is invalid, click the link from a more recent email or visit a comment stream and login to change your notification preferences"
+de:
+  talk-plugin-notifications:
+    templates:
+      digest:
+        subject: "Ihre Kommentaraktivität bei {0}"
+      footer: "Sie erhalten diese Benachrichtigung, weil Sie Community-Mitglied bei {0} sind und diese E-Mails abonniert haben."
+      links:
+        unsubscribe: "E-Mail-Benachrichtigungen abbestellen"
+    unsubscribe_page:
+      unsubscribe: "Kommentar-Benachrichtigungen abbestellen"
+      click_to_confirm: "Klicken Sie folgenden Link, um zu bestätigen, dass Sie alle Benachrichtigungen abbestellen möchten"
+      confirm: "Bestätigen"
+      are_unsubscribed: "Sie haben haben alle Benachrichtigungen erfolgreich abbestellt."
+      token_invalid: "Der Abbestell-Link ist ungültig. Klicken Sie den Link einer neueren E-Mail oder gehen Sie zu einem Kommentarbereich, melden Sie sich an und ändern Sie dort Ihre Benachrichtigungseinstellungen"
+nl_NL:
+  talk-plugin-notifications:
+    templates:
+      digest:
+        subject: "Je recente reactie-activiteit op {0}"
+      footer: "Je hebt deze notificatie ontvangen omdat je een reageerder bent op {0} en je hebt je aangemeld om notificaties te ontvangen."
+      links:
+        unsubscribe: "Afmelden voor reactie notificaties"
+    unsubscribe_page:
+      unsubscribe: "Afmelden voor reactie notificaties"
+      click_to_confirm: "Klik onderstaande om te bevestigen dat je je wilt afmelden voor alle notificaties"
+      confirm: "Bevestigen"
+      are_unsubscribed: "Je bent nu afgemeld voor alle notificaties."
+      token_invalid: "Afmeldlink is ongeldig, klik de link van een recentere e-mail of bezoek een pagina met reacties en log in om je notificatie voorkeuren te wijzigen"

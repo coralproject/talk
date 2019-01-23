@@ -22,6 +22,7 @@ import {
 } from 'coral-framework/services/storage';
 import { createHistory } from 'coral-framework/services/history';
 import { createIntrospection } from 'coral-framework/services/introspection';
+import { setStorageAuthToken } from 'coral-framework/services/auth';
 import introspectionData from 'coral-framework/graphql/introspection.json';
 import coreReducers from '../reducers';
 import { checkLogin as checkLoginAction } from '../actions/auth';
@@ -42,17 +43,36 @@ const getAuthToken = (store, storage) => {
   let state = store.getState();
 
   if (state.config && state.config.auth_token) {
-    // if an auth_token exists in config, use it.
-    return state.config.auth_token;
-  } else if (!bowser.safari && !bowser.ios && storage) {
+    // If the embed is called with `embed.login(token)`, and the browser is not
+    // capable of storing the token in localStorage, then we would have
+    // persisted it to the redux state.
+    return state.config.auth_token || state.auth.token;
+  } else if (location.hash && location.hash.startsWith('#access_token=')) {
+    // Check to see if the access token is living in the URL as a hash.
+    const token = location.hash.substring(14);
+
+    history.replaceState(
+      {},
+      document.title,
+      window.location.pathname + window.location.search
+    );
+
+    // Once we clear the hash above, this login method will not persist across
+    // refreshes. We will need to persist the token to storage if it's
+    // available.
+    if (storage) {
+      setStorageAuthToken(storage, token);
+    }
+
+    return token;
+  } else if (
+    !bowser.safari &&
+    !bowser.ios &&
+    storage &&
+    storage.getItem('token')
+  ) {
     // Use local storage auth tokens where there's a stable api.
     return storage.getItem('token');
-  } else if (state.auth && state.auth.token) {
-    // Use the redux token state if the remaining methods fall out. If the embed
-    // is called with `embed.login(token)`, and the browser is not capable of
-    // storing the token in localStorage, then we would have persisted it to the
-    // redux state.
-    return state.auth.token;
   }
 
   return null;
@@ -140,7 +160,7 @@ export async function createContext({
   });
 
   const staticConfig = getStaticConfiguration();
-  let { LIVE_URI: liveUri, STATIC_ORIGIN: origin } = staticConfig;
+  let { LIVE_URI: liveUri, BASE_ORIGIN: origin } = staticConfig;
   if (liveUri == null) {
     // The protocol must match the origin protocol, secure/insecure.
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws';

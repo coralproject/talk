@@ -114,7 +114,11 @@ class Profile extends React.Component {
 
   isSaveEnabled = () => {
     const { formData } = this.state;
-    const { root: { me: { username, email } } } = this.props;
+    const {
+      root: {
+        me: { username, email },
+      },
+    } = this.props;
     const formHasErrors = !!Object.keys(this.state.errors).length;
     const validUsername =
       formData.newUsername && formData.newUsername !== username;
@@ -138,8 +142,8 @@ class Profile extends React.Component {
     }
   };
 
-  saveEmail = async () => {
-    const { newEmail, confirmPassword } = this.state.formData;
+  saveEmail = async confirmPassword => {
+    const { newEmail } = this.state.formData;
 
     try {
       await this.props.updateEmailAddress({
@@ -166,12 +170,20 @@ class Profile extends React.Component {
 
   render() {
     const {
-      root: { me: { username, email, state: { status } } },
+      root: {
+        me: {
+          username,
+          email,
+          state: { status },
+        },
+      },
       notify,
+      success: hasChangedUsername,
     } = this.props;
     const { editing, formData, showDialog } = this.state;
 
-    const usernameCanBeUpdated = canUsernameBeUpdated(status);
+    const usernameCanBeUpdated =
+      canUsernameBeUpdated(status) && !hasChangedUsername;
 
     return (
       <section
@@ -202,12 +214,10 @@ class Profile extends React.Component {
           )}
           <ChangeEmailContentDialog
             save={this.saveEmail}
-            onChange={this.onChange}
             formData={this.state.formData}
             email={email}
             enable={formData.newEmail && email !== formData.newEmail}
-            hasError={this.hasError}
-            getError={this.getError}
+            closeDialog={this.closeDialog}
           />
         </ConfirmChangesDialog>
 
@@ -224,12 +234,23 @@ class Profile extends React.Component {
                   validationType="username"
                   disabled={!usernameCanBeUpdated}
                   columnDisplay
+                  errorMsg={this.state.errors.newUsername}
                 >
-                  <span className={styles.bottomText}>
-                    {t(
-                      'talk-plugin-local-auth.change_username.change_username_note'
+                  <div className={styles.bottomText}>
+                    <span>
+                      {t(
+                        'talk-plugin-local-auth.change_username.change_username_note'
+                      )}
+                    </span>
+                    {!usernameCanBeUpdated && (
+                      <b>
+                        {' '}
+                        {t(
+                          'talk-plugin-local-auth.change_username.is_not_eligible'
+                        )}
+                      </b>
                     )}
-                  </span>
+                  </div>
                 </InputField>
                 <InputField
                   icon="email"
@@ -289,6 +310,7 @@ Profile.propTypes = {
   notify: PropTypes.func.isRequired,
   username: PropTypes.string,
   emailAddress: PropTypes.string,
+  success: PropTypes.bool.isRequired,
 };
 
 export default Profile;

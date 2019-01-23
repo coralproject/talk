@@ -1,0 +1,85 @@
+{% extends "templates/account.njk" %}
+
+{% block title %}{{ t('password_reset.set_new_password') }}{% endblock %}
+
+{% block html %}
+<div id="root">
+  <section class="container">
+    <h1>{{ t('password_reset.set_new_password') }}</h1>
+    <p>{{ t('password_reset.change_password_help') }}</p>
+    <div class="error-console"><span></span></div>
+    <form id="reset-password-form" method="post">
+      <label for="password">
+        {{ t('password_reset.new_password') }}
+        <input type="password" name="password" placeholder="{{ t('password_reset.new_password') }}" />
+        <small>{{ t('password_reset.new_password_help') }}</small>
+      </label>
+      <label for="confirm-password">
+        {{ t('password_reset.confirm_new_password') }}
+        <input type="password" name="confirm-password" placeholder="{{ t('password_reset.confirm_new_password') }}" />
+      </label>
+      <button type="submit">{{ t('password_reset.change_password') }}</button>
+    </form>
+  </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script nonce="{{ nonce }}" type="text/javascript">
+  $(function() {
+    function showError(error) {
+      try {
+        let err = JSON.parse(error);
+        $('.error-console span').text(err.message);
+        $('.error-console').fadeIn();
+      } catch (err) {
+        $('.error-console span').text(error);
+        $('.error-console').fadeIn();
+      }
+    }
+
+    function handleSubmit (e) {
+      e.preventDefault();
+      $('.error-console').removeClass('active');
+
+      var password = $('[name="password"]').val();
+      var confirm = $('[name="confirm-password"]').val();
+
+      if (password === '' || password.length < 8) {
+        showError('Passwords must be at least 8 characters.');
+        return false;
+      }
+
+      if (password !== confirm) {
+        showError('New password and confirm password must match');
+        return false;
+      }
+
+      $.ajax({
+        url: '{{ BASE_PATH }}api/v1/account/password/reset',
+        contentType: 'application/json',
+        method: 'PUT',
+        data: JSON.stringify({password: password, token: location.hash.replace('#', '')})
+      }).then(function (success) {
+        location.href = success.redirect;
+      }).catch(function (error) {
+        showError(error.responseText);
+      });
+    }
+
+    $.ajax({
+      url: '{{ BASE_PATH }}api/v1/account/password/reset',
+      contentType: 'application/json',
+      method: 'PUT',
+      data: JSON.stringify({token: location.hash.replace('#', ''), check: true})
+    })
+    .then(function () {
+      $('#reset-password-form').fadeIn().on('submit', handleSubmit);
+    })
+    .catch(function (error) {
+      showError(error.responseText);
+    });
+  });
+</script>
+{% endblock %}

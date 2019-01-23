@@ -21,7 +21,10 @@ const withData = withFragments({
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   withChangePassword,
   withForgotPassword,
   withData

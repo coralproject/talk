@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { timeago } from 'coral-framework/services/i18n';
 import cn from 'classnames';
 import styles from './CommentTimestamp.css';
+import TimeAgo from 'coral-framework/components/TimeAgo';
 
 const CommentTimestamp = ({ className, created_at }) => (
-  <div className={cn(className, styles.timestamp, 'talk-comment-timestamp')}>
-    {timeago(created_at)}
-  </div>
+  <TimeAgo
+    className={cn(className, styles.timestamp, 'talk-comment-timestamp')}
+    datetime={created_at}
+  />
 );
 
 CommentTimestamp.propTypes = {

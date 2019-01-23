@@ -20,7 +20,7 @@ en:
     filter: Filtering
 es:
   talk-plugin-viewing-options:
-    viewing_options: "Opciones de visualización"
+    viewing_options: "Opciones"
     sort: Ordenado por
     filter: Filtrado por
 fr:
@@ -40,7 +40,7 @@ nl_NL:
     filter: Filtering
 pt_BR:
   talk-plugin-viewing-options:
-    viewing_options: "Viewing Options"
+    viewing_options: "Ver opções"
     sort: Sorting
     filter: Filtering
 zh_CN:

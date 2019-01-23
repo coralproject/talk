@@ -24,6 +24,25 @@ const userRoleFragment = gql`
   }
 `;
 
+/**
+ * calculateReliability will determine the reliability of a karma score based on
+ * the settings for the karma type.
+ *
+ * @param {Number} karma - the current karma value/score for the given user
+ * @param {Object} thresholds - the karma thresholds to base the karma computation on
+ */
+const calculateReliability = (karma, { reliable, unreliable }) => {
+  if (karma >= reliable) {
+    return true;
+  }
+
+  if (karma <= unreliable) {
+    return false;
+  }
+
+  return null;
+};
+
 export default {
   mutations: {
     SetUserRole: ({ variables: { id, role } }) => ({
@@ -47,7 +66,11 @@ export default {
         });
       },
     }),
-    SuspendUser: ({ variables: { input: { id, until } } }) => ({
+    SuspendUser: ({
+      variables: {
+        input: { id, until },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
 
@@ -73,7 +96,11 @@ export default {
         });
       },
     }),
-    UnsuspendUser: ({ variables: { input: { id } } }) => ({
+    UnsuspendUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -98,7 +125,11 @@ export default {
         });
       },
     }),
-    BanUser: ({ variables: { input: { id } } }) => ({
+    BanUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -123,7 +154,11 @@ export default {
         });
       },
     }),
-    UnbanUser: ({ variables: { input: { id } } }) => ({
+    UnbanUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
       update: proxy => {
         const fragmentId = `User_${id}`;
         const data = proxy.readFragment({
@@ -156,7 +191,9 @@ export default {
           }
           const updated = update(prev, {
             users: {
-              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== id),
+              },
             },
           });
           return updated;
@@ -173,6 +210,12 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // No need to update, when user was not in the flagged users queue.
+          // TODO: this should be more generic, e.g. looking at the history.
+          if (!prev.flaggedUsers.nodes.find(node => node.id === id)) {
+            return prev;
+          }
+
           const decrement = {
             flaggedUsernamesCount: { $apply: count => count - 1 },
           };
@@ -185,40 +228,13 @@ export default {
           const updated = update(prev, {
             ...decrement,
             flaggedUsers: {
-              nodes: { $apply: nodes => nodes.filter(node => node.id !== id) },
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== id),
+              },
             },
           });
           return updated;
         },
-      },
-      update: proxy => {
-        proxy.writeFragment({
-          fragment: gql`
-            fragment Talk_ApproveUsername on User {
-              state {
-                status {
-                  username {
-                    status
-                  }
-                }
-              }
-            }
-          `,
-          id: `User_${id}`,
-          data: {
-            __typename: 'User',
-            state: {
-              __typename: 'UserState',
-              status: {
-                __typename: 'UserStatus',
-                username: {
-                  __typename: 'UsernameStatus',
-                  status: 'APPROVED',
-                },
-              },
-            },
-          },
-        });
       },
     }),
     RejectUsername: ({ variables: { id } }) => ({
@@ -231,6 +247,12 @@ export default {
       },
       updateQueries: {
         TalkAdmin_Community_FlaggedAccounts: (prev, { mutationResult }) => {
+          // No need to update, when user was not in the flagged users queue.
+          // TODO: this should be more generic, e.g. looking at the history.
+          if (!prev.flaggedUsers.nodes.find(node => node.id === id)) {
+            return prev;
+          }
+
           const decrement = {
             flaggedUsernamesCount: { $apply: count => count - 1 },
           };
@@ -251,35 +273,6 @@ export default {
           return updated;
         },
       },
-      update: proxy => {
-        proxy.writeFragment({
-          fragment: gql`
-            fragment Talk_RejectUsername on User {
-              state {
-                status {
-                  username {
-                    status
-                  }
-                }
-              }
-            }
-          `,
-          id: `User_${id}`,
-          data: {
-            __typename: 'User',
-            state: {
-              __typename: 'UserState',
-              status: {
-                __typename: 'UserStatus',
-                username: {
-                  __typename: 'UsernameStatus',
-                  status: 'REJECTED',
-                },
-              },
-            },
-          },
-        });
-      },
     }),
     UpdateSettings: ({ variables: { input } }) => ({
       updateQueries: {
@@ -295,12 +288,38 @@ export default {
       updateQueries: {
         CoralAdmin_UserDetail: prev => {
           const increment = {
+            user: {
+              reliable: {
+                commenter: {
+                  $set: calculateReliability(
+                    prev.user.reliable.commenterKarma - 1,
+                    prev.settings.karmaThresholds.comment
+                  ),
+                },
+                commenterKarma: {
+                  $apply: count => count - 1,
+                },
+              },
+            },
             rejectedComments: {
               $apply: count => (count < prev.totalComments ? count + 1 : count),
             },
           };
 
           const decrement = {
+            user: {
+              reliable: {
+                commenter: {
+                  $set: calculateReliability(
+                    prev.user.reliable.commenterKarma + 1,
+                    prev.settings.karmaThresholds.comment
+                  ),
+                },
+                commenterKarma: {
+                  $apply: count => count + 1,
+                },
+              },
+            },
             rejectedComments: {
               $apply: count => (count > 0 ? count - 1 : 0),
             },

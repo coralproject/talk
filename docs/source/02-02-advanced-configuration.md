@@ -23,6 +23,10 @@ otherwise the application will fail to start.
 Configure the duration for which comment counts are cached for, parsed by
 [ms](https://www.npmjs.com/package/ms). (Default `1hr`)
 
+## TALK_CONCURRENCY
+
+This environment variable allows multiple worker processes to be spawned to handle traffic. (Default `1`) 
+
 ## TALK_DEFAULT_LANG
 
 This is a **Build Variable** and must be consumed during build. If using the
@@ -30,6 +34,21 @@ This is a **Build Variable** and must be consumed during build. If using the
 image you can specify it with `--build-arg TALK_DEFAULT_LANG=en`.
 
 Specify the default translation language. (Default `en`)
+
+## TALK_WHITELISTED_LANGUAGES
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
+image you can specify it with `--build-arg TALK_WHITELISTED_LANGUAGES=en`.
+
+Specify the comma separated whitelisted languages that you want the Talk
+application to serve. This will override the available set of languages that
+Talk will allow to be served.
+
+If the [TALK_DEFAULT_LANG](#talk-default-lang) is not included in this list of
+whitelisted languages, then the first whitelisted language will become the
+default language. If this parameter is empty, then all languages supported by
+Talk will be whitelisted. (Default '')
 
 ## TALK_DEFAULT_STREAM_TAB
 
@@ -44,6 +63,10 @@ Specify the default stream tab in the admin. (Default `all`)
 When `TRUE`, disables flagging of comments that match the suspect word filter. (Default `FALSE`)
 
 ## TALK_DISABLE_EMBED_POLYFILL
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
+image you can specify it with `--build-arg TALK_DISABLE_EMBED_POLYFILL=TRUE`.
 
 When set to `TRUE`, the build process will not include the
 [babel-polyfill](https://babeljs.io/docs/usage/polyfill/)
@@ -227,6 +250,21 @@ Refer to the documentation for [TALK_JWT_ALG](#talk-jwt-alg) for other signing
 methods and other forms of the `TALK_JWT_SECRET`. If you are interested in using
 multiple keys, then refer to [TALK_JWT_SECRETS](#talk-jwt-secrets).
 
+You can also encode your secret as a base64 string (if you are using a symmetric
+algorithm) as long as you prefix it with `base64:`. For example:
+
+```plain
+TALK_JWT_SECRET={"secret": "base64:dGVzdA=="}
+```
+
+Would be the same as:
+
+```plain
+TALK_JWT_SECRET={"secret": "test"}
+```
+
+As `dGVzdA==` is just `test` encoded using base64.
+
 ## TALK_JWT_SECRETS
 
 Used when specifying multiple secrets used for key rotations. This is a JSON
@@ -252,7 +290,6 @@ Note that the secret is stored in a JSON object, keyed by `secret`. This is only
 needed when specifying in the multiple secrets for `TALK_JWT_SECRETS`, but may
 be used to specify the single [TALK_JWT_SECRET](#talk-jwt-secret).
 
-
 When the value of [TALK_JWT_ALG](#talk-jwt-alg) is **not** a `HS*` value, then
 the value of the `TALK_JWT_SECRETS` should take the form:
 
@@ -262,7 +299,6 @@ TALK_JWT_SECRETS=[{"kid": "1", "private": "<my private key>", "public": "<my pub
 
 Refer to the documentation on the [TALK_JWT_ALG](#talk-jwt-alg) for more
 information on what to store in these parameters.
-
 
 ## TALK_JWT_SIGNING_COOKIE_NAME
 
@@ -497,6 +533,15 @@ tracing of GraphQL requests.
 
 **Note: Apollo Engine is a premium service, charges may apply.**
 
+<!-- TODO: re-add CSP once we've resolved issues with dynamic webpack loading. -->
+<!-- ## TALK_ENABLE_STRICT_CSP
+
+Setting this to `TRUE` will enforce the [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+(or CSP). By default, this configuration is set to
+[report only](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#Testing_your_policy)
+where the policy is not enforced, but any violations are reported to a provided
+URI. (Default `FALSE`) -->
+
 ## ALLOW_NO_LIMIT_QUERIES
 
 Setting this to `TRUE` will allow queries to execute without a limit (returns
@@ -544,3 +589,7 @@ A JSON string representing the configuration passed to the
 [fetch](https://www.npmjs.com/package/node-fetch) call for the scraper. It
 can be used to set an authorization header, or change the user agent. (Default
 `{}`)
+
+## TALK_SCRAPER_PROXY_URL
+
+Sets a specific HTTP/S proxy to be used by the Asset Scraper using [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent). (Default `null`)

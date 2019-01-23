@@ -116,7 +116,12 @@ class NotificationManager {
       try {
         // Pull out some useful tools.
         const {
-          connectors: { models: { User }, services: { I18n: { t } } },
+          connectors: {
+            models: { User },
+            services: {
+              I18n: { t },
+            },
+          },
         } = ctx;
 
         const organizationName = await getOrganizationName(ctx);

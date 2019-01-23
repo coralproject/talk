@@ -50,7 +50,7 @@ class StoriesContainer extends Component {
     const { updateAssetState } = this.props;
 
     try {
-      updateAssetState(id, closeStream ? Date.now() : null);
+      await updateAssetState(id, closeStream ? Date.now() : null);
       this.fetchAssets();
     } catch (err) {
       console.error(err);
@@ -113,4 +113,7 @@ StoriesContainer.propTypes = {
   updateAssetState: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoriesContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StoriesContainer);

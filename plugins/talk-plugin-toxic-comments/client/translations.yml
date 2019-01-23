@@ -71,17 +71,17 @@ en:
 es:
   error:
     COMMENT_IS_TOXIC: |
-      Are you sure? The language in this comment might violate our community guidelines.
-      You can edit the comment or submit it for moderator review.
+      ¿Estás seguro? El lenguaje en este comentario puede violar nuestras pautas de la comunidad. 
+      Puede editar el comentario o enviarlo para la revisión del moderador.
   talk-plugin-toxic-comments:
-    unlikely: "Unlikely"
-    highly_likely: "Highly Likely"
-    possibly: "Possibly"
-    likely: "Likely"
-    toxic_comment: "Toxic Comment"
+    unlikely: "Improbable"
+    highly_likely: "Altamente Probable"
+    possibly: "Posiblemente"
+    likely: "Probable"
+    toxic_comment: "Comentario Tóxico"
     still_toxic: |
-      This edited comment might still violate our community guidelines.
-      Our moderation team will review your comment shortly.
+      Este comentario editado aún puede infringir las pautas de nuestra comunidad. 
+      Nuestro equipo de moderación revisará tu comentario en breve.
   flags:
     reasons:
       comment:
@@ -107,8 +107,7 @@ fr:
 he:
   error:
     COMMENT_IS_TOXIC: |
-      האם אתה בטוח? השפה שבתגובה זו עלולה להפר את הנחיות הקהילה שלנו.
- תוכל לערוך את ההערה או לשלוח אותה לביקורת של המתווך.
+      האם אתה בטוח? השפה שבתגובה זו עלולה להפר את הנחיות הקהילה שלנו. תוכל לערוך את ההערה או לשלוח אותה לביקורת של המתווך.
   talk-plugin-toxic-comments:
     unlikely: "לא סביר"
     highly_likely: "סביר מאוד"
@@ -116,8 +115,7 @@ he:
     likely: "סביר"
     toxic_comment: "תגובה רעילה"
     still_toxic: |
-      תגובה זו עדיין עשויה להפר את הנחיות הקהילה שלנו.
-       צוות הפיקוח שלנו יבחן את ההערה שלך בקרוב.
+      תגובה זו עדיין עשויה להפר את הנחיות הקהילה שלנו. צוות הפיקוח שלנו יבחן את ההערה שלך בקרוב.
   flags:
     reasons:
       comment:

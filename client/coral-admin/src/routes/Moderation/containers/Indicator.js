@@ -22,7 +22,11 @@ class IndicatorContainer extends Component {
         document: COMMENT_ADDED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentAdded: comment } } }
+          {
+            subscriptionData: {
+              data: { commentAdded: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -31,7 +35,11 @@ class IndicatorContainer extends Component {
         document: COMMENT_FLAGGED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentFlagged: comment } } }
+          {
+            subscriptionData: {
+              data: { commentFlagged: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -40,7 +48,11 @@ class IndicatorContainer extends Component {
         document: COMMENT_EDITED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentEdited: comment } } }
+          {
+            subscriptionData: {
+              data: { commentEdited: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -49,7 +61,11 @@ class IndicatorContainer extends Component {
         document: COMMENT_ACCEPTED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentAccepted: comment } } }
+          {
+            subscriptionData: {
+              data: { commentAccepted: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -58,7 +74,11 @@ class IndicatorContainer extends Component {
         document: COMMENT_REJECTED_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentRejected: comment } } }
+          {
+            subscriptionData: {
+              data: { commentRejected: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },
@@ -67,7 +87,11 @@ class IndicatorContainer extends Component {
         document: COMMENT_RESET_SUBSCRIPTION,
         updateQuery: (
           prev,
-          { subscriptionData: { data: { commentReset: comment } } }
+          {
+            subscriptionData: {
+              data: { commentReset: comment },
+            },
+          }
         ) => {
           return this.handleCommentChange(prev, comment);
         },

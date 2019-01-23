@@ -8,7 +8,11 @@ const stringify = require('csv-stringify');
 const { ErrDownloadToken } = require('./errors');
 
 async function verifyDownloadToken(
-  { connectors: { services: { Users } } },
+  {
+    connectors: {
+      services: { Users },
+    },
+  },
   token
 ) {
   const jwt = await Users.verifyToken(token, {
@@ -102,7 +106,7 @@ async function loadComments(ctx, userID, archive, latestContentDate) {
 module.exports = router => {
   // /account/download will render the download page.
   router.get('/account/download', (req, res) => {
-    res.render(path.join(__dirname, 'views', 'download'));
+    res.render(path.join(__dirname, 'views', 'download.njk'));
   });
 
   // /api/v1/account/download will send back a zipped archive of the users
@@ -139,7 +143,12 @@ module.exports = router => {
         return;
       }
 
-      const { connectors: { graph: { Context }, errors } } = req.context;
+      const {
+        connectors: {
+          graph: { Context },
+          errors,
+        },
+      } = req.context;
 
       try {
         // Pull the userID and the date that the token was issued out of the

@@ -6,19 +6,23 @@ import ConfigureCard from 'coral-framework/components/ConfigureCard';
 
 const Wordlist = ({ suspectWords, bannedWords, onChangeWordlist }) => (
   <div>
-    <ConfigureCard title={t('configure.banned_words_title')}>
+    <ConfigureCard collapsible title={t('configure.banned_words_title')}>
       <p>{t('configure.banned_word_text')}</p>
       <TagsInput
         value={bannedWords}
-        inputProps={{ placeholder: 'word or phrase' }}
+        inputProps={{
+          placeholder: t('configure.suspect_or_forbidden_words_placeholder'),
+        }}
         onChange={tags => onChangeWordlist('banned', tags)}
       />
     </ConfigureCard>
-    <ConfigureCard title={t('configure.suspect_word_title')}>
+    <ConfigureCard collapsible title={t('configure.suspect_word_title')}>
       <p>{t('configure.suspect_word_text')}</p>
       <TagsInput
         value={suspectWords}
-        inputProps={{ placeholder: 'word or phrase' }}
+        inputProps={{
+          placeholder: t('configure.suspect_or_forbidden_words_placeholder'),
+        }}
         onChange={tags => onChangeWordlist('suspect', tags)}
       />
     </ConfigureCard>

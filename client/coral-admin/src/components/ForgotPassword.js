@@ -30,7 +30,7 @@ class ForgotPassword extends React.Component {
           href="#"
           onClick={this.handleSignInLink}
         >
-          Sign in
+          {t('login.sign_in')}
         </a>
         <Success />
       </div>
@@ -43,21 +43,21 @@ class ForgotPassword extends React.Component {
       <form onSubmit={this.handleSubmit}>
         {errorMessage && <Alert>{errorMessage}</Alert>}
         <TextField
-          label="Email Address"
+          label={t('login.email_address')}
           value={email}
           onChange={this.handleEmailChange}
         />
         <Button type="submit" cStyle="black" full>
-          Reset Password
+          {t('login.reset_password_send_button')}
         </Button>
         <p className={styles.cta}>
-          Go back to{' '}
+          {t('login.go_back')}{' '}
           <a
             href="#"
             className={styles.signInLink}
             onClick={this.handleSignInLink}
           >
-            Sign In
+            {t('login.sign_in')}
           </a>
           .
         </p>

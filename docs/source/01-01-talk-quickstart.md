@@ -6,7 +6,7 @@ permalink: /
 Online comments are broken. Our open-source Talk tool rethinks how moderation,
 comment display, and conversation function, creating the opportunity for safer,
 smarter discussions around your work. Read more about our product features and
-goals [here](https://coralproject.net/products/talk.html). The
+goals [here](https://coralproject.net/talk). The
 documentation available here is pertaining to the technical details for
 installing, configuring, and deploying Talk.
 
@@ -22,13 +22,10 @@ to persist data. The following versions are supported:
 - MongoDB 3.2+
 - Redis 3.2.5+
 
-An optional dependency for Talk is
-[Docker](https://www.docker.com/community-edition#/download).
-It is used during development to set up the database and can be
-used to [install via Docker](#installation-from-docker).  We have tested Talk
-and this documentation with versions 17.06.2+.
+You can run Talk (and its dependencies) locally or from [Docker](https://www.docker.com/community-edition#/download) containers.  Docker is used in the local example below for the database and cache, however it is possible to run Talk without Docker by configuring your own MongoDB and Redis instances. We have tested Talk
+and this documentation with Docker versions 17.06.2+.
 
-Another optional dependency for Talk is
+An optional dependency for Talk is
 [Docker Compose](https://docs.docker.com/compose/install/). It
 can be used to setup your environment easily for testing. We have tested Talk
 and this documentation with versions 1.14.0+.
@@ -38,8 +35,9 @@ and this documentation with versions 1.14.0+.
 ### Installation from Docker
 
 To use Talk without major customization you can run the application using our
-provided docker image. The following is a `docker-compose.yml` file that can
-be used to setup Talk:
+provided docker image. 
+
+Start by making a new directory and create a file called `docker-compose.yml` and copy the following:
 
 ```yml
 # For details on the syntax of docker-compose.yml files, check out:
@@ -48,7 +46,7 @@ be used to setup Talk:
 version: '2'
 services:
   talk:
-    image: coralproject/talk:latest
+    image: coralproject/talk:4.5
     restart: always
     ports:
       - "3000:3000"
@@ -79,7 +77,7 @@ volumes:
     external: false
 ```
 
-This is the bare minimum needed to run the demo, for more configuration
+The environment variables listed above are the bare minimum needed to run the demo, for more configuration
 variables, check out the [Configuration](/talk/configuration/) section.
 
 
@@ -104,8 +102,7 @@ Creating talk_1 ...
 Creating talk_1 ... done
 ```
 
-
-And when you run `docker-compose ps`, you should see something like:
+Once everything has completed, run `docker-compose ps`, and you should see something like:
 
 ```
     Name                   Command               State           Ports
@@ -116,8 +113,8 @@ talk_1    yarn start                       Up      0.0.0.0:3000->3000/tcp
 ```
 
 
-Continue onto the [Running](#running) section for details on how to complete the
-installation and get started using Talk.
+You now have a Talk instance up and running! Continue on to the [Setup](#setup) section for details on how to complete the
+initial setup and get started using Talk.
 
 ### Installation from Source
 
@@ -178,32 +175,37 @@ You can now start the application by running:
 yarn watch:server
 ```
 
-Continue onto the [Running](#running) section for details on how to complete the
+Continue onto the [Setup](#setup) section for details on how to complete the
 installation and get started using Talk.
 
-## Running
+## Setup
+### Create Admin Account
 
-You can now navigate to
+With Talk running, you can now navigate to
 [http://127.0.0.1:3000/admin/install](http://127.0.0.1:3000/admin/install)
-and go through the admin installation. There you will be prompted to create your
-first admin account, and specify the domain whitelist for domains that are
-allowed to have the comment box on.
+and walk through the initial setup steps. 
+
+* First, enter your **Organization Name** and **Organization Contact Email**. This will appear in emails when inviting new team members.
+* Next, create your Admin user. You can specify an **Email Address**, **Username**, and **Password**
+
+* Finally, enter your list of **Permitted Domains**, read [here](/talk/configuring-talk/#permitted-domains) about whitelisting domains 
+
 
 _During development, ensure you whitelist 127.0.0.1:3000 otherwise the
 [http://127.0.0.1:3000/](http://127.0.0.1:3000/) page will not
 load._
 
-Once you've completed the installation, you can visit
-[http://127.0.0.1:3000/](http://127.0.0.1:3000/) where you can
-view our development area where we test out features in Talk where you can write
-comments and see them in the admin interface where you can do moderation and
-reconfigure the user experience.
+Once the setup wizard has been completed you can log into Talk ([http://127.0.0.1:3000/](http://127.0.0.1:3000/)) using the email address and password for the Admin user account that you just created. 
 
-## Demo
+From here you can test out features in Talk, see comments in the admin interface where you can do moderation, and configure the user experience. 
+In the next step you'll create some user comments to moderate. 
+
+
+### Demo Embedded Comments
 
 If you've followed the documentation above, you'll now have a running copy of
-Talk. To demonstrate what your own self-hosted copy of Talk can do, below
-you'll find a demo that can be used to test the copy that is running now on your
+Talk. To demonstrate what your own self-hosted copy of Talk can do, we created the demo below
+that can be used to test the copy that is running now on your
 machine.
 
 In order for the demo to work, you must add
@@ -220,6 +222,17 @@ Once you have added the domain of these docs, you can click the button below.
   <div class="mount"></div>
 </div>
 
+### Developer Endpoints
+
+With your local instance of Talk running in development mode (env variable `NODE_ENV=development`) you should now also be able to access the following developer routes:
+
+* [http://127.0.0.1:3000/dev](http://127.0.0.1:3000/dev]) provides a sample comment stream 
+
+* [http://127.0.0.1:3000/dev/assets](http://127.0.0.1:3000/dev/assets]) provides a list of all stories in Talk and can generate new sample assets
+
+### Conclusion
 At this point you've successfully installed, configured, and ran your very own
 instance of Talk! Continue through this documentation on this site to learn more
 on how to configure, develop with, and contribute to Talk!
+
+

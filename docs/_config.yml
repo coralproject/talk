@@ -90,18 +90,24 @@ sidebar:
           url: /installation-from-source/
         - title: Planning your Talk Architecture
           url: /planning-architecture/
+        - title: Pre-Launch Checklist
+          url: /pre-launch-checklist/
     - title: Configuration
       children:
         - title: Required Configuration
           url: /configuration/
         - title: Advanced Configuration
           url: /advanced-configuration/
+        - title: Configuration with CLI tools
+          url: /configuration-cli-tools/
     - title: Integrating
       children:
         - title: Authentication
           url: /integrating/authentication/
-        - title: Asset Managment
-          url: /integrating/asset-management/
+        - title: CMS Integration
+          url: /integrating/cms-integration/
+        - title: Asset Scraping
+          url: /integrating/asset-scraping/
         - title: Configuring the Comment Stream
           url: /integrating/configuring-comment-stream/
         - title: Configuring the Admin
@@ -160,12 +166,22 @@ sidebar:
           url: /customizing-plugins-coral-ui/
         - title: When You've Installed Talk
           url: /when-youve-installed-talk/
+        - title: Embedding Talk in Native Mobile Apps
+          url: /embedding-in-native-mobile-apps/
     - title: Migrating
       children:
+        - title: Migrating from v3.x.x
+          url: /migration/3/
         - title: Migrating to v4.0.0
           url: /migration/4/
         - title: Migrating to v4.1.0
           url: /migration/4.1/
+    - title: FAQ & Troubleshooting
+      children:
+        - title: FAQ
+          url: /faq/
+        - title: Troubleshooting Tips
+          url: /troubleshooting-tips/
     - title: Contact
       url: /contact/
 

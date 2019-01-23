@@ -54,7 +54,11 @@ class StreamContainer extends React.Component {
       },
       updateQuery: (
         prev,
-        { subscriptionData: { data: { commentEdited } } }
+        {
+          subscriptionData: {
+            data: { commentEdited },
+          },
+        }
       ) => {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
@@ -87,7 +91,14 @@ class StreamContainer extends React.Component {
       variables: {
         assetId: this.props.asset.id,
       },
-      updateQuery: (prev, { subscriptionData: { data: { commentAdded } } }) => {
+      updateQuery: (
+        prev,
+        {
+          subscriptionData: {
+            data: { commentAdded },
+          },
+        }
+      ) => {
         // Ignore mutations from me.
         // TODO: need way to detect mutations created by this client, and allow mutations from other clients.
         if (
@@ -434,6 +445,8 @@ const fragments = {
         questionBoxIcon
         closedTimeout
         closedMessage
+        disableCommenting
+        disableCommentingMessage
         charCountEnable
         charCount
         requireEmailConfirmation
@@ -486,7 +499,10 @@ const mapDispatchToProps = dispatch =>
 export default compose(
   withFragments(fragments),
   withEmit,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withPostComment,
   // `talk-plugin-flags` has a custom error handling logic.
   withPostFlag({ notifyOnError: false }),

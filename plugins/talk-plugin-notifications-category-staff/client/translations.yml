@@ -1,3 +1,15 @@
+ar:
+  talk-plugin-notifications-category-staff:
+    toggle_description: يرد أحد الموظفين على تعليقي
 en:
   talk-plugin-notifications-category-staff:
     toggle_description: A staff member replies to my comment
+es:
+  talk-plugin-notifications-category-staff:
+    toggle_description: Un miembro del personal responde a mi comentario
+de:
+  talk-plugin-notifications-category-staff:
+    toggle_description: Ein Redaktionsmitglied antwortet auf meinen Kommentar
+nl_NL:
+  talk-plugin-notifications-category-staff:
+    toggle_description: Een redactielid antwoord op mijn reactie

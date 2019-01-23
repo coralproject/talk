@@ -12,7 +12,7 @@ import { compose } from 'react-apollo';
 import t from 'coral-framework/services/i18n';
 
 class BanUserDialogContainer extends Component {
-  banUser = async () => {
+  banUser = async ({ message }) => {
     const {
       userId,
       commentId,
@@ -21,7 +21,7 @@ class BanUserDialogContainer extends Component {
       setCommentStatus,
       hideBanUserDialog,
     } = this.props;
-    await banUser({ id: userId, message: '' });
+    await banUser({ id: userId, message });
     hideBanUserDialog();
     if (commentId && commentStatus && commentStatus !== 'REJECTED') {
       await setCommentStatus({ commentId, status: 'REJECTED' });
@@ -77,7 +77,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withBanUser,
   withSetCommentStatus
 )(BanUserDialogContainer);

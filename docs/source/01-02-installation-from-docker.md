@@ -43,7 +43,7 @@ be used to setup Talk:
 version: '2'
 services:
   talk:
-    image: coralproject/talk:latest
+    image: coralproject/talk:4.5
     restart: always
     ports:
       - "3000:3000"
@@ -121,7 +121,7 @@ base installation with additional custom plugins. Images can be created with the
 most basic of `Dockerfile`'s:
 
 ```docker
-FROM coralproject/talk:latest-onbuild
+FROM coralproject/talk:4.5-onbuild
 ```
 
 And running the following to build the docker image:
@@ -153,7 +153,7 @@ your containerized infrastructure. The versioning of our Docker tags as well
 lets you do something like:
 
 ```docker
-FROM coralproject/talk:4.0-onbuild
+FROM coralproject/talk:4.5-onbuild
 ```
 
-Which would pin your image to `4.0` release's.
+Which would pin your image to `4.5.x release's.

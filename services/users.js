@@ -48,6 +48,70 @@ const loginRateLimiter = new Limit(
   RECAPTCHA_WINDOW
 );
 
+// upsertUser will try to lookup the user by their profile. If the user cannot
+// be looked up, it will create one with a unique username and the designated
+// username status.
+async function upsertUser(
+  ctx,
+  id,
+  provider,
+  displayName,
+  usernameStatus,
+  shouldSetDisplayName = false
+) {
+  let user = await User.findOne({
+    profiles: {
+      $elemMatch: {
+        id,
+        provider,
+      },
+    },
+  });
+  if (user) {
+    user.wasUpserted = false;
+    user.$ignore('wasUpserted');
+    return user;
+  }
+
+  // User does not exist and need to be created.
+
+  // Create an initial username for the user.
+  let username = await Users.getInitialUsername(displayName);
+
+  // The user was not found, lets create them!
+  user = new User({
+    username,
+    lowercaseUsername: username.toLowerCase(),
+    profiles: [{ id, provider }],
+    status: {
+      username: {
+        status: usernameStatus,
+        history: [{ status: usernameStatus }],
+      },
+    },
+  });
+
+  if (shouldSetDisplayName) {
+    // Set the displayName on the user metadata so that it can be accessed.
+    user.metadata = user.metadata || {};
+    user.metadata.displayName = displayName;
+  }
+
+  // Save the user in the database.
+  await user.save();
+
+  if (ctx) {
+    // Emit that the user was created if the context is set.
+    ctx.pubsub.publish('userCreated', user);
+  }
+
+  // Indicate that the user was upserted.
+  user.wasUpserted = true;
+  user.$ignore('wasUpserted');
+
+  return user;
+}
+
 // Users is the interface for the application to interact with the
 // User through.
 class Users {
@@ -479,51 +543,41 @@ class Users {
   }
 
   /**
+   * upsertExternalUser will create or lookup a user where the user will not be
+   * able to change their username.
+   *
+   * @param {Object} ctx the graph context
+   * @param {String} id the ID for the user from the provider
+   * @param {String} provider the name of the provider
+   * @param {String} displayName the users desired displayName, not guaranteed
+   */
+  static async upsertExternalUser(ctx, id, provider, displayName) {
+    return upsertUser(ctx, id, provider, displayName, 'SET', true);
+  }
+
+  /**
+   * upsertSocialUser will create or lookup a user as provided from a social
+   * graph.
+   *
+   * @param {Object} ctx the graph context
+   * @param {String} id the ID for the user from the provider
+   * @param {String} provider the name of the provider
+   * @param {String} displayName the users desired displayName, not guaranteed
+   */
+  static async upsertSocialUser(ctx, id, provider, displayName) {
+    return upsertUser(ctx, id, provider, displayName, 'UNSET');
+  }
+
+  /**
    * Finds a user given a social profile and if the user does not exist, creates
    * them.
-   * @param  {Object}   profile - User social/external profile
-   * @param  {Function} done    [description]
    */
   static async findOrCreateExternalUser(ctx, id, provider, displayName) {
-    let user = await User.findOne({
-      profiles: {
-        $elemMatch: {
-          id,
-          provider,
-        },
-      },
-    });
-    if (user) {
-      return user;
-    }
+    ctx.log.warn(
+      'findOrCreateExternalUser is deprecated and will be removed in a future version, replace with upsertExternalUser'
+    );
 
-    // User does not exist and need to be created.
-
-    // Create an initial username for the user.
-    let username = await Users.getInitialUsername(displayName);
-
-    // The user was not found, lets create them!
-    user = new User({
-      username,
-      lowercaseUsername: username.toLowerCase(),
-      profiles: [{ id, provider }],
-      status: {
-        username: {
-          status: 'UNSET',
-          history: {
-            status: 'UNSET',
-          },
-        },
-      },
-    });
-
-    // Save the user in the database.
-    await user.save();
-
-    // Emit that the user was created.
-    ctx.pubsub.publish('userCreated', user);
-
-    return user;
+    return Users.upsertSocialUser(ctx, id, provider, displayName);
   }
 
   /**

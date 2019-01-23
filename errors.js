@@ -161,6 +161,24 @@ class ErrAssetCommentingClosed extends TalkError {
   }
 }
 
+// ErrCommentingDisabled is returned when a comment or action is attempted while
+// commenting has been disabled site-wide.
+class ErrCommentingDisabled extends TalkError {
+  constructor(message = null) {
+    super(
+      'asset commenting is closed',
+      {
+        status: 400,
+        translation_key: 'COMMENTING_DISABLED',
+      },
+      {
+        // Include the closedMessage in the metadata piece of the error.
+        message,
+      }
+    );
+  }
+}
+
 /**
  * ErrAuthentication is returned when there is an error authenticating and the
  * message is provided.
@@ -210,6 +228,15 @@ class ErrContainsProfanity extends TalkError {
       },
       { phrase }
     );
+  }
+}
+
+class ErrHTTPNotFound extends TalkError {
+  constructor() {
+    super('http not found', {
+      translation_key: 'NOT_FOUND',
+      status: 404,
+    });
   }
 }
 
@@ -316,6 +343,20 @@ class ErrCommentTooShort extends TalkError {
   }
 }
 
+// ErrCommentTooLong is returned when the comment is too long.
+class ErrCommentTooLong extends TalkError {
+  constructor(length, allowed) {
+    super(
+      'Comment was too long',
+      {
+        translation_key: 'COMMENT_TOO_LONG',
+        status: 400,
+      },
+      { length, allowed }
+    );
+  }
+}
+
 // ErrAssetURLAlreadyExists is returned when a rename operation is requested
 // but an asset already exists with the new url.
 class ErrAssetURLAlreadyExists extends TalkError {
@@ -386,12 +427,15 @@ module.exports = {
   ErrAssetURLAlreadyExists,
   ErrAuthentication,
   ErrCannotIgnoreStaff,
+  ErrCommentingDisabled,
+  ErrCommentTooLong,
   ErrCommentTooShort,
   ErrContainsProfanity,
   ErrEditWindowHasEnded,
   ErrEmailAlreadyVerified,
   ErrEmailTaken,
   ErrEmailVerificationToken,
+  ErrHTTPNotFound,
   ErrInstallLock,
   ErrInvalidAssetURL,
   ErrLoginAttemptMaximumExceeded,

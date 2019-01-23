@@ -14,7 +14,9 @@ import ApproveButton from './ApproveButton';
 import RejectButton from 'coral-admin/src/components/RejectButton';
 import CommentDeletedTombstone from './CommentDeletedTombstone';
 
-import t, { timeago } from 'coral-framework/services/i18n';
+import { buildCommentURL } from 'coral-framework/utils/url';
+import TimeAgo from 'coral-framework/components/TimeAgo';
+import t from 'coral-framework/services/i18n';
 
 class UserDetailComment extends React.Component {
   approve = () =>
@@ -73,9 +75,7 @@ class UserDetailComment extends React.Component {
               checked={selected}
               onChange={e => toggleSelect(e.target.value, e.target.checked)}
             />
-            <span className={styles.created}>
-              {timeago(comment.created_at)}
-            </span>
+            <TimeAgo className={styles.created} datetime={comment.created_at} />
             {comment.editing && comment.editing.edited ? (
               <span>
                 &nbsp;<span className={styles.editedMarker}>
@@ -112,8 +112,9 @@ class UserDetailComment extends React.Component {
                 />
                 <a
                   className={styles.external}
-                  href={`${comment.asset.url}?commentId=${comment.id}`}
+                  href={buildCommentURL(comment.asset.url, comment.id)}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Icon name="open_in_new" /> {t('comment.view_context')}
                 </a>
@@ -122,7 +123,7 @@ class UserDetailComment extends React.Component {
                 <IfHasLink text={comment.body}>
                   <span className={styles.hasLinks}>
                     {/* TODO: translate string */}
-                    <Icon name="error_outline" /> Contains Link
+                    <Icon name="error_outline" /> {t('common.contains_link')}
                   </span>
                 </IfHasLink>
                 <div className={styles.actions}>
