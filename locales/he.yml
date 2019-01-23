@@ -16,7 +16,7 @@ en:
     send: "שלח"
     notify_ban_headline: "הודע למשתמש על האיסור"
     notify_ban_description: "פעולה זו תודיע למשתמש בדוא"ל שהם נאסרו מהקהילה"
-    email_message_ban: "Dear {0},\n\nSomeone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, like or report comments. if you think this has been done in error, please contact our community team."
+    email_message_ban: "{0},\n\nמישהו עם גישה לחשבון שלך הפר את הנחיות הקהילה שלנו. כתוצאה מכך, החשבון שלך נאסר. לא תוכל עוד להגיב, לדווח או לדווח על תגובות. אם אתה חושב שהדבר נעשה בטעות, צור קשר עם צוות הקהילה שלנו."
   bio_offensive: "ביו זה פוגע"
   cancel: "בטל"
   confirm_email:
@@ -39,9 +39,9 @@ en:
     flagged: "מסומנת"
     view_context: "הצג הקשר"
   comment_box:
-    post: "Post"
+    post: "שלח"
     cancel: "בטל"
-    reply: "Reply"
+    reply: "תשובה"
     comment: "פרסם תגובה"
     name: "שם"
     comment_post_notif: "התגובה שלך פורסמה."
@@ -57,7 +57,7 @@ en:
   common:
     copy: 'עותק'
     error: 'אירעה שגיאה.'
-    reply: 'reply'
+    reply: 'הגבה'
     replies: 'replies'
     reaction: 'reaction'
     reactions: 'reactions'
@@ -77,63 +77,63 @@ en:
     banned: אסור
     banned_user: "משתמש מורשה"
     cancel: בטל
-    dont_like_username: "Dislike username"
+    dont_like_username: "לא אוהב את שם המשתמש"
     flaggedaccounts: "Reported Usernames"
     flags: Flags
     impersonating: "Impersonation"
     loading: "טוען תוצאות"
-    moderator: Moderator
-    newsroom_role: "Newsroom Role"
-    no_flagged_accounts: "The Reported Usernames queue is currently empty."
-    no_results: "No users found with that user name or email address. They're hiding!"
-    offensive: "Offensive"
-    other: Other
-    people: People
-    role: "Select role..."
-    select_status: "Select status..."
-    spam_ads: "Spam/Ads"
-    staff: "Staff"
-    status: Status
-    username_and_email: "Username and Email"
+    moderator: מנהל
+    newsroom_role: "תפקיד בחדר החדשות"
+    no_flagged_accounts: "תור שמות המשתמש המדווחים ריק כעת."
+    no_results: "לא נמצאו משתמשים בשם המשתמש או בכתובת האימייל הזו. הם מסתתרים!"
+    offensive: "פוגע"
+    other: אחר
+    people: אנשים
+    role: "בחר תפקיד ..."
+    select_status: "בחר סטטוס ..."
+    spam_ads: "ספאם / מודעות"
+    staff: "צוות"
+    status: סטטוס
+    username_and_email: "שם משתמש ודוא"ל"
     yes_ban_user: "כן. חסום משתמש"
-    commenter: "Commenter"
+    commenter: "מגיב"
   configure:
-    apply: Apply
-    banned_word_text: "Comments which contain these words or phrases (not case-sensitive) will be automatically removed from the comment stream. Type a word and press Enter or Tab to add. Optionally paste a comma-separated list."
-    banned_words_title: "Banned words list"
-    close: "Close"
-    close_after: "Close comments after"
-    close_stream: "Close Stream"
-    close_stream_configuration: "This comment stream is currently closed. By opening this comment stream new comments may be submitted and displayed"
-    closed_comments_desc: "Write a message to be displayed when when your comment stream is closed and no longer accepting comments."
-    closed_comments_label: "Write a message..."
-    closed_stream_settings: "Closed Stream Message"
-    comment_count_error: "Please enter a valid number."
-    comment_count_header: "Limit Comment Length"
-    comment_count_text_post: characters
-    comment_count_text_pre: "Comments will be limited to"
-    comment_settings: Settings
-    comment_stream: "Comment Stream"
-    comment_stream_will_close: "The comment stream will close"
-    community: Community
-    configure: Configure
-    copy_and_paste: "Copy and paste code below into your CMS to embed your comment box in your articles"
-    custom_css_url: "Custom CSS URL"
+    apply: החל
+    banned_word_text: "הערות המכילות מילים או ביטויים אלה (לא תלויי רישיות) יוסרו באופן אוטומטי מזרם ההערות. הקלד מילה ולחץ על Enter או על Tab כדי להוסיף. אפשר להדביק רשימה מופרדת בפסיקים."
+    banned_words_title: "רשימת מילים אסורות"
+    close: "סגור"
+    close_after: "סגור הערות לאחר"
+    close_stream: "סגור את זרם ההערות"
+    close_stream_configuration: "זרם תגובות זה סגור כעת. על ידי פתיחת תגובה זו זרם תגובות חדשות ניתן להגיש ולהציג"
+    closed_comments_desc: "כתוב הודעה שתוצג כאשר זרם ההערות שלך ייסגר ולא תקבל עוד הערות."
+    closed_comments_label: "כתוב הודעה ..."
+    closed_stream_settings: "הודעת זרם סגור"
+    comment_count_error: "נא הכנס מספר תקף."
+    comment_count_header: "הגבל אורך תגובה"
+    comment_count_text_post: תווים
+    comment_count_text_pre: "תגובות יוגבלו"
+    comment_settings: הגדרות
+    comment_stream: "זרם תגובות"
+    comment_stream_will_close: "זרם ההערות ייסגר"
+    community: קהילה
+    configure: הגדר
+    copy_and_paste: "העתק והדבק קוד למטה לתוך CMS שלך כדי להטביע את תיבת התגובה לכתבות שלך"
+    custom_css_url: "כתובת האתר של ה- CSS המותאם אישית שלך"
     custom_css_url_desc: "כתובת אתר של גיליון סגנונות CSS שתבטל את ברירת המחדל של סגנונות 'הזרמת זרם'. יכול להיות פנימי או חיצוני."
-    days: Days
-    description: "As an admin, you can customize the settings for the comment stream for this story:"
-    domain_list_text: "Enter the domains you would like to permit for Talk e.g. your local staging and production environments (ex. localhost:3000 staging.domain.com domain.com)."
-    domain_list_title: "Permitted Domains"
-    edit_comment_timeframe_heading: "Edit Comment Timeframe"
+    days: ימים
+    description: "כמנהל, תוכל להתאים אישית את ההגדרות עבור זרם ההערות עבור הסיפור הזה:"
+    domain_list_text: "הזן את הדומיינים שברצונך להרשות עבור Talk. כלומר, סביבות האחסון הזמני וההפקה המקומית שלך (לדוגמה localhost: 3000, staging.domain.com, domain.com)."
+    domain_list_title: "דומיינים מותרים"
+    edit_comment_timeframe_heading: "עריכת מסגרת זמן של תגובה"
     edit_comment_timeframe_text_pre: "Commenters will have"
-    edit_comment_timeframe_text_post: "seconds to edit their comments."
+    edit_comment_timeframe_text_post: "שניות כדי לערוך את התגובות שלהם."
     embed_comment_stream: "Embed Stream"
     enable_premod_links_text: "Moderators must approve any comment containing a link before it is published."
-    enable_pre_moderation: "Enable pre-moderation"
-    enable_pre_moderation_text: "Moderators must approve any comment before it is published."
+    enable_pre_moderation: "אפשר התנהלות מראש"
+    enable_pre_moderation_text: "על המנחים לאשר כל הערה לפני פרסומה."
     enable_premod_links: "Pre-Moderate Comments Containing Links"
     enable_premod: "Enable Premoderation"
-    enable_premod_description: "Moderators must approve any comment before it is published."
+    enable_premod_description: "על המנחים לאשר כל הערה לפני פרסומה."
     enable_premod_links_description: "Moderators must approve any comment containing a link before it is published."
     enable_questionbox: "Ask Readers a Question"
     enable_questionbox_description: "This question will appear at the top of this comment stream. Ask readers about a certain issue in the article or pose discussion questions etc."
@@ -279,24 +279,24 @@ en:
   flags:
     reasons:
        user:
-         username_offensive: "Offensive"
-         username_nolike: "Dislike"
+         username_offensive: "פוגע"
+         username_nolike: "לא אוהב"
          username_impersonating: "Impersonation"
-         username_spam: "Spam"
-         username_other: "Other"
+         username_spam: "ספאם"
+         username_other: "אחר"
        comment:
-         comment_offensive: "Offensive"
-         comment_spam: "Spam"
-         comment_noagree: "Disagree"
-         comment_other: "Other"
-         suspect_word: "Suspect Word"
-         banned_word: "Banned Word"
-         body_count: "Body exceeds max length"
-         trust: "Trust"
-         links: "Link"
+         comment_offensive: "פוגע"
+         comment_spam: "ספאם"
+         comment_noagree: "לא מסכים"
+         comment_other: "אחר"
+         suspect_word: "מילה חשודה"
+         banned_word: "מילה אסורה"
+         body_count: "גוף התגובה עולה על אורך מרבי"
+         trust: "אמון"
+         links: "קישור"
   modqueue:
     account: "account flags"
-    actions: Actions
+    actions: פעולות
     all: all
     all_streams: "All Streams"
     notify_edited: '{0} edited comment "{1}"'
@@ -402,7 +402,7 @@ en:
     title_notify: "Notify the user of their temporary suspension"
     notify_suspend_until: "User {0} has been temporarily suspended. This suspension will automatically end {1}."
     description_notify: "Suspending this user will temporarily disable their account."
-    write_message: "Write a message"
+    write_message: "לכתוב הודעה"
     send: שלח
   reject_username:
     username: שם משתמש
@@ -414,37 +414,37 @@ en:
     suspend_user: "Suspend User"
     yes_suspend: "Yes suspend"
     email_message_reject: "Another member of the community recently flagged your username for review. Because of its content your user was rejected. This means you can no longer comment, like, or flag content until you rewrite your username. Please e-mail us if you have any questions or concerns."
-    write_message: "Write a message"
+    write_message: "לכתוב הודעה"
     send: שלח
-  thank_you: "We value your safety and feedback. A moderator will review your report."
+  thank_you: "אנו מעריכים את בטיחותך ומשובך. מנחה יסקור את הדוח שלך."
   user:
-    bio_flags: "flags for this bio"
-    user_bio: "User Bio"
-    username_flags: "flags for this username"
+    bio_flags: "דגלים עבור ביוגרפיה זו"
+    user_bio: "ביוגרפיה של המשתמש"
+    username_flags: "דגלים עבור שם משתמש זה"
   user_detail:
-    remove_suspension: "Remove Suspension"
-    suspend: "Suspend User"
-    remove_ban: "Remove Ban"
-    ban: "Ban User"
-    member_since: "Member Since"
-    email: "Email"
-    total_comments: "Total Comments"
-    reject_rate: "Reject Rate"
-    reports: "Reports"
-    all: "All"
-    rejected: "Rejected"
-    account_history: "Account History"
-  user_impersonating: "This user is impersonating"
-  user_no_comment: "You've never left a comment. Join the conversation!"
-  username_offensive: "This username is offensive"
-  view_conversation: "View Conversation"
+    remove_suspension: "הסר השעיה"
+    suspend: "להשעות משתמש"
+    remove_ban: "הסרת חסימה"
+    ban: "לחסום משתמש"
+    member_since: "חבר מאז"
+    email: "דוא"ל"
+    total_comments: "סה"כ תגובות"
+    reject_rate: "שיעור דחייה"
+    reports: "דיווחים"
+    all: "כל"
+    rejected: "נדחה"
+    account_history: "היסטוריית החשבון"
+  user_impersonating: "משתמש זה מתחזה"
+  user_no_comment: "מעולם לא השארת תגובה. הצטרף לשיחה!"
+  username_offensive: "שם משתמש זה פוגע"
+  view_conversation: "הצג שיחה"
   install:
     initial:
-      description: "Let's set up your Talk community in just a few short steps."
-      submit: "Get Started"
+      description: "בואו נגדיר את קהילת Talk שלך בכמה שלבים קצרים בלבד."
+      submit: "תחל"
     add_organization:
-      description: "Please tell us the name of your organization. This will appear in emails when inviting new team members."
-      label: "Organization Name"
+      description: "ספר לנו את שם הארגון שלך. פעולה זו תופיע בדוא"ל בעת הזמנת חברי צוות חדשים."
+      label: "שם ארגון"
       save: "שמור"
     create:
       email: 'כתובת דוא"ל'
@@ -453,12 +453,12 @@ en:
       confirm_password: "אשר סיסמה"
       save: "שמור"
     permitted_domains:
-      title: "Permitted domains"
-      description: "Enter the domains you would like to permit for Talk, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com)."
-      submit: "Finish install"
+      title: "דומיינים מותרים"
+      description: "הזן את הדומיינים שברצונך להרשות עבור Talk. כלומר, סביבות האחסון הזמני וההפקה המקומית שלך (לדוגמה localhost: 3000, staging.domain.com, domain.com)."
+      submit: "סיים את ההתקנה"
     final:
-      description: "Thanks for installing Talk! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now."
-      launch: "Launch Talk"
+      description: "תודה שהתקנת את Talk! שלחנו הודעת אימייל לאימות כתובת האימייל שלך. בזמן שתסיים להגדיר את החשבון, תוכל להתחיל לעסוק עם הקוראים שלך כעת."
+      launch: "הפעל את Talk"
       close: "סגור את המתקין"
   admin_sidebar:
     view_options: "הצג אפשרויות"
