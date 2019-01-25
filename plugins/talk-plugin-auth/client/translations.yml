@@ -300,8 +300,8 @@ he:
   talk-plugin-auth:
     login:
       email_verify_cta: "אנא אמת את כתובת האימייל שלך."
-      request_new_verify_email: 'בקש דוא"ל נוסף'
-      verify_email: 'תודה שיצרת חשבון! שלחנו דוא"ל לכתובת שסיפקת כדי לאמת את חשבונך.'
+      request_new_verify_email: 'בקש אימייל נוסף'
+      verify_email: 'תודה שיצרת חשבון! שלחנו אימייל לכתובת שסיפקת כדי לאמת את חשבונך.'
       verify_email2: "עליך לאמת את חשבונך לפני שתעסוק בקהילה."
       not_you: "לא אתה?"
       logged_in_as: "נכנס בתור"
