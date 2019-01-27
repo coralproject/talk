@@ -78,6 +78,7 @@ fr:
     confirmation_title: Ignore {0}?
 he:
   talk-plugin-ignore-user:
+    blank_info: בשלב זה אינך מתעלם ממשתמשים
     section_title: משתמשים שהתעלמו מהם
     section_info: מכיוון שהתעלמת מהמגיבים הבאים, ההערות שלהם מוסתרות.
     stop_ignoring: הפסק להתעלם

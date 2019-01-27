@@ -48,6 +48,9 @@ he:
     comment_post_notif_premod: "תודה על הפרסום. צוות הפיקוח שלנו יבחן את התגובה שלך בקרוב."
     comment_post_banned_word:  "התגובה שלך מכילה מילה אחת או יותר שאינן מותרות, לכן היא לא תפורסם. אם אתה סבור שהודעה זו שגויה, צור קשר עם צוות הניהול שלנו."
     characters_remaining: "תווים נותרים"
+  comment_history_blank:
+    info: 'תולדות של התגובות שלך יופיעו כאן'
+    title: 'לא כתבת שום תגובה'
   comment_offensive: "תגובה זו פוגעת"
   comment_singular: תגובה
   comment_plural: תגובות
@@ -147,6 +150,7 @@ he:
     open: "פתח"
     open_stream: "פתח את הזרם"
     open_stream_configuration: "זרם תגובות זה פתוח כעת. על ידי סגירת זרם תגובות זה לא ניתן להגיש תגובות חדשות וכל התגובות הקודמות עדיין יוצגו."
+    organization_contact_email: "אימייל של הארגון"
     require_email_verification: 'דרוש אימות אימייל'
     require_email_verification_text: 'משתמשים חדשים חייבים לאמת את האימייל שלהם לפני שתגיב'
     save_changes: "שמור שינויים"
