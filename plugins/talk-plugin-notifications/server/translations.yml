@@ -44,16 +44,16 @@ he:
   talk-plugin-notifications:
     templates:
       digest:
-        subject: "Your latest comment activity at {0}"
-      footer: "You received this notification because you are a commenter on {0} and you opted in to receive notifications."
+        subject: "פעילות התגובה האחרונה שלך ב- {0}"
+      footer: "קיבלת את ההודעה הזו מפני שאתה מפרסם על {0} ואתה הצטרפת לקבל התראות."
       links:
-        unsubscribe: "Unsubscribe from comment notifications"
+        unsubscribe: "בטל את הרישום להודעות על תגובות"
     unsubscribe_page:
-      unsubscribe: "Unsubscribe from comment notifications"
-      click_to_confirm: "Click below to confirm that you would like to unsubscribe from all notifications"
-      confirm: "Confirm"
-      are_unsubscribed: "You are now unsubscribed from all notifications."
-      token_invalid: "Unsubscribe link is invalid, click the link from a more recent email or visit a comment stream and login to change your notification preferences"
+      unsubscribe: "בטל את הרישום להודעות על תגובות"
+      click_to_confirm: "לחץ למטה כדי לאשר שברצונך לבטל את הרישום לכל ההתראות"
+      confirm: "אשר"
+      are_unsubscribed: "כעת אינך רשום לכל ההודעות."
+      token_invalid: "הקישור לביטול רישום אינו חוקי, לחץ על הקישור מאימייל עדכני יותר או בקר בזרם תגובות והתחבר כדי לשנות את העדפות ההתראה שלך"
 nl_NL:
   talk-plugin-notifications:
     templates:

@@ -27,5 +27,5 @@ he:
   talk-plugin-notifications:
     categories:
       featured:
-        subject: "One of your comments was featured on {0}"
-        body: "{0}\nA member of our team has selected this comment to be featured for other readers: {1}"
+        subject: "אחת מהתגובות שלך הוצגה ב {0}"
+        body: "{0} \n חבר בצוות שלנו בחר תגובה זו כך שתוצג עבור קוראים אחרים: {1}"

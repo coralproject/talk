@@ -12,7 +12,7 @@ es:
     toggle_description: Un miembro del personal responde a mi comentario
 he:
   talk-plugin-notifications-category-staff:
-    toggle_description: A staff member replies to my comment
+    toggle_description: חבר צוות עונה על תגובתי
 nl_NL:
   talk-plugin-notifications-category-staff:
     toggle_description: Een redactielid antwoord op mijn reactie

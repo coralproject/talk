@@ -12,7 +12,7 @@ es:
     toggle_description: Mi comentario recibe una respuesta
 he:
   talk-plugin-notifications-category-reply:
-    toggle_description: My comment receives a reply
+    toggle_description: התגובה שלי מקבלת תשובה
 nl_NL:
   talk-plugin-notifications-category-reply:
     toggle_description: Iemand antwoord op mijn reactie

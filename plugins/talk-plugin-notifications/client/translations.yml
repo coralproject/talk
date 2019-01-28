@@ -72,22 +72,22 @@ es:
       NONE: Inmediatamente
 he:
   talk-plugin-notifications:
-    settings_title: Notifications
-    settings_subtitle: Receive notifications when
-    turn_off_all: I do not want to receive notifications
+    settings_title: התראות
+    settings_subtitle: קבל הודעות כאשר
+    turn_off_all: אני לא רוצה לקבל התראות
     banner_info:
-      title: Email Verification Required
-      text: To receive email notifications you must have a verified email address.
-      verify_now: Verify your email now
+      title: נדרש אימות אימייל
+      text: כדי לקבל התראות באימייל, עליך להיות בעל כתובת אימייל מאומתת.
+      verify_now: אמת את האימייל שלך כעת
     banner_success:
-      title: Email Verification Sent
-      text: An email has been sent to {0} containing a verification link.
+      title: נשלח אימות אימייל
+      text: הודעת אימייל נשלחה אל {0} שמכילה קישור לאימות.
     banner_error:
-      title: Error
-      text: There has been an error sending your verification email. Please try again later.
-    digest_option: Send notifications
+      title: שגיאה
+      text: אירעה שגיאה בשליחת אימייל האימות שלך. בבקשה נסה שוב מאוחר יותר.
+    digest_option: שלח התראות
     digest_enum:
-      NONE: Immediately
+      NONE: מיד
 nl_NL:
   talk-plugin-notifications:
     settings_title: Notificaties

@@ -17,7 +17,7 @@ es:
 he:
   talk-plugin-notifications:
     digest_enum:
-      HOURLY: In an hourly digest
+      HOURLY: בתקציר שעתי
 nl_NL:
   talk-plugin-notifications:
     digest_enum:
