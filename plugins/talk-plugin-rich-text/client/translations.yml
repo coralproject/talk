@@ -3,4 +3,9 @@ en:
     format_bold: bold
     format_italic: italic
     format_blockquote: blockquote
+he:
+  talk-plugin-rich-text:
+    format_bold: bold
+    format_italic: italic
+    format_blockquote: blockquote
 

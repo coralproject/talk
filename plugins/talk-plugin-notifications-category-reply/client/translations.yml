@@ -1,15 +1,18 @@
 ar:
   talk-plugin-notifications-category-reply:
     toggle_description: يتلقى تعليقي ردا
+de:
+  talk-plugin-notifications-category-reply:
+    toggle_description: Jemand antwortet auf meinen Kommentar
 en:
   talk-plugin-notifications-category-reply:
     toggle_description: My comment receives a reply
 es:
   talk-plugin-notifications-category-reply:
     toggle_description: Mi comentario recibe una respuesta
-de:
+he:
   talk-plugin-notifications-category-reply:
-    toggle_description: Jemand antwortet auf meinen Kommentar
+    toggle_description: My comment receives a reply
 nl_NL:
   talk-plugin-notifications-category-reply:
     toggle_description: Iemand antwoord op mijn reactie

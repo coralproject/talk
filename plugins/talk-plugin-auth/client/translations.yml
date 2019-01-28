@@ -99,6 +99,51 @@ da:
       username: Username
       write_your_username: "Edit your username"
       your_username: "Your username appears on every comment you post."
+de:
+  talk-plugin-auth:
+    login:
+      email_verify_cta: "Bitte bestätigen Sie Ihre E-Mail-Adresse."
+      request_new_verify_email: "E-Mail-Bestätigung erneut anfordern"
+      verify_email: "Danke, dass Sie ein Konto eingerichtet haben! Wir haben eine Nachricht an Ihre E-Mail-Adresse geschickt, mit der Sie Ihr Konto bestätigen können."
+      verify_email2: "Sie müssen ihr Konto bestätigen, bevor Sie beginnen können."
+      not_you: "Nicht Ihr Name?"
+      logged_in_as: "Angemeldet als"
+      facebook_sign_in: "Mit Facebook anmelden"
+      facebook_sign_up: "Mit Facebook registrieren"
+      logout: "Abmelden"
+      sign_in: "Anmelden"
+      sign_in_to_join: "Anmelden, um zu diskutieren"
+      or: "Oder"
+      email: "E-Mail-Adresse"
+      password: "Passwort"
+      forgot_your_pass: "Passwort vergessen?"
+      need_an_account: "Brauchen Sie ein Konto?"
+      register: "Registrieren"
+      sign_up: "Registrieren"
+      confirm_password: "Passwort bestätigen"
+      username: "Nutzername"
+      already_have_an_account: "Konto bereits vorhanden?"
+      recover_password: "Passwort zurücksetzen"
+      email_in_use: "E-Mail-Adresse bereits vergeben"
+      email_or_username_in_use: "E-Mail-Adresse oder Nutzername bereits vergeben"
+      required_field: "Pflichtfeld"
+      passwords_dont_match: "Passwörter nicht identisch."
+      special_characters: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
+      sign_in_to_comment: "Zum Kommentieren anmelden"
+      check_the_form: "Ungültige Eingabe. Bitte prüfen Sie Ihre Felder"
+    set_username_dialog:
+      check_the_form: "Ungültige Eingabe. Bitte prüfen Sie Ihre Felder"
+      continue: "Mit diesem Facebook-Profilnamen fortfahren"
+      error_create: "Fehler bei Änderung des Nutzernamens"
+      fake_comment_body: "Dies ist ein Beispiel-Kommentar. Leser können im Kommentarbereich Meinungen und Gedanken mit der Redaktion austauschen."
+      fake_comment_date: "Vor 1 Minute"
+      if_you_dont_change_your_name: "Wenn Sie Ihren Nutzernamen an diesem Punkt nicht ändern, wird Ihr Facebook-Name mit Ihren Kommentaren angezeigt."
+      required_field: "Pflichtfeld"
+      save: Speichern
+      special_characters: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
+      username: Nutzername
+      write_your_username: "Nutzername bearbeiten"
+      your_username: "Ihr Nutzername erscheint an jedem Ihrer veröffentlichten Kommentare."
 en:
   talk-plugin-auth:
     login:
@@ -152,51 +197,6 @@ en:
       cancel: "Cancel"
       edit: "Edit"
       changed_password_msg: "Your password has been successfully changed"
-de:
-  talk-plugin-auth:
-    login:
-      email_verify_cta: "Bitte bestätigen Sie Ihre E-Mail-Adresse."
-      request_new_verify_email: "E-Mail-Bestätigung erneut anfordern"
-      verify_email: "Danke, dass Sie ein Konto eingerichtet haben! Wir haben eine Nachricht an Ihre E-Mail-Adresse geschickt, mit der Sie Ihr Konto bestätigen können."
-      verify_email2: "Sie müssen ihr Konto bestätigen, bevor Sie beginnen können."
-      not_you: "Nicht Ihr Name?"
-      logged_in_as: "Angemeldet als"
-      facebook_sign_in: "Mit Facebook anmelden"
-      facebook_sign_up: "Mit Facebook registrieren"
-      logout: "Abmelden"
-      sign_in: "Anmelden"
-      sign_in_to_join: "Anmelden, um zu diskutieren"
-      or: "Oder"
-      email: "E-Mail-Adresse"
-      password: "Passwort"
-      forgot_your_pass: "Passwort vergessen?"
-      need_an_account: "Brauchen Sie ein Konto?"
-      register: "Registrieren"
-      sign_up: "Registrieren"
-      confirm_password: "Passwort bestätigen"
-      username: "Nutzername"
-      already_have_an_account: "Konto bereits vorhanden?"
-      recover_password: "Passwort zurücksetzen"
-      email_in_use: "E-Mail-Adresse bereits vergeben"
-      email_or_username_in_use: "E-Mail-Adresse oder Nutzername bereits vergeben"
-      required_field: "Pflichtfeld"
-      passwords_dont_match: "Passwörter nicht identisch."
-      special_characters: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
-      sign_in_to_comment: "Zum Kommentieren anmelden"
-      check_the_form: "Ungültige Eingabe. Bitte prüfen Sie Ihre Felder"
-    set_username_dialog:
-      check_the_form: "Ungültige Eingabe. Bitte prüfen Sie Ihre Felder"
-      continue: "Mit diesem Facebook-Profilnamen fortfahren"
-      error_create: "Fehler bei Änderung des Nutzernamens"
-      fake_comment_body: "Dies ist ein Beispiel-Kommentar. Leser können im Kommentarbereich Meinungen und Gedanken mit der Redaktion austauschen."
-      fake_comment_date: "Vor 1 Minute"
-      if_you_dont_change_your_name: "Wenn Sie Ihren Nutzernamen an diesem Punkt nicht ändern, wird Ihr Facebook-Name mit Ihren Kommentaren angezeigt."
-      required_field: "Pflichtfeld"
-      save: Speichern
-      special_characters: "Nutzernamen dürfen nur Buchstaben, Zahlen und _ enthalten"
-      username: Nutzername
-      write_your_username: "Nutzername bearbeiten"
-      your_username: "Ihr Nutzername erscheint an jedem Ihrer veröffentlichten Kommentare."
 es:
   talk-plugin-auth:
     login:

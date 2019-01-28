@@ -36,6 +36,43 @@ ar:
       body: "لقد ألغيت طلب حذف حسابك ل {0}. تم الآن إعادة تفعيل حسابك."
   error:
     DOWNLOAD_TOKEN_INVALID: "رابط التنزيل الخاص بك غير صالح."
+de:
+  download_landing:
+    download_your_account: "Mein Kommentar-Archiv herunterladen"
+    download_details: "Ihr Kommentar-Archiv wird als ZIP-Datei bereitgestellt. Nach dem Entpacken erhalten Sie eine CSV-Datei, die einfach in ein Tabellenkalkulationsprogramm importiert werden kann."
+    all_information_included: "Für jeden Ihrer Kommentare sind folgende Informationen enthalten:"
+    information_included:
+      date: "Wann Sie den Kommentar geschrieben haben"
+      url: "Die dauerhafte URL (Internetadresse) des Kommentars"
+      body: "Der Kommentar-Text"
+      asset_url: "Die URL (Internetadresse) des Artikels an dem der Kommentar erscheint"
+    confirm: "Kommentar-Archiv herunterladen"
+  email:
+    download:
+      subject: "Ihre Kommentare sind zum Download bereit: {0}"
+      download_link_ready: "Hier klicken, um Ihre Kommentare von {0} bis {1} herunterzuladen:"
+      download_archive: "Archiv herunterladen"
+    delete:
+      subject: "Ihr Benutzerkonto bei {0} ist zur Löschung vorgesehen"
+      body: |
+        Wir haben eine Anfrage erhalten, Ihr Benutzerkonto zu löschen. Die Löschung ist geplant für den {1}.
+
+        Nach diesem Zeitpunkt werden alle Ihre Kommentare von der Website und aus unserer Datenbank gelöscht. Außerdem werden Ihr Nutzername und Ihre E-Mail-Adresse aus unserem System enfernt.
+
+        Falls Sie es sich noch anders überlegen, können Sie sich bis spätestens zum angegebenen Lösch-Zeitpunkt einloggen und die Lösch-Anfrage abbrechen.
+    deleted:
+      subject: "Ihre Benutzerkonto bei {0} wurde gelöscht"
+      body: |
+        Ihr Kommentar-Konto bei {0} ist nun gelöscht. Schade, auf Wiedersehen!
+
+        Falls Sie sich in Zukunft erneut an der Diskussion beteiligen möchten, können Sie jederzeit ein neues Benutzerkonto einrichten.
+
+        Wenn Sie Lust haben, schreiben Sie uns doch eine Rückmeldung, Feedback, oder Kritik an {1}, damit wir unsere Community verbessern können. Vielen Dank!
+    cancelDelete:
+      subject: "Die Lösch-Anfrage für Ihr Benutzerkonto bei {0} wurde abgebrochen"
+      body: "Sie haben die Lösch-Anfrage für Ihr Benutzerkonto bei {0} abgebrochen. Das Konto ist nun wieder aktiv."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "Der Download-Link ist ungültig."
 en:
   download_landing:
     download_your_account: "Download Your Comment History"
@@ -110,43 +147,6 @@ es:
       body: "Ha cancelado la solicitud de eliminación de cuenta para {0}. Su cuenta ahora está reactivada."
   error:
     DOWNLOAD_TOKEN_INVALID: "Su enlace de descarga no es válido."
-de:
-  download_landing:
-    download_your_account: "Mein Kommentar-Archiv herunterladen"
-    download_details: "Ihr Kommentar-Archiv wird als ZIP-Datei bereitgestellt. Nach dem Entpacken erhalten Sie eine CSV-Datei, die einfach in ein Tabellenkalkulationsprogramm importiert werden kann."
-    all_information_included: "Für jeden Ihrer Kommentare sind folgende Informationen enthalten:"
-    information_included:
-      date: "Wann Sie den Kommentar geschrieben haben"
-      url: "Die dauerhafte URL (Internetadresse) des Kommentars"
-      body: "Der Kommentar-Text"
-      asset_url: "Die URL (Internetadresse) des Artikels an dem der Kommentar erscheint"
-    confirm: "Kommentar-Archiv herunterladen"
-  email:
-    download:
-      subject: "Ihre Kommentare sind zum Download bereit: {0}"
-      download_link_ready: "Hier klicken, um Ihre Kommentare von {0} bis {1} herunterzuladen:"
-      download_archive: "Archiv herunterladen"
-    delete:
-      subject: "Ihr Benutzerkonto bei {0} ist zur Löschung vorgesehen"
-      body: |
-        Wir haben eine Anfrage erhalten, Ihr Benutzerkonto zu löschen. Die Löschung ist geplant für den {1}.
-
-        Nach diesem Zeitpunkt werden alle Ihre Kommentare von der Website und aus unserer Datenbank gelöscht. Außerdem werden Ihr Nutzername und Ihre E-Mail-Adresse aus unserem System enfernt.
-
-        Falls Sie es sich noch anders überlegen, können Sie sich bis spätestens zum angegebenen Lösch-Zeitpunkt einloggen und die Lösch-Anfrage abbrechen.
-    deleted:
-      subject: "Ihre Benutzerkonto bei {0} wurde gelöscht"
-      body: |
-        Ihr Kommentar-Konto bei {0} ist nun gelöscht. Schade, auf Wiedersehen!
-
-        Falls Sie sich in Zukunft erneut an der Diskussion beteiligen möchten, können Sie jederzeit ein neues Benutzerkonto einrichten.
-
-        Wenn Sie Lust haben, schreiben Sie uns doch eine Rückmeldung, Feedback, oder Kritik an {1}, damit wir unsere Community verbessern können. Vielen Dank!
-    cancelDelete:
-      subject: "Die Lösch-Anfrage für Ihr Benutzerkonto bei {0} wurde abgebrochen"
-      body: "Sie haben die Lösch-Anfrage für Ihr Benutzerkonto bei {0} abgebrochen. Das Konto ist nun wieder aktiv."
-  error:
-    DOWNLOAD_TOKEN_INVALID: "Der Download-Link ist ungültig."
 he:
   download_landing:
     download_your_account: "הורד היסטורית תגובתך"

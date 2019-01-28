@@ -8,8 +8,8 @@ de:
   talk-plugin-sort-most-respected:
     label: Häufigste "Respektiert" zuerst
 en:
-  talk-plugin-sort-most-liked:
-    label: Most liked first
+  talk-plugin-sort-most-respected:
+    label: Most respected first
 es:
   talk-plugin-sort-most-respected:
     label: Más respetadas primero
