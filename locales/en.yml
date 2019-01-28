@@ -259,7 +259,7 @@ en:
     EMAIL_REQUIRED: 'An email address is required'
     EMAIL_VERIFICATION_TOKEN_INVALID: 'Email verification token is invalid.'
     INCORRECT_PASSWORD: 'Incorrect Password'
-    INVALID_ASSET_URL: 'Assert URL is invalid'
+    INVALID_ASSET_URL: 'Asset URL is invalid'
     LOGIN_MAXIMUM_EXCEEDED: 'You have made too many unsuccessful password attempts. Please wait.'
     network_error: 'Failed to connect to server. Check your internet connection and try again.'
     NO_SPECIAL_CHARACTERS: 'Usernames can contain letters numbers and _ only'
