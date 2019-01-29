@@ -89,7 +89,8 @@ configure-general-closedStreamMessage-explanation = Write a message to appear af
 
 ### Organization
 configure-organization-name = Organization Name
-configure-organization-nameExplanation = Organization Name
+configure-organization-nameExplanation =
+  Your organization name will appear on emails sent by Talk to your community and organization members.
 configure-organization-email = Organization Email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across
