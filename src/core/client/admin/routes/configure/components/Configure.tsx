@@ -30,6 +30,12 @@ const Configure: StatelessComponent<Props> = ({
             <SideBar>
               <HorizontalGutter size="double">
                 <Navigation>
+                  <Localized id="configure-sideBarNavigation-general">
+                    <Link to="/admin/configure/general">General</Link>
+                  </Localized>
+                  <Localized id="configure-sideBarNavigation-organization">
+                    <Link to="/admin/configure/organization">Organization</Link>
+                  </Localized>
                   <Localized id="configure-sideBarNavigation-moderation">
                     <Link to="/admin/configure/moderation">Moderation</Link>
                   </Localized>
@@ -40,6 +46,9 @@ const Configure: StatelessComponent<Props> = ({
                   </Localized>
                   <Localized id="configure-sideBarNavigation-authentication">
                     <Link to="/admin/configure/auth">Authentication</Link>
+                  </Localized>
+                  <Localized id="configure-sideBarNavigation-advanced">
+                    <Link to="/admin/configure/advanced">Advanced</Link>
                   </Localized>
                 </Navigation>
               </HorizontalGutter>

@@ -3,9 +3,22 @@ import { merge } from "lodash";
 export const settings = {
   id: "settings",
   wordList: {
-    banned: [],
-    suspect: [],
+    suspect: ["idiot", "stupid"],
+    banned: ["fuck"],
   },
+  charCount: {
+    enabled: false,
+    max: 1000,
+    min: 3,
+  },
+  closedMessage: null,
+  customCssUrl: null,
+  domains: ["localhost:8080"],
+  editCommentWindowLength: 30000,
+  infoBoxEnable: false,
+  infoBoxContent: "",
+  organizationContactEmail: "coral@test.com",
+  organizationName: "Coral",
   integrations: {
     akismet: {
       enabled: false,

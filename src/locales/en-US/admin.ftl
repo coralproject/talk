@@ -45,8 +45,11 @@ configure-unsavedInputWarning =
   You have unsaved input.
   Are you sure you want to leave this page?
 
+configure-sideBarNavigation-general = General
 configure-sideBarNavigation-authentication = Authentication
 configure-sideBarNavigation-moderation = Moderation
+configure-sideBarNavigation-organization = Organization
+configure-sideBarNavigation-advanced = Advanced
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
 
 configure-sideBar-saveChanges = Save Changes
@@ -56,7 +59,45 @@ configure-onOffField-off = Off
 configure-permissionField-allow = Allow
 configure-permissionField-dontAllow = Don't allow
 
-# Authentication
+### General
+configure-general-guidlines-title = Community Guidelines Summary
+configure-general-guidlines-explanation =
+  Write a summary of your community guidelines that will appear
+  at the top of each comment stream sitewide. Your summary can be
+  formatted using Markdown Syntax. More information on how to use
+  Markdown can be found <externalLink>here</externalLink>.
+
+#### Comment Length
+configure-general-commentLength-maxCommentLength = Maximum Comment Length
+configure-general-commentLength-setLimit = Set a limit on the length of comments sitewide
+configure-general-commentLength-limitCommentLength = Limit Comment Length
+configure-general-commentLength-minCommentLength = Minimum Comment Length
+configure-general-commentLength-characters = Characters
+
+#### Comment Editing
+configure-general-commentEditing-title = Comment Editing
+configure-general-commentEditing-explanation =
+  Set a limit on how long commenters have to edit their comments sitewide.
+  Edited comments are marked as (Edited) on the comment stream and the
+  moderation panel.
+configure-general-commentEditing-commentEditTimeFrame = Comment Edit Timeframe
+configure-general-commentEditing-seconds = Seconds
+
+#### Closed Stream Message
+configure-general-closedStreamMessage-title = Closed Stream Message
+configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
+
+### Organization
+configure-organization-name = Organization Name
+configure-organization-nameExplanation = Organization Name
+configure-organization-email = Organization Email
+configure-organization-emailExplanation =
+  This email address will be used as in emails and across
+  the platform for community members to get in touch with
+  the organization should they have any questions about the
+  status of their accounts or moderation questions.
+
+### Authentication
 
 configure-auth-authIntegrations = Authentication Integrations
 configure-auth-clientID = Client ID
@@ -160,12 +201,14 @@ configure-moderation-perspective-filter = Toxic Comment Filter
 configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
 configure-moderation-perspective-toxicityThresholdDescription =
   This value can be set a percentage between 0 and 100. This number represents the likelihood that a
-  comment is toxic, according to Perspective API.
+  comment is toxic, according to Perspective API. By default the treshold is set to { $default }.
 configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
   improve the API over time
-configure-moderation-perspective-endpoint = Endpoint
+configure-moderation-perspective-customEndpoint = Custom Endpoint
+configure-moderation-perspective-defaultEndpoint =
+  By default the endpoint is set to { $default }. You may override this here.
 configure-moderation-perspective-accountNote =
   For additional information on how to set up the Perspective Toxic Comment Filter please visit:
   <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
@@ -191,6 +234,16 @@ configure-wordList-suspect-wordListDetail =
   Separate suspect words or phrases with a new line. Attempting to copy
   and paste a comma separated list? <externalLink>Learn how to convert your list
   to a new line separated list.</externalLink>
+
+### Advanced
+configure-advanced-customCSS = Custom CSS
+configure-advanced-customCSS-explanation =
+  URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+configure-advanced-permittedDomains = Permitted Domains
+configure-advanced-permittedDomains-explanation =
+  Domains where your Talk instance is allowed to be embedded.
+  Typical use is localhost, staging.yourdomain.com,
+  yourdomain.com, etc.
 
 ## Decision History
 decisionHistory-youWillSeeAList =

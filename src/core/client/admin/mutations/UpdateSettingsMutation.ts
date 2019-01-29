@@ -22,6 +22,10 @@ const mutation = graphql`
           ...AuthContainer_auth
         }
         ...ModerationContainer_settings
+        ...GeneralConfigContainer_settings
+        ...OrganizationContainer_settings
+        ...WordListContainer_settings
+        ...AdvancedConfigContainer_settings
       }
       clientMutationId
     }

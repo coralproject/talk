@@ -11,7 +11,7 @@ export default function withForwardRef<P extends { forwardRef?: Ref<any> }>(
   const forwardRef: RefForwardingComponent<any, P> = (props, ref) => (
     <BaseComponent {...props} forwardRef={ref} />
   );
-  return React.forwardRef<any, P>(forwardRef);
+  return React.forwardRef<any, P>(forwardRef) as any;
 }
 
 /*

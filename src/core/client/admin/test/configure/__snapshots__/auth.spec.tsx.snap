@@ -1774,6 +1774,24 @@ exports[`renders configure auth 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/general"
+                  onClick={[Function]}
+                >
+                  General
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/organization"
+                  onClick={[Function]}
+                >
+                  Organization
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/moderation"
                   onClick={[Function]}
                 >
@@ -1796,6 +1814,15 @@ exports[`renders configure auth 1`] = `
                   onClick={[Function]}
                 >
                   Authentication
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/advanced"
+                  onClick={[Function]}
+                >
+                  Advanced
                 </a>
               </li>
             </ul>

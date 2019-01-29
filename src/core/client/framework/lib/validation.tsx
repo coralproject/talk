@@ -14,6 +14,9 @@ import {
   INVALID_CHARACTERS,
   INVALID_EMAIL,
   INVALID_URL,
+  NOT_A_POSITIVE_WHOLE_NUMBER,
+  NOT_A_WHOLE_NUMBER,
+  NOT_A_WHOLE_NUMBER_BETWEEN,
   PASSWORD_TOO_SHORT,
   PASSWORDS_DO_NOT_MATCH,
   USERNAME_TOO_LONG,
@@ -144,3 +147,40 @@ export const validateEqualEmails = createValidator(
   (v, values) => v === values.email,
   EMAILS_DO_NOT_MATCH()
 );
+
+/**
+ * validateWholeNumber is a Validator that checks for a valid whole number.
+ */
+export const validateWholeNumber = createValidator(
+  v => !v || v === 0 || Number.isInteger(parseFloat(v)),
+  NOT_A_WHOLE_NUMBER()
+);
+
+/**
+ * validatePositiveWholeNumber is a Validator that checks for a valid whole number > 0.
+ */
+export const validatePositiveWholeNumber = createValidator(
+  v => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v >= 0),
+  NOT_A_POSITIVE_WHOLE_NUMBER()
+);
+
+/**
+ * validateWholeNumberBetween is a Validator that checks for a valid whole number.
+ */
+export const validateWholeNumberBetween = (min: number, max: number) =>
+  createValidator(
+    v =>
+      !v ||
+      v === 0 ||
+      (Number.isInteger(parseFloat(v)) && v >= min && v <= max),
+    NOT_A_WHOLE_NUMBER_BETWEEN(min, max)
+  );
+
+/**
+ * validateWholeNumberBetween is a Validator that checks for a valid whole number.
+ */
+export const validatePercentage = (min: number, max: number) =>
+  createValidator(
+    v => v === null || (!Number.isNaN(v) && v >= min && v <= max),
+    NOT_A_WHOLE_NUMBER_BETWEEN(min * 100, max * 100)
+  );

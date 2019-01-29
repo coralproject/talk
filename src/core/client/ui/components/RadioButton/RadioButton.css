@@ -43,7 +43,7 @@
 
 /* Box checked */
 .input:checked + .label:before {
-  border: 1px solid var(--palette-primary-main);
+  border: 1px solid var(--palette-text-primary);
   background: var(--palette-common-white);
 }
 
@@ -63,7 +63,7 @@
 /* Checkmark. Could be replaced with an image */
 .input:checked + .label:after {
   content: "";
-  background: var(--palette-primary-main);
+  background: var(--palette-text-primary);
   border-radius: 50%;
   position: absolute;
   left: 3px;

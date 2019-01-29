@@ -9,6 +9,7 @@ import { ExternalLink } from "talk-framework/lib/i18n/components";
 import {
   composeValidators,
   required,
+  validatePercentage,
   validateURL,
   Validator,
 } from "talk-framework/lib/validation";
@@ -76,17 +77,21 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
         <Localized id="configure-moderation-perspective-toxicityThreshold">
           <InputLabel>Toxicity Threshold</InputLabel>
         </Localized>
-        <Localized id="configure-moderation-perspective-toxicityThresholdDescription">
+        <Localized
+          id="configure-moderation-perspective-toxicityThresholdDescription"
+          $default={80}
+        >
           <InputDescription>
             This value can be set a percentage between 0 and 100. This number
             represents the likelihood that a comment is toxic, according to
-            Perspective API.
+            Perspective API. Defaults to $default.
           </InputDescription>
         </Localized>
         <Field
           name="integrations.perspective.threshold"
           parse={parsePercentage}
           format={formatPercentage}
+          validate={validatePercentage(0, 1)}
         >
           {({ input, meta }) => (
             <>
@@ -101,7 +106,6 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 spellCheck={false}
                 adornment={<Typography variant="bodyCopy">%</Typography>}
-                placeholder={"80"}
                 textAlignCenter
               />
               {meta.touched &&
@@ -152,12 +156,18 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
         validate={validateWhenEnabled(required)}
       />
       <FormField>
-        <Localized id="configure-moderation-perspective-endpoint">
-          <InputLabel>Endpoint</InputLabel>
+        <Localized id="configure-moderation-perspective-customEndpoint">
+          <InputLabel>Custom Endpoint</InputLabel>
         </Localized>
-        <InputDescription>
-          Defaults to https://commentanalyzer.googleapis.com/v1alpha1
-        </InputDescription>
+        <Localized
+          id="configure-moderation-perspective-defaultEndpoint"
+          $default="https://commentanalyzer.googleapis.com/v1alpha1"
+        >
+          <InputDescription>
+            By default the endpoint is set to $default. You may override this
+            here
+          </InputDescription>
+        </Localized>
         <Field
           name="integrations.perspective.endpoint"
           validate={composeValidators(validateURL)}
