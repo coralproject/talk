@@ -6,6 +6,7 @@ import { GeneralConfigRouteContainerQueryResponse } from "talk-admin/__generated
 import { withRouteConfig } from "talk-framework/lib/router";
 import { Delay, Spinner } from "talk-ui/components";
 
+import { loadMarkdownEditor } from "../components/LazyMarkdown";
 import GeneralConfigContainer from "./GeneralConfigContainer";
 
 interface Props {
@@ -34,13 +35,19 @@ class GeneralConfigRouteContainer extends React.Component<Props> {
 }
 
 const enhanced = withRouteConfig({
-  query: graphql`
-    query GeneralConfigRouteContainerQuery {
-      settings {
-        ...GeneralConfigContainer_settings
+  getQuery: () => {
+    // Start prefetching markdown editor.
+    loadMarkdownEditor();
+
+    // Fetch graphql data.
+    return graphql`
+      query GeneralConfigRouteContainerQuery {
+        settings {
+          ...GeneralConfigContainer_settings
+        }
       }
-    }
-  `,
+    `;
+  },
   cacheConfig: { force: true },
 })(GeneralConfigRouteContainer);
 

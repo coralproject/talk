@@ -10,14 +10,11 @@ import {
 } from "talk-ui/components";
 
 import Header from "../../../components/Header";
+import LazyMarkdown from "./LazyMarkdown";
 
 interface Props {
   disabled: boolean;
 }
-
-const LazyMarkdown = React.lazy(() =>
-  import("talk-framework/components/loadables/MarkdownEditor")
-);
 
 const ClosedStreamMessageConfig: StatelessComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
