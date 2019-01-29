@@ -74,8 +74,25 @@ framework-timeago =
 
 ## Components
 
+### Copy Button
 framework-copyButton-copy = Copy
 framework-copyButton-copied = Copied
+
+### Password Field
 framework-passwordField =
   .showPasswordTitle = Show password
   .hidePasswordTitle = Hide password
+
+### Markdown Editor
+framework-markdownEditor-bold = Bold
+framework-markdownEditor-italic = Italic
+framework-markdownEditor-titleSubtitleHeading = Title, Subtitle, Heading
+framework-markdownEditor-quote = Quote
+framework-markdownEditor-genericList = Generic List
+framework-markdownEditor-numberedList = Numbered List
+framework-markdownEditor-createLink = Create Link
+framework-markdownEditor-insertImage = Insert Image
+framework-markdownEditor-togglePreview = Toggle Preview
+framework-markdownEditor-toggleSideBySide = Toggle Side by Side
+framework-markdownEditor-toggleFullscreen = Toggle Fullscreen
+framework-markdownEditor-markdownGuide = Markdown Guide
