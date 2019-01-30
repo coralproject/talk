@@ -85,7 +85,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
 
     // Email confirmation is default off.
     requireEmailConfirmation: false,
-    infoBoxEnable: false,
+    communityGuidelinesEnable: false,
     questionBoxEnable: false,
     premodLinksEnable: false,
     autoCloseStream: false,

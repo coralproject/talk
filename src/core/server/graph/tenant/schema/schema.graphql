@@ -870,15 +870,15 @@ type Settings {
   requireEmailConfirmation: Boolean!
 
   """
-  infoBoxEnable will enable the Info Box content visible above the question
+  communityGuidelinesEnable will enable the Info Box content visible above the question
   box.
   """
-  infoBoxEnable: Boolean!
+  communityGuidelinesEnable: Boolean!
 
   """
-  infoBoxContent is the content of the Info Box.
+  communityGuidelines is the content of the Info Box.
   """
-  infoBoxContent: String
+  communityGuidelines: String
 
   """
   questionBoxEnable will enable the Question Box's content to be visible above
@@ -2123,15 +2123,15 @@ input SettingsInput {
   requireEmailConfirmation: Boolean
 
   """
-  infoBoxEnable will enable the Info Box content visible above the question
+  communityGuidelinesEnable will enable the Info Box content visible above the question
   box.
   """
-  infoBoxEnable: Boolean
+  communityGuidelinesEnable: Boolean
 
   """
-  infoBoxContent is the content of the Info Box.
+  communityGuidelines is the content of the Info Box.
   """
-  infoBoxContent: String
+  communityGuidelines: String
 
   """
   questionBoxEnable will enable the Question Box's content to be visible above

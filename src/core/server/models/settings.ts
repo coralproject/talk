@@ -18,8 +18,8 @@ import {
 export interface ModerationSettings {
   moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
-  infoBoxEnable: boolean;
-  infoBoxContent?: string;
+  communityGuidelinesEnable: boolean;
+  communityGuidelines?: string;
   questionBoxEnable: boolean;
   questionBoxIcon?: string;
   questionBoxContent?: string;
