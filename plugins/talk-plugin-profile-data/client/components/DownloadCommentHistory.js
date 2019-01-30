@@ -54,7 +54,7 @@ class DownloadCommentHistory extends Component {
     const canRequestDownload = !lastAccountDownloadDate || hoursLeft <= 0;
 
     return (
-      <section className={'talk-plugin-ignore-user-section'}>
+      <section className={'talk-plugin-profile-data--download-my-comment-history'}>
         <h3>{t('download_request.section_title')}</h3>
         <p>
           {t('download_request.you_will_get_a_copy')}{' '}
