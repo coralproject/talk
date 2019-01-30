@@ -4,10 +4,10 @@ import { merge } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { WordListContainer_settings as SettingsData } from "talk-admin/__generated__/WordListContainer_settings.graphql";
+import { WordListConfigContainer_settings as SettingsData } from "talk-admin/__generated__/WordListConfigContainer_settings.graphql";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 
-import WordList from "../components/WordList";
+import WordListConfig from "../components/WordListConfig";
 
 interface Props {
   form: FormApi;
@@ -15,7 +15,7 @@ interface Props {
   settings: SettingsData;
 }
 
-class WordListContainer extends React.Component<Props> {
+class WordListConfigContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
   private initialValues = {};
 
@@ -33,7 +33,7 @@ class WordListContainer extends React.Component<Props> {
 
   public render() {
     return (
-      <WordList
+      <WordListConfig
         disabled={this.props.submitting}
         settings={this.props.settings}
         onInitValues={this.handleOnInitValues}
@@ -44,11 +44,11 @@ class WordListContainer extends React.Component<Props> {
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment WordListContainer_settings on Settings {
+    fragment WordListConfigContainer_settings on Settings {
       ...SuspectWordListConfigContainer_settings
       ...BannedWordListConfigContainer_settings
     }
   `,
-})(WordListContainer);
+})(WordListConfigContainer);
 
 export default enhanced;

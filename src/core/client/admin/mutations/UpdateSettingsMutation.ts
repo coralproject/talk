@@ -19,12 +19,12 @@ const mutation = graphql`
     updateSettings(input: $input) {
       settings {
         auth {
-          ...AuthContainer_auth
+          ...AuthConfigContainer_auth
         }
-        ...ModerationContainer_settings
+        ...ModerationConfigContainer_settings
         ...GeneralConfigContainer_settings
-        ...OrganizationContainer_settings
-        ...WordListContainer_settings
+        ...OrganizationConfigContainer_settings
+        ...WordListConfigContainer_settings
         ...AdvancedConfigContainer_settings
       }
       clientMutationId

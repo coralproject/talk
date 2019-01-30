@@ -2,14 +2,14 @@ import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AuthRouteContainerQueryResponse } from "talk-admin/__generated__/AuthRouteContainerQuery.graphql";
+import { AuthConfigRouteContainerQueryResponse } from "talk-admin/__generated__/AuthConfigRouteContainerQuery.graphql";
 import { withRouteConfig } from "talk-framework/lib/router";
 import { Delay, Spinner } from "talk-ui/components";
 
-import AuthContainer from ".//AuthContainer";
+import AuthConfigContainer from "./AuthConfigContainer";
 
 interface Props {
-  data: AuthRouteContainerQueryResponse | null;
+  data: AuthConfigRouteContainerQueryResponse | null;
   form: FormApi;
   submitting?: boolean;
 }
@@ -24,7 +24,7 @@ class AuthRouteContainer extends React.Component<Props> {
       );
     }
     return (
-      <AuthContainer
+      <AuthConfigContainer
         auth={this.props.data.settings.auth}
         form={this.props.form}
         submitting={this.props.submitting}
@@ -35,10 +35,10 @@ class AuthRouteContainer extends React.Component<Props> {
 
 const enhanced = withRouteConfig({
   query: graphql`
-    query AuthRouteContainerQuery {
+    query AuthConfigRouteContainerQuery {
       settings {
         auth {
-          ...AuthContainer_auth
+          ...AuthConfigContainer_auth
         }
       }
     }

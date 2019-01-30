@@ -6,7 +6,7 @@ import { OrganizationRouteContainerQueryResponse } from "talk-admin/__generated_
 import { withRouteConfig } from "talk-framework/lib/router";
 import { Delay, Spinner } from "talk-ui/components";
 
-import OrganizationContainer from "./OrganizationContainer";
+import OrganizationConfigContainer from "./OrganizationConfigContainer";
 
 interface Props {
   data: OrganizationRouteContainerQueryResponse | null;
@@ -24,7 +24,7 @@ class OrganizationRouteContainer extends React.Component<Props> {
       );
     }
     return (
-      <OrganizationContainer
+      <OrganizationConfigContainer
         settings={this.props.data.settings}
         form={this.props.form}
         submitting={this.props.submitting}
@@ -37,7 +37,7 @@ const enhanced = withRouteConfig({
   query: graphql`
     query OrganizationRouteContainerQuery {
       settings {
-        ...OrganizationContainer_settings
+        ...OrganizationConfigContainer_settings
       }
     }
   `,

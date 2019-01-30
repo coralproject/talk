@@ -2,19 +2,19 @@ import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ModerationRouteContainerQueryResponse } from "talk-admin/__generated__/ModerationRouteContainerQuery.graphql";
+import { ModerationConfigRouteContainerQueryResponse } from "talk-admin/__generated__/ModerationConfigRouteContainerQuery.graphql";
 import { withRouteConfig } from "talk-framework/lib/router";
 import { Delay, Spinner } from "talk-ui/components";
 
-import ModerationContainer from "./ModerationContainer";
+import ModerationConfigContainer from "./ModerationConfigContainer";
 
 interface Props {
-  data: ModerationRouteContainerQueryResponse | null;
+  data: ModerationConfigRouteContainerQueryResponse | null;
   form: FormApi;
   submitting: boolean;
 }
 
-class ModerationRouteContainer extends React.Component<Props> {
+class ModerationConfigRouteContainer extends React.Component<Props> {
   public render() {
     if (!this.props.data) {
       return (
@@ -24,7 +24,7 @@ class ModerationRouteContainer extends React.Component<Props> {
       );
     }
     return (
-      <ModerationContainer
+      <ModerationConfigContainer
         settings={this.props.data.settings}
         form={this.props.form}
         submitting={this.props.submitting}
@@ -35,13 +35,13 @@ class ModerationRouteContainer extends React.Component<Props> {
 
 const enhanced = withRouteConfig({
   query: graphql`
-    query ModerationRouteContainerQuery {
+    query ModerationConfigRouteContainerQuery {
       settings {
-        ...ModerationContainer_settings
+        ...ModerationConfigContainer_settings
       }
     }
   `,
   cacheConfig: { force: true },
-})(ModerationRouteContainer);
+})(ModerationConfigRouteContainer);
 
 export default enhanced;

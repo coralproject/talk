@@ -6,7 +6,7 @@ import { WordListRouteContainerQueryResponse } from "talk-admin/__generated__/Wo
 import { withRouteConfig } from "talk-framework/lib/router";
 import { Delay, Spinner } from "talk-ui/components";
 
-import WordListContainer from "./WordListContainer";
+import WordListConfigContainer from "./WordListConfigContainer";
 
 interface Props {
   data: WordListRouteContainerQueryResponse | null;
@@ -24,7 +24,7 @@ class WordListRouteContainer extends React.Component<Props> {
       );
     }
     return (
-      <WordListContainer
+      <WordListConfigContainer
         settings={this.props.data.settings}
         form={this.props.form}
         submitting={this.props.submitting}
@@ -37,7 +37,7 @@ const enhanced = withRouteConfig({
   query: graphql`
     query WordListRouteContainerQuery {
       settings {
-        ...WordListContainer_settings
+        ...WordListConfigContainer_settings
       }
     }
   `,

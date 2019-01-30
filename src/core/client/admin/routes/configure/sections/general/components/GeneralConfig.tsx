@@ -22,7 +22,7 @@ const General: StatelessComponent<Props> = ({
   settings,
   onInitValues,
 }) => (
-  <HorizontalGutter size="double" data-testid="configure-GeneralContainer">
+  <HorizontalGutter size="double" data-testid="configure-generalContainer">
     <GuidelinesConfigContainer
       disabled={disabled}
       settings={settings}

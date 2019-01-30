@@ -5,7 +5,7 @@ import { get, merge } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AuthContainer_auth as AuthData } from "talk-admin/__generated__/AuthContainer_auth.graphql";
+import { AuthConfigContainer_auth as AuthData } from "talk-admin/__generated__/AuthConfigContainer_auth.graphql";
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
 import { getMessage } from "talk-framework/lib/i18n";
 
@@ -16,7 +16,7 @@ import {
   SubmitHook,
   withSubmitHookContext,
 } from "../../../submitHook";
-import Auth from "../components/Auth";
+import AuthConfig from "../components/AuthConfig";
 
 interface Props {
   localeBundles: TalkContext["localeBundles"];
@@ -26,7 +26,7 @@ interface Props {
   auth: AuthData;
 }
 
-class AuthContainer extends React.Component<Props> {
+class AuthConfigContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
   private initialValues = {};
   private removeSubmitHook: RemoveSubmitHook;
@@ -85,7 +85,7 @@ class AuthContainer extends React.Component<Props> {
 
   public render() {
     return (
-      <Auth
+      <AuthConfig
         disabled={this.props.submitting}
         auth={this.props.auth}
         onInitValues={this.handleOnInitValues}
@@ -96,7 +96,7 @@ class AuthContainer extends React.Component<Props> {
 
 const enhanced = withFragmentContainer<Props>({
   auth: graphql`
-    fragment AuthContainer_auth on Auth {
+    fragment AuthConfigContainer_auth on Auth {
       ...FacebookConfigContainer_auth
       ...FacebookConfigContainer_authReadOnly
       ...GoogleConfigContainer_auth
@@ -111,7 +111,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
 })(
   withSubmitHookContext(addSubmitHook => ({ addSubmitHook }))(
-    withContext(({ localeBundles }) => ({ localeBundles }))(AuthContainer)
+    withContext(({ localeBundles }) => ({ localeBundles }))(AuthConfigContainer)
   )
 );
 

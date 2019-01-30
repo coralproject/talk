@@ -4,10 +4,10 @@ import { merge } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ModerationContainer_settings as SettingsData } from "talk-admin/__generated__/ModerationContainer_settings.graphql";
+import { ModerationConfigContainer_settings as SettingsData } from "talk-admin/__generated__/ModerationConfigContainer_settings.graphql";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 
-import Moderation from "../components/Moderation";
+import ModerationConfig from "../components/ModerationConfig";
 
 interface Props {
   form: FormApi;
@@ -15,7 +15,7 @@ interface Props {
   settings: SettingsData;
 }
 
-class ModerationContainer extends React.Component<Props> {
+class ModerationConfigContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
   private initialValues = {};
 
@@ -33,7 +33,7 @@ class ModerationContainer extends React.Component<Props> {
 
   public render() {
     return (
-      <Moderation
+      <ModerationConfig
         disabled={this.props.submitting}
         settings={this.props.settings}
         onInitValues={this.handleOnInitValues}
@@ -44,11 +44,11 @@ class ModerationContainer extends React.Component<Props> {
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment ModerationContainer_settings on Settings {
+    fragment ModerationConfigContainer_settings on Settings {
       ...AkismetConfigContainer_settings
       ...PerspectiveConfigContainer_settings
     }
   `,
-})(ModerationContainer);
+})(ModerationConfigContainer);
 
 export default enhanced;

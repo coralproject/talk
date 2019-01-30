@@ -4,10 +4,10 @@ import { merge } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { OrganizationContainer_settings as SettingsData } from "talk-admin/__generated__/OrganizationContainer_settings.graphql";
+import { OrganizationConfigContainer_settings as SettingsData } from "talk-admin/__generated__/OrganizationConfigContainer_settings.graphql";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 
-import Organization from "../components/Organization";
+import OrganizationConfig from "../components/OrganizationConfig";
 
 interface Props {
   form: FormApi;
@@ -15,7 +15,7 @@ interface Props {
   settings: SettingsData;
 }
 
-class OrganizationContainer extends React.Component<Props> {
+class OrganizationConfigContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
   private initialValues = {};
 
@@ -33,7 +33,7 @@ class OrganizationContainer extends React.Component<Props> {
 
   public render() {
     return (
-      <Organization
+      <OrganizationConfig
         disabled={this.props.submitting}
         settings={this.props.settings}
         onInitValues={this.handleOnInitValues}
@@ -44,11 +44,11 @@ class OrganizationContainer extends React.Component<Props> {
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
-    fragment OrganizationContainer_settings on Settings {
+    fragment OrganizationConfigContainer_settings on Settings {
       ...OrganizationNameConfigContainer_settings
       ...OrganizationContactEmailConfigContainer_settings
     }
   `,
-})(OrganizationContainer);
+})(OrganizationConfigContainer);
 
 export default enhanced;

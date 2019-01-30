@@ -13,7 +13,7 @@ interface Props {
   onInitValues: (values: any) => void;
 }
 
-const WordList: StatelessComponent<Props> = ({
+const WordListConfig: StatelessComponent<Props> = ({
   disabled,
   settings,
   onInitValues,
@@ -32,4 +32,4 @@ const WordList: StatelessComponent<Props> = ({
   </HorizontalGutter>
 );
 
-export default WordList;
+export default WordListConfig;

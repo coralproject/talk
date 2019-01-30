@@ -13,7 +13,7 @@ interface Props {
   onInitValues: (values: any) => void;
 }
 
-const Moderation: StatelessComponent<Props> = ({
+const ModerationConfig: StatelessComponent<Props> = ({
   disabled,
   settings,
   onInitValues,
@@ -32,4 +32,4 @@ const Moderation: StatelessComponent<Props> = ({
   </HorizontalGutter>
 );
 
-export default Moderation;
+export default ModerationConfig;
