@@ -66,6 +66,26 @@ configure-general-guidlines-explanation =
   at the top of each comment stream sitewide. Your summary can be
   formatted using Markdown Syntax. More information on how to use
   Markdown can be found <externalLink>here</externalLink>.
+configure-general-guidlines-showCommunityGuidelines = Show Community Guidelines Summary
+
+configure-general-durationField-hours = { $value ->
+   [1]      Hour
+  *[others] Hours
+}
+configure-general-durationField-days = { $value ->
+   [1]      Day
+  *[others] Days
+}
+configure-general-durationField-weeks = { $value ->
+   [1]      Week
+  *[others] Weeks
+}
+
+### Closing Comment Streams
+configure-general-closingCommentStreams-title = Closing Comment Streams
+configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after an story’s publication
+configure-general-closingCommentStreams-closeCommentsAutomatically = Close Comments Automatically
+configure-general-closingCommentStreams-closeCommentsAfter = Close Comments After
 
 #### Comment Length
 configure-general-commentLength-maxCommentLength = Maximum Comment Length

@@ -870,13 +870,12 @@ type Settings {
   requireEmailConfirmation: Boolean!
 
   """
-  communityGuidelinesEnable will enable the Info Box content visible above the question
-  box.
+  communityGuidelinesEnable will show the guidelines above the question box.
   """
   communityGuidelinesEnable: Boolean!
 
   """
-  communityGuidelines is the content of the Info Box.
+  communityGuidelines is the content of the guidelines.
   """
   communityGuidelines: String
 

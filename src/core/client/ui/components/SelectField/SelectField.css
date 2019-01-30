@@ -44,7 +44,7 @@
     color: var(--palette-text-secondary);
   }
 
-  border: 1px solid var(--palette-text-primary);
+  border: 1px solid var(--palette-grey-light);
   border-radius: var(--round-corners);
   background-color: var(--palette-common-white);
 
