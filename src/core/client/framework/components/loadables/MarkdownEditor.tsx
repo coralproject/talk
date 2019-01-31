@@ -1,6 +1,5 @@
 import cn from "classnames";
-import noop from "lodash/noop";
-import React, { Component, Ref } from "react";
+import React, { ChangeEvent, Component, Ref } from "react";
 import SimpleMDE from "simplemde";
 
 import { GetMessage, withGetMessage } from "talk-framework/lib/i18n";
@@ -8,6 +7,8 @@ import { GetMessage, withGetMessage } from "talk-framework/lib/i18n";
 import styles from "./MarkdownEditor.css";
 
 interface Props {
+  id?: string;
+  name?: string;
   getMessage: GetMessage;
   onChange: (value: string) => void;
   value: string;
@@ -170,9 +171,16 @@ class MarkdownEditor extends Component<Props> {
     this.editor!.toTextArea();
   }
 
-  public onChange = () => {
+  private onChange = () => {
     if (this.props.onChange) {
       this.props.onChange(this.editor!.value());
+    }
+  };
+
+  // This is for accessibility purposes.
+  private onTextAreaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (this.props.onChange) {
+      this.props.onChange(e.target.value);
     }
   };
 
@@ -180,11 +188,28 @@ class MarkdownEditor extends Component<Props> {
     const { getMessage: _g, ...rest } = this.props;
     return (
       <div className={styles.wrapper}>
-        <textarea ref={this.onRef} {...rest} onChange={noop} />
+        <textarea ref={this.onRef} {...rest} onChange={this.onTextAreaChange} />
       </div>
     );
   }
 }
 
-const enhanced = withGetMessage(MarkdownEditor);
+let enhanced = withGetMessage(MarkdownEditor);
+
+if (process.env.NODE_ENV === "test") {
+  // Replace with simple texteditor because it won't work in a jsdom environment.
+  enhanced = ({ onChange, ...rest }) => (
+    <div className={styles.wrapper}>
+      <textarea
+        {...rest}
+        onChange={(e: ChangeEvent<HTMLTextAreaElement> | string) => {
+          if (onChange) {
+            onChange(typeof e === "string" ? e : e.target.value);
+          }
+        }}
+      />
+    </div>
+  );
+}
+
 export default enhanced;

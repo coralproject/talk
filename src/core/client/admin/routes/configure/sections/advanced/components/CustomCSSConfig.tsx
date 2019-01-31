@@ -20,7 +20,9 @@ const CustomCSSConfig: StatelessComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-advanced-customCSS">
-        <Header>Custom CSS</Header>
+        <Header container={<label htmlFor="configure-advanced-customCssUrl" />}>
+          Custom CSS
+        </Header>
       </Localized>
       <Localized
         id="configure-advanced-customCSS-explanation"
@@ -35,6 +37,7 @@ const CustomCSSConfig: StatelessComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <TextField
+              id={`configure-advanced-${input.name}`}
               name={input.name}
               onChange={input.onChange}
               value={input.value}

@@ -29,6 +29,7 @@ framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
 framework-validation-invalidURL = Invalid URL
 framework-validation-emailsDoNotMatch = Emails do not match. Try again.
 framework-validation-notAWholeNumberBetween = Please enter a valid whole number between { $min } and { $max }.
+framework-validation-notAPositiveWholeNumber = Please enter a valid whole number >= 0
 
 framework-timeago-just-now = Just now
 

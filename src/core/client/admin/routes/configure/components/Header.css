@@ -2,4 +2,6 @@
   padding-bottom: calc(0.5 * var(--spacing-unit));
   border-bottom: 1px solid var(--palette-text-primary);
   margin-bottom: calc(1.5 * var(--spacing-unit));
+  display: block;
+  width: 100%;
 }

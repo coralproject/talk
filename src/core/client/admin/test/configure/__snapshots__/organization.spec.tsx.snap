@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders configure organization 1`] = `
+<div
+  className="MainLayout-root"
+  data-testid="configure-container"
+>
+  <form
+    autoComplete="off"
+    id="configure-form"
+    onSubmit={[Function]}
+  >
+    <div
+      className="Flex-root Layout-root Flex-flex"
+    >
+      <div
+        className="SideBar-root"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+        >
+          <nav
+            className="Navigation-root"
+          >
+            <ul
+              className="Navigation-ul"
+            >
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/general"
+                  onClick={[Function]}
+                >
+                  General
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link Link-linkActive"
+                  href="/admin/configure/organization"
+                  onClick={[Function]}
+                >
+                  Organization
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/moderation"
+                  onClick={[Function]}
+                >
+                  Moderation
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/wordList"
+                  onClick={[Function]}
+                >
+                  Banned and Suspect Words
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/auth"
+                  onClick={[Function]}
+                >
+                  Authentication
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/advanced"
+                  onClick={[Function]}
+                >
+                  Advanced
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+        >
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+            data-testid="configure-sideBar-saveChanges"
+            disabled={true}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+      <div
+        className="Main-root"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+          data-testid="configure-organizationContainer"
+        >
+          <div
+            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-organization-organizationName"
+              >
+                Organization Name
+              </label>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                Your organization name will appear on emails sent by Talk to your community and organization members.
+              </p>
+              <div
+                className="TextField-root TextField-fullWidth"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-organization-organizationName"
+                  name="organizationName"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value="Coral"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-organization-organizationContactEmail"
+              >
+                Organization Email
+              </label>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                This email address will be used as in emails and across
+the platform for community members to get in touch with
+the organization should they have any questions about the
+status of their accounts or moderation questions.
+              </p>
+              <div
+                className="TextField-root TextField-fullWidth"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-organization-organizationContactEmail"
+                  name="organizationContactEmail"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value="coral@test.com"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;

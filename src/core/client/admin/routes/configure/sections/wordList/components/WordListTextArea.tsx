@@ -15,11 +15,13 @@ import styles from "./WordListTextArea.css";
 interface Props {
   className?: string;
   validate?: Validator;
+  id?: string;
   name: string;
   disabled: boolean;
 }
 
 const WordListTextArea: StatelessComponent<Props> = ({
+  id,
   name,
   disabled,
   validate,
@@ -34,6 +36,7 @@ const WordListTextArea: StatelessComponent<Props> = ({
     {({ input, meta }) => (
       <>
         <textarea
+          id={id}
           className={cn(className, styles.textArea)}
           name={input.name}
           onChange={input.onChange}

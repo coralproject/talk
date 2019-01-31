@@ -21,24 +21,28 @@ interface Props {
 }
 
 const GuidelinesConfig: StatelessComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf">
-    <Localized id="configure-general-guidlines-title">
-      <Header>Community Guidelines Summary</Header>
+  <HorizontalGutter size="oneAndAHalf" container="fieldset">
+    <Localized id="configure-general-guidelines-title">
+      <Header container="legend">Community Guidelines Summary</Header>
     </Localized>
 
-    <FormField>
-      <Localized id="configure-general-guidlines-showCommunityGuidelines">
-        <InputLabel>Show Community Guidelines Summary</InputLabel>
+    <FormField container="fieldset">
+      <Localized id="configure-general-guidelines-showCommunityGuidelines">
+        <InputLabel container="legend">
+          Show Community Guidelines Summary
+        </InputLabel>
       </Localized>
       <OnOffField name="communityGuidelinesEnable" disabled={disabled} />
     </FormField>
 
     <FormField>
-      <Localized id="configure-general-guidlines-title">
-        <InputLabel>Community Guidelines Summary</InputLabel>
+      <Localized id="configure-general-guidelines-title">
+        <InputLabel htmlFor="configure-general-guidelines-content">
+          Community Guidelines Summary
+        </InputLabel>
       </Localized>
       <Localized
-        id="configure-general-guidlines-explanation"
+        id="configure-general-guidelines-explanation"
         strong={<strong />}
         externalLink={<ExternalLink href="#" />}
       >
@@ -55,7 +59,12 @@ const GuidelinesConfig: StatelessComponent<Props> = ({ disabled }) => (
       {({ input, meta }) => (
         <>
           <Suspense fallback={<Spinner />}>
-            <LazyMarkdown onChange={input.onChange} value={input.value} />
+            <LazyMarkdown
+              id="configure-general-guidelines-content"
+              name={input.name}
+              onChange={input.onChange}
+              value={input.value}
+            />
           </Suspense>
           {meta.touched &&
             (meta.error || meta.submitError) && (

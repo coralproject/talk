@@ -34,7 +34,9 @@ const SuspectWordListConfig: StatelessComponent<Props> = ({ disabled }) => (
 
     <FormField>
       <Localized id="configure-wordList-suspect-wordList">
-        <InputLabel>Suspect Word List</InputLabel>
+        <InputLabel htmlFor="configure-wordlist-suspect">
+          Suspect Word List
+        </InputLabel>
       </Localized>
       <Localized
         id="configure-wordList-suspect-wordListDetail"
@@ -49,6 +51,7 @@ const SuspectWordListConfig: StatelessComponent<Props> = ({ disabled }) => (
       </Localized>
       <div>
         <WordListTextArea
+          id="configure-wordlist-suspect"
           name={"wordList.suspect"}
           disabled={disabled}
           className={styles.textArea}

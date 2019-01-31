@@ -42,7 +42,9 @@ const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
 
     <FormField>
       <Localized id="configure-general-commentEditing-commentEditTimeFrame">
-        <InputLabel>Comment Edit Timeframe</InputLabel>
+        <InputLabel htmlFor="configure-general-commentEditing-timeframe">
+          Comment Edit Timeframe
+        </InputLabel>
       </Localized>
       <Field
         name="editCommentWindowLength"
@@ -51,6 +53,7 @@ const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <TextField
+              id="configure-general-commentEditing-timeframe"
               className={styles.commentEditingTextInput}
               name={input.name}
               onChange={input.onChange}

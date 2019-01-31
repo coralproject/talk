@@ -33,7 +33,9 @@ const BannedWordListConfig: StatelessComponent<Props> = ({ disabled }) => (
 
     <FormField>
       <Localized id="configure-wordList-banned-wordList">
-        <InputLabel>Banned Word List</InputLabel>
+        <InputLabel htmlFor="configure-wordlist-banned">
+          Banned Word List
+        </InputLabel>
       </Localized>
       <Localized
         id="configure-wordList-banned-wordListDetail"
@@ -48,6 +50,7 @@ const BannedWordListConfig: StatelessComponent<Props> = ({ disabled }) => (
       </Localized>
       <div>
         <WordListTextArea
+          id="configure-wordlist-banned"
           name={"wordList.banned"}
           disabled={disabled}
           className={styles.textArea}

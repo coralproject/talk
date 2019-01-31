@@ -20,13 +20,16 @@ const APIKeyField: StatelessComponent<Props> = ({
   validate,
 }) => (
   <FormField>
-    <Localized id="configure-moderation-apiKey">
-      <InputLabel>API Key</InputLabel>
-    </Localized>
     <Field name={name} parse={identity} validate={validate}>
       {({ input, meta }) => (
         <>
+          <Localized id="configure-moderation-apiKey">
+            <InputLabel htmlFor={`configure-moderation-${input.name}`}>
+              API Key
+            </InputLabel>
+          </Localized>
           <TextField
+            id={`configure-moderation-${input.name}`}
             name={input.name}
             onChange={input.onChange}
             value={input.value}

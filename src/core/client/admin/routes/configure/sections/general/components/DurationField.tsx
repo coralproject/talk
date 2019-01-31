@@ -71,7 +71,7 @@ class DurationField extends Component<Props, State> {
       <Flex itemGutter>
         <TextField
           className={styles.value}
-          name={name}
+          name={`${name}-value`}
           onChange={this.handleValueChange}
           value={this.state.value ? this.state.value.toString() : ""}
           disabled={disabled}
@@ -80,9 +80,13 @@ class DurationField extends Component<Props, State> {
           autoCapitalize="off"
           spellCheck={false}
           textAlignCenter
+          aria-label="value"
         />
         <SelectField
+          name={`${name}-unit`}
           onChange={this.handleUnitChange}
+          disabled={disabled}
+          aria-label="unit"
           classes={{
             select: styles.unit,
           }}

@@ -46,9 +46,9 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
     return "";
   };
   return (
-    <HorizontalGutter size="oneAndAHalf">
+    <HorizontalGutter size="oneAndAHalf" container="fieldset">
       <Localized id="configure-moderation-perspective-title">
-        <Header>Perspective Toxic Comment Filter</Header>
+        <Header container="legend">Perspective Toxic Comment Filter</Header>
       </Localized>
       <Localized
         id="configure-moderation-perspective-explanation"
@@ -63,9 +63,9 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
         </Typography>
       </Localized>
 
-      <FormField>
+      <FormField container="fieldset">
         <Localized id="configure-moderation-perspective-filter">
-          <InputLabel>Spam Detection Filter</InputLabel>
+          <InputLabel container="legend">Spam Detection Filter</InputLabel>
         </Localized>
         <OnOffField
           name="integrations.perspective.enabled"
@@ -75,7 +75,9 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
 
       <FormField>
         <Localized id="configure-moderation-perspective-toxicityThreshold">
-          <InputLabel>Toxicity Threshold</InputLabel>
+          <InputLabel htmlFor="configure-moderation-perspective-threshold">
+            Toxicity Threshold
+          </InputLabel>
         </Localized>
         <Localized
           id="configure-moderation-perspective-toxicityThresholdDescription"
@@ -96,6 +98,7 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
           {({ input, meta }) => (
             <>
               <TextField
+                id="configure-moderation-perspective-threshold"
                 className={styles.thresholdTextField}
                 name={input.name}
                 onChange={input.onChange}
@@ -119,9 +122,11 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
         </Field>
       </FormField>
 
-      <FormField>
+      <FormField container="fieldset">
         <Localized id="configure-moderation-perspective-allowStoreCommentData">
-          <InputLabel>Allow Google to Store Comment Data</InputLabel>
+          <InputLabel container="legend">
+            Allow Google to Store Comment Data
+          </InputLabel>
         </Localized>
         <Localized id="configure-moderation-perspective-allowStoreCommentDataDescription">
           <InputDescription>
@@ -157,7 +162,9 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
       />
       <FormField>
         <Localized id="configure-moderation-perspective-customEndpoint">
-          <InputLabel>Custom Endpoint</InputLabel>
+          <InputLabel htmlFor="configure-moderation-perspective-customEndpoint">
+            Custom Endpoint
+          </InputLabel>
         </Localized>
         <Localized
           id="configure-moderation-perspective-defaultEndpoint"
@@ -175,6 +182,7 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
           {({ input, meta }) => (
             <>
               <TextField
+                id="configure-moderation-perspective-customEndpoint"
                 name={input.name}
                 onChange={input.onChange}
                 value={input.value}

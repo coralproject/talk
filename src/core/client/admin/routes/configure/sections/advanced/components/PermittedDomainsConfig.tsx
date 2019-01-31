@@ -21,7 +21,9 @@ const PermittedDomainsConfig: StatelessComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-advanced-permittedDomains">
-        <Header>Permitted Domains</Header>
+        <Header container={<label htmlFor="configure-advanced-domains" />}>
+          Permitted Domains
+        </Header>
       </Localized>
       <Localized
         id="configure-advanced-permittedDomains-explanation"
@@ -36,6 +38,7 @@ const PermittedDomainsConfig: StatelessComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <TextField
+              id={`configure-advanced-${input.name}`}
               name={input.name}
               onChange={input.onChange}
               value={input.value}

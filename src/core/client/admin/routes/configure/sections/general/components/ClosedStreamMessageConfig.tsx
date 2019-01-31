@@ -19,7 +19,13 @@ interface Props {
 const ClosedStreamMessageConfig: StatelessComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-general-closedStreamMessage-title">
-      <Header>Closed Stream Message</Header>
+      <Header
+        container={
+          <label htmlFor="configure-general-closedStreamMessage-content" />
+        }
+      >
+        Closed Stream Message
+      </Header>
     </Localized>
     <Localized
       id="configure-general-closedStreamMessage-explanation"
@@ -33,7 +39,12 @@ const ClosedStreamMessageConfig: StatelessComponent<Props> = ({ disabled }) => (
       {({ input, meta }) => (
         <>
           <Suspense fallback={<Spinner />}>
-            <LazyMarkdown onChange={input.onChange} value={input.value} />
+            <LazyMarkdown
+              id="configure-general-closedStreamMessage-content"
+              name={input.name}
+              onChange={input.onChange}
+              value={input.value}
+            />
           </Suspense>
           {meta.touched &&
             (meta.error || meta.submitError) && (

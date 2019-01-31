@@ -2,11 +2,13 @@ import cn from "classnames";
 import React, { ReactNode } from "react";
 import { StatelessComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
-import Typography from "../Typography";
+import { Omit, PropTypesOf } from "talk-ui/types";
 
+import Typography from "../Typography";
 import styles from "./InputLabel.css";
 
-export interface InputLabelProps {
+export interface InputLabelProps
+  extends Omit<PropTypesOf<typeof Typography>, "ref"> {
   id?: string;
   htmlFor?: string;
   /**

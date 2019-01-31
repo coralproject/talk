@@ -60,13 +60,13 @@ configure-permissionField-allow = Allow
 configure-permissionField-dontAllow = Don't allow
 
 ### General
-configure-general-guidlines-title = Community Guidelines Summary
-configure-general-guidlines-explanation =
+configure-general-guidelines-title = Community Guidelines Summary
+configure-general-guidelines-explanation =
   Write a summary of your community guidelines that will appear
   at the top of each comment stream sitewide. Your summary can be
   formatted using Markdown Syntax. More information on how to use
   Markdown can be found <externalLink>here</externalLink>.
-configure-general-guidlines-showCommunityGuidelines = Show Community Guidelines Summary
+configure-general-guidelines-showCommunityGuidelines = Show Community Guidelines Summary
 
 configure-general-durationField-hours = { $value ->
    [1]      Hour
@@ -83,11 +83,12 @@ configure-general-durationField-weeks = { $value ->
 
 ### Closing Comment Streams
 configure-general-closingCommentStreams-title = Closing Comment Streams
-configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after an story’s publication
+configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication
 configure-general-closingCommentStreams-closeCommentsAutomatically = Close Comments Automatically
 configure-general-closingCommentStreams-closeCommentsAfter = Close Comments After
 
 #### Comment Length
+configure-general-commentLength-title = Comment Length
 configure-general-commentLength-maxCommentLength = Maximum Comment Length
 configure-general-commentLength-setLimit = Set a limit on the length of comments sitewide
 configure-general-commentLength-limitCommentLength = Limit Comment Length

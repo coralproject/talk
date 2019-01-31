@@ -21,7 +21,13 @@ const OrganizationNameConfig: StatelessComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-organization-email">
-        <Header>Organization Email</Header>
+        <Header
+          container={
+            <label htmlFor="configure-organization-organizationContactEmail" />
+          }
+        >
+          Organization Email
+        </Header>
       </Localized>
       <Localized
         id="configure-organization-emailExplanation"
@@ -33,6 +39,7 @@ const OrganizationNameConfig: StatelessComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <TextField
+              id={`configure-organization-${input.name}`}
               name={input.name}
               onChange={input.onChange}
               value={input.value}

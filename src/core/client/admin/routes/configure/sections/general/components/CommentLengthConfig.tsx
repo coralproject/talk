@@ -23,9 +23,9 @@ interface Props {
 }
 
 const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf">
-    <Localized id="configure-general-commentLength-maxCommentLength">
-      <Header>Maximum Comment Length</Header>
+  <HorizontalGutter size="oneAndAHalf" container="fieldset">
+    <Localized id="configure-general-commentLength-title">
+      <Header container="legend">Comment Length</Header>
     </Localized>
     <Localized
       id="configure-general-commentLength-setLimit"
@@ -45,7 +45,9 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
 
     <FormField>
       <Localized id="configure-general-commentLength-minCommentLength">
-        <InputLabel>Minimum Comment Length</InputLabel>
+        <InputLabel htmlFor="configure-general-commentLength-min">
+          Minimum Comment Length
+        </InputLabel>
       </Localized>
       <Field
         name="charCount.min"
@@ -56,6 +58,7 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <TextField
+              id="configure-general-commentLength-min"
               className={styles.commentLengthTextInput}
               name={input.name}
               onChange={input.onChange}
@@ -85,7 +88,9 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
     </FormField>
     <FormField>
       <Localized id="configure-general-commentLength-maxCommentLength">
-        <InputLabel>Maximum Comment Length</InputLabel>
+        <InputLabel htmlFor="configure-general-commentLength-max">
+          Maximum Comment Length
+        </InputLabel>
       </Localized>
       <Field
         name="charCount.max"
@@ -96,6 +101,7 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
         {({ input, meta }) => (
           <>
             <TextField
+              id="configure-general-commentLength-max"
               className={styles.commentLengthTextInput}
               name={input.name}
               onChange={input.onChange}

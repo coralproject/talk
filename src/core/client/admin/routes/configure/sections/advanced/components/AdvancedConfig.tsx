@@ -13,12 +13,12 @@ interface Props {
   onInitValues: (values: any) => void;
 }
 
-const General: StatelessComponent<Props> = ({
+const AdvancedConfig: StatelessComponent<Props> = ({
   disabled,
   settings,
   onInitValues,
 }) => (
-  <HorizontalGutter size="double" data-testid="configure-GeneralContainer">
+  <HorizontalGutter size="double" data-testid="configure-advancedContainer">
     <CustomCSSConfigContainer
       disabled={disabled}
       settings={settings}
@@ -32,4 +32,4 @@ const General: StatelessComponent<Props> = ({
   </HorizontalGutter>
 );
 
-export default General;
+export default AdvancedConfig;

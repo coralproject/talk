@@ -27,28 +27,28 @@ interface Props {
 const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
   disabled,
 }) => (
-  <HorizontalGutter size="oneAndAHalf">
+  <HorizontalGutter size="oneAndAHalf" container="fieldset">
     <Localized id="configure-general-closingCommentStreams-title">
-      <Header>Closing Comment Streams</Header>
+      <Header container="legend">Closing Comment Streams</Header>
     </Localized>
     <Localized
       id="configure-general-closingCommentStreams-explanation"
       strong={<strong />}
     >
       <Typography variant="detail">
-        Set comment streams to close after a defined period of time after an
+        Set comment streams to close after a defined period of time after a
         story’s publication
       </Typography>
     </Localized>
-    <FormField>
+    <FormField container="fieldset">
       <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">
-        <InputLabel>Close Comments Automatically</InputLabel>
+        <InputLabel container="legend">Close Comments Automatically</InputLabel>
       </Localized>
       <OnOffField name="autoCloseStream" disabled={disabled} />
     </FormField>
-    <FormField>
+    <FormField container="fieldset">
       <Localized id="configure-general-closingCommentStreams-closeCommentsAfter">
-        <InputLabel>Close Comments After</InputLabel>
+        <InputLabel container="legend">Close Comments After</InputLabel>
       </Localized>
 
       <Field
