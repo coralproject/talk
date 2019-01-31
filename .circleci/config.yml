@@ -6,7 +6,7 @@ job_environment: &job_environment
 job_defaults: &job_defaults
   working_directory: ~/coralproject/talk
   docker:
-    - image: circleci/node:8
+    - image: circleci/node:10
   environment:
     <<: *job_environment
 
