@@ -18,7 +18,7 @@ beforeEach(() => {
   // Test might pass even when it fails with errors in the log due to:
   // https://github.com/facebook/jest/issues/3917
   // We check the console to be error free..
-  mockConsole();
+  mockConsole("error");
 });
 
 afterEach(() => {
