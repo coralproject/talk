@@ -24,7 +24,16 @@ export default class Snackbar {
   constructor(customStyle = {}) {
     this.timeout = null;
     this.el = document.createElement('div');
-    this.el.id = 'coral-notif';
+    this.el.id = 'coral-notif-tat';
+
+    const closeButton = document.createElement('i');
+    closeButton.className = 'material-icons';
+    closeButton.textContent = 'close';
+    closeButton.onclick = function() {
+      this.el.style.opacity = 0;
+    };
+    this.el.appendChild(closeButton);
+    // message overrides contents. need to fix.
 
     // Apply custom styles to the snackbar.
     const style = Object.assign({}, DEFAULT_STYLE, customStyle);
