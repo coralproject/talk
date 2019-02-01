@@ -109,7 +109,8 @@
     "subscriptions-transport-ws": "^0.9.12",
     "throng": "^4.0.0",
     "tlds": "^1.203.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "verror": "^1.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
@@ -179,6 +180,7 @@
     "@types/throng": "^4.0.2",
     "@types/tlds": "^1.199.0",
     "@types/uuid": "^3.4.3",
+    "@types/verror": "^1.10.3",
     "@types/vinyl": "^2.0.2",
     "@types/webpack": "^4.4.7",
     "@types/webpack-bundle-analyzer": "^2.13.0",

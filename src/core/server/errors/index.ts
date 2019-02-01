@@ -2,6 +2,7 @@
 
 import { FluentBundle } from "fluent/compat";
 import uuid from "uuid";
+import { VError } from "verror";
 
 import { ERROR_CODES } from "talk-common/errors";
 import { translate } from "talk-server/services/i18n";
@@ -90,9 +91,15 @@ export interface TalkErrorOptions {
    * type represents the class of errors that this error is associated with.
    */
   type?: TalkErrorTypes;
+
+  /**
+   * cause is the error that provides the root cause of the underlying error
+   * that is thrown.
+   */
+  cause?: Error;
 }
 
-export class TalkError extends Error {
+export class TalkError extends VError {
   /**
    * id identifies this specific error that was thrown, allowing offline tracing
    * to occur.
@@ -132,14 +139,18 @@ export class TalkError extends Error {
     context = {},
     status = 500,
     type = "invalid_request_error",
+    cause,
   }: TalkErrorOptions) {
-    super(code);
+    // Call the super method with the right arguments depending on if we're
+    // supposed to be handling a causal error or not.
+    if (cause) {
+      super(cause, code);
+    } else {
+      super(code);
+    }
 
-    // Cleanup the stacktrace.
-    Error.captureStackTrace(this, new.target);
-
-    // Set the prototype explicitly.
-    Object.setPrototypeOf(this, new.target.prototype);
+    // Rename the error to have the name of the error that this extends.
+    this.name = new.target.name;
 
     // Assign a unique ID to this error.
     const id = uuid.v1();
@@ -355,16 +366,13 @@ export class TenantNotFoundError extends TalkError {
 }
 
 export class InternalError extends TalkError {
-  public readonly originalError: Error;
-
-  constructor(originalError: Error, reason: string) {
+  constructor(cause: Error, reason: string) {
     super({
       code: ERROR_CODES.INTERNAL_ERROR,
+      cause,
       context: { pvt: { reason } },
       status: 500,
     });
-
-    this.originalError = originalError;
   }
 }
 
