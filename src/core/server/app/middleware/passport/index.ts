@@ -233,7 +233,29 @@ export const wrapAuthn = (
         return next(new Error("no user on request"));
       }
 
+      // Pass the login off to be signed.
       handleSuccessfulLogin(user, signingConfig, req, res, next);
     }
   )(req, res, next);
 };
+
+/**
+ * authenticate will wrap the authenticator to forward any error to the error
+ * handler from ExpressJS.
+ *
+ * @param authenticator the authenticator to use
+ */
+export const authenticate = (
+  authenticator: passport.Authenticator
+): RequestHandler => (req, res, next) =>
+  authenticator.authenticate(
+    "jwt",
+    { session: false },
+    (err: Error | null, user: User | null) => {
+      if (err) {
+        return next(err);
+      }
+
+      return next();
+    }
+  )(req, res, next);

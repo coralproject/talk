@@ -1,6 +1,6 @@
-import { GQLLOCALES } from "../schema/__generated__/types";
+import { LanguageCode } from "talk-common/helpers/i18n/locales";
 
-export type LanguageCode = "en-US" | "es" | "de";
+import { GQLLOCALES } from "../schema/__generated__/types";
 
 export const LOCALES: Record<GQLLOCALES, LanguageCode> = {
   en_US: "en-US",

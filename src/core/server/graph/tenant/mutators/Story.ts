@@ -1,5 +1,7 @@
 import { isNull, omitBy } from "lodash";
 
+import { ERROR_CODES } from "talk-common/errors";
+import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
 import TenantContext from "talk-server/graph/tenant/context";
 import {
   GQLCreateStoryInput,
@@ -16,17 +18,33 @@ export const Story = (ctx: TenantContext) => ({
   create: async (
     input: GQLCreateStoryInput
   ): Promise<Readonly<story.Story> | null> =>
-    create(
-      ctx.mongo,
-      ctx.tenant,
-      input.story.id,
-      input.story.url,
-      omitBy(input.story, isNull)
+    mapFieldsetToErrorCodes(
+      create(
+        ctx.mongo,
+        ctx.tenant,
+        input.story.id,
+        input.story.url,
+        omitBy(input.story, isNull)
+      ),
+      {
+        "input.story.url": [
+          ERROR_CODES.STORY_URL_NOT_PERMITTED,
+          ERROR_CODES.DUPLICATE_STORY_URL,
+        ],
+      }
     ),
   update: async (
     input: GQLUpdateStoryInput
   ): Promise<Readonly<story.Story> | null> =>
-    update(ctx.mongo, ctx.tenant, input.id, omitBy(input.story, isNull)),
+    mapFieldsetToErrorCodes(
+      update(ctx.mongo, ctx.tenant, input.id, omitBy(input.story, isNull)),
+      {
+        "input.story.url": [
+          ERROR_CODES.STORY_URL_NOT_PERMITTED,
+          ERROR_CODES.DUPLICATE_STORY_URL,
+        ],
+      }
+    ),
   merge: async (
     input: GQLMergeStoriesInput
   ): Promise<Readonly<story.Story> | null> =>

@@ -3,9 +3,9 @@ import { isNull, omitBy } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
+import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize, DotizeOptions } from "talk-common/utils/dotize";
-import { LanguageCode } from "talk-server/graph/tenant/resolvers/LOCALES";
 import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { createIndexFactory } from "talk-server/models/helpers/query";
 import { Settings } from "talk-server/models/settings";

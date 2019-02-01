@@ -12,6 +12,7 @@ import {
 } from "talk-server/models/tenant";
 
 import { discover } from "talk-server/app/middleware/passport/strategies/oidc/discover";
+import { TenantInstalledAlreadyError } from "talk-server/errors";
 import logger from "talk-server/logger";
 import TenantCache from "./cache";
 
@@ -44,10 +45,7 @@ export async function install(
   input: InstallTenant
 ) {
   if (await isInstalled(cache)) {
-    // TODO: (wyattjoh) return better error
-    throw new Error(
-      "tenant already setup, setup multi-tenant mode if you want to install more than one tenant"
-    );
+    throw new TenantInstalledAlreadyError();
   }
 
   // TODO: (wyattjoh) perform any pending migrations.

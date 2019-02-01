@@ -1,7 +1,7 @@
 import { Transform, TransformCallback } from "stream";
 
 export class SecretStream extends Transform {
-  private static keys = "(key|clientID|clientSecret|password|func)";
+  private static keys = "(key|token|clientID|clientSecret|password)";
   private static pattern = new RegExp(
     `"(${SecretStream.keys})":"([^"]*)"`,
     "ig"

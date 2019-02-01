@@ -37,7 +37,7 @@ export function createAsymmetricSigningConfig(
 ): JWTSigningConfig {
   return {
     // Secrets have their newlines encoded with newline literals.
-    secret: Buffer.from(secret.replace(/\\n/g, "\n")),
+    secret: Buffer.from(secret.replace(/\\n/g, "\n"), "utf8"),
     algorithm,
   };
 }
@@ -47,7 +47,7 @@ export function createSymmetricSigningConfig(
   secret: string
 ): JWTSigningConfig {
   return {
-    secret: new Buffer(secret),
+    secret: Buffer.from(secret, "utf8"),
     algorithm,
   };
 }

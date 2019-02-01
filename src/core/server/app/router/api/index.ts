@@ -31,7 +31,7 @@ export async function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   // General API error handler.
   router.use(errorLogger);
-  router.use(apiErrorHandler);
+  router.use(apiErrorHandler(app.i18n));
 
   return router;
 }

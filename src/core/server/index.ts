@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import http from "http";
 import { Db } from "mongodb";
 
+import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import {
   attachSubscriptionHandlers,
   createApp,
@@ -13,6 +14,7 @@ import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
 import logger from "talk-server/logger";
 import { createQueue, TaskQueue } from "talk-server/queue";
+import { I18n } from "talk-server/services/i18n";
 import { createJWTSigningConfig } from "talk-server/services/jwt";
 import { createMongoDB } from "talk-server/services/mongodb";
 import { ensureIndexes } from "talk-server/services/mongodb/indexes";
@@ -151,6 +153,14 @@ class Server {
     // Create the signing config.
     const signingConfig = createJWTSigningConfig(this.config);
 
+    // Get the default locale. This is asserted here because the LanguageCode
+    // is verified via Convict, but not typed, so this resolves that.
+    const defaultLocale = this.config.get("default_locale") as LanguageCode;
+
+    // Create and load the translations.
+    const i18n = new I18n(defaultLocale);
+    await i18n.load();
+
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
@@ -161,6 +171,7 @@ class Server {
       queue: this.queue,
       config: this.config,
       schemas: this.schemas,
+      i18n,
     });
 
     // Start the application and store the resulting http.Server.

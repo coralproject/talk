@@ -2,11 +2,14 @@ import { stdSerializers } from "bunyan";
 import { GraphQLError } from "graphql";
 import StackUtils from "stack-utils";
 
+import { InternalError, TalkError, TalkErrorContext } from "talk-server/errors";
+
 interface SerializedError {
+  id?: string;
   message: string;
   name: string;
   stack?: string;
-  extensions?: Record<string, any>;
+  context?: TalkErrorContext;
   originalError?: SerializedError;
 }
 
@@ -19,14 +22,19 @@ const errSerializer = (err: Error) => {
   };
 
   if (err.stack) {
+    // Copy over a cleaned stack.
     obj.stack = stackUtils.clean(err.stack);
   }
 
-  if (err instanceof GraphQLError) {
-    if (err.extensions) {
-      obj.extensions = err.extensions;
-    }
+  if (err instanceof TalkError) {
+    // Copy over the TalkError specific details.
+    obj.id = err.id;
+    obj.context = err.context;
+  }
 
+  // If there was an originalError because this was an InternalError or a
+  // GraphQL error, then also serialize the original error.
+  if (err instanceof GraphQLError || err instanceof InternalError) {
     if (err.originalError) {
       obj.originalError = errSerializer(err.originalError);
     }

@@ -16,4 +16,9 @@ module.exports = {
     "^talk-common/(.*)$": "<rootDir>/src/core/common/$1",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  globals: {
+    "ts-jest": {
+      useBabelrc: true,
+    },
+  },
 };

@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 
+import { NotFoundError } from "talk-server/errors";
+
 export const notFoundMiddleware: RequestHandler = (req, res, next) => {
-  // FIXME: (wyattjoh) send an error that won't log as crazily as this one does.
-  next(new Error("not found"));
+  next(new NotFoundError(req.method, req.path));
 };

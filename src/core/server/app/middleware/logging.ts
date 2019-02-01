@@ -39,10 +39,7 @@ export const accessLogger: RequestHandler = (req, res, next) => {
 };
 
 export const errorLogger: ErrorRequestHandler = (err, req, res, next) => {
-  // TODO: handle better when we improve errors.
-  if (err.message !== "not found") {
-    logger.error({ err }, "http error");
-  }
+  logger.error({ err }, "http error");
 
   next(err);
 };

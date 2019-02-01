@@ -1,4 +1,3 @@
-import { formatApolloErrors } from "apollo-server-errors";
 import {
   DocumentNode,
   ExecutionArgs,
@@ -12,19 +11,48 @@ import {
 } from "graphql-extensions";
 import now from "performance-now";
 
+import { TalkError } from "talk-server/errors";
 import CommonContext from "talk-server/graph/common/context";
 
-export class LoggerExtension implements GraphQLExtension<CommonContext> {
-  private logError = (ctx: CommonContext) => (err: Error) => {
-    if (err instanceof GraphQLError) {
-      ctx.logger.error({ err: err.originalError }, "graphql error");
+/**
+ * enrichAndLogError will enrich and then log out the error.
+ *
+ * @param ctx the GraphQL context for the request
+ * @param err the error that occurred
+ */
+function enrichAndLogError(
+  ctx: CommonContext,
+  err: GraphQLError
+): GraphQLError {
+  if (err.extensions) {
+    // Translate the error message if we can.
+    if (err.originalError && err.originalError instanceof TalkError) {
+      // Get the translation bundle.
+      const bundle = ctx.i18n.getBundle(ctx.lang);
+
+      // Provide the translated message.
+      err.originalError.translateMessage(bundle);
+
+      // Re-hoist the message from the extensions.
+      err.extensions.message = err.originalError.extensions.message;
     } else {
-      ctx.logger.error({ err }, "graphql query error");
+      // Default to the message on the error.
+      err.extensions.message = err.message;
     }
 
-    return err;
-  };
+    // Delete the exception field from the error extension, we never need to
+    // provide that data.
+    if (err.extensions && err.extensions.exception) {
+      delete err.extensions.exception;
+    }
+  }
 
+  ctx.logger.error({ err }, "graphql query error");
+
+  return err;
+}
+
+export class LoggerExtension implements GraphQLExtension<CommonContext> {
   private getOperationMetadata(doc: DocumentNode) {
     if (doc.kind === "Document") {
       const operationDefinition = doc.definitions.find(
@@ -79,10 +107,9 @@ export class LoggerExtension implements GraphQLExtension<CommonContext> {
         ...o,
         graphqlResponse: {
           ...o.graphqlResponse,
-          errors: formatApolloErrors(o.graphqlResponse.errors, {
-            formatter: this.logError(o.context),
-            debug: false,
-          }),
+          errors: o.graphqlResponse.errors.map(err =>
+            enrichAndLogError(o.context, err)
+          ),
         },
       };
     }

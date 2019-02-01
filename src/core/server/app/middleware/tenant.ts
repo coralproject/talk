@@ -1,3 +1,4 @@
+import { TenantNotFoundError } from "talk-server/errors";
 import TenantCache from "talk-server/services/tenant/cache";
 import { RequestHandler } from "talk-server/types/express";
 
@@ -11,6 +12,14 @@ export const tenantMiddleware = ({
   passNoTenant = false,
 }: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   try {
+    // Set Talk on the request.
+    req.talk = {
+      cache: {
+        // Attach the tenant cache to the request.
+        tenant: cache,
+      },
+    };
+
     // Attach the tenant to the request.
     const tenant = await cache.retrieveByDomain(req.hostname);
     if (!tenant) {
@@ -18,19 +27,11 @@ export const tenantMiddleware = ({
         return next();
       }
 
-      // TODO: send a http.StatusNotFound?
-      return next(new Error("tenant not found"));
+      return next(new TenantNotFoundError(req.hostname));
     }
 
-    // Set Talk on the request.
-    req.talk = {
-      cache: {
-        // Attach the tenant cache to the request.
-        tenant: cache,
-      },
-      // Attach the tenant to the request.
-      tenant,
-    };
+    // Attach the tenant to the request.
+    req.talk.tenant = tenant;
 
     // Attach the tenant to the view locals.
     res.locals.tenant = tenant;

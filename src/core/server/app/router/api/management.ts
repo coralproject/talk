@@ -10,11 +10,12 @@ export async function createManagementRouter(app: AppOptions) {
   router.use(
     "/graphql",
     express.json(),
-    await managementGraphMiddleware(
-      app.schemas.management,
-      app.config,
-      app.mongo
-    )
+    await managementGraphMiddleware({
+      schema: app.schemas.management,
+      config: app.config,
+      mongo: app.mongo,
+      i18n: app.i18n,
+    })
   );
 
   return router;

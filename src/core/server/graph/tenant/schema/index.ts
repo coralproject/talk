@@ -20,6 +20,8 @@ export default function getTenantSchema() {
   addResolveFunctionsToSchema({
     schema,
     resolvers: {
+      // For some reason, the resolver doesn't quite work without coercing the
+      // type.
       LOCALES: LOCALES as IEnumResolver,
     },
   });

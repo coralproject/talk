@@ -1,5 +1,7 @@
+import { LanguageCode } from "talk-common/helpers/i18n/locales";
+
 import { GQLLOCALES } from "../schema/__generated__/types";
-import { LanguageCode, LOCALES } from "./LOCALES";
+import { LOCALES } from "./LOCALES";
 
 it("does not contain duplicate entries", () => {
   const seen: Partial<Record<LanguageCode, true>> = {};

@@ -1,6 +1,7 @@
 import { DirectiveResolverFn } from "graphql-tools";
 import { memoize } from "lodash";
 
+import { UserForbiddenError } from "talk-server/errors";
 import CommonContext from "talk-server/graph/common/context";
 import {
   GQLUSER_AUTH_CONDITIONS,
@@ -48,8 +49,10 @@ const auth: DirectiveResolverFn<
     // User, if they do error.
     const conditions = calculateAuthConditionsMemoized(user);
     if (!permit && conditions.length > 0) {
-      // TODO: return better error.
-      throw new Error("not authorized 1");
+      throw new UserForbiddenError(
+        "authentication conditions not met",
+        user.id
+      );
     }
 
     // If the permit was specified, and some of the conditions for the user
@@ -58,8 +61,10 @@ const auth: DirectiveResolverFn<
       permit &&
       conditions.some(condition => permit.indexOf(condition) === -1)
     ) {
-      // TODO: return better error.
-      throw new Error("not authorized 2");
+      throw new UserForbiddenError(
+        "authentication conditions not met",
+        user.id
+      );
     }
 
     // If the role and user owner checks are disabled, then allow them based on
@@ -80,8 +85,10 @@ const auth: DirectiveResolverFn<
     }
   }
 
-  // TODO: return better error.
-  throw new Error("not authorized");
+  throw new UserForbiddenError(
+    "user does not have permission to access the resource",
+    user ? user.id : null
+  );
 };
 
 export default auth;

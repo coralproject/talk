@@ -10,6 +10,7 @@ import { AugmentedRedis } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
+import { I18n } from "talk-server/services/i18n";
 import loaders from "./loaders";
 import mutators from "./mutators";
 
@@ -23,6 +24,7 @@ export interface TenantContextOptions {
   signingConfig?: JWTSigningConfig;
   req?: Request;
   user?: User;
+  i18n: I18n;
 }
 
 export default class TenantContext extends CommonContext {
@@ -46,8 +48,9 @@ export default class TenantContext extends CommonContext {
     tenantCache,
     queue,
     signingConfig,
+    i18n,
   }: TenantContextOptions) {
-    super({ user, req, config });
+    super({ user, req, config, i18n, lang: tenant.locale });
 
     this.tenant = tenant;
     this.tenantCache = tenantCache;

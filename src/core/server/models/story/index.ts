@@ -3,6 +3,7 @@ import uuid from "uuid";
 
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
+import { DuplicateStoryURLError } from "talk-server/errors";
 import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
 import { createIndexFactory } from "talk-server/models/helpers/query";
 import { ModerationSettings } from "talk-server/models/settings";
@@ -185,8 +186,7 @@ export async function createStory(
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
     if (err instanceof MongoError && err.code === 11000) {
-      // TODO: (wyattjoh) return better error
-      throw new Error("story with this url already exists");
+      throw new DuplicateStoryURLError(url);
     }
 
     throw err;
