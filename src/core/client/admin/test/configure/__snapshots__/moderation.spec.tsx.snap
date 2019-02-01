@@ -212,7 +212,7 @@ comment is toxic, according to Perspective API. By default the treshold is set t
                   id="configure-moderation-perspective-threshold"
                   name="integrations.perspective.threshold"
                   onChange={[Function]}
-                  placeholder=""
+                  placeholder="80"
                   spellCheck={false}
                   type="text"
                   value=""

@@ -5,7 +5,7 @@ import { Field } from "react-final-form";
 import {
   composeValidators,
   required,
-  validatePositiveWholeNumber,
+  validateWholeNumberGreaterThanOrEqual,
 } from "talk-framework/lib/validation";
 import {
   FormField,
@@ -48,7 +48,10 @@ const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
       </Localized>
       <Field
         name="editCommentWindowLength"
-        validate={composeValidators(required, validatePositiveWholeNumber)}
+        validate={composeValidators(
+          required,
+          validateWholeNumberGreaterThanOrEqual(0)
+        )}
       >
         {({ input, meta }) => (
           <>

@@ -94,6 +94,10 @@ configure-general-commentLength-setLimit = Set a limit on the length of comments
 configure-general-commentLength-limitCommentLength = Limit Comment Length
 configure-general-commentLength-minCommentLength = Minimum Comment Length
 configure-general-commentLength-characters = Characters
+configure-general-commentLength-textField =
+  .placeholder = No limit
+configure-general-commentLength-validateLongerThanMin =
+  Please enter a number longer than the minimum length
 
 #### Comment Editing
 configure-general-commentEditing-title = Comment Editing

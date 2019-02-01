@@ -28,8 +28,10 @@ framework-validation-passwordTooShort = Password must contain at least {$minLeng
 framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
 framework-validation-invalidURL = Invalid URL
 framework-validation-emailsDoNotMatch = Emails do not match. Try again.
-framework-validation-notAWholeNumberBetween = Please enter a valid whole number between { $min } and { $max }.
-framework-validation-notAPositiveWholeNumber = Please enter a valid whole number >= 0
+framework-validation-notAWholeNumberBetween = Please enter a whole number between { $min } and { $max }.
+framework-validation-notAWholeNumberGreaterThan = Please enter a whole number greater than { $x }
+framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole number greater than or equal to { $x }
+
 
 framework-timeago-just-now = Just now
 

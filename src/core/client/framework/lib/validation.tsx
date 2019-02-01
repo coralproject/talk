@@ -14,9 +14,10 @@ import {
   INVALID_CHARACTERS,
   INVALID_EMAIL,
   INVALID_URL,
-  NOT_A_POSITIVE_WHOLE_NUMBER,
   NOT_A_WHOLE_NUMBER,
   NOT_A_WHOLE_NUMBER_BETWEEN,
+  NOT_A_WHOLE_NUMBER_GREATER_THAN,
+  NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL,
   PASSWORD_TOO_SHORT,
   PASSWORDS_DO_NOT_MATCH,
   USERNAME_TOO_LONG,
@@ -157,12 +158,22 @@ export const validateWholeNumber = createValidator(
 );
 
 /**
- * validatePositiveWholeNumber is a Validator that checks for a valid whole number > 0.
+ * validateWholeNumberGreaterThan is a Validator that checks for a valid whole number > 0.
  */
-export const validatePositiveWholeNumber = createValidator(
-  v => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v >= 0),
-  NOT_A_POSITIVE_WHOLE_NUMBER()
-);
+export const validateWholeNumberGreaterThan = (x: number) =>
+  createValidator(
+    v => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v > 0),
+    NOT_A_WHOLE_NUMBER_GREATER_THAN(x)
+  );
+
+/**
+ * validateWholeNumberGreaterThanEquals is a Validator that checks for a valid whole number > 0.
+ */
+export const validateWholeNumberGreaterThanOrEqual = (x: number) =>
+  createValidator(
+    v => !v || v === 0 || (Number.isInteger(parseFloat(v)) && v >= 0),
+    NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL(x)
+  );
 
 /**
  * validateWholeNumberBetween is a Validator that checks for a valid whole number.

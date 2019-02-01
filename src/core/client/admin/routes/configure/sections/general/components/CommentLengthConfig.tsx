@@ -2,7 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
-import { validatePositiveWholeNumber } from "talk-framework/lib/validation";
+import {
+  composeValidators,
+  createValidator,
+  validateWholeNumberGreaterThan,
+} from "talk-framework/lib/validation";
 import {
   FormField,
   HorizontalGutter,
@@ -17,6 +21,17 @@ import OnOffField from "../../../components/OnOffField";
 
 import { formatEmpty, parseEmptyAsNull } from "talk-framework/lib/form";
 import styles from "./CommentLengthConfig.css";
+
+const validateMaxLongerThanMin = createValidator(
+  (v, values) =>
+    v === null ||
+    values.charCount.min === null ||
+    parseInt(v, 10) > parseInt(values.charCount.min, 10),
+  // tslint:disable-next-line:jsx-wrap-multiline
+  <Localized id="configure-general-commentLength-validateLongerThanMin">
+    <span>Please enter a number longer than the minimum length</span>
+  </Localized>
+);
 
 interface Props {
   disabled: boolean;
@@ -51,31 +66,36 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
       </Localized>
       <Field
         name="charCount.min"
-        validate={validatePositiveWholeNumber}
+        validate={validateWholeNumberGreaterThan(0)}
         parse={parseEmptyAsNull}
         format={formatEmpty}
       >
         {({ input, meta }) => (
           <>
-            <TextField
-              id="configure-general-commentLength-min"
-              className={styles.commentLengthTextInput}
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
-              disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              adornment={
-                <Localized id="configure-general-commentLength-characters">
-                  <Typography variant="bodyCopy">Characters</Typography>
-                </Localized>
-              }
-              placeholder={"E.g. 2"}
-              textAlignCenter
-            />
+            <Localized
+              id="configure-general-commentLength-textField"
+              attrs={{ placeholder: true }}
+            >
+              <TextField
+                id="configure-general-commentLength-min"
+                className={styles.commentLengthTextInput}
+                name={input.name}
+                onChange={input.onChange}
+                value={input.value}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                adornment={
+                  <Localized id="configure-general-commentLength-characters">
+                    <Typography variant="bodyCopy">Characters</Typography>
+                  </Localized>
+                }
+                placeholder={"No limit"}
+                textAlignCenter
+              />
+            </Localized>
             {meta.touched &&
               (meta.error || meta.submitError) && (
                 <ValidationMessage>
@@ -94,31 +114,39 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
       </Localized>
       <Field
         name="charCount.max"
-        validate={validatePositiveWholeNumber}
+        validate={composeValidators(
+          validateWholeNumberGreaterThan(0),
+          validateMaxLongerThanMin
+        )}
         parse={parseEmptyAsNull}
         format={formatEmpty}
       >
         {({ input, meta }) => (
           <>
-            <TextField
-              id="configure-general-commentLength-max"
-              className={styles.commentLengthTextInput}
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
-              disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              adornment={
-                <Localized id="configure-general-commentLength-characters">
-                  <Typography variant="bodyCopy">Characters</Typography>
-                </Localized>
-              }
-              placeholder={"E.g. 1000"}
-              textAlignCenter
-            />
+            <Localized
+              id="configure-general-commentLength-textField"
+              attrs={{ placeholder: true }}
+            >
+              <TextField
+                id="configure-general-commentLength-max"
+                className={styles.commentLengthTextInput}
+                name={input.name}
+                onChange={input.onChange}
+                value={input.value}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                adornment={
+                  <Localized id="configure-general-commentLength-characters">
+                    <Typography variant="bodyCopy">Characters</Typography>
+                  </Localized>
+                }
+                placeholder={"No limit"}
+                textAlignCenter
+              />
+            </Localized>
             {meta.touched &&
               (meta.error || meta.submitError) && (
                 <ValidationMessage>

@@ -31,6 +31,9 @@ import APIKeyField from "./APIKeyField";
 
 import styles from "./PerspectiveConfig.css";
 
+/* TODO: use a common constants for both client and server. */
+const TOXICITY_DEFAULT = 80;
+
 interface Props {
   disabled: boolean;
 }
@@ -81,7 +84,7 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
         </Localized>
         <Localized
           id="configure-moderation-perspective-toxicityThresholdDescription"
-          $default={80}
+          $default={TOXICITY_DEFAULT}
         >
           <InputDescription>
             This value can be set a percentage between 0 and 100. This number
@@ -109,6 +112,7 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 spellCheck={false}
                 adornment={<Typography variant="bodyCopy">%</Typography>}
+                placeholder={TOXICITY_DEFAULT.toString()}
                 textAlignCenter
               />
               {meta.touched &&

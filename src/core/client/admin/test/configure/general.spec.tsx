@@ -206,11 +206,9 @@ it("change comment editing time", async () => {
     .getByType("form")
     .props.onSubmit();
 
-  expect(within(configureContainer).toJSON()).toMatchSnapshot();
-
   expect(
     within(generalContainer).queryAllByText(
-      "Please enter a valid whole number >= 0"
+      "Please enter a whole number greater than or equal to ⁨0⁩"
     ).length
   ).toBe(1);
 
@@ -219,7 +217,7 @@ it("change comment editing time", async () => {
 
   expect(
     within(generalContainer).queryAllByText(
-      "Please enter a valid whole number >= 0"
+      "Please enter a whole number greater than or equal to 0"
     ).length
   ).toBe(0);
 
@@ -287,9 +285,19 @@ it("change comment length limitations", async () => {
 
   expect(
     within(generalContainer).queryAllByText(
-      "Please enter a valid whole number >= 0"
+      "Please enter a whole number greater than ⁨0⁩"
     ).length
   ).toBe(2);
+
+  // Make max smaller than min.
+  minField.props.onChange("1000");
+  maxField.props.onChange("500");
+
+  expect(
+    within(generalContainer).queryAllByText(
+      "Please enter a number longer than the minimum length"
+    ).length
+  ).toBe(1);
 
   // Let's change to sth valid.
   minField.props.onChange("");

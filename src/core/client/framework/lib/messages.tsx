@@ -78,9 +78,15 @@ export const NOT_A_WHOLE_NUMBER = () => (
   </Localized>
 );
 
-export const NOT_A_POSITIVE_WHOLE_NUMBER = () => (
-  <Localized id="framework-validation-notAPositiveWholeNumber">
-    <span>Please enter a valid whole number &gt;= 0</span>
+export const NOT_A_WHOLE_NUMBER_GREATER_THAN = (x: number) => (
+  <Localized id="framework-validation-notAWholeNumberGreaterThan" $x={x}>
+    <span>Please enter a valid whole number greater than $x</span>
+  </Localized>
+);
+
+export const NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL = (x: number) => (
+  <Localized id="framework-validation-notAWholeNumberGreaterThanOrEqual" $x={x}>
+    <span>Please enter a valid whole number greater than or equal to $x</span>
   </Localized>
 );
 

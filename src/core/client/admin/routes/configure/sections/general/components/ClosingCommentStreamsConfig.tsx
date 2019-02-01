@@ -14,7 +14,7 @@ import OnOffField from "talk-admin/routes/configure/components/OnOffField";
 import {
   composeValidators,
   required,
-  validatePositiveWholeNumber,
+  validateWholeNumberGreaterThanOrEqual,
 } from "talk-framework/lib/validation";
 
 import Header from "../../../components/Header";
@@ -53,7 +53,10 @@ const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
 
       <Field
         name="closedTimeout"
-        validate={composeValidators(required, validatePositiveWholeNumber)}
+        validate={composeValidators(
+          required,
+          validateWholeNumberGreaterThanOrEqual(0)
+        )}
       >
         {({ input, meta }) => (
           <>
