@@ -31,9 +31,6 @@ async function worker(server: Server) {
   try {
     logger.debug("started server worker");
 
-    // Connect the server to databases.
-    await server.connect({ isWorker: true });
-
     // Start the server.
     await server.start(app);
   } catch (err) {
@@ -48,8 +45,7 @@ async function master(server: Server) {
   logger.debug({ workerCount }, "spawning workers to handle traffic");
 
   try {
-    // Connect the server to databases.
-    await server.connect();
+    logger.debug("started server master");
 
     // Process jobs.
     await server.process();
@@ -70,16 +66,16 @@ async function bootstrap() {
     // Determine the number of workers.
     const workerCount = server.config.get("concurrency");
 
+    // Connect the server to databases.
+    await server.connect();
+
     if (workerCount === 1) {
       logger.debug(
         { workerCount },
         "not utilizing cluster as concurrency level is 1"
       );
 
-      // Connect the server to databases.
-      await server.connect({});
-
-      // Process jobs.
+      // Start processing jobs.
       await server.process();
 
       // Start the server.
@@ -94,6 +90,7 @@ async function bootstrap() {
     }
   } catch (err) {
     logger.error({ err }, "can not bootstrap server");
+    throw err;
   }
 }
 

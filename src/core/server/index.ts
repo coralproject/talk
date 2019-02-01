@@ -25,10 +25,6 @@ export interface ServerOptions {
   config?: Config;
 }
 
-export interface ServerConnectOptions {
-  isWorker?: boolean;
-}
-
 /**
  * Server provides an interface to create, start, and manage a Talk Server.
  */
@@ -81,7 +77,7 @@ class Server {
     };
   }
 
-  public async connect({ isWorker }: ServerConnectOptions = {}) {
+  public async connect() {
     // Guard against double connecting.
     if (this.connected) {
       throw new Error("server has already connected");
@@ -91,9 +87,8 @@ class Server {
     // Setup MongoDB.
     this.mongo = await createMongoDB(config);
 
-    // If the instance being connected is not a worker process, then create the
-    // database indexes if it isn't disabled.
-    if (!isWorker && !this.config.get("disable_mongodb_autoindexing")) {
+    // Create the database indexes if it isn't disabled.
+    if (!this.config.get("disable_mongodb_autoindexing")) {
       // Setup the database indexes.
       await ensureIndexes(this.mongo);
     }

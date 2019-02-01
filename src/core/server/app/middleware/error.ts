@@ -56,7 +56,8 @@ const serializeError = (
 export const apiErrorHandler = (bundles: I18n): ErrorRequestHandler => (
   err,
   req,
-  res
+  res,
+  next
 ) => {
   // Wrap the error if it needs to be wrapped.
   err = wrapError(err);
@@ -68,7 +69,8 @@ export const apiErrorHandler = (bundles: I18n): ErrorRequestHandler => (
 export const errorHandler = (bundles: I18n): ErrorRequestHandler => (
   err,
   req,
-  res
+  res,
+  next
 ) => {
   // Wrap the error if it needs to be wrapped.
   err = wrapError(err);
