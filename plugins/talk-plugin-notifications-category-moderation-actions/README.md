@@ -16,4 +16,4 @@ approved or rejected, the user will receive a notification email.
 
 ## Configuration:
 
-- `TALK_MODERATION_NOTIFICATION_TYPES`. This plugin requires values to be set. Available options: `APPROVED`, `REJECTED`.
+- `TALK_MODERATION_NOTIFICATION_TYPES`. This plugin requires values to be set. Available options: `APPROVED`, `REJECTED` as a single string (comma separated).
