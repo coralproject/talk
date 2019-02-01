@@ -1,7 +1,7 @@
 import { Db, MongoClient } from "mongodb";
-import TraceError from "trace-error";
 
 import { Config } from "talk-server/config";
+import { InternalError } from "talk-server/errors";
 
 export async function createMongoClient(config: Config): Promise<MongoClient> {
   try {
@@ -10,7 +10,7 @@ export async function createMongoClient(config: Config): Promise<MongoClient> {
       { useNewUrlParser: true }
     );
   } catch (err) {
-    throw new TraceError("could not connect to mongodb", err);
+    throw new InternalError(err, "could not connect to mongodb");
   }
 }
 

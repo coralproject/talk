@@ -109,7 +109,6 @@
     "subscriptions-transport-ws": "^0.9.12",
     "throng": "^4.0.0",
     "tlds": "^1.203.1",
-    "trace-error": "0.0.7",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

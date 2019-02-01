@@ -1,8 +1,8 @@
 import RedisClient, { Pipeline, Redis } from "ioredis";
-import TraceError from "trace-error";
 
 import { Omit } from "talk-common/types";
 import { Config } from "talk-server/config";
+import { InternalError } from "talk-server/errors";
 
 export interface AugmentedRedisCommands {
   mhincrby(key: string, ...args: any[]): Promise<void>;
@@ -43,6 +43,6 @@ export async function createRedisClient(
 
     return redis as AugmentedRedis;
   } catch (err) {
-    throw new TraceError("could not connect to redis", err);
+    throw new InternalError(err, "could not connect to redis");
   }
 }
