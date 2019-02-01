@@ -16,7 +16,8 @@
   text-align: center;
   vertical-align: middle;
   line-height: 30px;
-  width: 30px;
+  min-width: 30px;
+  padding: 5px;
   user-select: none;
 }
 
@@ -24,7 +25,14 @@
   font-size: 1.8em;
 }
 
-.active {
+.page:hover {
+  background-color: #ababab;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+  a {
+    color: white;
+  }
+}
+.active, .active:hover {
   background-color: #696969;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
   a {

@@ -11,6 +11,7 @@ const initialState = {
   criteria: {
     asc: 'false',
     filter: 'all',
+    limit: 20,
   },
 };
 
