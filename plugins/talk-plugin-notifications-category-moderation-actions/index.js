@@ -21,7 +21,7 @@ const handle = async (ctx, comment) => {
   );
 
   if (!previouslyUnpublished) {
-    ctx.log.info('comment was not previously unpublished');
+    ctx.log.info('comment has been published previously');
     return;
   }
 
