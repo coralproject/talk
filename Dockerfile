@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:10-alpine
 
 # Install build dependancies.
 RUN apk --no-cache add git
@@ -19,7 +19,7 @@ RUN NODE_ENV=development npm install && \
   npm run build && \
   npm prune --production
 
-FROM node:8-alpine
+FROM node:10-alpine
 
 # Create app directory
 RUN mkdir -p /usr/src/app

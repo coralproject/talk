@@ -103,7 +103,7 @@ jobs:
           command: npm run build
       - run:
           name: Verify Bundle Size
-          command: npm run bundlesize
+          command: npx bundlesize
       - save_cache:
           key: v1-build-cache-{{ .Branch }}-{{ .Revision }}
           paths:
