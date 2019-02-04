@@ -4,24 +4,30 @@ ar:
 da:
   talk-plugin-sort-most-respected:
     label: Most respected first
-en:
-  talk-plugin-sort-most-respected:
-    label: Most respected first
 de:
   talk-plugin-sort-most-respected:
     label: Häufigste "Respektiert" zuerst
+en:
+  talk-plugin-sort-most-respected:
+    label: Most respected first
 es:
   talk-plugin-sort-most-respected:
     label: Más respetadas primero
 fr:
   talk-plugin-sort-most-respected:
     label: Most respected first
+he:
+  talk-plugin-sort-most-respected:
+    label: הכי מכובד קודם
 nl_NL:
   talk-plugin-sort-most-respected:
     label: Meest gerespecteerd eerst
 pt_BR:
   talk-plugin-sort-most-respected:
     label: Mais respeitados primeiro
+sr:
+  talk-plugin-sort-most-respected:
+    label: Prvo najpopularniji
 zh_CN:
   talk-plugin-sort-most-respected:
     label: "最多被赞在前"

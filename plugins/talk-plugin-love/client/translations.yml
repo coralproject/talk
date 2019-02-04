@@ -5,15 +5,15 @@ ar:
 da:
   talk-plugin-love:
     love: Love
-    loved: Loved
-en:
-  talk-plugin-love:
-    love: Love
-    loved: Loved
+    loved: Loved    
 de:
   talk-plugin-love:
     love: Ich liebe es
     loved: Ich liebe es
+en:
+  talk-plugin-love:
+    love: Love
+    loved: Loved
 es:
   talk-plugin-love:
     love: Amo
@@ -22,6 +22,10 @@ fr:
   talk-plugin-love:
     love: Love
     loved: Loved
+he:
+  talk-plugin-love:
+    love: אוהב
+    loved: אהבתי
 nl_NL:
   talk-plugin-love:
     love: Love
@@ -30,6 +34,10 @@ pt_BR:
   talk-plugin-love:
     love: Love
     loved: Loved
+sr:
+  talk-plugin-love:
+    love: Volim ovo
+    loved: Volite ovo
 zh_CN:
   talk-plugin-love:
     love: " 比心"
