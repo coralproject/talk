@@ -31,25 +31,7 @@ da:
   flags:
     reasons:
       comment:
-        toxic_comment: "Highly likely to be Toxic"
-en:
-  error:
-    COMMENT_IS_TOXIC: |
-      Are you sure? The language in this comment might violate our community guidelines.
-      You can edit the comment or submit it for moderator review.
-  talk-plugin-toxic-comments:
-    unlikely: "Unlikely"
-    highly_likely: "Highly Likely"
-    possibly: "Possibly"
-    likely: "Likely"
-    toxic_comment: "Toxic Comment"
-    still_toxic: |
-      This edited comment might still violate our community guidelines.
-      Our moderation team will review your comment shortly.
-  flags:
-    reasons:
-      comment:
-        toxic_comment: "Highly likely to be Toxic"
+        toxic_comment: "Highly likely to be Toxic"        
 de:
   error:
     COMMENT_IS_TOXIC: |
@@ -68,6 +50,24 @@ de:
     reasons:
       comment:
         toxic_comment: "Höchstwahrscheinlich bösartig"
+en:
+  error:
+    COMMENT_IS_TOXIC: |
+      Are you sure? The language in this comment might violate our community guidelines.
+      You can edit the comment or submit it for moderator review.
+  talk-plugin-toxic-comments:
+    unlikely: "Unlikely"
+    highly_likely: "Highly Likely"
+    possibly: "Possibly"
+    likely: "Likely"
+    toxic_comment: "Toxic Comment"
+    still_toxic: |
+      This edited comment might still violate our community guidelines.
+      Our moderation team will review your comment shortly.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Highly likely to be Toxic"
 es:
   error:
     COMMENT_IS_TOXIC: |
@@ -104,6 +104,22 @@ fr:
     reasons:
       comment:
         toxic_comment: "Highly likely to be Toxic"
+he:
+  error:
+    COMMENT_IS_TOXIC: |
+      האם אתה בטוח? השפה שבתגובה זו עלולה להפר את הנחיות הקהילה שלנו. תוכל לערוך את ההערה או לשלוח אותה לביקורת של המתווך.
+  talk-plugin-toxic-comments:
+    unlikely: "לא סביר"
+    highly_likely: "סביר מאוד"
+    possibly: "יתכן"
+    likely: "סביר"
+    toxic_comment: "תגובה רעילה"
+    still_toxic: |
+      תגובה זו עדיין עשויה להפר את הנחיות הקהילה שלנו. צוות הפיקוח שלנו יבחן את ההערה שלך בקרוב.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "סביר מאוד להיות רעיל"
 nl_NL:
   error:
     COMMENT_IS_TOXIC: |
@@ -140,6 +156,24 @@ pt_BR:
     reasons:
       comment:
         toxic_comment: "Highly likely to be Toxic"
+sr:
+  error:
+    COMMENT_IS_TOXIC: |
+      Da li ste sigurni? Jezik u ovom komentaru može narušavati naša pravila diskusije.
+      Pregledajte komentar, ili ga svejdno pošaljite moderatoru na odobrenje.
+  talk-plugin-toxic-comments:
+    unlikely: "Malo verovatno"
+    highly_likely: "Vrlo verovatno"
+    possibly: "Moguće"
+    likely: "Verovatno"
+    toxic_comment: "Toksičan komentar"
+    still_toxic: |
+      Ovako preuređen komentar još uvek može narušavati naša pravila diskusije.
+      Naš moderatorski tim će uskro pregledati vaš komentar.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Vrlo verovatno toksičan"
 zh_CN:
   error:
     COMMENT_IS_TOXIC: "您确定吗？此评论的表述可能违反了我们的社群指引方针。您可以编辑评论，或直接提交让管理人员审查。"
