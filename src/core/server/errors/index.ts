@@ -341,10 +341,10 @@ export class TokenInvalidError extends TalkError {
 }
 
 export class UserForbiddenError extends TalkError {
-  constructor(reason: string, userID: string | null) {
+  constructor(reason: string, resource: string, userID: string | null) {
     super({
       code: ERROR_CODES.USER_FORBIDDEN,
-      context: { pvt: { reason, userID } },
+      context: { pvt: { reason, userID, resource } },
       status: 403,
     });
   }
