@@ -26,7 +26,6 @@ Check our Releases page for the latest recommended release version. [Releases](h
 
 ## More Resources
 
-- [Talk Product Roadmap](https://www.pivotaltracker.com/n/projects/1863625)
 - [Our Blog](https://coralproject.net/blog)
 - [Community Guides for Journalism](https://guides.coralproject.net/)
 - [More About Us](https://coralproject.net/)
