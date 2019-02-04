@@ -3,7 +3,7 @@ ar:
     member_since: "عضو منذ"
 da:
   talk-plugin-member-since:
-    member_since: "Member Since"
+    member_since: "Member Since"    
 de:
   talk-plugin-member-since:
     member_since: "Mitglied seit"
@@ -25,6 +25,9 @@ nl_NL:
 pt_BR:
   talk-plugin-member-since:
     member_since: "Membro desde"
+sr:
+  talk-plugin-member-since:
+    member_since: "Član od"
 zh_CN:
   talk-plugin-member-since:
     member_since: "成员加入日期"

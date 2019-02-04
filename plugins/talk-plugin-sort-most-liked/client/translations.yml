@@ -3,7 +3,7 @@ ar:
     label: الأكثر إعجاباً أولاً
 da:
   talk-plugin-sort-most-liked:
-    label: Most liked first
+    label: Most liked first   
 de:
   talk-plugin-sort-most-liked:
     label: Beliebteste zuerst
@@ -25,6 +25,9 @@ nl_NL:
 pt_BR:
   talk-plugin-sort-most-liked:
     label: Most liked first
+sr:
+  talk-plugin-sort-most-liked:
+    label: Prvo sa najviše sviđanja 
 zh_CN:
   talk-plugin-sort-most-liked:
     label: "最被喜欢在前"

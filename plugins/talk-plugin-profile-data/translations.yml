@@ -110,6 +110,43 @@ en:
       body: "You have cancelled your account deletion request for {0}. Your account is now reactivated."
   error:
     DOWNLOAD_TOKEN_INVALID: "Your download link is not valid."
+sr:
+  download_landing:
+    download_your_account: "Preuzmi sve svoje komentare?"
+    download_details: "Svi vaši komentari biće preuzeti u .zip fajlu. Po raspakivanju kolekcije videćete .csv fajl sa vrednostima razdvojenim zarezima, i tkav fajl možete lako uvesti u svoj omiljeni spreadsheet program (Excel...)."
+    all_information_included: "Za svaki vaš komentar uključene su sledeće informacije:"
+    information_included:
+      date: "Kada ste komentar napisali"
+      url: "Permalink URL za komentar"
+      body: "Tekst komentara"
+      asset_url: "URL teksta/priče gde se komentar pojavljuje"
+    confirm: "Preuzmi kolekciju svojih komentara"
+  email:
+    download:
+      subject: "Vaši komnetari su spremni a preuzimanje sa {0}"
+      download_link_ready: "Kliknite ovde da preuzmete vaše komentare sa {0} od {1}:"
+      download_archive: "Preuzmi arhivu"
+    delete:
+      subject: "Vaš nalog za {0} je određen za brisanje"
+      body: |
+        Primili smo zahtev za brisanje vašeg naloga. Vaš nalog je određen za brisanje na {1}.
+
+        Posle tog vremena svi vaši komentari biće uklonjeni sa sajta, svi vaši komnetari biće uklonjeni iz baze podataka, a vaše korisničko ime i e-mail uklonjeni sa našeg sistema.
+
+        Ukoliko se predomislite možete se prijaviti na svoj nalog i poništiti zahtev pre predviđenog vremena za brisanje.
+    deleted:
+      subject: "Vaš nalog za {0} je obrisan"
+      body: |
+        Vaš nalog za {0} je sada obrisan. Žao nam je što idete!
+
+        Ukoliko budete želeli da se ponovo uključite u rspravu u budućnosti, možete se prijaviti za novi nalog.
+
+        If you'd like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {1}.
+    cancelDelete:
+      subject: "Zahtev za brisanje vašeg naloga {0} je otkazan"
+      body: "Poništili ste zahtev za brisanje naloga na {0}. Vaš nalog je reaktiviran."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "Vaš link za preuzimanje nije validan."    
 es:
   download_landing:
     download_your_account: "Descargue su historial de comentarios"

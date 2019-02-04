@@ -10,6 +10,10 @@ en:
   talk-plugin-notifications:
     digest_enum:
       HOURLY: In an hourly digest
+sr:
+  talk-plugin-notifications:
+    digest_enum:
+      HOURLY: U izveštaju na svakih sat vremena      
 es:
   talk-plugin-notifications:
     digest_enum:

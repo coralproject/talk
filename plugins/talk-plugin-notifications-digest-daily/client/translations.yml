@@ -10,6 +10,10 @@ en:
   talk-plugin-notifications:
     digest_enum:
       DAILY: In a daily digest
+sr:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: U dnevnom izveštaju      
 es:
   talk-plugin-notifications:
     digest_enum:

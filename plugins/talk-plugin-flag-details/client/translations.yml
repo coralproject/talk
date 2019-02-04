@@ -3,7 +3,7 @@ ar:
     flags: تقارير
 da:
   talk-plugin-flag-details:
-    flags: Reports
+    flags: Reports   
 de:
   talk-plugin-flag-details:
     flags: Markierungen
@@ -25,6 +25,9 @@ nl_NL:
 pt_BR:
   talk-plugin-flag-details:
     flags: Reports
+sr:
+  talk-plugin-flag-details:
+    flags: Reporteri     
 zh_CN:
   talk-plugin-flag-details:
     flags: "报告"

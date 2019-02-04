@@ -3,7 +3,7 @@ ar:
     label: الأكثر حبً أولاً
 da:
   talk-plugin-sort-most-loved:
-    label: Most loved first
+    label: Most loved first   
 de:
   talk-plugin-sort-most-loved:
     label: Häufigste "Ich liebe es" zuerst
@@ -25,6 +25,9 @@ nl_NL:
 pt_BR:
   talk-plugin-sort-most-loved:
     label: Most loved first
+sr:
+  talk-plugin-sort-most-loved:
+    label: Prvo najvoljeniji 
 zh_CN:
   talk-plugin-sort-most-loved:
     label: "最多被比心在前"

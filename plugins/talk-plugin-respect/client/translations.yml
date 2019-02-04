@@ -5,7 +5,7 @@ ar:
 da:
   talk-plugin-respect:
     respect: Respect
-    respected: Respected
+    respected: Respected    
 de:
   talk-plugin-respect:
     respect: Respekt
@@ -34,6 +34,10 @@ pt_BR:
   talk-plugin-respect:
     respect: Respeitar
     respected: Respeitado
+sr:
+  talk-plugin-respect:
+    respect: Respekt
+    respected: Respektovan
 zh_CN:
   talk-plugin-respect:
     respect: "赞"

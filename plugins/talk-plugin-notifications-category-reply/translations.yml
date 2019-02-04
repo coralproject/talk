@@ -17,6 +17,12 @@ en:
       reply:
         subject: "Someone has replied to your comment on {0}"
         body: "{0}\n{1} replied to your comment: {2}"
+sr:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Neko je odgovorio na Vaš komentar na {0}"
+        body: "{0}\n{1} je odgovorio na Vaš komentar: {2}"        
 es:
   talk-plugin-notifications:
     categories:

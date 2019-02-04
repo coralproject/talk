@@ -17,6 +17,12 @@ en:
       featured:
         subject: "One of your comments was featured on {0}"
         body: "{0}\nA member of our team has selected this comment to be featured for other readers: {1}"
+sr:
+  talk-plugin-notifications:
+    categories:
+      featured:
+        subject: "Jedan Vaš komentar je izdvojen na {0}"
+        body: "{0}\nČlan našeg tima je izabrao ovaj komentar da bude izdvojen za druge čitaoce: {1}"        
 es:
   talk-plugin-notifications:
     categories:

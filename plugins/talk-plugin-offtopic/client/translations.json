@@ -6,7 +6,7 @@
   "da": {
     "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"
-  },
+  },  
   "de": {
     "off_topic": "Off-Topic",
     "hide_off_topic": "Off-Topic-Kommentare verbergen"
@@ -34,6 +34,10 @@
   "pt_BR": {
     "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"
+  },
+  "sr": {
+    "off_topic": "Van teme",
+    "hide_off_topic": "Sakri komentare van teme"
   },
   "zh_CN": {
     "off_topic": "无关主题",

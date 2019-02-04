@@ -130,6 +130,21 @@ pt_BR:
     are_you_sure: Você tem certeza que deseja destacar esse comentário?
     cancel: Cancelar
     yes_feature_comment: Sim, destacar comentário
+sr:
+  talk-plugin-featured-comments:
+    un_feature: Skini sa izdvojenih
+    feature: Označi kao izdvojen
+    featured: Izdvojen
+    featured_comments: Izdvojeni komentari
+    go_to_conversation: Idi na raspravu
+    tooltip_description: Komentari izdvojeni od strane redakcije kao posebno vredni pažnje
+    notify_self_featured: 'Komentar od {0} je sada izdvojen i odobren'
+    notify_featured: '{0} je izdvojio i odobrio komentar "{1}"'
+    notify_unfeatured: '{0} je skinuo sa izdvojenih komentara "{1}"'
+    feature_comment: Izdvoj komentar?
+    are_you_sure: Sigurni ste da želite da izdvojite ovaj komentar?
+    cancel: Poništi
+    yes_feature_comment: Da, izdvoj komentar    
 zh_CN:
   talk-plugin-featured-comments:
     un_feature: "取消精选"

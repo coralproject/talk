@@ -25,6 +25,9 @@ nl_NL:
 pt_BR:
   talk-plugin-sort-most-respected:
     label: Mais respeitados primeiro
+sr:
+  talk-plugin-sort-most-respected:
+    label: Prvo najpopularniji
 zh_CN:
   talk-plugin-sort-most-respected:
     label: "最多被赞在前"

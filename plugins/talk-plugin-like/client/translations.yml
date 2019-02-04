@@ -34,6 +34,10 @@ pt_BR:
   talk-plugin-like:
     like: Like
     liked: Liked
+sr:
+  talk-plugin-like:
+    like: Sviđa mi se
+    liked: Sviđa vam se
 zh_CN:
   talk-plugin-like:
     like: "喜欢"

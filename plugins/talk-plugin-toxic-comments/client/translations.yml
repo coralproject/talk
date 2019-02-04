@@ -31,7 +31,7 @@ da:
   flags:
     reasons:
       comment:
-        toxic_comment: "Highly likely to be Toxic"
+        toxic_comment: "Highly likely to be Toxic"        
 de:
   error:
     COMMENT_IS_TOXIC: |
@@ -156,6 +156,24 @@ pt_BR:
     reasons:
       comment:
         toxic_comment: "Highly likely to be Toxic"
+sr:
+  error:
+    COMMENT_IS_TOXIC: |
+      Da li ste sigurni? Jezik u ovom komentaru može narušavati naša pravila diskusije.
+      Pregledajte komentar, ili ga svejdno pošaljite moderatoru na odobrenje.
+  talk-plugin-toxic-comments:
+    unlikely: "Malo verovatno"
+    highly_likely: "Vrlo verovatno"
+    possibly: "Moguće"
+    likely: "Verovatno"
+    toxic_comment: "Toksičan komentar"
+    still_toxic: |
+      Ovako preuređen komentar još uvek može narušavati naša pravila diskusije.
+      Naš moderatorski tim će uskro pregledati vaš komentar.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Vrlo verovatno toksičan"
 zh_CN:
   error:
     COMMENT_IS_TOXIC: "您确定吗？此评论的表述可能违反了我们的社群指引方针。您可以编辑评论，或直接提交让管理人员审查。"
