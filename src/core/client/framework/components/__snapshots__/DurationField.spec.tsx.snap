@@ -1,0 +1,306 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`accepts invalid input 1`] = `
+<ForwardRef(forwardRef)
+  itemGutter={true}
+>
+  <withPropsOnChange(TextField)
+    aria-label="value"
+    autoCapitalize="off"
+    autoComplete="off"
+    autoCorrect="off"
+    className="DurationField-value"
+    disabled={false}
+    name="duration-value"
+    onChange={[Function]}
+    spellCheck={false}
+    textAlignCenter={true}
+    value="this is so invalid"
+  />
+  <withPropsOnChange(WithKeyboardFocus)
+    aria-label="unit"
+    classes={
+      Object {
+        "select": "DurationField-unit",
+      }
+    }
+    disabled={false}
+    name="duration-unit"
+    onChange={[Function]}
+    value="1"
+  >
+    <Localized
+      $value={NaN}
+      id="framework-durationField-seconds"
+    >
+      <Option
+        value="1"
+      >
+        Seconds
+      </Option>
+    </Localized>
+    <Localized
+      $value={NaN}
+      id="framework-durationField-minutes"
+    >
+      <Option
+        value="60"
+      >
+        Minutes
+      </Option>
+    </Localized>
+    <Localized
+      $value={NaN}
+      id="framework-durationField-hours"
+    >
+      <Option
+        value="3600"
+      >
+        Hours
+      </Option>
+    </Localized>
+  </withPropsOnChange(WithKeyboardFocus)>
+</ForwardRef(forwardRef)>
+`;
+
+exports[`renders correctly with default units 1`] = `
+<ForwardRef(forwardRef)
+  itemGutter={true}
+>
+  <withPropsOnChange(TextField)
+    aria-label="value"
+    autoCapitalize="off"
+    autoComplete="off"
+    autoCorrect="off"
+    className="DurationField-value"
+    disabled={false}
+    name="duration-value"
+    onChange={[Function]}
+    spellCheck={false}
+    textAlignCenter={true}
+    value=""
+  />
+  <withPropsOnChange(WithKeyboardFocus)
+    aria-label="unit"
+    classes={
+      Object {
+        "select": "DurationField-unit",
+      }
+    }
+    disabled={false}
+    name="duration-unit"
+    onChange={[Function]}
+    value="3600"
+  >
+    <Localized
+      $value={NaN}
+      id="framework-durationField-hours"
+    >
+      <Option
+        value="3600"
+      >
+        Hours
+      </Option>
+    </Localized>
+    <Localized
+      $value={NaN}
+      id="framework-durationField-days"
+    >
+      <Option
+        value="86400"
+      >
+        Days
+      </Option>
+    </Localized>
+    <Localized
+      $value={NaN}
+      id="framework-durationField-weeks"
+    >
+      <Option
+        value="604800"
+      >
+        Weeks
+      </Option>
+    </Localized>
+  </withPropsOnChange(WithKeyboardFocus)>
+</ForwardRef(forwardRef)>
+`;
+
+exports[`renders correctly with specified units 1`] = `
+<ForwardRef(forwardRef)
+  itemGutter={true}
+>
+  <withPropsOnChange(TextField)
+    aria-label="value"
+    autoCapitalize="off"
+    autoComplete="off"
+    autoCorrect="off"
+    className="DurationField-value"
+    disabled={false}
+    name="duration-value"
+    onChange={[Function]}
+    spellCheck={false}
+    textAlignCenter={true}
+    value=""
+  />
+  <withPropsOnChange(WithKeyboardFocus)
+    aria-label="unit"
+    classes={
+      Object {
+        "select": "DurationField-unit",
+      }
+    }
+    disabled={false}
+    name="duration-unit"
+    onChange={[Function]}
+    value="1"
+  >
+    <Localized
+      $value={NaN}
+      id="framework-durationField-seconds"
+    >
+      <Option
+        value="1"
+      >
+        Seconds
+      </Option>
+    </Localized>
+    <Localized
+      $value={NaN}
+      id="framework-durationField-hours"
+    >
+      <Option
+        value="3600"
+      >
+        Hours
+      </Option>
+    </Localized>
+  </withPropsOnChange(WithKeyboardFocus)>
+</ForwardRef(forwardRef)>
+`;
+
+exports[`use best matching unit 1`] = `
+<ForwardRef(forwardRef)
+  itemGutter={true}
+>
+  <withPropsOnChange(TextField)
+    aria-label="value"
+    autoCapitalize="off"
+    autoComplete="off"
+    autoCorrect="off"
+    className="DurationField-value"
+    disabled={false}
+    name="duration-value"
+    onChange={[Function]}
+    spellCheck={false}
+    textAlignCenter={true}
+    value="1"
+  />
+  <withPropsOnChange(WithKeyboardFocus)
+    aria-label="unit"
+    classes={
+      Object {
+        "select": "DurationField-unit",
+      }
+    }
+    disabled={false}
+    name="duration-unit"
+    onChange={[Function]}
+    value="3600"
+  >
+    <Localized
+      $value={1}
+      id="framework-durationField-seconds"
+    >
+      <Option
+        value="1"
+      >
+        Seconds
+      </Option>
+    </Localized>
+    <Localized
+      $value={1}
+      id="framework-durationField-minutes"
+    >
+      <Option
+        value="60"
+      >
+        Minutes
+      </Option>
+    </Localized>
+    <Localized
+      $value={1}
+      id="framework-durationField-hours"
+    >
+      <Option
+        value="3600"
+      >
+        Hours
+      </Option>
+    </Localized>
+  </withPropsOnChange(WithKeyboardFocus)>
+</ForwardRef(forwardRef)>
+`;
+
+exports[`use initial unit if 0 1`] = `
+<ForwardRef(forwardRef)
+  itemGutter={true}
+>
+  <withPropsOnChange(TextField)
+    aria-label="value"
+    autoCapitalize="off"
+    autoComplete="off"
+    autoCorrect="off"
+    className="DurationField-value"
+    disabled={false}
+    name="duration-value"
+    onChange={[Function]}
+    spellCheck={false}
+    textAlignCenter={true}
+    value="0"
+  />
+  <withPropsOnChange(WithKeyboardFocus)
+    aria-label="unit"
+    classes={
+      Object {
+        "select": "DurationField-unit",
+      }
+    }
+    disabled={false}
+    name="duration-unit"
+    onChange={[Function]}
+    value="1"
+  >
+    <Localized
+      $value={0}
+      id="framework-durationField-seconds"
+    >
+      <Option
+        value="1"
+      >
+        Seconds
+      </Option>
+    </Localized>
+    <Localized
+      $value={0}
+      id="framework-durationField-minutes"
+    >
+      <Option
+        value="60"
+      >
+        Minutes
+      </Option>
+    </Localized>
+    <Localized
+      $value={0}
+      id="framework-durationField-hours"
+    >
+      <Option
+        value="3600"
+      >
+        Hours
+      </Option>
+    </Localized>
+  </withPropsOnChange(WithKeyboardFocus)>
+</ForwardRef(forwardRef)>
+`;
