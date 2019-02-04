@@ -14,11 +14,15 @@ const handle = async (ctx, comment) => {
 
   // Check to see if this is a previously unpublished comment.
   const commentHistory = get(comment, 'status_history', []);
-  // Check for last status before current one
-  const lastStatus = commentHistory[commentHistory.length - 2];
-  const previouslyUnpublished = UNPUBLISHED_STATUS_TYPES.includes(
-    lastStatus && lastStatus.type
-  );
+  let previouslyUnpublished = false;
+  
+   // Check for last status before current one
+  if (commentHistory.length >= 2) {
+    const previousStatus = commentHistory[commentHistory.length - 2];
+    if (UNPUBLISHED_STATUS_TYPES.includes(previousStatus.type)) {
+        previouslyUnpublished = true;
+    }
+  }
 
   if (!previouslyUnpublished) {
     ctx.log.info('comment has been published previously');
