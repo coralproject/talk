@@ -50,6 +50,24 @@ en:
     reasons:
       comment:
         toxic_comment: "Highly likely to be Toxic"
+sr:
+  error:
+    COMMENT_IS_TOXIC: |
+      Da li ste sigurni? Jezik u ovom komentaru može narušavati naša pravila diskusije.
+      Pregledajte komentar, ili ga svejdno pošaljite moderatoru na odobrenje.
+  talk-plugin-toxic-comments:
+    unlikely: "Malo verovatno"
+    highly_likely: "Vrlo verovatno"
+    possibly: "Moguće"
+    likely: "Verovatno"
+    toxic_comment: "Toksičan komentar"
+    still_toxic: |
+      Ovako preuređen komentar još uvek može narušavati naša pravila diskusije.
+      Naš moderatorski tim će uskro pregledati vaš komentar.
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Vrlo verovatno toksičan"        
 de:
   error:
     COMMENT_IS_TOXIC: |
