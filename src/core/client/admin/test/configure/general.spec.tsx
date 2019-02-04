@@ -176,7 +176,7 @@ it("change comment editing time", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.editCommentWindowLength).toEqual(20000);
+      expect(data.input.settings.editCommentWindowLength).toEqual(108000);
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
@@ -194,12 +194,16 @@ it("change comment editing time", async () => {
     },
   });
 
-  const timeField = within(generalContainer).getByLabelText(
-    "Comment Edit Timeframe"
+  const durationFieldset = within(generalContainer).getByText(
+    "Comment Edit Timeframe",
+    { selector: "fieldset" }
   );
+  const valueField = within(durationFieldset).getByLabelText("value");
+  const unitField = within(durationFieldset).getByLabelText("unit");
+  const hoursOption = within(unitField).getByText(/Hours?/);
 
-  // Let's change the time to sth invalid.
-  timeField.props.onChange("invalid");
+  // Let's turn on and set some invalid values.
+  valueField.props.onChange({ target: { value: "" } });
 
   // Send form
   within(configureContainer)
@@ -207,13 +211,14 @@ it("change comment editing time", async () => {
     .props.onSubmit();
 
   expect(
-    within(generalContainer).queryAllByText(
-      "Please enter a whole number greater than or equal to ⁨0⁩"
-    ).length
+    within(generalContainer).queryAllByText("This field is required.").length
   ).toBe(1);
 
-  // Let's change the time to sth valid.
-  timeField.props.onChange("20000");
+  // Let's change to sth valid.
+  valueField.props.onChange({ target: { value: "30" } });
+  unitField.props.onChange({
+    target: { value: hoursOption.props.value.toString() },
+  });
 
   expect(
     within(generalContainer).queryAllByText(

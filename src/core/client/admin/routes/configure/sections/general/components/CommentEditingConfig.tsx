@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
+import { DURATION_UNIT, DurationField } from "talk-framework/components";
 import {
   composeValidators,
   required,
@@ -11,14 +12,11 @@ import {
   FormField,
   HorizontalGutter,
   InputLabel,
-  TextField,
   Typography,
   ValidationMessage,
 } from "talk-ui/components";
 
 import Header from "../../../components/Header";
-
-import styles from "./CommentEditingConfig.css";
 
 interface Props {
   disabled: boolean;
@@ -40,11 +38,9 @@ const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
       </Typography>
     </Localized>
 
-    <FormField>
+    <FormField container="fieldset">
       <Localized id="configure-general-commentEditing-commentEditTimeFrame">
-        <InputLabel htmlFor="configure-general-commentEditing-timeframe">
-          Comment Edit Timeframe
-        </InputLabel>
+        <InputLabel container="legend">Comment Edit Timeframe</InputLabel>
       </Localized>
       <Field
         name="editCommentWindowLength"
@@ -55,24 +51,16 @@ const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
       >
         {({ input, meta }) => (
           <>
-            <TextField
-              id="configure-general-commentEditing-timeframe"
-              className={styles.commentEditingTextInput}
+            <DurationField
+              units={[
+                DURATION_UNIT.SECONDS,
+                DURATION_UNIT.MINUTES,
+                DURATION_UNIT.HOURS,
+              ]}
               name={input.name}
               onChange={input.onChange}
               value={input.value}
               disabled={disabled}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck={false}
-              adornment={
-                <Localized id="configure-general-commentEditing-seconds">
-                  <Typography variant="bodyCopy">Seconds</Typography>
-                </Localized>
-              }
-              placeholder={"E.g. 30"}
-              textAlignCenter
             />
             {meta.touched &&
               (meta.error || meta.submitError) && (

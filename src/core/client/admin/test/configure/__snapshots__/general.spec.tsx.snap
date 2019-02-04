@@ -357,39 +357,78 @@ Markdown can be found
 Edited comments are marked as (Edited) on the comment stream and the
 moderation panel.
             </p>
-            <div
+            <fieldset
               className="HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
-              <label
+              <legend
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="configure-general-commentEditing-timeframe"
               >
                 Comment Edit Timeframe
-              </label>
+              </legend>
               <div
-                className="TextField-root CommentEditingConfig-commentEditingTextInput"
+                className="Flex-root Flex-flex Flex-itemGutter"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
-                  disabled={false}
-                  id="configure-general-commentEditing-timeframe"
-                  name="editCommentWindowLength"
-                  onChange={[Function]}
-                  placeholder="E.g. 30"
-                  spellCheck={false}
-                  type="text"
-                  value={30000}
-                />
-                <p
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                <div
+                  className="TextField-root DurationField-value"
                 >
-                  Seconds
-                </p>
+                  <input
+                    aria-label="value"
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                    disabled={false}
+                    name="editCommentWindowLength-value"
+                    onChange={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="500"
+                  />
+                </div>
+                <span
+                  className="SelectField-root"
+                >
+                  <select
+                    aria-label="unit"
+                    className="SelectField-select DurationField-unit"
+                    disabled={false}
+                    name="editCommentWindowLength-unit"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    value="60"
+                  >
+                    <option
+                      value="1"
+                    >
+                      Seconds
+                    </option>
+                    <option
+                      value="60"
+                    >
+                      Minutes
+                    </option>
+                    <option
+                      value="3600"
+                    >
+                      Hours
+                    </option>
+                  </select>
+                  <span
+                    aria-hidden={true}
+                    className="SelectField-iconWrapper"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      expand_more
+                    </span>
+                  </span>
+                </span>
               </div>
-            </div>
+            </fieldset>
           </div>
           <fieldset
             className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"

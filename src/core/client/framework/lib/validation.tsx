@@ -56,7 +56,10 @@ export function composeValidators<T = any, V = any>(
 /**
  * required is a Validator that checks that the value is truthy.
  */
-export const required = createValidator(v => !!v, VALIDATION_REQUIRED());
+export const required = createValidator(
+  v => v !== "" && v !== null && v !== undefined,
+  VALIDATION_REQUIRED()
+);
 
 /**
  * validateEmail is a Validator that checks that the value is an email.

@@ -68,19 +68,6 @@ configure-general-guidelines-explanation =
   Markdown can be found <externalLink>here</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Show Community Guidelines Summary
 
-configure-general-durationField-hours = { $value ->
-   [1]      Hour
-  *[others] Hours
-}
-configure-general-durationField-days = { $value ->
-   [1]      Day
-  *[others] Days
-}
-configure-general-durationField-weeks = { $value ->
-   [1]      Week
-  *[others] Weeks
-}
-
 ### Closing Comment Streams
 configure-general-closingCommentStreams-title = Closing Comment Streams
 configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication

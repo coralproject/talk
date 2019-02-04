@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
+import { DURATION_UNIT, DurationField } from "talk-framework/components";
 import {
   FormField,
   HorizontalGutter,
@@ -14,11 +15,10 @@ import OnOffField from "talk-admin/routes/configure/components/OnOffField";
 import {
   composeValidators,
   required,
-  validateWholeNumberGreaterThanOrEqual,
+  validateWholeNumberGreaterThan,
 } from "talk-framework/lib/validation";
 
 import Header from "../../../components/Header";
-import DurationField from "./DurationField";
 
 interface Props {
   disabled: boolean;
@@ -55,12 +55,17 @@ const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
         name="closedTimeout"
         validate={composeValidators(
           required,
-          validateWholeNumberGreaterThanOrEqual(0)
+          validateWholeNumberGreaterThan(0)
         )}
       >
         {({ input, meta }) => (
           <>
             <DurationField
+              units={[
+                DURATION_UNIT.HOURS,
+                DURATION_UNIT.DAYS,
+                DURATION_UNIT.WEEKS,
+              ]}
               name={input.name}
               onChange={input.onChange}
               value={input.value}
