@@ -42,6 +42,21 @@ en:
     reasons:
       comment:
         spam_comment: "Detected Spam"
+sr:
+  error:
+    COMMENT_IS_SPAM: |
+      Sadržaj ovog komentara liči na spam. Možete
+      urediti komentar, ili ga svejedno poslati moderatoru na odobrenje.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Detected by Akismet"
+    still_spam: |
+      Hvala Vam. Naš tim moderatora će uskoro prgeldati vš komentar.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Detected Spam"        
 es:
   error:
     COMMENT_IS_SPAM: |

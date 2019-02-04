@@ -7,6 +7,9 @@ da:
 en:
   talk-plugin-sort-oldest:
     label: Oldest first
+sr:
+  talk-plugin-sort-oldest:
+    label: Prvo najstariji    
 de:
   talk-plugin-sort-oldest:
     label: Älteste zuerst

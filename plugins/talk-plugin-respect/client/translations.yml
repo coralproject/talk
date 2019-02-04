@@ -10,6 +10,10 @@ en:
   talk-plugin-respect:
     respect: Respect
     respected: Respected
+sr:
+  talk-plugin-respect:
+    respect: Respekt
+    respected: Respektovan    
 de:
   talk-plugin-respect:
     respect: Respekt

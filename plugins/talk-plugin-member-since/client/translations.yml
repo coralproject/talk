@@ -7,6 +7,9 @@ da:
 en:
   talk-plugin-member-since:
     member_since: "Member Since"
+sr:
+  talk-plugin-member-since:
+    member_since: "Član od"    
 de:
   talk-plugin-member-since:
     member_since: "Mitglied seit"
