@@ -2,7 +2,7 @@
 
 Online comments are broken. Our open-source commenting platform, Talk, rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here](https://coralproject.net/talk).
 
-Built with <3 by The Coral Project.
+Built with <3 by The Coral Project, a part of [Vox Media](https://www.voxmedia.com/a/go-deeper/about).
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ For advanced configuration and usage of Talk, check out our [Configuration](http
 
 ## Versions & Upgrading
 
-The current recommended release version is v4.5.0. ^4.5 (and all future even-numbered versions) are considered stable LTS versions. We recommend ^4.5 for use in production environments. 
+Check our Releases page for the latest recommended release version. [Releases](https://github.com/coralproject/talk/releases) All future even-numbered versions are considered stable LTS versions. We recommend the latest verified release for use in production environments. 
 
 ## More Resources
 
