@@ -27,7 +27,6 @@ class CreatePasswordContainer extends Component<Props> {
   };
 
   public render() {
-    // tslint:disable-next-line:no-empty
     return <CreatePassword onSubmit={this.handleSubmit} />;
   }
 }

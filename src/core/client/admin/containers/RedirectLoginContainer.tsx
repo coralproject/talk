@@ -26,9 +26,9 @@ class RedirectLoginContainer extends React.Component<Props> {
     this.redirectIfNotLoggedIn(nextProps);
   }
 
-  private shouldRedirectTo(props: Props = this.props): string {
+  private shouldRedirectTo(props: Props = this.props): string | null {
     if (!props.data) {
-      return "";
+      return null;
     }
     const {
       me,
