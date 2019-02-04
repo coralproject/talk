@@ -5,6 +5,12 @@ ar:
         subject: "تميَزت واحدة من تعليقاتك على {0}"
         body: "{0}\n
                حدد أحد أعضاء فريقنا هذا التعليق ليتم عرضه كتعليق مميز للقراء الآخرين: {1}"
+de:
+  talk-plugin-notifications:
+    categories:
+      featured:
+        subject: "Einer Ihrer Kommentare wurde auf {0} hervorgehoben"
+        body: "{0}\nEin Mitglied unseres Teams hat diesen Kommentar ausgewählt, er wird jetzt für andere Leser besonders hervorgehoben: {1}"
 en:
   talk-plugin-notifications:
     categories:
@@ -23,9 +29,9 @@ es:
       featured:
         subject: "Uno de tus comentarios apareció en {0}"
         body: "{0}\nUn miembro de nuestro equipo ha seleccionado este comentario para ser presentado por otros lectores: {1}"
-de:
+he:
   talk-plugin-notifications:
     categories:
       featured:
-        subject: "Einer Ihrer Kommentare wurde auf {0} hervorgehoben"
-        body: "{0}\nEin Mitglied unseres Teams hat diesen Kommentar ausgewählt, er wird jetzt für andere Leser besonders hervorgehoben: {1}"
+        subject: "אחת מהתגובות שלך הוצגה ב {0}"
+        body: "{0} \n חבר בצוות שלנו בחר תגובה זו כך שתוצג עבור קוראים אחרים: {1}"

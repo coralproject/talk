@@ -18,6 +18,10 @@ fr:
   talk-plugin-facebook-auth:
     sign_in: "Connectez-vous avec Facebook"
     sign_up: "Inscrivez-vous avec Facebook"
+he:
+  talk-plugin-facebook-auth:
+    sign_in: "התחבר עם פייסבוק"
+    sign_up: "הרשם עם פייסבוק"
 nl_NL:
   talk-plugin-facebook-auth:
     sign_in: "Inloggen met Facebook"

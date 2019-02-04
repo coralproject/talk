@@ -5,6 +5,12 @@ ar:
         subject: "رد شخص ما على تعليقك على {0}"
         body: "{0}\n{1} رد على تعليقك
         {2}"
+de:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
+        body: "{0}\n{1} antwortete auf Ihren Kommentar: {2}"
 en:
   talk-plugin-notifications:
     categories:
@@ -23,9 +29,9 @@ es:
       reply:
         subject: "Alguien ha respondido a tu comentario en {0}"
         body: "{0}\n{1} respondió a tu comentario: {2}"
-de:
+he:
   talk-plugin-notifications:
     categories:
       reply:
-        subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
-        body: "{0}\n{1} antwortete auf Ihren Kommentar: {2}"
+        subject: "מישהו השיב לתגובה שלך על {0}"
+        body: "{0}\n{1} השיב לתגובתך: {2}"

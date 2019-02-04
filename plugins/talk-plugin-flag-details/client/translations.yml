@@ -3,28 +3,31 @@ ar:
     flags: تقارير
 da:
   talk-plugin-flag-details:
-    flags: Reports
-en:
-  talk-plugin-flag-details:
-    flags: Reports
-sr:
-  talk-plugin-flag-details:
-    flags: Reporteri    
+    flags: Reports   
 de:
   talk-plugin-flag-details:
     flags: Markierungen
+en:
+  talk-plugin-flag-details:
+    flags: Reports
 es:
   talk-plugin-flag-details:
     flags: Reportes
 fr:
   talk-plugin-flag-details:
     flags: Reports
+he:
+  talk-plugin-flag-details:
+    flags: דיווחים
 nl_NL:
   talk-plugin-flag-details:
     flags: Meldingen
 pt_BR:
   talk-plugin-flag-details:
     flags: Reports
+sr:
+  talk-plugin-flag-details:
+    flags: Reporteri     
 zh_CN:
   talk-plugin-flag-details:
     flags: "报告"

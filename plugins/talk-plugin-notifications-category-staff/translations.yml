@@ -5,6 +5,12 @@ ar:
         subject: "شخص ما في {0} قد رد على تعليقك"
         body: "{0}\n{1} يعمل ل
                 {2} وقد رد على تعليقك: {3}"
+de:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
+        body: "{0}\n{1} arbeitet für {2} und hat auf Ihren Kommentar geantwortet: {3}"
 en:
   talk-plugin-notifications:
     categories:
@@ -23,12 +29,12 @@ es:
       staff:
         subject: "Alguien en {0} ha respondido a tu comentario"
         body: "{0}\n{1} trabaja para {2} y ha respondido a tu comentario: {3}"
-de:
+he:
   talk-plugin-notifications:
     categories:
       staff:
-        subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
-        body: "{0}\n{1} arbeitet für {2} und hat auf Ihren Kommentar geantwortet: {3}"
+        subject: "מישהו ב {0} השיב לתגובתך"
+        body: "{0}\n{1} עובד עבור {2} והוא השיב לתגובתך: {3}"
 nl_NL:
   talk-plugin-notifications:
     categories:

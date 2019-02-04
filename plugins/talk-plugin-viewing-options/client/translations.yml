@@ -7,22 +7,17 @@ da:
   talk-plugin-viewing-options:
     viewing_options: "Viewing Options"
     sort: Sorting
-    filter: Filtering
-en:
-  talk-plugin-viewing-options:
-    viewing_options: "Viewing Options"
-    sort: Sorting
-    filter: Filtering
-sr:
-  talk-plugin-viewing-options:
-    viewing_options: "Opcije pregleda"
-    sort: Sortiranje
-    filter: Filterisanje    
+    filter: Filtering    
 de:
   talk-plugin-viewing-options:
     viewing_options: "Ansichtsoptionen"
     sort: Sortieren
     filter: Filtern
+en:
+  talk-plugin-viewing-options:
+    viewing_options: "Viewing Options"
+    sort: Sorting
+    filter: Filtering
 es:
   talk-plugin-viewing-options:
     viewing_options: "Opciones"
@@ -33,6 +28,11 @@ fr:
     viewing_options: "Viewing Options"
     sort: Sorting
     filter: Filtering
+he:
+  talk-plugin-viewing-options:
+    viewing_options: "אפשרויות צפייה"
+    sort: מיון
+    filter: סינון
 nl_NL:
   talk-plugin-viewing-options:
     viewing_options: "Weergave opties"
@@ -43,6 +43,11 @@ pt_BR:
     viewing_options: "Ver opções"
     sort: Sorting
     filter: Filtering
+sr:
+  talk-plugin-viewing-options:
+    viewing_options: "Opcije pregleda"
+    sort: Sortiranje
+    filter: Filterisanje
 zh_CN:
   talk-plugin-viewing-options:
     viewing_options: "查看选项"

@@ -16,6 +16,24 @@ ar:
     digest_option: إرسال الإشعارات
     digest_enum:
       NONE: فورا
+de:
+  talk-plugin-notifications:
+    settings_title: Benachrichtigungen
+    settings_subtitle: Benachrichtige mich wenn
+    turn_off_all: Ich möchte keine Benachrichtigungen erhalten
+    banner_info:
+      title: Bestätigte E-Mail-Adresse benötigt
+      text: Um E-Mail-Benachrichtigungen zu erhalten, müssen Sie eine bestätigte E-Mail-Adresse haben.
+      verify_now: E-Mail-Adresse jetzt bestätigen
+    banner_success:
+      title: E-Mail-Bestätigungsanfrage verschickt
+      text: Eine E-Mail mit einem Bestätigungslink wurde an {0} geschickt.
+    banner_error:
+      title: Fehler
+      text: Beim Versand der Bestätigungsmail gab es einen Fehler. Bitte versuchen Sie es später erneut.
+    digest_option: Benachrichtigungen senden
+    digest_enum:
+      NONE: Sofort
 en:
   talk-plugin-notifications:
     settings_title: Notifications
@@ -70,24 +88,24 @@ es:
     digest_option: Enviar notificaciones
     digest_enum:
       NONE: Inmediatamente
-de:
+he:
   talk-plugin-notifications:
-    settings_title: Benachrichtigungen
-    settings_subtitle: Benachrichtige mich wenn
-    turn_off_all: Ich möchte keine Benachrichtigungen erhalten
+    settings_title: התראות
+    settings_subtitle: קבל הודעות כאשר
+    turn_off_all: אני לא רוצה לקבל התראות
     banner_info:
-      title: Bestätigte E-Mail-Adresse benötigt
-      text: Um E-Mail-Benachrichtigungen zu erhalten, müssen Sie eine bestätigte E-Mail-Adresse haben.
-      verify_now: E-Mail-Adresse jetzt bestätigen
+      title: נדרש אימות אימייל
+      text: כדי לקבל התראות באימייל, עליך להיות בעל כתובת אימייל מאומתת.
+      verify_now: אמת את האימייל שלך כעת
     banner_success:
-      title: E-Mail-Bestätigungsanfrage verschickt
-      text: Eine E-Mail mit einem Bestätigungslink wurde an {0} geschickt.
+      title: נשלח אימות אימייל
+      text: הודעת אימייל נשלחה אל {0} שמכילה קישור לאימות.
     banner_error:
-      title: Fehler
-      text: Beim Versand der Bestätigungsmail gab es einen Fehler. Bitte versuchen Sie es später erneut.
-    digest_option: Benachrichtigungen senden
+      title: שגיאה
+      text: אירעה שגיאה בשליחת אימייל האימות שלך. בבקשה נסה שוב מאוחר יותר.
+    digest_option: שלח התראות
     digest_enum:
-      NONE: Sofort
+      NONE: מיד
 nl_NL:
   talk-plugin-notifications:
     settings_title: Notificaties

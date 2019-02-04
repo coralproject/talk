@@ -6,18 +6,14 @@ da:
   talk-plugin-like:
     like: Like
     liked: Liked
-en:
-  talk-plugin-like:
-    like: Like
-    liked: Liked
-sr:
-  talk-plugin-like:
-    like: Sviđa mi se
-    liked: Sviđa vam se    
 de:
   talk-plugin-like:
     like: Gefällt mir
     liked: Gefällt mir
+en:
+  talk-plugin-like:
+    like: Like
+    liked: Liked
 es:
   talk-plugin-like:
     like: Me Gusta
@@ -26,6 +22,10 @@ fr:
   talk-plugin-like:
     like: Like
     liked: Liked
+he:
+  talk-plugin-like:
+    like: לייק
+    liked: לייקד
 nl_NL:
   talk-plugin-like:
     like: Like
@@ -34,6 +34,10 @@ pt_BR:
   talk-plugin-like:
     like: Like
     liked: Liked
+sr:
+  talk-plugin-like:
+    like: Sviđa mi se
+    liked: Sviđa vam se
 zh_CN:
   talk-plugin-like:
     like: "喜欢"

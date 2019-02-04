@@ -5,19 +5,15 @@ ar:
 da:
   talk-plugin-respect:
     respect: Respect
-    respected: Respected
-en:
-  talk-plugin-respect:
-    respect: Respect
-    respected: Respected
-sr:
-  talk-plugin-respect:
-    respect: Respekt
-    respected: Respektovan    
+    respected: Respected    
 de:
   talk-plugin-respect:
     respect: Respekt
     respected: Respektiert
+en:
+  talk-plugin-respect:
+    respect: Respect
+    respected: Respected
 es:
   talk-plugin-respect:
     respect: Respetar
@@ -26,6 +22,10 @@ fr:
   talk-plugin-respect:
     respect: Respect
     respected: Respected
+he:
+  talk-plugin-respect:
+    respect: כבד
+    respected: נכבד
 nl_NL:
   talk-plugin-respect:
     respect: Respect
@@ -34,6 +34,10 @@ pt_BR:
   talk-plugin-respect:
     respect: Respeitar
     respected: Respeitado
+sr:
+  talk-plugin-respect:
+    respect: Respekt
+    respected: Respektovan
 zh_CN:
   talk-plugin-respect:
     respect: "赞"

@@ -6,18 +6,14 @@
   "da": {
     "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"
-  },
-  "en": {
-    "off_topic": "Off Topic",
-    "hide_off_topic": "Hide Off-Topic Comments"
-  },
-  "sr": {
-    "off_topic": "Van teme",
-    "hide_off_topic": "Sakri komentare van teme"
   },  
   "de": {
     "off_topic": "Off-Topic",
     "hide_off_topic": "Off-Topic-Kommentare verbergen"
+  },
+  "en": {
+    "off_topic": "Off Topic",
+    "hide_off_topic": "Hide Off-Topic Comments"
   },
   "es": {
     "off_topic": "Fuera de Tópico",
@@ -27,6 +23,10 @@
     "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"
   },
+  "he": {
+    "off_topic": "מחוץ לנושא",
+    "hide_off_topic": "הסתר תגובות מחוץ לנושא"
+  },
   "nl_NL": {
     "off_topic": "Off topic",
     "hide_off_topic": "Off-topic reacties verbergen"
@@ -34,6 +34,10 @@
   "pt_BR": {
     "off_topic": "Off Topic",
     "hide_off_topic": "Hide Off-Topic Comments"
+  },
+  "sr": {
+    "off_topic": "Van teme",
+    "hide_off_topic": "Sakri komentare van teme"
   },
   "zh_CN": {
     "off_topic": "无关主题",
