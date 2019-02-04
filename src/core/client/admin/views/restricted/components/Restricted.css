@@ -1,0 +1,9 @@
+.lockIcon {
+  color: var(--palette-grey-dark);
+}
+.noPermission {
+  color: var(--palette-grey-dark);
+}
+.contactAdmin {
+  color: var(--palette-grey-main);
+}

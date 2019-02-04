@@ -1,18 +1,19 @@
 import { Match, Router, withRouter } from "found";
 import React from "react";
 
-import { RedirectLoginContainerLocal as Local } from "talk-admin/__generated__/RedirectLoginContainerLocal.graphql";
+import { RedirectLoginContainerQueryResponse } from "talk-admin/__generated__/RedirectLoginContainerQuery.graphql";
 import {
   SetRedirectPathMutation,
   withSetRedirectPathMutation,
 } from "talk-admin/mutations";
-import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
+import { graphql } from "talk-framework/lib/relay";
+import { withRouteConfig } from "talk-framework/lib/router";
 
 interface Props {
-  local: Local;
   match: Match;
   router: Router;
   setRedirectPath: SetRedirectPathMutation;
+  data: RedirectLoginContainerQueryResponse | null;
 }
 
 class RedirectLoginContainer extends React.Component<Props> {
@@ -21,35 +22,81 @@ class RedirectLoginContainer extends React.Component<Props> {
     this.redirectIfNotLoggedIn();
   }
 
-  public componentWillReceiveProps() {
-    this.redirectIfNotLoggedIn();
+  public componentWillReceiveProps(nextProps: Props) {
+    this.redirectIfNotLoggedIn(nextProps);
   }
 
-  private redirectIfNotLoggedIn() {
-    if (!this.props.local.loggedIn) {
-      const location = this.props.match.location;
-      this.props.setRedirectPath({
+  private shouldRedirectTo(props: Props = this.props): string | null {
+    if (!props.data) {
+      return null;
+    }
+    const {
+      me,
+      settings: { auth },
+    } = props.data!;
+    if (me) {
+      if (me.role === "COMMENTER") {
+        return "/admin/login";
+      } else if (
+        !me.email ||
+        !me.username ||
+        (!me.profiles.some(p => p.__typename === "LocalProfile") &&
+          auth.integrations.local.enabled &&
+          (auth.integrations.local.targetFilter.admin ||
+            auth.integrations.local.targetFilter.stream))
+      ) {
+        return "/admin/login";
+      }
+      return "";
+    }
+    return "/admin/login";
+  }
+
+  private redirectIfNotLoggedIn(props: Props = this.props) {
+    const redirect = this.shouldRedirectTo(props);
+    if (redirect) {
+      const location = props.match.location;
+      props.setRedirectPath({
         path: location.pathname + location.search + location.hash,
       });
-      this.props.router.replace("/admin/login");
+      props.router.replace(redirect);
     }
   }
 
   public render() {
+    if (this.shouldRedirectTo()) {
+      return null;
+    }
     return this.props.children;
   }
 }
 
-const enhanced = withRouter(
-  withSetRedirectPathMutation(
-    withLocalStateContainer(
-      graphql`
-        fragment RedirectLoginContainerLocal on Local {
-          loggedIn
+const enhanced = withRouteConfig({
+  query: graphql`
+    query RedirectLoginContainerQuery {
+      me {
+        username
+        email
+        profiles {
+          __typename
         }
-      `
-    )(RedirectLoginContainer)
-  )
-);
+        role
+      }
+      settings {
+        auth {
+          integrations {
+            local {
+              enabled
+              targetFilter {
+                admin
+                stream
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
+})(withRouter(withSetRedirectPathMutation(RedirectLoginContainer)));
 
 export default enhanced;

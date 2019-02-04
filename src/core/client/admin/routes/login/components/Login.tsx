@@ -1,44 +1,44 @@
-import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
-import {
-  BrandIcon,
-  BrandName,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "talk-ui/components";
+import { PropTypesOf } from "talk-framework/types";
 
-import SignInFormContainer from "../containers/SignInFormContainer";
+import AddEmailAddressContainer from "../views/addEmailAddress/containers/AddEmailAddressContainer";
+import CreatePasswordContainer from "../views/createPassword/containers/CreatePasswordContainer";
+import CreateUsernameContainer from "../views/createUsername/containers/CreateUsernameContainer";
+import SignInContainer from "../views/signIn/containers/SignInContainer";
 
-import styles from "./Login.css";
+export type View =
+  | "SIGN_UP"
+  | "SIGN_IN"
+  | "FORGOT_PASSWORD"
+  | "RESET_PASSWORD"
+  | "CREATE_USERNAME"
+  | "CREATE_PASSWORD"
+  | "ADD_EMAIL_ADDRESS"
+  | "%future added value";
 
-const Login: StatelessComponent = () => (
-  <div>
-    <Flex justifyContent="center">
-      <HorizontalGutter className={styles.loginContainer} size="double">
-        <Flex justifyContent="center">
-          <div className={styles.brandIcon}>
-            <BrandIcon size="lg" />
-          </div>
-        </Flex>
-        <div>
-          <Localized id="login-login-signInTo">
-            <Typography align="center" variant="heading3">
-              Sign in to
-            </Typography>
-          </Localized>
-          <BrandName size="lg" align="center" />
-        </div>
-        <Localized id="login-login-enterAccountDetailsBelow">
-          <Typography align="center">
-            Enter your account details below
-          </Typography>
-        </Localized>
-        <SignInFormContainer />
-      </HorizontalGutter>
-    </Flex>
-  </div>
+export interface AppProps {
+  view: View;
+  auth: PropTypesOf<typeof SignInContainer>["auth"];
+}
+
+const renderView = (view: AppProps["view"], auth: AppProps["auth"]) => {
+  switch (view) {
+    case "SIGN_IN":
+      return <SignInContainer auth={auth} />;
+    case "CREATE_USERNAME":
+      return <CreateUsernameContainer />;
+    case "CREATE_PASSWORD":
+      return <CreatePasswordContainer />;
+    case "ADD_EMAIL_ADDRESS":
+      return <AddEmailAddressContainer />;
+    default:
+      throw new Error(`Unknown view ${view}`);
+  }
+};
+
+const App: StatelessComponent<AppProps> = ({ view, auth }) => (
+  <div>{renderView(view, auth)}</div>
 );
 
-export default Login;
+export default App;

@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
 import { SignInWithGoogleContainer_auth as AuthData } from "talk-auth/__generated__/SignInWithGoogleContainer_auth.graphql";
-import GoogleButton from "talk-auth/components/GoogleButton";
-import { redirectOAuth2 } from "talk-auth/helpers";
+import GoogleButton from "talk-framework/components/GoogleButton";
+import { redirectOAuth2 } from "talk-framework/helpers";
 import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 
 interface Props {

@@ -11,21 +11,33 @@ navigation-stories = Stories
 navigation-configure = Configure
 navigation-signOutButton = Sign Out
 
+## Restricted
+restricted-currentlySignedInTo = Currently signed in to
+restricted-noPermissionInfo = You do not have permission to access this page.
+restricted-signedInAs = You are signed in as: <username></username>
+restricted-signInWithADifferentAccount = Sign in with a different account
+restricted-contactAdmin = If you think this is an error, please contact your administrator for assistance.
+
 ## Login
 
-login-login-signInTo = Sign in to
-login-login-enterAccountDetailsBelow = Enter your account details below
+# Sign In
+login-signInTo = Sign in to
+login-signIn-enterAccountDetailsBelow = Enter your account details below
 
-login-signIn-emailAddressLabel = Email Address
-login-signIn-emailAddressTextField =
+login-emailAddressLabel = Email Address
+login-emailAddressTextField =
   .placeholder = Email Address
 
 login-signIn-passwordLabel = Password
 login-signIn-passwordTextField =
   .placeholder = Password
 
-login-signIn-signIn = Sign in
+login-signIn-signInWithEmail = Sign in with Email
+login-signIn-orSeparator = Or
 
+login-signInWithFacebook = Sign in with Facebook
+login-signInWithGoogle = Sign in with Google
+login-signInWithOIDC = Sign in with { $name }
 
 ## Configure
 
@@ -144,3 +156,45 @@ moderate-decision = Decision
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View
+
+
+## Create Username
+
+createUsername-createUsernameHeader = Create Username
+createUsername-whatItIs =
+  Your username is a unique identifier that will appear on all of your comments.
+createUsername-createUsernameButton = Create Username
+createUsername-usernameLabel = Username
+createUsername-usernameDescription = You may use “_” and “.” Spaces not permitted.
+createUsername-usernameTextField =
+  .placeholder = Username
+
+## Add Email Address
+addEmailAddress-addEmailAddressHeader = Add Email Address
+
+addEmailAddress-emailAddressLabel = Email Address
+addEmailAddress-emailAddressTextField =
+  .placeholder = Email Address
+
+addEmailAddress-confirmEmailAddressLabel = Confirm Email Address
+addEmailAddress-confirmEmailAddressTextField =
+  .placeholder = Confirm Email Address
+
+addEmailAddress-whatItIs =
+  For your added security, we require users to add an email address to their accounts.
+
+addEmailAddress-addEmailAddressButton =
+  Add Email Address
+
+## Create Password
+createPassword-createPasswordHeader = Create Password
+createPassword-whatItIs =
+  To protect against unauthorized changes to your account,
+  we require users to create a password.
+createPassword-createPasswordButton =
+  Create Password
+
+createPassword-passwordLabel = Password
+createPassword-passwordDescription = Must be at least {$minLength} characters
+createPassword-passwordTextField =
+  .placeholder = Password

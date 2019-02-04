@@ -5,6 +5,10 @@ export {
   CompleteAccountMutation,
 } from "./CompleteAccountMutation";
 export { withSignUpMutation, SignUpMutation } from "./SignUpMutation";
+export {
+  withClearErrorMutation,
+  ClearErrorMutation,
+} from "./ClearErrorMutation";
 export { withSetEmailMutation, SetEmailMutation } from "./SetEmailMutation";
 export {
   withSetUsernameMutation,
@@ -14,7 +18,3 @@ export {
   withSetPasswordMutation,
   SetPasswordMutation,
 } from "./SetPasswordMutation";
-export {
-  withClearErrorMutation,
-  ClearErrorMutation,
-} from "./ClearErrorMutation";

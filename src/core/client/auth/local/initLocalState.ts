@@ -1,26 +1,9 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { parseQuery } from "talk-common/utils";
+import { getParamsFromHashAndClearIt } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "talk-framework/lib/relay";
-
-function getParamsFromHashAndClearIt() {
-  try {
-    const params = window.location.hash
-      ? parseQuery(window.location.hash.substr(1))
-      : {};
-
-    // Remove hash with token.
-    if (window.location.hash) {
-      window.history.replaceState(null, document.title, location.pathname);
-    }
-
-    return params;
-  } catch (err) {
-    window.console.error(err);
-    return {};
-  }
-}
 
 /**
  * Initializes the local state, before we start the App.

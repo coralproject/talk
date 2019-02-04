@@ -58,7 +58,7 @@ export interface TalkContext {
   eventEmitter: EventEmitter2;
 
   /** Clear session data. */
-  clearSession: () => void;
+  clearSession: () => Promise<void>;
 }
 
 const { Provider, Consumer } = React.createContext<TalkContext>({} as any);

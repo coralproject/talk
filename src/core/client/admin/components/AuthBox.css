@@ -1,0 +1,17 @@
+.container {
+  width: 350px;
+  background-color: #f5f5f5;
+  border: 1px solid var(--palette-grey-lighter);
+  margin-top: 70px;
+  padding: 0 calc(3 * var(--spacing-unit)) calc(4 * var(--spacing-unit))
+    calc(3 * var(--spacing-unit));
+  box-sizing: border-box;
+}
+
+.brandIcon {
+  display: inline-flex;
+  background: var(--palette-common-white);
+  padding: calc(0.5 * var(--spacing-unit));
+  border: 1px solid var(--palette-grey-lighter);
+  margin-top: -42px;
+}

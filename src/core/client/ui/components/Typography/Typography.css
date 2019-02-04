@@ -98,6 +98,10 @@
   color: var(--palette-text-secondary);
 }
 
+.colorTextLight {
+  color: var(--palette-text-light);
+}
+
 .colorError {
   color: var(--palette-error-main);
 }

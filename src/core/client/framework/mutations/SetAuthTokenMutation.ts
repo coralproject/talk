@@ -26,7 +26,7 @@ export async function commit(
       await localStorage.removeItem("authToken");
     }
     // Clear current session, as we are starting a new one.
-    clearSession();
+    await clearSession();
   });
 }
 

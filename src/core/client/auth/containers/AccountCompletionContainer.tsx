@@ -37,11 +37,15 @@ function handleAccountCompletion(props: Props) {
       if (view !== "ADD_EMAIL_ADDRESS") {
         setView({ view: "ADD_EMAIL_ADDRESS" });
       }
-    } else if (!me.username) {
+      return false;
+    }
+    if (!me.username) {
       if (view !== "CREATE_USERNAME") {
         setView({ view: "CREATE_USERNAME" });
       }
-    } else if (
+      return false;
+    }
+    if (
       !me.profiles.some(p => p.__typename === "LocalProfile") &&
       auth.integrations.local.enabled &&
       auth.integrations.local.targetFilter.stream
@@ -49,10 +53,10 @@ function handleAccountCompletion(props: Props) {
       if (view !== "CREATE_PASSWORD") {
         setView({ view: "CREATE_PASSWORD" });
       }
-    } else {
-      completeAccount({ authToken: authToken! });
-      return true;
+      return false;
     }
+    completeAccount({ authToken: authToken! });
+    return true;
   }
   return false;
 }

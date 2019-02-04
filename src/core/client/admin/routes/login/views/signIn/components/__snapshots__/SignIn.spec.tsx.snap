@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<AuthBox
+  title={
+    <Localized
+      id="login-signInTo"
+    >
+      <span>
+        Sign in to
+      </span>
+    </Localized>
+  }
+>
+  <withPropsOnChange(HorizontalGutter)
+    size="oneAndAHalf"
+  >
+    <withPropsOnChange(HorizontalGutter) />
+  </withPropsOnChange(HorizontalGutter)>
+</AuthBox>
+`;

@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
 import { SignUpWithFacebookContainer_auth as AuthData } from "talk-auth/__generated__/SignUpWithFacebookContainer_auth.graphql";
-import FacebookButton from "talk-auth/components/FacebookButton";
-import { redirectOAuth2 } from "talk-auth/helpers";
+import FacebookButton from "talk-framework/components/FacebookButton";
+import { redirectOAuth2 } from "talk-framework/helpers";
 import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 
 interface Props {

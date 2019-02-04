@@ -1,0 +1,397 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`accepts valid username 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      Your username is a unique identifier that will appear on all of your comments.
+    </p>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="username"
+      >
+        Username
+      </label>
+      <p
+        className="Typography-root Typography-detail Typography-colorTextSecondary"
+      >
+        You may use “_” and “.” Spaces not permitted.
+      </p>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={true}
+        id="username"
+        name="username"
+        onChange={[Function]}
+        placeholder="Username"
+        type="text"
+        value="hans"
+      />
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+      disabled={true}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Create Username
+    </button>
+  </div>
+</form>
+`;
+
+exports[`checks for invalid username 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      Your username is a unique identifier that will appear on all of your comments.
+    </p>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="username"
+      >
+        Username
+      </label>
+      <p
+        className="Typography-root Typography-detail Typography-colorTextSecondary"
+      >
+        You may use “_” and “.” Spaces not permitted.
+      </p>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
+        disabled={false}
+        id="username"
+        name="username"
+        onChange={[Function]}
+        placeholder="Username"
+        type="text"
+        value="x"
+      />
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          Username must contain at least ⁨3⁩ characters.
+        </span>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Create Username
+    </button>
+  </div>
+</form>
+`;
+
+exports[`renders createUsername view 1`] = `
+<div>
+  <div
+    data-testid="completeAccountBox"
+  >
+    <div
+      className="Flex-root Flex-flex Flex-justifyCenter"
+    >
+      <div
+        className="CompleteAccountBox-container"
+      >
+        <div
+          className="CompleteAccountBox-header"
+        >
+          <h1
+            className="Typography-root Typography-heading3 Typography-colorTextLight Typography-alignCenter CompleteAccountBox-heading3"
+          >
+            Finish Setting Up Your Account
+          </h1>
+          <h1
+            className="Typography-root Typography-heading1 Typography-colorTextLight Typography-alignCenter"
+          >
+            <span>
+              Create Username
+            </span>
+          </h1>
+        </div>
+        <div
+          className="CompleteAccountBox-main"
+        >
+          <form
+            autoComplete="off"
+            onSubmit={[Function]}
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            >
+              <p
+                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              >
+                Your username is a unique identifier that will appear on all of your comments.
+              </p>
+              <div
+                className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              >
+                <label
+                  className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="username"
+                >
+                  Username
+                </label>
+                <p
+                  className="Typography-root Typography-detail Typography-colorTextSecondary"
+                >
+                  You may use “_” and “.” Spaces not permitted.
+                </p>
+                <input
+                  className="TextField-root TextField-colorRegular TextField-fullWidth"
+                  disabled={false}
+                  id="username"
+                  name="username"
+                  onChange={[Function]}
+                  placeholder="Username"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <button
+                className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+                disabled={false}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Create Username
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`shows error when submitting empty form 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      Your username is a unique identifier that will appear on all of your comments.
+    </p>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="username"
+      >
+        Username
+      </label>
+      <p
+        className="Typography-root Typography-detail Typography-colorTextSecondary"
+      >
+        You may use “_” and “.” Spaces not permitted.
+      </p>
+      <input
+        className="TextField-root TextField-colorError TextField-fullWidth"
+        disabled={false}
+        id="username"
+        name="username"
+        onChange={[Function]}
+        placeholder="Username"
+        type="text"
+        value=""
+      />
+      <div
+        className="Message-root Message-colorError Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          warning
+        </span>
+        <span>
+          This field is required.
+        </span>
+      </div>
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Create Username
+    </button>
+  </div>
+</form>
+`;
+
+exports[`shows server error 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      Your username is a unique identifier that will appear on all of your comments.
+    </p>
+    <div
+      className="CallOut-root CallOut-colorError CallOut-fullWidth"
+    >
+      server error
+
+GraphQL request (4:3)
+3: ) {
+4:   setUsername(input: $input) {
+     ^
+5:     user {
+
+    </div>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="username"
+      >
+        Username
+      </label>
+      <p
+        className="Typography-root Typography-detail Typography-colorTextSecondary"
+      >
+        You may use “_” and “.” Spaces not permitted.
+      </p>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="username"
+        name="username"
+        onChange={[Function]}
+        placeholder="Username"
+        type="text"
+        value="hans"
+      />
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Create Username
+    </button>
+  </div>
+</form>
+`;
+
+exports[`successfully sets username 1`] = `
+<form
+  autoComplete="off"
+  onSubmit={[Function]}
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+  >
+    <p
+      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    >
+      Your username is a unique identifier that will appear on all of your comments.
+    </p>
+    <div
+      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+    >
+      <label
+        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        htmlFor="username"
+      >
+        Username
+      </label>
+      <p
+        className="Typography-root Typography-detail Typography-colorTextSecondary"
+      >
+        You may use “_” and “.” Spaces not permitted.
+      </p>
+      <input
+        className="TextField-root TextField-colorRegular TextField-fullWidth"
+        disabled={false}
+        id="username"
+        name="username"
+        onChange={[Function]}
+        placeholder="Username"
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      className="BaseButton-root Button-root Button-sizeLarge Button-colorPrimary Button-variantFilled Button-fullWidth"
+      disabled={false}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="submit"
+    >
+      Create Username
+    </button>
+  </div>
+</form>
+`;

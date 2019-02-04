@@ -1,6 +1,5 @@
 import { EventEmitter2 } from "eventemitter2";
 import { IResolvers } from "graphql-tools";
-import { noop } from "lodash";
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
@@ -19,6 +18,7 @@ import createNodeMock from "./createNodeMock";
 interface CreateParams {
   logNetwork?: boolean;
   resolvers?: IResolvers<any, any>;
+  muteNetworkErrors?: boolean;
   initLocalState?: (
     local: RecordProxy,
     source: RecordSourceProxy,
@@ -31,6 +31,7 @@ export default function create(params: CreateParams) {
     // Set this to true, to see graphql responses.
     logNetwork: params.logNetwork,
     resolvers: params.resolvers,
+    muteNetworkErrors: params.muteNetworkErrors,
     initLocalState: (localRecord, source, env) => {
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, env);
@@ -48,7 +49,7 @@ export default function create(params: CreateParams) {
     browserInfo: { ios: false },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
-    clearSession: noop,
+    clearSession: () => Promise.resolve(),
   };
 
   const testRenderer = TestRenderer.create(

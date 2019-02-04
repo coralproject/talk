@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Auth: StatelessComponent<Props> = ({ disabled, auth, onInitValues }) => (
-  <HorizontalGutter size="double">
+  <HorizontalGutter size="double" data-testid="configure-authContainer">
     <DisplayNamesConfigContainer
       disabled={disabled}
       auth={auth}
