@@ -7,6 +7,9 @@ da:
 en:
   talk-plugin-sort-most-loved:
     label: Most loved first
+sr:
+  talk-plugin-sort-most-loved:
+    label: Prvo najvoljeniji    
 de:
   talk-plugin-sort-most-loved:
     label: Häufigste "Ich liebe es" zuerst

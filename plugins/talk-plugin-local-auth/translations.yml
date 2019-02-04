@@ -150,6 +150,82 @@ en:
         description_2: "You can change your account settings by visiting"
         path: "My Profile > Settings"
         alert: "Email Added!"
+sr:
+  email:
+    email_change_original:
+      subject: Promena e-maila
+      body: Vaša e-mail adresa je promenjena iz {0} u {1}. Ukoliko niste zatražili ovu izmenu, molimo kontaktirajte {2}.
+  error:
+    NO_LOCAL_PROFILE: Nijedna postojeća e-mail adresa nije povezana sa ovim nalogom.
+    LOCAL_PROFILE: E-mail adresa je već povezana sa ovim nalogom.
+    INCORRECT_PASSWORD: Lozinka koju ste uneli je neispravna.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Promenite lozinku"
+      passwords_dont_match: "Lozinke se ne poklapaju"
+      required_field: "Ovo polje je obavezno"
+      forgot_password: "Zaboravili ste lozinku?"
+      old_password: "Stara lozinka"
+      new_password: "Nova lozinka"
+      confirm_new_password: "Potvrdite novu lozinku"
+      save: "Snimi"
+      cancel: "Poništi"
+      edit: "Uredi"
+      changed_password_msg: "Promena lozinke - Vša lozinka je uspešno promenjena"
+      forgot_password_sent: "Zaboravljena lozinka - poslali smo Vam e-mail za povraćaj lozinke"
+    change_username:
+      change_username_note: "Korisničko ime može biti promenjeno jednom u 14 dana."
+      is_not_eligible: "Trenutno ne možete promeniti korisničko ime."
+      save: "Snimi"
+      edit_profile: "Uredi profil"
+      cancel: "Poništi"
+      confirm_username_change: "Potvrdi promenu korisničkog imena"
+      description: "Pokušavate da promenite svoje korisničko ime. Novo korisničko ime će se pojaviti na svim vašim prethodnim i novim komentarima."
+      old_username: "Staro korisničko ime"
+      new_username: "Novo korisničko ime"
+      re_enter: "Ponovo unesite korisničko ime"
+      bottom_note: "Napomena: Nećete moći ponovo da menjate svoje korisničko ime narednih 14 dana"
+      confirm_changes: "Potvrdi izmene"
+      username_does_not_match: "Korisničko ime ne postoji"
+      cant_be_equal: "Vaše novo {0} mora se razlikovati od prethodnog"
+      changed_username_success_msg: "Korisničko ime je promenjeno - Vaše korisničko ime je uspešno promenjeno. Nećete moći ponovo da ga menjate narednih 14 dana."
+      change_username_attempt: "Koriničko ime ne može biti promenjeno. Korisničko ime može biti promenjeno samo jednom u 14 dana."
+    change_email:
+      confirm_email_change: "Potvrdi promenu e-maila"
+      description: "Pokušavate da promenite e-mail adresu. Vaša nova e-mail adresa biće korišćena za prijavljivanje i primanje obaveštenja o nalogu."
+      old_email: "Stara e-mail adresa"
+      new_email: "Nova e-mail adresa"
+      enter_password: "Unesite lozinku"
+      incorrect_password: "Pogrešna lozinka"
+      confirm_change: "Potvrdi izmenu"
+      cancel: "Poništi"
+      change_email_msg: "E-mail adresa promenjena. Ova e-mail adresa biće korišćena za prijavljivanje i primanje obaveštenja."
+    add_email:
+      add_email_address: "Dodaj e-mail adresu"
+      enter_email_address: "Unesi e-mail adresu:"
+      invalid_email_address: "Pogrešna e-mail adresa"
+      confirm_email_address: "Potvrdi e-mail adresu:"
+      email_does_not_match: "Email adrese se ne poklapaju"
+      insert_password: "Unesi lozinku:"
+      confirm_password: "Potvrdi lozinku:"
+      required_field: "Ovo polje je obavezno"
+      done: "Gotovo"
+      content:
+        title: "Dodaj e-mail adresu"
+        description: "For your added security, we require users to add an email address to their accounts. Your email address will be used to:"
+        item_1: "Receive updates regarding any changes to your account (email address, username, password, etc.)"
+        item_2: "Omogućuje vam da preuzmete (download) svoje komentare."
+        item_3: "Send comment notifications that you have chosen to receive."
+      verify:
+        title: "Potvrdite e-mail adresu"
+        description:  "Poslali smo e-mail na {0} da potvrdite ssvoj nalog. Morate potvrditi e-mail adresu da bi se mogla koristiti za potvrde promene naloga i obaveštenja."
+      added:
+        title: "Email adresa dodata"
+        description: "Vaša e-mail adresa je dodata u nalog."
+        subtitle: "Želite da promenite e-mail adresu?"
+        description_2: "Možete urediti svoj nalog ovde:"
+        path: "Moj profil > Podešavanja"
+        alert: "E-mail dodat"        
 pt_BR:
   email:
     email_change_original:

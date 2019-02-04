@@ -7,6 +7,9 @@ da:
 en:
   talk-plugin-sort-most-liked:
     label: Most liked first
+sr:
+  talk-plugin-sort-most-liked:
+    label: Prvo sa najviše sviđanja    
 de:
   talk-plugin-sort-most-liked:
     label: Beliebteste zuerst

@@ -7,6 +7,9 @@ da:
 en:
   talk-plugin-sort-most-replied:
     label: Most replied first
+sr:
+  talk-plugin-sort-most-replied:
+    label: Prvo sa najviše odgovora    
 de:
   talk-plugin-sort-most-replied:
     label: Häufigste Antworten zuerst
