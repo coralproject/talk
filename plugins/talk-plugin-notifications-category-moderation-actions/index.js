@@ -4,6 +4,7 @@ const path = require('path');
 const { MODERATION_NOTIFICATION_TYPES } = require('./config');
 
 const UNPUBLISHED_STATUS_TYPES = ['PREMOD', 'SYSTEM_WITHHELD'];
+const AVAILABLE_NOTIFICATION_TYPES = ['APPROVED', 'REJECTED'];
 
 const handle = async (ctx, comment) => {
   const commentID = get(comment, 'id', null);
@@ -15,12 +16,12 @@ const handle = async (ctx, comment) => {
   // Check to see if this is a previously unpublished comment.
   const commentHistory = get(comment, 'status_history', []);
   let previouslyUnpublished = false;
-  
-   // Check for last status before current one
+
+  // Check for last status before current one
   if (commentHistory.length >= 2) {
     const previousStatus = commentHistory[commentHistory.length - 2];
     if (UNPUBLISHED_STATUS_TYPES.includes(previousStatus.type)) {
-        previouslyUnpublished = true;
+      previouslyUnpublished = true;
     }
   }
 
@@ -123,9 +124,13 @@ const handlers = {
 };
 
 const notifications = [];
-MODERATION_NOTIFICATION_TYPES.forEach(type =>
-  notifications.push(handlers[type.toLowerCase()])
-);
+MODERATION_NOTIFICATION_TYPES.forEach(type => {
+  if (AVAILABLE_NOTIFICATION_TYPES.includes(type)) {
+    notifications.push(handlers[type.toLowerCase()]);
+  } else {
+    console.error(`Unkown moderation notification type: ${type}`);
+  }
+});
 
 module.exports = {
   typeDefs: `
