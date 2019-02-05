@@ -1,3 +1,6 @@
 en:
   talk-plugin-sort-most-downvoted:
     label: Most downvoted first
+he:
+  talk-plugin-sort-most-downvoted:
+    label: השלילי ביותר קודם

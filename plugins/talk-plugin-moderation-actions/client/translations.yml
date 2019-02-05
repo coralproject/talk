@@ -70,6 +70,18 @@ fr:
     ban_user_dialog_cancel: "Cancel"
     ban_user_dialog_yes: "Yes. Ban user"
     ban_user_dialog_headline: "Ban User?"
+he:
+  talk-plugin-moderation-actions:
+    reject_comment: "דחה"
+    approve_comment: "אשר"
+    approved_comment: "מאושרת"
+    moderation_actions: "פעולות מתווך"
+    ban_user: "חסום משתמש"
+    ban_user_dialog_sub: "האם אתה בטוח שאתה רוצה לאסור את המשתמש הזה?"
+    ban_user_dialog_copy: "הערה: חסימת משתמש זה תציב גם תגובה זו בתור נדחה."
+    ban_user_dialog_cancel: "בטל"
+    ban_user_dialog_yes: "כן. חסום משתמש"
+    ban_user_dialog_headline: "חסום משתמש?"
 nl_NL:
   talk-plugin-moderation-actions:
     reject_comment: "Afkeuren"
