@@ -5,6 +5,7 @@ const {
   THRESHOLD,
   API_TIMEOUT,
   DO_NOT_STORE,
+  API_MODEL,
 } = require('./config');
 const debug = require('debug')('talk:plugin:toxic-comments');
 
@@ -55,7 +56,7 @@ async function getScores(text) {
     doNotStore: DO_NOT_STORE,
     requestedAttributes: {
       TOXICITY: {},
-      SEVERE_TOXICITY: {},
+      '${API_MODEL}': {},
     },
   });
   if (!data || data.error) {
@@ -64,7 +65,7 @@ async function getScores(text) {
       TOXICITY: {
         summaryScore: null,
       },
-      SEVERE_TOXICITY: {
+      '${API_MODEL}': {
         summaryScore: null,
       },
     };
@@ -74,8 +75,8 @@ async function getScores(text) {
     TOXICITY: {
       summaryScore: data.attributeScores.TOXICITY.summaryScore.value,
     },
-    SEVERE_TOXICITY: {
-      summaryScore: data.attributeScores.SEVERE_TOXICITY.summaryScore.value,
+    '${API_MODEL}': {
+      summaryScore: data.attributeScores['${API_MODEL}'].summaryScore.value,
     },
   };
 }
@@ -87,7 +88,10 @@ async function getScores(text) {
  * @return {number}         toxicity probability from 0 - 1.0
  */
 function getProbability(scores) {
-  return scores.SEVERE_TOXICITY.summaryScore;
+  if (!scores['${API_MODEL'].summaryScore) {
+    return scores.TOXICITY.summaryScore;
+  }
+  return scores['${API_MODEL}'].summaryScore;
 }
 
 /**
