@@ -1,4 +1,5 @@
 const express = require('express');
+const Joi = require('joi');
 const router = express.Router();
 const authorization = require('../../../middleware/authorization');
 const { ErrHTTPNotFound } = require('../../../errors');
@@ -31,36 +32,63 @@ const FilterOpenAssets = (query, filter) => {
   }
 };
 
+const ListAssetsSchema = Joi.object({
+  value: Joi.string()
+    .empty('')
+    .default(''),
+  field: Joi.string()
+    .empty('')
+    .default('publication_date'),
+  page: Joi.number()
+    .empty('')
+    .default(1)
+    .min(1),
+  asc: Joi.bool()
+    .empty('')
+    .default(false),
+  filter: Joi.string()
+    .empty('')
+    .valid(['all', 'open', 'closed'])
+    .default('all'),
+  limit: Joi.number()
+    .empty('')
+    .default(20)
+    .max(500)
+    .min(0),
+});
+
 // List assets.
 router.get(
   '/',
   authorization.needed('ADMIN', 'MODERATOR'),
   async (req, res, next) => {
-    const {
-      value = '',
-      field = 'publication_date',
-      page = 1,
-      asc = 'false',
-      filter = 'all',
-      limit = 20,
-    } = req.query;
+    const { value: query, error: err } = Joi.validate(
+      req.query,
+      ListAssetsSchema,
+      {}
+    );
+    if (err) {
+      return next(err);
+    }
+
+    let { value, field, page, asc, filter, limit } = query;
 
     try {
-      const order = asc === 'true' ? 1 : -1;
+      const order = asc ? 1 : -1;
 
       const queryOpts = {
         sort: { [field]: order, created_at: order },
         skip: (page - 1) * limit,
-        limit,
+        limit: limit,
       };
 
       // Find all the assets.
       let [result, count] = await Promise.all([
-        // Find the actuall assets.
+        // Find the actual assets.
         FilterOpenAssets(AssetsService.search({ value }), filter)
           .sort(queryOpts.sort)
-          .skip(parseInt(queryOpts.skip))
-          .limit(parseInt(queryOpts.limit))
+          .skip(queryOpts.skip)
+          .limit(queryOpts.limit)
           .lean(),
 
         // Get the count of actual assets.
@@ -70,9 +98,9 @@ router.get(
       // Send back the asset data.
       res.json({
         result,
-        limit: Number(limit),
+        limit,
         count,
-        page: Number(page),
+        page,
         totalPages: Math.ceil(count / (limit === 0 ? 1 : limit)),
       });
     } catch (e) {
