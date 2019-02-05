@@ -81,6 +81,10 @@ Asset.index(
   }
 );
 
+// Indexes for listing the assets on the admin page.
+Asset.index({ created_at: -1, publication_date: -1 }, { background: true });
+Asset.index({ created_at: 1, publication_date: 1 }, { background: true });
+
 /**
  * Returns true if the asset is closed, false else.
  */
