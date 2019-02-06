@@ -19,7 +19,7 @@ import {
   retrieveCommentUserConnection,
   retrieveManyComments,
 } from "talk-server/models/comment";
-import { Connection } from "talk-server/models/connection";
+import { Connection } from "talk-server/models/helpers/connection";
 import { retrieveSharedModerationQueueQueuesCounts } from "talk-server/models/story/counts/shared";
 
 import { SingletonResolver } from "./util";

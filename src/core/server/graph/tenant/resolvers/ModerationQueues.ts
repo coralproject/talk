@@ -4,7 +4,7 @@ import {
   RejectCommentPayloadToModerationQueuesResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { CommentConnectionInput } from "talk-server/models/comment";
-import { FilterQuery } from "talk-server/models/query";
+import { FilterQuery } from "talk-server/models/helpers/query";
 import {
   CommentModerationCountsPerQueue,
   Story,

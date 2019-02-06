@@ -15,11 +15,16 @@ import logger from "talk-server/logger";
 import { createQueue, TaskQueue } from "talk-server/queue";
 import { createJWTSigningConfig } from "talk-server/services/jwt";
 import { createMongoDB } from "talk-server/services/mongodb";
+import { ensureIndexes } from "talk-server/services/mongodb/indexes";
 import { AugmentedRedis, createRedisClient } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 
 export interface ServerOptions {
   config?: Config;
+}
+
+export interface ServerConnectOptions {
+  isWorker?: boolean;
 }
 
 /**
@@ -74,7 +79,7 @@ class Server {
     };
   }
 
-  public async connect() {
+  public async connect({ isWorker }: ServerConnectOptions = {}) {
     // Guard against double connecting.
     if (this.connected) {
       throw new Error("server has already connected");
@@ -83,6 +88,13 @@ class Server {
 
     // Setup MongoDB.
     this.mongo = await createMongoDB(config);
+
+    // If the instance being connected is not a worker process, then create the
+    // database indexes if it isn't disabled.
+    if (!isWorker && !this.config.get("disable_mongodb_autoindexing")) {
+      // Setup the database indexes.
+      await ensureIndexes(this.mongo);
+    }
 
     // Setup Redis.
     this.redis = createRedisClient(config);

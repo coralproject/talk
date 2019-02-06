@@ -8,14 +8,33 @@ import {
   ConnectionInput,
   getPageInfo,
   nodesToEdges,
-} from "talk-server/models/connection";
-import Query from "talk-server/models/query";
+} from "talk-server/models/helpers/connection";
+import Query, {
+  createConnectionOrderVariants,
+  createIndexFactory,
+} from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(db: Db) {
   return db.collection<Readonly<CommentModerationAction>>(
     "commentModerationActions"
   );
+}
+
+export async function createCommentModerationActionIndexes(mongo: Db) {
+  const createIndex = createIndexFactory(collection(mongo));
+
+  // UNIQUE { id }
+  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
+
+  const createVariants = createConnectionOrderVariants<
+    Readonly<CommentModerationAction>
+  >([{ createdAt: -1 }]);
+
+  // { moderatorID, ...connectionParams }
+  await createVariants(createIndex, {
+    moderatorID: 1,
+  });
 }
 
 /**

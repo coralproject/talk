@@ -1547,36 +1547,6 @@ type Story {
   createdAt: Time!
 }
 
-"""
-StoryEdge represents a unique Story in a StoryConnection.
-"""
-type StoryEdge {
-  """
-  node is the Story for this edge.
-  """
-  node: Story!
-
-  """
-
-  """
-  cursor: Cursor!
-}
-
-"""
-StoriesConnection represents a subset of a Story list.
-"""
-type StoriesConnection {
-  """
-  edges are a subset of StoryEdge's.
-  """
-  edges: [StoryEdge!]!
-
-  """
-  pageInfo is
-  """
-  pageInfo: PageInfo!
-}
-
 ################################################################################
 ## CommentsFilterInput
 ################################################################################

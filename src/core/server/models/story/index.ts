@@ -4,8 +4,10 @@ import uuid from "uuid";
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
+import { createIndexFactory } from "talk-server/models/helpers/query";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
+
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
@@ -58,6 +60,16 @@ export interface Story extends TenantResource {
    * createdAt is the date that the Story was added to the Talk database.
    */
   createdAt: Date;
+}
+
+export async function createStoryIndexes(mongo: Db) {
+  const createIndex = createIndexFactory(collection(mongo));
+
+  // UNIQUE { id }
+  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
+
+  // UNIQUE { url }
+  await createIndex({ tenantID: 1, url: 1 }, { unique: true });
 }
 
 export interface UpsertStoryInput {

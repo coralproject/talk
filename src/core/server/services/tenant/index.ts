@@ -50,6 +50,10 @@ export async function install(
     );
   }
 
+  // TODO: (wyattjoh) perform any pending migrations.
+
+  // TODO: (wyattjoh) setup database indexes.
+
   // Create the Tenant.
   const tenant = await createTenant(mongo, input);
 

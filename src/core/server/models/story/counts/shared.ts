@@ -4,15 +4,16 @@ import ms from "ms";
 
 import logger from "talk-server/logger";
 import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
-import { AugmentedPipeline, AugmentedRedis } from "talk-server/services/redis";
-
+import { Story } from "talk-server/models/story";
 import {
   CommentModerationCountsPerQueue,
   CommentStatusCounts,
   StoryCounts,
-} from ".";
-import { Story } from "..";
+} from "talk-server/models/story/counts";
+import { AugmentedPipeline, AugmentedRedis } from "talk-server/services/redis";
+
 import {
+  createEmptyCommentModerationCountsPerQueue,
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
 } from "./empty";
@@ -348,21 +349,28 @@ export async function recalculateSharedCommentCounts(
   ]);
 }
 
-/**
- * stringObjectToNumber will convert an object that has string keys and string
- * values into string keys and number values.
- */
-function stringObjectToNumber<T>(
-  input: Record<string, string>,
-  defaultValue: number = 0
-): T {
-  return Object.entries(input).reduce(
-    (acc, [key, value]) => ({
-      ...acc,
-      [key]: parseInt(value, 10) || defaultValue,
-    }),
-    {}
-  ) as T;
+function fillAndConvertStringToNumber<
+  T extends { [P in keyof T]?: string } &
+    { [P in Exclude<keyof T, keyof U>]?: never },
+  U extends { [P in keyof U]: number }
+>(input: T, initial: U): U {
+  const result: U = Object.assign({}, initial);
+  for (const key in input) {
+    if (!input.hasOwnProperty(key)) {
+      continue;
+    }
+
+    // Pull out the value.
+    const value: string | undefined = input[key] as any;
+    if (!value) {
+      continue;
+    }
+
+    // I know, not ideal, but...
+    (result as any)[key] = parseInt(value, 10) || 0;
+  }
+
+  return result;
 }
 
 /**
@@ -378,7 +386,7 @@ export async function retrieveSharedActionCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string
-) {
+): Promise<EncodedCommentActionCounts> {
   const key = commentCountsActionKey(tenantID);
   const freshKey = freshenKey(key);
 
@@ -395,7 +403,10 @@ export async function retrieveSharedActionCommentCounts(
     return recalculateSharedActionCommentCounts(mongo, redis, tenantID);
   }
 
-  return stringObjectToNumber<EncodedCommentActionCounts>(actions);
+  return fillAndConvertStringToNumber(
+    actions,
+    {} as EncodedCommentActionCounts
+  );
 }
 
 /**
@@ -411,13 +422,13 @@ export async function retrieveSharedStatusCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string
-) {
+): Promise<CommentStatusCounts> {
   const key = commentCountsStatusKey(tenantID);
   const freshKey = freshenKey(key);
 
   // Get the values, and the freshness key.
   const [[, statuses], [, fresh]]: [
-    [Error | undefined, Record<string, string> | null],
+    [Error | undefined, Record<keyof CommentStatusCounts, string> | null],
     [Error | undefined, string | null]
   ] = await redis
     .pipeline()
@@ -428,7 +439,10 @@ export async function retrieveSharedStatusCommentCounts(
     return recalculateSharedStatusCommentCounts(mongo, redis, tenantID);
   }
 
-  return stringObjectToNumber<CommentStatusCounts>(statuses);
+  return fillAndConvertStringToNumber(
+    statuses,
+    createEmptyCommentStatusCounts()
+  );
 }
 
 /**
@@ -473,13 +487,16 @@ export async function retrieveSharedModerationQueueQueuesCounts(
   mongo: Db,
   redis: AugmentedRedis,
   tenantID: string
-) {
+): Promise<CommentModerationCountsPerQueue> {
   const key = commentCountsModerationQueueQueuesKey(tenantID);
   const freshKey = freshenKey(key);
 
   // Get the values, and the freshness key.
   const [[, queues], [, fresh]]: [
-    [Error | undefined, Record<string, string> | null],
+    [
+      Error | undefined,
+      Record<keyof CommentModerationCountsPerQueue, string> | null
+    ],
     [Error | undefined, string | null]
   ] = await redis
     .pipeline()
@@ -493,7 +510,10 @@ export async function retrieveSharedModerationQueueQueuesCounts(
 
   logger.debug({ tenantID }, "comment moderation counts were cached");
 
-  return stringObjectToNumber<CommentModerationCountsPerQueue>(queues);
+  return fillAndConvertStringToNumber(
+    queues,
+    createEmptyCommentModerationCountsPerQueue()
+  );
 }
 
 export async function updateSharedCommentCounts(

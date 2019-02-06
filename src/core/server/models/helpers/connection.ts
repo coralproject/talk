@@ -1,5 +1,6 @@
 import { merge } from "lodash";
-import { FilterQuery } from "./query";
+
+import { FilterQuery } from "talk-server/models/helpers/query";
 
 export type Cursor = Date | number | string | null;
 
