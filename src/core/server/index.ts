@@ -87,12 +87,6 @@ class Server {
     // Setup MongoDB.
     this.mongo = await createMongoDB(config);
 
-    // Create the database indexes if it isn't disabled.
-    if (!this.config.get("disable_mongodb_autoindexing")) {
-      // Setup the database indexes.
-      await ensureIndexes(this.mongo);
-    }
-
     // Setup Redis.
     this.redis = await createRedisClient(config);
 
@@ -115,7 +109,7 @@ class Server {
   }
 
   /**
-   * process will start the job processors.
+   * process will start the job processors and ancillary operations.
    */
   public async process() {
     // Guard against double connecting.
@@ -123,6 +117,12 @@ class Server {
       throw new Error("server has already processing");
     }
     this.processing = true;
+
+    // Create the database indexes if it isn't disabled.
+    if (!this.config.get("disable_mongodb_autoindexing")) {
+      // Setup the database indexes.
+      await ensureIndexes(this.mongo);
+    }
 
     this.queue.mailer.process();
     this.queue.scraper.process();
