@@ -110,7 +110,7 @@ export function translate(
 ): string {
   const message = bundle.getMessage(id);
   if (!message) {
-    if (config.get("env") === "testing") {
+    if (config.get("env") === "test") {
       throw new Error(`the message for ${id} is missing`);
     }
 
