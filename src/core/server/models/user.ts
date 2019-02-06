@@ -4,7 +4,10 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory, FilterQuery } from "talk-server/models/query";
+import {
+  createIndexFactory,
+  FilterQuery,
+} from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(mongo: Db) {

@@ -6,7 +6,7 @@ import uuid from "uuid";
 import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize, DotizeOptions } from "talk-common/utils/dotize";
 import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "talk-server/models/query";
+import { createIndexFactory } from "talk-server/models/helpers/query";
 import { Settings } from "talk-server/models/settings";
 
 function collection(db: Db) {

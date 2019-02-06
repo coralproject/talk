@@ -19,11 +19,11 @@ import {
   nodesToEdges,
   NodeToCursorTransformer,
   OrderedConnectionInput,
-} from "talk-server/models/connection";
+} from "talk-server/models/helpers/connection";
 import Query, {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "talk-server/models/query";
+} from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(mongo: Db) {
@@ -140,24 +140,22 @@ export interface Comment extends TenantResource {
   metadata?: Record<string, any>;
 }
 
-const createCommentConnectionOrderVariants = createConnectionOrderVariants<
-  Readonly<Comment>
->([
-  { createdAt: -1 },
-  { createdAt: 1 },
-  { replyCount: -1, createdAt: -1 },
-  { "actionCounts.REACTION": -1, createdAt: -1 },
-]);
-
 export async function createCommentIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));
 
   // UNIQUE { id }
   await createIndex({ tenantID: 1, id: 1 }, { unique: true });
 
+  const variants = createConnectionOrderVariants<Readonly<Comment>>([
+    { createdAt: -1 },
+    { createdAt: 1 },
+    { replyCount: -1, createdAt: -1 },
+    { "actionCounts.REACTION": -1, createdAt: -1 },
+  ]);
+
   // Story based Comment Connection pagination.
   // { storyID, ...connectionParams }
-  await createCommentConnectionOrderVariants(createIndex, {
+  await variants(createIndex, {
     tenantID: 1,
     storyID: 1,
     status: 1,
@@ -165,7 +163,7 @@ export async function createCommentIndexes(mongo: Db) {
 
   // Story based Comment Connection pagination that are flagged.
   // { storyID, ...connectionParams }
-  await createCommentConnectionOrderVariants(createIndex, {
+  await variants(createIndex, {
     tenantID: 1,
     storyID: 1,
     status: 1,
@@ -174,7 +172,7 @@ export async function createCommentIndexes(mongo: Db) {
 
   // Story + Reply based Comment Connection pagination.
   // { storyID, ...connectionParams }
-  await createCommentConnectionOrderVariants(createIndex, {
+  await variants(createIndex, {
     tenantID: 1,
     storyID: 1,
     parentID: 1,
@@ -183,7 +181,7 @@ export async function createCommentIndexes(mongo: Db) {
 
   // Author based Comment Connection pagination.
   // { authorID, ...connectionParams }
-  await createCommentConnectionOrderVariants(createIndex, {
+  await variants(createIndex, {
     tenantID: 1,
     authorID: 1,
     status: 1,

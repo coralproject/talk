@@ -23,6 +23,10 @@ export interface ServerOptions {
   config?: Config;
 }
 
+export interface ServerConnectOptions {
+  isWorker?: boolean;
+}
+
 /**
  * Server provides an interface to create, start, and manage a Talk Server.
  */
@@ -75,7 +79,7 @@ class Server {
     };
   }
 
-  public async connect({ isWorker = false }: { isWorker?: boolean }) {
+  public async connect({ isWorker }: ServerConnectOptions = {}) {
     // Guard against double connecting.
     if (this.connected) {
       throw new Error("server has already connected");

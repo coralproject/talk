@@ -11,7 +11,10 @@ import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_FLAG_REPORTED_REASON,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory, FilterQuery } from "talk-server/models/query";
+import {
+  createIndexFactory,
+  FilterQuery,
+} from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(db: Db) {

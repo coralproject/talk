@@ -2,7 +2,7 @@ import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 import { DateTime } from "luxon";
 
-import { Cursor } from "talk-server/models/connection";
+import { Cursor } from "talk-server/models/helpers/connection";
 
 function parseIntegerCursor(value: string): number | null {
   try {

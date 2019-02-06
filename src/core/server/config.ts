@@ -145,7 +145,7 @@ const config = convict({
     format: Boolean,
     default: false,
     env: "DISABLE_MONGODB_AUTOINDEXING",
-    arg: "disableMongodbAutoindexing",
+    arg: "disableMongoDBAutoindexing",
   },
 });
 

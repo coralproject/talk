@@ -9,7 +9,7 @@ import { dotize } from "talk-common/utils/dotize";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
 import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
-import { createIndexFactory } from "talk-server/models/query";
+import { createIndexFactory } from "talk-server/models/helpers/query";
 import { retrieveStory, Story } from "talk-server/models/story";
 import { AugmentedRedis } from "talk-server/services/redis";
 

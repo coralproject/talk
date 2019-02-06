@@ -34,7 +34,7 @@ async function main() {
       config: {
         contextType: "TenantContext",
         importStatements: [
-          'import { Cursor } from "talk-server/models/connection";',
+          'import { Cursor } from "talk-server/models/helpers/connection";',
           'import TenantContext from "talk-server/graph/tenant/context";',
         ],
         customScalarType: { Cursor: "Cursor", Time: "Date" },

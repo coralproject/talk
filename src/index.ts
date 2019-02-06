@@ -36,7 +36,7 @@ async function master(server: Server) {
 
   try {
     // Connect the server to databases.
-    await server.connect({});
+    await server.connect();
 
     // Process jobs.
     await server.process();

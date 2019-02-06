@@ -7,7 +7,7 @@ import {
 import { decodeActionCounts } from "talk-server/models/action/comment";
 import * as comment from "talk-server/models/comment";
 import { getLatestRevision } from "talk-server/models/comment";
-import { createConnection } from "talk-server/models/connection";
+import { createConnection } from "talk-server/models/helpers/connection";
 
 import TenantContext from "../context";
 import { getURLWithCommentID } from "./util";
