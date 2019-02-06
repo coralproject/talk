@@ -146,8 +146,8 @@ export enum ERROR_CODES {
   TENANT_INSTALLED_ALREADY = "TENANT_INSTALLED_ALREADY",
 
   /**
-   * USER_FORBIDDEN is returned when a user attempts to perform an action that
+   * USER_NOT_ENTITLED is returned when a user attempts to perform an action that
    * they are not entitled to.
    */
-  USER_FORBIDDEN = "USER_FORBIDDEN",
+  USER_NOT_ENTITLED = "USER_NOT_ENTITLED",
 }

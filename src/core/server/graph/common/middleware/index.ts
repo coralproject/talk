@@ -10,7 +10,9 @@ import {
 
 import { Omit } from "talk-common/types";
 import { Config } from "talk-server/config";
-import { LoggerExtension } from "talk-server/graph/common/middleware/extensions/logger";
+
+import { ErrorWrappingExtension } from "./extensions/ErrorWrappingExtension";
+import { LoggerExtension } from "./extensions/LoggerExtension";
 
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57
 const NoIntrospection = (context: ValidationContext) => ({
@@ -33,10 +35,10 @@ export const graphqlMiddleware = (
   // Create a new baseOptions that will be merged into the new options.
   const baseOptions: Omit<GraphQLOptions, "schema"> = {
     // Disable the debug mode, as we already add in our logging function.
-    debug: config.get("env") !== "production",
+    debug: false,
     // Include extensions.
     extensions: [
-      // Log queries and errors.
+      () => new ErrorWrappingExtension(),
       () => new LoggerExtension(),
     ],
   };

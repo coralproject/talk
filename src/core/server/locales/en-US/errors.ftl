@@ -34,4 +34,4 @@ error-emailExceedsMaxLength =
   Email address exceeds maximum length of {$max} characters.
 error-internalError = Internal Error
 error-tenantInstalledAlready = Tenant has already been installed already.
-error-userForbidden = You are not authorized to access that resource.
+error-userNotEntitled = You are not authorized to access that resource.

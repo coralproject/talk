@@ -7,7 +7,7 @@ import nunjucks from "nunjucks";
 import path from "path";
 
 import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import { errorHandler } from "talk-server/app/middleware/error";
+import { HTMLErrorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { Config } from "talk-server/config";
@@ -68,7 +68,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Error Handling
   parent.use(notFoundMiddleware);
   parent.use(errorLogger);
-  parent.use(errorHandler(options.i18n));
+  parent.use(HTMLErrorHandler(options.i18n));
 
   return parent;
 }

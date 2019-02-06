@@ -25,7 +25,7 @@ export async function mapFieldsetToErrorCodes<T>(
         }
 
         if (errorMap[param].some(code => err.code === code)) {
-          err.linkToParam(param);
+          err.param = param;
           break;
         }
       }

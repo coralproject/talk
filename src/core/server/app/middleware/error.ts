@@ -1,7 +1,6 @@
 import { ErrorRequestHandler } from "express";
 
-import { ERROR_CODES } from "talk-common/errors";
-import { InternalError, TalkError, TalkErrorTypes } from "talk-server/errors";
+import { InternalError, TalkError } from "talk-server/errors";
 import { I18n } from "talk-server/services/i18n";
 import { Request } from "talk-server/types/express";
 
@@ -16,17 +15,6 @@ const wrapError = (err: Error) =>
     : new InternalError(err, "wrapped internal error");
 
 /**
- * SerializedError is a serialized error that can be returned via the API
- * response.
- */
-export interface SerializedError {
-  id: string;
-  code: ERROR_CODES;
-  type: TalkErrorTypes;
-  message: string;
-}
-
-/**
  * serializeError will return a serialized error that can be returned via the
  * API response.
  *
@@ -34,26 +22,19 @@ export interface SerializedError {
  * @param bundles the translation bundles
  * @param tenant the optional tenant to use when selecting the language
  */
-const serializeError = (
-  err: TalkError,
-  req: Request,
-  bundles: I18n
-): { error: SerializedError } => {
+const serializeError = (err: TalkError, req: Request, bundles: I18n) => {
   // Get the translation bundle.
   let bundle = bundles.getDefaultBundle();
   if (req.talk && req.talk.tenant) {
     bundle = bundles.getBundle(req.talk.tenant.locale);
   }
 
-  // Translate the bundle.
-  err.translateMessage(bundle);
-
   return {
-    error: err.extensions,
+    error: err.serializeExtensions(bundle),
   };
 };
 
-export const apiErrorHandler = (bundles: I18n): ErrorRequestHandler => (
+export const JSONErrorHandler = (bundles: I18n): ErrorRequestHandler => (
   err,
   req,
   res,
@@ -66,7 +47,7 @@ export const apiErrorHandler = (bundles: I18n): ErrorRequestHandler => (
   res.status(err.status).json(serializeError(err, req, bundles));
 };
 
-export const errorHandler = (bundles: I18n): ErrorRequestHandler => (
+export const HTMLErrorHandler = (bundles: I18n): ErrorRequestHandler => (
   err,
   req,
   res,

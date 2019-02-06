@@ -40,7 +40,7 @@ export interface TalkErrorExtensions {
   /**
    * message is the (optionally translated) message that can be shown to users.
    */
-  message: string;
+  readonly message: string;
 
   /**
    * param, if set, references the fieldSpec to which the error is related to.
@@ -97,6 +97,13 @@ export interface TalkErrorOptions {
    * that is thrown.
    */
   cause?: Error;
+
+  /**
+   * param, if set, references the fieldSpec to which the error is related to.
+   * If for example an error occurred during email processing, this field could
+   * be `input.email` to denote the specific input field that caused the error.
+   */
+  param?: string;
 }
 
 export class TalkError extends VError {
@@ -124,10 +131,11 @@ export class TalkError extends VError {
   public readonly type: TalkErrorTypes;
 
   /**
-   * extensions is the set of readable properties that can be provided to
-   * GraphQL responses.
+   * param, if set, references the fieldSpec to which the error is related to.
+   * If for example an error occurred during email processing, this field could
+   * be `input.email` to denote the specific input field that caused the error.
    */
-  public readonly extensions: TalkErrorExtensions;
+  public param?: string;
 
   /**
    * context stores the public and private details about the error.
@@ -140,6 +148,7 @@ export class TalkError extends VError {
     status = 500,
     type = "invalid_request_error",
     cause,
+    param,
   }: TalkErrorOptions) {
     // Call the super method with the right arguments depending on if we're
     // supposed to be handling a causal error or not.
@@ -164,40 +173,24 @@ export class TalkError extends VError {
     this.id = id;
     this.code = code;
     this.type = type;
-    this.extensions = {
-      id: this.id,
-      code: this.code,
-      type: this.type,
-      message: this.code,
-    };
+    this.param = param;
   }
 
-  /**
-   * linkToParam will set the `param` property on the error to indicate blame
-   * for the error.
-   *
-   * @param param the name of the fieldSpec to link to the error cause
-   */
-  public linkToParam(param: string) {
-    // Assign the param to the extension.
-    this.extensions.param = param;
-  }
-
-  /**
-   * translateMessage will translate the error `extensions.message` property to
-   * the desired language based on the provided language bundle.
-   *
-   * @param bundle the translation bundle to use
-   */
-  public translateMessage(bundle: FluentBundle) {
-    // Translate the message, but default to the code if the translation cannot
-    // be found.
-    this.extensions.message = translate(
+  public serializeExtensions(bundle: FluentBundle): TalkErrorExtensions {
+    const message = translate(
       bundle,
       this.code,
       ERROR_TRANSLATIONS[this.code],
       this.context.pub
     );
+
+    return {
+      id: this.id,
+      code: this.code,
+      type: this.type,
+      message,
+      param: this.param,
+    };
   }
 }
 
@@ -343,7 +336,7 @@ export class TokenInvalidError extends TalkError {
 export class UserForbiddenError extends TalkError {
   constructor(reason: string, resource: string, userID: string | null) {
     super({
-      code: ERROR_CODES.USER_FORBIDDEN,
+      code: ERROR_CODES.USER_NOT_ENTITLED,
       context: { pvt: { reason, userID, resource } },
       status: 403,
     });

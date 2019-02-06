@@ -26,5 +26,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   INTERNAL_ERROR: "error-internalError",
   TOKEN_INVALID: "error-tokenInvalid",
   TENANT_INSTALLED_ALREADY: "error-tenantInstalledAlready",
-  USER_FORBIDDEN: "error-userForbidden",
+  USER_NOT_ENTITLED: "error-userNotEntitled",
 };
