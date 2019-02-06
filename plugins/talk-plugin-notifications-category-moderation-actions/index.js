@@ -3,7 +3,7 @@ const path = require('path');
 
 const { MODERATION_NOTIFICATION_TYPES } = require('./config');
 
-const UNPUBLISHED_STATUS_TYPES = ['PREMOD', 'SYSTEM_WITHHELD'];
+const PENDING_STATUS_TYPES = ['PREMOD', 'SYSTEM_WITHHELD'];
 const AVAILABLE_NOTIFICATION_TYPES = ['APPROVED', 'REJECTED'];
 
 const handle = async (ctx, comment) => {
@@ -13,20 +13,20 @@ const handle = async (ctx, comment) => {
     return;
   }
 
-  // Check to see if this is a previously unpublished comment.
+  // Check to see if this was a pending comment.
   const commentHistory = get(comment, 'status_history', []);
-  let previouslyUnpublished = false;
+  let wasPending = false;
 
   // Check for last status before current one
   if (commentHistory.length >= 2) {
     const previousStatus = commentHistory[commentHistory.length - 2];
-    if (UNPUBLISHED_STATUS_TYPES.includes(previousStatus.type)) {
-      previouslyUnpublished = true;
+    if (PENDING_STATUS_TYPES.includes(previousStatus.type)) {
+      wasPending = true;
     }
   }
 
-  if (!previouslyUnpublished) {
-    ctx.log.info('comment has been published previously');
+  if (!wasPending) {
+    ctx.log.info('comment was not pending');
     return;
   }
 
