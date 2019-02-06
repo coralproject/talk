@@ -1,4 +1,3 @@
-import { formatApolloErrors } from "apollo-server-errors";
 import {
   DocumentNode,
   ExecutionArgs,
@@ -14,17 +13,11 @@ import now from "performance-now";
 
 import CommonContext from "talk-server/graph/common/context";
 
+export function logError(ctx: CommonContext, err: GraphQLError) {
+  ctx.logger.error({ err }, "graphql query error");
+}
+
 export class LoggerExtension implements GraphQLExtension<CommonContext> {
-  private logError = (ctx: CommonContext) => (err: Error) => {
-    if (err instanceof GraphQLError) {
-      ctx.logger.error({ err: err.originalError }, "graphql error");
-    } else {
-      ctx.logger.error({ err }, "graphql query error");
-    }
-
-    return err;
-  };
-
   private getOperationMetadata(doc: DocumentNode) {
     if (doc.kind === "Document") {
       const operationDefinition = doc.definitions.find(
@@ -70,21 +63,14 @@ export class LoggerExtension implements GraphQLExtension<CommonContext> {
     }
   }
 
-  public willSendResponse(o: {
+  public willSendResponse(response: {
     graphqlResponse: GraphQLResponse;
     context: CommonContext;
-  }): void | { graphqlResponse: GraphQLResponse; context: CommonContext } {
-    if (o.graphqlResponse.errors) {
-      return {
-        ...o,
-        graphqlResponse: {
-          ...o.graphqlResponse,
-          errors: formatApolloErrors(o.graphqlResponse.errors, {
-            formatter: this.logError(o.context),
-            debug: false,
-          }),
-        },
-      };
+  }): void {
+    if (response.graphqlResponse.errors) {
+      response.graphqlResponse.errors.forEach(err =>
+        logError(response.context, err)
+      );
     }
   }
 }

@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import http from "http";
 import { Db } from "mongodb";
 
+import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import {
   attachSubscriptionHandlers,
   createApp,
@@ -13,6 +14,7 @@ import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
 import logger from "talk-server/logger";
 import { createQueue, TaskQueue } from "talk-server/queue";
+import { I18n } from "talk-server/services/i18n";
 import { createJWTSigningConfig } from "talk-server/services/jwt";
 import { createMongoDB } from "talk-server/services/mongodb";
 import { ensureIndexes } from "talk-server/services/mongodb/indexes";
@@ -21,10 +23,6 @@ import TenantCache from "talk-server/services/tenant/cache";
 
 export interface ServerOptions {
   config?: Config;
-}
-
-export interface ServerConnectOptions {
-  isWorker?: boolean;
 }
 
 /**
@@ -79,7 +77,7 @@ class Server {
     };
   }
 
-  public async connect({ isWorker }: ServerConnectOptions = {}) {
+  public async connect() {
     // Guard against double connecting.
     if (this.connected) {
       throw new Error("server has already connected");
@@ -89,15 +87,8 @@ class Server {
     // Setup MongoDB.
     this.mongo = await createMongoDB(config);
 
-    // If the instance being connected is not a worker process, then create the
-    // database indexes if it isn't disabled.
-    if (!isWorker && !this.config.get("disable_mongodb_autoindexing")) {
-      // Setup the database indexes.
-      await ensureIndexes(this.mongo);
-    }
-
     // Setup Redis.
-    this.redis = createRedisClient(config);
+    this.redis = await createRedisClient(config);
 
     // Create the TenantCache.
     this.tenantCache = new TenantCache(
@@ -110,7 +101,7 @@ class Server {
     await this.tenantCache.primeAll();
 
     // Create the Job Queue.
-    this.queue = createQueue({
+    this.queue = await createQueue({
       config: this.config,
       mongo: this.mongo,
       tenantCache: this.tenantCache,
@@ -118,7 +109,7 @@ class Server {
   }
 
   /**
-   * process will start the job processors.
+   * process will start the job processors and ancillary operations.
    */
   public async process() {
     // Guard against double connecting.
@@ -126,6 +117,12 @@ class Server {
       throw new Error("server has already processing");
     }
     this.processing = true;
+
+    // Create the database indexes if it isn't disabled.
+    if (!this.config.get("disable_mongodb_autoindexing")) {
+      // Setup the database indexes.
+      await ensureIndexes(this.mongo);
+    }
 
     this.queue.mailer.process();
     this.queue.scraper.process();
@@ -151,6 +148,14 @@ class Server {
     // Create the signing config.
     const signingConfig = createJWTSigningConfig(this.config);
 
+    // Get the default locale. This is asserted here because the LanguageCode
+    // is verified via Convict, but not typed, so this resolves that.
+    const defaultLocale = this.config.get("default_locale") as LanguageCode;
+
+    // Create and load the translations.
+    const i18n = new I18n(defaultLocale);
+    await i18n.load();
+
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
@@ -161,6 +166,7 @@ class Server {
       queue: this.queue,
       config: this.config,
       schemas: this.schemas,
+      i18n,
     });
 
     // Start the application and store the resulting http.Server.

@@ -37,7 +37,7 @@ export function createAsymmetricSigningConfig(
 ): JWTSigningConfig {
   return {
     // Secrets have their newlines encoded with newline literals.
-    secret: Buffer.from(secret.replace(/\\n/g, "\n")),
+    secret: Buffer.from(secret.replace(/\\n/g, "\n"), "utf8"),
     algorithm,
   };
 }
@@ -47,7 +47,7 @@ export function createSymmetricSigningConfig(
   secret: string
 ): JWTSigningConfig {
   return {
-    secret: new Buffer(secret),
+    secret: Buffer.from(secret, "utf8"),
     algorithm,
   };
 }
@@ -121,27 +121,23 @@ export function extractJWTFromRequest(req: Request) {
   return permit.check(req) || null;
 }
 
-function generateJTIBlacklistKey(jti: string) {
-  // jtib: JTI Blacklist namespace.
-  return `jtib:${jti}`;
+function generateJTIRevokedKey(jti: string) {
+  // jtir: JTI Revoked namespace.
+  return `jtir:${jti}`;
 }
 
-export async function blacklistJWT(
-  redis: Redis,
-  jti: string,
-  validFor: number
-) {
+export async function revokeJWT(redis: Redis, jti: string, validFor: number) {
   await redis.setex(
-    generateJTIBlacklistKey(jti),
+    generateJTIRevokedKey(jti),
     Math.ceil(validFor),
     Date.now()
   );
 }
 
-export async function checkBlacklistJWT(redis: Redis, jti: string) {
-  const expiredAtString = await redis.get(generateJTIBlacklistKey(jti));
+export async function checkJWTRevoked(redis: Redis, jti: string) {
+  const expiredAtString = await redis.get(generateJTIRevokedKey(jti));
   if (expiredAtString) {
     // TODO: (wyattjoh) return a better error.
-    throw new Error("JWT exists in blacklist");
+    throw new Error("JWT was revoked");
   }
 }

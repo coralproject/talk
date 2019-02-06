@@ -7,6 +7,7 @@ import {
   isURLSecure,
   prefixSchemeIfRequired,
 } from "talk-server/app/url";
+import { StoryURLInvalidError } from "talk-server/errors";
 import logger from "talk-server/logger";
 import {
   countTotalActionCounts,
@@ -53,11 +54,10 @@ export async function findOrCreate(
   // If the URL is provided, and the url is not on a allowed domain, then refuse
   // to create the Asset.
   if (input.url && !isURLPermitted(tenant, input.url)) {
-    logger.warn(
-      { story_url: input.url, tenant_domains: tenant.domains },
-      "provided story url was not in the list of permitted tenant domains, story not found"
-    );
-    return null;
+    throw new StoryURLInvalidError({
+      storyURL: input.url,
+      tenantDomains: tenant.domains,
+    });
   }
 
   // TODO: check to see if the tenant has enabled lazy story creation, if they haven't, switch to find only.
@@ -189,11 +189,7 @@ export async function create(
 ) {
   // Ensure that the given URL is allowed.
   if (!isURLPermitted(tenant, storyURL)) {
-    logger.warn(
-      { storyURL, tenantDomains: tenant.domains },
-      "provided story url was not in the list of permitted tenant domains, story not created"
-    );
-    return null;
+    throw new StoryURLInvalidError({ storyURL, tenantDomains: tenant.domains });
   }
 
   // Create the story in the database.
@@ -217,11 +213,10 @@ export async function update(
 ) {
   // Ensure that the given URL is allowed.
   if (input.url && !isURLPermitted(tenant, input.url)) {
-    logger.warn(
-      { storyURL: input.url, tenantDomains: tenant.domains },
-      "provided story url was not in the list of permitted tenant domains, story not updated"
-    );
-    return null;
+    throw new StoryURLInvalidError({
+      storyURL: input.url,
+      tenantDomains: tenant.domains,
+    });
   }
 
   return updateStory(mongo, tenant.id, storyID, input);

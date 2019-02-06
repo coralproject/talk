@@ -6,13 +6,13 @@ import now from "performance-now";
 import logger from "talk-server/logger";
 import { Tenant } from "talk-server/models/tenant";
 import { retrieveUser } from "talk-server/models/user";
-import { checkBlacklistJWT, JWTSigningConfig } from "talk-server/services/jwt";
+import { checkJWTRevoked, JWTSigningConfig } from "talk-server/services/jwt";
 
 export interface JWTToken {
   /**
    * jti is the Token identifier. With normal login tokens, this is a randomly
-   * generated uuid, which is added to a blacklist when the User "logs out". For
-   * Personal Access Tokens, this is the Token identifier.
+   * generated uuid, which is added to a revoke list when the User "logs out".
+   * For Personal Access Tokens, this is the Token identifier.
    */
   jti: string;
 
@@ -102,11 +102,11 @@ export class JWTVerifier {
     logger.trace({ responseTime }, "jwt verification complete");
 
     // Check to see if this is a Personal Access Token, these tokens cannot be
-    // blacklisted.
+    // revoked.
     if (!token.pat) {
-      // Check to see if the token has been blacklisted, as these tokens can be
+      // Check to see if the token has been revoked, as these tokens can be
       // revoked.
-      await checkBlacklistJWT(this.redis, token.jti);
+      await checkJWTRevoked(this.redis, token.jti);
     }
 
     // Find the user.

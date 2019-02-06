@@ -12,6 +12,7 @@ import {
 } from "talk-server/models/tenant";
 
 import { discover } from "talk-server/app/middleware/passport/strategies/oidc/discover";
+import { TenantInstalledAlreadyError } from "talk-server/errors";
 import logger from "talk-server/logger";
 import TenantCache from "./cache";
 
@@ -44,15 +45,14 @@ export async function install(
   input: InstallTenant
 ) {
   if (await isInstalled(cache)) {
-    // TODO: (wyattjoh) return better error
-    throw new Error(
-      "tenant already setup, setup multi-tenant mode if you want to install more than one tenant"
-    );
+    throw new TenantInstalledAlreadyError();
   }
 
   // TODO: (wyattjoh) perform any pending migrations.
 
   // TODO: (wyattjoh) setup database indexes.
+
+  logger.info({ tenant: input }, "installing tenant");
 
   // Create the Tenant.
   const tenant = await createTenant(mongo, input);
@@ -60,10 +60,7 @@ export async function install(
   // Update the tenant cache.
   await cache.update(redis, tenant);
 
-  logger.info(
-    { tenantID: tenant.id, tenantDomain: tenant.domain },
-    "a tenant has been installed"
-  );
+  logger.info({ tenant }, "a tenant has been installed");
 
   return tenant;
 }

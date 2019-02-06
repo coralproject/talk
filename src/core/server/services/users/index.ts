@@ -7,6 +7,21 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
 } from "talk-common/helpers/validate";
+import {
+  DisplayNameExceedsMaxLengthError,
+  EmailAlreadySetError,
+  EmailExceedsMaxLengthError,
+  EmailInvalidFormatError,
+  EmailNotSetError,
+  LocalProfileAlreadySetError,
+  LocalProfileNotSetError,
+  PasswordTooShortError,
+  TokenNotFoundError,
+  UsernameAlreadySetError,
+  UsernameContainsInvalidCharactersError,
+  UsernameExceedsMaxLengthError,
+  UsernameTooShortError,
+} from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import {
@@ -26,6 +41,7 @@ import {
   UpsertUserInput,
   User,
 } from "talk-server/models/user";
+
 import { JWTSigningConfig, signPATString } from "../jwt";
 
 /**
@@ -40,15 +56,18 @@ function validateUsername(tenant: Tenant, username: string) {
   // TODO: replace these static regex/length with database options in the Tenant eventually
 
   if (!USERNAME_REGEX.test(username)) {
-    throw new Error("username contained illegal characters");
+    throw new UsernameContainsInvalidCharactersError();
   }
 
   if (username.length > USERNAME_MAX_LENGTH) {
-    throw new Error("username exceeded maximum length");
+    throw new UsernameExceedsMaxLengthError(
+      username.length,
+      USERNAME_MAX_LENGTH
+    );
   }
 
   if (username.length < USERNAME_MIN_LENGTH) {
-    throw new Error("username is too short");
+    throw new UsernameTooShortError(username.length, USERNAME_MIN_LENGTH);
   }
 }
 
@@ -64,7 +83,10 @@ function validateDisplayName(tenant: Tenant, displayName: string) {
   // TODO: replace these static regex/length with database options in the Tenant eventually
 
   if (displayName.length > DISPLAY_NAME_MAX_LENGTH) {
-    throw new Error("displayName exceeded maximum length");
+    throw new DisplayNameExceedsMaxLengthError(
+      displayName.length,
+      DISPLAY_NAME_MAX_LENGTH
+    );
   }
 }
 
@@ -79,9 +101,11 @@ function validateDisplayName(tenant: Tenant, displayName: string) {
 function validatePassword(tenant: Tenant, password: string) {
   // TODO: replace these static length with database options in the Tenant eventually
   if (password.length < PASSWORD_MIN_LENGTH) {
-    throw new Error("password is too short");
+    throw new PasswordTooShortError(password.length, PASSWORD_MIN_LENGTH);
   }
 }
+
+const EMAIL_MAX_LENGTH = 100;
 
 /**
  * validateEmail will validate that the email is valid. Current implementation
@@ -91,9 +115,13 @@ function validatePassword(tenant: Tenant, password: string) {
  * @param email the email to be tested
  */
 function validateEmail(tenant: Tenant, email: string) {
-  // TODO: replace these static length with database options in the Tenant eventually
   if (!EMAIL_REGEX.test(email)) {
-    throw new Error("email is in an invalid format");
+    throw new EmailInvalidFormatError();
+  }
+
+  // TODO: replace these static length with database options in the Tenant eventually
+  if (email.length > EMAIL_MAX_LENGTH) {
+    throw new EmailExceedsMaxLengthError(email.length, EMAIL_MAX_LENGTH);
   }
 }
 
@@ -123,7 +151,6 @@ export async function upsert(mongo: Db, tenant: Tenant, input: UpsertUser) {
     validatePassword(tenant, localProfile.password);
 
     if (input.email !== localProfile.id) {
-      // TODO: (wyattjoh) return better error.
       throw new Error("email addresses don't match profile");
     }
   }
@@ -150,7 +177,7 @@ export async function setUsername(
 ) {
   // We require that the username is not defined in order to use this method.
   if (user.username) {
-    throw new Error("username already associated with user");
+    throw new UsernameAlreadySetError();
   }
 
   validateUsername(tenant, username);
@@ -176,7 +203,7 @@ export async function setEmail(
   // We requires that the email address is not defined in order to use this
   // method.
   if (user.email) {
-    throw new Error("email address already associated with user");
+    throw new EmailAlreadySetError();
   }
 
   validateEmail(tenant, email);
@@ -204,13 +231,13 @@ export async function setPassword(
 ) {
   // We require that the email address for the user be defined for this method.
   if (!user.email) {
-    throw new Error("no email address associated with user");
+    throw new EmailNotSetError();
   }
 
   // We also don't allow this method to be used by users that already have a
   // local profile.
   if (user.profiles.some(({ type }) => type === "local")) {
-    throw new Error("user already has local profile");
+    throw new LocalProfileAlreadySetError();
   }
 
   validatePassword(tenant, password);
@@ -237,7 +264,7 @@ export async function updatePassword(
 ) {
   // We require that the email address for the user be defined for this method.
   if (!user.email) {
-    throw new Error("no email address associated with user");
+    throw new EmailNotSetError();
   }
 
   // We also don't allow this method to be used by users that don't have a local
@@ -245,7 +272,7 @@ export async function updatePassword(
   if (
     !user.profiles.some(({ id, type }) => type === "local" && id === user.email)
   ) {
-    throw new Error("user does not have a local profile");
+    throw new LocalProfileNotSetError();
   }
 
   validatePassword(tenant, password);
@@ -302,8 +329,7 @@ export async function deactivateToken(
   id: string
 ) {
   if (!user.tokens.find(t => t.id === id)) {
-    // TODO: (wyattjoh) return better error
-    throw new Error("token not found on user");
+    throw new TokenNotFoundError();
   }
 
   return deactivateUserToken(mongo, tenant.id, user.id, id);

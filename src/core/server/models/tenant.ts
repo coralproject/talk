@@ -3,6 +3,7 @@ import { isNull, omitBy } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
+import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize, DotizeOptions } from "talk-common/utils/dotize";
 import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
@@ -38,6 +39,11 @@ export interface Tenant extends Settings {
   // domains is the list of domains that are allowed to have the iframe load on.
   domains: string[];
 
+  /**
+   * locale is the specified locale for this Tenant.
+   */
+  locale: LanguageCode;
+
   organizationName: string;
   organizationURL: string;
   organizationContactEmail: string;
@@ -61,10 +67,11 @@ export async function createTenantIndexes(mongo: Db) {
 export type CreateTenantInput = Pick<
   Tenant,
   | "domain"
+  | "domains"
+  | "locale"
   | "organizationName"
   | "organizationURL"
   | "organizationContactEmail"
-  | "domains"
 >;
 
 /**

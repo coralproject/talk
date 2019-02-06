@@ -3,8 +3,9 @@ import passport from "passport";
 
 import { AppOptions } from "talk-server/app";
 import { versionHandler } from "talk-server/app/handlers/api/version";
-import { apiErrorHandler } from "talk-server/app/middleware/error";
+import { JSONErrorHandler } from "talk-server/app/middleware/error";
 import { errorLogger } from "talk-server/app/middleware/logging";
+import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 
 import { createManagementRouter } from "./management";
 import { createTenantRouter } from "./tenant";
@@ -27,11 +28,13 @@ export async function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Configure the management routes.
   router.use("/management", await createManagementRouter(app));
 
+  // Configure the version route.
   router.get("/version", versionHandler);
 
   // General API error handler.
+  router.use(notFoundMiddleware);
   router.use(errorLogger);
-  router.use(apiErrorHandler);
+  router.use(JSONErrorHandler(app.i18n));
 
   return router;
 }

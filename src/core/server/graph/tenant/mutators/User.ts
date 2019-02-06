@@ -1,3 +1,5 @@
+import { ERROR_CODES } from "talk-common/errors";
+import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
 import TenantContext from "talk-server/graph/tenant/context";
 import * as user from "talk-server/models/user";
 import {
@@ -13,6 +15,7 @@ import {
   updateRole,
   updateUsername,
 } from "talk-server/services/users";
+
 import {
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
@@ -31,11 +34,32 @@ export const User = (ctx: TenantContext) => ({
   setUsername: async (
     input: GQLSetUsernameInput
   ): Promise<Readonly<user.User> | null> =>
-    setUsername(ctx.mongo, ctx.tenant, ctx.user!, input.username),
+    mapFieldsetToErrorCodes(
+      setUsername(ctx.mongo, ctx.tenant, ctx.user!, input.username),
+      {
+        "input.username": [
+          ERROR_CODES.USERNAME_ALREADY_SET,
+          ERROR_CODES.USERNAME_CONTAINS_INVALID_CHARACTERS,
+          ERROR_CODES.USERNAME_EXCEEDS_MAX_LENGTH,
+          ERROR_CODES.USERNAME_TOO_SHORT,
+          ERROR_CODES.DUPLICATE_USERNAME,
+        ],
+      }
+    ),
   setEmail: async (
     input: GQLSetEmailInput
   ): Promise<Readonly<user.User> | null> =>
-    setEmail(ctx.mongo, ctx.tenant, ctx.user!, input.email),
+    mapFieldsetToErrorCodes(
+      setEmail(ctx.mongo, ctx.tenant, ctx.user!, input.email),
+      {
+        "input.email": [
+          ERROR_CODES.EMAIL_ALREADY_SET,
+          ERROR_CODES.DUPLICATE_EMAIL,
+          ERROR_CODES.EMAIL_INVALID_FORMAT,
+          ERROR_CODES.EMAIL_EXCEEDS_MAX_LENGTH,
+        ],
+      }
+    ),
   setPassword: async (
     input: GQLSetPasswordInput
   ): Promise<Readonly<user.User> | null> =>

@@ -11,10 +11,12 @@ import {
 import { createRedisClient } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 
-const createQueueOptions = (config: Config): Queue.QueueOptions => {
-  const client = createRedisClient(config);
-  const subscriber = createRedisClient(config);
-  const blockingClient = createRedisClient(config);
+const createQueueOptions = async (
+  config: Config
+): Promise<Queue.QueueOptions> => {
+  const client = await createRedisClient(config);
+  const subscriber = await createRedisClient(config);
+  const blockingClient = await createRedisClient(config);
 
   // Return the options that can be used by the Queue.
   return {
@@ -51,10 +53,10 @@ export interface TaskQueue {
   scraper: Task<ScraperData>;
 }
 
-export function createQueue(options: QueueOptions): TaskQueue {
+export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
   // Create the processor queue options. This holds references to the Redis
   // clients that are shared per queue.
-  const queueOptions = createQueueOptions(options.config);
+  const queueOptions = await createQueueOptions(options.config);
 
   // Attach process functions to the various tasks in the queue.
   const mailer = createMailerTask(queueOptions, options);

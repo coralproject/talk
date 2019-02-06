@@ -1,7 +1,7 @@
 import { isNull, omitBy } from "lodash";
 
 import TenantContext from "talk-server/graph/tenant/context";
-import { GQLSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLUpdateSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { regenerateSSOKey, update } from "talk-server/services/tenant";
 
@@ -11,8 +11,8 @@ export const Settings = ({
   tenantCache,
   tenant,
 }: TenantContext) => ({
-  update: (input: GQLSettingsInput): Promise<Tenant | null> =>
-    update(mongo, redis, tenantCache, tenant, omitBy(input, isNull)),
+  update: (input: GQLUpdateSettingsInput): Promise<Tenant | null> =>
+    update(mongo, redis, tenantCache, tenant, omitBy(input.settings, isNull)),
   regenerateSSOKey: (): Promise<Tenant | null> =>
     regenerateSSOKey(mongo, redis, tenantCache, tenant),
 });

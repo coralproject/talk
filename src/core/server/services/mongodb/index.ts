@@ -1,11 +1,17 @@
 import { Db, MongoClient } from "mongodb";
+
 import { Config } from "talk-server/config";
+import { InternalError } from "talk-server/errors";
 
 export async function createMongoClient(config: Config): Promise<MongoClient> {
-  return MongoClient.connect(
-    config.get("mongodb"),
-    { useNewUrlParser: true }
-  );
+  try {
+    return await MongoClient.connect(
+      config.get("mongodb"),
+      { useNewUrlParser: true }
+    );
+  } catch (err) {
+    throw new InternalError(err, "could not connect to mongodb");
+  }
 }
 
 /**

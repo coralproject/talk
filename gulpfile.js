@@ -23,13 +23,16 @@ gulp.task("server:schema", () => generateTypescriptTypes());
 
 gulp.task("server:scripts", () =>
   gulp
-    .src([
-      "./src/**/*.ts",
-      "./src/**/.*.ts",
-      // Exclude client files from this, that's for webpack.
-      "!./src/core/client/**/*.ts",
-      "!./src/core/client/**/.*.ts",
-    ])
+    .src(
+      [
+        "./src/**/*.ts",
+        "./src/**/.*.ts",
+        // Exclude client files from this, that's for webpack.
+        "!./src/core/client/**/*.ts",
+        "!./src/core/client/**/.*.ts",
+      ],
+      { base: "src" }
+    )
     .pipe(sourcemaps.init())
     .pipe(tsProject())
     .pipe(

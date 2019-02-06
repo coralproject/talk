@@ -2,6 +2,8 @@ import convict from "convict";
 import Joi from "joi";
 import os from "os";
 
+import { LOCALES } from "talk-common/helpers/i18n/locales";
+
 // Add custom format for the mongo uri scheme.
 convict.addFormat({
   name: "mongo-uri",
@@ -48,6 +50,13 @@ const config = convict({
     format: ["production", "development", "test"],
     default: "development",
     env: "NODE_ENV",
+  },
+  default_locale: {
+    doc:
+      "Specify the default locale to use for all requests without a locale specified",
+    format: LOCALES,
+    default: "en-US",
+    env: "LOCALE",
   },
   enable_graphiql: {
     doc: "When true, this will enable the GraphiQL routes",
