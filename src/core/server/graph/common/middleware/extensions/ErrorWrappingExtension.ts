@@ -56,8 +56,6 @@ export function enrichError(
     }
   }
 
-  ctx.logger.error({ err }, "graphql query error");
-
   return err;
 }
 
