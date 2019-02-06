@@ -3,6 +3,7 @@ import fs from "fs-extra";
 import path from "path";
 
 import { LanguageCode, LOCALES } from "talk-common/helpers/i18n/locales";
+import config from "talk-server/config";
 
 /**
  * isLanguageCode will return true if the string is a `LanguageCode`.
@@ -109,6 +110,10 @@ export function translate(
 ): string {
   const message = bundle.getMessage(id);
   if (!message) {
+    if (config.get("env") === "testing") {
+      throw new Error(`the message for ${id} is missing`);
+    }
+
     return defaultValue;
   }
 
