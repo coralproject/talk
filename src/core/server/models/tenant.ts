@@ -89,11 +89,14 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
     questionBoxEnable: false,
     premodLinksEnable: false,
     autoCloseStream: false,
-
-    // Two weeks timeout.
-    closedTimeout: 60 * 60 * 24 * 7 * 2,
     disableCommenting: false,
-    editCommentWindowLength: 30 * 1000,
+
+    // 2 weeks timeout.
+    closedTimeout: 60 * 60 * 24 * 7 * 2,
+
+    // 30 seconds edit window length.
+    editCommentWindowLength: 30,
+
     charCount: {
       enabled: false,
     },

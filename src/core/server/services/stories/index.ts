@@ -1,4 +1,5 @@
 import { zip } from "lodash";
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
@@ -329,4 +330,30 @@ export async function merge(
 
   // Return the story that had the other stories merged into.
   return destinationStory;
+}
+
+export function getStoryClosedAt(
+  tenant: Pick<Tenant, "autoCloseStream" | "closedTimeout">,
+  story: Pick<Story, "closedAt" | "createdAt">
+): Story["closedAt"] {
+  // Try to get the closedAt time from the story.
+  if (story.closedAt) {
+    return story.closedAt;
+  }
+
+  // If the story hasn't already been closed, then check to see if the Tenant
+  // has the auto close stream enabled.
+  if (tenant.autoCloseStream && tenant.closedTimeout) {
+    // Auto-close stream has been enabled, convert the createdAt time into the
+    // closedAt time by adding the closedTimeout.
+    return (
+      DateTime.fromJSDate(story.createdAt)
+        // closedTimeout is in seconds, so multiply by 1000 to get
+        // milliseconds.
+        .plus(tenant.closedTimeout * 1000)
+        .toJSDate()
+    );
+  }
+
+  return;
 }

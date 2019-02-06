@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from "graphql";
+
 import { getRequestedFields } from "talk-server/graph/tenant/resolvers/util";
 import {
   GQLComment,
@@ -9,6 +10,7 @@ import * as comment from "talk-server/models/comment";
 import { getLatestRevision } from "talk-server/models/comment";
 import { createConnection } from "talk-server/models/helpers/connection";
 
+import { getCommentEditableUntilDate } from "talk-server/services/comments";
 import TenantContext from "../context";
 import { getURLWithCommentID } from "./util";
 
@@ -49,9 +51,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
     edited: revisions.length > 1,
     // The date that the comment is editable until is the tenant's edit window
     // length added to the comment created date.
-    editableUntil: new Date(
-      createdAt.valueOf() + ctx.tenant.editCommentWindowLength
-    ),
+    editableUntil: getCommentEditableUntilDate(ctx.tenant, createdAt),
   }),
   author: (c, input, ctx) => ctx.loaders.Users.user.load(c.authorID),
   statusHistory: ({ id }, input, ctx) =>
