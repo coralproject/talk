@@ -48,6 +48,9 @@
   &.colorRegular {
     color: var(--palette-grey-main);
   }
+  &.colorLight {
+    color: var(--palette-text-light);
+  }
   &.colorPrimary {
     color: var(--palette-primary-main);
   }
@@ -69,6 +72,11 @@
       &:active,
       &.active {
         color: var(--palette-grey-lighter);
+      }
+    }
+    &.colorLight {
+      &.mouseHover {
+        opacity: 0.8;
       }
     }
     &.colorPrimary {
@@ -346,6 +354,9 @@
   &.colorRegular {
     color: var(--palette-grey-main);
   }
+  &.colorLight {
+    color: var(--palette-text-light);
+  }
   &.colorPrimary {
     color: var(--palette-primary-main);
   }
@@ -367,6 +378,11 @@
       &:active,
       &.active {
         color: var(--palette-grey-lighter);
+      }
+    }
+    &.colorLight {
+      &.mouseHover {
+        opacity: 0.8;
       }
     }
     &.colorPrimary {

@@ -27,6 +27,7 @@ import PostCommentForm, {
 import PostCommentFormCollapsed from "../components/PostCommentFormCollapsed";
 import PostCommentFormFake from "../components/PostCommentFormFake";
 import { shouldTriggerSettingsRefresh } from "../helpers";
+import getSubmitStatus, { SubmitStatus } from "../helpers/getSubmitStatus";
 
 interface Props {
   createComment: CreateCommentMutation;
@@ -41,6 +42,7 @@ interface State {
   initialValues?: PostCommentFormProps["initialValues"];
   initialized: boolean;
   keepFormWhenClosed: boolean;
+  submitStatus: SubmitStatus | null;
 }
 
 const contextKey = "postCommentFormBody";
@@ -52,6 +54,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
       this.props.local.loggedIn &&
       !this.props.story.isClosed &&
       !this.props.settings.disableCommenting.enabled,
+    submitStatus: null,
   };
 
   constructor(props: Props) {
@@ -78,11 +81,16 @@ export class PostCommentFormContainer extends Component<Props, State> {
     form
   ) => {
     try {
-      await this.props.createComment({
-        storyID: this.props.story.id,
-        ...input,
-      });
-      form.reset({});
+      const submitStatus = getSubmitStatus(
+        await this.props.createComment({
+          storyID: this.props.story.id,
+          ...input,
+        })
+      );
+      if (submitStatus !== "RETRY") {
+        form.reset({});
+      }
+      this.setState({ submitStatus });
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
@@ -93,10 +101,13 @@ export class PostCommentFormContainer extends Component<Props, State> {
       // tslint:disable-next-line:no-console
       console.error(error);
     }
-    return undefined;
+    return;
   };
 
   private handleOnChange: PostCommentFormProps["onChange"] = (state, form) => {
+    if (this.state.submitStatus && state.dirty) {
+      this.setState({ submitStatus: null });
+    }
     if (state.values.body) {
       this.props.sessionStorage.setItem(contextKey, state.values.body);
     } else {
@@ -155,6 +166,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
             this.props.settings.disableCommenting.message) ||
           this.props.settings.closedMessage
         }
+        submitStatus={this.state.submitStatus}
       />
     );
   }

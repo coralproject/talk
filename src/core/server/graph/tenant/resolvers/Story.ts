@@ -14,5 +14,6 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   closedAt: (s, input, ctx) => getStoryClosedAt(ctx.tenant, s),
   commentActionCounts: s => decodeActionCounts(s.commentCounts.action),
   commentCounts: s => s.commentCounts.status,
+  moderation: (s, input, ctx) => ctx.tenant.moderation,
   moderationQueues: storyModerationInputResolver,
 };

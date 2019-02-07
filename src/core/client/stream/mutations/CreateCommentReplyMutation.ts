@@ -2,6 +2,7 @@ import { graphql } from "react-relay";
 import {
   ConnectionHandler,
   Environment,
+  RecordProxy,
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
@@ -10,35 +11,44 @@ import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 import { CreateCommentReplyMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentReplyMutation.graphql";
 
 import {
   incrementStoryCommentCounts,
+  isInReview,
+  isRejected,
+  isRolePriviledged,
   prependCommentEdgeToProfile,
 } from "../helpers";
 
-export type CreateCommentReplyInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
-> & { local?: boolean };
+export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
+  local?: boolean;
+};
 
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
   input: CreateCommentReplyInput
 ) {
+  const commentEdge = store
+    .getRootField("createCommentReply")!
+    .getLinkedRecord("edge")!;
+  const status = commentEdge.getLinkedRecord("node")!.getValue("status");
+
+  // If comment is in review or has been rejected, we don't need to add it.
+  if (isInReview(status) || isRejected(status)) {
+    return;
+  }
+
   incrementStoryCommentCounts(store, input.storyID);
-  prependCommentEdgeToProfile(
-    environment,
-    store,
-    store.getRootField("createCommentReply")!.getLinkedRecord("edge")!
-  );
+  prependCommentEdgeToProfile(environment, store, commentEdge);
   if (input.local) {
-    addLocalCommentReplyToStory(store, input);
+    addLocalCommentReplyToStory(store, input, commentEdge);
   } else {
-    addCommentReplyToStory(store, input);
+    addCommentReplyToStory(store, input, commentEdge);
   }
 }
 
@@ -47,14 +57,9 @@ function sharedUpdater(
  */
 function addCommentReplyToStory(
   store: RecordSourceSelectorProxy,
-  input: CreateCommentReplyInput
+  input: CreateCommentReplyInput,
+  commentEdge: RecordProxy
 ) {
-  // Get the payload returned from the server.
-  const payload = store.getRootField("createCommentReply")!;
-
-  // Get the edge of the newly created comment.
-  const newEdge = payload.getLinkedRecord("edge")!;
-
   // Get parent proxy.
   const parentProxy = store.get(input.parentID);
   const connectionKey = "ReplyList_replies";
@@ -67,7 +72,7 @@ function addCommentReplyToStory(
       filters
     );
     if (con) {
-      ConnectionHandler.insertEdgeAfter(con, newEdge);
+      ConnectionHandler.insertEdgeAfter(con, commentEdge);
     }
   }
 }
@@ -77,14 +82,10 @@ function addCommentReplyToStory(
  */
 function addLocalCommentReplyToStory(
   store: RecordSourceSelectorProxy,
-  input: CreateCommentReplyInput
+  input: CreateCommentReplyInput,
+  commentEdge: RecordProxy
 ) {
-  // Get the payload returned from the server.
-  const payload = store.getRootField("createCommentReply")!;
-
-  // Get the edge of the newly created comment.
-  const newEdge = payload.getLinkedRecord("edge")!;
-  const newComment = newEdge.getLinkedRecord("node");
+  const newComment = commentEdge.getLinkedRecord("node");
 
   // Get parent proxy.
   const parentProxy = store.get(input.parentID!);
@@ -98,6 +99,17 @@ function addLocalCommentReplyToStory(
   }
 }
 
+/** These are needed to be included when querying for the stream. */
+// tslint:disable-next-line:no-unused-expression
+graphql`
+  fragment CreateCommentReplyMutation_story on Story {
+    moderation
+  }
+  fragment CreateCommentReplyMutation_me on User {
+    role
+  }
+`;
+/** end */
 const mutation = graphql`
   mutation CreateCommentReplyMutation($input: CreateCommentReplyInput!) {
     createCommentReply(input: $input) {
@@ -105,6 +117,7 @@ const mutation = graphql`
         cursor
         node {
           ...StreamContainer_comment @relay(mask: false)
+          status
         }
       }
       clientMutationId
@@ -117,11 +130,24 @@ let clientMutationId = 0;
 function commit(
   environment: Environment,
   input: CreateCommentReplyInput,
-  { uuidGenerator }: TalkContext
+  { uuidGenerator, relayEnvironment }: TalkContext
 ) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
+
+  const story = relayEnvironment
+    .getStore()
+    .getSource()
+    .get(input.storyID);
+  if (!story || !story.moderation) {
+    throw new Error("Moderation mode of the story was not included");
+  }
+
+  // TODO: Generate and use schema types.
+  const alwaysPremoderated =
+    !isRolePriviledged(me.role) && story.moderation === "PRE";
+
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
     variables: {
@@ -159,10 +185,18 @@ function commit(
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
     optimisticUpdater: store => {
+      // Skip if comments are always moderated.
+      if (alwaysPremoderated) {
+        return;
+      }
       sharedUpdater(environment, store, input);
       store.get(id)!.setValue(true, "pending");
     },
     updater: store => {
+      // Skip if comments are always moderated.
+      if (alwaysPremoderated) {
+        return;
+      }
       sharedUpdater(environment, store, input);
     },
   });
@@ -175,4 +209,4 @@ export const withCreateCommentReplyMutation = createMutationContainer(
 
 export type CreateCommentReplyMutation = (
   input: CreateCommentReplyInput
-) => Promise<MutationTypes["response"]["createCommentReply"]>;
+) => MutationResponsePromise<MutationTypes, "createCommentReply">;

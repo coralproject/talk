@@ -26,7 +26,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   size?: "small" | "regular" | "large";
 
   /** Color of the button */
-  color?: "regular" | "primary" | "error" | "success" | "brand";
+  color?: "regular" | "primary" | "error" | "success" | "brand" | "light";
 
   /** Variant of the button */
   variant?: "regular" | "filled" | "outlined" | "ghost" | "underlined";
@@ -69,6 +69,7 @@ export class Button extends React.Component<Props> {
       [classes.sizeSmall]: size === "small",
       [classes.sizeLarge]: size === "large",
       [classes.colorRegular]: color === "regular",
+      [classes.colorLight]: color === "light",
       [classes.colorPrimary]: color === "primary",
       [classes.colorError]: color === "error",
       [classes.colorSuccess]: color === "success",
