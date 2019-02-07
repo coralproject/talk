@@ -246,3 +246,21 @@
   font-size: calc(13rem / var(--rem-base));
   letter-spacing: calc(-0.35em / 13);
 }
+
+.sideNavigationItem {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-regular);
+  font-size: calc(18rem / var(--rem-base));
+  line-height: calc(18em / 18);
+  letter-spacing: calc(0.2em / 18);
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--palette-grey-main);
+}
+
+.sideNavigationActive {
+  composes: sideNavigationItem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: calc(0.1em / 18);
+  color: var(--palette-text-primary);
+}

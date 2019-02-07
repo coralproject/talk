@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="Stream-root"
   size="double"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
@@ -20,14 +20,14 @@ exports[`renders correctly 1`] = `
       }
     />
     <PostCommentFormFake />
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >
-    <withPropsOnChange(HorizontalGutter)
+    <ForwardRef(forwardRef)
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -74,8 +74,8 @@ exports[`renders correctly 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
-    <withPropsOnChange(HorizontalGutter)
+    </ForwardRef(forwardRef)>
+    <ForwardRef(forwardRef)
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -122,17 +122,17 @@ exports[`renders correctly 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
-  </withPropsOnChange(HorizontalGutter)>
-</withPropsOnChange(HorizontalGutter)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`when there is more disables load more button 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="Stream-root"
   size="double"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
@@ -147,14 +147,14 @@ exports[`when there is more disables load more button 1`] = `
       }
     />
     <PostCommentFormFake />
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >
-    <withPropsOnChange(HorizontalGutter)
+    <ForwardRef(forwardRef)
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -201,8 +201,8 @@ exports[`when there is more disables load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
-    <withPropsOnChange(HorizontalGutter)
+    </ForwardRef(forwardRef)>
+    <ForwardRef(forwardRef)
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -249,11 +249,11 @@ exports[`when there is more disables load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="comments-stream-loadMore"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         aria-controls="talk-comments-stream-log"
         disabled={true}
         fullWidth={true}
@@ -262,18 +262,18 @@ exports[`when there is more disables load more button 1`] = `
         variant="outlined"
       >
         Load More
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
-  </withPropsOnChange(HorizontalGutter)>
-</withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`when there is more renders a load more button 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="Stream-root"
   size="double"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
@@ -288,14 +288,14 @@ exports[`when there is more renders a load more button 1`] = `
       }
     />
     <PostCommentFormFake />
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >
-    <withPropsOnChange(HorizontalGutter)
+    <ForwardRef(forwardRef)
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -342,8 +342,8 @@ exports[`when there is more renders a load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
-    <withPropsOnChange(HorizontalGutter)
+    </ForwardRef(forwardRef)>
+    <ForwardRef(forwardRef)
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -390,11 +390,11 @@ exports[`when there is more renders a load more button 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
+    </ForwardRef(forwardRef)>
     <Localized
       id="comments-stream-loadMore"
     >
-      <withPropsOnChange(Button)
+      <ForwardRef(forwardRef)
         aria-controls="talk-comments-stream-log"
         disabled={false}
         fullWidth={true}
@@ -403,18 +403,18 @@ exports[`when there is more renders a load more button 1`] = `
         variant="outlined"
       >
         Load More
-      </withPropsOnChange(Button)>
+      </ForwardRef(forwardRef)>
     </Localized>
-  </withPropsOnChange(HorizontalGutter)>
-</withPropsOnChange(HorizontalGutter)>
+  </ForwardRef(forwardRef)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`when use is logged in renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="Stream-root"
   size="double"
 >
-  <withPropsOnChange(HorizontalGutter)
+  <ForwardRef(forwardRef)
     size="half"
   >
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
@@ -431,14 +431,14 @@ exports[`when use is logged in renders correctly 1`] = `
     <withContext(withContext(createMutationContainer(PostCommentFormContainer)))
       storyID="story-id"
     />
-  </withPropsOnChange(HorizontalGutter)>
-  <withPropsOnChange(HorizontalGutter)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
     id="talk-comments-stream-log"
     role="log"
   >
-    <withPropsOnChange(HorizontalGutter)
+    <ForwardRef(forwardRef)
       key="comment-1"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -485,8 +485,8 @@ exports[`when use is logged in renders correctly 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
-    <withPropsOnChange(HorizontalGutter)
+    </ForwardRef(forwardRef)>
+    <ForwardRef(forwardRef)
       key="comment-2"
     >
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
@@ -533,7 +533,7 @@ exports[`when use is logged in renders correctly 1`] = `
           }
         }
       />
-    </withPropsOnChange(HorizontalGutter)>
-  </withPropsOnChange(HorizontalGutter)>
-</withPropsOnChange(HorizontalGutter)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
+</ForwardRef(forwardRef)>
 `;

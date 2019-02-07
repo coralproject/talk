@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Button)
+<ForwardRef(forwardRef)
   classes={
     Object {
       "active": "FacebookButton-active",
@@ -31,5 +31,5 @@ exports[`renders correctly 1`] = `
   <span>
     Login with Facebook
   </span>
-</withPropsOnChange(Button)>
+</ForwardRef(forwardRef)>
 `;

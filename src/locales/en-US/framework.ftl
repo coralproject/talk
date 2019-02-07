@@ -28,6 +28,10 @@ framework-validation-passwordTooShort = Password must contain at least {$minLeng
 framework-validation-passwordsDoNotMatch = Passwords do not match. Try again.
 framework-validation-invalidURL = Invalid URL
 framework-validation-emailsDoNotMatch = Emails do not match. Try again.
+framework-validation-notAWholeNumberBetween = Please enter a whole number between { $min } and { $max }.
+framework-validation-notAWholeNumberGreaterThan = Please enter a whole number greater than { $x }
+framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole number greater than or equal to { $x }
+
 
 framework-timeago-just-now = Just now
 
@@ -68,13 +72,52 @@ framework-timeago-time =
 framework-timeago =
   { $suffix ->
     [ago] {framework-timeago-time} ago
-    [noSuffix] {framework-timeago-time}
+    *[noSuffix] {framework-timeago-time}
   }
 
 ## Components
 
+### Copy Button
 framework-copyButton-copy = Copy
 framework-copyButton-copied = Copied
+
+### Password Field
 framework-passwordField =
   .showPasswordTitle = Show password
   .hidePasswordTitle = Hide password
+
+### Markdown Editor
+framework-markdownEditor-bold = Bold
+framework-markdownEditor-italic = Italic
+framework-markdownEditor-titleSubtitleHeading = Title, Subtitle, Heading
+framework-markdownEditor-quote = Quote
+framework-markdownEditor-genericList = Generic List
+framework-markdownEditor-numberedList = Numbered List
+framework-markdownEditor-createLink = Create Link
+framework-markdownEditor-insertImage = Insert Image
+framework-markdownEditor-togglePreview = Toggle Preview
+framework-markdownEditor-toggleSideBySide = Toggle Side by Side
+framework-markdownEditor-toggleFullscreen = Toggle Fullscreen
+framework-markdownEditor-markdownGuide = Markdown Guide
+
+### Duration Field
+framework-durationField-seconds = { $value ->
+   [1]      Second
+  *[others] Seconds
+}
+framework-durationField-minutes = { $value ->
+   [1]      Minute
+  *[others] Minutes
+}
+framework-durationField-hours = { $value ->
+   [1]      Hour
+  *[others] Hours
+}
+framework-durationField-days = { $value ->
+   [1]      Day
+  *[others] Days
+}
+framework-durationField-weeks = { $value ->
+   [1]      Week
+  *[others] Weeks
+}

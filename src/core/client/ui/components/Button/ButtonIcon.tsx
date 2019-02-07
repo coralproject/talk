@@ -26,7 +26,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
 export const ButtonIcon: StatelessComponent<InnerProps> = props => {
   const { classes, className, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className);
-  return <Icon className={rootClassName} {...rest} forwardRef={forwardRef} />;
+  return <Icon className={rootClassName} {...rest} ref={forwardRef} />;
 };
 
 ButtonIcon.defaultProps = {

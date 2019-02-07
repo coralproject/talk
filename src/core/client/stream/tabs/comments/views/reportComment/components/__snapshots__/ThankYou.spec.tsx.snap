@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   className="ThankYou-root"
 >
   <Localized
     id="comments-reportPopover-thankYou"
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       className="ThankYou-title"
       variant="heading2"
     >
       Thank you!
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
   <div>
     <Localized
@@ -23,5 +23,5 @@ exports[`renders correctly 1`] = `
       </Content>
     </Localized>
   </div>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

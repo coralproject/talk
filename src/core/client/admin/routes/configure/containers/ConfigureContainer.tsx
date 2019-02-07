@@ -102,7 +102,7 @@ class ConfigureContainer extends React.Component<Props> {
   private addSubmitHook: AddSubmitHook = hook => {
     this.submitHooks.push(hook);
     return () => {
-      this.submitHooks = this.submitHooks.filter(h => h === hook);
+      this.submitHooks = this.submitHooks.filter(h => h !== hook);
     };
   };
 

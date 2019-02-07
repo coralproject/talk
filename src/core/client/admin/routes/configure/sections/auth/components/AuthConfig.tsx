@@ -13,7 +13,11 @@ interface Props {
   onInitValues: (values: any) => void;
 }
 
-const Auth: StatelessComponent<Props> = ({ disabled, auth, onInitValues }) => (
+const AuthConfig: StatelessComponent<Props> = ({
+  disabled,
+  auth,
+  onInitValues,
+}) => (
   <HorizontalGutter size="double" data-testid="configure-authContainer">
     <DisplayNamesConfigContainer
       disabled={disabled}
@@ -28,4 +32,4 @@ const Auth: StatelessComponent<Props> = ({ disabled, auth, onInitValues }) => (
   </HorizontalGutter>
 );
 
-export default Auth;
+export default AuthConfig;

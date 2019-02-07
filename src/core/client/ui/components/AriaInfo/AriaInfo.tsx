@@ -15,14 +15,16 @@ interface InnerProps extends AllHTMLAttributes<HTMLElement> {
   component?: string;
   children: React.ReactNode;
   /** Internal: Forwarded Ref */
-  forwardRef?: Ref<HTMLButtonElement>;
+  forwardRef?: Ref<HTMLElement>;
 }
 
 const AriaInfo: StatelessComponent<InnerProps> = props => {
-  const { component, className, classes, ...rest } = props;
-  const Component = component!;
+  const { component, className, classes, forwardRef: ref, ...rest } = props;
+  const Component: React.ComponentType<
+    React.HTMLAttributes<HTMLElement> & React.ClassAttributes<HTMLElement>
+  > = component! as any;
   const rootClassName = cn(classes.root, className);
-  return <Component className={rootClassName} {...rest} />;
+  return <Component className={rootClassName} {...rest} ref={ref} />;
 };
 
 AriaInfo.defaultProps = {

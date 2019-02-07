@@ -3,7 +3,7 @@ import { pick } from "lodash";
 import React, { Ref } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+import { Omit, PropTypesOf } from "talk-ui/types";
 
 import BaseButton, { BaseButtonProps } from "../BaseButton";
 
@@ -11,7 +11,7 @@ import styles from "./Button.css";
 
 // This should extend from BaseButton instead but we can't because of this bug
 // TODO: add bug link.
-interface InnerProps extends BaseButtonProps {
+interface InnerProps extends Omit<BaseButtonProps, "ref"> {
   /** If set renders an anchor tag instead */
   anchor?: boolean;
   href?: string;
@@ -88,7 +88,7 @@ export class Button extends React.Component<InnerProps> {
         className={rootClassName}
         classes={pick(classes, "keyboardFocus", "mouseHover")}
         disabled={disabled}
-        forwardRef={forwardRef}
+        ref={forwardRef}
         type={type}
         {...rest}
       />

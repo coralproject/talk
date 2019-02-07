@@ -17,16 +17,20 @@ exports[`accepts correct password 1`] = `
       >
         Email Address
       </label>
-      <input
-        className="TextField-root TextField-colorError TextField-fullWidth"
-        disabled={false}
-        id="email"
-        name="email"
-        onChange={[Function]}
-        placeholder="Email Address"
-        type="text"
-        value=""
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorError"
+          disabled={false}
+          id="email"
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+      </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
@@ -124,16 +128,20 @@ exports[`accepts valid email 1`] = `
       >
         Email Address
       </label>
-      <input
-        className="TextField-root TextField-colorRegular TextField-fullWidth"
-        disabled={false}
-        id="email"
-        name="email"
-        onChange={[Function]}
-        placeholder="Email Address"
-        type="text"
-        value="hans@test.com"
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorRegular"
+          disabled={false}
+          id="email"
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="hans@test.com"
+        />
+      </div>
     </div>
     <div
       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -231,16 +239,20 @@ exports[`checks for invalid email 1`] = `
       >
         Email Address
       </label>
-      <input
-        className="TextField-root TextField-colorError TextField-fullWidth"
-        disabled={false}
-        id="email"
-        name="email"
-        onChange={[Function]}
-        placeholder="Email Address"
-        type="text"
-        value="invalid-email"
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorError"
+          disabled={false}
+          id="email"
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="invalid-email"
+        />
+      </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
@@ -428,16 +440,20 @@ exports[`renders sign in form 1`] = `
                 >
                   Email Address
                 </label>
-                <input
-                  className="TextField-root TextField-colorRegular TextField-fullWidth"
-                  disabled={false}
-                  id="email"
-                  name="email"
-                  onChange={[Function]}
-                  placeholder="Email Address"
-                  type="text"
-                  value=""
-                />
+                <div
+                  className="TextField-root TextField-fullWidth"
+                >
+                  <input
+                    className="TextField-input TextField-colorRegular"
+                    disabled={false}
+                    id="email"
+                    name="email"
+                    onChange={[Function]}
+                    placeholder="Email Address"
+                    type="text"
+                    value=""
+                  />
+                </div>
               </div>
               <div
                 className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -530,16 +546,20 @@ exports[`shows error when submitting empty form 1`] = `
       >
         Email Address
       </label>
-      <input
-        className="TextField-root TextField-colorError TextField-fullWidth"
-        disabled={false}
-        id="email"
-        name="email"
-        onChange={[Function]}
-        placeholder="Email Address"
-        type="text"
-        value=""
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorError"
+          disabled={false}
+          id="email"
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value=""
+        />
+      </div>
       <div
         className="Message-root Message-colorError Message-fullWidth"
       >
@@ -655,16 +675,20 @@ exports[`shows server error 1`] = `
       >
         Email Address
       </label>
-      <input
-        className="TextField-root TextField-colorRegular TextField-fullWidth"
-        disabled={false}
-        id="email"
-        name="email"
-        onChange={[Function]}
-        placeholder="Email Address"
-        type="text"
-        value="hans@test.com"
-      />
+      <div
+        className="TextField-root TextField-fullWidth"
+      >
+        <input
+          className="TextField-input TextField-colorRegular"
+          disabled={false}
+          id="email"
+          name="email"
+          onChange={[Function]}
+          placeholder="Email Address"
+          type="text"
+          value="hans@test.com"
+        />
+      </div>
     </div>
     <div
       className="HorizontalGutter-root FormField-root HorizontalGutter-half"

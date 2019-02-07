@@ -19,16 +19,13 @@ const mutation = graphql`
     updateSettings(input: $input) {
       settings {
         auth {
-          ...FacebookConfigContainer_auth
-          ...FacebookConfigContainer_authReadOnly
-          ...GoogleConfigContainer_auth
-          ...GoogleConfigContainer_authReadOnly
-          ...SSOConfigContainer_auth
-          ...SSOConfigContainer_authReadOnly
-          ...OIDCConfigContainer_auth
-          ...OIDCConfigContainer_authReadOnly
-          ...DisplayNamesConfigContainer_auth
+          ...AuthConfigContainer_auth
         }
+        ...ModerationConfigContainer_settings
+        ...GeneralConfigContainer_settings
+        ...OrganizationConfigContainer_settings
+        ...WordListConfigContainer_settings
+        ...AdvancedConfigContainer_settings
       }
       clientMutationId
     }

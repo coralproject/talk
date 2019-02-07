@@ -18,13 +18,18 @@ import {
 export interface ModerationSettings {
   moderation: GQLMODERATION_MODE;
   requireEmailConfirmation: boolean;
-  infoBoxEnable: boolean;
-  infoBoxContent?: string;
+  communityGuidelinesEnable: boolean;
+  communityGuidelines?: string;
   questionBoxEnable: boolean;
   questionBoxIcon?: string;
   questionBoxContent?: string;
   premodLinksEnable: boolean;
   autoCloseStream: boolean;
+
+  /**
+   * closedTimeout is the amount of seconds from the createdAt timestamp that a
+   * given story will be considered closed.
+   */
   closedTimeout: number;
   closedMessage?: string;
   disableCommenting: boolean;
@@ -76,8 +81,8 @@ export interface Settings extends ModerationSettings {
   customCssUrl?: string;
 
   /**
-   * editCommentWindowLength is the length of time (in milliseconds) after a
-   * comment is posted that it can still be edited by the author.
+   * editCommentWindowLength is the length of time (in seconds) after a comment
+   * is posted that it can still be edited by the author.
    */
   editCommentWindowLength: number;
 

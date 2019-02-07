@@ -1,0 +1,536 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders configure moderation 1`] = `
+<div
+  className="MainLayout-root"
+  data-testid="configure-container"
+>
+  <form
+    autoComplete="off"
+    id="configure-form"
+    onSubmit={[Function]}
+  >
+    <div
+      className="Flex-root Layout-root Flex-flex"
+    >
+      <div
+        className="SideBar-root"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+        >
+          <nav
+            className="Navigation-root"
+          >
+            <ul
+              className="Navigation-ul"
+            >
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/general"
+                  onClick={[Function]}
+                >
+                  General
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/organization"
+                  onClick={[Function]}
+                >
+                  Organization
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link Link-linkActive"
+                  href="/admin/configure/moderation"
+                  onClick={[Function]}
+                >
+                  Moderation
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/wordList"
+                  onClick={[Function]}
+                >
+                  Banned and Suspect Words
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/auth"
+                  onClick={[Function]}
+                >
+                  Authentication
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/advanced"
+                  onClick={[Function]}
+                >
+                  Advanced
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+        >
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+            data-testid="configure-sideBar-saveChanges"
+            disabled={true}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+      <div
+        className="Main-root"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+          data-testid="configure-moderationContainer"
+        >
+          <fieldset
+            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Perspective Toxic Comment Filter
+            </legend>
+            <p
+              className="Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
+threshold. Comments with a toxicity score above the threshold 
+              <strong>
+                will not be published
+              </strong>
+               and are placed in
+the 
+              <strong>
+                Pending Queue for review by a moderator
+              </strong>
+              . If approved by a moderator, the comment will be published.
+            </p>
+            <fieldset
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Toxic Comment Filter
+              </legend>
+              <div>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="integrations.perspective.enabled-true"
+                    name="integrations.perspective.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="integrations.perspective.enabled-true"
+                  >
+                    On
+                  </label>
+                </div>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="integrations.perspective.enabled-fase"
+                    name="integrations.perspective.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="integrations.perspective.enabled-fase"
+                  >
+                    Off
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="configure-moderation-perspective-threshold"
+              >
+                Toxicity Threshold
+              </label>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                This value can be set a percentage between 0 and 100. This number represents the likelihood that a
+comment is toxic, according to Perspective API. By default the treshold is set to ⁨80⁩.
+              </p>
+              <div
+                className="TextField-root PerspectiveConfig-thresholdTextField"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                  disabled={false}
+                  id="configure-moderation-perspective-threshold"
+                  name="integrations.perspective.threshold"
+                  onChange={[Function]}
+                  placeholder="80"
+                  spellCheck={false}
+                  type="text"
+                  value=""
+                />
+                <p
+                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                >
+                  %
+                </p>
+              </div>
+            </div>
+            <fieldset
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Allow Google to Store Comment Data
+              </legend>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Stored comments will be used for future research and community model building purposes to
+improve the API over time
+              </p>
+              <div>
+                <div>
+                  <div
+                    className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="integrations.perspective.doNotStore-allow"
+                      name="integrations.perspective.doNotStore"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value={false}
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="integrations.perspective.doNotStore-allow"
+                    >
+                      Allow
+                    </label>
+                  </div>
+                  <div
+                    className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  >
+                    <input
+                      checked={false}
+                      className="RadioButton-input"
+                      disabled={false}
+                      id="integrations.perspective.doNotStore-dontAllow"
+                      name="integrations.perspective.doNotStore"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="radio"
+                      value={true}
+                    />
+                    <label
+                      className="RadioButton-label"
+                      htmlFor="integrations.perspective.doNotStore-dontAllow"
+                    >
+                      Don't allow
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <div>
+              <h1
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
+              >
+                Configuration
+              </h1>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                For additional information on how to set up the Perspective Toxic Comment Filter please visit:
+
+                <a
+                  className="ExternalLink-root"
+                  href="https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md"
+                  target="_blank"
+                >
+                  https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md
+                </a>
+              </p>
+            </div>
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="configure-moderation-integrations.perspective.key"
+              >
+                API Key
+              </label>
+              <div
+                className="TextField-root"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-moderation-integrations.perspective.key"
+                  name="integrations.perspective.key"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="configure-moderation-perspective-customEndpoint"
+              >
+                Custom Endpoint
+              </label>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                By default the endpoint is set to ⁨https://commentanalyzer.googleapis.com/v1alpha1⁩. You may override this here.
+              </p>
+              <div
+                className="TextField-root"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-moderation-perspective-customEndpoint"
+                  name="integrations.perspective.endpoint"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </fieldset>
+          <fieldset
+            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Akismet Spam Detection Filter
+            </legend>
+            <p
+              className="Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              Submitted comments are passed to the Akismet API for spam detection.
+If a comment is determined to be spam, it will prompt the user,
+indicating that the comment might be considered spam.
+If the user continues after this point with the still spam-like comment,
+the comment will be marked as containing spam, 
+              <strong>
+                will not be published
+              </strong>
+               and
+are placed in the 
+              <strong>
+                Pending Queue for review by a moderator
+              </strong>
+              . If approved by a moderator,
+the comment will be published.
+            </p>
+            <fieldset
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Spam Detection Filter
+              </legend>
+              <div>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="integrations.akismet.enabled-true"
+                    name="integrations.akismet.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="integrations.akismet.enabled-true"
+                  >
+                    On
+                  </label>
+                </div>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="integrations.akismet.enabled-fase"
+                    name="integrations.akismet.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="integrations.akismet.enabled-fase"
+                  >
+                    Off
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <div>
+              <h1
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
+              >
+                Configuration
+              </h1>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                Note: You must add your active domain(s)
+in your Akismet account: 
+                <a
+                  className="ExternalLink-root"
+                  href="https://akismet.com/account/"
+                  target="_blank"
+                >
+                  https://akismet.com/account/
+                </a>
+              </p>
+            </div>
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="configure-moderation-integrations.akismet.key"
+              >
+                API Key
+              </label>
+              <div
+                className="TextField-root"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-moderation-integrations.akismet.key"
+                  name="integrations.akismet.key"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="configure-moderation-akismet-site"
+              >
+                Site URL
+              </label>
+              <div
+                className="TextField-root"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-moderation-akismet-site"
+                  name="integrations.akismet.site"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;

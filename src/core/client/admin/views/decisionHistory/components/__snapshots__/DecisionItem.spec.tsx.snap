@@ -4,7 +4,7 @@ exports[`renders correctly 1`] = `
 <li
   className="DecisionItem-root"
 >
-  <withPropsOnChange(Flex)>
+  <ForwardRef(forwardRef)>
     <div
       className="DecisionItem-leftCol"
     >
@@ -13,6 +13,6 @@ exports[`renders correctly 1`] = `
     <div>
       children
     </div>
-  </withPropsOnChange(Flex)>
+  </ForwardRef(forwardRef)>
 </li>
 `;

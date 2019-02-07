@@ -77,14 +77,18 @@ exports[`change settings: during submit: oidc without errors 1`] = `
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
-          <input
-            className="TextField-root TextField-colorRegular"
-            name="redirectURI"
-            placeholder=""
-            readOnly={true}
-            type="text"
-            value="http://localhost/oidc/callback"
-          />
+          <div
+            className="TextField-root"
+          >
+            <input
+              className="TextField-input TextField-colorRegular"
+              name="redirectURI"
+              placeholder=""
+              readOnly={true}
+              type="text"
+              value="http://localhost/oidc/callback"
+            />
+          </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             onBlur={[Function]}
@@ -118,19 +122,23 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={true}
-          name="auth.integrations.oidc.name"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="name"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={true}
+            name="auth.integrations.oidc.name"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="name"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -140,19 +148,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           Client ID
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={true}
-          name="auth.integrations.oidc.clientID"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="clientID"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={true}
+            name="auth.integrations.oidc.clientID"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="clientID"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -162,19 +174,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           Client Secret
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={true}
-          name="auth.integrations.oidc.clientSecret"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="clientSecret"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={true}
+            name="auth.integrations.oidc.clientSecret"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="clientSecret"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -193,19 +209,23 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-root TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.issuer"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="http://issuer.com"
-          />
+          <div
+            className="TextField-root"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={true}
+              name="auth.integrations.oidc.issuer"
+              onChange={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value="http://issuer.com"
+            />
+          </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
             disabled={true}
@@ -230,19 +250,23 @@ the remaining fields. You may also enter the information manually.
         >
           Authorization URL
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={true}
-          name="auth.integrations.oidc.authorizationURL"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="http://issuer.com/authorizationURL"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={true}
+            name="auth.integrations.oidc.authorizationURL"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="http://issuer.com/authorizationURL"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -252,19 +276,23 @@ the remaining fields. You may also enter the information manually.
         >
           Token URL
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={true}
-          name="auth.integrations.oidc.tokenURL"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="http://issuer.com/tokenURL"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={true}
+            name="auth.integrations.oidc.tokenURL"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="http://issuer.com/tokenURL"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -274,19 +302,23 @@ the remaining fields. You may also enter the information manually.
         >
           JWKS URI
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={true}
-          name="auth.integrations.oidc.jwksURI"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="http://issuer.com/jwksURI"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={true}
+            name="auth.integrations.oidc.jwksURI"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="http://issuer.com/jwksURI"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -482,14 +514,18 @@ For more information visit:
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
-          <input
-            className="TextField-root TextField-colorRegular"
-            name="redirectURI"
-            placeholder=""
-            readOnly={true}
-            type="text"
-            value="http://localhost/facebook/callback"
-          />
+          <div
+            className="TextField-root"
+          >
+            <input
+              className="TextField-input TextField-colorRegular"
+              name="redirectURI"
+              placeholder=""
+              readOnly={true}
+              type="text"
+              value="http://localhost/facebook/callback"
+            />
+          </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             onBlur={[Function]}
@@ -517,19 +553,23 @@ For more information visit:
         >
           Client ID
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.facebook.clientID"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="myClientID"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.facebook.clientID"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="myClientID"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -539,19 +579,23 @@ For more information visit:
         >
           Client Secret
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.facebook.clientSecret"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value="myClientSecret"
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.facebook.clientSecret"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value="myClientSecret"
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -744,14 +788,18 @@ exports[`change settings: enable oidc configure box 1`] = `
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
-          <input
-            className="TextField-root TextField-colorRegular"
-            name="redirectURI"
-            placeholder=""
-            readOnly={true}
-            type="text"
-            value="http://localhost/oidc/callback"
-          />
+          <div
+            className="TextField-root"
+          >
+            <input
+              className="TextField-input TextField-colorRegular"
+              name="redirectURI"
+              placeholder=""
+              readOnly={true}
+              type="text"
+              value="http://localhost/oidc/callback"
+            />
+          </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             onBlur={[Function]}
@@ -785,19 +833,23 @@ exports[`change settings: enable oidc configure box 1`] = `
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.name"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.name"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -807,19 +859,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           Client ID
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.clientID"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.clientID"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -829,19 +885,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           Client Secret
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.clientSecret"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.clientSecret"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -860,19 +920,23 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-root TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.issuer"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="TextField-root"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.oidc.issuer"
+              onChange={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             disabled={false}
@@ -897,19 +961,23 @@ the remaining fields. You may also enter the information manually.
         >
           Authorization URL
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.authorizationURL"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.authorizationURL"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -919,19 +987,23 @@ the remaining fields. You may also enter the information manually.
         >
           Token URL
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.tokenURL"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.tokenURL"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -941,19 +1013,23 @@ the remaining fields. You may also enter the information manually.
         >
           JWKS URI
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.jwksURI"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.jwksURI"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
       </div>
       <div
         className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -1146,14 +1222,18 @@ exports[`change settings: oidc validation errors 1`] = `
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
-          <input
-            className="TextField-root TextField-colorRegular"
-            name="redirectURI"
-            placeholder=""
-            readOnly={true}
-            type="text"
-            value="http://localhost/oidc/callback"
-          />
+          <div
+            className="TextField-root"
+          >
+            <input
+              className="TextField-input TextField-colorRegular"
+              name="redirectURI"
+              placeholder=""
+              readOnly={true}
+              type="text"
+              value="http://localhost/oidc/callback"
+            />
+          </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             onBlur={[Function]}
@@ -1187,19 +1267,23 @@ exports[`change settings: oidc validation errors 1`] = `
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </p>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.name"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.name"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
@@ -1222,19 +1306,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           Client ID
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.clientID"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.clientID"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
@@ -1257,19 +1345,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           Client Secret
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.clientSecret"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.clientSecret"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
@@ -1301,19 +1393,23 @@ the remaining fields. You may also enter the information manually.
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-root TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.issuer"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="TextField-root"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="TextField-input TextField-colorRegular"
+              disabled={false}
+              name="auth.integrations.oidc.issuer"
+              onChange={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="text"
+              value=""
+            />
+          </div>
           <button
             className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
             disabled={false}
@@ -1351,19 +1447,23 @@ the remaining fields. You may also enter the information manually.
         >
           Authorization URL
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.authorizationURL"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.authorizationURL"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
@@ -1386,19 +1486,23 @@ the remaining fields. You may also enter the information manually.
         >
           Token URL
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.tokenURL"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.tokenURL"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
@@ -1421,19 +1525,23 @@ the remaining fields. You may also enter the information manually.
         >
           JWKS URI
         </label>
-        <input
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          className="TextField-root TextField-colorRegular"
-          disabled={false}
-          name="auth.integrations.oidc.jwksURI"
-          onChange={[Function]}
-          placeholder=""
-          spellCheck={false}
-          type="text"
-          value=""
-        />
+        <div
+          className="TextField-root"
+        >
+          <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
+            className="TextField-input TextField-colorRegular"
+            disabled={false}
+            name="auth.integrations.oidc.jwksURI"
+            onChange={[Function]}
+            placeholder=""
+            spellCheck={false}
+            type="text"
+            value=""
+          />
+        </div>
         <div
           className="Message-root Message-colorError ValidationMessage-root"
         >
@@ -1586,14 +1694,18 @@ exports[`regenerate sso key 1`] = `
   <div
     className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
   >
-    <input
-      className="TextField-root TextField-colorRegular"
-      name="key"
-      placeholder=""
-      readOnly={true}
-      type="text"
-      value="==GENERATED_KEY=="
-    />
+    <div
+      className="TextField-root"
+    >
+      <input
+        className="TextField-input TextField-colorRegular"
+        name="key"
+        placeholder=""
+        readOnly={true}
+        type="text"
+        value="==GENERATED_KEY=="
+      />
+    </div>
     <button
       className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
       disabled={false}
@@ -1662,10 +1774,37 @@ exports[`renders configure auth 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/general"
+                  onClick={[Function]}
+                >
+                  General
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/organization"
+                  onClick={[Function]}
+                >
+                  Organization
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/moderation"
                   onClick={[Function]}
                 >
                   Moderation
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/wordList"
+                  onClick={[Function]}
+                >
+                  Banned and Suspect Words
                 </a>
               </li>
               <li>
@@ -1675,6 +1814,15 @@ exports[`renders configure auth 1`] = `
                   onClick={[Function]}
                 >
                   Authentication
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/advanced"
+                  onClick={[Function]}
+                >
+                  Advanced
                 </a>
               </li>
             </ul>
@@ -1714,12 +1862,12 @@ exports[`renders configure auth 1`] = `
               Display Names
             </h1>
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              className="Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Some Authentication Integrations include a Display Name as well as a User Name.
             </p>
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              className="Typography-root Typography-detail Typography-colorTextPrimary"
             >
               A User Name has to be unique (there can only be one Juan_Doe, for example),
 whereas a Display Name does not. If your authentication provider allows for Display Names,
@@ -2024,14 +2172,18 @@ integration to register for a new account.
                     <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      <input
-                        className="TextField-root TextField-colorRegular"
-                        name="redirectURI"
-                        placeholder=""
-                        readOnly={true}
-                        type="text"
-                        value="http://localhost/oidc/callback"
-                      />
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          name="redirectURI"
+                          placeholder=""
+                          readOnly={true}
+                          type="text"
+                          value="http://localhost/oidc/callback"
+                        />
+                      </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
                         onBlur={[Function]}
@@ -2065,19 +2217,23 @@ integration to register for a new account.
                       The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     </p>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.oidc.name"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.oidc.name"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2087,19 +2243,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     >
                       Client ID
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.oidc.clientID"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.oidc.clientID"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2109,19 +2269,23 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     >
                       Client Secret
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.oidc.clientSecret"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.oidc.clientSecret"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2140,19 +2304,23 @@ the remaining fields. You may also enter the information manually.
                     <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-root TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.issuer"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="TextField-input TextField-colorRegular"
+                          disabled={true}
+                          name="auth.integrations.oidc.issuer"
+                          onChange={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="text"
+                          value=""
+                        />
+                      </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
                         disabled={true}
@@ -2177,19 +2345,23 @@ the remaining fields. You may also enter the information manually.
                     >
                       Authorization URL
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.oidc.authorizationURL"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.oidc.authorizationURL"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2199,19 +2371,23 @@ the remaining fields. You may also enter the information manually.
                     >
                       Token URL
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.oidc.tokenURL"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.oidc.tokenURL"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2221,19 +2397,23 @@ the remaining fields. You may also enter the information manually.
                     >
                       JWKS URI
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.oidc.jwksURI"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.oidc.jwksURI"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2408,13 +2588,17 @@ integration to register for a new account.
                     <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      <input
-                        className="TextField-root TextField-colorRegular"
-                        name="key"
-                        placeholder=""
-                        readOnly={true}
-                        type="text"
-                      />
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          name="key"
+                          placeholder=""
+                          readOnly={true}
+                          type="text"
+                        />
+                      </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
                         disabled={true}
@@ -2643,14 +2827,18 @@ to create and set up a web application. For more information visit:
                     <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      <input
-                        className="TextField-root TextField-colorRegular"
-                        name="redirectURI"
-                        placeholder=""
-                        readOnly={true}
-                        type="text"
-                        value="http://localhost/google/callback"
-                      />
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          name="redirectURI"
+                          placeholder=""
+                          readOnly={true}
+                          type="text"
+                          value="http://localhost/google/callback"
+                        />
+                      </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
                         onBlur={[Function]}
@@ -2678,19 +2866,23 @@ to create and set up a web application. For more information visit:
                     >
                       Client ID
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.google.clientID"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.google.clientID"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2700,19 +2892,23 @@ to create and set up a web application. For more information visit:
                     >
                       Client Secret
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.google.clientSecret"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.google.clientSecret"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2905,14 +3101,18 @@ For more information visit:
                     <div
                       className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      <input
-                        className="TextField-root TextField-colorRegular"
-                        name="redirectURI"
-                        placeholder=""
-                        readOnly={true}
-                        type="text"
-                        value="http://localhost/facebook/callback"
-                      />
+                      <div
+                        className="TextField-root"
+                      >
+                        <input
+                          className="TextField-input TextField-colorRegular"
+                          name="redirectURI"
+                          placeholder=""
+                          readOnly={true}
+                          type="text"
+                          value="http://localhost/facebook/callback"
+                        />
+                      </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
                         onBlur={[Function]}
@@ -2940,19 +3140,23 @@ For more information visit:
                     >
                       Client ID
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.facebook.clientID"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.facebook.clientID"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -2962,19 +3166,23 @@ For more information visit:
                     >
                       Client Secret
                     </label>
-                    <input
-                      autoCapitalize="off"
-                      autoComplete="off"
-                      autoCorrect="off"
-                      className="TextField-root TextField-colorRegular"
-                      disabled={true}
-                      name="auth.integrations.facebook.clientSecret"
-                      onChange={[Function]}
-                      placeholder=""
-                      spellCheck={false}
-                      type="text"
-                      value=""
-                    />
+                    <div
+                      className="TextField-root"
+                    >
+                      <input
+                        autoCapitalize="off"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        className="TextField-input TextField-colorRegular"
+                        disabled={true}
+                        name="auth.integrations.facebook.clientSecret"
+                        onChange={[Function]}
+                        placeholder=""
+                        spellCheck={false}
+                        type="text"
+                        value=""
+                      />
+                    </div>
                   </div>
                   <div
                     className="HorizontalGutter-root FormField-root HorizontalGutter-half"

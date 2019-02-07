@@ -28,7 +28,8 @@ import ConfigDescription from "./ConfigDescription";
 import RedirectField from "./RedirectField";
 import RegistrationField from "./RegistrationField";
 import TargetFilterField from "./TargetFilterField";
-import ValidationMessage from "./ValidationMessage";
+
+import ValidationMessage from "../../../components/ValidationMessage";
 
 interface Props {
   disabled?: boolean;

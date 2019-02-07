@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   alignItems="center"
   className="ReplyTo-root"
 >
-  <withPropsOnChange(Icon)>
+  <ForwardRef(forwardRef)>
     reply
-  </withPropsOnChange(Icon)>
+  </ForwardRef(forwardRef)>
    
   <Localized
     id="comments-replyTo"
     username={<Username />}
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       className="ReplyTo-text"
       container="span"
     >
       Replying to: &lt;username&gt;&lt;/username&gt;
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;

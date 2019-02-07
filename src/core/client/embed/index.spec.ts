@@ -27,13 +27,13 @@ describe("Basic integration test", () => {
     const link = document.createElement("link");
     link.rel = "canonical";
     link.href = "http://localhost/canonical";
-    document.head.appendChild(link);
+    document.head!.appendChild(link);
     const TalkEmbedStream = Coral.Talk.createStreamEmbed({
       id: "basic-integration-test-id",
     });
     TalkEmbedStream.render();
     expect(container.innerHTML).toMatchSnapshot();
-    document.head.removeChild(link);
+    document.head!.removeChild(link);
     expect(console.warn).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
   });

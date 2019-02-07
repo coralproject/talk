@@ -870,15 +870,14 @@ type Settings {
   requireEmailConfirmation: Boolean!
 
   """
-  infoBoxEnable will enable the Info Box content visible above the question
-  box.
+  communityGuidelinesEnable will show the guidelines above the question box.
   """
-  infoBoxEnable: Boolean!
+  communityGuidelinesEnable: Boolean!
 
   """
-  infoBoxContent is the content of the Info Box.
+  communityGuidelines is the content of the guidelines.
   """
-  infoBoxContent: String
+  communityGuidelines: String
 
   """
   questionBoxEnable will enable the Question Box's content to be visible above
@@ -913,8 +912,8 @@ type Settings {
   customCssUrl: String
 
   """
-  closedTimeout is the amount of seconds from the created_at timestamp that a
-  given story will be considered closed.
+  closedTimeout is the amount of time (in seconds) from the createdAt timestamp
+  that a given story will be considered closed.
   """
   closedTimeout: Int!
 
@@ -936,8 +935,8 @@ type Settings {
   disableCommentingMessage: String
 
   """
-  editCommentWindowLength is the length of time (in milliseconds) after a
-  comment is posted that it can still be edited by the author.
+  editCommentWindowLength is the length of time (in seconds) after a comment is
+  posted that it can still be edited by the author.
   """
   editCommentWindowLength: Int!
 
@@ -2123,15 +2122,15 @@ input SettingsInput {
   requireEmailConfirmation: Boolean
 
   """
-  infoBoxEnable will enable the Info Box content visible above the question
+  communityGuidelinesEnable will enable the Info Box content visible above the question
   box.
   """
-  infoBoxEnable: Boolean
+  communityGuidelinesEnable: Boolean
 
   """
-  infoBoxContent is the content of the Info Box.
+  communityGuidelines is the content of the Info Box.
   """
-  infoBoxContent: String
+  communityGuidelines: String
 
   """
   questionBoxEnable will enable the Question Box's content to be visible above
@@ -2166,7 +2165,7 @@ input SettingsInput {
   customCssUrl: String
 
   """
-  closedTimeout is the amount of seconds from the created_at timestamp that a
+  closedTimeout is the amount of seconds from the createdAt timestamp that a
   given story will be considered closed.
   """
   closedTimeout: Int
@@ -2189,8 +2188,8 @@ input SettingsInput {
   disableCommentingMessage: String
 
   """
-  editCommentWindowLength is the length of time (in milliseconds) after a
-  comment is posted that it can still be edited by the author.
+  editCommentWindowLength is the length of time (in seconds) after a comment is
+  posted that it can still be edited by the author.
   """
   editCommentWindowLength: Int
 

@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import { Omit } from "talk-common/types";
@@ -211,11 +212,9 @@ export async function edit(
 
   // The editable time is based on the current time, and the edit window
   // length. By subtracting the current date from the edit window length, we
-  // get the maximum value for the `created_at` time that would be permitted
+  // get the maximum value for the `createdAt` time that would be permitted
   // for the comment edit to succeed.
-  const lastEditableCommentCreatedAt = new Date(
-    Date.now() - tenant.editCommentWindowLength
-  );
+  const lastEditableCommentCreatedAt = getLastCommentEditableUntilDate(tenant);
 
   // Validate and potentially return with a more useful error.
   validateEditable(originalStaleComment, {
@@ -329,4 +328,45 @@ export async function edit(
   await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
   return editedComment;
+}
+
+/**
+ * getLastCommentEditableUntilDate will return the `createdAt` date that will
+ * represent the _oldest_ date that a comment could have been created on in
+ * order to still be editable.
+ *
+ * @param tenant the tenant that contains settings related editing
+ * @param now the date that is the base, defaulting to the current time
+ */
+export function getLastCommentEditableUntilDate(
+  tenant: Pick<Tenant, "editCommentWindowLength">,
+  now: Date = new Date()
+): Date {
+  return (
+    DateTime.fromJSDate(now)
+      // editCommentWindowLength is in seconds, so multiply by 1000 to get
+      // milliseconds.
+      .minus(tenant.editCommentWindowLength * 1000)
+      .toJSDate()
+  );
+}
+
+/**
+ * getCommentEditableUntilDate will return the date that the given comment is
+ * still editable until.
+ *
+ * @param tenant the tenant that contains settings related editing
+ * @param createdAt the date that is the base, defaulting to the current time
+ */
+export function getCommentEditableUntilDate(
+  tenant: Pick<Tenant, "editCommentWindowLength">,
+  createdAt: Date
+): Date {
+  return (
+    DateTime.fromJSDate(createdAt)
+      // editCommentWindowLength is in seconds, so multiply by 1000 to get
+      // milliseconds.
+      .plus(tenant.editCommentWindowLength * 1000)
+      .toJSDate()
+  );
 }

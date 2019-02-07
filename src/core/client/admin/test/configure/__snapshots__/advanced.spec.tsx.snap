@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders configure advanced 1`] = `
+<div
+  className="MainLayout-root"
+  data-testid="configure-container"
+>
+  <form
+    autoComplete="off"
+    id="configure-form"
+    onSubmit={[Function]}
+  >
+    <div
+      className="Flex-root Layout-root Flex-flex"
+    >
+      <div
+        className="SideBar-root"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+        >
+          <nav
+            className="Navigation-root"
+          >
+            <ul
+              className="Navigation-ul"
+            >
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/general"
+                  onClick={[Function]}
+                >
+                  General
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/organization"
+                  onClick={[Function]}
+                >
+                  Organization
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/moderation"
+                  onClick={[Function]}
+                >
+                  Moderation
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/wordList"
+                  onClick={[Function]}
+                >
+                  Banned and Suspect Words
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
+                  href="/admin/configure/auth"
+                  onClick={[Function]}
+                >
+                  Authentication
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link Link-linkActive"
+                  href="/admin/configure/advanced"
+                  onClick={[Function]}
+                >
+                  Advanced
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+        >
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+            data-testid="configure-sideBar-saveChanges"
+            disabled={true}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+      <div
+        className="Main-root"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+          data-testid="configure-advancedContainer"
+        >
+          <div
+            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-advanced-customCssUrl"
+              >
+                Custom CSS
+              </label>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+              </p>
+              <div
+                className="TextField-root TextField-fullWidth"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-advanced-customCssUrl"
+                  name="customCssUrl"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-advanced-domains"
+              >
+                Permitted Domains
+              </label>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                Domains where your Talk instance is allowed to be embedded.
+Typical use is localhost, staging.yourdomain.com,
+yourdomain.com, etc.
+              </p>
+              <div
+                className="TextField-root TextField-fullWidth"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-advanced-domains"
+                  name="domains"
+                  onChange={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value="localhost:8080"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+`;

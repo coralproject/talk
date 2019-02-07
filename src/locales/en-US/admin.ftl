@@ -44,10 +44,73 @@ login-signInWithOIDC = Sign in with { $name }
 configure-unsavedInputWarning =
   You have unsaved input.
   Are you sure you want to leave this page?
-configure-sideBarNavigation-authentication = Authentication
-configure-sideBar-saveChanges = Save Changes
 
-# Authentication
+configure-sideBarNavigation-general = General
+configure-sideBarNavigation-authentication = Authentication
+configure-sideBarNavigation-moderation = Moderation
+configure-sideBarNavigation-organization = Organization
+configure-sideBarNavigation-advanced = Advanced
+configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
+
+configure-sideBar-saveChanges = Save Changes
+configure-configurationSubHeader = Configuration
+configure-onOffField-on = On
+configure-onOffField-off = Off
+configure-permissionField-allow = Allow
+configure-permissionField-dontAllow = Don't allow
+
+### General
+configure-general-guidelines-title = Community Guidelines Summary
+configure-general-guidelines-explanation =
+  Write a summary of your community guidelines that will appear
+  at the top of each comment stream sitewide. Your summary can be
+  formatted using Markdown Syntax. More information on how to use
+  Markdown can be found <externalLink>here</externalLink>.
+configure-general-guidelines-showCommunityGuidelines = Show Community Guidelines Summary
+
+### Closing Comment Streams
+configure-general-closingCommentStreams-title = Closing Comment Streams
+configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication
+configure-general-closingCommentStreams-closeCommentsAutomatically = Close Comments Automatically
+configure-general-closingCommentStreams-closeCommentsAfter = Close Comments After
+
+#### Comment Length
+configure-general-commentLength-title = Comment Length
+configure-general-commentLength-maxCommentLength = Maximum Comment Length
+configure-general-commentLength-setLimit = Set a limit on the length of comments sitewide
+configure-general-commentLength-limitCommentLength = Limit Comment Length
+configure-general-commentLength-minCommentLength = Minimum Comment Length
+configure-general-commentLength-characters = Characters
+configure-general-commentLength-textField =
+  .placeholder = No limit
+configure-general-commentLength-validateLongerThanMin =
+  Please enter a number longer than the minimum length
+
+#### Comment Editing
+configure-general-commentEditing-title = Comment Editing
+configure-general-commentEditing-explanation =
+  Set a limit on how long commenters have to edit their comments sitewide.
+  Edited comments are marked as (Edited) on the comment stream and the
+  moderation panel.
+configure-general-commentEditing-commentEditTimeFrame = Comment Edit Timeframe
+configure-general-commentEditing-seconds = Seconds
+
+#### Closed Stream Message
+configure-general-closedStreamMessage-title = Closed Stream Message
+configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
+
+### Organization
+configure-organization-name = Organization Name
+configure-organization-nameExplanation =
+  Your organization name will appear on emails sent by Talk to your community and organization members.
+configure-organization-email = Organization Email
+configure-organization-emailExplanation =
+  This email address will be used as in emails and across
+  the platform for community members to get in touch with
+  the organization should they have any questions about the
+  status of their accounts or moderation questions.
+
+### Authentication
 
 configure-auth-authIntegrations = Authentication Integrations
 configure-auth-clientID = Client ID
@@ -119,6 +182,81 @@ configure-auth-oidc-authorizationURL = Authorization URL
 configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
+
+### Moderation
+configure-moderation-apiKey = API Key
+
+configure-moderation-akismet-title = Akismet Spam Detection Filter
+configure-moderation-akismet-explanation =
+  Submitted comments are passed to the Akismet API for spam detection.
+  If a comment is determined to be spam, it will prompt the user,
+  indicating that the comment might be considered spam.
+  If the user continues after this point with the still spam-like comment,
+  the comment will be marked as containing spam, <strong>will not be published</strong> and
+  are placed in the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator,
+  the comment will be published.
+
+#### Akismet
+configure-moderation-akismet-filter = Spam Detection Filter
+configure-moderation-akismet-accountNote =
+  Note: You must add your active domain(s)
+  in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
+configure-moderation-akismet-siteURL = Site URL
+
+configure-moderation-perspective-title = Perspective Toxic Comment Filter
+configure-moderation-perspective-explanation =
+  Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
+  threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
+  the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
+
+#### Perspective
+configure-moderation-perspective-filter = Toxic Comment Filter
+configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
+configure-moderation-perspective-toxicityThresholdDescription =
+  This value can be set a percentage between 0 and 100. This number represents the likelihood that a
+  comment is toxic, according to Perspective API. By default the treshold is set to { $default }.
+configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
+configure-moderation-perspective-allowStoreCommentDataDescription =
+  Stored comments will be used for future research and community model building purposes to
+  improve the API over time
+configure-moderation-perspective-customEndpoint = Custom Endpoint
+configure-moderation-perspective-defaultEndpoint =
+  By default the endpoint is set to { $default }. You may override this here.
+configure-moderation-perspective-accountNote =
+  For additional information on how to set up the Perspective Toxic Comment Filter please visit:
+  <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+
+#### Banned Words Configuration
+configure-wordList-banned-bannedWordsAndPhrases = Banned Words and Phrases
+configure-wordList-banned-explanation =
+  Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
+configure-wordList-banned-wordList = Banned Word List
+configure-wordList-banned-wordListDetail =
+  Separate banned words or phrases with a new line. Attempting to copy
+  and paste a comma separated list? <externalLink>Learn how to convert your list
+  to a new line separated list.</externalLink>
+
+#### Suspect Words Configuration
+configure-wordList-suspect-bannedWordsAndPhrases = Suspect Words and Phrases
+configure-wordList-suspect-explanation =
+  Comments containing a word or phrase in the Suspect Words List
+  are <strong>placed into the Reported Queue for moderator review and are
+  published (if comments are not pre-moderated).</strong>
+configure-wordList-suspect-wordList = Suspect Word List
+configure-wordList-suspect-wordListDetail =
+  Separate suspect words or phrases with a new line. Attempting to copy
+  and paste a comma separated list? <externalLink>Learn how to convert your list
+  to a new line separated list.</externalLink>
+
+### Advanced
+configure-advanced-customCSS = Custom CSS
+configure-advanced-customCSS-explanation =
+  URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+configure-advanced-permittedDomains = Permitted Domains
+configure-advanced-permittedDomains-explanation =
+  Domains where your Talk instance is allowed to be embedded.
+  Typical use is localhost, staging.yourdomain.com,
+  yourdomain.com, etc.
 
 ## Decision History
 decisionHistory-youWillSeeAList =

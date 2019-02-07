@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   alignItems="center"
   className="HorizontalSeparator-root"
   justifyContent="center"
@@ -14,5 +14,5 @@ exports[`renders correctly 1`] = `
   >
     Or
   </div>
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;

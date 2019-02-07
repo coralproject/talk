@@ -1,20 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`forwards ref 1`] = `
-<withPropsOnChange(Icon)
+<ForwardRef(forwardRef)
   className=""
-  forwardRef={[Function]}
   size="sm"
 >
   Push me
-</withPropsOnChange(Icon)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Icon)
+<ForwardRef(forwardRef)
   className="root"
   size="sm"
 >
   Push me
-</withPropsOnChange(Icon)>
+</ForwardRef(forwardRef)>
 `;

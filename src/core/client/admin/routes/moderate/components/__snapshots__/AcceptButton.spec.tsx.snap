@@ -9,17 +9,17 @@ exports[`renders correctly 1`] = `
   }
   id="moderate-acceptButton"
 >
-  <withPropsOnChange(WithMouseHover)
+  <ForwardRef(forwardRef)
     aria-label="Accept"
     className="AcceptButton-root"
   >
-    <withPropsOnChange(Icon)
+    <ForwardRef(forwardRef)
       className="AcceptButton-icon"
       size="lg"
     >
       done
-    </withPropsOnChange(Icon)>
-  </withPropsOnChange(WithMouseHover)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </Localized>
 `;
 
@@ -32,16 +32,16 @@ exports[`renders correctly inverted 1`] = `
   }
   id="moderate-acceptButton"
 >
-  <withPropsOnChange(WithMouseHover)
+  <ForwardRef(forwardRef)
     aria-label="Accept"
     className="AcceptButton-root AcceptButton-invert"
   >
-    <withPropsOnChange(Icon)
+    <ForwardRef(forwardRef)
       className="AcceptButton-icon"
       size="lg"
     >
       done
-    </withPropsOnChange(Icon)>
-  </withPropsOnChange(WithMouseHover)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
 </Localized>
 `;

@@ -1,0 +1,8 @@
+.value {
+  width: calc(6 * var(--spacing-unit));
+}
+
+.unit {
+  height: 100%;
+  min-width: calc(17 * var(--spacing-unit));
+}

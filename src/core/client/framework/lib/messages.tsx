@@ -71,3 +71,31 @@ export const INVALID_URL = () => (
     <span>Invalid URL</span>
   </Localized>
 );
+
+export const NOT_A_WHOLE_NUMBER = () => (
+  <Localized id="framework-validation-notAWholeNumber">
+    <span>Please enter a valid whole number</span>
+  </Localized>
+);
+
+export const NOT_A_WHOLE_NUMBER_GREATER_THAN = (x: number) => (
+  <Localized id="framework-validation-notAWholeNumberGreaterThan" $x={x}>
+    <span>Please enter a valid whole number greater than $x</span>
+  </Localized>
+);
+
+export const NOT_A_WHOLE_NUMBER_GREATER_THAN_OR_EQUAL = (x: number) => (
+  <Localized id="framework-validation-notAWholeNumberGreaterThanOrEqual" $x={x}>
+    <span>Please enter a valid whole number greater than or equal to $x</span>
+  </Localized>
+);
+
+export const NOT_A_WHOLE_NUMBER_BETWEEN = (min: number, max: number) => (
+  <Localized
+    id="framework-validation-notAWholeNumberBetween"
+    $min={min}
+    $max={max}
+  >
+    <span>Please enter a valid whole number between min and max</span>
+  </Localized>
+);

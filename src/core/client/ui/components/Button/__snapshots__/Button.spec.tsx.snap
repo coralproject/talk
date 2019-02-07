@@ -1,35 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`forwards ref 1`] = `
-<withPropsOnChange(WithMouseHover)
+<ForwardRef(forwardRef)
   className=""
   classes={Object {}}
-  forwardRef={[Function]}
 >
   Push me
-</withPropsOnChange(WithMouseHover)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders a regular sized, primary colored ghost button with fullWidth 1`] = `
-<withPropsOnChange(WithMouseHover)
+<ForwardRef(forwardRef)
   className="sizeRegular colorPrimary variantGhost fullWidth"
   classes={Object {}}
 >
   Push me
-</withPropsOnChange(WithMouseHover)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders active state 1`] = `
-<withPropsOnChange(WithMouseHover)
+<ForwardRef(forwardRef)
   className="active"
   classes={Object {}}
 >
   Push me
-</withPropsOnChange(WithMouseHover)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(WithMouseHover)
+<ForwardRef(forwardRef)
   className=""
   classes={
     Object {
@@ -39,5 +38,5 @@ exports[`renders correctly 1`] = `
   }
 >
   Push me
-</withPropsOnChange(WithMouseHover)>
+</ForwardRef(forwardRef)>
 `;

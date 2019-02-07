@@ -3,12 +3,13 @@ import React, { ReactNode } from "react";
 import { StatelessComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
+import { Omit, PropTypesOf } from "talk-ui/types";
 
 import HorizontalGutter from "../HorizontalGutter";
 
 import styles from "./FormField.css";
 
-interface InnerProps {
+interface InnerProps extends Omit<PropTypesOf<typeof HorizontalGutter>, "ref"> {
   children: ReactNode;
   classes: typeof styles;
   id?: string;

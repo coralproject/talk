@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   alignItems="baseline"
   className="Footer-root"
 >
   children
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;

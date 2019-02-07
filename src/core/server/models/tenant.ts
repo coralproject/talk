@@ -1,21 +1,16 @@
 import crypto from "crypto";
-import { isNull, omitBy } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { DeepPartial, Omit, Sub } from "talk-common/types";
-import { dotize, DotizeOptions } from "talk-common/utils/dotize";
+import { dotize } from "talk-common/utils/dotize";
 import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { createIndexFactory } from "talk-server/models/helpers/query";
 import { Settings } from "talk-server/models/settings";
 
 function collection(db: Db) {
   return db.collection<Readonly<Tenant>>("tenants");
-}
-
-function dotizeDropNull(o: Record<string, any>, options?: DotizeOptions) {
-  return omitBy(dotize(o, options), isNull);
 }
 
 export interface TenantResource {
@@ -90,15 +85,18 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
 
     // Email confirmation is default off.
     requireEmailConfirmation: false,
-    infoBoxEnable: false,
+    communityGuidelinesEnable: false,
     questionBoxEnable: false,
     premodLinksEnable: false,
     autoCloseStream: false,
-
-    // Two weeks timeout.
-    closedTimeout: 60 * 60 * 24 * 7 * 2,
     disableCommenting: false,
-    editCommentWindowLength: 30 * 1000,
+
+    // 2 weeks timeout.
+    closedTimeout: 60 * 60 * 24 * 7 * 2,
+
+    // 30 seconds edit window length.
+    editCommentWindowLength: 30,
+
     charCount: {
       enabled: false,
     },
@@ -173,6 +171,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       },
       perspective: {
         enabled: false,
+        doNotStore: true,
       },
     },
     reaction: {
@@ -253,7 +252,7 @@ export async function updateTenant(
   const result = await collection(db).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
-    { $set: dotizeDropNull(update, { embedArrays: true }) },
+    { $set: dotize(update, { embedArrays: true }) },
     // False to return the updated document instead of the original
     // document.
     { returnOriginal: false }

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(Flex)
+<ForwardRef(forwardRef)
   alignItems="center"
   className="Empty-root"
   justifyContent="center"
@@ -9,9 +9,9 @@ exports[`renders correctly 1`] = `
   <Localized
     id="decisionHistory-youWillSeeAList"
   >
-    <withPropsOnChange(Typography)>
+    <ForwardRef(forwardRef)>
       You will see a list of your post moderation actions here.
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
-</withPropsOnChange(Flex)>
+</ForwardRef(forwardRef)>
 `;

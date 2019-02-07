@@ -7,7 +7,7 @@ interface InjectedProps<T> {
   retry?: Error | null;
 }
 
-type RouteConfig = Pick<RouteProps, "query"> &
+type RouteConfig = Partial<Pick<RouteProps, "query" | "getQuery">> &
   Partial<Pick<RouteProps, "data" | "getData" | "defer">> & {
     cacheConfig?: {
       force?: boolean;

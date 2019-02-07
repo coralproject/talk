@@ -3,8 +3,31 @@ import { merge } from "lodash";
 export const settings = {
   id: "settings",
   wordList: {
-    banned: [],
-    suspect: [],
+    suspect: ["idiot", "stupid"],
+    banned: ["fuck"],
+  },
+  charCount: {
+    enabled: false,
+    max: 1000,
+    min: 3,
+  },
+  closedTimeout: 604800,
+  autoCloseStream: false,
+  closedMessage: null,
+  customCssUrl: null,
+  domains: ["localhost:8080"],
+  editCommentWindowLength: 30000,
+  communityGuidelinesEnable: false,
+  communityGuidelines: "",
+  organizationContactEmail: "coral@test.com",
+  organizationName: "Coral",
+  integrations: {
+    akismet: {
+      enabled: false,
+    },
+    perspective: {
+      enabled: false,
+    },
   },
   auth: {
     displayName: {

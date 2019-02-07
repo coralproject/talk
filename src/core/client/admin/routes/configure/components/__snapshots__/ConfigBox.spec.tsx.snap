@@ -4,7 +4,7 @@ exports[`renders correctly 1`] = `
 <div
   className="ConfigBox-root"
 >
-  <withPropsOnChange(Flex)
+  <ForwardRef(forwardRef)
     className="ConfigBox-title"
     justifyContent="space-between"
   >
@@ -18,7 +18,7 @@ exports[`renders correctly 1`] = `
         topRight
       </span>
     </div>
-  </withPropsOnChange(Flex)>
+  </ForwardRef(forwardRef)>
   <div
     className="ConfigBox-content"
   >

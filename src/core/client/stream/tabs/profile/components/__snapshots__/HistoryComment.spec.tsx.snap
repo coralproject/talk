@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<withPropsOnChange(HorizontalGutter)
+<ForwardRef(forwardRef)
   data-testid="historyComment-comment-id"
 >
   <Localized
     $title="Story Title"
     id="profile-historyComment-story"
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       variant="heading4"
     >
       Story: {$title}
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
   <Timestamp>
     2018-07-06T18:24:00.000Z
   </Timestamp>
-  <withPropsOnChange(Typography)
+  <ForwardRef(forwardRef)
     container="div"
     variant="bodyCopy"
   >
     <HTMLContent>
       Hello World
     </HTMLContent>
-  </withPropsOnChange(Typography)>
-  <withPropsOnChange(Flex)
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
     alignItems="center"
     direction="row"
     itemGutter={true}
@@ -33,11 +33,11 @@ exports[`renders correctly 1`] = `
     <div
       className="HistoryComment-replies"
     >
-      <withPropsOnChange(Icon)
+      <ForwardRef(forwardRef)
         className="HistoryComment-icon"
       >
         reply
-      </withPropsOnChange(Icon)>
+      </ForwardRef(forwardRef)>
       <Localized
         $replyCount={4}
         id="profile-historyComment-replies"
@@ -47,16 +47,16 @@ exports[`renders correctly 1`] = `
         </span>
       </Localized>
     </div>
-    <withPropsOnChange(Button)
+    <ForwardRef(forwardRef)
       anchor={true}
       href="http://localhost/conversation"
       onClick={[Function]}
       target="_parent"
       variant="underlined"
     >
-      <withPropsOnChange(Icon)>
+      <ForwardRef(forwardRef)>
         launch
-      </withPropsOnChange(Icon)>
+      </ForwardRef(forwardRef)>
       <Localized
         id="profile-historyComment-viewConversation"
       >
@@ -64,8 +64,8 @@ exports[`renders correctly 1`] = `
           View Conversation
         </span>
       </Localized>
-    </withPropsOnChange(Button)>
-  </withPropsOnChange(Flex)>
+    </ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
   <MatchMediaWithContext
     lteWidth="xs"
   >
@@ -73,5 +73,5 @@ exports[`renders correctly 1`] = `
       className="HistoryComment-divider"
     />
   </MatchMediaWithContext>
-</withPropsOnChange(HorizontalGutter)>
+</ForwardRef(forwardRef)>
 `;

@@ -7,19 +7,19 @@ exports[`renders correctly 1`] = `
   <Localized
     id="comments-poweredBy"
     logo={
-      <withPropsOnChange(Typography)
+      <ForwardRef(forwardRef)
         container="span"
         variant="heading4"
       />
     }
   >
-    <withPropsOnChange(Typography)
+    <ForwardRef(forwardRef)
       color="textSecondary"
       container="span"
       variant="detail"
     >
       Powered by &lt;logo&gt;The Coral Project&lt;/logo&gt;
-    </withPropsOnChange(Typography)>
+    </ForwardRef(forwardRef)>
   </Localized>
 </div>
 `;
