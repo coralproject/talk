@@ -1,0 +1,10 @@
+en:
+  talk-plugin-notifications:
+    categories:
+      moderation-actions:
+        approved: 
+          subject: "Your comment on {0} has been published"
+          body: "{0}\nThank you for submitting your comment. Your comment has now been published: {1}"
+        rejected:
+          subject: "Your comment on {0} was not published"
+          body: "{0}\nThe language used in one of your comments did not comply with our community guidelines, and so the comment has been removed."
