@@ -74,11 +74,8 @@ comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
 comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
 comments-editedMarker-edited = Edited
 comments-showConversationLink-readMore = Read More of this Conversation >
-comments-conversationThread-showHiddenComments =
-  { $count ->
-      [1] SHOW HIDDEN COMMENT
-      *[other] SHOW HIDDEN COMMENTS
-  }
+comments-conversationThread-showMoreOfThisConversation =
+  Show More of This Conversation
 
 comments-permalinkView-currentViewing = You are currently viewing a
 comments-permalinkView-singleConversation = SINGLE CONVERSATION

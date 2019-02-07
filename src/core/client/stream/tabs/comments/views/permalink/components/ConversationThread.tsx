@@ -71,16 +71,16 @@ const ConversationThread: StatelessComponent<
           <Circle hollow className={styles.loadMore}>
             <Flex alignItems="center" itemGutter="half">
               <Localized
-                id="comments-conversationThread-showHiddenComments"
+                id="comments-conversationThread-showMoreOfThisConversation"
                 $count={props.remaining}
               >
                 <Button
+                  className={styles.showMoreButton}
                   onClick={props.loadMore}
                   disabled={props.disableLoadMore}
-                  id="comments-conversationThread-showHiddenComments"
                   variant="underlined"
                 >
-                  Show hidden comments
+                  Show more of this conversation
                 </Button>
               </Localized>
               {props.remaining > 1 && <Counter>{props.remaining}</Counter>}

@@ -99,7 +99,7 @@ it("renders conversation thread", async () => {
   expect(within(conversationThread).toJSON()).toMatchSnapshot();
 });
 
-it("shows hidden comments", async () => {
+it("shows more of this conversation", async () => {
   const conversationThread = await waitForElement(() =>
     within(testRenderer.root).getByTestID(
       "comments-permalinkView-conversationThread"
@@ -108,13 +108,13 @@ it("shows hidden comments", async () => {
 
   // Show hidden comments.
   within(conversationThread)
-    .getByText("SHOW HIDDEN COMMENTS")
+    .getByText("Show More of This Conversation")
     .props.onClick();
 
   // Wait until button disappears.
   await wait(() =>
     expect(
-      within(conversationThread).queryByText("SHOW HIDDEN COMMENTS")
+      within(conversationThread).queryByText("Show More of This Conversation")
     ).toBeNull()
   );
 
