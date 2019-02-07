@@ -256,6 +256,9 @@ export const authenticate = (
         return next(err);
       }
 
+      // Attach the user to the request.
+      req.user = user;
+
       return next();
     }
   )(req, res, next);
