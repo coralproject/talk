@@ -21,6 +21,16 @@
 .colorError {
   background-color: var(--palette-error-light);
   border-color: var(--palette-error-darkest);
+  border-width: 0px;
+  border-left-width: calc(0.5 * var(--spacing-unit));
+  color: var(--palette-text-light);
+}
+
+.colorPrimary {
+  background-color: var(--palette-primary-light);
+  border-color: var(--palette-primary-darkest);
+  border-width: 0px;
+  border-left-width: calc(0.5 * var(--spacing-unit));
   color: var(--palette-text-light);
 }
 
