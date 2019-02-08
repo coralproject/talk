@@ -11,7 +11,7 @@ it("renders stream container", () => {
     error: null,
   };
   const renderer = createRenderer();
-  renderer.render(React.createElement(() => render(data)));
+  renderer.render(React.createElement(() => render(data, "CREATED_AT_ASC")));
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
@@ -21,7 +21,7 @@ it("renders loading", () => {
     error: null,
   };
   const renderer = createRenderer();
-  renderer.render(React.createElement(() => render(data)));
+  renderer.render(React.createElement(() => render(data, "CREATED_AT_ASC")));
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
@@ -31,6 +31,6 @@ it("renders error", () => {
     error: new Error("error"),
   };
   const renderer = createRenderer();
-  renderer.render(React.createElement(() => render(data)));
+  renderer.render(React.createElement(() => render(data, "CREATED_AT_ASC")));
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

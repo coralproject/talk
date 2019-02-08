@@ -85,6 +85,12 @@ comments-replyTo = Replying to: <username></username>
 comments-reportButton-report = Report
 comments-reportButton-reported = Reported
 
+comments-sortMenu-sortBy = Sort By
+comments-sortMenu-newest = Newest
+comments-sortMenu-oldest = Oldest
+comments-sortMenu-mostReplies = Most Replies
+comments-sortMenu-mostReactions = Most Reactions
+
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}

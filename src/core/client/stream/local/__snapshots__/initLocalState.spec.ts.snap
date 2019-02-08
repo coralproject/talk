@@ -19,6 +19,7 @@ exports[`init local state 1`] = `
     \\"network\\": {
       \\"__ref\\": \\"client:root.local.network\\"
     },
+    \\"defaultStreamOrderBy\\": \\"CREATED_AT_DESC\\",
     \\"authPopup\\": {
       \\"__ref\\": \\"client:root.local.authPopup\\"
     },

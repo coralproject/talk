@@ -16,6 +16,7 @@ exports[`renders loading 1`] = `
 
 exports[`renders stream container 1`] = `
 <Relay(StreamContainer)
+  defaultOrderBy="CREATED_AT_ASC"
   story={Object {}}
 />
 `;

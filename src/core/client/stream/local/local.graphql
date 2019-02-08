@@ -38,6 +38,7 @@ type Local {
   storyID: String
   storyURL: String
   commentID: String
+  defaultStreamOrderBy: COMMENT_SORT!
 }
 
 extend type Query {

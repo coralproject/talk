@@ -417,7 +417,7 @@ moderation panel.
                   </select>
                   <span
                     aria-hidden={true}
-                    className="SelectField-iconWrapper"
+                    className="SelectField-afterWrapper"
                   >
                     <span
                       aria-hidden="true"
@@ -558,7 +558,7 @@ moderation panel.
                   </select>
                   <span
                     aria-hidden={true}
-                    className="SelectField-iconWrapper"
+                    className="SelectField-afterWrapper"
                   >
                     <span
                       aria-hidden="true"
