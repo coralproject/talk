@@ -5,35 +5,48 @@ const DEFAULT_STYLE = {
   backgroundColor: '#323232',
   zIndex: 3,
   willChange: 'transform, opacity',
-  transition: 'transform .35s cubic-bezier(.55,0,.1,1), opacity .35s',
   pointerEvents: 'none',
-  padding: '12px 18px',
+  transition: 'transform .35s cubic-bezier(.55,0,.1,1), opacity .35s',
+  padding: '12px 18px 0',
   color: '#fff',
-  borderRadius: '3px 3px 0 0',
-  textAlign: 'center',
+  borderRadius: '4px',
   maxWidth: '400px',
   left: '50%',
   opacity: 0,
   transform: 'translate(-50%, 20px)',
-  bottom: 0,
+  bottom: '20px',
   boxSizing: 'border-box',
   fontFamily: 'Helvetica, "Helvetica Neue", Verdana, sans-serif',
+  display: 'flex',
+};
+
+const CLOSE_STYLE = {
+  fontSize: '20px',
+  cursor: 'pointer',
+  marginLeft: '10px',
+  position: 'relative',
+  top: '-4px',
 };
 
 export default class Snackbar {
   constructor(customStyle = {}) {
     this.timeout = null;
     this.el = document.createElement('div');
-    this.el.id = 'coral-notif-tat';
+    this.el.id = 'coral-notif';
 
-    const closeButton = document.createElement('i');
-    closeButton.className = 'material-icons';
-    closeButton.textContent = 'close';
-    closeButton.onclick = function() {
-      this.el.style.opacity = 0;
-    };
+    const closeButton = document.createElement('div');
+    closeButton.className = 'snackbar-close';
+    for (let key in CLOSE_STYLE) {
+      closeButton.style[key] = CLOSE_STYLE[key];
+    }
+    closeButton.textContent = '×';
+    closeButton.onclick = () => this.clear();
+
+    this.snackbarText = document.createElement('div');
+    this.snackbarText.className = 'snackbar-text';
+    this.snackbarText.style.paddingBottom = '12px';
+    this.el.appendChild(this.snackbarText);
     this.el.appendChild(closeButton);
-    // message overrides contents. need to fix.
 
     // Apply custom styles to the snackbar.
     const style = Object.assign({}, DEFAULT_STYLE, customStyle);
@@ -44,6 +57,7 @@ export default class Snackbar {
 
   clear() {
     this.el.style.opacity = 0;
+    this.el.style.pointerEvents = 'none';
   }
 
   alert(message) {
@@ -51,7 +65,7 @@ export default class Snackbar {
     this.el.style.transform = 'translate(-50%, 20px)';
     this.el.style.opacity = 0;
     this.el.className = `coral-notif-${type}`;
-    this.el.textContent = text;
+    this.snackbarText.textContent = text;
 
     if (this.timeout) {
       clearTimeout(this.timeout);
@@ -60,10 +74,12 @@ export default class Snackbar {
     this.timeout = setTimeout(() => {
       this.el.style.transform = 'translate(-50%, 0)';
       this.el.style.opacity = 1;
+      this.el.style.pointerEvents = 'auto';
 
       this.timeout = setTimeout(() => {
         this.el.style.opacity = 0;
-      }, 7000);
+        this.el.style.pointerEvents = 'none';
+      }, 15000);
     }, 0);
   }
 
