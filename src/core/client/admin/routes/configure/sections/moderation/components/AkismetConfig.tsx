@@ -10,6 +10,7 @@ import {
   Validator,
 } from "talk-framework/lib/validation";
 import {
+  FieldSet,
   FormField,
   HorizontalGutter,
   InputLabel,
@@ -38,7 +39,7 @@ const AkismetConfig: StatelessComponent<Props> = ({ disabled }) => {
     return "";
   };
   return (
-    <HorizontalGutter size="oneAndAHalf" container="fieldset">
+    <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-akismet-title">
         <Header container="legend">Akismet Spam Detection Filter</Header>
       </Localized>
@@ -57,7 +58,7 @@ const AkismetConfig: StatelessComponent<Props> = ({ disabled }) => {
         </Typography>
       </Localized>
 
-      <FormField container="fieldset">
+      <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-akismet-filter">
           <InputLabel container="legend">Spam Detection Filter</InputLabel>
         </Localized>

@@ -8,6 +8,7 @@ import {
   validateWholeNumberGreaterThan,
 } from "talk-framework/lib/validation";
 import {
+  FieldSet,
   FormField,
   HorizontalGutter,
   InputLabel,
@@ -38,7 +39,7 @@ interface Props {
 }
 
 const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container="fieldset">
+  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-commentLength-title">
       <Header container="legend">Comment Length</Header>
     </Localized>

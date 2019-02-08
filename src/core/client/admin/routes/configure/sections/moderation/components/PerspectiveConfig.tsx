@@ -14,6 +14,7 @@ import {
   Validator,
 } from "talk-framework/lib/validation";
 import {
+  FieldSet,
   FormField,
   HorizontalGutter,
   InputDescription,
@@ -49,7 +50,7 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
     return "";
   };
   return (
-    <HorizontalGutter size="oneAndAHalf" container="fieldset">
+    <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-perspective-title">
         <Header container="legend">Perspective Toxic Comment Filter</Header>
       </Localized>
@@ -66,7 +67,7 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
         </Typography>
       </Localized>
 
-      <FormField container="fieldset">
+      <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-perspective-filter">
           <InputLabel container="legend">Spam Detection Filter</InputLabel>
         </Localized>
@@ -126,7 +127,7 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
         </Field>
       </FormField>
 
-      <FormField container="fieldset">
+      <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-perspective-allowStoreCommentData">
           <InputLabel container="legend">
             Allow Google to Store Comment Data
