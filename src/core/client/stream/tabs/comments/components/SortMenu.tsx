@@ -30,10 +30,16 @@ const SortMenu: StatelessComponent<Props> = props => (
         <Flex justifyContent="flex-end" alignItems="center" itemGutter>
           {!matches && (
             <Localized id="comments-sortMenu-sortBy">
-              <Typography variant="bodyCopyBold">Sort By</Typography>
+              <Typography
+                variant="bodyCopyBold"
+                container={<label htmlFor="talk-comments-sortMenu" />}
+              >
+                Sort By
+              </Typography>
             </Localized>
           )}
           <SelectField
+            id="talk-comments-sortMenu"
             value={props.orderBy}
             onChange={props.onChange}
             afterWrapper={(matches && <Icon>sort</Icon>) || undefined}

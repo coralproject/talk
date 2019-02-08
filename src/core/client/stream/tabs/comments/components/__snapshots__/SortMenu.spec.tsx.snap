@@ -1,15 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly on big screens 1`] = `
-<div>
+<fieldset
+  className="FieldSet-root"
+>
   <div
     className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
   >
-    <p
+    <legend
       className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
     >
       Sort By
-    </p>
+    </legend>
     <span
       className="SelectField-root"
     >
@@ -57,11 +59,13 @@ exports[`renders correctly on big screens 1`] = `
   <hr
     className="Divider-root"
   />
-</div>
+</fieldset>
 `;
 
 exports[`renders correctly on small screens 1`] = `
-<div>
+<fieldset
+  className="FieldSet-root"
+>
   <div
     className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
   >
@@ -112,5 +116,5 @@ exports[`renders correctly on small screens 1`] = `
   <hr
     className="Divider-root"
   />
-</div>
+</fieldset>
 `;
