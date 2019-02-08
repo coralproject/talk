@@ -175,16 +175,18 @@ exports[`renders app with comment stream 1`] = `
         <div
           className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
         >
-          <p
+          <label
             className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+            htmlFor="talk-comments-sortMenu"
           >
             Sort By
-          </p>
+          </label>
           <span
             className="SelectField-root"
           >
             <select
               className="SelectField-select undefined"
+              id="talk-comments-sortMenu"
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
