@@ -102,7 +102,7 @@ Then head on over to http://127.0.0.1:3000 to install Talk!
 
 The following environment variables can be set to configure the Talk Server:
 
-- `NODE_ENV` - Can be one of `production`, `development`, `test`. All production
+- `NODE_ENV` - Can be one of `production` or `development`. All production
   deployments should use `production`. Defaults to `production` when ran with
   `npm run start` and `development` when run with `npm run start:development`.
 - `PORT` - The port to listen for HTTP and Websocket requests. (Default `3000`)
