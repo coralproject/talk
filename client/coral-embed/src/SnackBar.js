@@ -35,7 +35,7 @@ export default class Snackbar {
     this.el.id = 'coral-notif';
 
     const closeButton = document.createElement('div');
-    closeButton.className = 'snackbar-close';
+    closeButton.className = 'coral-notif-close';
     for (let key in CLOSE_STYLE) {
       closeButton.style[key] = CLOSE_STYLE[key];
     }
@@ -43,7 +43,7 @@ export default class Snackbar {
     closeButton.onclick = () => this.clear();
 
     this.snackbarText = document.createElement('div');
-    this.snackbarText.className = 'snackbar-text';
+    this.snackbarText.className = 'coral-notif-text';
     this.snackbarText.style.paddingBottom = '12px';
     this.el.appendChild(this.snackbarText);
     this.el.appendChild(closeButton);
