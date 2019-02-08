@@ -21,20 +21,20 @@ export const LOCAL_ID = "client:root.local";
 export const NETWORK_TYPE = "Network";
 export const NETWORK_ID = "client:root.local.network";
 
-export function setAuthTokenInLocalState(
-  authToken: string | null,
+export function setAccessTokenInLocalState(
+  accessToken: string | null,
   source: RecordSourceProxy
 ) {
   const localRecord = source.get(LOCAL_ID)!;
-  localRecord.setValue(authToken || "", "authToken");
-  if (authToken) {
-    const { payload, expired } = parseJWT(authToken);
-    localRecord.setValue(payload.exp, "authExp");
-    localRecord.setValue(payload.jti, "authJTI");
+  localRecord.setValue(accessToken || "", "accessToken");
+  if (accessToken) {
+    const { payload, expired } = parseJWT(accessToken);
+    localRecord.setValue(payload.exp, "accessTokenExp");
+    localRecord.setValue(payload.jti, "accessTokenJTI");
     localRecord.setValue(!expired, "loggedIn");
   } else {
-    localRecord.setValue(null, "authExp");
-    localRecord.setValue(null, "authJTI");
+    localRecord.setValue(null, "accessTokenExp");
+    localRecord.setValue(null, "accessTokenJTI");
     localRecord.setValue(false, "loggedIn");
   }
 }
@@ -42,10 +42,10 @@ export function setAuthTokenInLocalState(
 export async function initLocalBaseState(
   environment: Environment,
   { localStorage }: TalkContext,
-  authToken?: string | null
+  accessToken?: string | null
 ) {
-  if (authToken === undefined) {
-    authToken = await localStorage!.getItem("authToken");
+  if (accessToken === undefined) {
+    accessToken = await localStorage!.getItem("accessToken");
   }
 
   commitLocalUpdate(environment, s => {
@@ -56,7 +56,7 @@ export async function initLocalBaseState(
     root.setLinkedRecord(localRecord, "local");
 
     // Set auth token
-    setAuthTokenInLocalState(authToken || null, s);
+    setAccessTokenInLocalState(accessToken || null, s);
 
     // Create network Record
     const networkRecord = createAndRetain(

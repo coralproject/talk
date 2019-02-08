@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import {
-  createAuthToken,
+  createAccessToken,
   replaceHistoryLocation,
   wait,
 } from "talk-framework/testHelpers";
@@ -30,7 +30,7 @@ it("redirect when already logged in", async () => {
     logNetwork: false,
     initLocalState: localRecord => {
       localRecord.setValue(true, "loggedIn");
-      localRecord.setValue(createAuthToken(), "authToken");
+      localRecord.setValue(createAccessToken(), "accessToken");
     },
   });
   await wait(() =>
@@ -48,7 +48,7 @@ it("redirect to redirectPath when already logged in", async () => {
     logNetwork: false,
     initLocalState: localRecord => {
       localRecord.setValue(true, "loggedIn");
-      localRecord.setValue(createAuthToken(), "authToken");
+      localRecord.setValue(createAccessToken(), "accessToken");
       localRecord.setValue("/admin/community", "redirectPath");
     },
   });

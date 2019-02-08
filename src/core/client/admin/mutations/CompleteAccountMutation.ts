@@ -2,10 +2,10 @@ import { Environment } from "relay-runtime";
 
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { createMutationContainer } from "talk-framework/lib/relay";
-import { commit as setAuthToken } from "talk-framework/mutations/SetAuthTokenMutation";
+import { commit as setAccessToken } from "talk-framework/mutations/SetAccessTokenMutation";
 
 interface CompleteAccountInput {
-  authToken: string;
+  accessToken: string;
 }
 export type CompleteAccountMutation = (
   input: CompleteAccountInput
@@ -16,7 +16,11 @@ export async function commit(
   input: CompleteAccountInput,
   context: TalkContext
 ) {
-  await setAuthToken(environment, { authToken: input.authToken }, context);
+  await setAccessToken(
+    environment,
+    { accessToken: input.accessToken },
+    context
+  );
 }
 
 export const withCompleteAccountMutation = createMutationContainer(

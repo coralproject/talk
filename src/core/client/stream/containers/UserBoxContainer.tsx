@@ -40,7 +40,7 @@ export class UserBoxContainer extends Component<InnerProps> {
   private handleSignOut = () => this.props.signOut();
 
   private get supportsLogout() {
-    return !!this.props.local.authJTI;
+    return !!this.props.local.accessTokenJTI;
   }
 
   private get supportsRegister() {
@@ -120,7 +120,7 @@ const enhanced = withSignOutMutation(
               focus
               view
             }
-            authJTI
+            accessTokenJTI
           }
         `
       )(

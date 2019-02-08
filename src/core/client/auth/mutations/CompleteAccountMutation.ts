@@ -4,7 +4,7 @@ import { TalkContext } from "talk-framework/lib/bootstrap";
 import { createMutationContainer } from "talk-framework/lib/relay";
 
 export interface CompleteAccountInput {
-  authToken: string;
+  accessToken: string;
 }
 export type CompleteAccountMutation = (
   input: CompleteAccountInput
@@ -15,7 +15,7 @@ export async function commit(
   input: CompleteAccountInput,
   { postMessage }: TalkContext
 ) {
-  postMessage.send("setAuthToken", input.authToken, window.opener);
+  postMessage.send("setAccessToken", input.accessToken, window.opener);
   window.close();
 }
 

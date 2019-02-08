@@ -1,8 +1,8 @@
 export {
-  withSetAuthTokenMutation,
-  SetAuthTokenMutation,
-  SetAuthTokenInput,
-} from "./SetAuthTokenMutation";
+  withSetAccessTokenMutation,
+  SetAccessTokenMutation,
+  SetAccessTokenInput,
+} from "./SetAccessTokenMutation";
 export { withSignOutMutation, SignOutMutation } from "./SignOutMutation";
 export {
   withSetNetworkStatusMutation,

@@ -18,7 +18,7 @@ export default async function initLocalState(
   await initLocalBaseState(
     environment,
     context,
-    config ? config.authToken : undefined
+    config ? config.accessToken : undefined
   );
 
   commitLocalUpdate(environment, s => {

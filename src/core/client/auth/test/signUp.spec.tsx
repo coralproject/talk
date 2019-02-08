@@ -186,7 +186,7 @@ it("shows server error", async () => {
 it("submits form successfully", async () => {
   const { context, main, form } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const authToken = "auth-token";
+  const accessToken = "access-token";
   const emailAddressField = getByLabelText("Email Address");
   const usernameField = getByLabelText("Username");
   const passwordField = getByLabelText("Password");
@@ -210,7 +210,7 @@ it("submits form successfully", async () => {
       },
     })
     .once()
-    .returns({ token: authToken });
+    .returns({ token: accessToken });
 
   form!.props.onSubmit();
 
@@ -224,7 +224,7 @@ it("submits form successfully", async () => {
   expect(toJSON(main)).toMatchSnapshot();
 
   // Wait for window hash to contain a token.
-  await wait(() => expect(location.hash).toBe(`#accessToken=${authToken}`));
+  await wait(() => expect(location.hash).toBe(`#accessToken=${accessToken}`));
   restMock.verify();
 });
 

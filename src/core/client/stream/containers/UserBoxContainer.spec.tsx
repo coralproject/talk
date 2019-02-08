@@ -17,7 +17,7 @@ it("renders fully", () => {
         focus: false,
         view: "SIGN_IN",
       },
-      authJTI: "JTI",
+      accessTokenJTI: "JTI",
     },
     me: null,
     settings: {
@@ -74,7 +74,7 @@ it("renders without logout button", () => {
         focus: false,
         view: "SIGN_IN",
       },
-      authJTI: null,
+      accessTokenJTI: null,
     },
     me: null,
     settings: {
@@ -131,7 +131,7 @@ it("renders sso only", () => {
         focus: false,
         view: "SIGN_IN",
       },
-      authJTI: "JTI",
+      accessTokenJTI: "JTI",
     },
     me: null,
     settings: {
@@ -188,7 +188,7 @@ it("renders sso only without logout button", () => {
         focus: false,
         view: "SIGN_IN",
       },
-      authJTI: "JTI",
+      accessTokenJTI: "JTI",
     },
     me: null,
     settings: {
@@ -245,7 +245,7 @@ it("renders without register button", () => {
         focus: false,
         view: "SIGN_IN",
       },
-      authJTI: "JTI",
+      accessTokenJTI: "JTI",
     },
     me: null,
     settings: {

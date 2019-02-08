@@ -12,7 +12,7 @@ export interface Config {
   id?: string;
   autoRender?: boolean;
   events?: (eventEmitter: EventEmitter2) => void;
-  authToken?: string;
+  accessToken?: string;
 }
 
 function getLocationOrigin() {
@@ -58,6 +58,6 @@ export function createStreamEmbed(config: Config): StreamEmbed {
     rootURL: config.rootURL || getLocationOrigin(),
     autoRender: config.autoRender,
     eventEmitter,
-    authToken: config.authToken,
+    accessToken: config.accessToken,
   });
 }

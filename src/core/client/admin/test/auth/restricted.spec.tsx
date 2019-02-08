@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import {
-  createAuthToken,
+  createAccessToken,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -40,7 +40,7 @@ function createTestRenderer(
     logNetwork: false,
     initLocalState: localRecord => {
       localRecord.setValue(true, "loggedIn");
-      localRecord.setValue(createAuthToken(), "authToken");
+      localRecord.setValue(createAccessToken(), "accessToken");
       localRecord.setValue("SIGN_IN", "authView");
     },
   });

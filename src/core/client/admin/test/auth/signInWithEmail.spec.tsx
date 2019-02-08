@@ -2,7 +2,7 @@ import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
-  createAuthToken,
+  createAccessToken,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -128,7 +128,7 @@ it("submits form successfully", async () => {
     .find(inputPredicate("password"))
     .props.onChange({ target: { value: "testtest" } });
 
-  const authToken = createAuthToken();
+  const accessToken = createAccessToken();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -141,7 +141,7 @@ it("submits form successfully", async () => {
       },
     })
     .once()
-    .returns({ token: authToken });
+    .returns({ token: accessToken });
 
   const historyMock = sinon.mock(window.history);
 

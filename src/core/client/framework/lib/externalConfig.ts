@@ -2,7 +2,7 @@ import { Child as PymChild } from "pym.js";
 import { areWeInIframe } from "talk-framework/utils";
 
 export interface ExternalConfig {
-  authToken?: string;
+  accessToken?: string;
 }
 
 export function getExternalConfig(

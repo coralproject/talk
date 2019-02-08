@@ -4,33 +4,35 @@ import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutationContainer,
-  setAuthTokenInLocalState,
+  setAccessTokenInLocalState,
 } from "talk-framework/lib/relay";
 
-export interface SetAuthTokenInput {
-  authToken: string | null;
+export interface SetAccessTokenInput {
+  accessToken: string | null;
 }
 
-export type SetAuthTokenMutation = (input: SetAuthTokenInput) => Promise<void>;
+export type SetAccessTokenMutation = (
+  input: SetAccessTokenInput
+) => Promise<void>;
 
 export async function commit(
   environment: Environment,
-  input: SetAuthTokenInput,
+  input: SetAccessTokenInput,
   { localStorage, clearSession }: TalkContext
 ) {
   await commitLocalUpdatePromisified(environment, async store => {
-    setAuthTokenInLocalState(input.authToken, store);
-    if (input.authToken) {
-      await localStorage.setItem("authToken", input.authToken);
+    setAccessTokenInLocalState(input.accessToken, store);
+    if (input.accessToken) {
+      await localStorage.setItem("accessToken", input.accessToken);
     } else {
-      await localStorage.removeItem("authToken");
+      await localStorage.removeItem("accessToken");
     }
     // Clear current session, as we are starting a new one.
     await clearSession();
   });
 }
 
-export const withSetAuthTokenMutation = createMutationContainer(
-  "setAuthToken",
+export const withSetAccessTokenMutation = createMutationContainer(
+  "setAccessToken",
   commit
 );

@@ -5,20 +5,22 @@ import { createSinonStub } from "talk-framework/testHelpers";
 
 import { OnPymLogin } from "./OnPymLogin";
 
-it("Listens to event and calls setAuthToken", () => {
-  const authToken = "auth-token";
+it("Listens to event and calls setAccessToken", () => {
+  const accessToken = "access-token";
   const pym: any = {
-    onMessage: (eventName: string, cb: (authToken: string) => void) => {
+    onMessage: (eventName: string, cb: (accessToken: string) => void) => {
       expect(eventName).toBe("login");
-      cb(authToken);
+      cb(accessToken);
     },
   };
 
-  const setAuthToken = createSinonStub(
+  const setAccessToken = createSinonStub(
     s => s.throws(),
-    s => s.withArgs({ authToken }).returns(null)
+    s => s.withArgs({ accessToken }).returns(null)
   );
 
-  createRenderer().render(<OnPymLogin pym={pym} setAuthToken={setAuthToken} />);
-  expect(setAuthToken.calledOnce);
+  createRenderer().render(
+    <OnPymLogin pym={pym} setAccessToken={setAccessToken} />
+  );
+  expect(setAccessToken.calledOnce);
 });
