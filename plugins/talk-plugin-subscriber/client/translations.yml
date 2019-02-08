@@ -4,18 +4,21 @@ ar:
 da:
   talk-plugin-subscriber:
     subscriber: "Subscriber"
-en:
-  talk-plugin-subscriber:
-    subscriber: "Subscriber"
 de:
   talk-plugin-subscriber:
     subscriber: "Abonnent"
+en:
+  talk-plugin-subscriber:
+    subscriber: "Subscriber"
 es:
   talk-plugin-subscriber:
     subscriber: "Subscriptor"
 fr:
   talk-plugin-subscriber:
     subscriber: "Subscriber"
+he:
+  talk-plugin-subscriber:
+    subscriber: "מנוי"
 nl_NL:
   talk-plugin-subscriber:
     subscriber: "Abonnee"

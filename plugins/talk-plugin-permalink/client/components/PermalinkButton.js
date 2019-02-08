@@ -36,7 +36,18 @@ export default class PermalinkButton extends React.Component {
   };
 
   copyPermalink = () => {
-    this.permalinkInput.select();
+    const iOS = navigator && navigator.userAgent.match(/ipad|iphone/i);
+
+    if (iOS) {
+      let range = document.createRange();
+      range.selectNodeContents(this.permalinkInput);
+      let selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      this.permalinkInput.setSelectionRange(0, 999999);
+    } else {
+      this.permalinkInput.select();
+    }
     try {
       document.execCommand('copy');
       this.setState({

@@ -3,25 +3,31 @@ ar:
     label: الأقدم أولاً
 da:
   talk-plugin-sort-oldest:
-    label: Oldest first
-en:
-  talk-plugin-sort-oldest:
-    label: Oldest first
+    label: Oldest first    
 de:
   talk-plugin-sort-oldest:
     label: Älteste zuerst
+en:
+  talk-plugin-sort-oldest:
+    label: Oldest first
 es:
   talk-plugin-sort-oldest:
     label: Más viejas primero
 fr:
   talk-plugin-sort-oldest:
     label: Oldest first
+he:
+  talk-plugin-sort-oldest:
+    label: מהאחרונה לראשונה
 nl_NL:
   talk-plugin-sort-oldest:
     label: Oudste eerst
 pt_BR:
   talk-plugin-sort-oldest:
     label: Mais antigos primeiro
+sr:
+  talk-plugin-sort-oldest:
+    label: Prvo najstariji
 zh_CN:
   talk-plugin-sort-oldest:
     label: "最早发表在前"

@@ -12,20 +12,6 @@ ar:
       confirm: "أكد"
       are_unsubscribed: "أنت الآن غير مشترك في جميع الإشعارات."
       token_invalid: "رابط إلغاء الاشتراك غير صالح ، انقر الرابط من بريد إلكتروني أحدث أو قم بزيارة جدول تعليقات وتسجيل الدخول لتغيير تفضيلات الإشعارات الخاصة بك"
-en:
-  talk-plugin-notifications:
-    templates:
-      digest:
-        subject: "Your latest comment activity at {0}"
-      footer: "You received this notification because you are a commenter on {0} and you opted in to receive notifications."
-      links:
-        unsubscribe: "Unsubscribe from comment notifications"
-    unsubscribe_page:
-      unsubscribe: "Unsubscribe from comment notifications"
-      click_to_confirm: "Click below to confirm that you would like to unsubscribe from all notifications"
-      confirm: "Confirm"
-      are_unsubscribed: "You are now unsubscribed from all notifications."
-      token_invalid: "Unsubscribe link is invalid, click the link from a more recent email or visit a comment stream and login to change your notification preferences"
 de:
   talk-plugin-notifications:
     templates:
@@ -40,6 +26,34 @@ de:
       confirm: "Bestätigen"
       are_unsubscribed: "Sie haben haben alle Benachrichtigungen erfolgreich abbestellt."
       token_invalid: "Der Abbestell-Link ist ungültig. Klicken Sie den Link einer neueren E-Mail oder gehen Sie zu einem Kommentarbereich, melden Sie sich an und ändern Sie dort Ihre Benachrichtigungseinstellungen"
+en:
+  talk-plugin-notifications:
+    templates:
+      digest:
+        subject: "Your latest comment activity at {0}"
+      footer: "You received this notification because you are a commenter on {0} and you opted in to receive notifications."
+      links:
+        unsubscribe: "Unsubscribe from comment notifications"
+    unsubscribe_page:
+      unsubscribe: "Unsubscribe from comment notifications"
+      click_to_confirm: "Click below to confirm that you would like to unsubscribe from all notifications"
+      confirm: "Confirm"
+      are_unsubscribed: "You are now unsubscribed from all notifications."
+      token_invalid: "Unsubscribe link is invalid, click the link from a more recent email or visit a comment stream and login to change your notification preferences"
+he:
+  talk-plugin-notifications:
+    templates:
+      digest:
+        subject: "פעילות התגובה האחרונה שלך ב- {0}"
+      footer: "קיבלת את ההודעה הזו מפני שאתה מפרסם על {0} ואתה הצטרפת לקבל התראות."
+      links:
+        unsubscribe: "בטל את הרישום להודעות על תגובות"
+    unsubscribe_page:
+      unsubscribe: "בטל את הרישום להודעות על תגובות"
+      click_to_confirm: "לחץ למטה כדי לאשר שברצונך לבטל את הרישום לכל ההתראות"
+      confirm: "אשר"
+      are_unsubscribed: "כעת אינך רשום לכל ההודעות."
+      token_invalid: "הקישור לביטול רישום אינו חוקי, לחץ על הקישור מאימייל עדכני יותר או בקר בזרם תגובות והתחבר כדי לשנות את העדפות ההתראה שלך"
 nl_NL:
   talk-plugin-notifications:
     templates:

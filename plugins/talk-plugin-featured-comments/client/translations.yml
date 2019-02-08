@@ -28,21 +28,6 @@ da:
     are_you_sure: Are you sure you would like to feature this comment?
     cancel: Cancel
     yes_feature_comment: Yes, feature comment
-en:
-  talk-plugin-featured-comments:
-    un_feature: Un-Feature
-    feature: Feature
-    featured: Featured
-    featured_comments: Featured Comments
-    go_to_conversation: Go to conversation
-    tooltip_description: Comments selected by our team as worth reading
-    notify_self_featured: 'The comment from {0} is now featured and approved'
-    notify_featured: '{0} featured and approved comment "{1}"'
-    notify_unfeatured: '{0} unfeatured comment "{1}"'
-    feature_comment: Feature comment?
-    are_you_sure: Are you sure you would like to feature this comment?
-    cancel: Cancel
-    yes_feature_comment: Yes, feature comment
 de:
   talk-plugin-featured-comments:
     un_feature: Empfehlung aufheben
@@ -58,6 +43,21 @@ de:
     are_you_sure: Sind Sie sicher, dass Sie diesen Kommentar empfehlen möchten?
     cancel: Abbrechen
     yes_feature_comment: Ja, empfehlen
+en:
+  talk-plugin-featured-comments:
+    un_feature: Un-Feature
+    feature: Feature
+    featured: Featured
+    featured_comments: Featured Comments
+    go_to_conversation: Go to conversation
+    tooltip_description: Comments selected by our team as worth reading
+    notify_self_featured: 'The comment from {0} is now featured and approved'
+    notify_featured: '{0} featured and approved comment "{1}"'
+    notify_unfeatured: '{0} unfeatured comment "{1}"'
+    feature_comment: Feature comment?
+    are_you_sure: Are you sure you would like to feature this comment?
+    cancel: Cancel
+    yes_feature_comment: Yes, feature comment
 es:
   talk-plugin-featured-comments:
     un_feature: Desmarcar
@@ -85,6 +85,21 @@ fr:
     are_you_sure: Are you sure you would like to feature this comment?
     cancel: Cancel
     yes_feature_comment: Yes, feature comment
+he:
+  talk-plugin-featured-comments:
+    un_feature: תסיר המלצה
+    feature: ממליץ
+    featured: מומלצים
+    featured_comments: תגובות מומלצות
+    go_to_conversation: עבור אל השיחה
+    tooltip_description: תגובות שנבחרו על ידי הצוות שלנו כקריאה שווה
+    notify_self_featured: 'ההערה מ {0} מומלצת ומאושרת כעת'
+    notify_featured: '"{0} המליץ ואושר תגובה {1}"'
+    notify_unfeatured: '{0} הוסר את ההמלצה מתגובה "{1}"'
+    feature_comment: ממליץ תגובה?
+    are_you_sure: האם אתה בטוח שברצונך להמליץ את התגובה הזו?
+    cancel: בטל
+    yes_feature_comment: כן, ממליץ תגובה
 nl_NL:
   talk-plugin-featured-comments:
     un_feature: Uitlichting opheffen.
@@ -115,6 +130,21 @@ pt_BR:
     are_you_sure: Você tem certeza que deseja destacar esse comentário?
     cancel: Cancelar
     yes_feature_comment: Sim, destacar comentário
+sr:
+  talk-plugin-featured-comments:
+    un_feature: Skini sa izdvojenih
+    feature: Označi kao izdvojen
+    featured: Izdvojen
+    featured_comments: Izdvojeni komentari
+    go_to_conversation: Idi na raspravu
+    tooltip_description: Komentari izdvojeni od strane redakcije kao posebno vredni pažnje
+    notify_self_featured: 'Komentar od {0} je sada izdvojen i odobren'
+    notify_featured: '{0} je izdvojio i odobrio komentar "{1}"'
+    notify_unfeatured: '{0} je skinuo sa izdvojenih komentara "{1}"'
+    feature_comment: Izdvoj komentar?
+    are_you_sure: Sigurni ste da želite da izdvojite ovaj komentar?
+    cancel: Poništi
+    yes_feature_comment: Da, izdvoj komentar    
 zh_CN:
   talk-plugin-featured-comments:
     un_feature: "取消精选"

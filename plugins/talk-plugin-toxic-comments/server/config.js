@@ -9,6 +9,7 @@ const config = {
   API_TIMEOUT: ms(process.env.TALK_PERSPECTIVE_TIMEOUT || '300ms'),
   DO_NOT_STORE: process.env.TALK_PERSPECTIVE_DO_NOT_STORE || true,
   SEND_FEEDBACK: process.env.TALK_PERSPECTIVE_SEND_FEEDBACK === 'TRUE',
+  API_MODEL: process.env.TALK_PERSPECTIVE_MODEL || 'SEVERE_TOXICITY',
 };
 
 if (process.env.NODE_ENV !== 'test' && !config.API_KEY) {

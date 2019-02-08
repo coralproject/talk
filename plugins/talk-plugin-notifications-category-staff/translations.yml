@@ -5,24 +5,36 @@ ar:
         subject: "شخص ما في {0} قد رد على تعليقك"
         body: "{0}\n{1} يعمل ل
                 {2} وقد رد على تعليقك: {3}"
-en:
-  talk-plugin-notifications:
-    categories:
-      staff:
-        subject: "Someone at {0} has replied to your comment"
-        body: "{0}\n{1} works for {2} and has replied to your comment: {3}"
-es:
-  talk-plugin-notifications:
-    categories:
-      staff:
-        subject: "Alguien en {0} ha respondido a tu comentario"
-        body: "{0}\n{1} trabaja para {2} y ha respondido a tu comentario: {3}"
 de:
   talk-plugin-notifications:
     categories:
       staff:
         subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
         body: "{0}\n{1} arbeitet für {2} und hat auf Ihren Kommentar geantwortet: {3}"
+en:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Someone at {0} has replied to your comment"
+        body: "{0}\n{1} works for {2} and has replied to your comment: {3}"
+sr:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Neko je na {0} odgovorio na Vaš komentar"
+        body: "{0}\n{1} radi za {2} i odogovorio je na Vaš komentar: {3}"        
+es:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Alguien en {0} ha respondido a tu comentario"
+        body: "{0}\n{1} trabaja para {2} y ha respondido a tu comentario: {3}"
+he:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "מישהו ב {0} השיב לתגובתך"
+        body: "{0}\n{1} עובד עבור {2} והוא השיב לתגובתך: {3}"
 nl_NL:
   talk-plugin-notifications:
     categories:
