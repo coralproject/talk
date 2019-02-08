@@ -7,7 +7,7 @@ export default function create(params: CreateParams) {
       if (params.initLocalState) {
         localRecord.setValue("COMMENTS", "activeTab");
         localRecord.setValue(false, "loggedIn");
-        localRecord.setValue("jti", "authJTI");
+        localRecord.setValue("jti", "accessTokenJTI");
         params.initLocalState(localRecord, source, environment);
       }
     },

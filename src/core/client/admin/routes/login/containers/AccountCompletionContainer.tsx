@@ -54,9 +54,11 @@ function handleAccountCompletion(props: Props) {
         setAuthView({ view: "CREATE_PASSWORD" });
       }
     } else {
-      props.completeAccount({ authToken: props.local.authToken! }).then(() => {
-        props.router.replace(props.local.redirectPath || "/admin");
-      });
+      props
+        .completeAccount({ accessToken: props.local.accessToken! })
+        .then(() => {
+          props.router.replace(props.local.redirectPath || "/admin");
+        });
       return true;
     }
   }
@@ -100,7 +102,7 @@ class AccountCompletionContainer extends Component<Props, State> {
 const enhanced = withLocalStateContainer(
   graphql`
     fragment AccountCompletionContainerLocal on Local {
-      authToken
+      accessToken
       authView
       redirectPath
     }

@@ -1,4 +1,4 @@
-export default function createAuthToken() {
+export default function createAccessToken() {
   return `${btoa(
     JSON.stringify({
       alg: "HS256",

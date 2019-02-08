@@ -26,7 +26,7 @@ interface Props {
 
 function handleAccountCompletion(props: Props) {
   const {
-    local: { view, authToken },
+    local: { view, accessToken },
     me,
     auth,
     setView,
@@ -55,7 +55,7 @@ function handleAccountCompletion(props: Props) {
       }
       return false;
     }
-    completeAccount({ authToken: authToken! });
+    completeAccount({ accessToken: accessToken! });
     return true;
   }
   return false;
@@ -91,7 +91,7 @@ class AccountCompletionContainer extends Component<Props, State> {
 const enhanced = withLocalStateContainer(
   graphql`
     fragment AccountCompletionContainerLocal on Local {
-      authToken
+      accessToken
       view
     }
   `

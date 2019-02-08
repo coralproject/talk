@@ -5,7 +5,7 @@ import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import {
-  createAuthToken,
+  createAccessToken,
   createRelayEnvironment,
   replaceHistoryLocation,
 } from "talk-framework/testHelpers";
@@ -58,12 +58,12 @@ it("set commentID from query", async () => {
   restoreHistoryLocation();
 });
 
-it("set authToken from localStorage", async () => {
+it("set accessToken from localStorage", async () => {
   const context: Partial<TalkContext> = {
     localStorage: createPromisifiedStorage(),
   };
-  const authToken = createAuthToken();
-  context.localStorage!.setItem("authToken", authToken);
+  const accessToken = createAccessToken();
+  context.localStorage!.setItem("accessToken", accessToken);
   await initLocalState(environment, context as any);
-  expect(source.get(LOCAL_ID)!.authToken).toBe(authToken);
+  expect(source.get(LOCAL_ID)!.accessToken).toBe(accessToken);
 });

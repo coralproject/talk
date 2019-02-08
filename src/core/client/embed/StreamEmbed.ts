@@ -30,7 +30,7 @@ export interface StreamEmbedConfig {
   eventEmitter: EventEmitter2;
   id: string;
   rootURL: string;
-  authToken?: string;
+  accessToken?: string;
 }
 
 export class StreamEmbed {
@@ -123,7 +123,7 @@ export class StreamEmbed {
     }
 
     const externalConfig: ExternalConfig = {
-      authToken: this.config.authToken,
+      accessToken: this.config.accessToken,
     };
 
     const streamDecorators: ReadonlyArray<Decorator> = [

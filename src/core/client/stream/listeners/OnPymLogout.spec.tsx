@@ -5,11 +5,11 @@ import sinon from "sinon";
 import { OnPymLogout } from "./OnPymLogout";
 
 it("Listens to event and calls signOut", () => {
-  const authToken = "auth-token";
+  const accessToken = "access-token";
   const pym: any = {
-    onMessage: (eventName: string, cb: (authToken: string) => void) => {
+    onMessage: (eventName: string, cb: (accessToken: string) => void) => {
       expect(eventName).toBe("logout");
-      cb(authToken);
+      cb(accessToken);
     },
   };
 

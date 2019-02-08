@@ -2,7 +2,7 @@ import { get, merge } from "lodash";
 import sinon from "sinon";
 
 import {
-  createAuthToken,
+  createAccessToken,
   wait,
   waitForElement,
   within,
@@ -14,7 +14,7 @@ import mockWindow from "./mockWindow";
 
 let windowMock: ReturnType<typeof mockWindow>;
 
-const authToken = createAuthToken();
+const accessToken = createAccessToken();
 
 async function createTestRenderer(
   customResolver: any = {},
@@ -42,7 +42,7 @@ async function createTestRenderer(
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue("CREATE_PASSWORD", "view");
-      localRecord.setValue(authToken, "authToken");
+      localRecord.setValue(accessToken, "accessToken");
     },
   });
 
@@ -132,7 +132,7 @@ it("send back auth token", async () => {
   const postMessageMock = sinon.mock(context.postMessage);
   postMessageMock
     .expects("send")
-    .withArgs("setAuthToken", authToken, window.opener)
+    .withArgs("setAccessToken", accessToken, window.opener)
     .atLeast(1);
 
   // Wait till window is closed.

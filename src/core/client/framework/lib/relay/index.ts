@@ -17,5 +17,5 @@ export { graphql } from "react-relay";
 export {
   default as commitLocalUpdatePromisified,
 } from "./commitLocalUpdatePromisified";
-export { initLocalBaseState, setAuthTokenInLocalState } from "./localState";
+export { initLocalBaseState, setAccessTokenInLocalState } from "./localState";
 export { default as fetchQuery } from "./fetchQuery";

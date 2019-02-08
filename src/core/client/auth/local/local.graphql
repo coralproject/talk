@@ -9,9 +9,9 @@ enum View {
 }
 
 type Local {
-  authToken: String
-  authExp: Int
-  authJTI: String
+  accessToken: String
+  accessTokenExp: Int
+  accessTokenJTI: String
   loggedIn: Boolean!
   view: View!
   error: String

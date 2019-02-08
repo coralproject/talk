@@ -2,7 +2,7 @@ import { get, merge } from "lodash";
 import sinon from "sinon";
 
 import {
-  createAuthToken,
+  createAccessToken,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -44,7 +44,7 @@ async function createTestRenderer(
     initLocalState: localRecord => {
       localRecord.setValue("SIGN_IN", "authView");
       localRecord.setValue(true, "loggedIn");
-      localRecord.setValue(createAuthToken(), "authToken");
+      localRecord.setValue(createAccessToken(), "accessToken");
     },
   });
 
