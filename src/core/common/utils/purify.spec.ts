@@ -44,3 +44,9 @@ it("allows anchor tags and counts them correctly", () => {
   expect(body).toMatchSnapshot();
   expect(linkCount).toEqual(2);
 });
+
+it("allows bolded tags", () => {
+  const input = "A <b>bolded comment!</b>";
+  const { body } = sanitizeCommentBody(DOMPurify, input);
+  expect(body).toEqual(input);
+});
