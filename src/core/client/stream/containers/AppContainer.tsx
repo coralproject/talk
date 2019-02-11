@@ -5,11 +5,11 @@ import { AppContainerLocal as Local } from "talk-stream/__generated__/AppContain
 
 import App from "../components/App";
 
-interface InnerProps {
+interface Props {
   local: Local;
 }
 
-class AppContainer extends React.Component<InnerProps> {
+class AppContainer extends React.Component<Props> {
   public render() {
     const {
       local: { activeTab },

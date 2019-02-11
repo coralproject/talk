@@ -6,11 +6,11 @@ import { CommentsPaneContainerLocal as Local } from "talk-stream/__generated__/C
 
 import CommentsPane from "../components/CommentsPane";
 
-interface InnerProps {
+interface Props {
   local: Local;
 }
 
-const CommentsPaneContainer: StatelessComponent<InnerProps> = ({
+const CommentsPaneContainer: StatelessComponent<Props> = ({
   local: { commentID },
 }) => {
   return <CommentsPane showPermalinkView={!!commentID} />;

@@ -14,7 +14,7 @@ import { PermalinkViewQueryLocal as Local } from "talk-stream/__generated__/Perm
 import { Delay, Spinner } from "talk-ui/components";
 import PermalinkViewContainer from "../containers/PermalinkViewContainer";
 
-interface InnerProps {
+interface Props {
   local: Local;
 }
 
@@ -49,7 +49,7 @@ export const render = ({
   );
 };
 
-const PermalinkViewQuery: StatelessComponent<InnerProps> = ({
+const PermalinkViewQuery: StatelessComponent<Props> = ({
   local: { commentID, storyID, storyURL },
 }) => (
   <QueryRenderer<QueryTypes>

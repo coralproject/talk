@@ -13,7 +13,7 @@ import {
 
 import Stream from "../components/Stream";
 
-interface InnerProps {
+interface Props {
   story: StoryData;
   settings: SettingsData;
   me: MeData | null;
@@ -30,7 +30,7 @@ graphql`
   }
 `;
 
-export class StreamContainer extends React.Component<InnerProps> {
+export class StreamContainer extends React.Component<Props> {
   public state = {
     disableLoadMore: false,
     refetching: false,
@@ -100,7 +100,7 @@ interface FragmentVariables {
 }
 
 const enhanced = withPaginationContainer<
-  InnerProps,
+  Props,
   StreamContainerPaginationQueryVariables,
   FragmentVariables
 >(

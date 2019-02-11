@@ -9,14 +9,14 @@ import HorizontalGutter from "../HorizontalGutter";
 
 import styles from "./FormField.css";
 
-interface InnerProps extends Omit<PropTypesOf<typeof HorizontalGutter>, "ref"> {
+interface Props extends Omit<PropTypesOf<typeof HorizontalGutter>, "ref"> {
   children: ReactNode;
   classes: typeof styles;
   id?: string;
   className?: string;
 }
 
-const FormField: StatelessComponent<InnerProps> = props => {
+const FormField: StatelessComponent<Props> = props => {
   const { classes, className, children, ...rest } = props;
 
   return (

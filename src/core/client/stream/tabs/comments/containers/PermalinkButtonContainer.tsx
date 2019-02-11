@@ -6,12 +6,12 @@ import { PermalinkButtonContainer_story as StoryData } from "talk-stream/__gener
 
 import PermalinkButton from "../components/PermalinkButton";
 
-interface InnerProps {
+interface Props {
   story: StoryData;
   commentID: string;
 }
 
-export const PermalinkButtonContainerProps: StatelessComponent<InnerProps> = ({
+export const PermalinkButtonContainerProps: StatelessComponent<Props> = ({
   story,
   commentID,
 }) => {
@@ -23,7 +23,7 @@ export const PermalinkButtonContainerProps: StatelessComponent<InnerProps> = ({
   );
 };
 
-const enhanced = withFragmentContainer<InnerProps>({
+const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment PermalinkButtonContainer_story on Story {
       url

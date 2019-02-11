@@ -7,7 +7,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./ButtonIcon.css";
 
-interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
+interface Props extends HTMLAttributes<HTMLSpanElement> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -23,7 +23,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-export const ButtonIcon: StatelessComponent<InnerProps> = props => {
+export const ButtonIcon: StatelessComponent<Props> = props => {
   const { classes, className, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className);
   return <Icon className={rootClassName} {...rest} ref={forwardRef} />;
@@ -31,7 +31,7 @@ export const ButtonIcon: StatelessComponent<InnerProps> = props => {
 
 ButtonIcon.defaultProps = {
   size: "sm",
-} as Partial<InnerProps>;
+} as Partial<Props>;
 
 const enhanced = withForwardRef(withStyles(styles)(ButtonIcon));
 export type ButtonIconProps = PropTypesOf<typeof enhanced>;

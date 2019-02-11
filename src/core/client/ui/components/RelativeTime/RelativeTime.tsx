@@ -8,7 +8,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./RelativeTime.css";
 
-interface InnerProps {
+interface Props {
   date: string;
   live?: boolean;
   classes: typeof styles;
@@ -22,7 +22,7 @@ interface InnerProps {
 const defaultFormatter: Formatter = (value, unit, suffix, timestamp: string) =>
   new Date(timestamp).toISOString();
 
-const RelativeTime: React.StatelessComponent<InnerProps> = props => {
+const RelativeTime: React.StatelessComponent<Props> = props => {
   const { date, classes, live, className, formatter } = props;
   return (
     <UIContext.Consumer>

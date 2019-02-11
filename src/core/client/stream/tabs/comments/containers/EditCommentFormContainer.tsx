@@ -18,7 +18,7 @@ import EditCommentForm, {
   EditCommentFormProps,
 } from "../components/EditCommentForm";
 
-interface InnerProps {
+interface Props {
   editComment: EditCommentMutation;
   comment: CommentData;
   onClose?: () => void;
@@ -31,7 +31,7 @@ interface State {
   expired: boolean;
 }
 
-export class EditCommentFormContainer extends Component<InnerProps, State> {
+export class EditCommentFormContainer extends Component<Props, State> {
   private expiredTimer: any;
 
   public state: State = {
@@ -39,7 +39,7 @@ export class EditCommentFormContainer extends Component<InnerProps, State> {
     expired: !isBeforeDate(this.props.comment.editing.editableUntil),
   };
 
-  constructor(props: InnerProps) {
+  constructor(props: Props) {
     super(props);
     this.expiredTimer = this.updateWhenExpired();
   }
@@ -113,7 +113,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   autofocus: !browserInfo.ios,
 }))(
   withEditCommentMutation(
-    withFragmentContainer<InnerProps>({
+    withFragmentContainer<Props>({
       comment: graphql`
         fragment EditCommentFormContainer_comment on Comment {
           id

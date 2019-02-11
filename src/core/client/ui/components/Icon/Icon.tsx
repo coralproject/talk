@@ -6,7 +6,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./Icon.css";
 
-interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
+interface Props extends HTMLAttributes<HTMLSpanElement> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -22,7 +22,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-const Icon: StatelessComponent<InnerProps> = props => {
+const Icon: StatelessComponent<Props> = props => {
   const { classes, className, size, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className, classes[size!]);
   return (
@@ -37,7 +37,7 @@ const Icon: StatelessComponent<InnerProps> = props => {
 
 Icon.defaultProps = {
   size: "sm",
-} as Partial<InnerProps>;
+} as Partial<Props>;
 
 const enhanced = withForwardRef(withStyles(styles)(Icon));
 export type IconProps = PropTypesOf<typeof enhanced>;

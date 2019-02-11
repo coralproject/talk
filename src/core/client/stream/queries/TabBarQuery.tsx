@@ -10,11 +10,11 @@ import { TabBarQueryLocal as Local } from "talk-stream/__generated__/TabBarQuery
 
 import TabBarContainer from "../containers/TabBarContainer";
 
-interface InnerProps {
+interface Props {
   local: Local;
 }
 
-class TabBarQuery extends Component<InnerProps> {
+class TabBarQuery extends Component<Props> {
   public render() {
     const { storyID, storyURL } = this.props.local;
     return (
