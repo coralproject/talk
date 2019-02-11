@@ -12,19 +12,26 @@ interface Props {
 export const CommunityGuidelinesContainerProps: StatelessComponent<Props> = ({
   settings,
 }) => {
-  if (!settings.communityGuidelinesEnable || !settings.communityGuidelines) {
+  if (
+    !settings.communityGuidelines.enabled ||
+    !settings.communityGuidelines.content
+  ) {
     return null;
   }
   return (
-    <CommunityGuidelines>{settings.communityGuidelines}</CommunityGuidelines>
+    <CommunityGuidelines>
+      {settings.communityGuidelines.content}
+    </CommunityGuidelines>
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment CommunityGuidelinesContainer_settings on Settings {
-      communityGuidelinesEnable
-      communityGuidelines
+      communityGuidelines {
+        enabled
+        content
+      }
     }
   `,
 })(CommunityGuidelinesContainerProps);

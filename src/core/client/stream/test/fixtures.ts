@@ -7,8 +7,10 @@ import {
 
 export const settings = {
   id: "settings",
-  communityGuidelinesEnable: false,
-  communityGuidelines: "",
+  communityGuidelines: {
+    enabled: false,
+    content: "",
+  },
   auth: {
     integrations: {
       facebook: {

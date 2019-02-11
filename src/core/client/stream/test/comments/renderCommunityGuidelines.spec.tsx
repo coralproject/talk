@@ -11,8 +11,10 @@ function createTestRenderer() {
       story: sinon.stub().returns(stories[0]),
       settings: sinon.stub().returns({
         ...settings,
-        communityGuidelines: "## Community Guidelines",
-        communityGuidelinesEnable: true,
+        communityGuidelines: {
+          content: "## Community Guidelines",
+          enabled: true,
+        },
       }),
     },
   };
