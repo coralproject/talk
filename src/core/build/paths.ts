@@ -21,6 +21,7 @@ export default {
   appLocales: resolveSrc("locales"),
   appThemeVariables: resolveSrc("core/client/ui/theme/variables.ts"),
   appThemeVariablesCSS: resolveSrc("core/client/ui/theme/variables.css"),
+  appThemeMixinsCSS: resolveSrc("core/client/ui/theme/mixins.css"),
 
   appStreamHTML: resolveSrc("core/client/stream/index.html"),
   appStreamLocalesTemplate: resolveSrc("core/client/stream/locales.ts"),

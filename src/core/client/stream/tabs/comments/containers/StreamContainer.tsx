@@ -138,6 +138,7 @@ const enhanced = withPaginationContainer<
         ...ReplyListContainer1_settings
         ...CommentContainer_settings
         ...UserBoxContainer_settings
+        ...CommunityGuidelinesContainer_settings
       }
     `,
   },

@@ -1,0 +1,41 @@
+.root {
+  @mixin bodyCopy;
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+  h1 {
+    @mixin heading1;
+  }
+  h2 {
+    @mixin heading2;
+  }
+  h3 {
+    @mixin heading3;
+  }
+  h4 {
+    @mixin heading4;
+  }
+  h5 {
+    @mixin heading5;
+  }
+  *:first-child {
+    margin-top: 0;
+  }
+  *:last-child {
+    margin-bottom: 0;
+  }
+  blockquote {
+    background-color: rgba(255, 255, 255, 0.66);
+    padding: var(--spacing-unit);
+    margin: calc(2 * var(--spacing-unit)) 0 calc(2 * var(--spacing-unit))
+      var(--spacing-unit);
+    border-radius: var(--round-corners);
+    &::after {
+      content: none;
+    }
+    &::before {
+      content: none;
+    }
+  }
+}

@@ -5,11 +5,19 @@ exports[`renders correctly 1`] = `
   className="Stream-root"
   size="double"
 >
-  <ForwardRef(forwardRef)
-    size="half"
-  >
+  <ForwardRef(forwardRef)>
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
+    />
+    <Relay(CommunityGuidelinesContainerProps)
       settings={
         Object {
           "reaction": Object {
@@ -136,11 +144,19 @@ exports[`when there is more disables load more button 1`] = `
   className="Stream-root"
   size="double"
 >
-  <ForwardRef(forwardRef)
-    size="half"
-  >
+  <ForwardRef(forwardRef)>
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
+    />
+    <Relay(CommunityGuidelinesContainerProps)
       settings={
         Object {
           "reaction": Object {
@@ -281,11 +297,19 @@ exports[`when there is more renders a load more button 1`] = `
   className="Stream-root"
   size="double"
 >
-  <ForwardRef(forwardRef)
-    size="half"
-  >
+  <ForwardRef(forwardRef)>
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={null}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
+    />
+    <Relay(CommunityGuidelinesContainerProps)
       settings={
         Object {
           "reaction": Object {
@@ -426,11 +450,19 @@ exports[`when use is logged in renders correctly 1`] = `
   className="Stream-root"
   size="double"
 >
-  <ForwardRef(forwardRef)
-    size="half"
-  >
+  <ForwardRef(forwardRef)>
     <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
       me={Object {}}
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
+    />
+    <Relay(CommunityGuidelinesContainerProps)
       settings={
         Object {
           "reaction": Object {
