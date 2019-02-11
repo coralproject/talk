@@ -35,7 +35,7 @@ beforeEach(() => {
                 storyID: stories[0].id,
                 parentID: stories[0].comments.edges[0].node.id,
                 parentRevisionID: stories[0].comments.edges[0].node.revision.id,
-                body: "<strong>Hello world!</strong>",
+                body: "<b>Hello world!</b>",
                 clientMutationId: "0",
               },
             })
@@ -46,7 +46,7 @@ beforeEach(() => {
                   ...baseComment,
                   id: "comment-x",
                   author: users[0],
-                  body: "<strong>Hello world! (from server)</strong>",
+                  body: "<b>Hello world! (from server)</b>",
                 },
               },
               clientMutationId: "0",
@@ -84,7 +84,7 @@ it("post a reply", async () => {
   // Write reply .
   testRenderer.root
     .findByProps({ inputId: "comments-replyCommentForm-rte-comment-0" })
-    .props.onChange({ html: "<strong>Hello world!</strong>" });
+    .props.onChange({ html: "<b>Hello world!</b>" });
 
   timekeeper.freeze(new Date(baseComment.createdAt));
   form.props.onSubmit();

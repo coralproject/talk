@@ -33,7 +33,7 @@ beforeEach(() => {
             .withArgs(undefined, {
               input: {
                 storyID: stories[0].id,
-                body: "<strong>Hello world!</strong>",
+                body: "<b>Hello world!</b>",
                 clientMutationId: "0",
               },
             })
@@ -45,7 +45,7 @@ beforeEach(() => {
                   ...baseComment,
                   id: "comment-x",
                   author: users[0],
-                  body: "<strong>Hello world! (from server)</strong>",
+                  body: "<b>Hello world! (from server)</b>",
                 },
               },
               clientMutationId: "0",
@@ -72,7 +72,7 @@ it("post a comment", async () => {
 
   testRenderer.root
     .findByProps({ inputId: "comments-postCommentForm-field" })
-    .props.onChange({ html: "<strong>Hello world!</strong>" });
+    .props.onChange({ html: "<b>Hello world!</b>" });
 
   timekeeper.freeze(new Date(baseComment.createdAt));
 
@@ -90,7 +90,7 @@ it("post a comment", async () => {
   // Test for server response.
   await waitForElement(() =>
     within(within(tabPane).queryAllByTestID(/^comment-/)[0]).getByText(
-      "<strong>Hello world! (from server)</strong>"
+      "<b>Hello world! (from server)</b>"
     )
   );
 });

@@ -40,7 +40,7 @@ beforeEach(() => {
                 storyID: storyWithDeepestReplies.id,
                 parentID: "comment-with-deepest-replies-5",
                 parentRevisionID: "revision-0",
-                body: "<strong>Hello world!</strong>",
+                body: "<b>Hello world!</b>",
                 clientMutationId: "0",
               },
             })
@@ -51,7 +51,7 @@ beforeEach(() => {
                   ...baseComment,
                   id: "comment-x",
                   author: users[0],
-                  body: "<strong>Hello world! (from server)</strong>",
+                  body: "<b>Hello world! (from server)</b>",
                 },
               },
               clientMutationId: "0",
@@ -103,7 +103,7 @@ it("post a reply", async () => {
     .findByProps({
       inputId: "comments-replyCommentForm-rte-comment-with-deepest-replies-5",
     })
-    .props.onChange({ html: "<strong>Hello world!</strong>" });
+    .props.onChange({ html: "<b>Hello world!</b>" });
 
   timekeeper.freeze(new Date(baseComment.createdAt));
   form.props.onSubmit();

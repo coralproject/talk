@@ -385,7 +385,7 @@ exports[`post a reply: optimistic response 1`] = `
                   className="HTMLContent-root"
                   dangerouslySetInnerHTML={
                     Object {
-                      "__html": "<strong>Hello world!</strong>",
+                      "__html": "<b>Hello world!</b>",
                     }
                   }
                 />

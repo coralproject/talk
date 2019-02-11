@@ -7,10 +7,10 @@ import { PropTypesOf } from "talk-framework/types";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof CommentContent> = {
-    suspectWords: ["idiot", "damn"],
-    bannedWords: ["fuck", "fucking"],
+    suspectWords: ["worse"],
+    bannedWords: ["bad"],
     className: "custom",
-    children: "Hello <strong>idiot</strong>, you fucking bastard",
+    children: "Hello <b>Bob</b>, you bad guy",
   };
   const renderer = createRenderer();
   renderer.render(<CommentContent {...props} />);
@@ -22,7 +22,7 @@ it("renders empty words correctly", () => {
     suspectWords: [],
     bannedWords: [],
     className: "custom",
-    children: "Hello <strong>idiot</strong>, you fucking bastard",
+    children: "Hello <b>Bob</b>, you bad guy",
   };
   const renderer = createRenderer();
   renderer.render(<CommentContent {...props} />);

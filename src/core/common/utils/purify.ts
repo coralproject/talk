@@ -11,7 +11,7 @@ export function createPurify<T extends boolean = true>(
   purify.setConfig({
     // Only forward anchor tags, bold, italics, blockquote, breaks, divs, and
     // spans.
-    ALLOWED_TAGS: ["a", "strong", "i", "blockquote", "br", "div", "span"],
+    ALLOWED_TAGS: ["a", "b", "i", "blockquote", "br", "div", "span"],
     // Only allow href tags for anchor tags.
     ALLOWED_ATTR: ["href"],
     // Always return the DOM to the caller of sanitize.
