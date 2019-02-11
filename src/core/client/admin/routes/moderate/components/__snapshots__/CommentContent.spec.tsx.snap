@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
   container="div"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "Hello <strong><span><mark>idiot</mark></span></strong><span>, you <mark>fucking</mark> bastard</span>",
+      "__html": "Hello <b>Bob</b><span>, you <mark>bad</mark> guy</span>",
     }
   }
 />
@@ -18,7 +18,7 @@ exports[`renders empty words correctly 1`] = `
   container="div"
   dangerouslySetInnerHTML={
     Object {
-      "__html": "Hello <strong>idiot</strong>, you fucking bastard",
+      "__html": "Hello <b>Bob</b>, you bad guy",
     }
   }
 />
