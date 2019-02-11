@@ -8,3 +8,13 @@ en:
         rejected:
           subject: "Your comment on {0} was not published"
           body: "{0}\nThe language used in one of your comments did not comply with our community guidelines, and so the comment has been removed."
+es:
+  talk-plugin-notifications:
+    categories:
+      moderation-actions:
+        approved:
+          subject: "Tu comentario sobre {0} ha sido publicado"
+          body: "{0}\nGracias por enviar tu comentario. Tu comentario se ha publicado: {1}"
+        rejected:
+          subject: "Tu comentario en {0} no fue publicado"
+          body: "{0}\nEl lenguaje utilizado en uno de tus comentarios no cumple con las pautas de nuestra comunidad, por lo que el comentario se eliminó."
