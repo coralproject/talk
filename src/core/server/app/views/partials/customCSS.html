@@ -1,3 +1,5 @@
+{% import "../macros.html" as macros %}
+
 {% if tenant and tenant.customCSSURL %}
-  <link type="text/css" rel="stylesheet" href="{{ tenant.customCSSURL }}"/>
+  {{ macros.css(tenant.customCSSURL) }}
 {% endif %}

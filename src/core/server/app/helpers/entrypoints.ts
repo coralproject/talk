@@ -70,7 +70,11 @@ export default class Entrypoints {
 
             // Check to see if the asset is a match.
             if (asset.src === src) {
-              entrypoint[extension].push(asset);
+              entrypoint[extension].push({
+                integrity: asset.integrity,
+                // Prefix all the sources with a `/`.
+                src: "/" + asset.src,
+              });
               break;
             }
           }

@@ -9,17 +9,18 @@
 {% endblock %}
 
 {# Include all the styles from the entrypoint #}
-{% if entrypoint.css %}
+{% if entrypoint.css or enableCustomCSS %}
   {% block css %}
-    {% for asset in entrypoint.css %}
-      {{ macros.css(asset.src, asset.integrity) }}
-    {% endfor %}
+    {% if entrypoint.css %}
+      {% for asset in entrypoint.css %}
+        {{ macros.css(asset.src, asset.integrity, staticURI) }}
+      {% endfor %}
+    {% endif %}
+    {% if enableCustomCSS %}
+      {# Custom CSS is included after the CSS block so that its overrides will apply #}
+      {% include "partials/customCSS.html" %}
+    {% endif %}
   {% endblock %}
-
-  {% if enableCustomCSS %}
-    {# Custom CSS is included after the CSS block so that its overrides will apply #}
-    {% include "partials/customCSS.html" %}
-  {% endif %}
 {% endif %}
 
 {% block html %}
@@ -30,7 +31,7 @@
 {% if entrypoint.js %}
   {% block js %}
     {% for asset in entrypoint.js %}
-      {{ macros.js(asset.src, asset.integrity) }}
+      {{ macros.js(asset.src, asset.integrity, staticURI) }}
     {% endfor %}
   {% endblock %}
 {% endif %}
