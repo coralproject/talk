@@ -2201,9 +2201,9 @@ input SettingsInput {
   autoCloseStream: Boolean
 
   """
-  customCssUrl is the URL of the custom CSS used to display on the frontend.
+  customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
-  customCssUrl: String
+  customCSSURL: String
 
   """
   closedTimeout is the amount of seconds from the createdAt timestamp that a

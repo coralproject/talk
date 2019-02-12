@@ -72,7 +72,7 @@ it("change custom css", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.customCssUrl).toEqual("./custom.css");
+      expect(data.input.settings.customCSSURL).toEqual("./custom.css");
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
