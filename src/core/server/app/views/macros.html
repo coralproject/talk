@@ -1,15 +1,19 @@
 {% macro css(src, integrity = '', prefix = '') %}
-  {% if integrity %}
-    <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}" integrity="{{ integrity }}"/>
+  <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}"/>
+  {# TODO: evaluate when to enable SRI, non-SSL connections cause issues #}
+  {# {% if integrity %}
+    <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}" integrity="{{ integrity }}" crossorigin="anonymous"/>
   {% else %}
     <link type="text/css" rel="stylesheet" href="{{ prefix }}{{ src }}"/>
-  {% endif %}
+  {% endif %} #}
 {% endmacro %}
 
 {% macro js(src, integrity = '', prefix = '') %}
-  {% if integrity %}
-    <script type="application/javascript" src="{{ prefix }}{{ src }}" integrity="{{ integrity }}"></script>
+    <script type="application/javascript" src="{{ prefix }}{{ src }}"></script>
+  {# TODO: evaluate when to enable SRI, non-SSL connections cause issues #}
+  {# {% if false %}
+    <script type="application/javascript" src="{{ prefix }}{{ src }}" integrity="{{ integrity }}" crossorigin="anonymous"></script>
   {% else %}
     <script type="application/javascript" src="{{ prefix }}{{ src }}"></script>
-  {% endif %}
+  {% endif %} #}
 {% endmacro %}

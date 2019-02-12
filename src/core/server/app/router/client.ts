@@ -1,4 +1,5 @@
 import express from "express";
+import { minify } from "html-minifier";
 
 import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
 import { Entrypoint } from "../helpers/entrypoints";
@@ -40,8 +41,24 @@ export function createClientTargetRouter({
   router.use(cacheHeadersMiddleware(cacheDuration));
 
   // Wildcard display all the client routes under the provided prefix.
-  router.get("/*", (req, res) =>
-    res.render("client", { staticURI, entrypoint, enableCustomCSS })
+  router.get("/*", (req, res, next) =>
+    res.render(
+      "client",
+      { staticURI, entrypoint, enableCustomCSS },
+      (err, html) => {
+        if (err) {
+          return next(err);
+        }
+
+        // Send back the HTML minified.
+        res.send(
+          minify(html, {
+            removeComments: true,
+            collapseWhitespace: true,
+          })
+        );
+      }
+    )
   );
 
   return router;

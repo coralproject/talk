@@ -447,13 +447,6 @@ export default function createWebpackConfig(
         : null,
       ...additionalPlugins,
       ...appendPlugins,
-      ...ifProduction(
-        new WebpackAssetsManifest({
-          output: "asset-manifest.json",
-          entrypoints: true,
-          integrity: true,
-        })
-      ),
     ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
@@ -567,6 +560,13 @@ export default function createWebpackConfig(
             inject: "body",
           })
         ),
+        ...ifProduction(
+          new WebpackAssetsManifest({
+            output: "asset-manifest.json",
+            entrypoints: true,
+            integrity: true,
+          })
+        ),
       ]),
     },
     /* Webpack config for our embed */
@@ -613,6 +613,13 @@ export default function createWebpackConfig(
             filename: "storyButton.html",
             template: paths.appEmbedStoryButtonHTML,
             inject: "head",
+          })
+        ),
+        ...ifProduction(
+          new WebpackAssetsManifest({
+            output: "embed-asset-manifest.json",
+            entrypoints: true,
+            integrity: true,
           })
         ),
       ]),
