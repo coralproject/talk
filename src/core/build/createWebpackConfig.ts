@@ -1,7 +1,7 @@
 import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
-import HtmlWebpackPlugin, { Options } from "html-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
@@ -9,14 +9,12 @@ import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModul
 import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import webpack, { Configuration, Plugin } from "webpack";
+import WebpackAssetsManifest from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import ManifestPlugin from "webpack-manifest-plugin";
 
 import { Config } from "./config";
 import { createClientEnv } from "./config";
 import paths from "./paths";
-import InterpolateHtmlPlugin from "./plugins/InterpolateHtmlPlugin";
-import PublicURIWebpackPlugin from "./plugins/PublicURIWebpackPlugin";
 
 /**
  * filterPlugins will filter out null values from the array of plugins, allowing
@@ -59,23 +57,16 @@ export default function createWebpackConfig(
    * ifProduction will only include the nodes if we're in production mode.
    */
   const ifProduction = isProduction
-    ? <T extends {}>(...nodes: T[]) => nodes
-    : <T extends {}>(...nodes: T[]) => [];
+    ? (...nodes: any[]) => nodes
+    : (...nodes: any[]) => [];
 
-  const htmlWebpackConfig: Options = {
-    minify: minimize && {
-      removeComments: true,
-      collapseWhitespace: true,
-      removeRedundantAttributes: true,
-      useShortDoctype: true,
-      removeEmptyAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      keepClosingSlash: true,
-      minifyJS: true,
-      minifyCSS: true,
-      minifyURLs: true,
-    },
-  };
+  /**
+   * ifNotProduction will only include the nodes if we're not in production
+   * mode.
+   */
+  const ifNotProduction = !isProduction
+    ? (...nodes: any[]) => nodes
+    : (...nodes: any[]) => [];
 
   const styleLoader = {
     loader: require.resolve("style-loader"),
@@ -456,6 +447,13 @@ export default function createWebpackConfig(
         : null,
       ...additionalPlugins,
       ...appendPlugins,
+      ...ifProduction(
+        new WebpackAssetsManifest({
+          output: "asset-manifest.json",
+          entrypoints: true,
+          integrity: true,
+        })
+      ),
     ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
@@ -532,66 +530,43 @@ export default function createWebpackConfig(
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
-        // Generates an `stream.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "stream.html",
-          template: paths.appStreamHTML,
-          chunks: ["stream"],
-          inject: "body",
-          ...htmlWebpackConfig,
-        }),
-        // Generates an `auth.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "auth.html",
-          template: paths.appAuthHTML,
-          chunks: ["auth"],
-          inject: "body",
-          ...htmlWebpackConfig,
-        }),
-        // Generates an `auth-callback.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "auth-callback.html",
-          template: paths.appAuthCallbackHTML,
-          chunks: ["authCallback"],
-          inject: "body",
-          ...htmlWebpackConfig,
-        }),
-        // Generates an `install.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "install.html",
-          template: paths.appInstallHTML,
-          chunks: ["install"],
-          inject: "body",
-          ...htmlWebpackConfig,
-        }),
-        // Generates an `admin.html` file with the <script> injected.
-        new HtmlWebpackPlugin({
-          filename: "admin.html",
-          template: paths.appAdminHTML,
-          chunks: ["admin"],
-          inject: "body",
-          ...htmlWebpackConfig,
-        }),
-        ...ifProduction(
-          // Inject the pieces we need here to resolve all the now relative url's
-          // against the CDN if it's provided. It will inject the following into
-          // the configuration blob on the page.
-          new PublicURIWebpackPlugin(
-            "{{ staticURI | dump | safe }}",
-            "{{ staticURI }}"
-          )
+        ...ifNotProduction(
+          // Generates an `stream.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "stream.html",
+            template: paths.appStreamHTML,
+            chunks: ["stream"],
+            inject: "body",
+          }),
+          // Generates an `auth.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "auth.html",
+            template: paths.appAuthHTML,
+            chunks: ["auth"],
+            inject: "body",
+          }),
+          // Generates an `auth-callback.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "auth-callback.html",
+            template: paths.appAuthCallbackHTML,
+            chunks: ["authCallback"],
+            inject: "body",
+          }),
+          // Generates an `install.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "install.html",
+            template: paths.appInstallHTML,
+            chunks: ["install"],
+            inject: "body",
+          }),
+          // Generates an `admin.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "admin.html",
+            template: paths.appAdminHTML,
+            chunks: ["admin"],
+            inject: "body",
+          })
         ),
-        // Makes some environment variables available in index.html.
-        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-        // In development, this will be an empty string.
-        new InterpolateHtmlPlugin(env),
-        // Generate a manifest file which contains a mapping of all asset filenames
-        // to their corresponding output file so that tools can pick it up without
-        // having to parse `index.html`.
-        new ManifestPlugin({
-          fileName: "asset-manifest.json",
-        }),
       ]),
     },
     /* Webpack config for our embed */
@@ -622,40 +597,24 @@ export default function createWebpackConfig(
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
-        ...(isProduction
-          ? []
-          : [
-              // Generates an `embed.html` file with the <script> injected.
-              new HtmlWebpackPlugin({
-                filename: "embed.html",
-                template: paths.appEmbedHTML,
-                inject: "head",
-                ...htmlWebpackConfig,
-              }),
-              new HtmlWebpackPlugin({
-                filename: "story.html",
-                template: paths.appEmbedStoryHTML,
-                inject: "head",
-                ...htmlWebpackConfig,
-              }),
-              new HtmlWebpackPlugin({
-                filename: "storyButton.html",
-                template: paths.appEmbedStoryButtonHTML,
-                inject: "head",
-                ...htmlWebpackConfig,
-              }),
-              // Makes some environment variables available in index.html.
-              // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-              // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-              // In development, this will be an empty string.
-              new InterpolateHtmlPlugin(env),
-            ]),
-        // Generate a manifest file which contains a mapping of all asset filenames
-        // to their corresponding output file so that tools can pick it up without
-        // having to parse `index.html`.
-        new ManifestPlugin({
-          fileName: "embed-manifest.json",
-        }),
+        ...ifNotProduction(
+          // Generates an `embed.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "embed.html",
+            template: paths.appEmbedHTML,
+            inject: "head",
+          }),
+          new HtmlWebpackPlugin({
+            filename: "story.html",
+            template: paths.appEmbedStoryHTML,
+            inject: "head",
+          }),
+          new HtmlWebpackPlugin({
+            filename: "storyButton.html",
+            template: paths.appEmbedStoryButtonHTML,
+            inject: "head",
+          })
+        ),
       ]),
     },
   ];

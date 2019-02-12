@@ -1,0 +1,15 @@
+{% macro css(src, integrity = '') %}
+  {% if integrity %}
+    <link type="text/css" rel="stylesheet" href="{{ staticURI }}/{{ src }}" integrity="{{ integrity }}"/>
+  {% else %}
+    <link type="text/css" rel="stylesheet" href="{{ staticURI }}/{{ src }}"/>
+  {% endif %}
+{% endmacro %}
+
+{% macro js(src, integrity = '') %}
+  {% if integrity %}
+    <script type="application/javascript" src="{{ staticURI }}/{{ src }}" integrity="{{ integrity }}"></script>
+  {% else %}
+    <script type="application/javascript" src="{{ staticURI }}/{{ src }}"></script>
+  {% endif %}
+{% endmacro %}
