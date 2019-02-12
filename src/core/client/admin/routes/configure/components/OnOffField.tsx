@@ -11,48 +11,56 @@ interface Props {
   name: string;
   disabled: boolean;
   invert?: boolean;
+  onLabel?: React.ReactNode;
+  offLabel?: React.ReactNode;
 }
 
 const OnOffField: StatelessComponent<Props> = ({
   name,
   disabled,
+  onLabel,
+  offLabel,
   invert = false,
 }) => (
   <div>
     <Field name={name} type="radio" parse={parseStringBool} value={!invert}>
       {({ input }) => (
-        <Localized id="configure-onOffField-on">
-          <RadioButton
-            id={`${input.name}-true`}
-            name={input.name}
-            onChange={input.onChange}
-            onFocus={input.onFocus}
-            onBlur={input.onBlur}
-            checked={input.checked}
-            disabled={disabled}
-            value={input.value}
-          >
-            On
-          </RadioButton>
-        </Localized>
+        <RadioButton
+          id={`${input.name}-true`}
+          name={input.name}
+          onChange={input.onChange}
+          onFocus={input.onFocus}
+          onBlur={input.onBlur}
+          checked={input.checked}
+          disabled={disabled}
+          value={input.value}
+        >
+          {onLabel || (
+            <Localized id="configure-onOffField-on">
+              <span>On</span>
+            </Localized>
+          )}
+        </RadioButton>
       )}
     </Field>
     <Field name={name} type="radio" parse={parseStringBool} value={invert}>
       {({ input }) => (
-        <Localized id="configure-onOffField-off">
-          <RadioButton
-            id={`${input.name}-fase`}
-            name={input.name}
-            onChange={input.onChange}
-            onFocus={input.onFocus}
-            onBlur={input.onBlur}
-            checked={input.checked}
-            disabled={disabled}
-            value={input.value}
-          >
-            Off
-          </RadioButton>
-        </Localized>
+        <RadioButton
+          id={`${input.name}-false`}
+          name={input.name}
+          onChange={input.onChange}
+          onFocus={input.onFocus}
+          onBlur={input.onBlur}
+          checked={input.checked}
+          disabled={disabled}
+          value={input.value}
+        >
+          {offLabel || (
+            <Localized id="configure-onOffField-off">
+              <span>Off</span>
+            </Localized>
+          )}
+        </RadioButton>
       )}
     </Field>
   </div>

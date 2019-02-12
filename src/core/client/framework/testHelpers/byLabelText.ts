@@ -1,3 +1,4 @@
+import { uniq } from "lodash";
 import { ReactTestInstance } from "react-test-renderer";
 
 import { queryAllByText } from "./byText";
@@ -62,6 +63,7 @@ export function queryAllByLabelText(
   options?: TextMatchOptions
 ) {
   const matches = container.findAll(ariaLabelMatcher(pattern, options));
+  // Find matching aria-labelledby and id pairs.
   queryAllByText(container, pattern, options).forEach(i => {
     if (typeof i.type !== "string") {
       return;
@@ -77,15 +79,20 @@ export function queryAllByLabelText(
         );
       } catch {} // tslint:disable-line:no-empty
     }
-    if (i.type === "label" && i.props.htmlFor) {
-      try {
-        matches.push(
-          container.find(
-            x => typeof x.type === "string" && x.props.id === i.props.htmlFor
-          )
-        );
-      } catch {} // tslint:disable-line:no-empty
-    }
   });
-  return matches;
+  // Find matching labels.
+  queryAllByText(container, pattern, { ...options, selector: "label" }).forEach(
+    i => {
+      if (i.props.htmlFor) {
+        try {
+          matches.push(
+            container.find(
+              x => typeof x.type === "string" && x.props.id === i.props.htmlFor
+            )
+          );
+        } catch {} // tslint:disable-line:no-empty
+      }
+    }
+  );
+  return uniq(matches);
 }

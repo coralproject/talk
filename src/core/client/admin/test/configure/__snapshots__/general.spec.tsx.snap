@@ -113,6 +113,107 @@ exports[`renders configure general 1`] = `
             <legend
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
+              Sitewide Commenting
+            </legend>
+            <p
+              className="Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              Open or close comment streams for new comments sitewide. When new comments
+are turned off sitewide, new comments cannot be submitted, but existing
+comments can continue to receive “Respect” reactions, be reported, and be
+shared.
+            </p>
+            <fieldset
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Enable New Comments Sitewide
+              </legend>
+              <div>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="disableCommenting.enabled-true"
+                    name="disableCommenting.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="disableCommenting.enabled-true"
+                  >
+                    <span>
+                      On - Comment streams opened for new comments
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="disableCommenting.enabled-false"
+                    name="disableCommenting.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="disableCommenting.enabled-false"
+                  >
+                    <span>
+                      Off - Comment streams closed for new comments
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <div
+              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="configure-general-sitewideCommenting-message"
+              >
+                Sitewide Closed Comments Message
+              </label>
+              <p
+                className="Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Write a message that will be displayed when comment streams are closed sitewide
+              </p>
+            </div>
+            <div
+              className="MarkdownEditor-wrapper"
+            >
+              <textarea
+                id="configure-general-sitewideCommenting-message"
+                name="disableCommenting.message"
+                onChange={[Function]}
+                value=""
+              />
+            </div>
+          </fieldset>
+          <fieldset
+            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
               Community Guidelines Summary
             </legend>
             <fieldset
@@ -143,7 +244,9 @@ exports[`renders configure general 1`] = `
                     className="RadioButton-label"
                     htmlFor="communityGuidelinesEnable-true"
                   >
-                    On
+                    <span>
+                      On
+                    </span>
                   </label>
                 </div>
                 <div
@@ -153,7 +256,7 @@ exports[`renders configure general 1`] = `
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="communityGuidelinesEnable-fase"
+                    id="communityGuidelinesEnable-false"
                     name="communityGuidelinesEnable"
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -163,9 +266,11 @@ exports[`renders configure general 1`] = `
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="communityGuidelinesEnable-fase"
+                    htmlFor="communityGuidelinesEnable-false"
                   >
-                    Off
+                    <span>
+                      Off
+                    </span>
                   </label>
                 </div>
               </div>
@@ -248,7 +353,9 @@ Markdown can be found
                     className="RadioButton-label"
                     htmlFor="charCount.enabled-true"
                   >
-                    On
+                    <span>
+                      On
+                    </span>
                   </label>
                 </div>
                 <div
@@ -258,7 +365,7 @@ Markdown can be found
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="charCount.enabled-fase"
+                    id="charCount.enabled-false"
                     name="charCount.enabled"
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -268,9 +375,11 @@ Markdown can be found
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="charCount.enabled-fase"
+                    htmlFor="charCount.enabled-false"
                   >
-                    Off
+                    <span>
+                      Off
+                    </span>
                   </label>
                 </div>
               </div>
@@ -471,7 +580,9 @@ moderation panel.
                     className="RadioButton-label"
                     htmlFor="autoCloseStream-true"
                   >
-                    On
+                    <span>
+                      On
+                    </span>
                   </label>
                 </div>
                 <div
@@ -481,7 +592,7 @@ moderation panel.
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="autoCloseStream-fase"
+                    id="autoCloseStream-false"
                     name="autoCloseStream"
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -491,9 +602,11 @@ moderation panel.
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="autoCloseStream-fase"
+                    htmlFor="autoCloseStream-false"
                   >
-                    Off
+                    <span>
+                      Off
+                    </span>
                   </label>
                 </div>
               </div>

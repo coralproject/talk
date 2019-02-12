@@ -68,6 +68,67 @@ it("renders configure general", async () => {
   expect(within(configureContainer).toJSON()).toMatchSnapshot();
 });
 
+it("change site wide commenting", async () => {
+  let settingsRecord = cloneDeep(settings);
+  const updateSettingsStub = createSinonStub(s =>
+    s.onFirstCall().callsFake((_: any, data: any) => {
+      expect(data.input.settings.disableCommenting).toEqual({
+        enabled: true,
+        message: "Closing message",
+      });
+      settingsRecord = merge(settingsRecord, data.input.settings);
+      return {
+        settings: settingsRecord,
+        clientMutationId: data.input.clientMutationId,
+      };
+    })
+  );
+  const {
+    configureContainer,
+    generalContainer,
+    saveChangesButton,
+  } = await createTestRenderer({
+    Mutation: {
+      updateSettings: updateSettingsStub,
+    },
+  });
+
+  const sitewideCommentingContainer = within(generalContainer).getAllByText(
+    "Sitewide Commenting",
+    { selector: "fieldset" }
+  )[0];
+
+  const offField = within(sitewideCommentingContainer).getByLabelText(
+    "Off - Comment streams closed for new comments"
+  );
+  const contentField = within(sitewideCommentingContainer).getByLabelText(
+    "Sitewide Closed Comments Message"
+  );
+
+  // Let's enable it.
+  offField.props.onChange(offField.props.value.toString());
+
+  // Let's change the content.
+  contentField.props.onChange("Closing message");
+
+  // Send form
+  within(configureContainer)
+    .getByType("form")
+    .props.onSubmit();
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(offField.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await wait(() => {
+    expect(offField.props.disabled).toBe(false);
+  });
+
+  // Should have successfully sent with server.
+  expect(updateSettingsStub.called).toBe(true);
+});
+
 it("change community guidlines", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
