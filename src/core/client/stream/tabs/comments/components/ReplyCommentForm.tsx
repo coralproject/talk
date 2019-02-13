@@ -17,7 +17,7 @@ import {
   Flex,
   HorizontalGutter,
   MatchMedia,
-  Typography,
+  ValidationMessage,
 } from "talk-ui/components";
 
 import ReplyTo from "./ReplyTo";
@@ -42,7 +42,7 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
   const inputID = `comments-replyCommentForm-rte-${props.id}`;
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-      {({ handleSubmit, submitting, hasValidationErrors }) => (
+      {({ handleSubmit, submitting, hasValidationErrors, submitError }) => (
         <form
           className={props.className}
           autoComplete="off"
@@ -53,35 +53,42 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
           <HorizontalGutter>
             <Field name="body" validate={required}>
               {({ input, meta }) => (
-                <div>
-                  <Localized id="comments-replyCommentForm-rteLabel">
-                    <AriaInfo component="label" htmlFor={inputID}>
-                      Write a reply
-                    </AriaInfo>
-                  </Localized>
-                  {props.parentUsername && (
-                    <ReplyTo username={props.parentUsername} />
-                  )}
-                  <Localized
-                    id="comments-replyCommentForm-rte"
-                    attrs={{ placeholder: true }}
-                  >
-                    <RTE
-                      inputId={inputID}
-                      onChange={({ html }) => input.onChange(html)}
-                      value={input.value}
-                      placeholder="Write a reply"
-                      forwardRef={props.rteRef}
-                      disabled={submitting}
-                    />
-                  </Localized>
+                <HorizontalGutter size="half">
+                  <div>
+                    <Localized id="comments-replyCommentForm-rteLabel">
+                      <AriaInfo component="label" htmlFor={inputID}>
+                        Write a reply
+                      </AriaInfo>
+                    </Localized>
+                    {props.parentUsername && (
+                      <ReplyTo username={props.parentUsername} />
+                    )}
+                    <Localized
+                      id="comments-replyCommentForm-rte"
+                      attrs={{ placeholder: true }}
+                    >
+                      <RTE
+                        inputId={inputID}
+                        onChange={({ html }) => input.onChange(html)}
+                        value={input.value}
+                        placeholder="Write a reply"
+                        forwardRef={props.rteRef}
+                        disabled={submitting}
+                      />
+                    </Localized>
+                  </div>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
-                      <Typography align="right" color="error" gutterBottom>
+                      <ValidationMessage fullWidth>
                         {meta.error || meta.submitError}
-                      </Typography>
+                      </ValidationMessage>
                     )}
-                </div>
+                  {submitError && (
+                    <ValidationMessage fullWidth>
+                      {submitError}
+                    </ValidationMessage>
+                  )}
+                </HorizontalGutter>
               )}
             </Field>
             <MatchMedia ltWidth="sm">

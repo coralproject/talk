@@ -1,8 +1,10 @@
+import { graphql, GraphQLSchema } from "graphql";
 import { IResolvers } from "graphql-tools";
-import { createFetch } from "relay-local-schema";
+
 import {
   commitLocalUpdate,
   Environment,
+  FetchFunction,
   Network,
   RecordProxy,
   RecordSource,
@@ -18,6 +20,7 @@ import {
 } from "talk-framework/lib/relay";
 
 import { loadSchema } from "talk-common/graphql";
+import { InvalidRequestError } from "talk-framework/lib/errors";
 
 export interface CreateRelayEnvironmentNetworkParams {
   /** project name of graphql-config */
@@ -48,6 +51,37 @@ export interface CreateRelayEnvironmentParams {
     | true;
   /** Use this source for creating the environment */
   source?: RecordSource;
+}
+
+function createFetch({
+  schema,
+  rootValue,
+  contextValue,
+}: {
+  schema: GraphQLSchema;
+  rootValue?: any;
+  contextValue?: any;
+}) {
+  return function fetchQuery(operation: any, variables: Record<string, any>) {
+    return graphql(
+      schema,
+      operation.text,
+      rootValue,
+      contextValue,
+      variables
+    ).then(payload => {
+      if (payload.errors) {
+        payload.errors.forEach(e => {
+          // Throw our custom errors directly.
+          if (e.originalError instanceof InvalidRequestError) {
+            throw e.originalError;
+          }
+        });
+        throw new Error(payload.errors.toString());
+      }
+      return payload;
+    });
+  };
 }
 
 /**

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
-import { BadUserInputError } from "talk-framework/lib/errors";
+import { InvalidRequestError } from "talk-framework/lib/errors";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 import { ReportCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReportCommentFormContainer_comment.graphql";
@@ -52,8 +52,8 @@ export class ReportCommentFormContainer extends Component<Props, State> {
       }
       this.setState({ done: true });
     } catch (error) {
-      if (error instanceof BadUserInputError) {
-        return error.invalidArgsLocalized;
+      if (error instanceof InvalidRequestError) {
+        return error.invalidArgs;
       }
       // tslint:disable-next-line:no-console
       console.error(error);

@@ -18,6 +18,7 @@ import AppContainer from "../containers/AppContainer";
 
 export interface CreateParams {
   logNetwork?: boolean;
+  muteNetworkErrors?: boolean;
   resolvers: IResolvers<any, any>;
   initLocalState?: (
     local: RecordProxy,
@@ -31,6 +32,7 @@ export default function create(params: CreateParams) {
     // Set this to true, to see graphql responses.
     logNetwork: params.logNetwork,
     resolvers: params.resolvers,
+    muteNetworkErrors: params.muteNetworkErrors,
     initLocalState: (localRecord, source, env) => {
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, env);

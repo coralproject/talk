@@ -8,7 +8,7 @@ import {
   withUpdateSettingsMutation,
 } from "talk-admin/mutations";
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
-import { BadUserInputError } from "talk-framework/lib/errors";
+import { InvalidRequestError } from "talk-framework/lib/errors";
 import { getMessage } from "talk-framework/lib/i18n";
 
 import Configure from "../components/Configure";
@@ -86,8 +86,8 @@ class ConfigureContainer extends React.Component<Props> {
       }
       form.initialize(data);
     } catch (error) {
-      if (error instanceof BadUserInputError) {
-        return error.invalidArgsLocalized;
+      if (error instanceof InvalidRequestError) {
+        return error.invalidArgs;
       }
       // tslint:disable-next-line:no-console
       console.error(error);

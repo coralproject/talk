@@ -1,5 +1,323 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`post a reply and handle server error: open reply form 1`] = `
+<div
+  data-testid="comment-comment-0"
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-full"
+  >
+    <div
+      className="Indent-root"
+    >
+      <div
+        className=""
+      >
+        <div
+          className="Comment-root"
+          role="article"
+        >
+          <div
+            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+          >
+            <div
+              className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+            >
+              <span
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              >
+                Markus
+              </span>
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+              >
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+            </div>
+          </div>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+          >
+            <div
+              className="HTMLContent-root"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Joining Too",
+                }
+              }
+            />
+            <div
+              className="Flex-root Flex-flex Flex-justifySpaceBetween"
+            >
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  id="comments-commentContainer-replyButton-comment-0"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Reply
+                  </span>
+                </button>
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="permalink-popover-comment-0"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Share
+                    </span>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="permalink-popover-comment-0-ariainfo"
+                    id="permalink-popover-comment-0"
+                    role="popup"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="permalink-popover-comment-0-ariainfo"
+                    >
+                      A dialog showing a permalink to the comment
+                    </div>
+                  </div>
+                </div>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+              </div>
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+              >
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="report-popover-comment-0"
+                    className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                    disabled={false}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Report
+                    </span>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="report-popover-comment-0-ariainfo"
+                    id="report-popover-comment-0"
+                    role="popup"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="report-popover-comment-0-ariainfo"
+                    >
+                      A dialog for reporting comments
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form
+      autoComplete="off"
+      id="comments-replyCommentForm-form-comment-0"
+      onSubmit={[Function]}
+    >
+      <div
+        className="HorizontalGutter-root HorizontalGutter-full"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-half"
+        >
+          <div>
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-replyCommentForm-rte-comment-0"
+            >
+              Write a reply
+            </label>
+            <div
+              className="Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                reply
+              </span>
+              <span>
+                 
+              </span>
+              <span
+                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
+              >
+                Replying to: 
+                <span
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
+                >
+                  Markus
+                </span>
+              </span>
+            </div>
+            <div>
+              <div
+                className=""
+              >
+                <div
+                  aria-hidden="true"
+                  className="RTE-placeholder RTE-placeholder"
+                >
+                  Write a reply
+                </div>
+                <div
+                  aria-placeholder="Write a reply"
+                  className="RTE-contentEditable RTE-content"
+                  contentEditable={true}
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "",
+                    }
+                  }
+                  disabled={false}
+                  id="comments-replyCommentForm-rte-comment-0"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onCut={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  onSelect={[Function]}
+                />
+                <div
+                  className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+                >
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Bold"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_bold
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Italic"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_italic
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Blockquote"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_quote
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
+        >
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+            disabled={true}
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
 exports[`post a reply: open reply form 1`] = `
 <div
   data-testid="comment-comment-0"
@@ -170,111 +488,115 @@ exports[`post a reply: open reply form 1`] = `
       <div
         className="HorizontalGutter-root HorizontalGutter-full"
       >
-        <div>
-          <label
-            className="AriaInfo-root"
-            htmlFor="comments-replyCommentForm-rte-comment-0"
-          >
-            Write a reply
-          </label>
-          <div
-            className="Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              reply
-            </span>
-            <span>
-               
-            </span>
-            <span
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
-            >
-              Replying to: 
-              <span
-                className="Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
-              >
-                Markus
-              </span>
-            </span>
-          </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-half"
+        >
           <div>
-            <div
-              className=""
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-replyCommentForm-rte-comment-0"
             >
-              <div
+              Write a reply
+            </label>
+            <div
+              className="Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
+            >
+              <span
                 aria-hidden="true"
-                className="RTE-placeholder RTE-placeholder"
+                className="Icon-root Icon-sm"
               >
-                Write a reply
-              </div>
+                reply
+              </span>
+              <span>
+                 
+              </span>
+              <span
+                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
+              >
+                Replying to: 
+                <span
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
+                >
+                  Markus
+                </span>
+              </span>
+            </div>
+            <div>
               <div
-                aria-placeholder="Write a reply"
-                className="RTE-contentEditable RTE-content"
-                contentEditable={true}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "",
+                className=""
+              >
+                <div
+                  aria-hidden="true"
+                  className="RTE-placeholder RTE-placeholder"
+                >
+                  Write a reply
+                </div>
+                <div
+                  aria-placeholder="Write a reply"
+                  className="RTE-contentEditable RTE-content"
+                  contentEditable={true}
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "",
+                    }
                   }
-                }
-                disabled={false}
-                id="comments-replyCommentForm-rte-comment-0"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
-              />
-              <div
-                className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
-              >
-                <button
-                  className="Button-button"
                   disabled={false}
-                  onClick={[Function]}
-                  title="Bold"
-                  type="button"
+                  id="comments-replyCommentForm-rte-comment-0"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onCut={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  onSelect={[Function]}
+                />
+                <div
+                  className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Bold"
+                    type="button"
                   >
-                    format_bold
-                  </span>
-                </button>
-                <button
-                  className="Button-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Italic"
-                  type="button"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_bold
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Italic"
+                    type="button"
                   >
-                    format_italic
-                  </span>
-                </button>
-                <button
-                  className="Button-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Blockquote"
-                  type="button"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_italic
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Blockquote"
+                    type="button"
                   >
-                    format_quote
-                  </span>
-                </button>
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_quote
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

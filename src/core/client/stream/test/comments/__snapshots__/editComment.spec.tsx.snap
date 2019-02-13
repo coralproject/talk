@@ -180,6 +180,172 @@ exports[`cancel edit 1`] = `
 </div>
 `;
 
+exports[`edit a comment and handle server error: edit form 1`] = `
+<div
+  data-testid="comment-comment-0"
+>
+  <form
+    autoComplete="off"
+    onSubmit={[Function]}
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-full"
+    >
+      <div>
+        <div
+          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+        >
+          <span
+            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+          >
+            Markus
+          </span>
+          <time
+            className="Timestamp-root RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </div>
+      </div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-half"
+      >
+        <label
+          className="AriaInfo-root"
+          htmlFor="comments-editCommentForm-rte-comment-0"
+        >
+          Edit comment
+        </label>
+        <div>
+          <div
+            className=""
+          >
+            <div
+              aria-placeholder="Edit comment"
+              className="RTE-contentEditable RTE-content"
+              contentEditable={true}
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Joining Too",
+                }
+              }
+              disabled={false}
+              id="comments-editCommentForm-rte-comment-0"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onCut={[Function]}
+              onFocus={[Function]}
+              onInput={[Function]}
+              onKeyDown={[Function]}
+              onPaste={[Function]}
+              onSelect={[Function]}
+            />
+            <div
+              className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+            >
+              <button
+                className="Button-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Bold"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  format_bold
+                </span>
+              </button>
+              <button
+                className="Button-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Italic"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  format_italic
+                </span>
+              </button>
+              <button
+                className="Button-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Blockquote"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  format_quote
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="Message-root Message-colorGrey Message-fullWidth"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root MessageIcon-root Icon-sm"
+        >
+          alarm
+        </span>
+        <span>
+          Edit: 
+          <time
+            className="RelativeTime-root"
+            dateTime="2018-07-06T18:24:30.000Z"
+            title="2018-07-06T18:24:30.000Z"
+          >
+            2018-07-06T18:24:30.000Z
+          </time>
+           remaining
+        </span>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`edit a comment: edit form 1`] = `
 <div
   data-testid="comment-comment-0"
@@ -209,7 +375,9 @@ exports[`edit a comment: edit form 1`] = `
           </time>
         </div>
       </div>
-      <div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-half"
+      >
         <label
           className="AriaInfo-root"
           htmlFor="comments-editCommentForm-rte-comment-0"
@@ -373,7 +541,9 @@ exports[`edit a comment: optimistic response 1`] = `
           </time>
         </div>
       </div>
-      <div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-half"
+      >
         <label
           className="AriaInfo-root"
           htmlFor="comments-editCommentForm-rte-comment-0"
@@ -1086,7 +1256,9 @@ exports[`shows expiry message: edit time expired 1`] = `
           </time>
         </div>
       </div>
-      <div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-half"
+      >
         <label
           className="AriaInfo-root"
           htmlFor="comments-editCommentForm-rte-comment-0"

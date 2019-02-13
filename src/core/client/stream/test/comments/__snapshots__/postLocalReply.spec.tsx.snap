@@ -185,111 +185,115 @@ exports[`post a reply: open reply form 1`] = `
       <div
         className="HorizontalGutter-root HorizontalGutter-full"
       >
-        <div>
-          <label
-            className="AriaInfo-root"
-            htmlFor="comments-replyCommentForm-rte-comment-with-deepest-replies-5"
-          >
-            Write a reply
-          </label>
-          <div
-            className="Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              reply
-            </span>
-            <span>
-               
-            </span>
-            <span
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
-            >
-              Replying to: 
-              <span
-                className="Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
-              >
-                Markus
-              </span>
-            </span>
-          </div>
+        <div
+          className="HorizontalGutter-root HorizontalGutter-half"
+        >
           <div>
-            <div
-              className=""
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-replyCommentForm-rte-comment-with-deepest-replies-5"
             >
-              <div
+              Write a reply
+            </label>
+            <div
+              className="Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
+            >
+              <span
                 aria-hidden="true"
-                className="RTE-placeholder RTE-placeholder"
+                className="Icon-root Icon-sm"
               >
-                Write a reply
-              </div>
+                reply
+              </span>
+              <span>
+                 
+              </span>
+              <span
+                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
+              >
+                Replying to: 
+                <span
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
+                >
+                  Markus
+                </span>
+              </span>
+            </div>
+            <div>
               <div
-                aria-placeholder="Write a reply"
-                className="RTE-contentEditable RTE-content"
-                contentEditable={true}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "",
+                className=""
+              >
+                <div
+                  aria-hidden="true"
+                  className="RTE-placeholder RTE-placeholder"
+                >
+                  Write a reply
+                </div>
+                <div
+                  aria-placeholder="Write a reply"
+                  className="RTE-contentEditable RTE-content"
+                  contentEditable={true}
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "",
+                    }
                   }
-                }
-                disabled={false}
-                id="comments-replyCommentForm-rte-comment-with-deepest-replies-5"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
-              />
-              <div
-                className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
-              >
-                <button
-                  className="Button-button"
                   disabled={false}
-                  onClick={[Function]}
-                  title="Bold"
-                  type="button"
+                  id="comments-replyCommentForm-rte-comment-with-deepest-replies-5"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onCut={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  onSelect={[Function]}
+                />
+                <div
+                  className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Bold"
+                    type="button"
                   >
-                    format_bold
-                  </span>
-                </button>
-                <button
-                  className="Button-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Italic"
-                  type="button"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_bold
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Italic"
+                    type="button"
                   >
-                    format_italic
-                  </span>
-                </button>
-                <button
-                  className="Button-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Blockquote"
-                  type="button"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_italic
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Blockquote"
+                    type="button"
                   >
-                    format_quote
-                  </span>
-                </button>
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_quote
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

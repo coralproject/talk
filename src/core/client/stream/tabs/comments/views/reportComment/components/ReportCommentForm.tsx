@@ -12,6 +12,7 @@ import {
   HorizontalGutter,
   RadioButton,
   Typography,
+  ValidationMessage,
 } from "talk-ui/components";
 
 import PropagateMount from "./PropagateMount";
@@ -62,7 +63,13 @@ class ReportCommentForm extends React.Component<Props> {
     const { onCancel, onSubmit, onResize, id } = this.props;
     return (
       <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitting, hasValidationErrors, form }) => (
+        {({
+          handleSubmit,
+          submitting,
+          hasValidationErrors,
+          form,
+          submitError,
+        }) => (
           <form
             autoComplete="off"
             onSubmit={handleSubmit}
@@ -187,6 +194,9 @@ class ReportCommentForm extends React.Component<Props> {
                       </Field>
                     </div>
                   </>
+                )}
+                {submitError && (
+                  <ValidationMessage fullWidth>{submitError}</ValidationMessage>
                 )}
               </HorizontalGutter>
               {get(form.getFieldState("reason"), "value") && (

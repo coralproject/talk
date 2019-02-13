@@ -20,7 +20,6 @@ import {
   Message,
   MessageIcon,
   RelativeTime,
-  Typography,
   ValidationMessage,
 } from "talk-ui/components";
 
@@ -51,7 +50,13 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
   const inputID = `comments-editCommentForm-rte-${props.id}`;
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-      {({ handleSubmit, submitting, hasValidationErrors, pristine }) => (
+      {({
+        handleSubmit,
+        submitting,
+        hasValidationErrors,
+        pristine,
+        submitError,
+      }) => (
         <form
           className={props.className}
           autoComplete="off"
@@ -69,7 +74,7 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
             </div>
             <Field name="body" validate={required}>
               {({ input, meta }) => (
-                <div>
+                <HorizontalGutter size="half">
                   <Localized id="comments-editCommentForm-rteLabel">
                     <AriaInfo component="label" htmlFor={inputID}>
                       Edit comment
@@ -90,11 +95,16 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
                   </Localized>
                   {meta.touched &&
                     (meta.error || meta.submitError) && (
-                      <Typography align="right" color="error" gutterBottom>
+                      <ValidationMessage fullWidth>
                         {meta.error || meta.submitError}
-                      </Typography>
+                      </ValidationMessage>
                     )}
-                </div>
+                  {submitError && (
+                    <ValidationMessage fullWidth>
+                      {submitError}
+                    </ValidationMessage>
+                  )}
+                </HorizontalGutter>
               )}
             </Field>
             {props.expired ? (

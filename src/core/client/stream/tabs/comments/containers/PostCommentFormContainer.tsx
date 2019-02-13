@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { withContext } from "talk-framework/lib/bootstrap";
-import { BadUserInputError } from "talk-framework/lib/errors";
+import { InvalidRequestError } from "talk-framework/lib/errors";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 
@@ -59,8 +59,8 @@ export class PostCommentFormContainer extends Component<Props, State> {
       });
       form.reset({});
     } catch (error) {
-      if (error instanceof BadUserInputError) {
-        return error.invalidArgsLocalized;
+      if (error instanceof InvalidRequestError) {
+        return error.invalidArgs;
       }
       // tslint:disable-next-line:no-console
       console.error(error);

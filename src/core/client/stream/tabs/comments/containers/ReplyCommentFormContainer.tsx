@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { withContext } from "talk-framework/lib/bootstrap";
-import { BadUserInputError } from "talk-framework/lib/errors";
+import { InvalidRequestError } from "talk-framework/lib/errors";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
@@ -87,8 +87,8 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         this.props.onClose();
       }
     } catch (error) {
-      if (error instanceof BadUserInputError) {
-        return error.invalidArgsLocalized;
+      if (error instanceof InvalidRequestError) {
+        return error.invalidArgs;
       }
       // tslint:disable-next-line:no-console
       console.error(error);

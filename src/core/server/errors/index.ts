@@ -194,6 +194,24 @@ export class TalkError extends VError {
   }
 }
 
+export class CommentBodyTooShortError extends TalkError {
+  constructor(min: number) {
+    super({
+      code: ERROR_CODES.COMMENT_BODY_TOO_SHORT,
+      context: { pub: { min } },
+    });
+  }
+}
+
+export class CommentBodyExceedsMaxLengthError extends TalkError {
+  constructor(max: number) {
+    super({
+      code: ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
+      context: { pub: { max } },
+    });
+  }
+}
+
 export class StoryURLInvalidError extends TalkError {
   constructor(properties: { storyURL: string; tenantDomains: string[] }) {
     super({

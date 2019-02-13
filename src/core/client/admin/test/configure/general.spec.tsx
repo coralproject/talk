@@ -2,6 +2,8 @@ import mockConsole from "jest-mock-console";
 import { cloneDeep, get, merge } from "lodash";
 import sinon from "sinon";
 
+import { ERROR_CODES } from "talk-common/errors";
+import { InvalidRequestError } from "talk-framework/lib/errors";
 import {
   createSinonStub,
   replaceHistoryLocation,
@@ -27,7 +29,10 @@ afterEach(() => {
   expect(console.error).not.toHaveBeenCalled();
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
+const createTestRenderer = async (
+  resolver: any = {},
+  options: { muteNetworkErrors?: boolean } = {}
+) => {
   const resolvers = {
     ...resolver,
     Query: {
@@ -41,6 +46,7 @@ const createTestRenderer = async (resolver: any = {}) => {
   const { testRenderer } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
+    muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(true, "loggedIn");
@@ -464,4 +470,37 @@ it("change closing comment streams", async () => {
     expect(unitField.props.disabled).toBe(false);
   });
   expect(updateSettingsStub.called).toBe(true);
+});
+
+it("handle server error", async () => {
+  const updateSettingsStub = createSinonStub(s =>
+    s.onFirstCall().callsFake((_: any, data: any) => {
+      throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
+    })
+  );
+  const { configureContainer, generalContainer } = await createTestRenderer(
+    {
+      Mutation: {
+        updateSettings: updateSettingsStub,
+      },
+    },
+    { muteNetworkErrors: true }
+  );
+
+  const contentField = within(generalContainer).getByLabelText(
+    "Closed Stream Message"
+  );
+
+  // Let's change the content.
+  contentField.props.onChange("The stream has been closed");
+
+  // Send form
+  within(configureContainer)
+    .getByType("form")
+    .props.onSubmit();
+
+  // Look for internal error being displayed.
+  await waitForElement(() =>
+    within(configureContainer).getByText("INTERNAL_ERROR")
+  );
 });

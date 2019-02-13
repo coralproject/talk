@@ -1,6 +1,10 @@
 import striptags from "striptags";
 
 import { isNil } from "lodash";
+import {
+  CommentBodyExceedsMaxLengthError,
+  CommentBodyTooShortError,
+} from "talk-server/errors";
 import { ModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
@@ -14,20 +18,12 @@ const testCharCount = (
   if (settings.charCount && settings.charCount.enabled) {
     if (!isNil(settings.charCount.min)) {
       if (length < settings.charCount.min) {
-        throw new Error(
-          `Body did not meet minimum length requirement of ${
-            settings.charCount.min
-          }`
-        );
+        throw new CommentBodyTooShortError(settings.charCount.min);
       }
     }
     if (!isNil(settings.charCount.max)) {
       if (length > settings.charCount.max) {
-        throw new Error(
-          `Body exceeded maximum length requirement of ${
-            settings.charCount.max
-          }`
-        );
+        throw new CommentBodyExceedsMaxLengthError(settings.charCount.max);
       }
     }
   }

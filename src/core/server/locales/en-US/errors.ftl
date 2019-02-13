@@ -1,3 +1,6 @@
+error-commentBodyTooShort = Comment body must have at least {$min} characters.
+error-commentBodyExceedsMaxLength =
+  Comment body exceeds maximum length of {$max} characters.
 error-storyURLNotPermitted =
   The specified story URL does not exist in the permitted domains list.
 error-duplicateStoryURL =  The specified story URL already exists.
