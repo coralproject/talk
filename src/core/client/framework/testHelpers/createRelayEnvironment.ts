@@ -4,7 +4,6 @@ import { IResolvers } from "graphql-tools";
 import {
   commitLocalUpdate,
   Environment,
-  FetchFunction,
   Network,
   RecordProxy,
   RecordSource,
