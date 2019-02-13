@@ -36,6 +36,15 @@ export const isBanned = user => {
 };
 
 /**
+ * isAlwaysPremod
+ * retrieves boolean based on the user premod status
+ */
+
+export const isAlwaysPremod = user => {
+  return get(user, 'state.status.alwaysPremod.status');
+};
+
+/**
  * isUsernameRejected
  * retrieves boolean based on the username status
  */

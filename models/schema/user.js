@@ -180,6 +180,30 @@ const User = new Schema(
           },
         ],
       },
+
+      // alwaysPremod stores the current user premod status as well as the history of
+      // changes.
+      alwaysPremod: {
+        // Status stores the current user premod status.
+        status: {
+          type: Boolean,
+          required: true,
+          default: false,
+          index: true,
+        },
+        history: [
+          {
+            // Status stores the historical premod status.
+            status: Boolean,
+
+            // assigned_by stores the user id of the user who assigned this status.
+            assigned_by: { type: String, default: null },
+
+            // created_at stores the date when this status was assigned.
+            created_at: { type: Date, default: Date.now },
+          },
+        ],
+      },
     },
 
     // IgnoresUsers is an array of user id's that the current user is ignoring.
@@ -354,6 +378,27 @@ User.virtual('banned')
     }
 
     this.status.banned.history.push({
+      status,
+      created_at: new Date(),
+    });
+  });
+
+/**
+ * alwaysPremod returns true when the user is currently in always premod, and sets the alwaysPremod
+ * status locally.
+ */
+User.virtual('alwaysPremod')
+  .get(function() {
+    return this.status.alwaysPremod.status;
+  })
+  .set(function(status) {
+    this.status.alwaysPremod.status = status;
+
+    if (!this.status.alwaysPremod.history) {
+      this.status.alwaysPremod.history = [];
+    }
+
+    this.status.alwaysPremod.history.push({
       status,
       created_at: new Date(),
     });

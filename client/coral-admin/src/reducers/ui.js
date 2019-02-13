@@ -6,6 +6,10 @@ import {
   SHOW_SUSPEND_USER_DIALOG,
   HIDE_SUSPEND_USER_DIALOG,
 } from '../constants/suspendUserDialog';
+import {
+  SHOW_ALWAYS_PREMOD_USER_DIALOG,
+  HIDE_ALWAYS_PREMOD_USER_DIALOG,
+} from '../constants/alwaysPremodUserDialog';
 
 const initialState = {
   modal: false,
@@ -23,12 +27,22 @@ export default function config(state = initialState, action) {
         ...state,
         modal: true,
       };
+    case SHOW_ALWAYS_PREMOD_USER_DIALOG:
+      return {
+        ...state,
+        modal: true,
+      };
     case HIDE_BAN_USER_DIALOG:
       return {
         ...state,
         modal: false,
       };
     case HIDE_SUSPEND_USER_DIALOG:
+      return {
+        ...state,
+        modal: false,
+      };
+    case HIDE_ALWAYS_PREMOD_USER_DIALOG:
       return {
         ...state,
         modal: false,

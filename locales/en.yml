@@ -3,6 +3,13 @@ en:
     sort_comments: 'Sort Comments'
     view_options: 'View Options'
   already_flagged_username: 'You have already flagged this username.'
+  alwayspremoddialog:
+    are_you_sure: 'Are you sure you would like to always premoderate {0}?'
+    always_premod_user: 'Always premoderate user?'
+    cancel: Cancel
+    note: 'Note: {0}'
+    note_always_premod_user: 'Always premoderating this user will place all of their comments in the Pre-Moderate queue.'
+    yes_always_premod_user: 'Yes, always premoderate user'
   bandialog:
     are_you_sure: 'Are you sure you would like to ban {0}?'
     ban_user: 'Ban User?'
@@ -64,6 +71,7 @@ en:
     admin: Administrator
     ads_marketing: 'This looks like an ad/marketing'
     all: 'All'
+    always_premod: 'Always premoderated'
     are_you_sure: 'Are you sure you would like to ban {0}?'
     ban_user: 'Ban User?'
     banned: Banned
@@ -382,6 +390,7 @@ en:
     actions: Actions
     all: all
     all_streams: 'All Streams'
+    always_premod_user_actions: 'Always Premod User'
     approve: Approve
     approved: Approved
     ban_user: Ban
@@ -528,6 +537,8 @@ en:
     username_flags: 'flags for this username'
   user_detail:
     all: All
+    always_premod: 'Always Premod User'
+    always_premoded: 'Always premoderated'
     ban: 'Ban User'
     banned: Banned
     email: Email
@@ -539,6 +550,7 @@ en:
     reject_rate: 'Reject Rate'
     reject_username: 'Reject Username'
     rejected: Rejected
+    remove_always_premod: 'Remove Always Premoderate'
     remove_ban: 'Remove Ban'
     remove_suspension: 'Remove Suspension'
     suspend: 'Suspend User'
@@ -552,12 +564,14 @@ en:
     username_rejected: 'Username rejected'
   user_history:
     action: Action
+    always_premod_removed: 'Always premoderate removed'
     ban_removed: 'Ban removed'
     date: Date
     suspended: 'Suspended, {0}'
     suspension_removed: 'Suspension removed'
     system: System
     taken_by: 'Taken By'
+    user_always_premoded: 'User always premoderated'
     user_banned: 'User banned'
     username_status: 'Username {0}'
   user_impersonating: 'This user is impersonating'

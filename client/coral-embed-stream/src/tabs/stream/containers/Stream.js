@@ -398,6 +398,9 @@ const fragments = {
             banned {
               status
             }
+            alwaysPremod {
+              status
+            }
             suspension {
               until
             }

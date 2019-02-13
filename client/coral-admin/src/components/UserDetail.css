@@ -137,6 +137,12 @@
   display: inline-block;
 }
 
+.actionsMenuAlwaysPremod {
+  background-color: #F0B50B;
+  border-color: #F0B50B;
+  color: white;
+}
+
 .actionsMenuSuspended {
   background-color: #F29336;
   border-color: #F29336;

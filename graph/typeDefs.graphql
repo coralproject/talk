@@ -142,6 +142,10 @@ input UserStatusInput {
   # suspended will restrict the returned users to only those that are, or are not
   # suspended. If not provided, no filtering will be performed.
   suspended: Boolean
+
+  # alwaysPremod will restrict the returned users to only those that are, or are not
+  # marked as always premoderate. If not provided, no filtering will be performed.
+  alwaysPremod: Boolean
 }
 
 type UsernameStatusHistory {
@@ -166,6 +170,17 @@ type BannedStatus {
   history: [BannedStatusHistory!]
 }
 
+type AlwaysPremodStatusHistory {
+  status: Boolean!
+  assigned_by: User
+  created_at: Date!
+}
+
+type AlwaysPremodStatus {
+  status: Boolean!
+  history: [AlwaysPremodStatusHistory!]
+}
+
 type SuspensionStatusHistory {
   until: Date
   assigned_by: User
@@ -183,6 +198,9 @@ type UserStatus {
 
   # banned is the bool that determines if the user is banned or not.
   banned: BannedStatus!
+
+  # alwaysPremod is the bool that determines if the user comments are always pushed to the premod queue or not
+  alwaysPremod: AlwaysPremodStatus!
 
   # suspension is the date that the user is suspended until.
   suspension: SuspensionStatus!
@@ -1446,6 +1464,22 @@ type UnbanUserResponse implements Response {
   errors: [UserError!]
 }
 
+input AlwaysPremodUserInput {
+  id: ID!
+}
+
+input RemoveAlwaysPremodUserInput {
+  id: ID!
+}
+
+type AlwaysPremodUserResponse implements Response {
+  errors: [UserError!]
+}
+
+type RemoveAlwaysPremodUserResponse implements Response {
+  errors: [UserError!]
+}
+
 input SuspendUserInput {
   id: ID!
   message: String!
@@ -1544,6 +1578,14 @@ type RootMutation {
   # Sets the suspension status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.
   unsuspendUser(input: UnsuspendUserInput!): UnsuspendUserResponse
+
+  # Sets the always premod status on a given user. Requires the `MODERATOR` role.
+  # Mutation is restricted.
+  alwaysPremodUser(input: AlwaysPremodUserInput!): AlwaysPremodUserResponse
+
+  # Sets the always premod status on a given user. Requires the `MODERATOR` role.
+  # Mutation is restricted.
+  removeAlwaysPremodUser(input: RemoveAlwaysPremodUserInput!): RemoveAlwaysPremodUserResponse
 
   # Sets the ban status on a given user. Requires the `MODERATOR` role.
   # Mutation is restricted.

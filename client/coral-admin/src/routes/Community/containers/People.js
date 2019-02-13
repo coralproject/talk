@@ -8,9 +8,11 @@ import {
   withUnbanUser,
   withUnsuspendUser,
   withSetUserRole,
+  withRemoveAlwaysPremodUser,
 } from 'coral-framework/graphql/mutations';
 import { showBanUserDialog } from 'actions/banUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
+import { showAlwaysPremodUserDialog } from 'actions/alwaysPremodUserDialog';
 import { viewUserDetail } from '../../../actions/userDetail';
 import { appendNewNodes } from 'plugin-api/beta/client/utils';
 import update from 'immutability-helper';
@@ -30,6 +32,7 @@ class PeopleContainer extends React.PureComponent {
     active: { suspended: false, banned: false },
     suspended: { suspended: true },
     banned: { banned: true },
+    alwaysPremod: { alwaysPremod: true },
   };
 
   onFilterChange = filter => e =>
@@ -40,7 +43,6 @@ class PeopleContainer extends React.PureComponent {
 
   getFilterState = () => {
     const { role, status } = this.state;
-
     return {
       status: this.statusToQuery[status] || null,
       role: role || null,
@@ -106,8 +108,10 @@ class PeopleContainer extends React.PureComponent {
         setUserRole={this.props.setUserRole}
         showSuspendUserDialog={this.props.showSuspendUserDialog}
         showBanUserDialog={this.props.showBanUserDialog}
+        showAlwaysPremodUserDialog={this.props.showAlwaysPremodUserDialog}
         unbanUser={this.props.unbanUser}
         unsuspendUser={this.props.unsuspendUser}
+        removeAlwaysPremodUser={this.props.removeAlwaysPremodUser}
         data={this.props.data}
         root={this.props.root}
         users={this.props.root.users}
@@ -122,9 +126,11 @@ PeopleContainer.propTypes = {
   setUserRole: PropTypes.func.isRequired,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
+  removeAlwaysPremodUser: PropTypes.func.isRequired,
   viewUserDetail: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
+  showAlwaysPremodUserDialog: PropTypes.func,
   data: PropTypes.object,
   root: PropTypes.object,
 };
@@ -151,6 +157,9 @@ const LOAD_MORE_QUERY = gql`
         state {
           status {
             banned {
+              status
+            }
+            alwaysPremod {
               status
             }
             suspension {
@@ -187,6 +196,9 @@ const FILTER_QUERY = gql`
             banned {
               status
             }
+            alwaysPremod {
+              status
+            }
             suspension {
               until
             }
@@ -203,6 +215,7 @@ const mapDispatchToProps = dispatch =>
       viewUserDetail,
       showSuspendUserDialog,
       showBanUserDialog,
+      showAlwaysPremodUserDialog,
     },
     dispatch
   );
@@ -215,6 +228,7 @@ export default compose(
   withSetUserRole,
   withUnsuspendUser,
   withUnbanUser,
+  withRemoveAlwaysPremodUser,
   withQuery(
     gql`
       query TalkAdmin_Community_People {
@@ -234,6 +248,9 @@ export default compose(
             state {
               status {
                 banned {
+                  status
+                }
+                alwaysPremod {
                   status
                 }
                 suspension {

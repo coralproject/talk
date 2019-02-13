@@ -9,9 +9,9 @@ module.exports = (
     },
   }
 ) => {
-  // If the settings say that we're in premod mode, then the comment is in
-  // premod status.
-  if (moderation === 'PRE') {
+  // If the settings say that we're in premod mode, or the user is flagged as
+  // always premod, then the comment is in premod status.
+  if (moderation === 'PRE' || ctx.user.status.alwaysPremod.status === true) {
     return {
       status: 'PREMOD',
     };

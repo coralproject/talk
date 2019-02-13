@@ -10,6 +10,9 @@ const userStatusFragment = gql`
         banned {
           status
         }
+        alwaysPremod {
+          status
+        }
         suspension {
           until
         }
@@ -125,6 +128,64 @@ export default {
         });
       },
     }),
+    AlwaysPremodUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
+      update: proxy => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+        });
+
+        const updated = update(data, {
+          state: {
+            status: {
+              alwaysPremod: {
+                status: { $set: true },
+              },
+            },
+          },
+        });
+
+        proxy.writeFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+          data: updated,
+        });
+      },
+    }),
+    RemoveAlwaysPremodUser: ({
+      variables: {
+        input: { id },
+      },
+    }) => ({
+      update: proxy => {
+        const fragmentId = `User_${id}`;
+        const data = proxy.readFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+        });
+
+        const updated = update(data, {
+          state: {
+            status: {
+              alwaysPremod: {
+                status: { $set: false },
+              },
+            },
+          },
+        });
+
+        proxy.writeFragment({
+          fragment: userStatusFragment,
+          id: fragmentId,
+          data: updated,
+        });
+      },
+    }),
     BanUser: ({
       variables: {
         input: { id },
@@ -152,6 +213,23 @@ export default {
           id: fragmentId,
           data: updated,
         });
+      },
+    }),
+    SetUserAlwaysPremodStatus: ({ variables: { status, id } }) => ({
+      updateQueries: {
+        TalkAdmin_Community: prev => {
+          if (!status) {
+            return prev;
+          }
+          const updated = update(prev, {
+            users: {
+              nodes: {
+                $apply: nodes => nodes.filter(node => node.id !== id),
+              },
+            },
+          });
+          return updated;
+        },
       },
     }),
     UnbanUser: ({
