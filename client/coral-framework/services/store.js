@@ -14,9 +14,9 @@ import {
 export function createStore(reducers, middlewares = []) {
   const enhancers = [applyMiddleware(...middlewares)];
 
-  if (window.devToolsExtension) {
+  if (window.__REDUX_DEVTOOLS_EXTENSION__) {
     // we can't have the last argument of compose() be undefined
-    enhancers.push(window.devToolsExtension());
+    enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
   }
 
   return reduxCreateStore(combineReducers(reducers), {}, compose(...enhancers));
