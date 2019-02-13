@@ -7,6 +7,7 @@ import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
 import { Button, HorizontalGutter, Spinner } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
+import CommunityGuidelinesContainer from "../containers/CommunityGuidelinesContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
 import PostCommentFormFake from "./PostCommentFormFake";
@@ -22,7 +23,8 @@ export interface StreamProps {
     PropTypesOf<typeof ReplyListContainer>["story"];
   settings: PropTypesOf<typeof CommentContainer>["settings"] &
     PropTypesOf<typeof ReplyListContainer>["settings"] &
-    PropTypesOf<typeof UserBoxContainer>["settings"];
+    PropTypesOf<typeof UserBoxContainer>["settings"] &
+    PropTypesOf<typeof CommunityGuidelinesContainer>["settings"];
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof ReplyListContainer>["comment"]
@@ -43,8 +45,9 @@ export interface StreamProps {
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <HorizontalGutter className={styles.root} size="double">
-      <HorizontalGutter size="half">
+      <HorizontalGutter>
         <UserBoxContainer me={props.me} settings={props.settings} />
+        <CommunityGuidelinesContainer settings={props.settings} />
         {props.me ? (
           <PostCommentFormContainer storyID={props.story.id} />
         ) : (

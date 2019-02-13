@@ -9,7 +9,7 @@ import UIContext from "../UIContext";
 
 type Breakpoints = keyof typeof theme.breakpoints;
 
-interface InnerProps {
+interface Props {
   /** greater than or equal width. */
   gteWidth?: Breakpoints;
 
@@ -35,7 +35,7 @@ interface InnerProps {
   values?: Partial<MediaQueryMatchers>;
 }
 
-export const MatchMedia: StatelessComponent<InnerProps> = props => {
+export const MatchMedia: StatelessComponent<Props> = props => {
   const { speech, gteWidth, gtWidth, lteWidth, ltWidth, ...rest } = props;
   const mapped = {
     // TODO: Temporarily map newer speech to older aural type until
@@ -55,7 +55,7 @@ export const MatchMedia: StatelessComponent<InnerProps> = props => {
   return <Responsive {...rest} {...mapped} />;
 };
 
-const MatchMediaWithContext: StatelessComponent<InnerProps> = props => (
+const MatchMediaWithContext: StatelessComponent<Props> = props => (
   <UIContext.Consumer>
     {({ mediaQueryValues }) => (
       <MatchMedia {...props} values={mediaQueryValues} />

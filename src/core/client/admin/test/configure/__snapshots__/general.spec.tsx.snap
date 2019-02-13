@@ -131,8 +131,8 @@ exports[`renders configure general 1`] = `
                     checked={false}
                     className="RadioButton-input"
                     disabled={false}
-                    id="communityGuidelinesEnable-true"
-                    name="communityGuidelinesEnable"
+                    id="communityGuidelines.enabled-true"
+                    name="communityGuidelines.enabled"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -141,7 +141,7 @@ exports[`renders configure general 1`] = `
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="communityGuidelinesEnable-true"
+                    htmlFor="communityGuidelines.enabled-true"
                   >
                     On
                   </label>
@@ -153,8 +153,8 @@ exports[`renders configure general 1`] = `
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="communityGuidelinesEnable-fase"
-                    name="communityGuidelinesEnable"
+                    id="communityGuidelines.enabled-fase"
+                    name="communityGuidelines.enabled"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -163,7 +163,7 @@ exports[`renders configure general 1`] = `
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="communityGuidelinesEnable-fase"
+                    htmlFor="communityGuidelines.enabled-fase"
                   >
                     Off
                   </label>
@@ -201,7 +201,7 @@ Markdown can be found
             >
               <textarea
                 id="configure-general-guidelines-content"
-                name="communityGuidelines"
+                name="communityGuidelines.content"
                 onChange={[Function]}
                 value=""
               />

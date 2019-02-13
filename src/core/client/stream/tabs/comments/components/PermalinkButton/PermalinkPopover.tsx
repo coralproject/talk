@@ -5,11 +5,11 @@ import { Flex, TextField } from "talk-ui/components";
 
 import styles from "./PermalinkPopover.css";
 
-interface InnerProps {
+interface Props {
   permalinkURL: string;
 }
 
-class PermalinkPopover extends React.Component<InnerProps> {
+class PermalinkPopover extends React.Component<Props> {
   public render() {
     const { permalinkURL } = this.props;
     return (

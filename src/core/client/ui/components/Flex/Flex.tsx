@@ -8,7 +8,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./Flex.css";
 
-interface InnerProps {
+interface Props {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -33,7 +33,7 @@ interface InnerProps {
   forwardRef?: Ref<HTMLDivElement>;
 }
 
-const Flex: StatelessComponent<InnerProps> = props => {
+const Flex: StatelessComponent<Props> = props => {
   const {
     classes,
     className,

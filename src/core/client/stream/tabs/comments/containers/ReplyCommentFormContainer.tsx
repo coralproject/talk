@@ -18,7 +18,7 @@ import ReplyCommentForm, {
   ReplyCommentFormProps,
 } from "../components/ReplyCommentForm";
 
-interface InnerProps {
+interface Props {
   createCommentReply: CreateCommentReplyMutation;
   sessionStorage: PromisifiedStorage;
   comment: CommentData;
@@ -33,11 +33,11 @@ interface State {
   initialized: boolean;
 }
 
-export class ReplyCommentFormContainer extends Component<InnerProps, State> {
+export class ReplyCommentFormContainer extends Component<Props, State> {
   public state: State = { initialized: false };
   private contextKey = `replyCommentFormBody-${this.props.comment.id}`;
 
-  constructor(props: InnerProps) {
+  constructor(props: Props) {
     super(props);
     this.init();
   }
@@ -129,7 +129,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   autofocus: !browserInfo.ios,
 }))(
   withCreateCommentReplyMutation(
-    withFragmentContainer<InnerProps>({
+    withFragmentContainer<Props>({
       story: graphql`
         fragment ReplyCommentFormContainer_story on Story {
           id

@@ -6,7 +6,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./HorizontalGutter.css";
 
-interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
+interface Props extends HTMLAttributes<HTMLSpanElement> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -29,7 +29,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
 }
 
-const HorizontalGutter: StatelessComponent<InnerProps> = props => {
+const HorizontalGutter: StatelessComponent<Props> = props => {
   const { classes, className, size, forwardRef, container, ...rest } = props;
   const rootClassName = cn(classes.root, className, classes[size!]);
 
@@ -51,7 +51,7 @@ const HorizontalGutter: StatelessComponent<InnerProps> = props => {
 HorizontalGutter.defaultProps = {
   size: "full",
   container: "div",
-} as Partial<InnerProps>;
+} as Partial<Props>;
 
 const enhanced = withForwardRef(withStyles(styles)(HorizontalGutter));
 export type HorizontalGutterProps = PropTypesOf<typeof enhanced>;

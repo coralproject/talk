@@ -22,7 +22,7 @@ type Variant =
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
 
-interface InnerProps extends HTMLAttributes<any> {
+interface Props extends HTMLAttributes<any> {
   /**
    * Set the text-align on the component.
    */
@@ -83,7 +83,7 @@ interface InnerProps extends HTMLAttributes<any> {
   forwardRef?: Ref<HTMLElement>;
 }
 
-const Typography: StatelessComponent<InnerProps> = props => {
+const Typography: StatelessComponent<Props> = props => {
   const {
     align,
     classes,
@@ -155,7 +155,7 @@ Typography.defaultProps = {
   noWrap: false,
   paragraph: false,
   variant: "bodyCopy",
-} as Partial<InnerProps>;
+} as Partial<Props>;
 
 const enhanced = withForwardRef(withStyles(styles)(Typography));
 export type TypographyProps = PropTypesOf<typeof enhanced>;

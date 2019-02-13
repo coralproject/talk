@@ -30,7 +30,7 @@ import PermalinkButtonContainer from "./PermalinkButtonContainer";
 import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
 import ReportButtonContainer from "./ReportButtonContainer";
 
-interface InnerProps {
+interface Props {
   me: MeData | null;
   comment: CommentData;
   story: StoryData;
@@ -56,7 +56,7 @@ interface State {
   editable: boolean;
 }
 
-export class CommentContainer extends Component<InnerProps, State> {
+export class CommentContainer extends Component<Props, State> {
   private uneditableTimer: any;
 
   public state = {
@@ -65,7 +65,7 @@ export class CommentContainer extends Component<InnerProps, State> {
     editable: this.isEditable(),
   };
 
-  constructor(props: InnerProps) {
+  constructor(props: Props) {
     super(props);
     if (this.isEditable()) {
       this.uneditableTimer = this.updateWhenNotEditable();
@@ -245,7 +245,7 @@ export class CommentContainer extends Component<InnerProps, State> {
 
 const enhanced = withSetCommentIDMutation(
   withShowAuthPopupMutation(
-    withFragmentContainer<InnerProps>({
+    withFragmentContainer<Props>({
       me: graphql`
         fragment CommentContainer_me on User {
           id

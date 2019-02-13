@@ -22,7 +22,7 @@ import LocalReplyListContainer from "./LocalReplyListContainer";
 type UnpackArray<T> = T extends ReadonlyArray<infer U> ? U : any;
 type ReplyNode5 = UnpackArray<Comment5Data["replies"]["edges"]>["node"];
 
-export interface BaseProps {
+interface BaseProps {
   me: MeData | null;
   story: StoryData;
   comment: CommentData;
@@ -32,7 +32,7 @@ export interface BaseProps {
   localReply: boolean | undefined;
 }
 
-export type InnerProps = BaseProps & {
+type Props = BaseProps & {
   ReplyListComponent:
     | React.ComponentType<{ [P in FragmentKeys<BaseProps>]: any }>
     | undefined;
@@ -44,7 +44,7 @@ interface FragmentVariables {
   cursor?: string;
   orderBy: COMMENT_SORT;
 }
-export class ReplyListContainer extends React.Component<InnerProps> {
+export class ReplyListContainer extends React.Component<Props> {
   public state = {
     disableShowAll: false,
   };
@@ -113,12 +113,12 @@ function createReplyListContainer(
     settings: GraphQLTaggedNode;
   },
   query: GraphQLTaggedNode,
-  ReplyListComponent?: InnerProps["ReplyListComponent"],
+  ReplyListComponent?: Props["ReplyListComponent"],
   localReply?: boolean
 ) {
   return withProps({ indentLevel, ReplyListComponent, localReply })(
     withPaginationContainer<
-      InnerProps,
+      Props,
       ReplyListContainer1PaginationQueryVariables,
       FragmentVariables
     >(fragments, {

@@ -6,7 +6,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./AriaInfo.css";
 
-interface InnerProps extends AllHTMLAttributes<HTMLElement> {
+interface Props extends AllHTMLAttributes<HTMLElement> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -18,7 +18,7 @@ interface InnerProps extends AllHTMLAttributes<HTMLElement> {
   forwardRef?: Ref<HTMLElement>;
 }
 
-const AriaInfo: StatelessComponent<InnerProps> = props => {
+const AriaInfo: StatelessComponent<Props> = props => {
   const { component, className, classes, forwardRef: ref, ...rest } = props;
   const Component: React.ComponentType<
     React.HTMLAttributes<HTMLElement> & React.ClassAttributes<HTMLElement>

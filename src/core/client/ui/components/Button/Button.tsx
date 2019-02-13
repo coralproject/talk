@@ -11,7 +11,7 @@ import styles from "./Button.css";
 
 // This should extend from BaseButton instead but we can't because of this bug
 // TODO: add bug link.
-interface InnerProps extends Omit<BaseButtonProps, "ref"> {
+interface Props extends Omit<BaseButtonProps, "ref"> {
   /** If set renders an anchor tag instead */
   anchor?: boolean;
   href?: string;
@@ -43,8 +43,8 @@ interface InnerProps extends Omit<BaseButtonProps, "ref"> {
   forwardRef?: Ref<HTMLButtonElement>;
 }
 
-export class Button extends React.Component<InnerProps> {
-  public static defaultProps: Partial<InnerProps> = {
+export class Button extends React.Component<Props> {
+  public static defaultProps: Partial<Props> = {
     size: "regular",
     variant: "regular",
     color: "regular",

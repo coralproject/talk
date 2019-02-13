@@ -13,7 +13,7 @@ import PostCommentForm, {
   PostCommentFormProps,
 } from "../components/PostCommentForm";
 
-interface InnerProps {
+interface Props {
   createComment: CreateCommentMutation;
   storyID: string;
   sessionStorage: PromisifiedStorage;
@@ -26,10 +26,10 @@ interface State {
 
 const contextKey = "postCommentFormBody";
 
-export class PostCommentFormContainer extends Component<InnerProps, State> {
+export class PostCommentFormContainer extends Component<Props, State> {
   public state: State = { initialized: false };
 
-  constructor(props: InnerProps) {
+  constructor(props: Props) {
     super(props);
     this.init();
   }
