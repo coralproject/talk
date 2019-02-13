@@ -20,8 +20,10 @@ export const settings = {
   customCssUrl: null,
   domains: ["localhost:8080"],
   editCommentWindowLength: 30000,
-  communityGuidelinesEnable: false,
-  communityGuidelines: "",
+  communityGuidelines: {
+    enabled: false,
+    content: "",
+  },
   organizationContactEmail: "coral@test.com",
   organizationName: "Coral",
   integrations: {

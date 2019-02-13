@@ -6,7 +6,7 @@ import { withForwardRef, withStyles } from "talk-ui/hocs";
 
 import styles from "./MessageIcon.css";
 
-interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
+interface Props extends HTMLAttributes<HTMLSpanElement> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -22,7 +22,7 @@ interface InnerProps extends HTMLAttributes<HTMLSpanElement> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-export const MessageIcon: StatelessComponent<InnerProps> = props => {
+export const MessageIcon: StatelessComponent<Props> = props => {
   const { classes, className, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className);
   return <Icon className={rootClassName} {...rest} ref={forwardRef} />;

@@ -17,13 +17,13 @@ import {
 
 import TabBar from "../components/TabBar";
 
-interface InnerProps {
+interface Props {
   story: StoryData | null;
   local: Local;
   setActiveTab: SetActiveTabMutation;
 }
 
-export class TabBarContainer extends Component<InnerProps> {
+export class TabBarContainer extends Component<Props> {
   private handleSetActiveTab = (tab: SetActiveTabInput["tab"]) => {
     this.props.setActiveTab({ tab });
   };
@@ -55,7 +55,7 @@ const enhanced = withSetActiveTabMutation(
       }
     `
   )(
-    withFragmentContainer<InnerProps>({
+    withFragmentContainer<Props>({
       story: graphql`
         fragment TabBarContainer_story on Story {
           commentCounts {

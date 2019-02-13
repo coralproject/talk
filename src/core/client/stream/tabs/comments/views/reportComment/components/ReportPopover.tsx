@@ -6,13 +6,13 @@ import { PropTypesOf } from "talk-ui/types";
 import ReportCommentFormContainer from "../containers/ReportCommentFormContainer";
 import styles from "./ReportPopover.css";
 
-interface InnerProps {
+interface Props {
   comment: PropTypesOf<typeof ReportCommentFormContainer>["comment"];
   onClose: () => void;
   onResize: () => void;
 }
 
-class ReportPopover extends React.Component<InnerProps> {
+class ReportPopover extends React.Component<Props> {
   public render() {
     const { onClose, onResize, comment } = this.props;
     return (

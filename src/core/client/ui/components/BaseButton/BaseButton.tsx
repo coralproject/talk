@@ -19,7 +19,7 @@ import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./BaseButton.css";
 
-interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** If set renders an anchor tag instead */
   anchor?: boolean;
   href?: string;
@@ -52,7 +52,7 @@ interface InnerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * A button whose styling is stripped off to a minimum and supports
  * keyboard focus. It is the base for our other buttons.
  */
-const BaseButton: StatelessComponent<InnerProps> = ({
+const BaseButton: StatelessComponent<Props> = ({
   anchor,
   className,
   classes,

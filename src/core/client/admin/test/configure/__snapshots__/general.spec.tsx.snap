@@ -232,8 +232,8 @@ shared.
                     checked={false}
                     className="RadioButton-input"
                     disabled={false}
-                    id="communityGuidelinesEnable-true"
-                    name="communityGuidelinesEnable"
+                    id="communityGuidelines.enabled-true"
+                    name="communityGuidelines.enabled"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -242,7 +242,7 @@ shared.
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="communityGuidelinesEnable-true"
+                    htmlFor="communityGuidelines.enabled-true"
                   >
                     <span>
                       On
@@ -256,8 +256,8 @@ shared.
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="communityGuidelinesEnable-false"
-                    name="communityGuidelinesEnable"
+                    id="communityGuidelines.enabled-false"
+                    name="communityGuidelines.enabled"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -266,7 +266,7 @@ shared.
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="communityGuidelinesEnable-false"
+                    htmlFor="communityGuidelines.enabled-false"
                   >
                     <span>
                       Off
@@ -306,7 +306,7 @@ Markdown can be found
             >
               <textarea
                 id="configure-general-guidelines-content"
-                name="communityGuidelines"
+                name="communityGuidelines.content"
                 onChange={[Function]}
                 value=""
               />

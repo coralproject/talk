@@ -43,7 +43,7 @@ exports[`renders app with comment stream 1`] = `
       className="HorizontalGutter-root Stream-root HorizontalGutter-double"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-half"
+        className="HorizontalGutter-root HorizontalGutter-full"
       >
         <div
           className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"

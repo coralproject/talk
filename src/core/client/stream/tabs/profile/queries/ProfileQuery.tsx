@@ -13,7 +13,7 @@ import { Delay, Spinner } from "talk-ui/components";
 
 import ProfileContainer from "../containers/ProfileContainer";
 
-interface InnerProps {
+interface Props {
   local: Local;
 }
 
@@ -56,7 +56,7 @@ export const render = ({
   );
 };
 
-const ProfileQuery: StatelessComponent<InnerProps> = ({
+const ProfileQuery: StatelessComponent<Props> = ({
   local: { storyID, storyURL },
 }) => (
   <QueryRenderer<QueryTypes>

@@ -22,7 +22,7 @@ import { Popup } from "talk-ui/components";
 import { urls } from "talk-framework/helpers";
 import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 
-interface InnerProps {
+interface Props {
   local: Local;
   me: MeData | null;
   settings: SettingsData;
@@ -31,7 +31,7 @@ interface InnerProps {
   signOut: SignOutMutation;
 }
 
-export class UserBoxContainer extends Component<InnerProps> {
+export class UserBoxContainer extends Component<Props> {
   private handleFocus = () => this.props.setAuthPopupState({ focus: true });
   private handleBlur = () => this.props.setAuthPopupState({ focus: false });
   private handleClose = () => this.props.setAuthPopupState({ open: false });
@@ -124,7 +124,7 @@ const enhanced = withSignOutMutation(
           }
         `
       )(
-        withFragmentContainer<InnerProps>({
+        withFragmentContainer<Props>({
           me: graphql`
             fragment UserBoxContainer_me on User {
               username

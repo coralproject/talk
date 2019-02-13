@@ -10,7 +10,7 @@ import { LocalReplyListContainer_story as StoryData } from "talk-stream/__genera
 
 import ReplyList from "../components/ReplyList";
 
-interface InnerProps {
+interface Props {
   indentLevel: number;
   me: MeData;
   story: StoryData;
@@ -24,7 +24,7 @@ interface InnerProps {
  * ultimate threading level to only display the newly created comments
  * from the current user.
  */
-export class LocalReplyListContainer extends Component<InnerProps> {
+export class LocalReplyListContainer extends Component<Props> {
   public render() {
     if (!this.props.comment.localReplies) {
       return null;
@@ -43,7 +43,7 @@ export class LocalReplyListContainer extends Component<InnerProps> {
   }
 }
 
-const enhanced = withFragmentContainer<InnerProps>({
+const enhanced = withFragmentContainer<Props>({
   me: graphql`
     fragment LocalReplyListContainer_me on User {
       ...CommentContainer_me

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Markdown-root"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<p><strong>bold</strong></p>
+",
+    }
+  }
+/>
+`;

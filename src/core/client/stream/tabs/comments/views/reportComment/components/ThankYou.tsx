@@ -5,11 +5,11 @@ import { Button, HorizontalGutter, Typography } from "talk-ui/components";
 
 import styles from "./ThankYou.css";
 
-interface InnerProps {
+interface Props {
   onDismiss: () => void;
 }
 
-class ReportForm extends React.Component<InnerProps> {
+class ReportForm extends React.Component<Props> {
   public render() {
     const { onDismiss } = this.props;
     const Content: StatelessComponent = ({ children }) => (

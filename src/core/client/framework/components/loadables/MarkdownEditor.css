@@ -2,16 +2,43 @@ $minHeight: 200px;
 $fullscreenZIndex: 10;
 
 .wrapper {
-  /* Fix blockquote styling of MDL: https://github.com/google/material-design-lite/issues/2037 */
+  @mixin bodyCopy;
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+  h1 {
+    @mixin heading1;
+  }
+  h2 {
+    @mixin heading2;
+  }
+  h3 {
+    @mixin heading3;
+  }
+  h4 {
+    @mixin heading4;
+  }
+  h5 {
+    @mixin heading5;
+  }
+  *:first-child {
+    margin-top: 0;
+  }
+  *:last-child {
+    margin-bottom: 0;
+  }
   blockquote {
-    > p:first-child {
-      padding-top: 16px;
-    }
-    > p:last-child {
-      margin-bottom: 0;
-    }
+    background-color: rgba(0, 0, 0, 0.075);
+    padding: var(--spacing-unit);
+    margin: calc(2 * var(--spacing-unit)) 0 calc(2 * var(--spacing-unit))
+      var(--spacing-unit);
+    border-radius: var(--round-corners);
     &::after {
-      margin-left: -0.5em;
+      content: none;
+    }
+    &::before {
+      content: none;
     }
   }
 }

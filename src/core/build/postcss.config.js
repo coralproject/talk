@@ -13,6 +13,7 @@ const postcssVariables = require("postcss-css-variables");
 const postcssPresetEnv = require("postcss-preset-env");
 const postcssNested = require("postcss-nested");
 const postcssImport = require("postcss-import");
+const postcssMixins = require("postcss-mixins");
 const postcssPrependImports = require("postcss-prepend-imports");
 const postcssAdvancedVariables = require("postcss-advanced-variables");
 
@@ -48,10 +49,12 @@ module.exports = {
     // This allows us to define dynamic css variables.
     postcssPrependImports({
       path: "",
-      files: [paths.appThemeVariablesCSS],
+      files: [paths.appThemeVariablesCSS, paths.appThemeMixinsCSS],
     }),
     // Needed by above plugin.
     postcssImport(),
+    // Support mixins.
+    postcssMixins(),
     // Support nesting.
     postcssNested(),
     // Sass style variables to be used in media queries.

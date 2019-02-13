@@ -41,7 +41,7 @@ const RadioField: StatelessComponent<
   </Field>
 );
 
-interface InnerProps {
+interface Props {
   id: string;
   onCancel: () => void;
   onResize: () => void;
@@ -57,7 +57,7 @@ export interface FormProps {
   additionalDetails?: string;
 }
 
-class ReportCommentForm extends React.Component<InnerProps> {
+class ReportCommentForm extends React.Component<Props> {
   public render() {
     const { onCancel, onSubmit, onResize, id } = this.props;
     return (

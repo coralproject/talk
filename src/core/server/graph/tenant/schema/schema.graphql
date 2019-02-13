@@ -839,6 +839,22 @@ type ReactionConfiguration {
 }
 
 ################################################################################
+## CommunityGuidelines
+################################################################################
+
+type CommunityGuidelines {
+  """
+  enable set to true will show the guidelines above the question box.
+  """
+  enabled: Boolean!
+
+  """
+  content of the guidelines.
+  """
+  content: String
+}
+
+################################################################################
 ## Settings
 ################################################################################
 
@@ -887,14 +903,9 @@ type Settings {
   requireEmailConfirmation: Boolean!
 
   """
-  communityGuidelinesEnable will show the guidelines above the question box.
+  communityGuidelines will be shown in the comments stream.
   """
-  communityGuidelinesEnable: Boolean!
-
-  """
-  communityGuidelines is the content of the guidelines.
-  """
-  communityGuidelines: String
+  communityGuidelines: CommunityGuidelines!
 
   """
   questionBoxEnable will enable the Question Box's content to be visible above
@@ -2096,6 +2107,18 @@ input SettingsKarmaInput {
   thresholds: SettingsKarmaThresholdsInput
 }
 
+input SettingsCommunityGuidelinesInput {
+  """
+  enable set to true will show the guidelines above the question box.
+  """
+  enabled: Boolean
+
+  """
+  content of the guidelines.
+  """
+  content: String
+}
+
 input SettingsCharCountInput {
   """
   enabled when true, enables the character count moderation phase.
@@ -2146,15 +2169,9 @@ input SettingsInput {
   requireEmailConfirmation: Boolean
 
   """
-  communityGuidelinesEnable will enable the Info Box content visible above the question
-  box.
+  communityGuidelines will be shown in the comments stream.
   """
-  communityGuidelinesEnable: Boolean
-
-  """
-  communityGuidelines is the content of the Info Box.
-  """
-  communityGuidelines: String
+  communityGuidelines: SettingsCommunityGuidelinesInput
 
   """
   questionBoxEnable will enable the Question Box's content to be visible above

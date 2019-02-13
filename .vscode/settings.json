@@ -14,5 +14,6 @@
   "tslint.exclude": "**/node_modules/**",
   "tslint.autoFixOnSave": true,
   "tslint.jsEnable": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "postcss.validate": false
 }

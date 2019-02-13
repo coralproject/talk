@@ -5,7 +5,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { Button } from "talk-ui/components";
 import { PropTypesOf } from "talk-ui/types";
 
-interface InnerProps extends PropTypesOf<typeof Button> {
+interface Props extends PropTypesOf<typeof Button> {
   text: string;
 }
 
@@ -13,7 +13,7 @@ interface State {
   copied: boolean;
 }
 
-class CopyButton extends React.Component<InnerProps> {
+class CopyButton extends React.Component<Props> {
   private timeout: any = null;
 
   public state: State = {

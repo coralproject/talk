@@ -133,10 +133,10 @@ it("change community guidlines", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.communityGuidelines).toEqual(
+      expect(data.input.settings.communityGuidelines.content).toEqual(
         "This is the community guidlines summary"
       );
-      expect(data.input.settings.communityGuidelinesEnable).toEqual(true);
+      expect(data.input.settings.communityGuidelines.enabled).toEqual(true);
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,

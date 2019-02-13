@@ -27,8 +27,10 @@ class GuidelinesConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment GuidelinesConfigContainer_settings on Settings {
-      communityGuidelinesEnable
-      communityGuidelines
+      communityGuidelines {
+        enabled
+        content
+      }
     }
   `,
 })(GuidelinesConfigContainer);
