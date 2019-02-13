@@ -108,7 +108,7 @@ exports[`renders configure general 1`] = `
           data-testid="configure-generalContainer"
         >
           <fieldset
-            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
@@ -209,7 +209,7 @@ shared.
             </div>
           </fieldset>
           <fieldset
-            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
