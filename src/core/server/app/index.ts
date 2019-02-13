@@ -11,7 +11,6 @@ import { HTMLErrorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { Config } from "talk-server/config";
-import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
 import { Schemas } from "talk-server/graph/schemas";
 import { TaskQueue } from "talk-server/queue";
 import { I18n } from "talk-server/services/i18n";
@@ -119,28 +118,4 @@ function setupViews(options: AppOptions) {
 
   // set .html as the default extension.
   parent.set("view engine", "html");
-}
-
-/**
- * attachSubscriptionHandlers attaches all the handlers to the http.Server to
- * handle websocket traffic by upgrading their http connections to websocket.
- *
- * @param schemas schemas for every schema this application handles
- * @param server the http.Server to attach the websocket upgrader to
- */
-export async function attachSubscriptionHandlers(
-  schemas: Schemas,
-  server: http.Server
-) {
-  // Setup the Management Subscription endpoint.
-  handleSubscriptions(server, {
-    schema: schemas.management,
-    path: "/api/management/live",
-  });
-
-  // Setup the Tenant Subscription endpoint.
-  handleSubscriptions(server, {
-    schema: schemas.tenant,
-    path: "/api/tenant/live",
-  });
 }

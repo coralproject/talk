@@ -3,11 +3,7 @@ import http from "http";
 import { Db } from "mongodb";
 
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
-import {
-  attachSubscriptionHandlers,
-  createApp,
-  listenAndServe,
-} from "talk-server/app";
+import { createApp, listenAndServe } from "talk-server/app";
 import config, { Config } from "talk-server/config";
 import getManagementSchema from "talk-server/graph/management/schema";
 import { Schemas } from "talk-server/graph/schemas";
@@ -172,8 +168,7 @@ class Server {
     // Start the application and store the resulting http.Server.
     this.httpServer = await listenAndServe(app, port);
 
-    // Setup the websocket servers on the new http.Server.
-    attachSubscriptionHandlers(this.schemas, this.httpServer);
+    // TODO: (wyattjoh) add the subscription handler here
 
     logger.info({ port }, "now listening");
   }
