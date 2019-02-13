@@ -27,7 +27,7 @@ exports[`renders app with comment stream 1`] = `
         type="button"
       >
         <span>
-          ⁨???⁩ Comments
+          ⁨2⁩ Comments
         </span>
       </button>
     </li>
