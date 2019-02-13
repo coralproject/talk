@@ -80,7 +80,11 @@ export interface Auth {
 }
 
 export interface Settings extends ModerationSettings {
-  customCssUrl?: string;
+  /**
+   * customCSSURL is the URL that can be specified by the Tenant to describe a
+   * URL that contains custom styles to be applied to the Stream.
+   */
+  customCSSURL?: string;
 
   /**
    * editCommentWindowLength is the length of time (in seconds) after a comment

@@ -20,7 +20,7 @@ const CustomCSSConfig: StatelessComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-advanced-customCSS">
-        <Header container={<label htmlFor="configure-advanced-customCssUrl" />}>
+        <Header container={<label htmlFor="configure-advanced-customCSSURL" />}>
           Custom CSS
         </Header>
       </Localized>
@@ -33,7 +33,7 @@ const CustomCSSConfig: StatelessComponent<Props> = ({ disabled }) => (
           styles. Can be internal or external.
         </Typography>
       </Localized>
-      <Field name="customCssUrl">
+      <Field name="customCSSURL">
         {({ input, meta }) => (
           <>
             <TextField

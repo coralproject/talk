@@ -1,12 +1,20 @@
 import express from "express";
+import { minify } from "html-minifier";
 
 import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import { Entrypoint } from "../helpers/entrypoints";
 
 export interface ClientTargetHandlerOptions {
   /**
-   * view is the name of the template to render.
+   * entrypoint is the entrypoint entry to load.
    */
-  view: string;
+  entrypoint: Entrypoint;
+
+  /**
+   * enableCustomCSS will insert the custom CSS into the template if it is
+   * available on the Tenant.
+   */
+  enableCustomCSS?: boolean;
 
   /**
    * cacheDuration is the cache duration that a given request should be cached for.
@@ -22,7 +30,8 @@ export interface ClientTargetHandlerOptions {
 
 export function createClientTargetRouter({
   staticURI,
-  view,
+  entrypoint,
+  enableCustomCSS = false,
   cacheDuration = "1h",
 }: ClientTargetHandlerOptions) {
   // Create a router.
@@ -32,7 +41,25 @@ export function createClientTargetRouter({
   router.use(cacheHeadersMiddleware(cacheDuration));
 
   // Wildcard display all the client routes under the provided prefix.
-  router.get("/*", (req, res) => res.render(view, { staticURI }));
+  router.get("/*", (req, res, next) =>
+    res.render(
+      "client",
+      { staticURI, entrypoint, enableCustomCSS },
+      (err, html) => {
+        if (err) {
+          return next(err);
+        }
+
+        // Send back the HTML minified.
+        res.send(
+          minify(html, {
+            removeComments: true,
+            collapseWhitespace: true,
+          })
+        );
+      }
+    )
+  );
 
   return router;
 }

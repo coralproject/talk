@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import path from "path";
 
 import { AppOptions } from "talk-server/app";
 import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
@@ -9,6 +10,7 @@ import logger from "talk-server/logger";
 
 import { cspTenantMiddleware } from "talk-server/app/middleware/csp/tenant";
 import { tenantMiddleware } from "talk-server/app/middleware/tenant";
+import Entrypoints from "../helpers/entrypoints";
 import { createAPIRouter } from "./api";
 import { createClientTargetRouter } from "./client";
 
@@ -28,67 +30,89 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
 
   const staticURI = app.config.get("static_uri");
 
-  // Add the embed targets.
-  router.use(
-    "/embed/stream",
-    createClientTargetRouter({
-      staticURI,
-      view: "stream",
-    })
+  // Load the entrypoint manifest.
+  const manifest = path.join(
+    __dirname,
+    "..",
+    "..",
+    "..",
+    "..",
+    "..",
+    "dist",
+    "static",
+    "asset-manifest.json"
   );
-  router.use(
-    "/embed/auth",
-    createClientTargetRouter({
-      staticURI,
-      view: "auth",
-      cacheDuration: false,
-    })
-  );
-  router.use(
-    "/embed/auth/callback",
-    createClientTargetRouter({
-      staticURI,
-      view: "auth-callback",
-      cacheDuration: false,
-    })
-  );
+  const entrypoints = Entrypoints.fromFile(manifest);
 
-  // Add the standalone targets.
-  router.use(
-    "/admin",
-    // If we aren't already installed, redirect the user to the install page.
-    installedMiddleware({
-      tenantCache: app.tenantCache,
-    }),
-    createClientTargetRouter({
-      staticURI,
-      view: "admin",
-      cacheDuration: false,
-    })
-  );
-  router.use(
-    "/install",
-    // If we're already installed, redirect the user to the admin page.
-    installedMiddleware({
-      redirectIfInstalled: true,
-      redirectURL: "/admin",
-      tenantCache: app.tenantCache,
-    }),
-    createClientTargetRouter({
-      staticURI,
-      view: "install",
-      cacheDuration: false,
-    })
-  );
+  if (entrypoints) {
+    // Add the embed targets.
+    router.use(
+      "/embed/stream",
+      createClientTargetRouter({
+        staticURI,
+        enableCustomCSS: true,
+        entrypoint: entrypoints.get("stream"),
+      })
+    );
+    router.use(
+      "/embed/auth",
+      createClientTargetRouter({
+        staticURI,
+        cacheDuration: false,
+        entrypoint: entrypoints.get("auth"),
+      })
+    );
+    router.use(
+      "/embed/auth/callback",
+      createClientTargetRouter({
+        staticURI,
+        cacheDuration: false,
+        entrypoint: entrypoints.get("authCallback"),
+      })
+    );
 
-  // Handle the root path.
-  router.get(
-    "/",
-    // Redirect the user to the install page if they are not, otherwise redirect
-    // them to the admin.
-    installedMiddleware({ tenantCache: app.tenantCache }),
-    (req, res, next) => res.redirect("/admin")
-  );
+    // Add the standalone targets.
+    router.use(
+      "/admin",
+      // If we aren't already installed, redirect the user to the install page.
+      installedMiddleware({
+        tenantCache: app.tenantCache,
+      }),
+      createClientTargetRouter({
+        staticURI,
+        cacheDuration: false,
+        entrypoint: entrypoints.get("admin"),
+      })
+    );
+    router.use(
+      "/install",
+      // If we're already installed, redirect the user to the admin page.
+      installedMiddleware({
+        redirectIfInstalled: true,
+        redirectURL: "/admin",
+        tenantCache: app.tenantCache,
+      }),
+      createClientTargetRouter({
+        staticURI,
+        cacheDuration: false,
+        entrypoint: entrypoints.get("install"),
+      })
+    );
+
+    // Handle the root path.
+    router.get(
+      "/",
+      // Redirect the user to the install page if they are not, otherwise redirect
+      // them to the admin.
+      installedMiddleware({ tenantCache: app.tenantCache }),
+      (req, res, next) => res.redirect("/admin")
+    );
+  } else {
+    logger.warn(
+      { manifest },
+      "could not load the generated manifest, client routes will remain un-mounted"
+    );
+  }
 
   return router;
 }

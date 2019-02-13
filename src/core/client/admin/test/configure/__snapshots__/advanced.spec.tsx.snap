@@ -115,7 +115,7 @@ exports[`renders configure advanced 1`] = `
             >
               <label
                 className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
-                htmlFor="configure-advanced-customCssUrl"
+                htmlFor="configure-advanced-customCSSURL"
               >
                 Custom CSS
               </label>
@@ -133,8 +133,8 @@ exports[`renders configure advanced 1`] = `
                   autoCorrect="off"
                   className="TextField-input TextField-colorRegular"
                   disabled={false}
-                  id="configure-advanced-customCssUrl"
-                  name="customCssUrl"
+                  id="configure-advanced-customCSSURL"
+                  name="customCSSURL"
                   onChange={[Function]}
                   placeholder=""
                   spellCheck={false}

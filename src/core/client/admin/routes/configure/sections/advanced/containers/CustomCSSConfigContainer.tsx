@@ -27,7 +27,7 @@ class CustomCSSConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment CustomCSSConfigContainer_settings on Settings {
-      customCssUrl
+      customCSSURL
     }
   `,
 })(CustomCSSConfigContainer);
