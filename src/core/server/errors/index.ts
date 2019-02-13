@@ -4,15 +4,10 @@ import { FluentBundle } from "fluent/compat";
 import uuid from "uuid";
 import { VError } from "verror";
 
-import { ERROR_CODES } from "talk-common/errors";
+import { ERROR_CODES, ERROR_TYPES } from "talk-common/errors";
 import { translate } from "talk-server/services/i18n";
 
 import { ERROR_TRANSLATIONS } from "./translations";
-
-/**
- * TalkErrorTypes associates a class of errors with a specific code.
- */
-export type TalkErrorTypes = "invalid_request_error";
 
 /**
  * TalkErrorExtensions is the different extension data that is associated with
@@ -35,7 +30,7 @@ export interface TalkErrorExtensions {
   /**
    * type represents the class of errors that this error is associated with.
    */
-  readonly type: TalkErrorTypes;
+  readonly type: ERROR_TYPES;
 
   /**
    * message is the (optionally translated) message that can be shown to users.
@@ -90,7 +85,7 @@ export interface TalkErrorOptions {
   /**
    * type represents the class of errors that this error is associated with.
    */
-  type?: TalkErrorTypes;
+  type?: ERROR_TYPES;
 
   /**
    * cause is the error that provides the root cause of the underlying error
@@ -128,7 +123,7 @@ export class TalkError extends VError {
   /**
    * type represents the class of errors that this error is associated with.
    */
-  public readonly type: TalkErrorTypes;
+  public readonly type: ERROR_TYPES;
 
   /**
    * param, if set, references the fieldSpec to which the error is related to.
@@ -146,7 +141,7 @@ export class TalkError extends VError {
     code,
     context = {},
     status = 500,
-    type = "invalid_request_error",
+    type = ERROR_TYPES.INVALID_REQUEST_ERROR,
     cause,
     param,
   }: TalkErrorOptions) {

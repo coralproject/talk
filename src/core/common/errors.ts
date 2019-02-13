@@ -1,3 +1,7 @@
+export enum ERROR_TYPES {
+  INVALID_REQUEST_ERROR = "INVALID_REQUEST_ERROR",
+}
+
 export enum ERROR_CODES {
   /**
    * COMMENT_BODY_TOO_SHORT is used when a submitted comment body is too short.
