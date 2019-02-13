@@ -38,6 +38,8 @@ export interface SelectFieldProps {
   onFocus: EventHandler<FocusEvent<HTMLSelectElement>>;
   onBlur: EventHandler<FocusEvent<HTMLSelectElement>>;
   keyboardFocus: boolean;
+
+  afterWrapper?: React.ReactElement<any>;
 }
 
 const SelectField: StatelessComponent<SelectFieldProps> = props => {
@@ -48,6 +50,7 @@ const SelectField: StatelessComponent<SelectFieldProps> = props => {
     keyboardFocus,
     children,
     disabled,
+    afterWrapper,
     ...rest
   } = props;
 
@@ -56,8 +59,8 @@ const SelectField: StatelessComponent<SelectFieldProps> = props => {
     [classes.keyboardFocus]: keyboardFocus,
   });
 
-  const iconWrapperClassName = cn(classes.iconWrapper, {
-    [classes.iconWrapperDisabled]: disabled,
+  const afterWrapperClassName = cn(classes.afterWrapper, {
+    [classes.afterWrapperDisabled]: disabled,
   });
 
   return (
@@ -65,11 +68,15 @@ const SelectField: StatelessComponent<SelectFieldProps> = props => {
       <select className={selectClassName} disabled={disabled} {...rest}>
         {children}
       </select>
-      <span className={iconWrapperClassName} aria-hidden>
-        <Icon>expand_more</Icon>
+      <span className={afterWrapperClassName} aria-hidden>
+        {afterWrapper}
       </span>
     </span>
   );
+};
+
+SelectField.defaultProps = {
+  afterWrapper: <Icon>expand_more</Icon>,
 };
 
 const enhanced = withStyles(styles)(withKeyboardFocus(SelectField));

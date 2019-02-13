@@ -9,6 +9,7 @@ import {
   validateWholeNumberGreaterThanOrEqual,
 } from "talk-framework/lib/validation";
 import {
+  FieldSet,
   FormField,
   HorizontalGutter,
   InputLabel,
@@ -38,7 +39,7 @@ const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
       </Typography>
     </Localized>
 
-    <FormField container="fieldset">
+    <FormField container={<FieldSet />}>
       <Localized id="configure-general-commentEditing-commentEditTimeFrame">
         <InputLabel container="legend">Comment Edit Timeframe</InputLabel>
       </Localized>

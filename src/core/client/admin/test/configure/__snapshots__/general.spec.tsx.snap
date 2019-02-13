@@ -108,7 +108,7 @@ exports[`renders configure general 1`] = `
           data-testid="configure-generalContainer"
         >
           <fieldset
-            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
@@ -116,7 +116,7 @@ exports[`renders configure general 1`] = `
               Community Guidelines Summary
             </legend>
             <fieldset
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -208,7 +208,7 @@ Markdown can be found
             </div>
           </fieldset>
           <fieldset
-            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
@@ -358,7 +358,7 @@ Edited comments are marked as (Edited) on the comment stream and the
 moderation panel.
             </p>
             <fieldset
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -417,7 +417,7 @@ moderation panel.
                   </select>
                   <span
                     aria-hidden={true}
-                    className="SelectField-iconWrapper"
+                    className="SelectField-afterWrapper"
                   >
                     <span
                       aria-hidden="true"
@@ -431,7 +431,7 @@ moderation panel.
             </fieldset>
           </div>
           <fieldset
-            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
@@ -444,7 +444,7 @@ moderation panel.
               Set comment streams to close after a defined period of time after a story’s publication
             </p>
             <fieldset
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -499,7 +499,7 @@ moderation panel.
               </div>
             </fieldset>
             <fieldset
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
                 className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
@@ -558,7 +558,7 @@ moderation panel.
                   </select>
                   <span
                     aria-hidden={true}
-                    className="SelectField-iconWrapper"
+                    className="SelectField-afterWrapper"
                   >
                     <span
                       aria-hidden="true"

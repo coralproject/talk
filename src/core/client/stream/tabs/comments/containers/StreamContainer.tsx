@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
@@ -18,6 +18,7 @@ interface InnerProps {
   settings: SettingsData;
   me: MeData | null;
   relay: RelayPaginationProp;
+  defaultOrderBy: COMMENT_SORT;
 }
 
 // tslint:disable-next-line:no-unused-expression
@@ -32,6 +33,27 @@ graphql`
 export class StreamContainer extends React.Component<InnerProps> {
   public state = {
     disableLoadMore: false,
+    refetching: false,
+  };
+  private orderBy = this.props.defaultOrderBy;
+
+  private handleOnChangeOrderBy = (e: ChangeEvent<HTMLSelectElement>) => {
+    this.orderBy = e.target.value as COMMENT_SORT;
+    this.setState({ refetching: true });
+    this.props.relay.refetchConnection(
+      5,
+      err => {
+        if (err) {
+          // tslint:disable-next-line:no-console
+          console.error(err);
+          return;
+        }
+        this.setState({ refetching: false });
+      },
+      {
+        orderBy: e.target.value as COMMENT_SORT,
+      }
+    );
   };
 
   public render() {
@@ -45,6 +67,9 @@ export class StreamContainer extends React.Component<InnerProps> {
         hasMore={this.props.relay.hasMore()}
         disableLoadMore={this.state.disableLoadMore}
         me={this.props.me}
+        orderBy={this.orderBy}
+        onChangeOrderBy={this.handleOnChangeOrderBy}
+        refetching={this.state.refetching}
       />
     );
   }

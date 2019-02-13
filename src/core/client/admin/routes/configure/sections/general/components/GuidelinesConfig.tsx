@@ -4,6 +4,7 @@ import { Field } from "react-final-form";
 
 import { ExternalLink } from "talk-framework/lib/i18n/components";
 import {
+  FieldSet,
   FormField,
   HorizontalGutter,
   InputLabel,
@@ -21,12 +22,12 @@ interface Props {
 }
 
 const GuidelinesConfig: StatelessComponent<Props> = ({ disabled }) => (
-  <HorizontalGutter size="oneAndAHalf" container="fieldset">
+  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-guidelines-title">
       <Header container="legend">Community Guidelines Summary</Header>
     </Localized>
 
-    <FormField container="fieldset">
+    <FormField container={<FieldSet />}>
       <Localized id="configure-general-guidelines-showCommunityGuidelines">
         <InputLabel container="legend">
           Show Community Guidelines Summary

@@ -31,6 +31,7 @@ it("renders correctly", () => {
       hasMore: noop,
       isLoading: noop,
     } as any,
+    defaultOrderBy: "CREATED_AT_ASC",
   };
   const wrapper = shallow(<StreamContainerN {...props} />);
   expect(wrapper).toMatchSnapshot();
@@ -58,6 +59,7 @@ describe("when has more comments", () => {
       isLoading: () => false,
       loadMore: (_: any, callback: () => void) => (finishLoading = callback),
     } as any,
+    defaultOrderBy: "CREATED_AT_ASC",
   };
 
   let wrapper: ShallowWrapper;

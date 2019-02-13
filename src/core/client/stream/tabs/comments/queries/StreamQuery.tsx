@@ -11,20 +11,20 @@ import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQuery
 import { Delay, Spinner } from "talk-ui/components";
 import StreamContainer from "../containers/StreamContainer";
 
-interface InnerProps {
+interface Props {
   local: Local;
 }
 
-export const render = ({
-  error,
-  props,
-}: ReadyState<QueryTypes["response"]>) => {
-  if (error) {
-    return <div>{error.message}</div>;
+export const render = (
+  data: ReadyState<QueryTypes["response"]>,
+  defaultStreamOrderBy: Props["local"]["defaultStreamOrderBy"]
+) => {
+  if (data.error) {
+    return <div>{data.error.message}</div>;
   }
 
-  if (props) {
-    if (!props.story) {
+  if (data.props) {
+    if (!data.props.story) {
       return (
         <Localized id="comments-streamQuery-storyNotFound">
           <div>Story not found</div>
@@ -33,9 +33,10 @@ export const render = ({
     }
     return (
       <StreamContainer
-        settings={props.settings}
-        me={props.me}
-        story={props.story}
+        settings={data.props.settings}
+        me={data.props.me}
+        story={data.props.story}
+        defaultOrderBy={defaultStreamOrderBy}
       />
     );
   }
@@ -47,36 +48,45 @@ export const render = ({
   );
 };
 
-const StreamQuery: StatelessComponent<InnerProps> = ({
-  local: { storyID, storyURL },
-}) => (
-  <QueryRenderer<QueryTypes>
-    query={graphql`
-      query StreamQuery($storyID: ID, $storyURL: String) {
-        me {
-          ...StreamContainer_me
+const StreamQuery: StatelessComponent<Props> = props => {
+  const {
+    local: { storyID, storyURL, defaultStreamOrderBy },
+  } = props;
+  return (
+    <QueryRenderer<QueryTypes>
+      query={graphql`
+        query StreamQuery(
+          $storyID: ID
+          $storyURL: String
+          $streamOrderBy: COMMENT_SORT
+        ) {
+          me {
+            ...StreamContainer_me
+          }
+          story(id: $storyID, url: $storyURL) {
+            ...StreamContainer_story @arguments(orderBy: $streamOrderBy)
+          }
+          settings {
+            ...StreamContainer_settings
+          }
         }
-        story(id: $storyID, url: $storyURL) {
-          ...StreamContainer_story
-        }
-        settings {
-          ...StreamContainer_settings
-        }
-      }
-    `}
-    variables={{
-      storyID,
-      storyURL,
-    }}
-    render={render}
-  />
-);
+      `}
+      variables={{
+        storyID,
+        storyURL,
+        streamOrderBy: defaultStreamOrderBy,
+      }}
+      render={data => render(data, props.local.defaultStreamOrderBy)}
+    />
+  );
+};
 
 const enhanced = withLocalStateContainer(
   graphql`
     fragment StreamQueryLocal on Local {
       storyID
       storyURL
+      defaultStreamOrderBy
     }
   `
 )(StreamQuery);

@@ -8,6 +8,7 @@ export default function create(params: CreateParams) {
         localRecord.setValue("COMMENTS", "activeTab");
         localRecord.setValue(false, "loggedIn");
         localRecord.setValue("jti", "accessTokenJTI");
+        localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
         params.initLocalState(localRecord, source, environment);
       }
     },

@@ -3,6 +3,7 @@ import React, { StatelessComponent } from "react";
 
 import { DURATION_UNIT, DurationField } from "talk-framework/components";
 import {
+  FieldSet,
   FormField,
   HorizontalGutter,
   InputLabel,
@@ -27,7 +28,7 @@ interface Props {
 const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
   disabled,
 }) => (
-  <HorizontalGutter size="oneAndAHalf" container="fieldset">
+  <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-closingCommentStreams-title">
       <Header container="legend">Closing Comment Streams</Header>
     </Localized>
@@ -40,13 +41,13 @@ const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
         story’s publication
       </Typography>
     </Localized>
-    <FormField container="fieldset">
+    <FormField container={<FieldSet />}>
       <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">
         <InputLabel container="legend">Close Comments Automatically</InputLabel>
       </Localized>
       <OnOffField name="autoCloseStream" disabled={disabled} />
     </FormField>
-    <FormField container="fieldset">
+    <FormField container={<FieldSet />}>
       <Localized id="configure-general-closingCommentStreams-closeCommentsAfter">
         <InputLabel container="legend">Close Comments After</InputLabel>
       </Localized>

@@ -17,6 +17,7 @@ export { default as Popup } from "./Popup";
 export { default as FormField } from "./FormField";
 export { default as InputDescription } from "./InputDescription";
 export { default as Spinner } from "./Spinner";
+export { default as FieldSet } from "./FieldSet";
 export { default as HorizontalGutter } from "./HorizontalGutter";
 export { default as Icon } from "./Icon";
 export { default as AriaInfo } from "./AriaInfo";
