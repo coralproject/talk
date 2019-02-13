@@ -190,6 +190,7 @@ exports[`renders app with comment stream 1`] = `
               onBlur={[Function]}
               onChange={[Function]}
               onFocus={[Function]}
+              value="CREATED_AT_DESC"
             >
               <option
                 value="CREATED_AT_DESC"
