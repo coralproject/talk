@@ -2,7 +2,9 @@ import { FORM_ERROR } from "final-form";
 import { ERROR_CODES } from "talk-common/errors";
 
 /**
- * Shape of the `InvalidRequest` extension.
+ * Shape of the `InvalidRequest` extension as
+ * the client requires. Note: the only crucial
+ * field is the `code` field.
  */
 interface InvalidRequestExtension {
   code: ERROR_CODES;
