@@ -5,3 +5,7 @@
   padding-left: var(--spacing-unit);
   padding-bottom: var(--spacing-unit);
 }
+
+.showMoreButton {
+  text-transform: uppercase;
+}

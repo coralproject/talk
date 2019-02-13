@@ -44,15 +44,15 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
       >
         <Localized
           $count={2}
-          id="comments-conversationThread-showHiddenComments"
+          id="comments-conversationThread-showMoreOfThisConversation"
         >
           <ForwardRef(forwardRef)
+            className="ConversationThread-showMoreButton"
             disabled={false}
-            id="comments-conversationThread-showHiddenComments"
             onClick={[Function]}
             variant="underlined"
           >
-            Show hidden comments
+            Show more of this conversation
           </ForwardRef(forwardRef)>
         </Localized>
         <withPropsOnChange(Counter)>
@@ -108,15 +108,15 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
       >
         <Localized
           $count={2}
-          id="comments-conversationThread-showHiddenComments"
+          id="comments-conversationThread-showMoreOfThisConversation"
         >
           <ForwardRef(forwardRef)
+            className="ConversationThread-showMoreButton"
             disabled={true}
-            id="comments-conversationThread-showHiddenComments"
             onClick={[Function]}
             variant="underlined"
           >
-            Show hidden comments
+            Show more of this conversation
           </ForwardRef(forwardRef)>
         </Localized>
         <withPropsOnChange(Counter)>

@@ -76,9 +76,8 @@ exports[`renders conversation thread 1`] = `
         className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
       >
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+          className="BaseButton-root Button-root ConversationThread-showMoreButton Button-sizeRegular Button-colorRegular Button-variantUnderlined"
           disabled={false}
-          id="comments-conversationThread-showHiddenComments"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -87,7 +86,7 @@ exports[`renders conversation thread 1`] = `
           onTouchEnd={[Function]}
           type="button"
         >
-          SHOW HIDDEN COMMENTS
+          Show More of This Conversation
         </button>
         <span
           className="Counter-root Counter-colorInherit"
@@ -272,7 +271,7 @@ exports[`renders conversation thread 1`] = `
 </div>
 `;
 
-exports[`shows hidden comments 1`] = `
+exports[`shows more of this conversation 1`] = `
 <div
   className="ConversationThread-root"
   data-testid="comments-permalinkView-conversationThread"
