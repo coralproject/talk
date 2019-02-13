@@ -158,7 +158,9 @@ the
                     className="RadioButton-label"
                     htmlFor="integrations.perspective.enabled-true"
                   >
-                    On
+                    <span>
+                      On
+                    </span>
                   </label>
                 </div>
                 <div
@@ -168,7 +170,7 @@ the
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="integrations.perspective.enabled-fase"
+                    id="integrations.perspective.enabled-false"
                     name="integrations.perspective.enabled"
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -178,9 +180,11 @@ the
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="integrations.perspective.enabled-fase"
+                    htmlFor="integrations.perspective.enabled-false"
                   >
-                    Off
+                    <span>
+                      Off
+                    </span>
                   </label>
                 </div>
               </div>
@@ -424,7 +428,9 @@ the comment will be published.
                     className="RadioButton-label"
                     htmlFor="integrations.akismet.enabled-true"
                   >
-                    On
+                    <span>
+                      On
+                    </span>
                   </label>
                 </div>
                 <div
@@ -434,7 +440,7 @@ the comment will be published.
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="integrations.akismet.enabled-fase"
+                    id="integrations.akismet.enabled-false"
                     name="integrations.akismet.enabled"
                     onBlur={[Function]}
                     onChange={[Function]}
@@ -444,9 +450,11 @@ the comment will be published.
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="integrations.akismet.enabled-fase"
+                    htmlFor="integrations.akismet.enabled-false"
                   >
-                    Off
+                    <span>
+                      Off
+                    </span>
                   </label>
                 </div>
               </div>

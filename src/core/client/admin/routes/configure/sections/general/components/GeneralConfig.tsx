@@ -8,6 +8,7 @@ import ClosingCommentStreamsConfigContainer from "../containers/ClosingCommentSt
 import CommentEditingConfigContainer from "../containers/CommentEditingConfigContainer";
 import CommentLengthConfigContainer from "../containers/CommentLengthConfigContainer";
 import GuidelinesConfigContainer from "../containers/GuidelinesConfigContainer";
+import SitewideCommentingConfigContainer from "../containers/SitewideCommentingConfigContainer";
 
 interface Props {
   disabled: boolean;
@@ -15,7 +16,8 @@ interface Props {
     PropTypesOf<typeof CommentLengthConfigContainer>["settings"] &
     PropTypesOf<typeof CommentEditingConfigContainer>["settings"] &
     PropTypesOf<typeof ClosedStreamMessageConfigContainer>["settings"] &
-    PropTypesOf<typeof ClosingCommentStreamsConfigContainer>["settings"];
+    PropTypesOf<typeof ClosingCommentStreamsConfigContainer>["settings"] &
+    PropTypesOf<typeof SitewideCommentingConfigContainer>["settings"];
   onInitValues: (values: any) => void;
 }
 
@@ -25,6 +27,11 @@ const General: StatelessComponent<Props> = ({
   onInitValues,
 }) => (
   <HorizontalGutter size="double" data-testid="configure-generalContainer">
+    <SitewideCommentingConfigContainer
+      disabled={disabled}
+      settings={settings}
+      onInitValues={onInitValues}
+    />
     <GuidelinesConfigContainer
       disabled={disabled}
       settings={settings}

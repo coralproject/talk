@@ -68,6 +68,23 @@ configure-general-guidelines-explanation =
   Markdown can be found <externalLink>here</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Show Community Guidelines Summary
 
+### Sitewide Commenting
+configure-general-sitewideCommenting-title = Sitewide Commenting
+configure-general-sitewideCommenting-explanation =
+  Open or close comment streams for new comments sitewide. When new comments
+  are turned off sitewide, new comments cannot be submitted, but existing
+  comments can continue to receive “Respect” reactions, be reported, and be
+  shared.
+configure-general-sitewideCommenting-enableNewCommentsSitewide =
+  Enable New Comments Sitewide
+configure-general-sitewideCommenting-onCommentStreamsOpened =
+  On - Comment streams opened for new comments
+configure-general-sitewideCommenting-offCommentStreamsClosed =
+  Off - Comment streams closed for new comments
+configure-general-sitewideCommenting-message = Sitewide Closed Comments Message
+configure-general-sitewideCommenting-messageExplanation =
+  Write a message that will be displayed when comment streams are closed sitewide
+
 ### Closing Comment Streams
 configure-general-closingCommentStreams-title = Closing Comment Streams
 configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication

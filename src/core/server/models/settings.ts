@@ -2,6 +2,7 @@ import { Omit } from "talk-common/types";
 import {
   GQLAuthDisplayNameConfiguration,
   GQLCharCount,
+  GQLDisableCommenting,
   GQLEmail,
   GQLExternalIntegrations,
   GQLFacebookAuthIntegration,
@@ -34,8 +35,7 @@ export interface ModerationSettings {
    */
   closedTimeout: number;
   closedMessage?: string;
-  disableCommenting: boolean;
-  disableCommentingMessage?: string;
+  disableCommenting: GQLDisableCommenting;
   charCount: GQLCharCount;
 }
 

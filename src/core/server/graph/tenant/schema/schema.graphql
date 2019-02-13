@@ -765,6 +765,23 @@ type CharCount {
 }
 
 ################################################################################
+## DisableCommenting
+################################################################################
+
+type DisableCommenting {
+  """
+  enabled when true will disable commenting site-wide.
+  """
+  enabled: Boolean!
+
+  """
+  message will be shown above the comment stream while
+  commenting is disabled site-wide.
+  """
+  message: String
+}
+
+################################################################################
 ## Email
 ################################################################################
 
@@ -937,13 +954,7 @@ type Settings {
   """
   disableCommenting will disable commenting site-wide.
   """
-  disableCommenting: Boolean!
-
-  """
-  disableCommentingMessage will be shown above the comment stream while
-  commenting is disabled site-wide.
-  """
-  disableCommentingMessage: String
+  disableCommenting: DisableCommenting!
 
   """
   editCommentWindowLength is the length of time (in seconds) after a comment is
@@ -2125,6 +2136,19 @@ input SettingsCharCountInput {
   max: Int
 }
 
+input SettingsDisableCommentingInput {
+  """
+  enabled when true will disable commenting site-wide.
+  """
+  enabled: Boolean
+
+  """
+  message will be shown above the comment stream while
+  commenting is disabled site-wide.
+  """
+  message: String
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -2196,13 +2220,7 @@ input SettingsInput {
   """
   disableCommenting will disable commenting site-wide.
   """
-  disableCommenting: Boolean
-
-  """
-  disableCommentingMessage will be shown above the comment stream while
-  commenting is disabled site-wide.
-  """
-  disableCommentingMessage: String
+  disableCommenting: SettingsDisableCommentingInput
 
   """
   editCommentWindowLength is the length of time (in seconds) after a comment is

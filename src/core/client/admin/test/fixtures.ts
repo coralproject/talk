@@ -11,6 +11,9 @@ export const settings = {
     max: 1000,
     min: 3,
   },
+  disableCommenting: {
+    enabled: false,
+  },
   closedTimeout: 604800,
   autoCloseStream: false,
   closedMessage: null,
