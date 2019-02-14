@@ -11,7 +11,7 @@ export interface SignUpResponse {
 }
 
 export default function signUp(rest: RestClient, input: SignUpInput) {
-  return rest.fetch<SignUpResponse>("/tenant/auth/local/signup", {
+  return rest.fetch<SignUpResponse>("/auth/local/signup", {
     method: "POST",
     body: input,
   });

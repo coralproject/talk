@@ -2,11 +2,10 @@ import express, { Express } from "express";
 import http from "http";
 import { Db } from "mongodb";
 
+import { GraphQLSchema } from "graphql";
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { createApp, listenAndServe } from "talk-server/app";
 import config, { Config } from "talk-server/config";
-import getManagementSchema from "talk-server/graph/management/schema";
-import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
 import logger from "talk-server/logger";
 import { createQueue, TaskQueue } from "talk-server/queue";
@@ -28,9 +27,8 @@ class Server {
   // parentApp is the root application that the server will bind to.
   private parentApp: Express;
 
-  // schemas are the set of GraphQLSchema objects for each schema used by the
-  // server.
-  private schemas: Schemas;
+  // schema is the GraphQL Schema that relates to the given Tenant.
+  private schema: GraphQLSchema;
 
   // config exposes application specific configuration.
   public config: Config;
@@ -67,10 +65,7 @@ class Server {
     logger.debug({ config: this.config.toString() }, "loaded configuration");
 
     // Load the graph schemas.
-    this.schemas = {
-      management: getManagementSchema(),
-      tenant: getTenantSchema(),
-    };
+    this.schema = getTenantSchema();
   }
 
   public async connect() {
@@ -161,7 +156,7 @@ class Server {
       tenantCache: this.tenantCache,
       queue: this.queue,
       config: this.config,
-      schemas: this.schemas,
+      schema: this.schema,
       i18n,
     });
 

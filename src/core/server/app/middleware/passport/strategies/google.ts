@@ -107,7 +107,7 @@ export default class GoogleStrategy extends OAuth2Strategy<
         callbackURL: constructTenantURL(
           this.config,
           tenant,
-          "/api/tenant/auth/google/callback"
+          "/api/auth/google/callback"
         ),
         passReqToCallback: true,
       },

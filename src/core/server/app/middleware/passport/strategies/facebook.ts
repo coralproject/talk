@@ -102,7 +102,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
         callbackURL: constructTenantURL(
           this.config,
           tenant,
-          "/api/tenant/auth/facebook/callback"
+          "/api/auth/facebook/callback"
         ),
         profileFields: ["id", "displayName", "photos", "email"],
         enableProof: true,

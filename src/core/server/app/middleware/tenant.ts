@@ -13,12 +13,17 @@ export const tenantMiddleware = ({
 }: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   try {
     // Set Talk on the request.
-    req.talk = {
-      cache: {
+    if (!req.talk) {
+      req.talk = {};
+    }
+
+    // Set the Talk Tenant Cache on the request.
+    if (!req.talk.cache) {
+      req.talk.cache = {
         // Attach the tenant cache to the request.
         tenant: cache,
-      },
-    };
+      };
+    }
 
     // Attach the tenant to the request.
     const tenant = await cache.retrieveByDomain(req.hostname);

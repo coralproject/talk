@@ -8,8 +8,6 @@ import { reconstructTenantURLResolver } from "./util";
 export const FacebookAuthIntegration: GQLFacebookAuthIntegrationTypeResolver<
   GQLFacebookAuthIntegration
 > = {
-  callbackURL: reconstructTenantURLResolver(
-    "/api/tenant/auth/facebook/callback"
-  ),
-  redirectURL: reconstructTenantURLResolver("/api/tenant/auth/facebook"),
+  callbackURL: reconstructTenantURLResolver("/api/auth/facebook/callback"),
+  redirectURL: reconstructTenantURLResolver("/api/auth/facebook"),
 };

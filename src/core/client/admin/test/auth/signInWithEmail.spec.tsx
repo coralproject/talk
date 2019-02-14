@@ -99,7 +99,7 @@ it("shows server error", async () => {
   const restMock = sinon.mock(context.rest);
   restMock
     .expects("fetch")
-    .withArgs("/tenant/auth/local", {
+    .withArgs("/auth/local", {
       method: "POST",
       body: {
         email: "hans@test.com",
@@ -133,7 +133,7 @@ it("submits form successfully", async () => {
   const restMock = sinon.mock(context.rest);
   restMock
     .expects("fetch")
-    .withArgs("/tenant/auth/local", {
+    .withArgs("/auth/local", {
       method: "POST",
       body: {
         email: "hans@test.com",

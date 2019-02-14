@@ -15,7 +15,7 @@ export interface InstallInput {
 }
 
 export default function install(rest: RestClient, input: InstallInput) {
-  return rest.fetch("/tenant/install", {
+  return rest.fetch("/install", {
     method: "POST",
     body: input,
   });

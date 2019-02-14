@@ -1,6 +1,7 @@
 import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
+import { GraphQLSchema } from "graphql";
 import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
@@ -11,7 +12,6 @@ import { HTMLErrorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { Config } from "talk-server/config";
-import { Schemas } from "talk-server/graph/schemas";
 import { TaskQueue } from "talk-server/queue";
 import { I18n } from "talk-server/services/i18n";
 import { JWTSigningConfig } from "talk-server/services/jwt";
@@ -28,7 +28,7 @@ export interface AppOptions {
   config: Config;
   mongo: Db;
   redis: AugmentedRedis;
-  schemas: Schemas;
+  schema: GraphQLSchema;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
   i18n: I18n;
