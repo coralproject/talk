@@ -1,4 +1,5 @@
 import DataLoader from "dataloader";
+import { isNil, omitBy } from "lodash";
 
 import Context from "talk-server/graph/tenant/context";
 import {
@@ -50,10 +51,13 @@ export default (ctx: Context) => ({
       first,
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      filter: {
-        storyID,
-        status,
-      },
+      filter: omitBy(
+        {
+          storyID,
+          status,
+        },
+        isNil
+      ),
     }).then(primeCommentsFromConnection(ctx)),
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
     (commentIDs: string[]) =>
