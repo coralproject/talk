@@ -8,7 +8,9 @@ import { AuthIntegrations } from "./AuthIntegrations";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
 import { CommentModerationAction } from "./CommentModerationAction";
+import { CommentModerationActionConnection } from "./CommentModerationActionConnection";
 import { CommentRevision } from "./CommentRevision";
+import { CommentsConnection } from "./CommentsConnection";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { ModerationQueue } from "./ModerationQueue";
@@ -27,19 +29,21 @@ const Resolvers: GQLResolver = {
   Comment,
   CommentCounts,
   CommentModerationAction,
+  CommentModerationActionConnection,
   CommentRevision,
+  CommentsConnection,
   Cursor,
-  Mutation,
-  ModerationQueue,
-  ModerationQueues,
-  OIDCAuthIntegration,
   FacebookAuthIntegration,
   GoogleAuthIntegration,
+  ModerationQueue,
+  ModerationQueues,
+  Mutation,
+  OIDCAuthIntegration,
   Profile,
   Query,
   RejectCommentPayload,
-  Time,
   Story,
+  Time,
   User,
 };
 

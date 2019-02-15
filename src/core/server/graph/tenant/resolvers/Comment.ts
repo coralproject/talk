@@ -55,9 +55,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   }),
   author: (c, input, ctx) => ctx.loaders.Users.user.load(c.authorID),
   statusHistory: ({ id }, input, ctx) =>
-    ctx.loaders.Actions.commentModerationActions({
-      commentID: id,
-    }),
+    ctx.loaders.CommentModerationActions.forComment(input, id),
   replies: (c, input, ctx) =>
     c.replyCount > 0
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)

@@ -1201,7 +1201,7 @@ type CommentModerationActionEdge {
   node: CommentModerationAction!
 
   """
-
+  cursor is used in pagination.
   """
   cursor: Cursor
 }
@@ -1213,7 +1213,12 @@ type CommentModerationActionConnection {
   edges: [CommentModerationActionEdge!]!
 
   """
-  pageInfo is
+  nodes is a list of CommentModerationAction's.
+  """
+  nodes: [CommentModerationAction!]!
+
+  """
+  pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
 }
@@ -1295,7 +1300,10 @@ type Comment {
   the history of moderator actions performed on the Comment, with the most
   recent last.
   """
-  statusHistory: [CommentModerationAction!]! @auth(role: [MODERATOR, ADMIN])
+  statusHistory(
+    first: Int = 10
+    after: Cursor
+  ): CommentModerationActionConnection! @auth(role: [MODERATOR, ADMIN])
 
   """
   parentCount is the number of direct parents for this Comment. Currently this
@@ -1399,7 +1407,7 @@ type CommentEdge {
   node: Comment!
 
   """
-
+  cursor is used in pagination.
   """
   cursor: Cursor
 }
@@ -1414,7 +1422,12 @@ type CommentsConnection {
   edges: [CommentEdge!]!
 
   """
-  pageInfo is
+  nodes is a list of Comment's.
+  """
+  nodes: [Comment!]!
+
+  """
+  pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
 }
