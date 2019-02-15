@@ -5,7 +5,10 @@ import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { DuplicateStoryURLError } from "talk-server/errors";
 import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
-import Query, { createIndexFactory } from "talk-server/models/helpers/query";
+import Query, {
+  createConnectionOrderVariants,
+  createIndexFactory,
+} from "talk-server/models/helpers/query";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -76,6 +79,17 @@ export async function createStoryIndexes(mongo: Db) {
 
   // UNIQUE { url }
   await createIndex({ tenantID: 1, url: 1 }, { unique: true });
+
+  const variants = createConnectionOrderVariants<Readonly<Story>>([
+    { createdAt: -1 },
+  ]);
+
+  // Story based Comment Connection pagination.
+  // { closedAt, ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+    closedAt: 1,
+  });
 }
 
 export interface UpsertStoryInput {
