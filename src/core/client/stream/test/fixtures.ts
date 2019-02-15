@@ -55,6 +55,9 @@ export const settings = {
     label: "Respect",
     labelActive: "Respected",
   },
+  charCount: {
+    enabled: false,
+  },
 };
 
 export const users = [

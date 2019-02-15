@@ -24,7 +24,8 @@ export interface StreamProps {
   settings: PropTypesOf<typeof CommentContainer>["settings"] &
     PropTypesOf<typeof ReplyListContainer>["settings"] &
     PropTypesOf<typeof UserBoxContainer>["settings"] &
-    PropTypesOf<typeof CommunityGuidelinesContainer>["settings"];
+    PropTypesOf<typeof CommunityGuidelinesContainer>["settings"] &
+    PropTypesOf<typeof PostCommentFormContainer>["settings"];
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof ReplyListContainer>["comment"]
@@ -49,7 +50,10 @@ const Stream: StatelessComponent<StreamProps> = props => {
         <UserBoxContainer me={props.me} settings={props.settings} />
         <CommunityGuidelinesContainer settings={props.settings} />
         {props.me ? (
-          <PostCommentFormContainer storyID={props.story.id} />
+          <PostCommentFormContainer
+            storyID={props.story.id}
+            settings={props.settings}
+          />
         ) : (
           <PostCommentFormFake />
         )}

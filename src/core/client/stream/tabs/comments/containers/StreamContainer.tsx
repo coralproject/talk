@@ -135,6 +135,7 @@ const enhanced = withPaginationContainer<
     `,
     settings: graphql`
       fragment StreamContainer_settings on Settings {
+        ...PostCommentFormContainer_settings
         ...ReplyListContainer1_settings
         ...CommentContainer_settings
         ...UserBoxContainer_settings

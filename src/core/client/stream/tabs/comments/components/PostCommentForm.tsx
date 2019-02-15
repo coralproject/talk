@@ -1,16 +1,16 @@
-import { FormState } from "final-form";
+import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
+import ValidationMessage from "talk-admin/routes/configure/components/ValidationMessage";
 import { OnSubmit } from "talk-framework/lib/form";
-import { required } from "talk-framework/lib/validation";
 import { AriaInfo, Button, Flex, HorizontalGutter } from "talk-ui/components";
 
-import PoweredBy from "./PoweredBy";
+import RemainingCharactersContainer from "../containers/RemainingCharactersContainer";
+import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../helpers";
 import RTE from "./RTE";
 
-import ValidationMessage from "talk-admin/routes/configure/components/ValidationMessage";
 import styles from "./PostCommentForm.css";
 
 interface FormProps {
@@ -19,73 +19,87 @@ interface FormProps {
 
 export interface PostCommentFormProps {
   onSubmit: OnSubmit<FormProps>;
-  onChange?: (state: FormState) => void;
+  onChange?: (state: FormState, form: FormApi) => void;
   initialValues?: FormProps;
+  min: number | null;
+  max: number | null;
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
   <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-    {({ handleSubmit, submitting, hasValidationErrors, submitError }) => (
+    {({ handleSubmit, submitting, submitError, form }) => (
       <form
         autoComplete="off"
         onSubmit={handleSubmit}
         className={styles.root}
         id="comments-postCommentForm-form"
       >
-        <FormSpy onChange={props.onChange} />
+        <FormSpy
+          onChange={state => props.onChange && props.onChange(state, form)}
+        />
         <HorizontalGutter>
-          <Field name="body" validate={required}>
+          <Field
+            name="body"
+            validate={getCommentBodyValidators(props.min, props.max)}
+          >
             {({ input, meta }) => (
-              <HorizontalGutter size="half">
-                <Localized id="comments-postCommentForm-rteLabel">
-                  <AriaInfo
-                    component="label"
-                    htmlFor="comments-postCommentForm-field"
+              <>
+                <HorizontalGutter size="half">
+                  <Localized id="comments-postCommentForm-rteLabel">
+                    <AriaInfo
+                      component="label"
+                      htmlFor="comments-postCommentForm-field"
+                    >
+                      Post a comment
+                    </AriaInfo>
+                  </Localized>
+                  <Localized
+                    id="comments-postCommentForm-rte"
+                    attrs={{ placeholder: true }}
                   >
-                    Post a comment
-                  </AriaInfo>
-                </Localized>
-                <Localized
-                  id="comments-postCommentForm-rte"
-                  attrs={{ placeholder: true }}
-                >
-                  <RTE
-                    inputId="comments-postCommentForm-field"
-                    onChange={({ html }) => input.onChange(html)}
-                    value={input.value}
-                    placeholder="Post a comment"
-                    disabled={submitting}
-                  />
-                </Localized>
-                {meta.touched &&
-                  (meta.error || meta.submitError) && (
+                    <RTE
+                      inputId="comments-postCommentForm-field"
+                      onChange={({ html }) =>
+                        input.onChange(cleanupRTEEmptyHTML(html))
+                      }
+                      value={input.value}
+                      placeholder="Post a comment"
+                      disabled={submitting}
+                    />
+                  </Localized>
+                  {meta.touched &&
+                    (meta.error || meta.submitError) && (
+                      <ValidationMessage fullWidth>
+                        {meta.error || meta.submitError}
+                      </ValidationMessage>
+                    )}
+                  {submitError && (
                     <ValidationMessage fullWidth>
-                      {meta.error || meta.submitError}
+                      {submitError}
                     </ValidationMessage>
                   )}
-                {submitError && (
-                  <ValidationMessage fullWidth>{submitError}</ValidationMessage>
-                )}
-              </HorizontalGutter>
+                  {props.max && (
+                    <RemainingCharactersContainer
+                      value={input.value}
+                      max={props.max}
+                    />
+                  )}
+                </HorizontalGutter>
+                <Flex direction="column" alignItems="flex-end">
+                  <Localized id="comments-postCommentForm-submit">
+                    <Button
+                      color="primary"
+                      variant="filled"
+                      disabled={submitting || !input.value}
+                      type="submit"
+                    >
+                      Submit
+                    </Button>
+                  </Localized>
+                </Flex>
+              </>
             )}
           </Field>
-          <Flex
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-start"
-          >
-            <PoweredBy className={styles.poweredBy} />
-            <Localized id="comments-postCommentForm-submit">
-              <Button
-                color="primary"
-                variant="filled"
-                disabled={submitting || hasValidationErrors}
-                type="submit"
-              >
-                Submit
-              </Button>
-            </Localized>
-          </Flex>
         </HorizontalGutter>
       </form>
     )}
