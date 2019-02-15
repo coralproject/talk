@@ -1,6 +1,13 @@
 import DataLoader from "dataloader";
+import { isNil, omitBy } from "lodash";
+
 import Context from "talk-server/graph/tenant/context";
-import { retrieveManyUsers, User } from "talk-server/models/user";
+import { QueryToUsersArgs } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  retrieveManyUsers,
+  retrieveUserConnection,
+  User,
+} from "talk-server/models/user";
 
 export default (ctx: Context) => {
   const user = new DataLoader<string, User | null>(ids =>
@@ -14,5 +21,11 @@ export default (ctx: Context) => {
 
   return {
     user,
+    connection: ({ first = 10, after, role }: QueryToUsersArgs) =>
+      retrieveUserConnection(ctx.mongo, ctx.tenant.id, {
+        first,
+        after,
+        filter: omitBy({ role }, isNil),
+      }),
   };
 };

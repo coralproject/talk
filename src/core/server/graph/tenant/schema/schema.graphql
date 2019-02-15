@@ -1120,6 +1120,46 @@ type User {
   tokens lists the access tokens associated with the account.
   """
   tokens: [Token!]! @auth(role: [ADMIN], userIDField: "id")
+
+  """
+  createdAt is the time that the User was created at.
+  """
+  createdAt: Time! @auth(role: [ADMIN, MODERATOR], userIDField: "id")
+}
+
+"""
+UserEdge represents a unique User in a UsersConnection.
+"""
+type UserEdge {
+  """
+  node is the User for this edge.
+  """
+  node: User!
+
+  """
+  cursor is used in pagination.
+  """
+  custor: Cursor
+}
+
+"""
+UsersConnection represents a subset of a stories list.
+"""
+type UsersConnection {
+  """
+  edges are a subset of UserEdge's.
+  """
+  edges: [UserEdge!]!
+
+  """
+  nodes is a list of User's.
+  """
+  nodes: [User!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
 }
 
 ################################################################################
@@ -1617,7 +1657,7 @@ type Story {
 }
 
 """
-StoryEdge represents a unique Comment in a StoriesConnection.
+StoryEdge represents a unique Story in a StoriesConnection.
 """
 type StoryEdge {
   """
@@ -1684,6 +1724,17 @@ type Query {
     after: Cursor
     status: STORY_STATUS
   ): StoriesConnection @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  user will return the user looked up by the ID.
+  """
+  user(id: ID!): User @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  users returns filtered users that can be paginated.
+  """
+  users(first: Int = 10, after: Cursor, role: USER_ROLE): UsersConnection!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   me is the current logged in User. If no user is currently logged in, it will

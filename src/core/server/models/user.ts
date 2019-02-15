@@ -14,11 +14,17 @@ import {
   UserNotFoundError,
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import {
+import Query, {
+  createConnectionOrderVariants,
   createIndexFactory,
   FilterQuery,
 } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
+import {
+  Connection,
+  ConnectionInput,
+  resolveConnection,
+} from "./helpers/connection";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<User>>("users");
@@ -105,6 +111,17 @@ export async function createUserIndexes(mongo: Db) {
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
     { unique: true }
   );
+
+  const variants = createConnectionOrderVariants<Readonly<User>>([
+    { createdAt: -1 },
+  ]);
+
+  // Story based Comment Connection pagination.
+  // { role, ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+    role: 1,
+  });
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -831,4 +848,36 @@ export async function deactivateUserToken(
     user: updatedUser,
     token,
   };
+}
+
+export type UserConnectionInput = ConnectionInput<User>;
+
+export async function retrieveUserConnection(
+  mongo: Db,
+  tenantID: string,
+  input: UserConnectionInput
+): Promise<Readonly<Connection<Readonly<User>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return retrieveConnection(input, query);
+}
+
+async function retrieveConnection(
+  input: UserConnectionInput,
+  query: Query<User>
+): Promise<Readonly<Connection<Readonly<User>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, user => user.createdAt);
 }
