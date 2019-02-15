@@ -9,7 +9,7 @@ export default function getQueueConnection(
   const root = store.getRoot();
   if (queue === "rejected") {
     return ConnectionHandler.getConnection(root, "RejectedQueue_comments", {
-      filter: { status: "REJECTED" },
+      status: "REJECTED",
     });
   }
   const queuesRecord = root.getLinkedRecord("moderationQueues")!;

@@ -79,7 +79,7 @@ const enhanced = (withPaginationContainer<
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
-        comments(filter: { status: REJECTED }, first: $count, after: $cursor)
+        comments(status: REJECTED, first: $count, after: $cursor)
           @connection(key: "RejectedQueue_comments") {
           edges {
             node {

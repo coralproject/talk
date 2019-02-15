@@ -45,12 +45,15 @@ export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
   ),
-  forFilter: ({ first = 10, after, filter }: QueryToCommentsArgs) =>
+  forFilter: ({ first = 10, after, storyID, status }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
       first,
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      filter,
+      filter: {
+        storyID,
+        status,
+      },
     }).then(primeCommentsFromConnection(ctx)),
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
     (commentIDs: string[]) =>
