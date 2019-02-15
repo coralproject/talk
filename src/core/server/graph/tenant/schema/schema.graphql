@@ -1531,6 +1531,21 @@ type StoryMetadata {
 }
 
 """
+STORY_STATUS represents filtering states that a Story can be in.
+"""
+enum STORY_STATUS {
+  """
+  OPEN represents when a given Story is open for commenting.
+  """
+  OPEN
+
+  """
+  CLOSED represents when a given Story is not open for commenting.
+  """
+  CLOSED
+}
+
+"""
 Story is an Article or Page where Comments are written on by Users.
 """
 type Story {
@@ -1601,6 +1616,41 @@ type Story {
   moderation: MODERATION_MODE!
 }
 
+"""
+StoryEdge represents a unique Comment in a StoriesConnection.
+"""
+type StoryEdge {
+  """
+  node is the Story for this edge.
+  """
+  node: Story!
+
+  """
+  cursor is used in pagination.
+  """
+  custor: Cursor
+}
+
+"""
+StoriesConnection represents a subset of a stories list.
+"""
+type StoriesConnection {
+  """
+  edges are a subset of StoryEdge's.
+  """
+  edges: [StoryEdge!]!
+
+  """
+  nodes is a list of Story's.
+  """
+  nodes: [Story!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
 ################################################################################
 ## Query
 ################################################################################
@@ -1625,6 +1675,15 @@ type Query {
   story is the Story specified by its ID/URL.
   """
   story(id: ID, url: String): Story
+
+  """
+  stories returns filtered stories that can be paginated.
+  """
+  stories(
+    first: Int = 10
+    after: Cursor
+    status: STORY_STATUS
+  ): StoriesConnection @auth(roles: [ADMIN, MODERATOR])
 
   """
   me is the current logged in User. If no user is currently logged in, it will

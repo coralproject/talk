@@ -5,10 +5,15 @@ import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { DuplicateStoryURLError } from "talk-server/errors";
 import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "talk-server/models/helpers/query";
+import Query, { createIndexFactory } from "talk-server/models/helpers/query";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
+import {
+  Connection,
+  ConnectionInput,
+  resolveConnection,
+} from "../helpers/connection";
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
@@ -303,4 +308,36 @@ export async function removeStories(
       $in: ids,
     },
   });
+}
+
+export type StoryConnectionInput = ConnectionInput<Story>;
+
+export async function retrieveStoryConnection(
+  mongo: Db,
+  tenantID: string,
+  input: StoryConnectionInput
+): Promise<Readonly<Connection<Readonly<Story>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return retrieveConnection(input, query);
+}
+
+async function retrieveConnection(
+  input: StoryConnectionInput,
+  query: Query<Story>
+): Promise<Readonly<Connection<Readonly<Story>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, story => story.createdAt);
 }

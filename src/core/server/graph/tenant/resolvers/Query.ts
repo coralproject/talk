@@ -2,8 +2,9 @@ import { GQLQueryTypeResolver } from "talk-server/graph/tenant/schema/__generate
 
 import { sharedModerationInputResolver } from "./ModerationQueues";
 
-export const Query: GQLQueryTypeResolver<void> = {
+export const Query: Required<GQLQueryTypeResolver<void>> = {
   story: (source, args, ctx) => ctx.loaders.Stories.findOrCreate.load(args),
+  stories: (source, args, ctx) => ctx.loaders.Stories.connection(args),
   comment: (source, { id }, ctx) =>
     id ? ctx.loaders.Comments.comment.load(id) : null,
   comments: (source, args, ctx) => ctx.loaders.Comments.forFilter(args),
