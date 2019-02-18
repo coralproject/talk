@@ -109,7 +109,7 @@ exports[`checks for invalid username 1`] = `
           warning
         </span>
         <span>
-          Username must contain at least ⁨3⁩ characters.
+          Username must contain at least 3 characters.
         </span>
       </div>
     </div>

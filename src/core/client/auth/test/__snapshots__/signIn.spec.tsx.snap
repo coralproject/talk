@@ -457,7 +457,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
         type="button"
       >
         <span>
-          Sign in with ⁨OIDC⁩
+          Sign in with OIDC
         </span>
       </button>
     </div>

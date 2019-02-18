@@ -472,7 +472,15 @@ exports[`when use is logged in renders correctly 1`] = `
         }
       }
     />
-    <withContext(withContext(createMutationContainer(PostCommentFormContainer)))
+    <withContext(withContext(createMutationContainer(withContext(createFetchContainer(Relay(PostCommentFormContainer))))))
+      settings={
+        Object {
+          "reaction": Object {
+            "icon": "thumb_up_alt",
+            "label": "Respect",
+          },
+        }
+      }
       storyID="story-id"
     />
   </ForwardRef(forwardRef)>

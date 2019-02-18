@@ -106,7 +106,7 @@ exports[`accepts correct password 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -263,7 +263,7 @@ exports[`accepts valid email 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -433,7 +433,7 @@ exports[`accepts valid username 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -590,7 +590,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -725,7 +725,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
         type="button"
       >
         <span>
-          Sign up with ⁨OIDC⁩
+          Sign up with OIDC
         </span>
       </button>
     </div>
@@ -907,7 +907,7 @@ exports[`checks for invalid characters in username 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -1090,7 +1090,7 @@ exports[`checks for invalid email 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -1257,7 +1257,7 @@ exports[`checks for too long username 1`] = `
               warning
             </span>
             <span>
-              Usernames cannot be longer than ⁨30⁩ characters.
+              Usernames cannot be longer than 30 characters.
             </span>
           </div>
         </div>
@@ -1273,7 +1273,7 @@ exports[`checks for too long username 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -1456,7 +1456,7 @@ exports[`checks for too short password 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -1500,7 +1500,7 @@ exports[`checks for too short password 1`] = `
               warning
             </span>
             <span>
-              Password must contain at least ⁨8⁩ characters.
+              Password must contain at least 8 characters.
             </span>
           </div>
         </div>
@@ -1623,7 +1623,7 @@ exports[`checks for too short username 1`] = `
               warning
             </span>
             <span>
-              Username must contain at least ⁨3⁩ characters.
+              Username must contain at least 3 characters.
             </span>
           </div>
         </div>
@@ -1639,7 +1639,7 @@ exports[`checks for too short username 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -1842,7 +1842,7 @@ exports[`renders sign up form 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                Must be at least ⁨8⁩ characters
+                Must be at least 8 characters
               </p>
               <div
                 className="PasswordField-fullWidth PasswordField-root"
@@ -2014,7 +2014,7 @@ exports[`shows error when submitting empty form 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -2176,7 +2176,7 @@ exports[`shows server error 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"
@@ -2320,7 +2320,7 @@ exports[`submits form successfully 1`] = `
           <p
             className="Typography-root Typography-detail Typography-colorTextSecondary"
           >
-            Must be at least ⁨8⁩ characters
+            Must be at least 8 characters
           </p>
           <div
             className="PasswordField-fullWidth PasswordField-root"

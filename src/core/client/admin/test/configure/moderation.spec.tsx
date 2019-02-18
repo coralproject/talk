@@ -240,7 +240,7 @@ it("change perspective settings", async () => {
   ).toBe(1);
   expect(
     within(perspectiveContainer).queryAllByText(
-      "Please enter a whole number between ⁨0⁩ and ⁨100⁩."
+      "Please enter a whole number between 0 and 100."
     ).length
   ).toBe(1);
 
