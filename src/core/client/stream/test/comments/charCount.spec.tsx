@@ -141,3 +141,46 @@ it("show remaining characters", async () => {
   rte.props.onChange({ html: "abcdefghijkl" });
   within(form).getByText("-2 characters remaining");
 });
+
+it("update from server upon specific char count error", async () => {
+  for (const errorCode of [
+    ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
+    ERROR_CODES.COMMENT_BODY_TOO_SHORT,
+  ]) {
+    const { rte, form } = await createTestRenderer(
+      {
+        Mutation: {
+          createComment: sinon.stub().callsFake(() => {
+            throw new InvalidRequestError({
+              code: errorCode,
+            });
+          }),
+        },
+        Query: {
+          settings: createSinonStub(
+            s => s.onFirstCall().returns(settingsWithCharCount),
+            s =>
+              s.onSecondCall().returns({
+                ...settingsWithCharCount,
+                charCount: {
+                  enabled: true,
+                  min: 3,
+                  max: 5,
+                },
+              })
+          ),
+        },
+      },
+      { muteNetworkErrors: true }
+    );
+
+    rte.props.onChange({ html: "abc" });
+    within(form).getByText("7 characters remaining");
+    rte.props.onChange({ html: "abcdefgh" });
+    within(form).getByText("2 characters remaining");
+    form.props.onSubmit();
+    await waitForElement(() =>
+      within(form).getByText("-3 characters remaining")
+    );
+  }
+});
