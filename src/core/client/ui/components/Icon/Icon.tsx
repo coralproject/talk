@@ -15,6 +15,11 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
 
   size?: "sm" | "md" | "lg" | "xl";
 
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
+  color?: "inherit" | "primary" | "error" | "success";
+
   /** The name of the icon to render */
   children: string;
 
@@ -23,8 +28,18 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
 }
 
 const Icon: StatelessComponent<Props> = props => {
-  const { classes, className, size, forwardRef, ...rest } = props;
-  const rootClassName = cn(classes.root, className, classes[size!]);
+  const { classes, className, size, color, forwardRef, ...rest } = props;
+
+  const rootClassName = cn(
+    classes.root,
+    classes[size!],
+    {
+      [classes.colorPrimary]: color === "primary",
+      [classes.colorError]: color === "error",
+      [classes.colorSuccess]: color === "success",
+    },
+    className
+  );
   return (
     <span
       className={rootClassName}
@@ -37,6 +52,7 @@ const Icon: StatelessComponent<Props> = props => {
 
 Icon.defaultProps = {
   size: "sm",
+  color: "inherit",
 } as Partial<Props>;
 
 const enhanced = withForwardRef(withStyles(styles)(Icon));

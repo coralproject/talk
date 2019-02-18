@@ -14,7 +14,7 @@ exports[`renders icon 1`] = `
 >
   <span
     aria-hidden="true"
-    className="Icon-root MessageIcon-root Icon-sm"
+    className="Icon-root Icon-sm MessageIcon-root"
   >
     alert
   </span>

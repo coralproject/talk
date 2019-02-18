@@ -39,7 +39,7 @@ exports[`loads more 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root AcceptedIcon-root Icon-sm"
+              className="Icon-root Icon-sm AcceptedIcon-root"
             >
               check
             </span>
@@ -103,7 +103,7 @@ exports[`loads more 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root RejectedIcon-root Icon-sm"
+              className="Icon-root Icon-sm RejectedIcon-root"
             >
               cancel
             </span>
@@ -167,7 +167,7 @@ exports[`loads more 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root AcceptedIcon-root Icon-sm"
+              className="Icon-root Icon-sm AcceptedIcon-root"
             >
               check
             </span>
@@ -296,7 +296,7 @@ exports[`render popover content 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root AcceptedIcon-root Icon-sm"
+              className="Icon-root Icon-sm AcceptedIcon-root"
             >
               check
             </span>
@@ -360,7 +360,7 @@ exports[`render popover content 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root RejectedIcon-root Icon-sm"
+              className="Icon-root Icon-sm RejectedIcon-root"
             >
               cancel
             </span>

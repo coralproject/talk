@@ -1289,7 +1289,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
           </span>
@@ -1328,7 +1328,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
           </span>
@@ -1367,7 +1367,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
           </span>
@@ -1430,7 +1430,7 @@ the remaining fields. You may also enter the information manually.
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
           </span>
@@ -1469,7 +1469,7 @@ the remaining fields. You may also enter the information manually.
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
           </span>
@@ -1508,7 +1508,7 @@ the remaining fields. You may also enter the information manually.
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
           </span>
@@ -1547,7 +1547,7 @@ the remaining fields. You may also enter the information manually.
         >
           <span
             aria-hidden="true"
-            className="Icon-root MessageIcon-root Icon-sm"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
             warning
           </span>
@@ -1732,7 +1732,7 @@ exports[`regenerate sso key 1`] = `
     </p>
     <span
       aria-hidden="true"
-      className="Icon-root SSOKeyField-warnIcon Icon-sm"
+      className="Icon-root Icon-sm SSOKeyField-warnIcon"
     >
       warning
     </span>
@@ -2625,7 +2625,7 @@ Invalid Date
                       </p>
                       <span
                         aria-hidden="true"
-                        className="Icon-root SSOKeyField-warnIcon Icon-sm"
+                        className="Icon-root Icon-sm SSOKeyField-warnIcon"
                       >
                         warning
                       </span>

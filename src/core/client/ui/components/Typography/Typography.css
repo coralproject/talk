@@ -82,10 +82,6 @@
   margin-bottom: var(--spacing-unit);
 }
 
-.colorInherit {
-  color: inherit;
-}
-
 .colorPrimary {
   color: var(--palette-primary-main);
 }

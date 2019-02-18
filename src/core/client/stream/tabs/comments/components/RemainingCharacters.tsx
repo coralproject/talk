@@ -1,7 +1,7 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
-import { Typography } from "talk-ui/components";
+import { Flex, Icon, Typography } from "talk-ui/components";
 
 interface Props {
   className?: string;
@@ -9,19 +9,25 @@ interface Props {
 }
 
 const RemainingCharacters: StatelessComponent<Props> = props => {
+  const belowZero = props.remaining < 0;
   return (
-    <div className={cn(props.className)}>
+    <Flex
+      className={cn(props.className)}
+      alignItems="center"
+      justifyContent="flex-end"
+      itemGutter="half"
+    >
+      {belowZero && <Icon color="error">warning</Icon>}
       <Localized id="comments-remainingCharacters" $remaining={props.remaining}>
         <Typography
           variant="detail"
-          align="right"
           container="div"
-          color="textSecondary"
+          color={belowZero ? "error" : "textSecondary"}
         >
           {"X characters remaining"}
         </Typography>
       </Localized>
-    </div>
+    </Flex>
   );
 };
 

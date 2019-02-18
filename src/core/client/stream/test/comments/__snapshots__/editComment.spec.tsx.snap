@@ -296,7 +296,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           alarm
         </span>
@@ -462,7 +462,7 @@ exports[`edit a comment: edit form 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           alarm
         </span>
@@ -628,7 +628,7 @@ exports[`edit a comment: optimistic response 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           alarm
         </span>
@@ -1343,7 +1343,7 @@ exports[`shows expiry message: edit time expired 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>

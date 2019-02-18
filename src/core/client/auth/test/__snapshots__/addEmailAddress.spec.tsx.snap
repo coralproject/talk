@@ -134,7 +134,7 @@ Your email address will be used to:
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -415,7 +415,7 @@ Your email address will be used to:
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -452,7 +452,7 @@ Your email address will be used to:
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -755,7 +755,7 @@ Your email address will be used to:
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -792,7 +792,7 @@ Your email address will be used to:
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>

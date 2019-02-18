@@ -65,7 +65,7 @@ exports[`accepts valid email 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -208,7 +208,7 @@ exports[`checks for invalid email 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -245,7 +245,7 @@ exports[`checks for invalid email 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -422,7 +422,7 @@ exports[`shows error when submitting empty form 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -459,7 +459,7 @@ exports[`shows error when submitting empty form 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>

@@ -83,7 +83,7 @@ exports[`show restricted screen for commenters 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root Restricted-lockIcon Icon-lg"
+              className="Icon-root Icon-lg Restricted-lockIcon"
             >
               lock
             </span>
