@@ -68,7 +68,8 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                     />
                   </Localized>
                   {meta.touched &&
-                    (meta.error || meta.submitError) && (
+                    (meta.error ||
+                      (meta.submitError && !meta.dirtySinceLastSubmit)) && (
                       <ValidationMessage fullWidth>
                         {meta.error || meta.submitError}
                       </ValidationMessage>

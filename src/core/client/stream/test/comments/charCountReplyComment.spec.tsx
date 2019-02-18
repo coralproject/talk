@@ -23,7 +23,7 @@ const settingsWithCharCount = {
 };
 
 async function createTestRenderer(
-  resolver: any,
+  resolver: any = {},
   options: { muteNetworkErrors?: boolean } = {}
 ) {
   const resolvers = {
@@ -53,36 +53,38 @@ async function createTestRenderer(
     },
   });
 
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comment-comment-0")
+  );
+
+  // Open reply form.
+  within(comment)
+    .getByText("Reply", { selector: "button" })
+    .props.onClick();
+
   const rte = await waitForElement(
     () =>
       findParentWithType(
-        within(testRenderer.root).getByLabelText("Post a comment"),
+        within(comment).getByLabelText("Write a reply"),
         // We'll use the RTE component here as an exception because the
         // jsdom does not support all of what is needed for rendering the
         // Rich Text Editor.
         RTE
       )!
   );
+
   const form = findParentWithType(rte, "form")!;
   return {
     testRenderer,
     context,
+    comment,
     rte,
     form,
   };
 }
 
 it("validate min", async () => {
-  const { rte, form } = await createTestRenderer(
-    {
-      Mutation: {
-        createComment: sinon.stub().callsFake(() => {
-          throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
-        }),
-      },
-    },
-    { muteNetworkErrors: true }
-  );
+  const { rte, form } = await createTestRenderer();
 
   const text = "Please enter at least 3 characters.";
 
@@ -99,16 +101,7 @@ it("validate min", async () => {
 });
 
 it("validate max", async () => {
-  const { rte, form } = await createTestRenderer(
-    {
-      Mutation: {
-        createComment: sinon.stub().callsFake(() => {
-          throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
-        }),
-      },
-    },
-    { muteNetworkErrors: true }
-  );
+  const { rte, form } = await createTestRenderer();
 
   const text = "Please enter at max 10 characters.";
 
@@ -125,16 +118,7 @@ it("validate max", async () => {
 });
 
 it("show remaining characters", async () => {
-  const { rte, form } = await createTestRenderer(
-    {
-      Mutation: {
-        createComment: sinon.stub().callsFake(() => {
-          throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
-        }),
-      },
-    },
-    { muteNetworkErrors: true }
-  );
+  const { rte, form } = await createTestRenderer();
 
   rte.props.onChange({ html: "abc" });
   within(form).getByText("7 characters remaining");
@@ -150,9 +134,10 @@ it("update from server upon specific char count error", async () => {
     const { rte, form } = await createTestRenderer(
       {
         Mutation: {
-          createComment: sinon.stub().callsFake(() => {
+          createCommentReply: sinon.stub().callsFake(() => {
             throw new InvalidRequestError({
               code: errorCode,
+              param: "input.body",
             });
           }),
         },
@@ -182,5 +167,11 @@ it("update from server upon specific char count error", async () => {
     await waitForElement(() =>
       within(form).getByText("-3 characters remaining")
     );
+    // Body submit error should be displayed.
+    within(form).getByText(errorCode);
+    rte.props.onChange({ html: "abcde" });
+
+    // Body submit error should disappear when form gets dirty.
+    expect(within(form).queryByText(errorCode)).toBeNull();
   }
 });

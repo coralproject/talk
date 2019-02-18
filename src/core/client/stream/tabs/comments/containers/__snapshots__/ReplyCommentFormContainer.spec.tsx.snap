@@ -3,6 +3,8 @@
 exports[`renders correctly 1`] = `
 <ReplyCommentForm
   id="comment-id"
+  max={100}
+  min={3}
   onCancel={[Function]}
   onChange={[Function]}
   onSubmit={[Function]}
@@ -19,6 +21,8 @@ exports[`renders with initialValues 1`] = `
       "body": "Hello World!",
     }
   }
+  max={100}
+  min={3}
   onCancel={[Function]}
   onChange={[Function]}
   onSubmit={[Function]}

@@ -10,11 +10,11 @@ import {
   RefreshSettingsFetch,
   withRefreshSettingsFetch,
 } from "talk-stream/fetches";
-
 import {
   CreateCommentMutation,
   withCreateCommentMutation,
 } from "talk-stream/mutations";
+
 import PostCommentForm, {
   PostCommentFormProps,
 } from "../components/PostCommentForm";
