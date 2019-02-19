@@ -1,10 +1,10 @@
 import { GQLCommentRevisionTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 import { decodeActionCounts } from "talk-server/models/action/comment";
-import * as comment from "talk-server/models/comment";
+import { Comment, Revision } from "talk-server/models/comment";
 
 export interface WrappedCommentRevision {
-  revision: comment.Revision;
-  comment: comment.Comment;
+  revision: Revision;
+  comment: Comment;
 }
 
 export const CommentRevision: Required<

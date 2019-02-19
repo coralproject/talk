@@ -2,7 +2,7 @@ import { GQLMutationTypeResolver } from "talk-server/graph/tenant/schema/__gener
 
 export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   editComment: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.edit(input),
+    comment: await ctx.mutators.Comments.edit(input),
     clientMutationId: input.clientMutationId,
   }),
   createComment: async (source, { input }, ctx) => ({
@@ -11,7 +11,7 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
       // performant way, so we return null instead. It seems that Relay does
       // not directly use this value.
       cursor: null,
-      node: await ctx.mutators.Comment.create(input),
+      node: await ctx.mutators.Comments.create(input),
     },
     clientMutationId: input.clientMutationId,
   }),
@@ -21,7 +21,7 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
       // performant way, so we return null instead. It seems that Relay does
       // not directly use this value.
       cursor: null,
-      node: await ctx.mutators.Comment.create(input),
+      node: await ctx.mutators.Comments.create(input),
     },
     clientMutationId: input.clientMutationId,
   }),
@@ -30,23 +30,23 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     clientMutationId: input.clientMutationId,
   }),
   createCommentReaction: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.createReaction(input),
+    comment: await ctx.mutators.Comments.createReaction(input),
     clientMutationId: input.clientMutationId,
   }),
   removeCommentReaction: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.removeReaction(input),
+    comment: await ctx.mutators.Comments.removeReaction(input),
     clientMutationId: input.clientMutationId,
   }),
   createCommentDontAgree: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.createDontAgree(input),
+    comment: await ctx.mutators.Comments.createDontAgree(input),
     clientMutationId: input.clientMutationId,
   }),
   removeCommentDontAgree: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.removeDontAgree(input),
+    comment: await ctx.mutators.Comments.removeDontAgree(input),
     clientMutationId: input.clientMutationId,
   }),
   createCommentFlag: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Comment.createFlag(input),
+    comment: await ctx.mutators.Comments.createFlag(input),
     clientMutationId: input.clientMutationId,
   }),
   regenerateSSOKey: async (source, { input }, ctx) => ({
@@ -54,23 +54,23 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     clientMutationId: input.clientMutationId,
   }),
   createStory: async (source, { input }, ctx) => ({
-    story: await ctx.mutators.Story.create(input),
+    story: await ctx.mutators.Stories.create(input),
     clientMutationId: input.clientMutationId,
   }),
   updateStory: async (source, { input }, ctx) => ({
-    story: await ctx.mutators.Story.update(input),
+    story: await ctx.mutators.Stories.update(input),
     clientMutationId: input.clientMutationId,
   }),
   mergeStories: async (source, { input }, ctx) => ({
-    story: await ctx.mutators.Story.merge(input),
+    story: await ctx.mutators.Stories.merge(input),
     clientMutationId: input.clientMutationId,
   }),
   removeStory: async (source, { input }, ctx) => ({
-    story: await ctx.mutators.Story.remove(input),
+    story: await ctx.mutators.Stories.remove(input),
     clientMutationId: input.clientMutationId,
   }),
   scrapeStory: async (source, { input }, ctx) => ({
-    story: await ctx.mutators.Story.scrape(input),
+    story: await ctx.mutators.Stories.scrape(input),
     clientMutationId: input.clientMutationId,
   }),
   acceptComment: async (source, { input }, ctx) => ({
@@ -82,47 +82,47 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     clientMutationId: input.clientMutationId,
   }),
   setUsername: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.setUsername(input),
+    user: await ctx.mutators.Users.setUsername(input),
     clientMutationId: input.clientMutationId,
   }),
   setEmail: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.setEmail(input),
+    user: await ctx.mutators.Users.setEmail(input),
     clientMutationId: input.clientMutationId,
   }),
   setPassword: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.setPassword(input),
+    user: await ctx.mutators.Users.setPassword(input),
     clientMutationId: input.clientMutationId,
   }),
   updatePassword: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.updatePassword(input),
+    user: await ctx.mutators.Users.updatePassword(input),
     clientMutationId: input.clientMutationId,
   }),
   createToken: async (source, { input }, ctx) => ({
-    ...(await ctx.mutators.User.createToken(input)),
+    ...(await ctx.mutators.Users.createToken(input)),
     clientMutationId: input.clientMutationId,
   }),
   deactivateToken: async (source, { input }, ctx) => ({
-    ...(await ctx.mutators.User.deactivateToken(input)),
+    ...(await ctx.mutators.Users.deactivateToken(input)),
     clientMutationId: input.clientMutationId,
   }),
   updateUserUsername: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.updateUserUsername(input),
+    user: await ctx.mutators.Users.updateUserUsername(input),
     clientMutationId: input.clientMutationId,
   }),
   updateUserDisplayName: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.updateUserDisplayName(input),
+    user: await ctx.mutators.Users.updateUserDisplayName(input),
     clientMutationId: input.clientMutationId,
   }),
   updateUserEmail: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.updateUserEmail(input),
+    user: await ctx.mutators.Users.updateUserEmail(input),
     clientMutationId: input.clientMutationId,
   }),
   updateUserAvatar: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.updateUserAvatar(input),
+    user: await ctx.mutators.Users.updateUserAvatar(input),
     clientMutationId: input.clientMutationId,
   }),
   updateUserRole: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.User.updateUserRole(input),
+    user: await ctx.mutators.Users.updateUserRole(input),
     clientMutationId: input.clientMutationId,
   }),
 };

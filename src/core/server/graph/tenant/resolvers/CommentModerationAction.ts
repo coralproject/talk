@@ -1,4 +1,5 @@
 import * as actions from "talk-server/models/action/moderation/comment";
+
 import { GQLCommentModerationActionTypeResolver } from "../schema/__generated__/types";
 
 export const CommentModerationAction: GQLCommentModerationActionTypeResolver<

@@ -9,8 +9,8 @@ import { decodeActionCounts } from "talk-server/models/action/comment";
 import * as comment from "talk-server/models/comment";
 import { getLatestRevision } from "talk-server/models/comment";
 import { createConnection } from "talk-server/models/helpers/connection";
-
 import { getCommentEditableUntilDate } from "talk-server/services/comments";
+
 import TenantContext from "../context";
 import { getURLWithCommentID } from "./util";
 
@@ -57,9 +57,12 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   statusHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forComment(input, id),
   replies: (c, input, ctx) =>
+    // If there is at least one reply, then use the connection loader, otherwise
+    // return a blank connection.
     c.replyCount > 0
       ? ctx.loaders.Comments.forParent(c.storyID, c.id, input)
       : createConnection(),
+  // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: c => decodeActionCounts(c.actionCounts),
   myActionPresence: (c, input, ctx) =>
     ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,

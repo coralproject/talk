@@ -10,8 +10,8 @@ export interface Edge<T> {
 }
 
 export interface PageInfo {
-  hasNextPage?: boolean;
-  hasPreviousPage?: boolean;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
   startCursor?: Cursor;
   endCursor?: Cursor;
 }

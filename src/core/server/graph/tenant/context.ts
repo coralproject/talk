@@ -5,12 +5,12 @@ import CommonContext from "talk-server/graph/common/context";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { TaskQueue } from "talk-server/queue";
+import { I18n } from "talk-server/services/i18n";
 import { JWTSigningConfig } from "talk-server/services/jwt";
 import { AugmentedRedis } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
-import { I18n } from "talk-server/services/i18n";
 import loaders from "./loaders";
 import mutators from "./mutators";
 

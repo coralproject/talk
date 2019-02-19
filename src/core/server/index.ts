@@ -1,8 +1,8 @@
 import express, { Express } from "express";
+import { GraphQLSchema } from "graphql";
 import http from "http";
 import { Db } from "mongodb";
 
-import { GraphQLSchema } from "graphql";
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { createApp, listenAndServe } from "talk-server/app";
 import config, { Config } from "talk-server/config";

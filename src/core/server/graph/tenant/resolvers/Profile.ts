@@ -1,5 +1,4 @@
 import { GQLProfileTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-
 import * as user from "talk-server/models/user";
 
 const resolveType: GQLProfileTypeResolver<user.Profile> = profile => {

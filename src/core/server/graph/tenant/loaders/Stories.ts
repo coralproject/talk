@@ -6,6 +6,7 @@ import {
   GQLStoryMetadata,
   QueryToStoriesArgs,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { Connection } from "talk-server/models/helpers/connection";
 import {
   FindOrCreateStoryInput,
   retrieveManyStories,
@@ -33,6 +34,23 @@ const statusFilter = (
   }
 };
 
+/**
+ * primeStoriesFromConnection will prime a given context with the stories
+ * retrieved via a connection.
+ *
+ * @param ctx graph context to use to prime the loaders.
+ */
+const primeStoriesFromConnection = (ctx: TenantContext) => (
+  connection: Readonly<Connection<Readonly<Story>>>
+) => {
+  // For each of these nodes, prime the story loader.
+  connection.nodes.forEach(story => {
+    ctx.loaders.Stories.story.prime(story.id, story);
+  });
+
+  return connection;
+};
+
 export default (ctx: TenantContext) => ({
   findOrCreate: new DataLoader(
     (inputs: FindOrCreateStoryInput[]) =>
@@ -57,7 +75,7 @@ export default (ctx: TenantContext) => ({
         // Merge the status filter into the connection filter.
         ...statusFilter(status),
       },
-    }),
+    }).then(primeStoriesFromConnection(ctx)),
   debugScrapeMetadata: new DataLoader<string, GQLStoryMetadata | null>(urls =>
     Promise.all(urls.map(url => scraper.scrape(url)))
   ),

@@ -1,7 +1,7 @@
 import { ERROR_CODES } from "talk-common/errors";
 import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
 import TenantContext from "talk-server/graph/tenant/context";
-import * as user from "talk-server/models/user";
+import { User } from "talk-server/models/user";
 import {
   createToken,
   deactivateToken,
@@ -15,7 +15,6 @@ import {
   updateRole,
   updateUsername,
 } from "talk-server/services/users";
-
 import {
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
@@ -30,10 +29,10 @@ import {
   GQLUpdateUserUsernameInput,
 } from "../schema/__generated__/types";
 
-export const User = (ctx: TenantContext) => ({
+export const Users = (ctx: TenantContext) => ({
   setUsername: async (
     input: GQLSetUsernameInput
-  ): Promise<Readonly<user.User> | null> =>
+  ): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
       setUsername(ctx.mongo, ctx.tenant, ctx.user!, input.username),
       {
@@ -46,9 +45,7 @@ export const User = (ctx: TenantContext) => ({
         ],
       }
     ),
-  setEmail: async (
-    input: GQLSetEmailInput
-  ): Promise<Readonly<user.User> | null> =>
+  setEmail: async (input: GQLSetEmailInput): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
       setEmail(ctx.mongo, ctx.tenant, ctx.user!, input.email),
       {
@@ -62,11 +59,11 @@ export const User = (ctx: TenantContext) => ({
     ),
   setPassword: async (
     input: GQLSetPasswordInput
-  ): Promise<Readonly<user.User> | null> =>
+  ): Promise<Readonly<User> | null> =>
     setPassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
   updatePassword: async (
     input: GQLUpdatePasswordInput
-  ): Promise<Readonly<user.User> | null> =>
+  ): Promise<Readonly<User> | null> =>
     updatePassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
