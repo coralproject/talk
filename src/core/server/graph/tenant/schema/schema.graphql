@@ -3302,7 +3302,9 @@ type Mutation {
   createCommentReply will create a Comment as the current logged in User that is
   in reply to another Comment.
   """
-  createCommentReply(input: CreateCommentReplyInput!): CreateCommentReplyPayload
+  createCommentReply(
+    input: CreateCommentReplyInput!
+  ): CreateCommentReplyPayload @auth
 
   """
   editComment will allow the author of a comment to change the body within the
