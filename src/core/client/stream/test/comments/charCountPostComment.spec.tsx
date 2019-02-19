@@ -31,13 +31,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settingsWithCharCount),
       me: sinon.stub().returns(users[0]),
-      story: createSinonStub(
-        s => s.throws(),
-        s =>
-          s
-            .withArgs(undefined, { id: stories[0].id, url: null })
-            .returns(stories[0])
-      ),
+      story: sinon.stub().returns(stories[0]),
       ...resolver.Query,
     },
   };

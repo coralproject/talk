@@ -151,6 +151,7 @@ export class CommentContainer extends Component<Props, State> {
       return (
         <div data-testid={`comment-${comment.id}`}>
           <EditCommentFormContainer
+            settings={settings}
             comment={comment}
             onClose={this.closeEditDialog}
           />
@@ -290,6 +291,7 @@ const enhanced = withSetCommentIDMutation(
         fragment CommentContainer_settings on Settings {
           ...ReactionButtonContainer_settings
           ...ReplyCommentFormContainer_settings
+          ...EditCommentFormContainer_settings
         }
       `,
     })(CommentContainer)

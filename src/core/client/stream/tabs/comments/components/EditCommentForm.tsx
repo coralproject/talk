@@ -9,7 +9,6 @@ import React, {
 import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
-import { required } from "talk-framework/lib/validation";
 import Timestamp from "talk-stream/components/Timestamp";
 import {
   AriaInfo,
@@ -23,6 +22,8 @@ import {
   ValidationMessage,
 } from "talk-ui/components";
 
+import RemainingCharactersContainer from "../containers/RemainingCharactersContainer";
+import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../helpers";
 import { TopBarLeft, Username } from "./Comment";
 import RTE from "./RTE";
 
@@ -44,19 +45,15 @@ export interface EditCommentFormProps {
   initialValues?: FormProps;
   rteRef?: Ref<CoralRTE>;
   expired?: boolean;
+  min: number | null;
+  max: number | null;
 }
 
 const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
   const inputID = `comments-editCommentForm-rte-${props.id}`;
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-      {({
-        handleSubmit,
-        submitting,
-        hasValidationErrors,
-        pristine,
-        submitError,
-      }) => (
+      {({ handleSubmit, submitting, pristine, submitError }) => (
         <form
           className={props.className}
           autoComplete="off"
@@ -72,102 +69,125 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
                 <Timestamp>{props.createdAt}</Timestamp>
               </TopBarLeft>
             </div>
-            <Field name="body" validate={required}>
+            <Field
+              name="body"
+              validate={getCommentBodyValidators(props.min, props.max)}
+            >
               {({ input, meta }) => (
-                <HorizontalGutter size="half">
-                  <Localized id="comments-editCommentForm-rteLabel">
-                    <AriaInfo component="label" htmlFor={inputID}>
-                      Edit comment
-                    </AriaInfo>
-                  </Localized>
-                  <Localized
-                    id="comments-editCommentForm-rte"
-                    attrs={{ placeholder: true }}
-                  >
-                    <RTE
-                      inputId={inputID}
-                      onChange={({ html }) => input.onChange(html)}
-                      value={input.value}
-                      placeholder="Edit comment"
-                      forwardRef={props.rteRef}
-                      disabled={submitting || props.expired}
-                    />
-                  </Localized>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
+                <>
+                  <HorizontalGutter size="half">
+                    <Localized id="comments-editCommentForm-rteLabel">
+                      <AriaInfo component="label" htmlFor={inputID}>
+                        Edit comment
+                      </AriaInfo>
+                    </Localized>
+                    <Localized
+                      id="comments-editCommentForm-rte"
+                      attrs={{ placeholder: true }}
+                    >
+                      <RTE
+                        inputId={inputID}
+                        onChange={({ html }) =>
+                          input.onChange(cleanupRTEEmptyHTML(html))
+                        }
+                        value={input.value}
+                        placeholder="Edit comment"
+                        forwardRef={props.rteRef}
+                        disabled={submitting || props.expired}
+                      />
+                    </Localized>
+                    {props.expired ? (
+                      <Localized id="comments-editCommentForm-editTimeExpired">
+                        <ValidationMessage fullWidth>
+                          Edit time has expired. You can no longer edit this
+                          comment. Why not post another one?
+                        </ValidationMessage>
+                      </Localized>
+                    ) : (
+                      <>
+                        <Message fullWidth>
+                          <MessageIcon>alarm</MessageIcon>
+                          <Localized
+                            id="comments-editCommentForm-editRemainingTime"
+                            time={
+                              <RelativeTime date={props.editableUntil} live />
+                            }
+                          >
+                            <span>{"Edit: <time></time> remaining"}</span>
+                          </Localized>
+                        </Message>
+                        {meta.touched &&
+                          (meta.error ||
+                            (meta.submitError &&
+                              !meta.dirtySinceLastSubmit)) && (
+                            <ValidationMessage fullWidth>
+                              {meta.error || meta.submitError}
+                            </ValidationMessage>
+                          )}
+                        {submitError && (
+                          <ValidationMessage fullWidth>
+                            {submitError}
+                          </ValidationMessage>
+                        )}
+                        {props.max && (
+                          <RemainingCharactersContainer
+                            value={input.value}
+                            max={props.max}
+                          />
+                        )}
+                      </>
                     )}
-                  {submitError && (
-                    <ValidationMessage fullWidth>
-                      {submitError}
-                    </ValidationMessage>
-                  )}
-                </HorizontalGutter>
-              )}
-            </Field>
-            {props.expired ? (
-              <Localized id="comments-editCommentForm-editTimeExpired">
-                <ValidationMessage fullWidth>
-                  Edit time has expired. You can no longer edit this comment.
-                  Why not post another one?
-                </ValidationMessage>
-              </Localized>
-            ) : (
-              <Message fullWidth>
-                <MessageIcon>alarm</MessageIcon>
-                <Localized
-                  id="comments-editCommentForm-editRemainingTime"
-                  time={<RelativeTime date={props.editableUntil} live />}
-                >
-                  <span>{"Edit: <time></time> remaining"}</span>
-                </Localized>
-              </Message>
-            )}
-            <Flex direction="row" justifyContent="flex-end" itemGutter="half">
-              {props.expired ? (
-                <Localized id="comments-editCommentForm-close">
-                  <Button
-                    variant="outlined"
-                    disabled={submitting}
-                    onClick={props.onClose}
+                  </HorizontalGutter>
+                  <Flex
+                    direction="row"
+                    justifyContent="flex-end"
+                    itemGutter="half"
                   >
-                    Close
-                  </Button>
-                </Localized>
-              ) : (
-                <MatchMedia ltWidth="sm">
-                  {matches => (
-                    <>
-                      <Localized id="comments-editCommentForm-cancel">
+                    {props.expired ? (
+                      <Localized id="comments-editCommentForm-close">
                         <Button
                           variant="outlined"
                           disabled={submitting}
-                          onClick={props.onCancel}
-                          fullWidth={matches}
+                          onClick={props.onClose}
                         >
-                          Cancel
+                          Close
                         </Button>
                       </Localized>
-                      <Localized id="comments-editCommentForm-saveChanges">
-                        <Button
-                          color="primary"
-                          variant="filled"
-                          disabled={
-                            submitting || hasValidationErrors || pristine
-                          }
-                          type="submit"
-                          fullWidth={matches}
-                        >
-                          Save Changes
-                        </Button>
-                      </Localized>
-                    </>
-                  )}
-                </MatchMedia>
+                    ) : (
+                      <MatchMedia ltWidth="sm">
+                        {matches => (
+                          <>
+                            <Localized id="comments-editCommentForm-cancel">
+                              <Button
+                                variant="outlined"
+                                disabled={submitting}
+                                onClick={props.onCancel}
+                                fullWidth={matches}
+                              >
+                                Cancel
+                              </Button>
+                            </Localized>
+                            <Localized id="comments-editCommentForm-saveChanges">
+                              <Button
+                                color="primary"
+                                variant="filled"
+                                disabled={
+                                  submitting || !input.value || pristine
+                                }
+                                type="submit"
+                                fullWidth={matches}
+                              >
+                                Save Changes
+                              </Button>
+                            </Localized>
+                          </>
+                        )}
+                      </MatchMedia>
+                    )}
+                  </Flex>
+                </>
               )}
-            </Flex>
+            </Field>
           </HorizontalGutter>
         </form>
       )}

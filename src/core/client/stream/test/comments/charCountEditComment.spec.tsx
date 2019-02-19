@@ -1,6 +1,7 @@
-import sinon from "sinon";
-
 import RTE from "@coralproject/rte";
+import sinon from "sinon";
+import timekeeper from "timekeeper";
+
 import { ERROR_CODES } from "talk-common/errors";
 import { InvalidRequestError } from "talk-framework/lib/errors";
 import {
@@ -12,6 +13,13 @@ import {
 
 import { settings, stories, users } from "../fixtures";
 import create from "./create";
+
+beforeAll(() => {
+  timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
+});
+afterAll(() => {
+  timekeeper.reset();
+});
 
 const settingsWithCharCount = {
   ...settings,
@@ -51,15 +59,15 @@ async function createTestRenderer(
     within(testRenderer.root).getByTestID("comment-comment-0")
   );
 
-  // Open reply form.
+  // Open edit form.
   within(comment)
-    .getByText("Reply", { selector: "button" })
+    .getByText("Edit")
     .props.onClick();
 
   const rte = await waitForElement(
     () =>
       findParentWithType(
-        within(comment).getByLabelText("Write a reply"),
+        within(comment).getByLabelText("Edit comment"),
         // We'll use the RTE component here as an exception because the
         // jsdom does not support all of what is needed for rendering the
         // Rich Text Editor.
@@ -85,13 +93,6 @@ it("validate min", async () => {
   rte.props.onChange({ html: "ab" });
   form.props.onSubmit();
   within(form).getByText(text);
-
-  // Reset validation when erasing all content.
-  rte.props.onChange({ html: "" });
-  expect(within(form).queryByText(text)).toBeNull();
-
-  rte.props.onChange({ html: "ab" });
-  expect(within(form).queryByText(text)).toBeNull();
 });
 
 it("validate max", async () => {
@@ -102,13 +103,6 @@ it("validate max", async () => {
   rte.props.onChange({ html: "abcdefghijklmnopqrst" });
   form.props.onSubmit();
   within(form).getByText(text);
-
-  // Reset validation when erasing all content.
-  rte.props.onChange({ html: "" });
-  expect(within(form).queryByText(text)).toBeNull();
-
-  rte.props.onChange({ html: "abcdefghijklmnopqrst" });
-  expect(within(form).queryByText(text)).toBeNull();
 });
 
 it("show remaining characters", async () => {
@@ -128,7 +122,7 @@ it("update from server upon specific char count error", async () => {
     const { rte, form } = await createTestRenderer(
       {
         Mutation: {
-          createCommentReply: sinon.stub().callsFake(() => {
+          editComment: sinon.stub().callsFake(() => {
             throw new InvalidRequestError({
               code: errorCode,
               param: "input.body",
