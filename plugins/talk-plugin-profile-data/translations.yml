@@ -147,3 +147,41 @@ de:
       body: "Sie haben die Lösch-Anfrage für Ihr Benutzerkonto bei {0} abgebrochen. Das Konto ist nun wieder aktiv."
   error:
     DOWNLOAD_TOKEN_INVALID: "Der Download-Link ist ungültig."
+nl_NL:
+  download_landing:
+    download_your_account: "Download je reactie geschiedenis"
+    download_details: "Your comment history will be downloaded into a .zip file. After your comment history is unzipped you will have a comma separated value (or .csv) file that you can easily import into your favorite spreadsheet application."
+    all_information_included: "Jouw berichten bevatten de volgende informatie:"
+    information_included:
+      date: "Wanneer je het bericht hebt geschreven"
+      url: "De link naar je bericht"
+      body: "De inhoud van je bericht"
+      asset_url: "De link naar het artikel waar het bericht is verschenen."
+    confirm: "Download mijn bericht geschiedenis"
+  email:
+    download:
+      subject: "Je berichten staan hier {0}, ze zijn klaar om gedownload te worden {0}"
+      download_link_ready: "Click hier om je berichten te downloaden hiervandaan {0} vanaf {1}:"
+      download_archive: "Download Archief"
+    delete:
+      subject: "Je account voor {0} staat gepland om verwijderd te worden"
+      body: |
+        Een verzoek om je account te verwijderen is ontvangen. Je account wordt op {1} verwijderd.
+
+        Hierna zijn al je berichten verwijderd van onze site en uit onze database, en jouw gebruikersnaam, email adre en wachtwoord uit ons systeem.
+
+        Mocht je toch van gedachte zijn veranderd, log in met je huidige account en trek je verzoek in, voor de geplande tijd om je account te verwijderen.
+    deleted:
+      subject: "Je account voor {0} is verwijderd"
+      body: |
+        Jouw account voor het plaatsen van berichten {0} is nu verwijderd. We vinden het jammer om je weg zien te gaan!
+
+        Mocht je toch willen terugkeren naar de discussie in de toekomst, dan kun je je opnieuw inschrijven met een nieuwe account.
+
+        If you'd like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {1}.
+        Mocht je feedback willen achterlaten over waarom je ons hebt verlaten en wat we kunnen doen om de commentaarervaring te verbeteren, stuur een bericht naar {1}.
+    cancelDelete:
+      subject: "Het verwijderen van je account {0} is ge-cancelled"
+      body: "Je hebt het verzoek om je account {0} te verwijderen ingetrokken. Je account is nu actief."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "Je download link is ongeldig."

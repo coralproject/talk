@@ -87,15 +87,15 @@ fr:
     yes_feature_comment: Yes, feature comment
 nl_NL:
   talk-plugin-featured-comments:
-    un_feature: Uitlichting opheffen.
+    un_feature: Uitlichten opheffen.
     feature: Uitlichten
     featured: Uitgelicht
     featured_comments: Uitgelichte reacties
-    go_to_conversation: Ga naar conversatie
-    tooltip_description: Reacties die ons team de moeite waard vind om te lezen.
+    go_to_conversation: Ga naar discussie
+    tooltip_description: Reacties die ons team de moeite waard vindt om te lezen.
     notify_self_featured: 'De reactie van {0} is nu uitgelicht en goedgekeurd'
     notify_featured: '{0} heeft de volgende reactie uitgelicht en goedgekeurd: "{1}"'
-    notify_unfeatured: '{0} hief de uitlichting op van reactie "{1}"'
+    notify_unfeatured: '{0} hef de uitlichting op van de reactie "{1}"'
     feature_comment: Reactie uitlichten?
     are_you_sure: Weet je zeker dat je deze reactie wil uitlichten?
     cancel: Annuleren

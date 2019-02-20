@@ -7,3 +7,6 @@ de:
 es:
   talk-plugin-sort-oldest:
     label: Más votadas primero
+nl_NL:
+  talk-plugin-sort-most-upvoted:
+    label: Meest gerespecteerd eerst

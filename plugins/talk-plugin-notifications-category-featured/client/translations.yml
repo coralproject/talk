@@ -10,3 +10,6 @@ es:
 de:
   talk-plugin-notifications-category-featured:
     toggle_description: Mein Kommentar wird empfohlen
+nl_NL:
+  talk-plugin-notifications-category-featured:
+    toggle_description: Mijn bericht is uitgelicht

@@ -23,3 +23,9 @@ de:
       featured:
         subject: "Einer Ihrer Kommentare wurde auf {0} hervorgehoben"
         body: "{0}\nEin Mitglied unseres Teams hat diesen Kommentar ausgewählt, er wird jetzt für andere Leser besonders hervorgehoben: {1}"
+nl_NL:
+  talk-plugin-notifications:
+    categories:
+      featured:
+        subject: "Een van je reacties is uitgelicht in {0}"
+        body: "{0}\nDe redactie heeft deze reactie uitgelicht voor andere lezers: {1}"

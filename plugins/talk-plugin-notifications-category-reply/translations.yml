@@ -23,3 +23,9 @@ de:
       reply:
         subject: "Jemand hat bei {0} auf Ihren Kommentar geantwortet"
         body: "{0}\n{1} antwortete auf Ihren Kommentar: {2}"
+nl_NL:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Er heeft iemand op jouw bericht {0} gereageerd"
+        body: "{0}\n{1} heeft gereageerd op jouw bericht: {2}"
