@@ -72,7 +72,7 @@ es:
     always_premod: 'Pre-moderado'
     are_you_sure: '¿Estás seguro que quieres suspender a {0}?'
     ban_user: '¿Quieres prohibir al Usuario?'
-    banned: 'Prohibido'
+    banned: Prohibido
     banned_user: 'Usuario prohibido'
     cancel: Cancelar
     commenter: Comentarista
