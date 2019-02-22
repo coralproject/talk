@@ -66,7 +66,7 @@ es:
   community:
     account_creation_date: 'Fecha de creación de la cuenta'
     active: Activa
-    admin: Administrator
+    admin: Administrador
     ads_marketing: 'Esto parece ser un publicidad/acción de comercialización'
     all: 'Todos'
     always_premod: 'Pre-moderado'
@@ -77,13 +77,13 @@ es:
     cancel: Cancelar
     commenter: Comentarista
     dont_like_username: 'No me gusta este nombre de usuario'
-    filter_users: 'Filtrarr usuarios'
+    filter_users: 'Filtrar usuarios'
     filter_role: Rol
     flaggedaccounts: 'Nombres de usuario reportados'
     flags: Reportes
     impersonating: Impersonando
     loading: 'Cargando resultados'
-    moderator: Moderator
+    moderator: Moderador
     newsroom_role: 'Rol en la redacción'
     no_flagged_accounts: 'No hay ningún nombre de usuario reportado en este momento.'
     no_results: 'No se encontraron usuarios con ese nombre o correo.'
