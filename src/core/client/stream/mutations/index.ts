@@ -50,3 +50,8 @@ export {
   withRemoveCommentReactionMutation,
   RemoveCommentReactionMutation,
 } from "./RemoveCommentReactionMutation";
+export {
+  SetStoryClosedInput,
+  withSetStoryClosedMutation,
+  SetStoryClosedMutation,
+} from "./SetStoryClosedMutation";

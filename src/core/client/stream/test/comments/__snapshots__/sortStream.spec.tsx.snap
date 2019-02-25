@@ -70,6 +70,7 @@ exports[`renders app with comment stream 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      disabled={false}
                       id="comments-commentContainer-replyButton-comment-2"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -219,6 +220,7 @@ exports[`renders app with comment stream 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      disabled={false}
                       id="comments-commentContainer-replyButton-comment-3"
                       onBlur={[Function]}
                       onClick={[Function]}

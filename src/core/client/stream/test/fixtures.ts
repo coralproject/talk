@@ -11,6 +11,12 @@ export const settings = {
     enabled: false,
     content: "",
   },
+  disableCommenting: {
+    enabled: false,
+    message: "Commenting has been disabled",
+  },
+  closedAt: null,
+  closedMessage: "Story is closed",
   auth: {
     integrations: {
       facebook: {

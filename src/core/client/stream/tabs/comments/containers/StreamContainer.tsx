@@ -10,6 +10,7 @@ import {
   COMMENT_SORT,
   StreamContainerPaginationQueryVariables,
 } from "talk-stream/__generated__/StreamContainerPaginationQuery.graphql";
+import StoryClosedTimeoutContainer from "talk-stream/containers/StoryClosedTimeoutContainer";
 
 import Stream from "../components/Stream";
 
@@ -59,18 +60,21 @@ export class StreamContainer extends React.Component<Props> {
   public render() {
     const comments = this.props.story.comments.edges.map(edge => edge.node);
     return (
-      <Stream
-        story={this.props.story}
-        comments={comments}
-        settings={this.props.settings}
-        onLoadMore={this.loadMore}
-        hasMore={this.props.relay.hasMore()}
-        disableLoadMore={this.state.disableLoadMore}
-        me={this.props.me}
-        orderBy={this.orderBy}
-        onChangeOrderBy={this.handleOnChangeOrderBy}
-        refetching={this.state.refetching}
-      />
+      <>
+        <StoryClosedTimeoutContainer story={this.props.story} />
+        <Stream
+          story={this.props.story}
+          comments={comments}
+          settings={this.props.settings}
+          onLoadMore={this.loadMore}
+          hasMore={this.props.relay.hasMore()}
+          disableLoadMore={this.state.disableLoadMore}
+          me={this.props.me}
+          orderBy={this.orderBy}
+          onChangeOrderBy={this.handleOnChangeOrderBy}
+          refetching={this.state.refetching}
+        />
+      </>
     );
   }
 
@@ -122,8 +126,10 @@ const enhanced = withPaginationContainer<
             }
           }
         }
+        ...PostCommentFormContainer_story
         ...CommentContainer_story
         ...ReplyListContainer1_story
+        ...StoryClosedTimeoutContainer_story
       }
     `,
     me: graphql`

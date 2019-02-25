@@ -1,39 +1,50 @@
 import { shallow } from "enzyme";
-import { noop } from "lodash";
+import { merge, noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { removeFragmentRefs } from "talk-framework/testHelpers";
-import { PropTypesOf } from "talk-framework/types";
+import { DeepPartial, PropTypesOf } from "talk-framework/types";
 
 import { PostCommentFormContainer } from "./PostCommentFormContainer";
 
 const contextKey = "postCommentFormBody";
 const PostCommentFormContainerN = removeFragmentRefs(PostCommentFormContainer);
 
-function createDefaultProps(): PropTypesOf<typeof PostCommentFormContainerN> {
-  return {
-    createComment: noop as any,
-    refreshSettings: noop as any,
-    storyID: "story-id",
-    sessionStorage: createPromisifiedStorage(),
-    settings: {
-      charCount: {
-        enabled: true,
-        min: 3,
-        max: 100,
+type Props = PropTypesOf<typeof PostCommentFormContainerN>;
+
+function createDefaultProps(add: DeepPartial<Props> = {}): Props {
+  return merge(
+    {},
+    {
+      createComment: noop as any,
+      refreshSettings: noop as any,
+      story: {
+        id: "story-id",
+        isClosed: false,
+      },
+      sessionStorage: createPromisifiedStorage(),
+      settings: {
+        charCount: {
+          enabled: true,
+          min: 3,
+          max: 100,
+        },
+        closedMessage: "closed",
+        disableCommenting: {
+          enabled: false,
+          message: "",
+        },
       },
     },
-  };
+    add
+  );
 }
 
 it("renders correctly", async () => {
-  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
-    ...createDefaultProps(),
-  };
-
+  const props = createDefaultProps();
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
   wrapper.update();
@@ -41,9 +52,7 @@ it("renders correctly", async () => {
 });
 
 it("renders with initialValues", async () => {
-  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
-    ...createDefaultProps(),
-  };
+  const props = createDefaultProps();
 
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
@@ -54,9 +63,7 @@ it("renders with initialValues", async () => {
 });
 
 it("save values", async () => {
-  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
-    ...createDefaultProps(),
-  };
+  const props = createDefaultProps();
 
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
@@ -81,11 +88,13 @@ it("creates a comment", async () => {
     .withArgs({})
     .once();
 
-  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
-    ...createDefaultProps(),
+  const props = createDefaultProps({
     createComment: createCommentStub,
-    storyID,
-  };
+    story: {
+      id: storyID,
+      isClosed: false,
+    },
+  });
 
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
@@ -104,4 +113,80 @@ it("creates a comment", async () => {
   ).toBeTruthy();
   await timeout();
   formMock.verify();
+});
+
+it("renders when story has been closed (collapsing)", async () => {
+  const props = createDefaultProps({
+    story: {
+      isClosed: true,
+    },
+    settings: {
+      closedMessage: "story closed",
+    },
+  });
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+  await timeout();
+  wrapper.update();
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders when commenting has been disabled (collapsing)", async () => {
+  const props = createDefaultProps({
+    settings: {
+      disableCommenting: {
+        enabled: true,
+        message: "commenting disabled",
+      },
+    },
+  });
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+  await timeout();
+  wrapper.update();
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders when story has been closed (non-collapsing)", async () => {
+  const props = createDefaultProps({
+    story: {
+      isClosed: false,
+    },
+    settings: {
+      closedMessage: "story closed",
+    },
+  });
+  const nextProps = createDefaultProps({
+    story: {
+      isClosed: true,
+    },
+    settings: {
+      closedMessage: "story closed",
+    },
+  });
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+  await timeout();
+  wrapper.setProps(nextProps);
+  expect(wrapper).toMatchSnapshot();
+});
+
+it("renders when commenting has been disabled (non-collapsing)", async () => {
+  const props = createDefaultProps({
+    settings: {
+      disableCommenting: {
+        enabled: false,
+        message: "commenting disabled",
+      },
+    },
+  });
+  const nextProps = createDefaultProps({
+    settings: {
+      disableCommenting: {
+        enabled: true,
+        message: "commenting disabled",
+      },
+    },
+  });
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
+  await timeout();
+  wrapper.setProps(nextProps);
+  expect(wrapper).toMatchSnapshot();
 });

@@ -20,7 +20,8 @@ export interface StreamProps {
     id: string;
     isClosed?: boolean;
   } & PropTypesOf<typeof CommentContainer>["story"] &
-    PropTypesOf<typeof ReplyListContainer>["story"];
+    PropTypesOf<typeof ReplyListContainer>["story"] &
+    PropTypesOf<typeof PostCommentFormContainer>["story"];
   settings: PropTypesOf<typeof CommentContainer>["settings"] &
     PropTypesOf<typeof ReplyListContainer>["settings"] &
     PropTypesOf<typeof UserBoxContainer>["settings"] &
@@ -46,18 +47,16 @@ export interface StreamProps {
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <HorizontalGutter className={styles.root} size="double">
-      <HorizontalGutter>
-        <UserBoxContainer me={props.me} settings={props.settings} />
-        <CommunityGuidelinesContainer settings={props.settings} />
-        {props.me ? (
-          <PostCommentFormContainer
-            storyID={props.story.id}
-            settings={props.settings}
-          />
-        ) : (
-          <PostCommentFormFake />
-        )}
-      </HorizontalGutter>
+      <UserBoxContainer me={props.me} settings={props.settings} />
+      <CommunityGuidelinesContainer settings={props.settings} />
+      {props.me ? (
+        <PostCommentFormContainer
+          settings={props.settings}
+          story={props.story}
+        />
+      ) : (
+        <PostCommentFormFake />
+      )}
       {props.comments.length > 0 && (
         <SortMenu orderBy={props.orderBy} onChange={props.onChangeOrderBy} />
       )}

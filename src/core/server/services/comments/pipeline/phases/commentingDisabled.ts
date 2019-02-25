@@ -1,3 +1,4 @@
+import { CommentingDisabledError } from "talk-server/errors";
 import { ModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
@@ -16,7 +17,6 @@ export const commentingDisabled: IntermediateModerationPhase = ({
     testDisabledCommenting(tenant) ||
     (story.settings && testDisabledCommenting(story.settings))
   ) {
-    // TODO: (wyattjoh) return better error.
-    throw new Error("commenting has been disabled tenant wide");
+    throw new CommentingDisabledError();
   }
 };

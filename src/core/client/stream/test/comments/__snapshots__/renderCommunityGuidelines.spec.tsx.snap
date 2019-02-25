@@ -12,146 +12,142 @@ exports[`renders comment stream with community guidelines 1`] = `
     className="HorizontalGutter-root Stream-root HorizontalGutter-double"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+    >
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Sign in
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Register
+      </button>
+    </div>
+    <div
+      className="CallOut-root CallOut-colorPrimary"
     >
       <div
-        className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
-      >
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Sign in
-        </button>
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
-        >
-          Register
-        </button>
-      </div>
-      <div
-        className="CallOut-root CallOut-colorPrimary"
-      >
-        <div
-          className="Markdown-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<h2 id=\\"community-guidelines\\">Community Guidelines</h2>
+        className="Markdown-root"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<h2 id=\\"community-guidelines\\">Community Guidelines</h2>
 ",
-            }
           }
-        />
-      </div>
+        }
+      />
+    </div>
+    <div
+      className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
+    >
       <div
-        className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
+        aria-hidden="true"
       >
-        <div
-          aria-hidden="true"
-        >
-          <div>
+        <div>
+          <div
+            className=""
+          >
             <div
-              className=""
+              aria-hidden="true"
+              className="RTE-placeholder RTE-placeholder "
             >
-              <div
-                aria-hidden="true"
-                className="RTE-placeholder RTE-placeholder "
-              >
-                Post a comment
-              </div>
-              <div
-                aria-placeholder="Post a comment"
-                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
-                contentEditable={false}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "",
-                  }
+              Post a comment
+            </div>
+            <div
+              aria-placeholder="Post a comment"
+              className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+              contentEditable={false}
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "",
                 }
-                disabled={true}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
-              />
-              <div
-                className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
+              }
+              disabled={true}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onCut={[Function]}
+              onFocus={[Function]}
+              onInput={[Function]}
+              onKeyDown={[Function]}
+              onPaste={[Function]}
+              onSelect={[Function]}
+            />
+            <div
+              className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
+            >
+              <button
+                className="Button-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Bold"
+                type="button"
               >
-                <button
-                  className="Button-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Bold"
-                  type="button"
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_bold
-                  </span>
-                </button>
-                <button
-                  className="Button-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Italic"
-                  type="button"
+                  format_bold
+                </span>
+              </button>
+              <button
+                className="Button-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Italic"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_italic
-                  </span>
-                </button>
-                <button
-                  className="Button-button"
-                  disabled={false}
-                  onClick={[Function]}
-                  title="Blockquote"
-                  type="button"
+                  format_italic
+                </span>
+              </button>
+              <button
+                className="Button-button"
+                disabled={false}
+                onClick={[Function]}
+                title="Blockquote"
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-md"
-                  >
-                    format_quote
-                  </span>
-                </button>
-              </div>
+                  format_quote
+                </span>
+              </button>
             </div>
           </div>
         </div>
-        <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
-          disabled={true}
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="submit"
-        >
-          Sign in and Join the Conversation
-        </button>
       </div>
+      <button
+        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+        disabled={true}
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="submit"
+      >
+        Sign in and Join the Conversation
+      </button>
     </div>
     <div>
       <div
@@ -281,6 +277,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          disabled={false}
                           id="comments-commentContainer-replyButton-comment-0"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -430,6 +427,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          disabled={false}
                           id="comments-commentContainer-replyButton-comment-1"
                           onBlur={[Function]}
                           onClick={[Function]}

@@ -60,6 +60,7 @@ exports[`post a reply and handle server error: open reply form 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -378,6 +379,7 @@ exports[`post a reply: open reply form 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -719,6 +721,7 @@ exports[`post a reply: optimistic response 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      disabled={false}
                       id="comments-commentContainer-replyButton-uuid-0"
                       onBlur={[Function]}
                       onClick={[Function]}

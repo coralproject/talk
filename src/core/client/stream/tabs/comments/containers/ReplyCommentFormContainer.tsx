@@ -144,6 +144,15 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
             this.props.settings.charCount.max) ||
           null
         }
+        disabled={
+          this.props.settings.disableCommenting.enabled ||
+          this.props.story.isClosed
+        }
+        disabledMessage={
+          (this.props.settings.disableCommenting.enabled &&
+            this.props.settings.disableCommenting.message) ||
+          this.props.settings.closedMessage
+        }
       />
     );
   }
@@ -163,11 +172,17 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               min
               max
             }
+            disableCommenting {
+              enabled
+              message
+            }
+            closedMessage
           }
         `,
         story: graphql`
           fragment ReplyCommentFormContainer_story on Story {
             id
+            isClosed
           }
         `,
         comment: graphql`

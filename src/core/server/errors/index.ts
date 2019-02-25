@@ -189,6 +189,22 @@ export class TalkError extends VError {
   }
 }
 
+export class CommentingDisabledError extends TalkError {
+  constructor() {
+    super({
+      code: ERROR_CODES.COMMENTING_DISABLED,
+    });
+  }
+}
+
+export class StoryClosedError extends TalkError {
+  constructor() {
+    super({
+      code: ERROR_CODES.STORY_CLOSED,
+    });
+  }
+}
+
 export class CommentBodyTooShortError extends TalkError {
   constructor(min: number) {
     super({

@@ -199,6 +199,9 @@ export class CommentContainer extends Component<Props, State> {
                         }`}
                         onClick={this.openReplyDialog}
                         active={showReplyDialog}
+                        disabled={
+                          settings.disableCommenting.enabled || story.isClosed
+                        }
                       />
                     )}
                     <PermalinkButtonContainer
@@ -258,6 +261,7 @@ const enhanced = withSetCommentIDMutation(
       story: graphql`
         fragment CommentContainer_story on Story {
           url
+          isClosed
           ...ReplyCommentFormContainer_story
           ...PermalinkButtonContainer_story
         }
@@ -289,6 +293,9 @@ const enhanced = withSetCommentIDMutation(
       `,
       settings: graphql`
         fragment CommentContainer_settings on Settings {
+          disableCommenting {
+            enabled
+          }
           ...ReactionButtonContainer_settings
           ...ReplyCommentFormContainer_settings
           ...EditCommentFormContainer_settings

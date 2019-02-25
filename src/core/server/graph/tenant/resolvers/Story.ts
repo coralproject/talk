@@ -7,7 +7,10 @@ import { storyModerationInputResolver } from "./ModerationQueues";
 
 export const Story: GQLStoryTypeResolver<story.Story> = {
   comments: (s, input, ctx) => ctx.loaders.Comments.forStory(s.id, input),
-  isClosed: () => false,
+  isClosed: (s, input, ctx) => {
+    const closedAt = getStoryClosedAt(ctx.tenant, s);
+    return closedAt && new Date() >= closedAt;
+  },
   closedAt: (s, input, ctx) => getStoryClosedAt(ctx.tenant, s),
   commentActionCounts: s => decodeActionCounts(s.commentCounts.action),
   commentCounts: s => s.commentCounts.status,

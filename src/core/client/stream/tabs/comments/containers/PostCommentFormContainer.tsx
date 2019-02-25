@@ -6,6 +6,7 @@ import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 import { PostCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/PostCommentFormContainer_settings.graphql";
+import { PostCommentFormContainer_story as StoryData } from "talk-stream/__generated__/PostCommentFormContainer_story.graphql";
 import {
   RefreshSettingsFetch,
   withRefreshSettingsFetch,
@@ -18,25 +19,32 @@ import {
 import PostCommentForm, {
   PostCommentFormProps,
 } from "../components/PostCommentForm";
+import PostCommentFormCollapsed from "../components/PostCommentFormCollapsed";
 import { shouldTriggerSettingsRefresh } from "../helpers";
 
 interface Props {
   createComment: CreateCommentMutation;
   refreshSettings: RefreshSettingsFetch;
-  storyID: string;
   sessionStorage: PromisifiedStorage;
   settings: SettingsData;
+  story: StoryData;
 }
 
 interface State {
   initialValues?: PostCommentFormProps["initialValues"];
   initialized: boolean;
+  keepFormWhenClosed: boolean;
 }
 
 const contextKey = "postCommentFormBody";
 
 export class PostCommentFormContainer extends Component<Props, State> {
-  public state: State = { initialized: false };
+  public state: State = {
+    initialized: false,
+    keepFormWhenClosed:
+      !this.props.story.isClosed &&
+      !this.props.settings.disableCommenting.enabled,
+  };
 
   constructor(props: Props) {
     super(props);
@@ -63,7 +71,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
   ) => {
     try {
       await this.props.createComment({
-        storyID: this.props.storyID,
+        storyID: this.props.story.id,
         ...input,
       });
       form.reset({});
@@ -96,6 +104,22 @@ export class PostCommentFormContainer extends Component<Props, State> {
     if (!this.state.initialized) {
       return null;
     }
+    if (
+      !this.state.keepFormWhenClosed &&
+      (this.props.settings.disableCommenting.enabled ||
+        this.props.story.isClosed)
+    ) {
+      return (
+        <PostCommentFormCollapsed
+          closedSitewide={this.props.settings.disableCommenting.enabled}
+          closedMessage={
+            (this.props.settings.disableCommenting.enabled &&
+              this.props.settings.disableCommenting.message) ||
+            this.props.settings.closedMessage
+          }
+        />
+      );
+    }
     return (
       <PostCommentForm
         onSubmit={this.handleOnSubmit}
@@ -110,6 +134,15 @@ export class PostCommentFormContainer extends Component<Props, State> {
           (this.props.settings.charCount.enabled &&
             this.props.settings.charCount.max) ||
           null
+        }
+        disabled={
+          this.props.settings.disableCommenting.enabled ||
+          this.props.story.isClosed
+        }
+        disabledMessage={
+          (this.props.settings.disableCommenting.enabled &&
+            this.props.settings.disableCommenting.message) ||
+          this.props.settings.closedMessage
         }
       />
     );
@@ -129,6 +162,17 @@ const enhanced = withContext(({ sessionStorage }) => ({
               min
               max
             }
+            disableCommenting {
+              enabled
+              message
+            }
+            closedMessage
+          }
+        `,
+        story: graphql`
+          fragment PostCommentFormContainer_story on Story {
+            id
+            isClosed
           }
         `,
       })(PostCommentFormContainer)

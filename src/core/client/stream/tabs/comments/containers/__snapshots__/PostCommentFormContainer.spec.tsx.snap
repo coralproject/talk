@@ -2,6 +2,44 @@
 
 exports[`renders correctly 1`] = `
 <PostCommentForm
+  disabled={false}
+  disabledMessage="closed"
+  max={100}
+  min={3}
+  onChange={[Function]}
+  onSubmit={[Function]}
+/>
+`;
+
+exports[`renders when commenting has been disabled (collapsing) 1`] = `
+<PostCommentFormCollapsed
+  closedMessage="commenting disabled"
+  closedSitewide={true}
+/>
+`;
+
+exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
+<PostCommentForm
+  disabled={true}
+  disabledMessage="commenting disabled"
+  max={100}
+  min={3}
+  onChange={[Function]}
+  onSubmit={[Function]}
+/>
+`;
+
+exports[`renders when story has been closed (collapsing) 1`] = `
+<PostCommentFormCollapsed
+  closedMessage="story closed"
+  closedSitewide={false}
+/>
+`;
+
+exports[`renders when story has been closed (non-collapsing) 1`] = `
+<PostCommentForm
+  disabled={true}
+  disabledMessage="story closed"
   max={100}
   min={3}
   onChange={[Function]}
@@ -11,6 +49,8 @@ exports[`renders correctly 1`] = `
 
 exports[`renders with initialValues 1`] = `
 <PostCommentForm
+  disabled={false}
+  disabledMessage="closed"
   initialValues={
     Object {
       "body": "Hello World!",

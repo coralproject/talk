@@ -23,6 +23,8 @@ export interface PostCommentFormProps {
   initialValues?: FormProps;
   min: number | null;
   max: number | null;
+  disabled?: boolean;
+  disabledMessage?: React.ReactNode;
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
@@ -64,26 +66,38 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                       }
                       value={input.value}
                       placeholder="Post a comment"
-                      disabled={submitting}
+                      disabled={submitting || props.disabled}
                     />
                   </Localized>
-                  {meta.touched &&
-                    (meta.error ||
-                      (meta.submitError && !meta.dirtySinceLastSubmit)) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
-                  {submitError && (
-                    <ValidationMessage fullWidth>
-                      {submitError}
-                    </ValidationMessage>
-                  )}
-                  {props.max && (
-                    <RemainingCharactersContainer
-                      value={input.value}
-                      max={props.max}
-                    />
+                  {props.disabled ? (
+                    <>
+                      {props.disabledMessage && (
+                        <ValidationMessage fullWidth>
+                          {props.disabledMessage}
+                        </ValidationMessage>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {meta.touched &&
+                        (meta.error ||
+                          (meta.submitError && !meta.dirtySinceLastSubmit)) && (
+                          <ValidationMessage fullWidth>
+                            {meta.error || meta.submitError}
+                          </ValidationMessage>
+                        )}
+                      {submitError && (
+                        <ValidationMessage fullWidth>
+                          {submitError}
+                        </ValidationMessage>
+                      )}
+                      {props.max && (
+                        <RemainingCharactersContainer
+                          value={input.value}
+                          max={props.max}
+                        />
+                      )}
+                    </>
                   )}
                 </HorizontalGutter>
                 <Flex direction="column" alignItems="flex-end">
@@ -91,7 +105,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                     <Button
                       color="primary"
                       variant="filled"
-                      disabled={submitting || !input.value}
+                      disabled={submitting || !input.value || props.disabled}
                       type="submit"
                     >
                       Submit

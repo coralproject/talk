@@ -1,0 +1,7 @@
+.root {
+}
+
+.sitewide {
+  background-color: var(--palette-grey-dark);
+  color: var(--palette-text-light);
+}

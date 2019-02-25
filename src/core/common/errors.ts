@@ -4,6 +4,14 @@ export enum ERROR_TYPES {
 
 export enum ERROR_CODES {
   /**
+   * STORY_CLOSED is used when submitting a comment on a closed story.
+   */
+  STORY_CLOSED = "STORY_CLOSED",
+  /**
+   * COMMENTING_DISABLED is used when submitting a comment while commenting has been disabled.
+   */
+  COMMENTING_DISABLED = "COMMENTING_DISABLED",
+  /**
    * COMMENT_BODY_TOO_SHORT is used when a submitted comment body is too short.
    */
   COMMENT_BODY_TOO_SHORT = "COMMENT_BODY_TOO_SHORT",

@@ -1,200 +1,296 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Stream
-  comments={
-    Array [
+<Fragment>
+  <withContext(createMutationContainer(Relay(StoryClosedTimeoutContainer)))
+    story={
       Object {
-        "id": "comment-1",
-      },
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
+            },
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
+            },
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
+    }
+  />
+  <Stream
+    comments={
+      Array [
+        Object {
+          "id": "comment-1",
+        },
+        Object {
+          "id": "comment-2",
+        },
+      ]
+    }
+    disableLoadMore={false}
+    me={null}
+    onChangeOrderBy={[Function]}
+    onLoadMore={[Function]}
+    orderBy="CREATED_AT_ASC"
+    refetching={false}
+    settings={
       Object {
-        "id": "comment-2",
-      },
-    ]
-  }
-  disableLoadMore={false}
-  me={null}
-  onChangeOrderBy={[Function]}
-  onLoadMore={[Function]}
-  orderBy="CREATED_AT_ASC"
-  refetching={false}
-  settings={
-    Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
-      },
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
+      }
     }
-  }
-  story={
-    Object {
-      "comments": Object {
-        "edges": Array [
-          Object {
-            "node": Object {
-              "id": "comment-1",
+    story={
+      Object {
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
             },
-          },
-          Object {
-            "node": Object {
-              "id": "comment-2",
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
             },
-          },
-        ],
-      },
-      "id": "story-id",
-      "isClosed": false,
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
     }
-  }
-/>
+  />
+</Fragment>
 `;
 
 exports[`when has more comments renders hasMore 1`] = `
-<Stream
-  comments={
-    Array [
+<Fragment>
+  <withContext(createMutationContainer(Relay(StoryClosedTimeoutContainer)))
+    story={
       Object {
-        "id": "comment-1",
-      },
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
+            },
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
+            },
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
+    }
+  />
+  <Stream
+    comments={
+      Array [
+        Object {
+          "id": "comment-1",
+        },
+        Object {
+          "id": "comment-2",
+        },
+      ]
+    }
+    disableLoadMore={false}
+    hasMore={true}
+    me={null}
+    onChangeOrderBy={[Function]}
+    onLoadMore={[Function]}
+    orderBy="CREATED_AT_ASC"
+    refetching={false}
+    settings={
       Object {
-        "id": "comment-2",
-      },
-    ]
-  }
-  disableLoadMore={false}
-  hasMore={true}
-  me={null}
-  onChangeOrderBy={[Function]}
-  onLoadMore={[Function]}
-  orderBy="CREATED_AT_ASC"
-  refetching={false}
-  settings={
-    Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
-      },
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
+      }
     }
-  }
-  story={
-    Object {
-      "comments": Object {
-        "edges": Array [
-          Object {
-            "node": Object {
-              "id": "comment-1",
+    story={
+      Object {
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
             },
-          },
-          Object {
-            "node": Object {
-              "id": "comment-2",
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
             },
-          },
-        ],
-      },
-      "id": "story-id",
-      "isClosed": false,
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
     }
-  }
-/>
+  />
+</Fragment>
 `;
 
 exports[`when has more comments when loading more disables load more button 1`] = `
-<Stream
-  comments={
-    Array [
+<Fragment>
+  <withContext(createMutationContainer(Relay(StoryClosedTimeoutContainer)))
+    story={
       Object {
-        "id": "comment-1",
-      },
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
+            },
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
+            },
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
+    }
+  />
+  <Stream
+    comments={
+      Array [
+        Object {
+          "id": "comment-1",
+        },
+        Object {
+          "id": "comment-2",
+        },
+      ]
+    }
+    disableLoadMore={true}
+    hasMore={true}
+    me={null}
+    onChangeOrderBy={[Function]}
+    onLoadMore={[Function]}
+    orderBy="CREATED_AT_ASC"
+    refetching={false}
+    settings={
       Object {
-        "id": "comment-2",
-      },
-    ]
-  }
-  disableLoadMore={true}
-  hasMore={true}
-  me={null}
-  onChangeOrderBy={[Function]}
-  onLoadMore={[Function]}
-  orderBy="CREATED_AT_ASC"
-  refetching={false}
-  settings={
-    Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
-      },
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
+      }
     }
-  }
-  story={
-    Object {
-      "comments": Object {
-        "edges": Array [
-          Object {
-            "node": Object {
-              "id": "comment-1",
+    story={
+      Object {
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
             },
-          },
-          Object {
-            "node": Object {
-              "id": "comment-2",
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
             },
-          },
-        ],
-      },
-      "id": "story-id",
-      "isClosed": false,
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
     }
-  }
-/>
+  />
+</Fragment>
 `;
 
 exports[`when has more comments when loading more enable load more button after loading is done 1`] = `
-<Stream
-  comments={
-    Array [
+<Fragment>
+  <withContext(createMutationContainer(Relay(StoryClosedTimeoutContainer)))
+    story={
       Object {
-        "id": "comment-1",
-      },
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
+            },
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
+            },
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
+    }
+  />
+  <Stream
+    comments={
+      Array [
+        Object {
+          "id": "comment-1",
+        },
+        Object {
+          "id": "comment-2",
+        },
+      ]
+    }
+    disableLoadMore={false}
+    hasMore={true}
+    me={null}
+    onChangeOrderBy={[Function]}
+    onLoadMore={[Function]}
+    orderBy="CREATED_AT_ASC"
+    refetching={false}
+    settings={
       Object {
-        "id": "comment-2",
-      },
-    ]
-  }
-  disableLoadMore={false}
-  hasMore={true}
-  me={null}
-  onChangeOrderBy={[Function]}
-  onLoadMore={[Function]}
-  orderBy="CREATED_AT_ASC"
-  refetching={false}
-  settings={
-    Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
-      },
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
+      }
     }
-  }
-  story={
-    Object {
-      "comments": Object {
-        "edges": Array [
-          Object {
-            "node": Object {
-              "id": "comment-1",
+    story={
+      Object {
+        "comments": Object {
+          "edges": Array [
+            Object {
+              "node": Object {
+                "id": "comment-1",
+              },
             },
-          },
-          Object {
-            "node": Object {
-              "id": "comment-2",
+            Object {
+              "node": Object {
+                "id": "comment-2",
+              },
             },
-          },
-        ],
-      },
-      "id": "story-id",
-      "isClosed": false,
+          ],
+        },
+        "id": "story-id",
+        "isClosed": false,
+      }
     }
-  }
-/>
+  />
+</Fragment>
 `;

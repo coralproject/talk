@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import { noop } from "lodash";
+import { merge, noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import sinon from "sinon";
@@ -7,7 +7,7 @@ import sinon from "sinon";
 import { timeout } from "talk-common/utils";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { removeFragmentRefs } from "talk-framework/testHelpers";
-import { PropTypesOf } from "talk-framework/types";
+import { DeepPartial, PropTypesOf } from "talk-framework/types";
 import { ReplyCommentFormContainer } from "./ReplyCommentFormContainer";
 
 const ReplyCommentFormContainerN = removeFragmentRefs(
@@ -18,38 +18,48 @@ function getContextKey(commentID: string) {
   return `replyCommentFormBody-${commentID}`;
 }
 
-function createDefaultProps(): PropTypesOf<typeof ReplyCommentFormContainerN> {
-  return {
-    createCommentReply: noop as any,
-    refreshSettings: noop as any,
-    story: {
-      id: "story-id",
-    },
-    comment: {
-      id: "comment-id",
-      author: {
-        username: "Joe",
+type Props = PropTypesOf<typeof ReplyCommentFormContainerN>;
+
+function createDefaultProps(add: DeepPartial<Props> = {}): Props {
+  return merge(
+    {},
+    {
+      createCommentReply: noop as any,
+      refreshSettings: noop as any,
+      story: {
+        id: "story-id",
+        isClosed: false,
       },
-      revision: {
-        id: "revision-id",
+      comment: {
+        id: "comment-id",
+        author: {
+          username: "Joe",
+        },
+        revision: {
+          id: "revision-id",
+        },
+      },
+      sessionStorage: createPromisifiedStorage(),
+      autofocus: false,
+      settings: {
+        charCount: {
+          enabled: true,
+          min: 3,
+          max: 100,
+        },
+        closedMessage: "closed",
+        disableCommenting: {
+          enabled: false,
+          message: "",
+        },
       },
     },
-    sessionStorage: createPromisifiedStorage(),
-    autofocus: false,
-    settings: {
-      charCount: {
-        enabled: true,
-        min: 3,
-        max: 100,
-      },
-    },
-  };
+    add
+  );
 }
 
 it("renders correctly", async () => {
-  const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    ...createDefaultProps(),
-  };
+  const props = createDefaultProps();
 
   const renderer = createRenderer();
   renderer.render(<ReplyCommentFormContainerN {...props} />);
@@ -58,9 +68,7 @@ it("renders correctly", async () => {
 });
 
 it("renders with initialValues", async () => {
-  const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    ...createDefaultProps(),
-  };
+  const props = createDefaultProps();
 
   await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
@@ -74,9 +82,7 @@ it("renders with initialValues", async () => {
 });
 
 it("save values", async () => {
-  const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    ...createDefaultProps(),
-  };
+  const props = createDefaultProps();
 
   await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
@@ -102,11 +108,10 @@ it("creates a comment", async () => {
   const form = { reset: noop };
   const onCloseStub = sinon.stub();
 
-  const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    ...createDefaultProps(),
+  const props = createDefaultProps({
     onClose: onCloseStub,
     createCommentReply: createCommentStub,
-  };
+  });
 
   await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
@@ -134,10 +139,9 @@ it("creates a comment", async () => {
 
 it("closes on cancel", async () => {
   const onCloseStub = sinon.stub();
-  const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    ...createDefaultProps(),
+  const props = createDefaultProps({
     onClose: onCloseStub,
-  };
+  });
 
   await props.sessionStorage.setItem(
     getContextKey(props.comment.id),
@@ -161,10 +165,10 @@ it("closes on cancel", async () => {
 it("autofocuses", async () => {
   const focusStub = sinon.stub();
   const rte = { focus: focusStub };
-  const props: PropTypesOf<typeof ReplyCommentFormContainerN> = {
-    ...createDefaultProps(),
+
+  const props = createDefaultProps({
     autofocus: true,
-  };
+  });
 
   const wrapper = shallow(<ReplyCommentFormContainerN {...props} />);
   await timeout();
@@ -174,4 +178,35 @@ it("autofocuses", async () => {
     .props()
     .rteRef(rte);
   expect(focusStub.calledOnce).toBe(true);
+});
+
+it("renders when story has been closed", async () => {
+  const props = createDefaultProps({
+    story: {
+      isClosed: true,
+    },
+    settings: {
+      closedMessage: "story closed",
+    },
+  });
+
+  const renderer = createRenderer();
+  renderer.render(<ReplyCommentFormContainerN {...props} />);
+  await timeout();
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+it("renders when commenting has been disabled", async () => {
+  const props = createDefaultProps({
+    settings: {
+      disableCommenting: {
+        enabled: true,
+        message: "commenting disabled",
+      },
+    },
+  });
+  const renderer = createRenderer();
+  renderer.render(<ReplyCommentFormContainerN {...props} />);
+  await timeout();
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

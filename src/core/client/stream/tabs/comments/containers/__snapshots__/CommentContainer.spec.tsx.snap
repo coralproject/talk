@@ -19,6 +19,7 @@ exports[`hide reply button 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "isClosed": false,
                     "url": "http://localhost/story",
                   }
                 }
@@ -44,9 +45,8 @@ exports[`hide reply button 1`] = `
                 me={null}
                 settings={
                   Object {
-                    "reaction": Object {
-                      "icon": "thumb_up_alt",
-                      "label": "Respect",
+                    "disableCommenting": Object {
+                      "enabled": false,
                     },
                   }
                 }
@@ -103,6 +103,7 @@ exports[`renders body only 1`] = `
             <ButtonsBar>
               <ReplyButton
                 active={false}
+                disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
@@ -110,6 +111,7 @@ exports[`renders body only 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "isClosed": false,
                     "url": "http://localhost/story",
                   }
                 }
@@ -135,9 +137,8 @@ exports[`renders body only 1`] = `
                 me={null}
                 settings={
                   Object {
-                    "reaction": Object {
-                      "icon": "thumb_up_alt",
-                      "label": "Respect",
+                    "disableCommenting": Object {
+                      "enabled": false,
                     },
                   }
                 }
@@ -177,6 +178,190 @@ exports[`renders body only 1`] = `
 </div>
 `;
 
+exports[`renders disabled reply when commenting has been disabled 1`] = `
+<div
+  data-testid="comment-comment-id"
+>
+  <ForwardRef(forwardRef)>
+    <IndentedComment
+      blur={false}
+      body="Woof"
+      createdAt="1995-12-17T03:24:00.000Z"
+      footer={
+        <React.Fragment>
+          <ForwardRef(forwardRef)
+            justifyContent="space-between"
+          >
+            <ButtonsBar>
+              <ReplyButton
+                active={false}
+                disabled={true}
+                id="comments-commentContainer-replyButton-comment-id"
+                onClick={[Function]}
+              />
+              <Relay(PermalinkButtonContainerProps)
+                commentID="comment-id"
+                story={
+                  Object {
+                    "isClosed": false,
+                    "url": "http://localhost/story",
+                  }
+                }
+              />
+              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                comment={
+                  Object {
+                    "author": Object {
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "parent": null,
+                    "pending": false,
+                  }
+                }
+                me={null}
+                settings={
+                  Object {
+                    "disableCommenting": Object {
+                      "enabled": true,
+                    },
+                  }
+                }
+              />
+            </ButtonsBar>
+            <ButtonsBar>
+              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                comment={
+                  Object {
+                    "author": Object {
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "parent": null,
+                    "pending": false,
+                  }
+                }
+                me={null}
+              />
+            </ButtonsBar>
+          </ForwardRef(forwardRef)>
+        </React.Fragment>
+      }
+      indentLevel={1}
+      parentAuthorName={null}
+      showEditedMarker={false}
+      username="Marvin"
+    />
+  </ForwardRef(forwardRef)>
+</div>
+`;
+
+exports[`renders disabled reply when story is closed 1`] = `
+<div
+  data-testid="comment-comment-id"
+>
+  <ForwardRef(forwardRef)>
+    <IndentedComment
+      blur={false}
+      body="Woof"
+      createdAt="1995-12-17T03:24:00.000Z"
+      footer={
+        <React.Fragment>
+          <ForwardRef(forwardRef)
+            justifyContent="space-between"
+          >
+            <ButtonsBar>
+              <ReplyButton
+                active={false}
+                disabled={true}
+                id="comments-commentContainer-replyButton-comment-id"
+                onClick={[Function]}
+              />
+              <Relay(PermalinkButtonContainerProps)
+                commentID="comment-id"
+                story={
+                  Object {
+                    "isClosed": true,
+                    "url": "http://localhost/story",
+                  }
+                }
+              />
+              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                comment={
+                  Object {
+                    "author": Object {
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "parent": null,
+                    "pending": false,
+                  }
+                }
+                me={null}
+                settings={
+                  Object {
+                    "disableCommenting": Object {
+                      "enabled": false,
+                    },
+                  }
+                }
+              />
+            </ButtonsBar>
+            <ButtonsBar>
+              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                comment={
+                  Object {
+                    "author": Object {
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "parent": null,
+                    "pending": false,
+                  }
+                }
+                me={null}
+              />
+            </ButtonsBar>
+          </ForwardRef(forwardRef)>
+        </React.Fragment>
+      }
+      indentLevel={1}
+      parentAuthorName={null}
+      showEditedMarker={false}
+      username="Marvin"
+    />
+  </ForwardRef(forwardRef)>
+</div>
+`;
+
 exports[`renders in reply to 1`] = `
 <div
   data-testid="comment-comment-id"
@@ -194,6 +379,7 @@ exports[`renders in reply to 1`] = `
             <ButtonsBar>
               <ReplyButton
                 active={false}
+                disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
@@ -201,6 +387,7 @@ exports[`renders in reply to 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "isClosed": false,
                     "url": "http://localhost/story",
                   }
                 }
@@ -230,9 +417,8 @@ exports[`renders in reply to 1`] = `
                 me={null}
                 settings={
                   Object {
-                    "reaction": Object {
-                      "icon": "thumb_up_alt",
-                      "label": "Respect",
+                    "disableCommenting": Object {
+                      "enabled": false,
                     },
                   }
                 }
@@ -293,6 +479,7 @@ exports[`renders username and body 1`] = `
             <ButtonsBar>
               <ReplyButton
                 active={false}
+                disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
@@ -300,6 +487,7 @@ exports[`renders username and body 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "isClosed": false,
                     "url": "http://localhost/story",
                   }
                 }
@@ -325,9 +513,8 @@ exports[`renders username and body 1`] = `
                 me={null}
                 settings={
                   Object {
-                    "reaction": Object {
-                      "icon": "thumb_up_alt",
-                      "label": "Respect",
+                    "disableCommenting": Object {
+                      "enabled": false,
                     },
                   }
                 }
@@ -384,6 +571,7 @@ exports[`shows conversation link 1`] = `
             <ButtonsBar>
               <ReplyButton
                 active={false}
+                disabled={false}
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
@@ -391,6 +579,7 @@ exports[`shows conversation link 1`] = `
                 commentID="comment-id"
                 story={
                   Object {
+                    "isClosed": false,
                     "url": "http://localhost/story",
                   }
                 }
@@ -416,10 +605,8 @@ exports[`shows conversation link 1`] = `
                 me={null}
                 settings={
                   Object {
-                    "reaction": Object {
-                      "icon": "thumb_up",
-                      "label": "Respect",
-                      "labelActive": "Respected",
+                    "disableCommenting": Object {
+                      "enabled": false,
                     },
                   }
                 }
