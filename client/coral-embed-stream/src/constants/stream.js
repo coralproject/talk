@@ -5,6 +5,9 @@ const prefix = 'TALK_EMBED_STREAM';
 export const ADDTL_COMMENTS_ON_LOAD_MORE = parseInt(
   defaultTo(process.env.TALK_ADDTL_COMMENTS_ON_LOAD_MORE, '10')
 );
+export const ADDTL_REPLIES_ON_LOAD_MORE = parseInt(
+  defaultTo(process.env.TALK_ADDTL_REPLIES_ON_LOAD_MORE, '999999')
+);
 export const ASSET_COMMENTS_LOAD_DEPTH = parseInt(
   defaultTo(process.env.TALK_ASSET_COMMENTS_LOAD_DEPTH, '10')
 );
