@@ -87,7 +87,7 @@ fr:
     yes_feature_comment: Yes, feature comment
 nl_NL:
   talk-plugin-featured-comments:
-    un_feature: Uitlichten opheffen.
+    un_feature: Uitlichten ongedaan maken.
     feature: Uitlichten
     featured: Uitgelicht
     featured_comments: Uitgelichte reacties
