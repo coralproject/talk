@@ -593,3 +593,13 @@ can be used to set an authorization header, or change the user agent. (Default
 ## TALK_SCRAPER_PROXY_URL
 
 Sets a specific HTTP/S proxy to be used by the Asset Scraper using [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent). (Default `null`)
+
+## TALK_ADDTL_REPLIES_ON_LOAD_MORE
+
+This is a **Build Variable** and must be consumed during build. If using the
+[Docker-onbuild](/talk/installation-from-docker/#onbuild)
+image you can specify it with `--build-arg TALK_ADDTL_REPLIES_ON_LOAD_MORE=3`.
+
+Specifies the number of replies to load for a comment when clicking "Load More".
+It is defaulted quite high to sort of support "loading the rest of the replies".
+(Default `999999`)
