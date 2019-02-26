@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders app with comment stream 1`] = `
+exports[`renders comment stream 1`] = `
 <div
   className="HorizontalGutter-root App-root HorizontalGutter-full"
 >

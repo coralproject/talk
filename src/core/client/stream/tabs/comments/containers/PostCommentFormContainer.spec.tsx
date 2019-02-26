@@ -19,6 +19,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
   return merge(
     {},
     {
+      local: {
+        loggedIn: true,
+      },
       createComment: noop as any,
       refreshSettings: noop as any,
       story: {

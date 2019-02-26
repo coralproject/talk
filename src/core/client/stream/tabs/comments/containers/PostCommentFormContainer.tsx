@@ -2,11 +2,16 @@ import React, { Component } from "react";
 
 import { withContext } from "talk-framework/lib/bootstrap";
 import { InvalidRequestError } from "talk-framework/lib/errors";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
+import {
+  graphql,
+  withFragmentContainer,
+  withLocalStateContainer,
+} from "talk-framework/lib/relay";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 import { PostCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story as StoryData } from "talk-stream/__generated__/PostCommentFormContainer_story.graphql";
+import { PostCommentFormContainerLocal as Local } from "talk-stream/__generated__/PostCommentFormContainerLocal.graphql";
 import {
   RefreshSettingsFetch,
   withRefreshSettingsFetch,
@@ -20,6 +25,7 @@ import PostCommentForm, {
   PostCommentFormProps,
 } from "../components/PostCommentForm";
 import PostCommentFormCollapsed from "../components/PostCommentFormCollapsed";
+import PostCommentFormFake from "../components/PostCommentFormFake";
 import { shouldTriggerSettingsRefresh } from "../helpers";
 
 interface Props {
@@ -27,6 +33,7 @@ interface Props {
   refreshSettings: RefreshSettingsFetch;
   sessionStorage: PromisifiedStorage;
   settings: SettingsData;
+  local: Local;
   story: StoryData;
 }
 
@@ -42,6 +49,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
   public state: State = {
     initialized: false,
     keepFormWhenClosed:
+      this.props.local.loggedIn &&
       !this.props.story.isClosed &&
       !this.props.settings.disableCommenting.enabled,
   };
@@ -78,7 +86,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
-          await this.props.refreshSettings();
+          await this.props.refreshSettings({ storyID: this.props.story.id });
         }
         return error.invalidArgs;
       }
@@ -120,6 +128,9 @@ export class PostCommentFormContainer extends Component<Props, State> {
         />
       );
     }
+    if (!this.props.local.loggedIn) {
+      return <PostCommentFormFake />;
+    }
     return (
       <PostCommentForm
         onSubmit={this.handleOnSubmit}
@@ -154,28 +165,36 @@ const enhanced = withContext(({ sessionStorage }) => ({
 }))(
   withCreateCommentMutation(
     withRefreshSettingsFetch(
-      withFragmentContainer<Props>({
-        settings: graphql`
-          fragment PostCommentFormContainer_settings on Settings {
-            charCount {
-              enabled
-              min
-              max
-            }
-            disableCommenting {
-              enabled
-              message
-            }
-            closedMessage
+      withLocalStateContainer(
+        graphql`
+          fragment PostCommentFormContainerLocal on Local {
+            loggedIn
           }
-        `,
-        story: graphql`
-          fragment PostCommentFormContainer_story on Story {
-            id
-            isClosed
-          }
-        `,
-      })(PostCommentFormContainer)
+        `
+      )(
+        withFragmentContainer<Props>({
+          settings: graphql`
+            fragment PostCommentFormContainer_settings on Settings {
+              charCount {
+                enabled
+                min
+                max
+              }
+              disableCommenting {
+                enabled
+                message
+              }
+              closedMessage
+            }
+          `,
+          story: graphql`
+            fragment PostCommentFormContainer_story on Story {
+              id
+              isClosed
+            }
+          `,
+        })(PostCommentFormContainer)
+      )
     )
   )
 );

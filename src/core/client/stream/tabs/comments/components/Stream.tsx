@@ -10,7 +10,6 @@ import CommentContainer from "../containers/CommentContainer";
 import CommunityGuidelinesContainer from "../containers/CommunityGuidelinesContainer";
 import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
-import PostCommentFormFake from "./PostCommentFormFake";
 import SortMenu from "./SortMenu";
 
 import styles from "./Stream.css";
@@ -49,14 +48,7 @@ const Stream: StatelessComponent<StreamProps> = props => {
     <HorizontalGutter className={styles.root} size="double">
       <UserBoxContainer me={props.me} settings={props.settings} />
       <CommunityGuidelinesContainer settings={props.settings} />
-      {props.me ? (
-        <PostCommentFormContainer
-          settings={props.settings}
-          story={props.story}
-        />
-      ) : (
-        <PostCommentFormFake />
-      )}
+      <PostCommentFormContainer settings={props.settings} story={props.story} />
       {props.comments.length > 0 && (
         <SortMenu orderBy={props.orderBy} onChange={props.onChangeOrderBy} />
       )}

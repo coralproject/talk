@@ -14,6 +14,7 @@ import {
 
 import { EditCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/EditCommentFormContainer_comment.graphql";
 import { EditCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/EditCommentFormContainer_settings.graphql";
+import { EditCommentFormContainer_story as StoryData } from "talk-stream/__generated__/EditCommentFormContainer_story.graphql";
 import {
   EditCommentMutation,
   withEditCommentMutation,
@@ -28,6 +29,7 @@ interface Props {
   editComment: EditCommentMutation;
   comment: CommentData;
   settings: SettingsData;
+  story: StoryData;
   onClose?: () => void;
   autofocus: boolean;
   refreshSettings: RefreshSettingsFetch;
@@ -92,7 +94,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
-          await this.props.refreshSettings();
+          await this.props.refreshSettings({ storyID: this.props.story.id });
         }
         return error.invalidArgs;
       }
@@ -147,6 +149,11 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
             editing {
               editableUntil
             }
+          }
+        `,
+        story: graphql`
+          fragment EditCommentFormContainer_story on Story {
+            id
           }
         `,
         settings: graphql`

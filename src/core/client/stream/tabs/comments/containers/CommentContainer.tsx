@@ -153,6 +153,7 @@ export class CommentContainer extends Component<Props, State> {
           <EditCommentFormContainer
             settings={settings}
             comment={comment}
+            story={story}
             onClose={this.closeEditDialog}
           />
         </div>
@@ -264,6 +265,7 @@ const enhanced = withSetCommentIDMutation(
           isClosed
           ...ReplyCommentFormContainer_story
           ...PermalinkButtonContainer_story
+          ...EditCommentFormContainer_story
         }
       `,
       comment: graphql`

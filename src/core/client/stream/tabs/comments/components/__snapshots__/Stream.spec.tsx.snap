@@ -26,7 +26,22 @@ exports[`renders correctly 1`] = `
       }
     }
   />
-  <PostCommentFormFake />
+  <withContext(withContext(createMutationContainer(withContext(createFetchContainer(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
+      }
+    }
+    story={
+      Object {
+        "id": "story-id",
+        "isClosed": false,
+      }
+    }
+  />
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
@@ -163,7 +178,22 @@ exports[`when there is more disables load more button 1`] = `
       }
     }
   />
-  <PostCommentFormFake />
+  <withContext(withContext(createMutationContainer(withContext(createFetchContainer(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
+      }
+    }
+    story={
+      Object {
+        "id": "story-id",
+        "isClosed": false,
+      }
+    }
+  />
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
@@ -314,7 +344,22 @@ exports[`when there is more renders a load more button 1`] = `
       }
     }
   />
-  <PostCommentFormFake />
+  <withContext(withContext(createMutationContainer(withContext(createFetchContainer(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
+    settings={
+      Object {
+        "reaction": Object {
+          "icon": "thumb_up_alt",
+          "label": "Respect",
+        },
+      }
+    }
+    story={
+      Object {
+        "id": "story-id",
+        "isClosed": false,
+      }
+    }
+  />
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
@@ -465,7 +510,7 @@ exports[`when use is logged in renders correctly 1`] = `
       }
     }
   />
-  <withContext(withContext(createMutationContainer(withContext(createFetchContainer(Relay(PostCommentFormContainer))))))
+  <withContext(withContext(createMutationContainer(withContext(createFetchContainer(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
     settings={
       Object {
         "reaction": Object {
