@@ -168,7 +168,7 @@ nl_NL:
       body: |
         Een verzoek om je account te verwijderen is ontvangen. Je account wordt op {1} verwijderd.
 
-        Hierna zijn al je berichten verwijderd van onze site en uit onze database, en jouw gebruikersnaam, email adre en wachtwoord uit ons systeem.
+        Hierna zijn al je berichten verwijderd van onze site en uit onze database, en jouw gebruikersnaam, e-mail adres en wachtwoord uit ons systeem.
 
         Mocht je toch van gedachte zijn veranderd, log in met je huidige account en trek je verzoek in, voor de geplande tijd om je account te verwijderen.
     deleted:
@@ -176,7 +176,7 @@ nl_NL:
       body: |
         Jouw account voor het plaatsen van berichten {0} is nu verwijderd. We vinden het jammer om je weg zien te gaan!
 
-        Mocht je toch willen terugkeren naar de discussie in de toekomst, dan kun je je opnieuw inschrijven met een nieuwe account.
+        Mocht je toch willen terugkeren naar de discussie in de toekomst, dan kun je je opnieuw inschrijven met een nieuw account.
 
         If you'd like to give us feedback on why you left and what we can do to make the commenting experience better, please email us at {1}.
         Mocht je feedback willen achterlaten over waarom je ons hebt verlaten en wat we kunnen doen om de commentaarervaring te verbeteren, stuur een bericht naar {1}.

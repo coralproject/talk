@@ -12,7 +12,7 @@ nl_NL:
     note: "Opmerking: {0}"
     note_ban_user: "Door deze gebruiker te verbannen kan deze geen reactie meer wijzigen of verwijderen."
     note_reject_comment: "Door deze gebruiker te verbannen verplaats je diens reactie ook naar de lijst met afgewezen reacties."
-    notify_ban_description: "Dit stelt de gebruiker via email op de hoogte verbannen te zijn van de community"
+    notify_ban_description: "Dit stelt de gebruiker via e-mail op de hoogte verbannen te zijn van de community"
     notify_ban_headline: "Stel gebruiker op de hoogte van verbanning"
     send: Versturen
     write_a_message: "Schrijf een bericht"
