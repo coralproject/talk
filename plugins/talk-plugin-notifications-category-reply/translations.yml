@@ -33,5 +33,11 @@ he:
   talk-plugin-notifications:
     categories:
       reply:
-        subject: "מישהו השיב לתגובה שלך על {0}"
+        subject: "מישהו השיב לתגובה שלך על {0}"        
         body: "{0}\n{1} השיב לתגובתך: {2}"
+nl_NL:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Er heeft iemand op jouw bericht {0} gereageerd"
+        body: "{0}\n{1} heeft gereageerd op jouw bericht: {2}"

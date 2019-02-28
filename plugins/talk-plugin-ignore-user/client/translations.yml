@@ -91,6 +91,7 @@ he:
     confirmation_title: "התעלם {0}?"
 nl_NL:
   talk-plugin-ignore-user:
+    blank_info: Momenteel negeer je geen gebruikers
     section_title: Genegeerde gebruikers
     section_info: Omdat je de volgende reageerders negeert, worden hun reacties verborgen.
     stop_ignoring: Stop met negeren
