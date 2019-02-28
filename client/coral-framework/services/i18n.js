@@ -12,6 +12,7 @@ import 'moment/locale/da';
 import 'moment/locale/de';
 import 'moment/locale/es';
 import 'moment/locale/fr';
+import 'moment/locale/he';
 import 'moment/locale/it';
 import 'moment/locale/nl';
 import 'moment/locale/pt-br';
@@ -23,6 +24,7 @@ import daTA from 'timeago.js/locales/da';
 import deTA from 'timeago.js/locales/de';
 import esTA from 'timeago.js/locales/es';
 import frTA from 'timeago.js/locales/fr';
+import heTA from 'timeago.js/locales/he';
 import itTA from 'timeago.js/locales/it';
 import nlTA from 'timeago.js/locales/nl';
 import pt_BRTA from 'timeago.js/locales/pt_BR';
@@ -36,6 +38,7 @@ import da from '../../../locales/da.yml';
 import de from '../../../locales/de.yml';
 import es from '../../../locales/es.yml';
 import fr from '../../../locales/fr.yml';
+import he from '../../../locales/he.yml';
 import it from '../../../locales/it.yml';
 import nl_NL from '../../../locales/nl_NL.yml';
 import pt_BR from '../../../locales/pt_BR.yml';
@@ -64,6 +67,7 @@ export const translations = {
   ...de,
   ...es,
   ...fr,
+  ...he,
   ...it,
   ...nl_NL,
   ...pt_BR,
@@ -110,6 +114,7 @@ export function setupTranslations() {
   ta.register('da', daTA);
   ta.register('de', deTA);
   ta.register('fr', frTA);
+  ta.register('he', heTA);
   ta.register('it', itTA);
   ta.register('nl_NL', nlTA);
   ta.register('pt_BR', pt_BRTA);

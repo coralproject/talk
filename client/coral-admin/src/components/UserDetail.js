@@ -12,6 +12,7 @@ import {
   isUsernameRejected,
   isUsernameChanged,
   isBanned,
+  isAlwaysPremod,
   getKarma,
 } from 'coral-framework/utils/user';
 
@@ -45,6 +46,7 @@ function getUserStatusArray(user) {
   const statusMap = {
     suspended: isSuspended,
     banned: isBanned,
+    alwaysPremod: isAlwaysPremod,
     usernameRejected: isUsernameRejected,
     usernameChanged: isUsernameChanged,
   };
@@ -64,6 +66,12 @@ class UserDetail extends React.Component {
 
   showBanUserDialog = () =>
     this.props.showBanUserDialog({
+      userId: this.props.root.user.id,
+      username: this.props.root.user.username,
+    });
+
+  showAlwaysPremodUserDialog = () =>
+    this.props.showAlwaysPremodUserDialog({
       userId: this.props.root.user.id,
       username: this.props.root.user.username,
     });
@@ -107,6 +115,8 @@ class UserDetail extends React.Component {
           return t('user_detail.suspended');
         case 'banned':
           return t('user_detail.banned');
+        case 'alwaysPremod':
+          return t('user_detail.always_premoded');
         case 'usernameRejected':
           return (
             <span>
@@ -153,6 +163,7 @@ class UserDetail extends React.Component {
       toggleSelectAll,
       unbanUser,
       unsuspendUser,
+      removeAlwaysPremodUser,
       modal,
       acceptComment,
       rejectComment,
@@ -169,6 +180,7 @@ class UserDetail extends React.Component {
 
     const banned = isBanned(user);
     const suspended = isSuspended(user);
+    const alwaysPremod = isAlwaysPremod(user);
     const usernameRejected = isUsernameRejected(user);
     const usernameChanged = isUsernameChanged(user);
 
@@ -200,6 +212,7 @@ class UserDetail extends React.Component {
                 {
                   [styles.actionsMenuSuspended]: suspended,
                   [styles.actionsMenuBanned]: banned,
+                  [styles.actionsMenuAlwaysPremod]: alwaysPremod,
                 },
                 'talk-admin-user-detail-actions-button'
               )}
@@ -228,6 +241,21 @@ class UserDetail extends React.Component {
                   onClick={this.showBanUserDialog}
                 >
                   {t('user_detail.ban')}
+                </ActionsMenuItem>
+              )}
+
+              {alwaysPremod ? (
+                <ActionsMenuItem
+                  onClick={() => removeAlwaysPremodUser({ id: user.id })}
+                >
+                  {t('user_detail.remove_always_premod')}
+                </ActionsMenuItem>
+              ) : (
+                <ActionsMenuItem
+                  disabled={me.id === user.id}
+                  onClick={this.showAlwaysPremodUserDialog}
+                >
+                  {t('user_detail.always_premod')}
                 </ActionsMenuItem>
               )}
 
@@ -476,8 +504,10 @@ UserDetail.propTypes = {
   showRejectUsernameDialog: PropTypes.func,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
+  showAlwaysPremodUserDialog: PropTypes.func,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
+  removeAlwaysPremodUser: PropTypes.func.isRequired,
   modal: PropTypes.bool,
   rejectUsername: PropTypes.func.isRequired,
 };

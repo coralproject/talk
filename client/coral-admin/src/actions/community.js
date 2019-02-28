@@ -9,6 +9,8 @@ import {
   SET_SEARCH_VALUE,
   SHOW_BANUSER_DIALOG,
   HIDE_BANUSER_DIALOG,
+  SHOW_ALWAYS_PREMOD_USER_DIALOG,
+  HIDE_ALWAYS_PREMOD_USER_DIALOG,
   SHOW_REJECT_USERNAME_DIALOG,
   HIDE_REJECT_USERNAME_DIALOG,
   SET_INDICATOR_TRACK,
@@ -60,6 +62,15 @@ export const setSearchValue = value => ({
 // Ban User Dialog
 export const showBanUserDialog = user => ({ type: SHOW_BANUSER_DIALOG, user });
 export const hideBanUserDialog = () => ({ type: HIDE_BANUSER_DIALOG });
+
+// Always premod User Dialog
+export const showAlwaysPremodUserDialog = user => ({
+  type: SHOW_ALWAYS_PREMOD_USER_DIALOG,
+  user,
+});
+export const hideAlwaysPremodUserDialog = () => ({
+  type: HIDE_ALWAYS_PREMOD_USER_DIALOG,
+});
 
 // Reject Username Dialog
 export const showRejectUsernameDialog = user => ({

@@ -48,6 +48,10 @@ const buildActionResponse = (typename, created_at, until, status) => {
       return status
         ? t('user_history.user_banned')
         : t('user_history.ban_removed');
+    case 'AlwaysPremodStatusHistory':
+      return status
+        ? t('user_history.user_always_premoded')
+        : t('user_history.always_premod_removed');
     case 'SuspensionStatusHistory':
       return until
         ? t('user_history.suspended', readableDuration(created_at, until))

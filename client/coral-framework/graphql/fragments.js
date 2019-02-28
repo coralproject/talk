@@ -3,6 +3,7 @@ import { createDefaultResponseFragments } from '../utils';
 // fragments defined here are automatically registered.
 export default {
   ...createDefaultResponseFragments(
+    'AlwaysPremodUserResponse',
     'BanUsersResponse',
     'ChangeUsernameResponse',
     'CloseAssetResponse',
@@ -14,6 +15,7 @@ export default {
     'IgnoreUserResponse',
     'ModifyTagResponse',
     'PostFlagResponse',
+    'RemoveAlwaysPremodUserResponse',
     'SetCommentStatusResponse',
     'SetUsernameResponse',
     'SetUsernameStatusResponse',

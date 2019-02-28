@@ -8,7 +8,11 @@ import LoadMore from '../../../components/LoadMore';
 import PropTypes from 'prop-types';
 import ActionsMenu from 'coral-admin/src/components/ActionsMenu';
 import ActionsMenuItem from 'coral-admin/src/components/ActionsMenuItem';
-import { isSuspended, isBanned } from 'coral-framework/utils/user';
+import {
+  isSuspended,
+  isBanned,
+  isAlwaysPremod,
+} from 'coral-framework/utils/user';
 import { RadioGroup, Radio } from 'react-mdl';
 import moment from 'moment';
 import {
@@ -43,6 +47,8 @@ class People extends React.Component {
       return 'Banned';
     } else if (isSuspended(user)) {
       return 'Suspended';
+    } else if (isAlwaysPremod(user)) {
+      return 'Always premoderated';
     }
     return '';
   };
@@ -55,12 +61,20 @@ class People extends React.Component {
     this.props.unbanUser(input);
   };
 
+  removeAlwaysPremodUser = input => {
+    this.props.removeAlwaysPremodUser(input);
+  };
+
   showBanUserDialog = input => {
     this.props.showBanUserDialog(input);
   };
 
   showSuspendUserDialog = input => {
     this.props.showSuspendUserDialog(input);
+  };
+
+  showAlwaysPremodUserDialog = input => {
+    this.props.showAlwaysPremodUserDialog(input);
   };
 
   render() {
@@ -109,6 +123,7 @@ class People extends React.Component {
             <Radio value="active">{t('community.active')}</Radio>
             <Radio value="suspended">{t('community.suspended')}</Radio>
             <Radio value="banned">{t('community.banned')}</Radio>
+            <Radio value="alwaysPremod">{t('community.always_premod')}</Radio>
           </RadioGroup>
           <div className={styles.filterDetail}>
             {t('community.filter_role')}
@@ -188,6 +203,9 @@ class People extends React.Component {
                                   user
                                 ),
                                 [styles.actionsMenuBanned]: isBanned(user),
+                                [styles.actionsMenuAlwaysPremod]: isAlwaysPremod(
+                                  user
+                                ),
                               },
                               'talk-admin-user-detail-actions-button'
                             )}
@@ -230,6 +248,27 @@ class People extends React.Component {
                                 }
                               >
                                 {t('modqueue.ban_user_actions')}
+                              </ActionsMenuItem>
+                            )}
+
+                            {isAlwaysPremod(user) ? (
+                              <ActionsMenuItem
+                                onClick={() =>
+                                  this.removeAlwaysPremodUser({ id: user.id })
+                                }
+                              >
+                                Remove Always Premoderate
+                              </ActionsMenuItem>
+                            ) : (
+                              <ActionsMenuItem
+                                onClick={() =>
+                                  this.showAlwaysPremodUserDialog({
+                                    userId: user.id,
+                                    username: user.username,
+                                  })
+                                }
+                              >
+                                {t('modqueue.always_premod_user_actions')}
                               </ActionsMenuItem>
                             )}
                           </ActionsMenu>
@@ -294,8 +333,10 @@ People.propTypes = {
   viewUserDetail: PropTypes.func.isRequired,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
+  removeAlwaysPremodUser: PropTypes.func.isRequired,
   showSuspendUserDialog: PropTypes.func,
   showBanUserDialog: PropTypes.func,
+  showAlwaysPremodUserDialog: PropTypes.func,
   loadMore: PropTypes.func.isRequired,
 };
 

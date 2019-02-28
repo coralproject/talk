@@ -130,6 +130,12 @@ th.header:nth-child(2), th.header:nth-child(3) {
   font-size: 0.98em;
 }
 
+.actionsMenuAlwaysPremod {
+  background-color: #F0B50B;
+  border-color: #F0B50B;
+  color: white;
+}
+
 .actionsMenuSuspended {
   background-color: #F29336;
   border-color: #F29336;

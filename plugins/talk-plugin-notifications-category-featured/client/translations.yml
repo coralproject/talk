@@ -1,15 +1,18 @@
 ar:
   talk-plugin-notifications-category-featured:
     toggle_description: تعليقي تم تمييزه
+de:
+  talk-plugin-notifications-category-featured:
+    toggle_description: Mein Kommentar wird empfohlen
 en:
   talk-plugin-notifications-category-featured:
     toggle_description: My comment is featured
 es:
   talk-plugin-notifications-category-featured:
     toggle_description: Mi comentario esta presentado
-de:
+he:
   talk-plugin-notifications-category-featured:
-    toggle_description: Mein Kommentar wird empfohlen
+    toggle_description: התגובה שלי מובלטת
 nl_NL:
   talk-plugin-notifications-category-featured:
     toggle_description: Mijn bericht is uitgelicht

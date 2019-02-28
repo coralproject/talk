@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import Login from '../containers/Login';
 import { FullLoading } from '../components/FullLoading';
 import BanUserDialog from './BanUserDialog';
+import AlwaysPremodUserDialog from './AlwaysPremodUserDialog';
 import SuspendUserDialog from './SuspendUserDialog';
 import RejectUsernameDialog from './RejectUsernameDialog';
 import { toggleModal as toggleShortcutModal } from '../actions/moderation';
@@ -40,6 +41,7 @@ class LayoutContainer extends React.Component {
             toggleShortcutModal={toggleShortcutModal}
             currentUser={this.props.currentUser}
           >
+            <AlwaysPremodUserDialog />
             <BanUserDialog />
             <SuspendUserDialog />
             <RejectUsernameDialog />

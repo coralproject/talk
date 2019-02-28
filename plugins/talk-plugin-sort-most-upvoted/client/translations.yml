@@ -1,12 +1,15 @@
-en:
-  talk-plugin-sort-most-upvoted:
-    label: Most upvoted first
 de:
   talk-plugin-sort-most-upvoted:
     label: Am besten bewertet
+en:
+  talk-plugin-sort-most-upvoted:
+    label: Most upvoted first
 es:
   talk-plugin-sort-oldest:
     label: Más votadas primero
+he:
+  talk-plugin-sort-most-upvoted:
+    label: החיובי ביותר קודם
 nl_NL:
   talk-plugin-sort-most-upvoted:
     label: Meest gerespecteerd eerst

@@ -78,9 +78,10 @@
 }
 
 .flaggedByReason {
-  font-size: 1tpx;
+  font-size: 14px;
   margin: 0px;
   line-height: 1.4;
+  word-break: break-word;
 }
 
 

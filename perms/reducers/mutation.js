@@ -47,6 +47,7 @@ module.exports = (user, perm) => {
     case types.SET_USER_USERNAME_STATUS:
     case types.SET_USER_BAN_STATUS:
     case types.SET_USER_SUSPENSION_STATUS:
+    case types.SET_USER_ALWAYS_PREMOD_STATUS:
     case types.UPDATE_ASSET_SETTINGS:
     case types.UPDATE_ASSET_STATUS:
       return check(user, ['ADMIN', 'MODERATOR']);

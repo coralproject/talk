@@ -22,12 +22,14 @@ import {
   withSetCommentStatus,
   withUnbanUser,
   withUnsuspendUser,
+  withRemoveAlwaysPremodUser,
   withRejectUsername,
   withPostFlag,
 } from 'coral-framework/graphql/mutations';
 import UserDetailComment from './UserDetailComment';
 import update from 'immutability-helper';
 import { showBanUserDialog } from 'actions/banUserDialog';
+import { showAlwaysPremodUserDialog } from 'actions/alwaysPremodUserDialog';
 import { showSuspendUserDialog } from 'actions/suspendUserDialog';
 import { showRejectUsernameDialog } from 'actions/rejectUsernameDialog';
 
@@ -153,6 +155,7 @@ UserDetailContainer.propTypes = {
   selectedCommentIds: PropTypes.array,
   unbanUser: PropTypes.func.isRequired,
   unsuspendUser: PropTypes.func.isRequired,
+  removeAlwaysPremodUser: PropTypes.func.isRequired,
   rejectUsername: PropTypes.func.isRequired,
   userId: PropTypes.string,
 };
@@ -218,6 +221,17 @@ export const withUserDetailQuery = withQuery(
               created_at
             }
           }
+          alwaysPremod {
+            status
+            history {
+              status
+              assigned_by {
+                id
+                username
+              }
+              created_at
+            }
+          },
           username {
             status
             history {
@@ -280,6 +294,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(
     {
       showBanUserDialog,
+      showAlwaysPremodUserDialog,
       showSuspendUserDialog,
       showRejectUsernameDialog,
       changeTab,
@@ -302,6 +317,7 @@ export default compose(
   withSetCommentStatus,
   withUnbanUser,
   withUnsuspendUser,
+  withRemoveAlwaysPremodUser,
   withRejectUsername,
   withPostFlag,
   withRouter

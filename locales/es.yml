@@ -3,26 +3,33 @@ es:
     sort_comments: 'Ordenar comentarios'
     view_options: 'Ver opciones'
   already_flagged_username: 'Usted ya reportó a este usuario.'
-  bandialog:
-    are_you_sure: '¿Estás seguro que quieres suspender a {0}?'
-    ban_user: '¿Quieres suspender al Usuario?'
-    banned_user: 'Usuario Suspendido'
+  alwayspremoddialog:
+    are_you_sure: '¿Estás seguro que quieres pre-moderar a {0}?'
+    always_premod_user: '¿Pre-moderar al Usuario?'
     cancel: Cancelar
-    email_message_ban: "Estimado/a {0},\n\nUsted o alguien con acceso a su cuenta ha violado los lineamientos de nuestra comunidad. Como consecuencia de esto, su cuenta fue bloqueada. No podrá realizar ni reportar más comentarios. Si usted piensa que esto ha sido un error, por favor contáctese con nosotros."
     note: 'Nota: {0}'
-    note_ban_user: 'Suspender a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar.'
-    note_reject_comment: 'Suspender a este usuario también va a colocar este comentario en la cola de Rechazados.'
-    notify_ban_description: 'Esto notificará al usuario por correo electrónico que fueron suspendidos de la comunidad'
-    notify_ban_headline: 'Notificar al usuario de la suspensión'
+    note_always_premod_user: 'Pre-moderar a un usuario pondrá todos sus comentarios en la fila de Pre-Moderación.'
+    yes_always_premod_user: 'Sí, pre-moderar al usuario.'
+  bandialog:
+    are_you_sure: '¿Estás seguro que quieres prohibir a {0}?'
+    ban_user: '¿Quieres prohibir al Usuario?'
+    banned_user: 'Usuario prohibido'
+    cancel: Cancelar
+    email_message_ban: "Estimado/a {0},\n\nUsted o alguien con acceso a su cuenta ha violado los lineamientos de nuestra comunidad. Como consecuencia de esto, su cuenta fue prohibida. No podrá realizar ni reportar más comentarios. Si usted piensa que esto ha sido un error, por favor contáctese con nosotros."
+    note: 'Nota: {0}'
+    note_ban_user: 'Prohibir a este usuario no le va a permitir (al usuario) borrar ni editar ni comentar.'
+    note_reject_comment: 'Prohibir a este usuario también va a colocar este comentario en la cola de Rechazados.'
+    notify_ban_description: 'Esto notificará al usuario por correo electrónico que fue prohibido de la comunidad'
+    notify_ban_headline: 'Notificar al usuario de la prohibición'
     send: Enviar
     write_a_message: 'Escribe un mensaje'
-    yes_ban_user: 'Si, suspender al usuario'
+    yes_ban_user: 'Si, prohibir al usuario'
   bio_offensive: 'Esta biografia es ofensiva'
   cancel: Cancelar
   characters_remaining: 'caracteres restantes'
   comment:
     anon: Anónimo
-    ban_user: 'Usuario Suspendido'
+    ban_user: 'Usuario prohibido'
     comment: 'Publicar un comentario'
     edited: Editado
     flagged: Reportado
@@ -59,23 +66,24 @@ es:
   community:
     account_creation_date: 'Fecha de creación de la cuenta'
     active: Activa
-    admin: Administrator
+    admin: Administrador
     ads_marketing: 'Esto parece ser un publicidad/acción de comercialización'
     all: 'Todos'
+    always_premod: 'Pre-moderado'
     are_you_sure: '¿Estás seguro que quieres suspender a {0}?'
-    ban_user: '¿Quieres suspender al Usuario?'
-    banned: Suspendido
-    banned_user: 'Usuario suspendido'
+    ban_user: '¿Quieres prohibir al Usuario?'
+    banned: Prohibido
+    banned_user: 'Usuario prohibido'
     cancel: Cancelar
     commenter: Comentarista
     dont_like_username: 'No me gusta este nombre de usuario'
-    filter_users: 'Filtrarr usuarios'
+    filter_users: 'Filtrar usuarios'
     filter_role: Rol
     flaggedaccounts: 'Nombres de usuario reportados'
     flags: Reportes
     impersonating: Impersonando
     loading: 'Cargando resultados'
-    moderator: Moderator
+    moderator: Moderador
     newsroom_role: 'Rol en la redacción'
     no_flagged_accounts: 'No hay ningún nombre de usuario reportado en este momento.'
     no_results: 'No se encontraron usuarios con ese nombre o correo.'
@@ -89,7 +97,7 @@ es:
     status: Estado
     suspended: Suspendido
     username_and_email: 'Usuario y Correo'
-    yes_ban_user: 'Sí, suspendan el usuario'
+    yes_ban_user: 'Sí, prohiban el usuario'
   configure:
     access_message: 'Usted debe ser un administrador para acceder a esta página. Encuentre a otro administrador y actualice los permisos de su cuenta!'
     apply: Aplicar
@@ -200,8 +208,8 @@ es:
     seconds_plural: segundos
   email:
     banned:
-      body: 'De acuerdo con las guías de comunidad de The Coral Project, su cuenta a sido bloqueada. No podrá hacer comentarios, reportar o entrar en contacto con nuestra comunidad.'
-      subject: 'Su cuenta ha sido bloqueada'
+      body: 'De acuerdo con las guías de comunidad de The Coral Project, su cuenta a sido prohibida. No podrá hacer comentarios, reportar o entrar en contacto con nuestra comunidad.'
+      subject: 'Su cuenta ha sido prohibida'
     confirm:
       confirm_email: 'Confirmar Correo'
       has_been_requested: 'Un correo de confirmación ha sido pedido para la siguiente cuenta:'
@@ -283,7 +291,7 @@ es:
         username_spam: 'Contiene spam'
   framework:
     banned_account_body: 'Esto significa que no puedes gustar, marcar o escribir comentarios.'
-    banned_account_header: 'Tu cuenta se encuentra suspendida.'
+    banned_account_header: 'Tu cuenta se encuentra prohibida.'
     changed_name:
       msg: 'El cambio en su nombre de usuario está siendo revisado por nuestro equipo de moderación.'
     comment: comentario
@@ -355,9 +363,10 @@ es:
     actions: Acciones
     all: todos
     all_streams: 'Todos los Hilos'
+    always_premod_user_actions: 'Siempre Pre-moderar Usuario'
     approve: Aprobar
     approved: Aprobado
-    ban_user: Bloquear
+    ban_user: Prohibir
     billion: B
     close: Cerrar
     empty_queue: '¡No hay más comentarios para moderar! Tiempo para un ☕️'
@@ -486,13 +495,16 @@ es:
     username_flags: 'reportes para este nombre de usuario'
   user_detail:
     all: Todos
-    ban: 'Bloquear usuario'
-    banned: Baneado
+    always_premod: 'Siempre pre-moderar usuario'
+    always_premoded: 'Siempre pre-moderado'
+    ban: 'Prohibir usuario'
+    banned: Prohibido
     email: 'Correo electrónico'
     member_since: 'Miembro desde'
     reject_rate: 'Promedio de rechazo'
     rejected: Rechazado
-    remove_ban: 'Cancelar bloqueo'
+    remove_always_premod: 'Cancelar siempre pre-moderar'
+    remove_ban: 'Cancelar prohibición'
     remove_suspension: 'Cancelar suspensión'
     suspend: 'Suspender usuario'
     suspended: Suspendido
@@ -503,13 +515,15 @@ es:
     username_rejected: 'Usuario rechazado'
   user_history:
     action: Acción
-    ban_removed: 'Bloqueo cancelado'
+    always_premod_removed: 'Siempre pre-moderar cancelado'
+    ban_removed: 'Prohibición cancelada'
     date: Fecha
     suspended: 'Suspendido, {0}'
     suspension_removed: 'Suspensión cancelada'
     system: Sistema
     taken_by: 'Está en uso'
-    user_banned: 'Usuario bloqueado'
+    user_always_premoded: 'Usuario siempre pre-moderado'
+    user_banned: 'Usuario prohibido'
     username_status: 'Nombre de usuario {0}'
   user_impersonating: 'Este usuario suplanta a alguien'
   user_no_comment: 'No has dejado aún ningún comentario. ¡Únete a la conversación!'
@@ -523,6 +537,6 @@ es:
     verify_password: 'La contraseña debe tener por lo menos 8 caracteres'
     verify_username: 'Los nombres pueden contener letras números y _'
   view_conversation: 'Ver Conversación'
-  your_account_has_been_banned: 'Su cuenta ha sido suspendida.'
-  your_account_has_been_suspended: 'Su cuenta ha sido temporalmente suspendida.'
+  your_account_has_been_banned: 'Su cuenta ha sido prohibida.'
+  your_account_has_been_suspended: 'Su cuenta ha sido suspendida.'
   your_username_has_been_rejected: 'Su cuenta ha sido suspendida porque tu nombre de usuario ha sido considerado no apropiado para el espacio. Para recuperar la cuenta, por favor ingresar un nuevo nombre de usuario.'

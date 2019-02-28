@@ -5,8 +5,10 @@ const {
   THRESHOLD,
   API_TIMEOUT,
   DO_NOT_STORE,
+  API_MODEL,
 } = require('./config');
 const debug = require('debug')('talk:plugin:toxic-comments');
+const get = require('lodash/get');
 
 // Load the global Talk configuration, we want to grab some variables..
 const { ROOT_URL } = require('config');
@@ -55,7 +57,7 @@ async function getScores(text) {
     doNotStore: DO_NOT_STORE,
     requestedAttributes: {
       TOXICITY: {},
-      SEVERE_TOXICITY: {},
+      [API_MODEL]: {},
     },
   });
   if (!data || data.error) {
@@ -64,7 +66,7 @@ async function getScores(text) {
       TOXICITY: {
         summaryScore: null,
       },
-      SEVERE_TOXICITY: {
+      [API_MODEL]: {
         summaryScore: null,
       },
     };
@@ -74,20 +76,21 @@ async function getScores(text) {
     TOXICITY: {
       summaryScore: data.attributeScores.TOXICITY.summaryScore.value,
     },
-    SEVERE_TOXICITY: {
-      summaryScore: data.attributeScores.SEVERE_TOXICITY.summaryScore.value,
+    [API_MODEL]: {
+      summaryScore: data.attributeScores[API_MODEL].summaryScore.value,
     },
   };
 }
 
 /**
- * Get toxicity probability
+ * Get toxicity probability from the scores, trying first the selection model,
+ * but falling back to the `TOXICITY` model when the selected model isn't found.
  *
  * @param  {object} scores  scores as returned by `getScores`
  * @return {number}         toxicity probability from 0 - 1.0
  */
 function getProbability(scores) {
-  return scores.SEVERE_TOXICITY.summaryScore;
+  return get(scores, API_MODEL, scores.TOXICITY).summaryScore;
 }
 
 /**

@@ -24,6 +24,17 @@ da:
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
     confirmation_title: Ignore {0}?
+de:
+  talk-plugin-ignore-user:
+    blank_info: Sie ignorieren derzeit keine Nutzer
+    section_title: Ignorierte Nutzer
+    section_info: Weil Sie die folgenden Nutzer ignorieren, sind deren Kommentare versteckt.
+    stop_ignoring: Ignorieren beenden
+    ignore_user: Nutzer ignorieren
+    cancel: Abbrechen
+    confirmation: Wenn Sie Nutzer ignorieren, werden deren Kommentare auf der Seite für Sie unsichtbar. Diese Einstellung können Sie unter Mein Profil ändern.
+    notify_success: Sie ignorieren jetzt {0}. Sie können diese Einstellung unter Mein Profil wieder aufheben.
+    confirmation_title: "{0} ignorieren?"
 en:
   talk-plugin-ignore-user:
     blank_info: You are currently not ignoring any users
@@ -38,17 +49,6 @@ en:
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
     confirmation_title: Ignore {0}?
-de:
-  talk-plugin-ignore-user:
-    blank_info: Sie ignorieren derzeit keine Nutzer
-    section_title: Ignorierte Nutzer
-    section_info: Weil Sie die folgenden Nutzer ignorieren, sind deren Kommentare versteckt.
-    stop_ignoring: Ignorieren beenden
-    ignore_user: Nutzer ignorieren
-    cancel: Abbrechen
-    confirmation: Wenn Sie Nutzer ignorieren, werden deren Kommentare auf der Seite für Sie unsichtbar. Diese Einstellung können Sie unter Mein Profil ändern.
-    notify_success: Sie ignorieren jetzt {0}. Sie können diese Einstellung unter Mein Profil wieder aufheben.
-    confirmation_title: "{0} ignorieren?"
 es:
   talk-plugin-ignore-user:
     section_title: "Usuarios ignorados"
@@ -76,6 +76,19 @@ fr:
     notify_success: |
       You are now ignoring {0}. You can undo this action from My Profile.
     confirmation_title: Ignore {0}?
+he:
+  talk-plugin-ignore-user:
+    blank_info: בשלב זה אינך מתעלם ממשתמשים
+    section_title: משתמשים שהתעלמו מהם
+    section_info: מכיוון שהתעלמת מהמגיבים הבאים, ההערות שלהם מוסתרות.
+    stop_ignoring: הפסק להתעלם
+    ignore_user: התעלם מהמשתמש
+    cancel: בטל
+    confirmation: |
+      כאשר תתעלם ממשתמש, כל התגובות שכתבו באתר יוסתרו ממך. תוכל לבטל זאת מאוחר יותר מהפרופיל שלי.
+    notify_success: |
+      כעת אתה מתעלם {0}. תוכל לבטל את הפעולה הזו מהפרופיל שלי.
+    confirmation_title: "התעלם {0}?"
 nl_NL:
   talk-plugin-ignore-user:
     blank_info: Momenteel negeer je geen gebruikers
@@ -104,6 +117,20 @@ pt_BR:
     notify_success: |
       Agora você está ignorando {0}. Você pode desfazer essa ação em Meu Perfil.
     confirmation_title: Ignorar {0}?
+sr:
+  talk-plugin-ignore-user:
+    blank_info: Trenutno ne ignorišete ni jednog korisnika
+    section_title: Ignorisani korisnici
+    section_info: Pošto ste ignorisali sledeće komentatore, njihovi komentari su sakriveni.
+    stop_ignoring: Prestani sa ignorisanjem
+    ignore_user: Ignoriši korisnika
+    cancel: Poništi
+    confirmation: |
+      Kada ignorišete nekog korisnika, svi njegovi komentari na sajtu biće skriveni od vas. Ovo podešavanje možete
+      uvek isključiti u prikazu Moj profil.
+    notify_success: |
+      Sada ignorišete {0}. Možete poništiti ovu radnju iz prikaza Moj profil.
+    confirmation_title: Ignoriši {0}?   
 zh_CN:
   talk-plugin-ignore-user:
     section_title: "被忽略用户"

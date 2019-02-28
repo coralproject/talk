@@ -412,6 +412,48 @@ export const withSetUsername = withMutation(
   }
 );
 
+export const withAlwaysPremodUser = withMutation(
+  gql`
+    mutation AlwaysPremodUser($input: AlwaysPremodUserInput!) {
+      alwaysPremodUser(input: $input) {
+        ...AlwaysPremodUserResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      alwaysPremodUser: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      },
+    }),
+  }
+);
+
+export const withRemoveAlwaysPremodUser = withMutation(
+  gql`
+    mutation RemoveAlwaysPremodUser($input: RemoveAlwaysPremodUserInput!) {
+      removeAlwaysPremodUser(input: $input) {
+        ...RemoveAlwaysPremodUserResponse
+      }
+    }
+  `,
+  {
+    props: ({ mutate }) => ({
+      removeAlwaysPremodUser: input => {
+        return mutate({
+          variables: {
+            input,
+          },
+        });
+      },
+    }),
+  }
+);
+
 export const withBanUser = withMutation(
   gql`
     mutation BanUser($input: BanUserInput!) {

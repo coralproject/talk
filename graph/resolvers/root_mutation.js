@@ -74,6 +74,16 @@ const RootMutation = {
   unbanUser: async (obj, { input: { id } }, { mutators: { User } }) => {
     await User.setUserBanStatus(id, false);
   },
+  alwaysPremodUser: async (obj, { input: { id } }, { mutators: { User } }) => {
+    await User.setUserAlwaysPremodStatus(id, true);
+  },
+  removeAlwaysPremodUser: async (
+    obj,
+    { input: { id } },
+    { mutators: { User } }
+  ) => {
+    await User.setUserAlwaysPremodStatus(id, false);
+  },
   ignoreUser: async (_, { id }, { mutators: { User } }) => {
     await User.ignoreUser({ id });
   },

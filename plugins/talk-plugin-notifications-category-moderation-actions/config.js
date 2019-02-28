@@ -1,0 +1,8 @@
+const MODERATION_NOTIFICATION_TYPES =
+  (process.env.TALK_MODERATION_NOTIFICATION_TYPES &&
+    process.env.TALK_MODERATION_NOTIFICATION_TYPES.split(',')) ||
+  [];
+
+module.exports = {
+  MODERATION_NOTIFICATION_TYPES,
+};

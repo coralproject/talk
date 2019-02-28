@@ -207,6 +207,50 @@ class Users {
     return user;
   }
 
+  static async setAlwaysPremodStatus(id, status, assignedBy = null) {
+    let user = await User.findOneAndUpdate(
+      {
+        id,
+        'status.alwaysPremod.status': {
+          $ne: status,
+        },
+      },
+      {
+        $set: {
+          'status.alwaysPremod.status': status,
+        },
+        $push: {
+          'status.alwaysPremod.history': {
+            status,
+            assigned_by: assignedBy,
+            created_at: Date.now(),
+          },
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!user) {
+      user = await User.findOne({ id });
+      if (!user) {
+        throw new ErrNotFound();
+      }
+
+      if (user.status.alwaysPremod.status === status) {
+        return user;
+      }
+
+      throw new Error(
+        'always premod status change edit failed for an unknown reason'
+      );
+    }
+
+    return user;
+  }
+
   static async setBanStatus(id, status, assignedBy = null, message) {
     let user = await User.findOneAndUpdate(
       {

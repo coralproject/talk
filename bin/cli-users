@@ -105,7 +105,8 @@ function printUserAsTable(user) {
       Suspension: user.suspended
         ? `Until ${user.status.suspension.until}`
         : false,
-    }
+    },
+    { 'Always premod comments': user.alwaysPremod }
   );
 
   console.log(table.toString());
