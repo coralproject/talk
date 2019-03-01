@@ -35,3 +35,9 @@ he:
       featured:
         subject: "אחת מהתגובות שלך הוצגה ב {0}"
         body: "{0} \n חבר בצוות שלנו בחר תגובה זו כך שתוצג עבור קוראים אחרים: {1}"
+nl_NL:
+  talk-plugin-notifications:
+    categories:
+      featured:
+        subject: "Een van je reacties is uitgelicht in {0}"
+        body: "{0}\nDe redactie heeft deze reactie uitgelicht voor andere lezers: {1}"
