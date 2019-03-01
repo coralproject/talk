@@ -1,4 +1,18 @@
+export enum ERROR_TYPES {
+  INVALID_REQUEST_ERROR = "INVALID_REQUEST_ERROR",
+}
+
 export enum ERROR_CODES {
+  /**
+   * COMMENT_BODY_TOO_SHORT is used when a submitted comment body is too short.
+   */
+  COMMENT_BODY_TOO_SHORT = "COMMENT_BODY_TOO_SHORT",
+
+  /**
+   * COMMENT_BODY_EXCEEDS_MAX_LENGTH is used when a submitted comment body  exceeds the maximum length.
+   */
+  COMMENT_BODY_EXCEEDS_MAX_LENGTH = "COMMENT_BODY_EXCEEDS_MAX_LENGTH",
+
   /**
    * STORY_URL_NOT_PERMITTED is used when the given Story being created or
    * updated does not have a URL that is permitted by the Tenant.

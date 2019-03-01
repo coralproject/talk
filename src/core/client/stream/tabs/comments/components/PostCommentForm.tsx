@@ -5,17 +5,12 @@ import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
 import { required } from "talk-framework/lib/validation";
-import {
-  AriaInfo,
-  Button,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "talk-ui/components";
+import { AriaInfo, Button, Flex, HorizontalGutter } from "talk-ui/components";
 
 import PoweredBy from "./PoweredBy";
 import RTE from "./RTE";
 
+import ValidationMessage from "talk-admin/routes/configure/components/ValidationMessage";
 import styles from "./PostCommentForm.css";
 
 interface FormProps {
@@ -30,7 +25,7 @@ export interface PostCommentFormProps {
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
   <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
-    {({ handleSubmit, submitting, hasValidationErrors }) => (
+    {({ handleSubmit, submitting, hasValidationErrors, submitError }) => (
       <form
         autoComplete="off"
         onSubmit={handleSubmit}
@@ -41,7 +36,7 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
         <HorizontalGutter>
           <Field name="body" validate={required}>
             {({ input, meta }) => (
-              <div>
+              <HorizontalGutter size="half">
                 <Localized id="comments-postCommentForm-rteLabel">
                   <AriaInfo
                     component="label"
@@ -64,11 +59,14 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                 </Localized>
                 {meta.touched &&
                   (meta.error || meta.submitError) && (
-                    <Typography align="right" color="error" gutterBottom>
+                    <ValidationMessage fullWidth>
                       {meta.error || meta.submitError}
-                    </Typography>
+                    </ValidationMessage>
                   )}
-              </div>
+                {submitError && (
+                  <ValidationMessage fullWidth>{submitError}</ValidationMessage>
+                )}
+              </HorizontalGutter>
             )}
           </Field>
           <Flex

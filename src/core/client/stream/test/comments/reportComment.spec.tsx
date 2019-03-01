@@ -1,12 +1,17 @@
 import sinon from "sinon";
 
+import { ERROR_CODES } from "talk-common/errors";
+import { timeout } from "talk-common/utils";
+import { InvalidRequestError } from "talk-framework/lib/errors";
 import { wait, waitForElement, within } from "talk-framework/testHelpers";
 
-import { timeout } from "talk-common/utils";
 import { settings, stories, users } from "../fixtures";
 import create from "./create";
 
-function createTestRenderer() {
+function createTestRenderer(
+  resolver: any = {},
+  options: { muteNetworkErrors?: boolean } = {}
+) {
   const resolvers = {
     Query: {
       story: sinon.stub().callsFake((_: any, data: any) => {
@@ -18,6 +23,7 @@ function createTestRenderer() {
       }),
       me: sinon.stub().returns(users[0]),
       settings: sinon.stub().returns(settings),
+      ...resolver.Query,
     },
     Mutation: {
       createCommentFlag: sinon.stub().callsFake((_: any, data: any) => {
@@ -51,12 +57,14 @@ function createTestRenderer() {
           clientMutationId: "0",
         };
       }),
+      ...resolver.Mutation,
     },
   };
 
   const { testRenderer } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
+    muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(stories[0].id, "storyID");
@@ -221,4 +229,42 @@ it("dont agree with comment", async () => {
   });
   expect(reportedButton.props.disabled).toBe(true);
   expect(resolvers.Mutation.createCommentDontAgree.called).toBe(true);
+});
+
+it("report comment as offensive and handle server error", async () => {
+  const commentID = stories[0].comments.edges[0].node.id;
+  const { testRenderer } = createTestRenderer(
+    {
+      Mutation: {
+        createCommentFlag: sinon.stub().callsFake(() => {
+          throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
+        }),
+      },
+    },
+    { muteNetworkErrors: true }
+  );
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${commentID}`)
+  );
+  const button = within(comment).getByText("Report", { selector: "button" });
+  button.props.onClick();
+
+  const popover = within(testRenderer.root).getByID(
+    button.props["aria-controls"]
+  );
+
+  const radioButton = within(popover).getByLabelText(
+    "This comment is offensive"
+  );
+
+  radioButton.props.onChange({
+    target: { type: "radio", value: radioButton.props.value },
+  });
+
+  within(popover)
+    .getByType("form")
+    .props.onSubmit({});
+
+  // Look for internal error being displayed.
+  await waitForElement(() => within(popover).getByText("INTERNAL_ERROR"));
 });

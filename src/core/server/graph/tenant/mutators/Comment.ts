@@ -1,4 +1,6 @@
+import { ERROR_CODES } from "talk-common/errors";
 import { ADDITIONAL_DETAILS_MAX_LENGTH } from "talk-common/helpers/validate";
+import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
 import TenantContext from "talk-server/graph/tenant/context";
 import {
   GQLCreateCommentDontAgreeInput,
@@ -26,13 +28,21 @@ export const Comment = (ctx: TenantContext) => ({
     clientMutationId,
     ...comment
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
-    create(
-      ctx.mongo,
-      ctx.redis,
-      ctx.tenant,
-      ctx.user!,
-      { authorID: ctx.user!.id, ...comment },
-      ctx.req
+    mapFieldsetToErrorCodes(
+      create(
+        ctx.mongo,
+        ctx.redis,
+        ctx.tenant,
+        ctx.user!,
+        { authorID: ctx.user!.id, ...comment },
+        ctx.req
+      ),
+      {
+        "input.body": [
+          ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
+          ERROR_CODES.COMMENT_BODY_TOO_SHORT,
+        ],
+      }
     ),
   edit: ({ commentID, body }: GQLEditCommentInput) =>
     edit(

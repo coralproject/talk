@@ -1,6 +1,8 @@
 import { ERROR_CODES } from "talk-common/errors";
 
 export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
+  COMMENT_BODY_TOO_SHORT: "error-commentBodyTooShort",
+  COMMENT_BODY_EXCEEDS_MAX_LENGTH: "error-commentBodyExceedsMaxLength",
   STORY_URL_NOT_PERMITTED: "error-storyURLNotPermitted",
   TOKEN_NOT_FOUND: "error-tokenNotFound",
   DUPLICATE_STORY_URL: "error-duplicateStoryURL",
