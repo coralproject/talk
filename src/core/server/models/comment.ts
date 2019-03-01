@@ -493,9 +493,10 @@ export const retrieveCommentRepliesConnection = (
   parentID: string,
   input: CommentConnectionInput
 ) =>
-  retrieveCommentConnection(mongo, tenantID, {
+  retrieveVisibleCommentConnection(mongo, tenantID, {
     ...input,
     filter: {
+      ...input.filter,
       storyID,
       parentID,
     },
@@ -611,17 +612,14 @@ export const retrieveCommentStoryConnection = (
   storyID: string,
   input: CommentConnectionInput
 ) =>
-  retrieveCommentConnection(mongo, tenantID, {
+  retrieveVisibleCommentConnection(mongo, tenantID, {
     ...input,
     filter: {
+      ...input.filter,
       storyID,
       // Only get Comments that are top level. If the client wants to load another
       // layer, they can request another nested connection.
       parentID: null,
-      // Only get Comment's that are visible.
-      status: {
-        $in: [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.ACCEPTED],
-      },
     },
   });
 
@@ -630,6 +628,7 @@ export const retrieveCommentStoryConnection = (
  * comments.
  *
  * @param mongo database connection
+ * @param tenantID the Tenant's ID
  * @param userID the User id for the comment to retrieve
  * @param input connection configuration
  */
@@ -639,10 +638,55 @@ export const retrieveCommentUserConnection = (
   userID: string,
   input: CommentConnectionInput
 ) =>
+  retrieveVisibleCommentConnection(mongo, tenantID, {
+    ...input,
+    filter: {
+      ...input.filter,
+      authorID: userID,
+    },
+  });
+
+/**
+ * retrieveVisibleCommentConnection will retrieve a connection that contains
+ * comments that are visible.
+ *
+ * @param mongo database connection
+ * @param tenantID the Tenant's ID
+ * @param input connection configuration
+ */
+export const retrieveVisibleCommentConnection = (
+  mongo: Db,
+  tenantID: string,
+  input: CommentConnectionInput
+) =>
+  retrieveStatusCommentConnection(
+    mongo,
+    tenantID,
+    // Only get Comment's that are visible.
+    [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.ACCEPTED],
+    input
+  );
+
+/**
+ * retrieveStatusCommentConnection will retrieve a connection that contains
+ * comments with specific statuses.
+ *
+ * @param mongo database connection
+ * @param tenantID the Tenant's ID
+ * @param statuses the statuses to filter
+ * @param input connection configuration
+ */
+export const retrieveStatusCommentConnection = (
+  mongo: Db,
+  tenantID: string,
+  statuses: GQLCOMMENT_STATUS[],
+  input: CommentConnectionInput
+) =>
   retrieveCommentConnection(mongo, tenantID, {
     ...input,
     filter: {
-      authorID: userID,
+      ...input.filter,
+      status: { $in: statuses },
     },
   });
 
@@ -721,7 +765,7 @@ function applyInputToQuery(
   input: CommentConnectionInput,
   query: Query<Comment>
 ) {
-  // NOTE: (wyattjoh) if we ever extend these, ensure that the new order variant is added as an index into the `createCommentConnectionOrderVariants` function.
+  // NOTE: (wyattjoh) if we ever extend these, ensure that the new order variant is added as an index into the `createConnectionOrderVariants` function.
   switch (input.orderBy) {
     case GQLCOMMENT_SORT.CREATED_AT_DESC:
       query.orderBy({ createdAt: -1 });

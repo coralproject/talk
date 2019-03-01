@@ -5,7 +5,7 @@ import {
 } from "talk-server/services/comments/pipeline";
 
 const testDisabledCommenting = (settings: Partial<ModerationSettings>) =>
-  settings.disableCommenting;
+  settings.disableCommenting && settings.disableCommenting.enabled;
 
 export const commentingDisabled: IntermediateModerationPhase = ({
   story,
