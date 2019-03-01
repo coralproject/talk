@@ -4,7 +4,7 @@ import extractError from "./extractError";
 
 const customErrorMiddleware: Middleware = next => async req => {
   const res = await next(req);
-  if (req.isMutation() && res.errors) {
+  if (res.errors) {
     // Extract custom error.
     const error = extractError(res.errors);
     if (error) {
