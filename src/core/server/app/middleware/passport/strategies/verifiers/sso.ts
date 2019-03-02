@@ -18,9 +18,8 @@ export interface SSOStrategyOptions {
 export interface SSOUserProfile {
   id: string;
   email: string;
-  username?: string;
+  username: string;
   avatar?: string;
-  displayName?: string;
 }
 
 export interface SSOToken {
@@ -49,7 +48,7 @@ export async function findOrCreateSSOUser(
   }
 
   // Unpack/validate the token content.
-  const { id, email, username, displayName, avatar }: SSOUserProfile = validate(
+  const { id, email, username, avatar }: SSOUserProfile = validate(
     SSOUserProfileSchema,
     token.user
   );
@@ -72,9 +71,6 @@ export async function findOrCreateSSOUser(
     // Create the new user, as one didn't exist before!
     user = await upsert(db, tenant, {
       username,
-      // When the displayName is disabled on the tenant, the displayName will
-      // never be set (or even stored in the database).
-      displayName,
       role: GQLUSER_ROLE.COMMENTER,
       email,
       avatar,

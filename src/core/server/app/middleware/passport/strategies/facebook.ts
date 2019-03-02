@@ -77,7 +77,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
       }
 
       user = await upsert(this.mongo, tenant, {
-        displayName,
+        username: displayName,
         role: GQLUSER_ROLE.COMMENTER,
         email,
         emailVerified,

@@ -39,8 +39,8 @@ const CreateUsername: StatelessComponent<CreateUsernameForm> = props => {
               <HorizontalGutter size="oneAndAHalf">
                 <Localized id="createUsername-whatItIs">
                   <Typography variant="bodyCopy">
-                    Your username is a unique identifier that will appear on all
-                    of your comments.
+                    Your username is an identifier that will appear on all of
+                    your comments.
                   </Typography>
                 </Localized>
                 {submitError && (

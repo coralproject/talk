@@ -8,7 +8,6 @@ import {
   USERNAME_REGEX,
 } from "talk-common/helpers/validate";
 import {
-  DisplayNameExceedsMaxLengthError,
   EmailAlreadySetError,
   EmailExceedsMaxLengthError,
   EmailInvalidFormatError,
@@ -32,7 +31,6 @@ import {
   setUserLocalProfile,
   setUserUsername,
   updateUserAvatar,
-  updateUserDisplayName,
   updateUserEmail,
   updateUserPassword,
   updateUserRole,
@@ -68,25 +66,6 @@ function validateUsername(tenant: Tenant, username: string) {
 
   if (username.length < USERNAME_MIN_LENGTH) {
     throw new UsernameTooShortError(username.length, USERNAME_MIN_LENGTH);
-  }
-}
-
-const DISPLAY_NAME_MAX_LENGTH = USERNAME_MAX_LENGTH;
-
-/**
- * validateDisplayName will validate that the username is valid.
- *
- * @param tenant tenant where the User is associated with
- * @param displayName the display name to be tested
- */
-function validateDisplayName(tenant: Tenant, displayName: string) {
-  // TODO: replace these static regex/length with database options in the Tenant eventually
-
-  if (displayName.length > DISPLAY_NAME_MAX_LENGTH) {
-    throw new DisplayNameExceedsMaxLengthError(
-      displayName.length,
-      DISPLAY_NAME_MAX_LENGTH
-    );
   }
 }
 
@@ -353,28 +332,6 @@ export async function updateUsername(
   validateUsername(tenant, username);
 
   return updateUserUsername(mongo, tenant.id, userID, username);
-}
-
-/**
- * updateDisplayName will update a given User's display name.
- *
- * @param mongo mongo database to interact with
- * @param tenant Tenant where the User will be interacted with
- * @param userID the User's ID that we are updating
- * @param displayName the display name that we are setting on the User
- */
-export async function updateDisplayName(
-  mongo: Db,
-  tenant: Tenant,
-  userID: string,
-  displayName?: string
-) {
-  if (displayName) {
-    // Validate the display name.
-    validateDisplayName(tenant, displayName);
-  }
-
-  return updateUserDisplayName(mongo, tenant.id, userID, displayName);
 }
 
 /**

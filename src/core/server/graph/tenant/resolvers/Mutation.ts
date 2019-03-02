@@ -8,9 +8,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   createComment: async (source, { input }, ctx) => ({
     edge: {
       // Depending on the sort we can't determine the accurate cursor in a
-      // performant way, so we return null instead. It seems that Relay does
-      // not directly use this value.
-      cursor: null,
+      // performant way, so we return an empty string.
+      cursor: "",
       node: await ctx.mutators.Comments.create(input),
     },
     clientMutationId: input.clientMutationId,
@@ -18,9 +17,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   createCommentReply: async (source, { input }, ctx) => ({
     edge: {
       // Depending on the sort we can't determine the accurate cursor in a
-      // performant way, so we return null instead. It seems that Relay does
-      // not directly use this value.
-      cursor: null,
+      // performant way, so we return an empty string.
+      cursor: "",
       node: await ctx.mutators.Comments.create(input),
     },
     clientMutationId: input.clientMutationId,
@@ -107,10 +105,6 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   }),
   updateUserUsername: async (source, { input }, ctx) => ({
     user: await ctx.mutators.Users.updateUserUsername(input),
-    clientMutationId: input.clientMutationId,
-  }),
-  updateUserDisplayName: async (source, { input }, ctx) => ({
-    user: await ctx.mutators.Users.updateUserDisplayName(input),
     clientMutationId: input.clientMutationId,
   }),
   updateUserEmail: async (source, { input }, ctx) => ({

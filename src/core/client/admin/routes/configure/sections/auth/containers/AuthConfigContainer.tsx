@@ -104,7 +104,6 @@ const enhanced = withFragmentContainer<Props>({
       ...SSOConfigContainer_auth
       ...SSOConfigContainer_authReadOnly
       ...LocalAuthConfigContainer_auth
-      ...DisplayNamesConfigContainer_auth
       ...OIDCConfigContainer_auth
       ...OIDCConfigContainer_authReadOnly
     }

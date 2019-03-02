@@ -22,7 +22,7 @@ export interface AuthDirectiveArgs {
 function calculateAuthConditions(user: User): GQLUSER_AUTH_CONDITIONS[] {
   const conditions: GQLUSER_AUTH_CONDITIONS[] = [];
 
-  if (!user.username && !user.displayName) {
+  if (!user.username) {
     conditions.push(GQLUSER_AUTH_CONDITIONS.MISSING_NAME);
   }
 

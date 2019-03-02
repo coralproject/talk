@@ -37,6 +37,7 @@ export interface OIDCIDToken {
   picture?: string;
   name?: string;
   nickname?: string;
+  preferred_username?: string;
 }
 
 export interface StrategyItem {
@@ -121,8 +122,15 @@ export const OIDCIDTokenSchema = Joi.object()
     picture: Joi.string().default(undefined),
     name: Joi.string().default(undefined),
     nickname: Joi.string().default(undefined),
+    preferred_username: Joi.string().default(undefined),
   })
-  .optionalKeys(["picture", "email_verified", "name", "nickname"]);
+  .optionalKeys([
+    "picture",
+    "email_verified",
+    "name",
+    "nickname",
+    "preferred_username",
+  ]);
 
 export async function findOrCreateOIDCUser(
   db: Db,
@@ -140,6 +148,7 @@ export async function findOrCreateOIDCUser(
     picture,
     name,
     nickname,
+    preferred_username,
   }: OIDCIDToken = validate(OIDCIDTokenSchema, token);
 
   // Construct the profile that will be used to query for the user.
@@ -164,11 +173,12 @@ export async function findOrCreateOIDCUser(
 
     // FIXME: implement rules.
 
-    const displayName = nickname || name || undefined;
+    // Try to extract the username from the following chain:
+    const username = preferred_username || nickname || name;
 
     // Create the new user, as one didn't exist before!
     user = await upsert(db, tenant, {
-      displayName,
+      username,
       role: GQLUSER_ROLE.COMMENTER,
       email,
       emailVerified: email_verified,

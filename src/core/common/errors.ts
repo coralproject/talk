@@ -77,12 +77,6 @@ export enum ERROR_CODES {
   TOKEN_INVALID = "TOKEN_INVALID",
 
   /**
-   * DUPLICATE_USERNAME is returned when a user attempts to create an account
-   * with the same username as another user.
-   */
-  DUPLICATE_USERNAME = "DUPLICATE_USERNAME",
-
-  /**
    * DUPLICATE_EMAIL is returned when a user attempts to create an account
    * with the same email address as another user.
    */
@@ -130,12 +124,6 @@ export enum ERROR_CODES {
    * password but it is too short.
    */
   PASSWORD_TOO_SHORT = "PASSWORD_TOO_SHORT",
-
-  /**
-   * DISPLAY_NAME_EXCEEDS_MAX_LENGTH is returned when the user attempts to
-   * associate a new display name that exceeds the maximum length.
-   */
-  DISPLAY_NAME_EXCEEDS_MAX_LENGTH = "DISPLAY_NAME_EXCEEDS_MAX_LENGTH",
 
   /**
    * EMAIL_INVALID_FORMAT is returned when when the user attempts to associate a

@@ -9,7 +9,6 @@ import {
   setPassword,
   setUsername,
   updateAvatar,
-  updateDisplayName,
   updateEmail,
   updatePassword,
   updateRole,
@@ -23,7 +22,6 @@ import {
   GQLSetUsernameInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
-  GQLUpdateUserDisplayNameInput,
   GQLUpdateUserEmailInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
@@ -41,7 +39,6 @@ export const Users = (ctx: TenantContext) => ({
           ERROR_CODES.USERNAME_CONTAINS_INVALID_CHARACTERS,
           ERROR_CODES.USERNAME_EXCEEDS_MAX_LENGTH,
           ERROR_CODES.USERNAME_TOO_SHORT,
-          ERROR_CODES.DUPLICATE_USERNAME,
         ],
       }
     ),
@@ -78,8 +75,6 @@ export const Users = (ctx: TenantContext) => ({
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
     updateUsername(ctx.mongo, ctx.tenant, input.userID, input.username),
-  updateUserDisplayName: async (input: GQLUpdateUserDisplayNameInput) =>
-    updateDisplayName(ctx.mongo, ctx.tenant, input.userID, input.displayName),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>

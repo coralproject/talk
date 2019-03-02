@@ -250,15 +250,6 @@ export class DuplicateStoryURLError extends TalkError {
   }
 }
 
-export class DuplicateUsernameError extends TalkError {
-  constructor(username: string) {
-    super({
-      code: ERROR_CODES.DUPLICATE_USERNAME,
-      context: { pvt: { username } },
-    });
-  }
-}
-
 export class DuplicateEmailError extends TalkError {
   constructor(email: string) {
     super({ code: ERROR_CODES.DUPLICATE_EMAIL, context: { pvt: { email } } });
@@ -309,15 +300,6 @@ export class UsernameTooShortError extends TalkError {
     super({
       code: ERROR_CODES.USERNAME_TOO_SHORT,
       context: { pub: { length, min } },
-    });
-  }
-}
-
-export class DisplayNameExceedsMaxLengthError extends TalkError {
-  constructor(length: number, max: number) {
-    super({
-      code: ERROR_CODES.DISPLAY_NAME_EXCEEDS_MAX_LENGTH,
-      context: { pub: { length, max } },
     });
   }
 }

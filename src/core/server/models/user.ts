@@ -6,7 +6,6 @@ import { Omit, Sub } from "talk-common/types";
 import {
   DuplicateEmailError,
   DuplicateUserError,
-  DuplicateUsernameError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   TokenNotFoundError,
@@ -74,8 +73,6 @@ export interface Token {
 export interface User extends TenantResource {
   readonly id: string;
   username?: string;
-  lowercaseUsername?: string;
-  displayName?: string;
   avatar?: string;
   email?: string;
   emailVerified?: boolean;
@@ -90,15 +87,6 @@ export async function createUserIndexes(mongo: Db) {
 
   // UNIQUE { id }
   await createIndex({ tenantID: 1, id: 1 }, { unique: true });
-
-  // UNIQUE - PARTIAL { lowercaseUsername }
-  await createIndex(
-    { tenantID: 1, lowercaseUsername: 1 },
-    {
-      unique: true,
-      partialFilterExpression: { lowercaseUsername: { $exists: true } },
-    }
-  );
 
   // UNIQUE - PARTIAL { email }
   await createIndex(
@@ -130,7 +118,7 @@ function hashPassword(password: string): Promise<string> {
 
 export type UpsertUserInput = Omit<
   User,
-  "id" | "tenantID" | "tokens" | "createdAt" | "lowercaseUsername"
+  "id" | "tenantID" | "tokens" | "createdAt"
 >;
 
 export async function upsertUser(
@@ -167,11 +155,6 @@ export async function upsertUser(
     }
     // Save a copy.
     profiles.push(profile);
-  }
-
-  // Add in the lowercase username if it was sent.
-  if (input.username) {
-    defaults.lowercaseUsername = input.username.toLowerCase();
   }
 
   // Merge the defaults and the input together.
@@ -367,18 +350,6 @@ export async function setUserUsername(
   id: string,
   username: string
 ) {
-  // Lowercase the username.
-  const lowercaseUsername = username.toLowerCase();
-
-  // Search to see if this username has been used before.
-  let user = await collection(mongo).findOne({
-    tenantID,
-    lowercaseUsername,
-  });
-  if (user) {
-    throw new DuplicateUsernameError(username);
-  }
-
   // The username wasn't found, so add it to the user.
   const result = await collection(mongo).findOneAndUpdate(
     {
@@ -389,7 +360,6 @@ export async function setUserUsername(
     {
       $set: {
         username,
-        lowercaseUsername,
       },
     },
     {
@@ -400,7 +370,7 @@ export async function setUserUsername(
   );
   if (!result.value) {
     // Try to get the current user to discover what happened.
-    user = await retrieveUser(mongo, tenantID, id);
+    const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
     }
@@ -429,18 +399,6 @@ export async function updateUserUsername(
   id: string,
   username: string
 ) {
-  // Lowercase the username.
-  const lowercaseUsername = username.toLowerCase();
-
-  // Search to see if this username has been used before.
-  let user = await collection(mongo).findOne({
-    tenantID,
-    lowercaseUsername,
-  });
-  if (user) {
-    throw new DuplicateUsernameError(username);
-  }
-
   // The username wasn't found, so add it to the user.
   const result = await collection(mongo).findOneAndUpdate(
     {
@@ -450,54 +408,6 @@ export async function updateUserUsername(
     {
       $set: {
         username,
-        lowercaseUsername,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    // Try to get the current user to discover what happened.
-    user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
-
-    throw new Error("an unexpected error occured");
-  }
-
-  return result.value;
-}
-
-/**
- * updateUserDisplayName will set the displayName of the User. If the display
- * name is not provided, it will be unset.
- *
- * @param mongo the database handle
- * @param tenantID the ID to the Tenant
- * @param id the ID of the User where we are setting the displayName on
- * @param displayName the displayName that we want to set
- */
-export async function updateUserDisplayName(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  displayName?: string
-) {
-  // The username wasn't found, so add it to the user.
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id,
-    },
-    {
-      // This will ensure that if the display name isn't provided, it will unset
-      // the display name on the User.
-      [displayName ? "$set" : "$unset"]: {
-        displayName: displayName ? displayName : 1,
       },
     },
     {

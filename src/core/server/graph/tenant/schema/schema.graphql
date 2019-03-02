@@ -610,17 +610,6 @@ type AuthIntegrations {
 }
 
 """
-AuthDisplayNameConfiguration allows configuration related to Display Names.
-"""
-type AuthDisplayNameConfiguration {
-  """
-  enabled when true will allow the display name to be used by other
-  AuthIntegrations.
-  """
-  enabled: Boolean!
-}
-
-"""
 Auth contains all the settings related to authentication and
 authorization.
 """
@@ -630,12 +619,6 @@ type Auth {
   authentication solutions.
   """
   integrations: AuthIntegrations!
-
-  """
-  displayName contains configuration related to the use of Display Names across
-  AuthIntegrations.
-  """
-  displayName: AuthDisplayNameConfiguration! @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1067,11 +1050,6 @@ type User {
   username is the name of the User visible to other Users.
   """
   username: String
-
-  """
-  displayName is provided optionally when enabled and available.
-  """
-  displayName: String
 
   """
   email is the current email address for the User.
@@ -2101,25 +2079,11 @@ input SettingsAuthIntegrationsInput {
   facebook: SettingsFacebookAuthIntegrationInput
 }
 
-input SettingsAuthDisplayNameInput {
-  """
-  enabled when true will allow the display name to be used by other
-  AuthIntegrations.
-  """
-  enabled: Boolean!
-}
-
 """
 Auth contains all the settings related to authentication and
 authorization.
 """
 input SettingsAuthInput {
-  """
-  "
-  displayName allows configuration related to Display Names.
-  """
-  displayName: SettingsAuthDisplayNameInput
-
   """
   integrations are the set of configurations for the variations of
   authentication solutions.
@@ -3160,40 +3124,6 @@ type UpdateUserUsernamePayload {
 }
 
 ##################
-# updateUserDisplayName
-##################
-
-input UpdateUserDisplayNameInput {
-  """
-  userID is the ID of the User that should have their display name updated.
-  """
-  userID: ID!
-
-  """
-  displayName is the desired display name to set for the User. If set to `null`
-  or not provided, it will be unset.
-  """
-  displayName: String
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type UpdateUserDisplayNamePayload {
-  """
-  user is the possibly modified User.
-  """
-  user: User!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
 # updateUserEmail
 ##################
 
@@ -3459,14 +3389,6 @@ type Mutation {
   updateUserUsername(
     input: UpdateUserUsernameInput!
   ): UpdateUserUsernamePayload! @auth(roles: [ADMIN])
-
-  """
-  updateUserDisplayName allows administrators to update a given User's display
-  name to the one provided.
-  """
-  updateUserDisplayName(
-    input: UpdateUserDisplayNameInput!
-  ): UpdateUserDisplayNamePayload @auth(roles: [ADMIN])
 
   """
   updateUserEmail allows administrators to update a given User's email address

@@ -110,8 +110,8 @@ const CreateYourAccount: StatelessComponent<CreateYourAccountForm> = props => {
                   </Localized>
                   <Localized id="install-createYourAccount-usernameDescription">
                     <InputDescription>
-                      A unique identifier displayed on your comments. You may
-                      use “_” and “.”
+                      An identifier displayed on your comments. You may use “_”
+                      and “.”
                     </InputDescription>
                   </Localized>
                   <Localized

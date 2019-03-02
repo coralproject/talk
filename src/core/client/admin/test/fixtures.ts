@@ -35,9 +35,6 @@ export const settings = {
     },
   },
   auth: {
-    displayName: {
-      enabled: false,
-    },
     integrations: {
       local: {
         enabled: true,
@@ -100,9 +97,6 @@ export const settingsWithEmptyAuth = {
   ...settings,
   id: "settings",
   auth: {
-    displayName: {
-      enabled: false,
-    },
     integrations: {
       local: {
         enabled: true,
