@@ -343,7 +343,7 @@ it:
   talk-plugin-auth:
     login:
       email_verify_cta: "Perfavore verifica il tuo indirizzo email."
-      request_new_verify_email: "Richiedi un'altro email"
+      request_new_verify_email: "Richiedi un'altra email"
       verify_email: "Grazie per aver creato un account! Abbiamo inviato una email all'indirizzo che ci hai fornito per verificare il tuo account."
       verify_email2: "Devi verificare il tuo account prima di poter interagire con la community."
       not_you: "Non sei tu?"
