@@ -24,7 +24,7 @@ it:
       moderation-actions:
         approved: 
           subject: "Il tuo commento su {0} è stato pubblicato"
-          body: "{0}\Grazie per aver commentato. Il tuo commento è stato pubblicato: {1}"
+          body: "{0}\nGrazie per aver commentato. Il tuo commento è stato pubblicato: {1}"
         rejected:
           subject: "Il tuo commento su {0} non è stato pubblicato"
           body: "{0}\nIl linguaggio usato in uno dei tuoi commenti non si attiene alle linee guida della community, e quindi il commento è stato rimosso."
