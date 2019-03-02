@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-flag-details:
     flags: דיווחים
+it:
+  talk-plugin-flag-details:
+    flags: Rapporti
 nl_NL:
   talk-plugin-flag-details:
     flags: Meldingen

@@ -100,6 +100,21 @@ he:
     are_you_sure: האם אתה בטוח שברצונך להמליץ את התגובה הזו?
     cancel: בטל
     yes_feature_comment: כן, ממליץ תגובה
+it:
+  talk-plugin-featured-comments:
+    un_feature: Rimuovi dal primo piano
+    feature: Metti in primo piano
+    featured: Messo in primo piano
+    featured_comments: Commenti in primo piano
+    go_to_conversation: Vai alla conversazione
+    tooltip_description: Commenti selezionati dal tuo team come meritevoli di essere letti
+    notify_self_featured: 'Il commento da {0} è ora in primo piano e approvato'
+    notify_featured: '{0} ha messo in primo piano e approvato il commento "{1}"'
+    notify_unfeatured: '{0} ha rimosso dal primo piano il commento "{1}"'
+    feature_comment: Metti in primo piano il commento?
+    are_you_sure: Sei sicuro di voler mettere in primo piano questo commento?
+    cancel: Annulla
+    yes_feature_comment: Sì, metti il commento in primo piano
 nl_NL:
   talk-plugin-featured-comments:
     un_feature: Uitlichten ongedaan maken.

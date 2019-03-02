@@ -26,6 +26,10 @@ he:
   talk-plugin-love:
     love: אוהב
     loved: אהבתי
+it:
+  talk-plugin-love:
+    love: Amo
+    loved: Amato
 nl_NL:
   talk-plugin-love:
     love: Love

@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-sort-oldest:
     label: מהאחרונה לראשונה
+it:
+  talk-plugin-sort-oldest:
+    label: Prima il più vecchio
 nl_NL:
   talk-plugin-sort-oldest:
     label: Oudste eerst

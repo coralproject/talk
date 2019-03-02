@@ -4,3 +4,6 @@ en:
 es:
   talk-plugin-notifications-category-moderation-actions:
     toggle_description: Mis comentarios pendientes han sido revisados
+it:
+  talk-plugin-notifications-category-moderation-actions:
+    toggle_description: I miei commenti in sospeso sono stati esaminati

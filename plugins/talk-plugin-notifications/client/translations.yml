@@ -106,6 +106,24 @@ he:
     digest_option: שלח התראות
     digest_enum:
       NONE: מיד
+it:
+  talk-plugin-notifications:
+    settings_title: Notifiche
+    settings_subtitle: Ricevi notifiche quando
+    turn_off_all: Non voglio ricevere notifiche
+    banner_info:
+      title: Verifica dell'email richiesta
+      text: Per ricevere notifiche email devi aver un indirizzo email verificato.
+      verify_now: Verifica la tua email ora
+    banner_success:
+      title: Email di verifica inviata
+      text: Una email contenente il link di verifica è stata inviata a {0}.
+    banner_error:
+      title: Errore
+      text: C'è stato un errore nell'invio della email di verifica. Perfavore riprova più tardi.
+    digest_option: Invia notifiche
+    digest_enum:
+      NONE: Immediatamente
 nl_NL:
   talk-plugin-notifications:
     settings_title: Notificaties

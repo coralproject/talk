@@ -35,6 +35,12 @@ he:
       staff:
         subject: "מישהו ב {0} השיב לתגובתך"
         body: "{0}\n{1} עובד עבור {2} והוא השיב לתגובתך: {3}"
+it:
+  talk-plugin-notifications:
+    categories:
+      staff:
+        subject: "Qualcuno in {0} ha risposto al tuo commento"
+        body: "{0}\n{1} lavora per {2} e ha risposto al tuo commento: {3}"
 nl_NL:
   talk-plugin-notifications:
     categories:

@@ -13,3 +13,8 @@ he:
     format_bold: מודגש
     format_italic: נטוי
     format_blockquote: blockquote
+it:
+  talk-plugin-rich-text:
+    format_bold: bold
+    format_italic: italic
+    format_blockquote: blockquote

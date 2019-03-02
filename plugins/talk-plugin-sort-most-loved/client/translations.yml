@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-sort-most-loved:
     label: הכי אהוב קודם
+it:
+  talk-plugin-sort-most-loved:
+    label: Prima il più amato
 nl_NL:
   talk-plugin-sort-most-loved:
     label: Meest geliefd eerst

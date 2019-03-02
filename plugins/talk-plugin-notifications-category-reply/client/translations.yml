@@ -13,6 +13,9 @@ es:
 he:
   talk-plugin-notifications-category-reply:
     toggle_description: התגובה שלי מקבלת תשובה
+it:
+  talk-plugin-notifications-category-reply:
+    toggle_description: Il mio commento ha ricevuto una risposta
 nl_NL:
   talk-plugin-notifications-category-reply:
     toggle_description: Iemand antwoord op mijn reactie

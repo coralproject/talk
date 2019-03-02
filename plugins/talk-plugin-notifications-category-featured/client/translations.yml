@@ -13,6 +13,9 @@ es:
 he:
   talk-plugin-notifications-category-featured:
     toggle_description: התגובה שלי מובלטת
+it:
+  talk-plugin-notifications-category-featured:
+    toggle_description: Il mio commento è stato messo in primo piano
 nl_NL:
   talk-plugin-notifications-category-featured:
     toggle_description: Mijn bericht is uitgelicht

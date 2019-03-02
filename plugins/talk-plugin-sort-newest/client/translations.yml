@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-sort-newest:
     label: מהראשונה לאחרונה
+it:
+  talk-plugin-sort-newest:
+    label: Prima il più nuovo
 nl_NL:
   talk-plugin-sort-newest:
     label: Nieuwste eerst

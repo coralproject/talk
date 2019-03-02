@@ -82,6 +82,18 @@ he:
     ban_user_dialog_cancel: "בטל"
     ban_user_dialog_yes: "כן. חסום משתמש"
     ban_user_dialog_headline: "חסום משתמש?"
+it:
+  talk-plugin-moderation-actions:
+    reject_comment: "Rifiuta"
+    approve_comment: "Approva"
+    approved_comment: "Approvato"
+    moderation_actions: "Azioni di moderazione"
+    ban_user: "Bandisci utente"
+    ban_user_dialog_sub: "Sei sicuro di voler bandire questo utente?"
+    ban_user_dialog_copy: "Nota: Bandire questo utente metterà questo commento nella coda di commenti rifiutati."
+    ban_user_dialog_cancel: "Cancella"
+    ban_user_dialog_yes: "Sì. Bandisci utente"
+    ban_user_dialog_headline: "Bandisci utente?"
 nl_NL:
   talk-plugin-moderation-actions:
     reject_comment: "Afkeuren"

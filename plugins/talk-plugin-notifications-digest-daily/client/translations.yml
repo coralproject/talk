@@ -22,6 +22,10 @@ he:
   talk-plugin-notifications:
     digest_enum:
       DAILY: בתקציר יומי
+it:
+  talk-plugin-notifications:
+    digest_enum:
+      DAILY: In un riassunto giornaliero
 nl_NL:
   talk-plugin-notifications:
     digest_enum:

@@ -120,6 +120,24 @@ he:
     reasons:
       comment:
         toxic_comment: "סביר מאוד להיות רעיל"
+it:
+  error:
+    COMMENT_IS_TOXIC: |
+      Sei sicuro? Il linguaggio in questo commento potrebbe violare le linee guida della community
+      Puoi modificare questo commento o sottoporlo alla revisione del moderatore
+  talk-plugin-toxic-comments:
+    unlikely: "Improbabile"
+    highly_likely: "Estremamente probabile"
+    possibly: "Possibilmente"
+    likely: "Probabilmente"
+    toxic_comment: "Commento Tossico"
+    still_toxic: |
+      Questo commento modificato potrebbe comunque violare le linee guida della community
+      Il nostro team di moderatori revisionerà il tuo commento a breve
+  flags:
+    reasons:
+      comment:
+        toxic_comment: "Estremamente probabile che sia Tossico"
 nl_NL:
   error:
     COMMENT_IS_TOXIC: |

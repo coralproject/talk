@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-sort-most-respected:
     label: הכי מכובד קודם
+it:
+  talk-plugin-sort-most-respected:
+    label: Prima il più rispettato
 nl_NL:
   talk-plugin-sort-most-respected:
     label: Meest gerespecteerd eerst

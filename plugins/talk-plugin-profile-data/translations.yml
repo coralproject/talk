@@ -221,6 +221,43 @@ he:
       body: "ביטלת את בקשת מחיקת החשבון שלך עבור {0}. החשבון שלך מופעל מחדש כעת."
   error:
     DOWNLOAD_TOKEN_INVALID: "קישור ההורדה שלך אינו חוקי."
+it:
+  download_landing:
+    download_your_account: "Scarica la tua cronologia di commenti"
+    download_details: "La tua cronologia di commenti sarà scaricata in un .zip file. Dopo che la tua cronologia di commenti sarà decompressa avrai un file di valori separati da virgola (o .csv) che potrai facilmente importare nella tua applicazione per fogli elettronici preferita."
+    all_information_included: "Per ciascuno dei tuoi commenti saranno incluse le seguenti informazioni:"
+    information_included:
+      date: "Quando hai scritto il commento"
+      url: "L'URL del link permanente per il commento"
+      body: "Il testo del commento"
+      asset_url: "L'URL dell'articolo o della storia dove appare il commento"
+    confirm: "Scarica la mia cronologia di commenti"
+  email:
+    download:
+      subject: "I tuoi commenti sono pronti per essere scaricati da {0}"
+      download_link_ready: "Premi qui per scaricare i tuoi commenti da {0} per {1}:"
+      download_archive: "Scarica Archivio"
+    delete:
+      subject: "Il tuo account per {0} è in programma per essere eliminato"
+      body: |
+        E' stata ricevuta una richiesta di eliminare il tuo account. Il tuo account è in programma per essere eliminato il {1}.
+
+        Dopo quel momento tutti i tuoi commenti saranno eliminati dal sito,tutti i tuoi commenti saranno eliminati dal nostro database, e il tuo username e email saranno rimossi dal nostro sistema.
+
+        Se dovessi cambiare idea puoi accedere al tuo account e cancellare la richiesta prima della data stabilita per l'eliminazione dell'account.
+    deleted:
+      subject: "Il tuo account per {0} è stato eliminato"
+      body: |
+        Il tuo account per {0} è stato eliminato. Ci dispiace di vederti andare!
+
+        Se volessi ri-partecipare alla discussione in futuro, potrai registrare un nuovo account.
+
+        Se vuoi lasciarci un feedback sul perché sei andato via e su come possiamo rendere l'esperienza di commento migliore, puoi inviarci un email a {1}.
+    cancelDelete:
+      subject: "La tua richiesta di eliminazione dell'account per {0} è stata cancellata"
+      body: "Hai cancellato la tua richiesta di eliminazione dell'account per {0}. Il tuo account è ora riattivato."
+  error:
+    DOWNLOAD_TOKEN_INVALID: "Il tuo link per scaricare non è valido."
 nl_NL:
   download_landing:
     download_your_account: "Download je reactie geschiedenis"

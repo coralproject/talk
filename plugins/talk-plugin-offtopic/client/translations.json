@@ -27,6 +27,10 @@
     "off_topic": "מחוץ לנושא",
     "hide_off_topic": "הסתר תגובות מחוץ לנושא"
   },
+  "it": {
+    "off_topic": "Fuori tema",
+    "hide_off_topic": "Nascondi i commenti fuori tema"
+  },
   "nl_NL": {
     "off_topic": "Off topic",
     "hide_off_topic": "Off-topic reacties verbergen"

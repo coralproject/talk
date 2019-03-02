@@ -22,6 +22,10 @@ he:
   talk-plugin-notifications:
     digest_enum:
       HOURLY: בתקציר שעתי
+it:
+  talk-plugin-notifications:
+    digest_enum:
+      HOURLY: In un riassunto orario
 nl_NL:
   talk-plugin-notifications:
     digest_enum:
