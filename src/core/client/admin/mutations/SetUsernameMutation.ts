@@ -4,15 +4,13 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { SetUsernameMutation as MutationTypes } from "talk-admin/__generated__/SetUsernameMutation.graphql";
 
-export type SetUsernameInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type SetUsernameInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation SetUsernameMutation($input: SetUsernameInput!) {
@@ -46,4 +44,4 @@ export const withSetUsernameMutation = createMutationContainer(
 
 export type SetUsernameMutation = (
   input: SetUsernameInput
-) => Promise<MutationTypes["response"]["setUsername"]>;
+) => MutationResponsePromise<MutationTypes, "setUsername">;

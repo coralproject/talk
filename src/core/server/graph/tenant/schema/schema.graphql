@@ -1792,7 +1792,7 @@ type EditCommentPayload {
   """
   comment is the possibly edited comment.
   """
-  comment: Comment
+  comment: Comment!
 
   """
   clientMutationId is required for Relay support.

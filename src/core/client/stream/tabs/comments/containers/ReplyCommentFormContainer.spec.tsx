@@ -104,7 +104,7 @@ it("save values", async () => {
 it("creates a comment", async () => {
   const storyID = "story-id";
   const input = { body: "Hello World!", local: false };
-  const createCommentStub = sinon.stub();
+  const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
   const form = { reset: noop };
   const onCloseStub = sinon.stub();
 

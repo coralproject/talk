@@ -4,15 +4,13 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { UpdateSettingsMutation as MutationTypes } from "talk-admin/__generated__/UpdateSettingsMutation.graphql";
 
-export type UpdateSettingsInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type UpdateSettingsInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation UpdateSettingsMutation($input: UpdateSettingsInput!) {
@@ -53,4 +51,4 @@ export const withUpdateSettingsMutation = createMutationContainer(
 
 export type UpdateSettingsMutation = (
   input: UpdateSettingsInput
-) => Promise<MutationTypes["response"]["updateSettings"]>;
+) => MutationResponsePromise<MutationTypes, "updateSettings">;

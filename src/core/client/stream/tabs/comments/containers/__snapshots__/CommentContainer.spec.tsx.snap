@@ -40,6 +40,7 @@ exports[`hide reply button 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -69,6 +70,7 @@ exports[`hide reply button 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -132,6 +134,7 @@ exports[`renders body only 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -161,6 +164,7 @@ exports[`renders body only 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -224,6 +228,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -253,6 +258,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -316,6 +322,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -345,6 +352,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -412,6 +420,7 @@ exports[`renders in reply to 1`] = `
                       },
                     },
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -445,6 +454,7 @@ exports[`renders in reply to 1`] = `
                       },
                     },
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -508,6 +518,7 @@ exports[`renders username and body 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -537,6 +548,7 @@ exports[`renders username and body 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -600,6 +612,7 @@ exports[`shows conversation link 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}
@@ -629,6 +642,7 @@ exports[`shows conversation link 1`] = `
                     "id": "comment-id",
                     "parent": null,
                     "pending": false,
+                    "status": "NONE",
                   }
                 }
                 me={null}

@@ -22,7 +22,12 @@ import {
 import ReplyCommentForm, {
   ReplyCommentFormProps,
 } from "../components/ReplyCommentForm";
-import { shouldTriggerSettingsRefresh } from "../helpers";
+import ReplyEditSubmitStatus from "../components/ReplyEditSubmitStatus";
+import {
+  getSubmitStatus,
+  shouldTriggerSettingsRefresh,
+  SubmitStatus,
+} from "../helpers";
 
 interface Props {
   createCommentReply: CreateCommentReplyMutation;
@@ -39,10 +44,14 @@ interface Props {
 interface State {
   initialValues?: ReplyCommentFormProps["initialValues"];
   initialized: boolean;
+  submitStatus: SubmitStatus | null;
 }
 
 export class ReplyCommentFormContainer extends Component<Props, State> {
-  public state: State = { initialized: false };
+  public state: State = {
+    initialized: false,
+    submitStatus: null,
+  };
   private contextKey = `replyCommentFormBody-${this.props.comment.id}`;
 
   constructor(props: Props) {
@@ -70,30 +79,32 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     });
   }
 
-  private handleOnCancel = () => {
+  private handleOnCancelOrDismiss = () => {
     this.props.sessionStorage.removeItem(this.contextKey);
     if (this.props.onClose) {
       this.props.onClose();
     }
   };
 
-  private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async (
-    input,
-    form
-  ) => {
+  private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async input => {
     try {
-      await this.props.createCommentReply({
-        storyID: this.props.story.id,
-        parentID: this.props.comment.id,
-        parentRevisionID: this.props.comment.revision.id,
-        local: this.props.localReply,
-        ...input,
-      });
-
-      this.props.sessionStorage.removeItem(this.contextKey);
-      if (this.props.onClose) {
-        this.props.onClose();
+      const submitStatus = getSubmitStatus(
+        await this.props.createCommentReply({
+          storyID: this.props.story.id,
+          parentID: this.props.comment.id,
+          parentRevisionID: this.props.comment.revision.id,
+          local: this.props.localReply,
+          ...input,
+        })
+      );
+      if (submitStatus !== "RETRY") {
+        this.props.sessionStorage.removeItem(this.contextKey);
+        if (submitStatus === "APPROVED" && this.props.onClose) {
+          this.props.onClose();
+          return;
+        }
       }
+      this.setState({ submitStatus });
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
@@ -104,7 +115,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
       // tslint:disable-next-line:no-console
       console.error(error);
     }
-    return undefined;
+    return;
   };
 
   private handleOnChange: ReplyCommentFormProps["onChange"] = (state, form) => {
@@ -123,13 +134,21 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     if (!this.state.initialized) {
       return null;
     }
+    if (this.state.submitStatus && this.state.submitStatus !== "RETRY") {
+      return (
+        <ReplyEditSubmitStatus
+          status={this.state.submitStatus}
+          onDismiss={this.handleOnCancelOrDismiss}
+        />
+      );
+    }
     return (
       <ReplyCommentForm
         id={this.props.comment.id}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
-        onCancel={this.handleOnCancel}
+        onCancel={this.handleOnCancelOrDismiss}
         rteRef={this.handleRTERef}
         parentUsername={
           this.props.comment.author && this.props.comment.author.username

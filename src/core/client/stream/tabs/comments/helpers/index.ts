@@ -7,3 +7,5 @@ export {
   default as shouldTriggerSettingsRefresh,
 } from "./shouldTriggerSettingsRefresh";
 export { default as getHTMLText } from "./getHTMLText";
+export { default as getSubmitStatus, SubmitStatus } from "./getSubmitStatus";
+export { default as isCommentVisible } from "./isCommentVisible";

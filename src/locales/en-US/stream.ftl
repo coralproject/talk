@@ -124,3 +124,8 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
+## Submit Status
+comments-submitStatus-dismiss = Dismiss
+comments-submitStatus-submittedAndWillBeReviewed =
+  Your comment has been submitted and will be reviewed by a moderator
+

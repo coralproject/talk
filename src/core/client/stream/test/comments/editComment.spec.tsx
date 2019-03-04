@@ -43,6 +43,7 @@ function createTestRenderer(
           comment: {
             id: stories[0].comments.edges[0].node.id,
             body: "Edited! (from server)",
+            status: stories[0].comments.edges[0].node.status,
             editing: {
               edited: true,
             },

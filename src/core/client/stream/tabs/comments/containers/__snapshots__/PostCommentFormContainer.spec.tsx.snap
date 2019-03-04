@@ -8,6 +8,7 @@ exports[`renders correctly 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  submitStatus={null}
 />
 `;
 
@@ -26,6 +27,7 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  submitStatus={null}
 />
 `;
 
@@ -44,6 +46,7 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  submitStatus={null}
 />
 `;
 
@@ -60,5 +63,6 @@ exports[`renders with initialValues 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  submitStatus={null}
 />
 `;

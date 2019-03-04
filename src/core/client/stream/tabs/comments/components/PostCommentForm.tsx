@@ -12,7 +12,7 @@ import RemainingCharactersContainer from "../containers/RemainingCharactersConta
 import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../helpers";
 import RTE from "./RTE";
 
-import SubmitStatusContainer from "../containers/SubmitStatusContainer";
+import PostCommentSubmitStatusContainer from "../containers/PostCommentSubmitStatusContainer";
 import styles from "./PostCommentForm.css";
 
 interface FormProps {
@@ -27,7 +27,7 @@ export interface PostCommentFormProps {
   max: number | null;
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
-  submitStatus: PropTypesOf<SubmitStatusContainer>["status"];
+  submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
@@ -94,7 +94,9 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                           {submitError}
                         </ValidationMessage>
                       )}
-                      <SubmitStatusContainer status={props.submitStatus} />
+                      <PostCommentSubmitStatusContainer
+                        status={props.submitStatus}
+                      />
                       {props.max && (
                         <RemainingCharactersContainer
                           value={input.value}

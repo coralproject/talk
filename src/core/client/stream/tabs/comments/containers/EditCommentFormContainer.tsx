@@ -23,7 +23,12 @@ import {
 import EditCommentForm, {
   EditCommentFormProps,
 } from "../components/EditCommentForm";
-import { shouldTriggerSettingsRefresh } from "../helpers";
+import ReplyEditSubmitStatus from "../components/ReplyEditSubmitStatus";
+import {
+  getSubmitStatus,
+  shouldTriggerSettingsRefresh,
+  SubmitStatus,
+} from "../helpers";
 
 interface Props {
   editComment: EditCommentMutation;
@@ -39,6 +44,7 @@ interface State {
   initialValues?: EditCommentFormProps["initialValues"];
   initialized: boolean;
   expired: boolean;
+  submitStatus: SubmitStatus | null;
 }
 
 export class EditCommentFormContainer extends Component<Props, State> {
@@ -47,6 +53,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
   public state: State = {
     initialized: false,
     expired: !isBeforeDate(this.props.comment.editing.editableUntil),
+    submitStatus: null,
   };
 
   constructor(props: Props) {
@@ -84,13 +91,19 @@ export class EditCommentFormContainer extends Component<Props, State> {
     form
   ) => {
     try {
-      await this.props.editComment({
-        commentID: this.props.comment.id,
-        body: input.body,
-      });
-      if (this.props.onClose) {
-        this.props.onClose();
+      const submitStatus = getSubmitStatus(
+        await this.props.editComment({
+          commentID: this.props.comment.id,
+          body: input.body,
+        })
+      );
+      if (submitStatus !== "RETRY") {
+        if (submitStatus === "APPROVED" && this.props.onClose) {
+          this.props.onClose();
+          return;
+        }
       }
+      this.setState({ submitStatus });
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
@@ -101,10 +114,18 @@ export class EditCommentFormContainer extends Component<Props, State> {
       // tslint:disable-next-line:no-console
       console.error(error);
     }
-    return undefined;
+    return;
   };
 
   public render() {
+    if (this.state.submitStatus && this.state.submitStatus !== "RETRY") {
+      return (
+        <ReplyEditSubmitStatus
+          status={this.state.submitStatus}
+          onDismiss={this.handleOnCancelOrClose}
+        />
+      );
+    }
     return (
       <EditCommentForm
         id={this.props.comment.id}

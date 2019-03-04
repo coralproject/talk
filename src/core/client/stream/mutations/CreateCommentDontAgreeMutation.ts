@@ -5,15 +5,13 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { CreateCommentDontAgreeMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentDontAgreeMutation.graphql";
 
-export type CreateCommentDontAgreeInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type CreateCommentDontAgreeInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation CreateCommentDontAgreeMutation(
@@ -52,4 +50,4 @@ export const withCreateCommentDontAgreeMutation = createMutationContainer(
 
 export type CreateCommentDontAgreeMutation = (
   input: CreateCommentDontAgreeInput
-) => Promise<MutationTypes["response"]["createCommentDontAgree"]>;
+) => MutationResponsePromise<MutationTypes, "createCommentDontAgree">;

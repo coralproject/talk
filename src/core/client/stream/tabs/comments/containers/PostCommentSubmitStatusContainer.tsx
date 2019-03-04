@@ -1,6 +1,6 @@
 import React from "react";
 
-import InReviewMessage from "../components/InReviewMessage";
+import PostCommentInReviewMessage from "../components/PostCommentInReviewMessage";
 import { SubmitStatus } from "../helpers/getSubmitStatus";
 
 interface Props {
@@ -11,7 +11,9 @@ interface State {
   dismissed: boolean;
 }
 
-export default class SubmitStatusContainer extends React.Component<Props> {
+export default class PostCommentSubmitStatusContainer extends React.Component<
+  Props
+> {
   public state: State = {
     dismissed: false,
   };
@@ -34,7 +36,7 @@ export default class SubmitStatusContainer extends React.Component<Props> {
       // TODO: Show a different message when rejected?
       case "IN_REVIEW":
         return this.state.dismissed ? null : (
-          <InReviewMessage onDismiss={this.handleOnDismiss} />
+          <PostCommentInReviewMessage onDismiss={this.handleOnDismiss} />
         );
       case "APPROVED":
       case null:

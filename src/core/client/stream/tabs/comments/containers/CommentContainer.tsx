@@ -25,6 +25,7 @@ import Comment, {
   ShowConversationLink,
 } from "../components/Comment";
 import ReplyButton from "../components/Comment/ReplyButton";
+import { isCommentVisible } from "../helpers";
 import EditCommentFormContainer from "./EditCommentFormContainer";
 import PermalinkButtonContainer from "./PermalinkButtonContainer";
 import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
@@ -159,6 +160,12 @@ export class CommentContainer extends Component<Props, State> {
         </div>
       );
     }
+    // Comment is not visible, so don't render it.
+    // This is the case when the comment was just edited and
+    // the comment status has changed.
+    if (!isCommentVisible(comment)) {
+      return null;
+    }
     return (
       <div data-testid={`comment-${comment.id}`}>
         <HorizontalGutter>
@@ -282,6 +289,7 @@ const enhanced = withSetCommentIDMutation(
           }
           body
           createdAt
+          status
           editing {
             edited
             editableUntil

@@ -166,6 +166,7 @@ function commit(
           node: {
             id,
             createdAt: currentDate,
+            status: "NONE",
             author: {
               id: me.id,
               username: me.username,

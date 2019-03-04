@@ -4,6 +4,7 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
 
 import { RegenerateSSOKeyMutation as MutationTypes } from "talk-admin/__generated__/RegenerateSSOKeyMutation.graphql";
@@ -44,6 +45,7 @@ export const withRegenerateSSOKeyMutation = createMutationContainer(
   commit
 );
 
-export type RegenerateSSOKeyMutation = () => Promise<
-  MutationTypes["response"]["regenerateSSOKey"]
+export type RegenerateSSOKeyMutation = () => MutationResponsePromise<
+  MutationTypes,
+  "regenerateSSOKey"
 >;

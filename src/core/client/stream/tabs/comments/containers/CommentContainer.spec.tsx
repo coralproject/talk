@@ -23,6 +23,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       },
       comment: {
         id: "comment-id",
+        status: "NONE",
         author: {
           id: "author-id",
           username: "Marvin",

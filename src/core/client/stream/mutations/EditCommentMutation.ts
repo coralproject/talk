@@ -5,21 +5,19 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { EditCommentMutation as MutationTypes } from "talk-stream/__generated__/EditCommentMutation.graphql";
-
-export type EditCommentInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type EditCommentInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation EditCommentMutation($input: EditCommentInput!) {
     editComment(input: $input) {
       comment {
         body
+        status
         revision {
           id
         }
@@ -63,4 +61,4 @@ export const withEditCommentMutation = createMutationContainer(
 
 export type EditCommentMutation = (
   input: EditCommentInput
-) => Promise<MutationTypes["response"]["editComment"]>;
+) => MutationResponsePromise<MutationTypes, "editComment">;

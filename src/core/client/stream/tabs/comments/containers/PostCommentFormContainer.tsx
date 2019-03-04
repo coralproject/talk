@@ -26,8 +26,11 @@ import PostCommentForm, {
 } from "../components/PostCommentForm";
 import PostCommentFormCollapsed from "../components/PostCommentFormCollapsed";
 import PostCommentFormFake from "../components/PostCommentFormFake";
-import { shouldTriggerSettingsRefresh } from "../helpers";
-import getSubmitStatus, { SubmitStatus } from "../helpers/getSubmitStatus";
+import {
+  getSubmitStatus,
+  shouldTriggerSettingsRefresh,
+  SubmitStatus,
+} from "../helpers";
 
 interface Props {
   createComment: CreateCommentMutation;
