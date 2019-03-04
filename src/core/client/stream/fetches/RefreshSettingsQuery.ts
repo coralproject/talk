@@ -4,19 +4,27 @@ import { Environment } from "relay-runtime";
 import { createFetchContainer, fetchQuery } from "talk-framework/lib/relay";
 import { RefreshSettingsQuery as QueryTypes } from "talk-stream/__generated__/RefreshSettingsQuery.graphql";
 
+export type RefreshSettingsVariables = QueryTypes["variables"];
+
 const query = graphql`
-  query RefreshSettingsQuery {
+  query RefreshSettingsQuery($storyID: ID!) {
     settings {
       ...StreamContainer_settings
+    }
+    # We also refrech story props that are
+    # dependent on the settings.
+    story(id: $storyID) {
+      closedAt
+      isClosed
     }
   }
 `;
 
-function fetch(environment: Environment) {
+function fetch(environment: Environment, variables: RefreshSettingsVariables) {
   return fetchQuery<QueryTypes["response"]["settings"]>(
     environment,
     query,
-    {},
+    variables,
     { force: true }
   );
 }
@@ -26,6 +34,6 @@ export const withRefreshSettingsFetch = createFetchContainer(
   fetch
 );
 
-export type RefreshSettingsFetch = () => Promise<
-  QueryTypes["response"]["settings"]
->;
+export type RefreshSettingsFetch = (
+  variables: RefreshSettingsVariables
+) => Promise<QueryTypes["response"]["settings"]>;

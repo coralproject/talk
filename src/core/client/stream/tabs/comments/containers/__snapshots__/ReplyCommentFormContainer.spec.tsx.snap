@@ -2,6 +2,38 @@
 
 exports[`renders correctly 1`] = `
 <ReplyCommentForm
+  disabled={false}
+  disabledMessage="closed"
+  id="comment-id"
+  max={100}
+  min={3}
+  onCancel={[Function]}
+  onChange={[Function]}
+  onSubmit={[Function]}
+  parentUsername="Joe"
+  rteRef={[Function]}
+/>
+`;
+
+exports[`renders when commenting has been disabled 1`] = `
+<ReplyCommentForm
+  disabled={true}
+  disabledMessage="commenting disabled"
+  id="comment-id"
+  max={100}
+  min={3}
+  onCancel={[Function]}
+  onChange={[Function]}
+  onSubmit={[Function]}
+  parentUsername="Joe"
+  rteRef={[Function]}
+/>
+`;
+
+exports[`renders when story has been closed 1`] = `
+<ReplyCommentForm
+  disabled={true}
+  disabledMessage="story closed"
   id="comment-id"
   max={100}
   min={3}
@@ -15,6 +47,8 @@ exports[`renders correctly 1`] = `
 
 exports[`renders with initialValues 1`] = `
 <ReplyCommentForm
+  disabled={false}
+  disabledMessage="closed"
   id="comment-id"
   initialValues={
     Object {

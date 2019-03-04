@@ -180,6 +180,7 @@ exports[`renders conversation thread 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -359,6 +360,7 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
                         id="comments-commentContainer-replyButton-comment-1"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -525,6 +527,7 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
                         id="comments-commentContainer-replyButton-comment-2"
                         onBlur={[Function]}
                         onClick={[Function]}
@@ -689,6 +692,7 @@ exports[`shows more of this conversation 1`] = `
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
                         id="comments-commentContainer-replyButton-comment-0"
                         onBlur={[Function]}
                         onClick={[Function]}

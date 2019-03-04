@@ -7,6 +7,7 @@ interface Props {
   id?: string;
   onClick?: EventHandler<MouseEvent<HTMLButtonElement>>;
   active?: boolean;
+  disabled?: boolean;
 }
 
 const ReplyButton: StatelessComponent<Props> = props => (
@@ -16,6 +17,7 @@ const ReplyButton: StatelessComponent<Props> = props => (
     variant="ghost"
     size="small"
     active={props.active}
+    disabled={props.disabled}
   >
     <MatchMedia gtWidth="xs">
       <ButtonIcon>reply</ButtonIcon>

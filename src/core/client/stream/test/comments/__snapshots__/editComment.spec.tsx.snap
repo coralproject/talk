@@ -74,6 +74,7 @@ exports[`cancel edit 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -752,6 +753,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -941,6 +943,7 @@ exports[`edit a comment: server response 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -1121,6 +1124,7 @@ exports[`shows expiry message: edit form closed 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
                   onBlur={[Function]}
                   onClick={[Function]}

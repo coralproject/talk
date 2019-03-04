@@ -1,41 +1,44 @@
-import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import {
-  createSinonStub,
-  waitForElement,
-  within,
-} from "talk-framework/testHelpers";
+import { waitForElement, within } from "talk-framework/testHelpers";
 
 import { settings, stories } from "../fixtures";
 import create from "./create";
 
-let testRenderer: ReactTestRenderer;
-beforeEach(() => {
+async function createTestRenderer(
+  resolver: any = {},
+  options: { muteNetworkErrors?: boolean } = {}
+) {
   const resolvers = {
+    ...resolver,
     Query: {
-      story: createSinonStub(
-        s => s.throws(),
-        s =>
-          s
-            .withArgs(undefined, { id: stories[0].id, url: null })
-            .returns(stories[0])
-      ),
       settings: sinon.stub().returns(settings),
+      story: sinon.stub().callsFake((_: any, variables: any) => {
+        expect(variables.id).toBe(stories[0].id);
+        return stories[0];
+      }),
+      ...resolver.Query,
     },
   };
 
-  ({ testRenderer } = create({
+  const { testRenderer, context } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
+    muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(stories[0].id, "storyID");
     },
-  }));
-});
+  });
 
-it("renders app with comment stream", async () => {
+  return {
+    testRenderer,
+    context,
+  };
+}
+
+it("renders comment stream", async () => {
+  const { testRenderer } = await createTestRenderer();
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-stream-log")
   );

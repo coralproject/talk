@@ -60,6 +60,7 @@ exports[`post a reply: open reply form 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -579,6 +580,7 @@ exports[`renders comment stream 1`] = `
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      disabled={false}
                       id="comments-commentContainer-replyButton-comment-with-deepest-replies"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -751,6 +753,7 @@ exports[`renders comment stream 1`] = `
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          disabled={false}
                           id="comments-commentContainer-replyButton-comment-with-deepest-replies-1"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -923,6 +926,7 @@ exports[`renders comment stream 1`] = `
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              disabled={false}
                               id="comments-commentContainer-replyButton-comment-with-deepest-replies-2"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -1095,6 +1099,7 @@ exports[`renders comment stream 1`] = `
                               >
                                 <button
                                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                  disabled={false}
                                   id="comments-commentContainer-replyButton-comment-with-deepest-replies-3"
                                   onBlur={[Function]}
                                   onClick={[Function]}
@@ -1267,6 +1272,7 @@ exports[`renders comment stream 1`] = `
                                   >
                                     <button
                                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                      disabled={false}
                                       id="comments-commentContainer-replyButton-comment-with-deepest-replies-4"
                                       onBlur={[Function]}
                                       onClick={[Function]}
@@ -1439,6 +1445,7 @@ exports[`renders comment stream 1`] = `
                                       >
                                         <button
                                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                                          disabled={false}
                                           id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
                                           onBlur={[Function]}
                                           onClick={[Function]}

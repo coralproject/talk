@@ -3,6 +3,8 @@ import { ERROR_CODES } from "talk-common/errors";
 const triggers = [
   ERROR_CODES.COMMENT_BODY_TOO_SHORT,
   ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
+  ERROR_CODES.COMMENTING_DISABLED,
+  ERROR_CODES.STORY_CLOSED,
 ];
 /**
  * shouldTriggerSettingsRefresh will indicate whether the settings

@@ -60,6 +60,7 @@ exports[`renders deepest comment with link 1`] = `
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-deepest-replies-5"
                   onBlur={[Function]}
                   onClick={[Function]}

@@ -39,6 +39,8 @@ export interface ReplyCommentFormProps {
   parentUsername: string | null;
   min: number | null;
   max: number | null;
+  disabled?: boolean;
+  disabledMessage?: React.ReactNode;
 }
 
 const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
@@ -84,27 +86,40 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                           value={input.value}
                           placeholder="Write a reply"
                           forwardRef={props.rteRef}
-                          disabled={submitting}
+                          disabled={submitting || props.disabled}
                         />
                       </Localized>
                     </div>
-                    {meta.touched &&
-                      (meta.error ||
-                        (meta.submitError && !meta.dirtySinceLastSubmit)) && (
-                        <ValidationMessage fullWidth>
-                          {meta.error || meta.submitError}
-                        </ValidationMessage>
-                      )}
-                    {submitError && (
-                      <ValidationMessage fullWidth>
-                        {submitError}
-                      </ValidationMessage>
-                    )}
-                    {props.max && (
-                      <RemainingCharactersContainer
-                        value={input.value}
-                        max={props.max}
-                      />
+                    {props.disabled ? (
+                      <>
+                        {props.disabledMessage && (
+                          <ValidationMessage fullWidth>
+                            {props.disabledMessage}
+                          </ValidationMessage>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {meta.touched &&
+                          (meta.error ||
+                            (meta.submitError &&
+                              !meta.dirtySinceLastSubmit)) && (
+                            <ValidationMessage fullWidth>
+                              {meta.error || meta.submitError}
+                            </ValidationMessage>
+                          )}
+                        {submitError && (
+                          <ValidationMessage fullWidth>
+                            {submitError}
+                          </ValidationMessage>
+                        )}
+                        {props.max && (
+                          <RemainingCharactersContainer
+                            value={input.value}
+                            max={props.max}
+                          />
+                        )}
+                      </>
                     )}
                   </HorizontalGutter>
 
@@ -129,7 +144,9 @@ const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
                           <Button
                             color="primary"
                             variant="filled"
-                            disabled={submitting || !input.value}
+                            disabled={
+                              submitting || !input.value || props.disabled
+                            }
                             type="submit"
                             fullWidth={matches}
                           >

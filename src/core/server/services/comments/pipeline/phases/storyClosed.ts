@@ -1,3 +1,4 @@
+import { StoryClosedError } from "talk-server/errors";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -11,7 +12,6 @@ export const storyClosed: IntermediateModerationPhase = ({
 }): IntermediatePhaseResult | void => {
   const closedAt = getStoryClosedAt(tenant, story);
   if (closedAt && closedAt.valueOf() <= Date.now()) {
-    // TODO: (wyattjoh) return better error.
-    throw new Error("story is currently closed for commenting");
+    throw new StoryClosedError();
   }
 };

@@ -1,3 +1,5 @@
+error-commentingDisabled = Commenting has been disabled tenant wide.
+error-storyClosed = Story is currently closed for commenting.
 error-commentBodyTooShort = Comment body must have at least {$min} characters.
 error-commentBodyExceedsMaxLength =
   Comment body exceeds maximum length of {$max} characters.
