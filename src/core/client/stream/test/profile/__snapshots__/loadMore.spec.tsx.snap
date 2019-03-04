@@ -17,7 +17,7 @@ exports[`renders profile 1`] = `
     <h1
       className="Typography-root Typography-heading4 Typography-colorTextPrimary"
     >
-      Story: ⁨title⁩
+      Story: title
     </h1>
     <time
       className="Timestamp-root RelativeTime-root"
@@ -72,7 +72,7 @@ exports[`renders profile 1`] = `
     <h1
       className="Typography-root Typography-heading4 Typography-colorTextPrimary"
     >
-      Story: ⁨title⁩
+      Story: title
     </h1>
     <time
       className="Timestamp-root RelativeTime-root"

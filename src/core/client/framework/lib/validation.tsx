@@ -88,18 +88,24 @@ export const validateURL = createValidator(
 /**
  * validateMinLength is a Validator that checks that the field has a min length of characters
  */
-export const validateMinLength = (minLength: number) =>
+export const validateMinLength = (
+  minLength: number,
+  getLength: (v: any) => number = v => v.length
+) =>
   createValidator(
-    v => !v || v.length >= minLength,
+    v => !v || getLength(v) >= minLength,
     VALIDATION_TOO_SHORT(minLength)
   );
 
 /**
  * validateMaxLength is a Validator that checks that the field has max length of characters
  */
-export const validateMaxLength = (maxLength: number) =>
+export const validateMaxLength = (
+  maxLength: number,
+  getLength: (v: any) => number = v => v.length
+) =>
   createValidator(
-    v => !v || v.length <= maxLength,
+    v => !v || getLength(v) <= maxLength,
     VALIDATION_TOO_LONG(maxLength)
   );
 

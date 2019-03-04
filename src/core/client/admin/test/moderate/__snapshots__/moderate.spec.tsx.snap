@@ -252,7 +252,7 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root RejectButton-icon Icon-lg"
+            className="Icon-root Icon-lg RejectButton-icon"
           >
             close
           </span>
@@ -271,7 +271,7 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root AcceptButton-icon Icon-lg"
+            className="Icon-root Icon-lg AcceptButton-icon"
           >
             done
           </span>
@@ -405,7 +405,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root RejectButton-icon Icon-lg"
+                  className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
                 </span>
@@ -424,7 +424,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root AcceptButton-icon Icon-lg"
+                  className="Icon-root Icon-lg AcceptButton-icon"
                 >
                   done
                 </span>
@@ -545,7 +545,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root RejectButton-icon Icon-lg"
+                  className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
                 </span>
@@ -564,7 +564,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root AcceptButton-icon Icon-lg"
+                  className="Icon-root Icon-lg AcceptButton-icon"
                 >
                   done
                 </span>
@@ -705,7 +705,7 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
         >
           <span
             aria-hidden="true"
-            className="Icon-root RejectButton-icon Icon-lg"
+            className="Icon-root Icon-lg RejectButton-icon"
           >
             close
           </span>
@@ -724,7 +724,7 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
         >
           <span
             aria-hidden="true"
-            className="Icon-root AcceptButton-icon Icon-lg"
+            className="Icon-root Icon-lg AcceptButton-icon"
           >
             done
           </span>
@@ -861,7 +861,7 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root RejectButton-icon Icon-lg"
+            className="Icon-root Icon-lg RejectButton-icon"
           >
             close
           </span>
@@ -880,7 +880,7 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root AcceptButton-icon Icon-lg"
+            className="Icon-root Icon-lg AcceptButton-icon"
           >
             done
           </span>
@@ -1017,7 +1017,7 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root RejectButton-icon Icon-lg"
+            className="Icon-root Icon-lg RejectButton-icon"
           >
             close
           </span>
@@ -1036,7 +1036,7 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root AcceptButton-icon Icon-lg"
+            className="Icon-root Icon-lg AcceptButton-icon"
           >
             done
           </span>
@@ -1185,7 +1185,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root RejectButton-icon Icon-lg"
+                  className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
                 </span>
@@ -1204,7 +1204,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root AcceptButton-icon Icon-lg"
+                  className="Icon-root Icon-lg AcceptButton-icon"
                 >
                   done
                 </span>
@@ -1325,7 +1325,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root RejectButton-icon Icon-lg"
+                  className="Icon-root Icon-lg RejectButton-icon"
                 >
                   close
                 </span>
@@ -1344,7 +1344,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root AcceptButton-icon Icon-lg"
+                  className="Icon-root Icon-lg AcceptButton-icon"
                 >
                   done
                 </span>
@@ -1489,7 +1489,7 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
         >
           <span
             aria-hidden="true"
-            className="Icon-root RejectButton-icon Icon-lg"
+            className="Icon-root Icon-lg RejectButton-icon"
           >
             close
           </span>
@@ -1508,7 +1508,7 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
         >
           <span
             aria-hidden="true"
-            className="Icon-root AcceptButton-icon Icon-lg"
+            className="Icon-root Icon-lg AcceptButton-icon"
           >
             done
           </span>
@@ -1632,7 +1632,7 @@ exports[`single comment view accepts single comment 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root RejectButton-icon Icon-lg"
+            className="Icon-root Icon-lg RejectButton-icon"
           >
             close
           </span>
@@ -1651,7 +1651,7 @@ exports[`single comment view accepts single comment 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root AcceptButton-icon Icon-lg"
+            className="Icon-root Icon-lg AcceptButton-icon"
           >
             done
           </span>
@@ -1775,7 +1775,7 @@ exports[`single comment view rejects single comment 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root RejectButton-icon Icon-lg"
+            className="Icon-root Icon-lg RejectButton-icon"
           >
             close
           </span>
@@ -1794,7 +1794,7 @@ exports[`single comment view rejects single comment 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root AcceptButton-icon Icon-lg"
+            className="Icon-root Icon-lg AcceptButton-icon"
           >
             done
           </span>
@@ -1953,7 +1953,7 @@ exports[`single comment view renders single comment view 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root RejectButton-icon Icon-lg"
+                    className="Icon-root Icon-lg RejectButton-icon"
                   >
                     close
                   </span>
@@ -1972,7 +1972,7 @@ exports[`single comment view renders single comment view 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root AcceptButton-icon Icon-lg"
+                    className="Icon-root Icon-lg AcceptButton-icon"
                   >
                     done
                   </span>

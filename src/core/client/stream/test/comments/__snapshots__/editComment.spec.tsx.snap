@@ -290,27 +290,27 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="Message-root Message-colorGrey Message-fullWidth"
-      >
-        <span
-          aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+        <div
+          className="Message-root Message-colorGrey Message-fullWidth"
         >
-          alarm
-        </span>
-        <span>
-          Edit: 
-          <time
-            className="RelativeTime-root"
-            dateTime="2018-07-06T18:24:30.000Z"
-            title="2018-07-06T18:24:30.000Z"
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
-            2018-07-06T18:24:30.000Z
-          </time>
-           remaining
-        </span>
+            alarm
+          </span>
+          <span>
+            Edit: 
+            <time
+              className="RelativeTime-root"
+              dateTime="2018-07-06T18:24:30.000Z"
+              title="2018-07-06T18:24:30.000Z"
+            >
+              2018-07-06T18:24:30.000Z
+            </time>
+             remaining
+          </span>
+        </div>
       </div>
       <div
         className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
@@ -456,27 +456,27 @@ exports[`edit a comment: edit form 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="Message-root Message-colorGrey Message-fullWidth"
-      >
-        <span
-          aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+        <div
+          className="Message-root Message-colorGrey Message-fullWidth"
         >
-          alarm
-        </span>
-        <span>
-          Edit: 
-          <time
-            className="RelativeTime-root"
-            dateTime="2018-07-06T18:24:30.000Z"
-            title="2018-07-06T18:24:30.000Z"
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
-            2018-07-06T18:24:30.000Z
-          </time>
-           remaining
-        </span>
+            alarm
+          </span>
+          <span>
+            Edit: 
+            <time
+              className="RelativeTime-root"
+              dateTime="2018-07-06T18:24:30.000Z"
+              title="2018-07-06T18:24:30.000Z"
+            >
+              2018-07-06T18:24:30.000Z
+            </time>
+             remaining
+          </span>
+        </div>
       </div>
       <div
         className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
@@ -622,27 +622,27 @@ exports[`edit a comment: optimistic response 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="Message-root Message-colorGrey Message-fullWidth"
-      >
-        <span
-          aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+        <div
+          className="Message-root Message-colorGrey Message-fullWidth"
         >
-          alarm
-        </span>
-        <span>
-          Edit: 
-          <time
-            className="RelativeTime-root"
-            dateTime="2018-07-06T18:24:30.000Z"
-            title="2018-07-06T18:24:30.000Z"
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
           >
-            2018-07-06T18:24:30.000Z
-          </time>
-           remaining
-        </span>
+            alarm
+          </span>
+          <span>
+            Edit: 
+            <time
+              className="RelativeTime-root"
+              dateTime="2018-07-06T18:24:30.000Z"
+              title="2018-07-06T18:24:30.000Z"
+            >
+              2018-07-06T18:24:30.000Z
+            </time>
+             remaining
+          </span>
+        </div>
       </div>
       <div
         className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
@@ -1337,17 +1337,17 @@ exports[`shows expiry message: edit time expired 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        className="Message-root Message-colorError Message-fullWidth"
-      >
-        <span
-          aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+        <div
+          className="Message-root Message-colorError Message-fullWidth"
         >
-          warning
-        </span>
-        Edit time has expired. You can no longer edit this comment. Why not post another one?
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm MessageIcon-root"
+          >
+            warning
+          </span>
+          Edit time has expired. You can no longer edit this comment. Why not post another one?
+        </div>
       </div>
       <div
         className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"

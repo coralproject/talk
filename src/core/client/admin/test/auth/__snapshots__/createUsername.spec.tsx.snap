@@ -104,12 +104,12 @@ exports[`checks for invalid username 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
         <span>
-          Username must contain at least ⁨3⁩ characters.
+          Username must contain at least 3 characters.
         </span>
       </div>
     </div>
@@ -267,7 +267,7 @@ exports[`shows error when submitting empty form 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>

@@ -45,16 +45,24 @@ export const Comment = (ctx: TenantContext) => ({
       }
     ),
   edit: ({ commentID, body }: GQLEditCommentInput) =>
-    edit(
-      ctx.mongo,
-      ctx.redis,
-      ctx.tenant,
-      ctx.user!,
+    mapFieldsetToErrorCodes(
+      edit(
+        ctx.mongo,
+        ctx.redis,
+        ctx.tenant,
+        ctx.user!,
+        {
+          id: commentID,
+          body,
+        },
+        ctx.req
+      ),
       {
-        id: commentID,
-        body,
-      },
-      ctx.req
+        "input.body": [
+          ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
+          ERROR_CODES.COMMENT_BODY_TOO_SHORT,
+        ],
+      }
     ),
   createReaction: ({
     commentID,

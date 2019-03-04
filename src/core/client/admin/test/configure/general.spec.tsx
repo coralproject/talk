@@ -357,7 +357,7 @@ it("change comment length limitations", async () => {
 
   expect(
     within(generalContainer).queryAllByText(
-      "Please enter a whole number greater than ⁨0⁩"
+      "Please enter a whole number greater than 0"
     ).length
   ).toBe(2);
 

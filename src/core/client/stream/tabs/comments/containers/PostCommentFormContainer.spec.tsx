@@ -5,52 +5,62 @@ import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
+import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { PropTypesOf } from "talk-framework/types";
+
 import { PostCommentFormContainer } from "./PostCommentFormContainer";
 
 const contextKey = "postCommentFormBody";
+const PostCommentFormContainerN = removeFragmentRefs(PostCommentFormContainer);
 
-it("renders correctly", async () => {
-  const props: PropTypesOf<typeof PostCommentFormContainer> = {
-    // tslint:disable-next-line:no-empty
-    createComment: (() => {}) as any,
+function createDefaultProps(): PropTypesOf<typeof PostCommentFormContainerN> {
+  return {
+    createComment: noop as any,
+    refreshSettings: noop as any,
     storyID: "story-id",
     sessionStorage: createPromisifiedStorage(),
+    settings: {
+      charCount: {
+        enabled: true,
+        min: 3,
+        max: 100,
+      },
+    },
+  };
+}
+
+it("renders correctly", async () => {
+  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
+    ...createDefaultProps(),
   };
 
-  const wrapper = shallow(<PostCommentFormContainer {...props} />);
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
   wrapper.update();
   expect(wrapper).toMatchSnapshot();
 });
 
 it("renders with initialValues", async () => {
-  const props: PropTypesOf<typeof PostCommentFormContainer> = {
-    // tslint:disable-next-line:no-empty
-    createComment: (() => {}) as any,
-    storyID: "story-id",
-    sessionStorage: createPromisifiedStorage(),
+  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
+    ...createDefaultProps(),
   };
 
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
-  const wrapper = shallow(<PostCommentFormContainer {...props} />);
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
   wrapper.update();
   expect(wrapper).toMatchSnapshot();
 });
 
 it("save values", async () => {
-  const props: PropTypesOf<typeof PostCommentFormContainer> = {
-    // tslint:disable-next-line:no-empty
-    createComment: (() => {}) as any,
-    storyID: "story-id",
-    sessionStorage: createPromisifiedStorage(),
+  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
+    ...createDefaultProps(),
   };
 
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
-  const wrapper = shallow(<PostCommentFormContainer {...props} />);
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
   wrapper.update();
   wrapper
@@ -71,16 +81,15 @@ it("creates a comment", async () => {
     .withArgs({})
     .once();
 
-  const props: PropTypesOf<typeof PostCommentFormContainer> = {
-    // tslint:disable-next-line:no-empty
+  const props: PropTypesOf<typeof PostCommentFormContainerN> = {
+    ...createDefaultProps(),
     createComment: createCommentStub,
     storyID,
-    sessionStorage: createPromisifiedStorage(),
   };
 
   await props.sessionStorage.setItem(contextKey, "Hello World!");
 
-  const wrapper = shallow(<PostCommentFormContainer {...props} />);
+  const wrapper = shallow(<PostCommentFormContainerN {...props} />);
   await timeout();
   wrapper.update();
   wrapper

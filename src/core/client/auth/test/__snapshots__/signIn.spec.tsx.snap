@@ -36,7 +36,7 @@ exports[`accepts correct password 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -117,7 +117,7 @@ exports[`accepts correct password 1`] = `
     >
       <span
         aria-hidden="true"
-        className="Icon-root ButtonIcon-root Icon-md"
+        className="Icon-root Icon-md ButtonIcon-root"
       >
         email
       </span>
@@ -207,7 +207,7 @@ exports[`accepts valid email 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -246,7 +246,7 @@ exports[`accepts valid email 1`] = `
     >
       <span
         aria-hidden="true"
-        className="Icon-root ButtonIcon-root Icon-md"
+        className="Icon-root Icon-md ButtonIcon-root"
       >
         email
       </span>
@@ -369,7 +369,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root ButtonIcon-root Icon-md"
+            className="Icon-root Icon-md ButtonIcon-root"
           >
             email
           </span>
@@ -457,7 +457,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
         type="button"
       >
         <span>
-          Sign in with ⁨OIDC⁩
+          Sign in with OIDC
         </span>
       </button>
     </div>
@@ -569,7 +569,7 @@ exports[`checks for invalid email 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -624,7 +624,7 @@ exports[`checks for invalid email 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -663,7 +663,7 @@ exports[`checks for invalid email 1`] = `
     >
       <span
         aria-hidden="true"
-        className="Icon-root ButtonIcon-root Icon-md"
+        className="Icon-root Icon-md ButtonIcon-root"
       >
         email
       </span>
@@ -832,7 +832,7 @@ exports[`renders sign in view 1`] = `
             >
               <span
                 aria-hidden="true"
-                className="Icon-root ButtonIcon-root Icon-md"
+                className="Icon-root Icon-md ButtonIcon-root"
               >
                 email
               </span>
@@ -1012,7 +1012,7 @@ exports[`renders sign in view with error 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root ButtonIcon-root Icon-md"
+              className="Icon-root Icon-md ButtonIcon-root"
             >
               email
             </span>
@@ -1066,7 +1066,7 @@ exports[`shows error when submitting empty form 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -1121,7 +1121,7 @@ exports[`shows error when submitting empty form 1`] = `
       >
         <span
           aria-hidden="true"
-          className="Icon-root MessageIcon-root Icon-sm"
+          className="Icon-root Icon-sm MessageIcon-root"
         >
           warning
         </span>
@@ -1160,7 +1160,7 @@ exports[`shows error when submitting empty form 1`] = `
     >
       <span
         aria-hidden="true"
-        className="Icon-root ButtonIcon-root Icon-md"
+        className="Icon-root Icon-md ButtonIcon-root"
       >
         email
       </span>
@@ -1281,7 +1281,7 @@ exports[`shows server error 1`] = `
     >
       <span
         aria-hidden="true"
-        className="Icon-root ButtonIcon-root Icon-md"
+        className="Icon-root Icon-md ButtonIcon-root"
       >
         email
       </span>
@@ -1397,7 +1397,7 @@ exports[`submits form successfully 1`] = `
     >
       <span
         aria-hidden="true"
-        className="Icon-root ButtonIcon-root Icon-md"
+        className="Icon-root Icon-md ButtonIcon-root"
       >
         email
       </span>

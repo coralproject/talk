@@ -25,6 +25,7 @@ export default function matchText(
       a = a.replace(/\s+/g, " ");
       b = b.replace(/\s+/g, " ");
     }
+
     if (options.exact || options.exact === undefined) {
       return a === b;
     }

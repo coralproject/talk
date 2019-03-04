@@ -151,6 +151,7 @@ export class CommentContainer extends Component<Props, State> {
       return (
         <div data-testid={`comment-${comment.id}`}>
           <EditCommentFormContainer
+            settings={settings}
             comment={comment}
             onClose={this.closeEditDialog}
           />
@@ -231,6 +232,7 @@ export class CommentContainer extends Component<Props, State> {
           />
           {showReplyDialog && (
             <ReplyCommentFormContainer
+              settings={settings}
               comment={comment}
               story={story}
               onClose={this.closeReplyDialog}
@@ -288,6 +290,8 @@ const enhanced = withSetCommentIDMutation(
       settings: graphql`
         fragment CommentContainer_settings on Settings {
           ...ReactionButtonContainer_settings
+          ...ReplyCommentFormContainer_settings
+          ...EditCommentFormContainer_settings
         }
       `,
     })(CommentContainer)

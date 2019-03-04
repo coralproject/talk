@@ -380,7 +380,7 @@ exports[`render popup expanded 1`] = `
                 <p
                   className="Typography-root Typography-detail Typography-colorTextSecondary ReportCommentForm-textareaInfo"
                 >
-                  Max. ⁨500⁩ Characters
+                  Max. 500 Characters
                 </p>
               </div>
             </div>

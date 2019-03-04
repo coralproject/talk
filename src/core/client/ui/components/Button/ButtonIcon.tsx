@@ -3,11 +3,11 @@ import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
 
 import Icon, { IconProps } from "talk-ui/components/Icon";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+import { Omit, PropTypesOf } from "talk-ui/types";
 
 import styles from "./ButtonIcon.css";
 
-interface Props extends HTMLAttributes<HTMLSpanElement> {
+interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.

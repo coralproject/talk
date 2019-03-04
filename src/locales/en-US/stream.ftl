@@ -42,6 +42,8 @@ comments-rte-blockquote =
 
 comments-poweredBy = Powered by <logo>{ -brand-name }</logo>
 
+comments-remainingCharacters = { $remaining } characters remaining
+
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
 
 comments-postCommentForm-rteLabel = Post a comment

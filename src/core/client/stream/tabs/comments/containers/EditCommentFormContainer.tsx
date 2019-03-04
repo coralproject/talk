@@ -7,8 +7,13 @@ import { withContext } from "talk-framework/lib/bootstrap";
 import { InvalidRequestError } from "talk-framework/lib/errors";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
+import {
+  RefreshSettingsFetch,
+  withRefreshSettingsFetch,
+} from "talk-stream/fetches";
 
 import { EditCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/EditCommentFormContainer_comment.graphql";
+import { EditCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/EditCommentFormContainer_settings.graphql";
 import {
   EditCommentMutation,
   withEditCommentMutation,
@@ -17,12 +22,15 @@ import {
 import EditCommentForm, {
   EditCommentFormProps,
 } from "../components/EditCommentForm";
+import { shouldTriggerSettingsRefresh } from "../helpers";
 
 interface Props {
   editComment: EditCommentMutation;
   comment: CommentData;
+  settings: SettingsData;
   onClose?: () => void;
   autofocus: boolean;
+  refreshSettings: RefreshSettingsFetch;
 }
 
 interface State {
@@ -83,6 +91,9 @@ export class EditCommentFormContainer extends Component<Props, State> {
       }
     } catch (error) {
       if (error instanceof InvalidRequestError) {
+        if (shouldTriggerSettingsRefresh(error.code)) {
+          await this.props.refreshSettings();
+        }
         return error.invalidArgs;
       }
       // tslint:disable-next-line:no-console
@@ -104,6 +115,16 @@ export class EditCommentFormContainer extends Component<Props, State> {
         createdAt={this.props.comment.createdAt}
         editableUntil={this.props.comment.editing.editableUntil}
         expired={this.state.expired}
+        min={
+          (this.props.settings.charCount.enabled &&
+            this.props.settings.charCount.min) ||
+          null
+        }
+        max={
+          (this.props.settings.charCount.enabled &&
+            this.props.settings.charCount.max) ||
+          null
+        }
       />
     );
   }
@@ -112,22 +133,33 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(
-  withEditCommentMutation(
-    withFragmentContainer<Props>({
-      comment: graphql`
-        fragment EditCommentFormContainer_comment on Comment {
-          id
-          body
-          createdAt
-          author {
-            username
+  withRefreshSettingsFetch(
+    withEditCommentMutation(
+      withFragmentContainer<Props>({
+        comment: graphql`
+          fragment EditCommentFormContainer_comment on Comment {
+            id
+            body
+            createdAt
+            author {
+              username
+            }
+            editing {
+              editableUntil
+            }
           }
-          editing {
-            editableUntil
+        `,
+        settings: graphql`
+          fragment EditCommentFormContainer_settings on Settings {
+            charCount {
+              enabled
+              min
+              max
+            }
           }
-        }
-      `,
-    })(EditCommentFormContainer)
+        `,
+      })(EditCommentFormContainer)
+    )
   )
 );
 export type PostCommentFormContainerProps = PropTypesOf<typeof enhanced>;

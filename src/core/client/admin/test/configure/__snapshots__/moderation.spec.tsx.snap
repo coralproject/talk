@@ -202,7 +202,7 @@ the
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 This value can be set a percentage between 0 and 100. This number represents the likelihood that a
-comment is toxic, according to Perspective API. By default the treshold is set to ⁨80⁩.
+comment is toxic, according to Perspective API. By default the treshold is set to 80.
               </p>
               <div
                 className="TextField-root PerspectiveConfig-thresholdTextField"
@@ -351,7 +351,7 @@ improve the API over time
               <p
                 className="Typography-root Typography-detail Typography-colorTextSecondary"
               >
-                By default the endpoint is set to ⁨https://commentanalyzer.googleapis.com/v1alpha1⁩. You may override this here.
+                By default the endpoint is set to https://commentanalyzer.googleapis.com/v1alpha1. You may override this here.
               </p>
               <div
                 className="TextField-root"

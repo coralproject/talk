@@ -8,7 +8,12 @@ import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 import { ReplyCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
+import { ReplyCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
 import { ReplyCommentFormContainer_story as StoryData } from "talk-stream/__generated__/ReplyCommentFormContainer_story.graphql";
+import {
+  RefreshSettingsFetch,
+  withRefreshSettingsFetch,
+} from "talk-stream/fetches";
 import {
   CreateCommentReplyMutation,
   withCreateCommentReplyMutation,
@@ -17,15 +22,18 @@ import {
 import ReplyCommentForm, {
   ReplyCommentFormProps,
 } from "../components/ReplyCommentForm";
+import { shouldTriggerSettingsRefresh } from "../helpers";
 
 interface Props {
   createCommentReply: CreateCommentReplyMutation;
   sessionStorage: PromisifiedStorage;
   comment: CommentData;
+  settings: SettingsData;
   story: StoryData;
   onClose?: () => void;
   autofocus: boolean;
   localReply?: boolean;
+  refreshSettings: RefreshSettingsFetch;
 }
 
 interface State {
@@ -88,6 +96,9 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
       }
     } catch (error) {
       if (error instanceof InvalidRequestError) {
+        if (shouldTriggerSettingsRefresh(error.code)) {
+          await this.props.refreshSettings();
+        }
         return error.invalidArgs;
       }
       // tslint:disable-next-line:no-console
@@ -96,11 +107,15 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     return undefined;
   };
 
-  private handleOnChange: ReplyCommentFormProps["onChange"] = state => {
+  private handleOnChange: ReplyCommentFormProps["onChange"] = (state, form) => {
     if (state.values.body) {
       this.props.sessionStorage.setItem(this.contextKey, state.values.body);
     } else {
       this.props.sessionStorage.removeItem(this.contextKey);
+    }
+    // Reset errors whenever user clears the form.
+    if (state.touched && state.touched.body && !state.values.body) {
+      form.reset({});
     }
   };
 
@@ -119,6 +134,16 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         parentUsername={
           this.props.comment.author && this.props.comment.author.username
         }
+        min={
+          (this.props.settings.charCount.enabled &&
+            this.props.settings.charCount.min) ||
+          null
+        }
+        max={
+          (this.props.settings.charCount.enabled &&
+            this.props.settings.charCount.max) ||
+          null
+        }
       />
     );
   }
@@ -128,25 +153,36 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(
-  withCreateCommentReplyMutation(
-    withFragmentContainer<Props>({
-      story: graphql`
-        fragment ReplyCommentFormContainer_story on Story {
-          id
-        }
-      `,
-      comment: graphql`
-        fragment ReplyCommentFormContainer_comment on Comment {
-          id
-          author {
-            username
+  withRefreshSettingsFetch(
+    withCreateCommentReplyMutation(
+      withFragmentContainer<Props>({
+        settings: graphql`
+          fragment ReplyCommentFormContainer_settings on Settings {
+            charCount {
+              enabled
+              min
+              max
+            }
           }
-          revision {
+        `,
+        story: graphql`
+          fragment ReplyCommentFormContainer_story on Story {
             id
           }
-        }
-      `,
-    })(ReplyCommentFormContainer)
+        `,
+        comment: graphql`
+          fragment ReplyCommentFormContainer_comment on Comment {
+            id
+            author {
+              username
+            }
+            revision {
+              id
+            }
+          }
+        `,
+      })(ReplyCommentFormContainer)
+    )
   )
 );
 export type PostCommentFormContainerProps = PropTypesOf<typeof enhanced>;

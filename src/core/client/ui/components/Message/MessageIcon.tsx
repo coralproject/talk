@@ -3,10 +3,11 @@ import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
 
 import Icon, { IconProps } from "talk-ui/components/Icon";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
+import { Omit } from "talk-ui/types";
 
 import styles from "./MessageIcon.css";
 
-interface Props extends HTMLAttributes<HTMLSpanElement> {
+interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
