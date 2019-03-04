@@ -75,13 +75,12 @@ it("post a reply", async () => {
   const { testRenderer, comment, rte, form } = await createTestRenderer({
     Mutation: {
       createCommentReply: sinon.stub().callsFake((_, data) => {
-        expect(data).toEqual({
+        expect(data).toMatchObject({
           input: {
             storyID: stories[0].id,
             parentID: stories[0].comments.edges[0].node.id,
             parentRevisionID: stories[0].comments.edges[0].node.revision.id,
             body: "<b>Hello world!</b>",
-            clientMutationId: "0",
           },
         });
         return {
@@ -94,7 +93,7 @@ it("post a reply", async () => {
               body: "<b>Hello world! (from server)</b>",
             },
           },
-          clientMutationId: "0",
+          clientMutationId: data.input.clientMutationId,
         };
       }),
     },
@@ -122,6 +121,50 @@ it("post a reply", async () => {
   await waitForElement(() =>
     within(commentReplyList).getByText("(from server)", { exact: false })
   );
+});
+
+it("post a reply and handle non-visible comment state", async () => {
+  const { comment, rte, form } = await createTestRenderer({
+    Mutation: {
+      createCommentReply: sinon.stub().callsFake((_, data) => {
+        expect(data).toMatchObject({
+          input: {
+            storyID: stories[0].id,
+            parentID: stories[0].comments.edges[0].node.id,
+            parentRevisionID: stories[0].comments.edges[0].node.revision.id,
+            body: "<b>Hello world!</b>",
+          },
+        });
+        return {
+          edge: {
+            cursor: null,
+            node: {
+              ...baseComment,
+              id: "comment-x",
+              status: "SYSTEM_WITHHELD",
+              author: users[0],
+              body: "<b>Hello world!</b>",
+            },
+          },
+          clientMutationId: data.input.clientMutationId,
+        };
+      }),
+    },
+  });
+
+  // Write reply .
+  rte.props.onChange({ html: "<b>Hello world!</b>" });
+  form.props.onSubmit();
+  // Test after server response.
+  await waitForElement(() =>
+    within(comment).getByText("will be reviewed", { exact: false })
+  );
+  await within(comment)
+    .getByText("Dismiss")
+    .props.onClick();
+  expect(
+    within(comment).queryByText("will be reviewed", { exact: false })
+  ).toBeNull();
 });
 
 it("post a reply and handle server error", async () => {

@@ -20,10 +20,9 @@ function createTestRenderer() {
     },
     Mutation: {
       createCommentReaction: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toEqual({
+        expect(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
           commentRevisionID: stories[0].comments.edges[0].node.revision.id,
-          clientMutationId: "0",
         });
         return {
           comment: {
@@ -32,13 +31,12 @@ function createTestRenderer() {
             myActionPresence: { reaction: true },
             actionCounts: { reaction: { total: 1 } },
           },
-          clientMutationId: "0",
+          clientMutationId: data.input.clientMutationId,
         };
       }),
       removeCommentReaction: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toEqual({
+        expect(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
-          clientMutationId: "0",
         });
         return {
           comment: {
@@ -47,7 +45,7 @@ function createTestRenderer() {
             myActionPresence: { reaction: false },
             actionCounts: { reaction: { total: 0 } },
           },
-          clientMutationId: "0",
+          clientMutationId: data.input.clientMutationId,
         };
       }),
     },

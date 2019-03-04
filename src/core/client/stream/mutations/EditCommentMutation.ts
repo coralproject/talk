@@ -10,6 +10,7 @@ import {
 } from "talk-framework/lib/relay";
 
 import { EditCommentMutation as MutationTypes } from "talk-stream/__generated__/EditCommentMutation.graphql";
+
 export type EditCommentInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`

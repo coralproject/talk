@@ -9,12 +9,17 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { settings, stories, users } from "../fixtures";
+import {
+  commentWithReplies,
+  settings,
+  storyWithReplies,
+  users,
+} from "../fixtures";
 import create from "./create";
 
 function createTestRenderer(
   resolver: any = {},
-  options: { muteNetworkErrors?: boolean } = {}
+  options: { muteNetworkErrors?: boolean; status?: string } = {}
 ) {
   const resolvers = {
     Query: {
@@ -22,36 +27,35 @@ function createTestRenderer(
         s => s.throws(),
         s =>
           s
-            .withArgs(undefined, { id: stories[0].id, url: null })
-            .returns(stories[0])
+            .withArgs(undefined, { id: storyWithReplies.id, url: null })
+            .returns(storyWithReplies)
       ),
       me: sinon.stub().returns(users[0]),
       settings: sinon.stub().returns(settings),
     },
     Mutation: {
       editComment: sinon.stub().callsFake((_, data) => {
-        expect(data).toEqual({
+        expect(data).toMatchObject({
           input: {
-            commentID: stories[0].comments.edges[0].node.id,
+            commentID: commentWithReplies.id,
             body: "Edited!",
-            clientMutationId: "0",
           },
         });
 
         return {
           // TODO: add a type assertion here to ensure that if the type changes, that the test will fail
           comment: {
-            id: stories[0].comments.edges[0].node.id,
+            id: commentWithReplies.id,
             body: "Edited! (from server)",
-            status: stories[0].comments.edges[0].node.status,
+            status: options.status ? options.status : commentWithReplies.status,
             editing: {
               edited: true,
             },
             revision: {
-              id: stories[0].comments.edges[0].node.revision.id,
+              id: commentWithReplies.revision.id,
             },
           },
-          clientMutationId: "0",
+          clientMutationId: data.input.clientMutationId,
         };
       }),
     },
@@ -64,7 +68,7 @@ function createTestRenderer(
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(stories[0].id, "storyID");
+      localRecord.setValue(storyWithReplies.id, "storyID");
       localRecord.setValue(true, "loggedIn");
     },
   });
@@ -76,12 +80,11 @@ afterAll(() => {
 });
 
 it("edit a comment", async () => {
-  const commentData = stories[0].comments.edges[0].node;
-  timekeeper.freeze(commentData.createdAt);
+  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer();
 
   const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentData.id}`)
+    within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
   );
   expect(within(comment).toJSON()).toMatchSnapshot(
     "render comment with edit button"
@@ -94,7 +97,9 @@ it("edit a comment", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
   testRenderer.root
-    .findByProps({ inputId: `comments-editCommentForm-rte-${commentData.id}` })
+    .findByProps({
+      inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+    })
     .props.onChange({ html: "Edited!" });
 
   within(comment)
@@ -113,13 +118,60 @@ it("edit a comment", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("server response");
 });
 
+it("edit a comment and handle non-visible comment state", async () => {
+  const testRenderer = createTestRenderer({}, { status: "SYSTEM_WITHHELD" });
+
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
+  );
+
+  // Open edit form.
+  within(comment)
+    .getByText("Edit")
+    .props.onClick();
+
+  testRenderer.root
+    .findByProps({
+      inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+    })
+    .props.onChange({ html: "Edited!" });
+
+  within(comment)
+    .getByType("form")
+    .props.onSubmit();
+
+  // Test after server response.
+  await waitForElement(() =>
+    within(comment).getByText("will be reviewed", { exact: false })
+  );
+  await within(comment)
+    .getByText("Dismiss")
+    .props.onClick();
+  expect(
+    within(testRenderer.root).queryByText("will be reviewed", { exact: false })
+  ).toBeNull();
+
+  // The comment must disappear.
+  expect(
+    within(testRenderer.root).queryByTestID(`comment-${commentWithReplies.id}`)
+  ).toBeNull();
+
+  // The whole reply list must disappear too.
+  expect(
+    within(
+      within(testRenderer.root).getByTestID(
+        `commentReplyList-${commentWithReplies.id}`
+      )
+    ).queryAllByTestID(/^comment-.*$/).length
+  ).toBe(0);
+});
+
 it("cancel edit", async () => {
-  const commentData = stories[0].comments.edges[0].node;
-  timekeeper.freeze(commentData.createdAt);
+  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer();
 
   const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentData.id}`)
+    within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
   );
 
   // Open edit form.
@@ -136,12 +188,11 @@ it("cancel edit", async () => {
 });
 
 it("shows expiry message", async () => {
-  const commentData = stories[0].comments.edges[0].node;
-  timekeeper.freeze(commentData.createdAt);
+  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer();
 
   const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentData.id}`)
+    within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
   );
 
   jest.useFakeTimers();
@@ -165,8 +216,7 @@ it("shows expiry message", async () => {
 });
 
 it("edit a comment and handle server error", async () => {
-  const commentData = stories[0].comments.edges[0].node;
-  timekeeper.freeze(commentData.createdAt);
+  timekeeper.freeze(commentWithReplies.createdAt);
   const testRenderer = createTestRenderer(
     {
       Mutation: {
@@ -179,7 +229,7 @@ it("edit a comment and handle server error", async () => {
   );
 
   const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${commentData.id}`)
+    within(testRenderer.root).getByTestID(`comment-${commentWithReplies.id}`)
   );
 
   // Open edit form.
@@ -189,7 +239,9 @@ it("edit a comment and handle server error", async () => {
   expect(within(comment).toJSON()).toMatchSnapshot("edit form");
 
   testRenderer.root
-    .findByProps({ inputId: `comments-editCommentForm-rte-${commentData.id}` })
+    .findByProps({
+      inputId: `comments-editCommentForm-rte-${commentWithReplies.id}`,
+    })
     .props.onChange({ html: "Edited!" });
 
   within(comment)

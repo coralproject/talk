@@ -11,6 +11,7 @@ import {
 } from "talk-framework/testHelpers";
 
 import RTE from "@coralproject/rte";
+import { ReactTestInstance } from "react-test-renderer";
 import { baseComment, settings, stories, users } from "../fixtures";
 import create from "./create";
 
@@ -71,11 +72,10 @@ it("post a comment", async () => {
   const { rte, form, tabPane } = await createTestRenderer({
     Mutation: {
       createComment: sinon.stub().callsFake((_, data) => {
-        expect(data).toEqual({
+        expect(data).toMatchObject({
           input: {
             storyID: stories[0].id,
             body: "<b>Hello world!</b>",
-            clientMutationId: "0",
           },
         });
         return {
@@ -88,7 +88,7 @@ it("post a comment", async () => {
               body: "<b>Hello world! (from server)</b>",
             },
           },
-          clientMutationId: "0",
+          clientMutationId: data.input.clientMutationId,
         };
       }),
     },
@@ -112,6 +112,60 @@ it("post a comment", async () => {
     )
   );
 });
+
+const postACommentAndHandleNonVisibleComment = async (
+  dismiss: (form: ReactTestInstance, rte: ReactTestInstance) => void
+) => {
+  const { rte, form } = await createTestRenderer({
+    Mutation: {
+      createComment: sinon.stub().callsFake((_, data) => {
+        expect(data).toMatchObject({
+          input: {
+            storyID: stories[0].id,
+            body: "<b>Hello world!</b>",
+          },
+        });
+        return {
+          edge: {
+            cursor: null,
+            node: {
+              ...baseComment,
+              id: "comment-x",
+              status: "SYSTEM_WITHHELD",
+              author: users[0],
+              body: "<b>Hello world!</b>",
+            },
+          },
+          clientMutationId: data.input.clientMutationId,
+        };
+      }),
+    },
+  });
+
+  rte.props.onChange({ html: "<b>Hello world!</b>" });
+  form.props.onSubmit();
+
+  // Test after server response.
+  await waitForElement(() =>
+    within(form).getByText("will be reviewed", { exact: false })
+  );
+  dismiss(form, rte);
+  expect(
+    within(form).queryByText("will be reviewed", { exact: false })
+  ).toBeNull();
+};
+
+it("post a comment and handle non-visible comment state (dismiss by click)", async () =>
+  await postACommentAndHandleNonVisibleComment((form, rte) => {
+    within(form)
+      .getByText("Dismiss")
+      .props.onClick();
+  }));
+
+it("post a comment and handle non-visible comment state (dismiss by typing)", async () =>
+  await postACommentAndHandleNonVisibleComment((form, rte) => {
+    rte.props.onChange({ html: "Typing..." });
+  }));
 
 it("post a comment and handle server error", async () => {
   const { form, rte, tabPane } = await createTestRenderer(
