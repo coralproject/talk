@@ -26,6 +26,10 @@ he:
   talk-plugin-like:
     like: לייק
     liked: לייקד
+it:
+  talk-plugin-like:
+    like: Mi piace
+    liked: Piaciuto
 nl_NL:
   talk-plugin-like:
     like: Like

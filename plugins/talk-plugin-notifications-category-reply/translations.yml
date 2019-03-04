@@ -35,6 +35,12 @@ he:
       reply:
         subject: "מישהו השיב לתגובה שלך על {0}"        
         body: "{0}\n{1} השיב לתגובתך: {2}"
+it:
+  talk-plugin-notifications:
+    categories:
+      reply:
+        subject: "Qualcuno ha risposto al tuo commento su {0}"
+        body: "{0}\n{1} ha risposto al tuo commento: {2}"
 nl_NL:
   talk-plugin-notifications:
     categories:

@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-member-since:
     member_since: "חבר מאז"
+it:
+  talk-plugin-member-since:
+    member_since: "Membro dal"
 nl_NL:
   talk-plugin-member-since:
     member_since: "Lid sinds"

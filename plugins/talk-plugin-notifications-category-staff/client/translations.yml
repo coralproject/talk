@@ -13,6 +13,9 @@ es:
 he:
   talk-plugin-notifications-category-staff:
     toggle_description: חבר צוות עונה על תגובתי
+it:
+  talk-plugin-notifications-category-staff:
+    toggle_description: Un membro dello staff risponde al mio commento
 nl_NL:
   talk-plugin-notifications-category-staff:
     toggle_description: Een redactielid antwoord op mijn reactie

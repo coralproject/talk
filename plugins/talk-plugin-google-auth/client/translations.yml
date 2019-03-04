@@ -18,6 +18,10 @@ he:
   talk-plugin-google-auth:
     sign_in: "התחבר עם גוגל"
     sign_up: "הרשם עם גוגל"
+it:
+  talk-plugin-google-auth:
+    sign_in: "Accedi con Google"
+    sign_up: "Registrati con Google"
 nl_NL:
   talk-plugin-google-auth:
     sign_in: "Inloggen met Google"

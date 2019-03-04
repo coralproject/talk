@@ -102,6 +102,21 @@ he:
     reasons:
       comment:
         spam_comment: "זוהה ספאם"
+it:
+  error:
+    COMMENT_IS_SPAM: |
+      Il linguaggio in questo commento sembra spam. Puoi
+      modificare il commento o sottometterlo alla revisione dei moderatori.
+  talk-plugin-akismet:
+    spam: "Spam"
+    spam_comment: "Spam"
+    detected: "Rilevato da Akismet"
+    still_spam: |
+      Grazie. Il nostro team di moderatori revisionerà il tuo commento a breve.
+  flags:
+    reasons:
+      comment:
+        spam_comment: "Rilevata spam"
 nl_NL:
   error:
     COMMENT_IS_SPAM: |

@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-subscriber:
     subscriber: "מנוי"
+it:
+  talk-plugin-subscriber:
+    subscriber: "Iscritto"
 nl_NL:
   talk-plugin-subscriber:
     subscriber: "Abonnee"

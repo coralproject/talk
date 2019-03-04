@@ -35,6 +35,12 @@ he:
       featured:
         subject: "אחת מהתגובות שלך הוצגה ב {0}"
         body: "{0} \n חבר בצוות שלנו בחר תגובה זו כך שתוצג עבור קוראים אחרים: {1}"
+it:
+  talk-plugin-notifications:
+    categories:
+      featured:
+        subject: "Uno dei tuoi commenti è stato messo in primo piano su {0}"
+        body: "{0}\nUn membro del nostro team ha selezionato questo commento per essere messo in primo piano per altri lettori: {1}"
 nl_NL:
   talk-plugin-notifications:
     categories:

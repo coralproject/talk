@@ -452,6 +452,82 @@ es:
         description_2: "Puedes cambiar la configuración de tu cuenta visitando"
         path: "Mi perfil > Configuración"
         alert: "¡Correo electrónico agregado!"
+it:
+  email:
+    email_change_original:
+      subject: Modifica email
+      body: La tua email è stata cambiata da {0} a {1}. Se non hai richiesto questa modifica, perfavore contatta {2}.
+  error:
+    NO_LOCAL_PROFILE: Nessun indirizzo email esistente è associato a questo account.
+    LOCAL_PROFILE: Un indirizzo email è già associato a questo account.
+    INCORRECT_PASSWORD: La password fornita non è corretta.
+  talk-plugin-local-auth:
+    change_password:
+      change_password: "Cambia password"
+      passwords_dont_match: "Le password non coincidono"
+      required_field: "Questo campo è obbligatorio"
+      forgot_password: "Dimenticato la password?"
+      old_password: "Password vecchia"
+      new_password: "Password nuova"
+      confirm_new_password: "Conferma la nuova password"
+      save: "Salva"
+      cancel: "Annulla"
+      edit: "Modifica"
+      changed_password_msg: "Password modificata - La tua password è stata modificata con successo"
+      forgot_password_sent: "Password dimenticata - Ti abbiamo inviato una email per recuperare la tua password"
+    change_username:
+      change_username_note: "Gli username possono essere modificati solo una volta ogni 14 giorni."
+      is_not_eligible: "In questo momento non puoi cambiare il tuo username."
+      save: "Salva"
+      edit_profile: "Modifica Profilo"
+      cancel: "Annulla"
+      confirm_username_change: "Conferma cambio dell'username"
+      description: "Stai cercando di cambiare il tuo username. Il tuo nuovo username apparirà in tutti i tuoi commenti passati e futuri."
+      old_username: "Username vecchio"
+      new_username: "Username nuovo"
+      re_enter: "Ri-scrivi il nuovo username"
+      bottom_note: "Nota: non potrai più cambiare il tuo username per i prossimi 14 giorni"
+      confirm_changes: "Conferma modifiche"
+      username_does_not_match: "Gli username non coincidono"
+      cant_be_equal: "{0} non può essere uguale al corrente"
+      changed_username_success_msg: "Username cambiato - Il tuo username è stato modificato con successo. Non potrai più cambiarlo per i prossimi 14 giorni."
+      change_username_attempt: "L'username non può essere aggiornato. Gli username possono essre cambiati una sola volta ogni 14 giorni."
+    change_email:
+      confirm_email_change: "Conferma la modifica dell'indirizzo email"
+      description: "Stai cercando di modificare il tuo indirizzo email. Il tuo nuovo indirizzo email sarà usato per il login e per ricevere notifiche relative all'account."
+      old_email: "Indirizzo email vecchio"
+      new_email: "Indirizzo email nuovo"
+      enter_password: "Inserisci password"
+      incorrect_password: "Password incorretta"
+      confirm_change: "Conferma modifica"
+      cancel: "Annulla"
+      change_email_msg: "Indirizzo email modificato. Questo indirizzo email sarà usato per il login e per ricevere notifiche relative all'account."
+    add_email:
+      add_email_address: "Aggiungi indirizzo email"
+      enter_email_address: "Inserisci indirizzo email:"
+      invalid_email_address: "Indirizzo email non valido"
+      confirm_email_address: "Conferma indirizzo email:"
+      email_does_not_match: "Gli indirizzi email non coincidono"
+      insert_password: "Inserisci la password:"
+      confirm_password: "Conferma la password:"
+      required_field: "Questo campo è obbligatorio"
+      done: "Finito"
+      content:
+        title: "Aggiungi indirizzo email"
+        description: "Per questioni di sicurezza, richiediamo agli utenti di aggiungere un indirizzo email associato ai loro account. Il tuo indirizzo email sarà usato per:"
+        item_1: "Ricevere aggiornamenti riguardo modifiche relative al tuo account (indirizzo email, username, password, etc.)"
+        item_2: "Permetterti di scaricare i tuoi commenti."
+        item_3: "Inviare le notifiche che hai deciso di ricevere."
+      verify:
+        title: "Verifica il tuo indirizzo email"
+        description:  "Abbiamo inviato una email a {0} per verificare il tuo account. Devi verificare il tuo indirizzo email così che potrà essere usato per confermare modifiche relative al tuo account e notifiche."
+      added:
+        title: "Indirizzo email aggiunto"
+        description: "Il tuo indirizzo email è stato aggiunto al tuo account."
+        subtitle: "Vuoi modificare il tuo indirizzo email?"
+        description_2: "Puoi modificare le impostazioni del tuo account visitando"
+        path: "Mio Profilo > Impostazioni"
+        alert: "Email aggiunta!"
 nl_NL:
   email:
     email_change_original:

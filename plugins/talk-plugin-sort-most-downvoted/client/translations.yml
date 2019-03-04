@@ -4,6 +4,9 @@ en:
 he:
   talk-plugin-sort-most-downvoted:
     label: השלילי ביותר קודם
+it:
+  talk-plugin-sort-most-downvoted:
+    label: Prima il più downvotato
 nl_NL:
   talk-plugin-sort-most-downvoted:
     label: Minst gerespecteerd eerst

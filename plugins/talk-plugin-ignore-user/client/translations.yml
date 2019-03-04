@@ -89,6 +89,20 @@ he:
     notify_success: |
       כעת אתה מתעלם {0}. תוכל לבטל את הפעולה הזו מהפרופיל שלי.
     confirmation_title: "התעלם {0}?"
+it:
+  talk-plugin-ignore-user:
+    blank_info: In questo momento non stai ignorando alcun utente
+    section_title: Utenti ignorati
+    section_info: Perché stai ignorando i seguenti utenti, i loro commenti saranno nascosti.
+    stop_ignoring: Non ignorare più
+    ignore_user: Ignora utente
+    cancel: Annulla
+    confirmation: |
+      Quando ignori un utente, tutti i loro commenti saranno nascosti. Puoi
+      annullarlo successivamente da Mio Profilo.
+    notify_success: |
+      Stai ignorando {0}. Puoi annullare questa azione da Mio Profilo.
+    confirmation_title: Ignora {0}?
 nl_NL:
   talk-plugin-ignore-user:
     blank_info: Momenteel negeer je geen gebruikers

@@ -33,6 +33,11 @@ he:
     viewing_options: "אפשרויות צפייה"
     sort: מיון
     filter: סינון
+it:
+  talk-plugin-viewing-options:
+    viewing_options: "Opzioni di visualizzazione"
+    sort: Ordine
+    filter: Filtro
 nl_NL:
   talk-plugin-viewing-options:
     viewing_options: "Weergave opties"

@@ -19,6 +19,9 @@ fr:
 he:
   talk-plugin-sort-most-replied:
     label: הכי השיב קודם
+it:
+  talk-plugin-sort-most-replied:
+    label: Prima il più commentato
 nl_NL:
   talk-plugin-sort-most-replied:
     label: Meest beantwoord eerst

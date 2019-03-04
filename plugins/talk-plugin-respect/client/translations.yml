@@ -26,6 +26,10 @@ he:
   talk-plugin-respect:
     respect: כבד
     respected: נכבד
+it:
+  talk-plugin-respect:
+    respect: Rispetto
+    respected: Rispettato
 nl_NL:
   talk-plugin-respect:
     respect: Respect

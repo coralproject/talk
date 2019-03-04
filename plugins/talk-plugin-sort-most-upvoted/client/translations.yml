@@ -10,6 +10,9 @@ es:
 he:
   talk-plugin-sort-most-upvoted:
     label: החיובי ביותר קודם
+it:
+  talk-plugin-sort-most-upvoted:
+    label: Prima il più votato
 nl_NL:
   talk-plugin-sort-most-upvoted:
     label: Meest gerespecteerd eerst
