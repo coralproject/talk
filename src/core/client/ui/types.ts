@@ -24,14 +24,3 @@ export type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
 export type PropTypesOf<T> = T extends React.ComponentType<infer R>
   ? R
   : T extends React.Component<infer S> ? S : {};
-
-/**
- * Like Partial but applies it deeply.
- */
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends Array<infer U>
-    ? Array<DeepPartial<U>>
-    : T[P] extends ReadonlyArray<infer V>
-      ? ReadonlyArray<DeepPartial<V>>
-      : DeepPartial<T[P]>
-};
