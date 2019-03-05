@@ -1,6 +1,6 @@
 // TODO: use generated schema types.
-const inReviewStatuses = ["NONE", "ACCEPTED"];
+const visibleStatuses = ["NONE", "ACCEPTED"];
 
 export default function isVisible(status: any) {
-  return inReviewStatuses.includes(status);
+  return visibleStatuses.includes(status);
 }
