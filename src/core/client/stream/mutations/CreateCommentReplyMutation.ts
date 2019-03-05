@@ -185,7 +185,7 @@ function commit(
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
     optimisticUpdater: store => {
-      // Skip if comments are always moderated.
+      // Skip optimistic update if comment is probably premoderated.
       if (expectPremoderation) {
         return;
       }
