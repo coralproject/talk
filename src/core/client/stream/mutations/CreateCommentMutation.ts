@@ -18,9 +18,8 @@ import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated_
 
 import {
   incrementStoryCommentCounts,
-  isInReview,
-  isRejected,
   isRolePriviledged,
+  isVisible,
   prependCommentEdgeToProfile,
 } from "../helpers";
 
@@ -36,8 +35,8 @@ function sharedUpdater(
     .getLinkedRecord("edge")!;
   const status = commentEdge.getLinkedRecord("node")!.getValue("status");
 
-  // If comment is in review or has been rejected, we don't need to add it.
-  if (isInReview(status) || isRejected(status)) {
+  // If comment is not visible, we don't need to add it.
+  if (!isVisible(status)) {
     return;
   }
 
@@ -118,7 +117,7 @@ function commit(
   }
 
   // TODO: Generate and use schema types.
-  const alwaysPremoderated =
+  const expectPremoderation =
     !isRolePriviledged(me.role) && story.moderation === "PRE";
 
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -157,18 +156,14 @@ function commit(
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
     optimisticUpdater: store => {
-      // Skip if comments are always moderated.
-      if (alwaysPremoderated) {
+      // Skip optimistic update if comment is probably premoderated.
+      if (expectPremoderation) {
         return;
       }
       sharedUpdater(environment, store, input);
       store.get(id)!.setValue(true, "pending");
     },
     updater: store => {
-      // Skip if comments are always moderated.
-      if (alwaysPremoderated) {
-        return;
-      }
       sharedUpdater(environment, store, input);
     },
   });
