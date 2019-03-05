@@ -18,6 +18,7 @@ it("renders correctly", () => {
     },
     comment: {
       id: "comment-id",
+      status: "NONE",
       replies: {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
@@ -48,6 +49,7 @@ it("renders correctly when replies are empty", () => {
     },
     comment: {
       id: "comment-id",
+      status: "NONE",
       replies: { edges: [] },
     },
     relay: {
@@ -77,6 +79,7 @@ describe("when has more replies", () => {
     },
     comment: {
       id: "comment-id",
+      status: "NONE",
       replies: {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },

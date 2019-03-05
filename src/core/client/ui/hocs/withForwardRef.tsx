@@ -13,12 +13,3 @@ export default function withForwardRef<P extends { forwardRef?: Ref<any> }>(
   );
   return React.forwardRef<any, P>(forwardRef) as any;
 }
-
-/*
-// Stub, currently doesn't do anything except adding types.
-export default function withForwardRef<P extends { forwardRef?: Ref<any> }>(
-  BaseComponent: React.ComponentType<P>
-): React.ComponentType<P> {
-  return BaseComponent;
-}
-*/

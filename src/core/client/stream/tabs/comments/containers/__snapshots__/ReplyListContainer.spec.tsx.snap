@@ -19,6 +19,7 @@ exports[`renders correctly 1`] = `
           },
         ],
       },
+      "status": "NONE",
     }
   }
   comments={
@@ -117,6 +118,7 @@ exports[`when has more replies renders hasMore 1`] = `
           },
         ],
       },
+      "status": "NONE",
     }
   }
   comments={
@@ -174,6 +176,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
           },
         ],
       },
+      "status": "NONE",
     }
   }
   comments={
@@ -231,6 +234,7 @@ exports[`when has more replies when showing all enable show all button after loa
           },
         ],
       },
+      "status": "NONE",
     }
   }
   comments={

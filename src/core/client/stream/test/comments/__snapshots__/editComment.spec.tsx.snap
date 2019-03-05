@@ -2,7 +2,7 @@
 
 exports[`cancel edit 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <div
     className="HorizontalGutter-root HorizontalGutter-full"
@@ -62,7 +62,7 @@ exports[`cancel edit 1`] = `
               className="HTMLContent-root"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "Joining Too",
+                  "__html": "I like yoghurt",
                 }
               }
             />
@@ -75,7 +75,7 @@ exports[`cancel edit 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
-                  id="comments-commentContainer-replyButton-comment-0"
+                  id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -92,7 +92,7 @@ exports[`cancel edit 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="permalink-popover-comment-0"
+                    aria-controls="permalink-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -108,13 +108,13 @@ exports[`cancel edit 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="permalink-popover-comment-0-ariainfo"
-                    id="permalink-popover-comment-0"
+                    aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                    id="permalink-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="permalink-popover-comment-0-ariainfo"
+                      id="permalink-popover-comment-with-replies-ariainfo"
                     >
                       A dialog showing a permalink to the comment
                     </div>
@@ -142,7 +142,7 @@ exports[`cancel edit 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="report-popover-comment-0"
+                    aria-controls="report-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     disabled={false}
                     onBlur={[Function]}
@@ -159,13 +159,13 @@ exports[`cancel edit 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="report-popover-comment-0-ariainfo"
-                    id="report-popover-comment-0"
+                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
+                    id="report-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="report-popover-comment-0-ariainfo"
+                      id="report-popover-comment-with-replies-ariainfo"
                     >
                       A dialog for reporting comments
                     </div>
@@ -183,7 +183,7 @@ exports[`cancel edit 1`] = `
 
 exports[`edit a comment and handle server error: edit form 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <form
     autoComplete="off"
@@ -215,7 +215,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
       >
         <label
           className="AriaInfo-root"
-          htmlFor="comments-editCommentForm-rte-comment-0"
+          htmlFor="comments-editCommentForm-rte-comment-with-replies"
         >
           Edit comment
         </label>
@@ -229,11 +229,11 @@ exports[`edit a comment and handle server error: edit form 1`] = `
               contentEditable={true}
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "Joining Too",
+                  "__html": "I like yoghurt",
                 }
               }
               disabled={false}
-              id="comments-editCommentForm-rte-comment-0"
+              id="comments-editCommentForm-rte-comment-with-replies"
               onBlur={[Function]}
               onChange={[Function]}
               onCut={[Function]}
@@ -349,7 +349,7 @@ exports[`edit a comment and handle server error: edit form 1`] = `
 
 exports[`edit a comment: edit form 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <form
     autoComplete="off"
@@ -381,7 +381,7 @@ exports[`edit a comment: edit form 1`] = `
       >
         <label
           className="AriaInfo-root"
-          htmlFor="comments-editCommentForm-rte-comment-0"
+          htmlFor="comments-editCommentForm-rte-comment-with-replies"
         >
           Edit comment
         </label>
@@ -395,11 +395,11 @@ exports[`edit a comment: edit form 1`] = `
               contentEditable={true}
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "Joining Too",
+                  "__html": "I like yoghurt",
                 }
               }
               disabled={false}
-              id="comments-editCommentForm-rte-comment-0"
+              id="comments-editCommentForm-rte-comment-with-replies"
               onBlur={[Function]}
               onChange={[Function]}
               onCut={[Function]}
@@ -515,7 +515,7 @@ exports[`edit a comment: edit form 1`] = `
 
 exports[`edit a comment: optimistic response 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <form
     autoComplete="off"
@@ -547,7 +547,7 @@ exports[`edit a comment: optimistic response 1`] = `
       >
         <label
           className="AriaInfo-root"
-          htmlFor="comments-editCommentForm-rte-comment-0"
+          htmlFor="comments-editCommentForm-rte-comment-with-replies"
         >
           Edit comment
         </label>
@@ -565,7 +565,7 @@ exports[`edit a comment: optimistic response 1`] = `
                 }
               }
               disabled={true}
-              id="comments-editCommentForm-rte-comment-0"
+              id="comments-editCommentForm-rte-comment-with-replies"
               onBlur={[Function]}
               onChange={[Function]}
               onCut={[Function]}
@@ -681,7 +681,7 @@ exports[`edit a comment: optimistic response 1`] = `
 
 exports[`edit a comment: render comment with edit button 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <div
     className="HorizontalGutter-root HorizontalGutter-full"
@@ -741,7 +741,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
               className="HTMLContent-root"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "Joining Too",
+                  "__html": "I like yoghurt",
                 }
               }
             />
@@ -754,7 +754,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
-                  id="comments-commentContainer-replyButton-comment-0"
+                  id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -771,7 +771,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="permalink-popover-comment-0"
+                    aria-controls="permalink-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -787,13 +787,13 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="permalink-popover-comment-0-ariainfo"
-                    id="permalink-popover-comment-0"
+                    aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                    id="permalink-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="permalink-popover-comment-0-ariainfo"
+                      id="permalink-popover-comment-with-replies-ariainfo"
                     >
                       A dialog showing a permalink to the comment
                     </div>
@@ -821,7 +821,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="report-popover-comment-0"
+                    aria-controls="report-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     disabled={false}
                     onBlur={[Function]}
@@ -838,13 +838,13 @@ exports[`edit a comment: render comment with edit button 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="report-popover-comment-0-ariainfo"
-                    id="report-popover-comment-0"
+                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
+                    id="report-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="report-popover-comment-0-ariainfo"
+                      id="report-popover-comment-with-replies-ariainfo"
                     >
                       A dialog for reporting comments
                     </div>
@@ -862,7 +862,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
 
 exports[`edit a comment: server response 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <div
     className="HorizontalGutter-root HorizontalGutter-full"
@@ -944,7 +944,7 @@ exports[`edit a comment: server response 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
-                  id="comments-commentContainer-replyButton-comment-0"
+                  id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -961,7 +961,7 @@ exports[`edit a comment: server response 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="permalink-popover-comment-0"
+                    aria-controls="permalink-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -977,13 +977,13 @@ exports[`edit a comment: server response 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="permalink-popover-comment-0-ariainfo"
-                    id="permalink-popover-comment-0"
+                    aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                    id="permalink-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="permalink-popover-comment-0-ariainfo"
+                      id="permalink-popover-comment-with-replies-ariainfo"
                     >
                       A dialog showing a permalink to the comment
                     </div>
@@ -1011,7 +1011,7 @@ exports[`edit a comment: server response 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="report-popover-comment-0"
+                    aria-controls="report-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     disabled={false}
                     onBlur={[Function]}
@@ -1028,13 +1028,13 @@ exports[`edit a comment: server response 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="report-popover-comment-0-ariainfo"
-                    id="report-popover-comment-0"
+                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
+                    id="report-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="report-popover-comment-0-ariainfo"
+                      id="report-popover-comment-with-replies-ariainfo"
                     >
                       A dialog for reporting comments
                     </div>
@@ -1052,7 +1052,7 @@ exports[`edit a comment: server response 1`] = `
 
 exports[`shows expiry message: edit form closed 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <div
     className="HorizontalGutter-root HorizontalGutter-full"
@@ -1112,7 +1112,7 @@ exports[`shows expiry message: edit form closed 1`] = `
               className="HTMLContent-root"
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "Joining Too",
+                  "__html": "I like yoghurt",
                 }
               }
             />
@@ -1125,7 +1125,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
-                  id="comments-commentContainer-replyButton-comment-0"
+                  id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -1142,7 +1142,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="permalink-popover-comment-0"
+                    aria-controls="permalink-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     onBlur={[Function]}
                     onClick={[Function]}
@@ -1158,13 +1158,13 @@ exports[`shows expiry message: edit form closed 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="permalink-popover-comment-0-ariainfo"
-                    id="permalink-popover-comment-0"
+                    aria-labelledby="permalink-popover-comment-with-replies-ariainfo"
+                    id="permalink-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="permalink-popover-comment-0-ariainfo"
+                      id="permalink-popover-comment-with-replies-ariainfo"
                     >
                       A dialog showing a permalink to the comment
                     </div>
@@ -1192,7 +1192,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                   className="Popover-root"
                 >
                   <button
-                    aria-controls="report-popover-comment-0"
+                    aria-controls="report-popover-comment-with-replies"
                     className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                     disabled={false}
                     onBlur={[Function]}
@@ -1209,13 +1209,13 @@ exports[`shows expiry message: edit form closed 1`] = `
                   </button>
                   <div
                     aria-hidden={true}
-                    aria-labelledby="report-popover-comment-0-ariainfo"
-                    id="report-popover-comment-0"
+                    aria-labelledby="report-popover-comment-with-replies-ariainfo"
+                    id="report-popover-comment-with-replies"
                     role="popup"
                   >
                     <div
                       className="AriaInfo-root"
-                      id="report-popover-comment-0-ariainfo"
+                      id="report-popover-comment-with-replies-ariainfo"
                     >
                       A dialog for reporting comments
                     </div>
@@ -1233,7 +1233,7 @@ exports[`shows expiry message: edit form closed 1`] = `
 
 exports[`shows expiry message: edit time expired 1`] = `
 <div
-  data-testid="comment-comment-0"
+  data-testid="comment-comment-with-replies"
 >
   <form
     autoComplete="off"
@@ -1265,7 +1265,7 @@ exports[`shows expiry message: edit time expired 1`] = `
       >
         <label
           className="AriaInfo-root"
-          htmlFor="comments-editCommentForm-rte-comment-0"
+          htmlFor="comments-editCommentForm-rte-comment-with-replies"
         >
           Edit comment
         </label>
@@ -1279,11 +1279,11 @@ exports[`shows expiry message: edit time expired 1`] = `
               contentEditable={false}
               dangerouslySetInnerHTML={
                 Object {
-                  "__html": "Joining Too",
+                  "__html": "I like yoghurt",
                 }
               }
               disabled={true}
-              id="comments-editCommentForm-rte-comment-0"
+              id="comments-editCommentForm-rte-comment-with-replies"
               onBlur={[Function]}
               onChange={[Function]}
               onCut={[Function]}

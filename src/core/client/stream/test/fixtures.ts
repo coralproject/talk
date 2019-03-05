@@ -70,14 +70,17 @@ export const users = [
   {
     id: "user-0",
     username: "Markus",
+    role: "COMMENTER",
   },
   {
     id: "user-1",
     username: "Lukas",
+    role: "COMMENTER",
   },
   {
     id: "user-2",
     username: "Isabelle",
+    role: "COMMENTER",
   },
 ];
 
@@ -87,6 +90,7 @@ export const baseComment = {
   revision: {
     id: "revision-0",
   },
+  status: "NONE",
   createdAt: "2018-07-06T18:24:00.000Z",
   replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   replyCount: 0,
@@ -274,6 +278,7 @@ export const baseStory = {
   metadata: {
     title: "title",
   },
+  moderation: "POST",
   isClosed: false,
   comments: {
     edges: [],

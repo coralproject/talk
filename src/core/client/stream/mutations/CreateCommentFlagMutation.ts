@@ -5,15 +5,13 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { CreateCommentFlagMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentFlagMutation.graphql";
 
-export type CreateCommentFlagInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type CreateCommentFlagInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation CreateCommentFlagMutation($input: CreateCommentFlagInput!) {
@@ -55,4 +53,4 @@ export const withCreateCommentFlagMutation = createMutationContainer(
 
 export type CreateCommentFlagMutation = (
   input: CreateCommentFlagInput
-) => Promise<MutationTypes["response"]["createCommentFlag"]>;
+) => MutationResponsePromise<MutationTypes, "createCommentFlag">;

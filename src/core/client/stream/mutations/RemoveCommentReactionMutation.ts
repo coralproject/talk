@@ -5,15 +5,13 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { RemoveCommentReactionMutation as MutationTypes } from "talk-stream/__generated__/RemoveCommentReactionMutation.graphql";
 
-export type RemoveCommentReactionInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type RemoveCommentReactionInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation RemoveCommentReactionMutation($input: RemoveCommentReactionInput!) {
@@ -67,4 +65,4 @@ export const withRemoveCommentReactionMutation = createMutationContainer(
 
 export type RemoveCommentReactionMutation = (
   input: RemoveCommentReactionInput
-) => Promise<MutationTypes["response"]["removeCommentReaction"]>;
+) => MutationResponsePromise<MutationTypes, "removeCommentReaction">;

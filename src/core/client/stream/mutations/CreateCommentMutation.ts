@@ -2,6 +2,7 @@ import { graphql } from "react-relay";
 import {
   ConnectionHandler,
   Environment,
+  RecordProxy,
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
@@ -10,32 +11,38 @@ import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentMutation.graphql";
 
 import {
   incrementStoryCommentCounts,
+  isRolePriviledged,
+  isVisible,
   prependCommentEdgeToProfile,
 } from "../helpers";
 
-export type CreateCommentInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type CreateCommentInput = MutationInput<MutationTypes>;
 
 function sharedUpdater(
   environment: Environment,
   store: RecordSourceSelectorProxy,
   input: CreateCommentInput
 ) {
+  const commentEdge = store
+    .getRootField("createComment")!
+    .getLinkedRecord("edge")!;
+  const status = commentEdge.getLinkedRecord("node")!.getValue("status");
+
+  // If comment is not visible, we don't need to add it.
+  if (!isVisible(status)) {
+    return;
+  }
+
   incrementStoryCommentCounts(store, input.storyID);
-  prependCommentEdgeToProfile(
-    environment,
-    store,
-    store.getRootField("createComment")!.getLinkedRecord("edge")!
-  );
-  addCommentToStory(store, input);
+  prependCommentEdgeToProfile(environment, store, commentEdge);
+  addCommentToStory(store, input, commentEdge);
 }
 
 /**
@@ -43,14 +50,9 @@ function sharedUpdater(
  */
 function addCommentToStory(
   store: RecordSourceSelectorProxy,
-  input: CreateCommentInput
+  input: CreateCommentInput,
+  commentEdge: RecordProxy
 ) {
-  // Get the payload returned from the server.
-  const payload = store.getRootField("createComment")!;
-
-  // Get the edge of the newly created comment.
-  const newEdge = payload.getLinkedRecord("edge")!;
-
   // Get stream proxy.
   const streamProxy = store.get(input.storyID);
   const connectionKey = "Stream_comments";
@@ -63,10 +65,22 @@ function addCommentToStory(
       filters
     );
     if (con) {
-      ConnectionHandler.insertEdgeBefore(con, newEdge);
+      ConnectionHandler.insertEdgeBefore(con, commentEdge);
     }
   }
 }
+
+/** These are needed to be included when querying for the stream. */
+// tslint:disable-next-line:no-unused-expression
+graphql`
+  fragment CreateCommentMutation_story on Story {
+    moderation
+  }
+  fragment CreateCommentMutation_me on User {
+    role
+  }
+`;
+/** end */
 
 const mutation = graphql`
   mutation CreateCommentMutation($input: CreateCommentInput!) {
@@ -75,6 +89,7 @@ const mutation = graphql`
         cursor
         node {
           ...StreamContainer_comment @relay(mask: false)
+          status
         }
       }
       clientMutationId
@@ -87,11 +102,24 @@ let clientMutationId = 0;
 function commit(
   environment: Environment,
   input: CreateCommentInput,
-  { uuidGenerator }: TalkContext
+  { uuidGenerator, relayEnvironment }: TalkContext
 ) {
   const me = getMe(environment)!;
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
+
+  const story = relayEnvironment
+    .getStore()
+    .getSource()
+    .get(input.storyID);
+  if (!story || !story.moderation) {
+    throw new Error("Moderation mode of the story was not included");
+  }
+
+  // TODO: Generate and use schema types.
+  const expectPremoderation =
+    !isRolePriviledged(me.role) && story.moderation === "PRE";
+
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
     variables: {
@@ -108,6 +136,7 @@ function commit(
           node: {
             id,
             createdAt: currentDate,
+            status: "NONE",
             author: {
               id: me.id,
               username: me.username,
@@ -127,6 +156,10 @@ function commit(
       },
     } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
     optimisticUpdater: store => {
+      // Skip optimistic update if comment is probably premoderated.
+      if (expectPremoderation) {
+        return;
+      }
       sharedUpdater(environment, store, input);
       store.get(id)!.setValue(true, "pending");
     },
@@ -143,4 +176,4 @@ export const withCreateCommentMutation = createMutationContainer(
 
 export type CreateCommentMutation = (
   input: CreateCommentInput
-) => Promise<MutationTypes["response"]["createComment"]>;
+) => MutationResponsePromise<MutationTypes, "createComment">;

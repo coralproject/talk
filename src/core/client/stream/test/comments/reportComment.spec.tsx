@@ -27,34 +27,32 @@ function createTestRenderer(
     },
     Mutation: {
       createCommentFlag: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toEqual({
+        expect(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
           commentRevisionID: stories[0].comments.edges[0].node.revision.id,
           reason: "COMMENT_REPORTED_OFFENSIVE",
           additionalDetails: "More info",
-          clientMutationId: "0",
         });
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
             myActionPresence: { flag: true },
           },
-          clientMutationId: "0",
+          clientMutationId: data.input.clientMutationId,
         };
       }),
       createCommentDontAgree: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toEqual({
+        expect(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
           commentRevisionID: stories[0].comments.edges[0].node.revision.id,
           additionalDetails: "More info",
-          clientMutationId: "0",
         });
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
             myActionPresence: { dontAgree: true },
           },
-          clientMutationId: "0",
+          clientMutationId: data.input.clientMutationId,
         };
       }),
       ...resolver.Mutation,

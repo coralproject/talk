@@ -24,7 +24,7 @@ export interface MessageProps {
   /*
   * Name of color, "grey" stays by default - common gray one
   */
-  color?: "error" | "grey";
+  color?: "error" | "grey" | "primary";
 }
 
 const Message: StatelessComponent<MessageProps> = props => {
@@ -35,6 +35,7 @@ const Message: StatelessComponent<MessageProps> = props => {
     {
       [classes.colorGrey]: color === "grey",
       [classes.colorError]: color === "error",
+      [classes.colorPrimary]: color === "primary",
       [classes.fullWidth]: fullWidth,
     },
     className

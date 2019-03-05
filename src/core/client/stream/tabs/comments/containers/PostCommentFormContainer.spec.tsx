@@ -83,7 +83,7 @@ it("save values", async () => {
 it("creates a comment", async () => {
   const storyID = "story-id";
   const input = { body: "Hello World!" };
-  const createCommentStub = sinon.stub();
+  const createCommentStub = sinon.stub().returns({ edge: { node: {} } });
   const form = { reset: noop };
   const formMock = sinon.mock(form);
   formMock

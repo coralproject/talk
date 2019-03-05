@@ -4,16 +4,14 @@ import { ConnectionHandler, Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { RejectCommentMutation as MutationTypes } from "talk-admin/__generated__/RejectCommentMutation.graphql";
 import { getQueueConnection } from "talk-admin/helpers";
 
-export type RejectCommentInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type RejectCommentInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation RejectCommentMutation($input: RejectCommentInput!) {
@@ -78,4 +76,4 @@ export const withRejectCommentMutation = createMutationContainer(
 
 export type RejectCommentMutation = (
   input: RejectCommentInput
-) => Promise<MutationTypes["response"]["rejectComment"]>;
+) => MutationResponsePromise<MutationTypes, "rejectComment">;

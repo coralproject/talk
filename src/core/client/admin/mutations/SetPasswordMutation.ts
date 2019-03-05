@@ -4,15 +4,13 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  MutationInput,
+  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
 
 import { SetPasswordMutation as MutationTypes } from "talk-admin/__generated__/SetPasswordMutation.graphql";
 
-export type SetPasswordInput = Omit<
-  MutationTypes["variables"]["input"],
-  "clientMutationId"
->;
+export type SetPasswordInput = MutationInput<MutationTypes>;
 
 const mutation = graphql`
   mutation SetPasswordMutation($input: SetPasswordInput!) {
@@ -48,4 +46,4 @@ export const withSetPasswordMutation = createMutationContainer(
 
 export type SetPasswordMutation = (
   input: SetPasswordInput
-) => Promise<MutationTypes["response"]["setPassword"]>;
+) => MutationResponsePromise<MutationTypes, "setPassword">;

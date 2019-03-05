@@ -17,6 +17,7 @@ import { ReplyListContainer5_comment as Comment5Data } from "talk-stream/__gener
 import { StatelessComponent } from "enzyme";
 import { FragmentKeys } from "talk-framework/lib/relay/types";
 import ReplyList from "../components/ReplyList";
+import { isCommentVisible } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 
 type UnpackArray<T> = T extends ReadonlyArray<infer U> ? U : any;
@@ -56,19 +57,27 @@ export class ReplyListContainer extends React.Component<Props> {
     ) {
       return null;
     }
-    const comments = this.props.comment.replies.edges.map(edge => ({
-      ...edge.node,
-      replyListElement: this.props.ReplyListComponent && (
-        <this.props.ReplyListComponent
-          me={this.props.me}
-          comment={edge.node}
-          story={this.props.story}
-          settings={this.props.settings}
-        />
-      ),
-      // ReplyListContainer5 contains replyCount.
-      showConversationLink: ((edge.node as any) as ReplyNode5).replyCount > 0,
-    }));
+    // Don't render replies if comment is not visible.
+    // We have this comment here because it's
+    // status just changed due to an edit.
+    // We keep it around for the CommentContainer to show
+    // some information to the user.
+    const comments = !isCommentVisible(this.props.comment)
+      ? []
+      : this.props.comment.replies.edges.map(edge => ({
+          ...edge.node,
+          replyListElement: this.props.ReplyListComponent && (
+            <this.props.ReplyListComponent
+              me={this.props.me}
+              comment={edge.node}
+              story={this.props.story}
+              settings={this.props.settings}
+            />
+          ),
+          // ReplyListContainer5 contains replyCount.
+          showConversationLink:
+            ((edge.node as any) as ReplyNode5).replyCount > 0,
+        }));
     return (
       <ReplyList
         me={this.props.me}
@@ -182,6 +191,7 @@ const ReplyListContainer5 = createReplyListContainer(
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
+        status
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
@@ -244,6 +254,7 @@ const ReplyListContainer4 = createReplyListContainer(
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
+        status
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
@@ -304,6 +315,7 @@ const ReplyListContainer3 = createReplyListContainer(
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
+        status
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
@@ -364,6 +376,7 @@ const ReplyListContainer2 = createReplyListContainer(
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
+        status
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
@@ -424,6 +437,7 @@ const ReplyListContainer1 = createReplyListContainer(
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_ASC }
         ) {
         id
+        status
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {

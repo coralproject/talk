@@ -2,6 +2,7 @@ import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
+import { PropTypesOf } from "talk-framework/types";
 
 import ValidationMessage from "talk-admin/routes/configure/components/ValidationMessage";
 import { OnSubmit } from "talk-framework/lib/form";
@@ -11,6 +12,7 @@ import RemainingCharactersContainer from "../containers/RemainingCharactersConta
 import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../helpers";
 import RTE from "./RTE";
 
+import PostCommentSubmitStatusContainer from "../containers/PostCommentSubmitStatusContainer";
 import styles from "./PostCommentForm.css";
 
 interface FormProps {
@@ -25,6 +27,7 @@ export interface PostCommentFormProps {
   max: number | null;
   disabled?: boolean;
   disabledMessage?: React.ReactNode;
+  submitStatus: PropTypesOf<PostCommentSubmitStatusContainer>["status"];
 }
 
 const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
@@ -91,6 +94,9 @@ const PostCommentForm: StatelessComponent<PostCommentFormProps> = props => (
                           {submitError}
                         </ValidationMessage>
                       )}
+                      <PostCommentSubmitStatusContainer
+                        status={props.submitStatus}
+                      />
                       {props.max && (
                         <RemainingCharactersContainer
                           value={input.value}

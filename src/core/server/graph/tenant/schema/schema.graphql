@@ -1581,6 +1581,11 @@ type Story {
   createdAt is the date that the Story was created at.
   """
   createdAt: Time!
+
+  """
+  moderation determines whether or not this is a PRE or POST moderated story.
+  """
+  moderation: MODERATION_MODE!
 }
 
 ################################################################################
@@ -1697,7 +1702,7 @@ type CreateCommentPayload {
   """
   edge is the possibly created comment edge.
   """
-  edge: CommentEdge
+  edge: CommentEdge!
 
   """
   clientMutationId is required for Relay support.
@@ -1747,7 +1752,7 @@ type CreateCommentReplyPayload {
   """
   edge is the possibly created comment edge.
   """
-  edge: CommentEdge
+  edge: CommentEdge!
 
   """
   clientMutationId is required for Relay support.
@@ -1787,7 +1792,7 @@ type EditCommentPayload {
   """
   comment is the possibly edited comment.
   """
-  comment: Comment
+  comment: Comment!
 
   """
   clientMutationId is required for Relay support.
