@@ -602,10 +602,29 @@ type FacebookAuthIntegration {
 ##########################
 
 type AuthIntegrations {
+  """
+  local stores configuration related to email/password based logins.
+  """
   local: LocalAuthIntegration!
+
+  """
+  sso stores configuration related to Single Sign On based logins.
+  """
   sso: SSOAuthIntegration!
+
+  """
+  oidc stores configuration related to OpenID Connect based logins.
+  """
   oidc: OIDCAuthIntegration!
+
+  """
+  google stores configuration related to Google based logins.
+  """
   google: GoogleAuthIntegration!
+
+  """
+  facebook stores configuration related to Facebook based logins.
+  """
   facebook: FacebookAuthIntegration!
 }
 
@@ -2072,10 +2091,29 @@ input SettingsFacebookAuthIntegrationInput {
 }
 
 input SettingsAuthIntegrationsInput {
+  """
+  local stores configuration related to email/password based logins.
+  """
   local: SettingsLocalAuthIntegrationInput
+
+  """
+  sso stores configuration related to Single Sign On based logins.
+  """
   sso: SettingsSSOAuthIntegrationInput
+
+  """
+  oidc stores configuration related to OpenID Connect based logins.
+  """
   oidc: SettingsOIDCAuthIntegrationInput
+
+  """
+  google stores configuration related to Google based logins.
+  """
   google: SettingsGoogleAuthIntegrationInput
+
+  """
+  facebook stores configuration related to Facebook based logins.
+  """
   facebook: SettingsFacebookAuthIntegrationInput
 }
 
