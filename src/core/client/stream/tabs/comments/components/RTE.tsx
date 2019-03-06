@@ -14,7 +14,10 @@ import styles from "./RTE.css";
 const Localized = React.forwardRef<any, PropTypesOf<typeof LocalizedOriginal>>(
   ({ api, ...props }, ref) => (
     <LocalizedOriginal {...props}>
-      {React.cloneElement(React.Children.only(props.children), { api, ref })}
+      {React.cloneElement(
+        React.Children.only(props.children as React.ReactElement),
+        { api, ref }
+      )}
     </LocalizedOriginal>
   )
 );

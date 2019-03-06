@@ -44,6 +44,7 @@ export const formatPercentage = (v: any) => {
   return Math.round(v * 100).toString();
 };
 
+export const parseBool = (v: any) => !!v;
 export const parseStringBool = (v: string) => v === "true";
 
 export const parseNewLineDelimitedString = (v: string) => v.split("\n");

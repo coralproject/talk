@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
+import { parseBool } from "talk-framework/lib/form";
 
 import { CheckBox, FormField } from "talk-ui/components";
 
@@ -14,8 +15,6 @@ interface Props {
   children: (disabledInside: boolean) => React.ReactNode;
 }
 
-const bool = (v: any) => !!v;
-
 const ConfigBoxWithToggleField: StatelessComponent<Props> = ({
   id,
   name,
@@ -24,7 +23,7 @@ const ConfigBoxWithToggleField: StatelessComponent<Props> = ({
   children,
   ...rest
 }) => (
-  <Field name={name} type="checkbox" parse={bool}>
+  <Field name={name} type="checkbox" parse={parseBool}>
     {({ input }) => (
       <ConfigBox
         {...rest}

@@ -21,6 +21,12 @@ exports[`renders correctly 1`] = `
     >
       <withContext(withLocalStateContainer(ProfileQuery)) />
     </TabPane>
+    <TabPane
+      data-testid="current-tab-pane"
+      tabId="CONFIGURE"
+    >
+      <withContext(withLocalStateContainer(ConfigureQuery)) />
+    </TabPane>
   </TabContent>
 </ForwardRef(forwardRef)>
 `;

@@ -6,7 +6,3 @@
 .replies {
   composes: button from "talk-ui/shared/typography.css";
 }
-
-.divider {
-  margin: calc(var(--spacing-unit) * 2) 0 !important;
-}

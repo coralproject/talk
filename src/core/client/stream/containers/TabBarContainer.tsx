@@ -7,6 +7,7 @@ import {
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
 
+import { TabBarContainer_me as MeData } from "talk-stream/__generated__/TabBarContainer_me.graphql";
 import { TabBarContainer_story as StoryData } from "talk-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainerLocal as Local } from "talk-stream/__generated__/TabBarContainerLocal.graphql";
 import {
@@ -19,6 +20,7 @@ import TabBar from "../components/TabBar";
 
 interface Props {
   story: StoryData | null;
+  me: MeData | null;
   local: Local;
   setActiveTab: SetActiveTabMutation;
 }
@@ -40,6 +42,9 @@ export class TabBarContainer extends Component<Props> {
         activeTab={activeTab}
         commentCount={commentCount}
         showProfileTab={loggedIn}
+        showConfigureTab={
+          !!this.props.me && ["MODERATOR", "ADMIN"].includes(this.props.me.role)
+        }
         onTabClick={this.handleSetActiveTab}
       />
     );
@@ -56,6 +61,11 @@ const enhanced = withSetActiveTabMutation(
     `
   )(
     withFragmentContainer<Props>({
+      me: graphql`
+        fragment TabBarContainer_me on User {
+          role
+        }
+      `,
       story: graphql`
         fragment TabBarContainer_story on Story {
           commentCounts {

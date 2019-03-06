@@ -1653,6 +1653,11 @@ type Story {
   moderation determines whether or not this is a PRE or POST moderated story.
   """
   moderation: MODERATION_MODE!
+
+  """
+  premodLinksEnable will put all comments that contain links into premod.
+  """
+  premodLinksEnable: Boolean!
 }
 
 """
@@ -2731,6 +2736,16 @@ input UpdateStory {
   isClosed is true when the Story should be closed for commenting.
   """
   isClosed: Boolean
+
+  """
+  moderation determines whether or not this is a PRE or POST moderated story.
+  """
+  moderation: MODERATION_MODE
+
+  """
+  premodLinksEnable will put all comments that contain links into premod.
+  """
+  premodLinksEnable: Boolean
 }
 
 input UpdateStoryInput {

@@ -66,12 +66,5 @@ exports[`renders correctly 1`] = `
       </Localized>
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
-  <MatchMediaWithContext
-    lteWidth="xs"
-  >
-    <hr
-      className="HistoryComment-divider"
-    />
-  </MatchMediaWithContext>
 </ForwardRef(forwardRef)>
 `;

@@ -375,6 +375,7 @@ export const storyWithDeepestReplies = denormalizeStory({
 export const meWithComments = {
   id: "me-with-comments",
   username: "Markus",
+  role: "COMMENTER",
   comments: {
     edges: [
       {

@@ -55,3 +55,8 @@ export {
   withSetStoryClosedMutation,
   SetStoryClosedMutation,
 } from "./SetStoryClosedMutation";
+export {
+  UpdateStoryInput,
+  withUpdateStoryMutation,
+  UpdateStoryMutation,
+} from "./UpdateStoryMutation";

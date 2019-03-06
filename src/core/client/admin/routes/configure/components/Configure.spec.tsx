@@ -8,8 +8,9 @@ import Configure from "./Configure";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof Configure> = {
-    onSave: noop,
+    onSubmit: noop,
     onChange: noop,
+    children: <span />,
   };
   const renderer = createRenderer();
   renderer.render(<Configure {...props} />);

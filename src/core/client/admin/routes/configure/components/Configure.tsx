@@ -12,17 +12,18 @@ import { Link, Navigation } from "./Navigation";
 import SideBar from "./SideBar";
 
 interface Props {
-  onSave: (settings: any, form: FormApi) => void;
+  onSubmit: (settings: any, form: FormApi) => void;
   onChange: (formState: FormState) => void;
+  children: React.ReactElement;
 }
 
 const Configure: StatelessComponent<Props> = ({
-  onSave,
+  onSubmit,
   onChange,
   children,
 }) => (
   <MainLayout data-testid="configure-container">
-    <Form onSubmit={onSave}>
+    <Form onSubmit={onSubmit}>
       {({ handleSubmit, submitting, pristine, form, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
           <FormSpy onChange={onChange} />

@@ -4,11 +4,10 @@ import uuid from "uuid";
 import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { DuplicateStoryURLError } from "talk-server/errors";
-import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
-import Query, {
-  createConnectionOrderVariants,
-  createIndexFactory,
-} from "talk-server/models/helpers/query";
+import {
+  GQLMODERATION_MODE,
+  GQLStoryMetadata,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
@@ -17,6 +16,10 @@ import {
   ConnectionInput,
   resolveConnection,
 } from "../helpers/connection";
+import Query, {
+  createConnectionOrderVariants,
+  createIndexFactory,
+} from "../helpers/query";
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
@@ -69,6 +72,16 @@ export interface Story extends TenantResource {
    * createdAt is the date that the Story was added to the Talk database.
    */
   createdAt: Date;
+
+  /**
+   * moderation determines whether or not this is a PRE or POST moderated story.
+   */
+  moderation?: GQLMODERATION_MODE;
+
+  /**
+   * premodLinksEnable will put all comments that contain links into premod.
+   */
+  premodLinksEnable?: boolean;
 }
 
 export async function createStoryIndexes(mongo: Db) {
