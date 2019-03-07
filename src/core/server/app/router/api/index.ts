@@ -29,7 +29,12 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.get("/version", versionHandler);
 
   // Installation middleware.
-  router.use("/install", express.json(), installHandler(app));
+  router.use(
+    "/install",
+    express.json(),
+    tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }),
+    installHandler(app)
+  );
 
   // Tenant identification middleware. All requests going past this point can
   // only proceed if there is a valid Tenant for the hostname.
