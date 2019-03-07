@@ -10,6 +10,7 @@ import {
 import { TabBarContainer_me as MeData } from "talk-stream/__generated__/TabBarContainer_me.graphql";
 import { TabBarContainer_story as StoryData } from "talk-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainerLocal as Local } from "talk-stream/__generated__/TabBarContainerLocal.graphql";
+import { roleIsAtLeast } from "talk-stream/helpers";
 import {
   SetActiveTabInput,
   SetActiveTabMutation,
@@ -43,7 +44,7 @@ export class TabBarContainer extends Component<Props> {
         commentCount={commentCount}
         showProfileTab={loggedIn}
         showConfigureTab={
-          !!this.props.me && ["MODERATOR", "ADMIN"].includes(this.props.me.role)
+          !!this.props.me && roleIsAtLeast(this.props.me.role, "MODERATOR")
         }
         onTabClick={this.handleSetActiveTab}
       />

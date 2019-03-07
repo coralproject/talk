@@ -18,9 +18,9 @@ import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated_
 
 import {
   incrementStoryCommentCounts,
-  isRolePriviledged,
   isVisible,
   prependCommentEdgeToProfile,
+  roleIsAtLeast,
 } from "../helpers";
 
 export type CreateCommentInput = MutationInput<MutationTypes>;
@@ -118,7 +118,7 @@ function commit(
 
   // TODO: Generate and use schema types.
   const expectPremoderation =
-    !isRolePriviledged(me.role) && story.moderation === "PRE";
+    !roleIsAtLeast(me.role, "STAFF") && story.moderation === "PRE";
 
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
