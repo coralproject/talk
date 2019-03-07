@@ -131,6 +131,8 @@ comments-submitStatus-submittedAndWillBeReviewed =
   Your comment has been submitted and will be reviewed by a moderator
 
 # Configure
+configure-configureQuery-errorLoadingProfile = Error loading configure
+configure-configureQuery-storyNotFound = Story not found
 
 ## Comment Stream
 configure-commentStream-title = Configure this Comment Stream

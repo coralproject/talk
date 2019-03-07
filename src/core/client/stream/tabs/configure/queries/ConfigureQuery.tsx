@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import { once } from "lodash";
+import React, { StatelessComponent, Suspense } from "react";
 import { ReadyState } from "react-relay";
 
 import {
@@ -11,7 +12,14 @@ import { ConfigureQuery as QueryTypes } from "talk-stream/__generated__/Configur
 import { ConfigureQueryLocal as Local } from "talk-stream/__generated__/ConfigureQueryLocal.graphql";
 import { Delay, Spinner } from "talk-ui/components";
 
-import ConfigureContainer from "../containers/ConfigureContainer";
+const loadConfigureContainer = () =>
+  import("../containers/ConfigureContainer" /* webpackChunkName: "configure" */);
+// (cvle) For some reason without `setTimeout` this request will block other requests.
+const preloadConfigureContainer = once(() =>
+  setTimeout(loadConfigureContainer)
+);
+
+const LazyConfigureContainer = React.lazy(loadConfigureContainer);
 
 interface Props {
   local: Local;
@@ -25,27 +33,32 @@ export const render = ({
     return <div>{error.message}</div>;
   }
 
+  // TODO: use official React API once it has one :-)
+  preloadConfigureContainer();
+
   if (props) {
     if (!props.me) {
       return (
-        <Localized id="profile-profileQuery-errorLoadingConfigure">
-          <div>Error loading profile</div>
+        <Localized id="configure-configureQuery-errorLoadingConfigure">
+          <div>Error loading configure</div>
         </Localized>
       );
     }
     if (!props.story) {
       return (
-        <Localized id="comments-profileQuery-storyNotFound">
+        <Localized id="configure-configureQuery-storyNotFound">
           <div>Story not found</div>
         </Localized>
       );
     }
     return (
-      <ConfigureContainer
-        me={props.me}
-        story={props.story}
-        settings={props.settings}
-      />
+      <Suspense fallback={<Spinner />}>
+        <LazyConfigureContainer
+          me={props.me}
+          story={props.story}
+          settings={props.settings}
+        />
+      </Suspense>
     );
   }
 
