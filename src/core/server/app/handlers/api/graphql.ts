@@ -14,6 +14,8 @@ export type GraphMiddlewareOptions = Pick<
   | "redis"
   | "mailerQueue"
   | "scraperQueue"
+  | "indexerQueue"
+  | "elasticsearch"
   | "signingConfig"
   | "i18n"
 >;

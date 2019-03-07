@@ -13,6 +13,7 @@ import {
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 import TenantCache from "talk-server/services/tenant/cache";
 import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
 import { upsert } from "talk-server/services/users";
@@ -134,6 +135,7 @@ export const OIDCIDTokenSchema = Joi.object()
 
 export async function findOrCreateOIDCUser(
   mongo: Db,
+  indexerQueue: IndexerQueue,
   tenant: Tenant,
   integration: GQLOIDCAuthIntegration,
   token: OIDCIDToken
@@ -177,7 +179,7 @@ export async function findOrCreateOIDCUser(
     const username = preferred_username || nickname || name;
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(mongo, tenant, {
+    user = await upsert(mongo, indexerQueue, tenant, {
       username,
       role: GQLUSER_ROLE.COMMENTER,
       email,
@@ -199,6 +201,7 @@ const OIDC_SCOPE = "openid email profile";
 
 export interface OIDCStrategyOptions {
   mongo: Db;
+  indexerQueue: IndexerQueue;
   tenantCache: TenantCache;
 }
 
@@ -206,12 +209,14 @@ export default class OIDCStrategy extends Strategy {
   public name = "oidc";
 
   private mongo: Db;
+  private indexerQueue: IndexerQueue;
   private cache: TenantCacheAdapter<StrategyItem>;
 
-  constructor({ mongo, tenantCache }: OIDCStrategyOptions) {
+  constructor({ mongo, indexerQueue, tenantCache }: OIDCStrategyOptions) {
     super();
 
     this.mongo = mongo;
+    this.indexerQueue = indexerQueue;
     this.cache = new TenantCacheAdapter(tenantCache);
   }
 
@@ -301,6 +306,7 @@ export default class OIDCStrategy extends Strategy {
         try {
           const user = await findOrCreateOIDCUser(
             this.mongo,
+            this.indexerQueue,
             tenant,
             integration,
             decoded as OIDCIDToken

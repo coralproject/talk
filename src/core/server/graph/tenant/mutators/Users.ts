@@ -32,7 +32,13 @@ export const Users = (ctx: TenantContext) => ({
     input: GQLSetUsernameInput
   ): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
-      setUsername(ctx.mongo, ctx.tenant, ctx.user!, input.username),
+      setUsername(
+        ctx.mongo,
+        ctx.indexerQueue,
+        ctx.tenant,
+        ctx.user!,
+        input.username
+      ),
       {
         "input.username": [
           ERROR_CODES.USERNAME_ALREADY_SET,
@@ -44,7 +50,7 @@ export const Users = (ctx: TenantContext) => ({
     ),
   setEmail: async (input: GQLSetEmailInput): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
-      setEmail(ctx.mongo, ctx.tenant, ctx.user!, input.email),
+      setEmail(ctx.mongo, ctx.indexerQueue, ctx.tenant, ctx.user!, input.email),
       {
         "input.email": [
           ERROR_CODES.EMAIL_ALREADY_SET,
@@ -74,11 +80,35 @@ export const Users = (ctx: TenantContext) => ({
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
-    updateUsername(ctx.mongo, ctx.tenant, input.userID, input.username),
+    updateUsername(
+      ctx.mongo,
+      ctx.indexerQueue,
+      ctx.tenant,
+      input.userID,
+      input.username
+    ),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
-    updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
+    updateEmail(
+      ctx.mongo,
+      ctx.indexerQueue,
+      ctx.tenant,
+      input.userID,
+      input.email
+    ),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
-    updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
+    updateAvatar(
+      ctx.mongo,
+      ctx.indexerQueue,
+      ctx.tenant,
+      input.userID,
+      input.avatar
+    ),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
-    updateRole(ctx.mongo, ctx.tenant, input.userID, input.role),
+    updateRole(
+      ctx.mongo,
+      ctx.indexerQueue,
+      ctx.tenant,
+      input.userID,
+      input.role
+    ),
 });

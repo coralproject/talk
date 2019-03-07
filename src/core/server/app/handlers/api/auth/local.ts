@@ -27,10 +27,14 @@ export const SignupBodySchema = Joi.object().keys({
     .email(),
 });
 
-export type SignupOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+export type SignupOptions = Pick<
+  AppOptions,
+  "mongo" | "indexerQueue" | "signingConfig"
+>;
 
 export const signupHandler = ({
   mongo,
+  indexerQueue,
   signingConfig,
 }: SignupOptions): RequestHandler => async (req: Request, res, next) => {
   try {
@@ -65,7 +69,7 @@ export const signupHandler = ({
     };
 
     // Create the new user.
-    const user = await upsert(mongo, tenant, {
+    const user = await upsert(mongo, indexerQueue, tenant, {
       email,
       username,
       profiles: [profile],

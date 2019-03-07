@@ -12,8 +12,10 @@ import { HTMLErrorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { Config } from "talk-server/config";
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 import { MailerQueue } from "talk-server/queue/tasks/mailer";
 import { ScraperQueue } from "talk-server/queue/tasks/scraper";
+import { Elasticsearch } from "talk-server/services/elasticsearch";
 import { I18n } from "talk-server/services/i18n";
 import { JWTSigningConfig } from "talk-server/services/jwt";
 import { AugmentedRedis } from "talk-server/services/redis";
@@ -25,9 +27,11 @@ import { createRouter } from "./router";
 
 export interface AppOptions {
   config: Config;
+  elasticsearch: Elasticsearch;
   i18n: I18n;
   mailerQueue: MailerQueue;
   scraperQueue: ScraperQueue;
+  indexerQueue: IndexerQueue;
   mongo: Db;
   parent: Express;
   redis: AugmentedRedis;

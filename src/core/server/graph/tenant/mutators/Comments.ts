@@ -32,6 +32,7 @@ export const Comments = (ctx: TenantContext) => ({
       create(
         ctx.mongo,
         ctx.redis,
+        ctx.indexerQueue,
         ctx.tenant,
         ctx.user!,
         { authorID: ctx.user!.id, ...comment },
@@ -49,6 +50,7 @@ export const Comments = (ctx: TenantContext) => ({
       edit(
         ctx.mongo,
         ctx.redis,
+        ctx.indexerQueue,
         ctx.tenant,
         ctx.user!,
         {
@@ -68,39 +70,67 @@ export const Comments = (ctx: TenantContext) => ({
     commentID,
     commentRevisionID,
   }: GQLCreateCommentReactionInput) =>
-    createReaction(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
-      commentID,
-      commentRevisionID,
-    }),
+    createReaction(
+      ctx.mongo,
+      ctx.redis,
+      ctx.indexerQueue,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+        commentRevisionID,
+      }
+    ),
   removeReaction: ({ commentID }: GQLRemoveCommentReactionInput) =>
-    removeReaction(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
-      commentID,
-    }),
+    removeReaction(
+      ctx.mongo,
+      ctx.redis,
+      ctx.indexerQueue,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+      }
+    ),
   createDontAgree: ({
     commentID,
     commentRevisionID,
     additionalDetails,
   }: GQLCreateCommentDontAgreeInput) =>
-    createDontAgree(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
-      commentID,
-      commentRevisionID,
-      // TODO: (wyattjoh) move this validation to the schema when bug is fixed: https://github.com/apollographql/graphql-tools/issues/842
-      additionalDetails: validateMaximumLength(
-        ADDITIONAL_DETAILS_MAX_LENGTH,
-        additionalDetails
-      ),
-    }),
+    createDontAgree(
+      ctx.mongo,
+      ctx.redis,
+      ctx.indexerQueue,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+        commentRevisionID,
+        // TODO: (wyattjoh) move this validation to the schema when bug is fixed: https://github.com/apollographql/graphql-tools/issues/842
+        additionalDetails: validateMaximumLength(
+          ADDITIONAL_DETAILS_MAX_LENGTH,
+          additionalDetails
+        ),
+      }
+    ),
   removeDontAgree: ({ commentID }: GQLRemoveCommentDontAgreeInput) =>
-    removeDontAgree(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
-      commentID,
-    }),
+    removeDontAgree(
+      ctx.mongo,
+      ctx.redis,
+      ctx.indexerQueue,
+      ctx.tenant,
+      ctx.user!,
+      {
+        commentID,
+      }
+    ),
   createFlag: ({
     commentID,
     commentRevisionID,
     reason,
     additionalDetails,
   }: GQLCreateCommentFlagInput) =>
-    createFlag(ctx.mongo, ctx.redis, ctx.tenant, ctx.user!, {
+    createFlag(ctx.mongo, ctx.redis, ctx.indexerQueue, ctx.tenant, ctx.user!, {
       commentID,
       commentRevisionID,
       reason,

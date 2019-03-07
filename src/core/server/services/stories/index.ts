@@ -21,6 +21,10 @@ import {
   removeStoryComments,
 } from "talk-server/models/comment";
 import {
+  deleteIndexedStory,
+  indexStory,
+} from "talk-server/models/search/story";
+import {
   calculateTotalCommentCount,
   createStory,
   CreateStoryInput,
@@ -38,9 +42,11 @@ import {
   UpdateStoryInput,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 import { ScraperQueue } from "talk-server/queue/tasks/scraper";
 import { scrape } from "talk-server/services/stories/scraper";
 
+import { Elasticsearch } from "../elasticsearch";
 import { AugmentedRedis } from "../redis";
 
 export type FindOrCreateStory = FindOrCreateStoryInput;
@@ -119,6 +125,7 @@ export function isURLPermitted(
 
 export async function remove(
   mongo: Db,
+  elasticsearch: Elasticsearch,
   tenant: Tenant,
   storyID: string,
   includeComments: boolean = false
@@ -157,6 +164,8 @@ export async function remove(
     );
 
     log.debug({ removedComments }, "removed comments while deleting story");
+
+    // FIXME: (wyattjoh) remove comments from Elasticsearch as well.
   } else if (calculateTotalCommentCount(story.commentCounts.status) > 0) {
     log.warn(
       "attempted to remove story that has linked comments without consent for deleting comments"
@@ -166,6 +175,7 @@ export async function remove(
     throw new Error("asset has comments, cannot remove");
   }
 
+  // Remove the story from MongoDB.
   const removedStory = await removeStory(mongo, tenant.id, story.id);
   if (!removedStory) {
     // Story was already removed.
@@ -173,15 +183,23 @@ export async function remove(
     return null;
   }
 
+  // Remove the story from Elasticsearch.
+  try {
+    await deleteIndexedStory(elasticsearch, story.id);
+  } catch (err) {
+    // FIXME: handle when indexing fails.
+  }
+
   log.debug("removed story");
 
   return removedStory;
 }
 
-export type CreateStory = CreateStoryInput;
+export type CreateStory = Pick<CreateStoryInput, "metadata">;
 
 export async function create(
   mongo: Db,
+  elasticsearch: Elasticsearch,
   tenant: Tenant,
   storyID: string,
   storyURL: string,
@@ -203,7 +221,7 @@ export async function create(
   if (!metadata) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!
-    newStory = await scrape(mongo, tenant.id, newStory.id);
+    newStory = await scrape(mongo, elasticsearch, tenant.id, newStory.id);
   }
 
   return newStory;
@@ -213,6 +231,7 @@ export type UpdateStory = UpdateStoryInput;
 
 export async function update(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
   storyID: string,
   input: UpdateStory
@@ -225,11 +244,21 @@ export async function update(
     });
   }
 
-  return updateStory(mongo, tenant.id, storyID, input);
+  const story = await updateStory(mongo, tenant.id, storyID, input);
+  if (story) {
+    await indexer.add({
+      tenantID: tenant.id,
+      documentID: story.id,
+      documentType: "story",
+    });
+  }
+
+  return story;
 }
 
 export async function merge(
   mongo: Db,
+  elasticsearch: Elasticsearch,
   redis: AugmentedRedis,
   tenant: Tenant,
   destinationID: string,
@@ -332,7 +361,22 @@ export async function merge(
   // Remove the stories from MongoDB.
   const { deletedCount } = await removeStories(mongo, tenant.id, sourceIDs);
 
+  // Remove the stories from ElasticSearch.
+  try {
+    await Promise.all(
+      sourceIDs.map(id => deleteIndexedStory(elasticsearch, id))
+    );
+  } catch (err) {
+    // FIXME: handle when indexing fails.
+  }
+
   log.debug({ deletedStories: deletedCount }, "deleted source stories");
+
+  try {
+    await indexStory(elasticsearch, destinationStory);
+  } catch (err) {
+    // FIXME: handle when indexing fails.
+  }
 
   // Return the story that had the other stories merged into.
   return destinationStory;

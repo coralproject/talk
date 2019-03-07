@@ -4,12 +4,14 @@ import now from "performance-now";
 
 import logger from "talk-server/logger";
 import Task from "talk-server/queue/Task";
+import { Elasticsearch } from "talk-server/services/elasticsearch";
 import { scrape } from "talk-server/services/stories/scraper";
 
 const JOB_NAME = "scraper";
 
 export interface ScrapeProcessorOptions {
   mongo: Db;
+  elasticsearch: Elasticsearch;
 }
 
 export interface ScraperData {
@@ -18,9 +20,10 @@ export interface ScraperData {
   tenantID: string;
 }
 
-const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
-  job: Job<ScraperData>
-) => {
+const createJobProcessor = ({
+  mongo,
+  elasticsearch,
+}: ScrapeProcessorOptions) => async (job: Job<ScraperData>) => {
   // Pull out the job data.
   const { storyID, storyURL, tenantID } = job.data;
 
@@ -38,8 +41,7 @@ const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
   log.debug("starting to scrape the story");
 
   try {
-    await scrape(mongo, tenantID, storyID, storyURL);
-    log.debug("scraped the story");
+    await scrape(mongo, elasticsearch, tenantID, storyID, storyURL);
   } catch (err) {
     log.error({ err }, "could not scrape the story");
 

@@ -39,6 +39,7 @@ import {
   UpsertUserInput,
   User,
 } from "talk-server/models/user";
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 
 import { JWTSigningConfig, signPATString } from "../jwt";
 
@@ -113,7 +114,12 @@ export type UpsertUser = UpsertUserInput;
  * @param tenant Tenant where the User will be added to
  * @param input the input for creating the User
  */
-export async function upsert(mongo: Db, tenant: Tenant, input: UpsertUser) {
+export async function upsert(
+  mongo: Db,
+  indexerQueue: IndexerQueue,
+  tenant: Tenant,
+  input: UpsertUser
+) {
   if (input.username) {
     validateUsername(tenant, input.username);
   }
@@ -136,6 +142,13 @@ export async function upsert(mongo: Db, tenant: Tenant, input: UpsertUser) {
 
   const user = await upsertUser(mongo, tenant.id, input);
 
+  // Add the user to the indexer job to be indexed.
+  await indexerQueue.add({
+    tenantID: tenant.id,
+    documentID: user.id,
+    documentType: "user",
+  });
+
   return user;
 }
 
@@ -150,18 +163,28 @@ export async function upsert(mongo: Db, tenant: Tenant, input: UpsertUser) {
  */
 export async function setUsername(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
-  user: User,
+  { id: userID, username: currentUsername }: Pick<User, "id" | "username">,
   username: string
 ) {
   // We require that the username is not defined in order to use this method.
-  if (user.username) {
+  if (currentUsername) {
     throw new UsernameAlreadySetError();
   }
 
   validateUsername(tenant, username);
 
-  return setUserUsername(mongo, tenant.id, user.id, username);
+  const user = await setUserUsername(mongo, tenant.id, userID, username);
+
+  // Add the user to the indexer job to be indexed.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: user.id,
+    documentType: "user",
+  });
+
+  return user;
 }
 
 /**
@@ -175,19 +198,29 @@ export async function setUsername(
  */
 export async function setEmail(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
-  user: User,
+  { id: userID, email: currentEmail }: Pick<User, "id" | "email">,
   email: string
 ) {
   // We requires that the email address is not defined in order to use this
   // method.
-  if (user.email) {
+  if (currentEmail) {
     throw new EmailAlreadySetError();
   }
 
   validateEmail(tenant, email);
 
-  return setUserEmail(mongo, tenant.id, user.id, email);
+  const user = await setUserEmail(mongo, tenant.id, userID, email);
+
+  // Add the user to the indexer job to be indexed.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: user.id,
+    documentType: "user",
+  });
+
+  return user;
 }
 
 /**
@@ -324,6 +357,7 @@ export async function deactivateToken(
  */
 export async function updateUsername(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
   userID: string,
   username: string
@@ -331,7 +365,16 @@ export async function updateUsername(
   // Validate the username.
   validateUsername(tenant, username);
 
-  return updateUserUsername(mongo, tenant.id, userID, username);
+  const user = await updateUserUsername(mongo, tenant.id, userID, username);
+
+  // Add the user to the indexer job to be indexed.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: user.id,
+    documentType: "user",
+  });
+
+  return user;
 }
 
 /**
@@ -344,11 +387,21 @@ export async function updateUsername(
  */
 export async function updateRole(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
   userID: string,
   role: GQLUSER_ROLE
 ) {
-  return updateUserRole(mongo, tenant.id, userID, role);
+  const user = await updateUserRole(mongo, tenant.id, userID, role);
+
+  // Add the user to the indexer job to be indexed.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: user.id,
+    documentType: "user",
+  });
+
+  return user;
 }
 
 /**
@@ -361,6 +414,7 @@ export async function updateRole(
  */
 export async function updateEmail(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
   userID: string,
   email: string
@@ -368,7 +422,16 @@ export async function updateEmail(
   // Validate the email address.
   validateEmail(tenant, email);
 
-  return updateUserEmail(mongo, tenant.id, userID, email);
+  const user = await updateUserEmail(mongo, tenant.id, userID, email);
+
+  // Add the user to the indexer job to be indexed.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: user.id,
+    documentType: "user",
+  });
+
+  return user;
 }
 
 /**
@@ -381,9 +444,19 @@ export async function updateEmail(
  */
 export async function updateAvatar(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
   userID: string,
   avatar?: string
 ) {
-  return updateUserAvatar(mongo, tenant.id, userID, avatar);
+  const user = await updateUserAvatar(mongo, tenant.id, userID, avatar);
+
+  // Add the user to the indexer job to be indexed.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: user.id,
+    documentType: "user",
+  });
+
+  return user;
 }

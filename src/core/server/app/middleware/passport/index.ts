@@ -31,7 +31,13 @@ export type VerifyCallback = (
 
 export type PassportOptions = Pick<
   AppOptions,
-  "mongo" | "redis" | "config" | "tenantCache" | "signingConfig"
+  | "mongo"
+  | "redis"
+  | "elasticsearch"
+  | "config"
+  | "indexerQueue"
+  | "tenantCache"
+  | "signingConfig"
 >;
 
 export function createPassport(

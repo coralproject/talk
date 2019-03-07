@@ -2,10 +2,11 @@
 
 ## Requirements
 
-- MongoDB >=3.6
-- Redis >=3.2
 - NodeJS >=10
 - NPM >=6.7
+- MongoDB >=3.6
+- Redis >=3.2
+- Elasticsearch >=6.6.1
 
 ## Running
 
@@ -26,8 +27,8 @@ have Docker and Docker Compose installed on your local machine:
 - Install Docker Compose: https://docs.docker.com/compose/install/ (this is typically included in the Docker Desktop editions already)
 
 ```bash
-# Create directories to persist the data in MongoDB and Redis.
-mkdir -p data/{mongo,redis}
+# Create directories to persist the data in MongoDB, Redis, and Elasticsearch.
+mkdir -p data/{mongo,redis,elasticsearch}
 
 # Create the `docker-compose.yml` file to get started.
 cat > docker-compose.yml <<EOF
@@ -47,12 +48,31 @@ services:
       - SIGNING_SECRET=<replace me with something secret>
   mongo:
     image: mongo:3.6
+    restart: always
     volumes:
       - ./data/mongo:/data/db
   redis:
     image: redis:3.2
+    restart: always
     volumes:
       - ./data/redis:/data
+  elasticsearch:
+    image: elasticsearch:6.6
+    restart: always
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+  # OPTIONAL Kibana Dashboard
+  # kibana:
+  #   image: kibana:6.6
+  #   restart: always
+  #   ports:
+  #     - "127.0.0.1:5601:5601"
+  #   environment:
+  #     - elasticsearch.url=http://elasticsearch:9200
+  #   depends_on:
+  #     - elasticsearch
 EOF
 
 # Start up Talk using Docker.
@@ -80,6 +100,7 @@ Running Talk with default settings assumes that you have:
 
 - MongoDB >=3.6 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
+- Elasticsearch >=6.6.1 running on `127.0.0.1:9200`
 
 If you don't already have these databases running, you can run the following
 assuming you have Docker installed on your local machine:
@@ -87,6 +108,11 @@ assuming you have Docker installed on your local machine:
 ```bash
 docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
+docker run -d -p 9200:9200 -p 9300:9300 --restart always --name elasticsearch -e "discovery.type=single-node" elasticsearch:6.6.1
+
+# To visualize the Elasticsearch Instance, run Kibana:
+docker run -d -p 5601:5601 --restart always --name kibana --link elasticsearch -e "elasticsearch.url=http://elasticsearch:9200" kibana:6.6.1
+# And visit http://localhost:5601/
 ```
 
 Then start Talk with:
@@ -110,6 +136,8 @@ The following environment variables can be set to configure the Talk Server:
   (Default `mongodb://127.0.0.1:27017/talk`)
 - `REDIS_URI` - The Redis database URI to connect to.
   (Default `redis://127.0.0.1:6379`)
+- `ELASTICSEARCH_URI` - The Elasticsearch database URI to connect to.
+  (Default `http://127.0.0.1:9200`)
 - `SIGNING_SECRET` - The shared secret to use to sign JSON Web Tokens (JWT) with
   the selected signing algorithm. (Default: `keyboard cat`)
 - `SIGNING_ALGORITHM` - The signing algorithm to use for signing JWT's.

@@ -9,6 +9,7 @@ import {
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { retrieveUserWithProfile, SSOProfile } from "talk-server/models/user";
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 import { upsert } from "talk-server/services/users";
 
 export interface SSOStrategyOptions {
@@ -38,6 +39,7 @@ export const SSOUserProfileSchema = Joi.object()
 
 export async function findOrCreateSSOUser(
   mongo: Db,
+  indexer: IndexerQueue,
   tenant: Tenant,
   integration: GQLSSOAuthIntegration,
   token: SSOToken
@@ -69,7 +71,7 @@ export async function findOrCreateSSOUser(
     // FIXME: (wyattjoh) implement rules! Not all users should be able to create an account via this method.
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(mongo, tenant, {
+    user = await upsert(mongo, indexer, tenant, {
       username,
       role: GQLUSER_ROLE.COMMENTER,
       email,
@@ -107,13 +109,16 @@ export function isSSOToken(token: SSOToken | object): token is SSOToken {
 
 export interface SSOVerifierOptions {
   mongo: Db;
+  indexerQueue: IndexerQueue;
 }
 
 export class SSOVerifier {
   private mongo: Db;
+  private indexerQueue: IndexerQueue;
 
-  constructor({ mongo }: SSOVerifierOptions) {
+  constructor({ mongo, indexerQueue }: SSOVerifierOptions) {
     this.mongo = mongo;
+    this.indexerQueue = indexerQueue;
   }
 
   public supports(token: SSOToken | object, tenant: Tenant): token is SSOToken {
@@ -138,6 +143,12 @@ export class SSOVerifier {
       algorithms: ["HS256"], // TODO: (wyattjoh) investigate replacing algorithm.
     });
 
-    return findOrCreateSSOUser(this.mongo, tenant, integration, token);
+    return findOrCreateSSOUser(
+      this.mongo,
+      this.indexerQueue,
+      tenant,
+      integration,
+      token
+    );
   }
 }

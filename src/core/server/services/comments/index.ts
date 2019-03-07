@@ -26,6 +26,7 @@ import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
@@ -39,6 +40,7 @@ export type CreateComment = Omit<
 export async function create(
   mongo: Db,
   redis: AugmentedRedis,
+  indexer: IndexerQueue,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -180,6 +182,13 @@ export async function create(
   // Increment the status count for the particular status on the Story.
   await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
+  // Index the Comment in Elasticsearch.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: comment.id,
+    documentType: "comment",
+  });
+
   return comment;
 }
 
@@ -191,6 +200,7 @@ export type EditComment = Omit<
 export async function edit(
   mongo: Db,
   redis: AugmentedRedis,
+  indexer: IndexerQueue,
   tenant: Tenant,
   author: User,
   input: EditComment,
@@ -326,6 +336,13 @@ export async function edit(
 
   // Update the story counts as a result.
   await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
+
+  // Index the Comment in Elasticsearch.
+  await indexer.add({
+    tenantID: tenant.id,
+    documentID: editedComment.id,
+    documentType: "comment",
+  });
 
   return editedComment;
 }

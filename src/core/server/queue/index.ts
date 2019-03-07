@@ -7,8 +7,10 @@ import {
   createScraperTask,
   ScraperQueue,
 } from "talk-server/queue/tasks/scraper";
+import { Elasticsearch } from "talk-server/services/elasticsearch";
 import { createRedisClient } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
+import { createIndexerTask, IndexerQueue } from "./tasks/indexer";
 
 const createQueueOptions = async (
   config: Config
@@ -42,6 +44,7 @@ const createQueueOptions = async (
 
 export interface QueueOptions {
   mongo: Db;
+  elasticsearch: Elasticsearch;
   config: Config;
   tenantCache: TenantCache;
 }
@@ -49,6 +52,7 @@ export interface QueueOptions {
 export interface TaskQueue {
   mailer: MailerQueue;
   scraper: ScraperQueue;
+  indexer: IndexerQueue;
 }
 
 export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
@@ -59,10 +63,12 @@ export async function createQueue(options: QueueOptions): Promise<TaskQueue> {
   // Attach process functions to the various tasks in the queue.
   const mailer = createMailerTask(queueOptions, options);
   const scraper = createScraperTask(queueOptions, options);
+  const indexer = createIndexerTask(queueOptions, options);
 
   // Return the tasks + client.
   return {
     mailer,
     scraper,
+    indexer,
   };
 }

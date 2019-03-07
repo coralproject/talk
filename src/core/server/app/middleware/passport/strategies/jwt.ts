@@ -18,7 +18,7 @@ import { Request } from "talk-server/types/express";
 
 export type JWTStrategyOptions = Pick<
   AppOptions,
-  "signingConfig" | "mongo" | "redis"
+  "signingConfig" | "mongo" | "redis" | "indexerQueue"
 >;
 
 /**

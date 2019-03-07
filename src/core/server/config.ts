@@ -102,6 +102,14 @@ const config = convict({
     arg: "redis",
     sensitive: true,
   },
+  elasticsearch: {
+    doc: "The Elasticsearch database to connect to.",
+    format: "url",
+    default: "http://127.0.0.1:9200",
+    env: "ELASTICSEARCH_URI",
+    arg: "elasticsearch",
+    sensitive: true,
+  },
   signing_secret: {
     doc: "",
     format: "*",

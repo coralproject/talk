@@ -8,8 +8,10 @@ import {
   CreateCommentModerationActionInput,
 } from "talk-server/models/action/moderation/comment";
 import { updateCommentStatus } from "talk-server/models/comment";
+import { indexComment } from "talk-server/models/search/comment";
 import { updateStoryCounts } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
+import { Elasticsearch } from "talk-server/services/elasticsearch";
 import { AugmentedRedis } from "talk-server/services/redis";
 import { calculateCountsDiff } from "./counts";
 
@@ -20,6 +22,7 @@ const moderate = (
 ) => async (
   mongo: Db,
   redis: AugmentedRedis,
+  elasticsearch: Elasticsearch,
   tenant: Tenant,
   input: Moderate
 ) => {
@@ -94,6 +97,12 @@ const moderate = (
   }
 
   log.trace({ oldStatus: result.oldStatus }, "adjusted story comment counts");
+
+  try {
+    await indexComment(elasticsearch, result.comment);
+  } catch (err) {
+    log.error({ err, commentID: result.comment.id }, "could not index comment");
+  }
 
   return result.comment;
 };

@@ -7,6 +7,7 @@ import { Config } from "talk-server/config";
 import { AuthIntegrations } from "talk-server/models/settings";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 import TenantCache from "talk-server/services/tenant/cache";
 import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
 import { Request } from "talk-server/types/express";
@@ -20,6 +21,7 @@ interface OAuth2Integration {
 export interface OAuth2StrategyOptions {
   config: Config;
   mongo: Db;
+  indexerQueue: IndexerQueue;
   tenantCache: TenantCache;
   authenticateOptions?: Record<string, any>;
 }
@@ -30,12 +32,14 @@ export default abstract class OAuth2Strategy<
 > extends Strategy {
   protected config: Config;
   protected mongo: Db;
+  protected indexerQueue: IndexerQueue;
   protected cache: TenantCacheAdapter<U>;
   private authenticateOptions: Record<string, any>;
 
   constructor({
     config,
     mongo,
+    indexerQueue,
     tenantCache,
     authenticateOptions,
   }: OAuth2StrategyOptions) {
@@ -43,6 +47,7 @@ export default abstract class OAuth2Strategy<
 
     this.config = config;
     this.mongo = mongo;
+    this.indexerQueue = indexerQueue;
     this.cache = new TenantCacheAdapter(tenantCache);
     this.authenticateOptions = authenticateOptions || {};
   }

@@ -9,6 +9,7 @@ import { Config } from "talk-server/config";
 import { TenantInstalledAlreadyError } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
+import { IndexerQueue } from "talk-server/queue/tasks/indexer";
 import { install, InstallTenant } from "talk-server/services/tenant";
 import { upsert, UpsertUser } from "talk-server/services/users";
 import { RequestHandler } from "talk-server/types/express";
@@ -54,12 +55,14 @@ const TenantInstallBodySchema = Joi.object().keys({
 export interface TenantInstallHandlerOptions {
   redis: Redis;
   mongo: Db;
+  indexerQueue: IndexerQueue;
   config: Config;
 }
 
 export const installHandler = ({
   mongo,
   redis,
+  indexerQueue,
   config,
 }: TenantInstallHandlerOptions): RequestHandler => async (req, res, next) => {
   try {
@@ -111,7 +114,7 @@ export const installHandler = ({
     };
 
     // Create the first admin user.
-    await upsert(mongo, tenant, {
+    await upsert(mongo, indexerQueue, tenant, {
       email,
       username,
       profiles: [profile],

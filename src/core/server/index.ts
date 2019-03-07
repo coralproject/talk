@@ -9,6 +9,10 @@ import config, { Config } from "talk-server/config";
 import getTenantSchema from "talk-server/graph/tenant/schema";
 import logger from "talk-server/logger";
 import { createQueue, TaskQueue } from "talk-server/queue";
+import {
+  createElasticsearchClient,
+  Elasticsearch,
+} from "talk-server/services/elasticsearch";
 import { I18n } from "talk-server/services/i18n";
 import { createJWTSigningConfig } from "talk-server/services/jwt";
 import { createMongoDB } from "talk-server/services/mongodb";
@@ -53,6 +57,9 @@ class Server {
   // mongo stores the mongo connection used by the application.
   private mongo: Db;
 
+  // elasticsearch stores the elasticsearch connection used by the application.
+  private elasticsearch: Elasticsearch;
+
   // tenantCache stores the tenant cache used by the application.
   private tenantCache: TenantCache;
 
@@ -92,6 +99,9 @@ class Server {
     // Setup Redis.
     this.redis = await createAugmentedRedisClient(config);
 
+    // Setup Elasticsearch.
+    this.elasticsearch = await createElasticsearchClient(config);
+
     // Create the TenantCache.
     this.tenantCache = new TenantCache(
       this.mongo,
@@ -106,6 +116,7 @@ class Server {
     this.tasks = await createQueue({
       config: this.config,
       mongo: this.mongo,
+      elasticsearch: this.elasticsearch,
       tenantCache: this.tenantCache,
     });
   }
@@ -129,6 +140,7 @@ class Server {
     // Launch all of the job processors.
     this.tasks.mailer.process();
     this.tasks.scraper.process();
+    this.tasks.indexer.process();
   }
 
   /**
@@ -164,6 +176,7 @@ class Server {
       parent,
       mongo: this.mongo,
       redis: this.redis,
+      elasticsearch: this.elasticsearch,
       signingConfig,
       tenantCache: this.tenantCache,
       config: this.config,
@@ -171,6 +184,7 @@ class Server {
       i18n,
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
+      indexerQueue: this.tasks.indexer,
     });
 
     // Start the application and store the resulting http.Server. The server

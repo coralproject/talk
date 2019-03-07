@@ -11,6 +11,8 @@ import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/
 import logger from "talk-server/logger";
 import { retrieveStory, updateStory } from "talk-server/models/story";
 
+import { indexStory } from "talk-server/models/search/story";
+import { Elasticsearch } from "talk-server/services/elasticsearch";
 import { modifiedScraper } from "./rules/modified";
 import { sectionScraper } from "./rules/section";
 
@@ -113,6 +115,7 @@ export const scraper = createScraper();
 
 export async function scrape(
   mongo: Db,
+  elasticsearch: Elasticsearch,
   tenantID: string,
   storyID: string,
   storyURL?: string
@@ -141,6 +144,12 @@ export async function scrape(
   });
   if (!story) {
     throw new Error("story at specified id not found");
+  }
+
+  try {
+    await indexStory(elasticsearch, story);
+  } catch (err) {
+    logger.error({ err, storyID: story.id }, "could not index the story");
   }
 
   return story;

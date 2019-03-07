@@ -70,7 +70,7 @@ export default class GoogleStrategy extends OAuth2Strategy<
         emailVerified = false;
       }
 
-      user = await upsert(this.mongo, tenant, {
+      user = await upsert(this.mongo, this.indexerQueue, tenant, {
         username: displayName,
         role: GQLUSER_ROLE.COMMENTER,
         email,

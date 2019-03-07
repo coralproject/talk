@@ -19,6 +19,7 @@ export const Stories = (ctx: TenantContext) => ({
     mapFieldsetToErrorCodes(
       create(
         ctx.mongo,
+        ctx.elasticsearch,
         ctx.tenant,
         input.story.id,
         input.story.url,
@@ -33,7 +34,13 @@ export const Stories = (ctx: TenantContext) => ({
     ),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
-      update(ctx.mongo, ctx.tenant, input.id, omitBy(input.story, isNull)),
+      update(
+        ctx.mongo,
+        ctx.indexerQueue,
+        ctx.tenant,
+        input.id,
+        omitBy(input.story, isNull)
+      ),
       {
         "input.story.url": [
           ERROR_CODES.STORY_URL_NOT_PERMITTED,
@@ -44,13 +51,20 @@ export const Stories = (ctx: TenantContext) => ({
   merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
     merge(
       ctx.mongo,
+      ctx.elasticsearch,
       ctx.redis,
       ctx.tenant,
       input.destinationID,
       input.sourceIDs
     ),
   remove: async (input: GQLRemoveStoryInput): Promise<Readonly<Story> | null> =>
-    remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
+    remove(
+      ctx.mongo,
+      ctx.elasticsearch,
+      ctx.tenant,
+      input.id,
+      input.includeComments
+    ),
   scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
-    scrape(ctx.mongo, ctx.tenant.id, input.id),
+    scrape(ctx.mongo, ctx.elasticsearch, ctx.tenant.id, input.id),
 });
