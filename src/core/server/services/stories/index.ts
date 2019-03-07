@@ -38,8 +38,7 @@ import {
   UpdateStoryInput,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
-import Task from "talk-server/queue/Task";
-import { ScraperData } from "talk-server/queue/tasks/scraper";
+import { ScraperQueue } from "talk-server/queue/tasks/scraper";
 import { scrape } from "talk-server/services/stories/scraper";
 
 import { AugmentedRedis } from "../redis";
@@ -47,10 +46,10 @@ import { AugmentedRedis } from "../redis";
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
 export async function findOrCreate(
-  db: Db,
+  mongo: Db,
   tenant: Tenant,
   input: FindOrCreateStory,
-  scraper: Task<ScraperData>
+  scraper: ScraperQueue
 ) {
   // If the URL is provided, and the url is not on a allowed domain, then refuse
   // to create the Asset.
@@ -63,7 +62,7 @@ export async function findOrCreate(
 
   // TODO: check to see if the tenant has enabled lazy story creation, if they haven't, switch to find only.
 
-  const story = await findOrCreateStory(db, tenant.id, input);
+  const story = await findOrCreateStory(mongo, tenant.id, input);
   if (!story) {
     return null;
   }
@@ -186,16 +185,22 @@ export async function create(
   tenant: Tenant,
   storyID: string,
   storyURL: string,
-  input: CreateStory
+  { metadata }: CreateStory
 ) {
   // Ensure that the given URL is allowed.
   if (!isURLPermitted(tenant, storyURL)) {
     throw new StoryURLInvalidError({ storyURL, tenantDomains: tenant.domains });
   }
 
+  // Construct the input payload.
+  const input: CreateStoryInput = { metadata };
+  if (metadata) {
+    input.scrapedAt = new Date();
+  }
+
   // Create the story in the database.
   let newStory = await createStory(mongo, tenant.id, storyID, storyURL, input);
-  if (!input.metadata && !newStory.scrapedAt) {
+  if (!metadata) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!
     newStory = await scrape(mongo, tenant.id, newStory.id);
@@ -324,6 +329,7 @@ export async function merge(
     "updated destination story with new comment counts"
   );
 
+  // Remove the stories from MongoDB.
   const { deletedCount } = await removeStories(mongo, tenant.id, sourceIDs);
 
   log.debug({ deletedStories: deletedCount }, "deleted source stories");

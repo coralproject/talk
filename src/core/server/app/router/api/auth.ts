@@ -33,7 +33,7 @@ export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
   const router = express.Router();
 
   // Mount the logout handler.
-  router.delete("/", logoutHandler({ redis: app.redis }));
+  router.delete("/", logoutHandler(app));
 
   // Mount the Local Authentication handlers.
   router.post(
@@ -41,11 +41,7 @@ export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     express.json(),
     wrapAuthn(options.passport, app.signingConfig, "local")
   );
-  router.post(
-    "/local/signup",
-    express.json(),
-    signupHandler({ db: app.mongo, signingConfig: app.signingConfig })
-  );
+  router.post("/local/signup", express.json(), signupHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
   wrapPath(app, options, router, "facebook");

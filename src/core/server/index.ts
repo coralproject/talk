@@ -13,10 +13,17 @@ import { I18n } from "talk-server/services/i18n";
 import { createJWTSigningConfig } from "talk-server/services/jwt";
 import { createMongoDB } from "talk-server/services/mongodb";
 import { ensureIndexes } from "talk-server/services/mongodb/indexes";
-import { AugmentedRedis, createRedisClient } from "talk-server/services/redis";
+import {
+  AugmentedRedis,
+  createAugmentedRedisClient,
+  createRedisClient,
+} from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 
 export interface ServerOptions {
+  /**
+   * config when specified will specify the configuration to load.
+   */
   config?: Config;
 }
 
@@ -37,8 +44,8 @@ class Server {
   // the requested port.
   public httpServer: http.Server;
 
-  // queue stores a reference to the queues that can process operations.
-  private queue: TaskQueue;
+  // tasks stores a reference to the queues that can process operations.
+  private tasks: TaskQueue;
 
   // redis stores the redis connection used by the application.
   private redis: AugmentedRedis;
@@ -68,6 +75,10 @@ class Server {
     this.schema = getTenantSchema();
   }
 
+  /**
+   * connect will connect to all the databases and start priming data needed for
+   * runtime.
+   */
   public async connect() {
     // Guard against double connecting.
     if (this.connected) {
@@ -79,12 +90,12 @@ class Server {
     this.mongo = await createMongoDB(config);
 
     // Setup Redis.
-    this.redis = await createRedisClient(config);
+    this.redis = await createAugmentedRedisClient(config);
 
     // Create the TenantCache.
     this.tenantCache = new TenantCache(
       this.mongo,
-      await createRedisClient(this.config),
+      createRedisClient(this.config),
       config
     );
 
@@ -92,7 +103,7 @@ class Server {
     await this.tenantCache.primeAll();
 
     // Create the Job Queue.
-    this.queue = await createQueue({
+    this.tasks = await createQueue({
       config: this.config,
       mongo: this.mongo,
       tenantCache: this.tenantCache,
@@ -115,8 +126,9 @@ class Server {
       await ensureIndexes(this.mongo);
     }
 
-    this.queue.mailer.process();
-    this.queue.scraper.process();
+    // Launch all of the job processors.
+    this.tasks.mailer.process();
+    this.tasks.scraper.process();
   }
 
   /**
@@ -149,18 +161,21 @@ class Server {
 
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
+      // Tasks are merged into the application as top level providers.
+      ...this.tasks,
       parent,
       mongo: this.mongo,
       redis: this.redis,
       signingConfig,
       tenantCache: this.tenantCache,
-      queue: this.queue,
       config: this.config,
       schema: this.schema,
       i18n,
     });
 
-    // Start the application and store the resulting http.Server.
+    // Start the application and store the resulting http.Server. The server
+    // will return when the server starts listening. The NodeJS application will
+    // not exit until all tasks are handled, which for an open socket, is never.
     this.httpServer = await listenAndServe(app, port);
 
     // TODO: (wyattjoh) add the subscription handler here

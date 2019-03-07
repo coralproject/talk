@@ -14,8 +14,8 @@ import Query, {
 } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
-function collection(db: Db) {
-  return db.collection<Readonly<CommentModerationAction>>(
+function collection(mongo: Db) {
+  return mongo.collection<Readonly<CommentModerationAction>>(
     "commentModerationActions"
   );
 }

@@ -1,5 +1,6 @@
 import Queue, { Job } from "bull";
 import { Db } from "mongodb";
+import now from "performance-now";
 
 import logger from "talk-server/logger";
 import Task from "talk-server/queue/Task";
@@ -31,6 +32,9 @@ const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
     tenantID,
   });
 
+  // Mark the start time.
+  const startTime = now();
+
   log.debug("starting to scrape the story");
 
   try {
@@ -41,7 +45,14 @@ const createJobProcessor = ({ mongo }: ScrapeProcessorOptions) => async (
 
     throw err;
   }
+
+  // Compute the end time.
+  const responseTime = Math.round(now() - startTime);
+
+  log.debug({ responseTime }, "scraped the story");
 };
+
+export type ScraperQueue = Task<ScraperData>;
 
 export function createScraperTask(
   queue: Queue.QueueOptions,

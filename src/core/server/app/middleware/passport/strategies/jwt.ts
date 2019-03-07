@@ -1,8 +1,7 @@
-import { Redis } from "ioredis";
 import jwt from "jsonwebtoken";
-import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
 
+import { AppOptions } from "talk-server/app";
 import {
   JWTToken,
   JWTVerifier,
@@ -14,17 +13,13 @@ import {
 import { TenantNotFoundError, TokenInvalidError } from "talk-server/errors";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
-import {
-  extractJWTFromRequest,
-  JWTSigningConfig,
-} from "talk-server/services/jwt";
+import { extractJWTFromRequest } from "talk-server/services/jwt";
 import { Request } from "talk-server/types/express";
 
-export interface JWTStrategyOptions {
-  signingConfig: JWTSigningConfig;
-  mongo: Db;
-  redis: Redis;
-}
+export type JWTStrategyOptions = Pick<
+  AppOptions,
+  "signingConfig" | "mongo" | "redis"
+>;
 
 /**
  * Token is the various forms of the Token that can be verified.

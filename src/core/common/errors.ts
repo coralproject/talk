@@ -7,10 +7,12 @@ export enum ERROR_CODES {
    * STORY_CLOSED is used when submitting a comment on a closed story.
    */
   STORY_CLOSED = "STORY_CLOSED",
+
   /**
    * COMMENTING_DISABLED is used when submitting a comment while commenting has been disabled.
    */
   COMMENTING_DISABLED = "COMMENTING_DISABLED",
+
   /**
    * COMMENT_BODY_TOO_SHORT is used when a submitted comment body is too short.
    */
@@ -160,4 +162,16 @@ export enum ERROR_CODES {
    * they are not entitled to.
    */
   USER_NOT_ENTITLED = "USER_NOT_ENTITLED",
+
+  /**
+   * STORY_NOT_FOUND is returned when a Story can not be found with the given
+   * ID.
+   */
+  STORY_NOT_FOUND = "STORY_NOT_FOUND",
+
+  /**
+   * COMMENT_NOT_FOUND is returned when a Comment can not be found with the
+   * given ID.
+   */
+  COMMENT_NOT_FOUND = "COMMENT_NOT_FOUND",
 }

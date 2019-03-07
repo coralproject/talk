@@ -137,7 +137,7 @@ export interface MailerInput {
   tenantID: string;
 }
 
-export class Mailer {
+export class MailerQueue {
   private task: Task<MailerData>;
   private content: MailerContent;
   private tenantCache: TenantCache;
@@ -205,4 +205,4 @@ export class Mailer {
 export const createMailerTask = (
   queue: Queue.QueueOptions,
   options: MailProcessorOptions
-) => new Mailer(queue, options);
+) => new MailerQueue(queue, options);

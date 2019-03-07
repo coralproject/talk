@@ -125,6 +125,11 @@ export interface Comment extends TenantResource {
   replyCount: number;
 
   /**
+   * metadata stores the deep Comment properties.
+   */
+  metadata?: Record<string, any>;
+
+  /**
    * createdAt is the date that this Comment was created.
    */
   createdAt: Date;
@@ -134,11 +139,6 @@ export interface Comment extends TenantResource {
    * undefined, this Comment is not deleted.
    */
   deletedAt?: Date;
-
-  /**
-   * metadata stores the deep Comment properties.
-   */
-  metadata?: Record<string, any>;
 }
 
 export async function createCommentIndexes(mongo: Db) {

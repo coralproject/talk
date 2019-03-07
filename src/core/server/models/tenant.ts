@@ -9,8 +9,8 @@ import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated_
 import { createIndexFactory } from "talk-server/models/helpers/query";
 import { Settings } from "talk-server/models/settings";
 
-function collection(db: Db) {
-  return db.collection<Readonly<Tenant>>("tenants");
+function collection(mongo: Db) {
+  return mongo.collection<Readonly<Tenant>>("tenants");
 }
 
 export interface TenantResource {
@@ -197,16 +197,16 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
   return tenant;
 }
 
-export async function retrieveTenantByDomain(db: Db, domain: string) {
-  return collection(db).findOne({ domain });
+export async function retrieveTenantByDomain(mongo: Db, domain: string) {
+  return collection(mongo).findOne({ domain });
 }
 
-export async function retrieveTenant(db: Db, id: string) {
-  return collection(db).findOne({ id });
+export async function retrieveTenant(mongo: Db, id: string) {
+  return collection(mongo).findOne({ id });
 }
 
-export async function retrieveManyTenants(db: Db, ids: string[]) {
-  const cursor = await collection(db).find({
+export async function retrieveManyTenants(mongo: Db, ids: string[]) {
+  const cursor = await collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -217,8 +217,11 @@ export async function retrieveManyTenants(db: Db, ids: string[]) {
   return ids.map(id => tenants.find(tenant => tenant.id === id) || null);
 }
 
-export async function retrieveManyTenantsByDomain(db: Db, domains: string[]) {
-  const cursor = await collection(db).find({
+export async function retrieveManyTenantsByDomain(
+  mongo: Db,
+  domains: string[]
+) {
+  const cursor = await collection(mongo).find({
     domain: {
       $in: domains,
     },
@@ -231,8 +234,8 @@ export async function retrieveManyTenantsByDomain(db: Db, domains: string[]) {
   );
 }
 
-export async function retrieveAllTenants(db: Db) {
-  return collection(db)
+export async function retrieveAllTenants(mongo: Db) {
+  return collection(mongo)
     .find({})
     .toArray();
 }
@@ -246,12 +249,12 @@ export async function countTenants(mongo: Db) {
 export type UpdateTenantInput = Omit<DeepPartial<Tenant>, "id" | "domain">;
 
 export async function updateTenant(
-  db: Db,
+  mongo: Db,
   id: string,
   update: UpdateTenantInput
 ) {
   // Get the tenant from the database.
-  const result = await collection(db).findOneAndUpdate(
+  const result = await collection(mongo).findOneAndUpdate(
     { id },
     // Only update fields that have been updated.
     { $set: dotize(update, { embedArrays: true }) },
@@ -276,7 +279,7 @@ function generateSSOKey() {
  * for the specified Tenant. All existing user sessions signed with the old
  * secret will be invalidated.
  */
-export async function regenerateTenantSSOKey(db: Db, id: string) {
+export async function regenerateTenantSSOKey(mongo: Db, id: string) {
   // Construct the update.
   const update: DeepPartial<Tenant> = {
     auth: {
@@ -290,7 +293,7 @@ export async function regenerateTenantSSOKey(db: Db, id: string) {
   };
 
   // Update the Tenant with this new key.
-  const result = await collection(db).findOneAndUpdate(
+  const result = await collection(mongo).findOneAndUpdate(
     { id },
     // Serialize the deep update into the Tenant.
     {

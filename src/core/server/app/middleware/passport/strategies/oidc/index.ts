@@ -133,7 +133,7 @@ export const OIDCIDTokenSchema = Joi.object()
   ]);
 
 export async function findOrCreateOIDCUser(
-  db: Db,
+  mongo: Db,
   tenant: Tenant,
   integration: GQLOIDCAuthIntegration,
   token: OIDCIDToken
@@ -160,7 +160,7 @@ export async function findOrCreateOIDCUser(
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(db, tenant.id, {
+  let user = await retrieveUserWithProfile(mongo, tenant.id, {
     // NOTE: (wyattjoh) as the current requirements do not allow multiple OIDC integrations, we are only getting the profile based on the OIDC provider.
     type: "oidc",
     id: sub,
@@ -177,7 +177,7 @@ export async function findOrCreateOIDCUser(
     const username = preferred_username || nickname || name;
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(db, tenant, {
+    user = await upsert(mongo, tenant, {
       username,
       role: GQLUSER_ROLE.COMMENTER,
       email,

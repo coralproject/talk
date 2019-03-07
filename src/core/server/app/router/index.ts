@@ -14,7 +14,7 @@ import Entrypoints from "../helpers/entrypoints";
 import { createAPIRouter } from "./api";
 import { createClientTargetRouter } from "./client";
 
-export async function createRouter(app: AppOptions, options: RouterOptions) {
+export function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
 

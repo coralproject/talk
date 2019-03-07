@@ -47,8 +47,8 @@ const commentCountsModerationQueueQueuesKey = (tenantID: string) =>
  * collection provides a reference to the stories collection used by the
  * counting system.
  */
-function collection<T = Story>(db: Db) {
-  return db.collection<Readonly<T>>("stories");
+function collection<T = Story>(mongo: Db) {
+  return mongo.collection<Readonly<T>>("stories");
 }
 
 /**

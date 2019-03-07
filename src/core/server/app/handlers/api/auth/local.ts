@@ -1,8 +1,7 @@
 import { RequestHandler } from "express";
-import { Redis } from "ioredis";
 import Joi from "joi";
-import { Db } from "mongodb";
 
+import { AppOptions } from "talk-server/app";
 import {
   handleLogout,
   handleSuccessfulLogin,
@@ -10,7 +9,6 @@ import {
 import { validate } from "talk-server/app/request/body";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
-import { JWTSigningConfig } from "talk-server/services/jwt";
 import { upsert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
@@ -29,16 +27,12 @@ export const SignupBodySchema = Joi.object().keys({
     .email(),
 });
 
-export interface SignupOptions {
-  db: Db;
-  signingConfig: JWTSigningConfig;
-}
+export type SignupOptions = Pick<AppOptions, "mongo" | "signingConfig">;
 
-export const signupHandler = (options: SignupOptions): RequestHandler => async (
-  req: Request,
-  res,
-  next
-) => {
+export const signupHandler = ({
+  mongo,
+  signingConfig,
+}: SignupOptions): RequestHandler => async (req: Request, res, next) => {
   try {
     // TODO: rate limit based on the IP address and user agent.
 
@@ -71,7 +65,7 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
     };
 
     // Create the new user.
-    const user = await upsert(options.db, tenant, {
+    const user = await upsert(mongo, tenant, {
       email,
       username,
       profiles: [profile],
@@ -81,21 +75,17 @@ export const signupHandler = (options: SignupOptions): RequestHandler => async (
     });
 
     // Send off to the passport handler.
-    return handleSuccessfulLogin(user, options.signingConfig, req, res, next);
+    return handleSuccessfulLogin(user, signingConfig, req, res, next);
   } catch (err) {
     return next(err);
   }
 };
 
-export interface LogoutOptions {
-  redis: Redis;
-}
+export type LogoutOptions = Pick<AppOptions, "redis">;
 
-export const logoutHandler = (options: LogoutOptions): RequestHandler => async (
-  req: Request,
-  res,
-  next
-) => {
+export const logoutHandler = ({
+  redis,
+}: LogoutOptions): RequestHandler => async (req: Request, res, next) => {
   try {
     // TODO: rate limit based on the IP address and user agent.
 
@@ -117,7 +107,7 @@ export const logoutHandler = (options: LogoutOptions): RequestHandler => async (
     }
 
     // Delegate to the logout handler.
-    return handleLogout(options.redis, req, res);
+    return handleLogout(redis, req, res);
   } catch (err) {
     return next(err);
   }

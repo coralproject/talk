@@ -360,6 +360,21 @@ export class UserNotFoundError extends TalkError {
   }
 }
 
+export class StoryNotFoundError extends TalkError {
+  constructor(storyID: string) {
+    super({ code: ERROR_CODES.STORY_NOT_FOUND, context: { pvt: { storyID } } });
+  }
+}
+
+export class CommentNotFoundError extends TalkError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.COMMENT_NOT_FOUND,
+      context: { pvt: { commentID } },
+    });
+  }
+}
+
 export class TenantNotFoundError extends TalkError {
   constructor(hostname: string) {
     super({

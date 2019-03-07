@@ -37,7 +37,7 @@ export const SSOUserProfileSchema = Joi.object()
   .optionalKeys(["avatar", "displayName"]);
 
 export async function findOrCreateSSOUser(
-  db: Db,
+  mongo: Db,
   tenant: Tenant,
   integration: GQLSSOAuthIntegration,
   token: SSOToken
@@ -59,7 +59,7 @@ export async function findOrCreateSSOUser(
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(db, tenant.id, profile);
+  let user = await retrieveUserWithProfile(mongo, tenant.id, profile);
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.
@@ -69,7 +69,7 @@ export async function findOrCreateSSOUser(
     // FIXME: (wyattjoh) implement rules! Not all users should be able to create an account via this method.
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(db, tenant, {
+    user = await upsert(mongo, tenant, {
       username,
       role: GQLUSER_ROLE.COMMENTER,
       email,

@@ -12,7 +12,8 @@ import { HTMLErrorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { Config } from "talk-server/config";
-import { TaskQueue } from "talk-server/queue";
+import { MailerQueue } from "talk-server/queue/tasks/mailer";
+import { ScraperQueue } from "talk-server/queue/tasks/scraper";
 import { I18n } from "talk-server/services/i18n";
 import { JWTSigningConfig } from "talk-server/services/jwt";
 import { AugmentedRedis } from "talk-server/services/redis";
@@ -23,15 +24,16 @@ import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
 export interface AppOptions {
-  parent: Express;
-  queue: TaskQueue;
   config: Config;
+  i18n: I18n;
+  mailer: MailerQueue;
   mongo: Db;
+  parent: Express;
   redis: AugmentedRedis;
   schema: GraphQLSchema;
+  scraper: ScraperQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
-  i18n: I18n;
 }
 
 /**
@@ -51,12 +53,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   const passport = createPassport(options);
 
   // Mount the router.
-  parent.use(
-    "/",
-    await createRouter(options, {
-      passport,
-    })
-  );
+  parent.use("/", createRouter(options, { passport }));
 
   // Enable CORS headers for media assets, font's require them.
   parent.use("/assets/media", cors());

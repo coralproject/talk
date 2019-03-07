@@ -17,8 +17,8 @@ import {
 } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
-function collection(db: Db) {
-  return db.collection<Readonly<CommentAction>>("commentActions");
+function collection(mongo: Db) {
+  return mongo.collection<Readonly<CommentAction>>("commentActions");
 }
 
 export enum ACTION_TYPE {

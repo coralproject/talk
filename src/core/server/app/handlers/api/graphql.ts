@@ -1,36 +1,27 @@
-import { GraphQLSchema } from "graphql";
-import { Db } from "mongodb";
-
+import { AppOptions } from "talk-server/app";
 import {
   graphqlBatchMiddleware,
   graphqlMiddleware,
 } from "talk-server/app/middleware/graphql";
-import { Config } from "talk-server/config";
 import TenantContext from "talk-server/graph/tenant/context";
-import { TaskQueue } from "talk-server/queue";
-import { I18n } from "talk-server/services/i18n";
-import { JWTSigningConfig } from "talk-server/services/jwt";
-import { AugmentedRedis } from "talk-server/services/redis";
 import { Request, RequestHandler } from "talk-server/types/express";
 
-export interface GraphMiddlewareOptions {
-  schema: GraphQLSchema;
-  config: Config;
-  mongo: Db;
-  redis: AugmentedRedis;
-  queue: TaskQueue;
-  signingConfig: JWTSigningConfig;
-  i18n: I18n;
-}
+export type GraphMiddlewareOptions = Pick<
+  AppOptions,
+  | "schema"
+  | "config"
+  | "mongo"
+  | "redis"
+  | "mailer"
+  | "scraper"
+  | "signingConfig"
+  | "i18n"
+>;
 
 export const graphQLHandler = ({
   schema,
   config,
-  mongo,
-  redis,
-  queue,
-  signingConfig,
-  i18n,
+  ...options
 }: GraphMiddlewareOptions): RequestHandler =>
   graphqlBatchMiddleware(
     graphqlMiddleware(config, async (req: Request) => {
@@ -51,16 +42,12 @@ export const graphQLHandler = ({
       return {
         schema,
         context: new TenantContext({
+          ...options,
           req,
           config,
-          mongo,
-          redis,
           tenant,
           user: req.user,
           tenantCache: cache.tenant,
-          queue,
-          signingConfig,
-          i18n,
         }),
       };
     })

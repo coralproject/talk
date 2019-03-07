@@ -2,17 +2,16 @@ import { NextFunction, RequestHandler, Response } from "express";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
-import { Db } from "mongodb";
 import passport, { Authenticator } from "passport";
 import now from "performance-now";
 
+import { AppOptions } from "talk-server/app";
 import FacebookStrategy from "talk-server/app/middleware/passport/strategies/facebook";
 import GoogleStrategy from "talk-server/app/middleware/passport/strategies/google";
 import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt";
 import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
 import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
-import { Config } from "talk-server/config";
 import logger from "talk-server/logger";
 import { User } from "talk-server/models/user";
 import {
@@ -22,7 +21,6 @@ import {
   SigningTokenOptions,
   signTokenString,
 } from "talk-server/services/jwt";
-import TenantCache from "talk-server/services/tenant/cache";
 import { Request } from "talk-server/types/express";
 
 export type VerifyCallback = (
@@ -31,13 +29,10 @@ export type VerifyCallback = (
   info?: { message: string }
 ) => void;
 
-export interface PassportOptions {
-  config: Config;
-  mongo: Db;
-  redis: Redis;
-  signingConfig: JWTSigningConfig;
-  tenantCache: TenantCache;
-}
+export type PassportOptions = Pick<
+  AppOptions,
+  "mongo" | "redis" | "config" | "tenantCache" | "signingConfig"
+>;
 
 export function createPassport(
   options: PassportOptions
@@ -142,8 +137,7 @@ export async function handleOAuth2Callback(
   user: User | null,
   signingConfig: JWTSigningConfig,
   req: Request,
-  res: Response,
-  next: NextFunction
+  res: Response
 ) {
   const path = "/embed/auth/callback";
   if (!user) {
@@ -195,7 +189,7 @@ export const wrapOAuth2Authn = (
     name,
     { ...options, session: false },
     (err: Error | null, user: User | null) => {
-      handleOAuth2Callback(err, user, signingConfig, req, res, next);
+      handleOAuth2Callback(err, user, signingConfig, req, res);
     }
   )(req, res, next);
 

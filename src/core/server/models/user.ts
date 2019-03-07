@@ -122,7 +122,7 @@ export type UpsertUserInput = Omit<
 >;
 
 export async function upsertUser(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   input: UpsertUserInput
 ) {
@@ -176,7 +176,7 @@ export async function upsertUser(
   };
 
   // Insert it into the database. This may throw an error.
-  const result = await collection(db).findOneAndUpdate(filter, update, {
+  const result = await collection(mongo).findOneAndUpdate(filter, update, {
     // We are using this to create a user, so we need to upsert it.
     upsert: true,
 
@@ -210,16 +210,16 @@ const createUpsertUserFilter = (user: Readonly<User>) => {
   return query;
 };
 
-export async function retrieveUser(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ tenantID, id });
+export async function retrieveUser(mongo: Db, tenantID: string, id: string) {
+  return collection(mongo).findOne({ tenantID, id });
 }
 
 export async function retrieveManyUsers(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(db).find({
+  const cursor = await collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -232,11 +232,11 @@ export async function retrieveManyUsers(
 }
 
 export async function retrieveUserWithProfile(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   profile: Partial<Pick<Profile, "id" | "type">>
 ) {
-  return collection(db).findOne({
+  return collection(mongo).findOne({
     tenantID,
     profiles: {
       $elemMatch: profile,
@@ -350,6 +350,8 @@ export async function setUserUsername(
   id: string,
   username: string
 ) {
+  // TODO: (wyattjoh) investigate adding the username previously used to an array.
+
   // The username wasn't found, so add it to the user.
   const result = await collection(mongo).findOneAndUpdate(
     {
@@ -399,6 +401,8 @@ export async function updateUserUsername(
   id: string,
   username: string
 ) {
+  // TODO: (wyattjoh) investigate adding the username previously used to an array.
+
   // The username wasn't found, so add it to the user.
   const result = await collection(mongo).findOneAndUpdate(
     {
