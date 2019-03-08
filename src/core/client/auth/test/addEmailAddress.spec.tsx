@@ -153,7 +153,7 @@ it("shows server error", async () => {
 it("successfully sets email", async () => {
   const email = "hans@test.com";
   const setEmail = sinon.stub().callsFake((_: any, data: any) => {
-    expect(data.input).toEqual({
+    expectAndFail(data.input).toEqual({
       email,
       clientMutationId: data.input.clientMutationId,
     });

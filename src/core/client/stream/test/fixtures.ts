@@ -289,6 +289,7 @@ export const baseStory = {
   commentCounts: {
     totalVisible: 0,
   },
+  premodLinksEnable: false,
 };
 
 export const stories = denormalizeStories([
@@ -371,6 +372,12 @@ export const storyWithDeepestReplies = denormalizeStory({
     },
   },
 });
+
+export const meAsModerator = {
+  id: "me-as-moderator",
+  username: "Moderator",
+  role: "MODERATOR",
+};
 
 export const meWithComments = {
   id: "me-with-comments",

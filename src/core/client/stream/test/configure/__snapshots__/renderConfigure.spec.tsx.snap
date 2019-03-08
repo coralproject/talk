@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders configure 1`] = `
+<section
+  aria-labelledby="tab-CONFIGURE"
+  className="App-tabContent"
+  data-testid="current-tab-pane"
+  id="tabPane-CONFIGURE"
+  role="tabpanel"
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-double"
+  >
+    <div
+      className="Flex-root"
+    >
+      <div
+        className="Flex-flex Flex-halfItemGutter Flex-wrap"
+      >
+        <div
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          Signed in as 
+          <span
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Moderator
+          </span>
+          .
+        </div>
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Not you? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+    <form
+      autoComplete="off"
+      id="configure-form"
+      onSubmit={[Function]}
+    >
+      <div
+        className="Flex-root Flex-flex Flex-itemGutter Flex-justifySpaceBetween Flex-alignFlexStart"
+      >
+        <h1
+          className="Typography-root Typography-heading2 Typography-colorTextPrimary ConfigureCommentStream-heading"
+        >
+          Configure this Comment Stream
+        </h1>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Apply
+        </button>
+      </div>
+      <div
+        className="HorizontalGutter-root HorizontalGutter-double"
+      >
+        <div>
+          <div
+            className="CheckBox-root"
+          >
+            <input
+              checked={false}
+              className="CheckBox-input"
+              disabled={false}
+              id="moderation"
+              name="moderation"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="checkbox"
+            />
+            <label
+              className="CheckBox-label"
+              htmlFor="moderation"
+            >
+              <span
+                className="CheckBox-labelSpan"
+              >
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+                >
+                  <span>
+                    Enable Pre-Moderation
+                  </span>
+                </span>
+              </span>
+            </label>
+          </div>
+          <div
+            className="ToggleConfig-details"
+          >
+            <p
+              className="Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
+            >
+              Moderators must approve any comment before it is published to this stream.
+            </p>
+          </div>
+        </div>
+        <div>
+          <div
+            className="CheckBox-root"
+          >
+            <input
+              checked={false}
+              className="CheckBox-input"
+              disabled={false}
+              id="premodLinksEnable"
+              name="premodLinksEnable"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="checkbox"
+            />
+            <label
+              className="CheckBox-label"
+              htmlFor="premodLinksEnable"
+            >
+              <span
+                className="CheckBox-labelSpan"
+              >
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+                >
+                  <span>
+                    Pre-Moderate Comments Containing Links
+                  </span>
+                </span>
+              </span>
+            </label>
+          </div>
+          <div
+            className="ToggleConfig-details"
+          >
+            <p
+              className="Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
+            >
+              Moderators must approve any comment that contains a link before it is published to this stream.
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+`;

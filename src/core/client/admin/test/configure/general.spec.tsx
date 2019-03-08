@@ -1,4 +1,3 @@
-import mockConsole from "jest-mock-console";
 import { cloneDeep, get, merge } from "lodash";
 import sinon from "sinon";
 
@@ -17,16 +16,6 @@ import { settings, users } from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/general");
-  // Test might pass even when it fails with errors in the log due to:
-  // https://github.com/facebook/jest/issues/3917
-  // We check the console to be error free..
-  mockConsole("error");
-});
-
-afterEach(() => {
-  // Check that there are no errors in the console.
-  // tslint:disable-next-line: no-console
-  expect(console.error).not.toHaveBeenCalled();
 });
 
 const createTestRenderer = async (
@@ -78,7 +67,7 @@ it("change site wide commenting", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.disableCommenting).toEqual({
+      expectAndFail(data.input.settings.disableCommenting).toEqual({
         enabled: true,
         message: "Closing message",
       });
@@ -139,10 +128,12 @@ it("change community guidlines", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.communityGuidelines.content).toEqual(
+      expectAndFail(data.input.settings.communityGuidelines.content).toEqual(
         "This is the community guidlines summary"
       );
-      expect(data.input.settings.communityGuidelines.enabled).toEqual(true);
+      expectAndFail(data.input.settings.communityGuidelines.enabled).toEqual(
+        true
+      );
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
@@ -198,7 +189,7 @@ it("change closed stream message", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.closedMessage).toEqual(
+      expectAndFail(data.input.settings.closedMessage).toEqual(
         "The stream has been closed"
       );
       settingsRecord = merge(settingsRecord, data.input.settings);
@@ -243,7 +234,9 @@ it("change comment editing time", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.editCommentWindowLength).toEqual(108000);
+      expectAndFail(data.input.settings.editCommentWindowLength).toEqual(
+        108000
+      );
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
@@ -311,7 +304,7 @@ it("change comment length limitations", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.charCount).toEqual({
+      expectAndFail(data.input.settings.charCount).toEqual({
         enabled: true,
         min: null,
         max: 3000,
@@ -403,8 +396,8 @@ it("change closing comment streams", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.autoCloseStream).toEqual(true);
-      expect(data.input.settings.closedTimeout).toEqual(2592000);
+      expectAndFail(data.input.settings.autoCloseStream).toEqual(true);
+      expectAndFail(data.input.settings.closedTimeout).toEqual(2592000);
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,

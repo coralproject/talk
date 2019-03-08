@@ -120,7 +120,7 @@ it("shows server error", async () => {
 it("successfully sets username", async () => {
   const username = "hans";
   const setUsername = sinon.stub().callsFake((_: any, data: any) => {
-    expect(data.input).toEqual({
+    expectAndFail(data.input).toEqual({
       username,
       clientMutationId: data.input.clientMutationId,
     });

@@ -24,11 +24,7 @@ export async function commitMutationPromiseNormalized<T extends OperationBase>(
   environment: Environment,
   config: MutationPromiseConfig<T>
 ): Promise<T["response"][keyof T["response"]]> {
-  try {
-    return await commitMutationPromise(environment, config);
-  } catch (e) {
-    throw e;
-  }
+  return await commitMutationPromise(environment, config);
 }
 
 /**

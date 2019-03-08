@@ -83,7 +83,7 @@ describe("reported queue", () => {
           reported: {
             count: 2,
             comments: sinon.stub().callsFake(data => {
-              expect(data).toEqual({ first: 5 });
+              expectAndFail(data).toEqual({ first: 5 });
               return {
                 edges: [
                   {
@@ -119,7 +119,7 @@ describe("reported queue", () => {
             comments: createSinonStub(
               s =>
                 s.onFirstCall().callsFake(data => {
-                  expect(data).toEqual({ first: 5 });
+                  expectAndFail(data).toEqual({ first: 5 });
                   return {
                     edges: [
                       {
@@ -139,7 +139,7 @@ describe("reported queue", () => {
                 }),
               s =>
                 s.onSecondCall().callsFake(data => {
-                  expect(data).toEqual({
+                  expectAndFail(data).toEqual({
                     first: 10,
                     after: reportedComments[1].createdAt,
                   });
@@ -195,7 +195,7 @@ describe("reported queue", () => {
 
   it("accepts comment in reported queue", async () => {
     const acceptCommentStub = sinon.stub().callsFake((_, data) => {
-      expect(data).toMatchObject({
+      expectAndFail(data).toMatchObject({
         input: {
           commentID: reportedComments[0].id,
           commentRevisionID: reportedComments[0].revision.id,
@@ -221,7 +221,7 @@ describe("reported queue", () => {
           reported: {
             count: 2,
             comments: sinon.stub().callsFake(data => {
-              expect(data).toEqual({ first: 5 });
+              expectAndFail(data).toEqual({ first: 5 });
               return {
                 edges: [
                   {
@@ -272,7 +272,7 @@ describe("reported queue", () => {
 
   it("rejects comment in reported queue", async () => {
     const rejectCommentStub = sinon.stub().callsFake((_, data) => {
-      expect(data).toMatchObject({
+      expectAndFail(data).toMatchObject({
         input: {
           commentID: reportedComments[0].id,
           commentRevisionID: reportedComments[0].revision.id,
@@ -298,7 +298,7 @@ describe("reported queue", () => {
           reported: {
             count: 2,
             comments: sinon.stub().callsFake(data => {
-              expect(data).toEqual({ first: 5 });
+              expectAndFail(data).toEqual({ first: 5 });
               return {
                 edges: [
                   {
@@ -357,7 +357,10 @@ describe("rejected queue", () => {
     const testRenderer = await createTestRenderer({
       Query: {
         comments: sinon.stub().callsFake((_, data) => {
-          expect(data).toEqual({ first: 5, status: "REJECTED" });
+          expectAndFail(data).toEqual({
+            first: 5,
+            filter: { status: "REJECTED" },
+          });
           return {
             edges: [
               {
@@ -388,7 +391,7 @@ describe("rejected queue", () => {
         comments: createSinonStub(
           s =>
             s.onFirstCall().callsFake((_, data) => {
-              expect(data).toEqual({
+              expectAndFail(data).toEqual({
                 first: 5,
                 status: "REJECTED",
               });
@@ -411,7 +414,7 @@ describe("rejected queue", () => {
             }),
           s =>
             s.onSecondCall().callsFake((_, data) => {
-              expect(data).toEqual({
+              expectAndFail(data).toEqual({
                 first: 10,
                 after: rejectedComments[1].createdAt,
                 status: "REJECTED",
@@ -467,7 +470,7 @@ describe("rejected queue", () => {
 
   it("accepts comment in rejected queue", async () => {
     const acceptCommentStub = sinon.stub().callsFake((_, data) => {
-      expect(data).toMatchObject({
+      expectAndFail(data).toMatchObject({
         input: {
           commentID: rejectedComments[0].id,
           commentRevisionID: rejectedComments[0].revision.id,
@@ -490,7 +493,10 @@ describe("rejected queue", () => {
     const testRenderer = await createTestRenderer({
       Query: {
         comments: sinon.stub().callsFake((_, data) => {
-          expect(data).toEqual({ first: 5, status: "REJECTED" });
+          expectAndFail(data).toEqual({
+            first: 5,
+            filter: { status: "REJECTED" },
+          });
           return {
             edges: [
               {
@@ -541,7 +547,7 @@ describe("rejected queue", () => {
 describe("single comment view", () => {
   const comment = rejectedComments[0];
   const commentStub = sinon.stub().callsFake((_, data) => {
-    expect(data).toEqual({ id: comment.id });
+    expectAndFail(data).toEqual({ id: comment.id });
     return reportedComments[0];
   });
 
@@ -566,7 +572,7 @@ describe("single comment view", () => {
 
   it("accepts single comment", async () => {
     const acceptCommentStub = sinon.stub().callsFake((_, data) => {
-      expect(data).toMatchObject({
+      expectAndFail(data).toMatchObject({
         input: {
           commentID: comment.id,
           commentRevisionID: comment.revision.id,
@@ -604,7 +610,7 @@ describe("single comment view", () => {
 
   it("rejects single comment", async () => {
     const rejectCommentStub = sinon.stub().callsFake((_, data) => {
-      expect(data).toMatchObject({
+      expectAndFail(data).toMatchObject({
         input: {
           commentID: comment.id,
           commentRevisionID: comment.revision.id,

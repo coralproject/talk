@@ -5,7 +5,7 @@ export default function create(params: CreateParams) {
     ...params,
     initLocalState: (localRecord, source, environment) => {
       if (params.initLocalState) {
-        localRecord.setValue("PROFILE", "activeTab");
+        localRecord.setValue("CONFIGURE", "activeTab");
         localRecord.setValue("jti", "accessTokenJTI");
         params.initLocalState(localRecord, source, environment);
       }

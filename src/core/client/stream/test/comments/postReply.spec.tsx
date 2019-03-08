@@ -23,7 +23,7 @@ async function createTestRenderer(
       settings: sinon.stub().returns(settings),
       me: sinon.stub().returns(users[0]),
       story: sinon.stub().callsFake((_: any, variables: any) => {
-        expect(variables.id).toBe(stories[0].id);
+        expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
       }),
       ...resolver.Query,
@@ -75,7 +75,7 @@ it("post a reply", async () => {
   const { testRenderer, comment, rte, form } = await createTestRenderer({
     Mutation: {
       createCommentReply: sinon.stub().callsFake((_, data) => {
-        expect(data).toMatchObject({
+        expectAndFail(data).toMatchObject({
           input: {
             storyID: stories[0].id,
             parentID: stories[0].comments.edges[0].node.id,
@@ -127,7 +127,7 @@ it("post a reply and handle non-visible comment state", async () => {
   const { comment, rte, form } = await createTestRenderer({
     Mutation: {
       createCommentReply: sinon.stub().callsFake((_, data) => {
-        expect(data).toMatchObject({
+        expectAndFail(data).toMatchObject({
           input: {
             storyID: stories[0].id,
             parentID: stories[0].comments.edges[0].node.id,

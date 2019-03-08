@@ -11,11 +11,7 @@ export async function commit(
   input: InstallInput,
   { rest }: TalkContext
 ) {
-  try {
-    await install(rest, input);
-  } catch (err) {
-    throw err;
-  }
+  await install(rest, input);
 }
 
 export const withInstallMutation = createMutationContainer("install", commit);

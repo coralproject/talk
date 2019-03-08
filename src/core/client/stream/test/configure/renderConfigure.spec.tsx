@@ -2,26 +2,27 @@ import sinon from "sinon";
 
 import { waitForElement, within } from "talk-framework/testHelpers";
 
-import { settings, stories } from "../fixtures";
+import { meAsModerator, settings, stories } from "../fixtures";
 import create from "./create";
 
 async function createTestRenderer(
   resolver: any = {},
-  options: { muteNetworkErrors?: boolean } = {}
+  options: { muteNetworkErrors?: boolean; status?: string } = {}
 ) {
   const resolvers = {
-    ...resolver,
     Query: {
       settings: sinon.stub().returns(settings),
       story: sinon.stub().callsFake((_: any, variables: any) => {
-        expectAndFail(variables.id).toBe(stories[0].id);
+        expectAndFail(variables).toEqual({ id: stories[0].id, url: null });
         return stories[0];
       }),
+      me: sinon.stub().returns(meAsModerator),
       ...resolver.Query,
     },
+    ...resolver,
   };
 
-  const { testRenderer, context } = create({
+  const { testRenderer } = create({
     // Set this to true, to see graphql responses.
     logNetwork: false,
     muteNetworkErrors: options.muteNetworkErrors,
@@ -31,16 +32,14 @@ async function createTestRenderer(
     },
   });
 
-  return {
-    testRenderer,
-    context,
-  };
+  const tabPane = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("current-tab-pane")
+  );
+
+  return { testRenderer, tabPane };
 }
 
-it("renders comment stream", async () => {
-  const { testRenderer } = await createTestRenderer();
-  await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
-  );
-  expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
+it("renders configure", async () => {
+  const { tabPane } = await createTestRenderer();
+  expect(within(tabPane).toJSON()).toMatchSnapshot();
 });

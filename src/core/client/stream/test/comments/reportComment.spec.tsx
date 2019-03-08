@@ -15,7 +15,7 @@ function createTestRenderer(
   const resolvers = {
     Query: {
       story: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data).toEqual({
+        expectAndFail(data).toEqual({
           id: stories[0].id,
           url: null,
         });
@@ -27,7 +27,7 @@ function createTestRenderer(
     },
     Mutation: {
       createCommentFlag: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toMatchObject({
+        expectAndFail(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
           commentRevisionID: stories[0].comments.edges[0].node.revision.id,
           reason: "COMMENT_REPORTED_OFFENSIVE",
@@ -42,7 +42,7 @@ function createTestRenderer(
         };
       }),
       createCommentDontAgree: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toMatchObject({
+        expectAndFail(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
           commentRevisionID: stories[0].comments.edges[0].node.revision.id,
           additionalDetails: "More info",

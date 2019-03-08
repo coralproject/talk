@@ -35,7 +35,7 @@ function createTestRenderer(
     },
     Mutation: {
       editComment: sinon.stub().callsFake((_, data) => {
-        expect(data).toMatchObject({
+        expectAndFail(data).toMatchObject({
           input: {
             commentID: commentWithReplies.id,
             body: "Edited!",

@@ -34,12 +34,12 @@ it("renders app with comment stream", async () => {
   const commentsQueryStub = createSinonStub(
     s =>
       s.onFirstCall().callsFake((input: any) => {
-        expect(input).toEqual({ first: 5, orderBy: "CREATED_AT_DESC" });
+        expectAndFail(input).toEqual({ first: 5, orderBy: "CREATED_AT_DESC" });
         return stories[0].comments;
       }),
     s =>
       s.onSecondCall().callsFake((input: any) => {
-        expect(input).toEqual({
+        expectAndFail(input).toEqual({
           after: null,
           first: 5,
           orderBy: "CREATED_AT_ASC",
@@ -49,8 +49,8 @@ it("renders app with comment stream", async () => {
   );
   const storyQueryStub = createSinonStub(s =>
     s.callsFake((_: any, input: any) => {
-      expect(input.id).toEqual("story-1");
-      expect(input.url).toBeFalsy();
+      expectAndFail(input.id).toEqual("story-1");
+      expectAndFail(input.url).toBeFalsy();
       return {
         ...stories[0],
         comments: commentsQueryStub,
