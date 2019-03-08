@@ -112,6 +112,16 @@ jobs:
           root: .
           paths: dist
 
+  # docker_tests will test that the docker build process completes.
+  docker_tests:
+    <<: *job_defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build
+          command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
+
   # release_docker will build and push the Docker image.
   release_docker:
     <<: *job_defaults
@@ -132,6 +142,12 @@ workflows:
   version: 2
   build-and-test:
     jobs:
+      # Run the docker build test on all branches except for next as we'll
+      # already be releasing via docker with that route.
+      - docker_tests:
+          filters:
+            branches:
+              ignore: next
       - npm_dependencies
       - lint:
           requires:
