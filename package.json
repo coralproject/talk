@@ -36,6 +36,7 @@
     "lint:server": "tslint --project ./src/tsconfig.json",
     "lint:client": "tslint --project ./src/core/client/tsconfig.json",
     "lint:scripts": "tslint --project ./tsconfig.json",
+    "lint:graphql": "graphql-schema-linter src/core/server/graph/tenant/schema/schema.graphql",
     "lint-fix": "npm run lint:server -- --fix && npm run lint:client -- --fix && npm run lint:scripts -- --fix",
     "test": "node scripts/test.js --env=jsdom",
     "tscheck": "npm-run-all --parallel tscheck:*",
@@ -224,6 +225,7 @@
     "fluent-intl-polyfill": "^0.1.0",
     "fluent-langneg": "^0.1.0",
     "fluent-react": "^0.8.3",
+    "graphql-schema-linter": "^0.2.0",
     "graphql-schema-typescript": "^1.2.1",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
@@ -316,6 +318,9 @@
     "*.{j,t}s{,x}": [
       "tslint --fix",
       "git add"
+    ],
+    "src/core/server/graph/tenant/schema/schema.graphql": [
+      "graphql-schema-linter"
     ]
   },
   "bundlesize": [
@@ -323,5 +328,10 @@
       "path": "./dist/static/assets/js/embed.js",
       "maxSize": "15 kB"
     }
-  ]
+  ],
+  "graphql-schema-linter": {
+    "rules": [
+      "types-are-capitalized"
+    ]
+  }
 }

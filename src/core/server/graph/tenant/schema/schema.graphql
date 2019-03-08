@@ -1111,17 +1111,17 @@ type User {
   commentModerationActionHistory(
     first: Int = 10
     after: Cursor
-  ): CommentModerationActionConnection! @auth(role: [MODERATOR, ADMIN])
+  ): CommentModerationActionConnection! @auth(roles: [MODERATOR, ADMIN])
 
   """
   tokens lists the access tokens associated with the account.
   """
-  tokens: [Token!]! @auth(role: [ADMIN], userIDField: "id")
+  tokens: [Token!]! @auth(roles: [ADMIN], userIDField: "id")
 
   """
   createdAt is the time that the User was created at.
   """
-  createdAt: Time! @auth(role: [ADMIN, MODERATOR], userIDField: "id")
+  createdAt: Time! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 }
 
 """
@@ -1340,7 +1340,7 @@ type Comment {
   statusHistory(
     first: Int = 10
     after: Cursor
-  ): CommentModerationActionConnection! @auth(role: [MODERATOR, ADMIN])
+  ): CommentModerationActionConnection! @auth(roles: [MODERATOR, ADMIN])
 
   """
   parentCount is the number of direct parents for this Comment. Currently this
