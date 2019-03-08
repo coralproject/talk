@@ -121,6 +121,7 @@ jobs:
       - run:
           name: Build
           command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
+          no_output_timeout: 20m
 
   # release_docker will build and push the Docker image.
   release_docker:
