@@ -14,6 +14,12 @@ interface Props {
   ) => React.ReactNode;
 }
 
+/**
+ * SubmitHookContainer provides the SubmitHook Context and will
+ * run all hooks when calling the `onSubmit` render prop.
+ * If the submit was not cancelled, `onExecute` will be called in
+ * the end, e.g. to call the mutation with the final data.
+ */
 class SubmitHookContainer extends React.Component<Props> {
   private submitHooks: SubmitHook[] = [];
 

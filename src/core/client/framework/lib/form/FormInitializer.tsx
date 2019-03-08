@@ -12,6 +12,13 @@ interface Props {
   ) => React.ReactNode;
 }
 
+/**
+ * FormInitializer exposes `onInitValues` property as a render prop.
+ * This prop can be called multiple times until `FormInitializer` will
+ * run `form.initizalize` during mount.
+ *
+ * This is useful if you're initialization data is spread across components.
+ */
 class FormInitializer extends React.Component<Props> {
   private initialValues: any = {};
 
