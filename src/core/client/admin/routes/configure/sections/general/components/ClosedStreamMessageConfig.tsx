@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
+import { MarkdownEditor } from "talk-framework/components/loadables";
 import {
   HorizontalGutter,
   Spinner,
@@ -10,7 +11,6 @@ import {
 } from "talk-ui/components";
 
 import Header from "../../../components/Header";
-import LazyMarkdown from "./LazyMarkdown";
 
 interface Props {
   disabled: boolean;
@@ -39,7 +39,7 @@ const ClosedStreamMessageConfig: StatelessComponent<Props> = ({ disabled }) => (
       {({ input, meta }) => (
         <>
           <Suspense fallback={<Spinner />}>
-            <LazyMarkdown
+            <MarkdownEditor
               id="configure-general-closedStreamMessage-content"
               name={input.name}
               onChange={input.onChange}

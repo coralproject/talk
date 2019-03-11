@@ -13,8 +13,9 @@ import {
 } from "talk-ui/components";
 
 import OnOffField from "talk-admin/routes/configure/components/OnOffField";
+import { MarkdownEditor } from "talk-framework/components/loadables";
+
 import Header from "../../../components/Header";
-import LazyMarkdown from "./LazyMarkdown";
 
 interface Props {
   disabled: boolean;
@@ -73,7 +74,7 @@ const SitewideCommentingConfig: StatelessComponent<Props> = ({ disabled }) => (
       {({ input, meta }) => (
         <>
           <Suspense fallback={<Spinner />}>
-            <LazyMarkdown
+            <MarkdownEditor
               id="configure-general-sitewideCommenting-message"
               name={input.name}
               onChange={input.onChange}

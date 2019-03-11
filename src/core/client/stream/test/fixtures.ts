@@ -295,6 +295,9 @@ export const baseStory = {
   settings: {
     moderation: "POST",
     premodLinksEnable: false,
+    messageBox: {
+      enabled: false,
+    },
   },
 };
 

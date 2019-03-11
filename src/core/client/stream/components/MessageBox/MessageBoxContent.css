@@ -1,0 +1,4 @@
+.root {
+  composes: root from "talk-stream/shared/htmlContent.css";
+  color: var(--palette-text-light);
+}

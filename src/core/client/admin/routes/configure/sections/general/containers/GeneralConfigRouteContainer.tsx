@@ -3,10 +3,10 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { GeneralConfigRouteContainerQueryResponse } from "talk-admin/__generated__/GeneralConfigRouteContainerQuery.graphql";
+import { loadMarkdownEditor } from "talk-framework/components/loadables";
 import { withRouteConfig } from "talk-framework/lib/router";
 import { Delay, Spinner } from "talk-ui/components";
 
-import { loadMarkdownEditor } from "../components/LazyMarkdown";
 import GeneralConfigContainer from "./GeneralConfigContainer";
 
 interface Props {

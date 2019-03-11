@@ -846,7 +846,7 @@ type ReactionConfiguration {
 
 type CommunityGuidelines {
   """
-  enable set to true will show the guidelines above the question box.
+  enable set to true will show the guidelines above the message box.
   """
   enabled: Boolean!
 
@@ -875,6 +875,28 @@ type StoryMessageBox {
   content when set contains the actual markup for the Message Box.
   """
   content: String
+}
+
+################################################################################
+## MessageBox
+################################################################################
+
+type MessageBox {
+  """
+  enabled will enable the Message Box's content to be visible above
+  the comment box.
+  """
+  enabled: Boolean!
+
+  """
+  content is the content of the Message Box.
+  """
+  content: String
+
+  """
+  icon is the icon for the Message Box.
+  """
+  icon: String
 }
 
 ################################################################################
@@ -2275,7 +2297,7 @@ input SettingsKarmaInput {
 
 input SettingsCommunityGuidelinesInput {
   """
-  enable set to true will show the guidelines above the question box.
+  enable set to true will show the guidelines above the message box.
   """
   enabled: Boolean
 
@@ -2758,6 +2780,24 @@ type CreateStoryPayload {
 ##################
 ## updateStory
 ##################
+
+input UpdateMessageBoxInput {
+  """
+  enabled will enable the Message Box's content to be visible above
+  the comment box.
+  """
+  enabled: Boolean!
+
+  """
+  content is the content of the Message Box.
+  """
+  content: String
+
+  """
+  icon is the icon for the Message Box.
+  """
+  icon: String
+}
 
 """
 UpdateStory is the input required to update a Story.

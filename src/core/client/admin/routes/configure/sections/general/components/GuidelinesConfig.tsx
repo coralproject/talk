@@ -14,8 +14,9 @@ import {
 } from "talk-ui/components";
 
 import OnOffField from "talk-admin/routes/configure/components/OnOffField";
+import { MarkdownEditor } from "talk-framework/components/loadables";
+
 import Header from "../../../components/Header";
-import LazyMarkdown from "./LazyMarkdown";
 
 interface Props {
   disabled: boolean;
@@ -60,7 +61,7 @@ const GuidelinesConfig: StatelessComponent<Props> = ({ disabled }) => (
       {({ input, meta }) => (
         <>
           <Suspense fallback={<Spinner />}>
-            <LazyMarkdown
+            <MarkdownEditor
               id="configure-general-guidelines-content"
               name={input.name}
               onChange={input.onChange}

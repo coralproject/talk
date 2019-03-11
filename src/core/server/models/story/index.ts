@@ -76,11 +76,6 @@ export interface Story extends TenantResource {
    * createdAt is the date that the Story was added to the Talk database.
    */
   createdAt: Date;
-
-  /**
-   * premodLinksEnable will put all comments that contain links into premod.
-   */
-  premodLinksEnable?: boolean;
 }
 
 export async function createStoryIndexes(mongo: Db) {

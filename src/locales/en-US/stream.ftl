@@ -145,3 +145,12 @@ configure-premod-description =
 configure-premodLink-title = Pre-Moderate Comments Containing Links
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this stream.
+
+configure-messageBox-title = Enable Message Box for this Stream
+configure-messageBox-description =
+  Add a message to the top of the comment box for your readers. Use this to pose a topic,
+  ask a question or make announcements relating to this story.
+configure-messageBox-preview = Preview
+configure-messageBox-selectAnIcon = Select an Icon
+configure-messageBox-noIcon = No Icon
+configure-messageBox-writeAMessage = Write a Message

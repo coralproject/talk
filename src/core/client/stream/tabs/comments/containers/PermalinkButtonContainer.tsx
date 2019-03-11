@@ -11,7 +11,7 @@ interface Props {
   commentID: string;
 }
 
-export const PermalinkButtonContainerProps: StatelessComponent<Props> = ({
+export const PermalinkButtonContainer: StatelessComponent<Props> = ({
   story,
   commentID,
 }) => {
@@ -29,6 +29,6 @@ const enhanced = withFragmentContainer<Props>({
       url
     }
   `,
-})(PermalinkButtonContainerProps);
+})(PermalinkButtonContainer);
 
 export default enhanced;

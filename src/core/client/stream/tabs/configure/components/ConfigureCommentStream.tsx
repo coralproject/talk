@@ -13,6 +13,7 @@ import {
   Typography,
 } from "talk-ui/components";
 
+import MessageBoxConfigContainer from "../containers/MessageBoxConfigContainer";
 import PremodConfigContainer from "../containers/PremodConfigContainer";
 import PremodLinksConfigContainer from "../containers/PremodLinksConfigContainer";
 
@@ -21,7 +22,8 @@ import styles from "./ConfigureCommentStream.css";
 interface Props {
   onSubmit: (settings: any, form: FormApi) => void;
   storySettings: PropTypesOf<typeof PremodConfigContainer>["storySettings"] &
-    PropTypesOf<typeof PremodLinksConfigContainer>["storySettings"];
+    PropTypesOf<typeof PremodLinksConfigContainer>["storySettings"] &
+    PropTypesOf<typeof MessageBoxConfigContainer>["storySettings"];
 }
 
 const ConfigureCommentStream: StatelessComponent<Props> = ({
@@ -62,6 +64,11 @@ const ConfigureCommentStream: StatelessComponent<Props> = ({
                 disabled={submitting}
               />
               <PremodLinksConfigContainer
+                onInitValues={onInitValues}
+                storySettings={storySettings}
+                disabled={submitting}
+              />
+              <MessageBoxConfigContainer
                 onInitValues={onInitValues}
                 storySettings={storySettings}
                 disabled={submitting}
