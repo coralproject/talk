@@ -60,6 +60,7 @@ async function upsertUser(
   shouldSetDisplayName = false
 ) {
   let user = await User.findOne({
+    id,
     profiles: {
       $elemMatch: {
         id,
@@ -80,6 +81,7 @@ async function upsertUser(
 
   // The user was not found, lets create them!
   user = new User({
+    id,
     username,
     lowercaseUsername: username.toLowerCase(),
     profiles: [{ id, provider }],
@@ -798,8 +800,13 @@ class Users {
    * @param {Object} token  a jwt token used to sign in the user
    */
   static async findOrCreateByIDToken(id, token) {
+    // FIXME: (wyattjoh) adding the `{ 'profiles.id': id }` search condition is
+    // a workaround for the `upsertExternalUser` bug where the ID being set was
+    // incorrect. Patch the user creation functions to adapt to the correct
+    // behavior. Thankfully, this is currently still covered by an index.
+
     // Try to get the user.
-    let user = await User.findOne({ id });
+    let user = await User.findOne({ $or: [{ id }, { 'profiles.id': id }] });
 
     // If the user was not found, try to look it up.
     if (user === null) {
