@@ -316,8 +316,7 @@
   },
   "lint-staged": {
     "*.{j,t}s{,x}": [
-      "tslint --fix",
-      "git add"
+      "tslint"
     ],
     "src/core/server/graph/tenant/schema/schema.graphql": [
       "graphql-schema-linter"
