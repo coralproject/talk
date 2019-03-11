@@ -57,7 +57,7 @@ gulp.task("server:scripts", () =>
         ],
       })
     )
-    .pipe(sourcemaps.write("."))
+    .pipe(sourcemaps.write(".", { sourceRoot: "../src" }))
     .pipe(gulp.dest(resolveDistFolder()))
 );
 
