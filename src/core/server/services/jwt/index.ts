@@ -4,6 +4,7 @@ import { Bearer } from "permit";
 import uuid from "uuid/v4";
 
 import { Config } from "talk-server/config";
+import { AuthenticationError } from "talk-server/errors";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
@@ -78,8 +79,7 @@ export function createJWTSigningConfig(config: Config): JWTSigningConfig {
     return createAsymmetricSigningConfig(algorithm, secret);
   }
 
-  // TODO: (wyattjoh) return better error.
-  throw new Error("invalid algorithm specified");
+  throw new AuthenticationError(`invalid algorithm=${algorithm} specified`);
 }
 
 export type SigningTokenOptions = Pick<
@@ -137,7 +137,6 @@ export async function revokeJWT(redis: Redis, jti: string, validFor: number) {
 export async function checkJWTRevoked(redis: Redis, jti: string) {
   const expiredAtString = await redis.get(generateJTIRevokedKey(jti));
   if (expiredAtString) {
-    // TODO: (wyattjoh) return a better error.
-    throw new Error("JWT was revoked");
+    throw new AuthenticationError("JWT was revoked");
   }
 }

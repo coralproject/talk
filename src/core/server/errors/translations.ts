@@ -31,4 +31,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
     "error-usernameContainsInvalidCharacters",
   USERNAME_EXCEEDS_MAX_LENGTH: "error-usernameExceedsMaxLength",
   USERNAME_TOO_SHORT: "error-usernameTooShort",
+  AUTHENTICATION_ERROR: "error-authenticationError",
 };

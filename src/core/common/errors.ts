@@ -174,4 +174,10 @@ export enum ERROR_CODES {
    * given ID.
    */
   COMMENT_NOT_FOUND = "COMMENT_NOT_FOUND",
+
+  /**
+   * AUTHENTICATION_ERROR is returned when a general authentication error has
+   * occurred and the request can not be processed.
+   */
+  AUTHENTICATION_ERROR = "AUTHENTICATION_ERROR",
 }

@@ -410,3 +410,13 @@ export class TenantInstalledAlreadyError extends TalkError {
     super({ code: ERROR_CODES.TENANT_INSTALLED_ALREADY, status: 400 });
   }
 }
+
+export class AuthenticationError extends TalkError {
+  constructor(reason: string) {
+    super({
+      code: ERROR_CODES.AUTHENTICATION_ERROR,
+      status: 401,
+      context: { pvt: { reason } },
+    });
+  }
+}
