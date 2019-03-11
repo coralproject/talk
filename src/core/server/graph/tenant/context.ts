@@ -19,8 +19,8 @@ export interface TenantContextOptions extends CommonContextOptions {
   redis: AugmentedRedis;
   tenant: Tenant;
   tenantCache: TenantCache;
-  mailer: MailerQueue;
-  scraper: ScraperQueue;
+  mailerQueue: MailerQueue;
+  scraperQueue: ScraperQueue;
   signingConfig?: JWTSigningConfig;
 }
 
@@ -44,8 +44,8 @@ export default class TenantContext extends CommonContext {
     this.user = options.user;
     this.mongo = options.mongo;
     this.redis = options.redis;
-    this.scraperQueue = options.scraper;
-    this.mailerQueue = options.mailer;
+    this.scraperQueue = options.scraperQueue;
+    this.mailerQueue = options.mailerQueue;
     this.signingConfig = options.signingConfig;
     this.loaders = loaders(this);
     this.mutators = mutators(this);

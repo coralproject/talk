@@ -161,8 +161,6 @@ class Server {
 
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
-      // Tasks are merged into the application as top level providers.
-      ...this.tasks,
       parent,
       mongo: this.mongo,
       redis: this.redis,
@@ -171,6 +169,8 @@ class Server {
       config: this.config,
       schema: this.schema,
       i18n,
+      mailerQueue: this.tasks.mailer,
+      scraperQueue: this.tasks.scraper,
     });
 
     // Start the application and store the resulting http.Server. The server

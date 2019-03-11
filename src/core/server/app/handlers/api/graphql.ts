@@ -12,8 +12,8 @@ export type GraphMiddlewareOptions = Pick<
   | "config"
   | "mongo"
   | "redis"
-  | "mailer"
-  | "scraper"
+  | "mailerQueue"
+  | "scraperQueue"
   | "signingConfig"
   | "i18n"
 >;

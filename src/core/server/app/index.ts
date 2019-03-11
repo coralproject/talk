@@ -26,12 +26,12 @@ import { createRouter } from "./router";
 export interface AppOptions {
   config: Config;
   i18n: I18n;
-  mailer: MailerQueue;
+  mailerQueue: MailerQueue;
+  scraperQueue: ScraperQueue;
   mongo: Db;
   parent: Express;
   redis: AugmentedRedis;
   schema: GraphQLSchema;
-  scraper: ScraperQueue;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
 }
