@@ -79,7 +79,7 @@ it("sign out when clicking on sign in as", async () => {
   const restMock = sinon.mock(context.rest);
   restMock
     .expects("fetch")
-    .withArgs("/tenant/auth", {
+    .withArgs("/auth", {
       method: "DELETE",
     })
     .once()

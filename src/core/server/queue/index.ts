@@ -2,11 +2,10 @@ import Queue from "bull";
 import { Db } from "mongodb";
 
 import { Config } from "talk-server/config";
-import Task from "talk-server/queue/Task";
-import { createMailerTask, Mailer } from "talk-server/queue/tasks/mailer";
+import { createMailerTask, MailerQueue } from "talk-server/queue/tasks/mailer";
 import {
   createScraperTask,
-  ScraperData,
+  ScraperQueue,
 } from "talk-server/queue/tasks/scraper";
 import { createRedisClient } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
@@ -14,9 +13,8 @@ import TenantCache from "talk-server/services/tenant/cache";
 const createQueueOptions = async (
   config: Config
 ): Promise<Queue.QueueOptions> => {
-  const client = await createRedisClient(config);
-  const subscriber = await createRedisClient(config);
-  const blockingClient = await createRedisClient(config);
+  const client = createRedisClient(config);
+  const subscriber = createRedisClient(config);
 
   // Return the options that can be used by the Queue.
   return {
@@ -30,7 +28,7 @@ const createQueueOptions = async (
         case "client":
           return client;
         case "bclient":
-          return blockingClient;
+          return createRedisClient(config);
       }
     },
 
@@ -49,8 +47,8 @@ export interface QueueOptions {
 }
 
 export interface TaskQueue {
-  mailer: Mailer;
-  scraper: Task<ScraperData>;
+  mailer: MailerQueue;
+  scraper: ScraperQueue;
 }
 
 export async function createQueue(options: QueueOptions): Promise<TaskQueue> {

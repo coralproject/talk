@@ -1,7 +1,7 @@
 import { RestClient } from "../lib/rest";
 
 export default function signOut(rest: RestClient) {
-  return rest.fetch("/tenant/auth", {
+  return rest.fetch("/auth", {
     method: "DELETE",
   });
 }

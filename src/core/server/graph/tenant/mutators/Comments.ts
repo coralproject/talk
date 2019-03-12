@@ -23,7 +23,7 @@ import {
 
 import { validateMaximumLength } from "./util";
 
-export const Comment = (ctx: TenantContext) => ({
+export const Comments = (ctx: TenantContext) => ({
   create: ({
     clientMutationId,
     ...comment

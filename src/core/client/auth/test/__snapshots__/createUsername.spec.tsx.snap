@@ -11,7 +11,7 @@ exports[`accepts valid username 1`] = `
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
-      Your username is a unique identifier that will appear on all of your comments.
+      Your username is an identifier that will appear on all of your comments.
     </p>
     <div
       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -69,7 +69,7 @@ exports[`checks for invalid username 1`] = `
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
-      Your username is a unique identifier that will appear on all of your comments.
+      Your username is an identifier that will appear on all of your comments.
     </p>
     <div
       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -159,7 +159,7 @@ exports[`renders createUsername view 1`] = `
           <p
             className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
-            Your username is a unique identifier that will appear on all of your comments.
+            Your username is an identifier that will appear on all of your comments.
           </p>
           <div
             className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -220,7 +220,7 @@ exports[`shows error when submitting empty form 1`] = `
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
-      Your username is a unique identifier that will appear on all of your comments.
+      Your username is an identifier that will appear on all of your comments.
     </p>
     <div
       className="HorizontalGutter-root FormField-root HorizontalGutter-half"
@@ -291,7 +291,7 @@ exports[`shows server error 1`] = `
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
-      Your username is a unique identifier that will appear on all of your comments.
+      Your username is an identifier that will appear on all of your comments.
     </p>
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
@@ -361,7 +361,7 @@ exports[`successfully sets username 1`] = `
     <p
       className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
-      Your username is a unique identifier that will appear on all of your comments.
+      Your username is an identifier that will appear on all of your comments.
     </p>
     <div
       className="HorizontalGutter-root FormField-root HorizontalGutter-half"

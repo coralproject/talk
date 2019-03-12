@@ -1,6 +1,7 @@
 import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
+import { GraphQLSchema } from "graphql";
 import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
@@ -11,9 +12,8 @@ import { HTMLErrorHandler } from "talk-server/app/middleware/error";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { createPassport } from "talk-server/app/middleware/passport";
 import { Config } from "talk-server/config";
-import { handleSubscriptions } from "talk-server/graph/common/subscriptions/middleware";
-import { Schemas } from "talk-server/graph/schemas";
-import { TaskQueue } from "talk-server/queue";
+import { MailerQueue } from "talk-server/queue/tasks/mailer";
+import { ScraperQueue } from "talk-server/queue/tasks/scraper";
 import { I18n } from "talk-server/services/i18n";
 import { JWTSigningConfig } from "talk-server/services/jwt";
 import { AugmentedRedis } from "talk-server/services/redis";
@@ -24,15 +24,16 @@ import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
 export interface AppOptions {
-  parent: Express;
-  queue: TaskQueue;
   config: Config;
+  i18n: I18n;
+  mailerQueue: MailerQueue;
+  scraperQueue: ScraperQueue;
   mongo: Db;
+  parent: Express;
   redis: AugmentedRedis;
-  schemas: Schemas;
+  schema: GraphQLSchema;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
-  i18n: I18n;
 }
 
 /**
@@ -52,12 +53,7 @@ export async function createApp(options: AppOptions): Promise<Express> {
   const passport = createPassport(options);
 
   // Mount the router.
-  parent.use(
-    "/",
-    await createRouter(options, {
-      passport,
-    })
-  );
+  parent.use("/", createRouter(options, { passport }));
 
   // Enable CORS headers for media assets, font's require them.
   parent.use("/assets/media", cors());
@@ -119,28 +115,4 @@ function setupViews(options: AppOptions) {
 
   // set .html as the default extension.
   parent.set("view engine", "html");
-}
-
-/**
- * attachSubscriptionHandlers attaches all the handlers to the http.Server to
- * handle websocket traffic by upgrading their http connections to websocket.
- *
- * @param schemas schemas for every schema this application handles
- * @param server the http.Server to attach the websocket upgrader to
- */
-export async function attachSubscriptionHandlers(
-  schemas: Schemas,
-  server: http.Server
-) {
-  // Setup the Management Subscription endpoint.
-  handleSubscriptions(server, {
-    schema: schemas.management,
-    path: "/api/management/live",
-  });
-
-  // Setup the Tenant Subscription endpoint.
-  handleSubscriptions(server, {
-    schema: schemas.tenant,
-    path: "/api/tenant/live",
-  });
 }

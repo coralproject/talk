@@ -37,6 +37,7 @@ export interface OIDCIDToken {
   picture?: string;
   name?: string;
   nickname?: string;
+  preferred_username?: string;
 }
 
 export interface StrategyItem {
@@ -121,11 +122,18 @@ export const OIDCIDTokenSchema = Joi.object()
     picture: Joi.string().default(undefined),
     name: Joi.string().default(undefined),
     nickname: Joi.string().default(undefined),
+    preferred_username: Joi.string().default(undefined),
   })
-  .optionalKeys(["picture", "email_verified", "name", "nickname"]);
+  .optionalKeys([
+    "picture",
+    "email_verified",
+    "name",
+    "nickname",
+    "preferred_username",
+  ]);
 
 export async function findOrCreateOIDCUser(
-  db: Db,
+  mongo: Db,
   tenant: Tenant,
   integration: GQLOIDCAuthIntegration,
   token: OIDCIDToken
@@ -140,6 +148,7 @@ export async function findOrCreateOIDCUser(
     picture,
     name,
     nickname,
+    preferred_username,
   }: OIDCIDToken = validate(OIDCIDTokenSchema, token);
 
   // Construct the profile that will be used to query for the user.
@@ -151,7 +160,7 @@ export async function findOrCreateOIDCUser(
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(db, tenant.id, {
+  let user = await retrieveUserWithProfile(mongo, tenant.id, {
     // NOTE: (wyattjoh) as the current requirements do not allow multiple OIDC integrations, we are only getting the profile based on the OIDC provider.
     type: "oidc",
     id: sub,
@@ -164,11 +173,12 @@ export async function findOrCreateOIDCUser(
 
     // FIXME: implement rules.
 
-    const displayName = nickname || name || undefined;
+    // Try to extract the username from the following chain:
+    const username = preferred_username || nickname || name;
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(db, tenant, {
-      displayName,
+    user = await upsert(mongo, tenant, {
+      username,
       role: GQLUSER_ROLE.COMMENTER,
       email,
       emailVerified: email_verified,
@@ -310,7 +320,7 @@ export default class OIDCStrategy extends Strategy {
     const { clientID, clientSecret, authorizationURL, tokenURL } = integration;
 
     // Construct the callbackURL from the request.
-    const callbackURL = reconstructURL(req, `/api/tenant/auth/oidc/callback`);
+    const callbackURL = reconstructURL(req, `/api/auth/oidc/callback`);
 
     // Create a new OAuth2Strategy, where we pass the verify callback bound to
     // this OIDCStrategy instance.

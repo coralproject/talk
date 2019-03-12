@@ -90,7 +90,7 @@ export const spam: IntermediateModerationPhase = async ({
       user_agent: userAgent, // REQUIRED
       comment_content: comment.body,
       permalink: story.url,
-      comment_author: author.displayName || author.username || "",
+      comment_author: author.username || "",
       comment_type: "comment",
       is_test: false,
     });

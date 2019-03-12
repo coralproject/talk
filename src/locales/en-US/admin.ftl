@@ -174,17 +174,6 @@ configure-auth-sso-regenerateWarning =
 configure-auth-local-loginWith = Login with Email Authentication
 configure-auth-local-useLoginOn = Use Email Authentication login on
 
-configure-auth-displayNamesConfig-title = Display Names
-configure-auth-displayNamesConfig-explanationShort =
-  Some Authentication Integrations include a Display Name as well as a User Name.
-configure-auth-displayNamesConfig-explanationLong =
-  A User Name has to be unique (there can only be one Juan_Doe, for example),
-  whereas a Display Name does not. If your authentication provider allows for Display Names,
-  you can enable this option. This allows for fewer strange names (Juan_Doe23245) –
-  however it could also be used to spoof/impersonate another user.
-configure-auth-displayNamesConfig-showDisplayNames = Show Display Names (if available)
-configure-auth-displayNamesConfig-hideDisplayNames = Hide Display Names (if available)
-
 configure-auth-oidc-loginWith = Login with OpenID Connect
 configure-auth-oidc-toLearnMore = To learn more: <link></link>
 configure-auth-oidc-providerName = Provider Name
@@ -317,7 +306,7 @@ moderate-single-singleCommentView = Single Comment View
 
 createUsername-createUsernameHeader = Create Username
 createUsername-whatItIs =
-  Your username is a unique identifier that will appear on all of your comments.
+  Your username is an identifier that will appear on all of your comments.
 createUsername-createUsernameButton = Create Username
 createUsername-usernameLabel = Username
 createUsername-usernameDescription = You may use “_” and “.” Spaces not permitted.

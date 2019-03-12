@@ -1,6 +1,5 @@
 import { Omit } from "talk-common/types";
 import {
-  GQLAuthDisplayNameConfiguration,
   GQLCharCount,
   GQLDisableCommenting,
   GQLEmail,
@@ -71,12 +70,6 @@ export interface Auth {
    * authentication solutions.
    */
   integrations: AuthIntegrations;
-
-  /**
-   * displayName contains configuration related to the use of Display Names
-   * across AuthIntegrations.
-   */
-  displayName: GQLAuthDisplayNameConfiguration;
 }
 
 export interface Settings extends ModerationSettings {

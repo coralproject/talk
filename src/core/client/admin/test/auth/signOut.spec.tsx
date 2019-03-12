@@ -40,7 +40,7 @@ it("logs out", async () => {
   const restMock = sinon.mock(context.rest);
   restMock
     .expects("fetch")
-    .withArgs("/tenant/auth", {
+    .withArgs("/auth", {
       method: "DELETE",
     })
     .once()

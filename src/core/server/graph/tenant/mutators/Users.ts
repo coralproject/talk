@@ -1,7 +1,7 @@
 import { ERROR_CODES } from "talk-common/errors";
 import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
 import TenantContext from "talk-server/graph/tenant/context";
-import * as user from "talk-server/models/user";
+import { User } from "talk-server/models/user";
 import {
   createToken,
   deactivateToken,
@@ -9,13 +9,11 @@ import {
   setPassword,
   setUsername,
   updateAvatar,
-  updateDisplayName,
   updateEmail,
   updatePassword,
   updateRole,
   updateUsername,
 } from "talk-server/services/users";
-
 import {
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
@@ -24,16 +22,15 @@ import {
   GQLSetUsernameInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
-  GQLUpdateUserDisplayNameInput,
   GQLUpdateUserEmailInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
 } from "../schema/__generated__/types";
 
-export const User = (ctx: TenantContext) => ({
+export const Users = (ctx: TenantContext) => ({
   setUsername: async (
     input: GQLSetUsernameInput
-  ): Promise<Readonly<user.User> | null> =>
+  ): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
       setUsername(ctx.mongo, ctx.tenant, ctx.user!, input.username),
       {
@@ -42,13 +39,10 @@ export const User = (ctx: TenantContext) => ({
           ERROR_CODES.USERNAME_CONTAINS_INVALID_CHARACTERS,
           ERROR_CODES.USERNAME_EXCEEDS_MAX_LENGTH,
           ERROR_CODES.USERNAME_TOO_SHORT,
-          ERROR_CODES.DUPLICATE_USERNAME,
         ],
       }
     ),
-  setEmail: async (
-    input: GQLSetEmailInput
-  ): Promise<Readonly<user.User> | null> =>
+  setEmail: async (input: GQLSetEmailInput): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
       setEmail(ctx.mongo, ctx.tenant, ctx.user!, input.email),
       {
@@ -62,11 +56,11 @@ export const User = (ctx: TenantContext) => ({
     ),
   setPassword: async (
     input: GQLSetPasswordInput
-  ): Promise<Readonly<user.User> | null> =>
+  ): Promise<Readonly<User> | null> =>
     setPassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
   updatePassword: async (
     input: GQLUpdatePasswordInput
-  ): Promise<Readonly<user.User> | null> =>
+  ): Promise<Readonly<User> | null> =>
     updatePassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
@@ -81,8 +75,6 @@ export const User = (ctx: TenantContext) => ({
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
     updateUsername(ctx.mongo, ctx.tenant, input.userID, input.username),
-  updateUserDisplayName: async (input: GQLUpdateUserDisplayNameInput) =>
-    updateDisplayName(ctx.mongo, ctx.tenant, input.userID, input.displayName),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>

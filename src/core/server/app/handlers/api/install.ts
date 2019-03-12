@@ -1,4 +1,3 @@
-import { RequestHandler } from "express";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import { Db } from "mongodb";
@@ -7,12 +6,12 @@ import { LanguageCode, LOCALES } from "talk-common/helpers/i18n/locales";
 import { Omit } from "talk-common/types";
 import { validate } from "talk-server/app/request/body";
 import { Config } from "talk-server/config";
+import { TenantInstalledAlreadyError } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
 import { install, InstallTenant } from "talk-server/services/tenant";
-import TenantCache from "talk-server/services/tenant/cache";
 import { upsert, UpsertUser } from "talk-server/services/users";
-import { Request } from "talk-server/types/express";
+import { RequestHandler } from "talk-server/types/express";
 
 export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain" | "locale"> & {
@@ -53,23 +52,30 @@ const TenantInstallBodySchema = Joi.object().keys({
 });
 
 export interface TenantInstallHandlerOptions {
-  cache: TenantCache;
   redis: Redis;
   mongo: Db;
   config: Config;
 }
 
-export const tenantInstallHandler = ({
+export const installHandler = ({
   mongo,
   redis,
-  cache,
   config,
-}: TenantInstallHandlerOptions): RequestHandler => async (
-  req: Request,
-  res,
-  next
-) => {
+}: TenantInstallHandlerOptions): RequestHandler => async (req, res, next) => {
   try {
+    if (!req.talk) {
+      return next(new Error("talk was not set"));
+    }
+
+    if (!req.talk.cache) {
+      return next(new Error("cache was not set"));
+    }
+
+    if (req.talk.tenant) {
+      // There's already a Tenant on the request! No need to process further.
+      return next(new TenantInstalledAlreadyError());
+    }
+
     // Validate that the payload passed in was correct, it will throw if the
     // payload is invalid.
     const {
@@ -85,7 +91,7 @@ export const tenantInstallHandler = ({
 
     // Install will throw if it can not create a Tenant, or it has already been
     // installed.
-    const tenant = await install(mongo, redis, cache, {
+    const tenant = await install(mongo, redis, req.talk.cache.tenant, {
       ...tenantInput,
       // Infer the Tenant domain via the hostname parameter.
       domain: req.hostname,

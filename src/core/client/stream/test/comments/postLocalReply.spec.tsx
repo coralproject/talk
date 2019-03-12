@@ -40,7 +40,7 @@ beforeEach(() => {
         });
         return {
           edge: {
-            cursor: null,
+            cursor: "",
             node: {
               ...baseComment,
               id: "comment-x",

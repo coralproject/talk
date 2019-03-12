@@ -8,6 +8,6 @@ import { reconstructTenantURLResolver } from "./util";
 export const GoogleAuthIntegration: GQLGoogleAuthIntegrationTypeResolver<
   GQLGoogleAuthIntegration
 > = {
-  callbackURL: reconstructTenantURLResolver("/api/tenant/auth/google/callback"),
-  redirectURL: reconstructTenantURLResolver("/api/tenant/auth/google"),
+  callbackURL: reconstructTenantURLResolver("/api/auth/google/callback"),
+  redirectURL: reconstructTenantURLResolver("/api/auth/google"),
 };

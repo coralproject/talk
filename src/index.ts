@@ -3,7 +3,9 @@ import sourceMapSupport from "source-map-support";
 
 // Configure the source map support so stack traces will reference the source
 // files rather than the transpiled code.
-sourceMapSupport.install();
+sourceMapSupport.install({
+  environment: "node",
+});
 
 // Apply all the configuration provided in the .env file if it isn't already in
 // the environment.

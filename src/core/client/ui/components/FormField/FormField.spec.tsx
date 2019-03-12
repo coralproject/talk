@@ -17,7 +17,7 @@ it("works with multiple form components", () => {
     <FormField>
       <InputLabel>Username</InputLabel>
       <InputDescription>
-        A unique identifier displayed on your comments. You may use “_” and “.”
+        An identifier displayed on your comments. You may use “_” and “.”
       </InputDescription>
       <TextField />
     </FormField>

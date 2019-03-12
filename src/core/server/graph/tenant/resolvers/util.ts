@@ -1,9 +1,9 @@
 import { GraphQLResolveInfo } from "graphql";
 import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
-import { parseQuery, stringifyQuery } from "talk-common/utils";
 import { URL } from "url";
 
+import { parseQuery, stringifyQuery } from "talk-common/utils";
 import { constructTenantURL, reconstructURL } from "talk-server/app/url";
 
 import TenantContext from "../context";

@@ -10,14 +10,12 @@ import {
   GQLScrapeStoryInput,
   GQLUpdateStoryInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import * as story from "talk-server/models/story";
+import { Story } from "talk-server/models/story";
 import { create, merge, remove, update } from "talk-server/services/stories";
 import { scrape } from "talk-server/services/stories/scraper";
 
-export const Story = (ctx: TenantContext) => ({
-  create: async (
-    input: GQLCreateStoryInput
-  ): Promise<Readonly<story.Story> | null> =>
+export const Stories = (ctx: TenantContext) => ({
+  create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
       create(
         ctx.mongo,
@@ -33,9 +31,7 @@ export const Story = (ctx: TenantContext) => ({
         ],
       }
     ),
-  update: async (
-    input: GQLUpdateStoryInput
-  ): Promise<Readonly<story.Story> | null> =>
+  update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
       update(ctx.mongo, ctx.tenant, input.id, omitBy(input.story, isNull)),
       {
@@ -45,9 +41,7 @@ export const Story = (ctx: TenantContext) => ({
         ],
       }
     ),
-  merge: async (
-    input: GQLMergeStoriesInput
-  ): Promise<Readonly<story.Story> | null> =>
+  merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
     merge(
       ctx.mongo,
       ctx.redis,
@@ -55,12 +49,8 @@ export const Story = (ctx: TenantContext) => ({
       input.destinationID,
       input.sourceIDs
     ),
-  remove: async (
-    input: GQLRemoveStoryInput
-  ): Promise<Readonly<story.Story> | null> =>
+  remove: async (input: GQLRemoveStoryInput): Promise<Readonly<Story> | null> =>
     remove(ctx.mongo, ctx.tenant, input.id, input.includeComments),
-  scrape: async (
-    input: GQLScrapeStoryInput
-  ): Promise<Readonly<story.Story> | null> =>
+  scrape: async (input: GQLScrapeStoryInput): Promise<Readonly<Story> | null> =>
     scrape(ctx.mongo, ctx.tenant.id, input.id),
 });

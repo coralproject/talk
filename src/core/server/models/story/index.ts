@@ -5,10 +5,18 @@ import { Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { DuplicateStoryURLError } from "talk-server/errors";
 import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "talk-server/models/helpers/query";
+import Query, {
+  createConnectionOrderVariants,
+  createIndexFactory,
+} from "talk-server/models/helpers/query";
 import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
+import {
+  Connection,
+  ConnectionInput,
+  resolveConnection,
+} from "../helpers/connection";
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
@@ -18,8 +26,8 @@ import {
 // Export everything under counts.
 export * from "./counts";
 
-function collection<T = Story>(db: Db) {
-  return db.collection<Readonly<T>>("stories");
+function collection<T = Story>(mongo: Db) {
+  return mongo.collection<Readonly<T>>("stories");
 }
 
 export interface Story extends TenantResource {
@@ -71,6 +79,17 @@ export async function createStoryIndexes(mongo: Db) {
 
   // UNIQUE { url }
   await createIndex({ tenantID: 1, url: 1 }, { unique: true });
+
+  const variants = createConnectionOrderVariants<Readonly<Story>>([
+    { createdAt: -1 },
+  ]);
+
+  // Story based Comment Connection pagination.
+  // { closedAt, ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+    closedAt: 1,
+  });
 }
 
 export interface UpsertStoryInput {
@@ -79,7 +98,7 @@ export interface UpsertStoryInput {
 }
 
 export async function upsertStory(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   { id, url }: UpsertStoryInput
 ) {
@@ -103,7 +122,7 @@ export async function upsertStory(
 
   // Perform the find and update operation to try and find and or create the
   // story.
-  const result = await collection(db).findOneAndUpdate(
+  const result = await collection(mongo).findOneAndUpdate(
     {
       url,
       tenantID,
@@ -128,21 +147,21 @@ export interface FindOrCreateStoryInput {
 }
 
 export async function findOrCreateStory(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   { id, url }: FindOrCreateStoryInput
 ) {
   if (id) {
     if (url) {
       // The URL was specified, this is an upsert operation.
-      return upsertStory(db, tenantID, {
+      return upsertStory(mongo, tenantID, {
         id,
         url,
       });
     }
 
     // The URL was not specified, this is a lookup operation.
-    return retrieveStory(db, tenantID, id);
+    return retrieveStory(mongo, tenantID, id);
   }
 
   // The ID was not specified, this is an upsert operation. Check to see that
@@ -151,10 +170,10 @@ export async function findOrCreateStory(
     throw new Error("cannot upsert an story without the url");
   }
 
-  return upsertStory(db, tenantID, { url });
+  return upsertStory(mongo, tenantID, { url });
 }
 
-export type CreateStoryInput = Partial<Pick<Story, "metadata">>;
+export type CreateStoryInput = Partial<Pick<Story, "metadata" | "scrapedAt">>;
 
 export async function createStory(
   mongo: Db,
@@ -197,23 +216,23 @@ export async function createStory(
 }
 
 export async function retrieveStoryByURL(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   url: string
 ) {
-  return collection(db).findOne({ url, tenantID });
+  return collection(mongo).findOne({ url, tenantID });
 }
 
-export async function retrieveStory(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ id, tenantID });
+export async function retrieveStory(mongo: Db, tenantID: string, id: string) {
+  return collection(mongo).findOne({ id, tenantID });
 }
 
 export async function retrieveManyStories(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(db).find({
+  const cursor = await collection(mongo).find({
     id: { $in: ids },
     tenantID,
   });
@@ -224,11 +243,11 @@ export async function retrieveManyStories(
 }
 
 export async function retrieveManyStoriesByURL(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   urls: string[]
 ) {
-  const cursor = await collection(db).find({
+  const cursor = await collection(mongo).find({
     url: { $in: urls },
     tenantID,
   });
@@ -244,7 +263,7 @@ export type UpdateStoryInput = Omit<
 >;
 
 export async function updateStory(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   id: string,
   input: UpdateStoryInput
@@ -259,7 +278,7 @@ export async function updateStory(
   };
 
   try {
-    const result = await collection(db).findOneAndUpdate(
+    const result = await collection(mongo).findOneAndUpdate(
       { id, tenantID },
       update,
       // False to return the updated document instead of the original
@@ -303,4 +322,36 @@ export async function removeStories(
       $in: ids,
     },
   });
+}
+
+export type StoryConnectionInput = ConnectionInput<Story>;
+
+export async function retrieveStoryConnection(
+  mongo: Db,
+  tenantID: string,
+  input: StoryConnectionInput
+): Promise<Readonly<Connection<Readonly<Story>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return retrieveConnection(input, query);
+}
+
+async function retrieveConnection(
+  input: StoryConnectionInput,
+  query: Query<Story>
+): Promise<Readonly<Connection<Readonly<Story>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, story => story.createdAt);
 }

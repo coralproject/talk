@@ -3,33 +3,30 @@ import path from "path";
 
 import { AppOptions } from "talk-server/app";
 import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import { cspTenantMiddleware } from "talk-server/app/middleware/csp/tenant";
 import { installedMiddleware } from "talk-server/app/middleware/installed";
 import playground from "talk-server/app/middleware/playground";
+import { tenantMiddleware } from "talk-server/app/middleware/tenant";
 import { RouterOptions } from "talk-server/app/router/types";
 import logger from "talk-server/logger";
 
-import { cspTenantMiddleware } from "talk-server/app/middleware/csp/tenant";
-import { tenantMiddleware } from "talk-server/app/middleware/tenant";
 import Entrypoints from "../helpers/entrypoints";
 import { createAPIRouter } from "./api";
 import { createClientTargetRouter } from "./client";
 
-export async function createRouter(app: AppOptions, options: RouterOptions) {
+export function createRouter(app: AppOptions, options: RouterOptions) {
   // Create a router.
   const router = express.Router();
 
-  router.use("/api", noCacheMiddleware, await createAPIRouter(app, options));
+  // Attach the API router.
+  router.use("/api", noCacheMiddleware, createAPIRouter(app, options));
 
   // Attach the GraphiQL if enabled.
   if (app.config.get("enable_graphiql")) {
     attachGraphiQL(router, app);
   }
 
-  router.use(tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }));
-  router.use(cspTenantMiddleware);
-
-  const staticURI = app.config.get("static_uri");
-
+  // TODO: (wyattjoh) figure out a better way of referencing paths.
   // Load the entrypoint manifest.
   const manifest = path.join(
     __dirname,
@@ -43,8 +40,20 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     "asset-manifest.json"
   );
   const entrypoints = Entrypoints.fromFile(manifest);
-
   if (entrypoints) {
+    // Tenant identification middleware.
+    router.use(
+      tenantMiddleware({
+        cache: app.tenantCache,
+        passNoTenant: true,
+      })
+    );
+
+    // Add CSP headers to the request, which only apply when serving HTML content.
+    router.use(cspTenantMiddleware);
+
+    const staticURI = app.config.get("static_uri");
+
     // Add the embed targets.
     router.use(
       "/embed/stream",
@@ -75,9 +84,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
     router.use(
       "/admin",
       // If we aren't already installed, redirect the user to the install page.
-      installedMiddleware({
-        tenantCache: app.tenantCache,
-      }),
+      installedMiddleware(),
       createClientTargetRouter({
         staticURI,
         cacheDuration: false,
@@ -90,7 +97,6 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
       installedMiddleware({
         redirectIfInstalled: true,
         redirectURL: "/admin",
-        tenantCache: app.tenantCache,
       }),
       createClientTargetRouter({
         staticURI,
@@ -104,7 +110,7 @@ export async function createRouter(app: AppOptions, options: RouterOptions) {
       "/",
       // Redirect the user to the install page if they are not, otherwise redirect
       // them to the admin.
-      installedMiddleware({ tenantCache: app.tenantCache }),
+      installedMiddleware(),
       (req, res, next) => res.redirect("/admin")
     );
   } else {
@@ -130,21 +136,6 @@ function attachGraphiQL(router: Router, app: AppOptions) {
     );
   }
 
-  // Tenant GraphiQL
-  router.get(
-    "/tenant/graphiql",
-    playground({
-      endpoint: "/api/tenant/graphql",
-      subscriptionEndpoint: "/api/tenant/live",
-    })
-  );
-
-  // Management GraphiQL
-  router.get(
-    "/management/graphiql",
-    playground({
-      endpoint: "/api/management/graphql",
-      subscriptionEndpoint: "/api/management/live",
-    })
-  );
+  // GraphiQL
+  router.get("/graphiql", playground({ endpoint: "/api/graphql" }));
 }

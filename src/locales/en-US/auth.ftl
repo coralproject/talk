@@ -73,7 +73,7 @@ resetPassword-resetPasswordButton = Reset Password
 
 createUsername-createUsernameHeader = Create Username
 createUsername-whatItIs =
-  Your username is a unique identifier that will appear on all of your comments.
+  Your username is an identifier that will appear on all of your comments.
 createUsername-createUsernameButton = Create Username
 
 ## Add Email Address

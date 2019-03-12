@@ -1,9 +1,9 @@
-import { Db } from "mongodb";
 import { Profile, Strategy } from "passport-facebook";
 
-import OAuth2Strategy from "talk-server/app/middleware/passport/strategies/oauth2";
+import OAuth2Strategy, {
+  OAuth2StrategyOptions,
+} from "talk-server/app/middleware/passport/strategies/oauth2";
 import { constructTenantURL } from "talk-server/app/url";
-import { Config } from "talk-server/config";
 import {
   GQLAuthIntegrations,
   GQLFacebookAuthIntegration,
@@ -14,14 +14,9 @@ import {
   FacebookProfile,
   retrieveUserWithProfile,
 } from "talk-server/models/user";
-import TenantCache from "talk-server/services/tenant/cache";
 import { upsert } from "talk-server/services/users";
 
-export interface FacebookStrategyOptions {
-  config: Config;
-  mongo: Db;
-  tenantCache: TenantCache;
-}
+export type FacebookStrategyOptions = OAuth2StrategyOptions;
 
 export default class FacebookStrategy extends OAuth2Strategy<
   GQLFacebookAuthIntegration,
@@ -77,7 +72,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
       }
 
       user = await upsert(this.mongo, tenant, {
-        displayName,
+        username: displayName,
         role: GQLUSER_ROLE.COMMENTER,
         email,
         emailVerified,
@@ -102,7 +97,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
         callbackURL: constructTenantURL(
           this.config,
           tenant,
-          "/api/tenant/auth/facebook/callback"
+          "/api/auth/facebook/callback"
         ),
         profileFields: ["id", "displayName", "photos", "email"],
         enableProof: true,

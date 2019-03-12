@@ -11,7 +11,7 @@ import customErrorMiddleware from "./customErrorMiddleware";
 
 export type TokenGetter = () => string;
 
-const graphqlURL = "/api/tenant/graphql";
+const graphqlURL = "/api/graphql";
 
 export default function createNetwork(tokenGetter: TokenGetter) {
   return new RelayNetworkLayer([

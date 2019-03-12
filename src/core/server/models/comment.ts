@@ -15,10 +15,11 @@ import {
 import {
   Connection,
   createConnection,
-  getPageInfo,
+  doesNotContainNull,
   nodesToEdges,
   NodeToCursorTransformer,
   OrderedConnectionInput,
+  resolveConnection,
 } from "talk-server/models/helpers/connection";
 import Query, {
   createConnectionOrderVariants,
@@ -124,6 +125,11 @@ export interface Comment extends TenantResource {
   replyCount: number;
 
   /**
+   * metadata stores the deep Comment properties.
+   */
+  metadata?: Record<string, any>;
+
+  /**
    * createdAt is the date that this Comment was created.
    */
   createdAt: Date;
@@ -133,11 +139,6 @@ export interface Comment extends TenantResource {
    * undefined, this Comment is not deleted.
    */
   deletedAt?: Date;
-
-  /**
-   * metadata stores the deep Comment properties.
-   */
-  metadata?: Record<string, any>;
 }
 
 export async function createCommentIndexes(mongo: Db) {
@@ -550,6 +551,7 @@ export async function retrieveCommentParentsConnection(
 
     return {
       edges: [{ node: parent, cursor: 1 }],
+      nodes: [parent],
       pageInfo: {
         hasNextPage: false,
         hasPreviousPage: comment.grandparentIDs.length > 0,
@@ -566,29 +568,26 @@ export async function retrieveCommentParentsConnection(
   const parentIDSubset = parentIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
-  const parents = await retrieveManyComments(mongo, tenantID, parentIDSubset);
+  const nodes = await retrieveManyComments(mongo, tenantID, parentIDSubset);
 
   // Loop over the list to ensure that none of the entries is null (indicating
   // that there was a misplaced parent). We can assert the type here because we
   // will throw an error and abort if one of the comments are null.
-  parents.forEach(parentComment => {
-    if (!parentComment) {
-      // TODO: (wyattjoh) replace with a better error.
-      throw new Error("parent id specified does not exist");
-    }
-
-    return true;
-  });
+  if (!doesNotContainNull(nodes)) {
+    // TODO: (wyattjoh) replace with a better error.
+    throw new Error("parent id specified does not exist");
+  }
 
   const edges = nodesToEdges(
     // We can't have a null parent after the forEach filter above.
-    parents as Array<Readonly<Comment>>,
+    nodes,
     (_, index) => index + skip + 1
   ).reverse();
 
   // Return the resolved connection.
   return {
     edges,
+    nodes,
     pageInfo: {
       hasNextPage: false,
       hasPreviousPage: parentIDs.length > limit + skip,
@@ -721,44 +720,8 @@ async function retrieveConnection(
   // Apply some sorting options.
   applyInputToQuery(input, query);
 
-  // We load one more than the limit so we can determine if there is
-  // another page of entries. This gets trimmed off below after we've checked to
-  // see if this constitutes another page of edges.
-  query.first(input.first + 1);
-
-  // Get the cursor.
-  const cursor = await query.exec();
-
-  // Get the comments from the cursor.
-  const nodes = await cursor.toArray();
-
   // Return a connection.
-  return convertNodesToConnection(input, nodes);
-}
-
-export function convertNodesToConnection(
-  input: CommentConnectionInput,
-  nodes: Array<Readonly<Comment>>
-) {
-  // Convert the nodes to edges (which will include the extra edge we don't need
-  // if there is more results).
-  const edges = nodesToEdges(nodes, cursorGetterFactory(input));
-
-  // Get the pageInfo for the connection. We will use this to also determine if
-  // we need to trim off the extra edge that we requested by comparing its
-  // hasNextPage parameter.
-  const pageInfo = getPageInfo(input, edges);
-  if (pageInfo.hasNextPage) {
-    // Because this means that we got one more than expected, we should trim off
-    // the extra edge that was retrieved.
-    edges.splice(input.first, 1);
-  }
-
-  // Return the connection.
-  return {
-    edges,
-    pageInfo,
-  };
+  return resolveConnection(query, input, cursorGetterFactory(input));
 }
 
 function applyInputToQuery(

@@ -40,17 +40,6 @@ async function main() {
         customScalarType: { Cursor: "Cursor", Time: "Date" },
       },
     },
-    {
-      name: "management",
-      fileName: getFileName("management"),
-      config: {
-        contextType: "ManagementContext",
-        importStatements: [
-          'import ManagementContext from "talk-server/graph/management/context";',
-        ],
-        customScalarType: { Time: "Date" },
-      },
-    },
   ];
 
   for (const file of files) {

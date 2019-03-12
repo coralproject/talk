@@ -85,7 +85,7 @@ it("post a reply", async () => {
         });
         return {
           edge: {
-            cursor: null,
+            cursor: "",
             node: {
               ...baseComment,
               id: "comment-x",
@@ -137,7 +137,7 @@ it("post a reply and handle non-visible comment state", async () => {
         });
         return {
           edge: {
-            cursor: null,
+            cursor: "",
             node: {
               ...baseComment,
               id: "comment-x",

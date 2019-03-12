@@ -7,10 +7,12 @@ export enum ERROR_CODES {
    * STORY_CLOSED is used when submitting a comment on a closed story.
    */
   STORY_CLOSED = "STORY_CLOSED",
+
   /**
    * COMMENTING_DISABLED is used when submitting a comment while commenting has been disabled.
    */
   COMMENTING_DISABLED = "COMMENTING_DISABLED",
+
   /**
    * COMMENT_BODY_TOO_SHORT is used when a submitted comment body is too short.
    */
@@ -77,12 +79,6 @@ export enum ERROR_CODES {
   TOKEN_INVALID = "TOKEN_INVALID",
 
   /**
-   * DUPLICATE_USERNAME is returned when a user attempts to create an account
-   * with the same username as another user.
-   */
-  DUPLICATE_USERNAME = "DUPLICATE_USERNAME",
-
-  /**
    * DUPLICATE_EMAIL is returned when a user attempts to create an account
    * with the same email address as another user.
    */
@@ -132,12 +128,6 @@ export enum ERROR_CODES {
   PASSWORD_TOO_SHORT = "PASSWORD_TOO_SHORT",
 
   /**
-   * DISPLAY_NAME_EXCEEDS_MAX_LENGTH is returned when the user attempts to
-   * associate a new display name that exceeds the maximum length.
-   */
-  DISPLAY_NAME_EXCEEDS_MAX_LENGTH = "DISPLAY_NAME_EXCEEDS_MAX_LENGTH",
-
-  /**
    * EMAIL_INVALID_FORMAT is returned when when the user attempts to associate a
    * new email address that is not a valid email address.
    */
@@ -172,4 +162,22 @@ export enum ERROR_CODES {
    * they are not entitled to.
    */
   USER_NOT_ENTITLED = "USER_NOT_ENTITLED",
+
+  /**
+   * STORY_NOT_FOUND is returned when a Story can not be found with the given
+   * ID.
+   */
+  STORY_NOT_FOUND = "STORY_NOT_FOUND",
+
+  /**
+   * COMMENT_NOT_FOUND is returned when a Comment can not be found with the
+   * given ID.
+   */
+  COMMENT_NOT_FOUND = "COMMENT_NOT_FOUND",
+
+  /**
+   * AUTHENTICATION_ERROR is returned when a general authentication error has
+   * occurred and the request can not be processed.
+   */
+  AUTHENTICATION_ERROR = "AUTHENTICATION_ERROR",
 }

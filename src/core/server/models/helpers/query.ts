@@ -1,4 +1,5 @@
-import { merge } from "lodash";
+import { isUndefined, merge, omitBy } from "lodash";
+
 import {
   Collection,
   Cursor,
@@ -38,7 +39,7 @@ export default class Query<T> {
    * @param filter the filter to merge into the existing query
    */
   public where(filter: FilterQuery<T>): Query<T> {
-    this.filter = merge({}, this.filter || {}, filter);
+    this.filter = merge({}, this.filter || {}, omitBy(filter, isUndefined));
     return this;
   }
 
@@ -76,6 +77,17 @@ export default class Query<T> {
    * exec will return a cursor to the query.
    */
   public async exec(): Promise<Cursor<T>> {
+    logger.trace(
+      {
+        collection: this.collection.collectionName,
+        filter: this.filter,
+        limit: this.limit,
+        sort: this.sort,
+        skip: this.skip,
+      },
+      "executing query"
+    );
+
     let cursor = await this.collection.find(this.filter);
 
     if (this.limit) {

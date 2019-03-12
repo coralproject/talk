@@ -128,7 +128,7 @@ The following environment variables can be set to configure the Talk Server:
   (Default `false`)
 - `LOCALE` - Specify the default locale to use for all requests without a locale
   specified. (Default `en-US`)
-- `ENABLE_GRAPHIQL` - When `true`, it will enable the `/tenant/graphiql` even in
+- `ENABLE_GRAPHIQL` - When `true`, it will enable the `/graphiql` even in
   production, use with care. (Default `false`)
 - `CONCURRENCY` - The number of worker nodes to spawn to handle web traffic,
   this should be tied to the number of CPU's available. (Default

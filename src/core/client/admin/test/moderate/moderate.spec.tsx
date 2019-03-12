@@ -357,7 +357,7 @@ describe("rejected queue", () => {
     const testRenderer = await createTestRenderer({
       Query: {
         comments: sinon.stub().callsFake((_, data) => {
-          expect(data).toEqual({ first: 5, filter: { status: "REJECTED" } });
+          expect(data).toEqual({ first: 5, status: "REJECTED" });
           return {
             edges: [
               {
@@ -390,7 +390,7 @@ describe("rejected queue", () => {
             s.onFirstCall().callsFake((_, data) => {
               expect(data).toEqual({
                 first: 5,
-                filter: { status: "REJECTED" },
+                status: "REJECTED",
               });
               return {
                 edges: [
@@ -414,7 +414,7 @@ describe("rejected queue", () => {
               expect(data).toEqual({
                 first: 10,
                 after: rejectedComments[1].createdAt,
-                filter: { status: "REJECTED" },
+                status: "REJECTED",
               });
               return {
                 edges: [
@@ -490,7 +490,7 @@ describe("rejected queue", () => {
     const testRenderer = await createTestRenderer({
       Query: {
         comments: sinon.stub().callsFake((_, data) => {
-          expect(data).toEqual({ first: 5, filter: { status: "REJECTED" } });
+          expect(data).toEqual({ first: 5, status: "REJECTED" });
           return {
             edges: [
               {

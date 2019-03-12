@@ -1,16 +1,11 @@
 import express, { Express } from "express";
+import { GraphQLSchema } from "graphql";
 import http from "http";
 import { Db } from "mongodb";
 
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
-import {
-  attachSubscriptionHandlers,
-  createApp,
-  listenAndServe,
-} from "talk-server/app";
+import { createApp, listenAndServe } from "talk-server/app";
 import config, { Config } from "talk-server/config";
-import getManagementSchema from "talk-server/graph/management/schema";
-import { Schemas } from "talk-server/graph/schemas";
 import getTenantSchema from "talk-server/graph/tenant/schema";
 import logger from "talk-server/logger";
 import { createQueue, TaskQueue } from "talk-server/queue";
@@ -18,10 +13,17 @@ import { I18n } from "talk-server/services/i18n";
 import { createJWTSigningConfig } from "talk-server/services/jwt";
 import { createMongoDB } from "talk-server/services/mongodb";
 import { ensureIndexes } from "talk-server/services/mongodb/indexes";
-import { AugmentedRedis, createRedisClient } from "talk-server/services/redis";
+import {
+  AugmentedRedis,
+  createAugmentedRedisClient,
+  createRedisClient,
+} from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 
 export interface ServerOptions {
+  /**
+   * config when specified will specify the configuration to load.
+   */
   config?: Config;
 }
 
@@ -32,9 +34,8 @@ class Server {
   // parentApp is the root application that the server will bind to.
   private parentApp: Express;
 
-  // schemas are the set of GraphQLSchema objects for each schema used by the
-  // server.
-  private schemas: Schemas;
+  // schema is the GraphQL Schema that relates to the given Tenant.
+  private schema: GraphQLSchema;
 
   // config exposes application specific configuration.
   public config: Config;
@@ -43,8 +44,8 @@ class Server {
   // the requested port.
   public httpServer: http.Server;
 
-  // queue stores a reference to the queues that can process operations.
-  private queue: TaskQueue;
+  // tasks stores a reference to the queues that can process operations.
+  private tasks: TaskQueue;
 
   // redis stores the redis connection used by the application.
   private redis: AugmentedRedis;
@@ -71,12 +72,13 @@ class Server {
     logger.debug({ config: this.config.toString() }, "loaded configuration");
 
     // Load the graph schemas.
-    this.schemas = {
-      management: getManagementSchema(),
-      tenant: getTenantSchema(),
-    };
+    this.schema = getTenantSchema();
   }
 
+  /**
+   * connect will connect to all the databases and start priming data needed for
+   * runtime.
+   */
   public async connect() {
     // Guard against double connecting.
     if (this.connected) {
@@ -88,12 +90,12 @@ class Server {
     this.mongo = await createMongoDB(config);
 
     // Setup Redis.
-    this.redis = await createRedisClient(config);
+    this.redis = await createAugmentedRedisClient(config);
 
     // Create the TenantCache.
     this.tenantCache = new TenantCache(
       this.mongo,
-      await createRedisClient(this.config),
+      createRedisClient(this.config),
       config
     );
 
@@ -101,7 +103,7 @@ class Server {
     await this.tenantCache.primeAll();
 
     // Create the Job Queue.
-    this.queue = await createQueue({
+    this.tasks = await createQueue({
       config: this.config,
       mongo: this.mongo,
       tenantCache: this.tenantCache,
@@ -124,8 +126,9 @@ class Server {
       await ensureIndexes(this.mongo);
     }
 
-    this.queue.mailer.process();
-    this.queue.scraper.process();
+    // Launch all of the job processors.
+    this.tasks.mailer.process();
+    this.tasks.scraper.process();
   }
 
   /**
@@ -163,17 +166,19 @@ class Server {
       redis: this.redis,
       signingConfig,
       tenantCache: this.tenantCache,
-      queue: this.queue,
       config: this.config,
-      schemas: this.schemas,
+      schema: this.schema,
       i18n,
+      mailerQueue: this.tasks.mailer,
+      scraperQueue: this.tasks.scraper,
     });
 
-    // Start the application and store the resulting http.Server.
+    // Start the application and store the resulting http.Server. The server
+    // will return when the server starts listening. The NodeJS application will
+    // not exit until all tasks are handled, which for an open socket, is never.
     this.httpServer = await listenAndServe(app, port);
 
-    // Setup the websocket servers on the new http.Server.
-    attachSubscriptionHandlers(this.schemas, this.httpServer);
+    // TODO: (wyattjoh) add the subscription handler here
 
     logger.info({ port }, "now listening");
   }

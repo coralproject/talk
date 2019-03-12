@@ -250,15 +250,6 @@ export class DuplicateStoryURLError extends TalkError {
   }
 }
 
-export class DuplicateUsernameError extends TalkError {
-  constructor(username: string) {
-    super({
-      code: ERROR_CODES.DUPLICATE_USERNAME,
-      context: { pvt: { username } },
-    });
-  }
-}
-
 export class DuplicateEmailError extends TalkError {
   constructor(email: string) {
     super({ code: ERROR_CODES.DUPLICATE_EMAIL, context: { pvt: { email } } });
@@ -309,15 +300,6 @@ export class UsernameTooShortError extends TalkError {
     super({
       code: ERROR_CODES.USERNAME_TOO_SHORT,
       context: { pub: { length, min } },
-    });
-  }
-}
-
-export class DisplayNameExceedsMaxLengthError extends TalkError {
-  constructor(length: number, max: number) {
-    super({
-      code: ERROR_CODES.DISPLAY_NAME_EXCEEDS_MAX_LENGTH,
-      context: { pub: { length, max } },
     });
   }
 }
@@ -378,6 +360,21 @@ export class UserNotFoundError extends TalkError {
   }
 }
 
+export class StoryNotFoundError extends TalkError {
+  constructor(storyID: string) {
+    super({ code: ERROR_CODES.STORY_NOT_FOUND, context: { pvt: { storyID } } });
+  }
+}
+
+export class CommentNotFoundError extends TalkError {
+  constructor(commentID: string) {
+    super({
+      code: ERROR_CODES.COMMENT_NOT_FOUND,
+      context: { pvt: { commentID } },
+    });
+  }
+}
+
 export class TenantNotFoundError extends TalkError {
   constructor(hostname: string) {
     super({
@@ -411,5 +408,15 @@ export class NotFoundError extends TalkError {
 export class TenantInstalledAlreadyError extends TalkError {
   constructor() {
     super({ code: ERROR_CODES.TENANT_INSTALLED_ALREADY, status: 400 });
+  }
+}
+
+export class AuthenticationError extends TalkError {
+  constructor(reason: string) {
+    super({
+      code: ERROR_CODES.AUTHENTICATION_ERROR,
+      status: 401,
+      context: { pvt: { reason } },
+    });
   }
 }

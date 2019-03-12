@@ -18,9 +18,8 @@ export interface SSOStrategyOptions {
 export interface SSOUserProfile {
   id: string;
   email: string;
-  username?: string;
+  username: string;
   avatar?: string;
-  displayName?: string;
 }
 
 export interface SSOToken {
@@ -38,7 +37,7 @@ export const SSOUserProfileSchema = Joi.object()
   .optionalKeys(["avatar", "displayName"]);
 
 export async function findOrCreateSSOUser(
-  db: Db,
+  mongo: Db,
   tenant: Tenant,
   integration: GQLSSOAuthIntegration,
   token: SSOToken
@@ -49,7 +48,7 @@ export async function findOrCreateSSOUser(
   }
 
   // Unpack/validate the token content.
-  const { id, email, username, displayName, avatar }: SSOUserProfile = validate(
+  const { id, email, username, avatar }: SSOUserProfile = validate(
     SSOUserProfileSchema,
     token.user
   );
@@ -60,7 +59,7 @@ export async function findOrCreateSSOUser(
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(db, tenant.id, profile);
+  let user = await retrieveUserWithProfile(mongo, tenant.id, profile);
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.
@@ -70,11 +69,8 @@ export async function findOrCreateSSOUser(
     // FIXME: (wyattjoh) implement rules! Not all users should be able to create an account via this method.
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(db, tenant, {
+    user = await upsert(mongo, tenant, {
       username,
-      // When the displayName is disabled on the tenant, the displayName will
-      // never be set (or even stored in the database).
-      displayName,
       role: GQLUSER_ROLE.COMMENTER,
       email,
       avatar,

@@ -80,7 +80,7 @@ it("post a comment", async () => {
         });
         return {
           edge: {
-            cursor: null,
+            cursor: "",
             node: {
               ...baseComment,
               id: "comment-x",
@@ -127,7 +127,7 @@ const postACommentAndHandleNonVisibleComment = async (
         });
         return {
           edge: {
-            cursor: null,
+            cursor: "",
             node: {
               ...baseComment,
               id: "comment-x",

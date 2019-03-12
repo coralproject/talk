@@ -6,7 +6,6 @@ import { Omit, Sub } from "talk-common/types";
 import {
   DuplicateEmailError,
   DuplicateUserError,
-  DuplicateUsernameError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   TokenNotFoundError,
@@ -14,11 +13,17 @@ import {
   UserNotFoundError,
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import {
+import Query, {
+  createConnectionOrderVariants,
   createIndexFactory,
   FilterQuery,
 } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
+import {
+  Connection,
+  ConnectionInput,
+  resolveConnection,
+} from "./helpers/connection";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<User>>("users");
@@ -68,8 +73,6 @@ export interface Token {
 export interface User extends TenantResource {
   readonly id: string;
   username?: string;
-  lowercaseUsername?: string;
-  displayName?: string;
   avatar?: string;
   email?: string;
   emailVerified?: boolean;
@@ -85,15 +88,6 @@ export async function createUserIndexes(mongo: Db) {
   // UNIQUE { id }
   await createIndex({ tenantID: 1, id: 1 }, { unique: true });
 
-  // UNIQUE - PARTIAL { lowercaseUsername }
-  await createIndex(
-    { tenantID: 1, lowercaseUsername: 1 },
-    {
-      unique: true,
-      partialFilterExpression: { lowercaseUsername: { $exists: true } },
-    }
-  );
-
   // UNIQUE - PARTIAL { email }
   await createIndex(
     { tenantID: 1, email: 1 },
@@ -105,6 +99,17 @@ export async function createUserIndexes(mongo: Db) {
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
     { unique: true }
   );
+
+  const variants = createConnectionOrderVariants<Readonly<User>>([
+    { createdAt: -1 },
+  ]);
+
+  // Story based Comment Connection pagination.
+  // { role, ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+    role: 1,
+  });
 }
 
 function hashPassword(password: string): Promise<string> {
@@ -113,11 +118,11 @@ function hashPassword(password: string): Promise<string> {
 
 export type UpsertUserInput = Omit<
   User,
-  "id" | "tenantID" | "tokens" | "createdAt" | "lowercaseUsername"
+  "id" | "tenantID" | "tokens" | "createdAt"
 >;
 
 export async function upsertUser(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   input: UpsertUserInput
 ) {
@@ -152,11 +157,6 @@ export async function upsertUser(
     profiles.push(profile);
   }
 
-  // Add in the lowercase username if it was sent.
-  if (input.username) {
-    defaults.lowercaseUsername = input.username.toLowerCase();
-  }
-
   // Merge the defaults and the input together.
   const user: Readonly<User> = {
     ...defaults,
@@ -176,7 +176,7 @@ export async function upsertUser(
   };
 
   // Insert it into the database. This may throw an error.
-  const result = await collection(db).findOneAndUpdate(filter, update, {
+  const result = await collection(mongo).findOneAndUpdate(filter, update, {
     // We are using this to create a user, so we need to upsert it.
     upsert: true,
 
@@ -210,16 +210,16 @@ const createUpsertUserFilter = (user: Readonly<User>) => {
   return query;
 };
 
-export async function retrieveUser(db: Db, tenantID: string, id: string) {
-  return collection(db).findOne({ tenantID, id });
+export async function retrieveUser(mongo: Db, tenantID: string, id: string) {
+  return collection(mongo).findOne({ tenantID, id });
 }
 
 export async function retrieveManyUsers(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   ids: string[]
 ) {
-  const cursor = await collection(db).find({
+  const cursor = await collection(mongo).find({
     id: {
       $in: ids,
     },
@@ -232,11 +232,11 @@ export async function retrieveManyUsers(
 }
 
 export async function retrieveUserWithProfile(
-  db: Db,
+  mongo: Db,
   tenantID: string,
   profile: Partial<Pick<Profile, "id" | "type">>
 ) {
-  return collection(db).findOne({
+  return collection(mongo).findOne({
     tenantID,
     profiles: {
       $elemMatch: profile,
@@ -350,17 +350,7 @@ export async function setUserUsername(
   id: string,
   username: string
 ) {
-  // Lowercase the username.
-  const lowercaseUsername = username.toLowerCase();
-
-  // Search to see if this username has been used before.
-  let user = await collection(mongo).findOne({
-    tenantID,
-    lowercaseUsername,
-  });
-  if (user) {
-    throw new DuplicateUsernameError(username);
-  }
+  // TODO: (wyattjoh) investigate adding the username previously used to an array.
 
   // The username wasn't found, so add it to the user.
   const result = await collection(mongo).findOneAndUpdate(
@@ -372,7 +362,6 @@ export async function setUserUsername(
     {
       $set: {
         username,
-        lowercaseUsername,
       },
     },
     {
@@ -383,7 +372,7 @@ export async function setUserUsername(
   );
   if (!result.value) {
     // Try to get the current user to discover what happened.
-    user = await retrieveUser(mongo, tenantID, id);
+    const user = await retrieveUser(mongo, tenantID, id);
     if (!user) {
       throw new UserNotFoundError(id);
     }
@@ -412,17 +401,7 @@ export async function updateUserUsername(
   id: string,
   username: string
 ) {
-  // Lowercase the username.
-  const lowercaseUsername = username.toLowerCase();
-
-  // Search to see if this username has been used before.
-  let user = await collection(mongo).findOne({
-    tenantID,
-    lowercaseUsername,
-  });
-  if (user) {
-    throw new DuplicateUsernameError(username);
-  }
+  // TODO: (wyattjoh) investigate adding the username previously used to an array.
 
   // The username wasn't found, so add it to the user.
   const result = await collection(mongo).findOneAndUpdate(
@@ -433,54 +412,6 @@ export async function updateUserUsername(
     {
       $set: {
         username,
-        lowercaseUsername,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    // Try to get the current user to discover what happened.
-    user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
-
-    throw new Error("an unexpected error occured");
-  }
-
-  return result.value;
-}
-
-/**
- * updateUserDisplayName will set the displayName of the User. If the display
- * name is not provided, it will be unset.
- *
- * @param mongo the database handle
- * @param tenantID the ID to the Tenant
- * @param id the ID of the User where we are setting the displayName on
- * @param displayName the displayName that we want to set
- */
-export async function updateUserDisplayName(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  displayName?: string
-) {
-  // The username wasn't found, so add it to the user.
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id,
-    },
-    {
-      // This will ensure that if the display name isn't provided, it will unset
-      // the display name on the User.
-      [displayName ? "$set" : "$unset"]: {
-        displayName: displayName ? displayName : 1,
       },
     },
     {
@@ -831,4 +762,36 @@ export async function deactivateUserToken(
     user: updatedUser,
     token,
   };
+}
+
+export type UserConnectionInput = ConnectionInput<User>;
+
+export async function retrieveUserConnection(
+  mongo: Db,
+  tenantID: string,
+  input: UserConnectionInput
+): Promise<Readonly<Connection<Readonly<User>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return retrieveConnection(input, query);
+}
+
+async function retrieveConnection(
+  input: UserConnectionInput,
+  query: Query<User>
+): Promise<Readonly<Connection<Readonly<User>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, user => user.createdAt);
 }

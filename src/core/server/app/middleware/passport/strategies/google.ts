@@ -1,9 +1,9 @@
-import { Db } from "mongodb";
 import { Profile, Strategy } from "passport-google-oauth2";
 
-import OAuth2Strategy from "talk-server/app/middleware/passport/strategies/oauth2";
+import OAuth2Strategy, {
+  OAuth2StrategyOptions,
+} from "talk-server/app/middleware/passport/strategies/oauth2";
 import { constructTenantURL } from "talk-server/app/url";
-import { Config } from "talk-server/config";
 import {
   GQLAuthIntegrations,
   GQLGoogleAuthIntegration,
@@ -14,20 +14,9 @@ import {
   GoogleProfile,
   retrieveUserWithProfile,
 } from "talk-server/models/user";
-import TenantCache from "talk-server/services/tenant/cache";
 import { upsert } from "talk-server/services/users";
 
-export interface GoogleStrategyOptions {
-  config: Config;
-  mongo: Db;
-  tenantCache: TenantCache;
-}
-
-export interface GoogleStrategyOptions {
-  config: Config;
-  mongo: Db;
-  tenantCache: TenantCache;
-}
+export type GoogleStrategyOptions = OAuth2StrategyOptions;
 
 export default class GoogleStrategy extends OAuth2Strategy<
   GQLGoogleAuthIntegration,
@@ -82,7 +71,7 @@ export default class GoogleStrategy extends OAuth2Strategy<
       }
 
       user = await upsert(this.mongo, tenant, {
-        displayName,
+        username: displayName,
         role: GQLUSER_ROLE.COMMENTER,
         email,
         emailVerified,
@@ -107,7 +96,7 @@ export default class GoogleStrategy extends OAuth2Strategy<
         callbackURL: constructTenantURL(
           this.config,
           tenant,
-          "/api/tenant/auth/google/callback"
+          "/api/auth/google/callback"
         ),
         passReqToCallback: true,
       },

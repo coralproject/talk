@@ -602,22 +602,30 @@ type FacebookAuthIntegration {
 ##########################
 
 type AuthIntegrations {
+  """
+  local stores configuration related to email/password based logins.
+  """
   local: LocalAuthIntegration!
-  sso: SSOAuthIntegration!
-  oidc: OIDCAuthIntegration!
-  google: GoogleAuthIntegration!
-  facebook: FacebookAuthIntegration!
-}
 
-"""
-AuthDisplayNameConfiguration allows configuration related to Display Names.
-"""
-type AuthDisplayNameConfiguration {
   """
-  enabled when true will allow the display name to be used by other
-  AuthIntegrations.
+  sso stores configuration related to Single Sign On based logins.
   """
-  enabled: Boolean!
+  sso: SSOAuthIntegration!
+
+  """
+  oidc stores configuration related to OpenID Connect based logins.
+  """
+  oidc: OIDCAuthIntegration!
+
+  """
+  google stores configuration related to Google based logins.
+  """
+  google: GoogleAuthIntegration!
+
+  """
+  facebook stores configuration related to Facebook based logins.
+  """
+  facebook: FacebookAuthIntegration!
 }
 
 """
@@ -630,12 +638,6 @@ type Auth {
   authentication solutions.
   """
   integrations: AuthIntegrations!
-
-  """
-  displayName contains configuration related to the use of Display Names across
-  AuthIntegrations.
-  """
-  displayName: AuthDisplayNameConfiguration! @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1069,11 +1071,6 @@ type User {
   username: String
 
   """
-  displayName is provided optionally when enabled and available.
-  """
-  displayName: String
-
-  """
   email is the current email address for the User.
   """
   email: String
@@ -1114,12 +1111,52 @@ type User {
   commentModerationActionHistory(
     first: Int = 10
     after: Cursor
-  ): CommentModerationActionConnection! @auth(role: [MODERATOR, ADMIN])
+  ): CommentModerationActionConnection! @auth(roles: [MODERATOR, ADMIN])
 
   """
   tokens lists the access tokens associated with the account.
   """
-  tokens: [Token!]! @auth(role: [ADMIN], userIDField: "id")
+  tokens: [Token!]! @auth(roles: [ADMIN], userIDField: "id")
+
+  """
+  createdAt is the time that the User was created at.
+  """
+  createdAt: Time! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+}
+
+"""
+UserEdge represents a unique User in a UsersConnection.
+"""
+type UserEdge {
+  """
+  node is the User for this edge.
+  """
+  node: User!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+"""
+UsersConnection represents a subset of a stories list.
+"""
+type UsersConnection {
+  """
+  edges are a subset of UserEdge's.
+  """
+  edges: [UserEdge!]!
+
+  """
+  nodes is a list of User's.
+  """
+  nodes: [User!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
 }
 
 ################################################################################
@@ -1201,9 +1238,9 @@ type CommentModerationActionEdge {
   node: CommentModerationAction!
 
   """
-
+  cursor is used in pagination.
   """
-  cursor: Cursor
+  cursor: Cursor!
 }
 
 type CommentModerationActionConnection {
@@ -1213,7 +1250,12 @@ type CommentModerationActionConnection {
   edges: [CommentModerationActionEdge!]!
 
   """
-  pageInfo is
+  nodes is a list of CommentModerationAction's.
+  """
+  nodes: [CommentModerationAction!]!
+
+  """
+  pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
 }
@@ -1295,7 +1337,10 @@ type Comment {
   the history of moderator actions performed on the Comment, with the most
   recent last.
   """
-  statusHistory: [CommentModerationAction!]! @auth(role: [MODERATOR, ADMIN])
+  statusHistory(
+    first: Int = 10
+    after: Cursor
+  ): CommentModerationActionConnection! @auth(roles: [MODERATOR, ADMIN])
 
   """
   parentCount is the number of direct parents for this Comment. Currently this
@@ -1399,9 +1444,9 @@ type CommentEdge {
   node: Comment!
 
   """
-
+  cursor is used in pagination.
   """
-  cursor: Cursor
+  cursor: Cursor!
 }
 
 """
@@ -1414,7 +1459,12 @@ type CommentsConnection {
   edges: [CommentEdge!]!
 
   """
-  pageInfo is
+  nodes is a list of Comment's.
+  """
+  nodes: [Comment!]!
+
+  """
+  pageInfo is information to aid in pagination.
   """
   pageInfo: PageInfo!
 }
@@ -1518,6 +1568,21 @@ type StoryMetadata {
 }
 
 """
+STORY_STATUS represents filtering states that a Story can be in.
+"""
+enum STORY_STATUS {
+  """
+  OPEN represents when a given Story is open for commenting.
+  """
+  OPEN
+
+  """
+  CLOSED represents when a given Story is not open for commenting.
+  """
+  CLOSED
+}
+
+"""
 Story is an Article or Page where Comments are written on by Users.
 """
 type Story {
@@ -1537,7 +1602,8 @@ type Story {
   metadata: StoryMetadata
 
   """
-  scrapedAt is the Time that the Story had it's metadata scraped at.
+  scrapedAt is the Time that the Story had it's metadata scraped at. If the time
+  is null, the Story has not been scraped yet.
   """
   scrapedAt: Time
 
@@ -1563,7 +1629,8 @@ type Story {
   moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  closedAt is the Time that the Story is closed for commenting.
+  closedAt is the Time that the Story is closed for commenting. If null or in
+  the future, the story is not yet closed.
   """
   closedAt: Time
 
@@ -1588,21 +1655,39 @@ type Story {
   moderation: MODERATION_MODE!
 }
 
-################################################################################
-## CommentsFilterInput
-################################################################################
+"""
+StoryEdge represents a unique Story in a StoriesConnection.
+"""
+type StoryEdge {
+  """
+  node is the Story for this edge.
+  """
+  node: Story!
 
-input CommentsFilterInput {
   """
-  storyID when specified, will filter to show only Comment's on that Story.
+  cursor is used in pagination.
   """
-  storyID: ID
+  cursor: Cursor!
+}
+
+"""
+StoriesConnection represents a subset of a stories list.
+"""
+type StoriesConnection {
+  """
+  edges are a subset of StoryEdge's.
+  """
+  edges: [StoryEdge!]!
 
   """
-  status when specified, will filter to show only Comment's with that
-  COMMENT_STATUS.
+  nodes is a list of Story's.
   """
-  status: COMMENT_STATUS
+  nodes: [Story!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
 }
 
 ################################################################################
@@ -1616,22 +1701,46 @@ type Query {
   comment(id: ID!): Comment
 
   """
-  comments returns a filtered comments connection that can be paginated.
+  comments returns a filtered comments connection that can be paginated. This is
+  a fairly expensive edge to filter against, moderation queues should utlilize
+  the dedicated edges for more optimized responses.
   """
   comments(
     first: Int = 10
     after: Cursor
-    filter: CommentsFilterInput!
+    storyID: ID
+    status: COMMENT_STATUS
   ): CommentsConnection @auth(roles: [ADMIN, MODERATOR])
 
   """
-  story is the Story specified by its ID/URL.
+  story is a specific article that can be identified by either an ID or a URL.
   """
   story(id: ID, url: String): Story
 
   """
+  stories returns filtered stories that can be paginated.
+  """
+  stories(
+    first: Int = 10
+    after: Cursor
+    status: STORY_STATUS
+  ): StoriesConnection @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  user will return the user referenced by their ID.
+  """
+  user(id: ID!): User @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  users returns filtered users that can be paginated.
+  """
+  users(first: Int = 10, after: Cursor, role: USER_ROLE): UsersConnection!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
   me is the current logged in User. If no user is currently logged in, it will
-  return null.
+  return null. This is the only nullable field that can be returned that depends
+  on the authentication state that will not throw an error.
   """
   me: User
 
@@ -1982,19 +2091,30 @@ input SettingsFacebookAuthIntegrationInput {
 }
 
 input SettingsAuthIntegrationsInput {
+  """
+  local stores configuration related to email/password based logins.
+  """
   local: SettingsLocalAuthIntegrationInput
-  sso: SettingsSSOAuthIntegrationInput
-  oidc: SettingsOIDCAuthIntegrationInput
-  google: SettingsGoogleAuthIntegrationInput
-  facebook: SettingsFacebookAuthIntegrationInput
-}
 
-input SettingsAuthDisplayNameInput {
   """
-  enabled when true will allow the display name to be used by other
-  AuthIntegrations.
+  sso stores configuration related to Single Sign On based logins.
   """
-  enabled: Boolean!
+  sso: SettingsSSOAuthIntegrationInput
+
+  """
+  oidc stores configuration related to OpenID Connect based logins.
+  """
+  oidc: SettingsOIDCAuthIntegrationInput
+
+  """
+  google stores configuration related to Google based logins.
+  """
+  google: SettingsGoogleAuthIntegrationInput
+
+  """
+  facebook stores configuration related to Facebook based logins.
+  """
+  facebook: SettingsFacebookAuthIntegrationInput
 }
 
 """
@@ -2002,12 +2122,6 @@ Auth contains all the settings related to authentication and
 authorization.
 """
 input SettingsAuthInput {
-  """
-  "
-  displayName allows configuration related to Display Names.
-  """
-  displayName: SettingsAuthDisplayNameInput
-
   """
   integrations are the set of configurations for the variations of
   authentication solutions.
@@ -3048,40 +3162,6 @@ type UpdateUserUsernamePayload {
 }
 
 ##################
-# updateUserDisplayName
-##################
-
-input UpdateUserDisplayNameInput {
-  """
-  userID is the ID of the User that should have their display name updated.
-  """
-  userID: ID!
-
-  """
-  displayName is the desired display name to set for the User. If set to `null`
-  or not provided, it will be unset.
-  """
-  displayName: String
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-type UpdateUserDisplayNamePayload {
-  """
-  user is the possibly modified User.
-  """
-  user: User!
-
-  """
-  clientMutationId is required for Relay support.
-  """
-  clientMutationId: String!
-}
-
-##################
 # updateUserEmail
 ##################
 
@@ -3195,7 +3275,9 @@ type Mutation {
   createCommentReply will create a Comment as the current logged in User that is
   in reply to another Comment.
   """
-  createCommentReply(input: CreateCommentReplyInput!): CreateCommentReplyPayload
+  createCommentReply(
+    input: CreateCommentReplyInput!
+  ): CreateCommentReplyPayload @auth
 
   """
   editComment will allow the author of a comment to change the body within the
@@ -3345,14 +3427,6 @@ type Mutation {
   updateUserUsername(
     input: UpdateUserUsernameInput!
   ): UpdateUserUsernamePayload! @auth(roles: [ADMIN])
-
-  """
-  updateUserDisplayName allows administrators to update a given User's display
-  name to the one provided.
-  """
-  updateUserDisplayName(
-    input: UpdateUserDisplayNameInput!
-  ): UpdateUserDisplayNamePayload @auth(roles: [ADMIN])
 
   """
   updateUserEmail allows administrators to update a given User's email address

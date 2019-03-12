@@ -10,9 +10,12 @@ import {
 
 import { Omit } from "talk-common/types";
 import { Config } from "talk-server/config";
+import {
+  ErrorWrappingExtension,
+  LoggerExtension,
+} from "talk-server/graph/common/extensions";
 
-import { ErrorWrappingExtension } from "./extensions/ErrorWrappingExtension";
-import { LoggerExtension } from "./extensions/LoggerExtension";
+export * from "./batch";
 
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57
 const NoIntrospection = (context: ValidationContext) => ({
@@ -28,6 +31,13 @@ const NoIntrospection = (context: ValidationContext) => ({
   },
 });
 
+/**
+ * graphqlMiddleware wraps the GraphQL middleware server with some custom
+ * extension management.
+ *
+ * @param config application configuration
+ * @param requestOptions options to pass to the graphql server
+ */
 export const graphqlMiddleware = (
   config: Config,
   requestOptions: ExpressGraphQLOptionsFunction

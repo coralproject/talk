@@ -1,4 +1,5 @@
 import DataLoader from "dataloader";
+import { isNil, omitBy } from "lodash";
 
 import Context from "talk-server/graph/tenant/context";
 import {
@@ -33,9 +34,9 @@ import { SingletonResolver } from "./util";
 const primeCommentsFromConnection = (ctx: Context) => (
   connection: Readonly<Connection<Readonly<Comment>>>
 ) => {
-  // For each of the edges, prime the comment loader.
-  connection.edges.forEach(({ node }) => {
-    ctx.loaders.Comments.comment.prime(node.id, node);
+  // For each of the nodes, prime the comment loader.
+  connection.nodes.forEach(comment => {
+    ctx.loaders.Comments.comment.prime(comment.id, comment);
   });
 
   return connection;
@@ -45,22 +46,35 @@ export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
     retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
   ),
-  forFilter: ({ first = 10, after, filter }: QueryToCommentsArgs) =>
+  forFilter: ({ first = 10, after, storyID, status }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
       first,
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
-      filter,
+      filter: omitBy(
+        {
+          storyID,
+          status,
+        },
+        isNil
+      ),
     }).then(primeCommentsFromConnection(ctx)),
   retrieveMyActionPresence: new DataLoader<string, GQLActionPresence>(
-    (commentIDs: string[]) =>
-      retrieveManyUserActionPresence(
+    (commentIDs: string[]) => {
+      if (!ctx.user) {
+        // This should only ever be accessed when a user is logged in. It should
+        // be safe to get the user here, but we'll throw an error anyways just
+        // in case.
+        throw new Error("can't get action presense of an undefined user");
+      }
+
+      return retrieveManyUserActionPresence(
         ctx.mongo,
         ctx.tenant.id,
-        // This should only ever be accessed when a user is logged in.
-        ctx.user!.id,
+        ctx.user.id,
         commentIDs
-      )
+      );
+    }
   ),
   forUser: (
     userID: string,

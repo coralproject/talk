@@ -16,12 +16,7 @@ export type AugmentedRedis = Omit<Redis, "pipeline"> &
     pipeline(commands?: string[][]): AugmentedPipeline;
   };
 
-function configureRedisClient(redis: Redis) {
-  // Attach to the error event.
-  redis.on("error", (err: Error) => {
-    logger.error({ err }, "an error occurred with redis");
-  });
-
+function augmentRedisClient(redis: Redis): AugmentedRedis {
   // mhincrby will increment many hash values.
   redis.defineCommand("mhincrby", {
     numberOfKeys: 1,
@@ -31,28 +26,51 @@ function configureRedisClient(redis: Redis) {
       end
     `,
   });
+
+  return redis as AugmentedRedis;
+}
+
+function attachHandlers(redis: Redis) {
+  // Attach to the error event.
+  redis.on("error", (err: Error) => {
+    logger.error({ err }, "an error occurred with redis");
+  });
+}
+
+export function createRedisClient(
+  config: Config,
+  lazyConnect: boolean = false
+): Redis {
+  try {
+    const redis = new RedisClient(config.get("redis"), {
+      lazyConnect,
+    });
+
+    // Configure the redis client with the handlers for logging
+    attachHandlers(redis);
+
+    return redis;
+  } catch (err) {
+    throw new InternalError(err, "could not connect to redis");
+  }
 }
 
 /**
- * create will connect to the Redis instance identified in the configuration.
+ * createAugmentedRedisClient will connect to the Redis instance identified in
+ * the configuration.
  *
  * @param config application configuration.
  */
-export async function createRedisClient(
+export async function createAugmentedRedisClient(
   config: Config
 ): Promise<AugmentedRedis> {
   try {
-    const redis = new RedisClient(config.get("redis"), {
-      lazyConnect: true,
-    });
-
-    // Configure the redis client for use with the custom commands.
-    configureRedisClient(redis);
+    const redis = augmentRedisClient(createRedisClient(config, true));
 
     // Connect the redis client.
     await redis.connect();
 
-    return redis as AugmentedRedis;
+    return redis;
   } catch (err) {
     throw new InternalError(err, "could not connect to redis");
   }

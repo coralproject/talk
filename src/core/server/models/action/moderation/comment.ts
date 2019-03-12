@@ -6,8 +6,7 @@ import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__
 import {
   Connection,
   ConnectionInput,
-  getPageInfo,
-  nodesToEdges,
+  resolveConnection,
 } from "talk-server/models/helpers/connection";
 import Query, {
   createConnectionOrderVariants,
@@ -15,8 +14,8 @@ import Query, {
 } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
-function collection(db: Db) {
-  return db.collection<Readonly<CommentModerationAction>>(
+function collection(mongo: Db) {
+  return mongo.collection<Readonly<CommentModerationAction>>(
     "commentModerationActions"
   );
 }
@@ -157,34 +156,6 @@ async function retrieveConnection(
     query.where({ createdAt: { $lt: input.after as Date } });
   }
 
-  // We load one more than the limit so we can determine if there is
-  // another page of entries. This gets trimmed off below after we've checked to
-  // see if this constitutes another page of edges.
-  query.first(input.first + 1);
-
-  // Get the cursor.
-  const cursor = await query.exec();
-
-  // Get the comments from the cursor.
-  const nodes = await cursor.toArray();
-
-  // Convert the nodes to edges (which will include the extra edge we don't need
-  // if there is more results).
-  const edges = nodesToEdges(nodes, a => a.createdAt);
-
-  // Get the pageInfo for the connection. We will use this to also determine if
-  // we need to trim off the extra edge that we requested by comparing its
-  // hasNextPage parameter.
-  const pageInfo = getPageInfo(input, edges);
-  if (pageInfo.hasNextPage) {
-    // Because this means that we got one more than expected, we should trim off
-    // the extra edge that was retrieved.
-    edges.splice(input.first, 1);
-  }
-
-  // Return the connection.
-  return {
-    edges,
-    pageInfo,
-  };
+  // Return a connection.
+  return resolveConnection(query, input, a => a.createdAt);
 }

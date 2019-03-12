@@ -10,7 +10,7 @@ export interface SignInResponse {
 }
 
 export default function signIn(rest: RestClient, input: SignInInput) {
-  return rest.fetch<SignInResponse>("/tenant/auth/local", {
+  return rest.fetch<SignInResponse>("/auth/local", {
     method: "POST",
     body: input,
   });
