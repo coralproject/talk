@@ -52,102 +52,104 @@ exports[`renders comment stream with community guidelines 1`] = `
         }
       />
     </div>
-    <div
-      className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
-    >
+    <div>
       <div
-        aria-hidden="true"
+        className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
       >
-        <div>
-          <div
-            className=""
-          >
+        <div
+          aria-hidden="true"
+        >
+          <div>
             <div
-              aria-hidden="true"
-              className="RTE-placeholder RTE-placeholder "
+              className=""
             >
-              Post a comment
-            </div>
-            <div
-              aria-placeholder="Post a comment"
-              className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
-              contentEditable={false}
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "",
+              <div
+                aria-hidden="true"
+                className="RTE-placeholder RTE-placeholder "
+              >
+                Post a comment
+              </div>
+              <div
+                aria-placeholder="Post a comment"
+                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                contentEditable={false}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "",
+                  }
                 }
-              }
-              disabled={true}
-              onBlur={[Function]}
-              onChange={[Function]}
-              onCut={[Function]}
-              onFocus={[Function]}
-              onInput={[Function]}
-              onKeyDown={[Function]}
-              onPaste={[Function]}
-              onSelect={[Function]}
-            />
-            <div
-              className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
-            >
-              <button
-                className="Button-button"
-                disabled={false}
-                onClick={[Function]}
-                title="Bold"
-                type="button"
+                disabled={true}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+              <div
+                className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
               >
-                <span
-                  aria-hidden="true"
-                  className="Icon-root Icon-md"
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Bold"
+                  type="button"
                 >
-                  format_bold
-                </span>
-              </button>
-              <button
-                className="Button-button"
-                disabled={false}
-                onClick={[Function]}
-                title="Italic"
-                type="button"
-              >
-                <span
-                  aria-hidden="true"
-                  className="Icon-root Icon-md"
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_bold
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Italic"
+                  type="button"
                 >
-                  format_italic
-                </span>
-              </button>
-              <button
-                className="Button-button"
-                disabled={false}
-                onClick={[Function]}
-                title="Blockquote"
-                type="button"
-              >
-                <span
-                  aria-hidden="true"
-                  className="Icon-root Icon-md"
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_italic
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Blockquote"
+                  type="button"
                 >
-                  format_quote
-                </span>
-              </button>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_quote
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Sign in and Join the Conversation
+        </button>
       </div>
-      <button
-        className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
-        disabled={true}
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
-        type="submit"
-      >
-        Sign in and Join the Conversation
-      </button>
     </div>
     <div>
       <div

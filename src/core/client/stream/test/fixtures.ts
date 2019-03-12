@@ -7,6 +7,8 @@ import {
 
 export const settings = {
   id: "settings",
+  moderation: "POST",
+  premodLinksEnable: false,
   communityGuidelines: {
     enabled: false,
     content: "",
@@ -331,6 +333,18 @@ export const stories = denormalizeStories([
     },
   },
 ]);
+
+export const storyWithNoComments = denormalizeStory({
+  ...baseStory,
+  id: "story-with-no-comments",
+  url: "http://localhost/stories/story-with-no-comments",
+  comments: {
+    edges: [],
+    pageInfo: {
+      hasNextPage: false,
+    },
+  },
+});
 
 export const storyWithReplies = denormalizeStory({
   ...baseStory,

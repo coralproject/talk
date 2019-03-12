@@ -2,6 +2,8 @@ import { merge } from "lodash";
 
 export const settings = {
   id: "settings",
+  moderation: "POST",
+  premodLinksEnable: false,
   wordList: {
     suspect: ["idiot", "stupid"],
     banned: ["fuck"],

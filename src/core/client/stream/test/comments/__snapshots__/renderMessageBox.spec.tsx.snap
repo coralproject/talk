@@ -1,0 +1,512 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders message box when commenting disabled 1`] = `
+<section
+  aria-labelledby="tab-COMMENTS"
+  className="App-tabContent"
+  data-testid="current-tab-pane"
+  id="tabPane-COMMENTS"
+  role="tabpanel"
+>
+  <div
+    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  >
+    <div
+      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+    >
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Sign in
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Register
+      </button>
+    </div>
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <div
+        className="CallOut-root CallOut-colorRegular CallOut-fullWidth PostCommentFormClosedSitewide-root"
+      >
+        Commenting disabled
+      </div>
+      <div
+        className="MessageBox-root"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root Icon-md MessageBoxIcon-root"
+        >
+          chat
+        </span>
+        <div
+          className="Markdown-root MessageBoxContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p><strong>What do you think</strong>?</p>
+",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      className="HorizontalGutter-root HorizontalGutter-full"
+      data-testid="comments-stream-log"
+      id="talk-comments-stream-log"
+      role="log"
+    />
+  </div>
+</section>
+`;
+
+exports[`renders message box when logged in 1`] = `
+<section
+  aria-labelledby="tab-COMMENTS"
+  className="App-tabContent"
+  data-testid="current-tab-pane"
+  id="tabPane-COMMENTS"
+  role="tabpanel"
+>
+  <div
+    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  >
+    <div
+      className="Flex-root"
+    >
+      <div
+        className="Flex-flex Flex-halfItemGutter Flex-wrap"
+      >
+        <div
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          Signed in as 
+          <span
+            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          >
+            Markus
+          </span>
+          .
+        </div>
+        <div
+          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        >
+          <span>
+            Not you? 
+          </span>
+          <button
+            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        className="MessageBox-root PostCommentForm-messageBox"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root Icon-md MessageBoxIcon-root"
+        >
+          chat
+        </span>
+        <div
+          className="Markdown-root MessageBoxContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p><strong>What do you think</strong>?</p>
+",
+            }
+          }
+        />
+      </div>
+      <form
+        autoComplete="off"
+        id="comments-postCommentForm-form"
+        onSubmit={[Function]}
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="HorizontalGutter-root HorizontalGutter-half"
+          >
+            <label
+              className="AriaInfo-root"
+              htmlFor="comments-postCommentForm-field"
+            >
+              Post a comment
+            </label>
+            <div>
+              <div
+                className=""
+              >
+                <div
+                  aria-hidden="true"
+                  className="RTE-placeholder RTE-placeholder"
+                >
+                  Post a comment
+                </div>
+                <div
+                  aria-placeholder="Post a comment"
+                  className="RTE-contentEditable RTE-content"
+                  contentEditable={true}
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "",
+                    }
+                  }
+                  disabled={false}
+                  id="comments-postCommentForm-field"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onCut={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  onSelect={[Function]}
+                />
+                <div
+                  className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+                >
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Bold"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_bold
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Italic"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_italic
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Blockquote"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_quote
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-alignFlexEnd Flex-directionColumn"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+              disabled={true}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      aria-live="polite"
+      className="HorizontalGutter-root HorizontalGutter-full"
+      data-testid="comments-stream-log"
+      id="talk-comments-stream-log"
+      role="log"
+    />
+  </div>
+</section>
+`;
+
+exports[`renders message box when not logged in 1`] = `
+<section
+  aria-labelledby="tab-COMMENTS"
+  className="App-tabContent"
+  data-testid="current-tab-pane"
+  id="tabPane-COMMENTS"
+  role="tabpanel"
+>
+  <div
+    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  >
+    <div
+      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+    >
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Sign in
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Register
+      </button>
+    </div>
+    <div>
+      <div
+        className="MessageBox-root PostCommentFormFake-messageBox"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root Icon-md MessageBoxIcon-root"
+        >
+          chat
+        </span>
+        <div
+          className="Markdown-root MessageBoxContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p><strong>What do you think</strong>?</p>
+",
+            }
+          }
+        />
+      </div>
+      <div
+        className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
+      >
+        <div
+          aria-hidden="true"
+        >
+          <div>
+            <div
+              className=""
+            >
+              <div
+                aria-hidden="true"
+                className="RTE-placeholder RTE-placeholder "
+              >
+                Post a comment
+              </div>
+              <div
+                aria-placeholder="Post a comment"
+                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                contentEditable={false}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "",
+                  }
+                }
+                disabled={true}
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+              <div
+                className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
+              >
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Bold"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_bold
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Italic"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_italic
+                  </span>
+                </button>
+                <button
+                  className="Button-button"
+                  disabled={false}
+                  onClick={[Function]}
+                  title="Blockquote"
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-md"
+                  >
+                    format_quote
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
+          disabled={true}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="submit"
+        >
+          Sign in and Join the Conversation
+        </button>
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      className="HorizontalGutter-root HorizontalGutter-full"
+      data-testid="comments-stream-log"
+      id="talk-comments-stream-log"
+      role="log"
+    />
+  </div>
+</section>
+`;
+
+exports[`renders message box when story isClosed 1`] = `
+<section
+  aria-labelledby="tab-COMMENTS"
+  className="App-tabContent"
+  data-testid="current-tab-pane"
+  id="tabPane-COMMENTS"
+  role="tabpanel"
+>
+  <div
+    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+  >
+    <div
+      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+    >
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Sign in
+      </button>
+      <button
+        className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        Register
+      </button>
+    </div>
+    <div>
+      <div
+        className="MessageBox-root PostCommentFormClosed-messageBox"
+      >
+        <div
+          className="Markdown-root MessageBoxContent-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p><strong>What do you think</strong>?</p>
+",
+            }
+          }
+        />
+      </div>
+      <div
+        className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
+      >
+        Story is closed
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      className="HorizontalGutter-root HorizontalGutter-full"
+      data-testid="comments-stream-log"
+      id="talk-comments-stream-log"
+      role="log"
+    />
+  </div>
+</section>
+`;

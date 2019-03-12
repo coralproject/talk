@@ -8,15 +8,39 @@ exports[`renders correctly 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  showMessageBox={false}
+  story={
+    Object {
+      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "messageBox": Object {
+          "enabled": false,
+        },
+      },
+    }
+  }
   submitStatus={null}
 />
 `;
 
 exports[`renders when commenting has been disabled (collapsing) 1`] = `
-<PostCommentFormCollapsed
-  closedMessage="commenting disabled"
-  closedSitewide={true}
-/>
+<PostCommentFormClosedSitewide
+  showMessageBox={false}
+  story={
+    Object {
+      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "messageBox": Object {
+          "enabled": false,
+        },
+      },
+    }
+  }
+>
+  commenting disabled
+</PostCommentFormClosedSitewide>
 `;
 
 exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
@@ -27,15 +51,39 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  showMessageBox={false}
+  story={
+    Object {
+      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "messageBox": Object {
+          "enabled": false,
+        },
+      },
+    }
+  }
   submitStatus={null}
 />
 `;
 
 exports[`renders when story has been closed (collapsing) 1`] = `
-<PostCommentFormCollapsed
-  closedMessage="story closed"
-  closedSitewide={false}
-/>
+<PostCommentFormClosed
+  showMessageBox={false}
+  story={
+    Object {
+      "id": "story-id",
+      "isClosed": true,
+      "settings": Object {
+        "messageBox": Object {
+          "enabled": false,
+        },
+      },
+    }
+  }
+>
+  story closed
+</PostCommentFormClosed>
 `;
 
 exports[`renders when story has been closed (non-collapsing) 1`] = `
@@ -46,6 +94,18 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  showMessageBox={false}
+  story={
+    Object {
+      "id": "story-id",
+      "isClosed": true,
+      "settings": Object {
+        "messageBox": Object {
+          "enabled": false,
+        },
+      },
+    }
+  }
   submitStatus={null}
 />
 `;
@@ -63,6 +123,18 @@ exports[`renders with initialValues 1`] = `
   min={3}
   onChange={[Function]}
   onSubmit={[Function]}
+  showMessageBox={false}
+  story={
+    Object {
+      "id": "story-id",
+      "isClosed": false,
+      "settings": Object {
+        "messageBox": Object {
+          "enabled": false,
+        },
+      },
+    }
+  }
   submitStatus={null}
 />
 `;

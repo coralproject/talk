@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Message-root Message-colorGrey custom"
+  className="MessageBox-root custom"
 >
   Hello World
 </div>
@@ -10,14 +10,14 @@ exports[`renders correctly 1`] = `
 
 exports[`renders icon 1`] = `
 <div
-  className="Message-root Message-colorGrey"
+  className="MessageBox-root"
 >
   <span
     aria-hidden="true"
-    className="Icon-root Icon-sm MessageIcon-root"
+    className="Icon-root Icon-md MessageBoxIcon-root"
   >
     alert
   </span>
-  Alert Message
+  Alert MessageBox
 </div>
 `;

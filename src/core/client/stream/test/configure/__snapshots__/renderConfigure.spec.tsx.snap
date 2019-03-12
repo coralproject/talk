@@ -162,6 +162,53 @@ exports[`renders configure 1`] = `
             </p>
           </div>
         </div>
+        <div>
+          <div
+            className="CheckBox-root"
+          >
+            <input
+              checked={false}
+              className="CheckBox-input"
+              disabled={false}
+              id="messageBox.enabled"
+              name="messageBox.enabled"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              type="checkbox"
+            />
+            <label
+              className="CheckBox-label"
+              htmlFor="messageBox.enabled"
+            >
+              <span
+                className="CheckBox-labelSpan"
+              >
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+                >
+                  <span>
+                    Enable Message Box for this Stream
+                  </span>
+                </span>
+              </span>
+            </label>
+          </div>
+          <div
+            className="ToggleConfig-details"
+          >
+            <div
+              className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            >
+              <p
+                className="Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
+              >
+                Add a message to the top of the comment box for your readers. Use this to pose a topic,
+ask a question or make announcements relating to this story.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   </div>
