@@ -31,32 +31,26 @@ beforeEach(() => {
       ),
     },
     Mutation: {
-      createCommentReply: createSinonStub(
-        s => s.throws(),
-        s =>
-          s
-            .withArgs(undefined, {
-              input: {
-                storyID: storyWithDeepestReplies.id,
-                parentID: "comment-with-deepest-replies-5",
-                parentRevisionID: "revision-0",
-                body: "<b>Hello world!</b>",
-                clientMutationId: "0",
-              },
-            })
-            .returns({
-              edge: {
-                cursor: "",
-                node: {
-                  ...baseComment,
-                  id: "comment-x",
-                  author: users[0],
-                  body: "<b>Hello world! (from server)</b>",
-                },
-              },
-              clientMutationId: "0",
-            })
-      ),
+      createCommentReply: sinon.stub().callsFake((_: any, data: any) => {
+        expect(data.input).toMatchObject({
+          storyID: storyWithDeepestReplies.id,
+          parentID: "comment-with-deepest-replies-5",
+          parentRevisionID: "revision-0",
+          body: "<b>Hello world!</b>",
+        });
+        return {
+          edge: {
+            cursor: "",
+            node: {
+              ...baseComment,
+              id: "comment-x",
+              author: users[0],
+              body: "<b>Hello world! (from server)</b>",
+            },
+          },
+          clientMutationId: data.input.clientMutationId,
+        };
+      }),
     },
   };
 
