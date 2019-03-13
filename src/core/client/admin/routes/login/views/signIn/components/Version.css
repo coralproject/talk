@@ -1,0 +1,8 @@
+.version {
+  width: 350px;
+  background-color: #f5f5f5;
+  border: 1px solid var(--palette-grey-lighter);
+  border-top: 0;
+  padding: var(--spacing-unit);
+  box-sizing: border-box;
+}

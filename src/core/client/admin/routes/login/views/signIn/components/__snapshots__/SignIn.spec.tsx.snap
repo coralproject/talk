@@ -1,21 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<AuthBox
-  title={
-    <Localized
-      id="login-signInTo"
-    >
-      <span>
-        Sign in to
-      </span>
-    </Localized>
-  }
->
-  <ForwardRef(forwardRef)
-    size="oneAndAHalf"
+<React.Fragment>
+  <AuthBox
+    title={
+      <Localized
+        id="login-signInTo"
+      >
+        <span>
+          Sign in to
+        </span>
+      </Localized>
+    }
   >
-    <ForwardRef(forwardRef) />
-  </ForwardRef(forwardRef)>
-</AuthBox>
+    <ForwardRef(forwardRef)
+      size="oneAndAHalf"
+    >
+      <ForwardRef(forwardRef) />
+    </ForwardRef(forwardRef)>
+  </AuthBox>
+  <Version />
+</React.Fragment>
 `;

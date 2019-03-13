@@ -49,7 +49,9 @@ export default function createWebpackConfig(
         result[key] = JSON.stringify((env as any)[key]);
         return result;
       },
-      {}
+      {
+        TALK_VERSION: JSON.stringify(require("../../../package.json").version),
+      }
     ),
   };
 
