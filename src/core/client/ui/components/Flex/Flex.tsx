@@ -25,7 +25,7 @@ interface Props {
     | "space-evenly";
   alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
   direction?: "row" | "column" | "row-reverse" | "column-reverse";
-  itemGutter?: boolean | "half" | "double";
+  itemGutter?: boolean | "half" | "double" | "triple";
   className?: string;
   wrap?: boolean | "reverse";
 
@@ -51,6 +51,7 @@ const Flex: StatelessComponent<Props> = props => {
     [classes.itemGutter]: itemGutter === true,
     [classes.halfItemGutter]: itemGutter === "half",
     [classes.doubleItemGutter]: itemGutter === "double",
+    [classes.tripleItemGutter]: itemGutter === "triple",
     [classes.wrap]: wrap === true,
     [classes.wrapReverse]: wrap === "reverse",
   };

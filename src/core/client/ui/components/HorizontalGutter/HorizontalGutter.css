@@ -36,3 +36,11 @@
     margin: 0 !important;
   }
 }
+.triple {
+  & > * {
+    margin: 0 0 calc(3 * var(--spacing-unit)) 0 !important;
+  }
+  & > *:last-child {
+    margin: 0 !important;
+  }
+}
