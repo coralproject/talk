@@ -120,14 +120,18 @@ jobs:
 
   # docker_tests will test that the docker build process completes.
   docker_tests:
-    <<: *job_defaults
+    docker:
+      - image: node:10-alpine
+    environment:
+      NODE_ENV: development
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Build
-          command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
-          no_output_timeout: 20m
+          name: Update Image Dependancies
+          command: apk --no-cache add git python
+      - run:
+          name: Install NodeJS Dependancies
+          command: npm install
 
   # release_docker will build and push the Docker image.
   release_docker:
@@ -141,6 +145,7 @@ jobs:
       - run:
           name: Build
           command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
+          no_output_timeout: 30m
       - run:
           name: Push
           command: docker push coralproject/talk:next
