@@ -12,6 +12,9 @@ import webpack, { Configuration, Plugin } from "webpack";
 import WebpackAssetsManifest from "webpack-assets-manifest";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
+// TODO: import form talk-common/version, for some reason this fails currently.
+// Try again when we have a chance to upgrade typescript.
+import { version } from "../common/version";
 import { Config } from "./config";
 import { createClientEnv } from "./config";
 import paths from "./paths";
@@ -50,7 +53,7 @@ export default function createWebpackConfig(
         return result;
       },
       {
-        TALK_VERSION: JSON.stringify(require("../../../package.json").version),
+        TALK_VERSION: JSON.stringify(version),
       }
     ),
   };
