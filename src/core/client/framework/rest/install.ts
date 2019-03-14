@@ -2,9 +2,11 @@ import { RestClient } from "../lib/rest";
 
 export interface InstallInput {
   tenant: {
-    organizationName: string;
-    organizationContactEmail: string;
-    organizationURL: string;
+    organization: {
+      name: string;
+      contactEmail: string;
+      url: string;
+    };
     domains: string[];
   };
   user: {

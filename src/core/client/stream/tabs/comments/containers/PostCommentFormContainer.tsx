@@ -137,7 +137,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           closedMessage={
             (this.props.settings.disableCommenting.enabled &&
               this.props.settings.disableCommenting.message) ||
-            this.props.settings.closedMessage
+            this.props.settings.closeCommenting.message
           }
         />
       );
@@ -167,7 +167,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         disabledMessage={
           (this.props.settings.disableCommenting.enabled &&
             this.props.settings.disableCommenting.message) ||
-          this.props.settings.closedMessage
+          this.props.settings.closeCommenting.message
         }
         submitStatus={this.state.submitStatus}
       />
@@ -199,7 +199,9 @@ const enhanced = withContext(({ sessionStorage }) => ({
                 enabled
                 message
               }
-              closedMessage
+              closeCommenting {
+                message
+              }
             }
           `,
           story: graphql`

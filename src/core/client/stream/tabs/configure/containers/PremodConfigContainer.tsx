@@ -27,7 +27,9 @@ class PremodConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment PremodConfigContainer_story on Story {
-      moderation
+      settings {
+        moderation
+      }
     }
   `,
 })(PremodConfigContainer);

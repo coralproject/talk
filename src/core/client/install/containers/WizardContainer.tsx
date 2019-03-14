@@ -39,9 +39,11 @@ function shapeFinalData(data: FormData): InstallInput {
 
   return {
     tenant: {
-      organizationName,
-      organizationContactEmail,
-      organizationURL,
+      organization: {
+        name: organizationName,
+        contactEmail: organizationContactEmail,
+        url: organizationURL,
+      },
       domains,
     },
     user: {

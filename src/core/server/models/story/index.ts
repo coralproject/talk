@@ -1,14 +1,14 @@
+import { isNull, omitBy } from "lodash";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { Omit } from "talk-common/types";
+import { DeepPartial, Omit } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import { DuplicateStoryURLError } from "talk-server/errors";
 import {
-  GQLMODERATION_MODE,
   GQLStoryMetadata,
+  GQLStorySettings,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ModerationSettings } from "talk-server/models/settings";
 import { TenantResource } from "talk-server/models/tenant";
 
 import {
@@ -33,6 +33,10 @@ function collection<T = Story>(mongo: Db) {
   return mongo.collection<Readonly<T>>("stories");
 }
 
+export type StorySettings = DeepPartial<GQLStorySettings>;
+
+export type StoryMetadata = GQLStoryMetadata;
+
 export interface Story extends TenantResource {
   readonly id: string;
 
@@ -44,7 +48,7 @@ export interface Story extends TenantResource {
   /**
    * metadata stores the scraped metadata from the Story page.
    */
-  metadata?: GQLStoryMetadata;
+  metadata?: StoryMetadata;
 
   /**
    * scrapedAt is the Time that the Story had it's metadata scraped at.
@@ -60,7 +64,7 @@ export interface Story extends TenantResource {
    * settings provides a point where the settings can be overridden for a
    * specific Story.
    */
-  settings?: Partial<ModerationSettings>;
+  settings: StorySettings;
 
   /**
    * closedAt is the date that the Story was forced closed at, or false to
@@ -72,11 +76,6 @@ export interface Story extends TenantResource {
    * createdAt is the date that the Story was added to the Talk database.
    */
   createdAt: Date;
-
-  /**
-   * moderation determines whether or not this is a PRE or POST moderated story.
-   */
-  moderation?: GQLMODERATION_MODE;
 
   /**
    * premodLinksEnable will put all comments that contain links into premod.
@@ -130,6 +129,7 @@ export async function upsertStory(
         status: createEmptyCommentStatusCounts(),
         moderationQueue: createEmptyCommentModerationQueueCounts(),
       },
+      settings: {},
     },
   };
 
@@ -209,6 +209,7 @@ export async function createStory(
       moderationQueue: createEmptyCommentModerationQueueCounts(),
       status: createEmptyCommentStatusCounts(),
     },
+    settings: {},
   };
 
   try {
@@ -304,12 +305,74 @@ export async function updateStory(
     // Evaluate the error, if it is in regards to violating the unique index,
     // then return a duplicate Story error.
     if (input.url && err instanceof MongoError && err.code === 11000) {
-      // TODO: (wyattjoh) return better error
-      throw new Error("story with this url already exists");
+      throw new DuplicateStoryURLError(input.url);
     }
 
     throw err;
   }
+}
+export type UpdateStorySettingsInput = StorySettings;
+
+export async function updateStorySettings(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  input: UpdateStorySettingsInput
+) {
+  // Only update fields that have been updated.
+  const update = {
+    $set: {
+      ...omitBy(dotize({ settings: input }, { embedArrays: true }), isNull),
+      // Always update the updated at time.
+      updatedAt: new Date(),
+    },
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    update,
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+export async function openStory(mongo: Db, tenantID: string, id: string) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $set: {
+        closedAt: false,
+        // Always update the updated at time.
+        updatedAt: new Date(),
+      },
+    },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
+}
+
+export async function closeStory(mongo: Db, tenantID: string, id: string) {
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $set: {
+        closedAt: new Date(),
+        // Always update the updated at time.
+        updatedAt: new Date(),
+      },
+    },
+    // False to return the updated document instead of the original
+    // document.
+    { returnOriginal: false }
+  );
+
+  return result.value || null;
 }
 
 export async function removeStory(mongo: Db, tenantID: string, id: string) {

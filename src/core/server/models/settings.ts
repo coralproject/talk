@@ -1,45 +1,19 @@
 import { Omit } from "talk-common/types";
 import {
-  GQLCharCount,
-  GQLDisableCommenting,
-  GQLEmail,
-  GQLExternalIntegrations,
+  GQLAuth,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
-  GQLKarma,
   GQLLocalAuthIntegration,
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
-  GQLReactionConfiguration,
+  GQLSettings,
   GQLSSOAuthIntegration,
-  GQLWordList,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 
-export interface ModerationSettings {
+export interface GlobalModerationSettings {
   moderation: GQLMODERATION_MODE;
-  requireEmailConfirmation: boolean;
-  communityGuidelines: {
-    enabled: boolean;
-    content?: string;
-  };
-  questionBoxEnable: boolean;
-  questionBoxIcon?: string;
-  questionBoxContent?: string;
   premodLinksEnable: boolean;
-  autoCloseStream: boolean;
-
-  /**
-   * closedTimeout is the amount of seconds from the createdAt timestamp that a
-   * given story will be considered closed.
-   */
-  closedTimeout: number;
-  closedMessage?: string;
-  disableCommenting: GQLDisableCommenting;
-  charCount: GQLCharCount;
 }
-
-export type LocalAuthIntegration = GQLLocalAuthIntegration;
-export type SSOAuthIntegration = GQLSSOAuthIntegration;
 
 export type OIDCAuthIntegration = Omit<
   GQLOIDCAuthIntegration,
@@ -57,63 +31,38 @@ export type FacebookAuthIntegration = Omit<
 >;
 
 export interface AuthIntegrations {
-  local: LocalAuthIntegration;
-  sso: SSOAuthIntegration;
+  local: GQLLocalAuthIntegration;
+  sso: GQLSSOAuthIntegration;
   oidc: OIDCAuthIntegration;
   google: GoogleAuthIntegration;
   facebook: FacebookAuthIntegration;
 }
 
-export interface Auth {
+export type Auth = Omit<GQLAuth, "integrations"> & {
   /**
    * integrations are the set of configurations for the variations of
    * authentication solutions.
    */
   integrations: AuthIntegrations;
-}
+};
 
-export interface Settings extends ModerationSettings {
-  /**
-   * customCSSURL is the URL that can be specified by the Tenant to describe a
-   * URL that contains custom styles to be applied to the Stream.
-   */
-  customCSSURL?: string;
-
-  /**
-   * editCommentWindowLength is the length of time (in seconds) after a comment
-   * is posted that it can still be edited by the author.
-   */
-  editCommentWindowLength: number;
-
-  /**
-   * email is the set of credentials and settings associated with the
-   * Tenant.
-   */
-  email: GQLEmail;
-
-  /**
-   * karma is the set of settings related to how user Trust and Karma are
-   * handled.
-   */
-  karma: GQLKarma;
-
-  /**
-   * wordList stores all the banned/suspect words.
-   */
-  wordList: GQLWordList;
-
-  /**
-   * Set of configured authentication integrations.
-   */
-  auth: Auth;
-
-  /**
-   * Various integrations with external services.
-   */
-  integrations: GQLExternalIntegrations;
-
-  /**
-   * reaction specifies the configuration for reactions.
-   */
-  reaction: GQLReactionConfiguration;
-}
+export type Settings = GlobalModerationSettings &
+  Pick<
+    GQLSettings,
+    | "closeCommenting"
+    | "disableCommenting"
+    | "charCount"
+    | "email"
+    | "karma"
+    | "wordList"
+    | "integrations"
+    | "reaction"
+    | "editCommentWindowLength"
+    | "customCSSURL"
+    | "communityGuidelines"
+  > & {
+    /**
+     * Set of configured authentication integrations.
+     */
+    auth: Auth;
+  };

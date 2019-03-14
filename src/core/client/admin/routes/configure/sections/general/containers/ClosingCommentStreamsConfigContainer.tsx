@@ -27,8 +27,10 @@ class ClosingCommentStreamsConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ClosingCommentStreamsConfigContainer_settings on Settings {
-      autoCloseStream
-      closedTimeout
+      closeCommenting {
+        auto
+        timeout
+      }
     }
   `,
 })(ClosingCommentStreamsConfigContainer);

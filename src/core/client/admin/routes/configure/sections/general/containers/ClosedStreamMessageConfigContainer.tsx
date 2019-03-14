@@ -27,7 +27,9 @@ class ClosedStreamMessageConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment ClosedStreamMessageConfigContainer_settings on Settings {
-      closedMessage
+      closeCommenting {
+        message
+      }
     }
   `,
 })(ClosedStreamMessageConfigContainer);

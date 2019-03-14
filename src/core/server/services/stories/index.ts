@@ -22,11 +22,13 @@ import {
 } from "talk-server/models/comment";
 import {
   calculateTotalCommentCount,
+  closeStory,
   createStory,
   CreateStoryInput,
   findOrCreateStory,
   FindOrCreateStoryInput,
   mergeCommentStatusCount,
+  openStory,
   removeStories,
   removeStory,
   retrieveManyStories,
@@ -36,6 +38,8 @@ import {
   updateStoryActionCounts,
   updateStoryCommentStatusCount,
   UpdateStoryInput,
+  updateStorySettings,
+  UpdateStorySettingsInput,
 } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { ScraperQueue } from "talk-server/queue/tasks/scraper";
@@ -227,6 +231,24 @@ export async function update(
 
   return updateStory(mongo, tenant.id, storyID, input);
 }
+export type UpdateStorySettings = UpdateStorySettingsInput;
+
+export async function updateSettings(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  input: UpdateStorySettings
+) {
+  return updateStorySettings(mongo, tenant.id, storyID, input);
+}
+
+export async function open(mongo: Db, tenant: Tenant, storyID: string) {
+  return openStory(mongo, tenant.id, storyID);
+}
+
+export async function close(mongo: Db, tenant: Tenant, storyID: string) {
+  return closeStory(mongo, tenant.id, storyID);
+}
 
 export async function merge(
   mongo: Db,
@@ -339,7 +361,7 @@ export async function merge(
 }
 
 export function getStoryClosedAt(
-  tenant: Pick<Tenant, "autoCloseStream" | "closedTimeout">,
+  tenant: Pick<Tenant, "closeCommenting">,
   story: Pick<Story, "closedAt" | "createdAt">
 ): Story["closedAt"] {
   // Try to get the closedAt time from the story.
@@ -347,16 +369,21 @@ export function getStoryClosedAt(
     return story.closedAt;
   }
 
+  // Check to see if the story has been forced open again.
+  if (story.closedAt === false) {
+    return false;
+  }
+
   // If the story hasn't already been closed, then check to see if the Tenant
   // has the auto close stream enabled.
-  if (tenant.autoCloseStream && tenant.closedTimeout) {
+  if (tenant.closeCommenting.auto) {
     // Auto-close stream has been enabled, convert the createdAt time into the
     // closedAt time by adding the closedTimeout.
     return (
       DateTime.fromJSDate(story.createdAt)
         // closedTimeout is in seconds, so multiply by 1000 to get
         // milliseconds.
-        .plus(tenant.closedTimeout * 1000)
+        .plus(tenant.closeCommenting.timeout * 1000)
         .toJSDate()
     );
   }

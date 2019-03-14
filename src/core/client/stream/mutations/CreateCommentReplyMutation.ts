@@ -102,7 +102,9 @@ function addLocalCommentReplyToStory(
 // tslint:disable-next-line:no-unused-expression
 graphql`
   fragment CreateCommentReplyMutation_story on Story {
-    moderation
+    settings {
+      moderation
+    }
   }
   fragment CreateCommentReplyMutation_me on User {
     role

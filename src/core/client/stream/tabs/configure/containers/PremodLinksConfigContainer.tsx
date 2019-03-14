@@ -27,7 +27,9 @@ class PremodLinksConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment PremodLinksConfigContainer_story on Story {
-      premodLinksEnable
+      settings {
+        premodLinksEnable
+      }
     }
   `,
 })(PremodLinksConfigContainer);

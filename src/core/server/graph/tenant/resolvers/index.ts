@@ -18,6 +18,7 @@ import { Profile } from "./Profile";
 import { Query } from "./Query";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Story } from "./Story";
+import { StorySettings } from "./StorySettings";
 import { User } from "./User";
 
 const Resolvers: GQLResolver = {
@@ -38,6 +39,7 @@ const Resolvers: GQLResolver = {
   Query,
   RejectCommentPayload,
   Story,
+  StorySettings,
   Time,
   User,
 };

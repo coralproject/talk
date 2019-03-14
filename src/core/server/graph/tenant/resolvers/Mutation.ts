@@ -59,6 +59,18 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     story: await ctx.mutators.Stories.update(input),
     clientMutationId: input.clientMutationId,
   }),
+  updateStorySettings: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.updateSettings(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  closeStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.close(input),
+    clientMutationId: input.clientMutationId,
+  }),
+  openStory: async (source, { input }, ctx) => ({
+    story: await ctx.mutators.Stories.open(input),
+    clientMutationId: input.clientMutationId,
+  }),
   mergeStories: async (source, { input }, ctx) => ({
     story: await ctx.mutators.Stories.merge(input),
     clientMutationId: input.clientMutationId,

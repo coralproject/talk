@@ -189,7 +189,7 @@ it("change closed stream message", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.closedMessage).toEqual(
+      expectAndFail(data.input.settings.closeCommenting.message).toEqual(
         "The stream has been closed"
       );
       settingsRecord = merge(settingsRecord, data.input.settings);

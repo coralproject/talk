@@ -5,16 +5,13 @@ import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
 } from "talk-server/errors";
-import { ModerationSettings } from "talk-server/models/settings";
+import { Settings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "talk-server/services/comments/pipeline";
 
-const testCharCount = (
-  settings: Partial<ModerationSettings>,
-  length: number
-) => {
+const testCharCount = (settings: Partial<Settings>, length: number) => {
   if (settings.charCount && settings.charCount.enabled) {
     if (!isNil(settings.charCount.min)) {
       if (length < settings.charCount.min) {

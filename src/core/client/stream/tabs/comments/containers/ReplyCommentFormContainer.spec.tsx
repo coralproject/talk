@@ -26,6 +26,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
     {
       createCommentReply: noop as any,
       refreshSettings: noop as any,
+      onClose: noop as any,
       story: {
         id: "story-id",
         isClosed: false,
@@ -47,7 +48,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           min: 3,
           max: 100,
         },
-        closedMessage: "closed",
+        closedCommenting: {
+          message: "closed",
+        },
         disableCommenting: {
           enabled: false,
           message: "",
@@ -186,7 +189,9 @@ it("renders when story has been closed", async () => {
       isClosed: true,
     },
     settings: {
-      closedMessage: "story closed",
+      closeCommenting: {
+        message: "story closed",
+      },
     },
   });
 

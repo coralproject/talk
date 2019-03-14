@@ -170,7 +170,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
         disabledMessage={
           (this.props.settings.disableCommenting.enabled &&
             this.props.settings.disableCommenting.message) ||
-          this.props.settings.closedMessage
+          this.props.settings.closeCommenting.message
         }
       />
     );
@@ -195,7 +195,9 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
               enabled
               message
             }
-            closedMessage
+            closeCommenting {
+              message
+            }
           }
         `,
         story: graphql`

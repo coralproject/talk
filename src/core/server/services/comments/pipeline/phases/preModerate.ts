@@ -2,13 +2,13 @@ import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_MODE,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { ModerationSettings } from "talk-server/models/settings";
+import { GlobalModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "talk-server/services/comments/pipeline";
 
-const testModerationMode = (settings: Partial<ModerationSettings>) =>
+const testModerationMode = (settings: Partial<GlobalModerationSettings>) =>
   settings.moderation === GQLMODERATION_MODE.PRE;
 
 // This phase checks to see if the settings have premod enabled, if they do,

@@ -74,7 +74,9 @@ function addCommentToStory(
 // tslint:disable-next-line:no-unused-expression
 graphql`
   fragment CreateCommentMutation_story on Story {
-    moderation
+    settings {
+      moderation
+    }
   }
   fragment CreateCommentMutation_me on User {
     role

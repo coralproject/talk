@@ -23,14 +23,16 @@ export interface TenantInstallBody {
 const TenantInstallBodySchema = Joi.object().keys({
   tenant: Joi.object()
     .keys({
-      organizationName: Joi.string().trim(),
-      organizationURL: Joi.string()
-        .trim()
-        .uri(),
-      organizationContactEmail: Joi.string()
-        .trim()
-        .lowercase()
-        .email(),
+      organization: Joi.object().keys({
+        name: Joi.string().trim(),
+        url: Joi.string()
+          .trim()
+          .uri(),
+        contactEmail: Joi.string()
+          .trim()
+          .lowercase()
+          .email(),
+      }),
       domains: Joi.array().items(
         Joi.string()
           .trim()
