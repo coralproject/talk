@@ -526,6 +526,15 @@ exports[`renders sign in form 1`] = `
       </div>
     </div>
   </div>
+  <div
+    className="Flex-root Flex-flex Flex-justifyCenter"
+  >
+    <p
+      className="Typography-root Typography-detail Typography-colorTextPrimary Typography-alignCenter Version-version"
+    >
+      vTest
+    </p>
+  </div>
 </div>
 `;
 

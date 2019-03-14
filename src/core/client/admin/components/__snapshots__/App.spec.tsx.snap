@@ -11,7 +11,12 @@ exports[`renders correctly 1`] = `
     <withPropsOnChange(Begin)
       itemGutter="double"
     >
-      <withPropsOnChange(Logo) />
+      <div
+        className="App-logoContainer"
+      >
+        <withPropsOnChange(Logo) />
+        <Version />
+      </div>
       <Navigation />
     </withPropsOnChange(Begin)>
     <withPropsOnChange(End)>

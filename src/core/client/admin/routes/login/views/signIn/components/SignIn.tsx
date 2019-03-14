@@ -10,6 +10,7 @@ import SignInWithFacebookContainer from "../containers/SignInWithFacebookContain
 import SignInWithGoogleContainer from "../containers/SignInWithGoogleContainer";
 import SignInWithOIDCContainer from "../containers/SignInWithOIDCContainer";
 import OrSeparator from "./OrSeparator";
+import Version from "./Version";
 
 interface Props {
   error: string | null;
@@ -33,28 +34,31 @@ const SignIn: StatelessComponent<Props> = ({
   const oneClickIntegrationEnabled =
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
-    <AuthBox
-      title={
-        <Localized id="login-signInTo">
-          <span>Sign in to</span>
-        </Localized>
-      }
-    >
-      <HorizontalGutter size="oneAndAHalf">
-        {error && (
-          <CallOut color="error" fullWidth>
-            {error}
-          </CallOut>
-        )}
-        {emailEnabled && <SignInWithEmailContainer />}
-        {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
-        <HorizontalGutter>
-          {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
-          {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
-          {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
+    <>
+      <AuthBox
+        title={
+          <Localized id="login-signInTo">
+            <span>Sign in to</span>
+          </Localized>
+        }
+      >
+        <HorizontalGutter size="oneAndAHalf">
+          {error && (
+            <CallOut color="error" fullWidth>
+              {error}
+            </CallOut>
+          )}
+          {emailEnabled && <SignInWithEmailContainer />}
+          {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
+          <HorizontalGutter>
+            {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
+            {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
+            {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
+          </HorizontalGutter>
         </HorizontalGutter>
-      </HorizontalGutter>
-    </AuthBox>
+      </AuthBox>
+      <Version />
+    </>
   );
 };
 
