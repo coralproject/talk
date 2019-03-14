@@ -144,7 +144,7 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Build
-          command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
+          command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=$CIRCLE_SHA1 .
           no_output_timeout: 30m
       - run:
           name: Push
