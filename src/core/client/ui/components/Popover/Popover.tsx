@@ -23,13 +23,15 @@ type Placement =
   | "left-start";
 
 interface BodyRenderProps {
-  toggleVisibility: () => void;
+  /** toggles visibility, if event is provided, the event will stop propagating. */
+  toggleVisibility: (event?: React.SyntheticEvent | Event) => void;
   visible: boolean;
   scheduleUpdate: () => void;
 }
 
 interface ChildrenRenderProps {
-  toggleVisibility: () => void;
+  /** toggles visibility, if event is provided, the event will stop propagating. */
+  toggleVisibility: (event?: React.SyntheticEvent | Event) => void;
   forwardRef?: RefHandler;
   visible: boolean;
 }
@@ -56,7 +58,10 @@ class Popover extends React.Component<PopoverProps> {
     visible: false,
   };
 
-  public toggleVisibility = () => {
+  public toggleVisibility = (event?: React.SyntheticEvent | Event) => {
+    if (event && event.stopPropagation) {
+      event.stopPropagation();
+    }
     this.setState((state: State) => ({
       visible: !state.visible,
     }));
