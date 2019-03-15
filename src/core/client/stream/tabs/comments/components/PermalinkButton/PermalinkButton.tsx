@@ -21,7 +21,7 @@ interface PermalinkProps {
 const Permalink: StatelessComponent<PermalinkProps> = ({ commentID, url }) => {
   const popoverID = `permalink-popover-${commentID}`;
   return (
-    <Localized id="comments-permalink-popover" attrs={{ description: true }}>
+    <Localized id="comments-permalinkPopover" attrs={{ description: true }}>
       <Popover
         id={popoverID}
         placement="top-start"

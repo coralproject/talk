@@ -28,7 +28,7 @@ comments-postCommentForm-submit = Submit
 comments-stream-loadMore = Load More
 comments-replyList-showAll = Show All
 
-comments-permalink-popover =
+comments-permalinkPopover =
   .description = A dialog showing the decision history
 comments-permalinkButton-share = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
