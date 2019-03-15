@@ -101,9 +101,9 @@ jobs:
           at: ~/coralproject/talk
       - restore_cache:
           keys:
-            - v1-build-cache-{{ .Branch }}-{{ .Revision }}
-            - v1-build-cache-{{ .Branch }}-
-            - v1-build-cache-
+            - v2-build-cache-{{ checksum "package-lock.json" }}
+            - v2-build-cache-
+      - restore_cache:
       - run:
           name: Build
           command: npm run build
@@ -112,9 +112,11 @@ jobs:
           name: Verify Bundle Size
           command: npx bundlesize
       - save_cache:
-          key: v1-build-cache-{{ .Branch }}-{{ .Revision }}
+          key: v2-build-cache-{{ checksum "package-lock.json" }}
           paths:
-            - ./dist
+            # Cache the node_modules folder to ensure the build cache is
+            # preserved.
+            - ~/coralproject/talk/node_modules/.cache
       - persist_to_workspace:
           root: .
           paths: dist

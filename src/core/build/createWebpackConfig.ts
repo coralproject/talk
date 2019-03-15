@@ -1,6 +1,7 @@
 import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
+import HardSourceWebpackPlugin from "hard-source-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -346,6 +347,7 @@ export default function createWebpackConfig(
                     // It enables caching results in ./node_modules/.cache/babel-loader/
                     // directory for faster rebuilds.
                     cacheDirectory: true,
+                    cacheCompression: false,
                   },
                 },
                 {
@@ -452,6 +454,9 @@ export default function createWebpackConfig(
         : null,
       ...additionalPlugins,
       ...appendPlugins,
+      // Configure HardSourceWebpackPlugin to improve build performance on
+      // subsequent rebuilds.
+      new HardSourceWebpackPlugin(),
     ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
