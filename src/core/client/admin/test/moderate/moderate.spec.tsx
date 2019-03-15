@@ -359,7 +359,7 @@ describe("rejected queue", () => {
         comments: sinon.stub().callsFake((_, data) => {
           expectAndFail(data).toEqual({
             first: 5,
-            filter: { status: "REJECTED" },
+            status: "REJECTED",
           });
           return {
             edges: [
@@ -495,7 +495,7 @@ describe("rejected queue", () => {
         comments: sinon.stub().callsFake((_, data) => {
           expectAndFail(data).toEqual({
             first: 5,
-            filter: { status: "REJECTED" },
+            status: "REJECTED",
           });
           return {
             edges: [
