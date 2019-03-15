@@ -103,7 +103,6 @@ jobs:
           keys:
             - v2-build-cache-{{ checksum "package-lock.json" }}
             - v2-build-cache-
-      - restore_cache:
       - run:
           name: Build
           command: npm run build
