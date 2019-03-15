@@ -15,6 +15,11 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   className?: string;
   onClick?: React.EventHandler<React.MouseEvent>;
   classes: typeof styles;
+  /**
+   * blankAdornment if true will leave some blank space after the text, so
+   * that it looks nice, if mixed with other buttons which have an external link
+   * icon as adornment.
+   */
   blankAdornment?: boolean;
 }
 
