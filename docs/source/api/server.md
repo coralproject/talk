@@ -229,28 +229,30 @@ For more information, see the [Apollo Docs](https://github.com/apollographql/gra
 ### tokenUserNotFound
 
 ```js
-tokenUserNotFound: async ({jwt, token}) => {
-  let profile = await someExternalService(token);
-  if (!profile) {
-    return null;
-  }
 
-  let user = await UserModel.findOneAndUpdate({
-    id: profile.id
-  }, {
-    id: profile.id,
-    username: profile.username,
-    lowercaseUsername: profile.username.toLowerCase(),
-    roles: [],
-    profiles: []
-  }, {
-    setDefaultsOnInsert: true,
-    new: true,
-    upsert: true
-  });
+const Users = require('services/users');
 
-  return user;
-}
+tokenUserNotFound: async ({ jwt }) => {
+        
+        const user = await Users.upsertExternalUser(
+            null, jwt.sub, jwt.iss, jwt.username)
+
+        const email = jwt.email.toLowerCase();
+
+        //upsertExternalUser will also create a profile with provider:jwt.iss, id:jwt.sub
+        //add a "local" profile to persist email on the user
+        user.profiles.push({
+            provider: "local",
+            id: email,
+        });
+        user.created_at = new Date(jwt.memberSince*1000);
+              
+        await user.save();
+        
+        return user;
+                   
+    
+    }
 ```
 
 The `tokenUserNotFound` hook allows auth integrations to hook into the event
@@ -258,8 +260,16 @@ when a valid token is provided but a user can't be found in the database that
 matches the provided id.
 
 The function is async, and should return the user object that was created in the
-database, or null if the user wasn't found. The `jwt` parameter of the object
-is the unpacked token, while `token` is the original jwt token string.
+database. The `jwt` parameter of the object is the unpacked token, which has already been validated.
+
+More details about the `upsertExternalUser` method can be found at:
+https://github.com/coralproject/talk/blob/32962aa1e84c09d87141440a1f04cbd1659b3336/services/users.js/#L592
+
+In this example, a unix timestamp was included on the jwt with a date that is being persisted on the user. This is optional, but can be used to handle any extra claims you want to include on the jwt. You can use the metadata object on the user to store custom values. 
+
+Having trouble implementing your own `tokenUserNotFound` hook? 
+Submit a Support ticket ([support@coralproject.net](mailto:support@coralproject.net))
+ 
 
 ### tags
 
