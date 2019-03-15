@@ -1,4 +1,26 @@
-# talk
+# talk ![CircleCI](https://img.shields.io/circleci/project/github/coralproject/talk/next.svg)
+
+Online comments are broken. Our open-source commenting platform, Talk, rethinks
+how moderation, comment display, and conversation function, creating the
+opportunity for safer, smarter discussions around your work.
+[Read more about Talk here](https://coralproject.net/talk).
+
+Built with <3 by The Coral Project, a part of [Vox Media](https://product.voxmedia.com/).
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+## Table of Contents
+
+- [Requirements](#requirements)
+- [Running](#running)
+  - [Docker](#docker)
+  - [Source](#source)
+  - [Development](#development)
+- [Configuration](#configuration)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Requirements
 
@@ -67,6 +89,10 @@ Talk requires NodeJS >=10, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
+# Clone and cd into the Talk directory.
+git clone https://github.com/coralproject/talk.git
+cd talk
+
 # Install dependencies.
 npm install
 
@@ -98,9 +124,53 @@ npm run start
 
 Then head on over to http://127.0.0.1:3000 to install Talk!
 
+### Development
+
+Running Talk for development is very similar to installing Talk via Source as
+described above.
+
+Talk requires NodeJS >=10, we recommend using `nvm` to help manage node
+versions: https://github.com/creationix/nvm.
+
+```bash
+# Clone and cd into the Talk directory.
+git clone https://github.com/coralproject/talk.git
+cd talk
+
+# Install dependencies.
+npm install
+```
+
+Running Talk with default settings assumes that you have:
+
+- MongoDB >=3.6 running on `127.0.0.1:27017`
+- Redis >=3.2 running on `127.0.0.1:6379`
+
+If you don't already have these databases running, you can run the following
+assuming you have Docker installed on your local machine:
+
+```bash
+docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
+docker run -d -p 6379:6379 --restart always --name redis redis:3.2
+```
+
+Then start Talk with:
+
+```bash
+# Run the server in development mode in order to facilitate auto-restarting and
+# rebuilding when file changes are detected.
+npm run watch
+```
+
+When the client code has been built, the previous command will open your web
+browser to http://127.0.0.1:8080/ automatically!
+
 ## Configuration
 
-The following environment variables can be set to configure the Talk Server:
+The following environment variables can be set to configure the Talk Server. You
+can expose them in your shell via `export NODE_ENV=development` or by placing
+the variables in a `.env` file in the root of the project in a simple
+`NODE_ENV=development` format delimited by newlines.
 
 - `NODE_ENV` - Can be one of `production` or `development`. All production
   deployments should use `production`. Defaults to `production` when ran with
@@ -111,7 +181,8 @@ The following environment variables can be set to configure the Talk Server:
 - `REDIS_URI` - The Redis database URI to connect to.
   (Default `redis://127.0.0.1:6379`)
 - `SIGNING_SECRET` - The shared secret to use to sign JSON Web Tokens (JWT) with
-  the selected signing algorithm. (Default: `keyboard cat`)
+  the selected signing algorithm. 🚨 **Don't forget to set this variable!** 🚨
+  (Default: `keyboard cat`)
 - `SIGNING_ALGORITHM` - The signing algorithm to use for signing JWT's.
   (Default `HS256`).
 - `LOGGING_LEVEL` - The logging level that can be set to one of `fatal`,
