@@ -32,11 +32,11 @@ const Permalink: StatelessComponent<PermalinkProps> = ({ commentID, url }) => {
         </ClickOutside>
       )}
     >
-      {({ toggleVisibility, forwardRef, visible }) => (
+      {({ toggleVisibility, ref, visible }) => (
         <Button
           onClick={toggleVisibility}
           aria-controls={popoverID}
-          ref={forwardRef}
+          ref={ref}
           variant="ghost"
           active={visible}
           size="small"

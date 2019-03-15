@@ -23,11 +23,11 @@ const DecisionHistoryButton: StatelessComponent = () => (
       </ClickOutside>
     )}
   >
-    {({ toggleVisibility, forwardRef, visible }) => (
+    {({ toggleVisibility, ref, visible }) => (
       <BaseButton
         onClick={toggleVisibility}
         aria-controls={popoverID}
-        ref={forwardRef}
+        ref={ref}
         className={styles.historyIcon}
         data-testid="decisionHistory-toggle"
       >

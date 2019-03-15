@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders anchor button 1`] = `
+<Button
+  className="custom"
+  classes={
+    Object {
+      "blankAdornment": "Button-blankAdornment",
+      "icon": "Button-icon",
+      "mouseHover": "Button-mouseHover",
+      "root": "Button-root",
+    }
+  }
+  href="/moderate"
+  onClick={[Function]}
+  target="_blank"
+>
+  link
+</Button>
+`;
+
+exports[`renders button 1`] = `
+<Button
+  blankAdornment={true}
+  className="custom"
+  classes={
+    Object {
+      "blankAdornment": "Button-blankAdornment",
+      "icon": "Button-icon",
+      "mouseHover": "Button-mouseHover",
+      "root": "Button-root",
+    }
+  }
+  onClick={[Function]}
+>
+  link
+</Button>
+`;

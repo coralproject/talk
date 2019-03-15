@@ -32,11 +32,11 @@ const ReportButtonWithPopover: React.StatelessComponent<Props> = ({
         </ClickOutside>
       )}
     >
-      {({ toggleVisibility, forwardRef, visible }) => (
+      {({ toggleVisibility, ref, visible }) => (
         <ReportButton
           onClick={evt => !reported && toggleVisibility(evt)}
           aria-controls={popoverID}
-          ref={forwardRef}
+          ref={ref}
           active={visible}
           reported={reported}
         />

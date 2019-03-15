@@ -3,24 +3,28 @@ name: Popover
 menu: UI Kit
 ---
 
-import { Playground } from 'docz'
-import Popover from './Popover'
-import Button from '../Button'
-import Flex from '../Flex'
-import Typography from '../Typography'
-import ButtonIcon from '../Button/ButtonIcon'
+import { Playground } from "docz";
+import Popover from "./Popover";
+import Button from "../Button";
+import Flex from "../Flex";
+import Typography from "../Typography";
+import ButtonIcon from "../Button/ButtonIcon";
 
 # Popover
 
 `Popover` renders a popover dialog attached to another `Element`.
 
 ## Basic usage
+
 <Playground>
-  <Popover
-    body={<Typography>This is the body</Typography>}
-  >
-    {({ toggleVisibility, forwardRef }) => (
-      <Button onClick={toggleVisibility} forwardRef={forwardRef} variant="filled" color="primary">
+  <Popover body={<Typography>This is the body</Typography>}>
+    {({ toggleVisibility, ref }) => (
+      <Button
+        onClick={toggleVisibility}
+        ref={ref}
+        variant="filled"
+        color="primary"
+      >
         Click me!
       </Button>
     )}
@@ -28,6 +32,7 @@ import ButtonIcon from '../Button/ButtonIcon'
 </Playground>
 
 #### Example with `placement=top`
+
 <Playground>
   <Popover
     placement="top"
@@ -40,8 +45,13 @@ import ButtonIcon from '../Button/ButtonIcon'
       </Flex>
     )}
   >
-    {({ toggleVisibility, forwardRef }) => (
-      <Button onClick={toggleVisibility} forwardRef={forwardRef} variant="filled" color="primary">
+    {({ toggleVisibility, ref }) => (
+      <Button
+        onClick={toggleVisibility}
+        ref={ref}
+        variant="filled"
+        color="primary"
+      >
         Click me!
       </Button>
     )}

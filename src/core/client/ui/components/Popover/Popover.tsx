@@ -32,7 +32,7 @@ interface BodyRenderProps {
 interface ChildrenRenderProps {
   /** toggles visibility, if event is provided, the event will stop propagating. */
   toggleVisibility: (event?: React.SyntheticEvent | Event) => void;
-  forwardRef?: RefHandler;
+  ref?: RefHandler;
   visible: boolean;
 }
 
@@ -114,7 +114,7 @@ class Popover extends React.Component<PopoverProps> {
           <Reference>
             {props =>
               children({
-                forwardRef: props.ref,
+                ref: props.ref,
                 toggleVisibility: this.toggleVisibility,
                 visible: this.state.visible,
               })
