@@ -112,7 +112,7 @@ exports[`renders comment stream with load more button 1`] = `
                           className="AriaInfo-root"
                           id="permalink-popover-comment-0-ariainfo"
                         >
-                          A dialog showing a permalink to the comment
+                          A dialog showing the decision history
                         </div>
                       </div>
                     </div>
@@ -262,7 +262,7 @@ exports[`renders comment stream with load more button 1`] = `
                           className="AriaInfo-root"
                           id="permalink-popover-comment-1-ariainfo"
                         >
-                          A dialog showing a permalink to the comment
+                          A dialog showing the decision history
                         </div>
                       </div>
                     </div>

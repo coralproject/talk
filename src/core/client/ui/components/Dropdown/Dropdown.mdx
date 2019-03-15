@@ -5,7 +5,11 @@ menu: UI Kit
 
 import { Playground, PropsTable } from "docz";
 
-import { Dropdown, Divider, Button as DropdownButton } from "./";
+import {
+  Dropdown,
+  Divider as DropdownDivider,
+  Button as DropdownButton,
+} from "./";
 import { Button, ButtonIcon } from "../Button";
 import ClickOutside from "../ClickOutside";
 import Popover from "../Popover";
@@ -16,6 +20,8 @@ import Popover from "../Popover";
 
 <Playground>
   <Popover
+    id="dropdownMenu"
+    description="Dropdown Menu"
     placement="bottom-start"
     body={({ toggleVisibility }) => (
       <ClickOutside onClickOutside={toggleVisibility}>
@@ -27,7 +33,7 @@ import Popover from "../Popover";
           >
             Report Bug
           </DropdownButton>
-          <Divider />
+          <DropdownDivider />
           <DropdownButton blankAdornment>Sign Out</DropdownButton>
         </Dropdown>
       </ClickOutside>

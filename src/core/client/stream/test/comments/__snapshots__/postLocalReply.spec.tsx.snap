@@ -102,7 +102,7 @@ exports[`post a reply: open reply form 1`] = `
                       className="AriaInfo-root"
                       id="permalink-popover-comment-with-deepest-replies-5-ariainfo"
                     >
-                      A dialog showing a permalink to the comment
+                      A dialog showing the decision history
                     </div>
                   </div>
                 </div>
@@ -443,7 +443,7 @@ exports[`post a reply: optimistic response 1`] = `
                           className="AriaInfo-root"
                           id="permalink-popover-uuid-0-ariainfo"
                         >
-                          A dialog showing a permalink to the comment
+                          A dialog showing the decision history
                         </div>
                       </div>
                     </div>
@@ -622,7 +622,7 @@ exports[`renders comment stream 1`] = `
                           className="AriaInfo-root"
                           id="permalink-popover-comment-with-deepest-replies-ariainfo"
                         >
-                          A dialog showing a permalink to the comment
+                          A dialog showing the decision history
                         </div>
                       </div>
                     </div>
@@ -795,7 +795,7 @@ exports[`renders comment stream 1`] = `
                               className="AriaInfo-root"
                               id="permalink-popover-comment-with-deepest-replies-1-ariainfo"
                             >
-                              A dialog showing a permalink to the comment
+                              A dialog showing the decision history
                             </div>
                           </div>
                         </div>
@@ -968,7 +968,7 @@ exports[`renders comment stream 1`] = `
                                   className="AriaInfo-root"
                                   id="permalink-popover-comment-with-deepest-replies-2-ariainfo"
                                 >
-                                  A dialog showing a permalink to the comment
+                                  A dialog showing the decision history
                                 </div>
                               </div>
                             </div>
@@ -1141,7 +1141,7 @@ exports[`renders comment stream 1`] = `
                                       className="AriaInfo-root"
                                       id="permalink-popover-comment-with-deepest-replies-3-ariainfo"
                                     >
-                                      A dialog showing a permalink to the comment
+                                      A dialog showing the decision history
                                     </div>
                                   </div>
                                 </div>
@@ -1314,7 +1314,7 @@ exports[`renders comment stream 1`] = `
                                           className="AriaInfo-root"
                                           id="permalink-popover-comment-with-deepest-replies-4-ariainfo"
                                         >
-                                          A dialog showing a permalink to the comment
+                                          A dialog showing the decision history
                                         </div>
                                       </div>
                                     </div>
@@ -1487,7 +1487,7 @@ exports[`renders comment stream 1`] = `
                                               className="AriaInfo-root"
                                               id="permalink-popover-comment-with-deepest-replies-5-ariainfo"
                                             >
-                                              A dialog showing a permalink to the comment
+                                              A dialog showing the decision history
                                             </div>
                                           </div>
                                         </div>

@@ -222,7 +222,7 @@ exports[`renders conversation thread 1`] = `
                             className="AriaInfo-root"
                             id="permalink-popover-comment-0-ariainfo"
                           >
-                            A dialog showing a permalink to the comment
+                            A dialog showing the decision history
                           </div>
                         </div>
                       </div>
@@ -402,7 +402,7 @@ exports[`shows more of this conversation 1`] = `
                             className="AriaInfo-root"
                             id="permalink-popover-comment-1-ariainfo"
                           >
-                            A dialog showing a permalink to the comment
+                            A dialog showing the decision history
                           </div>
                         </div>
                       </div>
@@ -569,7 +569,7 @@ exports[`shows more of this conversation 1`] = `
                             className="AriaInfo-root"
                             id="permalink-popover-comment-2-ariainfo"
                           >
-                            A dialog showing a permalink to the comment
+                            A dialog showing the decision history
                           </div>
                         </div>
                       </div>
@@ -734,7 +734,7 @@ exports[`shows more of this conversation 1`] = `
                             className="AriaInfo-root"
                             id="permalink-popover-comment-0-ariainfo"
                           >
-                            A dialog showing a permalink to the comment
+                            A dialog showing the decision history
                           </div>
                         </div>
                       </div>

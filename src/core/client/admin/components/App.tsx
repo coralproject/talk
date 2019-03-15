@@ -1,16 +1,21 @@
 import React, { StatelessComponent } from "react";
 
+import { PropTypesOf } from "talk-framework/types";
 import { Logo } from "talk-ui/components";
 import { AppBar, Begin, Divider, End } from "talk-ui/components/AppBar";
 
-import SignOutButtonContainer from "../containers/SignOutButtonContainer";
+import UserMenuContainer from "../containers/UserMenuContainer";
 import DecisionHistoryButton from "./DecisionHistoryButton";
 import Navigation from "./Navigation";
 import Version from "./Version";
 
 import styles from "./App.css";
 
-const App: StatelessComponent = ({ children }) => (
+interface Props {
+  me: PropTypesOf<typeof UserMenuContainer>["me"];
+}
+
+const App: StatelessComponent<Props> = ({ children, me }) => (
   <div className={styles.root}>
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">
@@ -23,7 +28,7 @@ const App: StatelessComponent = ({ children }) => (
       <End>
         <DecisionHistoryButton />
         <Divider />
-        <SignOutButtonContainer id="navigation-signOutButton" />
+        <UserMenuContainer me={me} />
       </End>
     </AppBar>
     {children}

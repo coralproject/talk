@@ -28,6 +28,8 @@ comments-postCommentForm-submit = Submit
 comments-stream-loadMore = Load More
 comments-replyList-showAll = Show All
 
+comments-permalink-popover =
+  .description = A dialog showing the decision history
 comments-permalinkButton-share = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentNotFound = Comment not found
@@ -104,6 +106,8 @@ profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
 
 ## Report Comment Popover
+comments-reportPopover =
+  .description = A dialog for reporting comments
 comments-reportPopover-reportThisComment = Report This Comment
 comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
 

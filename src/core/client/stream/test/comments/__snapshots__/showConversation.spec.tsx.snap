@@ -102,7 +102,7 @@ exports[`renders deepest comment with link 1`] = `
                       className="AriaInfo-root"
                       id="permalink-popover-comment-with-deepest-replies-5-ariainfo"
                     >
-                      A dialog showing a permalink to the comment
+                      A dialog showing the decision history
                     </div>
                   </div>
                 </div>

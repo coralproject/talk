@@ -199,7 +199,7 @@ exports[`renders permalink view 1`] = `
                                   className="AriaInfo-root"
                                   id="permalink-popover-comment-1-ariainfo"
                                 >
-                                  A dialog showing a permalink to the comment
+                                  A dialog showing the decision history
                                 </div>
                               </div>
                             </div>
@@ -366,7 +366,7 @@ exports[`renders permalink view 1`] = `
                                   className="AriaInfo-root"
                                   id="permalink-popover-comment-2-ariainfo"
                                 >
-                                  A dialog showing a permalink to the comment
+                                  A dialog showing the decision history
                                 </div>
                               </div>
                             </div>
@@ -531,7 +531,7 @@ exports[`renders permalink view 1`] = `
                                   className="AriaInfo-root"
                                   id="permalink-popover-comment-with-replies-ariainfo"
                                 >
-                                  A dialog showing a permalink to the comment
+                                  A dialog showing the decision history
                                 </div>
                               </div>
                             </div>
@@ -692,7 +692,7 @@ exports[`renders permalink view 1`] = `
                                   className="AriaInfo-root"
                                   id="permalink-popover-comment-3-ariainfo"
                                 >
-                                  A dialog showing a permalink to the comment
+                                  A dialog showing the decision history
                                 </div>
                               </div>
                             </div>
@@ -842,7 +842,7 @@ exports[`renders permalink view 1`] = `
                                   className="AriaInfo-root"
                                   id="permalink-popover-comment-4-ariainfo"
                                 >
-                                  A dialog showing a permalink to the comment
+                                  A dialog showing the decision history
                                 </div>
                               </div>
                             </div>

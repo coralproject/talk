@@ -4,14 +4,14 @@ import { createRenderer } from "react-test-renderer/shallow";
 
 import { PropTypesOf } from "talk-framework/types";
 
-import SignOutButton from "./SignOutButton";
+import UserMenu from "./UserMenu";
 
 it("renders correctly", () => {
-  const props: PropTypesOf<typeof SignOutButton> = {
-    id: "id",
-    onClick: noop,
+  const props: PropTypesOf<typeof UserMenu> = {
+    username: "Admin",
+    onSignOut: noop as any,
   };
   const renderer = createRenderer();
-  renderer.render(<SignOutButton {...props} />);
+  renderer.render(<UserMenu {...props} />);
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

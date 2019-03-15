@@ -1,0 +1,11 @@
+.button {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-left: 5px;
+}
+.buttonText {
+  font-size: calc(18rem / var(--rem-base));
+  letter-spacing: calc(-0.2em / 18);
+  margin-left: 2px;
+  margin-right: 1px;
+}

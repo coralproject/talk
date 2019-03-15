@@ -1,7 +1,7 @@
 import { makeRouteConfig, Redirect, Route } from "found";
 import React from "react";
 
-import App from "./components/App";
+import AppContainer from "./containers/AppContainer";
 import AuthCheckContainer from "./containers/AuthCheckContainer";
 import Community from "./routes/community/components/Community";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
@@ -25,7 +25,7 @@ import Stories from "./routes/stories/components/Stories";
 export default makeRouteConfig(
   <Route path="admin">
     <Route {...AuthCheckContainer.routeConfig}>
-      <Route Component={App}>
+      <Route {...AppContainer.routeConfig}>
         <Redirect from="/" to="/admin/moderate" />
         <Route
           path="moderate/comment/:commentID"

@@ -111,7 +111,7 @@ exports[`renders reply list 1`] = `
                           className="AriaInfo-root"
                           id="permalink-popover-comment-with-replies-ariainfo"
                         >
-                          A dialog showing a permalink to the comment
+                          A dialog showing the decision history
                         </div>
                       </div>
                     </div>
@@ -266,7 +266,7 @@ exports[`renders reply list 1`] = `
                               className="AriaInfo-root"
                               id="permalink-popover-comment-3-ariainfo"
                             >
-                              A dialog showing a permalink to the comment
+                              A dialog showing the decision history
                             </div>
                           </div>
                         </div>
@@ -416,7 +416,7 @@ exports[`renders reply list 1`] = `
                               className="AriaInfo-root"
                               id="permalink-popover-comment-4-ariainfo"
                             >
-                              A dialog showing a permalink to the comment
+                              A dialog showing the decision history
                             </div>
                           </div>
                         </div>
@@ -568,7 +568,7 @@ exports[`renders reply list 1`] = `
                           className="AriaInfo-root"
                           id="permalink-popover-comment-5-ariainfo"
                         >
-                          A dialog showing a permalink to the comment
+                          A dialog showing the decision history
                         </div>
                       </div>
                     </div>

@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Localized } from "fluent-react/compat";
 import { ClickOutside, Popover } from "talk-ui/components";
 
 import ReportCommentView from "../../views/reportComment";
@@ -18,30 +19,32 @@ const ReportButtonWithPopover: React.StatelessComponent<Props> = ({
 }) => {
   const popoverID = `report-popover-${comment.id}`;
   return (
-    <Popover
-      id={popoverID}
-      placement="top-end"
-      description="A dialog for reporting comments"
-      body={({ toggleVisibility, scheduleUpdate }) => (
-        <ClickOutside onClickOutside={toggleVisibility}>
-          <ReportCommentView
-            comment={comment}
-            onClose={toggleVisibility}
-            onResize={scheduleUpdate}
+    <Localized id="comments-reportPopover" attrs={{ description: true }}>
+      <Popover
+        id={popoverID}
+        placement="top-end"
+        description="A dialog for reporting comments"
+        body={({ toggleVisibility, scheduleUpdate }) => (
+          <ClickOutside onClickOutside={toggleVisibility}>
+            <ReportCommentView
+              comment={comment}
+              onClose={toggleVisibility}
+              onResize={scheduleUpdate}
+            />
+          </ClickOutside>
+        )}
+      >
+        {({ toggleVisibility, ref, visible }) => (
+          <ReportButton
+            onClick={evt => !reported && toggleVisibility(evt)}
+            aria-controls={popoverID}
+            ref={ref}
+            active={visible}
+            reported={reported}
           />
-        </ClickOutside>
-      )}
-    >
-      {({ toggleVisibility, ref, visible }) => (
-        <ReportButton
-          onClick={evt => !reported && toggleVisibility(evt)}
-          aria-controls={popoverID}
-          ref={ref}
-          active={visible}
-          reported={reported}
-        />
-      )}
-    </Popover>
+        )}
+      </Popover>
+    </Localized>
   );
 };
 

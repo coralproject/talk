@@ -22,9 +22,7 @@ exports[`renders correctly 1`] = `
     <withPropsOnChange(End)>
       <DecisionHistoryButton />
       <withPropsOnChange(Divider) />
-      <withContext(createMutationContainer(RedirectAppContainer))
-        id="navigation-signOutButton"
-      />
+      <withContext(createMutationContainer(Relay(UserMenuContainer))) />
     </withPropsOnChange(End)>
   </withPropsOnChange(AppBar)>
   child
