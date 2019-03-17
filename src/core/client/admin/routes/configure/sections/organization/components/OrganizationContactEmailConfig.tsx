@@ -23,7 +23,7 @@ const OrganizationNameConfig: StatelessComponent<Props> = ({ disabled }) => (
       <Localized id="configure-organization-email">
         <Header
           container={
-            <label htmlFor="configure-organization-organizationContactEmail" />
+            <label htmlFor="configure-organization-organization.contactEmail" />
           }
         >
           Organization Email
@@ -35,7 +35,7 @@ const OrganizationNameConfig: StatelessComponent<Props> = ({ disabled }) => (
       >
         <Typography variant="detail">This E-Mail will be used</Typography>
       </Localized>
-      <Field name="organizationContactEmail" validate={required}>
+      <Field name="organization.contactEmail" validate={required}>
         {({ input, meta }) => (
           <>
             <TextField

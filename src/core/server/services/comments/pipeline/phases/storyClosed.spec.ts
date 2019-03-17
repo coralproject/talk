@@ -48,7 +48,9 @@ describe("storyClosed", () => {
             .plus(60000)
             .toJSDate(),
         } as ModerationPhaseContext["story"],
-        tenant: {} as ModerationPhaseContext["tenant"],
+        tenant: {
+          closeCommenting: { auto: true },
+        } as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
       })
@@ -57,7 +59,9 @@ describe("storyClosed", () => {
     expect(
       storyClosed({
         story: {} as ModerationPhaseContext["story"],
-        tenant: {} as ModerationPhaseContext["tenant"],
+        tenant: {
+          closeCommenting: { auto: true },
+        } as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
       })

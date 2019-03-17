@@ -396,8 +396,10 @@ it("change closing comment streams", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.autoCloseStream).toEqual(true);
-      expectAndFail(data.input.settings.closedTimeout).toEqual(2592000);
+      expectAndFail(data.input.settings.closeCommenting.auto).toEqual(true);
+      expectAndFail(data.input.settings.closeCommenting.timeout).toEqual(
+        2592000
+      );
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,

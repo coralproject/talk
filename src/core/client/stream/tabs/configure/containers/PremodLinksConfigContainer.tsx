@@ -2,20 +2,20 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PremodLinksConfigContainer_story as StoryData } from "talk-stream/__generated__/PremodLinksConfigContainer_story.graphql";
+import { PremodLinksConfigContainer_storySettings as StorySettingsData } from "talk-stream/__generated__/PremodLinksConfigContainer_storySettings.graphql";
 
 import PremodLinksConfig from "../components/PremodLinksConfig";
 
 interface Props {
-  story: StoryData;
-  onInitValues: (values: StoryData) => void;
+  storySettings: StorySettingsData;
+  onInitValues: (values: StorySettingsData) => void;
   disabled: boolean;
 }
 
 class PremodLinksConfigContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    props.onInitValues(props.story);
+    props.onInitValues(props.storySettings);
   }
 
   public render() {
@@ -25,11 +25,9 @@ class PremodLinksConfigContainer extends React.Component<Props> {
 }
 
 const enhanced = withFragmentContainer<Props>({
-  story: graphql`
-    fragment PremodLinksConfigContainer_story on Story {
-      settings {
-        premodLinksEnable
-      }
+  storySettings: graphql`
+    fragment PremodLinksConfigContainer_storySettings on StorySettings {
+      premodLinksEnable
     }
   `,
 })(PremodLinksConfigContainer);

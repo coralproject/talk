@@ -126,7 +126,9 @@ it("renders when story has been closed (collapsing)", async () => {
       isClosed: true,
     },
     settings: {
-      closedMessage: "story closed",
+      closeCommenting: {
+        message: "story closed",
+      },
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);
@@ -156,7 +158,9 @@ it("renders when story has been closed (non-collapsing)", async () => {
       isClosed: false,
     },
     settings: {
-      closedMessage: "story closed",
+      closeCommenting: {
+        message: "story closed",
+      },
     },
   });
   const nextProps = createDefaultProps({
@@ -164,7 +168,9 @@ it("renders when story has been closed (non-collapsing)", async () => {
       isClosed: true,
     },
     settings: {
-      closedMessage: "story closed",
+      closeCommenting: {
+        message: "story closed",
+      },
     },
   });
   const wrapper = shallow(<PostCommentFormContainerN {...props} />);

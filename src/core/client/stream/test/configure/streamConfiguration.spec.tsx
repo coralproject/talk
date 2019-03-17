@@ -49,17 +49,19 @@ async function createTestRenderer(
 
 it("change premod", async () => {
   let storyRecord = cloneDeep(stories[0]);
-  const updateStoryStub = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input.story.moderation).toEqual("PRE");
-    storyRecord = merge(storyRecord, data.input.story);
-    return {
-      story: storyRecord,
-      clientMutationId: data.input.clientMutationId,
-    };
-  });
+  const updateStorySettingsStub = sinon
+    .stub()
+    .callsFake((_: any, data: any) => {
+      expectAndFail(data.input.settings.moderation).toEqual("PRE");
+      storyRecord = merge(storyRecord, { settings: data.input.settings });
+      return {
+        story: storyRecord,
+        clientMutationId: data.input.clientMutationId,
+      };
+    });
   const { form, applyButton } = await createTestRenderer({
     Mutation: {
-      updateStory: updateStoryStub,
+      updateStorySettings: updateStorySettingsStub,
     },
   });
 
@@ -82,22 +84,24 @@ it("change premod", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateStoryStub.called).toBe(true);
+  expect(updateStorySettingsStub.called).toBe(true);
 });
 
 it("change premod links", async () => {
   let storyRecord = cloneDeep(stories[0]);
-  const updateStoryStub = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input.story.premodLinksEnable).toEqual(true);
-    storyRecord = merge(storyRecord, data.input.story);
-    return {
-      story: storyRecord,
-      clientMutationId: data.input.clientMutationId,
-    };
-  });
+  const updateStorySettingsStub = sinon
+    .stub()
+    .callsFake((_: any, data: any) => {
+      expectAndFail(data.input.settings.premodLinksEnable).toEqual(true);
+      storyRecord = merge(storyRecord, { settings: data.input.settings });
+      return {
+        story: storyRecord,
+        clientMutationId: data.input.clientMutationId,
+      };
+    });
   const { form, applyButton } = await createTestRenderer({
     Mutation: {
-      updateStory: updateStoryStub,
+      updateStorySettings: updateStorySettingsStub,
     },
   });
 
@@ -122,5 +126,5 @@ it("change premod links", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateStoryStub.called).toBe(true);
+  expect(updateStorySettingsStub.called).toBe(true);
 });

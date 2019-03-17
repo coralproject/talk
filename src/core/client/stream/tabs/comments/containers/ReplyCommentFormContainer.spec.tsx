@@ -48,7 +48,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           min: 3,
           max: 100,
         },
-        closedCommenting: {
+        closeCommenting: {
           message: "closed",
         },
         disableCommenting: {

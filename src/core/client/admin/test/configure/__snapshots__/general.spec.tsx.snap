@@ -568,8 +568,8 @@ moderation panel.
                     checked={false}
                     className="RadioButton-input"
                     disabled={false}
-                    id="autoCloseStream-true"
-                    name="autoCloseStream"
+                    id="closeCommenting.auto-true"
+                    name="closeCommenting.auto"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -578,7 +578,7 @@ moderation panel.
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="autoCloseStream-true"
+                    htmlFor="closeCommenting.auto-true"
                   >
                     <span>
                       On
@@ -592,8 +592,8 @@ moderation panel.
                     checked={true}
                     className="RadioButton-input"
                     disabled={false}
-                    id="autoCloseStream-false"
-                    name="autoCloseStream"
+                    id="closeCommenting.auto-false"
+                    name="closeCommenting.auto"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -602,7 +602,7 @@ moderation panel.
                   />
                   <label
                     className="RadioButton-label"
-                    htmlFor="autoCloseStream-false"
+                    htmlFor="closeCommenting.auto-false"
                   >
                     <span>
                       Off
@@ -632,7 +632,7 @@ moderation panel.
                     autoCorrect="off"
                     className="TextField-input TextField-colorRegular TextField-textAlignCenter"
                     disabled={false}
-                    name="closedTimeout-value"
+                    name="closeCommenting.timeout-value"
                     onChange={[Function]}
                     placeholder=""
                     spellCheck={false}
@@ -647,7 +647,7 @@ moderation panel.
                     aria-label="unit"
                     className="SelectField-select DurationField-unit"
                     disabled={false}
-                    name="closedTimeout-unit"
+                    name="closeCommenting.timeout-unit"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
@@ -703,7 +703,7 @@ moderation panel.
             >
               <textarea
                 id="configure-general-closedStreamMessage-content"
-                name="closedMessage"
+                name="closeCommenting.message"
                 onChange={[Function]}
                 value=""
               />

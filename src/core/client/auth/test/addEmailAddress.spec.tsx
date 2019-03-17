@@ -100,20 +100,6 @@ it("accepts valid email", async () => {
   expect(toJSON(form)).toMatchSnapshot();
 });
 
-it("accepts valid email confirmation", async () => {
-  const {
-    form,
-    emailAddressField,
-    confirmEmailAddressField,
-  } = await createTestRenderer();
-  emailAddressField.props.onChange({ target: { value: "hans@test.com" } });
-  confirmEmailAddressField.props.onChange({
-    target: { value: "hans@test.com" },
-  });
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
-});
-
 it("shows server error", async () => {
   const email = "hans@test.com";
   const setEmail = sinon.stub().callsFake((_: any, data: any) => {

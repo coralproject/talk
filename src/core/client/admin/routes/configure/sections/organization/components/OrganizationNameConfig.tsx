@@ -23,7 +23,7 @@ const OrganizationNameConfig: StatelessComponent<Props> = ({ disabled }) => (
       <Localized id="configure-organization-name">
         <Header
           container={
-            <label htmlFor="configure-organization-organizationName" />
+            <label htmlFor="configure-organization-organization.name" />
           }
         >
           Organization Name
@@ -38,7 +38,7 @@ const OrganizationNameConfig: StatelessComponent<Props> = ({ disabled }) => (
           community and organization members
         </Typography>
       </Localized>
-      <Field name="organizationName" validate={required}>
+      <Field name="organization.name" validate={required}>
         {({ input, meta }) => (
           <>
             <TextField

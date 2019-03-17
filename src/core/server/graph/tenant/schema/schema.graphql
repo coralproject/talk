@@ -2399,10 +2399,10 @@ input SettingsInput {
   organization: SettingsOrganizationInput
 
   """
-  closed contains settings related to the automatic closing of commenting on
+  closeCommenting contains settings related to the automatic closing of commenting on
   Stories.
   """
-  closed: SettingsCloseCommentingInput
+  closeCommenting: SettingsCloseCommentingInput
 
   """
   wordList will return a given list of words.

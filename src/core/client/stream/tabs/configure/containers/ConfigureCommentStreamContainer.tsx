@@ -5,24 +5,27 @@ import { SubmitHookHandler } from "talk-framework/lib/form";
 import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
 import { ConfigureCommentStreamContainer_story as StoryData } from "talk-stream/__generated__/ConfigureCommentStreamContainer_story.graphql";
 import {
-  UpdateStoryInput,
-  UpdateStoryMutation,
-  withUpdateStoryMutation,
+  UpdateStorySettingsInput,
+  UpdateStorySettingsMutation,
+  withUpdateStorySettingsMutation,
 } from "talk-stream/mutations";
 
 import ConfigureCommentStream from "../components/ConfigureCommentStream";
 
 interface Props {
   story: StoryData;
-  updateStory: UpdateStoryMutation;
+  updateStorySettings: UpdateStorySettingsMutation;
 }
 
 class ConfigureCommentStreamContainer extends React.Component<Props> {
   private handleExecute = async (
-    data: UpdateStoryInput["story"],
+    data: UpdateStorySettingsInput["settings"],
     form: FormApi
   ) => {
-    await this.props.updateStory({ id: this.props.story.id, story: data });
+    await this.props.updateStorySettings({
+      id: this.props.story.id,
+      settings: data,
+    });
     form.initialize(data);
   };
 
@@ -32,7 +35,7 @@ class ConfigureCommentStreamContainer extends React.Component<Props> {
         {({ onSubmit }) => (
           <ConfigureCommentStream
             onSubmit={onSubmit}
-            story={this.props.story}
+            storySettings={this.props.story.settings}
           />
         )}
       </SubmitHookHandler>
@@ -44,9 +47,11 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment ConfigureCommentStreamContainer_story on Story {
       id
-      ...PremodConfigContainer_story
-      ...PremodLinksConfigContainer_story
+      settings {
+        ...PremodConfigContainer_storySettings
+        ...PremodLinksConfigContainer_storySettings
+      }
     }
   `,
-})(withUpdateStoryMutation(ConfigureCommentStreamContainer));
+})(withUpdateStorySettingsMutation(ConfigureCommentStreamContainer));
 export default enhanced;

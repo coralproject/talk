@@ -20,13 +20,13 @@ import styles from "./ConfigureCommentStream.css";
 
 interface Props {
   onSubmit: (settings: any, form: FormApi) => void;
-  story: PropTypesOf<typeof PremodConfigContainer>["story"] &
-    PropTypesOf<typeof PremodLinksConfigContainer>["story"];
+  storySettings: PropTypesOf<typeof PremodConfigContainer>["storySettings"] &
+    PropTypesOf<typeof PremodLinksConfigContainer>["storySettings"];
 }
 
 const ConfigureCommentStream: StatelessComponent<Props> = ({
   onSubmit,
-  story,
+  storySettings,
 }) => (
   <Form onSubmit={onSubmit}>
     {({ handleSubmit, submitting, pristine, form, submitError }) => (
@@ -58,12 +58,12 @@ const ConfigureCommentStream: StatelessComponent<Props> = ({
               {submitError && <CallOut color="error">{submitError}</CallOut>}
               <PremodConfigContainer
                 onInitValues={onInitValues}
-                story={story}
+                storySettings={storySettings}
                 disabled={submitting}
               />
               <PremodLinksConfigContainer
                 onInitValues={onInitValues}
-                story={story}
+                storySettings={storySettings}
                 disabled={submitting}
               />
             </HorizontalGutter>

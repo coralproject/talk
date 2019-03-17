@@ -61,7 +61,9 @@ it("change organization name", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.organizationName).toEqual("Coral Test");
+      expectAndFail(data.input.settings.organization.name).toEqual(
+        "Coral Test"
+      );
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
@@ -124,7 +126,7 @@ it("change organization contact email", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.organizationContactEmail).toEqual(
+      expectAndFail(data.input.settings.organization.contactEmail).toEqual(
         "test@coralproject.net"
       );
       settingsRecord = merge(settingsRecord, data.input.settings);

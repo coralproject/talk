@@ -6,7 +6,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getMe } from "talk-framework/helpers";
+import { getMe, getStorySettings } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -110,17 +110,14 @@ function commit(
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
 
-  const story = relayEnvironment
-    .getStore()
-    .getSource()
-    .get(input.storyID);
-  if (!story || !story.moderation) {
+  const storySettings = getStorySettings(relayEnvironment, input.storyID);
+  if (!storySettings || !storySettings.moderation) {
     throw new Error("Moderation mode of the story was not included");
   }
 
   // TODO: Generate and use schema types.
   const expectPremoderation =
-    !roleIsAtLeast(me.role, "STAFF") && story.moderation === "PRE";
+    !roleIsAtLeast(me.role, "STAFF") && storySettings.moderation === "PRE";
 
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
