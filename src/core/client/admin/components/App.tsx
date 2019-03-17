@@ -13,6 +13,7 @@ import styles from "./App.css";
 
 interface Props {
   me: PropTypesOf<typeof UserMenuContainer>["me"];
+  children: React.ReactNode;
 }
 
 const App: StatelessComponent<Props> = ({ children, me }) => (
