@@ -2773,11 +2773,6 @@ input UpdateStory {
   be scraped, but can be provided here.
   """
   metadata: StoryMetadataInput
-
-  """
-  isClosed is true when the Story should be closed for commenting.
-  """
-  isClosed: Boolean
 }
 
 input UpdateStoryInput {
