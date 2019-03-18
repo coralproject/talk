@@ -135,6 +135,7 @@ jobs:
       - run:
           name: Build
           command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=${CIRCLE_SHA1} .
+          no_output_timeout: 20m
       - run:
           name: Push
           command: docker push coralproject/talk:next
