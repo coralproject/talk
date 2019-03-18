@@ -60,13 +60,17 @@ async function upsertUser(
   shouldSetDisplayName = false
 ) {
   let user = await User.findOne({
-    id,
-    profiles: {
-      $elemMatch: {
-        id,
-        provider,
+    $or: [
+      { id },
+      {
+        profiles: {
+          $elemMatch: {
+            id,
+            provider,
+          },
+        },
       },
-    },
+    ],
   });
   if (user) {
     user.wasUpserted = false;
