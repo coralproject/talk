@@ -96,7 +96,8 @@ cd talk
 # Install dependencies.
 npm install
 
-# Build the application dependencies.
+# Build the application dependencies. 
+# This might take a while.
 npm run build
 ```
 
@@ -158,7 +159,7 @@ Then start Talk with:
 
 ```bash
 # Run the server in development mode in order to facilitate auto-restarting and
-# rebuilding when file changes are detected.
+# rebuilding when file changes are detected. This might take a while to fully run.
 npm run watch
 ```
 
