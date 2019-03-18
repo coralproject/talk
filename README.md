@@ -107,7 +107,7 @@ Running Talk with default settings assumes that you have:
 - MongoDB >=3.6 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
 
-If you don't already have these databases running, you can run the following
+If you don't already have these databases running, you can execute the following
 assuming you have Docker installed on your local machine:
 
 ```bash
@@ -146,7 +146,7 @@ Running Talk with default settings assumes that you have:
 - MongoDB >=3.6 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
 
-If you don't already have these databases running, you can run the following
+If you don't already have these databases running, you can execute the following
 assuming you have Docker installed on your local machine:
 
 ```bash
@@ -163,7 +163,27 @@ npm run watch
 ```
 
 When the client code has been built, the previous command will open your web
-browser to http://127.0.0.1:8080/ automatically!
+browser at http://127.0.0.1:8080/ automatically otherwise navigate there manually.
+
+To run the tests execute the following command:
+
+```bash
+# Run our unit and integration tests.
+npm run test
+```
+
+#### Design Language System (UI Components)
+
+We use [docz](https://docz.site) to document and develop our Design Language System. To start docz run:
+
+```bash
+# Make sure CSS types ar generated. 
+# This is not required when `npm run watch` is already running.
+npm run generate:css-types
+
+# Run docz in development.
+npm run docz -- dev
+```
 
 ## Configuration
 
