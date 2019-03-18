@@ -74,7 +74,7 @@ const MessageBoxConfig: StatelessComponent<Props> = ({ disabled }) => (
                             <MessageBoxIcon>{iconInput.value}</MessageBoxIcon>
                           )}
                           <MessageBoxContent>
-                            {contentInput.value}
+                            {contentInput.value || " "}
                           </MessageBoxContent>
                         </MessageBox>
                       </HorizontalGutter>
