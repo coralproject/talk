@@ -14,3 +14,4 @@ coverage
 
 *.css.d.ts
 __generated__
+README.md.orig
