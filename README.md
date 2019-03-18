@@ -165,9 +165,12 @@ npm run watch
 When the client code has been built, the previous command will open your web
 browser at http://127.0.0.1:8080/ automatically otherwise navigate there manually.
 
-To run the tests execute the following command:
+To run linting and tests use the following commands:
 
 ```bash
+# Run the linters.
+npm run lint
+
 # Run our unit and integration tests.
 npm run test
 ```
