@@ -25,7 +25,7 @@ async function createTestRenderer(
       settings: sinon.stub().returns(settings),
       me: sinon.stub().returns(users[0]),
       story: sinon.stub().callsFake((_: any, variables: any) => {
-        expect(variables.id).toBe(stories[0].id);
+        expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
       }),
       ...resolver.Query,
@@ -72,7 +72,7 @@ it("post a comment", async () => {
   const { rte, form, tabPane } = await createTestRenderer({
     Mutation: {
       createComment: sinon.stub().callsFake((_, data) => {
-        expect(data).toMatchObject({
+        expectAndFail(data).toMatchObject({
           input: {
             storyID: stories[0].id,
             body: "<b>Hello world!</b>",
@@ -119,7 +119,7 @@ const postACommentAndHandleNonVisibleComment = async (
   const { rte, form } = await createTestRenderer({
     Mutation: {
       createComment: sinon.stub().callsFake((_, data) => {
-        expect(data).toMatchObject({
+        expectAndFail(data).toMatchObject({
           input: {
             storyID: stories[0].id,
             body: "<b>Hello world!</b>",

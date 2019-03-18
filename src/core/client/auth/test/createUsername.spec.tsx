@@ -82,13 +82,6 @@ it("checks for invalid username", async () => {
   expect(toJSON(form)).toMatchSnapshot();
 });
 
-it("accepts valid username", async () => {
-  const { form, usernameField } = await createTestRenderer();
-  usernameField.props.onChange({ target: { value: "hans" } });
-  form.props.onSubmit();
-  expect(toJSON(form)).toMatchSnapshot();
-});
-
 it("shows server error", async () => {
   const username = "hans";
   const setUsername = sinon.stub().callsFake((_: any, data: any) => {
@@ -120,7 +113,7 @@ it("shows server error", async () => {
 it("successfully sets username", async () => {
   const username = "hans";
   const setUsername = sinon.stub().callsFake((_: any, data: any) => {
-    expect(data.input).toEqual({
+    expectAndFail(data.input).toEqual({
       username,
       clientMutationId: data.input.clientMutationId,
     });

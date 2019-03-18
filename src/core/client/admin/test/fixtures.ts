@@ -14,9 +14,10 @@ export const settings = {
   disableCommenting: {
     enabled: false,
   },
-  closedTimeout: 604800,
-  autoCloseStream: false,
-  closedMessage: null,
+  closeCommenting: {
+    auto: false,
+    timeout: 604800,
+  },
   customCSSURL: null,
   domains: ["localhost:8080"],
   editCommentWindowLength: 30000,
@@ -24,8 +25,11 @@ export const settings = {
     enabled: false,
     content: "",
   },
-  organizationContactEmail: "coral@test.com",
-  organizationName: "Coral",
+  organization: {
+    name: "Coral",
+    url: "https://test.com/",
+    contactEmail: "coral@test.com",
+  },
   integrations: {
     akismet: {
       enabled: false,

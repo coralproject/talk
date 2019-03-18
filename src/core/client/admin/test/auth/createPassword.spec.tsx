@@ -105,7 +105,7 @@ it("shows server error", async () => {
 it("successfully sets password", async () => {
   const password = "secretpassword";
   const setPassword = sinon.stub().callsFake((_: any, data: any) => {
-    expect(data.input).toEqual({
+    expectAndFail(data.input).toEqual({
       password,
       clientMutationId: data.input.clientMutationId,
     });

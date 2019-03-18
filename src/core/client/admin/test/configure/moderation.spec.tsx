@@ -1,4 +1,3 @@
-import mockConsole from "jest-mock-console";
 import { cloneDeep, get, merge } from "lodash";
 import sinon from "sinon";
 
@@ -15,16 +14,6 @@ import { settings, users } from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/moderation");
-  // Test might pass even when it fails with errors in the log due to:
-  // https://github.com/facebook/jest/issues/3917
-  // We check the console to be error free..
-  mockConsole("error");
-});
-
-afterEach(() => {
-  // Check that there are no errors in the console.
-  // tslint:disable-next-line: no-console
-  expect(console.error).not.toHaveBeenCalled();
 });
 
 const createTestRenderer = async (resolver: any = {}) => {
@@ -72,7 +61,7 @@ it("change akismet settings", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.integrations.akismet).toEqual({
+      expectAndFail(data.input.settings.integrations.akismet).toEqual({
         enabled: true,
         key: "my api key",
         site: "https://coralproject.net",
@@ -156,7 +145,7 @@ it("change perspective settings", async () => {
   const updateSettingsStub = createSinonStub(
     s =>
       s.onFirstCall().callsFake((_: any, data: any) => {
-        expect(data.input.settings.integrations.perspective).toEqual({
+        expectAndFail(data.input.settings.integrations.perspective).toEqual({
           doNotStore: false,
           enabled: true,
           endpoint: "https://custom-endpoint.net",
@@ -171,7 +160,7 @@ it("change perspective settings", async () => {
       }),
     s =>
       s.onSecondCall().callsFake((_: any, data: any) => {
-        expect(
+        expectAndFail(
           data.input.settings.integrations.perspective.threshold
         ).toBeNull();
         settingsRecord = merge(settingsRecord, data.input.settings);

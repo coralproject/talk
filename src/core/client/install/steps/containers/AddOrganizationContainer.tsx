@@ -1,4 +1,3 @@
-import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
 import { PropTypesOf } from "talk-ui/types";
@@ -18,12 +17,8 @@ class AddOrganizationContainer extends Component<
   AddOrganizationContainerProps
 > {
   private onSubmit: AddOrganizationForm["onSubmit"] = async (input, form) => {
-    try {
-      this.props.onSaveData(input);
-      return this.props.onGoToNextStep();
-    } catch (error) {
-      return { [FORM_ERROR]: error.message };
-    }
+    this.props.onSaveData(input);
+    return this.props.onGoToNextStep();
   };
   public render() {
     return (

@@ -27,7 +27,9 @@ class OrganizationContactEmailConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment OrganizationContactEmailConfigContainer_settings on Settings {
-      organizationContactEmail
+      organization {
+        contactEmail
+      }
     }
   `,
 })(OrganizationContactEmailConfigContainer);

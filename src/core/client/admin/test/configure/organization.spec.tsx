@@ -1,4 +1,3 @@
-import mockConsole from "jest-mock-console";
 import { cloneDeep, get, merge } from "lodash";
 import sinon from "sinon";
 
@@ -15,16 +14,6 @@ import { settings, users } from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/organization");
-  // Test might pass even when it fails with errors in the log due to:
-  // https://github.com/facebook/jest/issues/3917
-  // We check the console to be error free..
-  mockConsole("error");
-});
-
-afterEach(() => {
-  // Check that there are no errors in the console.
-  // tslint:disable-next-line: no-console
-  expect(console.error).not.toHaveBeenCalled();
 });
 
 const createTestRenderer = async (resolver: any = {}) => {
@@ -72,7 +61,9 @@ it("change organization name", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.organizationName).toEqual("Coral Test");
+      expectAndFail(data.input.settings.organization.name).toEqual(
+        "Coral Test"
+      );
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
@@ -135,7 +126,7 @@ it("change organization contact email", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.organizationContactEmail).toEqual(
+      expectAndFail(data.input.settings.organization.contactEmail).toEqual(
         "test@coralproject.net"
       );
       settingsRecord = merge(settingsRecord, data.input.settings);

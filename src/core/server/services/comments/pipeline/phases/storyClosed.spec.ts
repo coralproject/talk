@@ -16,7 +16,9 @@ describe("storyClosed", () => {
 
     storyClosed({
       story: {} as ModerationPhaseContext["story"],
-      tenant: { autoCloseStream: true } as ModerationPhaseContext["tenant"],
+      tenant: {
+        closeCommenting: { auto: true },
+      } as ModerationPhaseContext["tenant"],
       comment: {} as ModerationPhaseContext["comment"],
       author: {} as ModerationPhaseContext["author"],
     });
@@ -25,8 +27,10 @@ describe("storyClosed", () => {
       storyClosed({
         story: { createdAt: new Date() } as ModerationPhaseContext["story"],
         tenant: {
-          autoCloseStream: true,
-          closedTimeout: -6000,
+          closeCommenting: {
+            auto: true,
+            timeout: -6000,
+          },
         } as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
@@ -44,7 +48,9 @@ describe("storyClosed", () => {
             .plus(60000)
             .toJSDate(),
         } as ModerationPhaseContext["story"],
-        tenant: {} as ModerationPhaseContext["tenant"],
+        tenant: {
+          closeCommenting: { auto: true },
+        } as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
       })
@@ -53,7 +59,9 @@ describe("storyClosed", () => {
     expect(
       storyClosed({
         story: {} as ModerationPhaseContext["story"],
-        tenant: {} as ModerationPhaseContext["tenant"],
+        tenant: {
+          closeCommenting: { auto: true },
+        } as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
       })

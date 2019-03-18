@@ -1,4 +1,3 @@
-import mockConsole from "jest-mock-console";
 import { cloneDeep, get, merge } from "lodash";
 import sinon from "sinon";
 
@@ -15,16 +14,6 @@ import { settings, users } from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/wordList");
-  // Test might pass even when it fails with errors in the log due to:
-  // https://github.com/facebook/jest/issues/3917
-  // We check the console to be error free..
-  mockConsole("error");
-});
-
-afterEach(() => {
-  // Check that there are no errors in the console.
-  // tslint:disable-next-line: no-console
-  expect(console.error).not.toHaveBeenCalled();
 });
 
 const createTestRenderer = async (resolver: any = {}) => {
@@ -72,7 +61,7 @@ it("change banned and suspect words", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.wordList).toEqual({
+      expectAndFail(data.input.settings.wordList).toEqual({
         banned: ["Fuck", "Asshole"],
         suspect: ["idiot", "shame"],
       });

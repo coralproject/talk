@@ -115,7 +115,7 @@ exports[`renders configure organization 1`] = `
             >
               <label
                 className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
-                htmlFor="configure-organization-organizationName"
+                htmlFor="configure-organization-organization.name"
               >
                 Organization Name
               </label>
@@ -133,8 +133,8 @@ exports[`renders configure organization 1`] = `
                   autoCorrect="off"
                   className="TextField-input TextField-colorRegular"
                   disabled={false}
-                  id="configure-organization-organizationName"
-                  name="organizationName"
+                  id="configure-organization-organization.name"
+                  name="organization.name"
                   onChange={[Function]}
                   placeholder=""
                   spellCheck={false}
@@ -152,7 +152,7 @@ exports[`renders configure organization 1`] = `
             >
               <label
                 className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
-                htmlFor="configure-organization-organizationContactEmail"
+                htmlFor="configure-organization-organization.contactEmail"
               >
                 Organization Email
               </label>
@@ -173,8 +173,8 @@ status of their accounts or moderation questions.
                   autoCorrect="off"
                   className="TextField-input TextField-colorRegular"
                   disabled={false}
-                  id="configure-organization-organizationContactEmail"
-                  name="organizationContactEmail"
+                  id="configure-organization-organization.contactEmail"
+                  name="organization.contactEmail"
                   onChange={[Function]}
                   placeholder=""
                   spellCheck={false}

@@ -856,6 +856,27 @@ type CommunityGuidelines {
   content: String
 }
 
+"""
+StoryMessageBox stores settings related to the Story Message Box.
+"""
+type StoryMessageBox {
+  """
+  enable when true will enable the Message Box on the comment stream.
+  """
+  enabled: Boolean!
+
+  """
+  icon when set will reference the string for the Message box used by the
+  Message Box.
+  """
+  icon: String
+
+  """
+  content when set contains the actual markup for the Message Box.
+  """
+  content: String
+}
+
 ################################################################################
 ## Settings
 ################################################################################
@@ -868,6 +889,51 @@ enum LOCALES {
   en_US
   es
   de
+}
+
+"""
+CloseCommenting contains settings related to the automatic closing of commenting
+on Stories.
+"""
+type CloseCommenting {
+  """
+  auto when true will configure the automatic close on each story as they are
+  created based on the current configured timeout option.
+  """
+  auto: Boolean!
+
+  """
+  timeout is the amount of seconds from the `createdAt` timestamp that a given
+  story will be considered closed.
+  """
+  timeout: Int!
+
+  """
+  message when provided will be the message that shows when the comment stream
+  is closed for commenting.
+  """
+  message: String
+}
+
+"""
+Organization stores information about the organization behind this specific
+instance of Talk.
+"""
+type Organization {
+  """
+  name is the name of the organization.
+  """
+  name: String!
+
+  """
+  contactEmail is the email of the organization.
+  """
+  contactEmail: String!
+
+  """
+  url is the URL to the organizations home page.
+  """
+  url: String!
 }
 
 """
@@ -887,7 +953,7 @@ type Settings {
   """
   domains will return a given list of permitted domains.
   """
-  domains: [String!] @auth(roles: [ADMIN])
+  domains: [String!]! @auth(roles: [ADMIN])
 
   """
   locale is the specified locale for this Tenant.
@@ -900,30 +966,9 @@ type Settings {
   moderation: MODERATION_MODE @auth(roles: [ADMIN])
 
   """
-  Enables a requirement for email confirmation before a user can login.
-  """
-  requireEmailConfirmation: Boolean!
-
-  """
   communityGuidelines will be shown in the comments stream.
   """
   communityGuidelines: CommunityGuidelines!
-
-  """
-  questionBoxEnable will enable the Question Box's content to be visible above
-  the comment box.
-  """
-  questionBoxEnable: Boolean!
-
-  """
-  questionBoxContent is the content of the Question Box.
-  """
-  questionBoxContent: String
-
-  """
-  questionBoxIcon is the icon for the Question Box.
-  """
-  questionBoxIcon: String
 
   """
   premodLinksEnable will put all comments that contain links into premod.
@@ -931,27 +976,15 @@ type Settings {
   premodLinksEnable: Boolean @auth(roles: [ADMIN])
 
   """
-  autoCloseStream when true will auto close the stream when the `closeTimeout`
-  amount of seconds have been reached.
+  closeCommenting contains settings related to the automatic closing of commenting on
+  Stories.
   """
-  autoCloseStream: Boolean! @auth(roles: [ADMIN])
+  closeCommenting: CloseCommenting!
 
   """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
-
-  """
-  closedTimeout is the amount of time (in seconds) from the createdAt timestamp
-  that a given story will be considered closed.
-  """
-  closedTimeout: Int!
-
-  """
-  closedMessage is the message shown to the user when the given Story is
-  closed.
-  """
-  closedMessage: String
 
   """
   disableCommenting will disable commenting site-wide.
@@ -970,14 +1003,10 @@ type Settings {
   charCount: CharCount!
 
   """
-  organizationName is the name of the organization.
+  organization stores information about the organization behind this specific
+  instance of Talk.
   """
-  organizationName: String!
-
-  """
-  organizationContactEmail is the email of the organization.
-  """
-  organizationContactEmail: String!
+  organization: Organization!
 
   """
   email is the set of credentials and settings associated with the organization.
@@ -1567,6 +1596,23 @@ type StoryMetadata {
   section: String
 }
 
+type StorySettings {
+  """
+  moderation determines whether or not this is a PRE or POST moderated story.
+  """
+  moderation: MODERATION_MODE!
+
+  """
+  premodLinksEnable will put all comments that contain links into premod.
+  """
+  premodLinksEnable: Boolean!
+
+  """
+  messageBox stores settings related to the Story Message Box.
+  """
+  messageBox: StoryMessageBox!
+}
+
 """
 STORY_STATUS represents filtering states that a Story can be in.
 """
@@ -1650,9 +1696,10 @@ type Story {
   createdAt: Time!
 
   """
-  moderation determines whether or not this is a PRE or POST moderated story.
+  settings is the set of Settings on a Story that inherit from the global
+  settings.
   """
-  moderation: MODERATION_MODE!
+  settings: StorySettings!
 }
 
 """
@@ -1710,7 +1757,7 @@ type Query {
     after: Cursor
     storyID: ID
     status: COMMENT_STATUS
-  ): CommentsConnection @auth(roles: [ADMIN, MODERATOR])
+  ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   story is a specific article that can be identified by either an ID or a URL.
@@ -1724,7 +1771,7 @@ type Query {
     first: Int = 10
     after: Cursor
     status: STORY_STATUS
-  ): StoriesConnection @auth(roles: [ADMIN, MODERATOR])
+  ): StoriesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   user will return the user referenced by their ID.
@@ -2268,6 +2315,43 @@ input SettingsDisableCommentingInput {
   message: String
 }
 
+input SettingsOrganizationInput {
+  """
+  name is the name of the organization.
+  """
+  name: String
+
+  """
+  contactEmail is the email of the organization.
+  """
+  contactEmail: String
+
+  """
+  url is the URL to the organizations home page.
+  """
+  url: String
+}
+
+input SettingsCloseCommentingInput {
+  """
+  auto when true will configure the automatic close on each story as they are
+  created based on the current configured timeout option.
+  """
+  auto: Boolean
+
+  """
+  timeout is the amount of seconds from the `createdAt` timestamp that a given
+  story will be considered closed.
+  """
+  timeout: Int
+
+  """
+  message when provided will be the message that shows when the comment stream
+  is closed for commenting.
+  """
+  message: String
+}
+
 """
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
@@ -2283,30 +2367,9 @@ input SettingsInput {
   moderation: MODERATION_MODE
 
   """
-  Enables a requirement for email confirmation before a user can login.
-  """
-  requireEmailConfirmation: Boolean
-
-  """
   communityGuidelines will be shown in the comments stream.
   """
   communityGuidelines: SettingsCommunityGuidelinesInput
-
-  """
-  questionBoxEnable will enable the Question Box's content to be visible above
-  the comment box.
-  """
-  questionBoxEnable: Boolean
-
-  """
-  questionBoxContent is the content of the Question Box.
-  """
-  questionBoxContent: String
-
-  """
-  questionBoxIcon is the icon for the Question Box.
-  """
-  questionBoxIcon: String
 
   """
   premodLinksEnable will put all comments that contain links into premod.
@@ -2314,27 +2377,9 @@ input SettingsInput {
   premodLinksEnable: Boolean
 
   """
-  autoCloseStream when true will auto close the stream when the `closeTimeout`
-  amount of seconds have been reached.
-  """
-  autoCloseStream: Boolean
-
-  """
   customCSSURL is the URL of the custom CSS used to display on the frontend.
   """
   customCSSURL: String
-
-  """
-  closedTimeout is the amount of seconds from the createdAt timestamp that a
-  given story will be considered closed.
-  """
-  closedTimeout: Int
-
-  """
-  closedMessage is the message shown to the user when the given Story is
-  closed.
-  """
-  closedMessage: String
 
   """
   disableCommenting will disable commenting site-wide.
@@ -2348,14 +2393,16 @@ input SettingsInput {
   editCommentWindowLength: Int
 
   """
-  organizationName is the name of the organization.
+  organization stores information about the organization behind this specific
+  instance of Talk.
   """
-  organizationName: String
+  organization: SettingsOrganizationInput
 
   """
-  organizationContactEmail is the email of the organization.
+  closeCommenting contains settings related to the automatic closing of commenting on
+  Stories.
   """
-  organizationContactEmail: String
+  closeCommenting: SettingsCloseCommentingInput
 
   """
   wordList will return a given list of words.
@@ -2726,11 +2773,6 @@ input UpdateStory {
   be scraped, but can be provided here.
   """
   metadata: StoryMetadataInput
-
-  """
-  isClosed is true when the Story should be closed for commenting.
-  """
-  isClosed: Boolean
 }
 
 input UpdateStoryInput {
@@ -2753,6 +2795,140 @@ input UpdateStoryInput {
 }
 
 type UpdateStoryPayload {
+  """
+  story is the Story that was possibly updated.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## updateStorySettings
+##################
+
+"""
+StoryMessageBoxInput stores settings related to the Story Message Box.
+"""
+input StoryMessageBoxInput {
+  """
+  enable when true will enable the Message Box on the comment stream.
+  """
+  enabled: Boolean
+
+  """
+  icon when set will reference the string for the Message box used by the
+  Message Box.
+  """
+  icon: String
+
+  """
+  content when set contains the actual markup for the Message Box.
+  """
+  content: String
+}
+
+"""
+UpdateStorySettings is the input required to update a Story's Settings.
+"""
+input UpdateStorySettings {
+  """
+  moderation determines whether or not this is a PRE or POST moderated story.
+  """
+  moderation: MODERATION_MODE
+
+  """
+  premodLinksEnable will put all comments that contain links into premod.
+  """
+  premodLinksEnable: Boolean
+
+  """
+  messageBox stores settings related to the Story Message Box.
+  """
+  messageBox: StoryMessageBoxInput
+}
+
+input UpdateStorySettingsInput {
+  """
+  id is the identifier of the Story used either when the Story was created via
+  the API or from Talk when it was lazily created.
+  """
+  id: ID!
+
+  """
+  settings contains the fields on the story settings that should be updated. Any
+  fields not specified will not be changed.
+  """
+  settings: UpdateStorySettings!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UpdateStorySettingsPayload {
+  """
+  story is the Story that was possibly updated.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## closeStory
+##################
+
+input CloseStoryInput {
+  """
+  id is the identifier of the Story used either when the Story was created via
+  the API or from Talk when it was lazily created.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type CloseStoryPayload {
+  """
+  story is the Story that was possibly updated.
+  """
+  story: Story
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+## openStory
+##################
+
+input OpenStoryInput {
+  """
+  id is the identifier of the Story used either when the Story was created via
+  the API or from Talk when it was lazily created.
+  """
+  id: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type OpenStoryPayload {
   """
   story is the Story that was possibly updated.
   """
@@ -3269,7 +3445,7 @@ type Mutation {
   """
   createComment will create a Comment as the current logged in User.
   """
-  createComment(input: CreateCommentInput!): CreateCommentPayload @auth
+  createComment(input: CreateCommentInput!): CreateCommentPayload! @auth
 
   """
   createCommentReply will create a Comment as the current logged in User that is
@@ -3277,25 +3453,25 @@ type Mutation {
   """
   createCommentReply(
     input: CreateCommentReplyInput!
-  ): CreateCommentReplyPayload @auth
+  ): CreateCommentReplyPayload! @auth
 
   """
   editComment will allow the author of a comment to change the body within the
   time allotment.
   """
-  editComment(input: EditCommentInput!): EditCommentPayload @auth
+  editComment(input: EditCommentInput!): EditCommentPayload! @auth
 
   """
   updateSettings will update the Settings for the given Tenant.
   """
-  updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload
+  updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
   regenerateSSOKey will regenerate the SSO key used to sign secrets. This will
   invalidate any existing user sessions.
   """
-  regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload
+  regenerateSSOKey(input: RegenerateSSOKeyInput!): RegenerateSSOKeyPayload!
     @auth(roles: [ADMIN])
 
   """
@@ -3334,77 +3510,96 @@ type Mutation {
   createCommentFlag will create a Flag authored by the current logged in User on
   a given Comment.
   """
-  createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload
+  createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
     @auth
 
   """
   createStory will create the provided Story.
   """
-  createStory(input: CreateStoryInput!): CreateStoryPayload
+  createStory(input: CreateStoryInput!): CreateStoryPayload!
     @auth(roles: [ADMIN])
 
   """
   updateStory will update the given Story.
   """
-  updateStory(input: UpdateStoryInput!): UpdateStoryPayload
+  updateStory(input: UpdateStoryInput!): UpdateStoryPayload!
     @auth(roles: [ADMIN])
+
+  """
+  updateStory will update the given Story's settings.
+  """
+  updateStorySettings(
+    input: UpdateStorySettingsInput!
+  ): UpdateStorySettingsPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  closeStory will close the given story for commenting.
+  """
+  closeStory(input: CloseStoryInput!): CloseStoryPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  openStory will open the given story for commenting.
+  """
+  openStory(input: OpenStoryInput!): OpenStoryPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   mergeStories will merge two stories together, merging their comment streams.
   This operation is irreversible.
   """
-  mergeStories(input: MergeStoriesInput!): MergeStoriesPayload
+  mergeStories(input: MergeStoriesInput!): MergeStoriesPayload!
     @auth(roles: [ADMIN])
 
   """
   removeStory will remove the given Story.
   """
-  removeStory(input: RemoveStoryInput!): RemoveStoryPayload
+  removeStory(input: RemoveStoryInput!): RemoveStoryPayload!
     @auth(roles: [ADMIN])
 
   """
   scrapeStory will scrape the given Story and update the scraped metadata.
   """
-  scrapeStory(input: ScrapeStoryInput!): ScrapeStoryPayload
+  scrapeStory(input: ScrapeStoryInput!): ScrapeStoryPayload!
     @auth(roles: [ADMIN, MODERATOR])
 
   """
   acceptComment will mark the Comment as ACCEPTED.
   """
-  acceptComment(input: AcceptCommentInput!): AcceptCommentPayload
+  acceptComment(input: AcceptCommentInput!): AcceptCommentPayload!
     @auth(roles: [MODERATOR, ADMIN])
 
   """
   rejectComment will mark the Comment as REJECTED.
   """
-  rejectComment(input: RejectCommentInput!): RejectCommentPayload
+  rejectComment(input: RejectCommentInput!): RejectCommentPayload!
     @auth(roles: [MODERATOR, ADMIN])
 
   """
   setUsername will set the username on the current User if they have not set one
   before. This mutation will fail if the username is already set.
   """
-  setUsername(input: SetUsernameInput!): SetUsernamePayload
+  setUsername(input: SetUsernameInput!): SetUsernamePayload!
     @auth(permit: [MISSING_NAME, MISSING_EMAIL])
 
   """
   setEmail will set the email address on the current User if they have not set
   one already. This mutation will fail if the email address is already set.
   """
-  setEmail(input: SetEmailInput!): SetEmailPayload
+  setEmail(input: SetEmailInput!): SetEmailPayload!
     @auth(permit: [MISSING_EMAIL])
 
   """
   setPassword will set the password on the current User if they have not set
   one already. This mutation will fail if the password is already set.
   """
-  setPassword(input: SetPasswordInput!): SetPasswordPayload @auth
+  setPassword(input: SetPasswordInput!): SetPasswordPayload! @auth
 
   """
   updatePassword allows the current logged in User to change their password if
   they already have one associated with them.
   """
-  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload @auth
+  updatePassword(input: UpdatePasswordInput!): UpdatePasswordPayload! @auth
 
   """
   createToken allows an administrator to create a Token based on the current

@@ -1,10 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
+import { parseBool } from "talk-framework/lib/form";
 
 import { CheckBox, Flex, FormField, InputLabel } from "talk-ui/components";
-
-const bool = (v: any) => !!v;
 
 interface Props {
   label: React.ReactNode;
@@ -20,7 +19,7 @@ const TargetFilterField: StatelessComponent<Props> = ({
   <FormField>
     <InputLabel>{label}</InputLabel>
     <Flex direction="row" itemGutter="double">
-      <Field name={`${name}.admin`} type="checkbox" parse={bool}>
+      <Field name={`${name}.admin`} type="checkbox" parse={parseBool}>
         {({ input, meta }) => (
           <Localized id="configure-auth-targetFilterTalkAdmin">
             <CheckBox
@@ -35,7 +34,7 @@ const TargetFilterField: StatelessComponent<Props> = ({
           </Localized>
         )}
       </Field>
-      <Field name={`${name}.stream`} type="checkbox" parse={bool}>
+      <Field name={`${name}.stream`} type="checkbox" parse={parseBool}>
         {({ input }) => (
           <Localized id="configure-auth-targetFilterCommentStream">
             <CheckBox

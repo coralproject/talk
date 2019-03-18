@@ -9,7 +9,7 @@ function createTestRenderer() {
   const resolvers = {
     Query: {
       story: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data).toEqual({
+        expectAndFail(data).toEqual({
           id: stories[0].id,
           url: null,
         });
@@ -20,7 +20,7 @@ function createTestRenderer() {
     },
     Mutation: {
       createCommentReaction: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toMatchObject({
+        expectAndFail(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
           commentRevisionID: stories[0].comments.edges[0].node.revision.id,
         });
@@ -35,7 +35,7 @@ function createTestRenderer() {
         };
       }),
       removeCommentReaction: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toMatchObject({
+        expectAndFail(data.input).toMatchObject({
           commentID: stories[0].comments.edges[0].node.id,
         });
         return {

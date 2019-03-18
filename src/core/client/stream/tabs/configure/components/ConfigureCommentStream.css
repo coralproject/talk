@@ -1,0 +1,3 @@
+.heading {
+  padding-bottom: calc(2 * var(--spacing-unit));
+}

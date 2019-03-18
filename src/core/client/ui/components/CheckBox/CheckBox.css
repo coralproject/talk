@@ -9,11 +9,11 @@
 
 .label {
   composes: bodyCopy from "talk-ui/shared/typography.css";
-  display: inline-flex;
-  align-items: center;
   position: relative;
+  display: inline-block;
   cursor: pointer;
   user-select: none;
+  padding-left: 25px;
 }
 
 .labelSpan {
@@ -27,7 +27,9 @@
 /* Box. */
 .input + .label:before {
   content: "";
-  margin-right: 10px;
+  position: absolute;
+  left: 0px;
+  top: 4px;
   display: inline-block;
   width: 14px;
   height: 14px;

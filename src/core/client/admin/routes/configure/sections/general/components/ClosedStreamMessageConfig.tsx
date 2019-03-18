@@ -35,7 +35,7 @@ const ClosedStreamMessageConfig: StatelessComponent<Props> = ({ disabled }) => (
         Write a message to appear after a story is closed for commenting.
       </Typography>
     </Localized>
-    <Field name="closedMessage">
+    <Field name="closeCommenting.message">
       {({ input, meta }) => (
         <>
           <Suspense fallback={<Spinner />}>

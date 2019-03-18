@@ -14,7 +14,7 @@ interface ProfileContainerProps {
   story: StoryData;
 }
 
-export class StreamContainer extends React.Component<ProfileContainerProps> {
+export class ProfileContainer extends React.Component<ProfileContainerProps> {
   public render() {
     return (
       <Profile
@@ -42,6 +42,6 @@ const enhanced = withFragmentContainer<ProfileContainerProps>({
       ...UserBoxContainer_settings
     }
   `,
-})(StreamContainer);
+})(ProfileContainer);
 
 export default enhanced;

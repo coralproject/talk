@@ -1,4 +1,3 @@
-import mockConsole from "jest-mock-console";
 import { cloneDeep, get, merge } from "lodash";
 import sinon from "sinon";
 
@@ -15,16 +14,6 @@ import { settings, users } from "../fixtures";
 
 beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/advanced");
-  // Test might pass even when it fails with errors in the log due to:
-  // https://github.com/facebook/jest/issues/3917
-  // We check the console to be error free..
-  mockConsole("error");
-});
-
-afterEach(() => {
-  // Check that there are no errors in the console.
-  // tslint:disable-next-line: no-console
-  expect(console.error).not.toHaveBeenCalled();
 });
 
 const createTestRenderer = async (resolver: any = {}) => {
@@ -72,7 +61,7 @@ it("change custom css", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.customCSSURL).toEqual("./custom.css");
+      expectAndFail(data.input.settings.customCSSURL).toEqual("./custom.css");
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
@@ -117,7 +106,7 @@ it("change permitted domains to be empty", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.domains).toEqual([]);
+      expectAndFail(data.input.settings.domains).toEqual([]);
       settingsRecord = merge(settingsRecord, data.input.settings);
       return {
         settings: settingsRecord,
@@ -164,7 +153,7 @@ it("change permitted domains to include more domains", async () => {
   let settingsRecord = cloneDeep(settings);
   const updateSettingsStub = createSinonStub(s =>
     s.onFirstCall().callsFake((_: any, data: any) => {
-      expect(data.input.settings.domains).toEqual([
+      expectAndFail(data.input.settings.domains).toEqual([
         "localhost:8080",
         "localhost:3000",
       ]);

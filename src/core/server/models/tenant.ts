@@ -5,7 +5,10 @@ import uuid from "uuid";
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
-import { GQLMODERATION_MODE } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLMODERATION_MODE,
+  GQLSettings,
+} from "talk-server/graph/tenant/schema/__generated__/types";
 import { createIndexFactory } from "talk-server/models/helpers/query";
 import { Settings } from "talk-server/models/settings";
 
@@ -13,6 +16,10 @@ function collection(mongo: Db) {
   return mongo.collection<Readonly<Tenant>>("tenants");
 }
 
+/**
+ * TenantResource references a given resource that should be owned by a specific
+ * Tenant.
+ */
 export interface TenantResource {
   /**
    * tenantID is the reference to the specific Tenant that owns this particular
@@ -21,28 +28,20 @@ export interface TenantResource {
   readonly tenantID: string;
 }
 
-/**
- * Tenant describes a given Tenant on Talk that has Stories, Comments, and Users.
- */
-export interface Tenant extends Settings {
+export interface TenantSettings
+  extends Pick<GQLSettings, "domain" | "domains" | "organization"> {
   readonly id: string;
-
-  // Domain is set when the tenant is created, and is used to retrieve the
-  // specific tenant that the API request pertains to.
-  domain: string;
-
-  // domains is the list of domains that are allowed to have the iframe load on.
-  domains: string[];
 
   /**
    * locale is the specified locale for this Tenant.
    */
   locale: LanguageCode;
-
-  organizationName: string;
-  organizationURL: string;
-  organizationContactEmail: string;
 }
+
+/**
+ * Tenant describes a given Tenant on Talk that has Stories, Comments, and Users.
+ */
+export type Tenant = Settings & TenantSettings;
 
 export async function createTenantIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));
@@ -61,12 +60,7 @@ export async function createTenantIndexes(mongo: Db) {
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  | "domain"
-  | "domains"
-  | "locale"
-  | "organizationName"
-  | "organizationURL"
-  | "organizationContactEmail"
+  "domain" | "domains" | "locale" | "organization"
 >;
 
 /**
@@ -83,21 +77,19 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
     // Default to post moderation.
     moderation: GQLMODERATION_MODE.POST,
 
-    // Email confirmation is default off.
-    requireEmailConfirmation: false,
     communityGuidelines: {
       enabled: false,
       content: "",
     },
-    questionBoxEnable: false,
     premodLinksEnable: false,
-    autoCloseStream: false,
+    closeCommenting: {
+      auto: false,
+      // 2 weeks timeout.
+      timeout: 60 * 60 * 24 * 7 * 2,
+    },
     disableCommenting: {
       enabled: false,
     },
-
-    // 2 weeks timeout.
-    closedTimeout: 60 * 60 * 24 * 7 * 2,
 
     // 30 seconds edit window length.
     editCommentWindowLength: 30,

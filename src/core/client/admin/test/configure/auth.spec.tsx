@@ -112,7 +112,7 @@ it("prevents stream lock out", async () => {
     Mutation: {
       updateSettings: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
-          expect(data.input.settings.auth.integrations.local).toEqual({
+          expectAndFail(data.input.settings.auth.integrations.local).toEqual({
             enabled: true,
             allowRegistration: true,
             targetFilter: {
@@ -172,7 +172,7 @@ it("change settings", async () => {
     Query: {
       discoverOIDCConfiguration: createSinonStub(s =>
         s.callsFake((_: any, data: any) => {
-          expect(data).toEqual({ issuer: "http://issuer.com" });
+          expectAndFail(data).toEqual({ issuer: "http://issuer.com" });
           return {
             issuer: "http://issuer.com",
             tokenURL: "http://issuer.com/tokenURL",
@@ -186,7 +186,9 @@ it("change settings", async () => {
       updateSettings: createSinonStub(
         s =>
           s.onFirstCall().callsFake((_: any, data: any) => {
-            expect(data.input.settings.auth.integrations.facebook).toEqual({
+            expectAndFail(
+              data.input.settings.auth.integrations.facebook
+            ).toEqual({
               enabled: true,
               allowRegistration: true,
               targetFilter: {
@@ -204,7 +206,7 @@ it("change settings", async () => {
           }),
         s =>
           s.onSecondCall().callsFake((_: any, data: any) => {
-            expect(data.input.settings.auth.integrations.oidc).toEqual({
+            expectAndFail(data.input.settings.auth.integrations.oidc).toEqual({
               enabled: true,
               allowRegistration: false,
               targetFilter: {

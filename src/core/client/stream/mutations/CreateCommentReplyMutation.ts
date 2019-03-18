@@ -6,7 +6,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getMe } from "talk-framework/helpers";
+import { getMe, getStorySettings } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -18,9 +18,9 @@ import { CreateCommentReplyMutation as MutationTypes } from "talk-stream/__gener
 
 import {
   incrementStoryCommentCounts,
-  isRolePriviledged,
   isVisible,
   prependCommentEdgeToProfile,
+  roleIsAtLeast,
 } from "../helpers";
 
 export type CreateCommentReplyInput = MutationInput<MutationTypes> & {
@@ -102,7 +102,9 @@ function addLocalCommentReplyToStory(
 // tslint:disable-next-line:no-unused-expression
 graphql`
   fragment CreateCommentReplyMutation_story on Story {
-    moderation
+    settings {
+      moderation
+    }
   }
   fragment CreateCommentReplyMutation_me on User {
     role
@@ -135,17 +137,14 @@ function commit(
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
 
-  const story = relayEnvironment
-    .getStore()
-    .getSource()
-    .get(input.storyID);
-  if (!story || !story.moderation) {
+  const storySettings = getStorySettings(relayEnvironment, input.storyID);
+  if (!storySettings || !storySettings.moderation) {
     throw new Error("Moderation mode of the story was not included");
   }
 
   // TODO: Generate and use schema types.
   const expectPremoderation =
-    !isRolePriviledged(me.role) && story.moderation === "PRE";
+    !roleIsAtLeast(me.role, "STAFF") && storySettings.moderation === "PRE";
 
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,

@@ -4,14 +4,14 @@ import {
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ACTION_TYPE } from "talk-server/models/action/comment";
 import { Comment } from "talk-server/models/comment";
-import { ModerationSettings } from "talk-server/models/settings";
+import { GlobalModerationSettings } from "talk-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
 } from "talk-server/services/comments/pipeline";
 
 const testPremodLinksEnable = (
-  settings: Partial<ModerationSettings>,
+  settings: Partial<GlobalModerationSettings>,
   comment: Pick<Comment, "metadata">
 ) =>
   settings.premodLinksEnable && comment.metadata && comment.metadata.linkCount;

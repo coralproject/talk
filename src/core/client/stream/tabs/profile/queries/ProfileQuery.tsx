@@ -1,5 +1,6 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import { once } from "lodash";
+import React, { StatelessComponent, Suspense } from "react";
 import { ReadyState } from "react-relay";
 
 import {
@@ -11,7 +12,12 @@ import { ProfileQuery as QueryTypes } from "talk-stream/__generated__/ProfileQue
 import { ProfileQueryLocal as Local } from "talk-stream/__generated__/ProfileQueryLocal.graphql";
 import { Delay, Spinner } from "talk-ui/components";
 
-import ProfileContainer from "../containers/ProfileContainer";
+const loadProfileContainer = () =>
+  import("../containers/ProfileContainer" /* webpackChunkName: "profile" */);
+// (cvle) For some reason without `setTimeout` this request will block other requests.
+const preloadProfileContainer = once(() => setTimeout(loadProfileContainer));
+
+const LazyProfileContainer = React.lazy(loadProfileContainer);
 
 interface Props {
   local: Local;
@@ -25,6 +31,9 @@ export const render = ({
     return <div>{error.message}</div>;
   }
 
+  // TODO: use official React API once it has one :-)
+  preloadProfileContainer();
+
   if (props) {
     if (!props.me) {
       return (
@@ -35,17 +44,19 @@ export const render = ({
     }
     if (!props.story) {
       return (
-        <Localized id="comments-profileQuery-storyNotFound">
+        <Localized id="profile-profileQuery-storyNotFound">
           <div>Story not found</div>
         </Localized>
       );
     }
     return (
-      <ProfileContainer
-        me={props.me}
-        story={props.story}
-        settings={props.settings}
-      />
+      <Suspense fallback={<Spinner />}>
+        <LazyProfileContainer
+          me={props.me}
+          story={props.story}
+          settings={props.settings}
+        />
+      </Suspense>
     );
   }
 

@@ -4,14 +4,25 @@ import { ERROR_CODES } from "talk-common/errors";
 import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
 import TenantContext from "talk-server/graph/tenant/context";
 import {
+  GQLCloseStoryInput,
   GQLCreateStoryInput,
   GQLMergeStoriesInput,
+  GQLOpenStoryInput,
   GQLRemoveStoryInput,
   GQLScrapeStoryInput,
   GQLUpdateStoryInput,
+  GQLUpdateStorySettingsInput,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Story } from "talk-server/models/story";
-import { create, merge, remove, update } from "talk-server/services/stories";
+import {
+  close,
+  create,
+  merge,
+  open,
+  remove,
+  update,
+  updateSettings,
+} from "talk-server/services/stories";
 import { scrape } from "talk-server/services/stories/scraper";
 
 export const Stories = (ctx: TenantContext) => ({
@@ -33,7 +44,7 @@ export const Stories = (ctx: TenantContext) => ({
     ),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
-      update(ctx.mongo, ctx.tenant, input.id, omitBy(input.story, isNull)),
+      update(ctx.mongo, ctx.tenant, input.id, input.story),
       {
         "input.story.url": [
           ERROR_CODES.STORY_URL_NOT_PERMITTED,
@@ -41,6 +52,14 @@ export const Stories = (ctx: TenantContext) => ({
         ],
       }
     ),
+  updateSettings: async (
+    input: GQLUpdateStorySettingsInput
+  ): Promise<Readonly<Story> | null> =>
+    updateSettings(ctx.mongo, ctx.tenant, input.id, input.settings),
+  close: (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> =>
+    close(ctx.mongo, ctx.tenant, input.id),
+  open: (input: GQLOpenStoryInput): Promise<Readonly<Story> | null> =>
+    open(ctx.mongo, ctx.tenant, input.id),
   merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
     merge(
       ctx.mongo,

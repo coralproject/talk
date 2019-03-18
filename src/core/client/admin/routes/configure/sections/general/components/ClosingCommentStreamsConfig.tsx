@@ -45,7 +45,7 @@ const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
       <Localized id="configure-general-closingCommentStreams-closeCommentsAutomatically">
         <InputLabel container="legend">Close Comments Automatically</InputLabel>
       </Localized>
-      <OnOffField name="autoCloseStream" disabled={disabled} />
+      <OnOffField name="closeCommenting.auto" disabled={disabled} />
     </FormField>
     <FormField container={<FieldSet />}>
       <Localized id="configure-general-closingCommentStreams-closeCommentsAfter">
@@ -53,7 +53,7 @@ const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
       </Localized>
 
       <Field
-        name="closedTimeout"
+        name="closeCommenting.timeout"
         validate={composeValidators(
           required,
           validateWholeNumberGreaterThan(0)

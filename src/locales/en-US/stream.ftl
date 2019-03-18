@@ -18,6 +18,7 @@ general-tabBar-commentsTab = { $commentCount ->
         *[other] { SHORT_NUMBER($commentCount) } Comments
     }
 general-tabBar-myProfileTab = My Profile
+general-tabBar-configure = Configure
 
 ## Comments Tab
 
@@ -129,3 +130,18 @@ comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =
   Your comment has been submitted and will be reviewed by a moderator
 
+# Configure
+configure-configureQuery-errorLoadingProfile = Error loading configure
+configure-configureQuery-storyNotFound = Story not found
+
+## Comment Stream
+configure-commentStream-title = Configure this Comment Stream
+configure-commentStream-apply = Apply
+
+configure-premod-title = Enable Pre-Moderation
+configure-premod-description =
+  Moderators must approve any comment before it is published to this stream.
+
+configure-premodLink-title = Pre-Moderate Comments Containing Links
+configure-premodLink-description =
+  Moderators must approve any comment that contains a link before it is published to this stream.

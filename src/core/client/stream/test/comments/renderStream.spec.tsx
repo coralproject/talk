@@ -14,7 +14,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settings),
       story: sinon.stub().callsFake((_: any, variables: any) => {
-        expect(variables.id).toBe(stories[0].id);
+        expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
       }),
       ...resolver.Query,

@@ -7,15 +7,15 @@ import { graphql } from "react-relay";
 
 import { AuthConfigContainer_auth as AuthData } from "talk-admin/__generated__/AuthConfigContainer_auth.graphql";
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
-import { getMessage } from "talk-framework/lib/i18n";
-
-import { withFragmentContainer } from "talk-framework/lib/relay";
 import {
   AddSubmitHook,
   RemoveSubmitHook,
   SubmitHook,
   withSubmitHookContext,
-} from "../../../submitHook";
+} from "talk-framework/lib/form";
+import { getMessage } from "talk-framework/lib/i18n";
+import { withFragmentContainer } from "talk-framework/lib/relay";
+
 import AuthConfig from "../components/AuthConfig";
 
 interface Props {

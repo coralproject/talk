@@ -7,7 +7,6 @@ import {
   Flex,
   HorizontalGutter,
   Icon,
-  MatchMedia,
   Typography,
 } from "talk-ui/components";
 
@@ -67,9 +66,6 @@ const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
           </Localized>
         </Button>
       </Flex>
-      <MatchMedia lteWidth="xs">
-        <hr className={styles.divider} />
-      </MatchMedia>
     </HorizontalGutter>
   );
 };

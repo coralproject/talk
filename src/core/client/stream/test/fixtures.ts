@@ -15,8 +15,12 @@ export const settings = {
     enabled: false,
     message: "Commenting has been disabled",
   },
+  closeCommenting: {
+    auto: false,
+    message: "Story is closed",
+    timeout: null,
+  },
   closedAt: null,
-  closedMessage: "Story is closed",
   auth: {
     integrations: {
       facebook: {
@@ -278,7 +282,6 @@ export const baseStory = {
   metadata: {
     title: "title",
   },
-  moderation: "POST",
   isClosed: false,
   comments: {
     edges: [],
@@ -288,6 +291,10 @@ export const baseStory = {
   },
   commentCounts: {
     totalVisible: 0,
+  },
+  settings: {
+    moderation: "POST",
+    premodLinksEnable: false,
   },
 };
 
@@ -372,9 +379,16 @@ export const storyWithDeepestReplies = denormalizeStory({
   },
 });
 
+export const meAsModerator = {
+  id: "me-as-moderator",
+  username: "Moderator",
+  role: "MODERATOR",
+};
+
 export const meWithComments = {
   id: "me-with-comments",
   username: "Markus",
+  role: "COMMENTER",
   comments: {
     edges: [
       {

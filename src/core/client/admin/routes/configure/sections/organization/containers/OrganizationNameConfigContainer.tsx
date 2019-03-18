@@ -27,7 +27,9 @@ class OrganizationNameConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment OrganizationNameConfigContainer_settings on Settings {
-      organizationName
+      organization {
+        name
+      }
     }
   `,
 })(OrganizationNameConfigContainer);

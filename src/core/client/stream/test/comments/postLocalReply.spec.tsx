@@ -32,7 +32,7 @@ beforeEach(() => {
     },
     Mutation: {
       createCommentReply: sinon.stub().callsFake((_: any, data: any) => {
-        expect(data.input).toMatchObject({
+        expectAndFail(data.input).toMatchObject({
           storyID: storyWithDeepestReplies.id,
           parentID: "comment-with-deepest-replies-5",
           parentRevisionID: "revision-0",
