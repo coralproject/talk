@@ -73,8 +73,9 @@ const MessageBoxConfig: StatelessComponent<Props> = ({ disabled }) => (
                           {iconInput.value && (
                             <MessageBoxIcon>{iconInput.value}</MessageBoxIcon>
                           )}
+                          {/* Using a zero width join character to ensure that the space is used */}
                           <MessageBoxContent>
-                            {contentInput.value || " "}
+                            {contentInput.value || "&nbsp;"}
                           </MessageBoxContent>
                         </MessageBox>
                       </HorizontalGutter>
