@@ -21,10 +21,9 @@ import {
   withCreateCommentMutation,
 } from "talk-stream/mutations";
 
-import PostCommentForm, {
-  PostCommentFormProps,
-} from "../components/PostCommentForm";
-import PostCommentFormCollapsed from "../components/PostCommentFormCollapsed";
+import PostCommentForm from "../components/PostCommentForm";
+import PostCommentFormClosed from "../components/PostCommentFormClosed";
+import PostCommentFormClosedSitewide from "../components/PostCommentFormClosedSitewide";
 import PostCommentFormFake from "../components/PostCommentFormFake";
 import {
   getSubmitStatus,
@@ -42,7 +41,7 @@ interface Props {
 }
 
 interface State {
-  initialValues?: PostCommentFormProps["initialValues"];
+  initialValues?: PropTypesOf<typeof PostCommentForm>["initialValues"];
   initialized: boolean;
   keepFormWhenClosed: boolean;
   submitStatus: SubmitStatus | null;
@@ -79,10 +78,9 @@ export class PostCommentFormContainer extends Component<Props, State> {
     });
   }
 
-  private handleOnSubmit: PostCommentFormProps["onSubmit"] = async (
-    input,
-    form
-  ) => {
+  private handleOnSubmit: PropTypesOf<
+    typeof PostCommentForm
+  >["onSubmit"] = async (input, form) => {
     try {
       const submitStatus = getSubmitStatus(
         await this.props.createComment({
@@ -107,7 +105,10 @@ export class PostCommentFormContainer extends Component<Props, State> {
     return;
   };
 
-  private handleOnChange: PostCommentFormProps["onChange"] = (state, form) => {
+  private handleOnChange: PropTypesOf<typeof PostCommentForm>["onChange"] = (
+    state,
+    form
+  ) => {
     if (this.state.submitStatus && state.dirty) {
       this.setState({ submitStatus: null });
     }
@@ -126,27 +127,39 @@ export class PostCommentFormContainer extends Component<Props, State> {
     if (!this.state.initialized) {
       return null;
     }
-    if (
-      !this.state.keepFormWhenClosed &&
-      (this.props.settings.disableCommenting.enabled ||
-        this.props.story.isClosed)
-    ) {
+    if (!this.state.keepFormWhenClosed) {
+      if (this.props.settings.disableCommenting.enabled) {
+        return (
+          <PostCommentFormClosedSitewide
+            story={this.props.story}
+            showMessageBox={this.props.story.settings.messageBox.enabled}
+          >
+            {this.props.settings.disableCommenting.message}
+          </PostCommentFormClosedSitewide>
+        );
+      }
+      if (this.props.story.isClosed) {
+        return (
+          <PostCommentFormClosed
+            story={this.props.story}
+            showMessageBox={this.props.story.settings.messageBox.enabled}
+          >
+            {this.props.settings.closeCommenting.message}
+          </PostCommentFormClosed>
+        );
+      }
+    }
+    if (!this.props.local.loggedIn) {
       return (
-        <PostCommentFormCollapsed
-          closedSitewide={this.props.settings.disableCommenting.enabled}
-          closedMessage={
-            (this.props.settings.disableCommenting.enabled &&
-              this.props.settings.disableCommenting.message) ||
-            this.props.settings.closeCommenting.message
-          }
+        <PostCommentFormFake
+          story={this.props.story}
+          showMessageBox={this.props.story.settings.messageBox.enabled}
         />
       );
     }
-    if (!this.props.local.loggedIn) {
-      return <PostCommentFormFake />;
-    }
     return (
       <PostCommentForm
+        story={this.props.story}
         onSubmit={this.handleOnSubmit}
         onChange={this.handleOnChange}
         initialValues={this.state.initialValues}
@@ -170,6 +183,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
           this.props.settings.closeCommenting.message
         }
         submitStatus={this.state.submitStatus}
+        showMessageBox={this.props.story.settings.messageBox.enabled}
       />
     );
   }
@@ -208,6 +222,12 @@ const enhanced = withContext(({ sessionStorage }) => ({
             fragment PostCommentFormContainer_story on Story {
               id
               isClosed
+              ...MessageBoxContainer_story
+              settings {
+                messageBox {
+                  enabled
+                }
+              }
             }
           `,
         })(PostCommentFormContainer)

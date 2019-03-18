@@ -1,6 +1,10 @@
 .root {
 }
 
+.messageBox {
+  margin-bottom: -1px;
+}
+
 .textarea {
   composes: bodyCopy from "talk-ui/shared/typography.css";
   display: block;

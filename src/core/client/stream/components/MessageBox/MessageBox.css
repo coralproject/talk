@@ -1,0 +1,10 @@
+.root {
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+  align-items: center;
+  padding: calc(0.5 * var(--spacing-unit) + 1px) var(--spacing-unit);
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--palette-text-primary);
+}

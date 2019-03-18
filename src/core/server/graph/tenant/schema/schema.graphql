@@ -846,7 +846,7 @@ type ReactionConfiguration {
 
 type CommunityGuidelines {
   """
-  enable set to true will show the guidelines above the question box.
+  enable set to true will show the guidelines above the message box.
   """
   enabled: Boolean!
 
@@ -2275,7 +2275,7 @@ input SettingsKarmaInput {
 
 input SettingsCommunityGuidelinesInput {
   """
-  enable set to true will show the guidelines above the question box.
+  enable set to true will show the guidelines above the message box.
   """
   enabled: Boolean
 

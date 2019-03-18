@@ -18,6 +18,12 @@
   color: var(--palette-grey-main);
 }
 
+.colorDark {
+  background-color: var(--palette-text-primary);
+  border-width: 0px;
+  color: var(--palette-text-light);
+}
+
 .colorError {
   background-color: var(--palette-error-light);
   border-color: var(--palette-error-darkest);

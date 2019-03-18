@@ -50,6 +50,7 @@ const enhanced = withFragmentContainer<Props>({
       settings {
         ...PremodConfigContainer_storySettings
         ...PremodLinksConfigContainer_storySettings
+        ...MessageBoxConfigContainer_storySettings
       }
     }
   `,

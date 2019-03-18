@@ -27,6 +27,11 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       story: {
         id: "story-id",
         isClosed: false,
+        settings: {
+          messageBox: {
+            enabled: false,
+          },
+        },
       },
       sessionStorage: createPromisifiedStorage(),
       settings: {

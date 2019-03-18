@@ -128,3 +128,59 @@ it("change premod links", async () => {
   // Should have successfully sent with server.
   expect(updateStorySettingsStub.called).toBe(true);
 });
+
+it("change message box", async () => {
+  let storyRecord = cloneDeep(stories[0]);
+  const updateStorySettingsStub = sinon
+    .stub()
+    .callsFake((_: any, data: any) => {
+      expectAndFail(data.input.settings.messageBox).toEqual({
+        enabled: true,
+        content: "*What do you think?*",
+        icon: "question_answer",
+      });
+      storyRecord = merge(storyRecord, { settings: data.input.settings });
+      return {
+        story: storyRecord,
+        clientMutationId: data.input.clientMutationId,
+      };
+    });
+  const { form, applyButton } = await createTestRenderer({
+    Mutation: {
+      updateStorySettings: updateStorySettingsStub,
+    },
+  });
+
+  const enableField = within(form).getByLabelText(
+    "Enable Message Box for this Stream"
+  );
+
+  expect(applyButton.props.disabled).toBe(true);
+  // Let's enable premod.
+  enableField.props.onChange({});
+  expect(applyButton.props.disabled).toBe(false);
+
+  // Select icon
+  within(form)
+    .getByLabelText("question_answer")
+    .props.onChange({ target: { value: "question_answer" } });
+
+  // Change content.
+  (await waitForElement(() =>
+    within(form).getByLabelText("Write a Message")
+  )).props.onChange("*What do you think?*");
+
+  // Send form
+  form.props.onSubmit();
+
+  expect(applyButton.props.disabled).toBe(true);
+  expect(enableField.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await wait(() => {
+    expect(enableField.props.disabled).toBe(false);
+  });
+
+  // Should have successfully sent with server.
+  expect(updateStorySettingsStub.called).toBe(true);
+});

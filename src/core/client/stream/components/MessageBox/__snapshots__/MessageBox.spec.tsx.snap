@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="MessageBox-root custom"
+>
+  Hello World
+</div>
+`;
+
+exports[`renders icon 1`] = `
+<div
+  className="MessageBox-root"
+>
+  <span
+    aria-hidden="true"
+    className="Icon-root Icon-md MessageBoxIcon-root"
+  >
+    alert
+  </span>
+  Alert MessageBox
+</div>
+`;

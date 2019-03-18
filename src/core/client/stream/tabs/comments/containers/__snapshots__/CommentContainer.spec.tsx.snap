@@ -15,7 +15,7 @@ exports[`hide reply button 1`] = `
             justifyContent="space-between"
           >
             <ButtonsBar>
-              <Relay(PermalinkButtonContainerProps)
+              <Relay(PermalinkButtonContainer)
                 commentID="comment-id"
                 story={
                   Object {
@@ -109,7 +109,7 @@ exports[`renders body only 1`] = `
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
-              <Relay(PermalinkButtonContainerProps)
+              <Relay(PermalinkButtonContainer)
                 commentID="comment-id"
                 story={
                   Object {
@@ -203,7 +203,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
-              <Relay(PermalinkButtonContainerProps)
+              <Relay(PermalinkButtonContainer)
                 commentID="comment-id"
                 story={
                   Object {
@@ -297,7 +297,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
-              <Relay(PermalinkButtonContainerProps)
+              <Relay(PermalinkButtonContainer)
                 commentID="comment-id"
                 story={
                   Object {
@@ -391,7 +391,7 @@ exports[`renders in reply to 1`] = `
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
-              <Relay(PermalinkButtonContainerProps)
+              <Relay(PermalinkButtonContainer)
                 commentID="comment-id"
                 story={
                   Object {
@@ -493,7 +493,7 @@ exports[`renders username and body 1`] = `
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
-              <Relay(PermalinkButtonContainerProps)
+              <Relay(PermalinkButtonContainer)
                 commentID="comment-id"
                 story={
                   Object {
@@ -587,7 +587,7 @@ exports[`shows conversation link 1`] = `
                 id="comments-commentContainer-replyButton-comment-id"
                 onClick={[Function]}
               />
-              <Relay(PermalinkButtonContainerProps)
+              <Relay(PermalinkButtonContainer)
                 commentID="comment-id"
                 story={
                   Object {

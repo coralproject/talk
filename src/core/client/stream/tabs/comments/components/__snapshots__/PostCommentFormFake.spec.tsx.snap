@@ -1,38 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<ForwardRef(forwardRef)
-  className="PostCommentFormFake-root"
->
-  <div
-    aria-hidden="true"
+<div>
+  <Relay(MessageBoxContainer)
+    className="PostCommentFormFake-messageBox"
+    story={Object {}}
+  />
+  <ForwardRef(forwardRef)
+    className="PostCommentFormFake-root"
   >
-    <Localized
-      attrs={
-        Object {
-          "placeholder": true,
+    <div
+      aria-hidden="true"
+    >
+      <Localized
+        attrs={
+          Object {
+            "placeholder": true,
+          }
         }
-      }
-      id="comments-postCommentFormFake-rte"
+        id="comments-postCommentFormFake-rte"
+      >
+        <RTE
+          disabled={true}
+          placeholder="Post a comment"
+        />
+      </Localized>
+    </div>
+    <Localized
+      id="comments-postCommentFormFake-signInAndJoin"
     >
-      <RTE
+      <ForwardRef(forwardRef)
+        color="primary"
         disabled={true}
-        placeholder="Post a comment"
-      />
+        fullWidth={true}
+        type="submit"
+        variant="filled"
+      >
+        Sign in and join the conversation
+      </ForwardRef(forwardRef)>
     </Localized>
-  </div>
-  <Localized
-    id="comments-postCommentFormFake-signInAndJoin"
-  >
-    <ForwardRef(forwardRef)
-      color="primary"
-      disabled={true}
-      fullWidth={true}
-      type="submit"
-      variant="filled"
-    >
-      Sign in and join the conversation
-    </ForwardRef(forwardRef)>
-  </Localized>
-</ForwardRef(forwardRef)>
+  </ForwardRef(forwardRef)>
+</div>
 `;
