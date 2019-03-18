@@ -9,7 +9,6 @@ Built with <3 by The Coral Project, a part of [Vox Media](https://product.voxmed
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 ## Table of Contents
 
 - [Requirements](#requirements)
@@ -17,6 +16,7 @@ Built with <3 by The Coral Project, a part of [Vox Media](https://product.voxmed
   - [Docker](#docker)
   - [Source](#source)
   - [Development](#development)
+    - [Design Language System (UI Components)](#design-language-system-ui-components)
 - [Configuration](#configuration)
 - [License](#license)
 
