@@ -189,6 +189,8 @@ npm run generate:css-types
 npm run docz -- dev
 ```
 
+After compilation has finished you can access docz at http://127.0.0.1:3030/.
+
 ## Configuration
 
 The following environment variables can be set to configure the Talk Server. You
