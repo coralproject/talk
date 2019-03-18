@@ -15,9 +15,7 @@ exports[`renders correctly 1`] = `
   >
     <ForwardRef(forwardRef)
       size="oneAndAHalf"
-    >
-      <ForwardRef(forwardRef) />
-    </ForwardRef(forwardRef)>
+    />
   </AuthBox>
   <Version />
 </React.Fragment>
