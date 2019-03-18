@@ -107,6 +107,7 @@ jobs:
       - run:
           name: Build
           command: npm run build
+          no_output_timeout: 20m
       - run:
           name: Verify Bundle Size
           command: npx bundlesize
