@@ -1,15 +1,31 @@
 const mongoose = require('../../services/mongoose');
 
-before(function(done) {
+const models = [
+  require('../../models/action'),
+  require('../../models/asset'),
+  require('../../models/comment'),
+  require('../../models/migration'),
+  require('../../models/setting'),
+  require('../../models/user'),
+  require('../../models/migration'),
+];
+
+before(async function() {
   this.timeout(30000);
 
-  mongoose.connection.on('open', function(err) {
-    if (err) {
-      return done(err);
-    }
+  // Ensure we can connect to the database.
+  await new Promise((resolve, reject) => {
+    mongoose.connection.on('open', err => {
+      if (err) {
+        return reject(err);
+      }
 
-    return done();
+      return resolve();
+    });
   });
+
+  // Ensure all the models have indexes created.
+  await Promise.all(models.map(model => model.ensureIndexes()));
 });
 
 beforeEach(async () => {

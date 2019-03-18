@@ -4,6 +4,7 @@ const mailer = require('../../../services/mailer');
 const Context = require('../../../graph/context');
 const timekeeper = require('timekeeper');
 const moment = require('moment');
+const uuid = require('uuid/v1');
 
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
@@ -385,6 +386,64 @@ describe('services.UsersService', () => {
 
       expect(user).to.be.defined;
       expect(user.wasUpserted).to.be.false;
+    });
+
+    it('should handle legacy users as well', async () => {
+      const ctx = Context.forSystem();
+      let user = await UsersService.upsertExternalUser(
+        ctx,
+        'an-id',
+        'a-provider',
+        'a-display-name'
+      );
+
+      expect(user).to.be.defined;
+      expect(user).to.have.property('id', 'an-id');
+      expect(user.wasUpserted).to.be.true;
+
+      // Change the ID to something else, mirroring the legacy behavior.
+      const id = uuid();
+      user.id = id;
+      await user.save();
+      expect(user).to.have.property('id', id);
+
+      // Ensure that the ID has been changed.
+      user = await UsersService.findById(id);
+
+      expect(user).to.be.defined;
+      expect(user).to.have.property('id', id);
+
+      // Test to see that future lookups work.
+      user = await UsersService.upsertExternalUser(
+        ctx,
+        'an-id',
+        'a-provider',
+        'a-display-name'
+      );
+
+      expect(user).to.be.defined;
+      expect(user).to.have.property('id', id);
+      expect(user.wasUpserted).to.be.false;
+    });
+
+    it('should handle token user lookups created via this method', async () => {
+      const id = uuid();
+      const ctx = Context.forSystem();
+      let user = await UsersService.upsertExternalUser(
+        ctx,
+        id,
+        'a-provider',
+        'a-display-name'
+      );
+
+      expect(user).to.be.defined;
+      expect(user).to.have.property('id', id);
+      expect(user.wasUpserted).to.be.true;
+
+      user = await UsersService.findOrCreateByIDToken(id, {});
+
+      expect(user).to.be.defined;
+      expect(user).to.have.property('id', id);
     });
 
     it('should return a user when the desired user is not found', async () => {
