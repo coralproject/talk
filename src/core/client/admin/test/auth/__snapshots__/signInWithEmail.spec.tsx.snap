@@ -519,9 +519,6 @@ exports[`renders sign in form 1`] = `
               </button>
             </div>
           </form>
-          <div
-            className="HorizontalGutter-root HorizontalGutter-full"
-          />
         </div>
       </div>
     </div>

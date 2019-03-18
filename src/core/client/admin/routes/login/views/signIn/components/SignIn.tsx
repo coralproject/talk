@@ -50,11 +50,13 @@ const SignIn: StatelessComponent<Props> = ({
           )}
           {emailEnabled && <SignInWithEmailContainer />}
           {emailEnabled && oneClickIntegrationEnabled && <OrSeparator />}
-          <HorizontalGutter>
-            {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
-            {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
-            {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
-          </HorizontalGutter>
+          {oneClickIntegrationEnabled && (
+            <HorizontalGutter>
+              {facebookEnabled && <SignInWithFacebookContainer auth={auth} />}
+              {googleEnabled && <SignInWithGoogleContainer auth={auth} />}
+              {oidcEnabled && <SignInWithOIDCContainer auth={auth} />}
+            </HorizontalGutter>
+          )}
         </HorizontalGutter>
       </AuthBox>
       <Version />
