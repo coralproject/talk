@@ -878,28 +878,6 @@ type StoryMessageBox {
 }
 
 ################################################################################
-## MessageBox
-################################################################################
-
-type MessageBox {
-  """
-  enabled will enable the Message Box's content to be visible above
-  the comment box.
-  """
-  enabled: Boolean!
-
-  """
-  content is the content of the Message Box.
-  """
-  content: String
-
-  """
-  icon is the icon for the Message Box.
-  """
-  icon: String
-}
-
-################################################################################
 ## Settings
 ################################################################################
 
@@ -2780,24 +2758,6 @@ type CreateStoryPayload {
 ##################
 ## updateStory
 ##################
-
-input UpdateMessageBoxInput {
-  """
-  enabled will enable the Message Box's content to be visible above
-  the comment box.
-  """
-  enabled: Boolean!
-
-  """
-  content is the content of the Message Box.
-  """
-  content: String
-
-  """
-  icon is the icon for the Message Box.
-  """
-  icon: String
-}
 
 """
 UpdateStory is the input required to update a Story.
