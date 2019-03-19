@@ -81,7 +81,7 @@ EOF
 docker-compose up -d
 ```
 
-Then head on over to http://127.0.0.1:3000 to install Talk!
+Then head on over to http://localhost:3000 to install Talk!
 
 ### Source
 
@@ -96,7 +96,7 @@ cd talk
 # Install dependencies.
 npm install
 
-# Build the application dependencies. 
+# Build the application dependencies.
 # This might take a while.
 npm run build
 ```
@@ -123,7 +123,7 @@ Then start Talk with:
 npm run start
 ```
 
-Then head on over to http://127.0.0.1:3000 to install Talk!
+Then head on over to http://localhost:3000 to install Talk!
 
 ### Development
 
@@ -163,8 +163,10 @@ Then start Talk with:
 npm run watch
 ```
 
-When the client code has been built, the previous command will open your web
-browser at http://127.0.0.1:8080/ automatically otherwise navigate there manually.
+When the client code has been built, navigate to http://localhost:8080/install.html
+to start the installation wizard. **Note: Ensure `localhost:8080` is used in the permitted domains list.**
+
+To see the comment stream goto http://localhost:8080/.
 
 To run linting and tests use the following commands:
 
@@ -181,7 +183,7 @@ npm run test
 We use [docz](https://docz.site) to document and develop our Design Language System. To start docz run:
 
 ```bash
-# Make sure CSS types ar generated. 
+# Make sure CSS types are generated.
 # This is not required when `npm run watch` is already running.
 npm run generate:css-types
 
@@ -189,7 +191,7 @@ npm run generate:css-types
 npm run docz -- dev
 ```
 
-After compilation has finished you can access docz at http://127.0.0.1:3030/.
+After compilation has finished you can access docz at http://localhost:3030/.
 
 ## Configuration
 
