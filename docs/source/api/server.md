@@ -56,16 +56,32 @@ Thanks to [gql-merge](https://www.npmjs.com/package/gql-merge) the contents of
 definitions. `enum`'s will be appended to, types will be appended, and new types
 will be added.
 
+This can be included as a plugin via:
+
+```js
+const fs = require("fs");
+const path = require("path");
+
+module.exports = {
+  typeDefs: fs.readFileSync(path.join(__dirname, "typeDefs.graphql"), "utf8")
+};
+```
+
+Assuming the above GraphQL schema is located in the plugin folder at
+`typeDefs.graphql`.
+
 ### context
 
 ```js
-{
-  Slack: (context) => ({
-    notify: (message) => {
-      // return a promise after we're done sending notifications.
-    }
-  })
-}
+module.exports = {
+  context: {
+    Slack: context => ({
+      notify: message => {
+        // return a promise after we're done sending notifications.
+      },
+    });
+  },
+};
 ```
 
 Any property provided here will be added to the context parameter available
@@ -83,41 +99,50 @@ A special context hook, `Sort` will allow plugin authors to provide new
 methods to sort data. An example is as follows:
 
 ```js
-{
-  Sort: () => ({
-    Comments: { // <-- (1)
-      likes: { // <-- (2)
-        startCursor(ctx, nodes, {cursor}) { // <-- (3)
-          return cursor != null ? cursor : 0;
-        },
-        endCursor(ctx, nodes, {cursor}) { // <-- (4)
-          return nodes.length ? (cursor != null ? cursor : 0) + nodes.length : null;
-        },
-        sort(ctx, query, {cursor, sort}) { // <-- (5)
-          if (cursor) {
-            query = query.skip(cursor);
-          }
+module.exports = {
+  context: {
+    Sort: () => ({
+      Comments: {
+        // <-- (1)
+        likes: {
+          // <-- (2)
+          startCursor(ctx, nodes, { cursor }) {
+            // <-- (3)
+            return cursor != null ? cursor : 0;
+          },
+          endCursor(ctx, nodes, { cursor }) {
+            // <-- (4)
+            return nodes.length
+              ? (cursor != null ? cursor : 0) + nodes.length
+              : null;
+          },
+          sort(ctx, query, { cursor, sort }) {
+            // <-- (5)
+            if (cursor) {
+              query = query.skip(cursor);
+            }
 
-          return query.sort({
-            'action_counts.like': sort === 'DESC' ? -1 : 1,
-            created_at: sort === 'DESC' ? -1 : 1,
-          });
-        },
-      },
-    },
-  }),
-}
+            return query.sort({
+              "action_counts.like": sort === "DESC" ? -1 : 1,
+              created_at: sort === "DESC" ? -1 : 1
+            });
+          }
+        }
+      }
+    })
+  }
+};
 ```
 
 This has a bunch of special features:
 
 1. `Comments` is the name of the type being sorted, this is pluralized and
-    capitalized.
+   capitalized.
 2. `likes` is the `sortBy` field in lowercase.
 3. `startCursor` will retrieve the start cursor based on the current set of
-    nodes and the current cursor.
+   nodes and the current cursor.
 4. `endCursor` will retrieve the end cursor based on the current set of nodes
-    and the current cursor.
+   and the current cursor.
 5. `sort` will mutate the `query` to apply the sort operations.
 
 All the `startCursor`, `endCursor`, and `sort` functions must be provided in
@@ -126,11 +151,13 @@ order for the sorting to apply properly.
 ### loaders
 
 ```js
-(context) => ({
-  People: {
-    load: () => db.people.find({user: context.user})
-  }
-})
+module.exports = {
+  context: context => ({
+    People: {
+      load: () => db.people.find({ user: context.user })
+    }
+  })
+};
 ```
 
 Loaders should be provided as a function which returns a map which is used in
@@ -139,13 +166,15 @@ the resolvers function. These must return a promise or a value.
 ### mutators
 
 ```js
-(context) => ({
-  People: {
-    create: (name) => {
-      return db.people.insert({user: context.user, name});
+module.exports = {
+  context: context => ({
+    People: {
+      create: name => {
+        return db.people.insert({ user: context.user, name });
+      }
     }
-  }
-})
+  })
+};
 ```
 
 Mutators should be provided as a function which returns a map which is used in
@@ -154,27 +183,41 @@ the resolvers function. These must return a promise or a value.
 ### resolvers
 
 ```js
-{
-  Person: {
-    name(obj, args, context) {
-      return obj.name;
+module.exports = {
+  resolvers: {
+    Person: {
+      name(obj, args, context) {
+        return obj.name;
+      },
+      colour(obj, args, context) {
+        // Bill likes the colour red, everyone else likes blue.
+        return obj.name === "bill" ? "RED" : "BLUE";
+      }
     },
-    colour(obj, args, context) {
-      // Bill likes the colour red, everyone else likes blue.
-      return obj.name === 'bill' ? 'RED' : 'BLUE';
-    }
-  },
-  RootQuery: {
-    people(obj, args, {loaders: {People}}) {
-      return People.load();
-    }
-  },
-  RootMutation: {
-    createPerson(obj, {name}, {mutators: {People}}) {
-      return People.create(name);
+    RootQuery: {
+      people(
+        obj,
+        args,
+        {
+          loaders: { People }
+        }
+      ) {
+        return People.load();
+      }
+    },
+    RootMutation: {
+      createPerson(
+        obj,
+        { name },
+        {
+          mutators: { People }
+        }
+      ) {
+        return People.create(name);
+      }
     }
   }
-}
+};
 ```
 
 Should return a resolver map as described in the
@@ -185,40 +228,44 @@ This will merge with the existing resolvers in core and from previous plugins.
 ### hooks
 
 ```js
-{
-  RootMutation: {
-    createPerson: {
-      post: async (obj, args, {plugins: {Slack}}, info, person) {
-        if (!person) {
+module.exports = {
+  hooks: {
+    RootMutation: {
+      createPerson: {
+        post: async (obj, args, {plugins: {Slack}}, info, person) {
+          if (!person) {
+            return person;
+          }
+
+          await Slack.notify(`A new person just was created with name ${person.name}`);
+
           return person;
         }
-
-        await Slack.notify(`A new person just was created with name ${person.name}`);
-
-        return person;
       }
     }
   }
-}
+};
 ```
 
 Hooks here are pretty special, for each resolver field, you can specify a
 pre/post hook that will execute pre and post field resolution.
 
 If your post function accepts four parameters, then it can modify the field
-result. It is *required* that the function resolves a promise (or returns) with
+result. It is _required_ that the function resolves a promise (or returns) with
 the modified value or simply the original if you didn't modify it.
 
 ### setupFunctions
 
 ```js
-setupFunctions: {
-  leader: (options, args) => ({
-    leader: {
-      filter: (person) => person.place === 1
-    },
-  }),
-}
+module.exports = {
+  setupFunctions: {
+    leader: (options, args) => ({
+      leader: {
+        filter: person => person.place === 1
+      }
+    })
+  }
+};
 ```
 
 Setup functions allow you to create filters that control which pubsub.publish() events
@@ -229,30 +276,32 @@ For more information, see the [Apollo Docs](https://github.com/apollographql/gra
 ### tokenUserNotFound
 
 ```js
+const Users = require("services/users");
 
-const Users = require('services/users');
+module.exports = {
+  tokenUserNotFound: async ({ jwt }) => {
+    const user = await Users.upsertExternalUser(
+      null,
+      jwt.sub,
+      jwt.iss,
+      jwt.username
+    );
 
-tokenUserNotFound: async ({ jwt }) => {
-        
-        const user = await Users.upsertExternalUser(
-            null, jwt.sub, jwt.iss, jwt.username)
+    const email = jwt.email.toLowerCase();
 
-        const email = jwt.email.toLowerCase();
+    //upsertExternalUser will also create a profile with provider:jwt.iss, id:jwt.sub
+    //add a "local" profile to persist email on the user
+    user.profiles.push({
+      provider: "local",
+      id: email
+    });
+    user.created_at = new Date(jwt.memberSince * 1000);
 
-        //upsertExternalUser will also create a profile with provider:jwt.iss, id:jwt.sub
-        //add a "local" profile to persist email on the user
-        user.profiles.push({
-            provider: "local",
-            id: email,
-        });
-        user.created_at = new Date(jwt.memberSince*1000);
-              
-        await user.save();
-        
-        return user;
-                   
-    
-    }
+    await user.save();
+
+    return user;
+  }
+};
 ```
 
 The `tokenUserNotFound` hook allows auth integrations to hook into the event
@@ -265,11 +314,10 @@ database. The `jwt` parameter of the object is the unpacked token, which has alr
 More details about the `upsertExternalUser` method can be found at:
 https://github.com/coralproject/talk/blob/32962aa1e84c09d87141440a1f04cbd1659b3336/services/users.js/#L592
 
-In this example, a unix timestamp was included on the jwt with a date that is being persisted on the user. This is optional, but can be used to handle any extra claims you want to include on the jwt. You can use the metadata object on the user to store custom values. 
+In this example, a unix timestamp was included on the jwt with a date that is being persisted on the user. This is optional, but can be used to handle any extra claims you want to include on the jwt. You can use the metadata object on the user to store custom values.
 
-Having trouble implementing your own `tokenUserNotFound` hook? 
+Having trouble implementing your own `tokenUserNotFound` hook?
 Submit a Support ticket ([support@coralproject.net](mailto:support@coralproject.net))
- 
 
 ### tags
 
@@ -278,18 +326,20 @@ or enabled by code). Below is an example pulled from the core off topic plugin
 on how to create a hook for the `OFF_TOPIC` name:
 
 ```js
-[
-  {
-    name: 'OFF_TOPIC',
-    permissions: {
-      public: true,
-      self: true,
-      roles: []
-    },
-    models: ['COMMENTS'],
-    created_at: new Date()
-  }
-]
+module.exports = {
+  tags: [
+    {
+      name: "OFF_TOPIC",
+      permissions: {
+        public: true,
+        self: true,
+        roles: []
+      },
+      models: ["COMMENTS"],
+      created_at: new Date()
+    }
+  ]
+};
 ```
 
 You can refer to `models/schema/tag.js` for the available schema to match when
@@ -298,11 +348,13 @@ creating models to enable/disable specific features.
 ### router
 
 ```js
-(router) => {
-  router.get('/api/v1/people', (req, res) => {
-    res.json({people: [{name: 'Bob'}]});
-  });
-}
+module.exports = {
+  router: router => {
+    router.get("/api/v1/people", (req, res) => {
+      res.json({ people: [{ name: "Bob" }] });
+    });
+  }
+};
 ```
 
 The Router hook allows you to create a function that accepts the base express
@@ -312,56 +364,73 @@ action needed by external applications.
 ### passport
 
 ```js
-const FacebookStrategy = require('passport-facebook').Strategy;
-const UsersService = require('services/users');
-const {ValidateUserLogin, HandleAuthPopupCallback} = require('services/passport');
+const FacebookStrategy = require("passport-facebook").Strategy;
+const UsersService = require("services/users");
+const {
+  ValidateUserLogin,
+  HandleAuthPopupCallback
+} = require("services/passport");
 
 module.exports = {
-  passport(passport) {
-    passport.use(new FacebookStrategy({
-      clientID: process.env.TALK_FACEBOOK_APP_ID,
-      clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
-      callbackURL: `${process.env.TALK_ROOT_URL}/api/v1/auth/facebook/callback`,
-      passReqToCallback: true,
-      profileFields: ['id', 'displayName', 'picture.type(large)']
-    }, async (req, accessToken, refreshToken, profile, done) => {
+  passport: passport => {
+    passport.use(
+      new FacebookStrategy(
+        {
+          clientID: process.env.TALK_FACEBOOK_APP_ID,
+          clientSecret: process.env.TALK_FACEBOOK_APP_SECRET,
+          callbackURL: `${
+            process.env.TALK_ROOT_URL
+          }/api/v1/auth/facebook/callback`,
+          passReqToCallback: true,
+          profileFields: ["id", "displayName", "picture.type(large)"]
+        },
+        async (req, accessToken, refreshToken, profile, done) => {
+          let user;
+          try {
+            const { id, provider, displayName } = profile;
+            user = await UsersService.upsertSocialUser(
+              req.context,
+              id,
+              provider,
+              displayName
+            );
+          } catch (err) {
+            return done(err);
+          }
 
-      let user;
-      try {
-        const { id, provider, displayName } = profile;
-        user = await UsersService.upsertSocialUser(
-          req.context,
-          id,
-          provider,
-          displayName
-        );
-      } catch (err) {
-        return done(err);
-      }
-
-      return ValidateUserLogin(profile, user, done);
-    }));
+          return ValidateUserLogin(profile, user, done);
+        }
+      )
+    );
   },
-  router(router) {
-
+  router: router => {
     // Note that we have to import the passport instance here, it is
     // instantiated after all the strategies have been mounted.
-    const {passport} = require('services/passport');
+    const { passport } = require("services/passport");
 
     /**
      * Facebook auth endpoint, this will redirect the user immediately to facebook
      * for authorization.
      */
-    router.get('/facebook', passport.authenticate('facebook', {display: 'popup', authType: 'rerequest', scope: ['public_profile']}));
+    router.get(
+      "/facebook",
+      passport.authenticate("facebook", {
+        display: "popup",
+        authType: "rerequest",
+        scope: ["public_profile"]
+      })
+    );
 
     /**
      * Facebook callback endpoint, this will send the user a html page designed to
      * send back the user credentials upon successful login.
      */
-    router.get('/facebook/callback', (req, res, next) => {
-
+    router.get("/facebook/callback", (req, res, next) => {
       // Perform the facebook login flow and pass the data back through the opener.
-      passport.authenticate('facebook', HandleAuthPopupCallback(req, res, next))(req, res, next);
+      passport.authenticate(
+        "facebook",
+        HandleAuthPopupCallback(req, res, next)
+      )(req, res, next);
     });
   }
 };
@@ -370,10 +439,10 @@ module.exports = {
 ### translations
 
 ```js
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  translations: path.join(__dirname, 'translations.yml'),
+  translations: path.join(__dirname, "translations.yml")
 };
 ```
 
@@ -387,11 +456,11 @@ en:
 
 Which overrides the copy for the `embedlink.copy` template. You can
 also provide other languages as well by using the correct language
-prefix. 
+prefix.
 
-When creating a plugin using this `translations` hook to override copy 
+When creating a plugin using this `translations` hook to override copy
 from another plugin, be sure to list it after the plugin it's overriding
-in the `plugins.json` file. 
+in the `plugins.json` file.
 
 ### websockets
 
@@ -402,12 +471,12 @@ module.exports = {
       // Do something with the connection params or connection, like
       // logging it out, or incrementing a metric.
     },
-    onDisconnect: (connection) => {
+    onDisconnect: connection => {
       // Do something with the connection params or connection, like
       // logging it out, or decrementing a metric.
-    },
-  },
-}
+    }
+  }
+};
 ```
 
 This `websockets` hook can be used to attach methods to the
@@ -421,12 +490,13 @@ connections.
 module.exports = {
   schemaLevelResolveFunction: (root, args, ctx, info) => {
     // The GraphQL Operation Name. Example: CoralEmbedStream_Embed
-    const name = info.operation.name !== null ? info.operation.name.value : null;
+    const name =
+      info.operation.name !== null ? info.operation.name.value : null;
     // Maybe increment a metric based on the operation name...
 
     // You must _always_ return the root.
     return root;
-  },
+  }
 };
 ```
 
@@ -441,9 +511,7 @@ Contents of `plugins.json`:
 
 ```json
 {
-  "server": [
-    "people"
-  ]
+  "server": ["people"]
 }
 ```
 
@@ -537,5 +605,4 @@ module.exports = {
     }
   }
 };
-
 ```
