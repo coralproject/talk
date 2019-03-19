@@ -780,7 +780,7 @@ type DisableCommenting {
   message will be shown above the comment stream while
   commenting is disabled site-wide.
   """
-  message: String
+  message: String!
 }
 
 ################################################################################
@@ -912,7 +912,7 @@ type CloseCommenting {
   message when provided will be the message that shows when the comment stream
   is closed for commenting.
   """
-  message: String
+  message: String!
 }
 
 """
