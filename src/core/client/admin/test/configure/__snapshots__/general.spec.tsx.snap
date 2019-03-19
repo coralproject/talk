@@ -204,7 +204,7 @@ shared.
                 id="configure-general-sitewideCommenting-message"
                 name="disableCommenting.message"
                 onChange={[Function]}
-                value=""
+                value="Comments are closed on this story."
               />
             </div>
           </fieldset>
@@ -705,7 +705,7 @@ moderation panel.
                 id="configure-general-closedStreamMessage-content"
                 name="closeCommenting.message"
                 onChange={[Function]}
-                value=""
+                value="Comments are closed on this story."
               />
             </div>
           </div>
