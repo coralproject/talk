@@ -135,8 +135,8 @@ configure-configureQuery-errorLoadingProfile = Error loading configure
 configure-configureQuery-storyNotFound = Story not found
 
 ## Comment Stream
-configure-commentStream-title = Configure this Comment Stream
-configure-commentStream-apply = Apply
+configure-stream-title = Configure this Comment Stream
+configure-stream-apply = Apply
 
 configure-premod-title = Enable Pre-Moderation
 configure-premod-description =
@@ -154,3 +154,16 @@ configure-messageBox-preview = Preview
 configure-messageBox-selectAnIcon = Select an Icon
 configure-messageBox-noIcon = No Icon
 configure-messageBox-writeAMessage = Write a Message
+
+configure-closeStream-title = Close Comment Stream
+configure-closeStream-description =
+  This comment stream is currently open. By closing this comment stream,
+  no new comments may be submitted and all previously submitted comments
+  will still be displayed.
+configure-closeStream-closeStream = Close Stream
+
+configure-openStream-title = Open Stream
+configure-openStream-description =
+  This comment stream is currently closed. By opening this comment
+  stream new comments may be submitted and displayed.
+configure-openStream-openStream = Open Stream

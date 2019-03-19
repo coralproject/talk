@@ -60,3 +60,13 @@ export {
   withUpdateStorySettingsMutation,
   UpdateStorySettingsMutation,
 } from "./UpdateStorySettingsMutation";
+export {
+  OpenStoryInput,
+  withOpenStoryMutation,
+  OpenStoryMutation,
+} from "./OpenStoryMutation";
+export {
+  CloseStoryInput,
+  withCloseStoryMutation,
+  CloseStoryMutation,
+} from "./CloseStoryMutation";

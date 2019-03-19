@@ -28,7 +28,8 @@ export class StreamContainer extends React.Component<ConfigureContainerProps> {
 const enhanced = withFragmentContainer<ConfigureContainerProps>({
   story: graphql`
     fragment ConfigureContainer_story on Story {
-      ...ConfigureCommentStreamContainer_story
+      ...ConfigureStreamContainer_story
+      ...OpenOrCloseStreamContainer_story
     }
   `,
   me: graphql`

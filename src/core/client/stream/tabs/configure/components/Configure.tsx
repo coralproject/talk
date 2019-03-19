@@ -4,20 +4,27 @@ import { PropTypesOf } from "talk-framework/types";
 import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
 import { HorizontalGutter } from "talk-ui/components";
 
-import ConfigureCommentStreamContainer from "../containers/ConfigureCommentStreamContainer";
+import ConfigureStreamContainer from "../containers/ConfigureStreamContainer";
+import OpenOrCloseStreamContainer from "../containers/OpenOrCloseStreamContainer";
+import HorizontalRule from "./HorizontalRule";
 
 export interface Props {
   me: PropTypesOf<typeof UserBoxContainer>["me"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"];
-  story: PropTypesOf<typeof ConfigureCommentStreamContainer>["story"];
+  story: PropTypesOf<typeof ConfigureStreamContainer>["story"] &
+    PropTypesOf<typeof OpenOrCloseStreamContainer>["story"];
 }
 
 const Configure: StatelessComponent<Props> = props => {
   return (
-    <HorizontalGutter size="double">
-      <UserBoxContainer me={props.me} settings={props.settings} />
-      <ConfigureCommentStreamContainer story={props.story} />
-    </HorizontalGutter>
+    <div>
+      <HorizontalGutter size="double">
+        <UserBoxContainer me={props.me} settings={props.settings} />
+        <ConfigureStreamContainer story={props.story} />
+      </HorizontalGutter>
+      <HorizontalRule />
+      <OpenOrCloseStreamContainer story={props.story} />
+    </div>
   );
 };
 

@@ -4,10 +4,12 @@ import { GQLResolver } from "talk-server/graph/tenant/schema/__generated__/types
 
 import { AcceptCommentPayload } from "./AcceptCommentPayload";
 import { AuthIntegrations } from "./AuthIntegrations";
+import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
 import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentRevision } from "./CommentRevision";
+import { DisableCommenting } from "./DisableCommenting";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { ModerationQueue } from "./ModerationQueue";
@@ -24,11 +26,13 @@ import { User } from "./User";
 const Resolvers: GQLResolver = {
   AcceptCommentPayload,
   AuthIntegrations,
+  CloseCommenting,
   Comment,
   CommentCounts,
   CommentModerationAction,
   CommentRevision,
   Cursor,
+  DisableCommenting,
   FacebookAuthIntegration,
   GoogleAuthIntegration,
   ModerationQueue,

@@ -13,7 +13,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
    */
   classes: typeof styles;
 
-  size?: "half" | "full" | "double" | "oneAndAHalf";
+  size?: "half" | "full" | "double" | "triple" | "oneAndAHalf";
 
   /** The name of the HorizontalGutter to render */
   children?: React.ReactNode;

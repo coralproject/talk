@@ -15,10 +15,12 @@ export const settings = {
   },
   disableCommenting: {
     enabled: false,
+    message: "Comments are closed on this story.",
   },
   closeCommenting: {
     auto: false,
     timeout: 604800,
+    message: "Comments are closed on this story.",
   },
   customCSSURL: null,
   domains: ["localhost:8080"],

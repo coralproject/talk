@@ -2,7 +2,6 @@ import React from "react";
 import { ReactTestInstance } from "react-test-renderer";
 
 import findParentsWithType from "./findParentsWithType";
-import findParentWithType from "./findParentWithType";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
 const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
@@ -39,14 +38,17 @@ export function getByText(
   pattern: TextMatchPattern,
   options?: TextMatchOptions & SelectorOptions
 ) {
-  const result = findParentWithType(
-    container.find(matcher(pattern, options)),
+  const results = findParentsWithType(
+    container.findAll(matcher(pattern, options)),
     options && options.selector
   );
-  if (!result) {
-    throw new Error(`Couldn't find text ${pattern}`);
+  if (results.length === 1) {
+    return results[0];
   }
-  return result;
+  if (results.length === 0) {
+    throw new Error(`Could't find element with text ${pattern}`);
+  }
+  throw new Error(`Found multiple elements with text ${pattern}`);
 }
 
 export function getAllByText(

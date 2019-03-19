@@ -30,6 +30,10 @@ export type FacebookAuthIntegration = Omit<
   "callbackURL" | "redirectURL"
 >;
 
+/**
+ * AuthIntegrations are the set of configurations for the variations of
+ * authentication solutions.
+ */
 export interface AuthIntegrations {
   local: GQLLocalAuthIntegration;
   sso: GQLSSOAuthIntegration;
@@ -38,6 +42,9 @@ export interface AuthIntegrations {
   facebook: FacebookAuthIntegration;
 }
 
+/**
+ * Auth is the set of configured authentication integrations.
+ */
 export type Auth = Omit<GQLAuth, "integrations"> & {
   /**
    * integrations are the set of configurations for the variations of
@@ -46,11 +53,25 @@ export type Auth = Omit<GQLAuth, "integrations"> & {
   integrations: AuthIntegrations;
 };
 
+/**
+ * CloseCommenting contains settings related to the automatic closing of commenting on
+ * Stories.
+ */
+export type CloseCommenting = Omit<GQLSettings["closeCommenting"], "message"> &
+  Partial<Pick<GQLSettings["closeCommenting"], "message">>;
+
+/**
+ * DisableCommenting will disable commenting site-wide.
+ */
+export type DisableCommenting = Omit<
+  GQLSettings["disableCommenting"],
+  "message"
+> &
+  Partial<Pick<GQLSettings["disableCommenting"], "message">>;
+
 export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
-    | "closeCommenting"
-    | "disableCommenting"
     | "charCount"
     | "email"
     | "karma"
@@ -62,7 +83,18 @@ export type Settings = GlobalModerationSettings &
     | "communityGuidelines"
   > & {
     /**
-     * Set of configured authentication integrations.
+     * auth is the set of configured authentication integrations.
      */
     auth: Auth;
+
+    /**
+     * closeCommenting contains settings related to the automatic closing of commenting on
+     * Stories.
+     */
+    closeCommenting: CloseCommenting;
+
+    /**
+     * disableCommenting will disable commenting site-wide.
+     */
+    disableCommenting: DisableCommenting;
   };

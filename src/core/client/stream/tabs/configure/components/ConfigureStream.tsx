@@ -17,7 +17,7 @@ import MessageBoxConfigContainer from "../containers/MessageBoxConfigContainer";
 import PremodConfigContainer from "../containers/PremodConfigContainer";
 import PremodLinksConfigContainer from "../containers/PremodLinksConfigContainer";
 
-import styles from "./ConfigureCommentStream.css";
+import styles from "./ConfigureStream.css";
 
 interface Props {
   onSubmit: (settings: any, form: FormApi) => void;
@@ -26,7 +26,7 @@ interface Props {
     PropTypesOf<typeof MessageBoxConfigContainer>["storySettings"];
 }
 
-const ConfigureCommentStream: StatelessComponent<Props> = ({
+const ConfigureStream: StatelessComponent<Props> = ({
   onSubmit,
   storySettings,
 }) => (
@@ -40,12 +40,12 @@ const ConfigureCommentStream: StatelessComponent<Props> = ({
               alignItems="flex-start"
               itemGutter
             >
-              <Localized id="configure-commentStream-title">
+              <Localized id="configure-stream-title">
                 <Typography variant="heading2" className={styles.heading}>
                   Configure this Comment Stream
                 </Typography>
               </Localized>
-              <Localized id="configure-commentStream-apply">
+              <Localized id="configure-stream-apply">
                 <Button
                   color="success"
                   variant="filled"
@@ -81,4 +81,4 @@ const ConfigureCommentStream: StatelessComponent<Props> = ({
   </Form>
 );
 
-export default ConfigureCommentStream;
+export default ConfigureStream;
