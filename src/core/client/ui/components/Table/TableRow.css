@@ -1,0 +1,18 @@
+.root {
+}
+
+.body:nth-child(1) {
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+
+.body:nth-child(2) {
+  background-color: var(--palette-grey-lightest);
+  border: 1px solid var(--palette-grey-lightest);
+}
+
+.body:hover {
+  background-color: var(--palette-primary-lightest);
+  border: 1px solid var(--palette-primary-main);
+  box-sizing: border-box;
+}

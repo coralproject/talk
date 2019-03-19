@@ -1,0 +1,23 @@
+.root {
+  /* acts like min-width in a cell */
+  height: calc(4 * var(--spacing-unit));
+  text-align: left;
+  padding: var(--spacing-unit) calc(1.5 * var(--spacing-unit));
+}
+
+.header {
+  composes: bodyCopy from "talk-ui/shared/typography.css";
+  color: var(--palette-grey-dark);
+}
+
+.body {
+  composes: detail from "talk-ui/shared/typography.css";
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignEnd {
+  text-align: right;
+}
