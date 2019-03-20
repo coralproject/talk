@@ -1,6 +1,6 @@
 import React from "react";
 
-import { oncePerFrame } from "talk-common/utils";
+import { Localized } from "fluent-react/compat";
 import { ClickOutside, Popover } from "talk-ui/components";
 
 import ReportCommentView from "../../views/reportComment";
@@ -13,53 +13,39 @@ interface Props {
   reported: boolean;
 }
 
-class ReportButtonWithPopover extends React.Component<Props> {
-  // Helper that prevents calling toggleVisibility more then once per frame.
-  // In essence this means we'll process an event only once.
-  // This might happen, when clicking on the button which will
-  // cause its onClick to happen as well as onClickOutside.
-  private toggleVisibilityOncePerFrame = oncePerFrame(
-    (toggleVisibility: () => void) => toggleVisibility()
-  );
-
-  public render() {
-    const { comment, reported } = this.props;
-    const popoverID = `report-popover-${comment.id}`;
-    return (
+const ReportButtonWithPopover: React.StatelessComponent<Props> = ({
+  comment,
+  reported,
+}) => {
+  const popoverID = `report-popover-${comment.id}`;
+  return (
+    <Localized id="comments-reportPopover" attrs={{ description: true }}>
       <Popover
         id={popoverID}
         placement="top-end"
         description="A dialog for reporting comments"
         body={({ toggleVisibility, scheduleUpdate }) => (
-          <ClickOutside
-            onClickOutside={() =>
-              this.toggleVisibilityOncePerFrame(toggleVisibility)
-            }
-          >
+          <ClickOutside onClickOutside={toggleVisibility}>
             <ReportCommentView
               comment={comment}
-              onClose={() =>
-                this.toggleVisibilityOncePerFrame(toggleVisibility)
-              }
+              onClose={toggleVisibility}
               onResize={scheduleUpdate}
             />
           </ClickOutside>
         )}
       >
-        {({ toggleVisibility, forwardRef, visible }) => (
+        {({ toggleVisibility, ref, visible }) => (
           <ReportButton
-            onClick={() =>
-              !reported && this.toggleVisibilityOncePerFrame(toggleVisibility)
-            }
+            onClick={evt => !reported && toggleVisibility(evt)}
             aria-controls={popoverID}
-            ref={forwardRef}
+            ref={ref}
             active={visible}
             reported={reported}
           />
         )}
       </Popover>
-    );
-  }
-}
+    </Localized>
+  );
+};
 
 export default ReportButtonWithPopover;

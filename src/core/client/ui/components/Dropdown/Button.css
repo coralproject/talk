@@ -1,0 +1,27 @@
+.root {
+  composes: menuItem from "talk-ui/shared/typography.css";
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit);
+  width: 100%;
+  text-align: left;
+}
+
+.root:active {
+  background-color: var(--palette-grey-lighter);
+}
+
+.mouseHover {
+  background-color: var(--palette-grey-lightest);
+}
+
+.icon {
+  color: var(--palette-grey-main);
+  margin-left: var(--spacing-unit);
+  padding-top: 1px;
+}
+
+.blankAdornment {
+  padding-right: calc(3.5 * var(--spacing-unit));
+}

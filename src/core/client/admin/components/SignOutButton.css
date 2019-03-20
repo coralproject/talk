@@ -1,5 +1,0 @@
-.root {
-  font-weight: var(--font-weight-bold);
-  font-size: calc(18rem / var(--rem-base));
-  letter-spacing: calc(-0.2em / 18);
-}

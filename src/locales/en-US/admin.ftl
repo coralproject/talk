@@ -9,7 +9,13 @@ navigation-moderate = Moderate
 navigation-community = Community
 navigation-stories = Stories
 navigation-configure = Configure
-navigation-signOutButton = Sign Out
+
+## User Menu
+userMenu-signOut = Sign Out
+userMenu-viewLatestVersion = View Latest Release
+userMenu-reportBug = Report a Bug or Give Feedback
+userMenu-popover =
+  .description = A dialog of the user menu with related links and actions
 
 ## Restricted
 restricted-currentlySignedInTo = Currently signed in to
@@ -265,6 +271,8 @@ configure-advanced-permittedDomains-explanation =
   yourdomain.com, etc.
 
 ## Decision History
+decisionHistory-popover =
+  .description = A dialog showing the decision history
 decisionHistory-youWillSeeAList =
   You will see a list of your post moderation actions here.
 decisionHistory-showMoreButton =

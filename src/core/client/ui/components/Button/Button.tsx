@@ -9,8 +9,6 @@ import BaseButton, { BaseButtonProps } from "../BaseButton";
 
 import styles from "./Button.css";
 
-// This should extend from BaseButton instead but we can't because of this bug
-// TODO: add bug link.
 interface Props extends Omit<BaseButtonProps, "ref"> {
   /** If set renders an anchor tag instead */
   anchor?: boolean;

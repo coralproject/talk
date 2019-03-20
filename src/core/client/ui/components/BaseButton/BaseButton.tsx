@@ -24,6 +24,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   anchor?: boolean;
   href?: string;
   target?: string;
+  rel?: string;
 
   /**
    * This prop can be used to add custom classnames.

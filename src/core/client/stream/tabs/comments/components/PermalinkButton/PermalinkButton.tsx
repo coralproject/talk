@@ -1,7 +1,6 @@
 import { Localized } from "fluent-react/compat";
-import React from "react";
+import React, { StatelessComponent } from "react";
 
-import { oncePerFrame } from "talk-common/utils";
 import {
   Button,
   ButtonIcon,
@@ -19,39 +18,26 @@ interface PermalinkProps {
   url: string;
 }
 
-class Permalink extends React.Component<PermalinkProps> {
-  // Helper that prevents calling toggleVisibility more then once per frame.
-  // In essence this means we'll process an event only once.
-  // This might happen, when clicking on the button which will
-  // cause its onClick to happen as well as onClickOutside.
-  private toggleVisibilityOncePerFrame = oncePerFrame(
-    (toggleVisibility: () => void) => toggleVisibility()
-  );
-
-  public render() {
-    const { commentID, url } = this.props;
-    const popoverID = `permalink-popover-${commentID}`;
-    return (
+const Permalink: StatelessComponent<PermalinkProps> = ({ commentID, url }) => {
+  const popoverID = `permalink-popover-${commentID}`;
+  return (
+    <Localized id="comments-permalinkPopover" attrs={{ description: true }}>
       <Popover
         id={popoverID}
         placement="top-start"
         description="A dialog showing a permalink to the comment"
         classes={{ popover: styles.popover }}
         body={({ toggleVisibility }) => (
-          <ClickOutside
-            onClickOutside={() =>
-              this.toggleVisibilityOncePerFrame(toggleVisibility)
-            }
-          >
+          <ClickOutside onClickOutside={toggleVisibility}>
             <PermalinkPopover permalinkURL={url} />
           </ClickOutside>
         )}
       >
-        {({ toggleVisibility, forwardRef, visible }) => (
+        {({ toggleVisibility, ref, visible }) => (
           <Button
-            onClick={() => this.toggleVisibilityOncePerFrame(toggleVisibility)}
+            onClick={toggleVisibility}
             aria-controls={popoverID}
-            ref={forwardRef}
+            ref={ref}
             variant="ghost"
             active={visible}
             size="small"
@@ -65,8 +51,8 @@ class Permalink extends React.Component<PermalinkProps> {
           </Button>
         )}
       </Popover>
-    );
-  }
-}
+    </Localized>
+  );
+};
 
 export default Permalink;

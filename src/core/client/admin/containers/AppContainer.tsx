@@ -1,29 +1,34 @@
-import { BrowserProtocol, queryMiddleware } from "farce";
-import { createFarceRouter, createRender } from "found";
-import { Resolver } from "found-relay";
+import React from "react";
 
-import React, { StatelessComponent } from "react";
-import { TalkContextConsumer } from "talk-framework/lib/bootstrap/TalkContext";
-import routeConfig from "../routeConfig";
-import NotFound from "../routes/NotFound";
+import { AppContainerQueryResponse } from "talk-admin/__generated__/AppContainerQuery.graphql";
 
-const Router = createFarceRouter({
-  historyProtocol: new BrowserProtocol(),
-  historyMiddlewares: [queryMiddleware],
-  routeConfig,
-  render: createRender({
-    renderError: ({ error }) => (
-      <div>{error.status === 404 ? <NotFound /> : "Error"}</div>
-    ),
-  }),
-});
+import { graphql } from "talk-framework/lib/relay";
+import { withRouteConfig } from "talk-framework/lib/router";
 
-const AppContainer: StatelessComponent = () => (
-  <TalkContextConsumer>
-    {({ relayEnvironment }) => (
-      <Router resolver={new Resolver(relayEnvironment)} />
-    )}
-  </TalkContextConsumer>
-);
+import App from "../components/App";
 
-export default AppContainer;
+interface Props {
+  data: AppContainerQueryResponse | null;
+}
+
+class AppContainer extends React.Component<Props> {
+  public render() {
+    return (
+      <App me={this.props.data && this.props.data.me}>
+        {this.props.children}
+      </App>
+    );
+  }
+}
+
+const enhanced = withRouteConfig({
+  query: graphql`
+    query AppContainerQuery {
+      me {
+        ...UserMenuContainer_me
+      }
+    }
+  `,
+})(AppContainer);
+
+export default enhanced;

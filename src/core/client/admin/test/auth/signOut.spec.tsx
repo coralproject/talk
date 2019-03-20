@@ -46,6 +46,14 @@ it("logs out", async () => {
     .once()
     .returns({});
 
+  const userMenu = await waitForElement(() =>
+    within(testRenderer.root).getByText(users[0].username, {
+      selector: "button",
+    })
+  );
+
+  userMenu.props.onClick();
+
   const signOutButton = await waitForElement(() =>
     within(testRenderer.root).getByText("Sign Out")
   );
