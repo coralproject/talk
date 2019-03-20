@@ -88,8 +88,9 @@ Comments with suspect words will display until a moderator takes action on them.
 
 #### Permitted Domains
 
-A list of domains where your Talk instance is allowed to be embedded. Typical
-use is `localhost`, `staging.yourdomain.com`, `yourdomain.com`, etc.
+A list of domains where your Talk instance is allowed to be embedded. List each domain and subdomain in use
+separately, for example: `localhost`, `staging.yourdomain.com`, `yourdomain.com`, `www.yourdomain.com`, etc.
+
 
 #### Embed Script
 
