@@ -1,0 +1,12 @@
+.usernameColumn {
+  width: 25%;
+}
+.emailColumn {
+  width: 45%;
+}
+.memberSinceColumn {
+  width: 20%;
+}
+.roleColumn {
+  width: 10%;
+}

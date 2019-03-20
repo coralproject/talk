@@ -12,7 +12,7 @@ interface Props extends React.HTMLAttributes<HTMLTableElement> {
    */
   classes: typeof styles;
 
-  fullWidth: boolean;
+  fullWidth?: boolean;
 }
 
 const Table: StatelessComponent<Props> = ({

@@ -4,6 +4,12 @@
 
 general-brandName = { -product-name }
 
+## Roles
+role-admin = Admin
+role-moderator = Moderator
+role-staff = Staff
+role-commenter = Commenter
+
 ## Navigation
 navigation-moderate = Moderate
 navigation-community = Community

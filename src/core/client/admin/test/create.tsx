@@ -41,6 +41,7 @@ export default function create(params: CreateParams) {
 
   const context: TalkContext = {
     relayEnvironment: environment,
+    locales: ["en-US"],
     localeBundles: [createFluentBundle()],
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),

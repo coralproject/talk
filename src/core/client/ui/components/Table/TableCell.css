@@ -1,8 +1,9 @@
 .root {
   /* acts like min-width in a cell */
-  height: calc(4 * var(--spacing-unit));
+  height: calc(4.5 * var(--spacing-unit));
   text-align: left;
   padding: var(--spacing-unit) calc(1.5 * var(--spacing-unit));
+  box-sizing: border-box;
 }
 
 .header {
