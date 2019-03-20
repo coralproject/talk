@@ -12,7 +12,7 @@ navigation-configure = Configure
 
 ## User Menu
 userMenu-signOut = Sign Out
-userMenu-viewLatestVersion = View Latest Version
+userMenu-viewLatestVersion = View Latest Release
 userMenu-reportBug = Report a Bug or Give Feedback
 userMenu-popover =
   .description = A dialog of the user menu with related links and actions

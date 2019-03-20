@@ -111,7 +111,7 @@ exports[`renders comment stream 1`] = `
                           className="AriaInfo-root"
                           id="permalink-popover-comment-1-ariainfo"
                         >
-                          A dialog showing the decision history
+                          A dialog showing a permalink to the comment
                         </div>
                       </div>
                     </div>

@@ -29,7 +29,7 @@ comments-stream-loadMore = Load More
 comments-replyList-showAll = Show All
 
 comments-permalinkPopover =
-  .description = A dialog showing the decision history
+  .description = A dialog showing a permalink to the comment
 comments-permalinkButton-share = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
 comments-permalinkView-commentNotFound = Comment not found

@@ -27,18 +27,20 @@ const UserMenu: StatelessComponent<Props> = props => (
       body={({ toggleVisibility }) => (
         <ClickOutside onClickOutside={toggleVisibility}>
           <Dropdown>
-            <Localized id="userMenu-viewLatestVersion">
+            <Localized id="userMenu-viewLatestRelease">
               <DropdownButton
-                href="https://github.com/coralproject/talk/releases"
+                href="https://github.com/coralproject/talk/releases/latest"
                 target="_blank"
+                rel="noopener"
               >
-                View Latest Version
+                View Latest Release
               </DropdownButton>
             </Localized>
             <Localized id="userMenu-reportBug">
               <DropdownButton
                 href="https://github.com/coralproject/talk/issues/new"
                 target="_blank"
+                rel="noopener"
               >
                 Report a Bug or Give Feedback
               </DropdownButton>

@@ -116,7 +116,7 @@ exports[`cancel edit 1`] = `
                       className="AriaInfo-root"
                       id="permalink-popover-comment-with-replies-ariainfo"
                     >
-                      A dialog showing the decision history
+                      A dialog showing a permalink to the comment
                     </div>
                   </div>
                 </div>
@@ -795,7 +795,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                       className="AriaInfo-root"
                       id="permalink-popover-comment-with-replies-ariainfo"
                     >
-                      A dialog showing the decision history
+                      A dialog showing a permalink to the comment
                     </div>
                   </div>
                 </div>
@@ -985,7 +985,7 @@ exports[`edit a comment: server response 1`] = `
                       className="AriaInfo-root"
                       id="permalink-popover-comment-with-replies-ariainfo"
                     >
-                      A dialog showing the decision history
+                      A dialog showing a permalink to the comment
                     </div>
                   </div>
                 </div>
@@ -1166,7 +1166,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                       className="AriaInfo-root"
                       id="permalink-popover-comment-with-replies-ariainfo"
                     >
-                      A dialog showing the decision history
+                      A dialog showing a permalink to the comment
                     </div>
                   </div>
                 </div>
