@@ -198,6 +198,7 @@ export type CreateCommentInput = Omit<
   | "replyCount"
   | "actionCounts"
   | "revisions"
+  | "deletedAt"
 > &
   Required<Pick<Revision, "body">> &
   Partial<Pick<Comment, "actionCounts">>;

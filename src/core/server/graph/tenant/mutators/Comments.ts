@@ -26,6 +26,7 @@ import { validateMaximumLength } from "./util";
 export const Comments = (ctx: TenantContext) => ({
   create: ({
     clientMutationId,
+    nudge = false,
     ...comment
   }: GQLCreateCommentInput | GQLCreateCommentReplyInput) =>
     mapFieldsetToErrorCodes(
@@ -35,6 +36,7 @@ export const Comments = (ctx: TenantContext) => ({
         ctx.tenant,
         ctx.user!,
         { authorID: ctx.user!.id, ...comment },
+        nudge,
         ctx.req
       ),
       {

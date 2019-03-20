@@ -1,5 +1,6 @@
 export enum ERROR_TYPES {
   INVALID_REQUEST_ERROR = "INVALID_REQUEST_ERROR",
+  MODERATION_ERROR = "MODERATION_ERROR",
 }
 
 export enum ERROR_CODES {
@@ -180,4 +181,21 @@ export enum ERROR_CODES {
    * occurred and the request can not be processed.
    */
   AUTHENTICATION_ERROR = "AUTHENTICATION_ERROR",
+
+  /**
+   * INVALID_CREDENTIALS is returned when the passed credentials are invalid.
+   */
+  INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
+
+  /**
+   * TOXIC_COMMENT is returned when a comment is detected as Toxic and nudging
+   * is enabled.
+   */
+  TOXIC_COMMENT = "TOXIC_COMMENT",
+
+  /**
+   * SPAM_COMMENT is returned when a comment is detected as spam and nudging is
+   * enabled.
+   */
+  SPAM_COMMENT = "SPAM_COMMENT",
 }

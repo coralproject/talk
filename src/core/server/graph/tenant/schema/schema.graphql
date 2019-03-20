@@ -1835,6 +1835,13 @@ CreateCommentInput provides the input for the createComment Mutation.
 """
 input CreateCommentInput {
   """
+  nudge when true will instead return an error related to recoverable moderation
+  faults such as a toxic comment or spam comment to provide user feedback to
+  nudge the user to correct the comment.
+  """
+  nudge: Boolean = false
+
+  """
   storyID is the ID of the Story where we are creating a comment on.
   """
   storyID: ID!
@@ -1874,6 +1881,13 @@ type CreateCommentPayload {
 CreateCommentReplyInput provides the input for the createCommentReply Mutation.
 """
 input CreateCommentReplyInput {
+  """
+  nudge when true will instead return an error related to recoverable moderation
+  faults such as a toxic comment or spam comment to provide user feedback to
+  nudge the user to correct the comment.
+  """
+  nudge: Boolean = false
+
   """
   storyID is the ID of the Story where we are creating a comment on.
   """

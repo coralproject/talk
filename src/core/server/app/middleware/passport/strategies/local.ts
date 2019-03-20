@@ -2,6 +2,7 @@ import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
 import { VerifyCallback } from "talk-server/app/middleware/passport";
+import { InvalidCredentialsError } from "talk-server/errors";
 import {
   retrieveUserWithProfile,
   verifyUserPassword,
@@ -27,14 +28,13 @@ const verifyFactory = (mongo: Db) => async (
     });
     if (!user) {
       // The user didn't exist.
-      return done(null, null);
+      return done(new InvalidCredentialsError("user not found"));
     }
 
     // Verify the password.
     const passwordVerified = await verifyUserPassword(user, password);
     if (!passwordVerified) {
-      // TODO: return better error
-      return done(new Error("invalid password"));
+      return done(new InvalidCredentialsError("invalid password"));
     }
 
     return done(null, user);
