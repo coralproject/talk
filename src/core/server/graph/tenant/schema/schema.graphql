@@ -3479,7 +3479,7 @@ type Mutation {
   updateSettings will update the Settings for the given Tenant.
   """
   updateSettings(input: UpdateSettingsInput!): UpdateSettingsPayload!
-    @auth(roles: [ADMIN, MODERATOR])
+    @auth(roles: [ADMIN])
 
   """
   regenerateSSOKey will regenerate the SSO key used to sign secrets. This will
