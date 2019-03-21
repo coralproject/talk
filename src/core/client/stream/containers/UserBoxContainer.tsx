@@ -7,8 +7,8 @@ import {
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
 import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
-import { UserBoxContainer_me as MeData } from "talk-stream/__generated__/UserBoxContainer_me.graphql";
 import { UserBoxContainer_settings as SettingsData } from "talk-stream/__generated__/UserBoxContainer_settings.graphql";
+import { UserBoxContainer_viewer as ViewerData } from "talk-stream/__generated__/UserBoxContainer_viewer.graphql";
 import { UserBoxContainerLocal as Local } from "talk-stream/__generated__/UserBoxContainerLocal.graphql";
 import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
 import {
@@ -24,7 +24,7 @@ import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 
 interface Props {
   local: Local;
-  me: MeData | null;
+  viewer: ViewerData | null;
   settings: SettingsData;
   showAuthPopup: ShowAuthPopupMutation;
   setAuthPopupState: SetAuthPopupStateMutation;
@@ -68,14 +68,14 @@ export class UserBoxContainer extends Component<Props> {
       local: {
         authPopup: { open, focus, view },
       },
-      me,
+      viewer,
     } = this.props;
 
-    if (me) {
+    if (viewer) {
       return (
         <UserBoxAuthenticated
           onSignOut={this.handleSignOut}
-          username={me.username!}
+          username={viewer.username!}
           showLogoutButton={this.supportsLogout}
         />
       );
@@ -125,8 +125,8 @@ const enhanced = withSignOutMutation(
         `
       )(
         withFragmentContainer<Props>({
-          me: graphql`
-            fragment UserBoxContainer_me on User {
+          viewer: graphql`
+            fragment UserBoxContainer_viewer on User {
               username
             }
           `,

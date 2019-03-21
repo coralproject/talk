@@ -25,17 +25,17 @@ class AuthCheckContainer extends React.Component<Props> {
   }
 
   public componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.data && nextProps.data.me) {
+    if (nextProps.data && nextProps.data.viewer) {
       this.wasLoggedIn = true;
     }
     this.redirectIfNotLoggedIn(nextProps, this.props);
-    if (nextProps.data && !nextProps.data.me) {
+    if (nextProps.data && !nextProps.data.viewer) {
       this.wasLoggedIn = false;
     }
   }
 
   private shouldRedirectTo(props: Props = this.props) {
-    if (!props.data || props.data.me) {
+    if (!props.data || props.data.viewer) {
       return false;
     }
     return true;
@@ -43,16 +43,16 @@ class AuthCheckContainer extends React.Component<Props> {
 
   private hasAccess(props: Props = this.props) {
     const {
-      me,
+      viewer,
       settings: { auth },
     } = props.data!;
-    if (me) {
-      if (me.role === "COMMENTER") {
+    if (viewer) {
+      if (viewer.role === "COMMENTER") {
         return false;
       } else if (
-        !me.email ||
-        !me.username ||
-        (!me.profiles.some(p => p.__typename === "LocalProfile") &&
+        !viewer.email ||
+        !viewer.username ||
+        (!viewer.profiles.some(p => p.__typename === "LocalProfile") &&
           auth.integrations.local.enabled &&
           (auth.integrations.local.targetFilter.admin ||
             auth.integrations.local.targetFilter.stream))
@@ -88,15 +88,15 @@ class AuthCheckContainer extends React.Component<Props> {
     if (this.hasAccess()) {
       return this.props.children;
     }
-    return <RestrictedContainer me={this.props.data.me!} />;
+    return <RestrictedContainer viewer={this.props.data.viewer!} />;
   }
 }
 
 const enhanced = withRouteConfig({
   query: graphql`
     query AuthCheckContainerQuery {
-      me {
-        ...RestrictedContainer_me
+      viewer {
+        ...RestrictedContainer_viewer
         username
         email
         profiles {

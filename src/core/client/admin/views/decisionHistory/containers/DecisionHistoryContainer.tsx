@@ -1,14 +1,14 @@
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { DecisionHistoryContainer_me as MeData } from "talk-admin/__generated__/DecisionHistoryContainer_me.graphql";
+import { DecisionHistoryContainer_viewer as ViewerData } from "talk-admin/__generated__/DecisionHistoryContainer_viewer.graphql";
 import { DecisionHistoryContainerPaginationQueryVariables } from "talk-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
 import { withPaginationContainer } from "talk-framework/lib/relay";
 
 import DecisionHistory from "../components/DecisionHistory";
 
 interface DecisionHistoryContainerProps {
-  me: MeData;
+  viewer: ViewerData;
   relay: RelayPaginationProp;
   onClosePopover: () => void;
 }
@@ -21,7 +21,7 @@ export class DecisionHistoryContainer extends React.Component<
   };
 
   public render() {
-    const actions = this.props.me.commentModerationActionHistory.edges.map(
+    const actions = this.props.viewer.commentModerationActionHistory.edges.map(
       edge => edge.node
     );
     return (
@@ -65,8 +65,8 @@ const enhanced = withPaginationContainer<
   FragmentVariables
 >(
   {
-    me: graphql`
-      fragment DecisionHistoryContainer_me on User
+    viewer: graphql`
+      fragment DecisionHistoryContainer_viewer on User
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
@@ -86,7 +86,7 @@ const enhanced = withPaginationContainer<
   {
     direction: "forward",
     getConnectionFromProps(props) {
-      return props.me && props.me.commentModerationActionHistory;
+      return props.viewer && props.viewer.commentModerationActionHistory;
     },
     // This is also the default implementation of `getFragmentVariables` if it isn't provided.
     getFragmentVariables(prevVars, totalCount) {
@@ -108,8 +108,8 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
       ) {
-        me {
-          ...DecisionHistoryContainer_me
+        viewer {
+          ...DecisionHistoryContainer_viewer
             @arguments(count: $count, cursor: $cursor)
         }
       }

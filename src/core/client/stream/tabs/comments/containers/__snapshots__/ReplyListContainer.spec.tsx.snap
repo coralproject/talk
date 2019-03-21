@@ -32,7 +32,6 @@ exports[`renders correctly 1`] = `
               "id": "comment-1",
             }
           }
-          me={null}
           settings={
             Object {
               "reaction": Object {
@@ -46,6 +45,7 @@ exports[`renders correctly 1`] = `
               "id": "story-id",
             }
           }
+          viewer={null}
         />,
         "showConversationLink": false,
       },
@@ -57,7 +57,6 @@ exports[`renders correctly 1`] = `
               "id": "comment-2",
             }
           }
-          me={null}
           settings={
             Object {
               "reaction": Object {
@@ -71,6 +70,7 @@ exports[`renders correctly 1`] = `
               "id": "story-id",
             }
           }
+          viewer={null}
         />,
         "showConversationLink": false,
       },
@@ -79,7 +79,6 @@ exports[`renders correctly 1`] = `
   disableShowAll={false}
   indentLevel={1}
   localReply={false}
-  me={null}
   onShowAll={[Function]}
   settings={
     Object {
@@ -94,6 +93,7 @@ exports[`renders correctly 1`] = `
       "id": "story-id",
     }
   }
+  viewer={null}
 />
 `;
 
@@ -139,7 +139,6 @@ exports[`when has more replies renders hasMore 1`] = `
   hasMore={true}
   indentLevel={1}
   localReply={false}
-  me={null}
   onShowAll={[Function]}
   settings={
     Object {
@@ -154,6 +153,7 @@ exports[`when has more replies renders hasMore 1`] = `
       "id": "story-id",
     }
   }
+  viewer={null}
 />
 `;
 
@@ -197,7 +197,6 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   hasMore={true}
   indentLevel={1}
   localReply={false}
-  me={null}
   onShowAll={[Function]}
   settings={
     Object {
@@ -212,6 +211,7 @@ exports[`when has more replies when showing all disables show all button 1`] = `
       "id": "story-id",
     }
   }
+  viewer={null}
 />
 `;
 
@@ -255,7 +255,6 @@ exports[`when has more replies when showing all enable show all button after loa
   hasMore={true}
   indentLevel={1}
   localReply={false}
-  me={null}
   onShowAll={[Function]}
   settings={
     Object {
@@ -270,5 +269,6 @@ exports[`when has more replies when showing all enable show all button after loa
       "id": "story-id",
     }
   }
+  viewer={null}
 />
 `;

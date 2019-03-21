@@ -22,7 +22,7 @@ it("renders correctly", () => {
     hasMore: false,
     disableShowAll: false,
     indentLevel: 1,
-    me: null,
+    viewer: null,
     localReply: false,
     disableReplies: false,
     settings: {
@@ -45,7 +45,7 @@ describe("when there is more", () => {
     hasMore: true,
     disableShowAll: false,
     indentLevel: 1,
-    me: null,
+    viewer: null,
     settings: {
       reaction: {
         icon: "thumb_up_alt",

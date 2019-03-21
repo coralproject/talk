@@ -16,8 +16,8 @@ class DecisionHistoryQuery extends Component<Props> {
       <QueryRenderer<QueryTypes>
         query={graphql`
           query DecisionHistoryQuery {
-            me {
-              ...DecisionHistoryContainer_me
+            viewer {
+              ...DecisionHistoryContainer_viewer
             }
           }
         `}
@@ -26,13 +26,13 @@ class DecisionHistoryQuery extends Component<Props> {
           if (error) {
             return <div>{error.message}</div>;
           }
-          if (!props || !props.me) {
+          if (!props || !props.viewer) {
             return <DecisionHistoryLoading />;
           }
 
           return (
             <DecisionHistoryContainer
-              me={props.me}
+              viewer={props.viewer}
               onClosePopover={this.props.onClosePopover}
             />
           );

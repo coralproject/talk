@@ -7,9 +7,9 @@ import { getURLWithCommentID } from "talk-framework/helpers";
 import withFragmentContainer from "talk-framework/lib/relay/withFragmentContainer";
 import { PropTypesOf } from "talk-framework/types";
 import { CommentContainer_comment as CommentData } from "talk-stream/__generated__/CommentContainer_comment.graphql";
-import { CommentContainer_me as MeData } from "talk-stream/__generated__/CommentContainer_me.graphql";
 import { CommentContainer_settings as SettingsData } from "talk-stream/__generated__/CommentContainer_settings.graphql";
 import { CommentContainer_story as StoryData } from "talk-stream/__generated__/CommentContainer_story.graphql";
+import { CommentContainer_viewer as ViewerData } from "talk-stream/__generated__/CommentContainer_viewer.graphql";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
@@ -32,7 +32,7 @@ import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
 import ReportButtonContainer from "./ReportButtonContainer";
 
 interface Props {
-  me: MeData | null;
+  viewer: ViewerData | null;
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
@@ -79,9 +79,9 @@ export class CommentContainer extends Component<Props, State> {
 
   private isEditable() {
     const isMyComment = !!(
-      this.props.me &&
+      this.props.viewer &&
       this.props.comment.author &&
-      this.props.me.id === this.props.comment.author.id
+      this.props.viewer.id === this.props.comment.author.id
     );
     return (
       isMyComment && isBeforeDate(this.props.comment.editing.editableUntil)
@@ -89,7 +89,7 @@ export class CommentContainer extends Component<Props, State> {
   }
 
   private openReplyDialog = () => {
-    if (this.props.me) {
+    if (this.props.viewer) {
       this.setState(state => ({
         showReplyDialog: true,
       }));
@@ -99,7 +99,7 @@ export class CommentContainer extends Component<Props, State> {
   };
 
   private openEditDialog = () => {
-    if (this.props.me) {
+    if (this.props.viewer) {
       this.setState(state => ({
         showEditDialog: true,
       }));
@@ -145,7 +145,7 @@ export class CommentContainer extends Component<Props, State> {
       disableReplies,
       showConversationLink,
       highlight,
-      me,
+      viewer,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
     if (showEditDialog) {
@@ -219,11 +219,11 @@ export class CommentContainer extends Component<Props, State> {
                     <ReactionButtonContainer
                       comment={comment}
                       settings={settings}
-                      me={me}
+                      viewer={viewer}
                     />
                   </ButtonsBar>
                   <ButtonsBar>
-                    <ReportButtonContainer comment={comment} me={me} />
+                    <ReportButtonContainer comment={comment} viewer={viewer} />
                   </ButtonsBar>
                 </Flex>
                 {showConversationLink && (
@@ -259,11 +259,11 @@ export class CommentContainer extends Component<Props, State> {
 const enhanced = withSetCommentIDMutation(
   withShowAuthPopupMutation(
     withFragmentContainer<Props>({
-      me: graphql`
-        fragment CommentContainer_me on User {
+      viewer: graphql`
+        fragment CommentContainer_viewer on User {
           id
-          ...ReactionButtonContainer_me
-          ...ReportButtonContainer_me
+          ...ReactionButtonContainer_viewer
+          ...ReportButtonContainer_viewer
         }
       `,
       story: graphql`

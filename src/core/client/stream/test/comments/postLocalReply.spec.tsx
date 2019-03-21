@@ -21,7 +21,7 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       settings: sinon.stub().returns(settings),
-      me: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users[0]),
       story: createSinonStub(
         s => s.throws(),
         s =>

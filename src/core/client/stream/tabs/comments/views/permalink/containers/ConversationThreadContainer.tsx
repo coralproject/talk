@@ -5,9 +5,9 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { withContext } from "talk-framework/lib/bootstrap";
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { ConversationThreadContainer_comment as CommentData } from "talk-stream/__generated__/ConversationThreadContainer_comment.graphql";
-import { ConversationThreadContainer_me as MeData } from "talk-stream/__generated__/ConversationThreadContainer_me.graphql";
 import { ConversationThreadContainer_settings as SettingsData } from "talk-stream/__generated__/ConversationThreadContainer_settings.graphql";
 import { ConversationThreadContainer_story as StoryData } from "talk-stream/__generated__/ConversationThreadContainer_story.graphql";
+import { ConversationThreadContainer_viewer as ViewerData } from "talk-stream/__generated__/ConversationThreadContainer_viewer.graphql";
 import { ConversationThreadContainerPaginationQueryVariables } from "talk-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 import {
   SetCommentIDMutation,
@@ -20,7 +20,7 @@ interface ConversationThreadContainerProps {
   comment: CommentData;
   story: StoryData;
   settings: SettingsData;
-  me: MeData | null;
+  viewer: ViewerData | null;
   setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
   relay: RelayPaginationProp;
@@ -51,11 +51,11 @@ class ConversationThreadContainer extends React.Component<
   };
 
   public render() {
-    const { comment, story, me, settings } = this.props;
+    const { comment, story, viewer, settings } = this.props;
     const hasMore = this.props.relay.hasMore();
     return (
       <ConversationThread
-        me={me}
+        viewer={viewer}
         story={story}
         comment={comment}
         settings={settings}
@@ -136,10 +136,10 @@ const enhanced = withContext(ctx => ({
             }
           }
         `,
-        me: graphql`
-          fragment ConversationThreadContainer_me on User {
-            ...CommentContainer_me
-            ...LocalReplyListContainer_me
+        viewer: graphql`
+          fragment ConversationThreadContainer_viewer on User {
+            ...CommentContainer_viewer
+            ...LocalReplyListContainer_viewer
           }
         `,
       },

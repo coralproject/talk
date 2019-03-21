@@ -33,7 +33,7 @@ it("renders correctly", () => {
       hasMore: noop,
       isLoading: noop,
     } as any,
-    me: null,
+    viewer: null,
     indentLevel: 1,
     ReplyListComponent: () => null,
     localReply: false,
@@ -56,7 +56,7 @@ it("renders correctly when replies are empty", () => {
       hasMore: noop,
       isLoading: noop,
     } as any,
-    me: null,
+    viewer: null,
     settings: {
       reaction: {
         icon: "thumb_up_alt",
@@ -95,7 +95,7 @@ describe("when has more replies", () => {
       isLoading: () => false,
       loadMore: (_: any, callback: () => void) => (finishLoading = callback),
     } as any,
-    me: null,
+    viewer: null,
     indentLevel: 1,
     ReplyListComponent: undefined,
     localReply: false,

@@ -12,11 +12,11 @@ import Version from "./Version";
 import styles from "./App.css";
 
 interface Props {
-  me: PropTypesOf<typeof UserMenuContainer>["me"];
+  viewer: PropTypesOf<typeof UserMenuContainer>["viewer"];
   children: React.ReactNode;
 }
 
-const App: StatelessComponent<Props> = ({ children, me }) => (
+const App: StatelessComponent<Props> = ({ children, viewer }) => (
   <div className={styles.root}>
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">
@@ -29,7 +29,7 @@ const App: StatelessComponent<Props> = ({ children, me }) => (
       <End>
         <DecisionHistoryButton />
         <Divider />
-        <UserMenuContainer me={me} />
+        <UserMenuContainer viewer={viewer} />
       </End>
     </AppBar>
     {children}

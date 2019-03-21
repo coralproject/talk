@@ -14,8 +14,8 @@ import { Circle, Line } from "./Timeline";
 
 export interface ConversationThreadProps {
   className?: string;
-  me: PropTypesOf<typeof CommentContainer>["me"] &
-    (PropTypesOf<typeof LocalReplyListContainer>["me"] | null);
+  viewer: PropTypesOf<typeof CommentContainer>["viewer"] &
+    (PropTypesOf<typeof LocalReplyListContainer>["viewer"] | null);
   story: PropTypesOf<typeof CommentContainer>["story"] &
     PropTypesOf<typeof LocalReplyListContainer>["story"];
   settings: PropTypesOf<typeof CommentContainer>["settings"] &
@@ -49,7 +49,7 @@ const ConversationThread: StatelessComponent<
           comment={props.comment}
           story={props.story}
           settings={props.settings}
-          me={props.me}
+          viewer={props.viewer}
           highlight
         />
       </div>
@@ -94,14 +94,14 @@ const ConversationThread: StatelessComponent<
             <CommentContainer
               comment={parent}
               story={props.story}
-              me={props.me}
+              viewer={props.viewer}
               settings={props.settings}
               localReply
             />
-            {props.me && (
+            {props.viewer && (
               <LocalReplyListContainer
                 story={props.story}
-                me={props.me}
+                viewer={props.viewer}
                 settings={props.settings}
                 comment={parent}
                 indentLevel={1}
@@ -114,7 +114,7 @@ const ConversationThread: StatelessComponent<
             comment={props.comment}
             story={props.story}
             settings={props.settings}
-            me={props.me}
+            viewer={props.viewer}
             highlight
           />
         </Circle>

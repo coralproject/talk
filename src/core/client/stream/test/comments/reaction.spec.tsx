@@ -15,7 +15,7 @@ function createTestRenderer() {
         });
         return stories[0];
       }),
-      me: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users[0]),
       settings: sinon.stub().returns(settings),
     },
     Mutation: {
@@ -28,7 +28,7 @@ function createTestRenderer() {
           comment: {
             id: stories[0].comments.edges[0].node.id,
             revision: { id: stories[0].comments.edges[0].node.revision.id },
-            myActionPresence: { reaction: true },
+            viewerActionPresence: { reaction: true },
             actionCounts: { reaction: { total: 1 } },
           },
           clientMutationId: data.input.clientMutationId,
@@ -42,7 +42,7 @@ function createTestRenderer() {
           comment: {
             id: stories[0].comments.edges[0].node.id,
             revision: { id: stories[0].comments.edges[0].node.revision.id },
-            myActionPresence: { reaction: false },
+            viewerActionPresence: { reaction: false },
             actionCounts: { reaction: { total: 0 } },
           },
           clientMutationId: data.input.clientMutationId,

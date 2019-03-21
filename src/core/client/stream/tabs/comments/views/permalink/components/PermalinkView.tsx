@@ -12,9 +12,9 @@ import ConversationThreadContainer from "../containers/ConversationThreadContain
 import styles from "./PermalinkView.css";
 
 export interface PermalinkViewProps {
-  me: PropTypesOf<typeof ConversationThreadContainer>["me"] &
-    PropTypesOf<typeof ReplyListContainer>["me"] &
-    PropTypesOf<typeof UserBoxContainer>["me"];
+  viewer: PropTypesOf<typeof ConversationThreadContainer>["viewer"] &
+    PropTypesOf<typeof ReplyListContainer>["viewer"] &
+    PropTypesOf<typeof UserBoxContainer>["viewer"];
   story: PropTypesOf<typeof ConversationThreadContainer>["story"] &
     PropTypesOf<typeof ReplyListContainer>["story"];
   comment:
@@ -34,11 +34,11 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
   settings,
   story,
   onShowAllComments,
-  me,
+  viewer,
 }) => {
   return (
     <HorizontalGutter className={styles.root} size="double">
-      <UserBoxContainer me={me} settings={settings} />
+      <UserBoxContainer viewer={viewer} settings={settings} />
       <Flex alignItems="center" justifyContent="center" direction="column">
         <Localized id="comments-permalinkView-currentViewing">
           <Typography className={styles.title1}>
@@ -71,14 +71,14 @@ const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
       {comment && (
         <HorizontalGutter>
           <ConversationThreadContainer
-            me={me}
+            viewer={viewer}
             comment={comment}
             story={story}
             settings={settings}
           />
           <div className={styles.replyList}>
             <ReplyListContainer
-              me={me}
+              viewer={viewer}
               comment={comment}
               story={story}
               settings={settings}

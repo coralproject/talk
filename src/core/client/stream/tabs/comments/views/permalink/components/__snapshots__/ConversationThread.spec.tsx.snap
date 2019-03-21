@@ -8,9 +8,9 @@ exports[`renders with no parent comments 1`] = `
   <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
     comment={Object {}}
     highlight={true}
-    me={Object {}}
     settings={Object {}}
     story={Object {}}
+    viewer={Object {}}
   />
 </div>
 `;
@@ -70,9 +70,9 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         comment={Object {}}
         highlight={true}
-        me={Object {}}
         settings={Object {}}
         story={Object {}}
+        viewer={Object {}}
       />
     </Circle>
   </ForwardRef(forwardRef)>
@@ -134,9 +134,9 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
       <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
         comment={Object {}}
         highlight={true}
-        me={Object {}}
         settings={Object {}}
         story={Object {}}
+        viewer={Object {}}
       />
     </Circle>
   </ForwardRef(forwardRef)>

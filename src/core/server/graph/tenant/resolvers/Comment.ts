@@ -64,7 +64,7 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       : createConnection(),
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: c => decodeActionCounts(c.actionCounts),
-  myActionPresence: (c, input, ctx) =>
+  viewerActionPresence: (c, input, ctx) =>
     ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,
   parentCount: c => (c.parentID ? c.grandparentIDs.length + 1 : 0),
   depth: c => (c.parentID ? c.grandparentIDs.length + 1 : 0),

@@ -9,7 +9,7 @@ import OpenOrCloseStreamContainer from "../containers/OpenOrCloseStreamContainer
 import HorizontalRule from "./HorizontalRule";
 
 export interface Props {
-  me: PropTypesOf<typeof UserBoxContainer>["me"];
+  viewer: PropTypesOf<typeof UserBoxContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"];
   story: PropTypesOf<typeof ConfigureStreamContainer>["story"] &
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"];
@@ -19,7 +19,7 @@ const Configure: StatelessComponent<Props> = props => {
   return (
     <div>
       <HorizontalGutter size="double">
-        <UserBoxContainer me={props.me} settings={props.settings} />
+        <UserBoxContainer viewer={props.viewer} settings={props.settings} />
         <ConfigureStreamContainer story={props.story} />
       </HorizontalGutter>
       <HorizontalRule />

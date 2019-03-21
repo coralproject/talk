@@ -6,9 +6,9 @@ import { getURLWithCommentID } from "talk-framework/helpers";
 import { withContext } from "talk-framework/lib/bootstrap";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PermalinkViewContainer_comment as CommentData } from "talk-stream/__generated__/PermalinkViewContainer_comment.graphql";
-import { PermalinkViewContainer_me as MeData } from "talk-stream/__generated__/PermalinkViewContainer_me.graphql";
 import { PermalinkViewContainer_settings as SettingsData } from "talk-stream/__generated__/PermalinkViewContainer_settings.graphql";
 import { PermalinkViewContainer_story as StoryData } from "talk-stream/__generated__/PermalinkViewContainer_story.graphql";
+import { PermalinkViewContainer_viewer as ViewerData } from "talk-stream/__generated__/PermalinkViewContainer_viewer.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
@@ -20,7 +20,7 @@ interface PermalinkViewContainerProps {
   comment: CommentData | null;
   story: StoryData;
   settings: SettingsData;
-  me: MeData | null;
+  viewer: ViewerData | null;
   setCommentID: SetCommentIDMutation;
   pym: PymChild | undefined;
 }
@@ -45,10 +45,10 @@ class PermalinkViewContainer extends React.Component<
   }
 
   public render() {
-    const { comment, story, me, settings } = this.props;
+    const { comment, story, viewer, settings } = this.props;
     return (
       <PermalinkView
-        me={me}
+        viewer={viewer}
         story={story}
         comment={comment}
         settings={settings}
@@ -77,11 +77,11 @@ const enhanced = withContext(ctx => ({
           ...ReplyListContainer1_comment
         }
       `,
-      me: graphql`
-        fragment PermalinkViewContainer_me on User {
-          ...ConversationThreadContainer_me
-          ...ReplyListContainer1_me
-          ...UserBoxContainer_me
+      viewer: graphql`
+        fragment PermalinkViewContainer_viewer on User {
+          ...ConversationThreadContainer_viewer
+          ...ReplyListContainer1_viewer
+          ...UserBoxContainer_viewer
         }
       `,
       settings: graphql`

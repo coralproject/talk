@@ -10,7 +10,7 @@ import Indent from "./Indent";
 
 export interface ReplyListProps {
   story: PropTypesOf<typeof CommentContainer>["story"];
-  me: PropTypesOf<typeof CommentContainer>["me"];
+  viewer: PropTypesOf<typeof CommentContainer>["viewer"];
   comment: {
     id: string;
   };
@@ -41,7 +41,7 @@ const ReplyList: StatelessComponent<ReplyListProps> = props => {
         <HorizontalGutter key={comment.id}>
           <CommentContainer
             key={comment.id}
-            me={props.me}
+            viewer={props.viewer}
             comment={comment}
             story={props.story}
             settings={props.settings}

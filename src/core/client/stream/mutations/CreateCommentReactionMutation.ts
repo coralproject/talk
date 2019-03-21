@@ -44,7 +44,7 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
       createCommentReaction: {
         comment: {
           id: input.commentID,
-          myActionPresence: {
+          viewerActionPresence: {
             reaction: true,
           },
           actionCounts: {

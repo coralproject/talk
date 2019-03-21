@@ -14,7 +14,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settings),
       story: sinon.stub().returns(stories[0]),
-      me: sinon.stub().returns(meAsModerator),
+      viewer: sinon.stub().returns(meAsModerator),
       ...resolver.Query,
     },
   };

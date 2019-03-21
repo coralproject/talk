@@ -23,7 +23,7 @@ exports[`renders correctly 1`] = `
       <DecisionHistoryButton />
       <withPropsOnChange(Divider) />
       <withContext(createMutationContainer(Relay(UserMenuContainer)))
-        me={Object {}}
+        viewer={Object {}}
       />
     </withPropsOnChange(End)>
   </withPropsOnChange(AppBar)>

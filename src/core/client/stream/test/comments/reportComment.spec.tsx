@@ -21,7 +21,7 @@ function createTestRenderer(
         });
         return stories[0];
       }),
-      me: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users[0]),
       settings: sinon.stub().returns(settings),
       ...resolver.Query,
     },
@@ -36,7 +36,7 @@ function createTestRenderer(
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
-            myActionPresence: { flag: true },
+            viewerActionPresence: { flag: true },
           },
           clientMutationId: data.input.clientMutationId,
         };
@@ -50,7 +50,7 @@ function createTestRenderer(
         return {
           comment: {
             id: stories[0].comments.edges[0].node.id,
-            myActionPresence: { dontAgree: true },
+            viewerActionPresence: { dontAgree: true },
           },
           clientMutationId: data.input.clientMutationId,
         };

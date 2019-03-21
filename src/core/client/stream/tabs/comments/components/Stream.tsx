@@ -33,10 +33,10 @@ export interface StreamProps {
   onLoadMore?: () => void;
   hasMore?: boolean;
   disableLoadMore?: boolean;
-  me:
-    | PropTypesOf<typeof UserBoxContainer>["me"] &
-        PropTypesOf<typeof CommentContainer>["me"] &
-        PropTypesOf<typeof ReplyListContainer>["me"]
+  viewer:
+    | PropTypesOf<typeof UserBoxContainer>["viewer"] &
+        PropTypesOf<typeof CommentContainer>["viewer"] &
+        PropTypesOf<typeof ReplyListContainer>["viewer"]
     | null;
   orderBy: PropTypesOf<typeof SortMenu>["orderBy"];
   onChangeOrderBy: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -46,7 +46,7 @@ export interface StreamProps {
 const Stream: StatelessComponent<StreamProps> = props => {
   return (
     <HorizontalGutter className={styles.root} size="double">
-      <UserBoxContainer me={props.me} settings={props.settings} />
+      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <CommunityGuidelinesContainer settings={props.settings} />
       <PostCommentFormContainer settings={props.settings} story={props.story} />
       {props.comments.length > 0 && (
@@ -63,14 +63,14 @@ const Stream: StatelessComponent<StreamProps> = props => {
           {props.comments.map(comment => (
             <HorizontalGutter key={comment.id}>
               <CommentContainer
-                me={props.me}
+                viewer={props.viewer}
                 settings={props.settings}
                 comment={comment}
                 story={props.story}
               />
               <ReplyListContainer
                 settings={props.settings}
-                me={props.me}
+                viewer={props.viewer}
                 comment={comment}
                 story={props.story}
               />

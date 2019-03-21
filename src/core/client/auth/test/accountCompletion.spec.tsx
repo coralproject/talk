@@ -27,10 +27,10 @@ async function createTestRenderer(
       settings: sinon
         .stub()
         .returns(merge({}, settings, get(customResolver, "Query.settings"))),
-      me: sinon
+      viewer: sinon
         .stub()
         .returns(
-          merge({ id: "me", profiles: [] }, get(customResolver, "Query.me"))
+          merge({ id: "me", profiles: [] }, get(customResolver, "Query.viewer"))
         ),
     },
   };
@@ -72,7 +72,7 @@ it("renders addEmailAddress view", async () => {
 it("renders createUsername view", async () => {
   const { root } = await createTestRenderer({
     Query: {
-      me: {
+      viewer: {
         email: "hans@test.com",
       },
     },
@@ -85,7 +85,7 @@ it("renders createUsername view", async () => {
 it("renders createPassword view", async () => {
   const { root } = await createTestRenderer({
     Query: {
-      me: {
+      viewer: {
         email: "hans@test.com",
         username: "hans",
       },
@@ -99,7 +99,7 @@ it("renders createPassword view", async () => {
 it("do not render createPassword view when local auth is disabled", async () => {
   await createTestRenderer({
     Query: {
-      me: {
+      viewer: {
         email: "hans@test.com",
         username: "hans",
       },
@@ -121,7 +121,7 @@ it("do not render createPassword view when local auth is disabled", async () => 
 it("send back auth token", async () => {
   const { context } = await createTestRenderer({
     Query: {
-      me: {
+      viewer: {
         email: "hans@test.com",
         username: "hans",
         profiles: [{ __typename: "LocalProfile" }],

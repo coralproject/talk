@@ -37,7 +37,7 @@ export const render = ({
   preloadConfigureContainer();
 
   if (props) {
-    if (!props.me) {
+    if (!props.viewer) {
       return (
         <Localized id="configure-configureQuery-errorLoadingConfigure">
           <div>Error loading configure</div>
@@ -54,7 +54,7 @@ export const render = ({
     return (
       <Suspense fallback={<Spinner />}>
         <LazyConfigureContainer
-          me={props.me}
+          viewer={props.viewer}
           story={props.story}
           settings={props.settings}
         />
@@ -78,8 +78,8 @@ const ConfigureQuery: StatelessComponent<Props> = ({
         story(id: $storyID, url: $storyURL) {
           ...ConfigureContainer_story
         }
-        me {
-          ...ConfigureContainer_me
+        viewer {
+          ...ConfigureContainer_viewer
         }
         settings {
           ...ConfigureContainer_settings

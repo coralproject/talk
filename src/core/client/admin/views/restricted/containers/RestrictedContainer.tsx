@@ -1,7 +1,7 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
 
-import { RestrictedContainer_me as MeData } from "talk-admin/__generated__/RestrictedContainer_me.graphql";
+import { RestrictedContainer_viewer as ViewerData } from "talk-admin/__generated__/RestrictedContainer_viewer.graphql";
 import {
   SetRedirectPathMutation,
   withSetRedirectPathMutation,
@@ -13,7 +13,7 @@ import { timeout } from "talk-common/utils";
 import Restricted from "../components/Restricted";
 
 interface Props {
-  me: MeData;
+  viewer: ViewerData;
   error?: Error | null;
   signOut: SignOutMutation;
   setRedirectPath: SetRedirectPathMutation;
@@ -32,13 +32,13 @@ class RestrictedContainer extends Component<Props> {
   };
 
   public render() {
-    if (!this.props.me) {
+    if (!this.props.viewer) {
       return null;
     }
 
     return (
       <Restricted
-        username={this.props.me.username!}
+        username={this.props.viewer.username!}
         onSignInAs={this.handleSignInAs}
       />
     );
@@ -46,8 +46,8 @@ class RestrictedContainer extends Component<Props> {
 }
 
 const enhanced = withFragmentContainer<Props>({
-  me: graphql`
-    fragment RestrictedContainer_me on User {
+  viewer: graphql`
+    fragment RestrictedContainer_viewer on User {
       username
     }
   `,

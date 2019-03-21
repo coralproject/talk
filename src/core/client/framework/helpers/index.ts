@@ -1,5 +1,5 @@
-export { default as getMe } from "./getMe";
-export { default as getMeSourceID } from "./getMeSourceID";
+export { default as getViewer } from "./getViewer";
+export { default as getMeSourceID } from "./getViewerSourceID";
 export { default as getURLWithCommentID } from "./getURLWithCommentID";
 export { default as urls } from "./urls";
 export { default as createContextHOC } from "./createContextHOC";

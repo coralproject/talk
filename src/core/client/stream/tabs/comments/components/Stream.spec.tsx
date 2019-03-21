@@ -26,7 +26,7 @@ it("renders correctly", () => {
     onLoadMore: noop,
     disableLoadMore: false,
     hasMore: false,
-    me: null,
+    viewer: null,
     orderBy: "CREATED_AT_ASC",
     onChangeOrderBy: noop,
   };
@@ -45,7 +45,7 @@ describe("when use is logged in", () => {
       onLoadMore: noop,
       disableLoadMore: false,
       hasMore: false,
-      me: {},
+      viewer: {},
       settings: {
         reaction: {
           icon: "thumb_up_alt",
@@ -76,7 +76,7 @@ describe("when there is more", () => {
     onLoadMore: sinon.spy(),
     disableLoadMore: false,
     hasMore: true,
-    me: null,
+    viewer: null,
     orderBy: "CREATED_AT_ASC",
     onChangeOrderBy: noop,
   };

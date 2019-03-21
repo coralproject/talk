@@ -22,7 +22,7 @@ async function createTestRenderer(
         expectAndFail(variables).toEqual({ id: stories[0].id, url: null });
         return stories[0];
       }),
-      me: sinon.stub().returns(meAsModerator),
+      viewer: sinon.stub().returns(meAsModerator),
       ...resolver.Query,
     },
     ...resolver,

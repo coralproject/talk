@@ -19,7 +19,7 @@ it("renders fully", () => {
       },
       accessTokenJTI: "JTI",
     },
-    me: null,
+    viewer: null,
     settings: {
       auth: {
         integrations: {
@@ -76,7 +76,7 @@ it("renders without logout button", () => {
       },
       accessTokenJTI: null,
     },
-    me: null,
+    viewer: null,
     settings: {
       auth: {
         integrations: {
@@ -133,7 +133,7 @@ it("renders sso only", () => {
       },
       accessTokenJTI: "JTI",
     },
-    me: null,
+    viewer: null,
     settings: {
       auth: {
         integrations: {
@@ -190,7 +190,7 @@ it("renders sso only without logout button", () => {
       },
       accessTokenJTI: "JTI",
     },
-    me: null,
+    viewer: null,
     settings: {
       auth: {
         integrations: {
@@ -247,7 +247,7 @@ it("renders without register button", () => {
       },
       accessTokenJTI: "JTI",
     },
-    me: null,
+    viewer: null,
     settings: {
       auth: {
         integrations: {

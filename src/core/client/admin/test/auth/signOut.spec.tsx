@@ -21,7 +21,7 @@ const resolvers = {
     settings: sinon.stub().returns(settings),
     moderationQueues: sinon.stub().returns(emptyModerationQueues),
     comments: sinon.stub().returns(emptyRejectedComments),
-    me: sinon.stub().returns(users[0]),
+    viewer: sinon.stub().returns(users[0]),
   },
 };
 

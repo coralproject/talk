@@ -16,7 +16,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
   return merge(
     {},
     {
-      me: null,
+      viewer: null,
       story: {
         url: "http://localhost/story",
         isClosed: false,

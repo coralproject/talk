@@ -7,16 +7,16 @@ import CommentHistoryContainer from "../containers/CommentHistoryContainer";
 
 export interface ProfileProps {
   story: PropTypesOf<typeof CommentHistoryContainer>["story"];
-  me: PropTypesOf<typeof UserBoxContainer>["me"] &
-    PropTypesOf<typeof CommentHistoryContainer>["me"];
+  viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
+    PropTypesOf<typeof CommentHistoryContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"];
 }
 
 const Profile: StatelessComponent<ProfileProps> = props => {
   return (
     <HorizontalGutter size="double">
-      <UserBoxContainer me={props.me} settings={props.settings} />
-      <CommentHistoryContainer me={props.me} story={props.story} />
+      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
+      <CommentHistoryContainer viewer={props.viewer} story={props.story} />
     </HorizontalGutter>
   );
 };

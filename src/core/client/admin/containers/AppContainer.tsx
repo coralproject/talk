@@ -14,7 +14,7 @@ interface Props {
 class AppContainer extends React.Component<Props> {
   public render() {
     return (
-      <App me={this.props.data && this.props.data.me}>
+      <App viewer={this.props.data && this.props.data.viewer}>
         {this.props.children}
       </App>
     );
@@ -24,8 +24,8 @@ class AppContainer extends React.Component<Props> {
 const enhanced = withRouteConfig({
   query: graphql`
     query AppContainerQuery {
-      me {
-        ...UserMenuContainer_me
+      viewer {
+        ...UserMenuContainer_viewer
       }
     }
   `,

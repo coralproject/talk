@@ -5,12 +5,12 @@ exports[`renders correctly 1`] = `
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-    me={Object {}}
     settings={Object {}}
+    viewer={Object {}}
   />
   <Relay(CommentHistoryContainer)
-    me={Object {}}
     story={Object {}}
+    viewer={Object {}}
   />
 </ForwardRef(forwardRef)>
 `;

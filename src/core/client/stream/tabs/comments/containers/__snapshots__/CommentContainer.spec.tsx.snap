@@ -43,7 +43,6 @@ exports[`hide reply button 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
                 settings={
                   Object {
                     "disableCommenting": Object {
@@ -51,6 +50,7 @@ exports[`hide reply button 1`] = `
                     },
                   }
                 }
+                viewer={null}
               />
             </ButtonsBar>
             <ButtonsBar>
@@ -73,7 +73,7 @@ exports[`hide reply button 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
+                viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
@@ -137,7 +137,6 @@ exports[`renders body only 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
                 settings={
                   Object {
                     "disableCommenting": Object {
@@ -145,6 +144,7 @@ exports[`renders body only 1`] = `
                     },
                   }
                 }
+                viewer={null}
               />
             </ButtonsBar>
             <ButtonsBar>
@@ -167,7 +167,7 @@ exports[`renders body only 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
+                viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
@@ -231,7 +231,6 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
                 settings={
                   Object {
                     "disableCommenting": Object {
@@ -239,6 +238,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     },
                   }
                 }
+                viewer={null}
               />
             </ButtonsBar>
             <ButtonsBar>
@@ -261,7 +261,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
+                viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
@@ -325,7 +325,6 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
                 settings={
                   Object {
                     "disableCommenting": Object {
@@ -333,6 +332,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     },
                   }
                 }
+                viewer={null}
               />
             </ButtonsBar>
             <ButtonsBar>
@@ -355,7 +355,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
+                viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
@@ -423,7 +423,6 @@ exports[`renders in reply to 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
                 settings={
                   Object {
                     "disableCommenting": Object {
@@ -431,6 +430,7 @@ exports[`renders in reply to 1`] = `
                     },
                   }
                 }
+                viewer={null}
               />
             </ButtonsBar>
             <ButtonsBar>
@@ -457,7 +457,7 @@ exports[`renders in reply to 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
+                viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
@@ -521,7 +521,6 @@ exports[`renders username and body 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
                 settings={
                   Object {
                     "disableCommenting": Object {
@@ -529,6 +528,7 @@ exports[`renders username and body 1`] = `
                     },
                   }
                 }
+                viewer={null}
               />
             </ButtonsBar>
             <ButtonsBar>
@@ -551,7 +551,7 @@ exports[`renders username and body 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
+                viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
@@ -615,7 +615,6 @@ exports[`shows conversation link 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
                 settings={
                   Object {
                     "disableCommenting": Object {
@@ -623,6 +622,7 @@ exports[`shows conversation link 1`] = `
                     },
                   }
                 }
+                viewer={null}
               />
             </ButtonsBar>
             <ButtonsBar>
@@ -645,7 +645,7 @@ exports[`shows conversation link 1`] = `
                     "status": "NONE",
                   }
                 }
-                me={null}
+                viewer={null}
               />
             </ButtonsBar>
           </ForwardRef(forwardRef)>
