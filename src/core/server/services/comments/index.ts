@@ -103,7 +103,10 @@ export async function create(
       req,
     });
   } catch (err) {
-    if (err instanceof TalkError && err.type === ERROR_TYPES.MODERATION_ERROR) {
+    if (
+      err instanceof TalkError &&
+      err.type === ERROR_TYPES.MODERATION_NUDGE_ERROR
+    ) {
       log.info({ err }, "detected pipeline nudge");
     }
 

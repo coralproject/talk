@@ -174,7 +174,7 @@ async function getScore(
     const data = await response.json();
 
     // Reformat the scores.
-    return data.attributeScores.TOXICITY.summaryScore.value as number;
+    return data.attributeScores[model].summaryScore.value as number;
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {
