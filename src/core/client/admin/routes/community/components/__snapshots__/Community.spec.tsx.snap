@@ -1,11 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<MainLayout>
-  <ForwardRef(forwardRef)
-    variant="heading3"
-  >
-    Community
-  </ForwardRef(forwardRef)>
+<MainLayout
+  className="Community-root"
+>
+  <Relay(UserTableContainer) />
 </MainLayout>
 `;

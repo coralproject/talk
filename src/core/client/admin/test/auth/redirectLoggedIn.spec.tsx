@@ -49,10 +49,12 @@ it("redirect to redirectPath when already logged in", async () => {
     initLocalState: localRecord => {
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAccessToken(), "accessToken");
-      localRecord.setValue("/admin/community", "redirectPath");
+      localRecord.setValue("/admin/moderate/pending", "redirectPath");
     },
   });
   await wait(() =>
-    expect(window.location.toString()).toBe("http://localhost/admin/community")
+    expect(window.location.toString()).toBe(
+      "http://localhost/admin/moderate/pending"
+    )
   );
 });
