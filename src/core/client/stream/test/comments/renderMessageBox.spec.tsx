@@ -17,7 +17,7 @@ async function createTestRenderer(
   const resolvers = {
     Query: {
       settings: sinon.stub().returns(merge({}, settings, data.settings)),
-      me: sinon.stub().returns((data.loggedIn && users[0]) || null),
+      viewer: sinon.stub().returns((data.loggedIn && users[0]) || null),
       story: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(storyWithNoComments.id);
         return merge({}, storyWithNoComments, data.story);

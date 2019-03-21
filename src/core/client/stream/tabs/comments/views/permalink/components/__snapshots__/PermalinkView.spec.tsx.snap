@@ -6,8 +6,8 @@ exports[`renders comment not found 1`] = `
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-    me={Object {}}
     settings={Object {}}
+    viewer={Object {}}
   />
   <ForwardRef(forwardRef)
     alignItems="center"
@@ -63,8 +63,8 @@ exports[`renders correctly 1`] = `
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-    me={Object {}}
     settings={Object {}}
+    viewer={Object {}}
   />
   <ForwardRef(forwardRef)
     alignItems="center"
@@ -107,18 +107,18 @@ exports[`renders correctly 1`] = `
   <ForwardRef(forwardRef)>
     <withContext(withContext(createMutationContainer(Relay(ConversationThreadContainer))))
       comment={Object {}}
-      me={Object {}}
       settings={Object {}}
       story={Object {}}
+      viewer={Object {}}
     />
     <div
       className="PermalinkView-replyList"
     >
       <withProps(Relay(ReplyListContainer))
         comment={Object {}}
-        me={Object {}}
         settings={Object {}}
         story={Object {}}
+        viewer={Object {}}
       />
     </div>
   </ForwardRef(forwardRef)>

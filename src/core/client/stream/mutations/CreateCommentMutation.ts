@@ -6,7 +6,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getMe, getStorySettings } from "talk-framework/helpers";
+import { getStorySettings, getViewer } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -78,7 +78,7 @@ graphql`
       moderation
     }
   }
-  fragment CreateCommentMutation_me on User {
+  fragment CreateCommentMutation_viewer on User {
     role
   }
 `;
@@ -106,7 +106,7 @@ function commit(
   input: CreateCommentInput,
   { uuidGenerator, relayEnvironment }: TalkContext
 ) {
-  const me = getMe(environment)!;
+  const me = getViewer(environment)!;
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
 

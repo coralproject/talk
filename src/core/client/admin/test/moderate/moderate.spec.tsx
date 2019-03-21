@@ -44,7 +44,7 @@ const createTestRenderer = async (resolver: any = {}) => {
       comments:
         get(resolver, "Query.comments") ||
         sinon.stub().returns(emptyRejectedComments),
-      me: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users[0]),
     },
   };
   const { testRenderer } = create({

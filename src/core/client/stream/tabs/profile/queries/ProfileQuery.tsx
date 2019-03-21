@@ -35,7 +35,7 @@ export const render = ({
   preloadProfileContainer();
 
   if (props) {
-    if (!props.me) {
+    if (!props.viewer) {
       return (
         <Localized id="profile-profileQuery-errorLoadingProfile">
           <div>Error loading profile</div>
@@ -52,7 +52,7 @@ export const render = ({
     return (
       <Suspense fallback={<Spinner />}>
         <LazyProfileContainer
-          me={props.me}
+          viewer={props.viewer}
           story={props.story}
           settings={props.settings}
         />
@@ -76,8 +76,8 @@ const ProfileQuery: StatelessComponent<Props> = ({
         story(id: $storyID, url: $storyURL) {
           ...ProfileContainer_story
         }
-        me {
-          ...ProfileContainer_me
+        viewer {
+          ...ProfileContainer_viewer
         }
         settings {
           ...ProfileContainer_settings

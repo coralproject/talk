@@ -21,8 +21,8 @@ class TabBarQuery extends Component<Props> {
       <QueryRenderer<QueryTypes>
         query={graphql`
           query TabBarQuery($storyID: ID, $storyURL: String) {
-            me {
-              ...TabBarContainer_me
+            viewer {
+              ...TabBarContainer_viewer
             }
             story(id: $storyID, url: $storyURL) {
               ...TabBarContainer_story
@@ -40,7 +40,7 @@ class TabBarQuery extends Component<Props> {
 
           return (
             <TabBarContainer
-              me={(props && props.me) || null}
+              viewer={(props && props.viewer) || null}
               story={(props && props.story) || null}
             />
           );

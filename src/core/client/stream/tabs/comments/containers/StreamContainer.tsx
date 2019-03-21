@@ -3,9 +3,9 @@ import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
-import { StreamContainer_me as MeData } from "talk-stream/__generated__/StreamContainer_me.graphql";
 import { StreamContainer_settings as SettingsData } from "talk-stream/__generated__/StreamContainer_settings.graphql";
 import { StreamContainer_story as StoryData } from "talk-stream/__generated__/StreamContainer_story.graphql";
+import { StreamContainer_viewer as ViewerData } from "talk-stream/__generated__/StreamContainer_viewer.graphql";
 import {
   COMMENT_SORT,
   StreamContainerPaginationQueryVariables,
@@ -17,7 +17,7 @@ import Stream from "../components/Stream";
 interface Props {
   story: StoryData;
   settings: SettingsData;
-  me: MeData | null;
+  viewer: ViewerData | null;
   relay: RelayPaginationProp;
   defaultOrderBy: COMMENT_SORT;
 }
@@ -69,7 +69,7 @@ export class StreamContainer extends React.Component<Props> {
           onLoadMore={this.loadMore}
           hasMore={this.props.relay.hasMore()}
           disableLoadMore={this.state.disableLoadMore}
-          me={this.props.me}
+          viewer={this.props.viewer}
           orderBy={this.orderBy}
           onChangeOrderBy={this.handleOnChangeOrderBy}
           refetching={this.state.refetching}
@@ -134,13 +134,13 @@ const enhanced = withPaginationContainer<
         ...CreateCommentMutation_story
       }
     `,
-    me: graphql`
-      fragment StreamContainer_me on User {
-        ...ReplyListContainer1_me
-        ...CommentContainer_me
-        ...UserBoxContainer_me
-        ...CreateCommentReplyMutation_me
-        ...CreateCommentMutation_me
+    viewer: graphql`
+      fragment StreamContainer_viewer on User {
+        ...ReplyListContainer1_viewer
+        ...CommentContainer_viewer
+        ...UserBoxContainer_viewer
+        ...CreateCommentReplyMutation_viewer
+        ...CreateCommentMutation_viewer
       }
     `,
     settings: graphql`

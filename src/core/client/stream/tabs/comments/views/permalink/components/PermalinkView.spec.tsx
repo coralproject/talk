@@ -11,7 +11,7 @@ const PermalinkViewN = removeFragmentRefs(PermalinkView);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof PermalinkViewN> = {
-    me: {},
+    viewer: {},
     story: {},
     settings: {},
     comment: {},
@@ -25,7 +25,7 @@ it("renders correctly", () => {
 
 it("renders comment not found", () => {
   const props: PropTypesOf<typeof PermalinkViewN> = {
-    me: {},
+    viewer: {},
     story: {},
     settings: {},
     comment: null,

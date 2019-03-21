@@ -34,7 +34,7 @@ export const render = (
     return (
       <StreamContainer
         settings={data.props.settings}
-        me={data.props.me}
+        viewer={data.props.viewer}
         story={data.props.story}
         defaultOrderBy={defaultStreamOrderBy}
       />
@@ -60,8 +60,8 @@ const StreamQuery: StatelessComponent<Props> = props => {
           $storyURL: String
           $streamOrderBy: COMMENT_SORT
         ) {
-          me {
-            ...StreamContainer_me
+          viewer {
+            ...StreamContainer_viewer
           }
           story(id: $storyID, url: $storyURL) {
             ...StreamContainer_story @arguments(orderBy: $streamOrderBy)

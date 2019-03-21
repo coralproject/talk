@@ -30,7 +30,7 @@ function createTestRenderer(
             .withArgs(undefined, { id: storyWithReplies.id, url: null })
             .returns(storyWithReplies)
       ),
-      me: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users[0]),
       settings: sinon.stub().returns(settings),
     },
     Mutation: {

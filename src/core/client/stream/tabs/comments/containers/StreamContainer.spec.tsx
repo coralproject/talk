@@ -20,7 +20,7 @@ it("renders correctly", () => {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
     },
-    me: null,
+    viewer: null,
     settings: {
       reaction: {
         icon: "thumb_up_alt",
@@ -47,7 +47,7 @@ describe("when has more comments", () => {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
     },
-    me: null,
+    viewer: null,
     settings: {
       reaction: {
         icon: "thumb_up_alt",

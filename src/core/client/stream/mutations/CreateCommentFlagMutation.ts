@@ -18,7 +18,7 @@ const mutation = graphql`
     createCommentFlag(input: $input) {
       comment {
         id
-        myActionPresence {
+        viewerActionPresence {
           flag
         }
       }

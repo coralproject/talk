@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 
 import { AppContainer_auth as AuthData } from "talk-auth/__generated__/AppContainer_auth.graphql";
-import { AppContainer_me as UserData } from "talk-auth/__generated__/AppContainer_me.graphql";
+import { AppContainer_viewer as UserData } from "talk-auth/__generated__/AppContainer_viewer.graphql";
 import { AppContainerLocal as Local } from "talk-auth/__generated__/AppContainerLocal.graphql";
 import {
   graphql,
@@ -16,7 +16,7 @@ import AccountCompletionContainer from "./AccountCompletionContainer";
 interface Props {
   local: Local;
   auth: AuthData;
-  me: UserData | null;
+  viewer: UserData | null;
 }
 
 class AppContainer extends Component<Props> {
@@ -24,10 +24,10 @@ class AppContainer extends Component<Props> {
     const {
       local: { view },
       auth,
-      me,
+      viewer,
     } = this.props;
     return (
-      <AccountCompletionContainer auth={auth} me={me}>
+      <AccountCompletionContainer auth={auth} viewer={viewer}>
         <App view={view} auth={auth} />
       </AccountCompletionContainer>
     );
@@ -49,9 +49,9 @@ const enhanced = withLocalStateContainer(
         ...AccountCompletionContainer_auth
       }
     `,
-    me: graphql`
-      fragment AppContainer_me on User {
-        ...AccountCompletionContainer_me
+    viewer: graphql`
+      fragment AppContainer_viewer on User {
+        ...AccountCompletionContainer_viewer
       }
     `,
   })(AppContainer)

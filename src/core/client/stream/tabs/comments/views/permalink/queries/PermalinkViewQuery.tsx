@@ -35,7 +35,7 @@ export const render = ({
     }
     return (
       <PermalinkViewContainer
-        me={props.me}
+        viewer={props.viewer}
         settings={props.settings}
         comment={props.comment}
         story={props.story}
@@ -59,8 +59,8 @@ const PermalinkViewQuery: StatelessComponent<Props> = ({
         $storyID: ID
         $storyURL: String
       ) {
-        me {
-          ...PermalinkViewContainer_me
+        viewer {
+          ...PermalinkViewContainer_viewer
         }
         story(id: $storyID, url: $storyURL) {
           ...PermalinkViewContainer_story

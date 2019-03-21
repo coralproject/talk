@@ -2,14 +2,14 @@ import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
-import { CommentHistoryContainer_me as MeData } from "talk-stream/__generated__/CommentHistoryContainer_me.graphql";
 import { CommentHistoryContainer_story as StoryData } from "talk-stream/__generated__/CommentHistoryContainer_story.graphql";
+import { CommentHistoryContainer_viewer as ViewerData } from "talk-stream/__generated__/CommentHistoryContainer_viewer.graphql";
 import { CommentHistoryContainerPaginationQueryVariables } from "talk-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
 
 import CommentHistory from "../components/CommentHistory";
 
 interface CommentHistoryContainerProps {
-  me: MeData;
+  viewer: ViewerData;
   story: StoryData;
   relay: RelayPaginationProp;
 }
@@ -22,7 +22,7 @@ export class CommentHistoryContainer extends React.Component<
   };
 
   public render() {
-    const comments = this.props.me.comments.edges.map(edge => edge.node);
+    const comments = this.props.viewer.comments.edges.map(edge => edge.node);
     return (
       <CommentHistory
         story={this.props.story}
@@ -69,8 +69,8 @@ const enhanced = withPaginationContainer<
         ...HistoryCommentContainer_story
       }
     `,
-    me: graphql`
-      fragment CommentHistoryContainer_me on User
+    viewer: graphql`
+      fragment CommentHistoryContainer_viewer on User
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
@@ -90,7 +90,7 @@ const enhanced = withPaginationContainer<
   {
     direction: "forward",
     getConnectionFromProps(props) {
-      return props.me && props.me.comments;
+      return props.viewer && props.viewer.comments;
     },
     // This is also the default implementation of `getFragmentVariables` if it isn't provided.
     getFragmentVariables(prevVars, totalCount) {
@@ -112,8 +112,8 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
       ) {
-        me {
-          ...CommentHistoryContainer_me
+        viewer {
+          ...CommentHistoryContainer_viewer
             @arguments(count: $count, cursor: $cursor)
         }
       }

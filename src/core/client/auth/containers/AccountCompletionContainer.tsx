@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 
 import { AccountCompletionContainer_auth as AuthData } from "talk-auth/__generated__/AccountCompletionContainer_auth.graphql";
-import { AccountCompletionContainer_me as UserData } from "talk-auth/__generated__/AccountCompletionContainer_me.graphql";
+import { AccountCompletionContainer_viewer as UserData } from "talk-auth/__generated__/AccountCompletionContainer_viewer.graphql";
 import { AccountCompletionContainerLocal as Local } from "talk-auth/__generated__/AccountCompletionContainerLocal.graphql";
 import {
   CompleteAccountMutation,
@@ -21,32 +21,32 @@ interface Props {
   setView: SetViewMutation;
   local: Local;
   auth: AuthData;
-  me: UserData | null;
+  viewer: UserData | null;
 }
 
 function handleAccountCompletion(props: Props) {
   const {
     local: { view, accessToken },
-    me,
+    viewer,
     auth,
     setView,
     completeAccount,
   } = props;
-  if (me) {
-    if (!me.email) {
+  if (viewer) {
+    if (!viewer.email) {
       if (view !== "ADD_EMAIL_ADDRESS") {
         setView({ view: "ADD_EMAIL_ADDRESS" });
       }
       return false;
     }
-    if (!me.username) {
+    if (!viewer.username) {
       if (view !== "CREATE_USERNAME") {
         setView({ view: "CREATE_USERNAME" });
       }
       return false;
     }
     if (
-      !me.profiles.some(p => p.__typename === "LocalProfile") &&
+      !viewer.profiles.some(p => p.__typename === "LocalProfile") &&
       auth.integrations.local.enabled &&
       auth.integrations.local.targetFilter.stream
     ) {
@@ -109,8 +109,8 @@ const enhanced = withLocalStateContainer(
         }
       }
     `,
-    me: graphql`
-      fragment AccountCompletionContainer_me on User {
+    viewer: graphql`
+      fragment AccountCompletionContainer_viewer on User {
         username
         email
         profiles {

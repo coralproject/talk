@@ -22,7 +22,7 @@ beforeEach(() => {
             .withArgs(undefined, { id: stories[0].id, url: null })
             .returns(stories[0])
       ),
-      me: sinon.stub().returns(meWithComments),
+      viewer: sinon.stub().returns(meWithComments),
     },
   };
 

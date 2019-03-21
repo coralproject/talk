@@ -1425,10 +1425,10 @@ type Comment {
   actionCounts: ActionCounts!
 
   """
-  myActionPresence stores the presence information for all the actions
+  viewerActionPresence stores the presence information for all the actions
   left by the current User on this Comment.
   """
-  myActionPresence: ActionPresence
+  viewerActionPresence: ActionPresence
 
   """
   story is the Story that the Comment was written on.
@@ -1785,11 +1785,11 @@ type Query {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  me is the current logged in User. If no user is currently logged in, it will
+  viewer is the current logged in User. If no user is currently logged in, it will
   return null. This is the only nullable field that can be returned that depends
   on the authentication state that will not throw an error.
   """
-  me: User
+  viewer: User
 
   """
   settings is the Settings for a given Tenant.

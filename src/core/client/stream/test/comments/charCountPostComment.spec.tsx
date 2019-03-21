@@ -30,7 +30,7 @@ async function createTestRenderer(
     ...resolver,
     Query: {
       settings: sinon.stub().returns(settingsWithCharCount),
-      me: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users[0]),
       story: sinon.stub().returns(stories[0]),
       ...resolver.Query,
     },

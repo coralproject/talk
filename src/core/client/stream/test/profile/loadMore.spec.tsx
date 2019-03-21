@@ -66,7 +66,7 @@ beforeEach(() => {
             .withArgs(undefined, { id: stories[0].id, url: null })
             .returns(stories[0])
       ),
-      me: sinon.stub().returns(meStub),
+      viewer: sinon.stub().returns(meStub),
     },
   };
 

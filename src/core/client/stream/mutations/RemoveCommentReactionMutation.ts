@@ -43,7 +43,7 @@ function commit(environment: Environment, input: RemoveCommentReactionInput) {
       removeCommentReaction: {
         comment: {
           id: input.commentID,
-          myActionPresence: {
+          viewerActionPresence: {
             reaction: false,
           },
           actionCounts: {

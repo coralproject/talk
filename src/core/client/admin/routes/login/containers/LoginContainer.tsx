@@ -26,7 +26,7 @@ class LoginContainer extends Component<Props> {
     return (
       <AccountCompletionContainer
         auth={this.props.data.settings.auth}
-        me={this.props.data.me}
+        viewer={this.props.data.viewer}
       >
         <Login
           auth={this.props.data.settings.auth}
@@ -40,8 +40,8 @@ class LoginContainer extends Component<Props> {
 const enhanced = withRouteConfig<LoginContainerQueryResponse>({
   query: graphql`
     query LoginContainerQuery {
-      me {
-        ...AccountCompletionContainer_me
+      viewer {
+        ...AccountCompletionContainer_viewer
       }
       settings {
         auth {

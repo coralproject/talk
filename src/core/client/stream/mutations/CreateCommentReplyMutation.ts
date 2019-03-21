@@ -6,7 +6,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getMe, getStorySettings } from "talk-framework/helpers";
+import { getStorySettings, getViewer } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -106,7 +106,7 @@ graphql`
       moderation
     }
   }
-  fragment CreateCommentReplyMutation_me on User {
+  fragment CreateCommentReplyMutation_viewer on User {
     role
   }
 `;
@@ -133,7 +133,7 @@ function commit(
   input: CreateCommentReplyInput,
   { uuidGenerator, relayEnvironment }: TalkContext
 ) {
-  const me = getMe(environment)!;
+  const viewer = getViewer(environment)!;
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
 
@@ -144,7 +144,7 @@ function commit(
 
   // TODO: Generate and use schema types.
   const expectPremoderation =
-    !roleIsAtLeast(me.role, "STAFF") && storySettings.moderation === "PRE";
+    !roleIsAtLeast(viewer.role, "STAFF") && storySettings.moderation === "PRE";
 
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
@@ -166,8 +166,8 @@ function commit(
             createdAt: currentDate,
             status: "NONE",
             author: {
-              id: me.id,
-              username: me.username,
+              id: viewer.id,
+              username: viewer.username,
             },
             body: input.body,
             editing: {

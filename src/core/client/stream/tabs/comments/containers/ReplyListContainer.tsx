@@ -5,9 +5,9 @@ import { withProps } from "recompose";
 import { withPaginationContainer } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 import { ReplyListContainer1_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer1_comment.graphql";
-import { ReplyListContainer1_me as MeData } from "talk-stream/__generated__/ReplyListContainer1_me.graphql";
 import { ReplyListContainer1_settings as SettingsData } from "talk-stream/__generated__/ReplyListContainer1_settings.graphql";
 import { ReplyListContainer1_story as StoryData } from "talk-stream/__generated__/ReplyListContainer1_story.graphql";
+import { ReplyListContainer1_viewer as ViewerData } from "talk-stream/__generated__/ReplyListContainer1_viewer.graphql";
 import {
   COMMENT_SORT,
   ReplyListContainer1PaginationQueryVariables,
@@ -24,7 +24,7 @@ type UnpackArray<T> = T extends ReadonlyArray<infer U> ? U : any;
 type ReplyNode5 = UnpackArray<Comment5Data["replies"]["edges"]>["node"];
 
 interface BaseProps {
-  me: MeData | null;
+  viewer: ViewerData | null;
   story: StoryData;
   comment: CommentData;
   settings: SettingsData;
@@ -68,7 +68,7 @@ export class ReplyListContainer extends React.Component<Props> {
           ...edge.node,
           replyListElement: this.props.ReplyListComponent && (
             <this.props.ReplyListComponent
-              me={this.props.me}
+              viewer={this.props.viewer}
               comment={edge.node}
               story={this.props.story}
               settings={this.props.settings}
@@ -80,7 +80,7 @@ export class ReplyListContainer extends React.Component<Props> {
         }));
     return (
       <ReplyList
-        me={this.props.me}
+        viewer={this.props.viewer}
         comment={this.props.comment}
         comments={comments}
         story={this.props.story}
@@ -116,7 +116,7 @@ export class ReplyListContainer extends React.Component<Props> {
 function createReplyListContainer(
   indentLevel: number,
   fragments: {
-    me: GraphQLTaggedNode;
+    viewer: GraphQLTaggedNode;
     story: GraphQLTaggedNode;
     comment: GraphQLTaggedNode;
     settings: GraphQLTaggedNode;
@@ -165,10 +165,10 @@ const LastReplyList: StatelessComponent<
 const ReplyListContainer5 = createReplyListContainer(
   5,
   {
-    me: graphql`
-      fragment ReplyListContainer5_me on User {
-        ...CommentContainer_me
-        ...LocalReplyListContainer_me
+    viewer: graphql`
+      fragment ReplyListContainer5_viewer on User {
+        ...CommentContainer_viewer
+        ...LocalReplyListContainer_viewer
       }
     `,
     settings: graphql`
@@ -228,10 +228,10 @@ const ReplyListContainer5 = createReplyListContainer(
 const ReplyListContainer4 = createReplyListContainer(
   4,
   {
-    me: graphql`
-      fragment ReplyListContainer4_me on User {
-        ...ReplyListContainer5_me
-        ...CommentContainer_me
+    viewer: graphql`
+      fragment ReplyListContainer4_viewer on User {
+        ...ReplyListContainer5_viewer
+        ...CommentContainer_viewer
       }
     `,
     settings: graphql`
@@ -289,10 +289,10 @@ const ReplyListContainer4 = createReplyListContainer(
 const ReplyListContainer3 = createReplyListContainer(
   3,
   {
-    me: graphql`
-      fragment ReplyListContainer3_me on User {
-        ...ReplyListContainer4_me
-        ...CommentContainer_me
+    viewer: graphql`
+      fragment ReplyListContainer3_viewer on User {
+        ...ReplyListContainer4_viewer
+        ...CommentContainer_viewer
       }
     `,
     settings: graphql`
@@ -350,10 +350,10 @@ const ReplyListContainer3 = createReplyListContainer(
 const ReplyListContainer2 = createReplyListContainer(
   2,
   {
-    me: graphql`
-      fragment ReplyListContainer2_me on User {
-        ...ReplyListContainer3_me
-        ...CommentContainer_me
+    viewer: graphql`
+      fragment ReplyListContainer2_viewer on User {
+        ...ReplyListContainer3_viewer
+        ...CommentContainer_viewer
       }
     `,
     settings: graphql`
@@ -411,10 +411,10 @@ const ReplyListContainer2 = createReplyListContainer(
 const ReplyListContainer1 = createReplyListContainer(
   1,
   {
-    me: graphql`
-      fragment ReplyListContainer1_me on User {
-        ...ReplyListContainer2_me
-        ...CommentContainer_me
+    viewer: graphql`
+      fragment ReplyListContainer1_viewer on User {
+        ...ReplyListContainer2_viewer
+        ...CommentContainer_viewer
       }
     `,
     settings: graphql`

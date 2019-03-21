@@ -19,7 +19,6 @@ exports[`renders correctly 1`] = `
       indentLevel={1}
       key="comment-1"
       localReply={false}
-      me={null}
       settings={
         Object {
           "reaction": Object {
@@ -34,6 +33,7 @@ exports[`renders correctly 1`] = `
           "id": "story-id",
         }
       }
+      viewer={null}
     />
   </ForwardRef(forwardRef)>
   <ForwardRef(forwardRef)
@@ -50,7 +50,6 @@ exports[`renders correctly 1`] = `
       indentLevel={1}
       key="comment-2"
       localReply={false}
-      me={null}
       settings={
         Object {
           "reaction": Object {
@@ -65,6 +64,7 @@ exports[`renders correctly 1`] = `
           "id": "story-id",
         }
       }
+      viewer={null}
     />
   </ForwardRef(forwardRef)>
 </ForwardRef(forwardRef)>
@@ -87,7 +87,6 @@ exports[`when there is more disables load more button 1`] = `
       }
       indentLevel={1}
       key="comment-1"
-      me={null}
       settings={
         Object {
           "reaction": Object {
@@ -102,6 +101,7 @@ exports[`when there is more disables load more button 1`] = `
           "id": "story-id",
         }
       }
+      viewer={null}
     />
   </ForwardRef(forwardRef)>
   <ForwardRef(forwardRef)
@@ -115,7 +115,6 @@ exports[`when there is more disables load more button 1`] = `
       }
       indentLevel={1}
       key="comment-2"
-      me={null}
       settings={
         Object {
           "reaction": Object {
@@ -130,6 +129,7 @@ exports[`when there is more disables load more button 1`] = `
           "id": "story-id",
         }
       }
+      viewer={null}
     />
   </ForwardRef(forwardRef)>
   <Indent
@@ -171,7 +171,6 @@ exports[`when there is more renders a load more button 1`] = `
       }
       indentLevel={1}
       key="comment-1"
-      me={null}
       settings={
         Object {
           "reaction": Object {
@@ -186,6 +185,7 @@ exports[`when there is more renders a load more button 1`] = `
           "id": "story-id",
         }
       }
+      viewer={null}
     />
   </ForwardRef(forwardRef)>
   <ForwardRef(forwardRef)
@@ -199,7 +199,6 @@ exports[`when there is more renders a load more button 1`] = `
       }
       indentLevel={1}
       key="comment-2"
-      me={null}
       settings={
         Object {
           "reaction": Object {
@@ -214,6 +213,7 @@ exports[`when there is more renders a load more button 1`] = `
           "id": "story-id",
         }
       }
+      viewer={null}
     />
   </ForwardRef(forwardRef)>
   <Indent

@@ -2,8 +2,8 @@ import React from "react";
 import { graphql } from "react-relay";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { ReactionButtonContainer_comment as CommentData } from "talk-stream/__generated__/ReactionButtonContainer_comment.graphql";
-import { ReactionButtonContainer_me as MeData } from "talk-stream/__generated__/ReactionButtonContainer_me.graphql";
 import { ReactionButtonContainer_settings as SettingsData } from "talk-stream/__generated__/ReactionButtonContainer_settings.graphql";
+import { ReactionButtonContainer_viewer as ViewerData } from "talk-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 
 import {
   CreateCommentReactionMutation,
@@ -23,7 +23,7 @@ interface ReactionButtonContainerProps {
   removeCommentReaction: RemoveCommentReactionMutation;
   comment: CommentData;
   settings: SettingsData;
-  me: MeData | null;
+  viewer: ViewerData | null;
   showAuthPopup: ShowAuthPopupMutation;
 }
 
@@ -33,7 +33,7 @@ class ReactionButtonContainer extends React.Component<
   private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
 
   private handleClick = () => {
-    if (this.props.me === null) {
+    if (this.props.viewer === null) {
       return this.handleSignIn();
     }
 
@@ -44,8 +44,8 @@ class ReactionButtonContainer extends React.Component<
 
     const { createCommentReaction, removeCommentReaction } = this.props;
     const reacted =
-      this.props.comment.myActionPresence &&
-      this.props.comment.myActionPresence.reaction;
+      this.props.comment.viewerActionPresence &&
+      this.props.comment.viewerActionPresence.reaction;
 
     return reacted
       ? removeCommentReaction(input)
@@ -63,8 +63,8 @@ class ReactionButtonContainer extends React.Component<
     } = this.props.settings;
 
     const reacted =
-      this.props.comment.myActionPresence &&
-      this.props.comment.myActionPresence.reaction;
+      this.props.comment.viewerActionPresence &&
+      this.props.comment.viewerActionPresence.reaction;
 
     return (
       <ReactionButton
@@ -84,8 +84,8 @@ export default withShowAuthPopupMutation(
   withRemoveCommentReactionMutation(
     withCreateCommentReactionMutation(
       withFragmentContainer<ReactionButtonContainerProps>({
-        me: graphql`
-          fragment ReactionButtonContainer_me on User {
+        viewer: graphql`
+          fragment ReactionButtonContainer_viewer on User {
             id
           }
         `,
@@ -95,7 +95,7 @@ export default withShowAuthPopupMutation(
             revision {
               id
             }
-            myActionPresence {
+            viewerActionPresence {
               reaction
             }
             actionCounts {

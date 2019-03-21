@@ -3,7 +3,7 @@ import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { ReportButtonContainer_comment as CommentData } from "talk-stream/__generated__/ReportButtonContainer_comment.graphql";
-import { ReportButtonContainer_me as MeData } from "talk-stream/__generated__/ReportButtonContainer_me.graphql";
+import { ReportButtonContainer_viewer as ViewerData } from "talk-stream/__generated__/ReportButtonContainer_viewer.graphql";
 
 import {
   ReportButton,
@@ -17,7 +17,7 @@ import {
 
 interface ReportButtonContainerProps {
   comment: CommentData;
-  me: MeData | null;
+  viewer: ViewerData | null;
   showAuthPopup: ShowAuthPopupMutation;
 }
 
@@ -25,15 +25,15 @@ class ReportButtonContainer extends React.Component<
   ReportButtonContainerProps
 > {
   private get loggedIn() {
-    return this.props.me;
+    return this.props.viewer;
   }
   private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
 
   public render() {
     const reported =
-      this.props.comment.myActionPresence &&
-      (this.props.comment.myActionPresence.flag ||
-        this.props.comment.myActionPresence.dontAgree);
+      this.props.comment.viewerActionPresence &&
+      (this.props.comment.viewerActionPresence.flag ||
+        this.props.comment.viewerActionPresence.dontAgree);
 
     return this.loggedIn ? (
       <ReportButtonWithPopover
@@ -48,8 +48,8 @@ class ReportButtonContainer extends React.Component<
 
 export default withShowAuthPopupMutation(
   withFragmentContainer<ReportButtonContainerProps>({
-    me: graphql`
-      fragment ReportButtonContainer_me on User {
+    viewer: graphql`
+      fragment ReportButtonContainer_viewer on User {
         id
       }
     `,
@@ -57,7 +57,7 @@ export default withShowAuthPopupMutation(
       fragment ReportButtonContainer_comment on Comment {
         ...ReportCommentFormContainer_comment
         id
-        myActionPresence {
+        viewerActionPresence {
           dontAgree
           flag
         }

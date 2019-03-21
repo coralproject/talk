@@ -11,7 +11,7 @@ const ProfileN = removeFragmentRefs(Profile);
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ProfileN> = {
     story: {},
-    me: {},
+    viewer: {},
     settings: {},
   };
   const renderer = createRenderer();

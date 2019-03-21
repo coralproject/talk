@@ -20,7 +20,7 @@ const mutation = graphql`
     createCommentDontAgree(input: $input) {
       comment {
         id
-        myActionPresence {
+        viewerActionPresence {
           dontAgree
         }
       }

@@ -6,7 +6,6 @@ exports[`renders correctly 1`] = `
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-    me={null}
     settings={
       Object {
         "reaction": Object {
@@ -15,6 +14,7 @@ exports[`renders correctly 1`] = `
         },
       }
     }
+    viewer={null}
   />
   <Relay(CommunityGuidelinesContainerProps)
     settings={
@@ -61,7 +61,6 @@ exports[`renders correctly 1`] = `
             "id": "comment-1",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -76,6 +75,7 @@ exports[`renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -83,7 +83,6 @@ exports[`renders correctly 1`] = `
             "id": "comment-1",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -98,6 +97,7 @@ exports[`renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
     </ForwardRef(forwardRef)>
     <ForwardRef(forwardRef)
@@ -109,7 +109,6 @@ exports[`renders correctly 1`] = `
             "id": "comment-2",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -124,6 +123,7 @@ exports[`renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -131,7 +131,6 @@ exports[`renders correctly 1`] = `
             "id": "comment-2",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -146,6 +145,7 @@ exports[`renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>
@@ -158,7 +158,6 @@ exports[`when there is more disables load more button 1`] = `
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-    me={null}
     settings={
       Object {
         "reaction": Object {
@@ -167,6 +166,7 @@ exports[`when there is more disables load more button 1`] = `
         },
       }
     }
+    viewer={null}
   />
   <Relay(CommunityGuidelinesContainerProps)
     settings={
@@ -213,7 +213,6 @@ exports[`when there is more disables load more button 1`] = `
             "id": "comment-1",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -228,6 +227,7 @@ exports[`when there is more disables load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -235,7 +235,6 @@ exports[`when there is more disables load more button 1`] = `
             "id": "comment-1",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -250,6 +249,7 @@ exports[`when there is more disables load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
     </ForwardRef(forwardRef)>
     <ForwardRef(forwardRef)
@@ -261,7 +261,6 @@ exports[`when there is more disables load more button 1`] = `
             "id": "comment-2",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -276,6 +275,7 @@ exports[`when there is more disables load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -283,7 +283,6 @@ exports[`when there is more disables load more button 1`] = `
             "id": "comment-2",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -298,6 +297,7 @@ exports[`when there is more disables load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
     </ForwardRef(forwardRef)>
     <Localized
@@ -324,7 +324,6 @@ exports[`when there is more renders a load more button 1`] = `
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-    me={null}
     settings={
       Object {
         "reaction": Object {
@@ -333,6 +332,7 @@ exports[`when there is more renders a load more button 1`] = `
         },
       }
     }
+    viewer={null}
   />
   <Relay(CommunityGuidelinesContainerProps)
     settings={
@@ -379,7 +379,6 @@ exports[`when there is more renders a load more button 1`] = `
             "id": "comment-1",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -394,6 +393,7 @@ exports[`when there is more renders a load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -401,7 +401,6 @@ exports[`when there is more renders a load more button 1`] = `
             "id": "comment-1",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -416,6 +415,7 @@ exports[`when there is more renders a load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
     </ForwardRef(forwardRef)>
     <ForwardRef(forwardRef)
@@ -427,7 +427,6 @@ exports[`when there is more renders a load more button 1`] = `
             "id": "comment-2",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -442,6 +441,7 @@ exports[`when there is more renders a load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -449,7 +449,6 @@ exports[`when there is more renders a load more button 1`] = `
             "id": "comment-2",
           }
         }
-        me={null}
         settings={
           Object {
             "reaction": Object {
@@ -464,6 +463,7 @@ exports[`when there is more renders a load more button 1`] = `
             "isClosed": false,
           }
         }
+        viewer={null}
       />
     </ForwardRef(forwardRef)>
     <Localized
@@ -490,7 +490,6 @@ exports[`when use is logged in renders correctly 1`] = `
   size="double"
 >
   <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withLocalStateContainer(Relay(UserBoxContainer)))))))))
-    me={Object {}}
     settings={
       Object {
         "reaction": Object {
@@ -499,6 +498,7 @@ exports[`when use is logged in renders correctly 1`] = `
         },
       }
     }
+    viewer={Object {}}
   />
   <Relay(CommunityGuidelinesContainerProps)
     settings={
@@ -545,7 +545,6 @@ exports[`when use is logged in renders correctly 1`] = `
             "id": "comment-1",
           }
         }
-        me={Object {}}
         settings={
           Object {
             "reaction": Object {
@@ -560,6 +559,7 @@ exports[`when use is logged in renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={Object {}}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -567,7 +567,6 @@ exports[`when use is logged in renders correctly 1`] = `
             "id": "comment-1",
           }
         }
-        me={Object {}}
         settings={
           Object {
             "reaction": Object {
@@ -582,6 +581,7 @@ exports[`when use is logged in renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={Object {}}
       />
     </ForwardRef(forwardRef)>
     <ForwardRef(forwardRef)
@@ -593,7 +593,6 @@ exports[`when use is logged in renders correctly 1`] = `
             "id": "comment-2",
           }
         }
-        me={Object {}}
         settings={
           Object {
             "reaction": Object {
@@ -608,6 +607,7 @@ exports[`when use is logged in renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={Object {}}
       />
       <withProps(Relay(ReplyListContainer))
         comment={
@@ -615,7 +615,6 @@ exports[`when use is logged in renders correctly 1`] = `
             "id": "comment-2",
           }
         }
-        me={Object {}}
         settings={
           Object {
             "reaction": Object {
@@ -630,6 +629,7 @@ exports[`when use is logged in renders correctly 1`] = `
             "isClosed": false,
           }
         }
+        viewer={Object {}}
       />
     </ForwardRef(forwardRef)>
   </ForwardRef(forwardRef)>

@@ -31,16 +31,16 @@ class RedirectLoginContainer extends React.Component<Props> {
       return null;
     }
     const {
-      me,
+      viewer,
       settings: { auth },
     } = props.data!;
-    if (me) {
-      if (me.role === "COMMENTER") {
+    if (viewer) {
+      if (viewer.role === "COMMENTER") {
         return "/admin/login";
       } else if (
-        !me.email ||
-        !me.username ||
-        (!me.profiles.some(p => p.__typename === "LocalProfile") &&
+        !viewer.email ||
+        !viewer.username ||
+        (!viewer.profiles.some(p => p.__typename === "LocalProfile") &&
           auth.integrations.local.enabled &&
           (auth.integrations.local.targetFilter.admin ||
             auth.integrations.local.targetFilter.stream))
@@ -74,7 +74,7 @@ class RedirectLoginContainer extends React.Component<Props> {
 const enhanced = withRouteConfig({
   query: graphql`
     query RedirectLoginContainerQuery {
-      me {
+      viewer {
         username
         email
         profiles {

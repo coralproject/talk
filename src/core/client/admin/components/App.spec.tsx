@@ -10,7 +10,7 @@ const AppN = removeFragmentRefs(App);
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof AppN> = {
-    me: {},
+    viewer: {},
     children: "child",
   };
   const renderer = createRenderer();

@@ -36,7 +36,6 @@ exports[`renders correctly 1`] = `
       ]
     }
     disableLoadMore={false}
-    me={null}
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
@@ -69,6 +68,7 @@ exports[`renders correctly 1`] = `
         "isClosed": false,
       }
     }
+    viewer={null}
   />
 </Fragment>
 `;
@@ -110,7 +110,6 @@ exports[`when has more comments renders hasMore 1`] = `
     }
     disableLoadMore={false}
     hasMore={true}
-    me={null}
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
@@ -143,6 +142,7 @@ exports[`when has more comments renders hasMore 1`] = `
         "isClosed": false,
       }
     }
+    viewer={null}
   />
 </Fragment>
 `;
@@ -184,7 +184,6 @@ exports[`when has more comments when loading more disables load more button 1`] 
     }
     disableLoadMore={true}
     hasMore={true}
-    me={null}
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
@@ -217,6 +216,7 @@ exports[`when has more comments when loading more disables load more button 1`] 
         "isClosed": false,
       }
     }
+    viewer={null}
   />
 </Fragment>
 `;
@@ -258,7 +258,6 @@ exports[`when has more comments when loading more enable load more button after 
     }
     disableLoadMore={false}
     hasMore={true}
-    me={null}
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
@@ -291,6 +290,7 @@ exports[`when has more comments when loading more enable load more button after 
         "isClosed": false,
       }
     }
+    viewer={null}
   />
 </Fragment>
 `;
