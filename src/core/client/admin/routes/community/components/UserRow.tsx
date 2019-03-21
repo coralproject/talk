@@ -1,36 +1,36 @@
-import cn from "classnames";
 import React, { StatelessComponent } from "react";
 
-import TranslatedRole from "talk-admin/components/TranslatedRole";
+import { PropTypesOf } from "talk-framework/types";
 import { TableCell, TableRow, TextLink } from "talk-ui/components";
 
-import styles from "./UserRow.css";
+import RoleChangeContainer from "../containers/RoleChangeContainer";
+import NotAvailable from "./NotAvailable";
+import RoleText from "./RoleText";
 
 interface Props {
+  canChangeRole: boolean;
+  userID: string;
   username: string | null;
   email: string | null;
   memberSince: string;
-  role: "COMMENTER" | "ADMIN" | "MODERATOR" | "STAFF" | "%future added value";
+  role: PropTypesOf<typeof RoleChangeContainer>["role"];
 }
 
 const UserRow: StatelessComponent<Props> = props => (
   <TableRow>
-    <TableCell>{props.username || "Not available"}</TableCell>
+    <TableCell>{props.username || <NotAvailable />}</TableCell>
     <TableCell>
-      {<TextLink href={`mailto:${props.email}`}>{props.email}</TextLink> ||
-        "Not available"}
+      {<TextLink href={`mailto:${props.email}`}>{props.email}</TextLink> || (
+        <NotAvailable />
+      )}
     </TableCell>
     <TableCell>{props.memberSince}</TableCell>
     <TableCell>
-      <TranslatedRole
-        container={
-          <span
-            className={cn({ [styles.boldRole]: props.role !== "COMMENTER" })}
-          />
-        }
-      >
-        {props.role}
-      </TranslatedRole>
+      {props.canChangeRole ? (
+        <RoleChangeContainer userID={props.userID} role={props.role} />
+      ) : (
+        <RoleText>{props.role}</RoleText>
+      )}
     </TableCell>
   </TableRow>
 );

@@ -13,6 +13,7 @@
 
 .body {
   composes: detail from "talk-ui/shared/typography.css";
+  color: var(--palette-grey-dark);
 }
 
 .alignCenter {

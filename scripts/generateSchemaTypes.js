@@ -40,6 +40,14 @@ async function main() {
         customScalarType: { Cursor: "Cursor", Time: "Date" },
       },
     },
+    {
+      name: "tenant",
+      fileName: path.join(
+        __dirname,
+        "../src/core/client/framework/schema/__generated__/types.ts"
+      ),
+      config: {},
+    },
   ];
 
   for (const file of files) {

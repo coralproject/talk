@@ -10,6 +10,11 @@ role-moderator = Moderator
 role-staff = Staff
 role-commenter = Commenter
 
+role-plural-admin = Admins
+role-plural-moderator = Moderators
+role-plural-staff = Staff
+role-plural-commenter = Commenters
+
 ## Navigation
 navigation-moderate = Moderate
 navigation-community = Community
@@ -356,3 +361,24 @@ createPassword-passwordLabel = Password
 createPassword-passwordDescription = Must be at least {$minLength} characters
 createPassword-passwordTextField =
   .placeholder = Password
+
+## Community
+community-emptyMessage = We could not find anyone in your community matching your criteria.
+
+community-filter-searchField =
+  .placeholder = Search by username or email address...
+community-filter-optGroupAudience =
+  .label = Audience
+community-filter-optGroupOrganization =
+  .label = Organization
+community-filter-search = Search
+community-filter-showMe = Show Me
+community-filter-everyone = Everyone
+
+community-column-username = Username
+community-column-email = Email
+community-column-memberSince = Member Since
+community-column-role = Role
+
+community-role-popover =
+  .description = A dropdown to change the user role

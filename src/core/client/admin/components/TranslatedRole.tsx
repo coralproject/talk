@@ -26,7 +26,7 @@ const TranslatedRole: React.StatelessComponent<Props> = props => {
   switch (props.children) {
     case "COMMENTER":
       return (
-        <Localized id="role-comment">
+        <Localized id="role-commenter">
           {createElement(props.container!, "Commenter")}
         </Localized>
       );
