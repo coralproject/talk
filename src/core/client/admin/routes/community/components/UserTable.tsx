@@ -20,7 +20,7 @@ import EmptyMessage from "./EmptyMessage";
 import styles from "./UserTable.css";
 
 interface Props {
-  me: PropTypesOf<typeof UserRowContainer>["me"] | null;
+  viewer: PropTypesOf<typeof UserRowContainer>["viewer"] | null;
   users: Array<{ id: string } & PropTypesOf<typeof UserRowContainer>["user"]>;
   onLoadMore: () => void;
   hasMore: boolean;
@@ -55,7 +55,7 @@ const UserTable: StatelessComponent<Props> = props => (
         <TableBody>
           {!props.loading &&
             props.users.map(u => (
-              <UserRowContainer key={u.id} user={u} me={props.me!} />
+              <UserRowContainer key={u.id} user={u} viewer={props.viewer!} />
             ))}
         </TableBody>
       </Table>

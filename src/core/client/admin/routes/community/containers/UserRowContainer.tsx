@@ -1,8 +1,8 @@
 import React, { StatelessComponent } from "react";
 import { graphql } from "react-relay";
 
-import { UserRowContainer_me as MeData } from "talk-admin/__generated__/UserRowContainer_me.graphql";
 import { UserRowContainer_user as UserData } from "talk-admin/__generated__/UserRowContainer_user.graphql";
+import { UserRowContainer_viewer as ViewerData } from "talk-admin/__generated__/UserRowContainer_viewer.graphql";
 import { useTalkContext } from "talk-framework/lib/bootstrap";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 
@@ -11,7 +11,7 @@ import UserRow from "../components/UserRow";
 
 interface Props {
   user: UserData;
-  me: MeData;
+  viewer: ViewerData;
 }
 
 const UserRowContainer: StatelessComponent<Props> = props => {
@@ -28,15 +28,16 @@ const UserRowContainer: StatelessComponent<Props> = props => {
       }).format(new Date(props.user.createdAt))}
       role={props.user.role}
       canChangeRole={
-        props.me.id !== props.user.id && can(props.me, Ability.CHANGE_ROLE)
+        props.viewer.id !== props.user.id &&
+        can(props.viewer, Ability.CHANGE_ROLE)
       }
     />
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
-  me: graphql`
-    fragment UserRowContainer_me on User {
+  viewer: graphql`
+    fragment UserRowContainer_viewer on User {
       id
       role
     }

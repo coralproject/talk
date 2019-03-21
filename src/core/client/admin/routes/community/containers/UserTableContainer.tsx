@@ -73,7 +73,7 @@ const UserTableContainer: StatelessComponent<Props> = props => {
           roleFilter={roleFilter}
         />
         <UserTable
-          me={props.query && props.query.me}
+          viewer={props.query && props.query.viewer}
           loading={!props.query || refetching}
           users={users}
           onLoadMore={loadMore}
@@ -105,8 +105,8 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
           roleFilter: { type: "USER_ROLE" }
         ) {
-        me {
-          ...UserRowContainer_me
+        viewer {
+          ...UserRowContainer_viewer
         }
         users(first: $count, after: $cursor, role: $roleFilter)
           @connection(key: "UserTable_users") {
