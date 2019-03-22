@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import { rewrite } from "env-rewrite";
 import sourceMapSupport from "source-map-support";
 
 // Configure the source map support so stack traces will reference the source
@@ -6,6 +7,15 @@ import sourceMapSupport from "source-map-support";
 sourceMapSupport.install({
   environment: "node",
 });
+
+// Ensure that we always process the rewrites silently, otherwise it may fail in
+// environments like Heroku.
+process.env.REWRITE_ENV_SILENT = "TRUE";
+
+// Perform rewrites to the runtime environment variables based on the contents
+// of the process.env.REWRITE_ENV if it exists. This is done here as it is the
+// entrypoint for the entire applications configuration.
+rewrite();
 
 // Apply all the configuration provided in the .env file if it isn't already in
 // the environment.
