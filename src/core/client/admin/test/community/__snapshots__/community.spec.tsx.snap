@@ -221,13 +221,13 @@ exports[`renders community 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="userMenu-ariainfo"
-                  id="userMenu"
+                  aria-labelledby="community-roleChange-ariainfo"
+                  id="community-roleChange"
                   role="popup"
                 >
                   <div
                     className="AriaInfo-root"
-                    id="userMenu-ariainfo"
+                    id="community-roleChange-ariainfo"
                   >
                     A dropdown to change the user role
                   </div>

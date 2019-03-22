@@ -165,13 +165,13 @@ exports[`renders empty stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="userMenu-ariainfo"
-                  id="userMenu"
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
                   role="popup"
                 >
                   <div
                     className="AriaInfo-root"
-                    id="userMenu-ariainfo"
+                    id="stories-statusChange-ariainfo"
                   >
                     A dropdown to change the story status
                   </div>
@@ -228,13 +228,13 @@ exports[`renders empty stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="userMenu-ariainfo"
-                  id="userMenu"
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
                   role="popup"
                 >
                   <div
                     className="AriaInfo-root"
-                    id="userMenu-ariainfo"
+                    id="stories-statusChange-ariainfo"
                   >
                     A dropdown to change the story status
                   </div>
@@ -414,13 +414,13 @@ exports[`renders stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="userMenu-ariainfo"
-                  id="userMenu"
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
                   role="popup"
                 >
                   <div
                     className="AriaInfo-root"
-                    id="userMenu-ariainfo"
+                    id="stories-statusChange-ariainfo"
                   >
                     A dropdown to change the story status
                   </div>
@@ -477,13 +477,13 @@ exports[`renders stories 1`] = `
                 </button>
                 <div
                   aria-hidden={true}
-                  aria-labelledby="userMenu-ariainfo"
-                  id="userMenu"
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
                   role="popup"
                 >
                   <div
                     className="AriaInfo-root"
-                    id="userMenu-ariainfo"
+                    id="stories-statusChange-ariainfo"
                   >
                     A dropdown to change the story status
                   </div>

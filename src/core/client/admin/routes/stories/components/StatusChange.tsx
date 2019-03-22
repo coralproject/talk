@@ -23,7 +23,7 @@ interface Props {
 const StatusChange: StatelessComponent<Props> = props => (
   <Localized id="stories-status-popover" attrs={{ description: true }}>
     <Popover
-      id="userMenu"
+      id="stories-statusChange"
       placement="bottom-start"
       description="A dropdown to change the user status"
       body={({ toggleVisibility }) => (

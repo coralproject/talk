@@ -23,7 +23,7 @@ interface Props {
 const RoleChange: StatelessComponent<Props> = props => (
   <Localized id="community-role-popover" attrs={{ description: true }}>
     <Popover
-      id="userMenu"
+      id="community-roleChange"
       placement="bottom-start"
       description="A dropdown to change the user role"
       body={({ toggleVisibility }) => (
