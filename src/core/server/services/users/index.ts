@@ -345,9 +345,14 @@ export async function updateUsername(
 export async function updateRole(
   mongo: Db,
   tenant: Tenant,
+  user: Pick<User, "id">,
   userID: string,
   role: GQLUSER_ROLE
 ) {
+  if (user.id === userID) {
+    throw new Error("cannot update your own user role");
+  }
+
   return updateUserRole(mongo, tenant.id, userID, role);
 }
 
