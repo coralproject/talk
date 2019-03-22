@@ -1,5 +1,7 @@
 import { merge } from "lodash";
 
+import { GQLStory, GQLSTORY_STATUS } from "talk-framework/schema";
+
 export const settings = {
   id: "settings",
   moderation: "POST",
@@ -387,6 +389,58 @@ export const communityUsers = {
 };
 
 export const emptyCommunityUsers = {
+  edges: [],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};
+
+export const stories: Array<Partial<GQLStory>> = [
+  {
+    id: "story-1",
+    closedAt: null,
+    isClosed: false,
+    status: GQLSTORY_STATUS.OPEN,
+    createdAt: "2018-11-29T16:01:51.897Z",
+    metadata: {
+      author: "Vin Hoa",
+      title: "Finally a Cure for Cancer",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+  {
+    id: "story-2",
+    closedAt: null,
+    isClosed: false,
+    status: GQLSTORY_STATUS.OPEN,
+    createdAt: "2018-11-29T16:01:51.897Z",
+    metadata: {
+      author: "Linh Nguyen",
+      title: "First Colony on Mars",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+  {
+    id: "story-3",
+    closedAt: "2018-11-29T16:01:51.897Z",
+    createdAt: "2018-11-29T16:01:51.897Z",
+    isClosed: true,
+    status: GQLSTORY_STATUS.CLOSED,
+    metadata: {
+      author: undefined,
+      title: "World hunger has been defeated",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+];
+
+export const storyConnection = {
+  edges: [
+    { node: stories[0], cursor: stories[0].createdAt },
+    { node: stories[1], cursor: stories[1].createdAt },
+  ],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};
+
+export const emptyStories = {
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
 };

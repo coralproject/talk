@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
-import TranslatedRole from "talk-admin/components/TranslatedRole";
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
+import TranslatedStoryStatus from "talk-admin/components/TranslatedStoryStatus";
+import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
 import {
   Button,
   ButtonIcon,
@@ -12,30 +12,31 @@ import {
   Popover,
 } from "talk-ui/components";
 
-import styles from "./RoleChange.css";
-import RoleText from "./RoleText";
+import styles from "./StatusChange.css";
+import StatusText from "./StatusText";
 
 interface Props {
-  onChangeRole: (role: GQLUSER_ROLE_RL) => void;
-  role: GQLUSER_ROLE_RL;
+  onChangeStatus: (status: GQLSTORY_STATUS_RL) => void;
+  status: GQLSTORY_STATUS_RL;
 }
 
-const RoleChange: StatelessComponent<Props> = props => (
-  <Localized id="community-role-popover" attrs={{ description: true }}>
+const StatusChange: StatelessComponent<Props> = props => (
+  <Localized id="stories-status-popover" attrs={{ description: true }}>
     <Popover
-      id="community-roleChange"
+      id="stories-statusChange"
       placement="bottom-start"
-      description="A dropdown to change the user role"
+      description="A dropdown to change the user status"
       body={({ toggleVisibility }) => (
         <ClickOutside onClickOutside={toggleVisibility}>
           <Dropdown>
-            {Object.keys(GQLUSER_ROLE).map((r: GQLUSER_ROLE_RL) => (
-              <TranslatedRole
+            {Object.keys(GQLSTORY_STATUS).map((r: GQLSTORY_STATUS_RL) => (
+              <TranslatedStoryStatus
                 key={r}
                 container={
                   <DropdownButton
+                    className={styles.dropdownButton}
                     onClick={() => {
-                      props.onChangeRole(r);
+                      props.onChangeStatus(r);
                       toggleVisibility();
                     }}
                   >
@@ -44,7 +45,7 @@ const RoleChange: StatelessComponent<Props> = props => (
                 }
               >
                 {r}
-              </TranslatedRole>
+              </TranslatedStoryStatus>
             ))}
           </Dropdown>
         </ClickOutside>
@@ -52,18 +53,18 @@ const RoleChange: StatelessComponent<Props> = props => (
     >
       {({ toggleVisibility, ref, visible }) => (
         <Localized
-          id="community-changeRoleButton"
+          id="stories-changeStatusButton"
           attrs={{ "aria-label": true }}
         >
           <Button
-            aria-label="Change role"
+            aria-label="Change status"
             className={styles.button}
             onClick={toggleVisibility}
             ref={ref}
             variant="regular"
             size="small"
           >
-            <RoleText>{props.role}</RoleText>
+            <StatusText>{props.status}</StatusText>
             {
               <ButtonIcon size="lg">
                 {visible ? "arrow_drop_up" : "arrow_drop_down"}
@@ -76,4 +77,4 @@ const RoleChange: StatelessComponent<Props> = props => (
   </Localized>
 );
 
-export default RoleChange;
+export default StatusChange;

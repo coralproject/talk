@@ -1,0 +1,9 @@
+.root {
+  font-weight: var(--font-weight-regular);
+  color: var(--palette-grey-light);
+}
+
+.open {
+  font-weight: var(--font-weight-regular);
+  color: var(--palette-success-main);
+}

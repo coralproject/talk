@@ -1,0 +1,12 @@
+.titleColumn {
+  width: 50%;
+}
+.authorColumn {
+  width: 17.5%;
+}
+.publishDateColumn {
+  width: 17.5%;
+}
+.statusColumn {
+  width: 15%;
+}

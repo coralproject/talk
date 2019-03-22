@@ -1,0 +1,499 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders empty stories 1`] = `
+<div
+  className="MainLayout-root Stories-root"
+  data-testid="stories-container"
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-double"
+  >
+    <div
+      className="Flex-root Flex-flex Flex-doubleItemGutter"
+    >
+      <fieldset
+        className="FieldSet-root"
+      >
+        <legend
+          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        >
+          Search
+        </legend>
+        <div
+          className="TextField-root"
+        >
+          <input
+            aria-label="Search by story title or author"
+            className="TextField-input StoryTableFilter-textField TextField-colorRegular"
+            placeholder="Search by story title or author..."
+            type="text"
+          />
+        </div>
+      </fieldset>
+      <fieldset
+        className="FieldSet-root"
+      >
+        <legend
+          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        >
+          Show Me
+        </legend>
+        <span
+          className="SelectField-root"
+        >
+          <select
+            aria-label="Search by status"
+            className="SelectField-select"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            value=""
+          >
+            <option
+              value=""
+            >
+              All Stories
+            </option>
+            <option
+              value="OPEN"
+            >
+              Open Stories
+            </option>
+            <option
+              value="CLOSED"
+            >
+              Closed Stories
+            </option>
+          </select>
+          <span
+            aria-hidden={true}
+            className="SelectField-afterWrapper"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              expand_more
+            </span>
+          </span>
+        </span>
+      </fieldset>
+    </div>
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <table
+        className="Table-root Table-fullWidth"
+      >
+        <thead
+          className="TableHead-root"
+        >
+          <tr
+            className="TableRow-root"
+          >
+            <th
+              className="TableCell-root StoryTable-titleColumn TableCell-header"
+            >
+              Title
+            </th>
+            <th
+              className="TableCell-root StoryTable-authorColumn TableCell-header"
+            >
+              Author
+            </th>
+            <th
+              className="TableCell-root StoryTable-publishDateColumn TableCell-header"
+            >
+              Publish Date
+            </th>
+            <th
+              className="TableCell-root StoryTable-statusColumn TableCell-header"
+            >
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="TableBody-root"
+        >
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
+            >
+              Finally a Cure for Cancer
+            </td>
+            <td
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
+            >
+              Vin Hoa
+            </td>
+            <td
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+            >
+              11/29/2018, 4:01 PM
+            </td>
+            <td
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change status"
+                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="StatusText-root StatusText-open"
+                  >
+                    Open
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </span>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
+                  role="popup"
+                >
+                  <div
+                    className="AriaInfo-root"
+                    id="stories-statusChange-ariainfo"
+                  >
+                    A dropdown to change the story status
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
+            >
+              First Colony on Mars
+            </td>
+            <td
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
+            >
+              Linh Nguyen
+            </td>
+            <td
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+            >
+              11/29/2018, 4:01 PM
+            </td>
+            <td
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change status"
+                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="StatusText-root StatusText-open"
+                  >
+                    Open
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </span>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
+                  role="popup"
+                >
+                  <div
+                    className="AriaInfo-root"
+                    id="stories-statusChange-ariainfo"
+                  >
+                    A dropdown to change the story status
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders stories 1`] = `
+<div
+  className="MainLayout-root Stories-root"
+  data-testid="stories-container"
+>
+  <div
+    className="HorizontalGutter-root HorizontalGutter-double"
+  >
+    <div
+      className="Flex-root Flex-flex Flex-doubleItemGutter"
+    >
+      <fieldset
+        className="FieldSet-root"
+      >
+        <legend
+          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        >
+          Search
+        </legend>
+        <div
+          className="TextField-root"
+        >
+          <input
+            aria-label="Search by story title or author"
+            className="TextField-input StoryTableFilter-textField TextField-colorRegular"
+            placeholder="Search by story title or author..."
+            type="text"
+          />
+        </div>
+      </fieldset>
+      <fieldset
+        className="FieldSet-root"
+      >
+        <legend
+          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+        >
+          Show Me
+        </legend>
+        <span
+          className="SelectField-root"
+        >
+          <select
+            aria-label="Search by status"
+            className="SelectField-select"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            value=""
+          >
+            <option
+              value=""
+            >
+              All Stories
+            </option>
+            <option
+              value="OPEN"
+            >
+              Open Stories
+            </option>
+            <option
+              value="CLOSED"
+            >
+              Closed Stories
+            </option>
+          </select>
+          <span
+            aria-hidden={true}
+            className="SelectField-afterWrapper"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              expand_more
+            </span>
+          </span>
+        </span>
+      </fieldset>
+    </div>
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <table
+        className="Table-root Table-fullWidth"
+      >
+        <thead
+          className="TableHead-root"
+        >
+          <tr
+            className="TableRow-root"
+          >
+            <th
+              className="TableCell-root StoryTable-titleColumn TableCell-header"
+            >
+              Title
+            </th>
+            <th
+              className="TableCell-root StoryTable-authorColumn TableCell-header"
+            >
+              Author
+            </th>
+            <th
+              className="TableCell-root StoryTable-publishDateColumn TableCell-header"
+            >
+              Publish Date
+            </th>
+            <th
+              className="TableCell-root StoryTable-statusColumn TableCell-header"
+            >
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="TableBody-root"
+        >
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
+            >
+              Finally a Cure for Cancer
+            </td>
+            <td
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
+            >
+              Vin Hoa
+            </td>
+            <td
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+            >
+              11/29/2018, 4:01 PM
+            </td>
+            <td
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change status"
+                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="StatusText-root StatusText-open"
+                  >
+                    Open
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </span>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
+                  role="popup"
+                >
+                  <div
+                    className="AriaInfo-root"
+                    id="stories-statusChange-ariainfo"
+                  >
+                    A dropdown to change the story status
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
+            >
+              First Colony on Mars
+            </td>
+            <td
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
+            >
+              Linh Nguyen
+            </td>
+            <td
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
+            >
+              11/29/2018, 4:01 PM
+            </td>
+            <td
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change status"
+                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="StatusText-root StatusText-open"
+                  >
+                    Open
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </span>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-labelledby="stories-statusChange-ariainfo"
+                  id="stories-statusChange"
+                  role="popup"
+                >
+                  <div
+                    className="AriaInfo-root"
+                    id="stories-statusChange-ariainfo"
+                  >
+                    A dropdown to change the story status
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+`;
