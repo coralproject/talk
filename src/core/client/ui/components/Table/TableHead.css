@@ -1,0 +1,5 @@
+.root {
+  background: var(--palette-grey-lightest);
+  border: 1px solid var(--palette-grey-lighter);
+  box-sizing: border-box;
+}

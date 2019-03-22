@@ -53,3 +53,4 @@ export {
   Divider as DropdownDivider,
   Button as DropdownButton,
 } from "./Dropdown";
+export { Table, TableBody, TableHead, TableRow, TableCell } from "./Table";

@@ -6,7 +6,7 @@ import { BaseButton, Spinner } from "talk-ui/components";
 interface Props {
   inView: boolean | undefined;
   intersectionRef: React.Ref<any>;
-  disableLoadMore: boolean;
+  disableLoadMore?: boolean;
   onLoadMore: () => void;
 }
 

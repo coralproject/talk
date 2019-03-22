@@ -1,0 +1,15 @@
+.root {
+  box-sizing: border-box;
+}
+
+.body:nth-child(even) {
+  background-color: var(--palette-grey-lightest);
+}
+
+.body:first-child:hover {
+  border-top: 1px solid var(--palette-primary-main);
+}
+.body:hover {
+  background-color: var(--palette-primary-lightest);
+  box-shadow: inset 0px 0px 0px 1px var(--palette-primary-main);
+}

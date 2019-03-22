@@ -12,6 +12,15 @@ exports[`renders correctly 1`] = `
     </NavigationLink>
   </Localized>
   <Localized
+    id="navigation-community"
+  >
+    <NavigationLink
+      to="/admin/community"
+    >
+      Community
+    </NavigationLink>
+  </Localized>
+  <Localized
     id="navigation-configure"
   >
     <NavigationLink

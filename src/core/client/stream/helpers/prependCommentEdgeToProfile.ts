@@ -5,14 +5,14 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getMeSourceID } from "talk-framework/helpers";
+import { getViewerSourceID } from "talk-framework/helpers";
 
 export default function prependCommentEdgeToProfile(
   environment: Environment,
   store: RecordSourceSelectorProxy,
   commentEdge: RecordProxy
 ) {
-  const meProxy = store.get(getMeSourceID(environment)!);
+  const meProxy = store.get(getViewerSourceID(environment)!);
   const con = ConnectionHandler.getConnection(
     meProxy,
     "CommentHistory_comments"

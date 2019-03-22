@@ -1,7 +1,7 @@
 import { EventEmitter2 } from "eventemitter2";
 import { IResolvers } from "graphql-tools";
 import React from "react";
-import TestRenderer from "react-test-renderer";
+import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
 import EntryContainer from "talk-admin/containers/EntryContainer";
@@ -41,6 +41,7 @@ export default function create(params: CreateParams) {
 
   const context: TalkContext = {
     relayEnvironment: environment,
+    locales: ["en-US"],
     localeBundles: [createFluentBundle()],
     localStorage: createPromisifiedStorage(),
     sessionStorage: createPromisifiedStorage(),
@@ -52,12 +53,15 @@ export default function create(params: CreateParams) {
     clearSession: () => Promise.resolve(),
   };
 
-  const testRenderer = TestRenderer.create(
-    <TalkContextProvider value={context}>
-      <EntryContainer />
-    </TalkContextProvider>,
-    { createNodeMock }
-  );
+  let testRenderer: ReactTestRenderer;
+  TestRenderer.act(() => {
+    testRenderer = TestRenderer.create(
+      <TalkContextProvider value={context}>
+        <EntryContainer />
+      </TalkContextProvider>,
+      { createNodeMock }
+    );
+  });
 
-  return { context, testRenderer };
+  return { context, testRenderer: testRenderer! };
 }

@@ -1,10 +1,10 @@
 import React, { StatelessComponent } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+import AutoLoadMoreContainer from "talk-admin/containers/AutoLoadMoreContainer";
 import { Flex, HorizontalGutter } from "talk-ui/components";
 import { PropTypesOf } from "talk-ui/types";
 
-import AutoLoadMoreContainer from "../containers/AutoLoadMoreContainer";
 import ModerateCardContainer from "../containers/ModerateCardContainer";
 
 import styles from "./Queue.css";

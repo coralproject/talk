@@ -238,6 +238,7 @@ export default async function createManaged({
   // Assemble context.
   const context: TalkContext = {
     relayEnvironment: environment,
+    locales,
     localeBundles,
     timeagoFormatter,
     pym,

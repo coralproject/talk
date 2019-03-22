@@ -7,7 +7,7 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { meWithComments, settings, stories } from "../fixtures";
+import { settings, stories, viewerWithComments } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -22,7 +22,7 @@ beforeEach(() => {
             .withArgs(undefined, { id: stories[0].id, url: null })
             .returns(stories[0])
       ),
-      viewer: sinon.stub().returns(meWithComments),
+      viewer: sinon.stub().returns(viewerWithComments),
     },
   };
 

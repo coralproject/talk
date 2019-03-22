@@ -41,3 +41,7 @@ export {
   withSetPasswordMutation,
   SetPasswordMutation,
 } from "./SetPasswordMutation";
+export {
+  withUpdateUserRoleMutation,
+  UpdateUserRoleMutation,
+} from "./UpdateUserRoleMutation";
