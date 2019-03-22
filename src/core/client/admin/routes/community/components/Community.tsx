@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Community: StatelessComponent<Props> = props => (
-  <MainLayout className={styles.root}>
+  <MainLayout className={styles.root} data-testid="community-container">
     <UserTableContainer query={props.query} />
   </MainLayout>
 );

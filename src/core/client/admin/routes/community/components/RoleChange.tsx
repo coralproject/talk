@@ -51,20 +51,26 @@ const RoleChange: StatelessComponent<Props> = props => (
       )}
     >
       {({ toggleVisibility, ref, visible }) => (
-        <Button
-          className={styles.button}
-          onClick={toggleVisibility}
-          ref={ref}
-          variant="regular"
-          size="small"
+        <Localized
+          id="community-changeRoleButton"
+          attrs={{ "aria-label": true }}
         >
-          <RoleText>{props.role}</RoleText>
-          {
-            <ButtonIcon size="lg">
-              {visible ? "arrow_drop_up" : "arrow_drop_down"}
-            </ButtonIcon>
-          }
-        </Button>
+          <Button
+            aria-label="Change role"
+            className={styles.button}
+            onClick={toggleVisibility}
+            ref={ref}
+            variant="regular"
+            size="small"
+          >
+            <RoleText>{props.role}</RoleText>
+            {
+              <ButtonIcon size="lg">
+                {visible ? "arrow_drop_up" : "arrow_drop_down"}
+              </ButtonIcon>
+            }
+          </Button>
+        </Localized>
       )}
     </Popover>
   </Localized>

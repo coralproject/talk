@@ -26,6 +26,6 @@ exports[`uses formatter from props 1`] = `
   dateTime="2018-12-17T03:24:00.000Z"
   title="2018-12-17T03:24:00.000Z"
 >
-  My Context Formatter
+  My Props Formatter
 </time>
 `;

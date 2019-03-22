@@ -367,6 +367,14 @@ community-emptyMessage = We could not find anyone in your community matching you
 
 community-filter-searchField =
   .placeholder = Search by username or email address...
+  .aria-label = Search by username or email address
+
+community-filter-roleSelectField =
+  .aria-label = Search by role
+
+community-changeRoleButton =
+  .aria-label = Change role
+
 community-filter-optGroupAudience =
   .label = Audience
 community-filter-optGroupOrganization =

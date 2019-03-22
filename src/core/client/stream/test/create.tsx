@@ -1,7 +1,7 @@
 import { EventEmitter2 } from "eventemitter2";
 import { IResolvers } from "graphql-tools";
 import React from "react";
-import TestRenderer from "react-test-renderer";
+import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
@@ -54,12 +54,14 @@ export default function create(params: CreateParams) {
     clearSession: () => Promise.resolve(),
   };
 
-  const testRenderer = TestRenderer.create(
-    <TalkContextProvider value={context}>
-      <AppContainer />
-    </TalkContextProvider>,
-    { createNodeMock }
-  );
-
-  return { context, testRenderer };
+  let testRenderer: ReactTestRenderer;
+  TestRenderer.act(() => {
+    testRenderer = TestRenderer.create(
+      <TalkContextProvider value={context}>
+        <AppContainer />
+      </TalkContextProvider>,
+      { createNodeMock }
+    );
+  });
+  return { context, testRenderer: testRenderer! };
 }

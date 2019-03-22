@@ -33,11 +33,12 @@ const UserTableFilter: StatelessComponent<Props> = props => (
       </Localized>
       <Localized
         id="community-filter-searchField"
-        attrs={{ placeholder: true }}
+        attrs={{ placeholder: true, "aria-label": true }}
       >
         <TextField
           classes={{ input: styles.textField }}
           placeholder="Search by username or email address..."
+          aria-label="Search by username or email address"
         />
       </Localized>
     </FieldSet>
@@ -51,40 +52,46 @@ const UserTableFilter: StatelessComponent<Props> = props => (
           Show Me
         </Typography>
       </Localized>
-      <SelectField
-        value={props.roleFilter || ""}
-        onChange={e => props.onSetRoleFilter(e.target.value as any)}
+      <Localized
+        id="community-filter-roleSelectField"
+        attrs={{ "aria-label": true }}
       >
-        <Localized id="community-filter-everyone">
-          <Option value="">Everyone</Option>
-        </Localized>
-        <Localized
-          id="community-filter-optGroupAudience"
-          attrs={{ label: true }}
+        <SelectField
+          aria-label="Search by role"
+          value={props.roleFilter || ""}
+          onChange={e => props.onSetRoleFilter(e.target.value as any)}
         >
-          <OptGroup label="Audience">
-            <Localized id="role-plural-commenter">
-              <Option value="COMMENTER">Commenters</Option>
-            </Localized>
-          </OptGroup>
-        </Localized>
-        <Localized
-          id="community-filter-optGroupOrganization"
-          attrs={{ label: true }}
-        >
-          <OptGroup label="Organization">
-            <Localized id="role-plural-admin">
-              <Option value="ADMIN">Admins</Option>
-            </Localized>
-            <Localized id="role-plural-moderator">
-              <Option value="MODERATOR">Moderators</Option>
-            </Localized>
-            <Localized id="role-plural-staff">
-              <Option value="STAFF">Staff</Option>
-            </Localized>
-          </OptGroup>
-        </Localized>
-      </SelectField>
+          <Localized id="community-filter-everyone">
+            <Option value="">Everyone</Option>
+          </Localized>
+          <Localized
+            id="community-filter-optGroupAudience"
+            attrs={{ label: true }}
+          >
+            <OptGroup label="Audience">
+              <Localized id="role-plural-commenter">
+                <Option value="COMMENTER">Commenters</Option>
+              </Localized>
+            </OptGroup>
+          </Localized>
+          <Localized
+            id="community-filter-optGroupOrganization"
+            attrs={{ label: true }}
+          >
+            <OptGroup label="Organization">
+              <Localized id="role-plural-admin">
+                <Option value="ADMIN">Admins</Option>
+              </Localized>
+              <Localized id="role-plural-moderator">
+                <Option value="MODERATOR">Moderators</Option>
+              </Localized>
+              <Localized id="role-plural-staff">
+                <Option value="STAFF">Staff</Option>
+              </Localized>
+            </OptGroup>
+          </Localized>
+        </SelectField>
+      </Localized>
     </FieldSet>
   </Flex>
 );
