@@ -103,7 +103,8 @@ const config = convict({
     sensitive: true,
   },
   signing_secret: {
-    doc: "",
+    doc:
+      "The shared secret to use to sign JSON Web Tokens (JWT) with the selected signing algorithm.",
     format: "*",
     default: "keyboard cat", // TODO: (wyattjoh) evaluate best solution
     env: "SIGNING_SECRET",

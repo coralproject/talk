@@ -7,8 +7,13 @@ opportunity for safer, smarter discussions around your work.
 
 Built with <3 by The Coral Project, a part of [Vox Media](https://product.voxmedia.com/).
 
+Preview Talk easily by running Talk via a Heroku App:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk/tree/next)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of Contents
 
 - [Requirements](#requirements)

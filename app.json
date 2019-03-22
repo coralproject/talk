@@ -1,0 +1,31 @@
+{
+  "name": "Talk",
+  "description": "A better commenting experience from Vox Media.",
+  "env": {
+    "REWRITE_ENV": {
+      "description": "Used to rewrite the environment variables set by Heroku.",
+      "value": "REDIS_URI:REDIS_URL"
+    },
+    "SIGNING_SECRET": {
+      "description":
+        "The shared secret to use to sign JSON Web Tokens (JWT) with the selected signing algorithm.",
+      "generator": "secret"
+    },
+    "CONCURRENCY": {
+      "description": "The number of worker nodes to spawn to handle traffic.",
+      "value": "1"
+    }
+  },
+  "addons": [
+    {
+      "plan": "mongolab:sandbox",
+      "as": "MONGO"
+    },
+    {
+      "plan": "rediscloud:30",
+      "as": "REDIS"
+    }
+  ],
+  "success_url": "/install",
+  "website": "https://github.com/coralproject/talk"
+}
