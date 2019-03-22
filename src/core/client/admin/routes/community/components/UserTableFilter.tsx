@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
-import { GQLUSER_ROLE_RL } from "talk-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
 import {
   FieldSet,
   Flex,
@@ -70,7 +70,7 @@ const UserTableFilter: StatelessComponent<Props> = props => (
           >
             <OptGroup label="Audience">
               <Localized id="role-plural-commenter">
-                <Option value="COMMENTER">Commenters</Option>
+                <Option value={GQLUSER_ROLE.COMMENTER}>Commenters</Option>
               </Localized>
             </OptGroup>
           </Localized>
@@ -80,13 +80,13 @@ const UserTableFilter: StatelessComponent<Props> = props => (
           >
             <OptGroup label="Organization">
               <Localized id="role-plural-admin">
-                <Option value="ADMIN">Admins</Option>
+                <Option value={GQLUSER_ROLE.ADMIN}>Admins</Option>
               </Localized>
               <Localized id="role-plural-moderator">
-                <Option value="MODERATOR">Moderators</Option>
+                <Option value={GQLUSER_ROLE.MODERATOR}>Moderators</Option>
               </Localized>
               <Localized id="role-plural-staff">
-                <Option value="STAFF">Staff</Option>
+                <Option value={GQLUSER_ROLE.STAFF}>Staff</Option>
               </Localized>
             </OptGroup>
           </Localized>

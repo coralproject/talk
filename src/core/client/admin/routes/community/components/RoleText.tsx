@@ -2,6 +2,7 @@ import cn from "classnames";
 import React, { StatelessComponent } from "react";
 
 import TranslatedRole from "talk-admin/components/TranslatedRole";
+import { GQLUSER_ROLE } from "talk-framework/schema";
 import { PropTypesOf } from "talk-ui/types";
 
 import styles from "./RoleText.css";
@@ -15,7 +16,7 @@ const RoleText: StatelessComponent<Props> = props => (
     container={
       <span
         className={cn(styles.root, {
-          [styles.commenter]: props.children === "COMMENTER",
+          [styles.commenter]: props.children === GQLUSER_ROLE.COMMENTER,
         })}
       />
     }
