@@ -1,6 +1,10 @@
 import { ERROR_TYPES } from "talk-common/errors";
 
-import { InvalidRequestError, UnknownServerError } from "../errors";
+import {
+  InvalidRequestError,
+  ModerationNudgeError,
+  UnknownServerError,
+} from "../errors";
 
 export default function extractError(errors: Error[]): Error | null {
   if (errors.length > 1 || !(errors[0] as any).extensions) {
@@ -14,6 +18,9 @@ export default function extractError(errors: Error[]): Error | null {
   const err = errors[0];
   if ((err as any).extensions.type === ERROR_TYPES.INVALID_REQUEST_ERROR) {
     return new InvalidRequestError((err as any).extensions);
+  }
+  if ((err as any).extensions.type === ERROR_TYPES.MODERATION_NUDGE_ERROR) {
+    return new ModerationNudgeError((err as any).extensions);
   }
   return new UnknownServerError(err.message, (err as any).extensions);
 }

@@ -125,6 +125,7 @@ function commit(
       input: {
         storyID: input.storyID,
         body: input.body,
+        nudge: input.nudge,
         clientMutationId: clientMutationId.toString(),
       },
     },

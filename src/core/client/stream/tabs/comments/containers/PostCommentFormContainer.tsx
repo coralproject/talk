@@ -1,7 +1,11 @@
+import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
 import { withContext } from "talk-framework/lib/bootstrap";
-import { InvalidRequestError } from "talk-framework/lib/errors";
+import {
+  InvalidRequestError,
+  ModerationNudgeError,
+} from "talk-framework/lib/errors";
 import {
   graphql,
   withFragmentContainer,
@@ -41,6 +45,8 @@ interface Props {
 }
 
 interface State {
+  /** nudge will turn on the nudging behavior on the server */
+  nudge: boolean;
   initialValues?: PropTypesOf<typeof PostCommentForm>["initialValues"];
   initialized: boolean;
   keepFormWhenClosed: boolean;
@@ -52,6 +58,7 @@ const contextKey = "postCommentFormBody";
 export class PostCommentFormContainer extends Component<Props, State> {
   public state: State = {
     initialized: false,
+    nudge: true,
     keepFormWhenClosed:
       this.props.local.loggedIn &&
       !this.props.story.isClosed &&
@@ -78,6 +85,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
     });
   }
 
+  private disableNudge = () => {
+    if (this.state.nudge) {
+      this.setState({ nudge: false });
+    }
+  };
+
   private handleOnSubmit: PropTypesOf<
     typeof PostCommentForm
   >["onSubmit"] = async (input, form) => {
@@ -85,19 +98,29 @@ export class PostCommentFormContainer extends Component<Props, State> {
       const submitStatus = getSubmitStatus(
         await this.props.createComment({
           storyID: this.props.story.id,
+          nudge: this.state.nudge,
           ...input,
         })
       );
       if (submitStatus !== "RETRY") {
         form.reset({});
       }
-      this.setState({ submitStatus });
+      this.setState({ submitStatus, nudge: true });
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({ storyID: this.props.story.id });
         }
         return error.invalidArgs;
+      }
+      /**
+       * Comment was caught in one of the moderation filters on the server.
+       * We give the user another change to submit the comment, and we
+       * turn off the nudging behavior on the next try.
+       */
+      if (error instanceof ModerationNudgeError) {
+        this.disableNudge();
+        return { [FORM_ERROR]: error.message };
       }
       // tslint:disable-next-line:no-console
       console.error(error);

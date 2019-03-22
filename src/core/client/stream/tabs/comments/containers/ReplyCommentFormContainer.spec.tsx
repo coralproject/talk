@@ -133,6 +133,7 @@ it("creates a comment", async () => {
       storyID,
       parentID: props.comment.id,
       parentRevisionID: "revision-id",
+      nudge: true,
       ...input,
     })
   ).toBeTruthy();

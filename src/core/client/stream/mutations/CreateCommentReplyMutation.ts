@@ -154,6 +154,7 @@ function commit(
         parentID: input.parentID,
         parentRevisionID: input.parentRevisionID,
         body: input.body,
+        nudge: input.nudge,
         clientMutationId: clientMutationId.toString(),
       },
     },
