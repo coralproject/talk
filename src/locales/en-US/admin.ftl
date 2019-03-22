@@ -398,7 +398,7 @@ community-role-popover =
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.
-stories-noMatch = We could not find any stories matching your criteria.
+stories-noMatchMessage = We could not find any stories matching your criteria.
 
 stories-filter-searchField =
   .placeholder = Search by story title or author...

@@ -2,6 +2,7 @@ import { get, merge } from "lodash";
 import TestRenderer from "react-test-renderer";
 import sinon from "sinon";
 
+import { GQLUSER_ROLE } from "talk-framework/schema";
 import {
   createSinonStub,
   replaceHistoryLocation,
@@ -72,7 +73,7 @@ it("filter by role", async () => {
         s => s.onFirstCall().returns(communityUsers),
         s =>
           s.onSecondCall().callsFake((_, data) => {
-            expectAndFail(data.role).toBe("COMMENTER");
+            expectAndFail(data.role).toBe(GQLUSER_ROLE.COMMENTER);
             return emptyCommunityUsers;
           })
       ),
@@ -110,7 +111,7 @@ it("change user role", async () => {
   const updateUserRole = sinon.stub().callsFake((_: any, data: any) => {
     expectAndFail(data.input).toMatchObject({
       userID: user.id,
-      role: "STAFF",
+      role: GQLUSER_ROLE.STAFF,
     });
     const userRecord = merge({}, user, { role: data.input.role });
     return {
