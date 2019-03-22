@@ -7,6 +7,8 @@ import { TableCell, TableRow } from "talk-ui/components";
 import StatusChangeContainer from "../containers/StatusChangeContainer";
 import StatusText from "./StatusText";
 
+import styles from "./StoryRow.css";
+
 interface Props {
   canChangeStatus: boolean;
   storyID: string;
@@ -18,10 +20,16 @@ interface Props {
 
 const UserRow: StatelessComponent<Props> = props => (
   <TableRow>
-    <TableCell>{props.title || <NotAvailable />}</TableCell>
-    <TableCell>{props.author || <NotAvailable />}</TableCell>
-    <TableCell>{props.publishDate || <NotAvailable />}</TableCell>
-    <TableCell>
+    <TableCell className={styles.cellWordBreak}>
+      {props.title || <NotAvailable />}
+    </TableCell>
+    <TableCell className={styles.cellWordBreak}>
+      {props.author || <NotAvailable />}
+    </TableCell>
+    <TableCell className={styles.cell}>
+      {props.publishDate || <NotAvailable />}
+    </TableCell>
+    <TableCell className={styles.cell}>
       {props.canChangeStatus ? (
         <StatusChangeContainer storyID={props.storyID} status={props.status} />
       ) : (

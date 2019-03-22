@@ -29,7 +29,10 @@ const StoryRowContainer: StatelessComponent<Props> = props => {
           ? new Intl.DateTimeFormat(locales, {
               day: "2-digit",
               month: "2-digit",
-              year: "2-digit",
+              year: "numeric",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
             }).format(new Date(publishedAt))
           : null
       }

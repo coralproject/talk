@@ -24,7 +24,7 @@ const UserRowContainer: StatelessComponent<Props> = props => {
       memberSince={new Intl.DateTimeFormat(locales, {
         day: "2-digit",
         month: "2-digit",
-        year: "2-digit",
+        year: "numeric",
       }).format(new Date(props.user.createdAt))}
       role={props.user.role}
       canChangeRole={

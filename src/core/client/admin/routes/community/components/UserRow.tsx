@@ -7,6 +7,8 @@ import { TableCell, TableRow, TextLink } from "talk-ui/components";
 import RoleChangeContainer from "../containers/RoleChangeContainer";
 import RoleText from "./RoleText";
 
+import styles from "./UserRow.css";
+
 interface Props {
   canChangeRole: boolean;
   userID: string;
@@ -18,14 +20,16 @@ interface Props {
 
 const UserRow: StatelessComponent<Props> = props => (
   <TableRow>
-    <TableCell>{props.username || <NotAvailable />}</TableCell>
-    <TableCell>
+    <TableCell className={styles.cellWordBreak}>
+      {props.username || <NotAvailable />}
+    </TableCell>
+    <TableCell className={styles.cellWordBreak}>
       {<TextLink href={`mailto:${props.email}`}>{props.email}</TextLink> || (
         <NotAvailable />
       )}
     </TableCell>
-    <TableCell>{props.memberSince}</TableCell>
-    <TableCell>
+    <TableCell className={styles.cell}>{props.memberSince}</TableCell>
+    <TableCell className={styles.cell}>
       {props.canChangeRole ? (
         <RoleChangeContainer userID={props.userID} role={props.role} />
       ) : (

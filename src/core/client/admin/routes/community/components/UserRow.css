@@ -1,0 +1,7 @@
+.cell {
+  vertical-align: top;
+}
+.cellWordBreak {
+  vertical-align: top;
+  word-break: break-word;
+}
