@@ -1,14 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React from "react";
 
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
+
 interface Props {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
-  children:
-    | "COMMENTER"
-    | "ADMIN"
-    | "MODERATOR"
-    | "STAFF"
-    | "%future added value";
+  children: GQLUSER_ROLE_RL;
 }
 
 function createElement(
@@ -24,25 +21,25 @@ function createElement(
 
 const TranslatedRole: React.StatelessComponent<Props> = props => {
   switch (props.children) {
-    case "COMMENTER":
+    case GQLUSER_ROLE.COMMENTER:
       return (
         <Localized id="role-commenter">
           {createElement(props.container!, "Commenter")}
         </Localized>
       );
-    case "ADMIN":
+    case GQLUSER_ROLE.ADMIN:
       return (
         <Localized id="role-admin">
           {createElement(props.container!, "Admin")}
         </Localized>
       );
-    case "MODERATOR":
+    case GQLUSER_ROLE.MODERATOR:
       return (
         <Localized id="role-moderator">
           {createElement(props.container!, "Moderator")}
         </Localized>
       );
-    case "STAFF":
+    case GQLUSER_ROLE.STAFF:
       return (
         <Localized id="role-staff">
           {createElement(props.container!, "Staff")}
