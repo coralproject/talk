@@ -14,7 +14,7 @@ interface InvalidRequestExtension {
 }
 
 /**
- * InvalidRequestError wraps the `BAD_USER_INPUT` error returned from the
+ * InvalidRequestError wraps the `INVALID_REQUEST_ERROR` error returned from the
  * server.
  */
 export default class InvalidRequestError extends Error

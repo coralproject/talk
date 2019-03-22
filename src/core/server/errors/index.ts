@@ -411,12 +411,43 @@ export class TenantInstalledAlreadyError extends TalkError {
   }
 }
 
+export class InvalidCredentialsError extends TalkError {
+  constructor(reason: string) {
+    super({
+      code: ERROR_CODES.INVALID_CREDENTIALS,
+      status: 401,
+      context: { pvt: { reason } },
+    });
+  }
+}
+
 export class AuthenticationError extends TalkError {
   constructor(reason: string) {
     super({
       code: ERROR_CODES.AUTHENTICATION_ERROR,
       status: 401,
       context: { pvt: { reason } },
+    });
+  }
+}
+
+export class ToxicCommentError extends TalkError {
+  constructor(model: string, score: number, threshold: number) {
+    super({
+      code: ERROR_CODES.TOXIC_COMMENT,
+      type: ERROR_TYPES.MODERATION_NUDGE_ERROR,
+      status: 400,
+      context: { pvt: { model, score, threshold } },
+    });
+  }
+}
+
+export class SpamCommentError extends TalkError {
+  constructor() {
+    super({
+      code: ERROR_CODES.SPAM_COMMENT,
+      type: ERROR_TYPES.MODERATION_NUDGE_ERROR,
+      status: 400,
     });
   }
 }

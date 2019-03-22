@@ -1,9 +1,13 @@
 import { CoralRTE } from "@coralproject/rte";
+import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
 import { withContext } from "talk-framework/lib/bootstrap";
-import { InvalidRequestError } from "talk-framework/lib/errors";
+import {
+  InvalidRequestError,
+  ModerationNudgeError,
+} from "talk-framework/lib/errors";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
@@ -42,6 +46,8 @@ interface Props {
 }
 
 interface State {
+  /** nudge will turn on the nudging behavior on the server */
+  nudge: boolean;
   initialValues?: ReplyCommentFormProps["initialValues"];
   initialized: boolean;
   submitStatus: SubmitStatus | null;
@@ -49,6 +55,7 @@ interface State {
 
 export class ReplyCommentFormContainer extends Component<Props, State> {
   public state: State = {
+    nudge: true,
     initialized: false,
     submitStatus: null,
   };
@@ -86,6 +93,12 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     }
   };
 
+  private disableNudge = () => {
+    if (this.state.nudge) {
+      this.setState({ nudge: false });
+    }
+  };
+
   private handleOnSubmit: ReplyCommentFormProps["onSubmit"] = async input => {
     try {
       const submitStatus = getSubmitStatus(
@@ -94,6 +107,7 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           parentID: this.props.comment.id,
           parentRevisionID: this.props.comment.revision.id,
           local: this.props.localReply,
+          nudge: this.state.nudge,
           ...input,
         })
       );
@@ -104,13 +118,22 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
           return;
         }
       }
-      this.setState({ submitStatus });
+      this.setState({ submitStatus, nudge: true });
     } catch (error) {
       if (error instanceof InvalidRequestError) {
         if (shouldTriggerSettingsRefresh(error.code)) {
           await this.props.refreshSettings({ storyID: this.props.story.id });
         }
         return error.invalidArgs;
+      }
+      /**
+       * Comment was caught in one of the moderation filters on the server.
+       * We give the user another change to submit the comment, and we
+       * turn off the nudging behavior on the next try.
+       */
+      if (error instanceof ModerationNudgeError) {
+        this.disableNudge();
+        return { [FORM_ERROR]: error.message };
       }
       // tslint:disable-next-line:no-console
       console.error(error);

@@ -26,6 +26,7 @@ export interface ModerationPhaseContext {
   tenant: Tenant;
   comment: RequireProperty<Partial<EditCommentInput>, "body">;
   author: User;
+  nudge?: boolean;
   req?: Request;
 }
 
