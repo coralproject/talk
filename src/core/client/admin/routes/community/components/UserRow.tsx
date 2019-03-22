@@ -20,16 +20,18 @@ interface Props {
 
 const UserRow: StatelessComponent<Props> = props => (
   <TableRow>
-    <TableCell className={styles.cellWordBreak}>
+    <TableCell className={styles.usernameColumn}>
       {props.username || <NotAvailable />}
     </TableCell>
-    <TableCell className={styles.cellWordBreak}>
+    <TableCell className={styles.emailColumn}>
       {<TextLink href={`mailto:${props.email}`}>{props.email}</TextLink> || (
         <NotAvailable />
       )}
     </TableCell>
-    <TableCell className={styles.cell}>{props.memberSince}</TableCell>
-    <TableCell className={styles.cell}>
+    <TableCell className={styles.memberSinceColumn}>
+      {props.memberSince}
+    </TableCell>
+    <TableCell className={styles.roleColumn}>
       {props.canChangeRole ? (
         <RoleChangeContainer userID={props.userID} role={props.role} />
       ) : (

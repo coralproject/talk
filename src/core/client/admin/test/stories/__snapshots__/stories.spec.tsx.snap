@@ -120,22 +120,22 @@ exports[`renders empty stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
               Finally a Cure for Cancer
             </td>
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Vin Hoa
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
               11/29/2018, 4:01 PM
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
               <div
                 className="Popover-root"
@@ -183,22 +183,22 @@ exports[`renders empty stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
               First Colony on Mars
             </td>
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Linh Nguyen
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
               11/29/2018, 4:01 PM
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
               <div
                 className="Popover-root"
@@ -369,22 +369,22 @@ exports[`renders stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
               Finally a Cure for Cancer
             </td>
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Vin Hoa
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
               11/29/2018, 4:01 PM
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
               <div
                 className="Popover-root"
@@ -432,22 +432,22 @@ exports[`renders stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
               First Colony on Mars
             </td>
             <td
-              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
+              className="TableCell-root StoryRow-authorColumn TableCell-body"
             >
               Linh Nguyen
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-publishDateColumn TableCell-body"
             >
               11/29/2018, 4:01 PM
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-statusColumn TableCell-body"
             >
               <div
                 className="Popover-root"

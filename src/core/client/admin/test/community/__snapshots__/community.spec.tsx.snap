@@ -138,12 +138,12 @@ exports[`renders community 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root UserRow-cellWordBreak TableCell-body"
+              className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               Markus
             </td>
             <td
-              className="TableCell-root UserRow-cellWordBreak TableCell-body"
+              className="TableCell-root UserRow-emailColumn TableCell-body"
             >
               <a
                 className="TextLink-root"
@@ -153,12 +153,12 @@ exports[`renders community 1`] = `
               </a>
             </td>
             <td
-              className="TableCell-root UserRow-cell TableCell-body"
+              className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
               07/06/2018
             </td>
             <td
-              className="TableCell-root UserRow-cell TableCell-body"
+              className="TableCell-root UserRow-roleColumn TableCell-body"
             >
               <span
                 className="RoleText-root"
@@ -171,12 +171,12 @@ exports[`renders community 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root UserRow-cellWordBreak TableCell-body"
+              className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               Lukas
             </td>
             <td
-              className="TableCell-root UserRow-cellWordBreak TableCell-body"
+              className="TableCell-root UserRow-emailColumn TableCell-body"
             >
               <a
                 className="TextLink-root"
@@ -186,12 +186,12 @@ exports[`renders community 1`] = `
               </a>
             </td>
             <td
-              className="TableCell-root UserRow-cell TableCell-body"
+              className="TableCell-root UserRow-memberSinceColumn TableCell-body"
             >
               07/06/2018
             </td>
             <td
-              className="TableCell-root UserRow-cell TableCell-body"
+              className="TableCell-root UserRow-roleColumn TableCell-body"
             >
               <div
                 className="Popover-root"

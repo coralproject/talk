@@ -20,16 +20,16 @@ interface Props {
 
 const UserRow: StatelessComponent<Props> = props => (
   <TableRow>
-    <TableCell className={styles.cellWordBreak}>
+    <TableCell className={styles.titleColumn}>
       {props.title || <NotAvailable />}
     </TableCell>
-    <TableCell className={styles.cellWordBreak}>
+    <TableCell className={styles.authorColumn}>
       {props.author || <NotAvailable />}
     </TableCell>
-    <TableCell className={styles.cell}>
+    <TableCell className={styles.publishDateColumn}>
       {props.publishDate || <NotAvailable />}
     </TableCell>
-    <TableCell className={styles.cell}>
+    <TableCell className={styles.statusColumn}>
       {props.canChangeStatus ? (
         <StatusChangeContainer storyID={props.storyID} status={props.status} />
       ) : (
