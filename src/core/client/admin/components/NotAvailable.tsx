@@ -1,9 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
+import styles from "./NotAvailable.css";
+
 const NotAvailable: StatelessComponent = props => (
-  <Localized id="community-notAvailable">
-    <span>Not available</span>
+  <Localized id="general-notAvailable">
+    <span className={styles.root}>Not available</span>
   </Localized>
 );
 

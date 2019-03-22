@@ -15,6 +15,9 @@ import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
 const permissionMap = {
   // Mutation.updateUserRole
   CHANGE_ROLE: [GQLUSER_ROLE.ADMIN],
+  // Mutation.openStory
+  // Mutation.closeStory
+  CHANGE_STORY_STATUS: [GQLUSER_ROLE.ADMIN],
 };
 
 export type AbilityType = keyof typeof permissionMap;

@@ -45,3 +45,13 @@ export {
   withUpdateUserRoleMutation,
   UpdateUserRoleMutation,
 } from "./UpdateUserRoleMutation";
+export {
+  OpenStoryInput,
+  withOpenStoryMutation,
+  OpenStoryMutation,
+} from "./OpenStoryMutation";
+export {
+  CloseStoryInput,
+  withCloseStoryMutation,
+  CloseStoryMutation,
+} from "./CloseStoryMutation";

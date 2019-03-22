@@ -3,6 +3,11 @@
 ## General
 
 general-brandName = { -product-name }
+general-notAvailable = Not available
+
+## Story Status
+storyStatus-open = Open
+storyStatus-closed = Closed
 
 ## Roles
 role-admin = Admin
@@ -390,3 +395,31 @@ community-column-role = Role
 
 community-role-popover =
   .description = A dropdown to change the user role
+
+## Stories
+stories-emptyMessage = There are currently no published stories.
+stories-noMatch = We could not find any stories matching your criteria.
+
+stories-filter-searchField =
+  .placeholder = Search by story title or author...
+  .aria-label = Search by story title or author
+
+stories-filter-statusSelectField =
+  .aria-label = Search by status
+
+stories-changeStatusButton =
+  .aria-label = Change status
+
+stories-filter-search = Search
+stories-filter-showMe = Show Me
+stories-filter-allStories = All Stories
+stories-filter-openStories = Open Stories
+stories-filter-closedStories = Closed Stories
+
+stories-column-title = Title
+stories-column-author = Author
+stories-column-publishDate = Publish Date
+stories-column-status = Status
+
+stories-status-popover =
+  .description = A dropdown to change the story status

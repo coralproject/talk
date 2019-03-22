@@ -21,6 +21,7 @@ import {
 import RejectedQueueContainer from "./routes/moderate/containers/RejectedQueueContainer";
 import SingleModerateContainer from "./routes/moderate/containers/SingleModerateContainer";
 import Stories from "./routes/stories/components/Stories";
+import StoriesContainer from "./routes/stories/containers/StoriesContainer";
 
 export default makeRouteConfig(
   <Route path="admin">
@@ -41,6 +42,7 @@ export default makeRouteConfig(
           />
           <Route path="rejected" {...RejectedQueueContainer.routeConfig} />
         </Route>
+        <Route path="stories" {...StoriesContainer.routeConfig} />
         <Route path="community" {...CommunityContainer.routeConfig} />
         <Route path="stories" Component={Stories} />
         <Route path="configure" Component={ConfigureContainer}>

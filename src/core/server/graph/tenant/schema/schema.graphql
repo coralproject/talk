@@ -1638,6 +1638,11 @@ type Story {
   id: ID!
 
   """
+  status is the status of the Story.
+  """
+  status: STORY_STATUS!
+
+  """
   url is the url that the Story is located on.
   """
   url: String!

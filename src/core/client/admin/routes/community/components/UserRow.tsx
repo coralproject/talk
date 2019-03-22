@@ -1,10 +1,10 @@
 import React, { StatelessComponent } from "react";
 
+import NotAvailable from "talk-admin/components/NotAvailable";
 import { PropTypesOf } from "talk-framework/types";
 import { TableCell, TableRow, TextLink } from "talk-ui/components";
 
 import RoleChangeContainer from "../containers/RoleChangeContainer";
-import NotAvailable from "./NotAvailable";
 import RoleText from "./RoleText";
 
 interface Props {
