@@ -4,7 +4,7 @@
   "env": {
     "REWRITE_ENV": {
       "description": "Used to rewrite the environment variables set by Heroku.",
-      "value": "REDIS_URI:REDIS_URL"
+      "value": "REDIS_URI:REDIS_URL,MONGODB_URI:MONGO_URI"
     },
     "SIGNING_SECRET": {
       "description":
