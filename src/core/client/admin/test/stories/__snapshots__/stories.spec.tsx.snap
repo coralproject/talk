@@ -120,12 +120,12 @@ exports[`renders empty stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               Finally a Cure for Cancer
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               Vin Hoa
             </td>
@@ -183,12 +183,12 @@ exports[`renders empty stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               First Colony on Mars
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               Linh Nguyen
             </td>
@@ -369,12 +369,12 @@ exports[`renders stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               Finally a Cure for Cancer
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               Vin Hoa
             </td>
@@ -432,12 +432,12 @@ exports[`renders stories 1`] = `
             className="TableRow-root TableRow-body"
           >
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               First Colony on Mars
             </td>
             <td
-              className="TableCell-root StoryRow-cell TableCell-body"
+              className="TableCell-root StoryRow-cellWordBreak TableCell-body"
             >
               Linh Nguyen
             </td>
