@@ -2,8 +2,12 @@ import sinon from "sinon";
 import timekeeper from "timekeeper";
 
 import { ERROR_CODES } from "talk-common/errors";
-import { InvalidRequestError } from "talk-framework/lib/errors";
 import {
+  InvalidRequestError,
+  ModerationNudgeError,
+} from "talk-framework/lib/errors";
+import {
+  createSinonStub,
   findParentWithType,
   waitForElement,
   within,
@@ -182,11 +186,75 @@ it("post a reply and handle server error", async () => {
   // Write reply .
   rte.props.onChange({ html: "<b>Hello world!</b>" });
 
-  timekeeper.freeze(new Date(baseComment.createdAt));
   form.props.onSubmit();
 
   // Look for internal error being displayed.
   await waitForElement(() => within(comment).getByText("INTERNAL_ERROR"));
+});
+
+it("handle moderation nudge error", async () => {
+  const { form, rte, comment } = await createTestRenderer(
+    {
+      Mutation: {
+        createCommentReply: createSinonStub(
+          s =>
+            s.onFirstCall().callsFake((_, data) => {
+              expectAndFail(data).toMatchObject({
+                input: {
+                  storyID: stories[0].id,
+                  parentID: stories[0].comments.edges[0].node.id,
+                  parentRevisionID:
+                    stories[0].comments.edges[0].node.revision.id,
+                  body: "<b>Hello world!</b>",
+                  nudge: true,
+                },
+              });
+              throw new ModerationNudgeError({
+                code: ERROR_CODES.TOXIC_COMMENT,
+              });
+            }),
+          s =>
+            s.onSecondCall().callsFake((_, data) => {
+              expectAndFail(data).toMatchObject({
+                input: {
+                  storyID: stories[0].id,
+                  body: "<b>Hello world!</b>",
+                  nudge: false,
+                },
+              });
+              return {
+                edge: {
+                  cursor: "",
+                  node: {
+                    ...baseComment,
+                    id: "comment-x",
+                    status: "SYSTEM_WITHHELD",
+                    author: users[0],
+                    body: "<b>Hello world!</b>",
+                  },
+                },
+                clientMutationId: data.input.clientMutationId,
+              };
+            })
+        ),
+      },
+    },
+    { muteNetworkErrors: true }
+  );
+
+  rte.props.onChange({ html: "<b>Hello world!</b>" });
+  form.props.onSubmit();
+
+  // Look for internal error being displayed.
+  await waitForElement(() => within(form).getByText("TOXIC_COMMENT"));
+
+  // Try again, now nudging should be disabled.
+  form.props.onSubmit();
+
+  // Comment should now go to moderation.
+  await waitForElement(() =>
+    within(comment).getByText("will be reviewed", { exact: false })
+  );
 });
 
 it("handle disabled commenting error", async () => {

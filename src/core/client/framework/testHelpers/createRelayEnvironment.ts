@@ -19,7 +19,10 @@ import {
 } from "talk-framework/lib/relay";
 
 import { loadSchema } from "talk-common/graphql";
-import { InvalidRequestError } from "talk-framework/lib/errors";
+import {
+  InvalidRequestError,
+  ModerationNudgeError,
+} from "talk-framework/lib/errors";
 
 export interface CreateRelayEnvironmentNetworkParams {
   /** project name of graphql-config */
@@ -72,7 +75,10 @@ function createFetch({
       if (payload.errors) {
         payload.errors.forEach(e => {
           // Throw our custom errors directly.
-          if (e.originalError instanceof InvalidRequestError) {
+          if (
+            e.originalError instanceof InvalidRequestError ||
+            e.originalError instanceof ModerationNudgeError
+          ) {
             throw e.originalError;
           }
         });
