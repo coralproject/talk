@@ -34,6 +34,7 @@ const StatusChange: StatelessComponent<Props> = props => (
                 key={r}
                 container={
                   <DropdownButton
+                    className={styles.dropdownButton}
                     onClick={() => {
                       props.onChangeStatus(r);
                       toggleVisibility();
