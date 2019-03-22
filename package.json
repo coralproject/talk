@@ -63,6 +63,7 @@
     "dompurify": "^1.0.8",
     "dotenv": "^6.0.0",
     "dotenv-expand": "^4.2.0",
+    "env-rewrite": "^1.0.2",
     "express": "^4.16.3",
     "express-static-gzip": "^0.3.2",
     "farce": "^0.2.6",
