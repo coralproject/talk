@@ -1,0 +1,22 @@
+version: "2.1"
+services:
+  talk:
+    image: coralproject/talk:next
+    restart: always
+    ports:
+      - "127.0.0.1:3000:5000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/talk
+      - REDIS_URI=redis://redis:6379
+      - SIGNING_SECRET=${SIGNING_SECRET:?SIGNING_SECRET}
+  mongo:
+    image: mongo:3.6
+    volumes:
+      - ./data/mongo:/data/db
+  redis:
+    image: redis:3.2
+    volumes:
+      - ./data/redis:/data
