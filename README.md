@@ -46,38 +46,9 @@ have Docker and Docker Compose installed on your local machine:
 
 - Install Docker: https://docs.docker.com/install/
 - Install Docker Compose: https://docs.docker.com/compose/install/ (this is typically included in the Docker Desktop editions already)
+- Set the `SIGNING_SECRET` environment variable, then start up Talk using Docker.
 
 ```bash
-# Create directories to persist the data in MongoDB and Redis.
-mkdir -p data/{mongo,redis}
-
-# Create the `docker-compose.yml` file to get started.
-cat > docker-compose.yml <<EOF
-version: "2"
-services:
-  talk:
-    image: coralproject/talk:next
-    restart: always
-    ports:
-      - "127.0.0.1:3000:5000"
-    depends_on:
-      - mongo
-      - redis
-    environment:
-      - MONGODB_URI=mongodb://mongo:27017/talk
-      - REDIS_URI=redis://redis:6379
-      - SIGNING_SECRET=<replace me with something secret>
-  mongo:
-    image: mongo:3.6
-    volumes:
-      - ./data/mongo:/data/db
-  redis:
-    image: redis:3.2
-    volumes:
-      - ./data/redis:/data
-EOF
-
-# Start up Talk using Docker.
 docker-compose up -d
 ```
 
