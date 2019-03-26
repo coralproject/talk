@@ -4,15 +4,16 @@ import { PropTypesOf } from "talk-framework/types";
 import { Logo } from "talk-ui/components";
 import { AppBar, Begin, Divider, End } from "talk-ui/components/AppBar";
 
+import NavigationContainer from "../containers/NavigationContainer";
 import UserMenuContainer from "../containers/UserMenuContainer";
 import DecisionHistoryButton from "./DecisionHistoryButton";
-import Navigation from "./Navigation";
 import Version from "./Version";
 
 import styles from "./App.css";
 
 interface Props {
-  viewer: PropTypesOf<typeof UserMenuContainer>["viewer"];
+  viewer: PropTypesOf<typeof UserMenuContainer>["viewer"] &
+    PropTypesOf<typeof NavigationContainer>["viewer"];
   children: React.ReactNode;
 }
 
@@ -24,7 +25,7 @@ const App: StatelessComponent<Props> = ({ children, viewer }) => (
           <Logo />
           <Version />
         </div>
-        <Navigation />
+        <NavigationContainer viewer={viewer} />
       </Begin>
       <End>
         <DecisionHistoryButton />

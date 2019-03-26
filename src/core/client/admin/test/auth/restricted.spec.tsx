@@ -3,6 +3,7 @@ import sinon from "sinon";
 
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { LOCAL_ID } from "talk-framework/lib/relay";
+import { GQLUSER_ROLE } from "talk-framework/schema";
 import {
   createAccessToken,
   replaceHistoryLocation,
@@ -47,12 +48,15 @@ function createTestRenderer(
   return { testRenderer, context };
 }
 
-it("show restricted screen for commenters", async () => {
-  const { testRenderer } = createTestRenderer({ role: "COMMENTER" });
-  const authBox = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("authBox")
-  );
-  expect(within(authBox).toJSON()).toMatchSnapshot();
+it("show restricted screen for commenters and staff", async () => {
+  const restrictedRoles = [GQLUSER_ROLE.COMMENTER, GQLUSER_ROLE.STAFF];
+  for (const role of restrictedRoles) {
+    const { testRenderer } = createTestRenderer({ role });
+    const authBox = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("authBox")
+    );
+    expect(within(authBox).toJSON()).toMatchSnapshot();
+  }
 });
 
 it("show restricted screen when email is not set", async () => {
@@ -71,7 +75,9 @@ it("show restricted screen local was not set (password)", async () => {
 });
 
 it("sign out when clicking on sign in as", async () => {
-  const { context, testRenderer } = createTestRenderer({ role: "COMMENTER" });
+  const { context, testRenderer } = createTestRenderer({
+    role: GQLUSER_ROLE.COMMENTER,
+  });
   const authBox = await waitForElement(() =>
     within(testRenderer.root).getByTestID("authBox")
   );

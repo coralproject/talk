@@ -13,6 +13,8 @@ import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
  * the single point of truth.
  */
 const permissionMap = {
+  // Mutation.updateSettings
+  CHANGE_CONFIGURATION: [GQLUSER_ROLE.ADMIN],
   // Mutation.updateUserRole
   CHANGE_ROLE: [GQLUSER_ROLE.ADMIN],
   // Mutation.openStory

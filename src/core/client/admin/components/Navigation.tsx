@@ -5,7 +5,11 @@ import { AppBarNavigation } from "talk-ui/components";
 
 import NavigationLink from "./NavigationLink";
 
-const Navigation: StatelessComponent = () => (
+interface Props {
+  showConfigure: boolean;
+}
+
+const Navigation: StatelessComponent<Props> = props => (
   <AppBarNavigation>
     <Localized id="navigation-moderate">
       <NavigationLink to="/admin/moderate">Moderate</NavigationLink>
@@ -16,9 +20,11 @@ const Navigation: StatelessComponent = () => (
     <Localized id="navigation-community">
       <NavigationLink to="/admin/community">Community</NavigationLink>
     </Localized>
-    <Localized id="navigation-configure">
-      <NavigationLink to="/admin/configure">Configure</NavigationLink>
-    </Localized>
+    {props.showConfigure && (
+      <Localized id="navigation-configure">
+        <NavigationLink to="/admin/configure">Configure</NavigationLink>
+      </Localized>
+    )}
   </AppBarNavigation>
 );
 
