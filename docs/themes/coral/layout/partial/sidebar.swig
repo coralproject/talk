@@ -29,8 +29,8 @@
 
   <div class="notice">
     <p>Don't see what you're looking for? We're upgrading the docs, check out our <a href="https://github.com/coralproject/talk/tree/ef49d9a3d2acc4d2fc03b00e0c872dfbc57f005a/docs/_docs" target="_blank" class="coral-link-invert">old docs</a>.</p>
-    <p><a href="https://coralproject.net/" class="coral-link-invert" target="_blank">The Coral Project</a> from Mozilla</p>
-    <a href="https://www.mozilla.org/" target="_blank" title="Mozilla"><figure class="mozilla" alt="Mozilla">{{ image_tag('images/moz-logo-bw-rgb.svg') }}</figure></a>
+    <p><a href="https://coralproject.net/" class="coral-link-invert" target="_blank">The Coral Project</a> by Vox Media</p>
+ 
   </div>
 </aside>
 <div class="sidebar__backdrop"></div>
