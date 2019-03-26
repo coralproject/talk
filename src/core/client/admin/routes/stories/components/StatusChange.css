@@ -1,0 +1,9 @@
+.button {
+  width: 100%;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.dropdownButton {
+  min-width: 80px;
+}

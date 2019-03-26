@@ -1,11 +1,19 @@
 import React, { StatelessComponent } from "react";
 
 import MainLayout from "talk-admin/components/MainLayout";
-import { Typography } from "talk-ui/components";
+import { PropTypesOf } from "talk-framework/types";
 
-const Community: StatelessComponent = () => (
-  <MainLayout>
-    <Typography variant="heading3">Community</Typography>
+import UserTableContainer from "../containers/UserTableContainer";
+
+import styles from "./Community.css";
+
+interface Props {
+  query: PropTypesOf<typeof UserTableContainer>["query"];
+}
+
+const Community: StatelessComponent<Props> = props => (
+  <MainLayout className={styles.root} data-testid="community-container">
+    <UserTableContainer query={props.query} />
   </MainLayout>
 );
 

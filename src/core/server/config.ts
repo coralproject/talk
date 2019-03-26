@@ -59,7 +59,7 @@ const config = convict({
     env: "LOCALE",
   },
   enable_graphiql: {
-    doc: "When true, this will enable the GraphiQL routes",
+    doc: "When true, this will enable the GraphiQL interface at /graphiql",
     format: Boolean,
     default: false,
     env: "ENABLE_GRAPHIQL",
@@ -103,7 +103,8 @@ const config = convict({
     sensitive: true,
   },
   signing_secret: {
-    doc: "",
+    doc:
+      "The shared secret to use to sign JSON Web Tokens (JWT) with the selected signing algorithm.",
     format: "*",
     default: "keyboard cat", // TODO: (wyattjoh) evaluate best solution
     env: "SIGNING_SECRET",

@@ -1,5 +1,7 @@
 import { merge } from "lodash";
 
+import { GQLStory, GQLSTORY_STATUS } from "talk-framework/schema";
+
 export const settings = {
   id: "settings",
   moderation: "POST",
@@ -246,27 +248,32 @@ export const moderationActions = [
   },
 ];
 
+export const baseUser = {
+  profiles: [{ __typename: "LocalProfile" }],
+  createdAt: "2018-07-06T18:24:00.000Z",
+};
+
 export const users = [
   {
+    ...baseUser,
     id: "user-0",
     username: "Markus",
     email: "markus@test.com",
     role: "ADMIN",
-    profiles: [{ __typename: "LocalProfile" }],
   },
   {
+    ...baseUser,
     id: "user-1",
     username: "Lukas",
     email: "lukas@test.com",
     role: "MODERATOR",
-    profiles: [{ __typename: "LocalProfile" }],
   },
   {
+    ...baseUser,
     id: "user-2",
     username: "Isabelle",
     email: "isabelle@test.com",
     role: "COMMENTER",
-    profiles: [{ __typename: "LocalProfile" }],
   },
 ];
 
@@ -369,6 +376,71 @@ export const emptyModerationQueues = {
 };
 
 export const emptyRejectedComments = {
+  edges: [],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};
+
+export const communityUsers = {
+  edges: [
+    { node: users[0], cursor: users[0].createdAt },
+    { node: users[1], cursor: users[1].createdAt },
+  ],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};
+
+export const emptyCommunityUsers = {
+  edges: [],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};
+
+export const stories: Array<Partial<GQLStory>> = [
+  {
+    id: "story-1",
+    closedAt: null,
+    isClosed: false,
+    status: GQLSTORY_STATUS.OPEN,
+    createdAt: "2018-11-29T16:01:51.897Z",
+    metadata: {
+      author: "Vin Hoa",
+      title: "Finally a Cure for Cancer",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+  {
+    id: "story-2",
+    closedAt: null,
+    isClosed: false,
+    status: GQLSTORY_STATUS.OPEN,
+    createdAt: "2018-11-29T16:01:51.897Z",
+    metadata: {
+      author: "Linh Nguyen",
+      title: "First Colony on Mars",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+  {
+    id: "story-3",
+    closedAt: "2018-11-29T16:01:51.897Z",
+    createdAt: "2018-11-29T16:01:51.897Z",
+    isClosed: true,
+    status: GQLSTORY_STATUS.CLOSED,
+    metadata: {
+      author: undefined,
+      title: "World hunger has been defeated",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+];
+
+export const storyConnection = {
+  edges: [
+    { node: stories[0], cursor: stories[0].createdAt },
+    { node: stories[1], cursor: stories[1].createdAt },
+  ],
+  pageInfo: { endCursor: null, hasNextPage: false },
+};
+
+export const emptyStories = {
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
 };

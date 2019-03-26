@@ -2,7 +2,7 @@ import sinon from "sinon";
 
 import { waitForElement, within } from "talk-framework/testHelpers";
 
-import { meAsModerator, settings, stories } from "../fixtures";
+import { settings, stories, viewerAsModerator } from "../fixtures";
 import create from "./create";
 
 async function createTestRenderer(
@@ -14,7 +14,7 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settings),
       story: sinon.stub().returns(stories[0]),
-      viewer: sinon.stub().returns(meAsModerator),
+      viewer: sinon.stub().returns(viewerAsModerator),
       ...resolver.Query,
     },
   };

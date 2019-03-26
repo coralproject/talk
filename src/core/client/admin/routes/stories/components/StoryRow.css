@@ -1,0 +1,20 @@
+.titleColumn {
+  vertical-align: top;
+  word-break: break-word;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.authorColumn {
+  vertical-align: top;
+  word-break: break-word;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.publishDateColumn {
+  vertical-align: top;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.statusColumn {
+  vertical-align: top;
+}

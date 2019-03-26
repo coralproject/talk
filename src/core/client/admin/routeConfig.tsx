@@ -3,7 +3,7 @@ import React from "react";
 
 import AppContainer from "./containers/AppContainer";
 import AuthCheckContainer from "./containers/AuthCheckContainer";
-import Community from "./routes/community/components/Community";
+import CommunityContainer from "./routes/community/containers/CommunityContainer";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
 import ConfigureAdvancedRouteContainer from "./routes/configure/sections/advanced/containers/AdvancedConfigRouteContainer";
 import ConfigureAuthRouteContainer from "./routes/configure/sections/auth/containers/AuthConfigRouteContainer";
@@ -21,6 +21,7 @@ import {
 import RejectedQueueContainer from "./routes/moderate/containers/RejectedQueueContainer";
 import SingleModerateContainer from "./routes/moderate/containers/SingleModerateContainer";
 import Stories from "./routes/stories/components/Stories";
+import StoriesContainer from "./routes/stories/containers/StoriesContainer";
 
 export default makeRouteConfig(
   <Route path="admin">
@@ -41,7 +42,8 @@ export default makeRouteConfig(
           />
           <Route path="rejected" {...RejectedQueueContainer.routeConfig} />
         </Route>
-        <Route path="community" Component={Community} />
+        <Route path="stories" {...StoriesContainer.routeConfig} />
+        <Route path="community" {...CommunityContainer.routeConfig} />
         <Route path="stories" Component={Stories} />
         <Route path="configure" Component={ConfigureContainer}>
           <Redirect from="/" to="/admin/configure/general" />

@@ -8,13 +8,13 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { comments, meWithComments, settings, stories } from "../fixtures";
+import { comments, settings, stories, viewerWithComments } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const meStub = {
-    ...meWithComments,
+    ...viewerWithComments,
     comments: createSinonStub(
       s => s.throws(),
       s =>

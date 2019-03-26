@@ -3,7 +3,6 @@ import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 import passport, { Authenticator } from "passport";
-import now from "performance-now";
 
 import { AppOptions } from "talk-server/app";
 import FacebookStrategy from "talk-server/app/middleware/passport/strategies/facebook";
@@ -12,7 +11,7 @@ import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt"
 import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
 import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
 import { validate } from "talk-server/app/request/body";
-import logger from "talk-server/logger";
+import { AuthenticationError } from "talk-server/errors";
 import { User } from "talk-server/models/user";
 import {
   extractJWTFromRequest,
@@ -207,31 +206,22 @@ export const wrapAuthn = (
   signingConfig: JWTSigningConfig,
   name: string,
   options?: any
-): RequestHandler => (req: Request, res, next) => {
-  const startTime = now();
-
+): RequestHandler => (req: Request, res, next) =>
   authenticator.authenticate(
     name,
     { ...options, session: false },
     (err: Error | null, user: User | null) => {
-      // Compute the end time.
-      const responseTime = Math.round(now() - startTime);
-
-      logger.debug({ responseTime }, "user token generated");
-
       if (err) {
         return next(err);
       }
       if (!user) {
-        // TODO: (wyattjoh) replace with better error.
-        return next(new Error("no user on request"));
+        return next(new AuthenticationError("user not on request"));
       }
 
       // Pass the login off to be signed.
       handleSuccessfulLogin(user, signingConfig, req, res, next);
     }
   )(req, res, next);
-};
 
 /**
  * authenticate will wrap the authenticator to forward any error to the error

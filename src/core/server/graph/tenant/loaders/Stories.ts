@@ -23,7 +23,7 @@ const statusFilter = (
   switch (status) {
     case GQLSTORY_STATUS.OPEN:
       return {
-        closedAt: null,
+        closedAt: { $in: [null, false] },
       };
     case GQLSTORY_STATUS.CLOSED:
       return {

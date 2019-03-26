@@ -32,4 +32,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USERNAME_EXCEEDS_MAX_LENGTH: "error-usernameExceedsMaxLength",
   USERNAME_TOO_SHORT: "error-usernameTooShort",
   AUTHENTICATION_ERROR: "error-authenticationError",
+  INVALID_CREDENTIALS: "error-invalidCredentials",
+  TOXIC_COMMENT: "error-toxicCommentError",
+  SPAM_COMMENT: "error-spamCommentError",
 };

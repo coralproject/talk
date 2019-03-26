@@ -3,6 +3,7 @@ import ms from "ms";
 import fetch from "node-fetch";
 
 import { Omit } from "talk-common/types";
+import { ToxicCommentError } from "talk-server/errors";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
@@ -18,6 +19,7 @@ import {
 export const toxic: IntermediateModerationPhase = async ({
   tenant,
   comment,
+  nudge,
 }): Promise<IntermediatePhaseResult | void> => {
   if (!comment.body) {
     return;
@@ -74,14 +76,18 @@ export const toxic: IntermediateModerationPhase = async ({
   }
 
   // TODO: (wyattjoh) replace hardcoded default with config.
-  const timeout = ms("300ms");
+  const timeout = ms("500ms");
 
   try {
     logger.trace("checking comment toxicity");
 
+    // TODO: (wyattjoh) support custom toxicity model.
+    const model = "TOXICITY";
+
     // Call into the Toxic comment API.
-    const scores = await getScores(
+    const score = await getScore(
       comment.body,
+      model,
       {
         endpoint,
         key: integration.key,
@@ -90,10 +96,15 @@ export const toxic: IntermediateModerationPhase = async ({
       timeout
     );
 
-    const score = scores.SEVERE_TOXICITY.summaryScore;
     const isToxic = score > threshold;
     if (isToxic) {
-      log.trace({ score, isToxic, threshold }, "comment was toxic");
+      log.trace({ score, isToxic, threshold, model }, "comment was toxic");
+
+      // Throw an error if we're nudging instead of recording.
+      if (nudge) {
+        throw new ToxicCommentError(model, score, threshold);
+      }
+
       return {
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
         actions: [
@@ -105,33 +116,40 @@ export const toxic: IntermediateModerationPhase = async ({
         ],
         metadata: {
           // Store the scores from perspective in the Comment metadata.
-          perspective: scores,
+          perspective: { model, score },
         },
       };
     }
 
     log.trace({ score, isToxic, threshold }, "comment was not toxic");
   } catch (err) {
+    // Rethrow any ToxicCommentError.
+    if (err instanceof ToxicCommentError) {
+      throw err;
+    }
+
     log.error({ err }, "could not determine comment toxicity");
   }
 };
 
 /**
- * getScores will return the toxicity scores for the comment text.
+ * getScore will return the toxicity score for the comment text.
  *
  * @param text comment text to check for toxicity
+ * @param model the specific model to use when storing the toxicity
  * @param settings integration settings used to communicate with the perspective api
  * @param timeout timeout for communicating with the perspective api
  */
-async function getScores(
+async function getScore(
   text: string,
+  model: string,
   {
     key,
     endpoint,
     doNotStore,
   }: Required<Omit<GQLPerspectiveExternalIntegration, "enabled" | "threshold">>,
   timeout: number
-) {
+): Promise<number> {
   try {
     const response = await fetch(`${endpoint}/comments:analyze?key=${key}`, {
       method: "POST",
@@ -147,8 +165,7 @@ async function getScores(
         languages: ["en"],
         doNotStore,
         requestedAttributes: {
-          TOXICITY: {},
-          SEVERE_TOXICITY: {},
+          [model]: {},
         },
       }),
     });
@@ -157,14 +174,7 @@ async function getScores(
     const data = await response.json();
 
     // Reformat the scores.
-    return {
-      TOXICITY: {
-        summaryScore: data.attributeScores.TOXICITY.summaryScore.value,
-      },
-      SEVERE_TOXICITY: {
-        summaryScore: data.attributeScores.SEVERE_TOXICITY.summaryScore.value,
-      },
-    };
+    return data.attributeScores[model].summaryScore.value as number;
   } catch (err) {
     // Ensure that the API key doesn't get leaked to the logs by accident.
     if (err.message) {

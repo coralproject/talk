@@ -18,6 +18,9 @@ export interface TalkContext {
   /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
 
+  /** locales */
+  locales: string[];
+
   /** localeBundles for our i18n framework. */
   localeBundles: FluentBundle[];
 
@@ -61,12 +64,14 @@ export interface TalkContext {
   clearSession: () => Promise<void>;
 }
 
-const { Provider, Consumer } = React.createContext<TalkContext>({} as any);
+export const TalkReactContext = React.createContext<TalkContext>({} as any);
+
+export const useTalkContext = () => React.useContext(TalkReactContext);
 
 /**
  * Allows consuming the provided context using the React Context API.
  */
-export const TalkContextConsumer = Consumer;
+export const TalkContextConsumer = TalkReactContext.Consumer;
 
 /**
  * In addition to just providing the context, TalkContextProvider also
@@ -75,7 +80,7 @@ export const TalkContextConsumer = Consumer;
 export const TalkContextProvider: StatelessComponent<{
   value: TalkContext;
 }> = ({ value, children }) => (
-  <Provider value={value}>
+  <TalkReactContext.Provider value={value}>
     <LocalizationProvider bundles={value.localeBundles}>
       <UIContext.Provider
         value={{
@@ -87,5 +92,5 @@ export const TalkContextProvider: StatelessComponent<{
         {children}
       </UIContext.Provider>
     </LocalizationProvider>
-  </Provider>
+  </TalkReactContext.Provider>
 );

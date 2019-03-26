@@ -27,7 +27,7 @@ const handleResp = async (res: Response) => {
 
   if (!res.ok) {
     const response = await res.json();
-    throw new Error(response.error);
+    throw new Error(response.error.message);
   }
 
   if (res.status === 204) {

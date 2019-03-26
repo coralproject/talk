@@ -26,10 +26,12 @@ import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
+import { ERROR_TYPES } from "talk-common/errors";
+import { TalkError } from "talk-server/errors";
 import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
-import { processForModeration } from "./pipeline";
+import { PhaseResult, processForModeration } from "./pipeline";
 
 export type CreateComment = Omit<
   CreateCommentInput,
@@ -42,6 +44,7 @@ export async function create(
   tenant: Tenant,
   author: User,
   input: CreateComment,
+  nudge: boolean,
   req?: Request
 ) {
   let log = logger.child({
@@ -49,6 +52,7 @@ export async function create(
     tenantID: tenant.id,
     storyID: input.storyID,
     parentID: input.parentID,
+    nudge,
   });
 
   // TODO: (wyattjoh) perform rate limiting based on the user?
@@ -86,14 +90,30 @@ export async function create(
     );
   }
 
-  // Run the comment through the moderation phases.
-  const { actions, body, status, metadata } = await processForModeration({
-    story,
-    tenant,
-    comment: input,
-    author,
-    req,
-  });
+  let result: PhaseResult;
+
+  try {
+    // Run the comment through the moderation phases.
+    result = await processForModeration({
+      nudge,
+      story,
+      tenant,
+      comment: input,
+      author,
+      req,
+    });
+  } catch (err) {
+    if (
+      err instanceof TalkError &&
+      err.type === ERROR_TYPES.MODERATION_NUDGE_ERROR
+    ) {
+      log.info({ err }, "detected pipeline nudge");
+    }
+
+    throw err;
+  }
+
+  const { actions, body, status, metadata } = result;
 
   // This is the first time this comment is being published.. So we need to
   // ensure we don't run into any race conditions when we create the comment.

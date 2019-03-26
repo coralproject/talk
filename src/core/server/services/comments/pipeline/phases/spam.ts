@@ -1,5 +1,6 @@
 import { Client } from "akismet-api";
 
+import { SpamCommentError } from "talk-server/errors";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
@@ -17,6 +18,7 @@ export const spam: IntermediateModerationPhase = async ({
   comment,
   author,
   req,
+  nudge,
 }): Promise<IntermediatePhaseResult | void> => {
   const integration = tenant.integrations.akismet;
 
@@ -96,6 +98,12 @@ export const spam: IntermediateModerationPhase = async ({
     });
     if (isSpam) {
       log.trace({ isSpam }, "comment contained spam");
+
+      // Throw an error if we're nudging instead of recording.
+      if (nudge) {
+        throw new SpamCommentError();
+      }
+
       return {
         status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
         actions: [
@@ -114,6 +122,11 @@ export const spam: IntermediateModerationPhase = async ({
 
     log.trace({ isSpam }, "comment did not contain spam");
   } catch (err) {
+    // Rethrow any SpamCommentError.
+    if (err instanceof SpamCommentError) {
+      throw err;
+    }
+
     log.error({ err }, "could not determine if comment contained spam");
   }
 };

@@ -2,6 +2,7 @@ import cn from "classnames";
 import React from "react";
 import { Manager, Popper, Reference, RefHandler } from "react-popper";
 
+import { oncePerFrame } from "talk-common/utils";
 import { withStyles } from "talk-ui/hocs";
 
 import AriaInfo from "../AriaInfo";
@@ -58,22 +59,33 @@ class Popover extends React.Component<PopoverProps> {
     visible: false,
   };
 
-  public toggleVisibility = (event?: React.SyntheticEvent | Event) => {
-    if (event && event.stopPropagation) {
-      event.stopPropagation();
+  private toggleVisibility = (() => {
+    let fn = (event?: React.SyntheticEvent | Event) => {
+      this.setState((state: State) => ({
+        visible: !state.visible,
+      }));
+    };
+    if (process.env.NODE_ENV !== "test") {
+      /**
+       * Only run this once per frame in the browser, otherwise
+       * we might get into a situation where this is called twice
+       * by different event handlers cancelling each other out.
+       *
+       * We don't wan this behavior when running in a simulated browser
+       * environment with simulated events.
+       */
+      fn = oncePerFrame(fn);
     }
-    this.setState((state: State) => ({
-      visible: !state.visible,
-    }));
-  };
+    return fn;
+  })();
 
-  public close = () => {
+  private close = () => {
     this.setState((state: State) => ({
       visible: false,
     }));
   };
 
-  public handleEsc = (e: KeyboardEvent) => {
+  private handleEsc = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
       e.preventDefault();
       this.close();

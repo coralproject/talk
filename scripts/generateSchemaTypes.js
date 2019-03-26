@@ -14,15 +14,6 @@ function lintAndWrite(files) {
   }
 }
 
-function getFileName(name) {
-  return path.join(
-    __dirname,
-    "../src/core/server/graph",
-    name,
-    "schema/__generated__/types.ts"
-  );
-}
-
 async function main() {
   const config = getGraphQLConfig(__dirname);
   const projects = config.getProjects();
@@ -30,7 +21,10 @@ async function main() {
   const files = [
     {
       name: "tenant",
-      fileName: getFileName("tenant"),
+      fileName: path.join(
+        __dirname,
+        "../src/core/server/graph/tenant/schema/__generated__/types.ts"
+      ),
       config: {
         contextType: "TenantContext",
         importStatements: [
@@ -39,6 +33,14 @@ async function main() {
         ],
         customScalarType: { Cursor: "Cursor", Time: "Date" },
       },
+    },
+    {
+      name: "tenant",
+      fileName: path.join(
+        __dirname,
+        "../src/core/client/framework/schema/__generated__/types.ts"
+      ),
+      config: {},
     },
   ];
 

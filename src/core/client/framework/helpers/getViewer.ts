@@ -2,7 +2,7 @@ import { Environment } from "relay-runtime";
 
 import getViewerSourceID from "./getViewerSourceID";
 
-export default function getMe(environment: Environment) {
+export default function getViewer(environment: Environment) {
   const source = environment.getStore().getSource();
   const viewerID = getViewerSourceID(environment);
   if (!viewerID) {

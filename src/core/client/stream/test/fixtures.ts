@@ -396,13 +396,13 @@ export const storyWithDeepestReplies = denormalizeStory({
   },
 });
 
-export const meAsModerator = {
+export const viewerAsModerator = {
   id: "me-as-moderator",
   username: "Moderator",
   role: "MODERATOR",
 };
 
-export const meWithComments = {
+export const viewerWithComments = {
   id: "me-with-comments",
   username: "Markus",
   role: "COMMENTER",

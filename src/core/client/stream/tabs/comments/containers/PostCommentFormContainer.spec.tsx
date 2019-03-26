@@ -118,6 +118,7 @@ it("creates a comment", async () => {
   expect(
     createCommentStub.calledWith({
       storyID,
+      nudge: true,
       ...input,
     })
   ).toBeTruthy();
