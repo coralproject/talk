@@ -1,3 +1,4 @@
+import { GQLUSER_ROLE } from "talk-framework/schema";
 import {
   denormalizeComment,
   denormalizeComments,
@@ -76,17 +77,17 @@ export const users = [
   {
     id: "user-0",
     username: "Markus",
-    role: "COMMENTER",
+    role: GQLUSER_ROLE.COMMENTER,
   },
   {
     id: "user-1",
     username: "Lukas",
-    role: "COMMENTER",
+    role: GQLUSER_ROLE.COMMENTER,
   },
   {
     id: "user-2",
     username: "Isabelle",
-    role: "COMMENTER",
+    role: GQLUSER_ROLE.COMMENTER,
   },
 ];
 
@@ -399,13 +400,13 @@ export const storyWithDeepestReplies = denormalizeStory({
 export const viewerAsModerator = {
   id: "me-as-moderator",
   username: "Moderator",
-  role: "MODERATOR",
+  role: GQLUSER_ROLE.MODERATOR,
 };
 
 export const viewerWithComments = {
   id: "me-with-comments",
   username: "Markus",
-  role: "COMMENTER",
+  role: GQLUSER_ROLE.COMMENTER,
   comments: {
     edges: [
       {

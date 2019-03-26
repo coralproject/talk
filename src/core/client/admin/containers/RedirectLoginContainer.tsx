@@ -8,6 +8,7 @@ import {
 } from "talk-admin/mutations";
 import { graphql } from "talk-framework/lib/relay";
 import { withRouteConfig } from "talk-framework/lib/router";
+import { GQLUSER_ROLE } from "talk-framework/schema";
 
 interface Props {
   match: Match;
@@ -35,7 +36,7 @@ class RedirectLoginContainer extends React.Component<Props> {
       settings: { auth },
     } = props.data!;
     if (viewer) {
-      if (viewer.role === "COMMENTER") {
+      if (viewer.role === GQLUSER_ROLE.COMMENTER) {
         return "/admin/login";
       } else if (
         !viewer.email ||
