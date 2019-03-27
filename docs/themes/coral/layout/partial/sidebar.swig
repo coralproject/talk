@@ -28,8 +28,7 @@
 
 
   <div class="notice">
-    <p>Don't see what you're looking for? We're upgrading the docs, check out our <a href="https://github.com/coralproject/talk/tree/ef49d9a3d2acc4d2fc03b00e0c872dfbc57f005a/docs/_docs" target="_blank" class="coral-link-invert">old docs</a>.</p>
-    <p><a href="https://coralproject.net/" class="coral-link-invert" target="_blank">The Coral Project</a> by <a href="https://www.voxmedia.com/" class="coral-link-invert" target="_blank" title="Vox Media">Vox Media</a></p>
+    <p>Made by <a href="https://coralproject.net/" class="coral-link-invert" target="_blank">The Coral Project</a> by <a href="https://www.voxmedia.com/" class="coral-link-invert" target="_blank" title="Vox Media">Vox Media</a>.</p>
     <a href="https://www.voxmedia.com/" target="_blank" title="Vox Media"><figure class="voxmedia" alt="Vox Media">{{ image_tag('images/coralproject.png') }}</figure></a>
   </div>
 </aside>
