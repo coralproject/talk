@@ -71,6 +71,9 @@ class ConversationThreadContainer extends React.Component<
               createdAt: comment.rootParent.createdAt,
               username:
                 comment.rootParent.author && comment.rootParent.author.username,
+              staff: Boolean(
+                comment.rootParent.author && comment.rootParent.author.staff
+              ),
             }) ||
           null
         }
@@ -120,6 +123,7 @@ const enhanced = withContext(ctx => ({
               author {
                 id
                 username
+                staff
               }
               createdAt
             }

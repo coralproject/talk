@@ -23,11 +23,15 @@ exports[`renders deepest comment with link 1`] = `
             <div
               className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
               >
-                Markus
-              </span>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
               >

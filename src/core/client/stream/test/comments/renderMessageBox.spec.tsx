@@ -3,7 +3,7 @@ import sinon from "sinon";
 
 import { waitForElement, within } from "talk-framework/testHelpers";
 
-import { settings, storyWithNoComments, users } from "../fixtures";
+import { commenters, settings, storyWithNoComments } from "../fixtures";
 import create from "./create";
 
 async function createTestRenderer(
@@ -17,7 +17,7 @@ async function createTestRenderer(
   const resolvers = {
     Query: {
       settings: sinon.stub().returns(merge({}, settings, data.settings)),
-      viewer: sinon.stub().returns((data.loggedIn && users[0]) || null),
+      viewer: sinon.stub().returns((data.loggedIn && commenters[0]) || null),
       story: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(storyWithNoComments.id);
         return merge({}, storyWithNoComments, data.story);

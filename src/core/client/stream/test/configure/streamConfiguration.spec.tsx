@@ -8,7 +8,7 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { settings, stories, viewerAsModerator } from "../fixtures";
+import { moderators, settings, stories } from "../fixtures";
 import create from "./create";
 
 async function createTestRenderer(
@@ -22,7 +22,7 @@ async function createTestRenderer(
         expectAndFail(variables).toEqual({ id: stories[0].id, url: null });
         return stories[0];
       }),
-      viewer: sinon.stub().returns(viewerAsModerator),
+      viewer: sinon.stub().returns(moderators[0]),
       ...resolver.Query,
     },
     ...resolver,

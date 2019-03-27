@@ -7,6 +7,7 @@ import { Flex, HorizontalGutter } from "talk-ui/components";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
+import StaffBadge from "./StaffBadge";
 import TopBarLeft from "./TopBarLeft";
 import Username from "./Username";
 
@@ -22,6 +23,7 @@ export interface CommentProps {
   showEditedMarker?: boolean;
   highlight?: boolean;
   parentAuthorName?: string | null;
+  staff?: boolean;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
@@ -32,7 +34,10 @@ const Comment: StatelessComponent<CommentProps> = props => {
     >
       <Flex direction="row" justifyContent="space-between">
         <TopBarLeft>
-          {props.username && <Username>{props.username}</Username>}
+          <Flex direction="row" alignItems="center" itemGutter="half">
+            {props.username && <Username>{props.username}</Username>}
+            {props.staff && <StaffBadge>Staff</StaffBadge>}
+          </Flex>
           <Flex direction="row" alignItems="baseline" itemGutter>
             <Timestamp>{props.createdAt}</Timestamp>
             {props.showEditedMarker && <EditedMarker />}

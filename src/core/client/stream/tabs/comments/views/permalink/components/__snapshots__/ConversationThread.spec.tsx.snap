@@ -31,6 +31,72 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
       <RootParent
         createdAt="1995-12-17T03:24:00.000Z"
         id="root-parent"
+        staff={false}
+        username="parentAuthor"
+      />
+    </Circle>
+    <Circle
+      className="ConversationThread-loadMore"
+      hollow={true}
+    >
+      <ForwardRef(forwardRef)
+        alignItems="center"
+        itemGutter="half"
+      >
+        <Localized
+          $count={2}
+          id="comments-conversationThread-showMoreOfThisConversation"
+        >
+          <ForwardRef(forwardRef)
+            className="ConversationThread-showMoreButton"
+            disabled={false}
+            onClick={[Function]}
+            variant="underlined"
+          >
+            Show more of this conversation
+          </ForwardRef(forwardRef)>
+        </Localized>
+        <withPropsOnChange(Counter)>
+          2
+        </withPropsOnChange(Counter)>
+      </ForwardRef(forwardRef)>
+    </Circle>
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)
+    container={[Function]}
+  >
+    <Circle
+      end={true}
+    >
+      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+        comment={Object {}}
+        highlight={true}
+        settings={Object {}}
+        story={Object {}}
+        viewer={Object {}}
+      />
+    </Circle>
+  </ForwardRef(forwardRef)>
+</div>
+`;
+
+exports[`with 2 remaining parent comments renders staff badge 1`] = `
+<div
+  className="root ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
+>
+  <ForwardRef(forwardRef)
+    container={
+      <Line
+        dotted={true}
+      />
+    }
+  >
+    <Circle>
+      <RootParent
+        createdAt="1995-12-17T03:24:00.000Z"
+        id="root-parent"
+        staff={true}
         username="parentAuthor"
       />
     </Circle>
@@ -95,6 +161,7 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
       <RootParent
         createdAt="1995-12-17T03:24:00.000Z"
         id="root-parent"
+        staff={false}
         username="parentAuthor"
       />
     </Circle>

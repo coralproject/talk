@@ -217,6 +217,13 @@
   letter-spacing: calc(-0.35em / 13);
 }
 
+.tagText {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-regular);
+  font-size: calc(13rem / var(--rem-base));
+  letter-spacing: calc(-0.2em / 13);
+}
+
 .sideNavigationItem {
   font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-regular);

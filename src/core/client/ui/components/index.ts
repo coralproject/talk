@@ -54,3 +54,4 @@ export {
   Button as DropdownButton,
 } from "./Dropdown";
 export { Table, TableBody, TableHead, TableRow, TableCell } from "./Table";
+export { default as Badge } from "./Badge";

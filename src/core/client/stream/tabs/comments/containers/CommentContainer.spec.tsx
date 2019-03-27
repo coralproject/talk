@@ -27,6 +27,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         author: {
           id: "author-id",
           username: "Marvin",
+          staff: false,
         },
         parent: null,
         body: "Woof",
@@ -121,6 +122,19 @@ it("renders disabled reply when commenting has been disabled", () => {
     settings: {
       disableCommenting: {
         enabled: true,
+      },
+    },
+  });
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+it("renders staff badge", () => {
+  const props = createDefaultProps({
+    comment: {
+      author: {
+        staff: true,
       },
     },
   });

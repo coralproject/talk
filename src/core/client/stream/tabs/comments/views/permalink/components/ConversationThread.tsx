@@ -32,6 +32,7 @@ export interface ConversationThreadProps {
     id: string;
     createdAt: string;
     username: string | null;
+    staff: boolean;
   } | null;
 }
 
@@ -64,6 +65,7 @@ const ConversationThread: StatelessComponent<
               id={props.rootParent.id}
               username={props.rootParent.username}
               createdAt={props.rootParent.createdAt}
+              staff={props.rootParent.staff}
             />
           </Circle>
         )}

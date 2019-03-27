@@ -129,6 +129,8 @@ comments-reportPopover-receivedMessage =
 
 comments-reportPopover-dismiss = Dismiss
 
+comments-staffBadge = Staff
+
 ## Submit Status
 comments-submitStatus-dismiss = Dismiss
 comments-submitStatus-submittedAndWillBeReviewed =

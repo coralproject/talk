@@ -5,7 +5,7 @@ import { timeout } from "talk-common/utils";
 import { InvalidRequestError } from "talk-framework/lib/errors";
 import { wait, waitForElement, within } from "talk-framework/testHelpers";
 
-import { settings, stories, users } from "../fixtures";
+import { commenters, settings, stories } from "../fixtures";
 import create from "./create";
 
 function createTestRenderer(
@@ -21,7 +21,7 @@ function createTestRenderer(
         });
         return stories[0];
       }),
-      viewer: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(commenters[0]),
       settings: sinon.stub().returns(settings),
       ...resolver.Query,
     },
