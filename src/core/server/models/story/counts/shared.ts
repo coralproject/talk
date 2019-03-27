@@ -62,9 +62,9 @@ function collection<T = Story>(mongo: Db) {
 export async function recalculateSharedModerationQueueQueueCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ) {
-  const now = new Date();
   const key = commentCountsModerationQueueQueuesKey(tenantID);
   const freshKey = freshenKey(key);
 
@@ -136,9 +136,9 @@ export async function recalculateSharedModerationQueueQueueCounts(
 export async function recalculateSharedModerationQueueTotalCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ) {
-  const now = new Date();
   const key = commentCountsModerationQueueTotalKey(tenantID);
   const freshKey = freshenKey(key);
 
@@ -191,9 +191,9 @@ export async function recalculateSharedModerationQueueTotalCounts(
 export async function recalculateSharedStatusCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ) {
-  const now = new Date();
   const key = commentCountsStatusKey(tenantID);
   const freshKey = freshenKey(key);
 
@@ -265,9 +265,9 @@ export async function recalculateSharedStatusCommentCounts(
 export async function recalculateSharedActionCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ) {
-  const now = new Date();
   const key = commentCountsActionKey(tenantID);
   const freshKey = freshenKey(key);
 
@@ -339,13 +339,14 @@ export async function recalculateSharedActionCommentCounts(
 export async function recalculateSharedCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ) {
   await Promise.all([
-    recalculateSharedModerationQueueQueueCounts(mongo, redis, tenantID),
-    recalculateSharedModerationQueueTotalCounts(mongo, redis, tenantID),
-    recalculateSharedStatusCommentCounts(mongo, redis, tenantID),
-    recalculateSharedActionCommentCounts(mongo, redis, tenantID),
+    recalculateSharedModerationQueueQueueCounts(mongo, redis, tenantID, now),
+    recalculateSharedModerationQueueTotalCounts(mongo, redis, tenantID, now),
+    recalculateSharedStatusCommentCounts(mongo, redis, tenantID, now),
+    recalculateSharedActionCommentCounts(mongo, redis, tenantID, now),
   ]);
 }
 
@@ -385,7 +386,8 @@ function fillAndConvertStringToNumber<
 export async function retrieveSharedActionCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ): Promise<EncodedCommentActionCounts> {
   const key = commentCountsActionKey(tenantID);
   const freshKey = freshenKey(key);
@@ -400,7 +402,7 @@ export async function retrieveSharedActionCommentCounts(
     .get(freshKey)
     .exec();
   if (!fresh || !actions) {
-    return recalculateSharedActionCommentCounts(mongo, redis, tenantID);
+    return recalculateSharedActionCommentCounts(mongo, redis, tenantID, now);
   }
 
   return fillAndConvertStringToNumber(
@@ -421,7 +423,8 @@ export async function retrieveSharedActionCommentCounts(
 export async function retrieveSharedStatusCommentCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ): Promise<CommentStatusCounts> {
   const key = commentCountsStatusKey(tenantID);
   const freshKey = freshenKey(key);
@@ -436,7 +439,7 @@ export async function retrieveSharedStatusCommentCounts(
     .get(freshKey)
     .exec();
   if (!fresh || !statuses) {
-    return recalculateSharedStatusCommentCounts(mongo, redis, tenantID);
+    return recalculateSharedStatusCommentCounts(mongo, redis, tenantID, now);
   }
 
   return fillAndConvertStringToNumber(
@@ -457,7 +460,8 @@ export async function retrieveSharedStatusCommentCounts(
 export async function retrieveSharedModerationQueueTotal(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ) {
   const key = commentCountsModerationQueueTotalKey(tenantID);
   const freshKey = freshenKey(key);
@@ -468,7 +472,12 @@ export async function retrieveSharedModerationQueueTotal(
     freshKey
   );
   if (fresh === null || total === null) {
-    return recalculateSharedModerationQueueTotalCounts(mongo, redis, tenantID);
+    return recalculateSharedModerationQueueTotalCounts(
+      mongo,
+      redis,
+      tenantID,
+      now
+    );
   }
 
   return parseInt(total, 10) || 0;
@@ -486,7 +495,8 @@ export async function retrieveSharedModerationQueueTotal(
 export async function retrieveSharedModerationQueueQueuesCounts(
   mongo: Db,
   redis: AugmentedRedis,
-  tenantID: string
+  tenantID: string,
+  now = new Date()
 ): Promise<CommentModerationCountsPerQueue> {
   const key = commentCountsModerationQueueQueuesKey(tenantID);
   const freshKey = freshenKey(key);
@@ -505,7 +515,12 @@ export async function retrieveSharedModerationQueueQueuesCounts(
     .exec();
   if (!fresh || !queues) {
     logger.debug({ tenantID }, "comment moderation counts were not cached");
-    return recalculateSharedModerationQueueQueueCounts(mongo, redis, tenantID);
+    return recalculateSharedModerationQueueQueueCounts(
+      mongo,
+      redis,
+      tenantID,
+      now
+    );
   }
 
   logger.debug({ tenantID }, "comment moderation counts were cached");

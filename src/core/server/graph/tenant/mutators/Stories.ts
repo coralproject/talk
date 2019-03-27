@@ -33,7 +33,8 @@ export const Stories = (ctx: TenantContext) => ({
         ctx.tenant,
         input.story.id,
         input.story.url,
-        omitBy(input.story, isNull)
+        omitBy(input.story, isNull),
+        ctx.now
       ),
       {
         "input.story.url": [
@@ -44,7 +45,7 @@ export const Stories = (ctx: TenantContext) => ({
     ),
   update: async (input: GQLUpdateStoryInput): Promise<Readonly<Story> | null> =>
     mapFieldsetToErrorCodes(
-      update(ctx.mongo, ctx.tenant, input.id, input.story),
+      update(ctx.mongo, ctx.tenant, input.id, input.story, ctx.now),
       {
         "input.story.url": [
           ERROR_CODES.STORY_URL_NOT_PERMITTED,
@@ -55,11 +56,11 @@ export const Stories = (ctx: TenantContext) => ({
   updateSettings: async (
     input: GQLUpdateStorySettingsInput
   ): Promise<Readonly<Story> | null> =>
-    updateSettings(ctx.mongo, ctx.tenant, input.id, input.settings),
+    updateSettings(ctx.mongo, ctx.tenant, input.id, input.settings, ctx.now),
   close: (input: GQLCloseStoryInput): Promise<Readonly<Story> | null> =>
-    close(ctx.mongo, ctx.tenant, input.id),
+    close(ctx.mongo, ctx.tenant, input.id, ctx.now),
   open: (input: GQLOpenStoryInput): Promise<Readonly<Story> | null> =>
-    open(ctx.mongo, ctx.tenant, input.id),
+    open(ctx.mongo, ctx.tenant, input.id, ctx.now),
   merge: async (input: GQLMergeStoriesInput): Promise<Readonly<Story> | null> =>
     merge(
       ctx.mongo,

@@ -27,7 +27,11 @@ import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
 import { ERROR_TYPES } from "talk-common/errors";
-import { TalkError } from "talk-server/errors";
+import {
+  CommentNotFoundError,
+  StoryNotFoundError,
+  TalkError,
+} from "talk-server/errors";
 import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
@@ -45,6 +49,7 @@ export async function create(
   author: User,
   input: CreateComment,
   nudge: boolean,
+  now = new Date(),
   req?: Request
 ) {
   let log = logger.child({
@@ -62,8 +67,7 @@ export async function create(
   // Grab the story that we'll use to check moderation pieces with.
   const story = await retrieveStory(mongo, tenant.id, input.storyID);
   if (!story) {
-    // TODO: (wyattjoh) return better error.
-    throw new Error("story referenced does not exist");
+    throw new StoryNotFoundError(input.storyID);
   }
 
   const grandparentIDs: string[] = [];
@@ -71,8 +75,7 @@ export async function create(
     // Check to see that the reference parent ID exists.
     const parent = await retrieveComment(mongo, tenant.id, input.parentID);
     if (!parent) {
-      // TODO: (wyattjoh) return better error.
-      throw new Error("parent comment referenced does not exist");
+      throw new CommentNotFoundError(input.parentID);
     }
 
     // FIXME: (wyattjoh) Check that the parent comment was visible!
@@ -101,6 +104,7 @@ export async function create(
       comment: input,
       author,
       req,
+      now,
     });
   } catch (err) {
     if (
@@ -137,15 +141,20 @@ export async function create(
   }
 
   // Create the comment!
-  const comment = await createComment(mongo, tenant.id, {
-    ...input,
-    tags,
-    body,
-    status,
-    grandparentIDs,
-    metadata,
-    actionCounts,
-  });
+  const comment = await createComment(
+    mongo,
+    tenant.id,
+    {
+      ...input,
+      tags,
+      body,
+      status,
+      grandparentIDs,
+      metadata,
+      actionCounts,
+    },
+    now
+  );
 
   // Pull the revision out.
   const revision = getLatestRevision(comment);
@@ -172,7 +181,7 @@ export async function create(
     const upsertedActions = await addCommentActions(
       mongo,
       tenant,
-      ...actions.map(
+      actions.map(
         (action): CreateAction => ({
           ...action,
           commentID: comment.id,
@@ -181,7 +190,8 @@ export async function create(
           // Store the Story ID on the action.
           storyID: story.id,
         })
-      )
+      ),
+      now
     );
 
     log.trace({ actions: upsertedActions.length }, "added actions to comment");
@@ -215,6 +225,7 @@ export async function edit(
   tenant: Tenant,
   author: User,
   input: EditComment,
+  now = new Date(),
   req?: Request
 ) {
   let log = logger.child({ commentID: input.id, tenantID: tenant.id });
@@ -227,15 +238,17 @@ export async function edit(
     input.id
   );
   if (!originalStaleComment) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
+    throw new CommentNotFoundError(input.id);
   }
 
   // The editable time is based on the current time, and the edit window
   // length. By subtracting the current date from the edit window length, we
   // get the maximum value for the `createdAt` time that would be permitted
   // for the comment edit to succeed.
-  const lastEditableCommentCreatedAt = getLastCommentEditableUntilDate(tenant);
+  const lastEditableCommentCreatedAt = getLastCommentEditableUntilDate(
+    tenant,
+    now
+  );
 
   // Validate and potentially return with a more useful error.
   validateEditable(originalStaleComment, {
@@ -250,8 +263,7 @@ export async function edit(
     originalStaleComment.storyID
   );
   if (!story) {
-    // TODO: (wyattjoh) return better error.
-    throw new Error("story referenced does not exist");
+    throw new StoryNotFoundError(originalStaleComment.storyID);
   }
 
   // Run the comment through the moderation phases.
@@ -261,6 +273,7 @@ export async function edit(
     comment: input,
     author,
     req,
+    now,
   });
 
   let actionCounts = {};
@@ -276,18 +289,22 @@ export async function edit(
   );
 
   // Perform the edit.
-  const result = await editComment(mongo, tenant.id, {
-    id: input.id,
-    authorID: author.id,
-    body,
-    status,
-    metadata,
-    actionCounts,
-    lastEditableCommentCreatedAt,
-  });
+  const result = await editComment(
+    mongo,
+    tenant.id,
+    {
+      id: input.id,
+      authorID: author.id,
+      body,
+      status,
+      metadata,
+      actionCounts,
+      lastEditableCommentCreatedAt,
+    },
+    now
+  );
   if (!result) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
+    throw new CommentNotFoundError(input.id);
   }
 
   // Pull the old/edited comments out of the edit result.
@@ -300,14 +317,15 @@ export async function edit(
     const upsertedActions = await addCommentActions(
       mongo,
       tenant,
-      ...actions.map(
+      actions.map(
         (action): CreateAction => ({
           ...action,
           commentID: editedComment.id,
           commentRevisionID: newRevision.id,
           storyID: story.id,
         })
-      )
+      ),
+      now
     );
 
     log.trace(
@@ -361,7 +379,7 @@ export async function edit(
  */
 export function getLastCommentEditableUntilDate(
   tenant: Pick<Tenant, "editCommentWindowLength">,
-  now: Date = new Date()
+  now = new Date()
 ): Date {
   return (
     DateTime.fromJSDate(now)

@@ -69,7 +69,11 @@ export type CreateTenantInput = Pick<
  * @param mongo the MongoDB connection used to create the tenant.
  * @param input the customizable parts of the Tenant available during creation
  */
-export async function createTenant(mongo: Db, input: CreateTenantInput) {
+export async function createTenant(
+  mongo: Db,
+  input: CreateTenantInput,
+  now = new Date()
+) {
   const defaults: Sub<Tenant, CreateTenantInput> = {
     // Create a new ID.
     id: uuid.v4(),
@@ -119,7 +123,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
             stream: true,
           },
           key: generateSSOKey(),
-          keyGeneratedAt: new Date(),
+          keyGeneratedAt: now,
         },
         oidc: {
           enabled: false,
@@ -175,6 +179,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       labelActive: "Respected",
       icon: "thumb_up",
     },
+    createdAt: now,
   };
 
   // Create the new Tenant by merging it together with the defaults.

@@ -33,6 +33,8 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   USERNAME_TOO_SHORT: "error-usernameTooShort",
   AUTHENTICATION_ERROR: "error-authenticationError",
   INVALID_CREDENTIALS: "error-invalidCredentials",
-  TOXIC_COMMENT: "error-toxicCommentError",
-  SPAM_COMMENT: "error-spamCommentError",
+  TOXIC_COMMENT: "error-toxicComment",
+  SPAM_COMMENT: "error-spamComment",
+  USER_ALREADY_SUSPENDED: "error-userAlreadySuspended",
+  USER_ALREADY_BANNED: "error-userAlreadyBanned",
 };

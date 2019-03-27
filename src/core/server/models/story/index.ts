@@ -121,10 +121,9 @@ export interface UpsertStoryInput {
 export async function upsertStory(
   mongo: Db,
   tenantID: string,
-  { id, url }: UpsertStoryInput
+  { id, url }: UpsertStoryInput,
+  now = new Date()
 ) {
-  const now = new Date();
-
   // Create the story, optionally sourcing the id from the input, additionally
   // porting in the tenantID.
   const update: { $setOnInsert: Story } = {
@@ -171,15 +170,21 @@ export interface FindOrCreateStoryInput {
 export async function findOrCreateStory(
   mongo: Db,
   tenantID: string,
-  { id, url }: FindOrCreateStoryInput
+  { id, url }: FindOrCreateStoryInput,
+  now = new Date()
 ) {
   if (id) {
     if (url) {
       // The URL was specified, this is an upsert operation.
-      return upsertStory(mongo, tenantID, {
-        id,
-        url,
-      });
+      return upsertStory(
+        mongo,
+        tenantID,
+        {
+          id,
+          url,
+        },
+        now
+      );
     }
 
     // The URL was not specified, this is a lookup operation.
@@ -192,7 +197,7 @@ export async function findOrCreateStory(
     throw new Error("cannot upsert an story without the url");
   }
 
-  return upsertStory(mongo, tenantID, { url });
+  return upsertStory(mongo, tenantID, { url }, now);
 }
 
 export type CreateStoryInput = Partial<Pick<Story, "metadata" | "scrapedAt">>;
@@ -202,10 +207,9 @@ export async function createStory(
   tenantID: string,
   id: string,
   url: string,
-  input: CreateStoryInput
+  input: CreateStoryInput,
+  now = new Date()
 ) {
-  const now = new Date();
-
   // Create the story.
   const story: Story = {
     ...input,
@@ -289,14 +293,15 @@ export async function updateStory(
   mongo: Db,
   tenantID: string,
   id: string,
-  input: UpdateStoryInput
+  input: UpdateStoryInput,
+  now = new Date()
 ) {
   // Only update fields that have been updated.
   const update = {
     $set: {
       ...dotize(input, { embedArrays: true }),
       // Always update the updated at time.
-      updatedAt: new Date(),
+      updatedAt: now,
     },
   };
 
@@ -326,14 +331,15 @@ export async function updateStorySettings(
   mongo: Db,
   tenantID: string,
   id: string,
-  input: UpdateStorySettingsInput
+  input: UpdateStorySettingsInput,
+  now = new Date()
 ) {
   // Only update fields that have been updated.
   const update = {
     $set: {
       ...omitBy(dotize({ settings: input }, { embedArrays: true }), isNull),
       // Always update the updated at time.
-      updatedAt: new Date(),
+      updatedAt: now,
     },
   };
 
@@ -348,14 +354,19 @@ export async function updateStorySettings(
   return result.value || null;
 }
 
-export async function openStory(mongo: Db, tenantID: string, id: string) {
+export async function openStory(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     {
       $set: {
         closedAt: false,
         // Always update the updated at time.
-        updatedAt: new Date(),
+        updatedAt: now,
       },
     },
     // False to return the updated document instead of the original
@@ -366,14 +377,19 @@ export async function openStory(mongo: Db, tenantID: string, id: string) {
   return result.value || null;
 }
 
-export async function closeStory(mongo: Db, tenantID: string, id: string) {
+export async function closeStory(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  now = new Date()
+) {
   const result = await collection(mongo).findOneAndUpdate(
     { id, tenantID },
     {
       $set: {
-        closedAt: new Date(),
+        closedAt: now,
         // Always update the updated at time.
-        updatedAt: new Date(),
+        updatedAt: now,
       },
     },
     // False to return the updated document instead of the original

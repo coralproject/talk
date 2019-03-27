@@ -39,7 +39,8 @@ export default class GoogleStrategy extends OAuth2Strategy<
   protected async findOrCreateUser(
     tenant: Tenant,
     integration: Required<GQLGoogleAuthIntegration>,
-    { id, photos, emails, displayName }: Profile
+    { id, photos, emails, displayName }: Profile,
+    now = new Date()
   ) {
     // Create the user profile that will be used to lookup the User.
     const profile: GoogleProfile = {
@@ -70,14 +71,19 @@ export default class GoogleStrategy extends OAuth2Strategy<
         emailVerified = false;
       }
 
-      user = await insert(this.mongo, tenant, {
-        username: displayName,
-        role: GQLUSER_ROLE.COMMENTER,
-        email,
-        emailVerified,
-        avatar,
-        profiles: [profile],
-      });
+      user = await insert(
+        this.mongo,
+        tenant,
+        {
+          username: displayName,
+          role: GQLUSER_ROLE.COMMENTER,
+          email,
+          emailVerified,
+          avatar,
+          profiles: [profile],
+        },
+        now
+      );
     }
 
     // TODO: maybe update user details?

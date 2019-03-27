@@ -3,11 +3,15 @@ import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
 import TenantContext from "talk-server/graph/tenant/context";
 import { User } from "talk-server/models/user";
 import {
+  ban,
   createToken,
   deactivateToken,
+  removeBan,
+  removeSuspension,
   setEmail,
   setPassword,
   setUsername,
+  suspend,
   updateAvatar,
   updateEmail,
   updatePassword,
@@ -15,11 +19,15 @@ import {
   updateUsername,
 } from "talk-server/services/users";
 import {
+  GQLBanUserInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
+  GQLRemoveUserBanInput,
+  GQLRemoveUserSuspensionInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
+  GQLSuspendUserInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
@@ -69,7 +77,8 @@ export const Users = (ctx: TenantContext) => ({
       // NOTE: (wyattjoh) this will error if not provided.
       ctx.signingConfig!,
       ctx.user!,
-      input.name
+      input.name,
+      ctx.now
     ),
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
@@ -81,4 +90,19 @@ export const Users = (ctx: TenantContext) => ({
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
+  ban: async (input: GQLBanUserInput) =>
+    ban(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  suspend: async (input: GQLSuspendUserInput) =>
+    suspend(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      input.timeout,
+      ctx.now
+    ),
+  removeBan: async (input: GQLRemoveUserBanInput) =>
+    removeBan(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  removeSuspension: async (input: GQLRemoveUserSuspensionInput) =>
+    removeSuspension(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
 });

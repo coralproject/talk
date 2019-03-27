@@ -93,14 +93,20 @@ export const installHandler = ({
 
     // Install will throw if it can not create a Tenant, or it has already been
     // installed.
-    const tenant = await install(mongo, redis, req.talk.cache.tenant, {
-      ...tenantInput,
-      // Infer the Tenant domain via the hostname parameter.
-      domain: req.hostname,
-      // Add the locale that we had to default to the default locale from the
-      // config.
-      locale,
-    });
+    const tenant = await install(
+      mongo,
+      redis,
+      req.talk.cache.tenant,
+      {
+        ...tenantInput,
+        // Infer the Tenant domain via the hostname parameter.
+        domain: req.hostname,
+        // Add the locale that we had to default to the default locale from the
+        // config.
+        locale,
+      },
+      req.talk.now
+    );
 
     // Pull the user details out of the input for the user.
     const { email, username, password } = userInput;
@@ -113,12 +119,17 @@ export const installHandler = ({
     };
 
     // Create the first admin user.
-    await insert(mongo, tenant, {
-      email,
-      username,
-      profiles: [profile],
-      role: GQLUSER_ROLE.ADMIN,
-    });
+    await insert(
+      mongo,
+      tenant,
+      {
+        email,
+        username,
+        profiles: [profile],
+        role: GQLUSER_ROLE.ADMIN,
+      },
+      req.talk.now
+    );
 
     // Send back the Tenant.
     return res.sendStatus(204);

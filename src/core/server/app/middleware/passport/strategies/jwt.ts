@@ -33,7 +33,8 @@ export interface Verifier<T = Token> {
   verify: (
     tokenString: string,
     token: T,
-    tenant: Tenant
+    tenant: Tenant,
+    now: Date
   ) => Promise<Readonly<User> | null>;
 
   /**
@@ -58,7 +59,7 @@ export class JWTStrategy extends Strategy {
     ];
   }
 
-  private async verify(tokenString: string, tenant: Tenant) {
+  private async verify(tokenString: string, tenant: Tenant, now = new Date()) {
     const token: Token = jwt.decode(tokenString);
     if (!token || typeof token === "string") {
       throw new TokenInvalidError(tokenString, "token could not be decoded");
@@ -67,7 +68,7 @@ export class JWTStrategy extends Strategy {
     // Try to verify the token.
     for (const verifier of this.verifiers) {
       if (verifier.supports(token, tenant)) {
-        return verifier.verify(tokenString, token, tenant);
+        return verifier.verify(tokenString, token, tenant, now);
       }
     }
 
@@ -87,13 +88,13 @@ export class JWTStrategy extends Strategy {
       return this.pass();
     }
 
-    const { tenant } = req.talk!;
+    const { now, tenant } = req.talk!;
     if (!tenant) {
       return this.error(new TenantNotFoundError(req.hostname));
     }
 
     try {
-      const user = await this.verify(token, tenant);
+      const user = await this.verify(token, tenant, now);
       if (!user) {
         return this.pass();
       }

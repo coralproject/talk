@@ -81,6 +81,7 @@ export type Settings = GlobalModerationSettings &
     | "editCommentWindowLength"
     | "customCSSURL"
     | "communityGuidelines"
+    | "createdAt"
   > & {
     /**
      * auth is the set of configured authentication integrations.

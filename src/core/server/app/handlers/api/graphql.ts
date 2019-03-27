@@ -29,7 +29,8 @@ export const graphQLHandler = ({
         throw new Error("talk was not set");
       }
 
-      const { tenant, cache } = req.talk;
+      // Pull out some useful properties from Talk.
+      const { id, now, tenant, cache } = req.talk;
 
       if (!cache) {
         throw new Error("cache was not set");
@@ -43,6 +44,8 @@ export const graphQLHandler = ({
         schema,
         context: new TenantContext({
           ...options,
+          id,
+          now,
           req,
           config,
           tenant,

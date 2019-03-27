@@ -451,3 +451,24 @@ export class SpamCommentError extends TalkError {
     });
   }
 }
+
+export class UserAlreadySuspendedError extends TalkError {
+  constructor(until: Date) {
+    super({
+      code: ERROR_CODES.USER_ALREADY_SUSPENDED,
+      context: {
+        pub: {
+          until: until.toISOString(),
+        },
+      },
+    });
+  }
+}
+
+export class UserAlreadyBannedError extends TalkError {
+  constructor() {
+    super({
+      code: ERROR_CODES.USER_ALREADY_BANNED,
+    });
+  }
+}

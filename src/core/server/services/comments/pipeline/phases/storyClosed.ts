@@ -9,9 +9,10 @@ import { getStoryClosedAt } from "talk-server/services/stories";
 export const storyClosed: IntermediateModerationPhase = ({
   story,
   tenant,
+  now,
 }): IntermediatePhaseResult | void => {
   const closedAt = getStoryClosedAt(tenant, story);
-  if (closedAt && closedAt.valueOf() <= Date.now()) {
+  if (closedAt && closedAt <= now) {
     throw new StoryClosedError();
   }
 };

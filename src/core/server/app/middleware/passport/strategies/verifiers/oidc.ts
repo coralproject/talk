@@ -30,7 +30,12 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
     this.cache = new TenantCacheAdapter(tenantCache);
   }
 
-  public async verify(tokenString: string, token: OIDCIDToken, tenant: Tenant) {
+  public async verify(
+    tokenString: string,
+    token: OIDCIDToken,
+    tenant: Tenant,
+    now: Date
+  ) {
     // Ensure that the integration is enabled.
     const integration = getEnabledIntegration(tenant.auth.integrations.oidc);
 
@@ -52,7 +57,8 @@ export class OIDCVerifier implements Verifier<OIDCIDToken> {
       tenant,
       client,
       integration,
-      tokenString
+      tokenString,
+      now
     );
   }
 
