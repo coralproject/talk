@@ -3,25 +3,16 @@ title: Authenticating with Talk
 permalink: /integrating/authentication/
 ---
 
-Out of the box Talk supports account registration with username and password, as well as features like forgot password. 
+Talk comes with built in user management features like account registration with username/email and password, as well as features like resetting a forgotten password. 
 
-You can also integrate Talk with any external authentication service that will enable
-seamless single sign-on (SSO) for users within your organization. There are a few
-methods of doing so:
+## There are four strategies to choose from when it comes to user authentication:
 
-1. Passport Middleware
-2. Custom Token Integration
+### Talk Email Authentication
+Best when you want Talk to manage all user registration, creation and authentication. Requires the least amount of setup and configuration. Users register by creating a Username (must be unique across users, no spaces or special chars), Email, and Password and are stored in Talk’s database. Optionally - you can require an email verification step at time of account creation. *Plugins required: `talk-plugin-local-auth`, `talk-plugin-auth`*
 
-Both methods work, but there are product decisions that will affect the overall
-choice.
+### Social Sign-in (FaceBook or Google via Passport Middleware)
 
-## Passport Middleware
-
-You would choose the **Passport Middleware** route when you are OK using an auth
-that is triggered from inside Talk that is not connected to an external auth
-state (you don't use the auth anywhere else now). 
-
-Plugins are available for the following 3rd party authentication providers:
+Allows users to use existing social media account to sign in to Talk. Requires you to setup API keys with social sign on provider, and configure your API keys in Talk. Users register and login via a *“Sign in with ….”*, but are not required to set user details such as password or email address. *Plugins required: `talk-plugin-auth`, plus at least one of the following:*
 
 * [Facebook](/talk/plugin/talk-plugin-facebook-auth/)
 * [Google](/talk/plugin/talk-plugin-google-auth/) 
@@ -29,15 +20,22 @@ Plugins are available for the following 3rd party authentication providers:
 _FAQ: Can I create a Twitter auth plugin?_ 
 This is currently not possible because Talk uses passport.js which does not support Twitter's oAuth2 requirements.
 
-## Custom Token Integration 
+### Social Sign-in with Email Association 
+This strategy is actually a combination of the first two. Talk’s built in Email Authentication is augmented by also allowing registration with a social account. Users with social accounts are prompted to associate an email address with their social profile to enable notifications. *Plugins required: `talk-plugin-auth`, `talk-plugin-local-auth`, `talk-plugin-facebook-auth`, and or `talk-plugin-google-auth`*
+
+### Custom SSO Token Integration
+When you want users to authenticate via your existing identity system, and be automatically registered/logged into Talk. Users register, login, and manage their user details on your existing site, your user database maintains the source of truth for all user information. Users are created and updated in Talk via jwt tokens passed from your auth service to Talk. *Required Plugins: requires custom plugin development, as well as disabling talk-plugin-auth, and talk-plugin-local-auth*
+
+
+
+## Setting Up Custom SSO Token Integration
 
 You can integrate Talk with any authentication service to enable single sign-on
 for users. The steps to do that are:
 
 1. Create a service that generates [JWT tokens](https://jwt.io/introduction/).
-2. Push the token into the embed.
-3. Implement the [`tokenUserNotFound`](#implement-tokenusernotfound) hook to
-   process the token.
+2. Include the JWT token in your Talk embed script
+3. Create a custom plugin to generate and authenticate Talk users from the jwt token
 
 ### Create JWT Token
 
@@ -67,7 +65,7 @@ The generated JWT must contain the following claims:
 ### Generate a key to sign the JWT
 Optionally you can use https://github.com/coralproject/coralcert to generate a key with which to sign the JWTs and specify the secret as an environment variable. 
 
-### Push token into embed
+### Include token in embed
 
 We're assuming that your CMS is capable of authenticating a user account, or 
 at least having the user's details available to send off to the token creation
@@ -83,10 +81,10 @@ Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
 });
 ```
 
-Which will pass down the token to Talk and will fire the next steps
+Which will pass down the token to Talk and will fire the 
 `tokenUserNotFound` hook to complete the auth flow.
 
-### Implement `tokenUserNotFound`
+### Create a Custom Plugin to Generate Talk Users 
 
 This is the only piece of code you'll have to write that lives inside Talk. 
 The role of this code is to live as a plugin and provide Talk with a way of
