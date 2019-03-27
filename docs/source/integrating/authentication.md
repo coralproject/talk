@@ -90,6 +90,8 @@ This is the only piece of code you'll have to write that lives inside Talk.
 The role of this code is to live as a plugin and provide Talk with a way of
 taking the token that you gave it, and turning into a user.
 
+Your custom plugin will need to include a `tokenUserNotFound` function that will handle creating a user in Talk from the claims provided on the JWT, refer to [`tokenUserNotFound`](/talk/api/server/#tokenusernotfound) for reference.
+
 Using the example application we were working with in the JWT issuing step
 above, we'll need to ensure that the configuration is consistent in-between both
 Talk and the JWT issuer. Namely, the following environment variables from our
@@ -106,5 +108,4 @@ example issuer and Talk must match:
 reference, the basic takeaway is that the secret used to sign the tokens issued
 by the issuer must be able to be verified by Talk.
 
-For an example of implementing the plugin, refer to [`tokenUserNotFound`](/talk/api/server/#tokenusernotfound)
-reference.
+For an example of implementing the plugin, check out our [SSO Custom Auth Recipe](https://github.com/coralproject/talk-recipes/tree/master/plugins/custom-auth)

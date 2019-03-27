@@ -47,3 +47,9 @@ Source: [talk-recipes/tree/master/plugins/author-name](https://github.com/coralp
 Enables the ability to hover over a commenter’s name and add plugin
 functionality there. The Member Since plugin that is provided in this recipe is
 an example of this.
+
+## recipe-custom-auth
+
+Source: [talk-recipes/tree/master/plugins/custom-auth](https://github.com/coralproject/talk-recipes/tree/master/plugins/custom-auth)
+
+Example code for creating, and updating Users in Talk from JWT data provided by your custom SSO authentication service. 
