@@ -83,6 +83,9 @@ export default abstract class OAuth2Strategy<
         profile,
         now
       );
+      if (!user) {
+        return done(null);
+      }
 
       return done(null, user);
     } catch (err) {

@@ -55,6 +55,7 @@ const Resolvers: GQLResolver = {
   SuspensionStatus,
   SuspensionStatusHistory,
   Tag,
+  SuspensionStatusHistory,
   Time,
   User,
   UserStatus,
