@@ -416,13 +416,19 @@ cannot. You would use this option in the latter situation.
 
 ## TALK_SMTP_FROM_ADDRESS
 
-The email address to send emails from using the SMTP provider in the format:
+The email address to send emails from using the SMTP provider. You can include the name and email address or only provide the email. 
 
 ```plain
-TALK_SMTP_FROM_ADDRESS="The Coral Project" <support@coralproject.net>
+TALK_SMTP_FROM_ADDRESS="The Coral Project" support@coralproject.net
+
+```
+or 
+
+```plain
+TALK_SMTP_FROM_ADDRESS=support@coralproject.net
+
 ```
 
-Including the name and email address.
 
 ## TALK_SMTP_HOST
 
