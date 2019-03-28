@@ -3,14 +3,16 @@ title: Authenticating with Talk
 permalink: /integrating/authentication/
 ---
 
+### Authentication Strategies 
+
 Talk comes with built in user management features like account registration with username/email and password, as well as features like resetting a forgotten password. 
 
-## There are four strategies to choose from when it comes to user authentication:
+There are four strategies to choose from when it comes to user authentication:
 
-### Talk Email Authentication
+#### Talk Email Authentication
 Best when you want Talk to manage all user registration, creation and authentication. Requires the least amount of setup and configuration. Users register by creating a Username (must be unique across users, no spaces or special chars), Email, and Password and are stored in Talk’s database. Optionally - you can require an email verification step at time of account creation. *Plugins required: `talk-plugin-local-auth`, `talk-plugin-auth`*
 
-### Social Sign-in (FaceBook or Google via Passport Middleware)
+#### Social Sign-in (FaceBook or Google via Passport Middleware)
 
 Allows users to use existing social media account to sign in to Talk. Requires you to setup API keys with social sign on provider, and configure your API keys in Talk. Users register and login via a *“Sign in with ….”*, but are not required to set user details such as password or email address. *Plugins required: `talk-plugin-auth`, plus at least one of the following:*
 
@@ -20,13 +22,11 @@ Allows users to use existing social media account to sign in to Talk. Requires y
 _FAQ: Can I create a Twitter auth plugin?_ 
 This is currently not possible because Talk uses passport.js which does not support Twitter's oAuth2 requirements.
 
-### Social Sign-in with Email Association 
+#### Social Sign-in with Email Association 
 This strategy is actually a combination of the first two. Talk’s built in Email Authentication is augmented by also allowing registration with a social account. Users with social accounts are prompted to associate an email address with their social profile to enable notifications. *Plugins required: `talk-plugin-auth`, `talk-plugin-local-auth`, `talk-plugin-facebook-auth`, and or `talk-plugin-google-auth`*
 
-### Custom SSO Token Integration
+#### Custom SSO Token Integration
 When you want users to authenticate via your existing identity system, and be automatically registered/logged into Talk. Users register, login, and manage their user details on your existing site, your user database maintains the source of truth for all user information. Users are created and updated in Talk via jwt tokens passed from your auth service to Talk. *Required Plugins: requires custom plugin development, as well as disabling talk-plugin-auth, and talk-plugin-local-auth*
-
-
 
 ## Setting Up Custom SSO Token Integration
 
