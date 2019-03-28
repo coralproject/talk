@@ -97,14 +97,28 @@ export async function createUserIndexes(mongo: Db) {
   // UNIQUE { profiles.type, profiles.id }
   await createIndex(
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
-    { unique: true }
+    {
+      unique: true,
+      // We're filtering by the first entry in the profiles array to ensure we
+      // only enforce uniqueness when the profiles array has at least a single
+      // profile.
+      partialFilterExpression: { "profiles.0": { $exists: true } },
+    }
   );
+
+  // TEXT { id, username, email }
+  await createIndex({
+    tenantID: 1,
+    id: "text",
+    username: "text",
+    email: "text",
+  });
 
   const variants = createConnectionOrderVariants<Readonly<User>>([
     { createdAt: -1 },
   ]);
 
-  // Story based Comment Connection pagination.
+  // Role based User Connection pagination.
   // { role, ...connectionParams }
   await variants(createIndex, {
     tenantID: 1,

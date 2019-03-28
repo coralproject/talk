@@ -87,6 +87,9 @@ export async function createStoryIndexes(mongo: Db) {
   // UNIQUE { url }
   await createIndex({ tenantID: 1, url: 1 }, { unique: true });
 
+  // TEXT { $** }
+  await createIndex({ tenantID: 1, "$**": "text" });
+
   const variants = createConnectionOrderVariants<Readonly<Story>>([
     { createdAt: -1 },
   ]);

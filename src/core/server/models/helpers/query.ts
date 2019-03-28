@@ -109,7 +109,7 @@ export default class Query<T> {
   }
 }
 
-type IndexType = 1 | -1;
+type IndexType = 1 | -1 | "text";
 
 export type IndexSpecification<T> = {
   [P in keyof Writeable<Partial<T>>]: IndexType
