@@ -2,7 +2,7 @@
 
 Online comments are broken. Our open-source commenting platform, Talk, rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here](https://coralproject.net/talk).
 
-Built with <3 by The Coral Project, a part of [Vox Media](https://www.voxmedia.com/a/go-deeper/about).
+Built with <3 by The Coral Project, a part of [Vox Media](https://www.voxmedia.com/).
 
 ## Getting Started
 

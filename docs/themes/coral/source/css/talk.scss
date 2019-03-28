@@ -344,9 +344,13 @@ a.brand {
   padding: $content_gutter $content_gutter 60px;
 }
 
-.mozilla {
-  width: 50%;
+.voxmedia {
+  // width: 50%;
   margin: 0 0 $sidebar_gutter;
+
+  > img {
+    width: 100%;
+  }
 }
 
 .sidebar {
