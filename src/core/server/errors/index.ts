@@ -7,6 +7,7 @@ import { VError } from "verror";
 import { ERROR_CODES, ERROR_TYPES } from "talk-common/errors";
 import { translate } from "talk-server/services/i18n";
 
+import { GQLUSER_AUTH_CONDITIONS } from "talk-server/graph/tenant/schema/__generated__/types";
 import { ERROR_TRANSLATIONS } from "./translations";
 
 /**
@@ -345,10 +346,19 @@ export class TokenInvalidError extends TalkError {
 }
 
 export class UserForbiddenError extends TalkError {
-  constructor(reason: string, resource: string, userID: string | null) {
+  constructor(
+    reason: string,
+    resource: string,
+    operation: string,
+    userID?: string,
+    permit?: GQLUSER_AUTH_CONDITIONS[],
+    conditions?: GQLUSER_AUTH_CONDITIONS[]
+  ) {
     super({
       code: ERROR_CODES.USER_NOT_ENTITLED,
-      context: { pvt: { reason, userID, resource } },
+      context: {
+        pvt: { reason, userID, resource, operation, conditions, permit },
+      },
       status: 403,
     });
   }
@@ -469,6 +479,29 @@ export class UserAlreadyBannedError extends TalkError {
   constructor() {
     super({
       code: ERROR_CODES.USER_ALREADY_BANNED,
+    });
+  }
+}
+
+export class UserBanned extends TalkError {
+  constructor(userID: string, resource?: string, operation?: string) {
+    super({
+      code: ERROR_CODES.USER_BANNED,
+      context: { pvt: { resource, operation, userID } },
+    });
+  }
+}
+
+export class UserSuspended extends TalkError {
+  constructor(
+    userID: string,
+    until: Date,
+    resource?: string,
+    operation?: string
+  ) {
+    super({
+      code: ERROR_CODES.USER_SUSPENDED,
+      context: { pvt: { resource, operation, userID }, pub: { until } },
     });
   }
 }

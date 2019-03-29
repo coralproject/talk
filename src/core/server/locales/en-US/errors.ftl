@@ -44,3 +44,5 @@ error-toxicComment = Are you sure? The language in this comment might violate ou
 error-spamComment = The language in this comment looks like spam. You can edit the comment or submit it anyway for moderator review.
 error-userAlreadySuspended = The user already has an active suspension until {$until}.
 error-userAlreadyBanned = The user is already banned.
+error-userBanned = Your account is currently banned.
+error-userSuspended = Your account is currently suspended until {$until}.

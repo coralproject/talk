@@ -2,13 +2,21 @@ import { DirectiveResolverFn } from "graphql-tools";
 import { memoize } from "lodash";
 
 import { GraphQLResolveInfo, ResponsePath } from "graphql";
-import { UserForbiddenError } from "talk-server/errors";
+import {
+  UserBanned,
+  UserForbiddenError,
+  UserSuspended,
+} from "talk-server/errors";
 import CommonContext from "talk-server/graph/common/context";
 import {
   GQLUSER_AUTH_CONDITIONS,
   GQLUSER_ROLE,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { User } from "talk-server/models/user";
+import {
+  consolidateUserStatus,
+  consolidateUserSuspensionStatus,
+  User,
+} from "talk-server/models/user";
 
 // Replace `memoize.Cache`.
 memoize.Cache = WeakMap;
@@ -19,7 +27,10 @@ export interface AuthDirectiveArgs {
   permit?: GQLUSER_AUTH_CONDITIONS[];
 }
 
-function calculateAuthConditions(user: User): GQLUSER_AUTH_CONDITIONS[] {
+function calculateAuthConditions(
+  user: User,
+  now: Date
+): GQLUSER_AUTH_CONDITIONS[] {
   const conditions: GQLUSER_AUTH_CONDITIONS[] = [];
 
   if (!user.username) {
@@ -28,6 +39,16 @@ function calculateAuthConditions(user: User): GQLUSER_AUTH_CONDITIONS[] {
 
   if (!user.email) {
     conditions.push(GQLUSER_AUTH_CONDITIONS.MISSING_EMAIL);
+  }
+
+  // Compute the user status.
+  const status = consolidateUserStatus(user.status, now);
+  if (status.banned.active) {
+    conditions.push(GQLUSER_AUTH_CONDITIONS.BANNED);
+  }
+
+  if (status.suspension.active) {
+    conditions.push(GQLUSER_AUTH_CONDITIONS.SUSPENDED);
   }
 
   return conditions.sort();
@@ -74,32 +95,53 @@ const auth: DirectiveResolverFn<
   next,
   src,
   { roles, userIDField, permit }: AuthDirectiveArgs,
-  { user },
+  { user, now },
   info
 ) => {
   // If there is a user on the request.
   if (user) {
-    // If the permit was not specified, then no conditions can exist on the
-    // User, if they do error.
-    const conditions = calculateAuthConditionsMemoized(user);
-    if (!permit && conditions.length > 0) {
-      throw new UserForbiddenError(
-        "authentication conditions not met",
-        calculateLocationKey(info),
-        user.id
-      );
-    }
-
-    // If the permit was specified, and some of the conditions for the user
-    // aren't in the list of permitted conditions, then error.
+    const conditions = calculateAuthConditionsMemoized(user, now);
     if (
-      permit &&
-      conditions.some(condition => permit.indexOf(condition) === -1)
+      // If the permit was not specified, then no conditions can exist on the
+      // User, if they do error.
+      (!permit && conditions.length > 0) ||
+      // If the permit was specified, and some of the conditions for the user
+      // aren't in the list of permitted conditions, then error.
+      (permit && conditions.some(condition => !permit.includes(condition)))
     ) {
+      // Compute the resource that the user was attempting to access.
+      const resource = calculateLocationKey(info);
+
+      if (conditions.includes(GQLUSER_AUTH_CONDITIONS.BANNED)) {
+        throw new UserBanned(user.id, resource, info.operation.operation);
+      }
+
+      if (conditions.includes(GQLUSER_AUTH_CONDITIONS.SUSPENDED)) {
+        const status = consolidateUserSuspensionStatus(
+          user.status.suspension,
+          now
+        );
+        if (!status.until) {
+          throw new Error(
+            "we expected to get an `until` for a suspended user, but did not"
+          );
+        }
+
+        throw new UserSuspended(
+          user.id,
+          status.until,
+          resource,
+          info.operation.operation
+        );
+      }
+
       throw new UserForbiddenError(
         "authentication conditions not met",
-        calculateLocationKey(info),
-        user.id
+        resource,
+        info.operation.operation,
+        user.id,
+        permit,
+        conditions
       );
     }
 
@@ -124,7 +166,8 @@ const auth: DirectiveResolverFn<
   throw new UserForbiddenError(
     "user does not have permission to access the resource",
     calculateLocationKey(info),
-    user ? user.id : null
+    info.operation.operation,
+    user ? user.id : undefined
   );
 };
 

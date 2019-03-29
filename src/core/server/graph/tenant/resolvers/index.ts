@@ -4,6 +4,7 @@ import { GQLResolver } from "talk-server/graph/tenant/schema/__generated__/types
 
 import { AcceptCommentPayload } from "./AcceptCommentPayload";
 import { AuthIntegrations } from "./AuthIntegrations";
+import { BannedStatus } from "./BannedStatus";
 import { BannedStatusHistory } from "./BannedStatusHistory";
 import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
@@ -22,13 +23,16 @@ import { Query } from "./Query";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
+import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
 import { User } from "./User";
+import { UserStatus } from "./UserStatus";
 
 const Resolvers: GQLResolver = {
   AcceptCommentPayload,
   AuthIntegrations,
+  BannedStatus,
   BannedStatusHistory,
   CloseCommenting,
   Comment,
@@ -48,10 +52,12 @@ const Resolvers: GQLResolver = {
   RejectCommentPayload,
   Story,
   StorySettings,
-  Tag,
+  SuspensionStatus,
   SuspensionStatusHistory,
+  Tag,
   Time,
   User,
+  UserStatus,
 };
 
 export default Resolvers;

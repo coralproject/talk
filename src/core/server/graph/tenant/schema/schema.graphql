@@ -18,6 +18,16 @@ enum USER_AUTH_CONDITIONS {
   address.
   """
   MISSING_EMAIL
+
+  """
+  BANNED is provided when the User is currently banned.
+  """
+  BANNED
+
+  """
+  SUSPENDED is provided when the User is currently under an active suspension.
+  """
+  SUSPENDED
 }
 
 """
@@ -1126,11 +1136,16 @@ type BannedStatus {
   active when true, indicates that the given user is banned.
   """
   active: Boolean!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   history is the list of all ban events against a specific User.
   """
-  history: [BannedStatusHistory!]!
+  history: [BannedStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -1196,16 +1211,26 @@ type SuspensionStatus {
   active when true, indicates that the given user is suspended.
   """
   active: Boolean!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   until is the time that the current user suspension is over.
   """
   until: Time
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   history is the list of all suspension events against a specific User.
   """
-  history: [SuspensionStatusHistory!]!
+  history: [SuspensionStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -1250,7 +1275,7 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
     )
 
   """
@@ -1266,13 +1291,18 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
     )
 
   """
   role is the current role of the User.
   """
-  role: USER_ROLE! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  role: USER_ROLE!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   comments are the comments of the User.
@@ -3908,14 +3938,14 @@ type Mutation {
   before. This mutation will fail if the username is already set.
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
-    @auth(permit: [MISSING_NAME, MISSING_EMAIL])
+    @auth(permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED])
 
   """
   setEmail will set the email address on the current User if they have not set
   one already. This mutation will fail if the email address is already set.
   """
   setEmail(input: SetEmailInput!): SetEmailPayload!
-    @auth(permit: [MISSING_EMAIL])
+    @auth(permit: [MISSING_EMAIL, SUSPENDED, BANNED])
 
   """
   setPassword will set the password on the current User if they have not set

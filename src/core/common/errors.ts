@@ -210,4 +210,16 @@ export enum ERROR_CODES {
    * to ban a user that is already banned.
    */
   USER_ALREADY_BANNED = "USER_ALREADY_BANNED",
+
+  /**
+   * USER_SUSPENDED is returned when the user attempts to perform an action that
+   * is not permitted if they are suspended.
+   */
+  USER_SUSPENDED = "USER_SUSPENDED",
+
+  /**
+   * USER_BANNED is returned when the user attempts to perform an action that
+   * is not permitted if they are banned.
+   */
+  USER_BANNED = "USER_BANNED",
 }
