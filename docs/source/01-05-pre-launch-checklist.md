@@ -14,7 +14,7 @@ permalink: /pre-launch-checklist/
   - **Recommended**: You should host Talk on a subdomain on your main site (e.g. if your site is mysitefornews.org, you should serve Talk from a subdomain like talk.mysitefornews.org) to avoid issues with third-party cookie sharing.
 
 
-- [ ] Do you want to use a CDN to improve performance and reduce load on your Talk servers?
+- [ ] Do you have a Content Delivery Network (CDN) to improve performance and reduce load on your Talk servers?
 
   
 - [ ] Do you have a MongoDB instance?
