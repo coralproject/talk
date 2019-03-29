@@ -33,6 +33,7 @@ describe("compose", () => {
       status,
       metadata: {},
       actions: [],
+      tags: [],
     });
   });
 
@@ -49,6 +50,7 @@ describe("compose", () => {
       status,
       metadata: { first: true, second: true },
       actions: [],
+      tags: [],
     });
   });
 
@@ -111,6 +113,7 @@ describe("compose", () => {
       status: GQLCOMMENT_STATUS.NONE,
       metadata: { first: true, second: true },
       actions: [],
+      tags: [],
     });
   });
 });
