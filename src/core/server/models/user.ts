@@ -13,11 +13,11 @@ import {
   UserNotFoundError,
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import Query, {
+import {
   createConnectionOrderVariants,
   createIndexFactory,
-  FilterQuery,
-} from "talk-server/models/helpers/query";
+} from "talk-server/models/helpers/indexing";
+import Query, { FilterQuery } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 import {
   Connection,
@@ -106,17 +106,22 @@ export async function createUserIndexes(mongo: Db) {
     }
   );
 
-  // TEXT { id, username, email }
-  await createIndex({
-    tenantID: 1,
-    id: "text",
-    username: "text",
-    email: "text",
-  });
+  // TEXT { id, username, email, createdAt }
+  await createIndex(
+    {
+      tenantID: 1,
+      id: "text",
+      username: "text",
+      email: "text",
+      createdAt: -1,
+    },
+    { background: true }
+  );
 
-  const variants = createConnectionOrderVariants<Readonly<User>>([
-    { createdAt: -1 },
-  ]);
+  const variants = createConnectionOrderVariants<Readonly<User>>(
+    [{ createdAt: -1 }],
+    { background: true }
+  );
 
   // Role based User Connection pagination.
   // { role, ...connectionParams }

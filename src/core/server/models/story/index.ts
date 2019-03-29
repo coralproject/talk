@@ -9,17 +9,18 @@ import {
   GQLStoryMetadata,
   GQLStorySettings,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { TenantResource } from "talk-server/models/tenant";
-
 import {
   Connection,
   ConnectionInput,
   resolveConnection,
-} from "../helpers/connection";
-import Query, {
+} from "talk-server/models/helpers/connection";
+import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "../helpers/query";
+} from "talk-server/models/helpers/indexing";
+import Query from "talk-server/models/helpers/query";
+import { TenantResource } from "talk-server/models/tenant";
+
 import {
   createEmptyCommentModerationQueueCounts,
   createEmptyCommentStatusCounts,
@@ -87,12 +88,16 @@ export async function createStoryIndexes(mongo: Db) {
   // UNIQUE { url }
   await createIndex({ tenantID: 1, url: 1 }, { unique: true });
 
-  // TEXT { $** }
-  await createIndex({ tenantID: 1, "$**": "text" });
+  // TEXT { $**, createdAt }
+  await createIndex(
+    { tenantID: 1, "$**": "text", createdAt: -1 },
+    { background: true }
+  );
 
-  const variants = createConnectionOrderVariants<Readonly<Story>>([
-    { createdAt: -1 },
-  ]);
+  const variants = createConnectionOrderVariants<Readonly<Story>>(
+    [{ createdAt: -1 }],
+    { background: true }
+  );
 
   // Story based Comment Connection pagination.
   // { closedAt, ...connectionParams }

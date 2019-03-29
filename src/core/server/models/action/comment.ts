@@ -11,10 +11,8 @@ import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_FLAG_REPORTED_REASON,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import {
-  createIndexFactory,
-  FilterQuery,
-} from "talk-server/models/helpers/query";
+import { createIndexFactory } from "talk-server/models/helpers/indexing";
+import { FilterQuery } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(mongo: Db) {
@@ -113,7 +111,10 @@ export async function createCommentActionIndexes(mongo: Db) {
   await createIndex({ tenantID: 1, id: 1 }, { unique: true });
 
   // { actionType, commentID }
-  await createIndex({ tenantID: 1, actionType: 1, commentID: 1, userID: 1 });
+  await createIndex(
+    { tenantID: 1, actionType: 1, commentID: 1, userID: 1 },
+    { background: true }
+  );
 }
 
 const ActionSchema = [
