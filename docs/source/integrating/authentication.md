@@ -10,7 +10,7 @@ Talk comes with built in user management features like account registration with
 There are four strategies to choose from when it comes to user authentication:
 
 #### Talk Email Authentication
-Best when you want Talk to manage all user registration, creation and authentication. Requires the least amount of setup and configuration. Users register by creating a Username (must be unique across users, no spaces or special chars), Email, and Password and are stored in Talk’s database. Optionally - you can require an email verification step at time of account creation. *Plugins required: `talk-plugin-local-auth`, `talk-plugin-auth`*
+Best when you want Talk to manage all user registration, creation and authentication. Requires the least amount of setup and configuration. Users register by creating a Username (must be unique across users, no spaces or special chars), Email, and Password and are stored in Talk’s database. Optionally - you can require an email verification step at time of account creation. *Plugins required: [talk-plugin-auth](/talk/plugin/talk-plugin-local-auth), [talk-plugin-auth](/talk/plugin/talk-plugin-auth)*
 
 #### Social Sign-in (FaceBook or Google via Passport Middleware)
 
