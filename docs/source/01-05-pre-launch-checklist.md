@@ -13,6 +13,9 @@ permalink: /pre-launch-checklist/
 - [ ] Do you have a domain name for Talk?
   - **Recommended**: You should host Talk on a subdomain on your main site (e.g. if your site is mysitefornews.org, you should serve Talk from a subdomain like talk.mysitefornews.org) to avoid issues with third-party cookie sharing.
 
+
+- [ ] Do you want to use a CDN to improve performance and reduce load on your Talk servers?
+
   
 - [ ] Do you have a MongoDB instance?
   - A MongoDB [Docker instance](/talk/installation-from-docker/) hosted alongside Talk?
@@ -28,8 +31,10 @@ permalink: /pre-launch-checklist/
 - [ ] Do you want to provide single sign-on (SSO) by integrating with an external auth system?
   - See [Authenticating with Talk](/talk/integrating/authentication/)
 
+
 - [ ] Do you want to integrate Talk with your CMS to automate embedding Talk Comment Stream into your site?
   - See [CMS Integration](/talk/integrating/cms-integration/)
+
 
 - [ ] Do you want to use Social sign-on?
   - Facebook
