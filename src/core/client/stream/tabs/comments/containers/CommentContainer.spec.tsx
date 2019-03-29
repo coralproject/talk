@@ -27,7 +27,6 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         author: {
           id: "author-id",
           username: "Marvin",
-          staff: false,
         },
         parent: null,
         body: "Woof",
@@ -37,6 +36,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           editableUntil: "1995-12-17T03:24:30.000Z",
         },
         pending: false,
+        tags: [],
       },
       settings: {
         disableCommenting: {
@@ -133,9 +133,7 @@ it("renders disabled reply when commenting has been disabled", () => {
 it("renders staff badge", () => {
   const props = createDefaultProps({
     comment: {
-      author: {
-        staff: true,
-      },
+      tags: [{ name: "Staff" }],
     },
   });
   const renderer = createRenderer();

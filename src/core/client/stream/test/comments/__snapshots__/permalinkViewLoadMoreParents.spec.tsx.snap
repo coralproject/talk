@@ -42,7 +42,7 @@ exports[`renders conversation thread 1`] = `
               Moderator
             </span>
             <span
-              className="Badge-root"
+              className="Tag-root"
             >
               Staff
             </span>
@@ -516,7 +516,7 @@ exports[`shows more of this conversation 1`] = `
                         Moderator
                       </span>
                       <span
-                        className="Badge-root"
+                        className="Tag-root"
                       >
                         Staff
                       </span>

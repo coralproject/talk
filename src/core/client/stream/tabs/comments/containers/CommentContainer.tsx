@@ -182,7 +182,7 @@ export class CommentContainer extends Component<Props, State> {
               comment.parent.author &&
               comment.parent.author.username
             }
-            staff={Boolean(comment.author && comment.author.staff)}
+            tags={comment.tags.map(t => t.name)}
             topBarRight={
               (editable && (
                 <Localized id="comments-commentContainer-editButton">
@@ -282,7 +282,6 @@ const enhanced = withSetCommentIDMutation(
           author {
             id
             username
-            staff
           }
           parent {
             author {
@@ -295,6 +294,9 @@ const enhanced = withSetCommentIDMutation(
           editing {
             edited
             editableUntil
+          }
+          tags {
+            name
           }
           pending
           ...ReplyCommentFormContainer_comment

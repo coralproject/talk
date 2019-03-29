@@ -423,7 +423,7 @@ exports[`renders comment stream 1`] = `
                             Moderator
                           </span>
                           <span
-                            className="Badge-root"
+                            className="Tag-root"
                           >
                             Staff
                           </span>

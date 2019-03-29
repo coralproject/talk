@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <span
-  className="Badge-root custom"
+  className="Tag-root custom"
 >
   Staff
 </span>

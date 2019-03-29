@@ -78,25 +78,21 @@ export const commenters = [
     id: "user-0",
     username: "Markus",
     role: GQLUSER_ROLE.COMMENTER,
-    staff: false,
   },
   {
     id: "user-1",
     username: "Lukas",
     role: GQLUSER_ROLE.COMMENTER,
-    staff: false,
   },
   {
     id: "user-2",
     username: "Isabelle",
     role: GQLUSER_ROLE.COMMENTER,
-    staff: false,
   },
   {
     id: "user-3",
     username: "Markus",
     role: GQLUSER_ROLE.COMMENTER,
-    staff: false,
   },
 ];
 
@@ -119,6 +115,7 @@ export const baseComment = {
       total: 0,
     },
   },
+  tags: [],
 };
 
 export const comments = denormalizeComments([
@@ -318,7 +315,6 @@ export const moderators = [
     id: "me-as-moderator",
     username: "Moderator",
     role: GQLUSER_ROLE.MODERATOR,
-    staff: true,
   },
 ];
 
@@ -328,6 +324,7 @@ export const commentsFromStaff = denormalizeComments([
     id: "comment-from-staff-0",
     author: moderators[0],
     body: "Joining Too",
+    tags: [{ name: "Staff" }],
   },
 ]);
 

@@ -31,7 +31,7 @@ exports[`with 2 remaining parent comments renders correctly 1`] = `
       <RootParent
         createdAt="1995-12-17T03:24:00.000Z"
         id="root-parent"
-        staff={false}
+        tags={Array []}
         username="parentAuthor"
       />
     </Circle>
@@ -96,7 +96,11 @@ exports[`with 2 remaining parent comments renders staff badge 1`] = `
       <RootParent
         createdAt="1995-12-17T03:24:00.000Z"
         id="root-parent"
-        staff={true}
+        tags={
+          Array [
+            "Staff",
+          ]
+        }
         username="parentAuthor"
       />
     </Circle>
@@ -161,7 +165,7 @@ exports[`with 2 remaining parent comments renders with disabled load more 1`] = 
       <RootParent
         createdAt="1995-12-17T03:24:00.000Z"
         id="root-parent"
-        staff={false}
+        tags={Array []}
         username="parentAuthor"
       />
     </Circle>

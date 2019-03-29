@@ -28,7 +28,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         id: "root-parent",
         createdAt: "1995-12-17T03:24:00.000Z",
         username: "parentAuthor",
-        staff: false,
+        tags: [],
       },
     },
     add
@@ -45,7 +45,7 @@ describe("with 2 remaining parent comments", () => {
   it("renders staff badge", () => {
     const props = createDefaultProps({
       rootParent: {
-        staff: true,
+        tags: ["Staff"],
       },
     });
     const renderer = createRenderer();

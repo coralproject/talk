@@ -1151,11 +1151,6 @@ type User {
   createdAt is the time that the User was created at.
   """
   createdAt: Time! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
-
-  """
-  staff indicates whether this user has at least a STAFF role.
-  """
-  staff: Boolean!
 }
 
 """

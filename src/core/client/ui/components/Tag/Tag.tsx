@@ -4,7 +4,7 @@ import { StatelessComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
-import styles from "./Badge.css";
+import styles from "./Tag.css";
 
 interface Props {
   className?: string;
@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Badge: StatelessComponent<Props> = props => {
+const Tag: StatelessComponent<Props> = props => {
   const { className, children, classes, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);
@@ -27,5 +27,5 @@ const Badge: StatelessComponent<Props> = props => {
   );
 };
 
-const enhanced = withStyles(styles)(Badge);
+const enhanced = withStyles(styles)(Tag);
 export default enhanced;

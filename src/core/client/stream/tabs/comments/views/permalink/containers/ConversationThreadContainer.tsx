@@ -71,9 +71,7 @@ class ConversationThreadContainer extends React.Component<
               createdAt: comment.rootParent.createdAt,
               username:
                 comment.rootParent.author && comment.rootParent.author.username,
-              staff: Boolean(
-                comment.rootParent.author && comment.rootParent.author.staff
-              ),
+              tags: comment.rootParent.tags.map(t => t.name),
             }) ||
           null
         }
@@ -123,9 +121,11 @@ const enhanced = withContext(ctx => ({
               author {
                 id
                 username
-                staff
               }
               createdAt
+              tags {
+                name
+              }
             }
             parentCount
             parents(last: $count, before: $cursor)
