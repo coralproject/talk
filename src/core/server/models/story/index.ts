@@ -99,7 +99,13 @@ export async function createStoryIndexes(mongo: Db) {
     { background: true }
   );
 
-  // Story based Comment Connection pagination.
+  // Story Connection pagination.
+  // { ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+  });
+
+  // Closed At ordered Story Connection pagination.
   // { closedAt, ...connectionParams }
   await variants(createIndex, {
     tenantID: 1,

@@ -123,6 +123,12 @@ export async function createUserIndexes(mongo: Db) {
     { background: true }
   );
 
+  // User Connection pagination.
+  // { ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+  });
+
   // Role based User Connection pagination.
   // { role, ...connectionParams }
   await variants(createIndex, {
