@@ -1325,6 +1325,27 @@ type CommentRevision {
 }
 
 """
+Tag is a simple text message that can be displayed to segment tagable entities.
+"""
+type Tag {
+  """
+  name is the publicly displayable name assigned to this Tag.
+  """
+  name: String!
+
+  """
+  createdBy is the User that assigned the Tag. This is null when the Tag is
+  assigned by the System.
+  """
+  createdBy: User @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  createdAt is the time that the Tag was assigned on.
+  """
+  createdAt: Time! @auth(roles: [MODERATOR, ADMIN])
+}
+
+"""
 Comment is a comment left by a User on an Story or another Comment as a reply.
 """
 type Comment {
@@ -1444,6 +1465,11 @@ type Comment {
   The permalink for this comment.
   """
   permalink: String!
+
+  """
+  tags are the list of tags assigned to the Comment.
+  """
+  tags: [Tag!]!
 }
 
 type PageInfo {
