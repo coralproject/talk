@@ -2,6 +2,7 @@ import { Omit, Promiseable, RequireProperty } from "talk-common/types";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import { CreateActionInput } from "talk-server/models/action/comment";
 import { EditCommentInput } from "talk-server/models/comment";
+import { CommentTag } from "talk-server/models/comment/tag";
 import { Story } from "talk-server/models/story";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
@@ -19,6 +20,7 @@ export interface PhaseResult {
   status: GQLCOMMENT_STATUS;
   metadata: Record<string, any>;
   body: string;
+  tags: CommentTag[];
 }
 
 export interface ModerationPhaseContext {
@@ -52,6 +54,7 @@ export const compose = (
     body: context.comment.body,
     actions: [],
     metadata: context.comment.metadata || {},
+    tags: [],
   };
 
   // Loop over all the moderation phases and see if we've resolved the status.
@@ -86,6 +89,17 @@ export const compose = (
       const { body } = result;
       if (body) {
         final.body = body;
+      }
+
+      // If the result added any tags, we should push it into the existing tags.
+      const { tags } = result;
+      if (tags && tags.length > 0) {
+        final.tags.push(
+          // Only push in tags that we haven't already added.
+          ...tags.filter(
+            ({ type }) => !final.tags.some(tag => tag.type === type)
+          )
+        );
       }
 
       // If this result contained a status, then we've finished resolving

@@ -36,6 +36,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           editableUntil: "1995-12-17T03:24:30.000Z",
         },
         pending: false,
+        tags: [],
       },
       settings: {
         disableCommenting: {
@@ -122,6 +123,17 @@ it("renders disabled reply when commenting has been disabled", () => {
       disableCommenting: {
         enabled: true,
       },
+    },
+  });
+  const renderer = createRenderer();
+  renderer.render(<CommentContainerN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+it("renders staff badge", () => {
+  const props = createDefaultProps({
+    comment: {
+      tags: [{ name: "Staff" }],
     },
   });
   const renderer = createRenderer();

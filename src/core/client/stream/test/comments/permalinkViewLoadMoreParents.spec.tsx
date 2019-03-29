@@ -8,7 +8,7 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { comments, settings, stories } from "../fixtures";
+import { comments, commentsFromStaff, settings, stories } from "../fixtures";
 import create from "./create";
 
 let testRenderer: ReactTestRenderer;
@@ -16,7 +16,7 @@ beforeEach(() => {
   const commentStub = {
     ...comments[0],
     parentCount: 2,
-    rootParent: comments[2],
+    rootParent: commentsFromStaff[0],
     parents: createSinonStub(
       s => s.throws(),
       s =>
@@ -39,8 +39,8 @@ beforeEach(() => {
               cursor: comments[1].createdAt,
             },
             {
-              node: comments[2],
-              cursor: comments[2].createdAt,
+              node: commentsFromStaff[0],
+              cursor: commentsFromStaff[0].createdAt,
             },
           ],
         })

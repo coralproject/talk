@@ -260,11 +260,15 @@ exports[`renders comment stream 1`] = `
                       <div
                         className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                       >
-                        <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                         >
-                          Markus
-                        </span>
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Markus
+                          </span>
+                        </div>
                         <div
                           className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                         >
@@ -389,7 +393,7 @@ exports[`renders comment stream 1`] = `
           className="HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            data-testid="comment-comment-1"
+            data-testid="comment-comment-from-staff-0"
           >
             <div
               className="HorizontalGutter-root HorizontalGutter-full"
@@ -410,11 +414,20 @@ exports[`renders comment stream 1`] = `
                       <div
                         className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                       >
-                        <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                        <div
+                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                         >
-                          Lukas
-                        </span>
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Moderator
+                          </span>
+                          <span
+                            className="Tag-root"
+                          >
+                            Staff
+                          </span>
+                        </div>
                         <div
                           className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                         >
@@ -435,7 +448,7 @@ exports[`renders comment stream 1`] = `
                         className="HTMLContent-root"
                         dangerouslySetInnerHTML={
                           Object {
-                            "__html": "What's up?",
+                            "__html": "Joining Too",
                           }
                         }
                       />
@@ -448,7 +461,7 @@ exports[`renders comment stream 1`] = `
                           <button
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                             disabled={false}
-                            id="comments-commentContainer-replyButton-comment-1"
+                            id="comments-commentContainer-replyButton-comment-from-staff-0"
                             onBlur={[Function]}
                             onClick={[Function]}
                             onFocus={[Function]}
@@ -465,7 +478,7 @@ exports[`renders comment stream 1`] = `
                             className="Popover-root"
                           >
                             <button
-                              aria-controls="permalink-popover-comment-1"
+                              aria-controls="permalink-popover-comment-from-staff-0"
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -481,13 +494,13 @@ exports[`renders comment stream 1`] = `
                             </button>
                             <div
                               aria-hidden={true}
-                              aria-labelledby="permalink-popover-comment-1-ariainfo"
-                              id="permalink-popover-comment-1"
+                              aria-labelledby="permalink-popover-comment-from-staff-0-ariainfo"
+                              id="permalink-popover-comment-from-staff-0"
                               role="popup"
                             >
                               <div
                                 className="AriaInfo-root"
-                                id="permalink-popover-comment-1-ariainfo"
+                                id="permalink-popover-comment-from-staff-0-ariainfo"
                               >
                                 A dialog showing a permalink to the comment
                               </div>

@@ -23,11 +23,15 @@ exports[`cancel edit 1`] = `
             <div
               className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
               >
-                Markus
-              </span>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
               >
@@ -702,11 +706,15 @@ exports[`edit a comment: render comment with edit button 1`] = `
             <div
               className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
               >
-                Markus
-              </span>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
               >
@@ -883,11 +891,15 @@ exports[`edit a comment: server response 1`] = `
             <div
               className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
               >
-                Markus
-              </span>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
               >
@@ -1073,11 +1085,15 @@ exports[`shows expiry message: edit form closed 1`] = `
             <div
               className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
             >
-              <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              <div
+                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
               >
-                Markus
-              </span>
+                <span
+                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                >
+                  Markus
+                </span>
+              </div>
               <div
                 className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
               >

@@ -10,10 +10,10 @@ import {
 } from "talk-framework/testHelpers";
 
 import {
+  commenters,
   commentWithReplies,
   settings,
   storyWithReplies,
-  users,
 } from "../fixtures";
 import create from "./create";
 
@@ -30,7 +30,7 @@ function createTestRenderer(
             .withArgs(undefined, { id: storyWithReplies.id, url: null })
             .returns(storyWithReplies)
       ),
-      viewer: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(commenters[0]),
       settings: sinon.stub().returns(settings),
     },
     Mutation: {

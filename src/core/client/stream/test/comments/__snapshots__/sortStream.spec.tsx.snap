@@ -33,11 +33,15 @@ exports[`renders app with comment stream 1`] = `
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                 >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                   >
-                    Isabelle
-                  </span>
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    >
+                      Isabelle
+                    </span>
+                  </div>
                   <div
                     className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                   >
@@ -183,11 +187,15 @@ exports[`renders app with comment stream 1`] = `
                 <div
                   className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                 >
-                  <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                   >
-                    Isabelle
-                  </span>
+                    <span
+                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    >
+                      Isabelle
+                    </span>
+                  </div>
                   <div
                     className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                   >

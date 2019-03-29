@@ -1,0 +1,8 @@
+.root {
+  composes: tagText from "talk-ui/shared/typography.css";
+  color: var(--palette-text-light);
+  padding: 3px 4px;
+  white-space: nowrap;
+  background-color: var(--palette-grey-dark);
+  border-radius: 1px;
+}

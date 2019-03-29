@@ -11,7 +11,7 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { settings, stories, users } from "../fixtures";
+import { commenters, settings, stories } from "../fixtures";
 import create from "./create";
 
 beforeAll(() => {
@@ -38,7 +38,7 @@ async function createTestRenderer(
     ...resolver,
     Query: {
       settings: sinon.stub().returns(settingsWithCharCount),
-      viewer: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(commenters[0]),
       story: sinon.stub().returns(stories[0]),
       ...resolver.Query,
     },

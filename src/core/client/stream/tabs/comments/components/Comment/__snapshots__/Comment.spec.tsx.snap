@@ -10,9 +10,15 @@ exports[`renders username and body 1`] = `
     justifyContent="space-between"
   >
     <TopBarLeft>
-      <Username>
-        Marvin
-      </Username>
+      <ForwardRef(forwardRef)
+        alignItems="center"
+        direction="row"
+        itemGutter="half"
+      >
+        <Username>
+          Marvin
+        </Username>
+      </ForwardRef(forwardRef)>
       <ForwardRef(forwardRef)
         alignItems="baseline"
         direction="row"

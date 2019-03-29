@@ -28,16 +28,25 @@ exports[`renders conversation thread 1`] = `
       </div>
       <div
         className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
-        id="comment-2"
+        id="comment-from-staff-0"
       >
         <div
           className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
         >
-          <span
-            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+          <div
+            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
           >
-            Isabelle
-          </span>
+            <span
+              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+            >
+              Moderator
+            </span>
+            <span
+              className="Tag-root"
+            >
+              Staff
+            </span>
+          </div>
           <div
             className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
           >
@@ -143,11 +152,15 @@ exports[`renders conversation thread 1`] = `
                   <div
                     className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <span
-                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      Markus
-                    </span>
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Markus
+                      </span>
+                    </div>
                     <div
                       className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                     >
@@ -323,11 +336,15 @@ exports[`shows more of this conversation 1`] = `
                   <div
                     className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <span
-                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      Lukas
-                    </span>
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Lukas
+                      </span>
+                    </div>
                     <div
                       className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                     >
@@ -469,7 +486,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
-        data-testid="comment-comment-2"
+        data-testid="comment-comment-from-staff-0"
       >
         <div
           className="HorizontalGutter-root HorizontalGutter-full"
@@ -490,11 +507,20 @@ exports[`shows more of this conversation 1`] = `
                   <div
                     className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <span
-                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      Isabelle
-                    </span>
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Moderator
+                      </span>
+                      <span
+                        className="Tag-root"
+                      >
+                        Staff
+                      </span>
+                    </div>
                     <div
                       className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                     >
@@ -515,7 +541,7 @@ exports[`shows more of this conversation 1`] = `
                     className="HTMLContent-root"
                     dangerouslySetInnerHTML={
                       Object {
-                        "__html": "Hey!",
+                        "__html": "Joining Too",
                       }
                     }
                   />
@@ -528,7 +554,7 @@ exports[`shows more of this conversation 1`] = `
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                         disabled={false}
-                        id="comments-commentContainer-replyButton-comment-2"
+                        id="comments-commentContainer-replyButton-comment-from-staff-0"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -545,7 +571,7 @@ exports[`shows more of this conversation 1`] = `
                         className="Popover-root"
                       >
                         <button
-                          aria-controls="permalink-popover-comment-2"
+                          aria-controls="permalink-popover-comment-from-staff-0"
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                           onBlur={[Function]}
                           onClick={[Function]}
@@ -561,13 +587,13 @@ exports[`shows more of this conversation 1`] = `
                         </button>
                         <div
                           aria-hidden={true}
-                          aria-labelledby="permalink-popover-comment-2-ariainfo"
-                          id="permalink-popover-comment-2"
+                          aria-labelledby="permalink-popover-comment-from-staff-0-ariainfo"
+                          id="permalink-popover-comment-from-staff-0"
                           role="popup"
                         >
                           <div
                             className="AriaInfo-root"
-                            id="permalink-popover-comment-2-ariainfo"
+                            id="permalink-popover-comment-from-staff-0-ariainfo"
                           >
                             A dialog showing a permalink to the comment
                           </div>
@@ -655,11 +681,15 @@ exports[`shows more of this conversation 1`] = `
                   <div
                     className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
                   >
-                    <span
-                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
                     >
-                      Markus
-                    </span>
+                      <span
+                        className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      >
+                        Markus
+                      </span>
+                    </div>
                     <div
                       className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
                     >

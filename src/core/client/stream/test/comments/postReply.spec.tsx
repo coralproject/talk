@@ -14,7 +14,7 @@ import {
 } from "talk-framework/testHelpers";
 
 import RTE from "@coralproject/rte";
-import { baseComment, settings, stories, users } from "../fixtures";
+import { baseComment, commenters, settings, stories } from "../fixtures";
 import create from "./create";
 
 async function createTestRenderer(
@@ -25,7 +25,7 @@ async function createTestRenderer(
     ...resolver,
     Query: {
       settings: sinon.stub().returns(settings),
-      viewer: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(commenters[0]),
       story: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(stories[0].id);
         return stories[0];
@@ -93,7 +93,7 @@ it("post a reply", async () => {
             node: {
               ...baseComment,
               id: "comment-x",
-              author: users[0],
+              author: commenters[0],
               body: "<b>Hello world! (from server)</b>",
             },
           },
@@ -146,7 +146,7 @@ it("post a reply and handle non-visible comment state", async () => {
               ...baseComment,
               id: "comment-x",
               status: "SYSTEM_WITHHELD",
-              author: users[0],
+              author: commenters[0],
               body: "<b>Hello world!</b>",
             },
           },
@@ -229,7 +229,7 @@ it("handle moderation nudge error", async () => {
                     ...baseComment,
                     id: "comment-x",
                     status: "SYSTEM_WITHHELD",
-                    author: users[0],
+                    author: commenters[0],
                     body: "<b>Hello world!</b>",
                   },
                 },
