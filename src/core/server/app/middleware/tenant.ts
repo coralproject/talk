@@ -14,14 +14,18 @@ export const tenantMiddleware = ({
   passNoTenant = false,
 }: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   try {
-    // Set Talk on the request.
     if (!req.talk) {
-      req.talk = {
-        id: uuid(),
-        // The only call to `new Date()` as a part of the request process. This
-        // is passed around the request to ensure constant-time actions.
-        now: new Date(),
-      };
+      const id = uuid();
+
+      // Write the ID on the request.
+      res.set("X-Trace-ID", id);
+
+      // The only call to `new Date()` as a part of the request process. This
+      // is passed around the request to ensure constant-time actions.
+      const now = new Date();
+
+      // Set Talk on the request.
+      req.talk = { id, now };
     }
 
     // Set the Talk Tenant Cache on the request.
