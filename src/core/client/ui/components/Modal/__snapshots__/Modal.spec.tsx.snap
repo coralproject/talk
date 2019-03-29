@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Modal-root"
+  onKeyDown={[Function]}
+  role="modal"
+>
+  <div
+    className="Backdrop-root Backdrop-active"
+    data-testid="backdrop"
+    onClick={[Function]}
+  />
+  <div
+    onFocus={[Function]}
+    tabIndex={0}
+  />
+  <div
+    tabIndex={-1}
+  />
+  <div>
+    Test
+  </div>
+  <div
+    onFocus={[Function]}
+    tabIndex={0}
+  />
+</div>
+`;

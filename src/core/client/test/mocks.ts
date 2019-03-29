@@ -4,3 +4,8 @@ jest.mock("react-transition-group", () => ({
   Transition: (props: { children: React.ReactNode }) => props.children,
   TransitionGroup: (props: { children: React.ReactNode }) => props.children,
 }));
+
+jest.mock("react-dom", () => ({
+  ...require.requireActual("react-dom"),
+  createPortal: (node: any) => node,
+}));

@@ -2,8 +2,8 @@
   position: relative;
   padding: calc(2 * var(--spacing-unit));
   box-sizing: border-box;
-  border: 1px solid var(--palette-grey-lighter);
-  box-shadow: 1px 1px 5px var(--palette-grey-lighter);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
   border-radius: var(--round-corners);
   background-color: var(--palette-common-white);
   /*

@@ -13,6 +13,11 @@ type Variant =
   | "heading3"
   | "heading4"
   | "heading5"
+  | "header1"
+  | "header2"
+  | "header3"
+  | "header4"
+  | "header5"
   | "bodyCopy"
   | "bodyCopyBold"
   | "inputLabel"
@@ -146,6 +151,11 @@ Typography.defaultProps = {
     heading3: "h1",
     heading4: "h1",
     heading5: "h1",
+    header1: "h1",
+    header2: "h1",
+    header3: "h1",
+    header4: "h1",
+    header5: "h1",
     bodyCopy: "p",
     bodyCopyBold: "p",
     timestamp: "span",

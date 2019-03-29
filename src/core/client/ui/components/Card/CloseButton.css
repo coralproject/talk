@@ -1,0 +1,13 @@
+.root {
+  min-height: 0px;
+  padding: calc(0.5 * var(--spacing-unit));
+  margin-left: calc(2 * var(--spacing-unit));
+  float: right;
+  position: relative;
+  top: -5px;
+  right: -5px;
+}
+
+.icon {
+  display: block;
+}
