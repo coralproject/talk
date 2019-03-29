@@ -1,6 +1,6 @@
 import { merge } from "lodash";
 
-import { GQLStory, GQLSTORY_STATUS } from "talk-framework/schema";
+import { GQLStory, GQLSTORY_STATUS, GQLUSER_ROLE } from "talk-framework/schema";
 
 export const settings = {
   id: "settings",
@@ -259,21 +259,21 @@ export const users = [
     id: "user-0",
     username: "Markus",
     email: "markus@test.com",
-    role: "ADMIN",
+    role: GQLUSER_ROLE.ADMIN,
   },
   {
     ...baseUser,
     id: "user-1",
     username: "Lukas",
     email: "lukas@test.com",
-    role: "MODERATOR",
+    role: GQLUSER_ROLE.MODERATOR,
   },
   {
     ...baseUser,
     id: "user-2",
     username: "Isabelle",
     email: "isabelle@test.com",
-    role: "COMMENTER",
+    role: GQLUSER_ROLE.COMMENTER,
   },
 ];
 

@@ -26,6 +26,7 @@ const enhanced = withRouteConfig({
     query AppContainerQuery {
       viewer {
         ...UserMenuContainer_viewer
+        ...NavigationContainer_viewer
       }
     }
   `,

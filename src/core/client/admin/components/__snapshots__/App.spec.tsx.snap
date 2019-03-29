@@ -17,7 +17,9 @@ exports[`renders correctly 1`] = `
         <withPropsOnChange(Logo) />
         <Version />
       </div>
-      <Navigation />
+      <withContext(createMutationContainer(Relay(NavigationContainer)))
+        viewer={Object {}}
+      />
     </withPropsOnChange(Begin)>
     <withPropsOnChange(End)>
       <DecisionHistoryButton />

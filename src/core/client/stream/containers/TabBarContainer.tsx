@@ -10,13 +10,13 @@ import {
 import { TabBarContainer_story as StoryData } from "talk-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainer_viewer as ViewerData } from "talk-stream/__generated__/TabBarContainer_viewer.graphql";
 import { TabBarContainerLocal as Local } from "talk-stream/__generated__/TabBarContainerLocal.graphql";
-import { roleIsAtLeast } from "talk-stream/helpers";
 import {
   SetActiveTabInput,
   SetActiveTabMutation,
   withSetActiveTabMutation,
 } from "talk-stream/mutations";
 
+import { Ability, can } from "talk-stream/permissions";
 import TabBar from "../components/TabBar";
 
 interface Props {
@@ -45,7 +45,7 @@ export class TabBarContainer extends Component<Props> {
         showProfileTab={loggedIn}
         showConfigureTab={
           !!this.props.viewer &&
-          roleIsAtLeast(this.props.viewer.role, "MODERATOR")
+          can(this.props.viewer, Ability.CHANGE_STORY_CONFIGURATION)
         }
         onTabClick={this.handleSetActiveTab}
       />

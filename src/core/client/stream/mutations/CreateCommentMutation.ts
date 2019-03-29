@@ -14,6 +14,7 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "talk-framework/lib/relay";
+import { GQLUSER_ROLE } from "talk-framework/schema";
 import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentMutation.graphql";
 
 import {
@@ -117,7 +118,8 @@ function commit(
 
   // TODO: Generate and use schema types.
   const expectPremoderation =
-    !roleIsAtLeast(me.role, "STAFF") && storySettings.moderation === "PRE";
+    !roleIsAtLeast(me.role, GQLUSER_ROLE.STAFF) &&
+    storySettings.moderation === "PRE";
 
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,

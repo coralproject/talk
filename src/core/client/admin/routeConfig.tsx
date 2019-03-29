@@ -3,6 +3,7 @@ import React from "react";
 
 import AppContainer from "./containers/AppContainer";
 import AuthCheckContainer from "./containers/AuthCheckContainer";
+import { Ability } from "./permissions";
 import CommunityContainer from "./routes/community/containers/CommunityContainer";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
 import ConfigureAdvancedRouteContainer from "./routes/configure/sections/advanced/containers/AdvancedConfigRouteContainer";
@@ -45,29 +46,34 @@ export default makeRouteConfig(
         <Route path="stories" {...StoriesContainer.routeConfig} />
         <Route path="community" {...CommunityContainer.routeConfig} />
         <Route path="stories" Component={Stories} />
-        <Route path="configure" Component={ConfigureContainer}>
-          <Redirect from="/" to="/admin/configure/general" />
-          <Route
-            path="general"
-            {...ConfigureGeneralRouteContainer.routeConfig}
-          />
-          <Route
-            path="organization"
-            {...ConfigureOrganizationRouteContainer.routeConfig}
-          />
-          <Route
-            path="moderation"
-            {...ConfigureModerationRouteContainer.routeConfig}
-          />
-          <Route
-            path="wordList"
-            {...ConfigureWordListRouteContainer.routeConfig}
-          />
-          <Route path="auth" {...ConfigureAuthRouteContainer.routeConfig} />
-          <Route
-            path="advanced"
-            {...ConfigureAdvancedRouteContainer.routeConfig}
-          />
+        <Route
+          {...AuthCheckContainer.routeConfig}
+          data={Ability.CHANGE_CONFIGURATION}
+        >
+          <Route path="configure" Component={ConfigureContainer}>
+            <Redirect from="/" to="/admin/configure/general" />
+            <Route
+              path="general"
+              {...ConfigureGeneralRouteContainer.routeConfig}
+            />
+            <Route
+              path="organization"
+              {...ConfigureOrganizationRouteContainer.routeConfig}
+            />
+            <Route
+              path="moderation"
+              {...ConfigureModerationRouteContainer.routeConfig}
+            />
+            <Route
+              path="wordList"
+              {...ConfigureWordListRouteContainer.routeConfig}
+            />
+            <Route path="auth" {...ConfigureAuthRouteContainer.routeConfig} />
+            <Route
+              path="advanced"
+              {...ConfigureAdvancedRouteContainer.routeConfig}
+            />
+          </Route>
         </Route>
       </Route>
     </Route>

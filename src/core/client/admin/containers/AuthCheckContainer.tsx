@@ -6,15 +6,25 @@ import {
   SetRedirectPathMutation,
   withSetRedirectPathMutation,
 } from "talk-admin/mutations";
+import { AbilityType, can } from "talk-admin/permissions";
 import RestrictedContainer from "talk-admin/views/restricted/containers/RestrictedContainer";
 import { graphql } from "talk-framework/lib/relay";
 import { withRouteConfig } from "talk-framework/lib/router";
+import { GQLUSER_ROLE } from "talk-framework/schema";
 
 interface Props {
   match: Match;
   router: Router;
   setRedirectPath: SetRedirectPathMutation;
-  data: AuthCheckContainerQueryResponse | null;
+  data:
+    | AuthCheckContainerQueryResponse & {
+        route: {
+          // An AbilityType can be passed in as the Route data
+          // to perform a permission check.
+          data?: AbilityType;
+        };
+      }
+    | null;
 }
 
 class AuthCheckContainer extends React.Component<Props> {
@@ -47,7 +57,14 @@ class AuthCheckContainer extends React.Component<Props> {
       settings: { auth },
     } = props.data!;
     if (viewer) {
-      if (viewer.role === "COMMENTER") {
+      if (
+        viewer.role === GQLUSER_ROLE.COMMENTER ||
+        viewer.role === GQLUSER_ROLE.STAFF ||
+        (props.data &&
+          props.data.route.data &&
+          // Perform permission check on the ability passed in by the route data
+          !can(viewer, props.data.route.data))
+      ) {
         return false;
       } else if (
         !viewer.email ||

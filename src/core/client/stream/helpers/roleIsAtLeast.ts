@@ -1,13 +1,15 @@
-// TODO: use generated schema types.
-type Role =
-  | "ADMIN"
-  | "MODERATOR"
-  | "STAFF"
-  | "COMMENTER"
-  | "%future added value";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
 
-const hierarchy: Role[] = ["COMMENTER", "STAFF", "MODERATOR", "ADMIN"];
-export default function roleIsAtLeast(role: Role, atLeast: Role) {
+const hierarchy: GQLUSER_ROLE_RL[] = [
+  GQLUSER_ROLE.COMMENTER,
+  GQLUSER_ROLE.STAFF,
+  GQLUSER_ROLE.MODERATOR,
+  GQLUSER_ROLE.ADMIN,
+];
+export default function roleIsAtLeast(
+  role: GQLUSER_ROLE_RL,
+  atLeast: GQLUSER_ROLE_RL
+) {
   [role, atLeast].forEach(r => {
     if (!hierarchy.includes(r)) {
       throw new Error(`Unknown role ${r}`);
