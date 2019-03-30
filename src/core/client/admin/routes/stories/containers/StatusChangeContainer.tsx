@@ -18,7 +18,7 @@ interface Props {
 }
 
 const StatusChangeContainer: StatelessComponent<Props> = props => {
-  const hanldeChangeStatus = useCallback(
+  const handleChangeStatus = useCallback(
     (status: GQLSTORY_STATUS_RL) => {
       if (props.status === status) {
         return;
@@ -32,7 +32,7 @@ const StatusChangeContainer: StatelessComponent<Props> = props => {
     [props.storyID, props.closeStory, props.openStory, props.status]
   );
   return (
-    <StatusChange onChangeStatus={hanldeChangeStatus} status={props.status} />
+    <StatusChange onChangeStatus={handleChangeStatus} status={props.status} />
   );
 };
 
