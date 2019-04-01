@@ -41,6 +41,7 @@ exports[`hide reply button 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 settings={
@@ -71,6 +72,7 @@ exports[`hide reply button 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 viewer={null}
@@ -82,6 +84,7 @@ exports[`hide reply button 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
+      tags={Array []}
       username="Marvin"
     />
   </ForwardRef(forwardRef)>
@@ -135,6 +138,7 @@ exports[`renders body only 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 settings={
@@ -165,6 +169,7 @@ exports[`renders body only 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 viewer={null}
@@ -176,6 +181,7 @@ exports[`renders body only 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
+      tags={Array []}
       username={null}
     />
   </ForwardRef(forwardRef)>
@@ -229,6 +235,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 settings={
@@ -259,6 +266,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 viewer={null}
@@ -270,6 +278,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
+      tags={Array []}
       username="Marvin"
     />
   </ForwardRef(forwardRef)>
@@ -323,6 +332,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 settings={
@@ -353,6 +363,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 viewer={null}
@@ -364,6 +375,7 @@ exports[`renders disabled reply when story is closed 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
+      tags={Array []}
       username="Marvin"
     />
   </ForwardRef(forwardRef)>
@@ -421,6 +433,7 @@ exports[`renders in reply to 1`] = `
                     },
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 settings={
@@ -455,6 +468,7 @@ exports[`renders in reply to 1`] = `
                     },
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 viewer={null}
@@ -466,6 +480,116 @@ exports[`renders in reply to 1`] = `
       indentLevel={1}
       parentAuthorName="ParentAuthor"
       showEditedMarker={false}
+      tags={Array []}
+      username="Marvin"
+    />
+  </ForwardRef(forwardRef)>
+</div>
+`;
+
+exports[`renders staff badge 1`] = `
+<div
+  data-testid="comment-comment-id"
+>
+  <ForwardRef(forwardRef)>
+    <IndentedComment
+      blur={false}
+      body="Woof"
+      createdAt="1995-12-17T03:24:00.000Z"
+      footer={
+        <React.Fragment>
+          <ForwardRef(forwardRef)
+            justifyContent="space-between"
+          >
+            <ButtonsBar>
+              <ReplyButton
+                active={false}
+                disabled={false}
+                id="comments-commentContainer-replyButton-comment-id"
+                onClick={[Function]}
+              />
+              <Relay(PermalinkButtonContainer)
+                commentID="comment-id"
+                story={
+                  Object {
+                    "isClosed": false,
+                    "url": "http://localhost/story",
+                  }
+                }
+              />
+              <withContext(createMutationContainer(withContext(createMutationContainer(withContext(createMutationContainer(Relay(ReactionButtonContainer)))))))
+                comment={
+                  Object {
+                    "author": Object {
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "parent": null,
+                    "pending": false,
+                    "status": "NONE",
+                    "tags": Array [
+                      Object {
+                        "name": "Staff",
+                      },
+                    ],
+                  }
+                }
+                settings={
+                  Object {
+                    "disableCommenting": Object {
+                      "enabled": false,
+                    },
+                  }
+                }
+                viewer={null}
+              />
+            </ButtonsBar>
+            <ButtonsBar>
+              <withContext(createMutationContainer(Relay(ReportButtonContainer)))
+                comment={
+                  Object {
+                    "author": Object {
+                      "id": "author-id",
+                      "username": "Marvin",
+                    },
+                    "body": "Woof",
+                    "createdAt": "1995-12-17T03:24:00.000Z",
+                    "editing": Object {
+                      "editableUntil": "1995-12-17T03:24:30.000Z",
+                      "edited": false,
+                    },
+                    "id": "comment-id",
+                    "parent": null,
+                    "pending": false,
+                    "status": "NONE",
+                    "tags": Array [
+                      Object {
+                        "name": "Staff",
+                      },
+                    ],
+                  }
+                }
+                viewer={null}
+              />
+            </ButtonsBar>
+          </ForwardRef(forwardRef)>
+        </React.Fragment>
+      }
+      indentLevel={1}
+      parentAuthorName={null}
+      showEditedMarker={false}
+      tags={
+        Array [
+          "Staff",
+        ]
+      }
       username="Marvin"
     />
   </ForwardRef(forwardRef)>
@@ -519,6 +643,7 @@ exports[`renders username and body 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 settings={
@@ -549,6 +674,7 @@ exports[`renders username and body 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 viewer={null}
@@ -560,6 +686,7 @@ exports[`renders username and body 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
+      tags={Array []}
       username="Marvin"
     />
   </ForwardRef(forwardRef)>
@@ -613,6 +740,7 @@ exports[`shows conversation link 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 settings={
@@ -643,6 +771,7 @@ exports[`shows conversation link 1`] = `
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
+                    "tags": Array [],
                   }
                 }
                 viewer={null}
@@ -659,6 +788,7 @@ exports[`shows conversation link 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
+      tags={Array []}
       username="Marvin"
     />
   </ForwardRef(forwardRef)>

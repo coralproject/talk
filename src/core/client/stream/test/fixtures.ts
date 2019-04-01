@@ -73,7 +73,7 @@ export const settings = {
   },
 };
 
-export const users = [
+export const commenters = [
   {
     id: "user-0",
     username: "Markus",
@@ -89,10 +89,15 @@ export const users = [
     username: "Isabelle",
     role: GQLUSER_ROLE.COMMENTER,
   },
+  {
+    id: "user-3",
+    username: "Markus",
+    role: GQLUSER_ROLE.COMMENTER,
+  },
 ];
 
 export const baseComment = {
-  author: users[0],
+  author: commenters[0],
   body: "Comment Body",
   revision: {
     id: "revision-0",
@@ -110,43 +115,44 @@ export const baseComment = {
       total: 0,
     },
   },
+  tags: [],
 };
 
 export const comments = denormalizeComments([
   {
     ...baseComment,
     id: "comment-0",
-    author: users[0],
+    author: commenters[0],
     body: "Joining Too",
   },
   {
     ...baseComment,
     id: "comment-1",
-    author: users[1],
+    author: commenters[1],
     body: "What's up?",
   },
   {
     ...baseComment,
     id: "comment-2",
-    author: users[2],
+    author: commenters[2],
     body: "Hey!",
   },
   {
     ...baseComment,
     id: "comment-3",
-    author: users[2],
+    author: commenters[2],
     body: "Comment Body 3",
   },
   {
     ...baseComment,
     id: "comment-4",
-    author: users[2],
+    author: commenters[2],
     body: "Comment Body 4",
   },
   {
     ...baseComment,
     id: "comment-5",
-    author: users[2],
+    author: commenters[2],
     body: "Comment Body 5",
   },
 ]);
@@ -154,7 +160,7 @@ export const comments = denormalizeComments([
 export const commentWithReplies = denormalizeComment({
   ...baseComment,
   id: "comment-with-replies",
-  author: users[0],
+  author: commenters[0],
   body: "I like yoghurt",
   replies: {
     edges: [
@@ -171,7 +177,7 @@ export const commentWithReplies = denormalizeComment({
 export const commentWithDeepReplies = denormalizeComment({
   ...baseComment,
   id: "comment-with-deep-replies",
-  author: users[0],
+  author: commenters[0],
   body: "I like yoghurt",
   replies: {
     edges: [
@@ -304,6 +310,24 @@ export const baseStory = {
   },
 };
 
+export const moderators = [
+  {
+    id: "me-as-moderator",
+    username: "Moderator",
+    role: GQLUSER_ROLE.MODERATOR,
+  },
+];
+
+export const commentsFromStaff = denormalizeComments([
+  {
+    ...baseComment,
+    id: "comment-from-staff-0",
+    author: moderators[0],
+    body: "Joining Too",
+    tags: [{ name: "Staff" }],
+  },
+]);
+
 export const stories = denormalizeStories([
   {
     ...baseStory,
@@ -327,6 +351,20 @@ export const stories = denormalizeStories([
       edges: [
         { node: comments[2], cursor: comments[2].createdAt },
         { node: comments[3], cursor: comments[3].createdAt },
+      ],
+      pageInfo: {
+        hasNextPage: false,
+      },
+    },
+  },
+  {
+    ...baseStory,
+    id: "story-3",
+    url: "http://localhost/stories/story-3",
+    comments: {
+      edges: [
+        { node: comments[0], cursor: comments[0].createdAt },
+        { node: commentsFromStaff[0], cursor: commentsFromStaff[0].createdAt },
       ],
       pageInfo: {
         hasNextPage: false,
@@ -396,12 +434,6 @@ export const storyWithDeepestReplies = denormalizeStory({
     },
   },
 });
-
-export const viewerAsModerator = {
-  id: "me-as-moderator",
-  username: "Moderator",
-  role: GQLUSER_ROLE.MODERATOR,
-};
 
 export const viewerWithComments = {
   id: "me-with-comments",

@@ -3,7 +3,7 @@ import React, { StatelessComponent } from "react";
 
 import HTMLContent from "talk-stream/components/HTMLContent";
 import Timestamp from "talk-stream/components/Timestamp";
-import { Flex, HorizontalGutter } from "talk-ui/components";
+import { Flex, HorizontalGutter, Tag } from "talk-ui/components";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
@@ -22,6 +22,7 @@ export interface CommentProps {
   showEditedMarker?: boolean;
   highlight?: boolean;
   parentAuthorName?: string | null;
+  tags?: ReadonlyArray<string>;
 }
 
 const Comment: StatelessComponent<CommentProps> = props => {
@@ -32,7 +33,10 @@ const Comment: StatelessComponent<CommentProps> = props => {
     >
       <Flex direction="row" justifyContent="space-between">
         <TopBarLeft>
-          {props.username && <Username>{props.username}</Username>}
+          <Flex direction="row" alignItems="center" itemGutter="half">
+            {props.username && <Username>{props.username}</Username>}
+            {props.tags && props.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
+          </Flex>
           <Flex direction="row" alignItems="baseline" itemGutter>
             <Timestamp>{props.createdAt}</Timestamp>
             {props.showEditedMarker && <EditedMarker />}

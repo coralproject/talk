@@ -10,9 +10,9 @@ import {
 
 import {
   baseComment,
+  commenters,
   settings,
   storyWithDeepestReplies,
-  users,
 } from "../fixtures";
 import create from "./create";
 
@@ -21,7 +21,7 @@ beforeEach(() => {
   const resolvers = {
     Query: {
       settings: sinon.stub().returns(settings),
-      viewer: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(commenters[0]),
       story: createSinonStub(
         s => s.throws(),
         s =>
@@ -44,7 +44,7 @@ beforeEach(() => {
             node: {
               ...baseComment,
               id: "comment-x",
-              author: users[0],
+              author: commenters[0],
               body: "<b>Hello world! (from server)</b>",
             },
           },

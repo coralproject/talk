@@ -5,6 +5,8 @@ import { waitForElement, within } from "talk-framework/testHelpers";
 import { settings, stories } from "../fixtures";
 import create from "./create";
 
+const story = stories[2];
+
 async function createTestRenderer(
   resolver: any = {},
   options: { muteNetworkErrors?: boolean } = {}
@@ -14,8 +16,8 @@ async function createTestRenderer(
     Query: {
       settings: sinon.stub().returns(settings),
       story: sinon.stub().callsFake((_: any, variables: any) => {
-        expectAndFail(variables.id).toBe(stories[0].id);
-        return stories[0];
+        expectAndFail(variables.id).toBe(story.id);
+        return story;
       }),
       ...resolver.Query,
     },
@@ -27,7 +29,7 @@ async function createTestRenderer(
     muteNetworkErrors: options.muteNetworkErrors,
     resolvers,
     initLocalState: localRecord => {
-      localRecord.setValue(stories[0].id, "storyID");
+      localRecord.setValue(story.id, "storyID");
     },
   });
 

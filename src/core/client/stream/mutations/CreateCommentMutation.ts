@@ -152,6 +152,7 @@ function commit(
                 total: 0,
               },
             },
+            tags: [],
           },
         },
         clientMutationId: (clientMutationId++).toString(),

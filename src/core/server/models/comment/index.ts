@@ -26,6 +26,7 @@ import Query, {
   createIndexFactory,
 } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
+import { CommentTag } from "./tag";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<Comment>>("comments");
@@ -118,6 +119,12 @@ export interface Comment extends TenantResource {
   replyIDs: string[];
 
   /**
+   * tags are CommentTag's on a specific Comment to be showcased with the
+   * Comment.
+   */
+  tags: CommentTag[];
+
+  /**
    * replyCount is the count of direct replies. It is stored as a separate value
    * here even though the replyIDs field technically contained the same data in
    * it's length because we needed to sort by this field sometimes.
@@ -186,6 +193,13 @@ export async function createCommentIndexes(mongo: Db) {
     tenantID: 1,
     authorID: 1,
     status: 1,
+  });
+
+  // Tag based Comment Connection pagination.
+  // { tags.type, ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+    "tags.type": 1,
   });
 }
 

@@ -35,7 +35,7 @@ import { PhaseResult, processForModeration } from "./pipeline";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "metadata" | "grandparentIDs" | "actionCounts"
+  "status" | "metadata" | "grandparentIDs" | "actionCounts" | "tags"
 >;
 
 export async function create(
@@ -113,7 +113,7 @@ export async function create(
     throw err;
   }
 
-  const { actions, body, status, metadata } = result;
+  const { actions, body, status, metadata, tags } = result;
 
   // This is the first time this comment is being published.. So we need to
   // ensure we don't run into any race conditions when we create the comment.
@@ -139,6 +139,7 @@ export async function create(
   // Create the comment!
   const comment = await createComment(mongo, tenant.id, {
     ...input,
+    tags,
     body,
     status,
     grandparentIDs,
