@@ -62,6 +62,8 @@ export interface TextFieldProps {
 
   textAlignCenter?: boolean;
   adornment?: React.ReactNode;
+
+  variant?: "regular" | "seamlessAdornment";
 }
 
 const TextField: StatelessComponent<TextFieldProps> = props => {
@@ -74,6 +76,7 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
     placeholder,
     adornment,
     textAlignCenter,
+    variant,
     ...rest
   } = props;
 
@@ -89,6 +92,7 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
     [classes.colorRegular]: color === "regular",
     [classes.colorError]: color === "error",
     [classes.textAlignCenter]: textAlignCenter,
+    [classes.seamlessAdornment]: variant === "seamlessAdornment",
   });
 
   return (
@@ -99,7 +103,7 @@ const TextField: StatelessComponent<TextFieldProps> = props => {
         value={value}
         {...rest}
       />
-      {adornment}
+      {adornment && <div className={styles.adornment}>{adornment}</div>}
     </div>
   );
 };

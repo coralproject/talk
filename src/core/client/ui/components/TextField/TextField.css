@@ -2,6 +2,7 @@
   display: flex;
   width: calc(29 * var(--spacing-unit));
   align-items: center;
+  height: 36px;
 }
 
 .input {
@@ -11,9 +12,9 @@
   padding: calc(0.5 * var(--spacing-unit));
   box-sizing: border-box;
   border-radius: var(--round-corners);
-  height: 36px;
-  line-height: 36px;
   width: 100%;
+  line-height: 36px;
+  align-self: stretch;
 
   &:read-only {
     background-color: var(--palette-grey-lightest);
@@ -24,8 +25,8 @@
   }
 }
 
-.input + * {
-  padding-left: calc(0.5 * var(--spacing-unit));
+.adornment {
+  margin-left: calc(0.5 * var(--spacing-unit));
 }
 
 .colorRegular {
@@ -46,4 +47,17 @@
 
 .textAlignCenter {
   text-align: center;
+}
+
+.seamlessAdornment {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+  & + .adornment {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+  }
 }

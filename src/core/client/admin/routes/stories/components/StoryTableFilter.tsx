@@ -4,8 +4,10 @@ import { Field, Form } from "react-final-form";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
 import {
+  Button,
   FieldSet,
   Flex,
+  Icon,
   Option,
   SelectField,
   TextField,
@@ -47,12 +49,29 @@ const StoryTableFilter: StatelessComponent<Props> = props => (
                   attrs={{ placeholder: true, "aria-label": true }}
                 >
                   <TextField
-                    classes={{ input: styles.textField }}
+                    className={styles.textField}
                     placeholder="Search by story title or author..."
                     aria-label="Search by story title or author"
                     name={input.name}
                     onChange={input.onChange}
                     value={input.value}
+                    variant="seamlessAdornment"
+                    adornment={
+                      <Localized
+                        id="stories-filter-searchButton"
+                        attrs={{ "aria-label": true }}
+                      >
+                        <Button
+                          className={styles.adornment}
+                          variant="adornment"
+                          type="submit"
+                          color="dark"
+                          aria-label="Search"
+                        >
+                          <Icon size="md">search</Icon>
+                        </Button>
+                      </Localized>
+                    }
                   />
                 </Localized>
               )}

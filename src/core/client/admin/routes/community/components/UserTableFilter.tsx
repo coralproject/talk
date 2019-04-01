@@ -4,8 +4,10 @@ import { Field, Form } from "react-final-form";
 
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
 import {
+  Button,
   FieldSet,
   Flex,
+  Icon,
   OptGroup,
   Option,
   SelectField,
@@ -48,12 +50,29 @@ const UserTableFilter: StatelessComponent<Props> = props => (
                   attrs={{ placeholder: true, "aria-label": true }}
                 >
                   <TextField
-                    classes={{ input: styles.textField }}
+                    className={styles.textField}
                     placeholder="Search by username or email address..."
                     aria-label="Search by username or email address"
                     name={input.name}
                     onChange={input.onChange}
                     value={input.value}
+                    variant="seamlessAdornment"
+                    adornment={
+                      <Localized
+                        id="community-filter-searchButton"
+                        attrs={{ "aria-label": true }}
+                      >
+                        <Button
+                          className={styles.adornment}
+                          variant="adornment"
+                          type="submit"
+                          color="dark"
+                          aria-label="Search"
+                        >
+                          <Icon size="md">search</Icon>
+                        </Button>
+                      </Localized>
+                    }
                   />
                 </Localized>
               )}

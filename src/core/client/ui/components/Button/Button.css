@@ -63,6 +63,9 @@
   &.colorBrand {
     color: var(--palette-brand-main);
   }
+  &.colorDark {
+    color: var(--palette-text-primary);
+  }
 
   &:not(.disabled) {
     &.colorRegular {
@@ -115,6 +118,16 @@
         color: var(--palette-brand-lighter);
       }
     }
+    &.colorDark {
+      /* @todo: What colors to use here.. */
+      &.mouseHover {
+        color: var(--palette-text-primary);
+      }
+      &:active,
+      &.active {
+        color: var(--palette-text-primary);
+      }
+    }
   }
 }
 
@@ -134,6 +147,9 @@
   }
   &.colorBrand {
     background-color: var(--palette-brand-main);
+  }
+  &.colorDark {
+    background-color: var(--palette-text-primary);
   }
 
   &:not(.disabled) {
@@ -182,6 +198,16 @@
         background-color: var(--palette-brand-lighter);
       }
     }
+    &.colorDark {
+      /* @todo: What colors to use here.. */
+      &.mouseHover {
+        background-color: var(--palette-text-primary);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-text-primary);
+      }
+    }
   }
 }
 
@@ -205,6 +231,10 @@
   }
   &.colorBrand {
     color: var(--palette-brand-main);
+    border: 1px solid currentColor;
+  }
+  &.colorDark {
+    color: var(--palette-text-primary);
     border: 1px solid currentColor;
   }
 
@@ -264,6 +294,17 @@
         border: 1px solid currentColor;
       }
     }
+    &.colorDark {
+      &.mouseHover {
+        color: var(--palette-text-primary);
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        color: var(--palette-text-primary);
+        border: 1px solid currentColor;
+      }
+    }
   }
 }
 
@@ -283,6 +324,9 @@
   }
   &.colorBrand {
     color: var(--palette-brand-main);
+  }
+  &.colorDark {
+    color: var(--palette-text-primary);
   }
 
   &:not(.disabled) {
@@ -341,6 +385,17 @@
         background-color: var(--palette-brand-main);
       }
     }
+    &.colorDark {
+      &.mouseHover {
+        border: 1px solid currentColor;
+      }
+      &:active,
+      &.active {
+        border: 1px solid currentColor;
+        color: var(--palette-text-light);
+        background-color: var(--palette-text-primary);
+      }
+    }
   }
 }
 
@@ -368,6 +423,9 @@
   }
   &.colorBrand {
     color: var(--palette-brand-main);
+  }
+  &.colorDark {
+    color: var(--palette-text-primary);
   }
 
   &:not(.disabled) {
@@ -419,6 +477,98 @@
       &:active,
       &.active {
         color: var(--palette-brand-lighter);
+      }
+    }
+    &.colorDark {
+      /* @todo: What colors to use here.. */
+      &.mouseHover {
+        color: var(--palette-text-primary);
+      }
+      &:active,
+      &.active {
+        color: var(--palette-text-primary);
+      }
+    }
+  }
+}
+
+.variantAdornment {
+  color: var(--palette-text-light);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  &.colorRegular {
+    background-color: var(--palette-grey-main);
+  }
+  &.colorPrimary {
+    background-color: var(--palette-primary-main);
+  }
+  &.colorError {
+    background-color: var(--palette-error-main);
+  }
+  &.colorSuccess {
+    background-color: var(--palette-success-main);
+  }
+  &.colorBrand {
+    background-color: var(--palette-brand-main);
+  }
+  &.colorDark {
+    background-color: var(--palette-text-primary);
+  }
+
+  &:not(.disabled) {
+    &.colorRegular {
+      &.mouseHover {
+        background-color: var(--palette-grey-light);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-grey-lighter);
+      }
+    }
+    &.colorPrimary {
+      &.mouseHover {
+        background-color: var(--palette-primary-light);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-primary-lighter);
+      }
+    }
+    &.colorError {
+      &.mouseHover {
+        background-color: var(--palette-error-light);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-error-lighter);
+      }
+    }
+    &.colorSuccess {
+      &.mouseHover {
+        background-color: var(--palette-success-light);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-success-lighter);
+      }
+    }
+    &.colorBrand {
+      &.mouseHover {
+        background-color: var(--palette-brand-light);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-brand-lighter);
+      }
+    }
+    &.colorDark {
+      /* @todo: What colors to use here.. */
+      &.mouseHover {
+        background-color: var(--palette-text-primary);
+      }
+      &:active,
+      &.active {
+        background-color: var(--palette-text-primary);
       }
     }
   }
