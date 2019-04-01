@@ -91,6 +91,7 @@ const variables = {
   },
   zindex: {
     popover: 300,
+    modal: 1000,
   },
 };
 

@@ -23,6 +23,26 @@
   composes: heading5 from "talk-ui/shared/typography.css";
 }
 
+.header1 {
+  composes: header1 from "talk-ui/shared/typography.css";
+}
+
+.header2 {
+  composes: header2 from "talk-ui/shared/typography.css";
+}
+
+.header3 {
+  composes: header3 from "talk-ui/shared/typography.css";
+}
+
+.header4 {
+  composes: header4 from "talk-ui/shared/typography.css";
+}
+
+.header5 {
+  composes: header5 from "talk-ui/shared/typography.css";
+}
+
 .bodyCopy {
   composes: bodyCopy from "talk-ui/shared/typography.css";
 }

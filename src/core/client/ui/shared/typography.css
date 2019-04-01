@@ -75,6 +75,25 @@
   @mixin heading5;
 }
 
+.header1 {
+  @mixin header1;
+}
+
+.header2 {
+  @mixin header2;
+}
+
+.header3 {
+  @mixin header3;
+}
+
+.header4 {
+  @mixin header4;
+}
+.header5 {
+  @mixin header5;
+}
+
 .bodyCopy {
   @mixin bodyCopy;
 }

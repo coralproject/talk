@@ -45,7 +45,7 @@ export {
 export { BrandIcon, BrandName, Logo } from "./Brand";
 export { default as Counter } from "./Counter";
 export { Marker, Count as MarkerCount } from "./Marker";
-export { default as Card } from "./Card";
+export { default as Card, CardCloseButton } from "./Card";
 export { default as PasswordField } from "./PasswordField";
 export { TileSelector, Option as TileOption } from "./TileSelector";
 export {
