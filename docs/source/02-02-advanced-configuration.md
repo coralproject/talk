@@ -505,8 +505,9 @@ Could be read as:
   pre-moderated once in order to post freely again. If they instead get rejected
   again, then they must have two of their comments approved in order to get
   added back to the queue.
-- At the moment of writing, behavior is not attached to the flagging
-  reliability, but it is recorded.
+- At the moment of writing, behavior is not attached to reliable commenters
+  as well as the flagging reliability and unreliability. Regardless, 
+  all of these scores are recorded for future implementation.
 
 ## TALK_DISABLE_IGNORE_FLAGS_AGAINST_STAFF
 
