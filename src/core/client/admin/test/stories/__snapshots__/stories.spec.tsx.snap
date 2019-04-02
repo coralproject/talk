@@ -19,16 +19,46 @@ exports[`renders empty stories 1`] = `
         >
           Search
         </legend>
-        <div
-          className="TextField-root"
+        <form
+          autoComplete="off"
+          id="configure-form"
+          onSubmit={[Function]}
         >
-          <input
-            aria-label="Search by story title or author"
-            className="TextField-input StoryTableFilter-textField TextField-colorRegular"
-            placeholder="Search by story title or author..."
-            type="text"
-          />
-        </div>
+          <div
+            className="TextField-root StoryTableFilter-textField"
+          >
+            <input
+              aria-label="Search by story title or author"
+              className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
+              name="search"
+              onChange={[Function]}
+              placeholder="Search by story title or author..."
+              type="text"
+              value=""
+            />
+            <div
+              className="TextField-adornment"
+            >
+              <button
+                aria-label="Search"
+                className="BaseButton-root Button-root StoryTableFilter-adornment Button-sizeRegular Button-colorDark Button-variantAdornment"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  search
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
       </fieldset>
       <fieldset
         className="FieldSet-root"
@@ -268,16 +298,46 @@ exports[`renders stories 1`] = `
         >
           Search
         </legend>
-        <div
-          className="TextField-root"
+        <form
+          autoComplete="off"
+          id="configure-form"
+          onSubmit={[Function]}
         >
-          <input
-            aria-label="Search by story title or author"
-            className="TextField-input StoryTableFilter-textField TextField-colorRegular"
-            placeholder="Search by story title or author..."
-            type="text"
-          />
-        </div>
+          <div
+            className="TextField-root StoryTableFilter-textField"
+          >
+            <input
+              aria-label="Search by story title or author"
+              className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
+              name="search"
+              onChange={[Function]}
+              placeholder="Search by story title or author..."
+              type="text"
+              value=""
+            />
+            <div
+              className="TextField-adornment"
+            >
+              <button
+                aria-label="Search"
+                className="BaseButton-root Button-root StoryTableFilter-adornment Button-sizeRegular Button-colorDark Button-variantAdornment"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  search
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
       </fieldset>
       <fieldset
         className="FieldSet-root"

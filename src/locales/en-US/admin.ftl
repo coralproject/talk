@@ -373,6 +373,8 @@ community-emptyMessage = We could not find anyone in your community matching you
 community-filter-searchField =
   .placeholder = Search by username or email address...
   .aria-label = Search by username or email address
+community-filter-searchButton =
+  .aria-label = Search
 
 community-filter-roleSelectField =
   .aria-label = Search by role
@@ -403,6 +405,8 @@ stories-noMatchMessage = We could not find any stories matching your criteria.
 stories-filter-searchField =
   .placeholder = Search by story title or author...
   .aria-label = Search by story title or author
+stories-filter-searchButton =
+  .aria-label = Search
 
 stories-filter-statusSelectField =
   .aria-label = Search by status

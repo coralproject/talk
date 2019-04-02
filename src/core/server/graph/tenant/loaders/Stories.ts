@@ -34,6 +34,14 @@ const statusFilter = (
   }
 };
 
+const queryFilter = (query?: string): StoryConnectionInput["filter"] => {
+  if (query) {
+    return { $text: { $search: query } };
+  }
+
+  return {};
+};
+
 /**
  * primeStoriesFromConnection will prime a given context with the stories
  * retrieved via a connection.
@@ -67,13 +75,16 @@ export default (ctx: TenantContext) => ({
   story: new DataLoader<string, Story | null>(ids =>
     retrieveManyStories(ctx.mongo, ctx.tenant.id, ids)
   ),
-  connection: ({ first = 10, after, status }: QueryToStoriesArgs) =>
+  connection: ({ first = 10, after, status, query }: QueryToStoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
       first,
       after,
       filter: {
         // Merge the status filter into the connection filter.
         ...statusFilter(status),
+
+        // Merge the query filters into the query.
+        ...queryFilter(query),
       },
     }).then(primeStoriesFromConnection(ctx)),
   debugScrapeMetadata: new DataLoader<string, GQLStoryMetadata | null>(urls =>

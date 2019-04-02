@@ -8,10 +8,11 @@ import {
   ConnectionInput,
   resolveConnection,
 } from "talk-server/models/helpers/connection";
-import Query, {
+import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "talk-server/models/helpers/query";
+} from "talk-server/models/helpers/indexing";
+import Query from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(mongo: Db) {

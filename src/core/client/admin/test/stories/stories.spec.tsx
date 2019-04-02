@@ -4,6 +4,7 @@ import sinon from "sinon";
 
 import {
   createSinonStub,
+  findParentWithType,
   replaceHistoryLocation,
   waitForElement,
   waitUntilThrow,
@@ -201,4 +202,36 @@ it("load more", async () => {
 
   // Make sure third user was added.
   within(container).getByText(stories[2].metadata!.title!);
+});
+
+it("filter by search", async () => {
+  const { container } = await createTestRenderer({
+    Query: {
+      stories: createSinonStub(
+        s => s.onFirstCall().returns(storyConnection),
+        s =>
+          s.onSecondCall().callsFake((_, data) => {
+            expectAndFail(data.query).toBe("search");
+            return emptyStories;
+          })
+      ),
+    },
+  });
+
+  const searchField = within(container).getByLabelText(
+    "Search by story title",
+    { exact: false }
+  );
+  const form = findParentWithType(searchField, "form")!;
+
+  TestRenderer.act(() => {
+    searchField.props.onChange({
+      target: { value: "search" },
+    });
+    form.props.onSubmit();
+  });
+
+  await waitForElement(() =>
+    within(container).getByText("could not find any", { exact: false })
+  );
 });

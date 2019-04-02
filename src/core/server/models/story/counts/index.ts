@@ -9,7 +9,7 @@ import { dotize } from "talk-common/utils/dotize";
 import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
 import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
-import { createIndexFactory } from "talk-server/models/helpers/query";
+import { createIndexFactory } from "talk-server/models/helpers/indexing";
 import { retrieveStory, Story } from "talk-server/models/story";
 import { AugmentedRedis } from "talk-server/services/redis";
 
@@ -28,7 +28,7 @@ export async function createStoryCountIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));
 
   // { createdAt }
-  await createIndex({ tenantID: 1, createdAt: 1 });
+  await createIndex({ tenantID: 1, createdAt: 1 }, { background: true });
 }
 
 // TODO: (wyattjoh) write a test to verify that this set of counts is always in sync with GQLCOMMENT_STATUS.

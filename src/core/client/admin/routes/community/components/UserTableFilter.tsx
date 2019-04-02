@@ -1,10 +1,13 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
+import { Field, Form } from "react-final-form";
 
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
 import {
+  Button,
   FieldSet,
   Flex,
+  Icon,
   OptGroup,
   Option,
   SelectField,
@@ -17,6 +20,8 @@ import styles from "./UserTableFilter.css";
 interface Props {
   roleFilter: GQLUSER_ROLE_RL | null;
   onSetRoleFilter: (role: GQLUSER_ROLE_RL) => void;
+  searchFilter: string;
+  onSetSearchFilter: (search: string) => void;
 }
 
 const UserTableFilter: StatelessComponent<Props> = props => (
@@ -31,16 +36,50 @@ const UserTableFilter: StatelessComponent<Props> = props => (
           Search
         </Typography>
       </Localized>
-      <Localized
-        id="community-filter-searchField"
-        attrs={{ placeholder: true, "aria-label": true }}
+      <Form
+        onSubmit={({ search }: { search: string }) =>
+          props.onSetSearchFilter(search)
+        }
       >
-        <TextField
-          classes={{ input: styles.textField }}
-          placeholder="Search by username or email address..."
-          aria-label="Search by username or email address"
-        />
-      </Localized>
+        {({ handleSubmit }) => (
+          <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
+            <Field name="search">
+              {({ input }) => (
+                <Localized
+                  id="community-filter-searchField"
+                  attrs={{ placeholder: true, "aria-label": true }}
+                >
+                  <TextField
+                    className={styles.textField}
+                    placeholder="Search by username or email address..."
+                    aria-label="Search by username or email address"
+                    name={input.name}
+                    onChange={input.onChange}
+                    value={input.value}
+                    variant="seamlessAdornment"
+                    adornment={
+                      <Localized
+                        id="community-filter-searchButton"
+                        attrs={{ "aria-label": true }}
+                      >
+                        <Button
+                          className={styles.adornment}
+                          variant="adornment"
+                          type="submit"
+                          color="dark"
+                          aria-label="Search"
+                        >
+                          <Icon size="md">search</Icon>
+                        </Button>
+                      </Localized>
+                    }
+                  />
+                </Localized>
+              )}
+            </Field>
+          </form>
+        )}
+      </Form>
     </FieldSet>
     <FieldSet>
       <Localized id="community-filter-showMe">
@@ -59,7 +98,7 @@ const UserTableFilter: StatelessComponent<Props> = props => (
         <SelectField
           aria-label="Search by role"
           value={props.roleFilter || ""}
-          onChange={e => props.onSetRoleFilter(e.target.value as any)}
+          onChange={e => props.onSetRoleFilter((e.target.value as any) || null)}
         >
           <Localized id="community-filter-everyone">
             <Option value="">Everyone</Option>

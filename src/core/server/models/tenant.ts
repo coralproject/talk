@@ -9,7 +9,7 @@ import {
   GQLMODERATION_MODE,
   GQLSettings,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "talk-server/models/helpers/query";
+import { createIndexFactory } from "talk-server/models/helpers/indexing";
 import { Settings } from "talk-server/models/settings";
 
 function collection(mongo: Db) {

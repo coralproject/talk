@@ -24,10 +24,23 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   size?: "small" | "regular" | "large";
 
   /** Color of the button */
-  color?: "regular" | "primary" | "error" | "success" | "brand" | "light";
+  color?:
+    | "regular"
+    | "primary"
+    | "error"
+    | "success"
+    | "brand"
+    | "light"
+    | "dark";
 
   /** Variant of the button */
-  variant?: "regular" | "filled" | "outlined" | "ghost" | "underlined";
+  variant?:
+    | "regular"
+    | "filled"
+    | "outlined"
+    | "ghost"
+    | "underlined"
+    | "adornment";
 
   /** If set renders a full width button */
   fullWidth?: boolean;
@@ -72,10 +85,12 @@ export class Button extends React.Component<Props> {
       [classes.colorError]: color === "error",
       [classes.colorSuccess]: color === "success",
       [classes.colorBrand]: color === "brand",
+      [classes.colorDark]: color === "dark",
       [classes.variantRegular]: variant === "regular",
       [classes.variantFilled]: variant === "filled",
       [classes.variantOutlined]: variant === "outlined",
       [classes.variantGhost]: variant === "ghost",
+      [classes.variantAdornment]: variant === "adornment",
       [classes.variantUnderlined]: variant === "underlined",
       [classes.fullWidth]: fullWidth,
       [classes.active]: active,

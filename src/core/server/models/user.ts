@@ -13,11 +13,11 @@ import {
   UserNotFoundError,
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import Query, {
+import {
   createConnectionOrderVariants,
   createIndexFactory,
-  FilterQuery,
-} from "talk-server/models/helpers/query";
+} from "talk-server/models/helpers/indexing";
+import Query, { FilterQuery } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 import {
   Connection,
@@ -97,14 +97,39 @@ export async function createUserIndexes(mongo: Db) {
   // UNIQUE { profiles.type, profiles.id }
   await createIndex(
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
-    { unique: true }
+    {
+      unique: true,
+      // We're filtering by the first entry in the profiles array to ensure we
+      // only enforce uniqueness when the profiles array has at least a single
+      // profile.
+      partialFilterExpression: { "profiles.0": { $exists: true } },
+    }
   );
 
-  const variants = createConnectionOrderVariants<Readonly<User>>([
-    { createdAt: -1 },
-  ]);
+  // TEXT { id, username, email, createdAt }
+  await createIndex(
+    {
+      tenantID: 1,
+      id: "text",
+      username: "text",
+      email: "text",
+      createdAt: -1,
+    },
+    { background: true }
+  );
 
-  // Story based Comment Connection pagination.
+  const variants = createConnectionOrderVariants<Readonly<User>>(
+    [{ createdAt: -1 }],
+    { background: true }
+  );
+
+  // User Connection pagination.
+  // { ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+  });
+
+  // Role based User Connection pagination.
   // { role, ...connectionParams }
   await variants(createIndex, {
     tenantID: 1,

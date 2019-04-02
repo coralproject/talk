@@ -19,16 +19,46 @@ exports[`renders community 1`] = `
         >
           Search
         </legend>
-        <div
-          className="TextField-root"
+        <form
+          autoComplete="off"
+          id="configure-form"
+          onSubmit={[Function]}
         >
-          <input
-            aria-label="Search by username or email address"
-            className="TextField-input UserTableFilter-textField TextField-colorRegular"
-            placeholder="Search by username or email address..."
-            type="text"
-          />
-        </div>
+          <div
+            className="TextField-root UserTableFilter-textField"
+          >
+            <input
+              aria-label="Search by username or email address"
+              className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
+              name="search"
+              onChange={[Function]}
+              placeholder="Search by username or email address..."
+              type="text"
+              value=""
+            />
+            <div
+              className="TextField-adornment"
+            >
+              <button
+                aria-label="Search"
+                className="BaseButton-root Button-root UserTableFilter-adornment Button-sizeRegular Button-colorDark Button-variantAdornment"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  search
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
       </fieldset>
       <fieldset
         className="FieldSet-root"
@@ -261,16 +291,46 @@ exports[`renders empty community 1`] = `
         >
           Search
         </legend>
-        <div
-          className="TextField-root"
+        <form
+          autoComplete="off"
+          id="configure-form"
+          onSubmit={[Function]}
         >
-          <input
-            aria-label="Search by username or email address"
-            className="TextField-input UserTableFilter-textField TextField-colorRegular"
-            placeholder="Search by username or email address..."
-            type="text"
-          />
-        </div>
+          <div
+            className="TextField-root UserTableFilter-textField"
+          >
+            <input
+              aria-label="Search by username or email address"
+              className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
+              name="search"
+              onChange={[Function]}
+              placeholder="Search by username or email address..."
+              type="text"
+              value=""
+            />
+            <div
+              className="TextField-adornment"
+            >
+              <button
+                aria-label="Search"
+                className="BaseButton-root Button-root UserTableFilter-adornment Button-sizeRegular Button-colorDark Button-variantAdornment"
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md"
+                >
+                  search
+                </span>
+              </button>
+            </div>
+          </div>
+        </form>
       </fieldset>
       <fieldset
         className="FieldSet-root"

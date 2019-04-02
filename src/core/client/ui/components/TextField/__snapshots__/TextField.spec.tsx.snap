@@ -10,6 +10,10 @@ exports[`renders correctly 1`] = `
     placeholder=""
     type="text"
   />
-  Unit
+  <div
+    className="TextField-adornment"
+  >
+    Unit
+  </div>
 </div>
 `;

@@ -410,11 +410,15 @@ Markdown can be found
                   type="text"
                   value={3}
                 />
-                <p
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                <div
+                  className="TextField-adornment"
                 >
-                  Characters
-                </p>
+                  <p
+                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    Characters
+                  </p>
+                </div>
               </div>
             </div>
             <div
@@ -443,11 +447,15 @@ Markdown can be found
                   type="text"
                   value={1000}
                 />
-                <p
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                <div
+                  className="TextField-adornment"
                 >
-                  Characters
-                </p>
+                  <p
+                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    Characters
+                  </p>
+                </div>
               </div>
             </div>
           </fieldset>

@@ -1,10 +1,13 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
+import { Field, Form } from "react-final-form";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
 import {
+  Button,
   FieldSet,
   Flex,
+  Icon,
   Option,
   SelectField,
   TextField,
@@ -16,6 +19,8 @@ import styles from "./StoryTableFilter.css";
 interface Props {
   statusFilter: GQLSTORY_STATUS_RL | null;
   onSetStatusFilter: (status: GQLSTORY_STATUS_RL) => void;
+  searchFilter: string;
+  onSetSearchFilter: (search: string) => void;
 }
 
 const StoryTableFilter: StatelessComponent<Props> = props => (
@@ -30,16 +35,50 @@ const StoryTableFilter: StatelessComponent<Props> = props => (
           Search
         </Typography>
       </Localized>
-      <Localized
-        id="stories-filter-searchField"
-        attrs={{ placeholder: true, "aria-label": true }}
+      <Form
+        onSubmit={({ search }: { search: string }) =>
+          props.onSetSearchFilter(search)
+        }
       >
-        <TextField
-          classes={{ input: styles.textField }}
-          placeholder="Search by story title or author..."
-          aria-label="Search by story title or author"
-        />
-      </Localized>
+        {({ handleSubmit }) => (
+          <form autoComplete="off" onSubmit={handleSubmit} id="configure-form">
+            <Field name="search">
+              {({ input }) => (
+                <Localized
+                  id="stories-filter-searchField"
+                  attrs={{ placeholder: true, "aria-label": true }}
+                >
+                  <TextField
+                    className={styles.textField}
+                    placeholder="Search by story title or author..."
+                    aria-label="Search by story title or author"
+                    name={input.name}
+                    onChange={input.onChange}
+                    value={input.value}
+                    variant="seamlessAdornment"
+                    adornment={
+                      <Localized
+                        id="stories-filter-searchButton"
+                        attrs={{ "aria-label": true }}
+                      >
+                        <Button
+                          className={styles.adornment}
+                          variant="adornment"
+                          type="submit"
+                          color="dark"
+                          aria-label="Search"
+                        >
+                          <Icon size="md">search</Icon>
+                        </Button>
+                      </Localized>
+                    }
+                  />
+                </Localized>
+              )}
+            </Field>
+          </form>
+        )}
+      </Form>
     </FieldSet>
     <FieldSet>
       <Localized id="stories-filter-showMe">
@@ -58,7 +97,9 @@ const StoryTableFilter: StatelessComponent<Props> = props => (
         <SelectField
           aria-label="Search by status"
           value={props.statusFilter || ""}
-          onChange={e => props.onSetStatusFilter(e.target.value as any)}
+          onChange={e =>
+            props.onSetStatusFilter((e.target.value as any) || null)
+          }
         >
           <Localized id="stories-filter-allStories">
             <Option value="">All Stories</Option>

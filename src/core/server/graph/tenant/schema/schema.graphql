@@ -1802,6 +1802,7 @@ type Query {
     first: Int = 10
     after: Cursor
     status: STORY_STATUS
+    query: String
   ): StoriesConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -1812,8 +1813,12 @@ type Query {
   """
   users returns filtered users that can be paginated.
   """
-  users(first: Int = 10, after: Cursor, role: USER_ROLE): UsersConnection!
-    @auth(roles: [ADMIN, MODERATOR])
+  users(
+    first: Int = 10
+    after: Cursor
+    role: USER_ROLE
+    query: String
+  ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewer is the current logged in User. If no user is currently logged in, it will
