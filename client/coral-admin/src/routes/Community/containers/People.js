@@ -140,8 +140,11 @@ const LOAD_MORE_QUERY = gql`
     $limit: Int
     $cursor: Cursor
     $value: String
+    $state: UserStateInput
   ) {
-    users(query: { value: $value, limit: $limit, cursor: $cursor }) {
+    users(
+      query: { value: $value, limit: $limit, cursor: $cursor, state: $state }
+    ) {
       hasNextPage
       endCursor
       nodes {
