@@ -5,6 +5,7 @@ import sinon from "sinon";
 import { GQLUSER_ROLE } from "talk-framework/schema";
 import {
   createSinonStub,
+  findParentWithType,
   replaceHistoryLocation,
   waitForElement,
   waitUntilThrow,
@@ -188,4 +189,35 @@ it("load more", async () => {
 
   // Make sure third user was added.
   within(container).getByText(users[2].username);
+});
+
+it("filter by search", async () => {
+  const { container } = await createTestRenderer({
+    Query: {
+      users: createSinonStub(
+        s => s.onFirstCall().returns(communityUsers),
+        s =>
+          s.onSecondCall().callsFake((_, data) => {
+            expectAndFail(data.query).toBe("search");
+            return emptyCommunityUsers;
+          })
+      ),
+    },
+  });
+
+  const searchField = within(container).getByLabelText("Search by username", {
+    exact: false,
+  });
+  const form = findParentWithType(searchField, "form")!;
+
+  TestRenderer.act(() => {
+    searchField.props.onChange({
+      target: { value: "search" },
+    });
+    form.props.onSubmit();
+  });
+
+  await waitForElement(() =>
+    within(container).getByText("could not find anyone", { exact: false })
+  );
 });

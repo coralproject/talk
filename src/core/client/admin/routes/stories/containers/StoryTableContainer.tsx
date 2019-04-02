@@ -56,7 +56,7 @@ const StoryTableContainer: StatelessComponent<Props> = props => {
           onLoadMore={loadMore}
           hasMore={!isRefetching && props.relay.hasMore()}
           disableLoadMore={isLoadingMore}
-          isSearching={Boolean(statusFilter)}
+          isSearching={Boolean(statusFilter) || Boolean(searchFilter)}
         />
       </HorizontalGutter>
     </IntersectionProvider>

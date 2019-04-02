@@ -221,11 +221,15 @@ comment is toxic, according to Perspective API. By default the treshold is set t
                   type="text"
                   value=""
                 />
-                <p
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                <div
+                  className="TextField-adornment"
                 >
-                  %
-                </p>
+                  <p
+                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    %
+                  </p>
+                </div>
               </div>
             </div>
             <fieldset
