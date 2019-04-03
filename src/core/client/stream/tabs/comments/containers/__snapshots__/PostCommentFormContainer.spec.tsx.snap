@@ -26,6 +26,7 @@ exports[`renders correctly 1`] = `
 
 exports[`renders when commenting has been disabled (collapsing) 1`] = `
 <PostCommentFormClosedSitewide
+  message="commenting disabled"
   showMessageBox={false}
   story={
     Object {
@@ -38,9 +39,7 @@ exports[`renders when commenting has been disabled (collapsing) 1`] = `
       },
     }
   }
->
-  commenting disabled
-</PostCommentFormClosedSitewide>
+/>
 `;
 
 exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
@@ -69,6 +68,7 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
 
 exports[`renders when story has been closed (collapsing) 1`] = `
 <PostCommentFormClosed
+  message="story closed"
   showMessageBox={false}
   story={
     Object {
@@ -81,9 +81,7 @@ exports[`renders when story has been closed (collapsing) 1`] = `
       },
     }
   }
->
-  story closed
-</PostCommentFormClosed>
+/>
 `;
 
 exports[`renders when story has been closed (non-collapsing) 1`] = `

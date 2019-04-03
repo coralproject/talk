@@ -61,6 +61,11 @@ const serverConfig = createDevServerConfig({
   serverPort: config.get("port"),
   publicPath: webpackConfig[0].output!.publicPath!,
 });
+
+// Disable the host check on the dev server as this is used exclusively for
+// development and not in production.
+serverConfig.disableHostCheck = true;
+
 const devServer = new WebpackDevServer(compiler, serverConfig);
 // Launch WebpackDevServer.
 devServer.listen(PORT, HOST, (err: Error) => {

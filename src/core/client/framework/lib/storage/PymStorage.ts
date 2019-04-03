@@ -1,5 +1,5 @@
 import { Child, Parent } from "pym.js";
-import uuid from "uuid/v4";
+import uuid from "uuid/v1";
 import { PromisifiedStorage } from "./PromisifiedStorage";
 
 type Pym = Child | Parent;

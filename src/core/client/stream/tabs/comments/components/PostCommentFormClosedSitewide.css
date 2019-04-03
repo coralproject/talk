@@ -1,5 +1,8 @@
 .root {
   background-color: var(--palette-grey-dark);
   border-color: var(--palette-grey-dark);
+}
+
+.message {
   color: var(--palette-text-light);
 }

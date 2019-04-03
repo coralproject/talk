@@ -52,7 +52,7 @@ it("renders disabled comment stream", async () => {
     },
   });
   await waitForElement(() =>
-    within(testRenderer.root).getByText("commenting disabled")
+    within(testRenderer.root).getByText("commenting disabled", { exact: false })
   );
 });
 
@@ -66,7 +66,7 @@ it("renders closed comment stream", async () => {
     },
   });
   await waitForElement(() =>
-    within(testRenderer.root).getByText("Story is closed")
+    within(testRenderer.root).getByText("Story is closed", { exact: false })
   );
 });
 
@@ -85,7 +85,9 @@ it("auto close comment stream when story closed at has been reached", async () =
       })),
     },
   });
-  expect(within(testRenderer.root).queryByText("Story is closed")).toBeNull();
+  expect(
+    within(testRenderer.root).queryByText("Story is closed", { exact: false })
+  ).toBeNull();
 
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-stream-log")
@@ -94,6 +96,6 @@ it("auto close comment stream when story closed at has been reached", async () =
   jest.advanceTimersByTime(closeIn);
 
   await waitForElement(() =>
-    within(testRenderer.root).getByText("Story is closed")
+    within(testRenderer.root).getByText("Story is closed", { exact: false })
   );
 });
