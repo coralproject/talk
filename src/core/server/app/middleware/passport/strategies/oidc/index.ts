@@ -7,15 +7,18 @@ import { Strategy } from "passport-strategy";
 
 import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
-import {
-  GQLOIDCAuthIntegration,
-  GQLUSER_ROLE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
+import logger from "talk-server/logger";
+import { OIDCAuthIntegration } from "talk-server/models/settings";
 import { Tenant } from "talk-server/models/tenant";
-import { OIDCProfile, retrieveUserWithProfile } from "talk-server/models/user";
+import {
+  OIDCProfile,
+  retrieveUserWithProfile,
+  User,
+} from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
 import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
-import { upsert } from "talk-server/services/users";
+import { insert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
 export interface Params {
@@ -85,11 +88,9 @@ const signingKeyFactory = (client: jwks.JwksClient): jwt.KeyFunction => (
   });
 };
 
-function getEnabledIntegration(
-  tenant: Tenant
-): Required<GQLOIDCAuthIntegration> {
-  // Grab the OIDC Integration.
-  const integration = tenant.auth.integrations.oidc;
+export function getEnabledIntegration(
+  integration: OIDCAuthIntegration
+): Required<OIDCAuthIntegration> {
   if (!integration.enabled) {
     // TODO: return a better error.
     throw new Error("integration not enabled");
@@ -109,7 +110,7 @@ function getEnabledIntegration(
   }
 
   // TODO: (wyattjoh) for some reason, type guards above to not allow coercion to this required type.
-  return integration as Required<GQLOIDCAuthIntegration>;
+  return integration as Required<OIDCAuthIntegration>;
 }
 
 export const OIDCIDTokenSchema = Joi.object()
@@ -135,9 +136,9 @@ export const OIDCIDTokenSchema = Joi.object()
 export async function findOrCreateOIDCUser(
   mongo: Db,
   tenant: Tenant,
-  integration: GQLOIDCAuthIntegration,
+  integration: OIDCAuthIntegration,
   token: OIDCIDToken
-) {
+): Promise<Readonly<User> | null> {
   // Unpack/validate the token content.
   const {
     sub,
@@ -160,15 +161,11 @@ export async function findOrCreateOIDCUser(
   };
 
   // Try to lookup user given their id provided in the `sub` claim.
-  let user = await retrieveUserWithProfile(mongo, tenant.id, {
-    // NOTE: (wyattjoh) as the current requirements do not allow multiple OIDC integrations, we are only getting the profile based on the OIDC provider.
-    type: "oidc",
-    id: sub,
-  });
+  let user = await retrieveUserWithProfile(mongo, tenant.id, profile);
   if (!user) {
     if (!integration.allowRegistration) {
       // Registration is disabled, so we can't create the user user here.
-      return;
+      return null;
     }
 
     // FIXME: implement rules.
@@ -177,7 +174,7 @@ export async function findOrCreateOIDCUser(
     const username = preferred_username || nickname || name;
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(mongo, tenant, {
+    user = await insert(mongo, tenant, {
       username,
       role: GQLUSER_ROLE.COMMENTER,
       email,
@@ -190,6 +187,47 @@ export async function findOrCreateOIDCUser(
   // TODO: (wyattjoh) possibly update the user profile if the remaining details mismatch?
 
   return user;
+}
+
+export function findOrCreateOIDCUserWithToken(
+  mongo: Db,
+  tenant: Tenant,
+  client: JwksClient,
+  integration: OIDCAuthIntegration,
+  token: string
+) {
+  return new Promise<Readonly<User> | null>((resolve, reject) => {
+    logger.trace({ tenantID: tenant.id }, "verifying oidc id_token");
+    jwt.verify(
+      token,
+      signingKeyFactory(client),
+      {
+        issuer: integration.issuer,
+      },
+      async (err, decoded) => {
+        logger.trace(
+          { tenantID: tenant.id },
+          "finished verifying oidc id_token"
+        );
+        if (err) {
+          // TODO: wrap error?
+          return reject(err);
+        }
+
+        try {
+          const user = await findOrCreateOIDCUser(
+            mongo,
+            tenant,
+            integration,
+            decoded as OIDCIDToken
+          );
+          return resolve(user);
+        } catch (err) {
+          return reject(err);
+        }
+      }
+    );
+  });
 }
 
 /**
@@ -218,7 +256,7 @@ export default class OIDCStrategy extends Strategy {
   private lookupJWKSClient(
     req: Request,
     tenantID: string,
-    oidc: Required<GQLOIDCAuthIntegration>
+    oidc: Required<OIDCAuthIntegration>
   ): jwks.JwksClient {
     let tenantIntegration = this.cache.get(tenantID);
     if (!tenantIntegration) {
@@ -249,7 +287,7 @@ export default class OIDCStrategy extends Strategy {
     return tenantIntegration.jwksClient;
   }
 
-  private userAuthenticatedCallback = (
+  private userAuthenticatedCallback = async (
     req: Request,
     accessToken: string, // ignore the access token, we don't use it.
     refreshToken: string, // ignore the refresh token, we don't use it.
@@ -274,9 +312,9 @@ export default class OIDCStrategy extends Strategy {
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    let integration: Required<GQLOIDCAuthIntegration>;
+    let integration: Required<OIDCAuthIntegration>;
     try {
-      integration = getEnabledIntegration(tenant);
+      integration = getEnabledIntegration(tenant.auth.integrations.oidc);
     } catch (err) {
       // TODO: wrap error?
       return done(err);
@@ -286,36 +324,23 @@ export default class OIDCStrategy extends Strategy {
     const client = this.lookupJWKSClient(req, tenant.id, integration);
 
     // Verify that the id_token is valid or not.
-    jwt.verify(
-      id_token,
-      signingKeyFactory(client),
-      {
-        issuer: integration.issuer,
-      },
-      async (err, decoded) => {
-        if (err) {
-          // TODO: wrap error?
-          return done(err);
-        }
-
-        try {
-          const user = await findOrCreateOIDCUser(
-            this.mongo,
-            tenant,
-            integration,
-            decoded as OIDCIDToken
-          );
-          return done(null, user);
-        } catch (err) {
-          return done(err);
-        }
-      }
-    );
+    try {
+      const user = await findOrCreateOIDCUserWithToken(
+        this.mongo,
+        tenant,
+        client,
+        integration,
+        id_token
+      );
+      return done(null, user || undefined);
+    } catch (err) {
+      return done(err);
+    }
   };
 
   private createStrategy(
     req: Request,
-    integration: Required<GQLOIDCAuthIntegration>
+    integration: Required<OIDCAuthIntegration>
   ): OAuth2Strategy {
     const { clientID, clientSecret, authorizationURL, tokenURL } = integration;
 
@@ -346,7 +371,7 @@ export default class OIDCStrategy extends Strategy {
 
     // Get the integration from the tenant. If needed, it will be used to create
     // a new strategy.
-    const integration = getEnabledIntegration(tenant);
+    const integration = getEnabledIntegration(tenant.auth.integrations.oidc);
 
     // Try to get the Tenant's cached integrations.
     let tenantIntegration = this.cache.get(tenant.id);

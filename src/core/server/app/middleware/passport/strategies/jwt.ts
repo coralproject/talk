@@ -2,35 +2,31 @@ import jwt from "jsonwebtoken";
 import { Strategy } from "passport-strategy";
 
 import { AppOptions } from "talk-server/app";
-import {
-  JWTToken,
-  JWTVerifier,
-} from "talk-server/app/middleware/passport/strategies/verifiers/jwt";
-import {
-  SSOToken,
-  SSOVerifier,
-} from "talk-server/app/middleware/passport/strategies/verifiers/sso";
 import { TenantNotFoundError, TokenInvalidError } from "talk-server/errors";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { extractJWTFromRequest } from "talk-server/services/jwt";
 import { Request } from "talk-server/types/express";
 
+import { JWTToken, JWTVerifier } from "./verifiers/jwt";
+import { OIDCIDToken, OIDCVerifier } from "./verifiers/oidc";
+import { SSOToken, SSOVerifier } from "./verifiers/sso";
+
 export type JWTStrategyOptions = Pick<
   AppOptions,
-  "signingConfig" | "mongo" | "redis"
+  "signingConfig" | "mongo" | "redis" | "tenantCache"
 >;
 
 /**
  * Token is the various forms of the Token that can be verified.
  */
-type Token = SSOToken | JWTToken | object | string | null;
+type Token = OIDCIDToken | SSOToken | JWTToken | object | string | null;
 
 /**
  * Verifier allows different implementations to offer ways to verify a given
  * Token.
  */
-interface Verifier<T> {
+export interface Verifier<T = Token> {
   /**
    * verify will perform the verification and return a User.
    */
@@ -50,18 +46,16 @@ interface Verifier<T> {
 export class JWTStrategy extends Strategy {
   public name = "jwt";
 
-  private verifiers: {
-    sso: Verifier<SSOToken>;
-    jwt: Verifier<JWTToken>;
-  };
+  private verifiers: Verifier[];
 
   constructor(options: JWTStrategyOptions) {
     super();
 
-    this.verifiers = {
-      sso: new SSOVerifier(options),
-      jwt: new JWTVerifier(options),
-    };
+    this.verifiers = [
+      new OIDCVerifier(options),
+      new SSOVerifier(options),
+      new JWTVerifier(options),
+    ];
   }
 
   private async verify(tokenString: string, tenant: Tenant) {
@@ -70,22 +64,11 @@ export class JWTStrategy extends Strategy {
       throw new TokenInvalidError(tokenString, "token could not be decoded");
     }
 
-    // TODO: add OIDC support.
-    // At the moment, OpenID Connect tokens are not supported here directly,
-    // instead, the default implementation redirects the user to the
-    // authorization endpoint where they login, and a redirection occurs
-    // yielding the token to us via the Authorization Code Flow. We then issue a
-    // Talk Token for that request, that the client uses after.
-
-    // Handle SSO integrations.
-    if (this.verifiers.sso.supports(token, tenant)) {
-      return this.verifiers.sso.verify(tokenString, token, tenant);
-    }
-
-    // Handle the raw JWT token.
-    if (this.verifiers.jwt.supports(token, tenant)) {
-      // Verify the token with the JWT verification strategy.
-      return this.verifiers.jwt.verify(tokenString, token, tenant);
+    // Try to verify the token.
+    for (const verifier of this.verifiers) {
+      if (verifier.supports(token, tenant)) {
+        return verifier.verify(tokenString, token, tenant);
+      }
     }
 
     // No verifier could be found.

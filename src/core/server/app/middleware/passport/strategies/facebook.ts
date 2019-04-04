@@ -14,7 +14,7 @@ import {
   FacebookProfile,
   retrieveUserWithProfile,
 } from "talk-server/models/user";
-import { upsert } from "talk-server/services/users";
+import { insert } from "talk-server/services/users";
 
 export type FacebookStrategyOptions = OAuth2StrategyOptions;
 
@@ -71,7 +71,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
         emailVerified = false;
       }
 
-      user = await upsert(this.mongo, tenant, {
+      user = await insert(this.mongo, tenant, {
         username: displayName,
         role: GQLUSER_ROLE.COMMENTER,
         email,

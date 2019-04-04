@@ -1,17 +1,23 @@
+# don't include the dependancies
 node_modules
-dist
-.env
+
+# don't include any logs
 npm-debug.log*
+
+# don't include any yarn files
 yarn-error.log
 yarn.lock
-coverage
 
+# don't include any OS/editor files
+.env
 .idea/
 .vs
 .docz
 *.swp
 *.DS_STORE
 
+# don't include any generated files
+dist
 *.css.d.ts
 __generated__
 README.md.orig

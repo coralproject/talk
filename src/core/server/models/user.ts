@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { Db } from "mongodb";
+import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
@@ -17,7 +17,7 @@ import {
   createConnectionOrderVariants,
   createIndexFactory,
 } from "talk-server/models/helpers/indexing";
-import Query, { FilterQuery } from "talk-server/models/helpers/query";
+import Query from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 import {
   Connection,
@@ -97,12 +97,15 @@ export async function createUserIndexes(mongo: Db) {
   // UNIQUE { profiles.type, profiles.id }
   await createIndex(
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
+    { unique: true, partialFilterExpression: { profiles: { $exists: true } } }
+  );
+
+  // { profiles }
+  await createIndex(
+    { tenantID: 1, profiles: 1, email: 1 },
     {
-      unique: true,
-      // We're filtering by the first entry in the profiles array to ensure we
-      // only enforce uniqueness when the profiles array has at least a single
-      // profile.
-      partialFilterExpression: { "profiles.0": { $exists: true } },
+      partialFilterExpression: { profiles: { $exists: true } },
+      background: true,
     }
   );
 
@@ -141,15 +144,15 @@ function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
-export type UpsertUserInput = Omit<
+export type InsertUserInput = Omit<
   User,
   "id" | "tenantID" | "tokens" | "createdAt"
 >;
 
-export async function upsertUser(
+export async function insertUser(
   mongo: Db,
   tenantID: string,
-  input: UpsertUserInput
+  input: InsertUserInput
 ) {
   const now = new Date();
 
@@ -158,12 +161,17 @@ export async function upsertUser(
 
   // default are the properties set by the application when a new user is
   // created.
-  const defaults: Sub<User, UpsertUserInput> = {
+  const defaults: Sub<User, InsertUserInput> = {
     id,
     tenantID,
     tokens: [],
     createdAt: now,
   };
+
+  // Guard against empty login profiles (they need some way to login).
+  if (input.profiles.length === 0) {
+    throw new Error("users require at least one profile");
+  }
 
   // Mutate the profiles to ensure we mask handle any secrets.
   const profiles: Profile[] = [];
@@ -189,51 +197,21 @@ export async function upsertUser(
     profiles,
   };
 
-  // Create a query that will utilize a findOneAndUpdate to facilitate an upsert
-  // operation to ensure no user has the same profile and/or email address. If
-  // any user is found to have the same profile as any of the profiles specified
-  // in the new user object, then we should error here.
-  const filter = createUpsertUserFilter(user);
+  try {
+    // Insert it into the database. This may throw an error.
+    await collection(mongo).insert(user);
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (err instanceof MongoError && err.code === 11000) {
+      throw new DuplicateUserError();
+    }
 
-  // Create the upsert/update operation.
-  const update: { $setOnInsert: Readonly<User> } = {
-    $setOnInsert: user,
-  };
-
-  // Insert it into the database. This may throw an error.
-  const result = await collection(mongo).findOneAndUpdate(filter, update, {
-    // We are using this to create a user, so we need to upsert it.
-    upsert: true,
-
-    // False to return the updated document instead of the original document.
-    // This lets us detect if the document was updated or not.
-    returnOriginal: false,
-  });
-
-  // Check to see if this was a new user that was upserted, or one was found
-  // that matched existing records. We are sure here that the record exists
-  // because we're returning the updated document and performing an upsert
-  // operation.
-  if (result.value!.id !== id) {
-    throw new DuplicateUserError();
+    throw err;
   }
 
-  return result.value!;
+  return user;
 }
-
-const createUpsertUserFilter = (user: Readonly<User>) => {
-  const query: FilterQuery<User> = {
-    // Query by the profiles if the user is being created with one.
-    $or: user.profiles.map(profile => ({ profiles: { $elemMatch: profile } })),
-  };
-
-  if (user.email) {
-    // Query by the email address if the user is being created with one.
-    query.$or.push({ email: user.email });
-  }
-
-  return query;
-};
 
 export async function retrieveUser(mongo: Db, tenantID: string, id: string) {
   return collection(mongo).findOne({ tenantID, id });

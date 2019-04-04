@@ -9,7 +9,9 @@ import {
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import { retrieveUserWithProfile, SSOProfile } from "talk-server/models/user";
-import { upsert } from "talk-server/services/users";
+import { insert } from "talk-server/services/users";
+
+import { Verifier } from "../jwt";
 
 export interface SSOStrategyOptions {
   mongo: Db;
@@ -69,7 +71,7 @@ export async function findOrCreateSSOUser(
     // FIXME: (wyattjoh) implement rules! Not all users should be able to create an account via this method.
 
     // Create the new user, as one didn't exist before!
-    user = await upsert(mongo, tenant, {
+    user = await insert(mongo, tenant, {
       username,
       role: GQLUSER_ROLE.COMMENTER,
       email,
@@ -109,7 +111,7 @@ export interface SSOVerifierOptions {
   mongo: Db;
 }
 
-export class SSOVerifier {
+export class SSOVerifier implements Verifier<SSOToken> {
   private mongo: Db;
 
   constructor({ mongo }: SSOVerifierOptions) {

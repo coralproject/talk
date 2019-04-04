@@ -26,6 +26,8 @@ import { Tenant } from "talk-server/models/tenant";
 import {
   createUserToken,
   deactivateUserToken,
+  insertUser,
+  InsertUserInput,
   LocalProfile,
   setUserEmail,
   setUserLocalProfile,
@@ -35,8 +37,6 @@ import {
   updateUserPassword,
   updateUserRole,
   updateUserUsername,
-  upsertUser,
-  UpsertUserInput,
   User,
 } from "talk-server/models/user";
 
@@ -51,7 +51,7 @@ import { JWTSigningConfig, signPATString } from "../jwt";
  * @param username the username to be tested
  */
 function validateUsername(tenant: Tenant, username: string) {
-  // TODO: replace these static regex/length with database options in the Tenant eventually
+  // FIXME: replace these static regex/length with database options in the Tenant eventually
 
   if (!USERNAME_REGEX.test(username)) {
     throw new UsernameContainsInvalidCharactersError();
@@ -104,16 +104,16 @@ function validateEmail(tenant: Tenant, email: string) {
   }
 }
 
-export type UpsertUser = UpsertUserInput;
+export type InsertUser = InsertUserInput;
 
 /**
- * upsert will upsert the User into the database for the Tenant.
+ * insert will upsert the User into the database for the Tenant.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be added to
  * @param input the input for creating the User
  */
-export async function upsert(mongo: Db, tenant: Tenant, input: UpsertUser) {
+export async function insert(mongo: Db, tenant: Tenant, input: InsertUser) {
   if (input.username) {
     validateUsername(tenant, input.username);
   }
@@ -134,7 +134,7 @@ export async function upsert(mongo: Db, tenant: Tenant, input: UpsertUser) {
     }
   }
 
-  const user = await upsertUser(mongo, tenant.id, input);
+  const user = await insertUser(mongo, tenant.id, input);
 
   return user;
 }
