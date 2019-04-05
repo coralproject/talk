@@ -45,6 +45,7 @@ exports[`renders correctly 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionName="Respected"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"
@@ -197,6 +198,7 @@ exports[`when there is more disables load more button 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionName="Respected"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"
@@ -363,6 +365,7 @@ exports[`when there is more renders a load more button 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionName="Respected"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"
@@ -529,6 +532,7 @@ exports[`when use is logged in renders correctly 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionName="Respected"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"

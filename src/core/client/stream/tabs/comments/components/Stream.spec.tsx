@@ -27,6 +27,7 @@ it("renders correctly", () => {
     disableLoadMore: false,
     hasMore: false,
     viewer: null,
+    reactionName: "Respected",
     orderBy: "CREATED_AT_ASC",
     onChangeOrderBy: noop,
   };
@@ -52,6 +53,7 @@ describe("when use is logged in", () => {
           label: "Respect",
         },
       },
+      reactionName: "Respected",
       orderBy: "CREATED_AT_ASC",
       onChangeOrderBy: noop,
     };
@@ -77,6 +79,7 @@ describe("when there is more", () => {
     disableLoadMore: false,
     hasMore: true,
     viewer: null,
+    reactionName: "Respected",
     orderBy: "CREATED_AT_ASC",
     onChangeOrderBy: noop,
   };

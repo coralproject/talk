@@ -41,6 +41,7 @@ export interface StreamProps {
   orderBy: PropTypesOf<typeof SortMenu>["orderBy"];
   onChangeOrderBy: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   refetching?: boolean;
+  reactionName: string;
 }
 
 const Stream: StatelessComponent<StreamProps> = props => {
@@ -50,7 +51,11 @@ const Stream: StatelessComponent<StreamProps> = props => {
       <CommunityGuidelinesContainer settings={props.settings} />
       <PostCommentFormContainer settings={props.settings} story={props.story} />
       {props.comments.length > 0 && (
-        <SortMenu orderBy={props.orderBy} onChange={props.onChangeOrderBy} />
+        <SortMenu
+          orderBy={props.orderBy}
+          onChange={props.onChangeOrderBy}
+          reactionName={props.reactionName}
+        />
       )}
       {props.refetching && <Spinner />}
       {!props.refetching && (
