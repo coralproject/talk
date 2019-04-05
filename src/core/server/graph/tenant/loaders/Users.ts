@@ -3,6 +3,7 @@ import DataLoader from "dataloader";
 import Context from "talk-server/graph/tenant/context";
 import {
   GQLUSER_ROLE,
+  GQLUSER_STATUS,
   QueryToUsersArgs,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Connection } from "talk-server/models/helpers/connection";
@@ -13,7 +14,9 @@ import {
   UserConnectionInput,
 } from "talk-server/models/user";
 
-const roleFilter = (role?: GQLUSER_ROLE): UserConnectionInput["filter"] => {
+type UserConnectionFilterInput = UserConnectionInput["filter"];
+
+const roleFilter = (role?: GQLUSER_ROLE): UserConnectionFilterInput => {
   if (role) {
     return { role };
   }
@@ -21,12 +24,53 @@ const roleFilter = (role?: GQLUSER_ROLE): UserConnectionInput["filter"] => {
   return {};
 };
 
-const queryFilter = (query?: string): UserConnectionInput["filter"] => {
+const queryFilter = (query?: string): UserConnectionFilterInput => {
   if (query) {
     return { $text: { $search: query } };
   }
 
   return {};
+};
+
+const statusFilter = (
+  now: Date,
+  status?: GQLUSER_STATUS
+): UserConnectionFilterInput => {
+  switch (status) {
+    case GQLUSER_STATUS.ACTIVE:
+      return {
+        "status.banned.active": false,
+        "status.suspension.history": {
+          $not: {
+            $elemMatch: {
+              "from.start": {
+                $lte: now,
+              },
+              "from.finish": {
+                $gt: now,
+              },
+            },
+          },
+        },
+      };
+    case GQLUSER_STATUS.BANNED:
+      return { "status.banned.active": true };
+    case GQLUSER_STATUS.SUSPENDED:
+      return {
+        "status.suspension.history": {
+          $elemMatch: {
+            "from.start": {
+              $lte: now,
+            },
+            "from.finish": {
+              $gt: now,
+            },
+          },
+        },
+      };
+    default:
+      return {};
+  }
 };
 
 /**
@@ -58,16 +102,25 @@ export default (ctx: Context) => {
 
   return {
     user,
-    connection: ({ first = 10, after, role, query }: QueryToUsersArgs) =>
+    connection: ({
+      first = 10,
+      after,
+      role,
+      query,
+      status,
+    }: QueryToUsersArgs) =>
       retrieveUserConnection(ctx.mongo, ctx.tenant.id, {
         first,
         after,
         filter: {
-          // Merge role filters into the query.
+          // Merge the role filters into the query.
           ...roleFilter(role),
 
           // Merge the query filters into the query.
           ...queryFilter(query),
+
+          // Merge the status filters into the query.
+          ...statusFilter(ctx.now, status),
         },
       }).then(primeUsersFromConnection(ctx)),
   };

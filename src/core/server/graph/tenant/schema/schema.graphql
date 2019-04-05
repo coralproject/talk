@@ -1238,6 +1238,16 @@ UserStatus stores the user status information regarding moderation state.
 """
 type UserStatus {
   """
+  current represents the current statues applied to the User.
+  """
+  current: [USER_STATUS!]!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
+
+  """
   banned stores the user banned status as well as the history of changes.
   """
   banned: BannedStatus!
@@ -1247,6 +1257,27 @@ type UserStatus {
   changes.
   """
   suspension: SuspensionStatus!
+}
+
+"""
+USER_STATUS is used to describe the current state of a User. A User may exist in
+multiple states.
+"""
+enum USER_STATUS {
+  """
+  ACTIVE is used when a User is not suspended or banned.
+  """
+  ACTIVE
+
+  """
+  BANNED is used when a User is banned.
+  """
+  BANNED
+
+  """
+  SUSPENDED is used when a User is currently suspended.
+  """
+  SUSPENDED
 }
 
 """
@@ -2007,6 +2038,7 @@ type Query {
     after: Cursor
     role: USER_ROLE
     query: String
+    status: USER_STATUS
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
