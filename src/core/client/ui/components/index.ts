@@ -55,3 +55,4 @@ export {
 } from "./Dropdown";
 export { Table, TableBody, TableHead, TableRow, TableCell } from "./Table";
 export { default as Tag } from "./Tag";
+export { default as Modal } from "./Modal";

@@ -427,7 +427,7 @@ export async function ban(
   now = new Date()
 ) {
   // Get the user being banned to check to see if the user already has an
-  // existing suspension.
+  // existing ban.
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);

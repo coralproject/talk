@@ -25,6 +25,10 @@ const withInView: DefaultingInferableComponentEnhancer<
   InjectedProps
 > = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
+    // TODO: (cvle) This is a workaround for a typescript bug
+    // https://github.com/Microsoft/TypeScript/issues/30762
+    const Workaround = BaseComponent as React.ComponentType<InjectedProps>;
+
     class WithInView extends React.Component<Props, State> {
       private unobserve: (() => void) | null = null;
 
@@ -62,7 +66,7 @@ const withInView: DefaultingInferableComponentEnhancer<
 
       public render() {
         return (
-          <BaseComponent
+          <Workaround
             {...this.props}
             inView={this.state.inView}
             intersectionRef={this.changeRef}

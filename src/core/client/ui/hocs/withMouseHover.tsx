@@ -18,6 +18,10 @@ const withMouseHover: DefaultingInferableComponentEnhancer<
   InjectedProps
 > = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
+    // TODO: (cvle) This is a workaround for a typescript bug
+    // https://github.com/Microsoft/TypeScript/issues/30762
+    const Workaround = BaseComponent as React.ComponentType<InjectedProps>;
+
     class WithMouseHover extends React.Component<InjectedProps> {
       private lastTouchEndTime = 0;
       public state = {
@@ -50,7 +54,7 @@ const withMouseHover: DefaultingInferableComponentEnhancer<
 
       public render() {
         return (
-          <BaseComponent
+          <Workaround
             {...this.props}
             onMouseOver={this.handleMouseOver}
             onMouseOut={this.handleMouseOut}

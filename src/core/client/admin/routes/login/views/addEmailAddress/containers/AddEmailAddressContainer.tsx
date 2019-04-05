@@ -1,16 +1,14 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import {
-  SetEmailMutation,
-  withSetEmailMutation,
-} from "talk-admin/mutations/SetEmailMutation";
+import { SetEmailMutation } from "talk-admin/mutations";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 
 import AddEmailAddress from "../components/AddEmailAddress";
 
 interface Props {
-  setEmail: SetEmailMutation;
+  setEmail: MutationProp<typeof SetEmailMutation>;
 }
 
 class AddEmailAddressContainer extends Component<Props> {
@@ -31,5 +29,5 @@ class AddEmailAddressContainer extends Component<Props> {
   }
 }
 
-const enhanced = withSetEmailMutation(AddEmailAddressContainer);
+const enhanced = withMutation(SetEmailMutation)(AddEmailAddressContainer);
 export default enhanced;

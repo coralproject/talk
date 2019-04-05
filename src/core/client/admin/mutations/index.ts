@@ -1,57 +1,18 @@
-export { withSignInMutation, SignInMutation } from "./SignInMutation";
+export { default as SignInMutation } from "./SignInMutation";
+export { default as SetRedirectPathMutation } from "./SetRedirectPathMutation";
+export { default as AcceptCommentMutation } from "./AcceptCommentMutation";
+export { default as RejectCommentMutation } from "./RejectCommentMutation";
+export { default as UpdateSettingsMutation } from "./UpdateSettingsMutation";
 export {
-  withSetRedirectPathMutation,
-  SetRedirectPathMutation,
-} from "./SetRedirectPathMutation";
-export {
-  withAcceptCommentMutation,
-  AcceptCommentMutation,
-} from "./AcceptCommentMutation";
-export {
-  withRejectCommentMutation,
-  RejectCommentMutation,
-} from "./RejectCommentMutation";
-export {
-  withUpdateSettingsMutation,
-  UpdateSettingsMutation,
-  UpdateSettingsInput,
-} from "./UpdateSettingsMutation";
-export {
-  withRegenerateSSOKeyMutation,
-  RegenerateSSOKeyMutation,
+  default as RegenerateSSOKeyMutation,
 } from "./RegenerateSSOKeyMutation";
-export {
-  withSetAuthViewMutation,
-  SetAuthViewMutation,
-} from "./SetAuthViewMutation";
-export {
-  withClearAuthErrorMutation,
-  ClearAuthErrorMutation,
-} from "./ClearAuthErrorMutation";
-export {
-  withCompleteAccountMutation,
-  CompleteAccountMutation,
-} from "./CompleteAccountMutation";
-export { withSetEmailMutation, SetEmailMutation } from "./SetEmailMutation";
-export {
-  withSetUsernameMutation,
-  SetUsernameMutation,
-} from "./SetUsernameMutation";
-export {
-  withSetPasswordMutation,
-  SetPasswordMutation,
-} from "./SetPasswordMutation";
-export {
-  withUpdateUserRoleMutation,
-  UpdateUserRoleMutation,
-} from "./UpdateUserRoleMutation";
-export {
-  OpenStoryInput,
-  withOpenStoryMutation,
-  OpenStoryMutation,
-} from "./OpenStoryMutation";
-export {
-  CloseStoryInput,
-  withCloseStoryMutation,
-  CloseStoryMutation,
-} from "./CloseStoryMutation";
+export { default as SetAuthViewMutation } from "./SetAuthViewMutation";
+export { default as ClearAuthErrorMutation } from "./ClearAuthErrorMutation";
+export { default as CompleteAccountMutation } from "./CompleteAccountMutation";
+export { default as SetEmailMutation } from "./SetEmailMutation";
+export { default as SetUsernameMutation } from "./SetUsernameMutation";
+export { default as SetPasswordMutation } from "./SetPasswordMutation";
+export { default as UpdateUserRoleMutation } from "./UpdateUserRoleMutation";
+export { default as OpenStoryMutation } from "./OpenStoryMutation";
+export { default as CloseStoryMutation } from "./CloseStoryMutation";
+export { default as BanUserMutation } from "./BanUserMutation";

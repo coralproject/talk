@@ -1,20 +1,16 @@
 import React, { StatelessComponent, useCallback } from "react";
 
-import {
-  CloseStoryMutation,
-  OpenStoryMutation,
-  withCloseStoryMutation,
-  withOpenStoryMutation,
-} from "talk-admin/mutations";
+import { CloseStoryMutation, OpenStoryMutation } from "talk-admin/mutations";
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
 
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
 import StatusChange from "../components/StatusChange";
 
 interface Props {
   storyID: string;
   status: GQLSTORY_STATUS_RL;
-  openStory: OpenStoryMutation;
-  closeStory: CloseStoryMutation;
+  openStory: MutationProp<typeof OpenStoryMutation>;
+  closeStory: MutationProp<typeof CloseStoryMutation>;
 }
 
 const StatusChangeContainer: StatelessComponent<Props> = props => {
@@ -36,8 +32,8 @@ const StatusChangeContainer: StatelessComponent<Props> = props => {
   );
 };
 
-const enhanced = withOpenStoryMutation(
-  withCloseStoryMutation(StatusChangeContainer)
+const enhanced = withMutation(OpenStoryMutation)(
+  withMutation(CloseStoryMutation)(StatusChangeContainer)
 );
 
 export default enhanced;

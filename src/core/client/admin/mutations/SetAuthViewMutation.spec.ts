@@ -3,7 +3,7 @@ import { Environment, RecordSource } from "relay-runtime";
 import { LOCAL_ID } from "talk-framework/lib/relay";
 import { createRelayEnvironment } from "talk-framework/testHelpers";
 
-import { commit } from "./SetAuthViewMutation";
+import SetAuthViewMutation from "./SetAuthViewMutation";
 
 let environment: Environment;
 const source: RecordSource = new RecordSource();
@@ -16,6 +16,6 @@ beforeAll(() => {
 
 it("Sets view", () => {
   const view = "SIGN_IN";
-  commit(environment, { view }, {} as any);
+  SetAuthViewMutation.commit(environment, { view }, {} as any);
   expect(source.get(LOCAL_ID)!.authView).toEqual(view);
 });

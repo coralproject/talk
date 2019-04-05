@@ -1,7 +1,7 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { UpdateUserRoleMutation as MutationTypes } from "talk-admin/__generated__/UpdateUserRoleMutation.graphql";
+import { BanUserMutation as MutationTypes } from "talk-admin/__generated__/BanUserMutation.graphql";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -10,37 +10,45 @@ import {
 
 let clientMutationId = 0;
 
-const UpdateUserRoleMutation = createMutation(
-  "updateUserRole",
+const BanUserMutation = createMutation(
+  "banUser",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation UpdateUserRoleMutation($input: UpdateUserRoleInput!) {
-          updateUserRole(input: $input) {
+        mutation BanUserMutation($input: BanUserInput!) {
+          banUser(input: $input) {
             user {
               id
-              role
+              status {
+                banned {
+                  active
+                }
+              }
             }
             clientMutationId
           }
         }
       `,
-      optimisticResponse: {
-        updateUserRole: {
-          user: {
-            id: input.userID,
-            role: input.role,
-          },
-          clientMutationId: clientMutationId.toString(),
-        },
-      },
       variables: {
         input: {
           ...input,
+          clientMutationId: clientMutationId.toString(),
+        },
+      },
+      optimisticResponse: {
+        banUser: {
+          user: {
+            id: input.userID,
+            status: {
+              banned: {
+                active: true,
+              },
+            },
+          },
           clientMutationId: (clientMutationId++).toString(),
         },
       },
     })
 );
 
-export default UpdateUserRoleMutation;
+export default BanUserMutation;

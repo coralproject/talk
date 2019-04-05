@@ -29,15 +29,14 @@ import styles from "./Modal.mdx.css";
         <Button variant="filled" color="primary" onClick={show}>
           Show Modal
         </Button>
-        <Modal open={open} onClose={hide} aria-labeledby="modal-title">
+        <Modal open={open} onClose={hide} aria-labelledby="modal-title">
           {({ firstFocusableRef, lastFocusableRef }) => (
             <Card className={styles.card}>
               <CardCloseButton onClick={hide} ref={firstFocusableRef} />
               <HorizontalGutter size="double">
                 <HorizontalGutter>
                   <Typography variant="header2" id="modal-title">
-                    Are you sure you want to ban <strong>ButFirstCoffee</strong>
-                    ?
+                    Are you sure you want to ban <strong>ButFirstCoffee</strong>?
                   </Typography>
                   <Typography>
                     Once banned, this user will no longer be able to comment,

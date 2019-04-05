@@ -1,18 +1,15 @@
 import { FormApi, FormState } from "final-form";
 import React from "react";
 
-import {
-  UpdateSettingsInput,
-  UpdateSettingsMutation,
-  withUpdateSettingsMutation,
-} from "talk-admin/mutations";
+import { UpdateSettingsMutation } from "talk-admin/mutations";
 import { SubmitHookHandler } from "talk-framework/lib/form";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
 
 import Configure from "../components/Configure";
 import NavigationWarningContainer from "./NavigationWarningContainer";
 
 interface Props {
-  updateSettings: UpdateSettingsMutation;
+  updateSettings: MutationProp<typeof UpdateSettingsMutation>;
   children: React.ReactElement;
 }
 
@@ -26,7 +23,7 @@ class ConfigureContainer extends React.Component<Props, State> {
   };
 
   private handleExecute = async (
-    data: UpdateSettingsInput["settings"],
+    data: Parameters<Props["updateSettings"]>[0]["settings"],
     form: FormApi
   ) => {
     await this.props.updateSettings({ settings: data });
@@ -55,5 +52,5 @@ class ConfigureContainer extends React.Component<Props, State> {
   }
 }
 
-const enhanced = withUpdateSettingsMutation(ConfigureContainer);
+const enhanced = withMutation(UpdateSettingsMutation)(ConfigureContainer);
 export default enhanced;

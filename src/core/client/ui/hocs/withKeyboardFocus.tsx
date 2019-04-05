@@ -17,6 +17,10 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
   InjectedProps
 > = hoistStatics<InjectedProps>(
   <T extends InjectedProps>(BaseComponent: React.ComponentType<T>) => {
+    // TODO: (cvle) This is a workaround for a typescript bug
+    // https://github.com/Microsoft/TypeScript/issues/30762
+    const Workaround = BaseComponent as React.ComponentType<InjectedProps>;
+
     class WithKeyboardFocus extends React.Component<any> {
       private lastMouseDownTime: number = 0;
       public state = {
@@ -55,7 +59,7 @@ const withKeyboardFocus: DefaultingInferableComponentEnhancer<
 
       public render() {
         return (
-          <BaseComponent
+          <Workaround
             {...this.props}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

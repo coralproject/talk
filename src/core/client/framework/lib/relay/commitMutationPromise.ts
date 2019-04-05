@@ -1,7 +1,7 @@
 import { commitMutation } from "react-relay";
 import { Environment, MutationConfig, OperationBase } from "relay-runtime";
 
-import { Omit } from "talk-framework/types";
+import { DeepPartial, Omit } from "talk-framework/types";
 
 import extractPayload from "./extractPayload";
 
@@ -11,8 +11,8 @@ import extractPayload from "./extractPayload";
  */
 export type MutationPromiseConfig<T extends OperationBase> = Omit<
   MutationConfig<T>,
-  "onCompleted" | "onError"
->;
+  "onCompleted" | "onError" | "optimisticResponse"
+> & { optimisticResponse?: DeepPartial<T["response"]> };
 
 /**
  * Normalizes response and error from `commitMutationPromise`.

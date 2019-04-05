@@ -9,23 +9,22 @@ import {
   CompleteAccountMutation,
   SetAuthViewMutation,
   SetRedirectPathMutation,
-  withCompleteAccountMutation,
-  withSetAuthViewMutation,
-  withSetRedirectPathMutation,
 } from "talk-admin/mutations";
 import {
   graphql,
+  MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
+  withMutation,
 } from "talk-framework/lib/relay";
 
 type Props = {
-  completeAccount: CompleteAccountMutation;
-  setAuthView: SetAuthViewMutation;
+  completeAccount: MutationProp<typeof CompleteAccountMutation>;
+  setAuthView: MutationProp<typeof SetAuthViewMutation>;
   local: Local;
   auth: AuthData;
   viewer: UserData | null;
-  setRedirectPath: SetRedirectPathMutation;
+  setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
 } & WithRouter;
 
 function handleAccountCompletion(props: Props) {
@@ -132,9 +131,11 @@ const enhanced = withLocalStateContainer(
       }
     `,
   })(
-    withSetAuthViewMutation(
-      withSetRedirectPathMutation(
-        withCompleteAccountMutation(withRouter(AccountCompletionContainer))
+    withMutation(SetAuthViewMutation)(
+      withMutation(SetRedirectPathMutation)(
+        withMutation(CompleteAccountMutation)(
+          withRouter(AccountCompletionContainer)
+        )
       )
     )
   )
