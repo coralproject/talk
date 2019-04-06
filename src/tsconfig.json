@@ -10,7 +10,7 @@
     "outDir": "../dist",
     // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
     // have to include "dom" here.
-    "lib": ["dom", "es2018"],
+    "lib": ["dom", "es2018", "esnext.asynciterable"],
     "baseUrl": "./",
     "paths": {
       "talk-server/*": ["./core/server/*"],
