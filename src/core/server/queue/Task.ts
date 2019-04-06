@@ -47,10 +47,16 @@ export default class Task<T, U = any> {
 
       log.trace("processing job from queue");
 
-      // Send the job off to the job processor to be handled.
-      const promise: U = await this.options.jobProcessor(job);
-      log.trace("processing completed");
-      return promise;
+      try {
+        // Send the job off to the job processor to be handled.
+        const promise: U = await this.options.jobProcessor(job);
+        log.trace("processing completed");
+        return promise;
+      } catch (err) {
+        log.error({ err }, "job failed to process");
+        // TODO: (wyattjoh) maybe look at retrying?
+        throw err;
+      }
     });
 
     this.log.trace("registered processor for job type");

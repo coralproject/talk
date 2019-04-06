@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <td class="content" data-l10n-id="email-notification-template-{{ name }}" data-l10n-args="{{ context | dump }}">
+        {% block content %}{% endblock %}
+      </td>
+    </tr>
+    <tr>
+      <td align="center" data-l10n-id="email-notification-footer" data-l10n-args="{{ context | dump }}">
+        Sent by <a data-l10n-name="organizationLink" href="{{ context.organizationURL }}">{{ context.organizationName }}</a>
+      </td>
+    </tr>
+  </table>
+{% endblock %}

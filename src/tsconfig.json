@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "target": "es2018",
     "allowJs": false,
     "sourceMap": true,
     "pretty": false,
@@ -9,7 +10,7 @@
     "outDir": "../dist",
     // See https://github.com/prismagraphql/graphql-request/issues/26 for why we
     // have to include "dom" here.
-    "lib": ["es2017", "es6", "esnext.asynciterable", "dom"],
+    "lib": ["dom", "es2018"],
     "baseUrl": "./",
     "paths": {
       "talk-server/*": ["./core/server/*"],

@@ -62,6 +62,9 @@ class Server {
   // processing when true, indicates that `process()` was already called.
   private processing: boolean = false;
 
+  // i18n is the server reference to the i18n framework.
+  private i18n: I18n;
+
   constructor(options: ServerOptions) {
     this.parentApp = express();
 
@@ -73,6 +76,13 @@ class Server {
 
     // Load the graph schemas.
     this.schema = getTenantSchema();
+
+    // Get the default locale. This is asserted here because the LanguageCode
+    // is verified via Convict, but not typed, so this resolves that.
+    const defaultLocale = this.config.get("default_locale") as LanguageCode;
+
+    // Setup the translation framework.
+    this.i18n = new I18n(defaultLocale);
   }
 
   /**
@@ -85,6 +95,9 @@ class Server {
       throw new Error("server has already connected");
     }
     this.connected = true;
+
+    // Load the translations.
+    await this.i18n.load();
 
     // Setup MongoDB.
     this.mongo = await createMongoDB(config);
@@ -107,6 +120,7 @@ class Server {
       config: this.config,
       mongo: this.mongo,
       tenantCache: this.tenantCache,
+      i18n: this.i18n,
     });
   }
 
@@ -154,14 +168,6 @@ class Server {
     // Create the signing config.
     const signingConfig = createJWTSigningConfig(this.config);
 
-    // Get the default locale. This is asserted here because the LanguageCode
-    // is verified via Convict, but not typed, so this resolves that.
-    const defaultLocale = this.config.get("default_locale") as LanguageCode;
-
-    // Create and load the translations.
-    const i18n = new I18n(defaultLocale);
-    await i18n.load();
-
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
@@ -171,7 +177,7 @@ class Server {
       tenantCache: this.tenantCache,
       config: this.config,
       schema: this.schema,
-      i18n,
+      i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
     });
