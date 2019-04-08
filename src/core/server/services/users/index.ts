@@ -29,7 +29,7 @@ import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/type
 import { Tenant } from "talk-server/models/tenant";
 import {
   banUser,
-  consolidateUserBannedStatus,
+  consolidateUserBanStatus,
   consolidateUserSuspensionStatus,
   createUserToken,
   deactivateUserToken,
@@ -434,8 +434,8 @@ export async function ban(
   }
 
   // Check to see if the User is currently banned.
-  const banned = consolidateUserBannedStatus(targetUser.status.banned);
-  if (banned.active) {
+  const banStatus = consolidateUserBanStatus(targetUser.status.ban);
+  if (banStatus.active) {
     throw new UserAlreadyBannedError();
   }
 
@@ -527,9 +527,9 @@ export async function removeBan(
   }
 
   // Check to see if the User is currently banned.
-  const banned = consolidateUserBannedStatus(targetUser.status.banned);
-  if (!banned.active) {
-    // The user is not banned currently, just return the user because we don't
+  const banStatus = consolidateUserBanStatus(targetUser.status.ban);
+  if (!banStatus.active) {
+    // The user is not ban currently, just return the user because we don't
     // have to do anything.
     return targetUser;
   }

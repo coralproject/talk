@@ -1,8 +1,8 @@
-import { GQLBannedStatusHistoryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLBanStatusHistoryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 import * as user from "talk-server/models/user";
 
-export const BannedStatusHistory: Required<
-  GQLBannedStatusHistoryTypeResolver<user.BannedStatusHistory>
+export const BanStatusHistory: Required<
+  GQLBanStatusHistoryTypeResolver<user.BanStatusHistory>
 > = {
   active: ({ active }) => active,
   createdBy: ({ createdBy }, input, ctx) => {

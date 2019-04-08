@@ -24,7 +24,7 @@ const UserStatusChangeContainer: StatelessComponent<Props> = props => {
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const handleBan = useCallback(
     () => {
-      if (props.user.status.banned.active) {
+      if (props.user.status.ban.active) {
         return;
       }
       setShowBanned(true);
@@ -33,7 +33,7 @@ const UserStatusChangeContainer: StatelessComponent<Props> = props => {
   );
   const handleRemoveBan = useCallback(
     () => {
-      if (!props.user.status.banned.active) {
+      if (!props.user.status.ban.active) {
         return;
       }
       removeUserBan({ userID: props.user.id });
@@ -74,7 +74,7 @@ const UserStatusChangeContainer: StatelessComponent<Props> = props => {
         onRemoveBan={handleRemoveBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
-        banned={props.user.status.banned.active}
+        banned={props.user.status.ban.active}
         suspended={props.user.status.suspension.active}
       >
         <UserStatusContainer user={props.user} />
@@ -100,7 +100,7 @@ const enhanced = withFragmentContainer<Props>({
       role
       username
       status {
-        banned {
+        ban {
           active
         }
         suspension {

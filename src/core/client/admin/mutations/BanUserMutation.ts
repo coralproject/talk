@@ -23,7 +23,7 @@ const BanUserMutation = createMutation(
               id
               status {
                 current
-                banned {
+                ban {
                   active
                 }
               }
@@ -47,7 +47,7 @@ const BanUserMutation = createMutation(
                 environment,
                 input.userID
               )!.status!.current!.concat([GQLUSER_STATUS.BANNED]),
-              banned: {
+              ban: {
                 active: true,
               },
             },

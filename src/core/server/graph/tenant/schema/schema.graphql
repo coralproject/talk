@@ -1108,9 +1108,9 @@ type Token {
 }
 
 """
-BannedStatusHistory is the list of all ban events against a specific User.
+BanStatusHistory is the list of all ban events against a specific User.
 """
-type BannedStatusHistory {
+type BanStatusHistory {
   """
   active when true, indicates that the given user is banned.
   """
@@ -1129,9 +1129,9 @@ type BannedStatusHistory {
 }
 
 """
-BannedStatus contains information about a ban for a given User.
+BanStatus contains information about a ban for a given User.
 """
-type BannedStatus {
+type BanStatus {
   """
   active when true, indicates that the given user is banned.
   """
@@ -1145,7 +1145,7 @@ type BannedStatus {
   """
   history is the list of all ban events against a specific User.
   """
-  history: [BannedStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+  history: [BanStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
 """
@@ -1250,7 +1250,7 @@ type UserStatus {
   """
   banned stores the user banned status as well as the history of changes.
   """
-  banned: BannedStatus!
+  ban: BanStatus!
 
   """
   suspension stores the user suspension status as well as the history of

@@ -39,7 +39,7 @@ const statusFilter = (
   switch (status) {
     case GQLUSER_STATUS.ACTIVE:
       return {
-        "status.banned.active": false,
+        "status.ban.active": false,
         "status.suspension.history": {
           $not: {
             $elemMatch: {
@@ -54,7 +54,7 @@ const statusFilter = (
         },
       };
     case GQLUSER_STATUS.BANNED:
-      return { "status.banned.active": true };
+      return { "status.ban.active": true };
     case GQLUSER_STATUS.SUSPENDED:
       return {
         "status.suspension.history": {
