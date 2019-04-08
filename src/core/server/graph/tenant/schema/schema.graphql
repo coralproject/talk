@@ -1238,7 +1238,7 @@ UserStatus stores the user status information regarding moderation state.
 """
 type UserStatus {
   """
-  current represents the current statues applied to the User.
+  current represents the current statuses applied to the User.
   """
   current: [USER_STATUS!]!
     @auth(

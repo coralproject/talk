@@ -28,7 +28,7 @@ export const UserStatus: Required<
       statuses.push(GQLUSER_STATUS.SUSPENDED);
     }
 
-    // If no other statues were applied, then apply the active status.
+    // If no other statuses were applied, then apply the active status.
     if (statuses.length === 0) {
       statuses.push(GQLUSER_STATUS.ACTIVE);
     }
