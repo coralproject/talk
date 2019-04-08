@@ -1,13 +1,17 @@
 import { Job } from "bull";
 import { DOMLocalization } from "fluent-dom/compat";
 import { FluentBundle } from "fluent/compat";
+import { minify } from "html-minifier";
 import htmlToText from "html-to-text";
 import Joi from "joi";
 import { JSDOM } from "jsdom";
+import { juiceResources } from "juice";
 import { camelCase } from "lodash";
 import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
+import now from "performance-now";
 
+import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { Config } from "talk-server/config";
 import logger from "talk-server/logger";
 import { I18n, translate } from "talk-server/services/i18n";
@@ -24,7 +28,7 @@ export interface MailProcessorOptions {
 }
 
 export interface MailerData {
-  name: string;
+  templateName: string;
   message: {
     to: string;
     html: string;
@@ -33,13 +37,47 @@ export interface MailerData {
 }
 
 const MailerDataSchema = Joi.object().keys({
-  name: Joi.string(),
+  templateName: Joi.string(),
   message: Joi.object().keys({
     to: Joi.string(),
     html: Joi.string(),
   }),
   tenantID: Joi.string(),
 });
+
+interface Message {
+  from: string;
+  to: string;
+  html: string;
+  text: string;
+  subject: string;
+}
+
+/**
+ * juiceHTML will juice the HTML to inline the CSS and minify it.
+ *
+ * @param input html string to juice
+ */
+export function juiceHTML(input: string) {
+  return new Promise<string>((resolve, reject) => {
+    juiceResources(
+      input,
+      { webResources: { relativeTo: __dirname } },
+      (err, html) => {
+        if (err) {
+          return reject(err);
+        }
+
+        return resolve(
+          minify(html, {
+            removeComments: true,
+            collapseWhitespace: true,
+          })
+        );
+      }
+    );
+  });
+}
 
 function generateBundleIterator(bundle: FluentBundle) {
   return function* generate(resourceIDs: string[]) {
@@ -56,12 +94,66 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     tenantCache
   );
 
+  async function translateMessage(
+    locale: LanguageCode,
+    fromAddress: string,
+    data: MailerData
+  ): Promise<Message> {
+    // Setup the localization bundles.
+    const bundle = i18n.getBundle(locale);
+    const loc = new DOMLocalization([], generateBundleIterator(bundle));
+
+    // Translate the HTML fragments.
+    let dom: JSDOM;
+    try {
+      // Parse the rendered template.
+      dom = new JSDOM(data.message.html, {});
+    } catch (err) {
+      logger.error({ err }, "could not parse the HTML for i18n");
+
+      throw err;
+    }
+
+    // Translate the bundle.
+    await loc.translateFragment(dom.window.document);
+
+    // TODO: (wyattjoh) strip the i18n attributes from the source.
+
+    // Grab the rendered HTML from the dom, and juice them.
+    if (!dom.window.document.documentElement) {
+      throw new Error("dom did not have a document element");
+    }
+    const translatedHTML = dom.window.document.documentElement.outerHTML;
+
+    // Juice the HTML to inline resources.
+    const html = await juiceHTML(translatedHTML);
+
+    // Get the translated subject.
+    const subject = translate(bundle, name, `email-subject-${camelCase(name)}`);
+
+    // Generate the text content of the message from the HTML.
+    const text = htmlToText.fromString(html);
+
+    // Prepare the message payload.
+    return {
+      from: fromAddress,
+      to: data.message.to,
+      html,
+      text,
+      subject,
+    };
+  }
+
   return async (job: Job<MailerData>) => {
-    const { value, error: err } = Joi.validate(job.data, MailerDataSchema, {
-      stripUnknown: true,
-      presence: "required",
-      abortEarly: false,
-    });
+    const { value: data, error: err } = Joi.validate(
+      job.data,
+      MailerDataSchema,
+      {
+        stripUnknown: true,
+        presence: "required",
+        abortEarly: false,
+      }
+    );
     if (err) {
       logger.error(
         {
@@ -75,12 +167,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     }
 
     // Pull the data out of the validated model.
-    const {
-      name,
-      message,
-      message: { to },
-      tenantID,
-    } = value;
+    const { tenantID } = data;
 
     const log = logger.child({
       jobID: job.id,
@@ -95,7 +182,7 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       return;
     }
 
-    const { enabled, smtpURI, fromAddress: from } = tenant.email;
+    const { enabled, smtpURI, fromAddress } = tenant.email;
     if (!enabled) {
       log.error("not sending email, it was disabled");
       return;
@@ -106,44 +193,21 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       return;
     }
 
-    if (!from) {
+    if (!fromAddress) {
       log.error(
         "email was enabled but the fromAddress configuration was missing"
       );
       return;
     }
 
-    // Translate the HTML fragments.
-    let dom: JSDOM;
-    try {
-      // Parse the rendered template.
-      dom = new JSDOM(message.html, {});
-    } catch (err) {
-      logger.error({ err }, "could not parse the HTML for i18n");
+    const startTemplateGenerationTime = now();
 
-      throw err;
-    }
+    // Get the message to send.
+    const message = await translateMessage(tenant.locale, fromAddress, data);
 
-    // Setup the localization bundles.
-    const bundle = i18n.getBundle(tenant.locale);
-    const loc = new DOMLocalization([], generateBundleIterator(bundle));
-
-    // Get the translated subject.
-    const subject = translate(bundle, name, `email-subject-${camelCase(name)}`);
-
-    // Translate the bundle.
-    await loc.translateFragment(dom.window.document);
-
-    // TODO: (wyattjoh) strip the i18n attributes from the source.
-
-    // Grab the rendered HTML from the dom.
-    if (!dom.window.document.documentElement) {
-      throw new Error("dom did not have a document element");
-    }
-    const html = dom.window.document.documentElement.outerHTML;
-
-    // Generate the text content of the message from the HTML.
-    const text = htmlToText.fromString(html);
+    // Compute the end time.
+    const responseTime = Math.round(now() - startTemplateGenerationTime);
+    log.trace({ responseTime }, "finished mail translation");
 
     let transport = cache.get(tenantID);
     if (!transport) {
@@ -160,15 +224,13 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
     log.debug("starting to send the email");
 
-    // Send the mail message.
-    await transport.sendMail({
-      subject,
-      html,
-      text,
-      from,
-      to,
-    });
+    const startMessageSendTime = now();
 
-    log.debug("sent the email");
+    // Send the mail message.
+    await transport.sendMail(message);
+
+    // Compute the end time.
+    const messageSendResponseTime = Math.round(now() - startMessageSendTime);
+    log.debug({ responseTime: messageSendResponseTime }, "sent the email");
   };
 };

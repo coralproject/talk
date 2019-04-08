@@ -1,5 +1,3 @@
-import { minify } from "html-minifier";
-import { juiceResources } from "juice";
 import { camelCase } from "lodash";
 import nunjucks, { Environment, ILoader } from "nunjucks";
 import path from "path";
@@ -17,32 +15,6 @@ const templateDirectory = path.join(__dirname, "templates");
 export interface MailerContentOptions {
   config: Config;
   tenantCache: TenantCache;
-}
-
-/**
- * juiceHTML will juice the HTML to inline the CSS.
- *
- * @param input html string to juice
- */
-function juiceHTML(input: string) {
-  return new Promise<string>((resolve, reject) => {
-    juiceResources(
-      input,
-      { webResources: { relativeTo: __dirname } },
-      (err, html) => {
-        if (err) {
-          return reject(err);
-        }
-
-        return resolve(
-          minify(html, {
-            removeComments: true,
-            collapseWhitespace: true,
-          })
-        );
-      }
-    );
-  });
 }
 
 /**
@@ -118,9 +90,6 @@ export default class MailerContent {
     const env = this.getEnvironment(tenant);
 
     // Render the nunjucks template.
-    const html = await render(env, template);
-
-    // Return the juiced HTML.
-    return juiceHTML(html);
+    return render(env, template);
   }
 }

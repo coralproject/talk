@@ -77,7 +77,7 @@ export class MailerQueue {
     // Return the job that'll add the email to the queue to be processed later.
     return this.task.add({
       tenantID,
-      name: template.name,
+      templateName: template.name,
       message: {
         to,
         html,
