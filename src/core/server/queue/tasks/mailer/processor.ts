@@ -94,7 +94,17 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     tenantCache
   );
 
+  /**
+   * translateMessage will translate the message to the specified locale as well
+   * a juice the contents.
+   *
+   * @param templateName the name of the template to base the translations off of
+   * @param locale the locale to translate the email content into
+   * @param fromAddress the address that is sending the email (from the Tenant)
+   * @param data data used to send the message
+   */
   async function translateMessage(
+    templateName: string,
     locale: LanguageCode,
     fromAddress: string,
     data: MailerData
@@ -129,7 +139,11 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     const html = await juiceHTML(translatedHTML);
 
     // Get the translated subject.
-    const subject = translate(bundle, name, `email-subject-${camelCase(name)}`);
+    const subject = translate(
+      bundle,
+      templateName,
+      `email-subject-${camelCase(templateName)}`
+    );
 
     // Generate the text content of the message from the HTML.
     const text = htmlToText.fromString(html);
@@ -203,7 +217,12 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     const startTemplateGenerationTime = now();
 
     // Get the message to send.
-    const message = await translateMessage(tenant.locale, fromAddress, data);
+    const message = await translateMessage(
+      data.templateName,
+      tenant.locale,
+      fromAddress,
+      data
+    );
 
     // Compute the end time.
     const responseTime = Math.round(now() - startTemplateGenerationTime);

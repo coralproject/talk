@@ -132,7 +132,7 @@
     "@coralproject/rte": "^0.10.13",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@types/bcryptjs": "^2.4.1",
-    "@types/bull": "^3.3.16",
+    "@types/bull": "^3.5.11",
     "@types/bunyan": "^1.8.4",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.2",
     "@types/cheerio": "^0.22.8",

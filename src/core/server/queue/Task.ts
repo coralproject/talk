@@ -6,6 +6,7 @@ import logger from "talk-server/logger";
 export interface TaskOptions<T, U = any> {
   jobName: string;
   jobProcessor: (job: Job<T>) => Promise<U>;
+  jobOptions?: Queue.JobOptions;
   queue: Queue.QueueOptions;
 }
 
@@ -14,10 +15,39 @@ export default class Task<T, U = any> {
   private queue: QueueType<T>;
   private log: Logger;
 
-  constructor(options: TaskOptions<T, U>) {
-    this.queue = new Queue(options.jobName, options.queue);
-    this.options = options;
-    this.log = logger.child({ jobName: options.jobName });
+  constructor({
+    jobName,
+    jobProcessor,
+    jobOptions = {},
+    queue,
+  }: TaskOptions<T, U>) {
+    this.log = logger.child({ jobName });
+    this.queue = new Queue(jobName, queue);
+    this.options = {
+      jobName,
+      jobProcessor,
+      jobOptions: {
+        // We always remove the job when it's complete, no need to fill up Redis
+        // with completed entries if we don't need to.
+        removeOnComplete: true,
+
+        // By default, configure jobs to use an exponential backoff
+        // strategy starting at a 10 second delay.
+        backoff: {
+          type: "exponential",
+          delay: 10000,
+        },
+
+        // Be default, try all jobs at least 5 times.
+        attempts: 5,
+
+        // Add the custom job options if they exist.
+        ...jobOptions,
+      },
+      queue,
+    };
+
+    // TODO: (wyattjoh) attach event handlers to the queue for metrics via: https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#events
   }
 
   /**
@@ -27,11 +57,8 @@ export default class Task<T, U = any> {
    * @param data the data for the job to add.
    */
   public async add(data: T): Promise<Queue.Job<T> | undefined> {
-    const job = await this.queue.add(data, {
-      // We always remove the job when it's complete, no need to fill up Redis
-      // with completed entries if we don't need to.
-      removeOnComplete: true,
-    });
+    // Create the job.
+    const job = await this.queue.add(data, this.options.jobOptions);
 
     this.log.trace({ jobID: job.id }, "added job to queue");
     return job;
@@ -54,7 +81,6 @@ export default class Task<T, U = any> {
         return promise;
       } catch (err) {
         log.error({ err }, "job failed to process");
-        // TODO: (wyattjoh) maybe look at retrying?
         throw err;
       }
     });
