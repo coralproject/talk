@@ -16,3 +16,4 @@ export { default as UpdateUserRoleMutation } from "./UpdateUserRoleMutation";
 export { default as OpenStoryMutation } from "./OpenStoryMutation";
 export { default as CloseStoryMutation } from "./CloseStoryMutation";
 export { default as BanUserMutation } from "./BanUserMutation";
+export { default as RemoveUserBanMutation } from "./RemoveUserBanMutation";

@@ -53,6 +53,7 @@ interface Props extends HTMLAttributes<any> {
     | "textPrimary"
     | "textSecondary"
     | "textLight"
+    | "warning"
     | "error"
     | "success";
   /**
@@ -114,6 +115,7 @@ const Typography: StatelessComponent<Props> = props => {
       [classes.colorPrimary]: color === "primary",
       [classes.colorError]: color === "error",
       [classes.colorSuccess]: color === "success",
+      [classes.colorWarning]: color === "warning",
       [classes.noWrap]: noWrap,
       [classes.gutterBottom]: gutterBottom,
       [classes.paragraph]: paragraph,

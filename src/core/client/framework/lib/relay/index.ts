@@ -30,3 +30,4 @@ export { initLocalBaseState, setAccessTokenInLocalState } from "./localState";
 export { default as fetchQuery } from "./fetchQuery";
 export { default as useRefetch } from "./useRefetch";
 export { default as useLoadMore } from "./useLoadMore";
+export { default as lookup } from "./lookup";

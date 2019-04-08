@@ -44,6 +44,10 @@ const variables = {
       lighter: "#FC9795",
       lightest: "#FEF0EF",
     },
+    /* Warning colors */
+    warning: {
+      main: "#DC8400",
+    },
     /* Text colors */
     text: {
       primary: "#3B4A53",

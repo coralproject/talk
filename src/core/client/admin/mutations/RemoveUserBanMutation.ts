@@ -1,7 +1,7 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { BanUserMutation as MutationTypes } from "talk-admin/__generated__/BanUserMutation.graphql";
+import { RemoveUserBanMutation as MutationTypes } from "talk-admin/__generated__/RemoveUserBanMutation.graphql";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -12,13 +12,13 @@ import { GQLUser, GQLUSER_STATUS } from "talk-framework/schema";
 
 let clientMutationId = 0;
 
-const BanUserMutation = createMutation(
-  "banUser",
-  (environment: Environment, input: MutationInput<MutationTypes>) => {
-    return commitMutationPromiseNormalized<MutationTypes>(environment, {
+const RemoveUserBanMutation = createMutation(
+  "removeUserBan",
+  (environment: Environment, input: MutationInput<MutationTypes>) =>
+    commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation BanUserMutation($input: BanUserInput!) {
-          banUser(input: $input) {
+        mutation RemoveUserBanMutation($input: RemoveUserBanInput!) {
+          removeUserBan(input: $input) {
             user {
               id
               status {
@@ -39,24 +39,23 @@ const BanUserMutation = createMutation(
         },
       },
       optimisticResponse: {
-        banUser: {
+        removeUserBan: {
           user: {
             id: input.userID,
             status: {
               current: lookup<GQLUser>(
                 environment,
                 input.userID
-              )!.status!.current!.concat([GQLUSER_STATUS.BANNED]),
+              )!.status!.current!.filter(s => s !== GQLUSER_STATUS.BANNED),
               banned: {
-                active: true,
+                active: false,
               },
             },
           },
           clientMutationId: (clientMutationId++).toString(),
         },
       },
-    });
-  }
+    })
 );
 
-export default BanUserMutation;
+export default RemoveUserBanMutation;

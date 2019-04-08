@@ -9,7 +9,7 @@ import {
   useRefetch,
   withPaginationContainer,
 } from "talk-framework/lib/relay";
-import { GQLUSER_ROLE_RL } from "talk-framework/schema";
+import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "talk-framework/schema";
 
 import { HorizontalGutter } from "talk-ui/components";
 import UserTable from "../components/UserTable";
@@ -28,14 +28,13 @@ const UserTableContainer: StatelessComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const [searchFilter, setSearchFilter] = useState<string>("");
   const [roleFilter, setRoleFilter] = useState<GQLUSER_ROLE_RL | null>(null);
-  const [, isRefetching] = useRefetch<
-    Pick<
-      UserTableContainerPaginationQueryVariables,
-      "searchFilter" | "roleFilter"
-    >
-  >(props.relay, {
+  const [statusFilter, setStatusFilter] = useState<GQLUSER_STATUS_RL | null>(
+    null
+  );
+  const [, isRefetching] = useRefetch(props.relay, {
     searchFilter: searchFilter || null,
     roleFilter,
+    statusFilter,
   });
 
   return (
@@ -43,7 +42,9 @@ const UserTableContainer: StatelessComponent<Props> = props => {
       <HorizontalGutter size="double">
         <UserTableFilter
           onSetRoleFilter={setRoleFilter}
+          onSetStatusFilter={setStatusFilter}
           roleFilter={roleFilter}
+          statusFilter={statusFilter}
           onSetSearchFilter={setSearchFilter}
           searchFilter={searchFilter}
         />
@@ -75,6 +76,7 @@ const enhanced = withPaginationContainer<
           count: { type: "Int!", defaultValue: 10 }
           cursor: { type: "Cursor" }
           roleFilter: { type: "USER_ROLE" }
+          statusFilter: { type: "USER_STATUS" }
           searchFilter: { type: "String" }
         ) {
         viewer {
@@ -84,6 +86,7 @@ const enhanced = withPaginationContainer<
           first: $count
           after: $cursor
           role: $roleFilter
+          status: $statusFilter
           query: $searchFilter
         ) @connection(key: "UserTable_users") {
           edges {
@@ -113,6 +116,7 @@ const enhanced = withPaginationContainer<
         count,
         cursor,
         roleFilter: fragmentVariables.roleFilter,
+        statusFilter: fragmentVariables.statusFilter,
         searchFilter: fragmentVariables.searchFilter,
       };
     },
@@ -123,6 +127,7 @@ const enhanced = withPaginationContainer<
         $count: Int!
         $cursor: Cursor
         $roleFilter: USER_ROLE
+        $statusFilter: USER_STATUS
         $searchFilter: String
       ) {
         ...UserTableContainer_query
@@ -130,6 +135,7 @@ const enhanced = withPaginationContainer<
             count: $count
             cursor: $cursor
             roleFilter: $roleFilter
+            statusFilter: $statusFilter
             searchFilter: $searchFilter
           )
       }

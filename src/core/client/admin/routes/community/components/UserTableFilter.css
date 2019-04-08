@@ -11,3 +11,7 @@
 .adornment {
   padding: 0 var(--spacing-unit);
 }
+
+.selectField {
+  min-width: calc(13 * var(--spacing-unit));
+}

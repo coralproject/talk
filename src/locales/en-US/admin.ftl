@@ -20,6 +20,11 @@ role-plural-moderator = Moderators
 role-plural-staff = Staff
 role-plural-commenter = Commenters
 
+## User Statuses
+userStatus-active = Active
+userStatus-banned = Banned
+userStatus-suspended = Suspended
+
 ## Navigation
 navigation-moderate = Moderate
 navigation-community = Community
@@ -379,6 +384,9 @@ community-filter-searchButton =
 community-filter-roleSelectField =
   .aria-label = Search by role
 
+community-filter-statusSelectField =
+.aria-label = Search by user status
+
 community-changeRoleButton =
   .aria-label = Change role
 
@@ -388,15 +396,29 @@ community-filter-optGroupOrganization =
   .label = Organization
 community-filter-search = Search
 community-filter-showMe = Show Me
-community-filter-everyone = Everyone
+community-filter-allRoles = All Roles
+community-filter-allStatuses = All Statuses
 
 community-column-username = Username
 community-column-email = Email
 community-column-memberSince = Member Since
 community-column-role = Role
+community-column-status = Status
 
 community-role-popover =
   .description = A dropdown to change the user role
+
+community-userStatus-popover =
+  .description = A dropdown to change the user status
+
+community-userStatus-banUser = Ban User
+community-userStatus-removeBan = Remove Ban
+community-userStatus-suspendUser = Suspend User
+community-userStatus-removeSupsension = Remove Suspension
+community-userStatus-unknown = Unknown
+community-userStatus-changeButton =
+  .aria-label = Change user status
+
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.

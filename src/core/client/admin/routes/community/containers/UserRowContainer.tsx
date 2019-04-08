@@ -18,6 +18,7 @@ const UserRowContainer: StatelessComponent<Props> = props => {
   const { locales } = useTalkContext();
   return (
     <UserRow
+      user={props.user}
       userID={props.user.id}
       username={props.user.username!}
       email={props.user.email}
@@ -44,6 +45,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   user: graphql`
     fragment UserRowContainer_user on User {
+      ...UserStatusChangeContainer_user
       id
       username
       email
