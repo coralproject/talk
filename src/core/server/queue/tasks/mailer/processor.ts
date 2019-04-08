@@ -13,6 +13,7 @@ import now from "performance-now";
 
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { Config } from "talk-server/config";
+import { InternalError } from "talk-server/errors";
 import logger from "talk-server/logger";
 import { I18n, translate } from "talk-server/services/i18n";
 import TenantCache from "talk-server/services/tenant/cache";
@@ -217,12 +218,17 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     const startTemplateGenerationTime = now();
 
     // Get the message to send.
-    const message = await translateMessage(
-      data.templateName,
-      tenant.locale,
-      fromAddress,
-      data
-    );
+    let message: Message;
+    try {
+      message = await translateMessage(
+        data.templateName,
+        tenant.locale,
+        fromAddress,
+        data
+      );
+    } catch (err) {
+      throw new InternalError(err, "could not translate the message");
+    }
 
     // Compute the end time.
     const responseTime = Math.round(now() - startTemplateGenerationTime);
@@ -230,8 +236,12 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
     let transport = cache.get(tenantID);
     if (!transport) {
-      // Create the transport based on the smtp uri.
-      transport = createTransport(smtpURI);
+      try {
+        // Create the transport based on the smtp uri.
+        transport = createTransport(smtpURI);
+      } catch (err) {
+        throw new InternalError(err, "could not create email transport");
+      }
 
       // Set the transport back into the cache.
       cache.set(tenantID, transport);
@@ -245,8 +255,12 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
 
     const startMessageSendTime = now();
 
-    // Send the mail message.
-    await transport.sendMail(message);
+    try {
+      // Send the mail message.
+      await transport.sendMail(message);
+    } catch (err) {
+      throw new InternalError(err, "could not send email");
+    }
 
     // Compute the end time.
     const messageSendResponseTime = Math.round(now() - startMessageSendTime);
