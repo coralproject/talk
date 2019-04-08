@@ -68,63 +68,111 @@ exports[`renders community 1`] = `
         >
           Show Me
         </legend>
-        <span
-          className="SelectField-root"
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter"
         >
-          <select
-            aria-label="Search by role"
-            className="SelectField-select"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            value=""
+          <span
+            className="SelectField-root UserTableFilter-selectField"
           >
-            <option
+            <select
+              aria-label="Search by role"
+              className="SelectField-select"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
               value=""
             >
-              Everyone
-            </option>
-            <optgroup
-              label="Audience"
-            >
               <option
-                value="COMMENTER"
+                value=""
               >
-                Commenters
+                All Roles
               </option>
-            </optgroup>
-            <optgroup
-              label="Organization"
-            >
-              <option
-                value="ADMIN"
+              <optgroup
+                label="Audience"
               >
-                Admins
-              </option>
-              <option
-                value="MODERATOR"
+                <option
+                  value="COMMENTER"
+                >
+                  Commenters
+                </option>
+              </optgroup>
+              <optgroup
+                label="Organization"
               >
-                Moderators
-              </option>
-              <option
-                value="STAFF"
-              >
-                Staff
-              </option>
-            </optgroup>
-          </select>
-          <span
-            aria-hidden={true}
-            className="SelectField-afterWrapper"
-          >
+                <option
+                  value="ADMIN"
+                >
+                  Admins
+                </option>
+                <option
+                  value="MODERATOR"
+                >
+                  Moderators
+                </option>
+                <option
+                  value="STAFF"
+                >
+                  Staff
+                </option>
+              </optgroup>
+            </select>
             <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
+              aria-hidden={true}
+              className="SelectField-afterWrapper"
             >
-              expand_more
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
             </span>
           </span>
-        </span>
+          <span
+            className="SelectField-root UserTableFilter-selectField"
+          >
+            <select
+              aria-label="Search by user status"
+              className="SelectField-select"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              value=""
+            >
+              <option
+                value=""
+              >
+                All Statuses
+              </option>
+              <option
+                value="ACTIVE"
+              >
+                Active
+              </option>
+              <option
+                value="SUSPENDED"
+              >
+                Suspended
+              </option>
+              <option
+                value="BANNED"
+              >
+                Banned
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
       </fieldset>
     </div>
     <div
@@ -159,6 +207,11 @@ exports[`renders community 1`] = `
             >
               Role
             </th>
+            <th
+              className="TableCell-root UserTable-statusColumn TableCell-header"
+            >
+              Status
+            </th>
           </tr>
         </thead>
         <tbody
@@ -190,11 +243,40 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-roleColumn TableCell-body"
             >
-              <span
-                className="RoleText-root"
+              <div
+                className="ButtonPadding-root"
               >
-                Admin
-              </span>
+                <span
+                  className="RoleText-root"
+                >
+                  Admin
+                </span>
+              </div>
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="ButtonPadding-root"
+              >
+                <div
+                  className="Typography-root Typography-detail Typography-colorSuccess"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                  >
+                    <div
+                      aria-hidden={true}
+                      className="UserStatus-dot"
+                    >
+                      •
+                    </div>
+                    <div>
+                      Active
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
           <tr
@@ -260,6 +342,31 @@ exports[`renders community 1`] = `
                     id="community-roleChange-ariainfo"
                   >
                     A dropdown to change the user role
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="ButtonPadding-root"
+              >
+                <div
+                  className="Typography-root Typography-detail Typography-colorSuccess"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                  >
+                    <div
+                      aria-hidden={true}
+                      className="UserStatus-dot"
+                    >
+                      •
+                    </div>
+                    <div>
+                      Active
+                    </div>
                   </div>
                 </div>
               </div>
@@ -340,63 +447,111 @@ exports[`renders empty community 1`] = `
         >
           Show Me
         </legend>
-        <span
-          className="SelectField-root"
+        <div
+          className="Flex-root Flex-flex Flex-itemGutter"
         >
-          <select
-            aria-label="Search by role"
-            className="SelectField-select"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            value=""
+          <span
+            className="SelectField-root UserTableFilter-selectField"
           >
-            <option
+            <select
+              aria-label="Search by role"
+              className="SelectField-select"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
               value=""
             >
-              Everyone
-            </option>
-            <optgroup
-              label="Audience"
-            >
               <option
-                value="COMMENTER"
+                value=""
               >
-                Commenters
+                All Roles
               </option>
-            </optgroup>
-            <optgroup
-              label="Organization"
-            >
-              <option
-                value="ADMIN"
+              <optgroup
+                label="Audience"
               >
-                Admins
-              </option>
-              <option
-                value="MODERATOR"
+                <option
+                  value="COMMENTER"
+                >
+                  Commenters
+                </option>
+              </optgroup>
+              <optgroup
+                label="Organization"
               >
-                Moderators
-              </option>
-              <option
-                value="STAFF"
-              >
-                Staff
-              </option>
-            </optgroup>
-          </select>
-          <span
-            aria-hidden={true}
-            className="SelectField-afterWrapper"
-          >
+                <option
+                  value="ADMIN"
+                >
+                  Admins
+                </option>
+                <option
+                  value="MODERATOR"
+                >
+                  Moderators
+                </option>
+                <option
+                  value="STAFF"
+                >
+                  Staff
+                </option>
+              </optgroup>
+            </select>
             <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
+              aria-hidden={true}
+              className="SelectField-afterWrapper"
             >
-              expand_more
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
             </span>
           </span>
-        </span>
+          <span
+            className="SelectField-root UserTableFilter-selectField"
+          >
+            <select
+              aria-label="Search by user status"
+              className="SelectField-select"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              value=""
+            >
+              <option
+                value=""
+              >
+                All Statuses
+              </option>
+              <option
+                value="ACTIVE"
+              >
+                Active
+              </option>
+              <option
+                value="SUSPENDED"
+              >
+                Suspended
+              </option>
+              <option
+                value="BANNED"
+              >
+                Banned
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
       </fieldset>
     </div>
     <div
@@ -430,6 +585,11 @@ exports[`renders empty community 1`] = `
               className="TableCell-root UserTable-roleColumn TableCell-header"
             >
               Role
+            </th>
+            <th
+              className="TableCell-root UserTable-statusColumn TableCell-header"
+            >
+              Status
             </th>
           </tr>
         </thead>

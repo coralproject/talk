@@ -251,6 +251,17 @@ export const moderationActions = [
 export const baseUser = {
   profiles: [{ __typename: "LocalProfile" }],
   createdAt: "2018-07-06T18:24:00.000Z",
+  status: {
+    current: [],
+    banned: {
+      active: false,
+      history: [],
+    },
+    suspension: {
+      active: false,
+      history: [],
+    },
+  },
 };
 
 export const users = [
