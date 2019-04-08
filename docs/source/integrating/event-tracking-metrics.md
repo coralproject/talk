@@ -53,7 +53,6 @@ mutation.CreateLikeAction.success
 mutation.PostComment.success
 mutation.PostFlag.success
 mutation.EditComment.success
-mutation.PostComment.success
 
 action.CORAL_STREAM_SET_ACTIVE_TAB
 action.SHOW_SIGNIN_DIALOG
