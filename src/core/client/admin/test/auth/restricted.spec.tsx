@@ -32,7 +32,7 @@ function createTestRenderer(
       settings: sinon.stub().returns(settings),
       moderationQueues: sinon.stub().returns(emptyModerationQueues),
       comments: sinon.stub().returns(emptyRejectedComments),
-      viewer: sinon.stub().returns({ ...users[0], ...userDiff }),
+      viewer: sinon.stub().returns({ ...users.admins[0], ...userDiff }),
     },
   };
   const { testRenderer, context } = create({

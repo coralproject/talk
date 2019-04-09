@@ -38,14 +38,23 @@ export type MutationProp<
     : keyof Parameters<T["commit"]>[1] extends never ? () => R : (input: I) => R
   : never;
 
+type RemoveClientMutationID<T> = T extends Promise<infer U>
+  ? Promise<
+      U extends { clientMutationId: any } ? Omit<U, "clientMutationId"> : U
+    >
+  : T extends { clientMutationId: any } ? Omit<T, "clientMutationId"> : T;
+
 export function createMutation<N extends string, I, R>(
   name: N,
   commit: (environment: Environment, input: I, context: TalkContext) => R
-): Mutation<N, I, R> {
+  // (cvle) We remove `clientMutationId` from the response, so we don't use it inside our app.
+  // It is a Relay implementation detail that is pending for removal.
+  // https://github.com/facebook/relay/pull/2349
+): Mutation<N, I, RemoveClientMutationID<R>> {
   return {
     name,
     commit,
-  };
+  } as any;
 }
 
 /**

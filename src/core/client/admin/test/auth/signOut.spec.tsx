@@ -21,7 +21,7 @@ const resolvers = {
     settings: sinon.stub().returns(settings),
     moderationQueues: sinon.stub().returns(emptyModerationQueues),
     comments: sinon.stub().returns(emptyRejectedComments),
-    viewer: sinon.stub().returns(users[0]),
+    viewer: sinon.stub().returns(users.admins[0]),
   },
 };
 
@@ -47,7 +47,7 @@ it("logs out", async () => {
     .returns({});
 
   const userMenu = await waitForElement(() =>
-    within(testRenderer.root).getByText(users[0].username, {
+    within(testRenderer.root).getByText(users.admins[0].username!, {
       selector: "button",
     })
   );

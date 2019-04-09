@@ -26,13 +26,13 @@ const BanModal: StatelessComponent<Props> = ({
   onConfirm,
   username,
 }) => (
-  <Modal open={open} onClose={onClose} aria-labelledby="modal-title">
+  <Modal open={open} onClose={onClose} aria-labelledby="banModal-title">
     {({ firstFocusableRef, lastFocusableRef }) => (
       <Card className={styles.card}>
         <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
         <HorizontalGutter size="double">
           <HorizontalGutter>
-            <Typography variant="header2" id="modal-title">
+            <Typography variant="header2" id="banModal-title">
               Are you sure you want to ban{" "}
               <strong>{username || <NotAvailable />}</strong>
               ?

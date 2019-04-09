@@ -47,7 +47,7 @@ it("denies access to moderators", async () => {
   for (const r of deniedRoles) {
     const { testRenderer } = await createTestRenderer({
       Query: {
-        viewer: sinon.stub().returns({ ...users[0], role: r }),
+        viewer: sinon.stub().returns({ ...users.admins[0], role: r }),
       },
     });
     await waitForElement(() =>
@@ -61,7 +61,7 @@ it("allows access to admins", async () => {
   for (const r of deniedRoles) {
     const { testRenderer } = await createTestRenderer({
       Query: {
-        viewer: sinon.stub().returns({ ...users[0], role: r }),
+        viewer: sinon.stub().returns({ ...users.admins[0], role: r }),
       },
     });
     await waitForElement(() =>

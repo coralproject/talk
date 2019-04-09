@@ -29,7 +29,7 @@ async function createTestRenderer(
         .stub()
         .returns(
           merge(
-            { ...users[0], email: "", username: "", profiles: [] },
+            { ...users.admins[0], email: "", username: "", profiles: [] },
             get(customResolver, "Query.viewer")
           )
         ),

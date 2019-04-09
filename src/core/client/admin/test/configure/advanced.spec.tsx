@@ -24,7 +24,7 @@ const createTestRenderer = async (resolver: any = {}) => {
       settings: sinon
         .stub()
         .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      viewer: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users.admins[0]),
     },
   };
   const { testRenderer } = create({

@@ -1,10 +1,24 @@
-import { merge } from "lodash";
+import {
+  GQLComment,
+  GQLCOMMENT_STATUS,
+  GQLCommentModerationAction,
+  GQLCommentsConnection,
+  GQLMODERATION_MODE,
+  GQLModerationQueues,
+  GQLSettings,
+  GQLStoriesConnection,
+  GQLStory,
+  GQLSTORY_STATUS,
+  GQLUser,
+  GQLUSER_ROLE,
+  GQLUSER_STATUS,
+  GQLUsersConnection,
+} from "talk-framework/schema";
+import { createFixture, createFixtures } from "talk-framework/testHelpers";
 
-import { GQLStory, GQLSTORY_STATUS, GQLUSER_ROLE } from "talk-framework/schema";
-
-export const settings = {
+export const settings = createFixture<GQLSettings>({
   id: "settings",
-  moderation: "POST",
+  moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
   wordList: {
     suspect: ["idiot", "stupid"],
@@ -24,7 +38,7 @@ export const settings = {
     timeout: 604800,
     message: "Comments are closed on this story.",
   },
-  customCSSURL: null,
+  customCSSURL: "",
   domains: ["localhost:8080"],
   editCommentWindowLength: 30000,
   communityGuidelines: {
@@ -61,7 +75,7 @@ export const settings = {
           admin: true,
           stream: true,
         },
-        key: null,
+        key: "",
         keyGeneratedAt: null,
       },
       google: {
@@ -101,71 +115,73 @@ export const settings = {
       },
     },
   },
-};
+});
 
-export const settingsWithEmptyAuth = {
-  ...settings,
-  id: "settings",
-  auth: {
-    integrations: {
-      local: {
-        enabled: true,
-        allowRegistration: true,
-        targetFilter: {
-          admin: true,
-          stream: true,
+export const settingsWithEmptyAuth = createFixture<GQLSettings>(
+  {
+    id: "settings",
+    auth: {
+      integrations: {
+        local: {
+          enabled: true,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
         },
-      },
-      sso: {
-        enabled: false,
-        allowRegistration: true,
-        targetFilter: {
-          admin: true,
-          stream: true,
+        sso: {
+          enabled: false,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          key: "",
+          keyGeneratedAt: null,
         },
-        key: null,
-        keyGeneratedAt: null,
-      },
-      google: {
-        enabled: false,
-        allowRegistration: true,
-        targetFilter: {
-          admin: true,
-          stream: true,
+        google: {
+          enabled: false,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          clientID: "",
+          clientSecret: "",
+          callbackURL: "http://localhost/google/callback",
+          redirectURL: "http://localhost/google",
         },
-        clientID: "",
-        clientSecret: "",
-        callbackURL: "http://localhost/google/callback",
-        redirectURL: "http://localhost/google",
-      },
-      facebook: {
-        enabled: false,
-        allowRegistration: true,
-        targetFilter: {
-          admin: true,
-          stream: true,
+        facebook: {
+          enabled: false,
+          allowRegistration: true,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          clientID: "",
+          clientSecret: "",
+          callbackURL: "http://localhost/facebook/callback",
+          redirectURL: "http://localhost/facebook",
         },
-        clientID: "",
-        clientSecret: "",
-        callbackURL: "http://localhost/facebook/callback",
-        redirectURL: "http://localhost/facebook",
-      },
-      oidc: {
-        enabled: false,
-        allowRegistration: false,
-        targetFilter: {
-          admin: true,
-          stream: true,
+        oidc: {
+          enabled: false,
+          allowRegistration: false,
+          targetFilter: {
+            admin: true,
+            stream: true,
+          },
+          name: "",
+          callbackURL: "http://localhost/oidc/callback",
+          redirectURL: "http://localhost/oidc",
         },
-        name: "",
-        callbackURL: "http://localhost/oidc/callback",
-        redirectURL: "http://localhost/oidc",
       },
     },
   },
-};
+  settings
+);
 
-export const moderationActions = [
+export const moderationActions = createFixtures<GQLCommentModerationAction>([
   {
     id: "07e8f815-e165-4b5d-b438-7163415c8cf7",
     revision: {
@@ -179,7 +195,7 @@ export const moderationActions = [
       },
     },
     createdAt: "2018-11-29T16:01:51.897Z",
-    status: "ACCEPTED",
+    status: GQLCOMMENT_STATUS.ACCEPTED,
     __typename: "CommentModerationAction",
   },
   {
@@ -195,7 +211,7 @@ export const moderationActions = [
       },
     },
     createdAt: "2018-11-29T16:01:45.644Z",
-    status: "REJECTED",
+    status: GQLCOMMENT_STATUS.REJECTED,
     __typename: "CommentModerationAction",
   },
   {
@@ -211,7 +227,7 @@ export const moderationActions = [
       },
     },
     createdAt: "2018-11-29T16:01:42.060Z",
-    status: "ACCEPTED",
+    status: GQLCOMMENT_STATUS.ACCEPTED,
     __typename: "CommentModerationAction",
   },
   {
@@ -227,7 +243,7 @@ export const moderationActions = [
       },
     },
     createdAt: "2018-11-29T16:01:34.539Z",
-    status: "REJECTED",
+    status: GQLCOMMENT_STATUS.REJECTED,
     __typename: "CommentModerationAction",
   },
   {
@@ -243,12 +259,12 @@ export const moderationActions = [
       },
     },
     createdAt: "2018-11-29T16:01:30.648Z",
-    status: "ACCEPTED",
+    status: GQLCOMMENT_STATUS.ACCEPTED,
     __typename: "CommentModerationAction",
   },
-];
+]);
 
-export const baseUser = {
+export const baseUser = createFixture<GQLUser>({
   profiles: [{ __typename: "LocalProfile" }],
   createdAt: "2018-07-06T18:24:00.000Z",
   status: {
@@ -262,37 +278,86 @@ export const baseUser = {
       history: [],
     },
   },
+});
+
+export const users = {
+  admins: createFixtures<GQLUser>(
+    [
+      {
+        id: "user-admin-0",
+        username: "Markus",
+        email: "markus@test.com",
+        role: GQLUSER_ROLE.ADMIN,
+      },
+    ],
+    baseUser
+  ),
+  moderators: createFixtures<GQLUser>(
+    [
+      {
+        id: "user-moderator-0",
+        username: "Lukas",
+        email: "lukas@test.com",
+        role: GQLUSER_ROLE.MODERATOR,
+      },
+    ],
+    baseUser
+  ),
+  staff: createFixtures<GQLUser>(
+    [
+      {
+        id: "user-staff-0",
+        username: "Huy",
+        email: "huy@test.com",
+        role: GQLUSER_ROLE.STAFF,
+      },
+    ],
+    baseUser
+  ),
+  commenters: createFixtures<GQLUser>(
+    [
+      {
+        id: "user-commenter-0",
+        username: "Isabelle",
+        email: "isabelle@test.com",
+        role: GQLUSER_ROLE.COMMENTER,
+      },
+      {
+        id: "user-commenter-1",
+        username: "Ngoc",
+        email: "ngoc@test.com",
+        role: GQLUSER_ROLE.COMMENTER,
+      },
+      {
+        id: "user-commenter-2",
+        username: "Max",
+        email: "max@test.com",
+        role: GQLUSER_ROLE.COMMENTER,
+      },
+    ],
+    baseUser
+  ),
+  bannedCommenter: createFixture<GQLUser>(
+    {
+      id: "user-banned-0",
+      username: "Ingrid",
+      email: "ingrid@test.com",
+      role: GQLUSER_ROLE.COMMENTER,
+      status: {
+        current: [GQLUSER_STATUS.BANNED],
+        ban: { active: true },
+        suspension: { active: true },
+      },
+    },
+    baseUser
+  ),
 };
 
-export const users = [
-  {
-    ...baseUser,
-    id: "user-0",
-    username: "Markus",
-    email: "markus@test.com",
-    role: GQLUSER_ROLE.ADMIN,
-  },
-  {
-    ...baseUser,
-    id: "user-1",
-    username: "Lukas",
-    email: "lukas@test.com",
-    role: GQLUSER_ROLE.MODERATOR,
-  },
-  {
-    ...baseUser,
-    id: "user-2",
-    username: "Isabelle",
-    email: "isabelle@test.com",
-    role: GQLUSER_ROLE.COMMENTER,
-  },
-];
-
-export const baseComment = {
-  author: users[0],
+export const baseComment = createFixture<GQLComment>({
+  author: users.commenters[0],
   body: "Comment Body",
   createdAt: "2018-07-06T18:24:00.000Z",
-  status: "NONE",
+  status: GQLCOMMENT_STATUS.NONE,
   actionCounts: {
     flag: {
       reasons: {
@@ -307,68 +372,71 @@ export const baseComment = {
       },
     },
   },
-};
+});
 
-export const reportedComments = [
-  merge({}, baseComment, {
-    id: "comment-0",
-    author: users[0],
-    revision: {
-      id: "comment-0-revision-0",
-    },
-    permalink: "http://localhost/comment/0",
-    body:
-      "This is the last random sentence I will be writing and I am going to stop mid-sent",
-    actionCounts: {
-      flag: {
-        reasons: {
-          COMMENT_REPORTED_SPAM: 2,
+export const reportedComments = createFixtures<GQLComment>(
+  [
+    {
+      id: "comment-0",
+      author: users.commenters[0],
+      revision: {
+        id: "comment-0-revision-0",
+      },
+      permalink: "http://localhost/comment/0",
+      body:
+        "This is the last random sentence I will be writing and I am going to stop mid-sent",
+      actionCounts: {
+        flag: {
+          reasons: {
+            COMMENT_REPORTED_SPAM: 2,
+          },
         },
       },
     },
-  }),
-  merge({}, baseComment, {
-    id: "comment-1",
-    revision: {
-      id: "comment-1-revision-1",
-    },
-    permalink: "http://localhost/comment/1",
-    author: users[1],
-    body: "Don't fool with me",
-    actionCounts: {
-      flag: {
-        reasons: {
-          COMMENT_REPORTED_OFFENSIVE: 3,
+    {
+      id: "comment-1",
+      revision: {
+        id: "comment-1-revision-1",
+      },
+      permalink: "http://localhost/comment/1",
+      author: users.commenters[1],
+      body: "Don't fool with me",
+      actionCounts: {
+        flag: {
+          reasons: {
+            COMMENT_REPORTED_OFFENSIVE: 3,
+          },
         },
       },
     },
-  }),
-  merge({}, baseComment, {
-    id: "comment-2",
-    revision: {
-      id: "comment-2-revision-2",
-    },
-    permalink: "http://localhost/comment/2",
-    status: "PREMOD",
-    author: users[2],
-    body: "I think I deserve better",
-    actionCounts: {
-      flag: {
-        reasons: {
-          COMMENT_REPORTED_SPAM: 1,
-          COMMENT_REPORTED_OFFENSIVE: 1,
+    {
+      id: "comment-2",
+      revision: {
+        id: "comment-2-revision-2",
+      },
+      permalink: "http://localhost/comment/2",
+      status: GQLCOMMENT_STATUS.PREMOD,
+      author: users.commenters[2],
+      body: "I think I deserve better",
+      actionCounts: {
+        flag: {
+          reasons: {
+            COMMENT_REPORTED_SPAM: 1,
+            COMMENT_REPORTED_OFFENSIVE: 1,
+          },
         },
       },
     },
-  }),
-];
+  ],
+  baseComment
+);
 
-export const rejectedComments = reportedComments.map(c => ({
+export const rejectedComments = reportedComments.map<GQLComment>(c => ({
   ...c,
-  status: "REJECTED",
+  status: GQLCOMMENT_STATUS.REJECTED,
 }));
 
-export const emptyModerationQueues = {
+export const emptyModerationQueues = createFixture<GQLModerationQueues>({
   reported: {
     id: "reported",
     count: 0,
@@ -384,27 +452,29 @@ export const emptyModerationQueues = {
     count: 0,
     comments: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
   },
-};
+});
 
-export const emptyRejectedComments = {
+export const emptyRejectedComments = createFixture<GQLCommentsConnection>({
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
-};
+});
 
-export const communityUsers = {
+export const communityUsers = createFixture<GQLUsersConnection>({
   edges: [
-    { node: users[0], cursor: users[0].createdAt },
-    { node: users[1], cursor: users[1].createdAt },
+    { node: users.admins[0], cursor: users.admins[0].createdAt },
+    { node: users.moderators[0], cursor: users.moderators[0].createdAt },
+    { node: users.staff[0], cursor: users.staff[0].createdAt },
+    { node: users.commenters[0], cursor: users.commenters[0].createdAt },
   ],
   pageInfo: { endCursor: null, hasNextPage: false },
-};
+});
 
-export const emptyCommunityUsers = {
+export const emptyCommunityUsers = createFixture<GQLUsersConnection>({
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
-};
+});
 
-export const stories: Array<Partial<GQLStory>> = [
+export const stories = createFixtures<GQLStory>([
   {
     id: "story-1",
     closedAt: null,
@@ -441,17 +511,17 @@ export const stories: Array<Partial<GQLStory>> = [
       publishedAt: "2018-11-29T16:01:51.897Z",
     },
   },
-];
+]);
 
-export const storyConnection = {
+export const storyConnection = createFixture<GQLStoriesConnection>({
   edges: [
     { node: stories[0], cursor: stories[0].createdAt },
     { node: stories[1], cursor: stories[1].createdAt },
   ],
   pageInfo: { endCursor: null, hasNextPage: false },
-};
+});
 
-export const emptyStories = {
+export const emptyStories = createFixture<GQLStoriesConnection>({
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
-};
+});

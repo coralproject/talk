@@ -157,7 +157,7 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
           <span
             className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
-            Markus
+            Isabelle
           </span>
           <time
             className="Timestamp-root RelativeTime-root"
@@ -310,7 +310,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                 <span
                   className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
-                  Markus
+                  Isabelle
                 </span>
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -450,7 +450,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                 <span
                   className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
-                  Lukas
+                  Ngoc
                 </span>
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -597,7 +597,7 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
           <span
             className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
-            Isabelle
+            Max
           </span>
           <time
             className="Timestamp-root RelativeTime-root"
@@ -766,7 +766,7 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
           <span
             className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
-            Markus
+            Isabelle
           </span>
           <time
             className="Timestamp-root RelativeTime-root"
@@ -922,7 +922,7 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
           <span
             className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
-            Markus
+            Isabelle
           </span>
           <time
             className="Timestamp-root RelativeTime-root"
@@ -1090,7 +1090,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
                 <span
                   className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
-                  Markus
+                  Isabelle
                 </span>
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -1230,7 +1230,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
                 <span
                   className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
-                  Lukas
+                  Ngoc
                 </span>
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -1376,7 +1376,7 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
           <span
             className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
-            Isabelle
+            Max
           </span>
           <time
             className="Timestamp-root RelativeTime-root"
@@ -1537,7 +1537,7 @@ exports[`single comment view accepts single comment 1`] = `
           <span
             className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
-            Markus
+            Isabelle
           </span>
           <time
             className="Timestamp-root RelativeTime-root"
@@ -1680,7 +1680,7 @@ exports[`single comment view rejects single comment 1`] = `
           <span
             className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
-            Markus
+            Isabelle
           </span>
           <time
             className="Timestamp-root RelativeTime-root"
@@ -1858,7 +1858,7 @@ exports[`single comment view renders single comment view 1`] = `
                   <span
                     className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
                   >
-                    Markus
+                    Isabelle
                   </span>
                   <time
                     className="Timestamp-root RelativeTime-root"

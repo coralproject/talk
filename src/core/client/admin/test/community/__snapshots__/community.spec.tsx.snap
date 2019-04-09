@@ -372,6 +372,223 @@ exports[`renders community 1`] = `
               </div>
             </td>
           </tr>
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root UserRow-usernameColumn TableCell-body"
+            >
+              Huy
+            </td>
+            <td
+              className="TableCell-root UserRow-emailColumn TableCell-body"
+            >
+              <a
+                className="TextLink-root"
+                href="mailto:huy@test.com"
+              >
+                huy@test.com
+              </a>
+            </td>
+            <td
+              className="TableCell-root UserRow-memberSinceColumn TableCell-body"
+            >
+              07/06/2018
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change role"
+                  className="BaseButton-root Button-root RoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="RoleText-root"
+                  >
+                    Staff
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </span>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-labelledby="community-roleChange-ariainfo"
+                  id="community-roleChange"
+                  role="popup"
+                >
+                  <div
+                    className="AriaInfo-root"
+                    id="community-roleChange-ariainfo"
+                  >
+                    A dropdown to change the user role
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="ButtonPadding-root"
+              >
+                <div
+                  className="Typography-root Typography-detail Typography-colorSuccess"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                  >
+                    <div
+                      aria-hidden={true}
+                      className="UserStatus-dot"
+                    >
+                      •
+                    </div>
+                    <div>
+                      Active
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr
+            className="TableRow-root TableRow-body"
+          >
+            <td
+              className="TableCell-root UserRow-usernameColumn TableCell-body"
+            >
+              Isabelle
+            </td>
+            <td
+              className="TableCell-root UserRow-emailColumn TableCell-body"
+            >
+              <a
+                className="TextLink-root"
+                href="mailto:isabelle@test.com"
+              >
+                isabelle@test.com
+              </a>
+            </td>
+            <td
+              className="TableCell-root UserRow-memberSinceColumn TableCell-body"
+            >
+              07/06/2018
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change role"
+                  className="BaseButton-root Button-root RoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    className="RoleText-root RoleText-commenter"
+                  >
+                    Commenter
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </span>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-labelledby="community-roleChange-ariainfo"
+                  id="community-roleChange"
+                  role="popup"
+                >
+                  <div
+                    className="AriaInfo-root"
+                    id="community-roleChange-ariainfo"
+                  >
+                    A dropdown to change the user role
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td
+              className="TableCell-root UserRow-roleColumn TableCell-body"
+            >
+              <div
+                className="Popover-root"
+              >
+                <button
+                  aria-label="Change user status"
+                  className="BaseButton-root Button-root UserStatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <div
+                    className="Typography-root Typography-detail Typography-colorSuccess"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                    >
+                      <div
+                        aria-hidden={true}
+                        className="UserStatus-dot"
+                      >
+                        •
+                      </div>
+                      <div>
+                        Active
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ButtonIcon-root"
+                  >
+                    arrow_drop_down
+                  </span>
+                </button>
+                <div
+                  aria-hidden={true}
+                  aria-labelledby="community-statusChange-ariainfo"
+                  id="community-statusChange"
+                  role="popup"
+                >
+                  <div
+                    className="AriaInfo-root"
+                    id="community-statusChange-ariainfo"
+                  >
+                    A dropdown to change the user status
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
