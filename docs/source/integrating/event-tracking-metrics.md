@@ -42,3 +42,25 @@ Next, we want to add our code that sends the events to our analytics system. In 
     },
 ```
 You can continue this process for any specific events you'd like to track. You can also remove the `console.log` to stop events being emitted to the browser and instead only send the events to your analytics tool.
+
+## Metrics List
+
+Note: This is not an exhaustive list, but should get you started.
+
+```
+mutation.CreateRespectAction.success
+mutation.CreateLikeAction.success
+mutation.PostComment.success
+mutation.PostFlag.success
+mutation.EditComment.success
+
+action.CORAL_STREAM_SET_ACTIVE_TAB
+action.SHOW_SIGNIN_DIALOG
+action.FOCUS_SIGNIN_DIALOG
+action.TALK_FRAMEWORK_HANDLE_SUCCESSFUL_LOGIN
+action.HIDE_SIGNIN_DIALOG
+action.TALK_VIEWING_OPTIONS_OPEN_MENU
+action.TALK_VIEWING_OPTIONS_CLOSE_MENU
+action.CORAL_STREAM_SET_SORT
+action.SET_ACTIVE_REPLY_BOX
+```
