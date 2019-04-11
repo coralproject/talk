@@ -173,6 +173,7 @@ export async function createTenant(mongo: Db, input: CreateTenantInput) {
       // handshake.
       label: "Respect",
       labelActive: "Respected",
+      sortLabel: "Most Respected",
       icon: "thumb_up",
     },
   };

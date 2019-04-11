@@ -71,7 +71,6 @@ export class StreamContainer extends React.Component<Props> {
           disableLoadMore={this.state.disableLoadMore}
           viewer={this.props.viewer}
           orderBy={this.orderBy}
-          reactionName={this.props.settings.reaction.labelActive}
           onChangeOrderBy={this.handleOnChangeOrderBy}
           refetching={this.state.refetching}
         />
@@ -146,7 +145,7 @@ const enhanced = withPaginationContainer<
     settings: graphql`
       fragment StreamContainer_settings on Settings {
         reaction {
-          labelActive
+          sortLabel
         }
         ...PostCommentFormContainer_settings
         ...ReplyListContainer1_settings

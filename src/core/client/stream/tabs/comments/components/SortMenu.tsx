@@ -21,7 +21,7 @@ interface Props {
     | "REACTION_DESC"
     | "%future added value";
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  reactionName: string;
+  reactionSortLabel: string;
 }
 
 const SortMenu: StatelessComponent<Props> = props => (
@@ -58,12 +58,7 @@ const SortMenu: StatelessComponent<Props> = props => (
             <Localized id="comments-sortMenu-mostReplies">
               <Option value="REPLIES_DESC">Most Replies</Option>
             </Localized>
-            <Localized
-              id="comments-sortMenu-mostReactions"
-              $reactionName={props.reactionName}
-            >
-              <Option value="REACTION_DESC">Most {props.reactionName}</Option>
-            </Localized>
+            <Option value="REACTION_DESC">{props.reactionSortLabel}</Option>
           </SelectField>
         </Flex>
         <Divider />

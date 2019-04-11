@@ -39,12 +39,11 @@ exports[`renders correctly 1`] = `
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
-    reactionName="Respected"
     refetching={false}
     settings={
       Object {
         "reaction": Object {
-          "labelActive": "Respected",
+          "sortLabel": "Most Respected",
         },
       }
     }
@@ -113,12 +112,11 @@ exports[`when has more comments renders hasMore 1`] = `
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
-    reactionName="Respected"
     refetching={false}
     settings={
       Object {
         "reaction": Object {
-          "labelActive": "Respected",
+          "sortLabel": "Most Respected",
         },
       }
     }
@@ -187,12 +185,11 @@ exports[`when has more comments when loading more disables load more button 1`] 
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
-    reactionName="Respected"
     refetching={false}
     settings={
       Object {
         "reaction": Object {
-          "labelActive": "Respected",
+          "sortLabel": "Most Respected",
         },
       }
     }
@@ -261,12 +258,11 @@ exports[`when has more comments when loading more enable load more button after 
     onChangeOrderBy={[Function]}
     onLoadMore={[Function]}
     orderBy="CREATED_AT_ASC"
-    reactionName="Respected"
     refetching={false}
     settings={
       Object {
         "reaction": Object {
-          "labelActive": "Respected",
+          "sortLabel": "Most Respected",
         },
       }
     }

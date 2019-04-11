@@ -94,7 +94,6 @@ comments-sortMenu-sortBy = Sort By
 comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
 comments-sortMenu-mostReplies = Most Replies
-comments-sortMenu-mostReactions = Most {$reactionName}
 
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation

@@ -12,7 +12,7 @@ it("renders correctly on small screens", () => {
   const props: PropTypesOf<typeof SortMenu> = {
     orderBy: "CREATED_AT_ASC",
     onChange: noop,
-    reactionName: "Reactions",
+    reactionSortLabel: "Most Reacted",
   };
 
   const context: UIContextProps = {
@@ -35,7 +35,7 @@ it("renders correctly on big screens", () => {
   const props: PropTypesOf<typeof SortMenu> = {
     orderBy: "CREATED_AT_ASC",
     onChange: noop,
-    reactionName: "Reactions",
+    reactionSortLabel: "Most Reacted",
   };
 
   const context: UIContextProps = {

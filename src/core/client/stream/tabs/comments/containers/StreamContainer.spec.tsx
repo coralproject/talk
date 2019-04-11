@@ -23,7 +23,7 @@ it("renders correctly", () => {
     viewer: null,
     settings: {
       reaction: {
-        labelActive: "Respected",
+        sortLabel: "Most Respected",
       },
     },
     relay: {
@@ -49,7 +49,7 @@ describe("when has more comments", () => {
     viewer: null,
     settings: {
       reaction: {
-        labelActive: "Respected",
+        sortLabel: "Most Respected",
       },
     },
     relay: {

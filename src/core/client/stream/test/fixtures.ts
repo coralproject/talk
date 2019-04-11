@@ -67,6 +67,7 @@ export const settings = {
     icon: "thumb_up",
     label: "Respect",
     labelActive: "Respected",
+    sortLabel: "Most Respected",
   },
   charCount: {
     enabled: false,

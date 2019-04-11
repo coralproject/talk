@@ -836,6 +836,12 @@ type ReactionConfiguration {
   labelActive: String!
 
   """
+  sortLabel is the string placed inside of the sort menu to sort for comment
+  with most reactions.
+  """
+  sortLabel: String!
+
+  """
   color is the hex color code that can be used to change the color of the button.
   """
   color: String

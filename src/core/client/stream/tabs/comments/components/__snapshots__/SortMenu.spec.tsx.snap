@@ -40,8 +40,7 @@ exports[`renders correctly on big screens 1`] = `
         <option
           value="REACTION_DESC"
         >
-          Most 
-          Reactions
+          Most Reacted
         </option>
       </select>
       <span
@@ -97,8 +96,7 @@ exports[`renders correctly on small screens 1`] = `
         <option
           value="REACTION_DESC"
         >
-          Most 
-          Reactions
+          Most Reacted
         </option>
       </select>
       <span
