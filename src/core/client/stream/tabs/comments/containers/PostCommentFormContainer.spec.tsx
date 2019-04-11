@@ -1,9 +1,10 @@
 import { shallow } from "enzyme";
-import { merge, noop } from "lodash";
+import { noop } from "lodash";
 import React from "react";
 import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
+import { pureMerge } from "talk-common/utils";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "talk-framework/types";
@@ -16,8 +17,7 @@ const PostCommentFormContainerN = removeFragmentRefs(PostCommentFormContainer);
 type Props = PropTypesOf<typeof PostCommentFormContainerN>;
 
 function createDefaultProps(add: DeepPartial<Props> = {}): Props {
-  return merge(
-    {},
+  return pureMerge(
     {
       local: {
         loggedIn: true,

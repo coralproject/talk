@@ -1,8 +1,9 @@
-import { get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
   createAccessToken,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   toJSON,
   wait,
@@ -13,33 +14,37 @@ import {
 import create from "../create";
 import { settings, users } from "../fixtures";
 
+const viewer = users.admins[0];
+
 async function createTestRenderer(
-  customResolver: any = {},
-  options: { muteNetworkErrors?: boolean; logNetwork?: boolean } = {}
+  params: CreateTestRendererParams<GQLResolver> = {}
 ) {
   replaceHistoryLocation("http://localhost/admin/login");
-  const resolvers = {
-    ...customResolver,
-    Query: {
-      ...customResolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(customResolver, "Query.settings"))),
-      viewer: sinon.stub().returns({ ...users.admins[0], profiles: [] }),
-    },
-  };
 
   const { testRenderer, context } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: options.logNetwork,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              profiles: [],
+            }),
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("CREATE_PASSWORD", "authView");
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAccessToken(), "accessToken");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
+
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("completeAccountBox")
   );
@@ -76,17 +81,18 @@ it("checks for invalid password", async () => {
 
 it("shows server error", async () => {
   const password = "secretpassword";
-  const setPassword = sinon.stub().callsFake((_: any, data: any) => {
-    throw new Error("server error");
-  });
-  const { form, passwordField } = await createTestRenderer(
-    {
-      Mutation: {
-        setPassword,
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      setPassword: () => {
+        throw new Error("server error");
       },
     },
-    { muteNetworkErrors: true }
-  );
+  });
+
+  const { form, passwordField } = await createTestRenderer({
+    resolvers,
+    muteNetworkErrors: true,
+  });
   const submitButton = form.find(
     i => i.type === "button" && i.props.type === "submit"
   );
@@ -104,23 +110,23 @@ it("shows server error", async () => {
 
 it("successfully sets password", async () => {
   const password = "secretpassword";
-  const setPassword = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input).toEqual({
-      password,
-      clientMutationId: data.input.clientMutationId,
-    });
-    return {
-      user: {
-        id: "me",
-        profiles: [],
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      setPassword: ({ variables }) => {
+        expectAndFail(variables).toEqual({
+          password,
+        });
+        return {
+          user: {
+            id: "me",
+            profiles: [],
+          },
+        };
       },
-      clientMutationId: data.input.clientMutationId,
-    };
+    },
   });
   const { form, passwordField } = await createTestRenderer({
-    Mutation: {
-      setPassword,
-    },
+    resolvers,
   });
   const submitButton = form.find(
     i => i.type === "button" && i.props.type === "submit"
@@ -135,5 +141,5 @@ it("successfully sets password", async () => {
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
   expect(toJSON(form)).toMatchSnapshot();
-  expect(setPassword.called).toBe(true);
+  expect(resolvers.Mutation!.setPassword!.called).toBe(true);
 });

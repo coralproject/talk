@@ -28,7 +28,7 @@ export interface CreateRelayEnvironmentNetworkParams {
   /** project name of graphql-config */
   projectName: string;
   /** graphql resolvers */
-  resolvers: IResolvers<any, any>;
+  resolvers?: IResolvers<any, any>;
   /** If enabled, graphql responses will be logged to the console */
   logNetwork?: boolean;
   /** If enabled, graphql errors will be muted */
@@ -99,7 +99,7 @@ export default function createRelayEnvironment(
   if (params.network) {
     const schema = loadSchema(
       params.network.projectName,
-      params.network.resolvers,
+      params.network.resolvers || {},
       { requireResolversForResolveType: false }
     );
     network = Network.create(

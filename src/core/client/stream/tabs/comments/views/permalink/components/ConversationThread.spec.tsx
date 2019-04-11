@@ -1,10 +1,11 @@
-import { merge, noop } from "lodash";
+import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
+import { pureMerge } from "talk-common/utils";
+import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "talk-framework/types";
 
-import { removeFragmentRefs } from "talk-framework/testHelpers";
 import ConversationThread from "./ConversationThread";
 
 const ConversationThreadN = removeFragmentRefs(ConversationThread);
@@ -12,8 +13,7 @@ const ConversationThreadN = removeFragmentRefs(ConversationThread);
 type Props = PropTypesOf<typeof ConversationThreadN>;
 
 function createDefaultProps(add: DeepPartial<Props> = {}): Props {
-  return merge(
-    {},
+  return pureMerge(
     {
       className: "root",
       viewer: {},

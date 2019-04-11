@@ -1,8 +1,17 @@
-import { get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
 import {
-  createSinonStub,
+  GQLCOMMENT_STATUS,
+  GQLResolver,
+  ModerationQueueToCommentsResolver,
+  MutationToAcceptCommentResolver,
+  MutationToRejectCommentResolver,
+  QueryToCommentResolver,
+} from "talk-framework/schema";
+import {
+  createMutationResolverStub,
+  createQueryResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   toJSON,
   waitForElement,
@@ -20,43 +29,37 @@ import {
   users,
 } from "../fixtures";
 
+const viewer = users.admins[0];
+
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/moderate");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      moderationQueues: sinon
-        .stub()
-        .returns(
-          merge(
-            {},
-            emptyModerationQueues,
-            get(resolver, "Query.moderationQueues")
-          )
-        ),
-      comments:
-        get(resolver, "Query.comments") ||
-        sinon.stub().returns(emptyRejectedComments),
-      viewer: sinon.stub().returns(users.admins[0]),
-    },
-  };
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+          moderationQueues: () => emptyModerationQueues,
+          comments: () => emptyRejectedComments,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   return testRenderer;
-};
+}
 
 describe("navigation bar", () => {
   it("renders navigation bar (empty queues)", async () => {
@@ -78,48 +81,16 @@ describe("reported queue", () => {
 
   it("renders reported queue with comments", async () => {
     const testRenderer = await createTestRenderer({
-      Query: {
-        moderationQueues: {
-          reported: {
-            count: 2,
-            comments: sinon.stub().callsFake(data => {
-              expectAndFail(data).toEqual({ first: 5 });
-              return {
-                edges: [
-                  {
-                    node: reportedComments[0],
-                    cursor: reportedComments[0].createdAt,
-                  },
-                  {
-                    node: reportedComments[1],
-                    cursor: reportedComments[1].createdAt,
-                  },
-                ],
-                pageInfo: {
-                  endCursor: reportedComments[1].createdAt,
-                  hasNextPage: false,
-                },
-              };
-            }),
-          },
-        },
-      },
-    });
-    const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
-  });
-
-  it("renders reported queue with comments and load more", async () => {
-    const testRenderer = await createTestRenderer({
-      Query: {
-        moderationQueues: {
-          reported: {
-            count: 2,
-            comments: createSinonStub(
-              s =>
-                s.onFirstCall().callsFake(data => {
-                  expectAndFail(data).toEqual({ first: 5 });
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () =>
+            pureMerge(emptyModerationQueues, {
+              reported: {
+                count: 2,
+                comments: createQueryResolverStub<
+                  ModerationQueueToCommentsResolver
+                >(({ variables }) => {
+                  expectAndFail(variables).toEqual({ first: 5 });
                   return {
                     edges: [
                       {
@@ -133,33 +104,74 @@ describe("reported queue", () => {
                     ],
                     pageInfo: {
                       endCursor: reportedComments[1].createdAt,
-                      hasNextPage: true,
-                    },
-                  };
-                }),
-              s =>
-                s.onSecondCall().callsFake(data => {
-                  expectAndFail(data).toEqual({
-                    first: 10,
-                    after: reportedComments[1].createdAt,
-                  });
-                  return {
-                    edges: [
-                      {
-                        node: reportedComments[2],
-                        cursor: reportedComments[2].createdAt,
-                      },
-                    ],
-                    pageInfo: {
-                      endCursor: reportedComments[2].createdAt,
                       hasNextPage: false,
                     },
                   };
-                })
-            ),
-          },
+                }) as any,
+              },
+            }),
         },
+      }),
+    });
+    const { getByTestID } = within(testRenderer.root);
+    await waitForElement(() => getByTestID("moderate-container"));
+    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+  });
+
+  it("renders reported queue with comments and load more", async () => {
+    const moderationQueuesStub = pureMerge(emptyModerationQueues, {
+      reported: {
+        count: 2,
+        comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
+          ({ variables, callCount }) => {
+            switch (callCount) {
+              case 0:
+                expectAndFail(variables).toEqual({ first: 5 });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[0],
+                      cursor: reportedComments[0].createdAt,
+                    },
+                    {
+                      node: reportedComments[1],
+                      cursor: reportedComments[1].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[1].createdAt,
+                    hasNextPage: true,
+                  },
+                };
+              default:
+                expectAndFail(variables).toEqual({
+                  first: 10,
+                  after: reportedComments[1].createdAt,
+                });
+                return {
+                  edges: [
+                    {
+                      node: reportedComments[2],
+                      cursor: reportedComments[2].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: reportedComments[2].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+            }
+          }
+        ) as any,
       },
+    });
+
+    const testRenderer = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () => moderationQueuesStub,
+        },
+      }),
     });
     const moderateContainer = await waitForElement(() =>
       within(testRenderer.root).getByTestID("moderate-container")
@@ -194,57 +206,62 @@ describe("reported queue", () => {
   });
 
   it("accepts comment in reported queue", async () => {
-    const acceptCommentStub = sinon.stub().callsFake((_, data) => {
-      expectAndFail(data).toMatchObject({
-        input: {
-          commentID: reportedComments[0].id,
-          commentRevisionID: reportedComments[0].revision.id,
-        },
+    const acceptCommentStub = createMutationResolverStub<
+      MutationToAcceptCommentResolver
+    >(({ variables }) => {
+      expectAndFail(variables).toMatchObject({
+        commentID: reportedComments[0].id,
+        commentRevisionID: reportedComments[0].revision.id,
       });
       return {
         comment: {
           id: reportedComments[0].id,
-          status: "ACCEPTED",
+          status: GQLCOMMENT_STATUS.ACCEPTED,
         },
-        moderationQueues: merge({}, emptyModerationQueues, {
+        moderationQueues: pureMerge(emptyModerationQueues, {
           reported: {
             count: 1,
           },
         }),
-        clientMutationId: data.input.clientMutationId,
       };
     });
 
-    const testRenderer = await createTestRenderer({
-      Query: {
-        moderationQueues: {
-          reported: {
-            count: 2,
-            comments: sinon.stub().callsFake(data => {
-              expectAndFail(data).toEqual({ first: 5 });
-              return {
-                edges: [
-                  {
-                    node: reportedComments[0],
-                    cursor: reportedComments[0].createdAt,
-                  },
-                  {
-                    node: reportedComments[1],
-                    cursor: reportedComments[1].createdAt,
-                  },
-                ],
-                pageInfo: {
-                  endCursor: reportedComments[1].createdAt,
-                  hasNextPage: false,
+    const moderationQueuesStub = pureMerge(emptyModerationQueues, {
+      reported: {
+        count: 2,
+        comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
+          ({ variables }) => {
+            expectAndFail(variables).toEqual({ first: 5 });
+            return {
+              edges: [
+                {
+                  node: reportedComments[0],
+                  cursor: reportedComments[0].createdAt,
                 },
-              };
-            }),
-          },
+                {
+                  node: reportedComments[1],
+                  cursor: reportedComments[1].createdAt,
+                },
+              ],
+              pageInfo: {
+                endCursor: reportedComments[1].createdAt,
+                hasNextPage: false,
+              },
+            };
+          }
+        ) as any,
+      },
+    });
+
+    const testRenderer = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () => moderationQueuesStub,
         },
-      },
-      Mutation: {
-        acceptComment: acceptCommentStub,
-      },
+        Mutation: {
+          acceptComment: acceptCommentStub,
+        },
+      }),
     });
 
     const testID = `moderate-comment-${reportedComments[0].id}`;
@@ -271,57 +288,61 @@ describe("reported queue", () => {
   });
 
   it("rejects comment in reported queue", async () => {
-    const rejectCommentStub = sinon.stub().callsFake((_, data) => {
-      expectAndFail(data).toMatchObject({
-        input: {
-          commentID: reportedComments[0].id,
-          commentRevisionID: reportedComments[0].revision.id,
-        },
+    const rejectCommentStub = createMutationResolverStub<
+      MutationToRejectCommentResolver
+    >(({ variables }) => {
+      expectAndFail(variables).toMatchObject({
+        commentID: reportedComments[0].id,
+        commentRevisionID: reportedComments[0].revision.id,
       });
       return {
         comment: {
           id: reportedComments[0].id,
-          status: "REJECTED",
+          status: GQLCOMMENT_STATUS.REJECTED,
         },
-        moderationQueues: merge({}, emptyModerationQueues, {
+        moderationQueues: pureMerge(emptyModerationQueues, {
           reported: {
             count: 1,
           },
         }),
-        clientMutationId: data.input.clientMutationId,
       };
     });
 
     const testRenderer = await createTestRenderer({
-      Query: {
-        moderationQueues: {
-          reported: {
-            count: 2,
-            comments: sinon.stub().callsFake(data => {
-              expectAndFail(data).toEqual({ first: 5 });
-              return {
-                edges: [
-                  {
-                    node: reportedComments[0],
-                    cursor: reportedComments[0].createdAt,
-                  },
-                  {
-                    node: reportedComments[1],
-                    cursor: reportedComments[1].createdAt,
-                  },
-                ],
-                pageInfo: {
-                  endCursor: reportedComments[1].createdAt,
-                  hasNextPage: false,
-                },
-              };
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () =>
+            pureMerge(emptyModerationQueues, {
+              reported: {
+                count: 2,
+                comments: createQueryResolverStub<
+                  ModerationQueueToCommentsResolver
+                >(({ variables }) => {
+                  expectAndFail(variables).toEqual({ first: 5 });
+                  return {
+                    edges: [
+                      {
+                        node: reportedComments[0],
+                        cursor: reportedComments[0].createdAt,
+                      },
+                      {
+                        node: reportedComments[1],
+                        cursor: reportedComments[1].createdAt,
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: reportedComments[1].createdAt,
+                      hasNextPage: false,
+                    },
+                  };
+                }) as any,
+              },
             }),
-          },
         },
-      },
-      Mutation: {
-        rejectComment: rejectCommentStub,
-      },
+        Mutation: {
+          rejectComment: rejectCommentStub,
+        },
+      }),
     });
 
     const testID = `moderate-comment-${reportedComments[0].id}`;
@@ -355,30 +376,32 @@ describe("rejected queue", () => {
 
   it("renders rejected queue with comments", async () => {
     const testRenderer = await createTestRenderer({
-      Query: {
-        comments: sinon.stub().callsFake((_, data) => {
-          expectAndFail(data).toEqual({
-            first: 5,
-            status: "REJECTED",
-          });
-          return {
-            edges: [
-              {
-                node: rejectedComments[0],
-                cursor: rejectedComments[0].createdAt,
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          comments: ({ variables }) => {
+            expectAndFail(variables).toEqual({
+              first: 5,
+              status: "REJECTED",
+            });
+            return {
+              edges: [
+                {
+                  node: rejectedComments[0],
+                  cursor: rejectedComments[0].createdAt,
+                },
+                {
+                  node: rejectedComments[1],
+                  cursor: rejectedComments[1].createdAt,
+                },
+              ],
+              pageInfo: {
+                endCursor: rejectedComments[1].createdAt,
+                hasNextPage: false,
               },
-              {
-                node: rejectedComments[1],
-                cursor: rejectedComments[1].createdAt,
-              },
-            ],
-            pageInfo: {
-              endCursor: rejectedComments[1].createdAt,
-              hasNextPage: false,
-            },
-          };
-        }),
-      },
+            };
+          },
+        },
+      }),
     });
     const { getByTestID } = within(testRenderer.root);
     await waitForElement(() => getByTestID("moderate-container"));
@@ -387,53 +410,53 @@ describe("rejected queue", () => {
 
   it("renders rejected queue with comments and load more", async () => {
     const testRenderer = await createTestRenderer({
-      Query: {
-        comments: createSinonStub(
-          s =>
-            s.onFirstCall().callsFake((_, data) => {
-              expectAndFail(data).toEqual({
-                first: 5,
-                status: "REJECTED",
-              });
-              return {
-                edges: [
-                  {
-                    node: rejectedComments[0],
-                    cursor: rejectedComments[0].createdAt,
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          comments: ({ variables, callCount }) => {
+            switch (callCount) {
+              case 0:
+                expectAndFail(variables).toEqual({
+                  first: 5,
+                  status: GQLCOMMENT_STATUS.REJECTED,
+                });
+                return {
+                  edges: [
+                    {
+                      node: rejectedComments[0],
+                      cursor: rejectedComments[0].createdAt,
+                    },
+                    {
+                      node: rejectedComments[1],
+                      cursor: rejectedComments[1].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: rejectedComments[1].createdAt,
+                    hasNextPage: true,
                   },
-                  {
-                    node: rejectedComments[1],
-                    cursor: rejectedComments[1].createdAt,
+                };
+              default:
+                expectAndFail(variables).toEqual({
+                  first: 10,
+                  after: rejectedComments[1].createdAt,
+                  status: GQLCOMMENT_STATUS.REJECTED,
+                });
+                return {
+                  edges: [
+                    {
+                      node: rejectedComments[2],
+                      cursor: rejectedComments[2].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: rejectedComments[2].createdAt,
+                    hasNextPage: false,
                   },
-                ],
-                pageInfo: {
-                  endCursor: rejectedComments[1].createdAt,
-                  hasNextPage: true,
-                },
-              };
-            }),
-          s =>
-            s.onSecondCall().callsFake((_, data) => {
-              expectAndFail(data).toEqual({
-                first: 10,
-                after: rejectedComments[1].createdAt,
-                status: "REJECTED",
-              });
-              return {
-                edges: [
-                  {
-                    node: rejectedComments[2],
-                    cursor: rejectedComments[2].createdAt,
-                  },
-                ],
-                pageInfo: {
-                  endCursor: rejectedComments[2].createdAt,
-                  hasNextPage: false,
-                },
-              };
-            })
-        ),
-      },
+                };
+            }
+          },
+        },
+      }),
     });
 
     const moderateContainer = await waitForElement(() =>
@@ -469,55 +492,56 @@ describe("rejected queue", () => {
   });
 
   it("accepts comment in rejected queue", async () => {
-    const acceptCommentStub = sinon.stub().callsFake((_, data) => {
-      expectAndFail(data).toMatchObject({
-        input: {
-          commentID: rejectedComments[0].id,
-          commentRevisionID: rejectedComments[0].revision.id,
-        },
+    const acceptCommentStub = createMutationResolverStub<
+      MutationToAcceptCommentResolver
+    >(({ variables }) => {
+      expectAndFail(variables).toMatchObject({
+        commentID: rejectedComments[0].id,
+        commentRevisionID: rejectedComments[0].revision.id,
       });
       return {
         comment: {
           id: rejectedComments[0].id,
-          status: "ACCEPTED",
+          status: GQLCOMMENT_STATUS.ACCEPTED,
         },
-        moderationQueues: merge({}, emptyModerationQueues, {
+        moderationQueues: pureMerge(emptyModerationQueues, {
           reported: {
             count: 1,
           },
         }),
-        clientMutationId: data.input.clientMutationId,
       };
     });
 
     const testRenderer = await createTestRenderer({
-      Query: {
-        comments: sinon.stub().callsFake((_, data) => {
-          expectAndFail(data).toEqual({
-            first: 5,
-            status: "REJECTED",
-          });
-          return {
-            edges: [
-              {
-                node: rejectedComments[0],
-                cursor: rejectedComments[0].createdAt,
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          comments: ({ variables }) => {
+            expectAndFail(variables).toEqual({
+              first: 5,
+              status: "REJECTED",
+            });
+            return {
+              edges: [
+                {
+                  node: rejectedComments[0],
+                  cursor: rejectedComments[0].createdAt,
+                },
+                {
+                  node: rejectedComments[1],
+                  cursor: rejectedComments[1].createdAt,
+                },
+              ],
+              pageInfo: {
+                endCursor: rejectedComments[1].createdAt,
+                hasNextPage: false,
               },
-              {
-                node: rejectedComments[1],
-                cursor: rejectedComments[1].createdAt,
-              },
-            ],
-            pageInfo: {
-              endCursor: rejectedComments[1].createdAt,
-              hasNextPage: false,
-            },
-          };
-        }),
-      },
-      Mutation: {
-        acceptComment: acceptCommentStub,
-      },
+            };
+          },
+        },
+        Mutation: {
+          acceptComment: acceptCommentStub,
+        },
+      }),
     });
 
     const testID = `moderate-comment-${rejectedComments[0].id}`;
@@ -546,10 +570,12 @@ describe("rejected queue", () => {
 
 describe("single comment view", () => {
   const comment = rejectedComments[0];
-  const commentStub = sinon.stub().callsFake((_, data) => {
-    expectAndFail(data).toEqual({ id: comment.id });
-    return reportedComments[0];
-  });
+  const commentStub = createQueryResolverStub<QueryToCommentResolver>(
+    ({ variables }) => {
+      expectAndFail(variables).toEqual({ id: comment.id });
+      return reportedComments[0];
+    }
+  );
 
   beforeEach(() => {
     replaceHistoryLocation(
@@ -559,8 +585,10 @@ describe("single comment view", () => {
 
   it("renders single comment view", async () => {
     const testRenderer = await createTestRenderer({
-      Query: {
-        comment: commentStub,
+      resolvers: {
+        Query: {
+          comment: commentStub,
+        },
       },
     });
     const { getByTestID } = within(testRenderer.root);
@@ -571,29 +599,30 @@ describe("single comment view", () => {
   });
 
   it("accepts single comment", async () => {
-    const acceptCommentStub = sinon.stub().callsFake((_, data) => {
-      expectAndFail(data).toMatchObject({
-        input: {
-          commentID: comment.id,
-          commentRevisionID: comment.revision.id,
-        },
+    const acceptCommentStub = createMutationResolverStub<
+      MutationToAcceptCommentResolver
+    >(({ variables }) => {
+      expectAndFail(variables).toMatchObject({
+        commentID: comment.id,
+        commentRevisionID: comment.revision.id,
       });
       return {
         comment: {
           id: comment.id,
-          status: "ACCEPTED",
+          status: GQLCOMMENT_STATUS.ACCEPTED,
         },
         moderationQueues: emptyModerationQueues,
-        clientMutationId: data.input.clientMutationId,
       };
     });
 
     const testRenderer = await createTestRenderer({
-      Query: {
-        comment: commentStub,
-      },
-      Mutation: {
-        acceptComment: acceptCommentStub,
+      resolvers: {
+        Query: {
+          comment: commentStub,
+        },
+        Mutation: {
+          acceptComment: acceptCommentStub,
+        },
       },
     });
 
@@ -609,29 +638,30 @@ describe("single comment view", () => {
   });
 
   it("rejects single comment", async () => {
-    const rejectCommentStub = sinon.stub().callsFake((_, data) => {
-      expectAndFail(data).toMatchObject({
-        input: {
-          commentID: comment.id,
-          commentRevisionID: comment.revision.id,
-        },
+    const rejectCommentStub = createMutationResolverStub<
+      MutationToRejectCommentResolver
+    >(({ variables }) => {
+      expectAndFail(variables).toMatchObject({
+        commentID: comment.id,
+        commentRevisionID: comment.revision.id,
       });
       return {
         comment: {
           id: comment.id,
-          status: "REJECTED",
+          status: GQLCOMMENT_STATUS.REJECTED,
         },
         moderationQueues: emptyModerationQueues,
-        clientMutationId: data.input.clientMutationId,
       };
     });
 
     const testRenderer = await createTestRenderer({
-      Query: {
-        comment: commentStub,
-      },
-      Mutation: {
-        rejectComment: rejectCommentStub,
+      resolvers: {
+        Query: {
+          comment: commentStub,
+        },
+        Mutation: {
+          rejectComment: rejectCommentStub,
+        },
       },
     });
 

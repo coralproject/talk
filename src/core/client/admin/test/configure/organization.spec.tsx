@@ -1,8 +1,8 @@
-import { cloneDeep, get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
-  createSinonStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -16,23 +16,27 @@ beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/organization");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      viewer: sinon.stub().returns(users.admins[0]),
-    },
-  };
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const configureContainer = await waitForElement(() =>
@@ -50,7 +54,7 @@ const createTestRenderer = async (resolver: any = {}) => {
     organizationContainer,
     saveChangesButton,
   };
-};
+}
 
 it("renders configure organization", async () => {
   const { configureContainer } = await createTestRenderer();
@@ -58,28 +62,23 @@ it("renders configure organization", async () => {
 });
 
 it("change organization name", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.organization.name).toEqual(
-        "Coral Test"
-      );
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.organization!.name).toEqual(
+          "Coral Test"
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     organizationContainer,
     saveChangesButton,
-  } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
-  });
+  } = await createTestRenderer({ resolvers });
 
   const organizationNameField = within(organizationContainer).getByLabelText(
     "Organization Name"
@@ -119,32 +118,27 @@ it("change organization name", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change organization contact email", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.organization.contactEmail).toEqual(
-        "test@coralproject.net"
-      );
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.organization!.contactEmail).toEqual(
+          "test@coralproject.net"
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     organizationContainer,
     saveChangesButton,
-  } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
-  });
+  } = await createTestRenderer({ resolvers });
 
   const organizationEmailField = within(organizationContainer).getByLabelText(
     "Organization Email"
@@ -184,5 +178,5 @@ it("change organization contact email", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });

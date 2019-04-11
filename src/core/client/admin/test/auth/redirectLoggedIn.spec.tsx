@@ -1,10 +1,17 @@
-import sinon from "sinon";
+import {
+  GQLResolver,
+  QueryToModerationQueuesResolver,
+} from "talk-framework/schema";
 import {
   createAccessToken,
+  createQueryResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
 } from "talk-framework/testHelpers";
 
+import { pureMerge } from "talk-common/utils";
 import create from "../create";
 import {
   emptyModerationQueues,
@@ -13,26 +20,41 @@ import {
   users,
 } from "../fixtures";
 
-const resolvers = {
-  Query: {
-    settings: sinon.stub().returns(settings),
-    moderationQueues: sinon.stub().returns(emptyModerationQueues),
-    comments: sinon.stub().returns(emptyRejectedComments),
-    viewer: sinon.stub().returns(users.admins[0]),
-  },
-};
+const viewer = users.admins[0];
 
-it("redirect when already logged in", async () => {
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   replaceHistoryLocation("http://localhost/admin/login");
-  create({
-    resolvers,
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    initLocalState: localRecord => {
+  const { testRenderer, context } = create({
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          moderationQueues: createQueryResolverStub<
+            QueryToModerationQueuesResolver
+          >(() => emptyModerationQueues),
+          comments: () => emptyRejectedComments,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAccessToken(), "accessToken");
+      localRecord.setValue("SIGN_IN", "authView");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
+  return { testRenderer, context };
+}
+
+it("redirect when already logged in", async () => {
+  await createTestRenderer();
   await wait(() =>
     expect(window.location.toString()).toBe(
       "http://localhost/admin/moderate/reported"
@@ -41,14 +63,8 @@ it("redirect when already logged in", async () => {
 });
 
 it("redirect to redirectPath when already logged in", async () => {
-  replaceHistoryLocation("http://localhost/admin/login");
-  create({
-    resolvers,
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
+  await createTestRenderer({
     initLocalState: localRecord => {
-      localRecord.setValue(true, "loggedIn");
-      localRecord.setValue(createAccessToken(), "accessToken");
       localRecord.setValue("/admin/moderate/pending", "redirectPath");
     },
   });

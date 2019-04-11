@@ -1,8 +1,9 @@
-import { get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
   createAccessToken,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   toJSON,
   wait,
@@ -14,29 +15,27 @@ import create from "../create";
 import { settings } from "../fixtures";
 
 async function createTestRenderer(
-  customResolver: any = {},
-  options: { muteNetworkErrors?: boolean; logNetwork?: boolean } = {}
+  params: CreateTestRendererParams<GQLResolver> = {}
 ) {
   replaceHistoryLocation("http://localhost/admin/login");
-  const resolvers = {
-    ...customResolver,
-    Query: {
-      ...customResolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(customResolver, "Query.settings"))),
-    },
-  };
 
   const { testRenderer, context } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: options.logNetwork,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("CREATE_USERNAME", "authView");
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAccessToken(), "accessToken");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const container = await waitForElement(() =>
@@ -75,17 +74,17 @@ it("checks for invalid username", async () => {
 
 it("shows server error", async () => {
   const username = "hans";
-  const setUsername = sinon.stub().callsFake((_: any, data: any) => {
-    throw new Error("server error");
-  });
-  const { form, usernameField } = await createTestRenderer(
-    {
-      Mutation: {
-        setUsername,
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      setUsername: () => {
+        throw new Error("server error");
       },
     },
-    { muteNetworkErrors: true }
-  );
+  });
+  const { form, usernameField } = await createTestRenderer({
+    resolvers,
+    muteNetworkErrors: true,
+  });
   const submitButton = form.find(
     i => i.type === "button" && i.props.type === "submit"
   );
@@ -103,23 +102,24 @@ it("shows server error", async () => {
 
 it("successfully sets username", async () => {
   const username = "hans";
-  const setUsername = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input).toEqual({
-      username,
-      clientMutationId: data.input.clientMutationId,
-    });
-    return {
-      user: {
-        id: "me",
-        username,
-      },
-      clientMutationId: data.input.clientMutationId,
-    };
-  });
-  const { form, usernameField } = await createTestRenderer({
+  const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
-      setUsername,
+      setUsername: ({ variables }) => {
+        expectAndFail(variables).toEqual({
+          username,
+        });
+        return {
+          user: {
+            id: "me",
+            username,
+          },
+        };
+      },
     },
+  });
+
+  const { form, usernameField } = await createTestRenderer({
+    resolvers,
   });
   const submitButton = form.find(
     i => i.type === "button" && i.props.type === "submit"
@@ -134,5 +134,5 @@ it("successfully sets username", async () => {
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
   expect(toJSON(form)).toMatchSnapshot();
-  expect(setUsername.called).toBe(true);
+  expect(resolvers.Mutation!.setUsername!.called).toBe(true);
 });

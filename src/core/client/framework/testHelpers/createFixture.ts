@@ -1,23 +1,45 @@
-import { merge } from "lodash";
+import { pureMerge } from "talk-common/utils";
+import { DeepPartial } from "talk-framework/types";
 
 /**
- * Fixture prepares schema type to be used in fixtures.
- * It adds an optional `__typename` to the schema type and
- * marks fields as optional.
+ * Callbackify turns Fields e.g. `{a: string}`
+ * to also allow a callback `{a: string | () => string}`
  */
-export type Fixture<T> = T extends object
+export type Callbackify<T> = T extends object
+  ?
+      | {
+          [P in keyof T]: T[P] extends Array<infer U>
+            ? Array<Callbackify<U>>
+            : T[P] extends ReadonlyArray<infer V>
+              ? ReadonlyArray<Callbackify<V>>
+              : Callbackify<T[P]>
+        }
+      | (() => {
+          [P in keyof T]: T[P] extends Array<infer U>
+            ? Array<Callbackify<U>>
+            : T[P] extends ReadonlyArray<infer V>
+              ? ReadonlyArray<Callbackify<V>>
+              : Callbackify<T[P]>
+        })
+  : T | (() => T);
+
+/**
+ * WithTypename adds `__typename` to allowed props deeply.
+ */
+export type WithTypename<T> = T extends object
   ? {
-      // (cvle): We don't use & { __typename?: string } because for some reason
-      // typescript would allow field names that are not defined!
-      [P in keyof T | "__typename"]?: P extends keyof T
-        ? T[P] extends Array<infer U>
-          ? Array<Fixture<U>>
-          : T[P] extends ReadonlyArray<infer V>
-            ? ReadonlyArray<Fixture<V>>
-            : Fixture<T[P]>
-        : string
-    }
+      [P in keyof T]: T[P] extends Array<infer U>
+        ? Array<WithTypename<U>>
+        : T[P] extends ReadonlyArray<infer V>
+          ? ReadonlyArray<WithTypename<V>>
+          : WithTypename<T[P]>
+    } & { __typename?: string }
   : T;
+
+/**
+ * Fixture adds typenames and is deeply partial.
+ */
+export type Fixture<T> = DeepPartial<WithTypename<T>>;
 
 /**
  * createFixture lets you input the data of a schema object as deep partial
@@ -26,9 +48,12 @@ export type Fixture<T> = T extends object
  * to only include fields that exists in `data` and `base` though to
  * type this it seems we need partial generic inferation support.
  */
-export default function createFixture<T>(data: Fixture<T>, base?: T): T {
+export default function createFixture<T>(
+  data: Fixture<T>,
+  base?: T
+): WithTypename<T> {
   if (base) {
-    return merge({}, base, data);
+    return pureMerge(base, data) as any;
   }
-  return data as T;
+  return data as any;
 }

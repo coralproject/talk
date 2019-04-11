@@ -1,8 +1,12 @@
-import { get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
 import {
-  createSinonStub,
+  GQLResolver,
+  UserToCommentModerationActionHistoryResolver,
+} from "talk-framework/schema";
+import {
+  createQueryResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   toJSON,
   waitForElement,
@@ -17,71 +21,73 @@ beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/configure/auth");
 });
 
-const commentModerationActionHistory = createSinonStub(
-  s => s.throws(),
-  s =>
-    s.withArgs({ first: 5 }).returns({
-      edges: [
-        {
-          node: moderationActions[0],
-          cursor: moderationActions[0].createdAt,
-        },
-        {
-          node: moderationActions[1],
-          cursor: moderationActions[1].createdAt,
-        },
-      ],
-      pageInfo: {
-        endCursor: moderationActions[1].createdAt,
-        hasNextPage: true,
-      },
-    }),
-  s =>
-    s
-      .withArgs({
-        first: 10,
-        after: moderationActions[1].createdAt,
-      })
-      .returns({
-        edges: [
-          {
-            node: moderationActions[2],
-            cursor: moderationActions[2].createdAt,
-          },
-        ],
-        pageInfo: {
-          endCursor: moderationActions[2].createdAt,
-          hasNextPage: false,
-        },
-      })
-);
+const viewer = users.admins[0];
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      viewer: sinon.stub().returns({
-        ...users.admins[0],
-        commentModerationActionHistory,
-      }),
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-    },
-  };
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () =>
+            pureMerge(viewer, {
+              commentModerationActionHistory: createQueryResolverStub<
+                UserToCommentModerationActionHistoryResolver
+              >(({ variables }) => {
+                if (variables.first === 5) {
+                  return {
+                    edges: [
+                      {
+                        node: moderationActions[0],
+                        cursor: moderationActions[0].createdAt,
+                      },
+                      {
+                        node: moderationActions[1],
+                        cursor: moderationActions[1].createdAt,
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: moderationActions[1].createdAt,
+                      hasNextPage: true,
+                    },
+                  };
+                }
+                expectAndFail(variables).toEqual({
+                  first: 10,
+                  after: moderationActions[1].createdAt,
+                });
+                return {
+                  edges: [
+                    {
+                      node: moderationActions[2],
+                      cursor: moderationActions[2].createdAt,
+                    },
+                  ],
+                  pageInfo: {
+                    endCursor: moderationActions[2].createdAt,
+                    hasNextPage: false,
+                  },
+                };
+              }),
+            }),
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const { getByTestID } = within(testRenderer.root);
   await waitForElement(() => getByTestID("decisionHistory-toggle"));
   return testRenderer;
-};
+}
 
 async function createTestRendererAndOpenPopover() {
   const testRenderer = await createTestRenderer();

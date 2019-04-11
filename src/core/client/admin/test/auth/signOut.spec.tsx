@@ -1,7 +1,11 @@
 import sinon from "sinon";
 
-import { LOCAL_ID } from "talk-framework/lib/relay";
+import { pureMerge } from "talk-common/utils";
+import { LOCAL_ID, lookup } from "talk-framework/lib/relay";
+import { GQLResolver } from "talk-framework/schema";
 import {
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -16,26 +20,39 @@ import {
   users,
 } from "../fixtures";
 
-const resolvers = {
-  Query: {
-    settings: sinon.stub().returns(settings),
-    moderationQueues: sinon.stub().returns(emptyModerationQueues),
-    comments: sinon.stub().returns(emptyRejectedComments),
-    viewer: sinon.stub().returns(users.admins[0]),
-  },
-};
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
+  replaceHistoryLocation("http://localhost/admin/moderate/reported");
+  const { testRenderer, context } = create({
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          moderationQueues: () => emptyModerationQueues,
+          comments: () => emptyRejectedComments,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
+      localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
+    },
+  });
+  return { testRenderer, context };
+}
 
 it("logs out", async () => {
   replaceHistoryLocation("http://localhost/admin/moderate");
 
-  const { testRenderer, context } = create({
-    resolvers,
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    initLocalState: localRecord => {
-      localRecord.setValue(true, "loggedIn");
-    },
-  });
+  const { testRenderer, context } = await createTestRenderer();
 
   const restMock = sinon.mock(context.rest);
   restMock
@@ -60,11 +77,6 @@ it("logs out", async () => {
   signOutButton.props.onClick();
 
   await wait(() => {
-    expect(
-      context.relayEnvironment
-        .getStore()
-        .getSource()
-        .get(LOCAL_ID)!.loggedIn
-    ).toBeFalsy();
+    expect(lookup(context.relayEnvironment, LOCAL_ID)!.loggedIn).toBeFalsy();
   });
 });

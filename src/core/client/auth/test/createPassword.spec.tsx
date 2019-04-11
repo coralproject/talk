@@ -1,6 +1,7 @@
-import { get, merge } from "lodash";
+import { get } from "lodash";
 import sinon from "sinon";
 
+import { pureMerge } from "talk-common/utils";
 import {
   toJSON,
   wait,
@@ -24,7 +25,7 @@ async function createTestRenderer(
       ...customResolver.Query,
       settings: sinon
         .stub()
-        .returns(merge({}, settings, get(customResolver, "Query.settings"))),
+        .returns(pureMerge(settings, get(customResolver, "Query.settings"))),
     },
   };
 

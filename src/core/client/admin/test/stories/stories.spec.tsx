@@ -1,9 +1,10 @@
-import { get, merge } from "lodash";
 import TestRenderer from "react-test-renderer";
-import sinon from "sinon";
 
+import { pureMerge } from "talk-common/utils";
 import {
-  createSinonStub,
+  createMutationResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
   findParentWithType,
   replaceHistoryLocation,
   waitForElement,
@@ -11,7 +12,12 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { GQLSTORY_STATUS } from "talk-framework/schema";
+import {
+  GQLResolver,
+  GQLSTORY_STATUS,
+  MutationToCloseStoryResolver,
+  MutationToOpenStoryResolver,
+} from "talk-framework/schema";
 import create from "../create";
 import {
   emptyStories,
@@ -21,38 +27,43 @@ import {
   users,
 } from "../fixtures";
 
+const viewer = users.admins[0];
+
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/stories");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      stories: sinon.stub().callsFake((_, data) => {
-        expectAndFail(data.status).toBeFalsy();
-        return storyConnection;
-      }),
-      viewer: sinon.stub().returns(users.admins[0]),
-      ...resolver.Query,
-    },
-  };
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+          stories: ({ variables }) => {
+            expectAndFail(variables.status).toBeFalsy();
+            return storyConnection;
+          },
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
+
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("stories-container")
   );
   return { testRenderer, container };
-};
+}
 
 it("renders stories", async () => {
   const { container } = await createTestRenderer();
@@ -61,25 +72,30 @@ it("renders stories", async () => {
 
 it("renders empty stories", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: sinon.stub().returns(emptyStories),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: () => emptyStories,
+      },
+    }),
   });
   expect(within(container).toJSON()).toMatchSnapshot();
 });
 
 it("filter by status", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      stories: createSinonStub(
-        s => s.onFirstCall().returns(storyConnection),
-        s =>
-          s.onSecondCall().callsFake((_, data) => {
-            expectAndFail(data.status).toBe(GQLSTORY_STATUS.CLOSED);
-            return emptyStories;
-          })
-      ),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        stories: ({ variables, callCount }) => {
+          switch (callCount) {
+            case 0:
+              return storyConnection;
+            default:
+              expectAndFail(variables.status).toBe(GQLSTORY_STATUS.CLOSED);
+              return emptyStories;
+          }
+        },
+      },
+    }),
   });
 
   const selectField = within(container).getByLabelText("Search by status");
@@ -100,38 +116,42 @@ it("filter by status", async () => {
 
 it("change story status", async () => {
   const story = stories[1];
-  const openStory = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input).toMatchObject({
-      id: story.id,
-    });
-    const storyRecord = merge({}, story, {
-      status: GQLSTORY_STATUS.OPEN,
-      createdAt: false,
-      isClosed: false,
-    });
-    return {
-      story: storyRecord,
-      clientMutationId: data.input.clientMutationId,
-    };
-  });
+  const openStory = createMutationResolverStub<MutationToOpenStoryResolver>(
+    ({ variables }) => {
+      expectAndFail(variables).toMatchObject({
+        id: story.id,
+      });
+      const storyRecord = pureMerge(story, {
+        status: GQLSTORY_STATUS.OPEN,
+        createdAt: false,
+        isClosed: false,
+      });
+      return {
+        story: storyRecord,
+      };
+    }
+  );
 
-  const closeStory = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input).toMatchObject({
-      id: story.id,
-    });
-    const storyRecord = merge({}, story, {
-      status: GQLSTORY_STATUS.CLOSED,
-      createdAt: "2018-11-29T16:01:51.897Z",
-      isClosed: true,
-    });
-    return {
-      story: storyRecord,
-      clientMutationId: data.input.clientMutationId,
-    };
-  });
+  const closeStory = createMutationResolverStub<MutationToCloseStoryResolver>(
+    ({ variables }) => {
+      expectAndFail(variables).toMatchObject({
+        id: story.id,
+      });
+      const storyRecord = pureMerge(story, {
+        status: GQLSTORY_STATUS.CLOSED,
+        createdAt: "2018-11-29T16:01:51.897Z",
+        isClosed: true,
+      });
+      return {
+        story: storyRecord,
+      };
+    }
+  );
 
   const { container } = await createTestRenderer({
-    Mutation: { openStory, closeStory },
+    resolvers: {
+      Mutation: { openStory, closeStory },
+    },
   });
 
   const storyRow = within(container).getByText(story.metadata!.title!, {
@@ -174,23 +194,33 @@ it("change story status", async () => {
 
 it("load more", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      stories: createSinonStub(
-        s =>
-          s.onFirstCall().returns({
-            edges: [
-              { node: stories[0], cursor: stories[0].createdAt },
-              { node: stories[1], cursor: stories[1].createdAt },
-            ],
-            pageInfo: { endCursor: stories[1].createdAt, hasNextPage: true },
-          }),
-        s =>
-          s.onSecondCall().returns({
-            edges: [{ node: stories[2], cursor: stories[2].createdAt }],
-            pageInfo: { endCursor: stories[2].createdAt, hasNextPage: false },
-          })
-      ),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        stories: ({ callCount }) => {
+          switch (callCount) {
+            case 0:
+              return {
+                edges: [
+                  { node: stories[0], cursor: stories[0].createdAt },
+                  { node: stories[1], cursor: stories[1].createdAt },
+                ],
+                pageInfo: {
+                  endCursor: stories[1].createdAt,
+                  hasNextPage: true,
+                },
+              };
+            default:
+              return {
+                edges: [{ node: stories[2], cursor: stories[2].createdAt }],
+                pageInfo: {
+                  endCursor: stories[2].createdAt,
+                  hasNextPage: false,
+                },
+              };
+          }
+        },
+      },
+    }),
   });
   const loadMore = within(container).getByText("Load More");
   TestRenderer.act(() => {
@@ -206,16 +236,19 @@ it("load more", async () => {
 
 it("filter by search", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      stories: createSinonStub(
-        s => s.onFirstCall().returns(storyConnection),
-        s =>
-          s.onSecondCall().callsFake((_, data) => {
-            expectAndFail(data.query).toBe("search");
-            return emptyStories;
-          })
-      ),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        stories: ({ variables, callCount }) => {
+          switch (callCount) {
+            case 0:
+              return storyConnection;
+            default:
+              expectAndFail(variables.query).toBe("search");
+              return emptyStories;
+          }
+        },
+      },
+    }),
   });
 
   const searchField = within(container).getByLabelText(

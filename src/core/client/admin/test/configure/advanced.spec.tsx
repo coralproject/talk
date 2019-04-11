@@ -1,8 +1,8 @@
-import { cloneDeep, get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
-  createSinonStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -16,25 +16,30 @@ beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/advanced");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      viewer: sinon.stub().returns(users.admins[0]),
-    },
-  };
-  const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
+  const { testRenderer, context } = create({
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
+
   const configureContainer = await waitForElement(() =>
     within(testRenderer.root).getByTestID("configure-container")
   );
@@ -45,12 +50,13 @@ const createTestRenderer = async (resolver: any = {}) => {
     "configure-sideBar-saveChanges"
   );
   return {
+    context,
     testRenderer,
     configureContainer,
     advancedContainer,
     saveChangesButton,
   };
-};
+}
 
 it("renders configure advanced", async () => {
   const { configureContainer } = await createTestRenderer();
@@ -58,25 +64,22 @@ it("renders configure advanced", async () => {
 });
 
 it("change custom css", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.customCSSURL).toEqual("./custom.css");
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.customCSSURL).toEqual("./custom.css");
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     advancedContainer,
     saveChangesButton,
   } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
+    resolvers,
   });
 
   const customCSSField = within(advancedContainer).getByLabelText("Custom CSS");
@@ -99,29 +102,26 @@ it("change custom css", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change permitted domains to be empty", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.domains).toEqual([]);
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.domains).toEqual([]);
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     advancedContainer,
     saveChangesButton,
   } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
+    resolvers,
   });
 
   const permittedDomainsField = within(advancedContainer).getByLabelText(
@@ -146,32 +146,29 @@ it("change permitted domains to be empty", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change permitted domains to include more domains", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.domains).toEqual([
-        "localhost:8080",
-        "localhost:3000",
-      ]);
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.domains).toEqual([
+          "localhost:8080",
+          "localhost:3000",
+        ]);
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     advancedContainer,
     saveChangesButton,
   } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
+    resolvers,
   });
 
   const permittedDomainsField = within(advancedContainer).getByLabelText(
@@ -196,5 +193,5 @@ it("change permitted domains to include more domains", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });

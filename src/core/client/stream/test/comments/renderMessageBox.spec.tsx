@@ -1,6 +1,6 @@
-import { merge } from "lodash";
 import sinon from "sinon";
 
+import { pureMerge } from "talk-common/utils";
 import { waitForElement, within } from "talk-framework/testHelpers";
 
 import { commenters, settings, storyWithNoComments } from "../fixtures";
@@ -16,11 +16,11 @@ async function createTestRenderer(
 ) {
   const resolvers = {
     Query: {
-      settings: sinon.stub().returns(merge({}, settings, data.settings)),
+      settings: sinon.stub().returns(pureMerge(settings, data.settings)),
       viewer: sinon.stub().returns((data.loggedIn && commenters[0]) || null),
       story: sinon.stub().callsFake((_: any, variables: any) => {
         expectAndFail(variables.id).toBe(storyWithNoComments.id);
-        return merge({}, storyWithNoComments, data.story);
+        return pureMerge(storyWithNoComments, data.story);
       }),
     },
   };

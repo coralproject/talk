@@ -1,8 +1,9 @@
-import { get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
   createAccessToken,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   toJSON,
   wait,
@@ -13,33 +14,37 @@ import {
 import create from "../create";
 import { settings, users } from "../fixtures";
 
+const viewer = users.admins[0];
+
 async function createTestRenderer(
-  customResolver: any = {},
-  options: { muteNetworkErrors?: boolean; logNetwork?: boolean } = {}
+  params: CreateTestRendererParams<GQLResolver> = {}
 ) {
   replaceHistoryLocation("http://localhost/admin/login");
-  const resolvers = {
-    ...customResolver,
-    Query: {
-      ...customResolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(customResolver, "Query.settings"))),
-      viewer: sinon.stub().returns({ ...users.admins[0], email: "" }),
-    },
-  };
 
   const { testRenderer, context } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: options.logNetwork,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              email: "",
+            }),
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("ADD_EMAIL_ADDRESS", "authView");
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAccessToken(), "accessToken");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
+
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("completeAccountBox")
   );
@@ -94,21 +99,22 @@ it("accepts valid email", async () => {
 
 it("shows server error", async () => {
   const email = "hans@test.com";
-  const setEmail = sinon.stub().callsFake((_: any, data: any) => {
-    throw new Error("server error");
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      setEmail: () => {
+        throw new Error("server error");
+      },
+    },
   });
+
   const {
     form,
     emailAddressField,
     confirmEmailAddressField,
-  } = await createTestRenderer(
-    {
-      Mutation: {
-        setEmail,
-      },
-    },
-    { muteNetworkErrors: true }
-  );
+  } = await createTestRenderer({
+    resolvers,
+    muteNetworkErrors: true,
+  });
   const submitButton = form.find(
     i => i.type === "button" && i.props.type === "submit"
   );
@@ -130,27 +136,28 @@ it("shows server error", async () => {
 
 it("successfully sets email", async () => {
   const email = "hans@test.com";
-  const setEmail = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input).toEqual({
-      email,
-      clientMutationId: data.input.clientMutationId,
-    });
-    return {
-      user: {
-        id: "me",
-        email,
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      setEmail: ({ variables }) => {
+        expectAndFail(variables).toEqual({
+          email,
+        });
+        return {
+          user: {
+            id: "me",
+            email,
+          },
+        };
       },
-      clientMutationId: data.input.clientMutationId,
-    };
+    },
   });
+
   const {
     form,
     emailAddressField,
     confirmEmailAddressField,
   } = await createTestRenderer({
-    Mutation: {
-      setEmail,
-    },
+    resolvers,
   });
   const submitButton = form.find(
     i => i.type === "button" && i.props.type === "submit"
@@ -169,5 +176,5 @@ it("successfully sets email", async () => {
   await wait(() => expect(submitButton.props.disabled).toBe(false));
 
   expect(toJSON(form)).toMatchSnapshot();
-  expect(setEmail.called).toBe(true);
+  expect(resolvers.Mutation!.setEmail!.called).toBe(true);
 });

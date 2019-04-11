@@ -1,16 +1,16 @@
-import { merge } from "lodash";
 import TestRenderer from "react-test-renderer";
 
+import { pureMerge } from "talk-common/utils";
 import {
+  GQLResolver,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
-  QueryToSettingsResolver,
   QueryToUsersResolver,
-  QueryToViewerResolver,
 } from "talk-framework/schema";
 import {
-  createMutationResolverStub,
   createQueryResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
   findParentWithType,
   replaceHistoryLocation,
   waitForElement,
@@ -18,11 +18,6 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import {
-  BanUserMutation,
-  RemoveUserBanMutation,
-  UpdateUserRoleMutation,
-} from "talk-admin/mutations";
 import create from "../create";
 import {
   communityUsers,
@@ -35,29 +30,29 @@ beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/community");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      settings: createQueryResolverStub<QueryToSettingsResolver>(
-        () => settings
-      ),
-      users: createQueryResolverStub<QueryToUsersResolver>(variables => {
-        expectAndFail(variables.role).toBeFalsy();
-        return communityUsers;
-      }),
-      viewer: createQueryResolverStub<QueryToViewerResolver>(
-        () => users.admins[0]
-      ),
-      ...resolver.Query,
-    },
-  };
+const createTestRenderer = async (
+  params: CreateTestRendererParams<GQLResolver> = {}
+) => {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          users: ({ variables }) => {
+            expectAndFail(variables.role).toBeFalsy();
+            return communityUsers;
+          },
+          viewer: () => users.admins[0],
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const container = await waitForElement(() =>
@@ -73,10 +68,12 @@ it("renders community", async () => {
 
 it("renders empty community", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createQueryResolverStub<QueryToUsersResolver>(
-        () => emptyCommunityUsers
-      ),
+    resolvers: {
+      Query: {
+        users: createQueryResolverStub<QueryToUsersResolver>(
+          () => emptyCommunityUsers
+        ),
+      },
     },
   });
   expect(within(container).toJSON()).toMatchSnapshot();
@@ -84,9 +81,9 @@ it("renders empty community", async () => {
 
 it("filter by role", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createQueryResolverStub<QueryToUsersResolver>(
-        (variables, callCount) => {
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ variables, callCount }) => {
           switch (callCount) {
             case 0:
               return communityUsers;
@@ -94,9 +91,9 @@ it("filter by role", async () => {
               expectAndFail(variables.role).toBe(GQLUSER_ROLE.COMMENTER);
               return emptyCommunityUsers;
           }
-        }
-      ),
-    },
+        },
+      },
+    }),
   });
 
   const selectField = within(container).getByLabelText("Search by role");
@@ -127,21 +124,24 @@ it("can't change viewer role", async () => {
 
 it("change user role", async () => {
   const user = users.commenters[0];
-  const updateUserRole = createMutationResolverStub<
-    typeof UpdateUserRoleMutation
-  >(variables => {
-    expectAndFail(variables).toMatchObject({
-      userID: user.id,
-      role: GQLUSER_ROLE.STAFF,
-    });
-    const userRecord = merge({}, user, { role: variables.role });
-    return {
-      user: userRecord,
-    };
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          role: GQLUSER_ROLE.STAFF,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          role: variables.role,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
   });
-
   const { container } = await createTestRenderer({
-    Mutation: { updateUserRole },
+    resolvers,
   });
 
   const userRow = within(container).getByText(user.username!, {
@@ -165,29 +165,34 @@ it("change user role", async () => {
   });
 
   within(userRow).getByText("Staff");
-  expect(updateUserRole.called).toBe(true);
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
 it("can't change role as a moderator", async () => {
   const viewer = users.moderators[0];
   const { container } = await createTestRenderer({
-    Query: {
-      viewer: createQueryResolverStub<QueryToViewerResolver>(() => viewer),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () => viewer,
+      },
+    }),
   });
   expect(() => within(container).getByLabelText("Change role")).toThrow();
 });
 
 it("load more", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createQueryResolverStub<QueryToUsersResolver>(
-        (variables, callCount) => {
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ callCount }) => {
           switch (callCount) {
             case 0:
               return {
                 edges: [
-                  { node: users.admins[0], cursor: users.admins[0].createdAt },
+                  {
+                    node: users.admins[0],
+                    cursor: users.admins[0].createdAt,
+                  },
                   {
                     node: users.commenters[0],
                     cursor: users.commenters[0].createdAt,
@@ -212,9 +217,9 @@ it("load more", async () => {
                 },
               };
           }
-        }
-      ),
-    },
+        },
+      },
+    }),
   });
   const loadMore = within(container).getByText("Load More");
   TestRenderer.act(() => {
@@ -230,9 +235,9 @@ it("load more", async () => {
 
 it("filter by search", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createQueryResolverStub<QueryToUsersResolver>(
-        (variables, callCount) => {
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ variables, callCount }) => {
           switch (callCount) {
             case 0:
               return communityUsers;
@@ -240,9 +245,9 @@ it("filter by search", async () => {
               expectAndFail(variables.query).toBe("search");
               return emptyCommunityUsers;
           }
-        }
-      ),
-    },
+        },
+      },
+    }),
   });
 
   const searchField = within(container).getByLabelText("Search by username", {
@@ -264,9 +269,9 @@ it("filter by search", async () => {
 
 it("filter by status", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createQueryResolverStub<QueryToUsersResolver>(
-        (variables, callCount) => {
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ variables, callCount }) => {
           switch (callCount) {
             case 0:
               return communityUsers;
@@ -274,9 +279,9 @@ it("filter by status", async () => {
               expectAndFail(variables.status).toBe("BANNED");
               return emptyCommunityUsers;
           }
-        }
-      ),
-    },
+        },
+      },
+    }),
   });
 
   const statusField = within(container).getByLabelText(
@@ -314,25 +319,28 @@ it("can't change staff, moderator and admin status", async () => {
 
 it("ban user", async () => {
   const user = users.commenters[0];
-  const banUser = createMutationResolverStub<typeof BanUserMutation>(
-    variables => {
-      expectAndFail(variables).toMatchObject({
-        userID: user.id,
-      });
-      const userRecord = merge({}, user, {
-        status: {
-          current: user.status.current.concat(GQLUSER_STATUS.BANNED),
-          banned: { active: true },
-        },
-      });
-      return {
-        user: userRecord,
-      };
-    }
-  );
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      banUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.BANNED),
+            ban: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
 
   const { container, testRenderer } = await createTestRenderer({
-    Mutation: { banUser },
+    resolvers,
   });
 
   const userRow = within(container).getByText(user.username!, {
@@ -368,32 +376,32 @@ it("ban user", async () => {
     .getByText("Ban User")
     .props.onClick();
   within(userRow).getByText("Banned");
-  expect(banUser.called).toBe(true);
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });
 
 it("remove user ban", async () => {
   const user = users.bannedCommenter;
-  const removeUserBan = createMutationResolverStub<
-    typeof RemoveUserBanMutation
-  >(variables => {
-    expectAndFail(variables).toMatchObject({
-      userID: user.id,
-    });
-    const userRecord = merge({}, user, {
-      status: {
-        current: user.status.current.filter(s => s !== GQLUSER_STATUS.BANNED),
-        banned: { active: false },
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      removeUserBan: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.filter(
+              s => s !== GQLUSER_STATUS.BANNED
+            ),
+            ban: { active: false },
+          },
+        });
+        return {
+          user: userRecord,
+        };
       },
-    });
-    return {
-      user: userRecord,
-    };
-  });
-
-  const { container } = await createTestRenderer({
-    Mutation: { removeUserBan },
+    },
     Query: {
-      users: createQueryResolverStub<QueryToUsersResolver>(() => ({
+      users: () => ({
         edges: [
           {
             node: user,
@@ -401,8 +409,12 @@ it("remove user ban", async () => {
           },
         ],
         pageInfo: { endCursor: null, hasNextPage: false },
-      })),
+      }),
     },
+  });
+
+  const { container } = await createTestRenderer({
+    resolvers,
   });
 
   const userRow = within(container).getByText(user.username!, {
@@ -426,5 +438,5 @@ it("remove user ban", async () => {
   });
 
   within(userRow).getByText("Active");
-  expect(removeUserBan.called).toBe(true);
+  expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
 });

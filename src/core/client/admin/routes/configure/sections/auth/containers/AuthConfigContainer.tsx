@@ -1,11 +1,12 @@
 import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import { RouteProps } from "found";
-import { get, merge } from "lodash";
+import { get } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
 import { AuthConfigContainer_auth as AuthData } from "talk-admin/__generated__/AuthConfigContainer_auth.graphql";
+import { pureMerge } from "talk-common/utils";
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
 import {
   AddSubmitHook,
@@ -80,7 +81,7 @@ class AuthConfigContainer extends React.Component<Props> {
   };
 
   private handleOnInitValues = (values: any) => {
-    this.initialValues = merge({}, this.initialValues, values);
+    this.initialValues = pureMerge(this.initialValues, values);
   };
 
   public render() {

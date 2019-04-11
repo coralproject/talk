@@ -1,8 +1,8 @@
-import { cloneDeep, get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
-  createSinonStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -16,23 +16,27 @@ beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/moderation");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      viewer: sinon.stub().returns(users.admins[0]),
-    },
-  };
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const configureContainer = await waitForElement(() =>
@@ -50,7 +54,7 @@ const createTestRenderer = async (resolver: any = {}) => {
     moderationContainer,
     saveChangesButton,
   };
-};
+}
 
 it("renders configure moderation", async () => {
   const { configureContainer } = await createTestRenderer();
@@ -58,30 +62,25 @@ it("renders configure moderation", async () => {
 });
 
 it("change akismet settings", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.integrations.akismet).toEqual({
-        enabled: true,
-        key: "my api key",
-        site: "https://coralproject.net",
-      });
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.integrations!.akismet).toEqual({
+          enabled: true,
+          key: "my api key",
+          site: "https://coralproject.net",
+        });
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     moderationContainer,
     saveChangesButton,
-  } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
-  });
+  } = await createTestRenderer({ resolvers });
 
   const akismetContainer = within(moderationContainer).getByText(
     "Akismet Spam Detection Filter",
@@ -137,48 +136,41 @@ it("change akismet settings", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change perspective settings", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(
-    s =>
-      s.onFirstCall().callsFake((_: any, data: any) => {
-        expectAndFail(data.input.settings.integrations.perspective).toEqual({
-          doNotStore: false,
-          enabled: true,
-          endpoint: "https://custom-endpoint.net",
-          key: "my api key",
-          threshold: 0.1,
-        });
-        settingsRecord = merge(settingsRecord, data.input.settings);
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables, callCount }) => {
+        switch (callCount) {
+          case 0:
+            expectAndFail(variables.settings.integrations!.perspective).toEqual(
+              {
+                doNotStore: false,
+                enabled: true,
+                endpoint: "https://custom-endpoint.net",
+                key: "my api key",
+                threshold: 0.1,
+              }
+            );
+            break;
+          default:
+            expectAndFail(
+              variables.settings.integrations!.perspective!.threshold
+            ).toBeNull();
+        }
         return {
-          settings: settingsRecord,
-          clientMutationId: data.input.clientMutationId,
+          settings: pureMerge(settings, variables.settings),
         };
-      }),
-    s =>
-      s.onSecondCall().callsFake((_: any, data: any) => {
-        expectAndFail(
-          data.input.settings.integrations.perspective.threshold
-        ).toBeNull();
-        settingsRecord = merge(settingsRecord, data.input.settings);
-        return {
-          settings: settingsRecord,
-          clientMutationId: data.input.clientMutationId,
-        };
-      })
-  );
+      },
+    },
+  });
   const {
     configureContainer,
     moderationContainer,
     saveChangesButton,
-  } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
-  });
+  } = await createTestRenderer({ resolvers });
 
   const perspectiveContainer = within(moderationContainer).getByText(
     "Perspective Toxic Comment Filter",
@@ -258,7 +250,7 @@ it("change perspective settings", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.calledOnce).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.calledOnce).toBe(true);
 
   // Use default threshold.
   thresholdField.props.onChange("");
@@ -278,5 +270,5 @@ it("change perspective settings", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.calledTwice).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.calledTwice).toBe(true);
 });

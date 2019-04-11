@@ -1,4 +1,4 @@
-import createFixture, { Fixture } from "./createFixture";
+import createFixture, { Fixture, WithTypename } from "./createFixture";
 
 /**
  * createFixtures lets you input an array of data of a schema object as deep partial
@@ -10,6 +10,6 @@ import createFixture, { Fixture } from "./createFixture";
 export default function createFixtures<T>(
   data: Array<Fixture<T>>,
   base?: T
-): T[] {
-  return data.map(d => createFixture(d, base)) as T[];
+): Array<WithTypename<T>> {
+  return data.map(d => createFixture(d, base)) as any;
 }

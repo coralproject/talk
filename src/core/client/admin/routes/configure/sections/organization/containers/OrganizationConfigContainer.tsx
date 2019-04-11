@@ -1,10 +1,10 @@
 import { FormApi } from "final-form";
 import { RouteProps } from "found";
-import { merge } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
 import { OrganizationConfigContainer_settings as SettingsData } from "talk-admin/__generated__/OrganizationConfigContainer_settings.graphql";
+import { pureMerge } from "talk-common/utils";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 
 import OrganizationConfig from "../components/OrganizationConfig";
@@ -28,7 +28,7 @@ class OrganizationConfigContainer extends React.Component<Props> {
   }
 
   private handleOnInitValues = (values: any) => {
-    this.initialValues = merge({}, this.initialValues, values);
+    this.initialValues = pureMerge(this.initialValues, values);
   };
 
   public render() {

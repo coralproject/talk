@@ -11,7 +11,6 @@ export {
 export { default as createUUIDGenerator } from "./createUUIDGenerator";
 export * from "./denormalize";
 export { default as limitSnapshotTo } from "./limitSnapshotTo";
-export { default as inputPredicate } from "./inputPredicate";
 export { default as within } from "./within";
 export { default as wait } from "./wait";
 export { default as waitForElement } from "./waitForElement";
@@ -22,9 +21,18 @@ export { default as replaceHistoryLocation } from "./replaceHistoryLocation";
 export { default as createAccessToken } from "./createAccessToken";
 export { default as findParentsWithType } from "./findParentsWithType";
 export { default as findParentWithType } from "./findParentWithType";
-export { default as createFixture } from "./createFixture";
+export {
+  default as createFixture,
+  Fixture,
+  WithTypename,
+} from "./createFixture";
 export { default as createFixtures } from "./createFixtures";
 export {
   default as createMutationResolverStub,
 } from "./createMutationResolverStub";
 export { default as createQueryResolverStub } from "./createQueryResolverStub";
+export {
+  default as createTestRenderer,
+  CreateTestRendererParams,
+} from "./createTestRenderer";
+export { default as createResolversStub } from "./createResolversStub";
