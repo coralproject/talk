@@ -94,12 +94,11 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                       fullWidth
                     />
                   </Localized>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage fullWidth>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </FormField>
               )}
             </Field>
@@ -131,12 +130,11 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                       fullWidth
                     />
                   </Localized>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage fullWidth>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </FormField>
               )}
             </Field>
@@ -178,12 +176,11 @@ const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
                       fullWidth
                     />
                   </Localized>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage fullWidth>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </FormField>
               )}
             </Field>

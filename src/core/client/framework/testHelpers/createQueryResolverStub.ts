@@ -9,13 +9,11 @@ export type QueryResultVariations<
   T extends Resolver<any, any>
 > = T extends Resolver<any, infer R> ? QueryResult<R> : never;
 
-export type QueryResolverCallback<T extends Resolver<any, any>> = (
-  data: {
-    variables: T extends Resolver<infer V, any> ? V : never;
-    callCount: number;
-    typecheck: (data: QueryResultVariations<T>) => QueryResultVariations<T>;
-  }
-) => QueryResultVariations<T>;
+export type QueryResolverCallback<T extends Resolver<any, any>> = (data: {
+  variables: T extends Resolver<infer V, any> ? V : never;
+  callCount: number;
+  typecheck: (data: QueryResultVariations<T>) => QueryResultVariations<T>;
+}) => QueryResultVariations<T>;
 
 /**
  * createQueryResolverStub makes it easier to write a SinonStub.

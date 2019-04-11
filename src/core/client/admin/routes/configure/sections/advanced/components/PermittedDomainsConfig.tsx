@@ -49,12 +49,11 @@ const PermittedDomainsConfig: StatelessComponent<Props> = ({ disabled }) => (
               spellCheck={false}
               fullWidth
             />
-            {meta.touched &&
-              (meta.error || meta.submitError) && (
-                <ValidationMessage fullWidth>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+            {meta.touched && (meta.error || meta.submitError) && (
+              <ValidationMessage fullWidth>
+                {meta.error || meta.submitError}
+              </ValidationMessage>
+            )}
           </>
         )}
       </Field>

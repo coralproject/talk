@@ -22,42 +22,30 @@ const UserStatusChangeContainer: StatelessComponent<Props> = props => {
   const banUser = useMutation(BanUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
   const [showBanned, setShowBanned] = useState<boolean>(false);
-  const handleBan = useCallback(
-    () => {
-      if (props.user.status.ban.active) {
-        return;
-      }
-      setShowBanned(true);
-    },
-    [props.user, setShowBanned]
-  );
-  const handleRemoveBan = useCallback(
-    () => {
-      if (!props.user.status.ban.active) {
-        return;
-      }
-      removeUserBan({ userID: props.user.id });
-    },
-    [props.user, removeUserBan]
-  );
-  const handleSuspend = useCallback(
-    () => {
-      if (props.user.status.suspension.active) {
-        return;
-      }
-      // TODO: (cvle)
-    },
-    [props.user]
-  );
-  const handleRemoveSuspension = useCallback(
-    () => {
-      if (!props.user.status.suspension.active) {
-        return;
-      }
-      // TODO: (cvle)
-    },
-    [props.user]
-  );
+  const handleBan = useCallback(() => {
+    if (props.user.status.ban.active) {
+      return;
+    }
+    setShowBanned(true);
+  }, [props.user, setShowBanned]);
+  const handleRemoveBan = useCallback(() => {
+    if (!props.user.status.ban.active) {
+      return;
+    }
+    removeUserBan({ userID: props.user.id });
+  }, [props.user, removeUserBan]);
+  const handleSuspend = useCallback(() => {
+    if (props.user.status.suspension.active) {
+      return;
+    }
+    // TODO: (cvle)
+  }, [props.user]);
+  const handleRemoveSuspension = useCallback(() => {
+    if (!props.user.status.suspension.active) {
+      return;
+    }
+    // TODO: (cvle)
+  }, [props.user]);
 
   if (props.user.role !== GQLUSER_ROLE.COMMENTER) {
     return (

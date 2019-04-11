@@ -62,10 +62,9 @@ const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
           <HorizontalGutter>
             <div>
               <TopBarLeft>
-                {props.author &&
-                  props.author.username && (
-                    <Username>{props.author.username}</Username>
-                  )}
+                {props.author && props.author.username && (
+                  <Username>{props.author.username}</Username>
+                )}
                 <Timestamp>{props.createdAt}</Timestamp>
               </TopBarLeft>
             </div>

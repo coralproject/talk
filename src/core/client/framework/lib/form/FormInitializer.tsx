@@ -5,11 +5,7 @@ import React from "react";
 interface Props {
   form: FormApi;
   rootKey?: string;
-  children: (
-    params: {
-      onInitValues: (data: any) => void;
-    }
-  ) => React.ReactNode;
+  children: (params: { onInitValues: (data: any) => void }) => React.ReactNode;
 }
 
 /**

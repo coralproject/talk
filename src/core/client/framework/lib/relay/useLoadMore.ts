@@ -10,21 +10,18 @@ export default function useLoadMore(
   count: number
 ): [() => void, boolean] {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const loadMore = useCallback(
-    () => {
-      if (!relay.hasMore() || relay.isLoading()) {
-        return;
+  const loadMore = useCallback(() => {
+    if (!relay.hasMore() || relay.isLoading()) {
+      return;
+    }
+    setIsLoadingMore(true);
+    relay.loadMore(count, error => {
+      setIsLoadingMore(false);
+      if (error) {
+        // tslint:disable-next-line:no-console
+        console.error(error);
       }
-      setIsLoadingMore(true);
-      relay.loadMore(count, error => {
-        setIsLoadingMore(false);
-        if (error) {
-          // tslint:disable-next-line:no-console
-          console.error(error);
-        }
-      });
-    },
-    [relay]
-  );
+    });
+  }, [relay]);
   return [loadMore, isLoadingMore];
 }

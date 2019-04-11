@@ -14,7 +14,7 @@ class PymStorage implements PromisifiedStorage {
   /** A Map of requestID => {resolve, reject} */
   private requests: Record<
     string,
-    { resolve: ((v: any) => void); reject: ((v: any) => void) }
+    { resolve: (v: any) => void; reject: (v: any) => void }
   > = {};
 
   /** Requests method with parameters over pym. */

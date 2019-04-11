@@ -53,7 +53,8 @@ const GoogleConfig: StatelessComponent<Props> = ({ disabled, callbackURL }) => (
         >
           <Typography>
             To enable the integration with Google Authentication you need to
-            create and set up a web application. For more information visit:<br />
+            create and set up a web application. For more information visit:
+            <br />
             {
               "https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred"
             }

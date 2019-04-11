@@ -114,8 +114,8 @@ function valueToState(
       // Start from the first unit,
       // keep first unit if value is set to 0,
       // otherwise use better matching unit if the value is fully dividable by the unit.
-      unit = units.reduce(
-        (x, cur) => (parsed % cur === 0 && parsed !== 0 ? cur : x)
+      unit = units.reduce((x, cur) =>
+        parsed % cur === 0 && parsed !== 0 ? cur : x
       );
     }
     // Compute new value relative to the selected unit.

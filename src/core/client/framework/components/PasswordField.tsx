@@ -6,9 +6,9 @@ import { PasswordField as PasswordFieldUI } from "talk-ui/components";
 
 export interface Props
   extends Omit<
-      PropTypesOf<typeof PasswordFieldUI>,
-      "showPasswordTitle" | "hidePasswordTitle"
-    > {}
+    PropTypesOf<typeof PasswordFieldUI>,
+    "showPasswordTitle" | "hidePasswordTitle"
+  > {}
 
 const PasswordField: StatelessComponent<Props> = props => (
   <Localized

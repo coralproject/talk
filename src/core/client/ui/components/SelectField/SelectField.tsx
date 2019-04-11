@@ -24,8 +24,8 @@ export interface SelectFieldProps {
   classes: typeof styles;
 
   /*
-  * If set renders a full width button
-  */
+   * If set renders a full width button
+   */
   fullWidth?: boolean;
 
   id?: string;

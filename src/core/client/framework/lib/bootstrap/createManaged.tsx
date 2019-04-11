@@ -26,10 +26,10 @@ import { PostMessageService } from "../postMessage";
 import SendPymReady from "./SendPymReady";
 import { TalkContext, TalkContextProvider } from "./TalkContext";
 
-export type InitLocalState = ((
+export type InitLocalState = (
   environment: Environment,
   context: TalkContext
-) => void | Promise<void>);
+) => void | Promise<void>;
 
 interface CreateContextArguments {
   /** Locales that the user accepts, usually `navigator.languages`. */
@@ -104,7 +104,7 @@ function createRelayEnvironment() {
   return { environment, tokenGetter };
 }
 
-function createRestAPI(tokenGetter: (() => string)) {
+function createRestAPI(tokenGetter: () => string) {
   return new RestClient("/api", tokenGetter);
 }
 

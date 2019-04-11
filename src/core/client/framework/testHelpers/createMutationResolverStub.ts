@@ -14,17 +14,15 @@ export type MutationResultVariations<T> = T extends Resolver<any, infer R>
   ? MutationResult<R>
   : never;
 
-export type MutationResolverCallback<T extends Resolver<any, any>> = (
-  data: {
-    variables: T extends Resolver<infer V, any>
-      ? V extends { input: infer W } ? NoClientMutationID<W> : never
-      : never;
-    callCount: number;
-    typecheck: (
-      data: MutationResultVariations<T>
-    ) => MutationResultVariations<T>;
-  }
-) => MutationResultVariations<T>;
+export type MutationResolverCallback<T extends Resolver<any, any>> = (data: {
+  variables: T extends Resolver<infer V, any>
+    ? V extends { input: infer W }
+      ? NoClientMutationID<W>
+      : never
+    : never;
+  callCount: number;
+  typecheck: (data: MutationResultVariations<T>) => MutationResultVariations<T>;
+}) => MutationResultVariations<T>;
 
 /**
  * createMutationResolverStub makes it easier to write a SinonStub.

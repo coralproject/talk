@@ -7,11 +7,9 @@ import { AddSubmitHook, SubmitHook, SubmitHookContextProvider } from "./";
 
 interface Props {
   onExecute: (data: any, form: FormApi) => Promise<void>;
-  children: (
-    params: {
-      onSubmit: (settings: any, form: FormApi) => void;
-    }
-  ) => React.ReactNode;
+  children: (params: {
+    onSubmit: (settings: any, form: FormApi) => void;
+  }) => React.ReactNode;
 }
 
 /**

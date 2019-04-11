@@ -3,7 +3,7 @@ export interface BundledLocales {
 }
 
 export interface LoadableLocales {
-  [locale: string]: (() => Promise<string>);
+  [locale: string]: () => Promise<string>;
 }
 
 /**

@@ -82,12 +82,11 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
                           disabled={submitting}
                         />
                       </Localized>
-                      {meta.touched &&
-                        (meta.error || meta.submitError) && (
-                          <ValidationMessage>
-                            {meta.error || meta.submitError}
-                          </ValidationMessage>
-                        )}
+                      {meta.touched && (meta.error || meta.submitError) && (
+                        <ValidationMessage>
+                          {meta.error || meta.submitError}
+                        </ValidationMessage>
+                      )}
                     </FormField>
                   )}
                 </Field>

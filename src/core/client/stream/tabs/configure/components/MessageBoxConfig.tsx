@@ -130,12 +130,11 @@ const MessageBoxConfig: StatelessComponent<Props> = ({ disabled }) => (
                             value={contentInput.value}
                           />
                         </Suspense>
-                        {meta.touched &&
-                          (meta.error || meta.submitError) && (
-                            <ValidationMessage>
-                              {meta.error || meta.submitError}
-                            </ValidationMessage>
-                          )}
+                        {meta.touched && (meta.error || meta.submitError) && (
+                          <ValidationMessage>
+                            {meta.error || meta.submitError}
+                          </ValidationMessage>
+                        )}
                       </HorizontalGutter>
                     </>
                   )}

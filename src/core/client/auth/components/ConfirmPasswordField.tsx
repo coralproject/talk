@@ -49,12 +49,11 @@ const SetPasswordField: StatelessComponent<Props> = props => (
             fullWidth
           />
         </Localized>
-        {meta.touched &&
-          (meta.error || meta.submitError) && (
-            <ValidationMessage>
-              {meta.error || meta.submitError}
-            </ValidationMessage>
-          )}
+        {meta.touched && (meta.error || meta.submitError) && (
+          <ValidationMessage>
+            {meta.error || meta.submitError}
+          </ValidationMessage>
+        )}
       </FormField>
     )}
   </Field>

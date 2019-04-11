@@ -24,8 +24,8 @@ export interface CallOutProps {
    */
   color?: "regular" | "primary" | "error";
   /*
-  * If set renders a full width CallOut
-  */
+   * If set renders a full width CallOut
+   */
   fullWidth?: boolean;
 }
 
