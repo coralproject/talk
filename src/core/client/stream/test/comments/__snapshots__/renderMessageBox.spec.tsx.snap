@@ -45,7 +45,15 @@ exports[`renders message box when commenting disabled 1`] = `
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth PostCommentFormClosedSitewide-root"
       >
-        Commenting disabled
+        <div
+          className="Markdown-root PostCommentFormClosedSitewide-message"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Commenting disabled</p>
+",
+            }
+          }
+        />
       </div>
       <div
         className="MessageBox-root"
@@ -497,7 +505,15 @@ exports[`renders message box when story isClosed 1`] = `
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
       >
-        Story is closed
+        <div
+          className="Markdown-root"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Story is closed</p>
+",
+            }
+          }
+        />
       </div>
     </div>
     <div

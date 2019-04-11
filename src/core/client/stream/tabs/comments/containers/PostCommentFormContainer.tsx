@@ -155,20 +155,18 @@ export class PostCommentFormContainer extends Component<Props, State> {
         return (
           <PostCommentFormClosedSitewide
             story={this.props.story}
+            message={this.props.settings.disableCommenting.message}
             showMessageBox={this.props.story.settings.messageBox.enabled}
-          >
-            {this.props.settings.disableCommenting.message}
-          </PostCommentFormClosedSitewide>
+          />
         );
       }
       if (this.props.story.isClosed) {
         return (
           <PostCommentFormClosed
             story={this.props.story}
+            message={this.props.settings.closeCommenting.message}
             showMessageBox={this.props.story.settings.messageBox.enabled}
-          >
-            {this.props.settings.closeCommenting.message}
-          </PostCommentFormClosed>
+          />
         );
       }
     }
