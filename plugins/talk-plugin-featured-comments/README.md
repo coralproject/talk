@@ -14,7 +14,7 @@ Enables the ability for Moderators to feature and un-feature comments via the
 Stream and the Admin. Featured comments show in a first-place tab on the Stream
 if there are any featured comments on that story.
 
-When paired with the [talk-plugin-moderator-actions](/talk/plugin/talk-plugin-moderator-actions)
+When paired with the [talk-plugin-moderation-actions](/talk/plugin/talk-plugin-moderation-actions)
 plugin, moderators will have the option of featuring comments from the comment
 stream.
 

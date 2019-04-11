@@ -1,6 +1,5 @@
 {
   "server": [
-    "talk-plugin-auth",
     "talk-plugin-local-auth",
     "talk-plugin-featured-comments",
     "talk-plugin-respect",
@@ -25,7 +24,6 @@
     "talk-plugin-permalink",
     "talk-plugin-respect",
     "talk-plugin-rich-text",
-    "talk-plugin-like",
     "talk-plugin-viewing-options",
     "talk-plugin-sort-most-replied",
     "talk-plugin-sort-most-respected",

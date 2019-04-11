@@ -1,9 +1,9 @@
 ---
-title: talk-plugin-notifications-category-moderator-actions
-permalink: /plugin/talk-plugin-notifications-category-moderator-actions//
+title: talk-plugin-notifications-category-moderation-actions
+permalink: /plugin/talk-plugin-notifications-category-moderation-actions/
 layout: plugin
 plugin:
-    name: talk-plugin-notifications-moderator-actions
+    name: talk-plugin-notifications-moderation-actions
     depends:
         - name: talk-plugin-notifications
     provides:
