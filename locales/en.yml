@@ -219,7 +219,7 @@ en:
       subject: 'Your account has been banned'
     confirm:
       confirm_email: 'Confirm Email'
-      has_been_requested: 'A email confirmation has been requested for the following account:'
+      has_been_requested: 'An email confirmation has been requested for the following account:'
       if_you_did_not: 'If you did not request this, you can safely ignore this email.'
       subject: 'Email Confirmation'
       to_confirm: 'To confirm the account, please visit the following link:'
