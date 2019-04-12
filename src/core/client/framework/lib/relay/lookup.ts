@@ -6,7 +6,7 @@ import { Environment, RelayInMemoryRecordSource } from "relay-runtime";
  */
 type RecordSourceProxy<T> = T extends object
   ? {
-      readonly [P in keyof T]?: T[P] extends Array<infer U>
+      readonly [P in keyof T]: T[P] extends Array<infer U>
         ? ReadonlyArray<RecordSourceProxy<U>>
         : T[P] extends ReadonlyArray<infer V>
         ? ReadonlyArray<RecordSourceProxy<V>>
