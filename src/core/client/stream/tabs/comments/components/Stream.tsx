@@ -4,7 +4,7 @@ import { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
-import { Button, HorizontalGutter, Spinner } from "talk-ui/components";
+import { Button, Flex, HorizontalGutter, Spinner } from "talk-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import CommunityGuidelinesContainer from "../containers/CommunityGuidelinesContainer";
@@ -52,7 +52,11 @@ const Stream: StatelessComponent<StreamProps> = props => {
       {props.comments.length > 0 && (
         <SortMenu orderBy={props.orderBy} onChange={props.onChangeOrderBy} />
       )}
-      {props.refetching && <Spinner />}
+      {props.refetching && (
+        <Flex justifyContent="center">
+          <Spinner />
+        </Flex>
+      )}
       {!props.refetching && (
         <HorizontalGutter
           id="talk-comments-stream-log"
