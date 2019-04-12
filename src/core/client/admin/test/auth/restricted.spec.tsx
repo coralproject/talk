@@ -59,21 +59,6 @@ it("show restricted screen for commenters and staff", async () => {
   }
 });
 
-it("show restricted screen when email is not set", async () => {
-  const { testRenderer } = createTestRenderer({ email: "" });
-  await waitForElement(() => within(testRenderer.root).getByTestID("authBox"));
-});
-
-it("show restricted screen when username is not set", async () => {
-  const { testRenderer } = createTestRenderer({ username: "" });
-  await waitForElement(() => within(testRenderer.root).getByTestID("authBox"));
-});
-
-it("show restricted screen local was not set (password)", async () => {
-  const { testRenderer } = createTestRenderer({ profiles: [] });
-  await waitForElement(() => within(testRenderer.root).getByTestID("authBox"));
-});
-
 it("sign out when clicking on sign in as", async () => {
   const { context, testRenderer } = createTestRenderer({
     role: GQLUSER_ROLE.COMMENTER,
