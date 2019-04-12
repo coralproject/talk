@@ -88,10 +88,10 @@ export class CommentContainer extends Component<Props, State> {
     );
   }
 
-  private openReplyDialog = () => {
+  private toggleReplyDialog = () => {
     if (this.props.viewer) {
       this.setState(state => ({
-        showReplyDialog: true,
+        showReplyDialog: !state.showReplyDialog,
       }));
     } else {
       this.props.showAuthPopup({ view: "SIGN_IN" });
@@ -206,7 +206,7 @@ export class CommentContainer extends Component<Props, State> {
                         id={`comments-commentContainer-replyButton-${
                           comment.id
                         }`}
-                        onClick={this.openReplyDialog}
+                        onClick={this.toggleReplyDialog}
                         active={showReplyDialog}
                         disabled={
                           settings.disableCommenting.enabled || story.isClosed
