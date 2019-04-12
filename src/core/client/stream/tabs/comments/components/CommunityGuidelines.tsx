@@ -9,7 +9,7 @@ interface Props {
 
 const CommunityGuidelines: StatelessComponent<Props> = props => {
   return (
-    <CallOut color="primary">
+    <CallOut color="primary" fullWidth>
       <Markdown>{props.children}</Markdown>
     </CallOut>
   );
