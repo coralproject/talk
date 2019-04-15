@@ -3,7 +3,11 @@ import React, { StatelessComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "talk-framework/components/loadables";
-import { parseBool } from "talk-framework/lib/form";
+import {
+  formatEmpty,
+  parseBool,
+  parseEmptyAsNull,
+} from "talk-framework/lib/form";
 import {
   MessageBox,
   MessageBoxContent,
@@ -54,7 +58,11 @@ const MessageBoxConfig: StatelessComponent<Props> = ({ disabled }) => (
             </WidthLimitedDescription>
           </Localized>
           {input.checked && (
-            <Field name="messageBox.icon">
+            <Field
+              name="messageBox.icon"
+              parse={parseEmptyAsNull}
+              format={formatEmpty}
+            >
               {({ input: iconInput }) => (
                 <Field name="messageBox.content">
                   {({ input: contentInput, meta }) => (

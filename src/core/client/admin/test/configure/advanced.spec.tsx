@@ -105,6 +105,43 @@ it("change custom css", async () => {
   expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
+it("remove custom css", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () =>
+        pureMerge<typeof settings>(settings, {
+          customCSSURL: "./custom.css",
+        }),
+    },
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.customCSSURL).toBeNull();
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const { configureContainer, advancedContainer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const customCSSField = within(advancedContainer).getByLabelText("Custom CSS");
+
+  // Let's change the customCSS field.
+  customCSSField.props.onChange("");
+
+  // Send form
+  within(configureContainer)
+    .getByType("form")
+    .props.onSubmit();
+
+  // Wait for submission to be finished
+  await wait(() => {
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+  });
+});
+
 it("change permitted domains to be empty", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
