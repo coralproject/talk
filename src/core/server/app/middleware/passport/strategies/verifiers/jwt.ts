@@ -8,6 +8,8 @@ import { Tenant } from "talk-server/models/tenant";
 import { retrieveUser } from "talk-server/models/user";
 import { checkJWTRevoked, JWTSigningConfig } from "talk-server/services/jwt";
 
+import { Verifier } from "../jwt";
+
 export interface JWTToken {
   /**
    * jti is the Token identifier. With normal login tokens, this is a randomly
@@ -72,7 +74,7 @@ export interface JWTVerifierOptions {
   redis: Redis;
 }
 
-export class JWTVerifier {
+export class JWTVerifier implements Verifier<JWTToken> {
   private signingConfig: JWTSigningConfig;
   private mongo: Db;
   private redis: Redis;

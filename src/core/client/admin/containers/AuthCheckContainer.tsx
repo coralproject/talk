@@ -52,10 +52,7 @@ class AuthCheckContainer extends React.Component<Props> {
   }
 
   private hasAccess(props: Props = this.props) {
-    const {
-      viewer,
-      settings: { auth },
-    } = props.data!;
+    const { viewer } = props.data!;
     if (viewer) {
       if (
         viewer.role === GQLUSER_ROLE.COMMENTER ||
@@ -64,15 +61,6 @@ class AuthCheckContainer extends React.Component<Props> {
           props.data.route.data &&
           // Perform permission check on the ability passed in by the route data
           !can(viewer, props.data.route.data))
-      ) {
-        return false;
-      } else if (
-        !viewer.email ||
-        !viewer.username ||
-        (!viewer.profiles.some(p => p.__typename === "LocalProfile") &&
-          auth.integrations.local.enabled &&
-          (auth.integrations.local.targetFilter.admin ||
-            auth.integrations.local.targetFilter.stream))
       ) {
         return false;
       }

@@ -10,14 +10,14 @@ import { TenantInstalledAlreadyError } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
 import { install, InstallTenant } from "talk-server/services/tenant";
-import { upsert, UpsertUser } from "talk-server/services/users";
+import { insert, InsertUser } from "talk-server/services/users";
 import { RequestHandler } from "talk-server/types/express";
 
 export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain" | "locale"> & {
     locale: LanguageCode | null;
   };
-  user: Required<Pick<UpsertUser, "username" | "email"> & { password: string }>;
+  user: Required<Pick<InsertUser, "username" | "email"> & { password: string }>;
 }
 
 const TenantInstallBodySchema = Joi.object().keys({
@@ -113,7 +113,7 @@ export const installHandler = ({
     };
 
     // Create the first admin user.
-    await upsert(mongo, tenant, {
+    await insert(mongo, tenant, {
       email,
       username,
       profiles: [profile],
