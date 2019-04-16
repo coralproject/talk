@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-notifications/
 layout: plugin
 plugin:
     name: talk-plugin-notifications
+    default: true
     provides:
         - Server
         - Client

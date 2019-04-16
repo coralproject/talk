@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-rich-text/
 layout: plugin
 plugin:
     name: talk-plugin-rich-text
+    default: true
     provides:
         - Client
         - Server
