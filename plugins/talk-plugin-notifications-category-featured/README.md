@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-notifications-category-featured/
 layout: plugin
 plugin:
     name: talk-plugin-notifications-category-featured
+    default: true
     depends:
         - name: talk-plugin-notifications
         - name: talk-plugin-featured-comments
