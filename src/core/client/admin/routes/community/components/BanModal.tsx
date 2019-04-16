@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import NotAvailable from "talk-admin/components/NotAvailable";
@@ -32,28 +33,39 @@ const BanModal: StatelessComponent<Props> = ({
         <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
         <HorizontalGutter size="double">
           <HorizontalGutter>
-            <Typography variant="header2" id="banModal-title">
-              Are you sure you want to ban{" "}
-              <strong>{username || <NotAvailable />}</strong>
-              ?
-            </Typography>
-            <Typography>
-              Once banned, this user will no longer be able to comment, use
-              reactions, or report comments.
-            </Typography>
+            <Localized
+              id="community-banModal-areYouSure"
+              strong={<strong />}
+              username={username || <NotAvailable />}
+            >
+              <Typography variant="header2" id="banModal-title">
+                Are you sure you want to ban{" "}
+                <strong>{username || <NotAvailable />}</strong>?
+              </Typography>
+            </Localized>
+            <Localized id="community-banModal-consequence">
+              <Typography>
+                Once banned, this user will no longer be able to comment, use
+                reactions, or report comments.
+              </Typography>
+            </Localized>
           </HorizontalGutter>
           <Flex justifyContent="flex-end" itemGutter="half">
-            <Button variant="outlined" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button
-              variant="filled"
-              color="primary"
-              onClick={onConfirm}
-              ref={lastFocusableRef}
-            >
-              Ban User
-            </Button>
+            <Localized id="community-banModal-cancel">
+              <Button variant="outlined" onClick={onClose}>
+                Cancel
+              </Button>
+            </Localized>
+            <Localized id="community-banModal-banUser">
+              <Button
+                variant="filled"
+                color="primary"
+                onClick={onConfirm}
+                ref={lastFocusableRef}
+              >
+                Ban User
+              </Button>
+            </Localized>
           </Flex>
         </HorizontalGutter>
       </Card>

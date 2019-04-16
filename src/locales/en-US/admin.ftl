@@ -419,6 +419,12 @@ community-userStatus-unknown = Unknown
 community-userStatus-changeButton =
   .aria-label = Change user status
 
+community-banModal-areYouSure = Are you sure you want to ban <strong>{ $username }</strong>?
+community-banModal-consequence =
+  Once banned, this user will no longer be able to comment, use
+  reactions, or report comments.
+community-banModal-cancel = Cancel
+community-banModal-banUser = Ban User
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.

@@ -1,5 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ban user 1`] = `
+<div
+  aria-labelledby="banModal-title"
+  className="Modal-root"
+  onKeyDown={[Function]}
+  role="modal"
+>
+  <div
+    className="Backdrop-root Backdrop-active"
+    data-testid="backdrop"
+    onClick={[Function]}
+  />
+  <div
+    onFocus={[Function]}
+    tabIndex={0}
+  />
+  <div
+    tabIndex={-1}
+  />
+  <div
+    className="Card-root BanModal-card"
+  >
+    <button
+      className="BaseButton-root CloseButton-root"
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root Icon-md CloseButton-icon"
+      >
+        close
+      </span>
+    </button>
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <div
+        className="HorizontalGutter-root HorizontalGutter-full"
+      >
+        <h1
+          className="Typography-root Typography-header2 Typography-colorTextPrimary"
+          id="banModal-title"
+        >
+          Are you sure you want to ban 
+          <strong>
+            $username
+          </strong>
+          ?
+        </h1>
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        >
+          Once banned, this user will no longer be able to comment, use
+reactions, or report comments.
+        </p>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Ban User
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    onFocus={[Function]}
+    tabIndex={0}
+  />
+</div>
+`;
+
 exports[`renders community 1`] = `
 <div
   className="MainLayout-root Community-root"

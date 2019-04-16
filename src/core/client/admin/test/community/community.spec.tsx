@@ -362,6 +362,8 @@ it("ban user", async () => {
     }
   );
 
+  expect(within(modal).toJSON()).toMatchSnapshot();
+
   within(modal)
     .getByText("Ban User")
     .props.onClick();
