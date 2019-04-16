@@ -51,7 +51,7 @@ exports[`ban user 1`] = `
         >
           Are you sure you want to ban 
           <strong>
-            $username
+            Isabelle
           </strong>
           ?
         </h1>
