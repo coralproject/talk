@@ -2081,9 +2081,10 @@ type Query {
 
   """
   moderationQueues returns the set of ModerationQueues that are available for
-  all stories.
+  all stories or if given the story identified by the `storyID`.
   """
-  moderationQueues: ModerationQueues! @auth(roles: [ADMIN, MODERATOR])
+  moderationQueues(storyID: ID): ModerationQueues!
+    @auth(roles: [ADMIN, MODERATOR])
 }
 
 ################################################################################

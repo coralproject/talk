@@ -1,6 +1,6 @@
 import { GQLQueryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
-import { sharedModerationInputResolver } from "./ModerationQueues";
+import { moderationQueuesResolver } from "./ModerationQueues";
 
 export const Query: Required<GQLQueryTypeResolver<void>> = {
   story: (source, args, ctx) => ctx.loaders.Stories.findOrCreate.load(args),
@@ -16,5 +16,5 @@ export const Query: Required<GQLQueryTypeResolver<void>> = {
     ctx.loaders.Auth.discoverOIDCConfiguration.load(issuer),
   debugScrapeStoryMetadata: (source, { url }, ctx) =>
     ctx.loaders.Stories.debugScrapeMetadata.load(url),
-  moderationQueues: sharedModerationInputResolver,
+  moderationQueues: moderationQueuesResolver,
 };

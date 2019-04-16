@@ -1,6 +1,7 @@
 import {
   AcceptCommentPayloadToModerationQueuesResolver,
   GQLModerationQueuesTypeResolver,
+  QueryToModerationQueuesResolver,
   RejectCommentPayloadToModerationQueuesResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
 import { CommentConnectionInput } from "talk-server/models/comment";
@@ -78,14 +79,16 @@ export const sharedModerationInputResolver = async (
 });
 
 /**
- * moderationQueuesPayloadResolver implements the resolver that can be used for
- * moderation actions payloads.
+ * moderationQueuesResolver implements the resolver that resolves to the
+ * shared moderation queues or if `storyID` is provided to the story moderation
+ * queues.
  *
  * @param source the source of the payload, not used
  * @param args the args of the payload containing potentially a Story ID
  * @param ctx the TenantContext for which we can use to retrieve the shared data
  */
-export const moderationQueuesPayloadResolver:
+export const moderationQueuesResolver:
+  | QueryToModerationQueuesResolver
   | AcceptCommentPayloadToModerationQueuesResolver
   | RejectCommentPayloadToModerationQueuesResolver = async (
   source,
