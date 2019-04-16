@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-notifications-category-moderation-actions/
 layout: plugin
 plugin:
     name: talk-plugin-notifications-moderation-actions
+    default: true
     depends:
         - name: talk-plugin-notifications
     provides:
