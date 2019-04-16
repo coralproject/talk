@@ -36,7 +36,7 @@ const BanModal: StatelessComponent<Props> = ({
             <Localized
               id="community-banModal-areYouSure"
               strong={<strong />}
-              username={username || <NotAvailable />}
+              $username={username || <NotAvailable />}
             >
               <Typography variant="header2" id="banModal-title">
                 Are you sure you want to ban{" "}
