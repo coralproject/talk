@@ -2,6 +2,7 @@ import express from "express";
 
 import { AppOptions } from "talk-server/app";
 import {
+  forgotHandler,
   logoutHandler,
   signupHandler,
 } from "talk-server/app/handlers/api/auth/local";
@@ -42,6 +43,7 @@ export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
     wrapAuthn(options.passport, app.signingConfig, "local")
   );
   router.post("/local/signup", express.json(), signupHandler(app));
+  router.post("/local/forgot", express.json(), forgotHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
   wrapPath(app, options, router, "facebook");

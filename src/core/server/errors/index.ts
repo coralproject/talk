@@ -224,11 +224,31 @@ export class CommentBodyExceedsMaxLengthError extends TalkError {
   }
 }
 
+export class URLInvalidError extends TalkError {
+  constructor({
+    url,
+    ...properties
+  }: {
+    url: string;
+    tenantDomains: string[];
+    tenantDomain?: string;
+  }) {
+    super({
+      code: ERROR_CODES.URL_NOT_PERMITTED,
+      context: { pvt: properties, pub: { url } },
+    });
+  }
+}
+
 export class StoryURLInvalidError extends TalkError {
-  constructor(properties: { storyURL: string; tenantDomains: string[] }) {
+  constructor(properties: {
+    storyURL: string;
+    tenantDomains: string[];
+    tenantDomain?: string;
+  }) {
     super({
       code: ERROR_CODES.STORY_URL_NOT_PERMITTED,
-      context: { pub: properties },
+      context: { pvt: properties },
     });
   }
 }
@@ -390,6 +410,15 @@ export class TenantNotFoundError extends TalkError {
     super({
       code: ERROR_CODES.TENANT_NOT_FOUND,
       context: { pub: { hostname } },
+    });
+  }
+}
+
+export class IntegrationDisabled extends TalkError {
+  constructor(integrationName: string) {
+    super({
+      code: ERROR_CODES.INTEGRATION_DISABLED,
+      context: { pvt: { integrationName } },
     });
   }
 }

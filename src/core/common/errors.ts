@@ -10,7 +10,8 @@ export enum ERROR_CODES {
   STORY_CLOSED = "STORY_CLOSED",
 
   /**
-   * COMMENTING_DISABLED is used when submitting a comment while commenting has been disabled.
+   * COMMENTING_DISABLED is used when submitting a comment while commenting has
+   * been disabled.
    */
   COMMENTING_DISABLED = "COMMENTING_DISABLED",
 
@@ -20,7 +21,8 @@ export enum ERROR_CODES {
   COMMENT_BODY_TOO_SHORT = "COMMENT_BODY_TOO_SHORT",
 
   /**
-   * COMMENT_BODY_EXCEEDS_MAX_LENGTH is used when a submitted comment body  exceeds the maximum length.
+   * COMMENT_BODY_EXCEEDS_MAX_LENGTH is used when a submitted comment body
+   * exceeds the maximum length.
    */
   COMMENT_BODY_EXCEEDS_MAX_LENGTH = "COMMENT_BODY_EXCEEDS_MAX_LENGTH",
 
@@ -29,6 +31,12 @@ export enum ERROR_CODES {
    * updated does not have a URL that is permitted by the Tenant.
    */
   STORY_URL_NOT_PERMITTED = "STORY_URL_NOT_PERMITTED",
+
+  /**
+   * URL_NOT_PERMITTED is used when a given URL is provided that can not be
+   * matched to the Tenant.
+   */
+  URL_NOT_PERMITTED = "URL_NOT_PERMITTED",
 
   /**
    * TOKEN_NOT_FOUND is used when a Token is referenced by ID but can not be
@@ -159,8 +167,8 @@ export enum ERROR_CODES {
   TENANT_INSTALLED_ALREADY = "TENANT_INSTALLED_ALREADY",
 
   /**
-   * USER_NOT_ENTITLED is returned when a user attempts to perform an action that
-   * they are not entitled to.
+   * USER_NOT_ENTITLED is returned when a user attempts to perform an action
+   * that they are not entitled to.
    */
   USER_NOT_ENTITLED = "USER_NOT_ENTITLED",
 
@@ -222,4 +230,10 @@ export enum ERROR_CODES {
    * is not permitted if they are banned.
    */
   USER_BANNED = "USER_BANNED",
+
+  /**
+   * INTEGRATION_DISABLED is returned when an operation is attempted against an
+   * integration that has been disabled.
+   */
+  INTEGRATION_DISABLED = "INTEGRATION_DISABLED",
 }

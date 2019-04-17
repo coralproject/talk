@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { Db } from "mongodb";
 
 import { validate } from "talk-server/app/request/body";
+import { IntegrationDisabled } from "talk-server/errors";
 import {
   GQLSSOAuthIntegration,
   GQLUSER_ROLE,
@@ -136,8 +137,7 @@ export class SSOVerifier implements Verifier<SSOToken> {
   ) {
     const integration = tenant.auth.integrations.sso;
     if (!integration.enabled) {
-      // TODO: (wyattjoh) return a better error.
-      throw new Error("integration not enabled");
+      throw new IntegrationDisabled("sso");
     }
 
     if (!integration.key) {

@@ -1,4 +1,3 @@
-import { RequestHandler } from "express";
 import Joi from "joi";
 
 import { AppOptions } from "talk-server/app";
@@ -7,10 +6,13 @@ import {
   handleSuccessfulLogin,
 } from "talk-server/app/middleware/passport";
 import { validate } from "talk-server/app/request/body";
+import { IntegrationDisabled, URLInvalidError } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { LocalProfile } from "talk-server/models/user";
+import { LocalProfile, retrieveUserWithProfile } from "talk-server/models/user";
+import { isURLPermitted } from "talk-server/services/tenant/url";
 import { insert } from "talk-server/services/users";
-import { Request } from "talk-server/types/express";
+import { generateResetURL } from "talk-server/services/users/auth";
+import { RequestHandler } from "talk-server/types/express";
 
 export interface SignupBody {
   username: string;
@@ -32,7 +34,7 @@ export type SignupOptions = Pick<AppOptions, "mongo" | "signingConfig">;
 export const signupHandler = ({
   mongo,
   signingConfig,
-}: SignupOptions): RequestHandler => async (req: Request, res, next) => {
+}: SignupOptions): RequestHandler => async (req, res, next) => {
   try {
     // TODO: rate limit based on the IP address and user agent.
 
@@ -42,8 +44,7 @@ export const signupHandler = ({
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
-      // TODO: replace with better error.
-      return next(new Error("integration is disabled"));
+      throw new IntegrationDisabled("local");
     }
 
     if (!tenant.auth.integrations.local.allowRegistration) {
@@ -91,17 +92,14 @@ export type LogoutOptions = Pick<AppOptions, "redis">;
 
 export const logoutHandler = ({
   redis,
-}: LogoutOptions): RequestHandler => async (req: Request, res, next) => {
+}: LogoutOptions): RequestHandler => async (req, res, next) => {
   try {
-    // TODO: rate limit based on the IP address and user agent.
-
     // Tenant is guaranteed at this point.
     const tenant = req.talk!.tenant!;
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
-      // TODO: replace with better error.
-      return next(new Error("integration is disabled"));
+      throw new IntegrationDisabled("local");
     }
 
     // Get the user on the request.
@@ -113,6 +111,115 @@ export const logoutHandler = ({
 
     // Delegate to the logout handler.
     return handleLogout(redis, req, res);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export interface ForgotBody {
+  email: string;
+  redirectURI: string;
+}
+
+export const ForgotBodySchema = Joi.object().keys({
+  email: Joi.string()
+    .trim()
+    .lowercase()
+    .email(),
+  redirectURI: Joi.string().uri(),
+});
+
+export type ForgotOptions = Pick<
+  AppOptions,
+  "mongo" | "signingConfig" | "mailerQueue"
+>;
+
+export const forgotHandler = ({
+  mongo,
+  signingConfig,
+  mailerQueue,
+}: ForgotOptions): RequestHandler => async (req, res, next) => {
+  try {
+    // TODO: rate limit based on the IP address and user agent.
+    // TODO: rate limit based on the email address.
+
+    // Tenant is guaranteed at this point.
+    const talk = req.talk!;
+    const tenant = talk.tenant!;
+
+    // Check to ensure that the local integration has been enabled.
+    if (!tenant.auth.integrations.local.enabled) {
+      throw new IntegrationDisabled("local");
+    }
+
+    // Get the fields from the body. Validate will throw an error if the body
+    // does not conform to the specification.
+    const { email, redirectURI }: ForgotBody = validate(
+      ForgotBodySchema,
+      req.body
+    );
+
+    // Validate the redirectURI is within the tenant scope. We also need to
+    // validate against the tenant's domain to ensure that if the redirect uri
+    // provided is for an internal route (such as the administrative login
+    // versus an article page).
+    if (!isURLPermitted(tenant, redirectURI, true)) {
+      throw new URLInvalidError({
+        url: redirectURI,
+        tenantDomain: tenant.domain,
+        tenantDomains: tenant.domains,
+      });
+    }
+
+    const log = talk.logger.child({
+      email,
+      tenantID: tenant.id,
+      redirectURI,
+    });
+
+    // Lookup the user.
+    const user = await retrieveUserWithProfile(mongo, tenant.id, {
+      id: email,
+      type: "local",
+    });
+    if (!user) {
+      // No user, therefore we don't have to send anything!.
+      // TODO: (wyattjoh) delay the response to avoid timing attacks.
+      log.warn("attempted password forgot for user that wasn't found");
+      return res.sendStatus(204);
+    }
+
+    // Prepare the email content to send to the user.
+    const resetURL = await generateResetURL(
+      mongo,
+      tenant,
+      signingConfig,
+      user.id,
+      redirectURI,
+      req.talk!.now
+    );
+
+    // Add the email to the processing queue.
+    await mailerQueue.add({
+      template: {
+        name: "forgot-password",
+        context: {
+          resetURL,
+          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+          username: user.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+      tenantID: tenant.id,
+      message: {
+        to: email,
+      },
+    });
+
+    log.trace("sent forgotten password email with token");
+
+    return res.sendStatus(204);
   } catch (err) {
     return next(err);
   }

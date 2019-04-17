@@ -6,6 +6,8 @@ import config from "talk-server/config";
 import serializers from "./serializers";
 import { getStreams } from "./streams";
 
+export type Logger = ReturnType<typeof bunyan.createLogger>;
+
 const logger = bunyan.createLogger({
   name: "talk",
 

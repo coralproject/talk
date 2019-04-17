@@ -60,7 +60,13 @@ export default class MailerContent {
     ];
   }
 
-  private getEnvironment(tenant: Tenant): nunjucks.Environment {
+  /**
+   * getEnvironment will get the environment from the cache if it exists, or
+   * create it, and add it to the cache otherwise.
+   *
+   * @param tenant the Tenant to generate the environment for
+   */
+  private getEnvironment(tenant: Pick<Tenant, "id">): nunjucks.Environment {
     // Get the nunjucks environment to use for generating the email HTML.
     let env = this.cache.get(tenant.id);
     if (!env) {

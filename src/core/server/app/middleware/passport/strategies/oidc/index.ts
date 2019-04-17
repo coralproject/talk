@@ -7,6 +7,7 @@ import { Strategy } from "passport-strategy";
 
 import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
+import { IntegrationDisabled } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
 import { OIDCAuthIntegration } from "talk-server/models/settings";
@@ -92,8 +93,7 @@ export function getEnabledIntegration(
   integration: OIDCAuthIntegration
 ): Required<OIDCAuthIntegration> {
   if (!integration.enabled) {
-    // TODO: return a better error.
-    throw new Error("integration not enabled");
+    throw new IntegrationDisabled("oidc");
   }
 
   if (
@@ -105,8 +105,7 @@ export function getEnabledIntegration(
     !integration.jwksURI ||
     !integration.issuer
   ) {
-    // TODO: return a better error.
-    throw new Error("integration not configured");
+    throw new IntegrationDisabled("oidc");
   }
 
   // TODO: (wyattjoh) for some reason, type guards above to not allow coercion to this required type.

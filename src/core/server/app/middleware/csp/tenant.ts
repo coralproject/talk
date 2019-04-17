@@ -7,7 +7,7 @@ import {
   prefixSchemeIfRequired,
 } from "talk-server/app/url";
 import { Tenant } from "talk-server/models/tenant";
-import { isURLPermitted } from "talk-server/services/stories";
+import { isURLPermitted } from "talk-server/services/tenant/url";
 import { Request, RequestHandler } from "talk-server/types/express";
 
 /**
