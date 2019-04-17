@@ -13,16 +13,22 @@ let clientMutationId = 0;
 
 const RejectCommentMutation = createMutation(
   "rejectComment",
-  (environment: Environment, input: MutationInput<MutationTypes>) =>
+  (
+    environment: Environment,
+    input: MutationInput<MutationTypes> & { storyID?: string }
+  ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation RejectCommentMutation($input: RejectCommentInput!) {
+        mutation RejectCommentMutation(
+          $input: RejectCommentInput!
+          $storyID: ID
+        ) {
           rejectComment(input: $input) {
             comment {
               id
               status
             }
-            moderationQueues {
+            moderationQueues(storyID: $storyID) {
               unmoderated {
                 count
               }
@@ -39,7 +45,8 @@ const RejectCommentMutation = createMutation(
       `,
       variables: {
         input: {
-          ...input,
+          commentID: input.commentID,
+          commentRevisionID: input.commentRevisionID,
           clientMutationId: clientMutationId.toString(),
         },
       },
@@ -54,9 +61,9 @@ const RejectCommentMutation = createMutation(
       },
       updater: store => {
         const connections = [
-          getQueueConnection("reported", store),
-          getQueueConnection("pending", store),
-          getQueueConnection("unmoderated", store),
+          getQueueConnection(store, "reported", input.storyID),
+          getQueueConnection(store, "pending", input.storyID),
+          getQueueConnection(store, "unmoderated", input.storyID),
         ].filter(c => c);
         connections.forEach(con =>
           ConnectionHandler.deleteNode(con, input.commentID)

@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
+import { getModerationLink } from "talk-admin/helpers";
 import { Counter, Icon, SubBarNavigation } from "talk-ui/components";
 
 import NavigationLink from "./NavigationLink";
@@ -9,6 +10,7 @@ interface Props {
   unmoderatedCount?: number;
   reportedCount?: number;
   pendingCount?: number;
+  storyID?: string;
   children?: React.ReactNode;
 }
 
@@ -16,9 +18,10 @@ const Navigation: StatelessComponent<Props> = ({
   unmoderatedCount,
   reportedCount,
   pendingCount,
+  storyID,
 }) => (
   <SubBarNavigation>
-    <NavigationLink to="/admin/moderate/reported">
+    <NavigationLink to={getModerationLink("reported", storyID)}>
       <Icon>flag</Icon>
       <Localized id="moderate-navigation-reported">
         <span>Reported</span>
@@ -29,7 +32,7 @@ const Navigation: StatelessComponent<Props> = ({
         </Counter>
       )}
     </NavigationLink>
-    <NavigationLink to="/admin/moderate/pending">
+    <NavigationLink to={getModerationLink("pending", storyID)}>
       <Icon>access_time</Icon>
       <Localized id="moderate-navigation-pending">
         <span>Pending</span>
@@ -40,7 +43,7 @@ const Navigation: StatelessComponent<Props> = ({
         </Counter>
       )}
     </NavigationLink>
-    <NavigationLink to="/admin/moderate/unmoderated">
+    <NavigationLink to={getModerationLink("unmoderated", storyID)}>
       <Icon>forum</Icon>
       <Localized id="moderate-navigation-unmoderated">
         <span>Unmoderated</span>
@@ -51,7 +54,7 @@ const Navigation: StatelessComponent<Props> = ({
         </Counter>
       )}
     </NavigationLink>
-    <NavigationLink to="/admin/moderate/rejected">
+    <NavigationLink to={getModerationLink("rejected", storyID)}>
       <Icon>cancel</Icon>
       <Localized id="moderate-navigation-rejected">
         <span>Rejected</span>

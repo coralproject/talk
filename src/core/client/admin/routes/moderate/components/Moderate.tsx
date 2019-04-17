@@ -11,6 +11,7 @@ interface Props {
   unmoderatedCount?: number;
   reportedCount?: number;
   pendingCount?: number;
+  storyID?: string;
   children?: React.ReactNode;
 }
 
@@ -18,6 +19,7 @@ const Moderate: StatelessComponent<Props> = ({
   unmoderatedCount,
   reportedCount,
   pendingCount,
+  storyID,
   children,
 }) => (
   <div data-testid="moderate-container">
@@ -26,6 +28,7 @@ const Moderate: StatelessComponent<Props> = ({
         unmoderatedCount={unmoderatedCount}
         reportedCount={reportedCount}
         pendingCount={pendingCount}
+        storyID={storyID}
       />
     </SubBar>
     <div className={styles.background} />

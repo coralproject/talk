@@ -1,4 +1,4 @@
-import { RouteProps } from "found";
+import { RouteMatch, RouteProps } from "found";
 import * as React from "react";
 
 interface InjectedProps<T> {
@@ -12,6 +12,10 @@ type RouteConfig = Partial<Pick<RouteProps, "query" | "getQuery">> &
     cacheConfig?: {
       force?: boolean;
     };
+    prepareVariables?: (
+      params: Record<string, string>,
+      match: RouteMatch
+    ) => Record<string, any>;
   };
 
 function withRouteConfig<QueryResponse>(config: RouteConfig) {

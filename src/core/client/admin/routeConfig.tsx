@@ -36,12 +36,29 @@ export default makeRouteConfig(
         <Route path="moderate" {...ModerateContainer.routeConfig}>
           <Redirect from="/" to="/admin/moderate/reported" />
           <Route path="reported" {...ReportedQueueContainer.routeConfig} />
+          <Route
+            path="reported/:storyID"
+            {...ReportedQueueContainer.routeConfig}
+          />
           <Route path="pending" {...PendingQueueContainer.routeConfig} />
+          <Route
+            path="pending/:storyID"
+            {...PendingQueueContainer.routeConfig}
+          />
           <Route
             path="unmoderated"
             {...UnmoderatedQueueContainer.routeConfig}
           />
+          <Route
+            path="unmoderated/:storyID"
+            {...UnmoderatedQueueContainer.routeConfig}
+          />
           <Route path="rejected" {...RejectedQueueContainer.routeConfig} />
+          <Route
+            path="rejected/:storyID"
+            {...RejectedQueueContainer.routeConfig}
+          />
+          <Redirect from=":storyID" to="/admin/moderate/reported/:storyID" />
         </Route>
         <Route path="stories" {...StoriesContainer.routeConfig} />
         <Route path="community" {...CommunityContainer.routeConfig} />

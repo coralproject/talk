@@ -113,6 +113,7 @@ const createQueueContainer = (
       },
       getVariables(props, { count, cursor }, fragmentVariables) {
         return {
+          ...fragmentVariables,
           count,
           cursor,
         };
@@ -141,8 +142,8 @@ const createQueueContainer = (
 
 export const PendingQueueContainer = createQueueContainer(
   graphql`
-    query QueueContainerPendingQuery {
-      moderationQueues {
+    query QueueContainerPendingQuery($storyID: ID) {
+      moderationQueues(storyID: $storyID) {
         pending {
           ...QueueContainer_queue
         }
@@ -155,8 +156,12 @@ export const PendingQueueContainer = createQueueContainer(
   graphql`
     # Pagination query to be fetched upon calling 'loadMore'.
     # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-    query QueueContainerPaginationPendingQuery($count: Int!, $cursor: Cursor) {
-      moderationQueues {
+    query QueueContainerPaginationPendingQuery(
+      $storyID: ID
+      $count: Int!
+      $cursor: Cursor
+    ) {
+      moderationQueues(storyID: $storyID) {
         pending {
           ...QueueContainer_queue @arguments(count: $count, cursor: $cursor)
         }
@@ -167,8 +172,8 @@ export const PendingQueueContainer = createQueueContainer(
 
 export const ReportedQueueContainer = createQueueContainer(
   graphql`
-    query QueueContainerReportedQuery {
-      moderationQueues {
+    query QueueContainerReportedQuery($storyID: ID) {
+      moderationQueues(storyID: $storyID) {
         reported {
           ...QueueContainer_queue
         }
@@ -181,8 +186,12 @@ export const ReportedQueueContainer = createQueueContainer(
   graphql`
     # Pagination query to be fetched upon calling 'loadMore'.
     # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
-    query QueueContainerPaginationReportedQuery($count: Int!, $cursor: Cursor) {
-      moderationQueues {
+    query QueueContainerPaginationReportedQuery(
+      $storyID: ID
+      $count: Int!
+      $cursor: Cursor
+    ) {
+      moderationQueues(storyID: $storyID) {
         reported {
           ...QueueContainer_queue @arguments(count: $count, cursor: $cursor)
         }
@@ -193,8 +202,8 @@ export const ReportedQueueContainer = createQueueContainer(
 
 export const UnmoderatedQueueContainer = createQueueContainer(
   graphql`
-    query QueueContainerUnmoderatedQuery {
-      moderationQueues {
+    query QueueContainerUnmoderatedQuery($storyID: ID) {
+      moderationQueues(storyID: $storyID) {
         unmoderated {
           ...QueueContainer_queue
         }
@@ -208,10 +217,11 @@ export const UnmoderatedQueueContainer = createQueueContainer(
     # Pagination query to be fetched upon calling 'loadMore'.
     # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
     query QueueContainerPaginationUnmoderatedQuery(
+      $storyID: ID
       $count: Int!
       $cursor: Cursor
     ) {
-      moderationQueues {
+      moderationQueues(storyID: $storyID) {
         unmoderated {
           ...QueueContainer_queue @arguments(count: $count, cursor: $cursor)
         }

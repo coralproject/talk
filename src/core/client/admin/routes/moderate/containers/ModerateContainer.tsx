@@ -7,8 +7,12 @@ import { withRouteConfig } from "talk-framework/lib/router";
 
 import Moderate from "../components/Moderate";
 
+interface RouteParams {
+  storyID: string;
+}
+
 interface Props {
-  data: ModerateContainerQueryResponse;
+  data: ModerateContainerQueryResponse & { params: RouteParams };
 }
 
 class ModerateContainer extends React.Component<Props> {
@@ -27,6 +31,7 @@ class ModerateContainer extends React.Component<Props> {
         unmoderatedCount={this.props.data.moderationQueues.unmoderated.count}
         reportedCount={this.props.data.moderationQueues.reported.count}
         pendingCount={this.props.data.moderationQueues.pending.count}
+        storyID={this.props.data.params.storyID}
       >
         {this.props.children}
       </Moderate>
@@ -36,8 +41,8 @@ class ModerateContainer extends React.Component<Props> {
 
 const enhanced = withRouteConfig<ModerateContainerQueryResponse>({
   query: graphql`
-    query ModerateContainerQuery {
-      moderationQueues {
+    query ModerateContainerQuery($storyID: ID) {
+      moderationQueues(storyID: $storyID) {
         unmoderated {
           count
         }
@@ -51,6 +56,11 @@ const enhanced = withRouteConfig<ModerateContainerQueryResponse>({
     }
   `,
   cacheConfig: { force: true },
+  prepareVariables: (params, match) => {
+    return {
+      storyID: match.params.storyID,
+    };
+  },
 })(ModerateContainer);
 
 export default enhanced;
