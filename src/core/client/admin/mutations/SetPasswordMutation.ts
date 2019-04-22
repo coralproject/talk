@@ -1,49 +1,38 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { SetPasswordMutation as MutationTypes } from "talk-admin/__generated__/SetPasswordMutation.graphql";
 import {
   commitMutationPromiseNormalized,
-  createMutationContainer,
+  createMutation,
   MutationInput,
-  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-
-import { SetPasswordMutation as MutationTypes } from "talk-admin/__generated__/SetPasswordMutation.graphql";
-
-export type SetPasswordInput = MutationInput<MutationTypes>;
-
-const mutation = graphql`
-  mutation SetPasswordMutation($input: SetPasswordInput!) {
-    setPassword(input: $input) {
-      user {
-        profiles {
-          __typename
-        }
-      }
-      clientMutationId
-    }
-  }
-`;
 
 let clientMutationId = 0;
 
-function commit(environment: Environment, input: SetPasswordInput) {
-  return commitMutationPromiseNormalized<MutationTypes>(environment, {
-    mutation,
-    variables: {
-      input: {
-        ...input,
-        clientMutationId: (clientMutationId++).toString(),
-      },
-    },
-  });
-}
-
-export const withSetPasswordMutation = createMutationContainer(
+const SetPasswordMutation = createMutation(
   "setPassword",
-  commit
+  (environment: Environment, input: MutationInput<MutationTypes>) =>
+    commitMutationPromiseNormalized<MutationTypes>(environment, {
+      mutation: graphql`
+        mutation SetPasswordMutation($input: SetPasswordInput!) {
+          setPassword(input: $input) {
+            user {
+              profiles {
+                __typename
+              }
+            }
+            clientMutationId
+          }
+        }
+      `,
+      variables: {
+        input: {
+          ...input,
+          clientMutationId: (clientMutationId++).toString(),
+        },
+      },
+    })
 );
 
-export type SetPasswordMutation = (
-  input: SetPasswordInput
-) => MutationResponsePromise<MutationTypes, "setPassword">;
+export default SetPasswordMutation;

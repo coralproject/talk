@@ -75,6 +75,9 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
     throw new Error("logout requires a token on the request, none was found");
   }
 
+  // Talk is guarenteed at this point.
+  const { now } = req.talk!;
+
   // Decode the token.
   const decoded = jwt.decode(token, {});
   if (!decoded) {
@@ -88,7 +91,7 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   const { jti, exp }: LogoutToken = validate(LogoutTokenSchema, decoded);
 
   // Compute the number of seconds that the token will be valid for.
-  const validFor = exp - Date.now() / 1000;
+  const validFor = exp - now.valueOf() / 1000;
   if (validFor > 0) {
     // Invalidate the token, the expiry is in the future and it needs to be
     // revoked.

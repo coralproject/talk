@@ -25,7 +25,7 @@ async function createTestRenderer(
       settings: sinon
         .stub()
         .returns(merge({}, settings, get(customResolver, "Query.settings"))),
-      viewer: sinon.stub().returns({ ...users[0], email: "" }),
+      viewer: sinon.stub().returns({ ...users.admins[0], email: "" }),
     },
   };
 

@@ -23,10 +23,12 @@ export type Promiseable<T> = Promise<T> | T;
 /**
  * Like Partial, but recurses down the object marking each field as Partial.
  */
-export type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends Array<infer U>
-    ? Array<DeepPartial<U>>
-    : T[P] extends ReadonlyArray<infer V>
-      ? ReadonlyArray<DeepPartial<V>>
-      : DeepPartial<T[P]>
-};
+export type DeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]?: T[P] extends Array<infer U>
+        ? Array<DeepPartial<U>>
+        : T[P] extends ReadonlyArray<infer V>
+          ? ReadonlyArray<DeepPartial<V>>
+          : DeepPartial<T[P]>
+    }
+  : T;

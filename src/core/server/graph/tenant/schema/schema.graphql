@@ -18,6 +18,16 @@ enum USER_AUTH_CONDITIONS {
   address.
   """
   MISSING_EMAIL
+
+  """
+  BANNED is provided when the User is currently banned.
+  """
+  BANNED
+
+  """
+  SUSPENDED is provided when the User is currently under an active suspension.
+  """
+  SUSPENDED
 }
 
 """
@@ -1038,6 +1048,11 @@ type Settings {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfiguration!
+
+  """
+  createdAt is the time that the Settings was created at.
+  """
+  createdAt: Time! @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1072,6 +1087,10 @@ type GoogleProfile {
   id: String!
 }
 
+"""
+Profile is all the different profiles that a given User may have associated
+with their account.
+"""
 union Profile =
     LocalProfile
   | OIDCProfile
@@ -1079,10 +1098,186 @@ union Profile =
   | FacebookProfile
   | GoogleProfile
 
+"""
+Token facilitates accessing Talk externally with a token.
+"""
 type Token {
   id: ID!
   name: String!
   createdAt: Time!
+}
+
+"""
+BanStatusHistory is the list of all ban events against a specific User.
+"""
+type BanStatusHistory {
+  """
+  active when true, indicates that the given user is banned.
+  """
+  active: Boolean!
+
+  """
+  createdBy is the User that suspended the User. If `null`, the then the given
+  User was banned by the system.
+  """
+  createdBy: User
+
+  """
+  createdAt is the time that the given User was banned.
+  """
+  createdAt: Time!
+}
+
+"""
+BanStatus contains information about a ban for a given User.
+"""
+type BanStatus {
+  """
+  active when true, indicates that the given user is banned.
+  """
+  active: Boolean!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
+
+  """
+  history is the list of all ban events against a specific User.
+  """
+  history: [BanStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
+"""
+TimeRange represents a range of times.
+"""
+type TimeRange {
+  """
+  start is the time that the time range started on.
+  """
+  start: Time!
+
+  """
+  finish is the time that the time range finished at.
+  """
+  finish: Time!
+}
+
+"""
+SuspensionStatusHistory is the list of all suspension events against a specific User.
+"""
+type SuspensionStatusHistory {
+  """
+  active is true when the given suspension status time range applies now.
+  """
+  active: Boolean!
+
+  """
+  from is the time range that the suspension is active for.
+  """
+  from: TimeRange!
+
+  """
+  createdBy is the User that suspended the User. If `null`, the then the given
+  User was suspended by the system.
+  """
+  createdBy: User
+
+  """
+  createdAt is the time that the suspension was created at.
+  """
+  createdAt: Time!
+
+  """
+  modifiedBy is the User that cancelled/edited the suspension. If `null`, then
+  the suspension has not been cancelled/edited, or has been edited by the
+  system.
+  """
+  modifiedBy: User
+
+  """
+  modifiedAt is the time that the suspension was cancelled/edited. If `null`,
+  then the suspension has not been cancelled/edited.
+  """
+  modifiedAt: Time
+}
+
+"""
+SuspensionStatus stores the user suspension status as well as the history of
+changes.
+"""
+type SuspensionStatus {
+  """
+  active when true, indicates that the given user is suspended.
+  """
+  active: Boolean!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
+
+  """
+  until is the time that the current user suspension is over.
+  """
+  until: Time
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
+
+  """
+  history is the list of all suspension events against a specific User.
+  """
+  history: [SuspensionStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
+}
+
+"""
+UserStatus stores the user status information regarding moderation state.
+"""
+type UserStatus {
+  """
+  current represents the current statuses applied to the User.
+  """
+  current: [USER_STATUS!]!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "userID"
+      permit: [SUSPENDED, BANNED]
+    )
+
+  """
+  banned stores the user banned status as well as the history of changes.
+  """
+  ban: BanStatus!
+
+  """
+  suspension stores the user suspension status as well as the history of
+  changes.
+  """
+  suspension: SuspensionStatus!
+}
+
+"""
+USER_STATUS is used to describe the current state of a User. A User may exist in
+multiple states.
+"""
+enum USER_STATUS {
+  """
+  ACTIVE is used when a User is not suspended or banned.
+  """
+  ACTIVE
+
+  """
+  BANNED is used when a User is banned.
+  """
+  BANNED
+
+  """
+  SUSPENDED is used when a User is currently suspended.
+  """
+  SUSPENDED
 }
 
 """
@@ -1100,14 +1295,25 @@ type User {
   username: String
 
   """
+  avatar is the url to the avatar for a specific User.
+  """
+  avatar: String
+
+  """
   email is the current email address for the User.
   """
   email: String
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
     )
+
+  """
+  emailVerified when true indicates that the given email address has been
+  verified.
+  """
+  emailVerified: Boolean @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 
   """
   profiles is the array of profiles assigned to the user.
@@ -1116,13 +1322,18 @@ type User {
     @auth(
       roles: [ADMIN, MODERATOR]
       userIDField: "id"
-      permit: [MISSING_NAME, MISSING_EMAIL]
+      permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED]
     )
 
   """
   role is the current role of the User.
   """
-  role: USER_ROLE! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  role: USER_ROLE!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   comments are the comments of the User.
@@ -1141,6 +1352,11 @@ type User {
     first: Int = 10
     after: Cursor
   ): CommentModerationActionConnection! @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  status stores the user status information regarding moderation state.
+  """
+  status: UserStatus!
 
   """
   tokens lists the access tokens associated with the account.
@@ -1807,17 +2023,22 @@ type Query {
 
   """
   user will return the user referenced by their ID.
+
+  TODO: evaluate adding a profile based lookup.
   """
   user(id: ID!): User @auth(roles: [ADMIN, MODERATOR])
 
   """
   users returns filtered users that can be paginated.
+
+  TODO: evaluate adding status based filtering.
   """
   users(
     first: Int = 10
     after: Cursor
     role: USER_ROLE
     query: String
+    status: USER_STATUS
   ): UsersConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -3488,6 +3709,125 @@ type UpdateUserRolePayload {
 }
 
 ##################
+# banUser
+##################
+
+input BanUserInput {
+  """
+  userID is the ID of the User that should have their account banned.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type BanUserPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# suspendUser
+##################
+
+input SuspendUserInput {
+  """
+  userID is the ID of the User that should be suspended.
+  """
+  userID: ID!
+
+  """
+  timeout is the length of time (in seconds) that a User should be suspended
+  for.
+  """
+  timeout: Int!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type SuspendUserPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# removeUserBan
+##################
+
+input RemoveUserBanInput {
+  """
+  userID is the ID of the User that should have their account un-banned.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemoveUserBanPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# removeUserSuspension
+##################
+
+input RemoveUserSuspensionInput {
+  """
+  userID is the ID of the User that should have their active suspensions
+  removed.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemoveUserSuspensionPayload {
+  """
+  user is the possibly modified User.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -3630,14 +3970,14 @@ type Mutation {
   before. This mutation will fail if the username is already set.
   """
   setUsername(input: SetUsernameInput!): SetUsernamePayload!
-    @auth(permit: [MISSING_NAME, MISSING_EMAIL])
+    @auth(permit: [MISSING_NAME, MISSING_EMAIL, SUSPENDED, BANNED])
 
   """
   setEmail will set the email address on the current User if they have not set
   one already. This mutation will fail if the email address is already set.
   """
   setEmail(input: SetEmailInput!): SetEmailPayload!
-    @auth(permit: [MISSING_EMAIL])
+    @auth(permit: [MISSING_EMAIL, SUSPENDED, BANNED])
 
   """
   setPassword will set the password on the current User if they have not set
@@ -3692,4 +4032,30 @@ type Mutation {
   """
   updateUserRole(input: UpdateUserRoleInput!): UpdateUserRolePayload!
     @auth(roles: [ADMIN])
+
+  """
+  banUser will ban a specific User from interacting with Comments.
+  """
+  banUser(input: BanUserInput!): BanUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeUserBan will remove an active ban from a User if they have one.
+  """
+  removeUserBan(input: RemoveUserBanInput!): RemoveUserBanPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  suspendUser will suspend a specific User from interacting with Comments.
+  """
+  suspendUser(input: SuspendUserInput!): SuspendUserPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  removeUserSuspension will remove an active suspension from a User if they have
+  one.
+  """
+  removeUserSuspension(
+    input: RemoveUserSuspensionInput!
+  ): RemoveUserSuspensionPayload! @auth(roles: [ADMIN, MODERATOR])
 }

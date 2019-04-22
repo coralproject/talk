@@ -42,7 +42,8 @@ export async function findOrCreateSSOUser(
   mongo: Db,
   tenant: Tenant,
   integration: GQLSSOAuthIntegration,
-  token: SSOToken
+  token: SSOToken,
+  now = new Date()
 ) {
   if (!token.user) {
     // TODO: (wyattjoh) replace with better error.
@@ -71,13 +72,18 @@ export async function findOrCreateSSOUser(
     // FIXME: (wyattjoh) implement rules! Not all users should be able to create an account via this method.
 
     // Create the new user, as one didn't exist before!
-    user = await insert(mongo, tenant, {
-      username,
-      role: GQLUSER_ROLE.COMMENTER,
-      email,
-      avatar,
-      profiles: [profile],
-    });
+    user = await insert(
+      mongo,
+      tenant,
+      {
+        username,
+        role: GQLUSER_ROLE.COMMENTER,
+        email,
+        avatar,
+        profiles: [profile],
+      },
+      now
+    );
   }
 
   // TODO: (wyattjoh) possibly update the user profile if the remaining details mismatch?
@@ -122,7 +128,12 @@ export class SSOVerifier implements Verifier<SSOToken> {
     return tenant.auth.integrations.sso.enabled && isSSOToken(token);
   }
 
-  public async verify(tokenString: string, token: SSOToken, tenant: Tenant) {
+  public async verify(
+    tokenString: string,
+    token: SSOToken,
+    tenant: Tenant,
+    now = new Date()
+  ) {
     const integration = tenant.auth.integrations.sso;
     if (!integration.enabled) {
       // TODO: (wyattjoh) return a better error.
@@ -140,6 +151,6 @@ export class SSOVerifier implements Verifier<SSOToken> {
       algorithms: ["HS256"], // TODO: (wyattjoh) investigate replacing algorithm.
     });
 
-    return findOrCreateSSOUser(this.mongo, tenant, integration, token);
+    return findOrCreateSSOUser(this.mongo, tenant, integration, token, now);
   }
 }

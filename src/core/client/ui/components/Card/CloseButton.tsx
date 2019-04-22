@@ -20,10 +20,14 @@ export interface CloseButtonProps
 }
 
 const CloseButton: StatelessComponent<CloseButtonProps> = props => {
-  const { classes, forwardRef, ...rest } = props;
+  const {
+    classes: { icon: iconClassName, ...restClasses },
+    forwardRef,
+    ...rest
+  } = props;
   return (
-    <BaseButton classes={classes} ref={forwardRef} {...rest}>
-      <Icon className={classes.icon} size="md">
+    <BaseButton classes={restClasses} ref={forwardRef} {...rest}>
+      <Icon className={iconClassName} size="md">
         close
       </Icon>
     </BaseButton>

@@ -11,6 +11,7 @@ import {
 // If a given user is a staff member, always approve their comment.
 export const staff: IntermediateModerationPhase = ({
   author,
+  now,
 }): IntermediatePhaseResult | void => {
   if (author.role !== GQLUSER_ROLE.COMMENTER) {
     return {
@@ -18,8 +19,7 @@ export const staff: IntermediateModerationPhase = ({
       tags: [
         {
           type: COMMENT_TAG_TYPE.STAFF,
-          // FIXME: (wyattjoh) replace with date from context when https://github.com/coralproject/talk/pull/2247 is merged.
-          createdAt: new Date(),
+          createdAt: now,
         },
       ],
     };

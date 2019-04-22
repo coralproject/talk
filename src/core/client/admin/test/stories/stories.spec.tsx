@@ -36,7 +36,7 @@ const createTestRenderer = async (resolver: any = {}) => {
         expectAndFail(data.status).toBeFalsy();
         return storyConnection;
       }),
-      viewer: sinon.stub().returns(users[0]),
+      viewer: sinon.stub().returns(users.admins[0]),
       ...resolver.Query,
     },
   };

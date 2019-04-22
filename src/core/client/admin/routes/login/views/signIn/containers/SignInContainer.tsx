@@ -3,16 +3,13 @@ import React, { Component } from "react";
 
 import { SignInContainer_auth as AuthData } from "talk-admin/__generated__/SignInContainer_auth.graphql";
 import { SignInContainerLocal as LocalData } from "talk-admin/__generated__/SignInContainerLocal.graphql";
-import {
-  ClearAuthErrorMutation,
-  SignInMutation,
-  withClearAuthErrorMutation,
-  withSignInMutation,
-} from "talk-admin/mutations";
+import { ClearAuthErrorMutation, SignInMutation } from "talk-admin/mutations";
 import {
   graphql,
+  MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
+  withMutation,
 } from "talk-framework/lib/relay";
 
 import SignIn from "../components/SignIn";
@@ -21,8 +18,8 @@ interface Props {
   local: LocalData;
   auth: AuthData;
   error?: Error | null;
-  signIn: SignInMutation;
-  clearAuthError: ClearAuthErrorMutation;
+  signIn: MutationProp<typeof SignInMutation>;
+  clearAuthError: MutationProp<typeof ClearAuthErrorMutation>;
 }
 
 class SignInContainer extends Component<Props> {
@@ -91,8 +88,8 @@ const enhanced = withFragmentContainer<Props>({
     }
   `,
 })(
-  withClearAuthErrorMutation(
-    withSignInMutation(
+  withMutation(ClearAuthErrorMutation)(
+    withMutation(SignInMutation)(
       withLocalStateContainer(
         graphql`
           fragment SignInContainerLocal on Local {

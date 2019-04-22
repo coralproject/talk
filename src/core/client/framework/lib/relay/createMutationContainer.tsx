@@ -6,23 +6,8 @@ import {
   wrapDisplayName,
 } from "recompose";
 import { Environment } from "relay-runtime";
-import { Omit } from "talk-framework/types";
 
 import { TalkContext, withContext } from "../bootstrap";
-
-export type MutationInput<
-  T extends { variables: { input: { clientMutationId: string } } }
-> = Omit<T["variables"]["input"], "clientMutationId">;
-
-export type MutationResponse<
-  T extends { response: { [P in U]: any } },
-  U extends string
-> = Exclude<T["response"][U], null>;
-
-export type MutationResponsePromise<
-  T extends { response: { [P in U]: any } },
-  U extends string
-> = Promise<MutationResponse<T, U>>;
 
 /**
  * createMutationContainer creates a HOC that

@@ -42,7 +42,8 @@ export async function install(
   mongo: Db,
   redis: Redis,
   cache: TenantCache,
-  input: InstallTenant
+  input: InstallTenant,
+  now = new Date()
 ) {
   if (await isInstalled(cache)) {
     throw new TenantInstalledAlreadyError();
@@ -55,7 +56,7 @@ export async function install(
   logger.info({ tenant: input }, "installing tenant");
 
   // Create the Tenant.
-  const tenant = await createTenant(mongo, input);
+  const tenant = await createTenant(mongo, input, now);
 
   // Update the tenant cache.
   await cache.update(redis, tenant);

@@ -135,7 +135,8 @@ export default (ctx: Context) => ({
     retrieveSharedModerationQueueQueuesCounts(
       ctx.mongo,
       ctx.redis,
-      ctx.tenant.id
+      ctx.tenant.id,
+      ctx.now
     )
   ),
 });

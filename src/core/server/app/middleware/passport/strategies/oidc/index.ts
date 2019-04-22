@@ -137,7 +137,8 @@ export async function findOrCreateOIDCUser(
   mongo: Db,
   tenant: Tenant,
   integration: OIDCAuthIntegration,
-  token: OIDCIDToken
+  token: OIDCIDToken,
+  now = new Date()
 ): Promise<Readonly<User> | null> {
   // Unpack/validate the token content.
   const {
@@ -174,14 +175,19 @@ export async function findOrCreateOIDCUser(
     const username = preferred_username || nickname || name;
 
     // Create the new user, as one didn't exist before!
-    user = await insert(mongo, tenant, {
-      username,
-      role: GQLUSER_ROLE.COMMENTER,
-      email,
-      emailVerified: email_verified,
-      avatar: picture,
-      profiles: [profile],
-    });
+    user = await insert(
+      mongo,
+      tenant,
+      {
+        username,
+        role: GQLUSER_ROLE.COMMENTER,
+        email,
+        emailVerified: email_verified,
+        avatar: picture,
+        profiles: [profile],
+      },
+      now
+    );
   }
 
   // TODO: (wyattjoh) possibly update the user profile if the remaining details mismatch?
@@ -194,7 +200,8 @@ export function findOrCreateOIDCUserWithToken(
   tenant: Tenant,
   client: JwksClient,
   integration: OIDCAuthIntegration,
-  token: string
+  token: string,
+  now: Date
 ) {
   return new Promise<Readonly<User> | null>((resolve, reject) => {
     logger.trace({ tenantID: tenant.id }, "verifying oidc id_token");
@@ -219,7 +226,8 @@ export function findOrCreateOIDCUserWithToken(
             mongo,
             tenant,
             integration,
-            decoded as OIDCIDToken
+            decoded as OIDCIDToken,
+            now
           );
           return resolve(user);
         } catch (err) {
@@ -303,8 +311,9 @@ export default class OIDCStrategy extends Strategy {
       return done(new Error("no id_token in params"));
     }
 
-    // Grab the tenant out of the request, as we need some more details.
-    const { tenant } = req.talk!;
+    // Grab the tenant out of the request, as we need some more details. Talk
+    // is guaranteed at this point.
+    const { now, tenant } = req.talk!;
     if (!tenant) {
       // TODO: return a better error.
       return done(new Error("tenant not found"));
@@ -330,7 +339,8 @@ export default class OIDCStrategy extends Strategy {
         tenant,
         client,
         integration,
-        id_token
+        id_token,
+        now
       );
       return done(null, user || undefined);
     } catch (err) {

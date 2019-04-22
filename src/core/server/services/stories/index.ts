@@ -53,7 +53,8 @@ export async function findOrCreate(
   mongo: Db,
   tenant: Tenant,
   input: FindOrCreateStory,
-  scraper: ScraperQueue
+  scraper: ScraperQueue,
+  now = new Date()
 ) {
   // If the URL is provided, and the url is not on a allowed domain, then refuse
   // to create the Asset.
@@ -66,7 +67,7 @@ export async function findOrCreate(
 
   // TODO: check to see if the tenant has enabled lazy story creation, if they haven't, switch to find only.
 
-  const story = await findOrCreateStory(mongo, tenant.id, input);
+  const story = await findOrCreateStory(mongo, tenant.id, input, now);
   if (!story) {
     return null;
   }
@@ -189,7 +190,8 @@ export async function create(
   tenant: Tenant,
   storyID: string,
   storyURL: string,
-  { metadata }: CreateStory
+  { metadata }: CreateStory,
+  now = new Date()
 ) {
   // Ensure that the given URL is allowed.
   if (!isURLPermitted(tenant, storyURL)) {
@@ -199,15 +201,22 @@ export async function create(
   // Construct the input payload.
   const input: CreateStoryInput = { metadata };
   if (metadata) {
-    input.scrapedAt = new Date();
+    input.scrapedAt = now;
   }
 
   // Create the story in the database.
-  let newStory = await createStory(mongo, tenant.id, storyID, storyURL, input);
+  let newStory = await createStory(
+    mongo,
+    tenant.id,
+    storyID,
+    storyURL,
+    input,
+    now
+  );
   if (!metadata) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!
-    newStory = await scrape(mongo, tenant.id, newStory.id);
+    newStory = await scrape(mongo, tenant.id, newStory.id, storyURL);
   }
 
   return newStory;
@@ -219,7 +228,8 @@ export async function update(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
-  input: UpdateStory
+  input: UpdateStory,
+  now = new Date()
 ) {
   // Ensure that the given URL is allowed.
   if (input.url && !isURLPermitted(tenant, input.url)) {
@@ -229,7 +239,7 @@ export async function update(
     });
   }
 
-  return updateStory(mongo, tenant.id, storyID, input);
+  return updateStory(mongo, tenant.id, storyID, input, now);
 }
 export type UpdateStorySettings = UpdateStorySettingsInput;
 
@@ -237,17 +247,28 @@ export async function updateSettings(
   mongo: Db,
   tenant: Tenant,
   storyID: string,
-  input: UpdateStorySettings
+  input: UpdateStorySettings,
+  now = new Date()
 ) {
-  return updateStorySettings(mongo, tenant.id, storyID, input);
+  return updateStorySettings(mongo, tenant.id, storyID, input, now);
 }
 
-export async function open(mongo: Db, tenant: Tenant, storyID: string) {
-  return openStory(mongo, tenant.id, storyID);
+export async function open(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  now = new Date()
+) {
+  return openStory(mongo, tenant.id, storyID, now);
 }
 
-export async function close(mongo: Db, tenant: Tenant, storyID: string) {
-  return closeStory(mongo, tenant.id, storyID);
+export async function close(
+  mongo: Db,
+  tenant: Tenant,
+  storyID: string,
+  now = new Date()
+) {
+  return closeStory(mongo, tenant.id, storyID, now);
 }
 
 export async function merge(

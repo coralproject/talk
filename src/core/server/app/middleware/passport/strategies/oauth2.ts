@@ -57,7 +57,8 @@ export default abstract class OAuth2Strategy<
   protected abstract findOrCreateUser(
     tenant: Tenant,
     integration: Required<T>,
-    profile: Profile
+    profile: Profile,
+    now: Date
   ): Promise<User | undefined>;
 
   protected verifyCallback = async (
@@ -70,6 +71,7 @@ export default abstract class OAuth2Strategy<
     try {
       // Talk is defined at this point.
       const tenant = req.talk!.tenant!;
+      const now = req.talk!.now;
 
       // Get the integration.
       const integration = this.getIntegration(tenant.auth.integrations);
@@ -78,7 +80,8 @@ export default abstract class OAuth2Strategy<
       const user = await this.findOrCreateUser(
         tenant,
         integration as Required<T>,
-        profile
+        profile,
+        now
       );
 
       return done(null, user);

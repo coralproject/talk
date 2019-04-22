@@ -62,7 +62,7 @@ const createTestRenderer = async (resolver: any = {}) => {
     Query: {
       ...resolver.Query,
       viewer: sinon.stub().returns({
-        ...users[0],
+        ...users.admins[0],
         commentModerationActionHistory,
       }),
       settings: sinon
