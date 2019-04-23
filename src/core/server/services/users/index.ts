@@ -51,6 +51,7 @@ import {
   User,
 } from "talk-server/models/user";
 
+import { MailerQueue } from "talk-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "../jwt";
 
 /**
@@ -421,8 +422,9 @@ export async function updateAvatar(
  */
 export async function ban(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
-  user: User,
+  banner: User,
   userID: string,
   now = new Date()
 ) {
@@ -439,7 +441,29 @@ export async function ban(
     throw new UserAlreadyBannedError();
   }
 
-  return banUser(mongo, tenant.id, userID, user.id, now);
+  // Ban the user.
+  const user = await banUser(mongo, tenant.id, userID, banner.id, now);
+
+  if (user.email) {
+    // Send the ban user email.
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
+      },
+      template: {
+        name: "ban",
+        context: {
+          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+          username: user.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  }
+
+  return user;
 }
 
 /**

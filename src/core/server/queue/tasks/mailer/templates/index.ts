@@ -33,6 +33,13 @@ export interface ForgotPasswordTemplate {
   };
 }
 
-type Templates = ForgotPasswordTemplate;
+export interface BanTemplate {
+  name: "ban";
+  context: OrganizationContext & {
+    username: string;
+  };
+}
+
+type Templates = ForgotPasswordTemplate | BanTemplate;
 
 export { Templates as Template };

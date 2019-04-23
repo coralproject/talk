@@ -91,7 +91,14 @@ export const Users = (ctx: TenantContext) => ({
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
   ban: async (input: GQLBanUserInput) =>
-    ban(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    ban(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
       ctx.mongo,

@@ -9,3 +9,11 @@ email-notification-template-forgotPassword =
 
 email-subject-forgotPassword = Password Reset Request
 
+email-notification-template-ban =
+  Hello { $username },<br/><br/>
+  Someone with access to your account has violated our community guidelines.
+  As a result, your account has been banned. You will no longer be able to
+  comment, react or report comments. if you think this has been done in error,
+  please contact our community team.
+
+email-subject-ban = Your account has been banned
