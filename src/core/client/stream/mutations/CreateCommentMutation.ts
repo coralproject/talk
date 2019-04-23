@@ -6,15 +6,16 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getStorySettings, getViewer } from "talk-framework/helpers";
+import { getViewer } from "talk-framework/helpers";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  lookup,
   MutationInput,
   MutationResponsePromise,
 } from "talk-framework/lib/relay";
-import { GQLUSER_ROLE } from "talk-framework/schema";
+import { GQLStory, GQLUSER_ROLE } from "talk-framework/schema";
 import { CreateCommentMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentMutation.graphql";
 
 import {
@@ -111,7 +112,8 @@ function commit(
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
 
-  const storySettings = getStorySettings(relayEnvironment, input.storyID);
+  const storySettings = lookup<GQLStory>(relayEnvironment, input.storyID)!
+    .settings;
   if (!storySettings || !storySettings.moderation) {
     throw new Error("Moderation mode of the story was not included");
   }

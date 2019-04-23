@@ -18,7 +18,7 @@ import { baseComment, commenters, settings, stories } from "../fixtures";
 import create from "./create";
 
 async function createTestRenderer(
-  resolver: any,
+  resolver: any = {},
   options: { muteNetworkErrors?: boolean } = {}
 ) {
   const resolvers = {
@@ -50,9 +50,11 @@ async function createTestRenderer(
   );
 
   // Open reply form.
-  within(comment)
-    .getByText("Reply", { selector: "button" })
-    .props.onClick();
+  const replyButton = within(comment).getByText("Reply", {
+    selector: "button",
+  });
+
+  replyButton.props.onClick();
 
   const rte = await waitForElement(
     () =>
@@ -70,10 +72,17 @@ async function createTestRenderer(
     testRenderer,
     context,
     comment,
+    replyButton,
     rte,
     form,
   };
 }
+
+it("hides form when reclicking on the reply button", async () => {
+  const { comment, replyButton } = await createTestRenderer();
+  replyButton.props.onClick();
+  expect(within(comment).queryByLabelText("Write a reply")).toBeNull();
+});
 
 it("post a reply", async () => {
   const { testRenderer, comment, rte, form } = await createTestRenderer({

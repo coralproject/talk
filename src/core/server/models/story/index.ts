@@ -1,4 +1,3 @@
-import { isNull, omitBy } from "lodash";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
@@ -337,7 +336,7 @@ export async function updateStorySettings(
   // Only update fields that have been updated.
   const update = {
     $set: {
-      ...omitBy(dotize({ settings: input }, { embedArrays: true }), isNull),
+      ...dotize({ settings: input }, { embedArrays: true }),
       // Always update the updated at time.
       updatedAt: now,
     },

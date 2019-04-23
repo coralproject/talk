@@ -40,7 +40,7 @@ exports[`renders comment stream with community guidelines 1`] = `
       </button>
     </div>
     <div
-      className="CallOut-root CallOut-colorPrimary"
+      className="CallOut-root CallOut-colorPrimary CallOut-fullWidth"
     >
       <div
         className="Markdown-root"

@@ -1,9 +1,14 @@
-import { cloneDeep } from "lodash";
-import sinon from "sinon";
-
 import { pureMerge } from "talk-common/utils";
 import {
+  GQLResolver,
+  MutationToUpdateStorySettingsResolver,
+} from "talk-framework/schema";
+import {
+  createMutationResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
   findParentWithType,
+  replaceHistoryLocation,
   wait,
   waitForElement,
   within,
@@ -12,30 +17,36 @@ import {
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";
 
-async function createTestRenderer(
-  resolver: any = {},
-  options: { muteNetworkErrors?: boolean; status?: string } = {}
-) {
-  const resolvers = {
-    Query: {
-      settings: sinon.stub().returns(settings),
-      story: sinon.stub().callsFake((_: any, variables: any) => {
-        expectAndFail(variables).toEqual({ id: stories[0].id, url: null });
-        return stories[0];
-      }),
-      viewer: sinon.stub().returns(moderators[0]),
-      ...resolver.Query,
-    },
-    ...resolver,
-  };
+const viewer = moderators[0];
+const story = stories[0];
 
+beforeEach(async () => {
+  replaceHistoryLocation("http://localhost/admin/community");
+});
+
+const createTestRenderer = async (
+  params: CreateTestRendererParams<GQLResolver> = {}
+) => {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
-      localRecord.setValue(stories[0].id, "storyID");
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          story: ({ variables }) => {
+            expectAndFail(variables).toEqual({ id: story.id, url: null });
+            return story;
+          },
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
+      localRecord.setValue(story.id, "storyID");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
 
@@ -46,24 +57,23 @@ async function createTestRenderer(
   const form = findParentWithType(applyButton, "form")!;
 
   return { testRenderer, tabPane, applyButton, form };
-}
+};
 
 it("change premod", async () => {
-  let storyRecord = cloneDeep(stories[0]);
-  const updateStorySettingsStub = sinon
-    .stub()
-    .callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.moderation).toEqual("PRE");
-      storyRecord = pureMerge(storyRecord, { settings: data.input.settings });
-      return {
-        story: storyRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    });
+  const updateStorySettingsStub = createMutationResolverStub<
+    MutationToUpdateStorySettingsResolver
+  >(({ variables }) => {
+    expectAndFail(variables.settings.moderation).toEqual("PRE");
+    return {
+      story: pureMerge(story, { settings: variables.settings }),
+    };
+  });
   const { form, applyButton } = await createTestRenderer({
-    Mutation: {
-      updateStorySettings: updateStorySettingsStub,
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        updateStorySettings: updateStorySettingsStub,
+      },
+    }),
   });
 
   const premodField = within(form).getByLabelText("Enable Pre-Moderation");
@@ -89,21 +99,20 @@ it("change premod", async () => {
 });
 
 it("change premod links", async () => {
-  let storyRecord = cloneDeep(stories[0]);
-  const updateStorySettingsStub = sinon
-    .stub()
-    .callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.premodLinksEnable).toEqual(true);
-      storyRecord = pureMerge(storyRecord, { settings: data.input.settings });
-      return {
-        story: storyRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    });
+  const updateStorySettingsStub = createMutationResolverStub<
+    MutationToUpdateStorySettingsResolver
+  >(({ variables }) => {
+    expectAndFail(variables.settings.premodLinksEnable).toEqual(true);
+    return {
+      story: pureMerge(story, { settings: variables.settings }),
+    };
+  });
   const { form, applyButton } = await createTestRenderer({
-    Mutation: {
-      updateStorySettings: updateStorySettingsStub,
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        updateStorySettings: updateStorySettingsStub,
+      },
+    }),
   });
 
   const premodLinksField = within(form).getByLabelText(
@@ -131,25 +140,24 @@ it("change premod links", async () => {
 });
 
 it("change message box", async () => {
-  let storyRecord = cloneDeep(stories[0]);
-  const updateStorySettingsStub = sinon
-    .stub()
-    .callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.messageBox).toEqual({
-        enabled: true,
-        content: "*What do you think?*",
-        icon: "question_answer",
-      });
-      storyRecord = pureMerge(storyRecord, { settings: data.input.settings });
-      return {
-        story: storyRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
+  const updateStorySettingsStub = createMutationResolverStub<
+    MutationToUpdateStorySettingsResolver
+  >(({ variables }) => {
+    expectAndFail(variables.settings.messageBox).toEqual({
+      enabled: true,
+      content: "*What do you think?*",
+      icon: "question_answer",
     });
+    return {
+      story: pureMerge(story, { settings: variables.settings }),
+    };
+  });
   const { form, applyButton } = await createTestRenderer({
-    Mutation: {
-      updateStorySettings: updateStorySettingsStub,
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        updateStorySettings: updateStorySettingsStub,
+      },
+    }),
   });
 
   const enableField = within(form).getByLabelText(
@@ -162,9 +170,9 @@ it("change message box", async () => {
   expect(applyButton.props.disabled).toBe(false);
 
   // Select icon
-  within(form)
-    .getByLabelText("question_answer")
-    .props.onChange({ target: { value: "question_answer" } });
+  const iconButton = within(form).getByLabelText("question_answer");
+
+  iconButton.props.onChange({ target: { value: iconButton.props.value } });
 
   // Change content.
   (await waitForElement(() =>
@@ -184,4 +192,53 @@ it("change message box", async () => {
 
   // Should have successfully sent with server.
   expect(updateStorySettingsStub.called).toBe(true);
+});
+
+it("remove message icon", async () => {
+  const updateStorySettingsStub = createMutationResolverStub<
+    MutationToUpdateStorySettingsResolver
+  >(({ variables }) => {
+    expectAndFail(variables.settings.messageBox).toEqual({
+      enabled: true,
+      content: "*What do you think?*",
+      icon: null,
+    });
+    return {
+      story: pureMerge(story, { settings: variables.settings }),
+    };
+  });
+  const { form, applyButton } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        story: () =>
+          pureMerge<typeof story>(story, {
+            settings: {
+              messageBox: {
+                enabled: true,
+                content: "*What do you think?*",
+                icon: "question_answer",
+              },
+            },
+          }),
+      },
+      Mutation: {
+        updateStorySettings: updateStorySettingsStub,
+      },
+    }),
+  });
+
+  // Select icon
+  const noIconButton = within(form).getByLabelText("No Icon");
+
+  noIconButton.props.onChange({ target: { value: noIconButton.props.value } });
+
+  // Send form
+  form.props.onSubmit();
+
+  expect(applyButton.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await wait(() => {
+    expect(updateStorySettingsStub.called).toBe(true);
+  });
 });

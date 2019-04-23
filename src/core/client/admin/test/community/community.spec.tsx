@@ -26,6 +26,8 @@ import {
   users,
 } from "../fixtures";
 
+const viewer = users.admins[0];
+
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/community");
 });
@@ -43,7 +45,7 @@ const createTestRenderer = async (
             expectAndFail(variables.role).toBeFalsy();
             return communityUsers;
           },
-          viewer: () => users.admins[0],
+          viewer: () => viewer,
         },
       }),
       params.resolvers
@@ -113,7 +115,6 @@ it("filter by role", async () => {
 });
 
 it("can't change viewer role", async () => {
-  const viewer = users.admins[0];
   const { container } = await createTestRenderer();
 
   const viewerRow = within(container).getByText(viewer.username!, {
@@ -169,11 +170,11 @@ it("change user role", async () => {
 });
 
 it("can't change role as a moderator", async () => {
-  const viewer = users.moderators[0];
+  const moderator = users.moderators[0];
   const { container } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Query: {
-        viewer: () => viewer,
+        viewer: () => moderator,
       },
     }),
   });
@@ -190,8 +191,8 @@ it("load more", async () => {
               return {
                 edges: [
                   {
-                    node: users.admins[0],
-                    cursor: users.admins[0].createdAt,
+                    node: viewer,
+                    cursor: viewer.createdAt,
                   },
                   {
                     node: users.commenters[0],

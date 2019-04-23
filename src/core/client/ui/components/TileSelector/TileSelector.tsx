@@ -26,7 +26,7 @@ const TileSelector: StatelessComponent<Props> = props => {
   const { id, name, value, className, children, onChange } = props;
   const onItemChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) =>
-      onChange && onChange(evt.target.value || null),
+      onChange && onChange(evt.target.value),
     [onChange]
   );
   return (

@@ -3,6 +3,7 @@
 exports[`renders correctly 1`] = `
 <withPropsOnChange(CallOut)
   color="primary"
+  fullWidth={true}
 >
   <Markdown>
     **bold**

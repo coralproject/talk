@@ -46,7 +46,7 @@ const BanUserMutation = createMutation(
               current: lookup<GQLUser>(
                 environment,
                 input.userID
-              )!.status!.current!.concat([GQLUSER_STATUS.BANNED]),
+              )!.status.current.concat([GQLUSER_STATUS.BANNED]),
               ban: {
                 active: true,
               },
