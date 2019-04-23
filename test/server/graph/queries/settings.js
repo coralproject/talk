@@ -30,6 +30,7 @@ describe('graph.queries.settings', () => {
       questionBoxIcon
       autoCloseStream
       customCssUrl
+      customAdminCssUrl
       closedTimeout
       closedMessage
       charCountEnable

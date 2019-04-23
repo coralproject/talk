@@ -14,6 +14,11 @@ class TechSettings extends React.Component {
     this.props.updatePending({ updater });
   };
 
+  updateCustomAdminCssUrl = event => {
+    const updater = { customAdminCssUrl: { $set: event.target.value } };
+    this.props.updatePending({ updater });
+  };
+
   updateDomainlist = (listName, list) => {
     this.props.updatePending({
       updater: {
@@ -48,6 +53,14 @@ class TechSettings extends React.Component {
             className={styles.customCSSInput}
             value={settings.customCssUrl}
             onChange={this.updateCustomCssUrl}
+          />
+        </ConfigureCard>
+        <ConfigureCard title={t('configure.custom_admin_css_url')}>
+          <p>{t('configure.custom_admin_css_url_desc')}</p>
+          <input
+            className={styles.customCSSInput}
+            value={settings.customAdminCssUrl}
+            onChange={this.updateCustomAdminCssUrl}
           />
         </ConfigureCard>
         <Slot fill="adminTechSettings" passthrough={slotPassthrough} />
