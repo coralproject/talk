@@ -50,6 +50,9 @@ export const tenantMiddleware = ({
     // Attach the tenant to the request.
     req.talk.tenant = tenant;
 
+    // Attach the tenant's language to the request.
+    res.setHeader("Content-Language", tenant.locale);
+
     // Attach the tenant to the view locals.
     res.locals.tenant = tenant;
 
