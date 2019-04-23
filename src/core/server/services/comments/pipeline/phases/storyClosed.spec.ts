@@ -11,6 +11,7 @@ describe("storyClosed", () => {
         tenant: {} as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
+        now: new Date(),
       })
     ).toThrow();
 
@@ -19,6 +20,7 @@ describe("storyClosed", () => {
       tenant: {
         closeCommenting: { auto: true },
       } as ModerationPhaseContext["tenant"],
+      now: new Date(),
       comment: {} as ModerationPhaseContext["comment"],
       author: {} as ModerationPhaseContext["author"],
     });
@@ -32,6 +34,7 @@ describe("storyClosed", () => {
             timeout: -6000,
           },
         } as ModerationPhaseContext["tenant"],
+        now: new Date(),
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
       })
@@ -53,6 +56,7 @@ describe("storyClosed", () => {
         } as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
+        now,
       })
     ).toBeUndefined();
 
@@ -64,6 +68,7 @@ describe("storyClosed", () => {
         } as ModerationPhaseContext["tenant"],
         comment: {} as ModerationPhaseContext["comment"],
         author: {} as ModerationPhaseContext["author"],
+        now,
       })
     ).toBeUndefined();
   });

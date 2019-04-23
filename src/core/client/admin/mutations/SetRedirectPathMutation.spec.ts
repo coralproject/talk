@@ -8,7 +8,7 @@ import {
   createInMemoryStorage,
   createPromisifiedStorage,
 } from "talk-framework/lib/storage";
-import { commit } from "./SetRedirectPathMutation";
+import SetRedirectPathMutation from "./SetRedirectPathMutation";
 
 let environment: Environment;
 const source: RecordSource = new RecordSource();
@@ -21,7 +21,7 @@ beforeAll(() => {
 
 it("Sets redirectPath", async () => {
   const storage = createInMemoryStorage();
-  await commit(environment, { path: "/path" }, {
+  await SetRedirectPathMutation.commit(environment, { path: "/path" }, {
     localStorage: createPromisifiedStorage(storage),
   } as any);
   expect(source.get(LOCAL_ID)!.redirectPath).toEqual("/path");
@@ -30,7 +30,7 @@ it("Sets redirectPath", async () => {
 
 it("Removes redirectPath", async () => {
   const storage = createInMemoryStorage();
-  await commit(environment, { path: null }, {
+  await SetRedirectPathMutation.commit(environment, { path: null }, {
     localStorage: createPromisifiedStorage(storage),
   } as any);
   expect(source.get(LOCAL_ID)!.redirectPath).toEqual(null);

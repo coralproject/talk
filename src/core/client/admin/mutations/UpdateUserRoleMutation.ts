@@ -1,56 +1,46 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { UpdateUserRoleMutation as MutationTypes } from "talk-admin/__generated__/UpdateUserRoleMutation.graphql";
 import {
   commitMutationPromiseNormalized,
-  createMutationContainer,
+  createMutation,
   MutationInput,
-  MutationResponsePromise,
 } from "talk-framework/lib/relay";
-
-import { UpdateUserRoleMutation as MutationTypes } from "talk-admin/__generated__/UpdateUserRoleMutation.graphql";
-
-export type UpdateUserRoleInput = MutationInput<MutationTypes>;
-
-const mutation = graphql`
-  mutation UpdateUserRoleMutation($input: UpdateUserRoleInput!) {
-    updateUserRole(input: $input) {
-      user {
-        role
-      }
-      clientMutationId
-    }
-  }
-`;
 
 let clientMutationId = 0;
 
-function commit(environment: Environment, input: UpdateUserRoleInput) {
-  return commitMutationPromiseNormalized<MutationTypes>(environment, {
-    mutation,
-    optimisticResponse: {
-      updateUserRole: {
-        user: {
-          id: input.userID,
-          role: input.role,
-        },
-        clientMutationId: clientMutationId.toString(),
-      },
-    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
-    variables: {
-      input: {
-        ...input,
-        clientMutationId: (clientMutationId++).toString(),
-      },
-    },
-  });
-}
-
-export const withUpdateUserRoleMutation = createMutationContainer(
+const UpdateUserRoleMutation = createMutation(
   "updateUserRole",
-  commit
+  (environment: Environment, input: MutationInput<MutationTypes>) =>
+    commitMutationPromiseNormalized<MutationTypes>(environment, {
+      mutation: graphql`
+        mutation UpdateUserRoleMutation($input: UpdateUserRoleInput!) {
+          updateUserRole(input: $input) {
+            user {
+              id
+              role
+            }
+            clientMutationId
+          }
+        }
+      `,
+      optimisticResponse: {
+        updateUserRole: {
+          user: {
+            id: input.userID,
+            role: input.role,
+          },
+          clientMutationId: clientMutationId.toString(),
+        },
+      },
+      variables: {
+        input: {
+          ...input,
+          clientMutationId: (clientMutationId++).toString(),
+        },
+      },
+    })
 );
 
-export type UpdateUserRoleMutation = (
-  input: UpdateUserRoleInput
-) => MutationResponsePromise<MutationTypes, "updateUserRole">;
+export default UpdateUserRoleMutation;

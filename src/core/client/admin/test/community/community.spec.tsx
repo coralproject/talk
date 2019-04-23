@@ -1,10 +1,16 @@
-import { get, merge } from "lodash";
 import TestRenderer from "react-test-renderer";
-import sinon from "sinon";
 
-import { GQLUSER_ROLE } from "talk-framework/schema";
+import { pureMerge } from "talk-common/utils";
 import {
-  createSinonStub,
+  GQLResolver,
+  GQLUSER_ROLE,
+  GQLUSER_STATUS,
+  QueryToUsersResolver,
+} from "talk-framework/schema";
+import {
+  createQueryResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
   findParentWithType,
   replaceHistoryLocation,
   waitForElement,
@@ -20,31 +26,35 @@ import {
   users,
 } from "../fixtures";
 
+const viewer = users.admins[0];
+
 beforeEach(async () => {
   replaceHistoryLocation("http://localhost/admin/community");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      users: sinon.stub().callsFake((_, data) => {
-        expectAndFail(data.role).toBeFalsy();
-        return communityUsers;
-      }),
-      viewer: sinon.stub().returns(users[0]),
-      ...resolver.Query,
-    },
-  };
+const createTestRenderer = async (
+  params: CreateTestRendererParams<GQLResolver> = {}
+) => {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          users: ({ variables }) => {
+            expectAndFail(variables.role).toBeFalsy();
+            return communityUsers;
+          },
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const container = await waitForElement(() =>
@@ -60,8 +70,12 @@ it("renders community", async () => {
 
 it("renders empty community", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: sinon.stub().returns(emptyCommunityUsers),
+    resolvers: {
+      Query: {
+        users: createQueryResolverStub<QueryToUsersResolver>(
+          () => emptyCommunityUsers
+        ),
+      },
     },
   });
   expect(within(container).toJSON()).toMatchSnapshot();
@@ -69,16 +83,19 @@ it("renders empty community", async () => {
 
 it("filter by role", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createSinonStub(
-        s => s.onFirstCall().returns(communityUsers),
-        s =>
-          s.onSecondCall().callsFake((_, data) => {
-            expectAndFail(data.role).toBe(GQLUSER_ROLE.COMMENTER);
-            return emptyCommunityUsers;
-          })
-      ),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ variables, callCount }) => {
+          switch (callCount) {
+            case 0:
+              return communityUsers;
+            default:
+              expectAndFail(variables.role).toBe(GQLUSER_ROLE.COMMENTER);
+              return emptyCommunityUsers;
+          }
+        },
+      },
+    }),
   });
 
   const selectField = within(container).getByLabelText("Search by role");
@@ -98,34 +115,37 @@ it("filter by role", async () => {
 });
 
 it("can't change viewer role", async () => {
-  const viewer = users[0];
   const { container } = await createTestRenderer();
 
-  const viewerRow = within(container).getByText(viewer.username, {
+  const viewerRow = within(container).getByText(viewer.username!, {
     selector: "tr",
   });
   expect(() => within(viewerRow).getByLabelText("Change role")).toThrow();
 });
 
 it("change user role", async () => {
-  const user = users[1];
-  const updateUserRole = sinon.stub().callsFake((_: any, data: any) => {
-    expectAndFail(data.input).toMatchObject({
-      userID: user.id,
-      role: GQLUSER_ROLE.STAFF,
-    });
-    const userRecord = merge({}, user, { role: data.input.role });
-    return {
-      user: userRecord,
-      clientMutationId: data.input.clientMutationId,
-    };
+  const user = users.commenters[0];
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateUserRole: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          role: GQLUSER_ROLE.STAFF,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          role: variables.role,
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
   });
-
   const { container } = await createTestRenderer({
-    Mutation: { updateUserRole },
+    resolvers,
   });
 
-  const userRow = within(container).getByText(user.username, {
+  const userRow = within(container).getByText(user.username!, {
     selector: "tr",
   });
 
@@ -146,38 +166,61 @@ it("change user role", async () => {
   });
 
   within(userRow).getByText("Staff");
-  expect(updateUserRole.called).toBe(true);
+  expect(resolvers.Mutation!.updateUserRole!.called).toBe(true);
 });
 
 it("can't change role as a moderator", async () => {
-  const viewer = users[1];
+  const moderator = users.moderators[0];
   const { container } = await createTestRenderer({
-    Query: {
-      viewer: sinon.stub().returns(viewer),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () => moderator,
+      },
+    }),
   });
   expect(() => within(container).getByLabelText("Change role")).toThrow();
 });
 
 it("load more", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createSinonStub(
-        s =>
-          s.onFirstCall().returns({
-            edges: [
-              { node: users[0], cursor: users[0].createdAt },
-              { node: users[1], cursor: users[1].createdAt },
-            ],
-            pageInfo: { endCursor: users[1].createdAt, hasNextPage: true },
-          }),
-        s =>
-          s.onSecondCall().returns({
-            edges: [{ node: users[2], cursor: users[2].createdAt }],
-            pageInfo: { endCursor: users[2].createdAt, hasNextPage: false },
-          })
-      ),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ callCount }) => {
+          switch (callCount) {
+            case 0:
+              return {
+                edges: [
+                  {
+                    node: viewer,
+                    cursor: viewer.createdAt,
+                  },
+                  {
+                    node: users.commenters[0],
+                    cursor: users.commenters[0].createdAt,
+                  },
+                ],
+                pageInfo: {
+                  endCursor: users.commenters[0].createdAt,
+                  hasNextPage: true,
+                },
+              };
+            default:
+              return {
+                edges: [
+                  {
+                    node: users.commenters[1],
+                    cursor: users.commenters[1].createdAt,
+                  },
+                ],
+                pageInfo: {
+                  endCursor: users.commenters[1].createdAt,
+                  hasNextPage: false,
+                },
+              };
+          }
+        },
+      },
+    }),
   });
   const loadMore = within(container).getByText("Load More");
   TestRenderer.act(() => {
@@ -188,21 +231,24 @@ it("load more", async () => {
   await waitUntilThrow(() => within(container).getByText("Load More"));
 
   // Make sure third user was added.
-  within(container).getByText(users[2].username);
+  within(container).getByText(users.commenters[1].username!);
 });
 
 it("filter by search", async () => {
   const { container } = await createTestRenderer({
-    Query: {
-      users: createSinonStub(
-        s => s.onFirstCall().returns(communityUsers),
-        s =>
-          s.onSecondCall().callsFake((_, data) => {
-            expectAndFail(data.query).toBe("search");
-            return emptyCommunityUsers;
-          })
-      ),
-    },
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ variables, callCount }) => {
+          switch (callCount) {
+            case 0:
+              return communityUsers;
+            default:
+              expectAndFail(variables.query).toBe("search");
+              return emptyCommunityUsers;
+          }
+        },
+      },
+    }),
   });
 
   const searchField = within(container).getByLabelText("Search by username", {
@@ -220,4 +266,178 @@ it("filter by search", async () => {
   await waitForElement(() =>
     within(container).getByText("could not find anyone", { exact: false })
   );
+});
+
+it("filter by status", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        users: ({ variables, callCount }) => {
+          switch (callCount) {
+            case 0:
+              return communityUsers;
+            default:
+              expectAndFail(variables.status).toBe("BANNED");
+              return emptyCommunityUsers;
+          }
+        },
+      },
+    }),
+  });
+
+  const statusField = within(container).getByLabelText(
+    "Search by user status",
+    {
+      exact: false,
+    }
+  );
+  const bannedOption = within(statusField).getByText("Banned");
+
+  TestRenderer.act(() => {
+    statusField.props.onChange({
+      target: { value: bannedOption.props.value.toString() },
+    });
+    // TODO: Fix act warnings until await Promise.resolve();
+    // or whatever comes out at https://github.com/facebook/react/issues/14769
+  });
+
+  await waitForElement(() =>
+    within(container).getByText("We could not find anyone", { exact: false })
+  );
+});
+
+it("can't change staff, moderator and admin status", async () => {
+  const { container } = await createTestRenderer();
+  ["Admin", "Moderator", "Staff"].forEach(role => {
+    const viewerRow = within(container).getByText(role, {
+      selector: "tr",
+    });
+    expect(() =>
+      within(viewerRow).getByLabelText("Change user status")
+    ).toThrow();
+  });
+});
+
+it("ban user", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      banUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.BANNED),
+            ban: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Ban User")
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText(
+    "Are you sure you want to ban",
+    {
+      exact: false,
+    }
+  );
+
+  expect(within(modal).toJSON()).toMatchSnapshot();
+
+  within(modal)
+    .getByText("Ban User")
+    .props.onClick();
+  within(userRow).getByText("Banned");
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
+});
+
+it("remove user ban", async () => {
+  const user = users.bannedCommenter;
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      removeUserBan: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.filter(
+              s => s !== GQLUSER_STATUS.BANNED
+            ),
+            ban: { active: false },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+    Query: {
+      users: () => ({
+        edges: [
+          {
+            node: user,
+            cursor: user.createdAt,
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      }),
+    },
+  });
+
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Remove Ban")
+      .props.onClick();
+  });
+
+  within(userRow).getByText("Active");
+  expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
 });

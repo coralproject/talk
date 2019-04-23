@@ -2,20 +2,17 @@ import { Match, Router, withRouter } from "found";
 import React from "react";
 
 import { AuthCheckContainerQueryResponse } from "talk-admin/__generated__/AuthCheckContainerQuery.graphql";
-import {
-  SetRedirectPathMutation,
-  withSetRedirectPathMutation,
-} from "talk-admin/mutations";
+import { SetRedirectPathMutation } from "talk-admin/mutations";
 import { AbilityType, can } from "talk-admin/permissions";
 import RestrictedContainer from "talk-admin/views/restricted/containers/RestrictedContainer";
-import { graphql } from "talk-framework/lib/relay";
+import { graphql, MutationProp, withMutation } from "talk-framework/lib/relay";
 import { withRouteConfig } from "talk-framework/lib/router";
 import { GQLUSER_ROLE } from "talk-framework/schema";
 
 interface Props {
   match: Match;
   router: Router;
-  setRedirectPath: SetRedirectPathMutation;
+  setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
   data:
     | AuthCheckContainerQueryResponse & {
         route: {
@@ -52,10 +49,7 @@ class AuthCheckContainer extends React.Component<Props> {
   }
 
   private hasAccess(props: Props = this.props) {
-    const {
-      viewer,
-      settings: { auth },
-    } = props.data!;
+    const { viewer } = props.data!;
     if (viewer) {
       if (
         viewer.role === GQLUSER_ROLE.COMMENTER ||
@@ -64,15 +58,6 @@ class AuthCheckContainer extends React.Component<Props> {
           props.data.route.data &&
           // Perform permission check on the ability passed in by the route data
           !can(viewer, props.data.route.data))
-      ) {
-        return false;
-      } else if (
-        !viewer.email ||
-        !viewer.username ||
-        (!viewer.profiles.some(p => p.__typename === "LocalProfile") &&
-          auth.integrations.local.enabled &&
-          (auth.integrations.local.targetFilter.admin ||
-            auth.integrations.local.targetFilter.stream))
       ) {
         return false;
       }
@@ -136,6 +121,6 @@ const enhanced = withRouteConfig({
       }
     }
   `,
-})(withRouter(withSetRedirectPathMutation(AuthCheckContainer)));
+})(withRouter(withMutation(SetRedirectPathMutation)(AuthCheckContainer)));
 
 export default enhanced;

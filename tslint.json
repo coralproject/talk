@@ -10,6 +10,7 @@
     "interface-name": [true, "never-prefix"],
     "no-switch-case-fall-through": true,
     "member-ordering": false,
+
     "variable-name": [
       true,
       "ban-keywords",

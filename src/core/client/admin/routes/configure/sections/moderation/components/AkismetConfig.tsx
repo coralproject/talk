@@ -107,12 +107,11 @@ const AkismetConfig: StatelessComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 spellCheck={false}
               />
-              {meta.touched &&
-                (meta.error || meta.submitError) && (
-                  <ValidationMessage>
-                    {meta.error || meta.submitError}
-                  </ValidationMessage>
-                )}
+              {meta.touched && (meta.error || meta.submitError) && (
+                <ValidationMessage>
+                  {meta.error || meta.submitError}
+                </ValidationMessage>
+              )}
             </>
           )}
         </Field>

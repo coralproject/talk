@@ -28,6 +28,7 @@
   appearance: none;
   outline: none;
   color: var(--palette-text-primary);
+  width: 100%;
 
   &::-moz-focus-inner {
     border: 0;

@@ -15,34 +15,31 @@ export default function useRefetch<V = Variables>(
 ): [() => void, boolean] {
   const [manualRefetchCount, setManualRefetchCount] = useState(0);
   const [refetching, setRefetching] = useState(false);
-  useEffectAfterMount(
-    () => {
-      setRefetching(true);
-      const disposable = relay.refetchConnection(
-        10,
-        error => {
-          setRefetching(false);
-          if (error) {
-            // tslint:disable-next-line:no-console
-            console.error(error);
-          }
-        },
-        variables
-      );
-      return () => {
-        if (disposable) {
-          disposable.dispose();
+  useEffectAfterMount(() => {
+    setRefetching(true);
+    const disposable = relay.refetchConnection(
+      10,
+      error => {
+        setRefetching(false);
+        if (error) {
+          // tslint:disable-next-line:no-console
+          console.error(error);
         }
-      };
-    },
-    [
-      relay,
-      manualRefetchCount,
-      ...Object.keys(variables).reduce<any[]>((a, k) => {
-        a.push((variables as any)[k]);
-        return a;
-      }, []),
-    ]
-  );
+      },
+      variables
+    );
+    return () => {
+      if (disposable) {
+        disposable.dispose();
+      }
+    };
+  }, [
+    relay,
+    manualRefetchCount,
+    ...Object.keys(variables).reduce<any[]>((a, k) => {
+      a.push((variables as any)[k]);
+      return a;
+    }, []),
+  ]);
   return [() => setManualRefetchCount(manualRefetchCount + 1), refetching];
 }

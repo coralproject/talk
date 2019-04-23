@@ -123,7 +123,10 @@ class Server {
     // Create the database indexes if it isn't disabled.
     if (!this.config.get("disable_mongodb_autoindexing")) {
       // Setup the database indexes.
+      logger.info("mongodb autoindexing is enabled, starting indexing");
       await ensureIndexes(this.mongo);
+    } else {
+      logger.info("mongodb autoindexing is disabled, skipping indexing");
     }
 
     // Launch all of the job processors.

@@ -37,8 +37,8 @@ export interface RTEProps {
    */
   className?: string;
   /*
-  * If set renders a full width button
-  */
+   * If set renders a full width button
+   */
   fullWidth?: boolean;
   /**
    * Placeholder

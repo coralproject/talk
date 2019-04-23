@@ -50,6 +50,9 @@ const UserTable: StatelessComponent<Props> = props => (
             <Localized id="community-column-role">
               <TableCell className={styles.roleColumn}>Role</TableCell>
             </Localized>
+            <Localized id="community-column-status">
+              <TableCell className={styles.statusColumn}>Status</TableCell>
+            </Localized>
           </TableRow>
         </TableHead>
         <TableBody>

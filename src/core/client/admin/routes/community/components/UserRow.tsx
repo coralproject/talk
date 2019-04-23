@@ -5,6 +5,8 @@ import { PropTypesOf } from "talk-framework/types";
 import { TableCell, TableRow, TextLink } from "talk-ui/components";
 
 import RoleChangeContainer from "../containers/RoleChangeContainer";
+import UserStatusChangeContainer from "../containers/UserStatusChangeContainer";
+import ButtonPadding from "./ButtonPadding";
 import RoleText from "./RoleText";
 
 import styles from "./UserRow.css";
@@ -16,6 +18,7 @@ interface Props {
   email: string | null;
   memberSince: string;
   role: PropTypesOf<typeof RoleChangeContainer>["role"];
+  user: PropTypesOf<typeof UserStatusChangeContainer>["user"];
 }
 
 const UserRow: StatelessComponent<Props> = props => (
@@ -35,8 +38,13 @@ const UserRow: StatelessComponent<Props> = props => (
       {props.canChangeRole ? (
         <RoleChangeContainer userID={props.userID} role={props.role} />
       ) : (
-        <RoleText>{props.role}</RoleText>
+        <ButtonPadding>
+          <RoleText>{props.role}</RoleText>
+        </ButtonPadding>
       )}
+    </TableCell>
+    <TableCell className={styles.roleColumn}>
+      <UserStatusChangeContainer user={props.user} />
     </TableCell>
   </TableRow>
 );

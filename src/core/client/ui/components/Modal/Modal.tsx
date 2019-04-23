@@ -30,20 +30,17 @@ function appendDivNode() {
  */
 function useDOMNode(open: boolean) {
   const [modalDOMNode, setModalDOMNode] = useState<HTMLDivElement | null>(null);
-  useEffect(
-    () => {
-      if (open) {
-        const node = appendDivNode();
-        setModalDOMNode(node);
-        return () => {
-          node!.parentElement!.removeChild(node!);
-          setModalDOMNode(null);
-        };
-      }
-      return;
-    },
-    [open]
-  );
+  useEffect(() => {
+    if (open) {
+      const node = appendDivNode();
+      setModalDOMNode(node);
+      return () => {
+        node!.parentElement!.removeChild(node!);
+        setModalDOMNode(null);
+      };
+    }
+    return;
+  }, [open]);
   return modalDOMNode;
 }
 

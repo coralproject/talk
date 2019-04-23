@@ -81,12 +81,11 @@ const SitewideCommentingConfig: StatelessComponent<Props> = ({ disabled }) => (
               value={input.value}
             />
           </Suspense>
-          {meta.touched &&
-            (meta.error || meta.submitError) && (
-              <ValidationMessage>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+          {meta.touched && (meta.error || meta.submitError) && (
+            <ValidationMessage>
+              {meta.error || meta.submitError}
+            </ValidationMessage>
+          )}
         </>
       )}
     </Field>

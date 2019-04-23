@@ -9,7 +9,7 @@ import {
 import { validate } from "talk-server/app/request/body";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
-import { upsert } from "talk-server/services/users";
+import { insert } from "talk-server/services/users";
 import { Request } from "talk-server/types/express";
 
 export interface SignupBody {
@@ -38,6 +38,7 @@ export const signupHandler = ({
 
     // Tenant is guaranteed at this point.
     const tenant = req.talk!.tenant!;
+    const now = req.talk!.now;
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {
@@ -65,14 +66,19 @@ export const signupHandler = ({
     };
 
     // Create the new user.
-    const user = await upsert(mongo, tenant, {
-      email,
-      username,
-      profiles: [profile],
-      // New users signing up via local auth will have the commenter role to
-      // start with.
-      role: GQLUSER_ROLE.COMMENTER,
-    });
+    const user = await insert(
+      mongo,
+      tenant,
+      {
+        email,
+        username,
+        profiles: [profile],
+        // New users signing up via local auth will have the commenter role to
+        // start with.
+        role: GQLUSER_ROLE.COMMENTER,
+      },
+      now
+    );
 
     // Send off to the passport handler.
     return handleSuccessfulLogin(user, signingConfig, req, res, next);

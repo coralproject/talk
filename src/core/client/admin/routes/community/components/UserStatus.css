@@ -1,0 +1,4 @@
+.dot {
+  font-size: calc(22rem / var(--rem-base));
+  padding-bottom: 3px;
+}

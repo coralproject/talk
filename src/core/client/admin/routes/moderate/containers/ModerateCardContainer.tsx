@@ -6,23 +6,21 @@ import {
   ModerateCardContainer_comment as CommentData,
 } from "talk-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { ModerateCardContainer_settings as SettingsData } from "talk-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { AcceptCommentMutation } from "talk-admin/mutations";
+import { RejectCommentMutation } from "talk-admin/mutations";
 import {
-  AcceptCommentMutation,
-  withAcceptCommentMutation,
-} from "talk-admin/mutations";
-import {
-  RejectCommentMutation,
-  withRejectCommentMutation,
-} from "talk-admin/mutations";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+  MutationProp,
+  withFragmentContainer,
+  withMutation,
+} from "talk-framework/lib/relay";
 
 import ModerateCard from "../components/ModerateCard";
 
 interface ModerateCardContainerProps {
   comment: CommentData;
   settings: SettingsData;
-  acceptComment: AcceptCommentMutation;
-  rejectComment: RejectCommentMutation;
+  acceptComment: MutationProp<typeof AcceptCommentMutation>;
+  rejectComment: MutationProp<typeof RejectCommentMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
 }
 
@@ -106,6 +104,10 @@ const enhanced = withFragmentContainer<ModerateCardContainerProps>({
       }
     }
   `,
-})(withAcceptCommentMutation(withRejectCommentMutation(ModerateCardContainer)));
+})(
+  withMutation(AcceptCommentMutation)(
+    withMutation(RejectCommentMutation)(ModerateCardContainer)
+  )
+);
 
 export default enhanced;

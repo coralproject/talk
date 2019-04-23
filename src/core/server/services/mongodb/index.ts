@@ -5,10 +5,9 @@ import { InternalError } from "talk-server/errors";
 
 export async function createMongoClient(config: Config): Promise<MongoClient> {
   try {
-    return await MongoClient.connect(
-      config.get("mongodb"),
-      { useNewUrlParser: true }
-    );
+    return await MongoClient.connect(config.get("mongodb"), {
+      useNewUrlParser: true,
+    });
   } catch (err) {
     throw new InternalError(err, "could not connect to mongodb");
   }

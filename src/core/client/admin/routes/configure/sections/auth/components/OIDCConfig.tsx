@@ -106,12 +106,11 @@ const OIDCConfig: StatelessComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                   />
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </>
               )}
             </Field>
@@ -168,12 +167,11 @@ const OIDCConfig: StatelessComponent<Props> = ({
                       Discover
                     </Button>
                   </Flex>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </>
               )}
             </Field>
@@ -201,12 +199,11 @@ const OIDCConfig: StatelessComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                   />
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </>
               )}
             </Field>
@@ -234,12 +231,11 @@ const OIDCConfig: StatelessComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                   />
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </>
               )}
             </Field>
@@ -267,12 +263,11 @@ const OIDCConfig: StatelessComponent<Props> = ({
                     autoCapitalize="off"
                     spellCheck={false}
                   />
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                 </>
               )}
             </Field>

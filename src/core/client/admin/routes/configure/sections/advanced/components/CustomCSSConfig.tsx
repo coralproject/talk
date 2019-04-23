@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 import { Field } from "react-final-form";
 
+import { formatEmpty, parseEmptyAsNull } from "talk-framework/lib/form";
 import {
   FormField,
   HorizontalGutter,
@@ -33,7 +34,7 @@ const CustomCSSConfig: StatelessComponent<Props> = ({ disabled }) => (
           styles. Can be internal or external.
         </Typography>
       </Localized>
-      <Field name="customCSSURL">
+      <Field name="customCSSURL" parse={parseEmptyAsNull} format={formatEmpty}>
         {({ input, meta }) => (
           <>
             <TextField
@@ -48,12 +49,11 @@ const CustomCSSConfig: StatelessComponent<Props> = ({ disabled }) => (
               spellCheck={false}
               fullWidth
             />
-            {meta.touched &&
-              (meta.error || meta.submitError) && (
-                <ValidationMessage fullWidth>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+            {meta.touched && (meta.error || meta.submitError) && (
+              <ValidationMessage fullWidth>
+                {meta.error || meta.submitError}
+              </ValidationMessage>
+            )}
           </>
         )}
       </Field>

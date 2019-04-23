@@ -5,6 +5,8 @@ import { User } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
 
 export interface TalkRequest {
+  id: string;
+  now: Date;
   cache?: {
     tenant: TenantCache;
   };

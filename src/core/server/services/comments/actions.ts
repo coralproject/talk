@@ -34,10 +34,11 @@ export type CreateAction = CreateActionInput;
 export async function addCommentActions(
   mongo: Db,
   tenant: Tenant,
-  ...inputs: CreateAction[]
+  inputs: CreateAction[],
+  now = new Date()
 ) {
   // Create each of the actions, returning each of the action results.
-  const results = await createActions(mongo, tenant.id, inputs);
+  const results = await createActions(mongo, tenant.id, inputs, now);
 
   // Get the actions that were upserted, we only want to increment the action
   // counts of actions that were just created.
@@ -78,7 +79,8 @@ async function addCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
   tenant: Tenant,
-  input: Omit<CreateActionInput, "storyID">
+  input: Omit<CreateActionInput, "storyID">,
+  now = new Date()
 ): Promise<Readonly<Comment>> {
   const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
   if (!oldComment) {
@@ -93,7 +95,7 @@ async function addCommentAction(
   };
 
   // Update the actions for the comment.
-  const commentActions = await addCommentActions(mongo, tenant, action);
+  const commentActions = await addCommentActions(mongo, tenant, [action], now);
   if (commentActions.length > 0) {
     // Update the comment action counts.
     const updatedComment = await addCommentActionCounts(
@@ -198,14 +200,21 @@ export async function createReaction(
   redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
-  input: CreateCommentReaction
+  input: CreateCommentReaction,
+  now = new Date()
 ) {
-  return addCommentAction(mongo, redis, tenant, {
-    actionType: ACTION_TYPE.REACTION,
-    commentID: input.commentID,
-    commentRevisionID: input.commentRevisionID,
-    userID: author.id,
-  });
+  return addCommentAction(
+    mongo,
+    redis,
+    tenant,
+    {
+      actionType: ACTION_TYPE.REACTION,
+      commentID: input.commentID,
+      commentRevisionID: input.commentRevisionID,
+      userID: author.id,
+    },
+    now
+  );
 }
 
 export type RemoveCommentReaction = Pick<RemoveActionInput, "commentID">;
@@ -234,15 +243,22 @@ export async function createDontAgree(
   redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
-  input: CreateCommentDontAgree
+  input: CreateCommentDontAgree,
+  now = new Date()
 ) {
-  return addCommentAction(mongo, redis, tenant, {
-    actionType: ACTION_TYPE.DONT_AGREE,
-    commentID: input.commentID,
-    commentRevisionID: input.commentRevisionID,
-    additionalDetails: input.additionalDetails,
-    userID: author.id,
-  });
+  return addCommentAction(
+    mongo,
+    redis,
+    tenant,
+    {
+      actionType: ACTION_TYPE.DONT_AGREE,
+      commentID: input.commentID,
+      commentRevisionID: input.commentRevisionID,
+      additionalDetails: input.additionalDetails,
+      userID: author.id,
+    },
+    now
+  );
 }
 
 export type RemoveCommentDontAgree = Pick<RemoveActionInput, "commentID">;
@@ -273,14 +289,21 @@ export async function createFlag(
   redis: AugmentedRedis,
   tenant: Tenant,
   author: User,
-  input: CreateCommentFlag
+  input: CreateCommentFlag,
+  now = new Date()
 ) {
-  return addCommentAction(mongo, redis, tenant, {
-    actionType: ACTION_TYPE.FLAG,
-    reason: input.reason,
-    commentID: input.commentID,
-    commentRevisionID: input.commentRevisionID,
-    additionalDetails: input.additionalDetails,
-    userID: author.id,
-  });
+  return addCommentAction(
+    mongo,
+    redis,
+    tenant,
+    {
+      actionType: ACTION_TYPE.FLAG,
+      reason: input.reason,
+      commentID: input.commentID,
+      commentRevisionID: input.commentRevisionID,
+      additionalDetails: input.additionalDetails,
+      userID: author.id,
+    },
+    now
+  );
 }

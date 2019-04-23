@@ -2,11 +2,14 @@
   width: 25%;
 }
 .emailColumn {
-  width: 40%;
+  width: 30%;
 }
 .memberSinceColumn {
-  width: 20%;
+  width: 15%;
 }
 .roleColumn {
+  width: 15%;
+}
+.statusColumn {
   width: 15%;
 }

@@ -221,10 +221,9 @@ export type CreateCommentInput = Omit<
 export async function createComment(
   mongo: Db,
   tenantID: string,
-  input: CreateCommentInput
+  input: CreateCommentInput,
+  now = new Date()
 ) {
-  const createdAt = new Date();
-
   // Pull out some useful properties from the input.
   const { body, actionCounts = {}, ...rest } = input;
 
@@ -233,7 +232,7 @@ export async function createComment(
     id: uuid.v4(),
     body,
     actionCounts,
-    createdAt,
+    createdAt: now,
   };
 
   // default are the properties set by the application when a new comment is
@@ -244,7 +243,7 @@ export async function createComment(
     replyIDs: [],
     replyCount: 0,
     revisions: [revision],
-    createdAt,
+    createdAt: now,
   };
 
   // Merge the defaults and the input together.
@@ -360,10 +359,9 @@ export interface EditComment {
 export async function editComment(
   mongo: Db,
   tenantID: string,
-  input: EditCommentInput
+  input: EditCommentInput,
+  now = new Date()
 ): Promise<EditComment> {
-  const createdAt = new Date();
-
   const {
     id,
     body,
@@ -379,7 +377,7 @@ export async function editComment(
     id: uuid.v4(),
     body,
     actionCounts,
-    createdAt,
+    createdAt: now,
   };
 
   const update: Record<string, any> = {

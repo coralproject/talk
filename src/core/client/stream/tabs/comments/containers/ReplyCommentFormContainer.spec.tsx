@@ -1,10 +1,11 @@
 import { shallow } from "enzyme";
-import { merge, noop } from "lodash";
+import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import sinon from "sinon";
 
 import { timeout } from "talk-common/utils";
+import { pureMerge } from "talk-common/utils";
 import { createPromisifiedStorage } from "talk-framework/lib/storage";
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "talk-framework/types";
@@ -21,8 +22,7 @@ function getContextKey(commentID: string) {
 type Props = PropTypesOf<typeof ReplyCommentFormContainerN>;
 
 function createDefaultProps(add: DeepPartial<Props> = {}): Props {
-  return merge(
-    {},
+  return pureMerge(
     {
       createCommentReply: noop as any,
       refreshSettings: noop as any,

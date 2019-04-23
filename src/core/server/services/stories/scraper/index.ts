@@ -134,11 +134,19 @@ export async function scrape(
     throw new Error("story at specified url not found");
   }
 
+  const now = new Date();
+
   // Update the Story with the scraped details.
-  const story = await updateStory(mongo, tenantID, storyID, {
-    metadata,
-    scrapedAt: new Date(),
-  });
+  const story = await updateStory(
+    mongo,
+    tenantID,
+    storyID,
+    {
+      metadata,
+      scrapedAt: now,
+    },
+    now
+  );
   if (!story) {
     throw new Error("story at specified id not found");
   }

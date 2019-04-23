@@ -23,4 +23,6 @@ export type Overwrite<T, U> = Pick<T, Exclude<keyof T, keyof U>> & U;
  */
 export type PropTypesOf<T> = T extends React.ComponentType<infer R>
   ? R
-  : T extends React.Component<infer S> ? S : {};
+  : T extends React.Component<infer S>
+  ? S
+  : {};

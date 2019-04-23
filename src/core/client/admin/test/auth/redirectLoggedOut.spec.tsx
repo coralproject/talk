@@ -1,9 +1,16 @@
-import { ReactTestRenderer } from "react-test-renderer";
-import sinon from "sinon";
-
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { LOCAL_ID } from "talk-framework/lib/relay";
-import { replaceHistoryLocation, wait } from "talk-framework/testHelpers";
+import { pureMerge } from "talk-common/utils";
+import { LOCAL_ID, lookup } from "talk-framework/lib/relay";
+import {
+  GQLResolver,
+  QueryToModerationQueuesResolver,
+} from "talk-framework/schema";
+import {
+  createQueryResolverStub,
+  createResolversStub,
+  CreateTestRendererParams,
+  replaceHistoryLocation,
+  wait,
+} from "talk-framework/testHelpers";
 
 import create from "../create";
 import {
@@ -12,39 +19,41 @@ import {
   settings,
 } from "../fixtures";
 
-function createTestRenderer(): {
-  testRenderer: ReactTestRenderer;
-  context: TalkContext;
-} {
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   replaceHistoryLocation("http://localhost/admin/moderate");
-  const resolvers = {
-    Query: {
-      settings: sinon.stub().returns(settings),
-      moderationQueues: sinon.stub().returns(emptyModerationQueues),
-      comments: sinon.stub().returns(emptyRejectedComments),
-    },
-  };
   const { testRenderer, context } = create({
-    resolvers,
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          moderationQueues: createQueryResolverStub<
+            QueryToModerationQueuesResolver
+          >(() => emptyModerationQueues),
+          comments: () => emptyRejectedComments,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(false, "loggedIn");
       localRecord.setValue("SIGN_IN", "authView");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   return { testRenderer, context };
 }
 
 it("redirect when not logged in", async () => {
-  const { context } = createTestRenderer();
+  const { context } = await createTestRenderer();
   await wait(() => {
-    expect(
-      context.relayEnvironment
-        .getStore()
-        .getSource()
-        .get(LOCAL_ID)!.redirectPath
-    ).toBe("/admin/moderate/reported");
+    expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
+      "/admin/moderate/reported"
+    );
     expect(window.location.toString()).toBe("http://localhost/admin/login");
   });
 });

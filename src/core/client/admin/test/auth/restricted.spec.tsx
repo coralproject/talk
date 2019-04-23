@@ -1,11 +1,12 @@
-import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { LOCAL_ID } from "talk-framework/lib/relay";
-import { GQLUSER_ROLE } from "talk-framework/schema";
+import { pureMerge } from "talk-common/utils";
+import { LOCAL_ID, lookup } from "talk-framework/lib/relay";
+import { GQLResolver, GQLUSER_ROLE } from "talk-framework/schema";
 import {
   createAccessToken,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -20,29 +21,32 @@ import {
   users,
 } from "../fixtures";
 
-function createTestRenderer(
-  userDiff: any = {}
-): {
-  testRenderer: ReactTestRenderer;
-  context: TalkContext;
-} {
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   replaceHistoryLocation("http://localhost/admin/moderate/reported");
-  const resolvers = {
-    Query: {
-      settings: sinon.stub().returns(settings),
-      moderationQueues: sinon.stub().returns(emptyModerationQueues),
-      comments: sinon.stub().returns(emptyRejectedComments),
-      viewer: sinon.stub().returns({ ...users[0], ...userDiff }),
-    },
-  };
   const { testRenderer, context } = create({
-    resolvers,
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          moderationQueues: () => emptyModerationQueues,
+          comments: () => emptyRejectedComments,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAccessToken(), "accessToken");
       localRecord.setValue("SIGN_IN", "authView");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   return { testRenderer, context };
@@ -51,7 +55,16 @@ function createTestRenderer(
 it("show restricted screen for commenters and staff", async () => {
   const restrictedRoles = [GQLUSER_ROLE.COMMENTER, GQLUSER_ROLE.STAFF];
   for (const role of restrictedRoles) {
-    const { testRenderer } = createTestRenderer({ role });
+    const { testRenderer } = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              role,
+            }),
+        },
+      }),
+    });
     const authBox = await waitForElement(() =>
       within(testRenderer.root).getByTestID("authBox")
     );
@@ -59,24 +72,16 @@ it("show restricted screen for commenters and staff", async () => {
   }
 });
 
-it("show restricted screen when email is not set", async () => {
-  const { testRenderer } = createTestRenderer({ email: "" });
-  await waitForElement(() => within(testRenderer.root).getByTestID("authBox"));
-});
-
-it("show restricted screen when username is not set", async () => {
-  const { testRenderer } = createTestRenderer({ username: "" });
-  await waitForElement(() => within(testRenderer.root).getByTestID("authBox"));
-});
-
-it("show restricted screen local was not set (password)", async () => {
-  const { testRenderer } = createTestRenderer({ profiles: [] });
-  await waitForElement(() => within(testRenderer.root).getByTestID("authBox"));
-});
-
 it("sign out when clicking on sign in as", async () => {
-  const { context, testRenderer } = createTestRenderer({
-    role: GQLUSER_ROLE.COMMENTER,
+  const { testRenderer, context } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            role: GQLUSER_ROLE.COMMENTER,
+          }),
+      },
+    }),
   });
   const authBox = await waitForElement(() =>
     within(testRenderer.root).getByTestID("authBox")
@@ -96,18 +101,10 @@ it("sign out when clicking on sign in as", async () => {
     .props.onClick();
 
   await wait(() => {
-    expect(
-      context.relayEnvironment
-        .getStore()
-        .getSource()
-        .get(LOCAL_ID)!.redirectPath
-    ).toBe("/admin/moderate/reported");
+    expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
+      "/admin/moderate/reported"
+    );
   });
 
-  expect(
-    context.relayEnvironment
-      .getStore()
-      .getSource()
-      .get(LOCAL_ID)!.loggedIn
-  ).toBeFalsy();
+  expect(lookup(context.relayEnvironment, LOCAL_ID)!.loggedIn).toBeFalsy();
 });

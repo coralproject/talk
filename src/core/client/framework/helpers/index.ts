@@ -7,5 +7,3 @@ export { default as redirectOAuth2 } from "./redirectOAuth2";
 export {
   default as getParamsFromHashAndClearIt,
 } from "./getParamsFromHashAndClearIt";
-export { default as getStory } from "./getStory";
-export { default as getStorySettings } from "./getStorySettings";

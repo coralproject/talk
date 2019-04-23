@@ -1,23 +1,32 @@
 import bcrypt from "bcryptjs";
-import { Db } from "mongodb";
+import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { Omit, Sub } from "talk-common/types";
+import { DeepPartial, Omit, Sub } from "talk-common/types";
+import { dotize } from "talk-common/utils/dotize";
 import {
   DuplicateEmailError,
   DuplicateUserError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
   TokenNotFoundError,
+  UserAlreadyBannedError,
+  UserAlreadySuspendedError,
   UsernameAlreadySetError,
   UserNotFoundError,
 } from "talk-server/errors";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
+import {
+  GQLBanStatus,
+  GQLSuspensionStatus,
+  GQLTimeRange,
+  GQLUSER_ROLE,
+} from "talk-server/graph/tenant/schema/__generated__/types";
+import logger from "talk-server/logger";
 import {
   createConnectionOrderVariants,
   createIndexFactory,
 } from "talk-server/models/helpers/indexing";
-import Query, { FilterQuery } from "talk-server/models/helpers/query";
+import Query from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 import {
   Connection,
@@ -57,6 +66,10 @@ export interface GoogleProfile {
   id: string;
 }
 
+/**
+ * Profile is all the different profiles that a given User may have associated
+ * with their account.
+ */
 export type Profile =
   | LocalProfile
   | OIDCProfile
@@ -70,15 +83,168 @@ export interface Token {
   createdAt: Date;
 }
 
+/**
+ * SuspensionStatusHistory SuspensionStatusHistory is the list of all suspension
+ * events against a specific User.
+ */
+export interface SuspensionStatusHistory {
+  /**
+   * id is a specific reference for a particular suspension status that will be
+   * used internally to update suspension records.
+   */
+  id: string;
+
+  /**
+   * from represents a range of time where a user suspension applies.
+   */
+  from: GQLTimeRange;
+
+  /**
+   * createdBy is the ID for the User that suspended the User. If `null`, the
+   * suspension was created by the system.
+   */
+  createdBy?: string;
+
+  /**
+   * createdAt is the time that the given suspension time frame was created.
+   */
+  createdAt: Date;
+
+  /**
+   * modifiedBy is the ID for the User that modified the suspension for this
+   * User. If `null`, the suspension has not been edited, or has been edited by
+   * the system.
+   */
+  modifiedBy?: string;
+
+  /**
+   * modifiedAt is the time that the date that the given suspension time frame
+   * was edited at.
+   */
+  modifiedAt?: Date;
+}
+
+/**
+ * SuspensionStatus stores the user suspension status as well as the history of
+ * changes.
+ */
+export interface SuspensionStatus {
+  /**
+   * history is the list of all suspension events against a specific User.
+   */
+  history: SuspensionStatusHistory[];
+}
+
+/**
+ * BanStatusHistory is the list of all ban events against a specific User.
+ */
+export interface BanStatusHistory {
+  /**
+   * id is a specific reference for a particular banned status that will be
+   * used internally to update banned records.
+   */
+  id: string;
+
+  /**
+   * active, when true, indicates that the user is banned from this status.
+   */
+  active: boolean;
+
+  /**
+   * createdBy is the ID for the User that banned the User. If `null`, the ban
+   * was created by the system.
+   */
+  createdBy?: string;
+
+  /**
+   * createdAt is the time that the given ban was added.
+   */
+  createdAt: Date;
+}
+
+/**
+ * BanStatus contains information about a ban for a given User.
+ */
+export interface BanStatus {
+  /**
+   * active when true, indicates that the given user is banned.
+   */
+  active: boolean;
+
+  /**
+   * history is the list of all ban events against a specific User.
+   */
+  history: BanStatusHistory[];
+}
+
+/**
+ * UserStatus stores the user status information regarding moderation state.
+ */
+export interface UserStatus {
+  /**
+   * suspension stores the user suspension status as well as the history of
+   * changes.
+   */
+  suspension: SuspensionStatus;
+
+  /**
+   * ban stores the user ban status as well as the history of changes.
+   */
+  ban: BanStatus;
+}
+
+/**
+ * User is someone that leaves Comments, and logs in.
+ */
 export interface User extends TenantResource {
+  /**
+   * id is the identifier of the User.
+   */
   readonly id: string;
+
+  /**
+   * username is the name of the User visible to other Users.
+   */
   username?: string;
+
+  /**
+   * avatar is the url to the avatar for a specific User.
+   */
   avatar?: string;
+
+  /**
+   * email is the current email address for the User.
+   */
   email?: string;
+
+  /**
+   * emailVerified when true indicates that the given email address has been verified.
+   */
   emailVerified?: boolean;
+
+  /**
+   * profiles is the array of profiles assigned to the user.
+   */
   profiles: Profile[];
+
+  /**
+   * tokens lists the access tokens associated with the account.
+   */
   tokens: Token[];
+
+  /**
+   * role is the current role of the User.
+   */
   role: GQLUSER_ROLE;
+
+  /**
+   * status stores the user status information regarding moderation state.
+   */
+  status: UserStatus;
+
+  /**
+   * createdAt is the time that the User was created at.
+   */
   createdAt: Date;
 }
 
@@ -97,12 +263,15 @@ export async function createUserIndexes(mongo: Db) {
   // UNIQUE { profiles.type, profiles.id }
   await createIndex(
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
+    { unique: true, partialFilterExpression: { profiles: { $exists: true } } }
+  );
+
+  // { profiles }
+  await createIndex(
+    { tenantID: 1, profiles: 1, email: 1 },
     {
-      unique: true,
-      // We're filtering by the first entry in the profiles array to ensure we
-      // only enforce uniqueness when the profiles array has at least a single
-      // profile.
-      partialFilterExpression: { "profiles.0": { $exists: true } },
+      partialFilterExpression: { profiles: { $exists: true } },
+      background: true,
     }
   );
 
@@ -135,35 +304,56 @@ export async function createUserIndexes(mongo: Db) {
     tenantID: 1,
     role: 1,
   });
+
+  // Suspension based User Connection pagination.
+  await variants(createIndex, {
+    tenantID: 1,
+    "status.suspension.history.from.start": 1,
+    "status.suspension.history.from.finish": 1,
+  });
+
+  // Ban based User Connection pagination.
+  await variants(createIndex, {
+    tenantID: 1,
+    "status.ban.active": 1,
+  });
 }
 
 function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
 
-export type UpsertUserInput = Omit<
+export type InsertUserInput = Omit<
   User,
-  "id" | "tenantID" | "tokens" | "createdAt"
+  "id" | "tenantID" | "tokens" | "status" | "createdAt"
 >;
 
-export async function upsertUser(
+export async function insertUser(
   mongo: Db,
   tenantID: string,
-  input: UpsertUserInput
+  input: InsertUserInput,
+  now = new Date()
 ) {
-  const now = new Date();
-
   // Create a new ID for the user.
   const id = uuid.v4();
 
   // default are the properties set by the application when a new user is
   // created.
-  const defaults: Sub<User, UpsertUserInput> = {
+  const defaults: Sub<User, InsertUserInput> = {
     id,
     tenantID,
     tokens: [],
+    status: {
+      suspension: { history: [] },
+      ban: { active: false, history: [] },
+    },
     createdAt: now,
   };
+
+  // Guard against empty login profiles (they need some way to login).
+  if (input.profiles.length === 0) {
+    throw new Error("users require at least one profile");
+  }
 
   // Mutate the profiles to ensure we mask handle any secrets.
   const profiles: Profile[] = [];
@@ -189,51 +379,21 @@ export async function upsertUser(
     profiles,
   };
 
-  // Create a query that will utilize a findOneAndUpdate to facilitate an upsert
-  // operation to ensure no user has the same profile and/or email address. If
-  // any user is found to have the same profile as any of the profiles specified
-  // in the new user object, then we should error here.
-  const filter = createUpsertUserFilter(user);
+  try {
+    // Insert it into the database. This may throw an error.
+    await collection(mongo).insert(user);
+  } catch (err) {
+    // Evaluate the error, if it is in regards to violating the unique index,
+    // then return a duplicate Story error.
+    if (err instanceof MongoError && err.code === 11000) {
+      throw new DuplicateUserError();
+    }
 
-  // Create the upsert/update operation.
-  const update: { $setOnInsert: Readonly<User> } = {
-    $setOnInsert: user,
-  };
-
-  // Insert it into the database. This may throw an error.
-  const result = await collection(mongo).findOneAndUpdate(filter, update, {
-    // We are using this to create a user, so we need to upsert it.
-    upsert: true,
-
-    // False to return the updated document instead of the original document.
-    // This lets us detect if the document was updated or not.
-    returnOriginal: false,
-  });
-
-  // Check to see if this was a new user that was upserted, or one was found
-  // that matched existing records. We are sure here that the record exists
-  // because we're returning the updated document and performing an upsert
-  // operation.
-  if (result.value!.id !== id) {
-    throw new DuplicateUserError();
+    throw err;
   }
 
-  return result.value!;
+  return user;
 }
-
-const createUpsertUserFilter = (user: Readonly<User>) => {
-  const query: FilterQuery<User> = {
-    // Query by the profiles if the user is being created with one.
-    $or: user.profiles.map(profile => ({ profiles: { $elemMatch: profile } })),
-  };
-
-  if (user.email) {
-    // Query by the email address if the user is being created with one.
-    query.$or.push({ email: user.email });
-  }
-
-  return query;
-};
 
 export async function retrieveUser(mongo: Db, tenantID: string, id: string) {
   return collection(mongo).findOne({ tenantID, id });
@@ -354,7 +514,7 @@ export async function updateUserPassword(
       throw new LocalProfileNotSetError();
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value || null;
@@ -406,7 +566,7 @@ export async function setUserUsername(
       throw new UsernameAlreadySetError();
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value;
@@ -452,7 +612,7 @@ export async function updateUserUsername(
       throw new UserNotFoundError(id);
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value;
@@ -514,7 +674,7 @@ export async function setUserEmail(
       throw new UsernameAlreadySetError();
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value;
@@ -570,7 +730,7 @@ export async function updateUserEmail(
       throw new UserNotFoundError(id);
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value;
@@ -617,7 +777,7 @@ export async function updateUserAvatar(
       throw new UserNotFoundError(id);
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value;
@@ -694,7 +854,7 @@ export async function setUserLocalProfile(
       throw new LocalProfileAlreadySetError();
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value;
@@ -704,13 +864,14 @@ export async function createUserToken(
   mongo: Db,
   tenantID: string,
   userID: string,
-  name: string
+  name: string,
+  now = new Date()
 ) {
   // Create the Token that we'll be adding to the User.
   const token: Readonly<Token> = {
     id: uuid.v4(),
     name,
-    createdAt: new Date(),
+    createdAt: now,
   };
 
   const result = await collection(mongo).findOneAndUpdate(
@@ -770,7 +931,7 @@ export async function deactivateUserToken(
       throw new TokenNotFoundError();
     }
 
-    throw new Error("an unexpected error occured");
+    throw new Error("an unexpected error occurred");
   }
 
   // We have to typecast here because we know at this point that the record does
@@ -819,4 +980,341 @@ async function retrieveConnection(
 
   // Return a connection.
   return resolveConnection(query, input, user => user.createdAt);
+}
+
+/**
+ * banUser will ban a specific user from interacting with the site.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user being banned
+ * @param createdBy the ID of the user banning the above mentioned user
+ * @param now the current date
+ */
+export async function banUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new ban.
+  const banHistory: BanStatusHistory = {
+    id: uuid(),
+    active: true,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already banned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.ban.active": {
+        $ne: true,
+      },
+    },
+    {
+      $set: {
+        "status.ban.active": true,
+      },
+      $push: {
+        "status.ban.history": banHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // Check to see if the user is already banned.
+    const ban = consolidateUserBanStatus(user.status.ban);
+    if (ban.active) {
+      throw new UserAlreadyBannedError();
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * removeUserBan will lift a user ban from a User allowing them to interact with
+ * the site again.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user having their ban lifted
+ * @param createdBy the ID of the user lifting the ban
+ * @param now the current date
+ */
+export async function removeUserBan(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  now = new Date()
+) {
+  // Create the new ban.
+  const ban: BanStatusHistory = {
+    id: uuid(),
+    active: false,
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already banned.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.ban.active": {
+            $ne: false,
+          },
+        },
+        {
+          "status.ban.history": {
+            $size: 0,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        "status.ban.active": false,
+      },
+      $push: {
+        "status.ban.history": ban,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ban operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't banned already, so nothing needs to be done!
+    return user;
+  }
+
+  return result.value;
+}
+
+/**
+ * suspendUser will suspend a user for a specific time range from interacting
+ * with the site.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the user being suspended
+ * @param createdBy the ID of the user banning the above mentioned user
+ * @param from the range of time that the user is being banned for
+ * @param now the current date
+ */
+export async function suspendUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  createdBy: string,
+  finish: Date,
+  now = new Date()
+) {
+  // Create the new suspension.
+  const suspension: SuspensionStatusHistory = {
+    id: uuid(),
+    from: {
+      start: now,
+      finish,
+    },
+    createdBy,
+    createdAt: now,
+  };
+
+  // Try to update the user if the user isn't already suspended.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "status.suspension.history": {
+        $not: {
+          $elemMatch: {
+            "from.start": {
+              $lte: now,
+            },
+            "from.finish": {
+              $gt: now,
+            },
+          },
+        },
+      },
+    },
+    {
+      $push: {
+        "status.suspension.history": suspension,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the suspend operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // Check to see if the user is already suspended.
+    const suspended = consolidateUserSuspensionStatus(
+      user.status.suspension,
+      now
+    );
+    if (suspended.active && suspended.until) {
+      throw new UserAlreadySuspendedError(suspended.until);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+/**
+ * removeUserSuspensions will lift any active suspensions.
+ *
+ * @param mongo the mongo database handle
+ * @param tenantID the Tenant's ID where the User exists
+ * @param id the ID of the User having their suspension lifted
+ * @param modifiedBy the ID of the User lifting the suspension
+ * @param now the current date
+ */
+export async function removeActiveUserSuspensions(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  modifiedBy: string,
+  now = new Date()
+) {
+  // Prepare the update payload.
+  const update: DeepPartial<SuspensionStatusHistory> = {
+    from: {
+      finish: now,
+    },
+    modifiedAt: now,
+    modifiedBy,
+  };
+
+  // Try to update the user suspension times.
+  const result = await collection(mongo).findOneAndUpdate(
+    { tenantID, id },
+    {
+      $set: dotize({
+        "status.suspension.history.$[active]": update,
+      }),
+    },
+    {
+      arrayFilters: [
+        // Change the finish date on all suspension records that indicate their
+        // active time within our current range.
+        {
+          "active.from.start": { $lte: now },
+          "active.from.finish": { $gt: now },
+        },
+      ],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the suspend operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // The user wasn't already suspended, so nothing needs to be done!
+    return user;
+  }
+
+  logger.debug({ result }, "finished update operation");
+
+  return result.value;
+}
+
+export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
+  Pick<BanStatus, "history">;
+
+export function consolidateUserBanStatus(
+  ban: User["status"]["ban"]
+): ConsolidatedBanStatus {
+  return ban;
+}
+
+export type ConsolidatedSuspensionStatus = Omit<
+  GQLSuspensionStatus,
+  "history"
+> &
+  Pick<SuspensionStatus, "history">;
+
+export function consolidateUserSuspensionStatus(
+  suspension: User["status"]["suspension"],
+  now = new Date()
+): ConsolidatedSuspensionStatus {
+  return suspension.history.reduce(
+    (status: ConsolidatedSuspensionStatus, history) => {
+      // Check to see if we're currently suspended.
+      if (history.from.start <= now && history.from.finish > now) {
+        status.active = true;
+
+        // Ensure that we have the furthest suspension finish time.
+        if (!status.until || status.until < history.from.finish) {
+          status.until = history.from.finish;
+        }
+      }
+
+      return status;
+    },
+    {
+      active: false,
+      history: suspension.history,
+    }
+  );
+}
+
+export interface ConsolidatedUserStatus {
+  suspension: ConsolidatedSuspensionStatus;
+  ban: ConsolidatedBanStatus;
+}
+
+export function consolidateUserStatus(
+  status: User["status"],
+  now = new Date()
+): ConsolidatedUserStatus {
+  // Return the status.
+  return {
+    suspension: consolidateUserSuspensionStatus(status.suspension, now),
+    ban: consolidateUserBanStatus(status.ban),
+  };
 }

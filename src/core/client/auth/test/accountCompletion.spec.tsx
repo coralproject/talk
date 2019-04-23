@@ -1,6 +1,7 @@
-import { get, merge } from "lodash";
+import { get } from "lodash";
 import sinon from "sinon";
 
+import { pureMerge } from "talk-common/utils";
 import {
   createAccessToken,
   wait,
@@ -26,11 +27,14 @@ async function createTestRenderer(
       ...customResolver.Query,
       settings: sinon
         .stub()
-        .returns(merge({}, settings, get(customResolver, "Query.settings"))),
+        .returns(pureMerge(settings, get(customResolver, "Query.settings"))),
       viewer: sinon
         .stub()
         .returns(
-          merge({ id: "me", profiles: [] }, get(customResolver, "Query.viewer"))
+          pureMerge(
+            { id: "me", profiles: [] },
+            get(customResolver, "Query.viewer")
+          )
         ),
     },
   };

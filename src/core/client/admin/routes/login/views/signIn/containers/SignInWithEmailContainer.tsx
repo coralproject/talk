@@ -1,14 +1,15 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { SignInMutation, withSignInMutation } from "talk-admin/mutations";
+import { SignInMutation } from "talk-admin/mutations";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
 
 import SignInWithEmail, {
   SignInWithEmailForm,
 } from "../components/SignInWithEmail";
 
 interface SignInContainerProps {
-  signIn: SignInMutation;
+  signIn: MutationProp<typeof SignInMutation>;
 }
 
 class SignInContainer extends Component<SignInContainerProps> {
@@ -25,5 +26,5 @@ class SignInContainer extends Component<SignInContainerProps> {
   }
 }
 
-const enhanced = withSignInMutation(SignInContainer);
+const enhanced = withMutation(SignInMutation)(SignInContainer);
 export default enhanced;

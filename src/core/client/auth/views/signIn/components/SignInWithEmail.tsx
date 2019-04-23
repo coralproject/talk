@@ -67,12 +67,11 @@ const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
                       fullWidth
                     />
                   </Localized>
-                  {meta.touched &&
-                    (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                  {meta.touched && (meta.error || meta.submitError) && (
+                    <ValidationMessage fullWidth>
+                      {meta.error || meta.submitError}
+                    </ValidationMessage>
+                  )}
                   <Flex justifyContent="flex-end">
                     <Localized id="signIn-forgotYourPassword">
                       <Button

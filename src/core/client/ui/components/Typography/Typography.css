@@ -122,6 +122,10 @@
   color: var(--palette-error-main);
 }
 
+.colorWarning {
+  color: var(--palette-warning-main);
+}
+
 .colorSuccess {
-  color: var(--palette-success-main);
+  color: var(--palette-success-darkest);
 }

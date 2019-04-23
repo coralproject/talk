@@ -47,12 +47,11 @@ const ConfirmEmailField: StatelessComponent<Props> = props => (
             fullWidth
           />
         </Localized>
-        {meta.touched &&
-          (meta.error || meta.submitError) && (
-            <ValidationMessage fullWidth>
-              {meta.error || meta.submitError}
-            </ValidationMessage>
-          )}
+        {meta.touched && (meta.error || meta.submitError) && (
+          <ValidationMessage fullWidth>
+            {meta.error || meta.submitError}
+          </ValidationMessage>
+        )}
       </FormField>
     )}
   </Field>

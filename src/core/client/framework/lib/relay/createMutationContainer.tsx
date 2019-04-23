@@ -6,23 +6,8 @@ import {
   wrapDisplayName,
 } from "recompose";
 import { Environment } from "relay-runtime";
-import { Omit } from "talk-framework/types";
 
 import { TalkContext, withContext } from "../bootstrap";
-
-export type MutationInput<
-  T extends { variables: { input: { clientMutationId: string } } }
-> = Omit<T["variables"]["input"], "clientMutationId">;
-
-export type MutationResponse<
-  T extends { response: { [P in U]: any } },
-  U extends string
-> = Exclude<T["response"][U], null>;
-
-export type MutationResponsePromise<
-  T extends { response: { [P in U]: any } },
-  U extends string
-> = Promise<MutationResponse<T, U>>;
 
 /**
  * createMutationContainer creates a HOC that
@@ -30,6 +15,8 @@ export type MutationResponsePromise<
  * and the signature (input: I) => Promise<R>. Calling
  * this will call the specified `commit` callback with
  * the Relay `environment` provided by the context.
+ *
+ * @deprecated
  */
 function createMutationContainer<T extends string, I, R>(
   propName: T,

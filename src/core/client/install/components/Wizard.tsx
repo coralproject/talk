@@ -27,28 +27,27 @@ class Wizard extends Component<WizardProps> {
     return (
       <div className={cn(className, styles.root)}>
         <Header main={currentStep === 0} />
-        {currentStep !== 0 &&
-          currentStep !== wizardChildren.length - 1 && (
-            <StepBar currentStep={currentStep - 1} className={styles.stepBar}>
-              <Step hidden>Start</Step>
-              <Step>
-                <Localized id="install-createYourAccount-stepTitle">
-                  <span>Create Admin Account</span>
-                </Localized>
-              </Step>
-              <Step>
-                <Localized id="install-addOrganization-stepTitle">
-                  <span>Add Organization Details</span>
-                </Localized>
-              </Step>
-              <Step>
-                <Localized id="install-permittedDomains-stepTitle">
-                  <span>Add Permitted Domains</span>
-                </Localized>
-              </Step>
-              <Step hidden>Finish</Step>
-            </StepBar>
-          )}
+        {currentStep !== 0 && currentStep !== wizardChildren.length - 1 && (
+          <StepBar currentStep={currentStep - 1} className={styles.stepBar}>
+            <Step hidden>Start</Step>
+            <Step>
+              <Localized id="install-createYourAccount-stepTitle">
+                <span>Create Admin Account</span>
+              </Localized>
+            </Step>
+            <Step>
+              <Localized id="install-addOrganization-stepTitle">
+                <span>Add Organization Details</span>
+              </Localized>
+            </Step>
+            <Step>
+              <Localized id="install-permittedDomains-stepTitle">
+                <span>Add Permitted Domains</span>
+              </Localized>
+            </Step>
+            <Step hidden>Finish</Step>
+          </StepBar>
+        )}
         <section className={styles.section}>{wizardChildrenToRender}</section>
       </div>
     );

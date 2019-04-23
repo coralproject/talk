@@ -198,4 +198,28 @@ export enum ERROR_CODES {
    * enabled.
    */
   SPAM_COMMENT = "SPAM_COMMENT",
+
+  /**
+   * USER_ALREADY_SUSPENDED is returned when a moderator or administrator
+   * attempts to suspend a user that already has an active suspension.
+   */
+  USER_ALREADY_SUSPENDED = "USER_ALREADY_SUSPENDED",
+
+  /**
+   * USER_ALREADY_BANNED is returned when a moderator or administrator attempts
+   * to ban a user that is already banned.
+   */
+  USER_ALREADY_BANNED = "USER_ALREADY_BANNED",
+
+  /**
+   * USER_SUSPENDED is returned when the user attempts to perform an action that
+   * is not permitted if they are suspended.
+   */
+  USER_SUSPENDED = "USER_SUSPENDED",
+
+  /**
+   * USER_BANNED is returned when the user attempts to perform an action that
+   * is not permitted if they are banned.
+   */
+  USER_BANNED = "USER_BANNED",
 }

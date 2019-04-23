@@ -5,7 +5,7 @@ import { createInMemoryStorage } from "talk-framework/lib/storage";
 import withPymStorage from "./withPymStorage";
 
 class PymStub {
-  public listeners: Record<string, ((msg: string) => void)> = {};
+  public listeners: Record<string, (msg: string) => void> = {};
   public messages: Array<{ key: string; value: string }> = [];
   public type: string;
 

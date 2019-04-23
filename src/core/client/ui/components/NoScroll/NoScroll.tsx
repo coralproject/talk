@@ -11,33 +11,30 @@ interface Props {
 let instances = 0;
 
 const NoScroll: StatelessComponent<Props> = ({ active }) => {
-  useEffect(
-    () => {
-      if (active) {
-        if (instances++ === 0) {
-          // Add className.
+  useEffect(() => {
+    if (active) {
+      if (instances++ === 0) {
+        // Add className.
+        document.body.className = document.body.className
+          .split(/\s+/)
+          .filter(s => s)
+          .concat(styles.noScroll)
+          .join(" ");
+      }
+
+      // Cleanup hook.
+      return () => {
+        if (--instances === 0) {
+          // Remove className.
           document.body.className = document.body.className
             .split(/\s+/)
-            .filter(s => s)
-            .concat(styles.noScroll)
+            .filter(s => s && s !== styles.noScroll)
             .join(" ");
         }
-
-        // Cleanup hook.
-        return () => {
-          if (--instances === 0) {
-            // Remove className.
-            document.body.className = document.body.className
-              .split(/\s+/)
-              .filter(s => s && s !== styles.noScroll)
-              .join(" ");
-          }
-        };
-      }
-      return;
-    },
-    [active]
-  );
+      };
+    }
+    return;
+  }, [active]);
   return null;
 };
 

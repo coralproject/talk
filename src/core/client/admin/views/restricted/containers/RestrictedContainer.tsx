@@ -2,21 +2,23 @@ import { RouteProps } from "found";
 import React, { Component } from "react";
 
 import { RestrictedContainer_viewer as ViewerData } from "talk-admin/__generated__/RestrictedContainer_viewer.graphql";
+import { SetRedirectPathMutation } from "talk-admin/mutations";
+import { timeout } from "talk-common/utils";
 import {
-  SetRedirectPathMutation,
-  withSetRedirectPathMutation,
-} from "talk-admin/mutations";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
+  graphql,
+  MutationProp,
+  withFragmentContainer,
+  withMutation,
+} from "talk-framework/lib/relay";
 import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
 
-import { timeout } from "talk-common/utils";
 import Restricted from "../components/Restricted";
 
 interface Props {
   viewer: ViewerData;
   error?: Error | null;
   signOut: SignOutMutation;
-  setRedirectPath: SetRedirectPathMutation;
+  setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
 }
 
 class RestrictedContainer extends Component<Props> {
@@ -51,6 +53,10 @@ const enhanced = withFragmentContainer<Props>({
       username
     }
   `,
-})(withSetRedirectPathMutation(withSignOutMutation(RestrictedContainer)));
+})(
+  withMutation(SetRedirectPathMutation)(
+    withSignOutMutation(RestrictedContainer)
+  )
+);
 
 export default enhanced;

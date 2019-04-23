@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
@@ -16,27 +17,37 @@ import {
   LocalProfileNotSetError,
   PasswordTooShortError,
   TokenNotFoundError,
+  UserAlreadyBannedError,
+  UserAlreadySuspendedError,
   UsernameAlreadySetError,
   UsernameContainsInvalidCharactersError,
   UsernameExceedsMaxLengthError,
   UsernameTooShortError,
+  UserNotFoundError,
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { Tenant } from "talk-server/models/tenant";
 import {
+  banUser,
+  consolidateUserBanStatus,
+  consolidateUserSuspensionStatus,
   createUserToken,
   deactivateUserToken,
+  insertUser,
+  InsertUserInput,
   LocalProfile,
+  removeActiveUserSuspensions,
+  removeUserBan,
+  retrieveUser,
   setUserEmail,
   setUserLocalProfile,
   setUserUsername,
+  suspendUser,
   updateUserAvatar,
   updateUserEmail,
   updateUserPassword,
   updateUserRole,
   updateUserUsername,
-  upsertUser,
-  UpsertUserInput,
   User,
 } from "talk-server/models/user";
 
@@ -47,10 +58,9 @@ import { JWTSigningConfig, signPATString } from "../jwt";
  * implementation uses a RegExp statically, future versions will expose this as
  * configuration.
  *
- * @param tenant tenant where the User is associated with
  * @param username the username to be tested
  */
-function validateUsername(tenant: Tenant, username: string) {
+function validateUsername(username: string) {
   // TODO: replace these static regex/length with database options in the Tenant eventually
 
   if (!USERNAME_REGEX.test(username)) {
@@ -74,10 +84,9 @@ function validateUsername(tenant: Tenant, username: string) {
  * implementation uses a length statically, future versions will expose this as
  * configuration.
  *
- * @param tenant tenant where the User is associated with
  * @param password the password to be tested
  */
-function validatePassword(tenant: Tenant, password: string) {
+function validatePassword(password: string) {
   // TODO: replace these static length with database options in the Tenant eventually
   if (password.length < PASSWORD_MIN_LENGTH) {
     throw new PasswordTooShortError(password.length, PASSWORD_MIN_LENGTH);
@@ -90,10 +99,9 @@ const EMAIL_MAX_LENGTH = 100;
  * validateEmail will validate that the email is valid. Current implementation
  * uses a length statically, future versions will expose this as configuration.
  *
- * @param tenant tenant where the User is associated with
  * @param email the email to be tested
  */
-function validateEmail(tenant: Tenant, email: string) {
+function validateEmail(email: string) {
   if (!EMAIL_REGEX.test(email)) {
     throw new EmailInvalidFormatError();
   }
@@ -104,37 +112,42 @@ function validateEmail(tenant: Tenant, email: string) {
   }
 }
 
-export type UpsertUser = UpsertUserInput;
+export type InsertUser = InsertUserInput;
 
 /**
- * upsert will upsert the User into the database for the Tenant.
+ * insert will upsert the User into the database for the Tenant.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be added to
  * @param input the input for creating the User
  */
-export async function upsert(mongo: Db, tenant: Tenant, input: UpsertUser) {
+export async function insert(
+  mongo: Db,
+  tenant: Tenant,
+  input: InsertUser,
+  now = new Date()
+) {
   if (input.username) {
-    validateUsername(tenant, input.username);
+    validateUsername(input.username);
   }
 
   if (input.email) {
-    validateEmail(tenant, input.email);
+    validateEmail(input.email);
   }
 
   const localProfile: LocalProfile | undefined = input.profiles.find(
     ({ type }) => type === "local"
   ) as LocalProfile | undefined;
   if (localProfile) {
-    validateEmail(tenant, localProfile.id);
-    validatePassword(tenant, localProfile.password);
+    validateEmail(localProfile.id);
+    validatePassword(localProfile.password);
 
     if (input.email !== localProfile.id) {
       throw new Error("email addresses don't match profile");
     }
   }
 
-  const user = await upsertUser(mongo, tenant.id, input);
+  const user = await insertUser(mongo, tenant.id, input, now);
 
   return user;
 }
@@ -159,7 +172,7 @@ export async function setUsername(
     throw new UsernameAlreadySetError();
   }
 
-  validateUsername(tenant, username);
+  validateUsername(username);
 
   return setUserUsername(mongo, tenant.id, user.id, username);
 }
@@ -185,7 +198,7 @@ export async function setEmail(
     throw new EmailAlreadySetError();
   }
 
-  validateEmail(tenant, email);
+  validateEmail(email);
 
   return setUserEmail(mongo, tenant.id, user.id, email);
 }
@@ -219,7 +232,7 @@ export async function setPassword(
     throw new LocalProfileAlreadySetError();
   }
 
-  validatePassword(tenant, password);
+  validatePassword(password);
 
   return setUserLocalProfile(mongo, tenant.id, user.id, user.email, password);
 }
@@ -254,7 +267,7 @@ export async function updatePassword(
     throw new LocalProfileNotSetError();
   }
 
-  validatePassword(tenant, password);
+  validatePassword(password);
 
   return updateUserPassword(mongo, tenant.id, user.id, password);
 }
@@ -274,10 +287,11 @@ export async function createToken(
   tenant: Tenant,
   config: JWTSigningConfig,
   user: User,
-  name: string
+  name: string,
+  now = new Date()
 ) {
   // Create the token for the User!
-  const result = await createUserToken(mongo, tenant.id, user.id, name);
+  const result = await createUserToken(mongo, tenant.id, user.id, name, now);
 
   // Sign the token!
   const signedToken = await signPATString(config, user, {
@@ -286,6 +300,9 @@ export async function createToken(
 
     // Tokens are issued with the tenant ID.
     issuer: tenant.id,
+
+    // Tokens are not valid before the creation date.
+    notBefore: DateTime.fromJSDate(now).toSeconds(),
   });
 
   return { ...result, signedToken };
@@ -329,7 +346,7 @@ export async function updateUsername(
   username: string
 ) {
   // Validate the username.
-  validateUsername(tenant, username);
+  validateUsername(username);
 
   return updateUserUsername(mongo, tenant.id, userID, username);
 }
@@ -371,7 +388,7 @@ export async function updateEmail(
   email: string
 ) {
   // Validate the email address.
-  validateEmail(tenant, email);
+  validateEmail(email);
 
   return updateUserEmail(mongo, tenant.id, userID, email);
 }
@@ -391,4 +408,131 @@ export async function updateAvatar(
   avatar?: string
 ) {
   return updateUserAvatar(mongo, tenant.id, userID, avatar);
+}
+
+/**
+ * ban will ban a specific user from interacting with Talk.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be banned on
+ * @param user the User that is banning the User
+ * @param userID the ID of the User being banned
+ * @param now the current time that the ban took effect
+ */
+export async function ban(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being banned to check to see if the user already has an
+  // existing ban.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently banned.
+  const banStatus = consolidateUserBanStatus(targetUser.status.ban);
+  if (banStatus.active) {
+    throw new UserAlreadyBannedError();
+  }
+
+  return banUser(mongo, tenant.id, userID, user.id, now);
+}
+
+/**
+ * suspend will suspend a give user from interacting with Talk.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be suspended on
+ * @param user the User that is suspending the User
+ * @param userID the ID of the user being suspended
+ * @param timeout the duration in seconds that the user will suspended for
+ * @param now the current time that the suspension will take effect
+ */
+export async function suspend(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  userID: string,
+  timeout: number,
+  now = new Date()
+) {
+  // Convert the timeout to the until time.
+  const finish = DateTime.fromJSDate(now)
+    .plus({ seconds: timeout })
+    .toJSDate();
+
+  // Get the user being suspended to check to see if the user already has an
+  // existing suspension.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently suspended.
+  const suspended = consolidateUserSuspensionStatus(
+    targetUser.status.suspension,
+    now
+  );
+  if (suspended.active && suspended.until) {
+    throw new UserAlreadySuspendedError(suspended.until);
+  }
+
+  return suspendUser(mongo, tenant.id, userID, user.id, finish, now);
+}
+
+export async function removeSuspension(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being suspended to check to see if the user already has an
+  // existing suspension.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently suspended.
+  const suspended = consolidateUserSuspensionStatus(
+    targetUser.status.suspension,
+    now
+  );
+  if (!suspended.active) {
+    // The user is not suspended currently, just return the user because we
+    // don't have to do anything.
+    return targetUser;
+  }
+
+  // For each of the suspensions, remove it.
+  return removeActiveUserSuspensions(mongo, tenant.id, userID, user.id, now);
+}
+
+export async function removeBan(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being un-banned to check if they are even banned.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // Check to see if the User is currently banned.
+  const banStatus = consolidateUserBanStatus(targetUser.status.ban);
+  if (!banStatus.active) {
+    // The user is not ban currently, just return the user because we don't
+    // have to do anything.
+    return targetUser;
+  }
+
+  return removeUserBan(mongo, tenant.id, userID, user.id, now);
 }

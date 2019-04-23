@@ -1,16 +1,14 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import {
-  SetUsernameMutation,
-  withSetUsernameMutation,
-} from "talk-admin/mutations/SetUsernameMutation";
+import { SetUsernameMutation } from "talk-admin/mutations";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
 import { PropTypesOf } from "talk-framework/types";
 
 import CreateUsername from "../components/CreateUsername";
 
 interface Props {
-  setUsername: SetUsernameMutation;
+  setUsername: MutationProp<typeof SetUsernameMutation>;
 }
 
 class CreateUsernameContainer extends Component<Props> {
@@ -32,5 +30,5 @@ class CreateUsernameContainer extends Component<Props> {
   }
 }
 
-const enhanced = withSetUsernameMutation(CreateUsernameContainer);
+const enhanced = withMutation(SetUsernameMutation)(CreateUsernameContainer);
 export default enhanced;

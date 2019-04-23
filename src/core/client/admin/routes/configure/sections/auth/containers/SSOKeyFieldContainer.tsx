@@ -2,18 +2,19 @@ import React from "react";
 import { graphql } from "react-relay";
 
 import { SSOKeyFieldContainer_sso as SSOData } from "talk-admin/__generated__/SSOKeyFieldContainer_sso.graphql";
+import { RegenerateSSOKeyMutation } from "talk-admin/mutations";
 import {
-  RegenerateSSOKeyMutation,
-  withRegenerateSSOKeyMutation,
-} from "talk-admin/mutations";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+  MutationProp,
+  withFragmentContainer,
+  withMutation,
+} from "talk-framework/lib/relay";
 
 import SSOKeyField from "../components/SSOKeyField";
 
 interface Props {
   sso: SSOData;
   disabled?: boolean;
-  regenerateSSOKey: RegenerateSSOKeyMutation;
+  regenerateSSOKey: MutationProp<typeof RegenerateSSOKeyMutation>;
 }
 
 interface State {
@@ -44,7 +45,7 @@ class SSOKeyFieldContainer extends React.Component<Props, State> {
   }
 }
 
-const enhanced = withRegenerateSSOKeyMutation(
+const enhanced = withMutation(RegenerateSSOKeyMutation)(
   withFragmentContainer<Props>({
     sso: graphql`
       fragment SSOKeyFieldContainer_sso on SSOAuthIntegration {

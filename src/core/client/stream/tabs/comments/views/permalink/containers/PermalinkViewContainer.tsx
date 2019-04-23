@@ -68,6 +68,8 @@ const enhanced = withContext(ctx => ({
         fragment PermalinkViewContainer_story on Story {
           ...ConversationThreadContainer_story
           ...ReplyListContainer1_story
+          ...CreateCommentMutation_story
+          ...CreateCommentReplyMutation_story
         }
       `,
       comment: graphql`
@@ -82,6 +84,8 @@ const enhanced = withContext(ctx => ({
           ...ConversationThreadContainer_viewer
           ...ReplyListContainer1_viewer
           ...UserBoxContainer_viewer
+          ...CreateCommentMutation_viewer
+          ...CreateCommentReplyMutation_viewer
         }
       `,
       settings: graphql`

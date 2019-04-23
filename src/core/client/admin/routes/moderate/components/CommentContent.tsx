@@ -76,13 +76,12 @@ function markPhrasesHTML(
     return text;
   }
   return tokens
-    .map(
-      (token, i) =>
-        // Using our Regexp patterns it returns tokens arranged this way
-        // [STRING_WITH_NO_MATCH, NEW_WORD_DELIMITER, MATCHED_WORD, ...].
-        // This pattern repeats throughout. Next line will mark MATCHED_WORD
-        // and escape all tokens.
-        i % 3 === 2 ? `<mark>${escapeHTML(token)}</mark>` : escapeHTML(token)
+    .map((token, i) =>
+      // Using our Regexp patterns it returns tokens arranged this way
+      // [STRING_WITH_NO_MATCH, NEW_WORD_DELIMITER, MATCHED_WORD, ...].
+      // This pattern repeats throughout. Next line will mark MATCHED_WORD
+      // and escape all tokens.
+      i % 3 === 2 ? `<mark>${escapeHTML(token)}</mark>` : escapeHTML(token)
     )
     .join("");
 }

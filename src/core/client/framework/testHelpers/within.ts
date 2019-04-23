@@ -1,9 +1,6 @@
 import { ReactTestInstance } from "react-test-renderer";
 
-import {
-  getByID,
-  queryByID,
-} from "./byID";
+import { getByID, queryByID } from "./byID";
 import {
   getAllByLabelText,
   getByLabelText,
@@ -17,12 +14,7 @@ import {
   queryByTestID,
 } from "./byTestID";
 import { getAllByText, getByText, queryAllByText, queryByText } from "./byText";
-import {
-  getAllByType,
-  getByType,
-  queryAllByType,
-  queryByType,
-} from "./byType";
+import { getAllByType, getByType, queryAllByType, queryByType } from "./byType";
 import toJSON from "./toJSON";
 
 type Func0<R> = () => R;
@@ -30,13 +22,15 @@ type Func1<A, R> = (a?: A) => R;
 type Func2<A, B, R> = (a: A, b?: B) => R;
 type Func3<A, B, C, R> = (a: A, b: B, c?: C) => R;
 
-type RemoveFirstArgument<T, R> =
-    T extends [any, any, any, any?] ? Func3<T[1], T[2], T[3], R> :
-    T extends [any, any, any?] ? Func2<T[1], T[2], R> :
-    T extends [any, any?] ? Func1<T[1], R> :
-    T extends [any] ? Func0<R> :
-    unknown
-;
+type RemoveFirstArgument<T, R> = T extends [any, any, any, any?]
+  ? Func3<T[1], T[2], T[3], R>
+  : T extends [any, any, any?]
+  ? Func2<T[1], T[2], R>
+  : T extends [any, any?]
+  ? Func1<T[1], R>
+  : T extends [any]
+  ? Func0<R>
+  : unknown;
 
 // tslint:disable
 // @TODO: currently tslint fails to parse this: `...any[]`.
@@ -66,5 +60,5 @@ export default function within(container: ReactTestInstance) {
     queryByType: applyContainer(container, queryByType),
     queryAllByType: applyContainer(container, queryAllByType),
     toJSON: () => toJSON(container),
-  }
+  };
 }

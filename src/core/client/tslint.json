@@ -4,12 +4,14 @@
     "jsx-curly-spacing": false,
     "jsx-no-multiline-js": false,
     "jsx-boolean-value": [true, "never"],
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "jsx-wrap-multiline": false
   },
   "jsRules": {
     "jsx-curly-spacing": false,
     "jsx-no-multiline-js": false,
     "jsx-boolean-value": [true, "never"],
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "jsx-wrap-multiline": false
   }
 }

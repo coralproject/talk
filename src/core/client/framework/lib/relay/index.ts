@@ -5,12 +5,16 @@ export { default as withLocalStateContainer } from "./withLocalStateContainer";
 export * from "./withLocalStateContainer";
 export { default as QueryRenderer } from "./QueryRenderer";
 export * from "./QueryRenderer";
+export { default as createMutationContainer } from "./createMutationContainer";
 export {
-  default as createMutationContainer,
+  createMutation,
+  useMutation,
+  withMutation,
   MutationInput,
   MutationResponse,
   MutationResponsePromise,
-} from "./createMutationContainer";
+  MutationProp,
+} from "./mutation";
 export { default as createFetchContainer } from "./createFetchContainer";
 export { default as createAndRetain } from "./createAndRetain";
 export { default as wrapFetchWithLogger } from "./wrapFetchWithLogger";
@@ -26,3 +30,4 @@ export { initLocalBaseState, setAccessTokenInLocalState } from "./localState";
 export { default as fetchQuery } from "./fetchQuery";
 export { default as useRefetch } from "./useRefetch";
 export { default as useLoadMore } from "./useLoadMore";
+export { default as lookup } from "./lookup";
