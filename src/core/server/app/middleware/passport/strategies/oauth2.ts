@@ -61,7 +61,7 @@ export default abstract class OAuth2Strategy<
     integration: Required<T>,
     profile: Profile,
     now: Date
-  ): Promise<User | undefined>;
+  ): Promise<User | null | undefined>;
 
   protected verifyCallback = async (
     req: Request,
