@@ -4,16 +4,6 @@ const { getGraphQLConfig } = require("graphql-config");
 const path = require("path");
 const fs = require("fs");
 
-function lintAndWrite(files) {
-  const linter = new Linter({ fix: true });
-
-  for (const { fileName, types } of files) {
-    const configuration = Configuration.findConfiguration(null, fileName)
-      .results;
-    linter.lint(fileName, types, configuration);
-  }
-}
-
 async function main() {
   const config = getGraphQLConfig(__dirname);
   const projects = config.getProjects();
@@ -28,8 +18,8 @@ async function main() {
       config: {
         contextType: "TenantContext",
         importStatements: [
-          'import { Cursor } from "talk-server/models/helpers/connection";',
           'import TenantContext from "talk-server/graph/tenant/context";',
+          'import { Cursor } from "talk-server/models/helpers/connection";',
         ],
         customScalarType: { Cursor: "Cursor", Time: "Date" },
       },
@@ -40,7 +30,10 @@ async function main() {
         __dirname,
         "../src/core/client/framework/schema/__generated__/types.ts"
       ),
-      config: {},
+      config: {
+        smartTResult: true,
+        smartTParent: true,
+      },
     },
   ];
 
@@ -55,16 +48,15 @@ async function main() {
     }
 
     // Create the types for this file.
-    file.types = await generateTSTypesAsString(schema, {
+    const types = await generateTSTypesAsString(schema, {
       tabSpaces: 2,
       typePrefix: "GQL",
       strictNulls: false,
       ...file.config,
     });
-  }
 
-  // Send the files off to the linter to be linted and written.
-  lintAndWrite(files);
+    fs.writeFileSync(file.fileName, types);
+  }
 
   return files;
 }

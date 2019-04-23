@@ -1,8 +1,8 @@
-import { get, merge } from "lodash";
-import sinon from "sinon";
-
-import { GQLUSER_ROLE } from "talk-framework/schema";
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver, GQLUSER_ROLE } from "talk-framework/schema";
 import {
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   waitForElement,
   within,
@@ -15,40 +15,43 @@ beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/general");
 });
 
-const createTestRenderer = async (
-  resolver: any = {},
-  options: { muteNetworkErrors?: boolean } = {}
-) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-    },
-  };
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   return {
     testRenderer,
   };
-};
+}
 
 it("denies access to moderators", async () => {
   const deniedRoles = [GQLUSER_ROLE.MODERATOR];
   for (const r of deniedRoles) {
     const { testRenderer } = await createTestRenderer({
-      Query: {
-        viewer: sinon.stub().returns({ ...users.admins[0], role: r }),
-      },
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          viewer: () => ({ ...viewer, role: r }),
+        },
+      }),
     });
     await waitForElement(() =>
       within(testRenderer.root).getByText("Sign in with a different account")
@@ -60,9 +63,11 @@ it("allows access to admins", async () => {
   const deniedRoles = [GQLUSER_ROLE.ADMIN];
   for (const r of deniedRoles) {
     const { testRenderer } = await createTestRenderer({
-      Query: {
-        viewer: sinon.stub().returns({ ...users.admins[0], role: r }),
-      },
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          viewer: () => ({ ...viewer, role: r }),
+        },
+      }),
     });
     await waitForElement(() =>
       within(testRenderer.root).getByTestID("configure-container")

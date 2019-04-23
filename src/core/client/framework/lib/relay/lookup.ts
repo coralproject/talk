@@ -9,8 +9,8 @@ type RecordSourceProxy<T> = T extends object
       readonly [P in keyof T]?: T[P] extends Array<infer U>
         ? ReadonlyArray<RecordSourceProxy<U>>
         : T[P] extends ReadonlyArray<infer V>
-          ? ReadonlyArray<RecordSourceProxy<V>>
-          : RecordSourceProxy<T[P]>
+        ? ReadonlyArray<RecordSourceProxy<V>>
+        : RecordSourceProxy<T[P]>
     }
   : T;
 

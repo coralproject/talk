@@ -63,12 +63,11 @@ const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
               value={input.value}
               disabled={disabled}
             />
-            {meta.touched &&
-              (meta.error || meta.submitError) && (
-                <ValidationMessage>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+            {meta.touched && (meta.error || meta.submitError) && (
+              <ValidationMessage>
+                {meta.error || meta.submitError}
+              </ValidationMessage>
+            )}
           </>
         )}
       </Field>

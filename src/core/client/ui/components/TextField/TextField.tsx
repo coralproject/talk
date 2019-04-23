@@ -29,8 +29,8 @@ export interface TextFieldProps {
    */
   color?: "regular" | "error";
   /*
-  * If set renders a full width button
-  */
+   * If set renders a full width button
+   */
   fullWidth?: boolean;
   /**
    * Placeholder

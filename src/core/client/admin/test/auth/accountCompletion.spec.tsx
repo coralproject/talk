@@ -1,8 +1,9 @@
-import { get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
   createAccessToken,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -12,39 +13,37 @@ import {
 import create from "../create";
 import { emptyModerationQueues, settings, users } from "../fixtures";
 
+const viewer = users.admins[0];
+
 async function createTestRenderer(
-  customResolver: any = {},
-  options: { muteNetworkErrors?: boolean; logNetwork?: boolean } = {}
+  params: CreateTestRendererParams<GQLResolver> = {}
 ) {
   replaceHistoryLocation("http://localhost/admin/login");
-  const resolvers = {
-    ...customResolver,
-    Query: {
-      ...customResolver.Query,
-      moderationQueues: sinon.stub().returns(emptyModerationQueues),
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(customResolver, "Query.settings"))),
-      viewer: sinon
-        .stub()
-        .returns(
-          merge(
-            { ...users.admins[0], email: "", username: "", profiles: [] },
-            get(customResolver, "Query.viewer")
-          )
-        ),
-    },
-  };
 
   const { testRenderer, context } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: options.logNetwork,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              email: "",
+              username: "",
+              profiles: [],
+            }),
+          moderationQueues: () => emptyModerationQueues,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("SIGN_IN", "authView");
       localRecord.setValue(true, "loggedIn");
       localRecord.setValue(createAccessToken(), "accessToken");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
 
@@ -62,44 +61,60 @@ it("renders addEmailAddress view", async () => {
 
 it("renders createUsername view", async () => {
   const { root } = await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            email: "hans@test.com",
+            username: "",
+            profiles: [],
+          }),
       },
-    },
+    }),
   });
   await waitForElement(() => within(root).queryByText("Create Username"));
 });
 
 it("renders createPassword view", async () => {
   const { root } = await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
-        username: "hans",
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        settings: () => settings,
+        moderationQueues: () => emptyModerationQueues,
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            email: "hans@test.com",
+            username: "hans",
+            profiles: [],
+          }),
       },
-    },
+    }),
   });
   await waitForElement(() => within(root).queryByText("Create Password"));
 });
 
 it("do not render createPassword view when local auth is disabled", async () => {
   await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
-        username: "hans",
-      },
-      settings: {
-        auth: {
-          integrations: {
-            local: {
-              enabled: false,
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            email: "hans@test.com",
+            username: "hans",
+            profiles: [],
+          }),
+        settings: () =>
+          pureMerge<typeof settings>(settings, {
+            auth: {
+              integrations: {
+                local: {
+                  enabled: false,
+                },
+              },
             },
-          },
-        },
+          }),
       },
-    },
+    }),
   });
 
   await wait(() =>
@@ -111,13 +126,16 @@ it("do not render createPassword view when local auth is disabled", async () => 
 
 it("complete account", async () => {
   await createTestRenderer({
-    Query: {
-      viewer: {
-        email: "hans@test.com",
-        username: "hans",
-        profiles: [{ __typename: "LocalProfile" }],
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () =>
+          pureMerge<typeof viewer>(viewer, {
+            email: "hans@test.com",
+            username: "hans",
+            profiles: [{ __typename: "LocalProfile" }],
+          }),
       },
-    },
+    }),
   });
   await wait(() =>
     expect(window.location.toString()).toBe(

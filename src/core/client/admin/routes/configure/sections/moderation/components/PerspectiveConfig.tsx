@@ -116,12 +116,11 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
                 placeholder={TOXICITY_DEFAULT.toString()}
                 textAlignCenter
               />
-              {meta.touched &&
-                (meta.error || meta.submitError) && (
-                  <ValidationMessage>
-                    {meta.error || meta.submitError}
-                  </ValidationMessage>
-                )}
+              {meta.touched && (meta.error || meta.submitError) && (
+                <ValidationMessage>
+                  {meta.error || meta.submitError}
+                </ValidationMessage>
+              )}
             </>
           )}
         </Field>
@@ -197,12 +196,11 @@ const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 spellCheck={false}
               />
-              {meta.touched &&
-                (meta.error || meta.submitError) && (
-                  <ValidationMessage>
-                    {meta.error || meta.submitError}
-                  </ValidationMessage>
-                )}
+              {meta.touched && (meta.error || meta.submitError) && (
+                <ValidationMessage>
+                  {meta.error || meta.submitError}
+                </ValidationMessage>
+              )}
             </>
           )}
         </Field>

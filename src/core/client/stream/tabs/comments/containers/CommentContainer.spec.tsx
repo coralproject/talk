@@ -1,7 +1,8 @@
-import { merge, noop } from "lodash";
+import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
+import { pureMerge } from "talk-common/utils";
 import { removeFragmentRefs } from "talk-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "talk-framework/types";
 
@@ -13,8 +14,7 @@ const CommentContainerN = removeFragmentRefs(CommentContainer);
 type Props = PropTypesOf<typeof CommentContainerN>;
 
 function createDefaultProps(add: DeepPartial<Props> = {}): Props {
-  return merge(
-    {},
+  return pureMerge(
     {
       viewer: null,
       story: {

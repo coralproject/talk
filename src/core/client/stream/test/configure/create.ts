@@ -1,12 +1,14 @@
-import createTopLevel, { CreateParams } from "../create";
+import { CreateTestRendererParams } from "talk-framework/testHelpers";
 
-export default function create(params: CreateParams) {
+import createTopLevel from "../create";
+
+export default function create(params: CreateTestRendererParams) {
   return createTopLevel({
     ...params,
     initLocalState: (localRecord, source, environment) => {
+      localRecord.setValue("CONFIGURE", "activeTab");
+      localRecord.setValue("jti", "accessTokenJTI");
       if (params.initLocalState) {
-        localRecord.setValue("CONFIGURE", "activeTab");
-        localRecord.setValue("jti", "accessTokenJTI");
         params.initLocalState(localRecord, source, environment);
       }
     },

@@ -1,10 +1,10 @@
-import { cloneDeep, get, merge } from "lodash";
-import sinon from "sinon";
-
 import { ERROR_CODES } from "talk-common/errors";
+import { pureMerge } from "talk-common/utils";
 import { InvalidRequestError } from "talk-framework/lib/errors";
+import { GQLResolver } from "talk-framework/schema";
 import {
-  createSinonStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -18,27 +18,27 @@ beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/general");
 });
 
-const createTestRenderer = async (
-  resolver: any = {},
-  options: { muteNetworkErrors?: boolean } = {}
-) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      viewer: sinon.stub().returns(users.admins[0]),
-    },
-  };
-  const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    muteNetworkErrors: options.muteNetworkErrors,
-    resolvers,
-    initLocalState: localRecord => {
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
+  const { testRenderer, context } = create({
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const configureContainer = await waitForElement(() =>
@@ -51,12 +51,13 @@ const createTestRenderer = async (
     "configure-sideBar-saveChanges"
   );
   return {
+    context,
     testRenderer,
     configureContainer,
     generalContainer,
     saveChangesButton,
   };
-};
+}
 
 it("renders configure general", async () => {
   const { configureContainer } = await createTestRenderer();
@@ -64,28 +65,25 @@ it("renders configure general", async () => {
 });
 
 it("change site wide commenting", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.disableCommenting).toEqual({
-        enabled: true,
-        message: "Closing message",
-      });
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.disableCommenting).toEqual({
+          enabled: true,
+          message: "Closing message",
+        });
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     generalContainer,
     saveChangesButton,
   } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
+    resolvers,
   });
 
   const sitewideCommentingContainer = within(generalContainer).getAllByText(
@@ -121,34 +119,32 @@ it("change site wide commenting", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change community guidlines", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.communityGuidelines.content).toEqual(
-        "This is the community guidlines summary"
-      );
-      expectAndFail(data.input.settings.communityGuidelines.enabled).toEqual(
-        true
-      );
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.communityGuidelines!.content).toEqual(
+          "This is the community guidlines summary"
+        );
+        expectAndFail(variables.settings.communityGuidelines!.enabled).toEqual(
+          true
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+
   const {
     configureContainer,
     generalContainer,
     saveChangesButton,
   } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
+    resolvers,
   });
 
   const guidelinesContainer = within(generalContainer).getAllByText(
@@ -182,32 +178,27 @@ it("change community guidlines", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change closed stream message", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.closeCommenting.message).toEqual(
-        "The stream has been closed"
-      );
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.closeCommenting!.message).toEqual(
+          "The stream has been closed"
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     generalContainer,
     saveChangesButton,
-  } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
-  });
+  } = await createTestRenderer({ resolvers });
 
   const contentField = within(generalContainer).getByLabelText(
     "Closed Stream Message"
@@ -226,33 +217,28 @@ it("change closed stream message", async () => {
 
   // Wait for submission to be finished
   await wait(() => {
-    expect(updateSettingsStub.called).toBe(true);
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 });
 
 it("change comment editing time", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.editCommentWindowLength).toEqual(
-        108000
-      );
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.editCommentWindowLength).toEqual(
+          108000
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     generalContainer,
     saveChangesButton,
-  } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
-  });
+  } = await createTestRenderer({ resolvers });
 
   const durationFieldset = within(generalContainer).getByText(
     "Comment Edit Timeframe",
@@ -296,34 +282,31 @@ it("change comment editing time", async () => {
 
   // Wait for submission to be finished
   await wait(() => {
-    expect(updateSettingsStub.called).toBe(true);
+    expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
   });
 });
 
 it("change comment length limitations", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.charCount).toEqual({
-        enabled: true,
-        min: null,
-        max: 3000,
-      });
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.charCount).toEqual({
+          enabled: true,
+          min: null,
+          max: 3000,
+        });
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     generalContainer,
     saveChangesButton,
   } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
+    resolvers,
   });
 
   const commentLengthContainer = within(generalContainer).getByText(
@@ -389,33 +372,28 @@ it("change comment length limitations", async () => {
     expect(minField.props.disabled).toBe(false);
     expect(maxField.props.disabled).toBe(false);
   });
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change closing comment streams", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.closeCommenting.auto).toEqual(true);
-      expectAndFail(data.input.settings.closeCommenting.timeout).toEqual(
-        2592000
-      );
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.closeCommenting!.auto).toEqual(true);
+        expectAndFail(variables.settings.closeCommenting!.timeout).toEqual(
+          2592000
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     generalContainer,
     saveChangesButton,
-  } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
-  });
+  } = await createTestRenderer({ resolvers });
 
   const closingCommentStreamsContainer = within(generalContainer).getByText(
     "Closing Comment Streams",
@@ -464,23 +442,22 @@ it("change closing comment streams", async () => {
     expect(valueField.props.disabled).toBe(false);
     expect(unitField.props.disabled).toBe(false);
   });
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("handle server error", async () => {
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
-    })
-  );
-  const { configureContainer, generalContainer } = await createTestRenderer(
-    {
-      Mutation: {
-        updateSettings: updateSettingsStub,
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: () => {
+        throw new InvalidRequestError({ code: ERROR_CODES.INTERNAL_ERROR });
       },
     },
-    { muteNetworkErrors: true }
-  );
+  });
+
+  const { configureContainer, generalContainer } = await createTestRenderer({
+    resolvers,
+    muteNetworkErrors: true,
+  });
 
   const contentField = within(generalContainer).getByLabelText(
     "Closed Stream Message"

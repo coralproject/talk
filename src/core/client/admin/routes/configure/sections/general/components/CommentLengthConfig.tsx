@@ -97,12 +97,11 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
                 textAlignCenter
               />
             </Localized>
-            {meta.touched &&
-              (meta.error || meta.submitError) && (
-                <ValidationMessage>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+            {meta.touched && (meta.error || meta.submitError) && (
+              <ValidationMessage>
+                {meta.error || meta.submitError}
+              </ValidationMessage>
+            )}
           </>
         )}
       </Field>
@@ -148,12 +147,11 @@ const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
                 textAlignCenter
               />
             </Localized>
-            {meta.touched &&
-              (meta.error || meta.submitError) && (
-                <ValidationMessage>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+            {meta.touched && (meta.error || meta.submitError) && (
+              <ValidationMessage>
+                {meta.error || meta.submitError}
+              </ValidationMessage>
+            )}
           </>
         )}
       </Field>

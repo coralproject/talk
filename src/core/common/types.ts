@@ -28,7 +28,7 @@ export type DeepPartial<T> = T extends object
       [P in keyof T]?: T[P] extends Array<infer U>
         ? Array<DeepPartial<U>>
         : T[P] extends ReadonlyArray<infer V>
-          ? ReadonlyArray<DeepPartial<V>>
-          : DeepPartial<T[P]>
+        ? ReadonlyArray<DeepPartial<V>>
+        : DeepPartial<T[P]>
     }
   : T;

@@ -44,13 +44,13 @@ export const MatchMedia: StatelessComponent<Props> = props => {
     minWidth: gtWidth
       ? theme.breakpoints[gtWidth] + 1
       : gteWidth
-        ? theme.breakpoints[gteWidth]
-        : undefined,
+      ? theme.breakpoints[gteWidth]
+      : undefined,
     maxWidth: ltWidth
       ? theme.breakpoints[ltWidth] - 1
       : lteWidth
-        ? theme.breakpoints[lteWidth]
-        : undefined,
+      ? theme.breakpoints[lteWidth]
+      : undefined,
   };
   return <Responsive {...rest} {...mapped} />;
 };

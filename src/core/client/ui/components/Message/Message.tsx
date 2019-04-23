@@ -18,12 +18,12 @@ export interface MessageProps {
    */
   classes: typeof styles;
   /*
-  * If set renders a full width message
-  */
+   * If set renders a full width message
+   */
   fullWidth?: boolean;
   /*
-  * Name of color, "grey" stays by default - common gray one
-  */
+   * Name of color, "grey" stays by default - common gray one
+   */
   color?: "error" | "grey" | "primary" | "dark";
 }
 

@@ -55,7 +55,8 @@ const FacebookConfig: StatelessComponent<Props> = ({
         >
           <Typography>
             To enable the integration with Facebook Authentication, you need to
-            create and set up a web application. For more information visit:<br />
+            create and set up a web application. For more information visit:
+            <br />
             {"https://developers.facebook.com/docs/facebook-login/web"}
           </Typography>
         </Localized>

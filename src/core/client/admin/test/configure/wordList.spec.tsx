@@ -1,14 +1,14 @@
-import { cloneDeep, get, merge } from "lodash";
-import sinon from "sinon";
-
+import { pureMerge } from "talk-common/utils";
 import {
-  createSinonStub,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
   within,
 } from "talk-framework/testHelpers";
 
+import { GQLResolver } from "talk-framework/schema";
 import create from "../create";
 import { settings, users } from "../fixtures";
 
@@ -16,23 +16,27 @@ beforeEach(() => {
   replaceHistoryLocation("http://localhost/admin/configure/wordList");
 });
 
-const createTestRenderer = async (resolver: any = {}) => {
-  const resolvers = {
-    ...resolver,
-    Query: {
-      ...resolver.Query,
-      settings: sinon
-        .stub()
-        .returns(merge({}, settings, get(resolver, "Query.settings"))),
-      viewer: sinon.stub().returns(users.admins[0]),
-    },
-  };
+const viewer = users.admins[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   const { testRenderer } = create({
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    resolvers,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
   const configureContainer = await waitForElement(() =>
@@ -50,7 +54,7 @@ const createTestRenderer = async (resolver: any = {}) => {
     wordListContainer,
     saveChangesButton,
   };
-};
+}
 
 it("renders configure wordList", async () => {
   const { configureContainer } = await createTestRenderer();
@@ -58,28 +62,25 @@ it("renders configure wordList", async () => {
 });
 
 it("change banned and suspect words", async () => {
-  let settingsRecord = cloneDeep(settings);
-  const updateSettingsStub = createSinonStub(s =>
-    s.onFirstCall().callsFake((_: any, data: any) => {
-      expectAndFail(data.input.settings.wordList).toEqual({
-        banned: ["Fuck", "Asshole"],
-        suspect: ["idiot", "shame"],
-      });
-      settingsRecord = merge(settingsRecord, data.input.settings);
-      return {
-        settings: settingsRecord,
-        clientMutationId: data.input.clientMutationId,
-      };
-    })
-  );
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.wordList).toEqual({
+          banned: ["Fuck", "Asshole"],
+          suspect: ["idiot", "shame"],
+        });
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
   const {
     configureContainer,
     wordListContainer,
     saveChangesButton,
   } = await createTestRenderer({
-    Mutation: {
-      updateSettings: updateSettingsStub,
-    },
+    resolvers,
   });
 
   const bannedField = within(wordListContainer).getByLabelText(
@@ -110,5 +111,5 @@ it("change banned and suspect words", async () => {
   });
 
   // Should have successfully sent with server.
-  expect(updateSettingsStub.called).toBe(true);
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });

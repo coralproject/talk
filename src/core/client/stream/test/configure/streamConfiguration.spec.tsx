@@ -1,6 +1,7 @@
-import { cloneDeep, merge } from "lodash";
+import { cloneDeep } from "lodash";
 import sinon from "sinon";
 
+import { pureMerge } from "talk-common/utils";
 import {
   findParentWithType,
   wait,
@@ -53,7 +54,7 @@ it("change premod", async () => {
     .stub()
     .callsFake((_: any, data: any) => {
       expectAndFail(data.input.settings.moderation).toEqual("PRE");
-      storyRecord = merge(storyRecord, { settings: data.input.settings });
+      storyRecord = pureMerge(storyRecord, { settings: data.input.settings });
       return {
         story: storyRecord,
         clientMutationId: data.input.clientMutationId,
@@ -93,7 +94,7 @@ it("change premod links", async () => {
     .stub()
     .callsFake((_: any, data: any) => {
       expectAndFail(data.input.settings.premodLinksEnable).toEqual(true);
-      storyRecord = merge(storyRecord, { settings: data.input.settings });
+      storyRecord = pureMerge(storyRecord, { settings: data.input.settings });
       return {
         story: storyRecord,
         clientMutationId: data.input.clientMutationId,
@@ -139,7 +140,7 @@ it("change message box", async () => {
         content: "*What do you think?*",
         icon: "question_answer",
       });
-      storyRecord = merge(storyRecord, { settings: data.input.settings });
+      storyRecord = pureMerge(storyRecord, { settings: data.input.settings });
       return {
         story: storyRecord,
         clientMutationId: data.input.clientMutationId,

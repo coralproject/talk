@@ -1,8 +1,11 @@
-import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 
+import { pureMerge } from "talk-common/utils";
+import { GQLResolver } from "talk-framework/schema";
 import {
   createAccessToken,
+  createResolversStub,
+  CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
   waitForElement,
@@ -16,32 +19,34 @@ import {
   settings,
 } from "../fixtures";
 
-const resolvers = {
-  Query: {
-    settings: sinon.stub().returns(settings),
-    moderationQueues: sinon.stub().returns(emptyModerationQueues),
-    comments: sinon.stub().returns(emptyRejectedComments),
-  },
-};
-
-const inputPredicate = (name: string) => (n: ReactTestInstance) => {
-  return n.props.name === name && n.props.onChange;
-};
-
-async function createTestRenderer() {
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   // deliberately setting to a different route,
   // it should be smart enough to reroute to /admin/login.
   replaceHistoryLocation("http://localhost/admin/moderate");
 
   const { testRenderer, context } = create({
-    resolvers,
-    // Set this to true, to see graphql responses.
-    logNetwork: false,
-    initLocalState: localRecord => {
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          moderationQueues: () => emptyModerationQueues,
+          comments: () => emptyRejectedComments,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(false, "loggedIn");
       localRecord.setValue("SIGN_IN", "authView");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
     },
   });
+
   const form = await waitForElement(() =>
     within(testRenderer.root).getByType("form")
   );
@@ -121,11 +126,11 @@ it("shows server error", async () => {
 
 it("submits form successfully", async () => {
   const { form, context } = await createTestRenderer();
-  form
-    .find(inputPredicate("email"))
+  within(form)
+    .getByLabelText("Email Address")
     .props.onChange({ target: { value: "hans@test.com" } });
-  form
-    .find(inputPredicate("password"))
+  within(form)
+    .getByLabelText("Password")
     .props.onChange({ target: { value: "testtest" } });
 
   const accessToken = createAccessToken();
