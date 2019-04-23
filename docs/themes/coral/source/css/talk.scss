@@ -465,3 +465,22 @@ a.brand {
   background: rgb(0, 102, 176);
   color: #fff;
 }
+
+.callout {
+  background-color: $coral_button_background;
+  color: white;
+  margin: 20px 0;
+  padding: 20px;
+  text-align: center;
+
+  a {
+    @extend .coral-link;
+    color: #FFF;
+    border-color: #FFF;
+
+    &:hover {
+      color: #FFF;
+      border-color: darken(#FFF, 5%);
+    }
+  }
+}

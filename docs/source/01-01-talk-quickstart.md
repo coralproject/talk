@@ -12,9 +12,9 @@ More than 60 newsrooms use Talk to run their on-site communities, including the 
 [Read more about our product features and
 goals here](https://coralproject.net/talk).
 
-***
-### We offer hosting and support packages for Talk. [Contact us for more information.](https://coralproject.net/pricing/)
-***
+<div class="callout">
+  We offer hosting and support packages for Talk. [Contact us for more information.](https://coralproject.net/pricing/)
+</div>
 
 The documentation available here is pertaining to the technical details for
 installing, configuring, and deploying Talk.
