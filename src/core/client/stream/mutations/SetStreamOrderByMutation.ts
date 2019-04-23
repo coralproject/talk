@@ -7,7 +7,7 @@ export interface SetStreamOrderByInput {
     | "CREATED_AT_ASC"
     | "CREATED_AT_DESC"
     | "REPLIES_DESC"
-    | "RESPECT_DESC"
+    | "REACTION_DESC"
     | "%future added value";
 }
 

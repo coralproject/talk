@@ -487,7 +487,7 @@ function cursorGetterFactory(
     case GQLCOMMENT_SORT.CREATED_AT_ASC:
       return comment => comment.createdAt;
     case GQLCOMMENT_SORT.REPLIES_DESC:
-    case GQLCOMMENT_SORT.RESPECT_DESC:
+    case GQLCOMMENT_SORT.REACTION_DESC:
       return (_, index) =>
         (input.after ? (input.after as number) : 0) + index + 1;
   }
@@ -762,7 +762,7 @@ function applyInputToQuery(
         query.after(input.after as number);
       }
       break;
-    case GQLCOMMENT_SORT.RESPECT_DESC:
+    case GQLCOMMENT_SORT.REACTION_DESC:
       query.orderBy({ "actionCounts.REACTION": -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);

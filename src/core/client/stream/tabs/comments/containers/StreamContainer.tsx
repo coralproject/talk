@@ -144,6 +144,9 @@ const enhanced = withPaginationContainer<
     `,
     settings: graphql`
       fragment StreamContainer_settings on Settings {
+        reaction {
+          sortLabel
+        }
         ...PostCommentFormContainer_settings
         ...ReplyListContainer1_settings
         ...CommentContainer_settings

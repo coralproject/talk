@@ -25,7 +25,11 @@ export interface StreamProps {
     PropTypesOf<typeof ReplyListContainer>["settings"] &
     PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof CommunityGuidelinesContainer>["settings"] &
-    PropTypesOf<typeof PostCommentFormContainer>["settings"];
+    PropTypesOf<typeof PostCommentFormContainer>["settings"] & {
+      reaction: {
+        sortLabel: string;
+      };
+    };
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof ReplyListContainer>["comment"]
@@ -50,7 +54,11 @@ const Stream: StatelessComponent<StreamProps> = props => {
       <CommunityGuidelinesContainer settings={props.settings} />
       <PostCommentFormContainer settings={props.settings} story={props.story} />
       {props.comments.length > 0 && (
-        <SortMenu orderBy={props.orderBy} onChange={props.onChangeOrderBy} />
+        <SortMenu
+          orderBy={props.orderBy}
+          onChange={props.onChangeOrderBy}
+          reactionSortLabel={props.settings.reaction.sortLabel}
+        />
       )}
       {props.refetching && (
         <Flex justifyContent="center">

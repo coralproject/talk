@@ -23,8 +23,7 @@ it("renders correctly", () => {
     viewer: null,
     settings: {
       reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
+        sortLabel: "Most Respected",
       },
     },
     relay: {
@@ -50,8 +49,7 @@ describe("when has more comments", () => {
     viewer: null,
     settings: {
       reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
+        sortLabel: "Most Respected",
       },
     },
     relay: {

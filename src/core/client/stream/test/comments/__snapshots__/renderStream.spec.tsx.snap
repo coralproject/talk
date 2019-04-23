@@ -206,9 +206,9 @@ exports[`renders comment stream 1`] = `
                 Most Replies
               </option>
               <option
-                value="RESPECT_DESC"
+                value="REACTION_DESC"
               >
-                Most Reactions
+                Most Respected
               </option>
             </select>
             <span

@@ -829,7 +829,8 @@ type ReactionConfiguration {
   icon: String!
 
   """
-
+  iconActive is the string representing the icon that should be used when the
+  icon should be considered active.
   """
   iconActive: String
 
@@ -842,7 +843,13 @@ type ReactionConfiguration {
   labelActive is the string placed beside the reaction icon to provide better
   context when it has been selected.
   """
-  labelActive: String
+  labelActive: String!
+
+  """
+  sortLabel is the string placed inside of the sort menu to sort for comment
+  with most reactions.
+  """
+  sortLabel: String!
 
   """
   color is the hex color code that can be used to change the color of the button.
@@ -1792,7 +1799,7 @@ enum COMMENT_SORT {
   CREATED_AT_DESC
   CREATED_AT_ASC
   REPLIES_DESC
-  RESPECT_DESC
+  REACTION_DESC
 }
 
 """

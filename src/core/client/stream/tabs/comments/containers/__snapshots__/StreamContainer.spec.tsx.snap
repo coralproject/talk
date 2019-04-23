@@ -43,8 +43,7 @@ exports[`renders correctly 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Respected",
         },
       }
     }
@@ -117,8 +116,7 @@ exports[`when has more comments renders hasMore 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Respected",
         },
       }
     }
@@ -191,8 +189,7 @@ exports[`when has more comments when loading more disables load more button 1`] 
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Respected",
         },
       }
     }
@@ -265,8 +262,7 @@ exports[`when has more comments when loading more enable load more button after 
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Respected",
         },
       }
     }

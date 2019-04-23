@@ -76,6 +76,7 @@ export const settings = createFixture<GQLSettings>({
     icon: "thumb_up",
     label: "Respect",
     labelActive: "Respected",
+    sortLabel: "Most Respected",
   },
   charCount: {
     enabled: false,

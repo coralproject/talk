@@ -9,8 +9,7 @@ exports[`renders correctly 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -20,8 +19,7 @@ exports[`renders correctly 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -30,8 +28,7 @@ exports[`renders correctly 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -45,6 +42,7 @@ exports[`renders correctly 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionSortLabel="Most Reacted"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"
@@ -64,8 +62,7 @@ exports[`renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -86,8 +83,7 @@ exports[`renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -112,8 +108,7 @@ exports[`renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -134,8 +129,7 @@ exports[`renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -161,8 +155,7 @@ exports[`when there is more disables load more button 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -172,8 +165,7 @@ exports[`when there is more disables load more button 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -182,8 +174,7 @@ exports[`when there is more disables load more button 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -197,6 +188,7 @@ exports[`when there is more disables load more button 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionSortLabel="Most Reacted"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"
@@ -216,8 +208,7 @@ exports[`when there is more disables load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -238,8 +229,7 @@ exports[`when there is more disables load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -264,8 +254,7 @@ exports[`when there is more disables load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -286,8 +275,7 @@ exports[`when there is more disables load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -327,8 +315,7 @@ exports[`when there is more renders a load more button 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -338,8 +325,7 @@ exports[`when there is more renders a load more button 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -348,8 +334,7 @@ exports[`when there is more renders a load more button 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -363,6 +348,7 @@ exports[`when there is more renders a load more button 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionSortLabel="Most Reacted"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"
@@ -382,8 +368,7 @@ exports[`when there is more renders a load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -404,8 +389,7 @@ exports[`when there is more renders a load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -430,8 +414,7 @@ exports[`when there is more renders a load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -452,8 +435,7 @@ exports[`when there is more renders a load more button 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -493,8 +475,7 @@ exports[`when use is logged in renders correctly 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -504,8 +485,7 @@ exports[`when use is logged in renders correctly 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -514,8 +494,7 @@ exports[`when use is logged in renders correctly 1`] = `
     settings={
       Object {
         "reaction": Object {
-          "icon": "thumb_up_alt",
-          "label": "Respect",
+          "sortLabel": "Most Reacted",
         },
       }
     }
@@ -529,6 +508,7 @@ exports[`when use is logged in renders correctly 1`] = `
   <SortMenu
     onChange={[Function]}
     orderBy="CREATED_AT_ASC"
+    reactionSortLabel="Most Reacted"
   />
   <ForwardRef(forwardRef)
     aria-live="polite"
@@ -548,8 +528,7 @@ exports[`when use is logged in renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -570,8 +549,7 @@ exports[`when use is logged in renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -596,8 +574,7 @@ exports[`when use is logged in renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }
@@ -618,8 +595,7 @@ exports[`when use is logged in renders correctly 1`] = `
         settings={
           Object {
             "reaction": Object {
-              "icon": "thumb_up_alt",
-              "label": "Respect",
+              "sortLabel": "Most Reacted",
             },
           }
         }

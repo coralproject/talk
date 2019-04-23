@@ -7,7 +7,7 @@ interface ReactionButtonProps {
   totalReactions: number;
   reacted: boolean | null;
   label: string;
-  labelActive: string | null;
+  labelActive: string;
   icon: string;
   iconActive: string | null;
   // color: string;
@@ -27,13 +27,7 @@ class ReactionButton extends React.Component<ReactionButtonProps> {
               : this.props.icon}
           </ButtonIcon>
         </MatchMedia>
-        <span>
-          {reacted
-            ? this.props.labelActive
-              ? this.props.labelActive
-              : this.props.label
-            : this.props.label}
-        </span>
+        <span>{reacted ? this.props.labelActive : this.props.label}</span>
         {!!totalReactions && <span>{totalReactions}</span>}
       </Button>
     );

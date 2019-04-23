@@ -177,6 +177,7 @@ export async function createTenant(
       // handshake.
       label: "Respect",
       labelActive: "Respected",
+      sortLabel: "Most Respected",
       icon: "thumb_up",
     },
     createdAt: now,

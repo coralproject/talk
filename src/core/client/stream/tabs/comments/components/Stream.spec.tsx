@@ -17,12 +17,7 @@ it("renders correctly", () => {
       isClosed: false,
     },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
-    settings: {
-      reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
-      },
-    },
+    settings: { reaction: { sortLabel: "Most Reacted" } },
     onLoadMore: noop,
     disableLoadMore: false,
     hasMore: false,
@@ -46,12 +41,7 @@ describe("when use is logged in", () => {
       disableLoadMore: false,
       hasMore: false,
       viewer: {},
-      settings: {
-        reaction: {
-          icon: "thumb_up_alt",
-          label: "Respect",
-        },
-      },
+      settings: { reaction: { sortLabel: "Most Reacted" } },
       orderBy: "CREATED_AT_ASC",
       onChangeOrderBy: noop,
     };
@@ -67,12 +57,7 @@ describe("when there is more", () => {
       isClosed: false,
     },
     comments: [{ id: "comment-1" }, { id: "comment-2" }],
-    settings: {
-      reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
-      },
-    },
+    settings: { reaction: { sortLabel: "Most Reacted" } },
     onLoadMore: sinon.spy(),
     disableLoadMore: false,
     hasMore: true,
