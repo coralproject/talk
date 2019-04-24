@@ -1,6 +1,7 @@
-# Mozilla Community Participation Guidelines
+# Vox Media Code of Conduct
 
-## Version 2.3 - Updated May 16, 2017
+## Introduction
 
-The heart of Mozilla is people. We put people first and do our best to recognize, appreciate and respect the diversity of our global contributors. The Mozilla Project welcomes contributions from everyone who shares our goals and wants to contribute in a healthy and constructive manner within our community. As such, we have adopted this code of conduct and require all those who participate to agree and adhere to these Community Participation Guidelines in order to help us create a safe and positive community experience for all.
-https://www.mozilla.org/en-US/about/governance/policies/participation/
+This code of conduct governs the environment of the Vox Product team. We created it not because we anticipate bad behavior, but because we believe that articulating our values and obligations to one another reinforces the already exceptional level of respect among the team and because having a code provides us with clear avenues to correct our culture should it ever stray from that course. We make this code public in the hopes of contributing to the ongoing conversation about inclusion in the tech, design, and media communities and encourage other teams to fork it and make it their own. To our team, we commit to enforce and evolve this code as our team grows.
+
+Read the rest here: http://code-of-conduct.voxmedia.com/

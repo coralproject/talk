@@ -16,7 +16,7 @@ describe('graph.mutations.createComment', () => {
   beforeEach(() => SettingsService.init());
 
   const query = `
-    mutation CreateComment($input: CreateCommentInput = {asset_id: 123, body: "Here's my comment!"}) {
+    mutation CreateComment($input: CreateCommentInput = {asset_id: 123, body: "Here's my comment!", richTextBody: "Here's my comment!"}) {
       createComment(input: $input) {
         comment {
           id
@@ -293,6 +293,7 @@ describe('graph.mutations.createComment', () => {
             input: {
               asset_id: '123',
               body,
+              richTextBody: 'This is such a nice comment!',
             },
           });
 

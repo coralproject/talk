@@ -344,9 +344,13 @@ a.brand {
   padding: $content_gutter $content_gutter 60px;
 }
 
-.mozilla {
-  width: 50%;
+.voxmedia {
+  // width: 50%;
   margin: 0 0 $sidebar_gutter;
+
+  > img {
+    width: 100%;
+  }
 }
 
 .sidebar {
@@ -460,4 +464,23 @@ a.brand {
 .badge-tag-gdpr {
   background: rgb(0, 102, 176);
   color: #fff;
+}
+
+.callout {
+  background-color: $coral_button_background;
+  color: white;
+  margin: 20px 0;
+  padding: 20px;
+  text-align: center;
+
+  a {
+    @extend .coral-link;
+    color: #FFF;
+    border-color: #FFF;
+
+    &:hover {
+      color: #FFF;
+      border-color: darken(#FFF, 5%);
+    }
+  }
 }

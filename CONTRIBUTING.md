@@ -18,7 +18,7 @@ There are at least three ways to contribute to Talk:
 
 Conversation surrounding contributions begins in [issues](https://github.com/coralproject/talk/issues).
 
-### When should I Create an Issue?
+### When should I create an issue?
 
 File an issue as soon as you have an idea of something you'd like to contribute. We would love to hear what you're thinking and help refine the idea to make it into the Talk ecosystem.
 
@@ -30,9 +30,9 @@ Please file issues if:
 
 ### What should I include?
 
-Coral has adopted an iterative, agile development philosophy. All contributions that make it into the Talk repository should start with a story or this form:
+Coral has adopted an iterative, agile development philosophy. All contributions that make it into the Talk repository should start with a user story in this form:
 
-> As a [type of person] I'd like to be able to [do something] so that I can [get some result].
+> As a [type of Coral user] I'd like to [do something] so that I can [get some result/value].
 
 This exercise does two things:
 
@@ -71,23 +71,3 @@ If you'd like to discuss a contribution, please [file an issue](https://github.c
 Talk's translations are stored in `.yml` files [here](https://github.com/coralproject/talk/tree/master/locales).
 
 Translations can be submitted via pull request. If you do not use github, you can use 'en.yml' as a template and [email](https://coralproject.net/contact) the translations to us. We can import it into the repository.
-
-## I want to contribute but I'm not sure what to do!
-
-If you want to contribute but don't have a clear idea of exactly what that may be, here are some resources that may help:
-
-### Product Roadmap
-
-Please visit our product roadmap here: https://www.pivotaltracker.com/n/projects/1863625. If you'd like to take on any of our scheduled tasks we'd be forever grateful!
-
-### Discussion Forum
-
-If you'd like to discuss what we're up to, please visit or [community](https://community.coralproject.net/) or [contact us](https://coralproject.net/contact).
-
-### Integrations
-
-Have a favorite analytics engine? Data science service? CMS? Auth platform? Deployment platform or pipeline? Pet project? Consider building a plugin to integrate them!
-
-### Favorite Features?
-
-Do you have a favorite feature of an existing platform that's not yet been done in Talk? Sounds like Talk needs that feature.

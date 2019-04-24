@@ -4,7 +4,6 @@ permalink: /plugin/talk-plugin-comment-content/
 layout: plugin
 plugin:
     name: talk-plugin-comment-content
-    default: true
     provides:
         - Client
 ---
