@@ -1,0 +1,87 @@
+.root {
+  width: calc(75 * var(--spacing-unit));
+  height: calc(3 * var(--spacing-unit));
+}
+
+.begin {
+  background-color: var(--palette-primary-darkest);
+  border-top-left-radius: var(--round-corners);
+  border-bottom-left-radius: var(--round-corners);
+  min-width: calc(4 * var(--spacing-unit));
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.beginStories {
+  font-size: calc(13rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: 1.5;
+  letter-spacing: calc(0.2em / 13);
+  color: var(--palette-text-light);
+  text-transform: uppercase;
+  padding-right: calc(0.25 * var(--spacing-unit));
+}
+
+.searchIcon {
+  padding: 0 calc(0.5 * var(--spacing-unit)) 0 calc(0.75 * var(--spacing-unit));
+  font-weight: var(--font-weight-medium);
+  color: var(--palette-text-light);
+}
+
+.end {
+  min-width: calc(4 * var(--spacing-unit));
+  background-color: var(--palette-primary-darkest);
+  border-top-right-radius: var(--round-corners);
+  border-bottom-right-radius: var(--round-corners);
+  flex-shrink: 0;
+}
+
+.searchButton {
+  composes: button from "talk-ui/shared/typography.css";
+  padding: 0 calc(1 * var(--spacing-unit));
+  color: var(--palette-text-light);
+  border-left: 1px solid var(--palette-text-light);
+  height: calc(3 * var(--spacing-unit) - 4px);
+
+  &:disabled {
+    cursor: pointer;
+  }
+}
+
+.input {
+  composes: inputText placeholderPseudo from "talk-ui/shared/typography.css";
+  position: relative;
+  display: block;
+  padding: calc(0.5 * var(--spacing-unit));
+  box-sizing: border-box;
+  width: 100%;
+  line-height: 30px;
+  align-self: stretch;
+  color: var(--palette-text-light);
+  border: 0;
+  background-color: var(--palette-primary-darkest);
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--palette-text-light);
+    opacity: 0.5;
+  }
+
+  &:read-only {
+    opacity: 0.5;
+  }
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.inputWithTitle {
+  text-align: center;
+  &::placeholder {
+    opacity: 1;
+  }
+}

@@ -18,11 +18,16 @@ const StoriesContainer: StatelessComponent<Props> = props => {
 
 const enhanced = withRouteConfig({
   query: graphql`
-    query StoriesContainerQuery {
-      ...StoryTableContainer_query
+    query StoriesContainerQuery($searchFilter: String) {
+      ...StoryTableContainer_query @arguments(searchFilter: $searchFilter)
     }
   `,
   cacheConfig: { force: true },
+  prepareVariables: (params, match) => {
+    return {
+      searchFilter: match.params.search,
+    };
+  },
 })(StoriesContainer);
 
 export default enhanced;

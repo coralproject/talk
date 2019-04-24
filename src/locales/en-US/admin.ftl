@@ -452,6 +452,7 @@ stories-column-title = Title
 stories-column-author = Author
 stories-column-publishDate = Publish Date
 stories-column-status = Status
+stories-column-clickToModerate = Click title to moderate story
 
 stories-status-popover =
   .description = A dropdown to change the story status

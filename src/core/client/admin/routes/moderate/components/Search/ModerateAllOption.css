@@ -1,0 +1,22 @@
+.root {
+  &:not(:first-child) {
+    border-top: 1px solid var(--palette-divider);
+  }
+  &[aria-selected="true"] {
+    @mixin outline;
+  }
+}
+
+.link {
+  justify-content: left;
+  min-height: calc(4 * var(--spacing-unit));
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(16rem / var(--rem-base));
+  line-height: calc(16em / 16);
+}
+
+.icon {
+  font-weight: var(--font-weight-medium);
+  margin-top: -2px;
+}

@@ -260,3 +260,19 @@
   letter-spacing: calc(0.1em / 18);
   color: var(--palette-text-primary);
 }
+
+.tableHeading {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(14rem / var(--rem-base));
+  line-height: calc(20em / 14);
+  color: var(--palette-grey-dark);
+}
+
+.tableData {
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-regular);
+  font-size: calc(14rem / var(--rem-base));
+  line-height: calc(14em / 14);
+  color: var(--palette-grey-dark);
+}

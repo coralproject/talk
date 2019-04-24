@@ -5,11 +5,12 @@ import { graphql } from "react-relay";
 
 import { OIDCConfigContainer_auth as AuthData } from "talk-admin/__generated__/OIDCConfigContainer_auth.graphql";
 import { OIDCConfigContainer_authReadOnly as AuthReadOnlyData } from "talk-admin/__generated__/OIDCConfigContainer_authReadOnly.graphql";
+import { DiscoverOIDCConfigurationFetch } from "talk-admin/fetches";
 import {
-  DiscoverOIDCConfigurationFetch,
-  withDiscoverOIDCConfigurationFetch,
-} from "talk-admin/fetches";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+  FetchProp,
+  withFetch,
+  withFragmentContainer,
+} from "talk-framework/lib/relay";
 
 import OIDCConfig from "../components/OIDCConfig";
 
@@ -18,7 +19,7 @@ interface Props {
   authReadOnly: AuthReadOnlyData;
   onInitValues: (values: AuthData) => void;
   disabled?: boolean;
-  discoverOIDCConfiguration: DiscoverOIDCConfigurationFetch;
+  discoverOIDCConfiguration: FetchProp<typeof DiscoverOIDCConfigurationFetch>;
 }
 
 interface State {
@@ -74,7 +75,7 @@ class OIDCConfigContainer extends React.Component<Props, State> {
   }
 }
 
-const enhanced = withDiscoverOIDCConfigurationFetch(
+const enhanced = withFetch(DiscoverOIDCConfigurationFetch)(
   withFragmentContainer<Props>({
     auth: graphql`
       fragment OIDCConfigContainer_auth on Auth {

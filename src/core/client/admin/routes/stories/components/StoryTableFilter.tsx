@@ -36,6 +36,7 @@ const StoryTableFilter: StatelessComponent<Props> = props => (
         </Typography>
       </Localized>
       <Form
+        initialValues={{ search: props.searchFilter }}
         onSubmit={({ search }: { search: string }) =>
           props.onSetSearchFilter(search)
         }

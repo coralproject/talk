@@ -1,37 +1,40 @@
-import { RouteProps } from "found";
+import { Match, RouteProps, Router, withRouter } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
 import { ModerateContainerQueryResponse } from "talk-admin/__generated__/ModerateContainerQuery.graphql";
 import { withRouteConfig } from "talk-framework/lib/router";
+import { Spinner } from "talk-ui/components";
 
 import Moderate from "../components/Moderate";
 
 interface RouteParams {
-  storyID: string;
+  storyID?: string;
 }
 
 interface Props {
-  data: ModerateContainerQueryResponse & { params: RouteParams };
+  data: ModerateContainerQueryResponse;
+  router: Router;
+  match: Match & { params: RouteParams };
 }
 
 class ModerateContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
 
   public render() {
+    const allStories = !this.props.match.params.storyID;
     if (!this.props.data) {
-      return null;
-    }
-
-    if (!this.props.data.moderationQueues) {
-      return <Moderate />;
+      return (
+        <Moderate moderationQueues={null} story={null} allStories={allStories}>
+          <Spinner />
+        </Moderate>
+      );
     }
     return (
       <Moderate
-        unmoderatedCount={this.props.data.moderationQueues.unmoderated.count}
-        reportedCount={this.props.data.moderationQueues.reported.count}
-        pendingCount={this.props.data.moderationQueues.pending.count}
-        storyID={this.props.data.params.storyID}
+        moderationQueues={this.props.data.moderationQueues}
+        story={this.props.data.story || null}
+        allStories={allStories}
       >
         {this.props.children}
       </Moderate>
@@ -41,17 +44,13 @@ class ModerateContainer extends React.Component<Props> {
 
 const enhanced = withRouteConfig<ModerateContainerQueryResponse>({
   query: graphql`
-    query ModerateContainerQuery($storyID: ID) {
+    query ModerateContainerQuery($storyID: ID, $includeStory: Boolean!) {
+      story(id: $storyID) @include(if: $includeStory) {
+        ...ModerateNavigationContainer_story
+        ...ModerateSearchBarContainer_story
+      }
       moderationQueues(storyID: $storyID) {
-        unmoderated {
-          count
-        }
-        reported {
-          count
-        }
-        pending {
-          count
-        }
+        ...ModerateNavigationContainer_moderationQueues
       }
     }
   `,
@@ -59,8 +58,9 @@ const enhanced = withRouteConfig<ModerateContainerQueryResponse>({
   prepareVariables: (params, match) => {
     return {
       storyID: match.params.storyID,
+      includeStory: Boolean(match.params.storyID),
     };
   },
-})(ModerateContainer);
+})(withRouter(ModerateContainer));
 
 export default enhanced;

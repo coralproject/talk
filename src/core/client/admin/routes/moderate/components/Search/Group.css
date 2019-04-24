@@ -1,0 +1,24 @@
+.root {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  height: calc(3 * var(--spacing-unit));
+  padding-left: calc(1.5 * var(--spacing-unit));
+  background: var(--palette-text-primary);
+
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(13rem / var(--rem-base));
+  line-height: calc(16em / 14);
+  color: var(--palette-text-light);
+  text-transform: uppercase;
+}
+
+.light {
+  background: var(--palette-grey-light);
+}

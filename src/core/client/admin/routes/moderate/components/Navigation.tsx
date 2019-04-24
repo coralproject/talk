@@ -10,8 +10,7 @@ interface Props {
   unmoderatedCount?: number;
   reportedCount?: number;
   pendingCount?: number;
-  storyID?: string;
-  children?: React.ReactNode;
+  storyID?: string | null;
 }
 
 const Navigation: StatelessComponent<Props> = ({

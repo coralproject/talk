@@ -1,0 +1,33 @@
+.root {
+  &[aria-selected="true"] {
+    @mixin outline;
+  }
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--palette-primary-dark);
+  min-height: calc(3 * var(--spacing-unit));
+
+  font-family: var(--font-family-sans-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(13rem / var(--rem-base));
+  line-height: calc(16em / 13);
+  color: var(--palette-text-light);
+
+  text-decoration: none;
+  text-transform: uppercase;
+  &:hover {
+    background: var(--palette-primary-darkest);
+  }
+}
+
+.icon {
+  font-weight: var(--font-weight-medium);
+  padding-left: calc(0.5 * var(--spacing-unit));
+  line-height: calc(16em / 13);
+  margin-top: -2px;
+}
