@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Form } from "react-final-form";
 
@@ -50,88 +51,102 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
     .map(o => o.element);
 
   return (
-    <SubBar
-      className={styles.root}
-      data-testid="moderate-searchBar-container"
-      role="combobox"
-      aria-owns="moderate-searchBar-listBox"
-      aria-label="Search or jump to story"
-      aria-haspopup="listbox"
-      aria-expanded={focused}
-    >
-      <Backdrop className={styles.bumpZIndex} active={focused} />
-      <Form onSubmit={submitHandler}>
-        {({ handleSubmit }) => (
-          <form
-            role="search"
-            aria-label="story"
-            className={styles.bumpZIndex}
-            onSubmit={handleSubmit}
-            {...preventFocusLossHandlers}
-          >
-            <Popover
-              id={"moderate-searchBar-popover"}
-              placement="bottom"
-              description="A dialog showing a permalink to the comment"
-              classes={{ popover: styles.popover }}
-              visible={focused}
-              eventsEnabled={false}
-              modifiers={{
-                preventOverflow: { enabled: false },
-                flip: { enabled: false },
-                hide: { enabled: false },
-              }}
-              body={() => (
-                <ul
-                  id="moderate-searchBar-listBox"
-                  role="listbox"
-                  className={styles.listBox}
-                >
-                  {contextOptions.length > 0 && (
-                    <Group
-                      title="Currently moderating"
-                      id="moderate-searchBar-current"
-                    >
-                      {contextOptions}
-                    </Group>
-                  )}
-                  {searchOptions.length > 0 && (
-                    <Group
-                      title={
-                        <>
-                          <Icon>search</Icon> Search results (Most recent first)
-                        </>
-                      }
-                      id="moderate-searchBar-current"
-                      light
-                    >
-                      {searchOptions}
-                    </Group>
-                  )}
-                </ul>
-              )}
+    <Localized id="moderate-searchBar-comboBox" attrs={{ "aria-label": true }}>
+      <SubBar
+        className={styles.root}
+        data-testid="moderate-searchBar-container"
+        role="combobox"
+        aria-owns="moderate-searchBar-listBox"
+        aria-label="Search or jump to story"
+        aria-haspopup="listbox"
+        aria-expanded={focused}
+      >
+        <Backdrop className={styles.bumpZIndex} active={focused} />
+        <Form onSubmit={submitHandler}>
+          {({ handleSubmit }) => (
+            <Localized
+              id="moderate-searchBar-searchForm"
+              attrs={{ "aria-label": true }}
             >
-              {({ ref }) => (
-                <div ref={ref}>
-                  <Field
-                    title={title}
-                    {...combineEventHandlers(
-                      focusHandlers,
-                      blurOnEscProps,
-                      keyboardNavigationHandlers
-                    )}
-                    focused={focused}
-                    aria-controls="moderate-searchBar-listBox"
-                    aria-autocomplete="list"
-                    aria-activedescendant={activeDescendant}
-                  />
-                </div>
-              )}
-            </Popover>
-          </form>
-        )}
-      </Form>
-    </SubBar>
+              <form
+                role="search"
+                aria-label="Stories"
+                className={styles.bumpZIndex}
+                onSubmit={handleSubmit}
+                {...preventFocusLossHandlers}
+              >
+                <Popover
+                  id={"moderate-searchBar-popover"}
+                  placement="bottom"
+                  classes={{ popover: styles.popover }}
+                  visible={focused}
+                  eventsEnabled={false}
+                  modifiers={{
+                    preventOverflow: { enabled: false },
+                    flip: { enabled: false },
+                    hide: { enabled: false },
+                  }}
+                  body={() => (
+                    <ul
+                      id="moderate-searchBar-listBox"
+                      role="listbox"
+                      className={styles.listBox}
+                    >
+                      {contextOptions.length > 0 && (
+                        <Localized
+                          id="moderate-searchBar-currentlyModerating"
+                          attrs={{ title: true }}
+                        >
+                          <Group
+                            title="Currently moderating"
+                            id="moderate-searchBar-current"
+                          >
+                            {contextOptions}
+                          </Group>
+                        </Localized>
+                      )}
+                      {searchOptions.length > 0 && (
+                        <Group
+                          title={
+                            <>
+                              <Icon>search</Icon>{" "}
+                              <Localized id="moderate-searchBar-searchResultsMostRecentFirst">
+                                <span>Search results (Most recent first)</span>
+                              </Localized>
+                            </>
+                          }
+                          id="moderate-searchBar-current"
+                          light
+                        >
+                          {searchOptions}
+                        </Group>
+                      )}
+                    </ul>
+                  )}
+                >
+                  {({ ref }) => (
+                    <div ref={ref}>
+                      <Field
+                        title={title}
+                        {...combineEventHandlers(
+                          focusHandlers,
+                          blurOnEscProps,
+                          keyboardNavigationHandlers
+                        )}
+                        focused={focused}
+                        aria-controls="moderate-searchBar-listBox"
+                        aria-autocomplete="list"
+                        aria-activedescendant={activeDescendant}
+                      />
+                    </div>
+                  )}
+                </Popover>
+              </form>
+            </Localized>
+          )}
+        </Form>
+      </SubBar>
+    </Localized>
   );
 };
 

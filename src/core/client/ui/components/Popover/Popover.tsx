@@ -41,7 +41,7 @@ interface ChildrenRenderProps {
 interface PopoverProps {
   body: (props: BodyRenderProps) => React.ReactNode | React.ReactElement<any>;
   children: (props: ChildrenRenderProps) => React.ReactNode;
-  description: string;
+  description?: string;
   id: string;
   className?: string;
   placement?: Placement;
@@ -155,7 +155,9 @@ class Popover extends React.Component<PopoverProps> {
                 aria-labelledby={`${id}-ariainfo`}
                 aria-hidden={!visible}
               >
-                <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
+                {description && (
+                  <AriaInfo id={`${id}-ariainfo`}>{description}</AriaInfo>
+                )}
                 {visible && (
                   <div
                     style={props.style}

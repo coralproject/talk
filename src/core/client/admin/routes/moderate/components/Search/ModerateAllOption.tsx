@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
 import { Button, Icon } from "talk-ui/components";
@@ -24,7 +25,9 @@ const ModerateAllOption: FunctionComponent<Props> = ({
         fullWidth
         tabIndex={-1}
       >
-        <span>Moderate all stories</span>
+        <Localized id="moderate-searchBar-moderateAllStories">
+          <span>Moderate all stories</span>
+        </Localized>
         <span>
           <Icon className={styles.icon}>arrow_forward</Icon>
         </span>

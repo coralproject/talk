@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
 import { Icon } from "talk-ui/components";
@@ -17,7 +18,9 @@ const SeeAllOption: FunctionComponent<Props> = ({
   return (
     <li role="option" className={cn(className, styles.root)} {...rest}>
       <a className={styles.link} href={href || "#"} tabIndex={-1}>
-        <span>See all results</span>
+        <Localized id="moderate-searchBar-seeAllResults">
+          <span>See all results</span>
+        </Localized>
         <Icon className={styles.icon}>arrow_forward</Icon>
       </a>
     </li>

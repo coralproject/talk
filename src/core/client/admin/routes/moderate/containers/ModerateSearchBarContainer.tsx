@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import { Match, Router, withRouter } from "found";
 import React, {
   KeyboardEvent,
@@ -9,19 +10,19 @@ import React, {
 import { graphql } from "react-relay";
 
 import { ModerateSearchBarContainer_story as ModerationQueuesData } from "talk-admin/__generated__/ModerateSearchBarContainer_story.graphql";
-import { useFetch, withFragmentContainer } from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
-
 import { SearchStoryFetch } from "talk-admin/fetches";
 import { useEffectWhenChanged } from "talk-framework/hooks";
+import { useFetch, withFragmentContainer } from "talk-framework/lib/relay";
+import { PropTypesOf } from "talk-framework/types";
+import { Spinner } from "talk-ui/components";
 import { blur } from "talk-ui/helpers";
 import {
   ListBoxOptionClickOrEnterHandler,
   ListBoxOptionElement,
 } from "talk-ui/hooks/useComboBox";
 
-import { Spinner } from "talk-ui/components";
 import * as Search from "../components/Search";
+import GoToAriaInfo from "../components/Search/GoToAriaInfo";
 
 interface Props {
   router: Router;
@@ -51,7 +52,12 @@ function getContextOptionsWhenModeratingAll(
   return [
     {
       element: (
-        <Search.Option href="/admin/moderate">All stories</Search.Option>
+        <Search.Option href="/admin/moderate">
+          <GoToAriaInfo />
+          <Localized id="moderate-searchBar-allStories">
+            <span>All stories</span>
+          </Localized>
+        </Search.Option>
       ),
       onClickOrEnter,
       group: "CONTEXT",
@@ -73,7 +79,7 @@ function getContextOptionsWhenModeratingStory(
           href={`/admin/moderate/${story.id}`}
           details={story.metadata && story.metadata.author}
         >
-          {story.metadata && story.metadata.title}
+          <GoToAriaInfo /> {story.metadata && story.metadata.title}
         </Search.Option>
       ),
       onClickOrEnter,
@@ -138,7 +144,7 @@ function useSearchOptions(
                 href={`/admin/moderate/${e.node.id}`}
                 details={e.node.metadata && e.node.metadata.author}
               >
-                {e.node.metadata && e.node.metadata.title}
+                <GoToAriaInfo /> {e.node.metadata && e.node.metadata.title}
               </Search.Option>
             ),
             onClickOrEnter,
@@ -147,7 +153,13 @@ function useSearchOptions(
         });
       } else {
         nextSearchOptions.push({
-          element: <Search.Option>No results</Search.Option>,
+          element: (
+            <Search.Option>
+              <Localized id="moderate-searchBar-noResults">
+                <span>No results</span>
+              </Localized>
+            </Search.Option>
+          ),
           group: "SEARCH",
         });
       }
@@ -183,27 +195,39 @@ const ModerateSearchBarContainer: React.FunctionComponent<Props> = props => {
     props.story
   );
 
-  if (!props.allStories && !props.story) {
+  const options = [...contextOptions, ...searchOptions];
+
+  const childProps = {
+    options,
+    onSearch,
+  };
+
+  // Still loading the story..
+  if (props.allStories) {
     return (
-      <Search.Bar
-        title=""
-        options={[...contextOptions, ...searchOptions]}
-        onSearch={onSearch}
-      />
+      <Localized id="moderate-searchBar-allStories" attrs={{ title: true }}>
+        <Search.Bar title="All stories" {...childProps} />
+      </Localized>
     );
   }
-
-  const title = props.allStories
-    ? "All stories"
-    : (props.story!.metadata && props.story!.metadata.title) ||
-      "Title not available";
-
+  if (!props.story) {
+    return <Search.Bar title={""} {...childProps} />;
+  }
+  const t = props.story!.metadata && props.story!.metadata.title;
+  if (t) {
+    return <Search.Bar title={t} {...childProps} />;
+  }
   return (
-    <Search.Bar
-      title={title}
-      options={[...contextOptions, ...searchOptions]}
-      onSearch={onSearch}
-    />
+    <Localized
+      id="moderate-searchBar-titleNotAvailable"
+      attrs={{ title: true }}
+    >
+      <Search.Bar
+        title={"Title not available"}
+        options={options}
+        onSearch={onSearch}
+      />
+    </Localized>
   );
 };
 

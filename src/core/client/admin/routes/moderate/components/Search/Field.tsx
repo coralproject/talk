@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 import { Field as FormField } from "react-final-form";
 
@@ -32,40 +33,53 @@ const Field: FunctionComponent<Props> = ({
             <Icon className={styles.searchIcon} size="md">
               search
             </Icon>
-            {focused && <div className={styles.beginStories}>Stories:</div>}
+            {focused && (
+              <Localized id="moderate-searchBar-stories">
+                <div className={styles.beginStories}>Stories:</div>
+              </Localized>
+            )}
           </Flex>
-          <input
-            name={input.name}
-            onChange={evt => {
-              if (onChange) {
-                onChange(evt);
-              }
-              input.onChange(evt);
-            }}
-            value={input.value}
-            className={cn(styles.input, { [styles.inputWithTitle]: !focused })}
-            placeholder={placeholder}
-            aria-label="Search or jump to story..."
-            autoComplete="off"
-            spellCheck={false}
-            onBlur={evt => {
-              // Reset value when blurring.
-              input.onChange("");
-              if (onBlur) {
-                onBlur(evt);
-              }
-            }}
-            {...rest}
-          />
+          <Localized
+            id="moderate-searchBar-comboBoxTextField"
+            attrs={{ "aria-label": true, placeholder: Boolean(focused) }}
+          >
+            <input
+              name={input.name}
+              onChange={evt => {
+                if (onChange) {
+                  onChange(evt);
+                }
+                input.onChange(evt);
+              }}
+              value={input.value}
+              className={cn(styles.input, {
+                [styles.inputWithTitle]: !focused,
+              })}
+              placeholder={placeholder}
+              aria-label="Search or jump to story..."
+              autoComplete="off"
+              spellCheck={false}
+              onBlur={evt => {
+                // Reset value when blurring.
+                input.onChange("");
+                if (onBlur) {
+                  onBlur(evt);
+                }
+              }}
+              {...rest}
+            />
+          </Localized>
           <Flex className={styles.end} alignItems="center">
             {focused && (
-              <BaseButton
-                className={styles.searchButton}
-                type="submit"
-                disabled={!Boolean(input.value)}
-              >
-                Search
-              </BaseButton>
+              <Localized id="moderate-searchBar-searchButton">
+                <BaseButton
+                  className={styles.searchButton}
+                  type="submit"
+                  disabled={!Boolean(input.value)}
+                >
+                  Search
+                </BaseButton>
+              </Localized>
             )}
           </Flex>
         </Flex>
