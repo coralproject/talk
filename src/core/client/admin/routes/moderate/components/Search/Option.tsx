@@ -11,6 +11,9 @@ interface Props extends HTMLAttributes<HTMLLIElement> {
   children?: React.ReactNode;
 }
 
+/**
+ * Group represents a generic listbox option
+ */
 const Option: FunctionComponent<Props> = ({
   details,
   children,

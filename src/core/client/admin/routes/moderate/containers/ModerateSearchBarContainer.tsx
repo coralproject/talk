@@ -31,14 +31,25 @@ interface Props {
   allStories: boolean;
 }
 
-function useLinkNavHandler(router: Router) {
+type SearchBarOptions = PropTypesOf<typeof Search.Bar>["options"];
+
+/**
+ * useLinkNavHandler returns a handler that navigates to `href` prop and blurs
+ * the TextField.
+ * @param router Router from the _found_ library
+ * @returns A handler for ListBoxOption
+ */
+function useLinkNavHandler(router: Router): ListBoxOptionClickOrEnterHandler {
   return useCallback(
     (evt: MouseEvent | KeyboardEvent, element: ListBoxOptionElement) => {
       if (element.props.href) {
         router.push(element.props.href);
         if (evt.preventDefault) {
+          // We prevent default behavior because we handled navigation ourselves
+          // and the browser don't need to follow anchor hrefs natively.
           evt.preventDefault();
         }
+        // Blur will inactivate the textfield and close the popover/listbox.
         blur();
       }
     },
@@ -48,7 +59,7 @@ function useLinkNavHandler(router: Router) {
 
 function getContextOptionsWhenModeratingAll(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler
-): PropTypesOf<typeof Search.Bar>["options"] {
+): SearchBarOptions {
   return [
     {
       element: (
@@ -68,7 +79,7 @@ function getContextOptionsWhenModeratingAll(
 function getContextOptionsWhenModeratingStory(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
   story: ModerationQueuesData | null
-): PropTypesOf<typeof Search.Bar>["options"] {
+): SearchBarOptions {
   if (story === null) {
     return [];
   }
@@ -93,15 +104,20 @@ function getContextOptionsWhenModeratingStory(
   ];
 }
 
+type OnSearchCallback = (search: string) => void;
+
+/**
+ * useSearchOptions
+ * @param onClickOrEnter A handler that reacts to click or enter for the search options
+ * @param story Current active story
+ */
 function useSearchOptions(
   onClickOrEnter: ListBoxOptionClickOrEnterHandler,
   story: ModerationQueuesData | null
-): [PropTypesOf<typeof Search.Bar>["options"], (search: string) => void] {
+): [SearchBarOptions, OnSearchCallback] {
   const searchStory = useFetch(SearchStoryFetch);
 
-  const [searchOptions, setSearchOptions] = useState<
-    PropTypesOf<typeof Search.Bar>["options"]
-  >([]);
+  const [searchOptions, setSearchOptions] = useState<SearchBarOptions>([]);
 
   useEffectWhenChanged(() => {
     setSearchOptions([]);
@@ -111,7 +127,7 @@ function useSearchOptions(
 
   const onSearch = useCallback(
     async (search: string) => {
-      const nextSearchOptions: PropTypesOf<typeof Search.Bar>["options"] = [];
+      const nextSearchOptions: SearchBarOptions = [];
 
       const searchCount = ++searchCountRef.current;
 

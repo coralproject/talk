@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
-/** ActiveDescendant is the id of the current active selection */
+/**
+ * ActiveDescendant is the id of the current active selection, which needs to be passed to `aria-activedescendant` prop
+ */
 export type ActiveDescendant = string | undefined;
 
 /** EventHandlers are the ones that should be passed to the TextField */
@@ -17,6 +19,10 @@ export type ListBoxOptionElement = React.ReactElement<{
   href?: string;
 }>;
 
+/**
+ * ListBoxOptionClickOrEnterHandler is called whenever a click or enter
+ * occurs on a list box option
+ */
 export type ListBoxOptionClickOrEnterHandler = (
   evt: React.KeyboardEvent | React.MouseEvent,
   element: ListBoxOptionElement
@@ -35,6 +41,9 @@ export interface ListBoxOption {
  * a managed list of `ListBoxOption`, the active descendant and event handlers
  * for the textfield. You can find the managed props of the elements in
  * the type `ListBoxOptionElements`.
+ *
+ * @param id unique identifier for accessibility purposes
+ * @param opts options to show in the listbox
  */
 export default function useComboBox<T extends ListBoxOption>(
   id: string,

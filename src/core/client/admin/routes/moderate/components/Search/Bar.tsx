@@ -29,6 +29,9 @@ interface Props {
   onSearch?: (value: string) => void;
 }
 
+/**
+ * Bar is the container of the whole search bar.
+ */
 const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
   const [focused, focusHandlers] = useFocus();
   const preventFocusLossHandlers = usePreventFocusLoss(focused);

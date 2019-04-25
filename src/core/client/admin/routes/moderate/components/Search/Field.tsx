@@ -14,6 +14,9 @@ interface Props extends HTMLAttributes<HTMLInputElement> {
   focused?: boolean;
 }
 
+/**
+ * Field is the TextField for the search entry.
+ */
 const Field: FunctionComponent<Props> = ({
   title,
   focused,

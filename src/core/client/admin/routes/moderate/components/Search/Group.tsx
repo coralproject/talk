@@ -10,6 +10,9 @@ interface Props {
   children?: React.ReactNode;
 }
 
+/**
+ * Group represents a ListBox Group
+ */
 const Group: FunctionComponent<Props> = ({ title, children, id, light }) => {
   return (
     <ul

@@ -10,6 +10,9 @@ interface Props extends HTMLAttributes<HTMLLIElement> {
   href?: string;
 }
 
+/**
+ * SeeAllOption is a listbox option that renders a see all search results button.
+ */
 const SeeAllOption: FunctionComponent<Props> = ({
   className,
   href,

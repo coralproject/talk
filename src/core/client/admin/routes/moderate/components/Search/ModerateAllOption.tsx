@@ -10,6 +10,9 @@ interface Props extends HTMLAttributes<HTMLLIElement> {
   href?: string;
 }
 
+/**
+ * ModerateAllOption is a listbox option that renders a moderate all button.
+ */
 const ModerateAllOption: FunctionComponent<Props> = ({
   className,
   href,
