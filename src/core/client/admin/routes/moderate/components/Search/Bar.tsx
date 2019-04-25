@@ -99,7 +99,7 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
                         >
                           <Group
                             title="Currently moderating"
-                            id="moderate-searchBar-current"
+                            id="moderate-searchBar-context"
                           >
                             {contextOptions}
                           </Group>
@@ -115,7 +115,7 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
                               </Localized>
                             </>
                           }
-                          id="moderate-searchBar-current"
+                          id="moderate-searchBar-search"
                           light
                         >
                           {searchOptions}
