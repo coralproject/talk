@@ -350,6 +350,7 @@ moderate-searchBar-comboBoxTextField =
   .aria-label = Search or jump to story...
   .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
 moderate-searchBar-goTo = Go to
+moderate-searchBar-seeAllResults = See all results
 
 ## Create Username
 
