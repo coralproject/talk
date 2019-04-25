@@ -61,10 +61,6 @@ export default makeRouteConfig(
           <Redirect from=":storyID" to="/admin/moderate/reported/:storyID" />
         </Route>
         <Route path="stories" {...StoriesContainer.routeConfig} />
-        <Route
-          path="stories/search/:search"
-          {...StoriesContainer.routeConfig}
-        />
         <Route path="community" {...CommunityContainer.routeConfig} />
         <Route path="stories" Component={Stories} />
         <Route

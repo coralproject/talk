@@ -183,7 +183,7 @@ function useSearchOptions(
         nextSearchOptions.push({
           element: (
             <Search.SeeAllOption
-              href={`/admin/stories/search/${encodeURIComponent(search)}/`}
+              href={`/admin/stories?q=${encodeURIComponent(search)}`}
             />
           ),
           onClickOrEnter,

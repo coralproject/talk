@@ -7,7 +7,9 @@ interface InjectedProps<T> {
   retry?: Error | null;
 }
 
-type RouteConfig = Partial<Pick<RouteProps, "query" | "getQuery">> &
+type RouteConfig<QueryResponse> = Partial<
+  Pick<RouteProps, "query" | "getQuery">
+> &
   Partial<Pick<RouteProps, "data" | "getData" | "defer">> & {
     cacheConfig?: {
       force?: boolean;
@@ -16,20 +18,37 @@ type RouteConfig = Partial<Pick<RouteProps, "query" | "getQuery">> &
       params: Record<string, string>,
       match: RouteMatch
     ) => Record<string, any>;
+    render?: (args: {
+      error: Error;
+      data: QueryResponse | null;
+      retry: () => void;
+      match: RouteMatch;
+      Component: React.ComponentType<any>;
+    }) => React.ReactElement;
   };
 
-function withRouteConfig<QueryResponse>(config: RouteConfig) {
+function withRouteConfig<QueryResponse>(config: RouteConfig<QueryResponse>) {
   const hoc = <T extends InjectedProps<QueryResponse>>(
     component: React.ComponentType<T>
   ) => {
     (component as any).routeConfig = {
       ...config,
       Component: component,
-      render: ({ error, props, retry, Component }: any) => {
-        return React.createElement(Component, { error, data: props, retry });
+      render: ({ error, props: data, retry, match, Component }: any) => {
+        if (config.render) {
+          return config.render({ error, data, retry, match, Component });
+        }
+        return React.createElement(Component, {
+          error,
+          data,
+          retry,
+          match,
+        });
       },
     };
-    return component as React.ComponentClass<T> & { routeConfig: RouteConfig };
+    return component as React.ComponentClass<T> & {
+      routeConfig: RouteConfig<QueryResponse>;
+    };
   };
   return hoc;
 }
