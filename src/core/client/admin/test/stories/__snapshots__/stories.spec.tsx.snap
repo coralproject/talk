@@ -124,7 +124,19 @@ exports[`renders empty stories 1`] = `
             <th
               className="TableCell-root StoryTable-titleColumn TableCell-header"
             >
-              Title
+              <span>
+                Title
+              </span>
+               
+              <span
+                className="StoryTable-clickToModerate"
+              >
+                (
+                <span>
+                  Click title to moderate story
+                </span>
+                )
+              </span>
             </th>
             <th
               className="TableCell-root StoryTable-authorColumn TableCell-header"
@@ -152,7 +164,13 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              Finally a Cure for Cancer
+              <a
+                className="TextLink-root"
+                href="/admin/moderate/story-1"
+                onClick={[Function]}
+              >
+                Finally a Cure for Cancer
+              </a>
             </td>
             <td
               className="TableCell-root StoryRow-authorColumn TableCell-body"
@@ -215,7 +233,13 @@ exports[`renders empty stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              First Colony on Mars
+              <a
+                className="TextLink-root"
+                href="/admin/moderate/story-2"
+                onClick={[Function]}
+              >
+                First Colony on Mars
+              </a>
             </td>
             <td
               className="TableCell-root StoryRow-authorColumn TableCell-body"
@@ -403,7 +427,19 @@ exports[`renders stories 1`] = `
             <th
               className="TableCell-root StoryTable-titleColumn TableCell-header"
             >
-              Title
+              <span>
+                Title
+              </span>
+               
+              <span
+                className="StoryTable-clickToModerate"
+              >
+                (
+                <span>
+                  Click title to moderate story
+                </span>
+                )
+              </span>
             </th>
             <th
               className="TableCell-root StoryTable-authorColumn TableCell-header"
@@ -431,7 +467,13 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              Finally a Cure for Cancer
+              <a
+                className="TextLink-root"
+                href="/admin/moderate/story-1"
+                onClick={[Function]}
+              >
+                Finally a Cure for Cancer
+              </a>
             </td>
             <td
               className="TableCell-root StoryRow-authorColumn TableCell-body"
@@ -494,7 +536,13 @@ exports[`renders stories 1`] = `
             <td
               className="TableCell-root StoryRow-titleColumn TableCell-body"
             >
-              First Colony on Mars
+              <a
+                className="TextLink-root"
+                href="/admin/moderate/story-2"
+                onClick={[Function]}
+              >
+                First Colony on Mars
+              </a>
             </td>
             <td
               className="TableCell-root StoryRow-authorColumn TableCell-body"

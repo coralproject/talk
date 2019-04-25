@@ -1,6 +1,6 @@
-import { useEffect } from "react";
 import equals from "shallow-equals";
 
+import useEffectAfterMount from "./useEffectAfterMount";
 import usePrevious from "./usePrevious";
 
 /**
@@ -12,7 +12,8 @@ export default function useEffectWhenChanged(
   deps: ReadonlyArray<any>
 ) {
   const previous = usePrevious(deps);
-  useEffect(() => {
+  // We use `useEffectAfterMount` to make sure `previous` has an assigned value.
+  useEffectAfterMount(() => {
     if (!equals(deps, previous)) {
       callback();
     }

@@ -1,22 +1,20 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
+import { removeFragmentRefs } from "talk-framework/testHelpers";
+import { PropTypesOf } from "talk-framework/types";
+
 import Moderate from "./Moderate";
 
-import { PropTypesOf } from "talk-framework/types";
-it("renders correctly", () => {
-  const renderer = createRenderer();
-  renderer.render(<Moderate />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
-});
+const ModerateN = removeFragmentRefs(Moderate);
 
-it("renders correctly with counts", () => {
-  const props: PropTypesOf<typeof Moderate> = {
-    unmoderatedCount: 3,
-    reportedCount: 4,
-    pendingCount: 0,
+it("renders correctly", () => {
+  const props: PropTypesOf<typeof ModerateN> = {
+    allStories: true,
+    moderationQueues: {},
+    story: {},
   };
   const renderer = createRenderer();
-  renderer.render(<Moderate {...props} />);
+  renderer.render(<ModerateN {...props} />);
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });

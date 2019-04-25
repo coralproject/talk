@@ -45,8 +45,18 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          moderationQueues: () => emptyModerationQueues,
-          comments: () => emptyRejectedComments,
+          moderationQueues: ({ variables }) => {
+            expectAndFail(variables).toEqual({
+              storyID: null,
+            });
+            return emptyModerationQueues;
+          },
+          comments: ({ variables }) => {
+            expectAndFail(variables).toEqual({
+              storyID: null,
+            });
+            return emptyRejectedComments;
+          },
         },
       }),
       params.resolvers
@@ -382,6 +392,7 @@ describe("rejected queue", () => {
             expectAndFail(variables).toEqual({
               first: 5,
               status: "REJECTED",
+              storyID: null,
             });
             return {
               edges: [
@@ -418,6 +429,7 @@ describe("rejected queue", () => {
                 expectAndFail(variables).toEqual({
                   first: 5,
                   status: GQLCOMMENT_STATUS.REJECTED,
+                  storyID: null,
                 });
                 return {
                   edges: [
@@ -440,6 +452,7 @@ describe("rejected queue", () => {
                   first: 10,
                   after: rejectedComments[1].createdAt,
                   status: GQLCOMMENT_STATUS.REJECTED,
+                  storyID: null,
                 });
                 return {
                   edges: [
@@ -519,6 +532,7 @@ describe("rejected queue", () => {
             expectAndFail(variables).toEqual({
               first: 5,
               status: "REJECTED",
+              storyID: null,
             });
             return {
               edges: [
