@@ -25,9 +25,6 @@ const Field: FunctionComponent<Props> = ({
   onChange,
   ...rest
 }) => {
-  const placeholder = focused
-    ? "Use quotation marks around each search term (e.g. “team”, “St. Louis”)"
-    : title;
   return (
     <FormField name="search">
       {({ input }) => (
@@ -58,7 +55,11 @@ const Field: FunctionComponent<Props> = ({
               className={cn(styles.input, {
                 [styles.inputWithTitle]: !focused,
               })}
-              placeholder={placeholder}
+              placeholder={
+                focused
+                  ? "Use quotation marks around each search term (e.g. “team”, “St. Louis”)"
+                  : title
+              }
               aria-label="Search or jump to story..."
               autoComplete="off"
               spellCheck={false}
