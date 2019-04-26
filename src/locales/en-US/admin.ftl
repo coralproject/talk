@@ -319,6 +319,11 @@ moderate-marker-karma = Karma
 moderate-marker-bodyCount = Body Count
 moderate-marker-offensive = Offensive
 
+moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
+moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
+moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
+moderate-emptyQueue-rejected = There are no rejected comments.
+
 moderate-inReplyTo = Reply to <username><username>
 moderate-viewContext = View Context
 moderate-rejectButton =

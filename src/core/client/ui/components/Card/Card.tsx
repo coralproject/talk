@@ -5,7 +5,7 @@ import { withStyles } from "talk-ui/hocs";
 
 import styles from "./Card.css";
 
-export interface CardProps {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * The content of the component.
    */

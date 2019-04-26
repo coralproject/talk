@@ -18,6 +18,7 @@ interface Props {
   hasMore: boolean;
   disableLoadMore: boolean;
   danglingLogic: PropTypesOf<typeof ModerateCardContainer>["danglingLogic"];
+  emptyElement?: React.ReactElement;
 }
 
 const Queue: StatelessComponent<Props> = ({
@@ -27,6 +28,7 @@ const Queue: StatelessComponent<Props> = ({
   disableLoadMore,
   onLoadMore,
   danglingLogic,
+  emptyElement,
 }) => (
   <HorizontalGutter className={styles.root} size="double">
     <TransitionGroup component={null} appear={false} enter={false} exit>
@@ -56,6 +58,7 @@ const Queue: StatelessComponent<Props> = ({
         />
       </Flex>
     )}
+    {comments.length === 0 && emptyElement}
   </HorizontalGutter>
 );
 

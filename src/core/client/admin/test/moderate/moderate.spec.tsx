@@ -45,18 +45,8 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          moderationQueues: ({ variables }) => {
-            expectAndFail(variables).toEqual({
-              storyID: null,
-            });
-            return emptyModerationQueues;
-          },
-          comments: ({ variables }) => {
-            expectAndFail(variables).toEqual({
-              storyID: null,
-            });
-            return emptyRejectedComments;
-          },
+          moderationQueues: () => emptyModerationQueues,
+          comments: () => emptyRejectedComments,
         },
       }),
       params.resolvers
@@ -87,6 +77,31 @@ describe("reported queue", () => {
 
     await waitForElement(() => getByTestID("moderate-container"));
     expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+  });
+
+  it("renders empty pending queue", async () => {
+    replaceHistoryLocation("http://localhost/admin/moderate/pending");
+    const testRenderer = await createTestRenderer();
+    const { getByText } = within(testRenderer.root);
+    await waitForElement(() => getByText("no more pending", { exact: false }));
+  });
+
+  it("renders empty unmoderated queue", async () => {
+    replaceHistoryLocation("http://localhost/admin/moderate/unmoderated");
+    const testRenderer = await createTestRenderer();
+    const { getByText } = within(testRenderer.root);
+    await waitForElement(() =>
+      getByText("comments have been moderated", { exact: false })
+    );
+  });
+
+  it("renders empty rejected queue", async () => {
+    replaceHistoryLocation("http://localhost/admin/moderate/rejected");
+    const testRenderer = await createTestRenderer();
+    const { getByText } = within(testRenderer.root);
+    await waitForElement(() =>
+      getByText("no rejected comments", { exact: false })
+    );
   });
 
   it("renders reported queue with comments", async () => {

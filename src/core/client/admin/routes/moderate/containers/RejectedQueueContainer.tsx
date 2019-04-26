@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import { RouteProps } from "found";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
@@ -7,6 +8,7 @@ import { RejectedQueueContainerPaginationQueryVariables } from "talk-admin/__gen
 import { IntersectionProvider } from "talk-framework/lib/intersection";
 import { withPaginationContainer } from "talk-framework/lib/relay";
 
+import EmptyMessage from "../components/EmptyMessage";
 import LoadingQueue from "../components/LoadingQueue";
 import Queue from "../components/Queue";
 
@@ -38,7 +40,12 @@ export class RejectedQueueContainer extends React.Component<
           hasMore={this.props.relay.hasMore()}
           disableLoadMore={this.state.disableLoadMore}
           danglingLogic={danglingLogic}
-        />{" "}
+          emptyElement={
+            <Localized id="moderate-emptyQueue-rejected">
+              <EmptyMessage>There are no rejected comments.</EmptyMessage>
+            </Localized>
+          }
+        />
       </IntersectionProvider>
     );
   }

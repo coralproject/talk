@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import { RouteProps } from "found";
 import React from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
@@ -8,6 +9,7 @@ import { QueueContainerPaginationPendingQueryVariables } from "talk-admin/__gene
 import { IntersectionProvider } from "talk-framework/lib/intersection";
 import { withPaginationContainer } from "talk-framework/lib/relay";
 
+import EmptyMessage from "../components/EmptyMessage";
 import LoadingQueue from "../components/LoadingQueue";
 import Queue from "../components/Queue";
 
@@ -15,6 +17,7 @@ interface QueueContainerProps {
   queue: QueueData;
   settings: SettingsData;
   relay: RelayPaginationProp;
+  emptyElement: React.ReactElement;
 }
 
 // TODO: use generated types
@@ -39,6 +42,7 @@ export class QueueContainer extends React.Component<QueueContainerProps> {
           hasMore={this.props.relay.hasMore()}
           disableLoadMore={this.state.disableLoadMore}
           danglingLogic={danglingLogic}
+          emptyElement={this.props.emptyElement}
         />
       </IntersectionProvider>
     );
@@ -67,7 +71,8 @@ type FragmentVariables = QueueContainerPaginationPendingQueryVariables;
 
 const createQueueContainer = (
   queueQuery: GraphQLTaggedNode,
-  paginationQuery: GraphQLTaggedNode
+  paginationQuery: GraphQLTaggedNode,
+  emptyElement: React.ReactElement
 ) => {
   const enhanced = (withPaginationContainer<
     QueueContainerProps,
@@ -131,7 +136,13 @@ const createQueueContainer = (
       if (Component && props) {
         const queue =
           anyProps.moderationQueues[Object.keys(anyProps.moderationQueues)[0]];
-        return <Component queue={queue} settings={anyProps.settings} />;
+        return (
+          <Component
+            queue={queue}
+            settings={anyProps.settings}
+            emptyElement={emptyElement}
+          />
+        );
       }
       return <LoadingQueue />;
     },
@@ -167,7 +178,13 @@ export const PendingQueueContainer = createQueueContainer(
         }
       }
     }
-  `
+  `,
+  // tslint:disable-next-line:jsx-wrap-multiline
+  <Localized id="moderate-emptyQueue-pending">
+    <EmptyMessage>
+      Nicely done! There are no more pending comments to moderate.
+    </EmptyMessage>
+  </Localized>
 );
 
 export const ReportedQueueContainer = createQueueContainer(
@@ -197,7 +214,13 @@ export const ReportedQueueContainer = createQueueContainer(
         }
       }
     }
-  `
+  `,
+  // tslint:disable-next-line:jsx-wrap-multiline
+  <Localized id="moderate-emptyQueue-reported">
+    <EmptyMessage>
+      Nicely done! There are no more reported comments to moderate.
+    </EmptyMessage>
+  </Localized>
 );
 
 export const UnmoderatedQueueContainer = createQueueContainer(
@@ -227,5 +250,9 @@ export const UnmoderatedQueueContainer = createQueueContainer(
         }
       }
     }
-  `
+  `,
+  // tslint:disable-next-line:jsx-wrap-multiline
+  <Localized id="moderate-emptyQueue-unmoderated">
+    <EmptyMessage>Nicely done! All comments have been moderated.</EmptyMessage>
+  </Localized>
 );
