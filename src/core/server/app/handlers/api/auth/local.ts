@@ -9,9 +9,14 @@ import { validate } from "talk-server/app/request/body";
 import { IntegrationDisabled, URLInvalidError } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile, retrieveUserWithProfile } from "talk-server/models/user";
+import { extractJWTFromRequest } from "talk-server/services/jwt";
 import { isURLPermitted } from "talk-server/services/tenant/url";
 import { insert } from "talk-server/services/users";
-import { generateResetURL } from "talk-server/services/users/auth";
+import {
+  generateResetURL,
+  resetPassword,
+  verifyResetTokenString,
+} from "talk-server/services/users/auth";
 import { RequestHandler } from "talk-server/types/express";
 
 export interface SignupBody {
@@ -194,7 +199,7 @@ export const forgotHandler = ({
       mongo,
       tenant,
       signingConfig,
-      user.id,
+      user,
       redirectURI,
       req.talk!.now
     );
@@ -218,6 +223,106 @@ export const forgotHandler = ({
     });
 
     log.trace("sent forgotten password email with token");
+
+    return res.sendStatus(204);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export interface ForgotResetBody {
+  password: string;
+}
+
+export const ForgotResetBodySchema = Joi.object().keys({
+  password: Joi.string(),
+});
+
+export type ForgotResetOptions = Pick<
+  AppOptions,
+  "mongo" | "signingConfig" | "mailerQueue"
+>;
+
+export const forgotResetHandler = ({
+  mongo,
+  signingConfig,
+  mailerQueue,
+}: ForgotResetOptions): RequestHandler => async (req, res, next) => {
+  try {
+    // TODO: rate limit based on the IP address and user agent.
+    // TODO: rate limit based on the `sub` + `iss` claims.
+
+    // Tenant is guaranteed at this point.
+    const talk = req.talk!;
+    const tenant = talk.tenant!;
+
+    // Check to ensure that the local integration has been enabled.
+    if (!tenant.auth.integrations.local.enabled) {
+      throw new IntegrationDisabled("local");
+    }
+
+    // Get the fields from the body. Validate will throw an error if the body
+    // does not conform to the specification.
+    const { password }: ForgotResetBody = validate(
+      ForgotResetBodySchema,
+      req.body
+    );
+
+    // Grab the token from the request.
+    const tokenString = extractJWTFromRequest(req, true);
+    if (!tokenString) {
+      return res.sendStatus(400);
+    }
+
+    // Execute the reset.
+    await resetPassword(
+      mongo,
+      tenant,
+      signingConfig,
+      tokenString,
+      password,
+      talk.now
+    );
+
+    return res.sendStatus(204);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export type ForgotCheckOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+
+export const forgotCheckHandler = ({
+  mongo,
+  signingConfig,
+}: ForgotCheckOptions): RequestHandler => async (req, res, next) => {
+  try {
+    // TODO: rate limit based on the IP address and user agent.
+    // TODO: rate limit based on the `sub` + `iss` claims.
+
+    // Tenant is guaranteed at this point.
+    const talk = req.talk!;
+    const tenant = talk.tenant!;
+
+    // Check to ensure that the local integration has been enabled.
+    if (!tenant.auth.integrations.local.enabled) {
+      throw new IntegrationDisabled("local");
+    }
+
+    // Grab the token from the request.
+    const tokenString = extractJWTFromRequest(req, true);
+    if (!tokenString) {
+      return res.sendStatus(400);
+    }
+
+    // Verify the token.
+    await verifyResetTokenString(
+      mongo,
+      tenant,
+      signingConfig,
+      tokenString,
+      talk.now
+    );
 
     return res.sendStatus(204);
   } catch (err) {

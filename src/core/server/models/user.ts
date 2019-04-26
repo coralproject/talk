@@ -9,6 +9,7 @@ import {
   DuplicateUserError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
+  PasswordResetExpired,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
@@ -21,6 +22,7 @@ import {
   GQLTimeRange,
   GQLUSER_ROLE,
 } from "talk-server/graph/tenant/schema/__generated__/types";
+import { getLocalProfile, hasLocalProfile } from "talk-server/helpers/users";
 import logger from "talk-server/logger";
 import {
   createConnectionOrderVariants,
@@ -42,6 +44,14 @@ export interface LocalProfile {
   type: "local";
   id: string;
   password: string;
+
+  /**
+   * resetID is used during a password reset process to prevent replay attacks.
+   * When a password reset email is sent, a resetID is associated with the
+   * account and the token. When a given reset token is used, it is cleared from
+   * the user, preventing the same reset URL from being used multiple times.
+   */
+  resetID?: string;
 }
 
 export interface OIDCProfile {
@@ -459,10 +469,11 @@ export async function updateUserRole(
   return result.value;
 }
 
-export async function verifyUserPassword(user: User, password: string) {
-  const profile: LocalProfile | undefined = user.profiles.find(
-    ({ type }) => type === "local"
-  ) as LocalProfile | undefined;
+export async function verifyUserPassword(
+  user: Pick<User, "profiles">,
+  password: string
+) {
+  const profile = getLocalProfile(user);
   if (!profile) {
     throw new LocalProfileNotSetError();
   }
@@ -506,11 +517,7 @@ export async function updateUserPassword(
       throw new UserNotFoundError(id);
     }
 
-    if (
-      !user.profiles.some(
-        profile => profile.type === "local" && profile.id === user.email
-      )
-    ) {
+    if (!hasLocalProfile(user)) {
       throw new LocalProfileNotSetError();
     }
 
@@ -850,7 +857,9 @@ export async function setUserLocalProfile(
       throw new UserNotFoundError(id);
     }
 
-    if (user.profiles.some(({ type }) => type === "local")) {
+    // Check to see if the user has any local profile (not just a local profile
+    // with a specific email).
+    if (hasLocalProfile(user)) {
       throw new LocalProfileAlreadySetError();
     }
 
@@ -1317,4 +1326,117 @@ export function consolidateUserStatus(
     suspension: consolidateUserSuspensionStatus(status.suspension, now),
     ban: consolidateUserBanStatus(status.ban),
   };
+}
+
+/**
+ * createOrReplacePasswordResetID will create/replace a password reset ID on the
+ * User.
+ *
+ * @param mongo MongoDB instance to interact with
+ * @param tenantID Tenant ID that the User exists on
+ * @param id ID of the User that we are creating a reset ID with
+ */
+export async function createOrReplaceUserPasswordResetID(
+  mongo: Db,
+  tenantID: string,
+  id: string
+): Promise<string> {
+  // Create the ID.
+  const resetID = uuid.v4();
+
+  // Associate the resetID with the user.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      // This ensures that the document we're updating already has a local
+      // profile associated with them.
+      "profiles.type": "local",
+    },
+    {
+      $set: {
+        "profiles.$[profiles].resetID": resetID,
+      },
+    },
+    {
+      arrayFilters: [{ "profiles.type": "local" }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    if (!hasLocalProfile(user, user.email)) {
+      throw new LocalProfileNotSetError();
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return resetID;
+}
+
+export async function resetUserPassword(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  password: string,
+  resetID: string
+) {
+  // Hash the password.
+  const hashedPassword = await hashPassword(password);
+
+  // Update the user with the new password.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      // This ensures that the document we're updating already has a local
+      // profile associated with them and also matches the resetID specified.
+      profiles: {
+        $elemMatch: {
+          type: "local",
+          resetID,
+        },
+      },
+    },
+    {
+      $set: {
+        "profiles.$[profiles].password": hashedPassword,
+      },
+      $unset: {
+        "profiles.$[profiles].resetID": "",
+      },
+    },
+    {
+      arrayFilters: [{ "profiles.type": "local", "profiles.resetID": resetID }],
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    const profile = getLocalProfile(user);
+    if (!profile) {
+      throw new LocalProfileNotSetError();
+    }
+
+    if (profile.resetID !== resetID) {
+      throw new PasswordResetExpired("reset id mismatch");
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value || null;
 }

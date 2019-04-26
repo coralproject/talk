@@ -356,9 +356,10 @@ export class TokenNotFoundError extends TalkError {
 }
 
 export class TokenInvalidError extends TalkError {
-  constructor(token: string, reason: string) {
+  constructor(token: string, reason: string, cause?: Error) {
     super({
       code: ERROR_CODES.TOKEN_INVALID,
+      cause,
       context: { pub: { token }, pvt: { reason } },
       status: 401,
     });
@@ -531,6 +532,17 @@ export class UserSuspended extends TalkError {
     super({
       code: ERROR_CODES.USER_SUSPENDED,
       context: { pvt: { resource, operation, userID }, pub: { until } },
+    });
+  }
+}
+
+export class PasswordResetExpired extends TalkError {
+  constructor(reason: string, cause?: Error) {
+    super({
+      code: ERROR_CODES.PASSWORD_RESET_EXPIRED,
+      cause,
+      status: 400,
+      context: { pvt: { reason } },
     });
   }
 }

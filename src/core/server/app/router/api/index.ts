@@ -6,6 +6,7 @@ import { graphQLHandler } from "talk-server/app/handlers/api/graphql";
 import { installHandler } from "talk-server/app/handlers/api/install";
 import { versionHandler } from "talk-server/app/handlers/api/version";
 import { JSONErrorHandler } from "talk-server/app/middleware/error";
+import { jsonMiddleware } from "talk-server/app/middleware/json";
 import { errorLogger } from "talk-server/app/middleware/logging";
 import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
 import { authenticate } from "talk-server/app/middleware/passport";
@@ -31,7 +32,7 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   // Installation middleware.
   router.use(
     "/install",
-    express.json(),
+    jsonMiddleware,
     tenantMiddleware({ cache: app.tenantCache, passNoTenant: true }),
     installHandler(app)
   );
@@ -41,17 +42,18 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
   router.use(tenantMiddleware({ cache: app.tenantCache }));
 
   // Setup Passport middleware.
-  router.use(options.passport.initialize());
+  router.use(passport.initialize());
 
-  // Authenticate all requests made to this route. This will allow requests
-  // that are not authenticated pass through.
-  router.use(authenticate(options.passport));
-
-  // Setup auth routes.
+  // Create the auth router.
   router.use("/auth", createNewAuthRouter(app, options));
 
   // Configure the GraphQL route.
-  router.use("/graphql", express.json(), graphQLHandler(app));
+  router.use(
+    "/graphql",
+    authenticate(options.passport),
+    jsonMiddleware,
+    graphQLHandler(app)
+  );
 
   // General API error handler.
   router.use(notFoundMiddleware);

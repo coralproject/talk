@@ -109,18 +109,11 @@ export async function handleSuccessfulLogin(
   next: NextFunction
 ) {
   try {
-    // Talk is guaranteed at this point.
-    const { tenant } = req.talk!;
-
-    const options: SigningTokenOptions = {};
-
-    if (tenant) {
-      // Attach the tenant's id to the issued token as a `iss` claim.
-      options.issuer = tenant.id;
-    }
+    // Tenant is guaranteed at this point.
+    const tenant = req.talk!.tenant!;
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, options);
+    const token = await signTokenString(signingConfig, user, tenant);
 
     // Set the cache control headers.
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -152,18 +145,11 @@ export async function handleOAuth2Callback(
   }
 
   try {
-    // Talk is guaranteed at this point.
-    const { tenant } = req.talk!;
-
-    const options: SigningTokenOptions = {};
-
-    if (tenant) {
-      // Attach the tenant's id to the issued token as a `iss` claim.
-      options.issuer = tenant.id;
-    }
+    // Tenant is guaranteed at this point.
+    const tenant = req.talk!.tenant!;
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, options);
+    const token = await signTokenString(signingConfig, user, tenant);
 
     // Send back the details!
     res.redirect(path + `#accessToken=${token}`);

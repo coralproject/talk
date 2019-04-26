@@ -236,4 +236,10 @@ export enum ERROR_CODES {
    * integration that has been disabled.
    */
   INTEGRATION_DISABLED = "INTEGRATION_DISABLED",
+
+  /**
+   * PASSWORD_RESET_EXPIRED is returned when a given password reset token has
+   * expired.
+   */
+  PASSWORD_RESET_EXPIRED = "PASSWORD_RESET_EXPIRED",
 }

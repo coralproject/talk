@@ -33,6 +33,14 @@ describe("extractJWTFromRequest", () => {
 
     expect(extractJWTFromRequest((req as any) as Request)).toEqual("token");
   });
+
+  it("does not extract the token from query string when it's disabled", () => {
+    const req = {
+      url: "https://talk.coralproject.net/api?accessToken=token",
+    };
+
+    expect(extractJWTFromRequest((req as any) as Request, true)).toEqual(null);
+  });
 });
 
 describe("createJWTSigningConfig", () => {

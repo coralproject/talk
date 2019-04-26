@@ -2,30 +2,18 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
-  EMAIL_REGEX,
-  PASSWORD_MIN_LENGTH,
-  USERNAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH,
-  USERNAME_REGEX,
-} from "talk-common/helpers/validate";
-import {
   EmailAlreadySetError,
-  EmailExceedsMaxLengthError,
-  EmailInvalidFormatError,
   EmailNotSetError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
-  PasswordTooShortError,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
   UsernameAlreadySetError,
-  UsernameContainsInvalidCharactersError,
-  UsernameExceedsMaxLengthError,
-  UsernameTooShortError,
   UserNotFoundError,
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
+import { getLocalProfile, hasLocalProfile } from "talk-server/helpers/users";
 import { Tenant } from "talk-server/models/tenant";
 import {
   banUser,
@@ -35,7 +23,6 @@ import {
   deactivateUserToken,
   insertUser,
   InsertUserInput,
-  LocalProfile,
   removeActiveUserSuspensions,
   removeUserBan,
   retrieveUser,
@@ -50,68 +37,10 @@ import {
   updateUserUsername,
   User,
 } from "talk-server/models/user";
-
 import { MailerQueue } from "talk-server/queue/tasks/mailer";
-import { JWTSigningConfig, signPATString } from "../jwt";
+import { JWTSigningConfig, signPATString } from "talk-server/services/jwt";
 
-/**
- * validateUsername will validate that the username is valid. Current
- * implementation uses a RegExp statically, future versions will expose this as
- * configuration.
- *
- * @param username the username to be tested
- */
-function validateUsername(username: string) {
-  // TODO: replace these static regex/length with database options in the Tenant eventually
-
-  if (!USERNAME_REGEX.test(username)) {
-    throw new UsernameContainsInvalidCharactersError();
-  }
-
-  if (username.length > USERNAME_MAX_LENGTH) {
-    throw new UsernameExceedsMaxLengthError(
-      username.length,
-      USERNAME_MAX_LENGTH
-    );
-  }
-
-  if (username.length < USERNAME_MIN_LENGTH) {
-    throw new UsernameTooShortError(username.length, USERNAME_MIN_LENGTH);
-  }
-}
-
-/**
- * validatePassword will validate that the password is valid. Current
- * implementation uses a length statically, future versions will expose this as
- * configuration.
- *
- * @param password the password to be tested
- */
-function validatePassword(password: string) {
-  // TODO: replace these static length with database options in the Tenant eventually
-  if (password.length < PASSWORD_MIN_LENGTH) {
-    throw new PasswordTooShortError(password.length, PASSWORD_MIN_LENGTH);
-  }
-}
-
-const EMAIL_MAX_LENGTH = 100;
-
-/**
- * validateEmail will validate that the email is valid. Current implementation
- * uses a length statically, future versions will expose this as configuration.
- *
- * @param email the email to be tested
- */
-function validateEmail(email: string) {
-  if (!EMAIL_REGEX.test(email)) {
-    throw new EmailInvalidFormatError();
-  }
-
-  // TODO: replace these static length with database options in the Tenant eventually
-  if (email.length > EMAIL_MAX_LENGTH) {
-    throw new EmailExceedsMaxLengthError(email.length, EMAIL_MAX_LENGTH);
-  }
-}
+import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
 
@@ -136,9 +65,7 @@ export async function insert(
     validateEmail(input.email);
   }
 
-  const localProfile: LocalProfile | undefined = input.profiles.find(
-    ({ type }) => type === "local"
-  ) as LocalProfile | undefined;
+  const localProfile = getLocalProfile(input);
   if (localProfile) {
     validateEmail(localProfile.id);
     validatePassword(localProfile.password);
@@ -229,7 +156,7 @@ export async function setPassword(
 
   // We also don't allow this method to be used by users that already have a
   // local profile.
-  if (user.profiles.some(({ type }) => type === "local")) {
+  if (hasLocalProfile(user)) {
     throw new LocalProfileAlreadySetError();
   }
 
@@ -262,9 +189,7 @@ export async function updatePassword(
 
   // We also don't allow this method to be used by users that don't have a local
   // profile already.
-  if (
-    !user.profiles.some(({ id, type }) => type === "local" && id === user.email)
-  ) {
+  if (!hasLocalProfile(user, user.email)) {
     throw new LocalProfileNotSetError();
   }
 

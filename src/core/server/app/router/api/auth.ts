@@ -2,12 +2,16 @@ import express from "express";
 
 import { AppOptions } from "talk-server/app";
 import {
+  forgotCheckHandler,
   forgotHandler,
+  forgotResetHandler,
   logoutHandler,
   signupHandler,
 } from "talk-server/app/handlers/api/auth/local";
 import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
+import { jsonMiddleware } from "talk-server/app/middleware/json";
 import {
+  authenticate,
   wrapAuthn,
   wrapOAuth2Authn,
 } from "talk-server/app/middleware/passport";
@@ -15,40 +19,42 @@ import { RouterOptions } from "talk-server/app/router/types";
 
 function wrapPath(
   app: AppOptions,
-  options: RouterOptions,
+  { passport }: Pick<RouterOptions, "passport">,
   router: express.Router,
   strategy: string,
   path: string = `/${strategy}`
 ) {
-  const handler = wrapOAuth2Authn(
-    options.passport,
-    app.signingConfig,
-    strategy
-  );
+  const handler = wrapOAuth2Authn(passport, app.signingConfig, strategy);
 
   router.get(path, noCacheMiddleware, handler);
   router.get(path + "/callback", noCacheMiddleware, handler);
 }
 
-export function createNewAuthRouter(app: AppOptions, options: RouterOptions) {
+export function createNewAuthRouter(
+  app: AppOptions,
+  { passport }: Pick<RouterOptions, "passport">
+) {
   const router = express.Router();
-
-  // Mount the logout handler.
-  router.delete("/", logoutHandler(app));
 
   // Mount the Local Authentication handlers.
   router.post(
     "/local",
-    express.json(),
-    wrapAuthn(options.passport, app.signingConfig, "local")
+    jsonMiddleware,
+    wrapAuthn(passport, app.signingConfig, "local")
   );
-  router.post("/local/signup", express.json(), signupHandler(app));
-  router.post("/local/forgot", express.json(), forgotHandler(app));
+
+  router.post("/local/signup", jsonMiddleware, signupHandler(app));
+  router.get("/local/forgot", forgotCheckHandler(app));
+  router.put("/local/forgot", jsonMiddleware, forgotResetHandler(app));
+  router.post("/local/forgot", jsonMiddleware, forgotHandler(app));
+
+  // Mount the logout handler.
+  router.delete("/", authenticate(passport), logoutHandler(app));
 
   // Mount the external auth integrations with middleware/handle wrappers.
-  wrapPath(app, options, router, "facebook");
-  wrapPath(app, options, router, "google");
-  wrapPath(app, options, router, "oidc");
+  wrapPath(app, { passport }, router, "facebook");
+  wrapPath(app, { passport }, router, "google");
+  wrapPath(app, { passport }, router, "oidc");
 
   return router;
 }

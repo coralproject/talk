@@ -32,6 +32,7 @@ describe("SSOUserProfileSchema", () => {
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
+    expect(isSSOToken({ user: profile })).toEqual(true);
   });
 
   it("allows an empty avatar", () => {
@@ -42,6 +43,7 @@ describe("SSOUserProfileSchema", () => {
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
+    expect(isSSOToken({ user: profile })).toEqual(true);
   });
 
   it("allows a valid payload", () => {
@@ -54,6 +56,7 @@ describe("SSOUserProfileSchema", () => {
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
+    expect(isSSOToken({ user: profile })).toEqual(true);
   });
 
   it("allows an empty avatar", () => {
@@ -65,6 +68,7 @@ describe("SSOUserProfileSchema", () => {
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
+    expect(isSSOToken({ user: profile })).toEqual(true);
   });
 
   it("allows an empty displayName", () => {
@@ -76,5 +80,6 @@ describe("SSOUserProfileSchema", () => {
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
+    expect(isSSOToken({ user: profile })).toEqual(true);
   });
 });
