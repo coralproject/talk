@@ -303,14 +303,14 @@ describe("reported queue", () => {
 
   it("renders empty pending queue", async () => {
     replaceHistoryLocation("http://localhost/admin/moderate/pending");
-    const testRenderer = await createTestRenderer();
+    const { testRenderer } = await createTestRenderer();
     const { getByText } = within(testRenderer.root);
     await waitForElement(() => getByText("no more pending", { exact: false }));
   });
 
   it("renders empty unmoderated queue", async () => {
     replaceHistoryLocation("http://localhost/admin/moderate/unmoderated");
-    const testRenderer = await createTestRenderer();
+    const { testRenderer } = await createTestRenderer();
     const { getByText } = within(testRenderer.root);
     await waitForElement(() =>
       getByText("comments have been moderated", { exact: false })
@@ -319,7 +319,7 @@ describe("reported queue", () => {
 
   it("renders empty rejected queue", async () => {
     replaceHistoryLocation("http://localhost/admin/moderate/rejected");
-    const testRenderer = await createTestRenderer();
+    const { testRenderer } = await createTestRenderer();
     const { getByText } = within(testRenderer.root);
     await waitForElement(() =>
       getByText("no rejected comments", { exact: false })
