@@ -75,9 +75,14 @@ const enhanced = (withPaginationContainer<
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
+          storyID: { type: "ID" }
         ) {
-        comments(status: REJECTED, first: $count, after: $cursor)
-          @connection(key: "RejectedQueue_comments") {
+        comments(
+          status: REJECTED
+          storyID: $storyID
+          first: $count
+          after: $cursor
+        ) @connection(key: "RejectedQueue_comments") {
           edges {
             node {
               id
@@ -105,6 +110,7 @@ const enhanced = (withPaginationContainer<
     },
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
+        ...fragmentVariables,
         count,
         cursor,
       };
@@ -113,11 +119,12 @@ const enhanced = (withPaginationContainer<
       # Pagination query to be fetched upon calling 'loadMore'.
       # Notice that we re-use our fragment, and the shape of this query matches our fragment spec.
       query RejectedQueueContainerPaginationQuery(
+        $storyID: ID
         $count: Int!
         $cursor: Cursor
       ) {
         ...RejectedQueueContainer_query
-          @arguments(count: $count, cursor: $cursor)
+          @arguments(storyID: $storyID, count: $count, cursor: $cursor)
       }
     `,
   }
@@ -126,8 +133,8 @@ const enhanced = (withPaginationContainer<
 enhanced.routeConfig = {
   Component: enhanced,
   query: graphql`
-    query RejectedQueueContainerQuery {
-      ...RejectedQueueContainer_query
+    query RejectedQueueContainerQuery($storyID: ID) {
+      ...RejectedQueueContainer_query @arguments(storyID: $storyID)
     }
   `,
   cacheConfig: { force: true },

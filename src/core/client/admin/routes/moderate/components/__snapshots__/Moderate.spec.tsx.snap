@@ -4,35 +4,16 @@ exports[`renders correctly 1`] = `
 <div
   data-testid="moderate-container"
 >
-  <withPropsOnChange(SubBar)
-    data-testid="moderate-subBar-container"
-  >
-    <Navigation />
-  </withPropsOnChange(SubBar)>
-  <div
-    className="Moderate-background"
+  <withRouter(Relay(ModerateSearchBarContainer))
+    allStories={true}
+    story={Object {}}
   />
-  <MainLayout
-    data-testid="moderate-main-container"
-  >
-    <main
-      className="Moderate-main"
-    />
-  </MainLayout>
-</div>
-`;
-
-exports[`renders correctly with counts 1`] = `
-<div
-  data-testid="moderate-container"
->
   <withPropsOnChange(SubBar)
     data-testid="moderate-subBar-container"
   >
-    <Navigation
-      pendingCount={0}
-      reportedCount={4}
-      unmoderatedCount={3}
+    <Relay(ModerateNavigationContainer)
+      moderationQueues={Object {}}
+      story={Object {}}
     />
   </withPropsOnChange(SubBar)>
   <div

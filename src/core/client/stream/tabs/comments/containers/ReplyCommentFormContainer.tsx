@@ -8,16 +8,17 @@ import {
   InvalidRequestError,
   ModerationNudgeError,
 } from "talk-framework/lib/errors";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import {
+  FetchProp,
+  withFetch,
+  withFragmentContainer,
+} from "talk-framework/lib/relay";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
 import { PropTypesOf } from "talk-framework/types";
 import { ReplyCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
 import { ReplyCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
 import { ReplyCommentFormContainer_story as StoryData } from "talk-stream/__generated__/ReplyCommentFormContainer_story.graphql";
-import {
-  RefreshSettingsFetch,
-  withRefreshSettingsFetch,
-} from "talk-stream/fetches";
+import { RefreshSettingsFetch } from "talk-stream/fetches";
 import {
   CreateCommentReplyMutation,
   withCreateCommentReplyMutation,
@@ -42,7 +43,7 @@ interface Props {
   onClose?: () => void;
   autofocus: boolean;
   localReply?: boolean;
-  refreshSettings: RefreshSettingsFetch;
+  refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
 }
 
 interface State {
@@ -204,7 +205,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(
-  withRefreshSettingsFetch(
+  withFetch(RefreshSettingsFetch)(
     withCreateCommentReplyMutation(
       withFragmentContainer<Props>({
         settings: graphql`

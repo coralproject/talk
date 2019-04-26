@@ -4,7 +4,7 @@ import { withStyles } from "talk-ui/hocs";
 
 import styles from "./Spinner.css";
 
-type Size = "sm" | "md";
+type Size = "xs" | "sm" | "md";
 
 export interface SpinnerProps {
   /**
@@ -21,6 +21,8 @@ export interface SpinnerProps {
 
 function calculateSize(size: Size): number {
   switch (size) {
+    case "xs":
+      return 15;
     case "sm":
       return 30;
     case "md":

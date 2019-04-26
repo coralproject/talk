@@ -5,12 +5,13 @@ import { graphql } from "react-relay";
 import { isBeforeDate } from "talk-common/utils";
 import { withContext } from "talk-framework/lib/bootstrap";
 import { InvalidRequestError } from "talk-framework/lib/errors";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
 import {
-  RefreshSettingsFetch,
-  withRefreshSettingsFetch,
-} from "talk-stream/fetches";
+  FetchProp,
+  withFetch,
+  withFragmentContainer,
+} from "talk-framework/lib/relay";
+import { PropTypesOf } from "talk-framework/types";
+import { RefreshSettingsFetch } from "talk-stream/fetches";
 
 import { EditCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/EditCommentFormContainer_comment.graphql";
 import { EditCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/EditCommentFormContainer_settings.graphql";
@@ -37,7 +38,7 @@ interface Props {
   story: StoryData;
   onClose?: () => void;
   autofocus: boolean;
-  refreshSettings: RefreshSettingsFetch;
+  refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
 }
 
 interface State {
@@ -156,7 +157,7 @@ const enhanced = withContext(({ sessionStorage, browserInfo }) => ({
   // Disable autofocus on ios and enable for the rest.
   autofocus: !browserInfo.ios,
 }))(
-  withRefreshSettingsFetch(
+  withFetch(RefreshSettingsFetch)(
     withEditCommentMutation(
       withFragmentContainer<Props>({
         comment: graphql`

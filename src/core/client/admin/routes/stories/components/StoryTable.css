@@ -10,3 +10,6 @@
 .statusColumn {
   width: 15%;
 }
+.clickToModerate {
+  font-size: calc(12rem / var(--rem-base));
+}

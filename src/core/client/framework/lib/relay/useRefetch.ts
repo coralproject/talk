@@ -2,7 +2,7 @@ import { useState } from "react";
 import { RelayPaginationProp } from "react-relay";
 import { Variables } from "relay-runtime";
 
-import { useEffectAfterMount } from "talk-framework/hooks";
+import { useEffectWhenChanged } from "talk-framework/hooks";
 
 /**
  * useRefetch is a react hook that returns a `refetch` callback
@@ -15,7 +15,7 @@ export default function useRefetch<V = Variables>(
 ): [() => void, boolean] {
   const [manualRefetchCount, setManualRefetchCount] = useState(0);
   const [refetching, setRefetching] = useState(false);
-  useEffectAfterMount(() => {
+  useEffectWhenChanged(() => {
     setRefetching(true);
     const disposable = relay.refetchConnection(
       10,
@@ -34,7 +34,7 @@ export default function useRefetch<V = Variables>(
       }
     };
   }, [
-    relay,
+    relay.environment,
     manualRefetchCount,
     ...Object.keys(variables).reduce<any[]>((a, k) => {
       a.push((variables as any)[k]);

@@ -1,12 +1,12 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { HTMLAttributes, StatelessComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 import { withStyles } from "talk-ui/hocs";
 
 import styles from "./SubBar.css";
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   className?: string;
   gutterBegin?: boolean;

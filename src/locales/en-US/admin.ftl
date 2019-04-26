@@ -330,6 +330,27 @@ moderate-decision = Decision
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View
 
+### Moderate Search Bar
+moderate-searchBar-allStories = All stories
+  .title = All stories
+moderate-searchBar-noResults = No results
+moderate-searchBar-stories = Stories:
+moderate-searchBar-searchButton = Search
+moderate-searchBar-titleNotAvailable =
+  .title = Title not available
+moderate-searchBar-comboBox =
+  .aria-label = Search or jump to story
+moderate-searchBar-searchForm =
+  .aria-label = Stories
+moderate-searchBar-currentlyModerating =
+  .title = Currently moderating
+moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent first)
+moderate-searchBar-moderateAllStories = Moderate all stories
+moderate-searchBar-comboBoxTextField =
+  .aria-label = Search or jump to story...
+  .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
+moderate-searchBar-goTo = Go to
+moderate-searchBar-seeAllResults = See all results
 
 ## Create Username
 
@@ -452,6 +473,7 @@ stories-column-title = Title
 stories-column-author = Author
 stories-column-publishDate = Publish Date
 stories-column-status = Status
+stories-column-clickToModerate = Click title to moderate story
 
 stories-status-popover =
   .description = A dropdown to change the story status

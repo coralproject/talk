@@ -7,7 +7,9 @@ import {
   ModerationNudgeError,
 } from "talk-framework/lib/errors";
 import {
+  FetchProp,
   graphql,
+  withFetch,
   withFragmentContainer,
   withLocalStateContainer,
 } from "talk-framework/lib/relay";
@@ -16,10 +18,7 @@ import { PropTypesOf } from "talk-framework/types";
 import { PostCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story as StoryData } from "talk-stream/__generated__/PostCommentFormContainer_story.graphql";
 import { PostCommentFormContainerLocal as Local } from "talk-stream/__generated__/PostCommentFormContainerLocal.graphql";
-import {
-  RefreshSettingsFetch,
-  withRefreshSettingsFetch,
-} from "talk-stream/fetches";
+import { RefreshSettingsFetch } from "talk-stream/fetches";
 import {
   CreateCommentMutation,
   withCreateCommentMutation,
@@ -37,7 +36,7 @@ import {
 
 interface Props {
   createComment: CreateCommentMutation;
-  refreshSettings: RefreshSettingsFetch;
+  refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
   sessionStorage: PromisifiedStorage;
   settings: SettingsData;
   local: Local;
@@ -214,7 +213,7 @@ const enhanced = withContext(({ sessionStorage }) => ({
   sessionStorage,
 }))(
   withCreateCommentMutation(
-    withRefreshSettingsFetch(
+    withFetch(RefreshSettingsFetch)(
       withLocalStateContainer(
         graphql`
           fragment PostCommentFormContainerLocal on Local {

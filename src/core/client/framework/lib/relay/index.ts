@@ -27,7 +27,14 @@ export {
   default as commitLocalUpdatePromisified,
 } from "./commitLocalUpdatePromisified";
 export { initLocalBaseState, setAccessTokenInLocalState } from "./localState";
-export { default as fetchQuery } from "./fetchQuery";
+export {
+  fetchQuery,
+  createFetch,
+  FetchVariables,
+  FetchProp,
+  withFetch,
+  useFetch,
+} from "./fetch";
 export { default as useRefetch } from "./useRefetch";
 export { default as useLoadMore } from "./useLoadMore";
 export { default as lookup } from "./lookup";

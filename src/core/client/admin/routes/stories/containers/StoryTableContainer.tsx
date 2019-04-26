@@ -16,6 +16,7 @@ import StoryTable from "../components/StoryTable";
 import StoryTableFilter from "../components/StoryTableFilter";
 
 interface Props {
+  initialSearchFilter?: string;
   query: QueryData | null;
   relay: RelayPaginationProp;
 }
@@ -26,7 +27,9 @@ const StoryTableContainer: StatelessComponent<Props> = props => {
     : [];
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const [searchFilter, setSearchFilter] = useState<string>("");
+  const [searchFilter, setSearchFilter] = useState<string>(
+    props.initialSearchFilter || ""
+  );
   const [statusFilter, setStatusFilter] = useState<GQLSTORY_STATUS_RL | null>(
     null
   );

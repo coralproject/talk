@@ -9,11 +9,15 @@ import styles from "./Stories.css";
 
 interface Props {
   query: PropTypesOf<typeof StoryTableContainer>["query"];
+  initialSearchFilter?: string;
 }
 
 const Stories: StatelessComponent<Props> = props => (
   <MainLayout className={styles.root} data-testid="stories-container">
-    <StoryTableContainer query={props.query} />
+    <StoryTableContainer
+      query={props.query}
+      initialSearchFilter={props.initialSearchFilter}
+    />
   </MainLayout>
 );
 

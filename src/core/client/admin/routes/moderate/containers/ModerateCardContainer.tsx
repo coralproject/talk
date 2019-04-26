@@ -1,3 +1,4 @@
+import { Match, Router, withRouter } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
@@ -16,12 +17,14 @@ import {
 
 import ModerateCard from "../components/ModerateCard";
 
-interface ModerateCardContainerProps {
+interface Props {
   comment: CommentData;
   settings: SettingsData;
   acceptComment: MutationProp<typeof AcceptCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
+  match: Match;
+  router: Router;
 }
 
 function getStatus(comment: CommentData) {
@@ -35,13 +38,12 @@ function getStatus(comment: CommentData) {
   }
 }
 
-class ModerateCardContainer extends React.Component<
-  ModerateCardContainerProps
-> {
+class ModerateCardContainer extends React.Component<Props> {
   private handleAccept = () => {
     this.props.acceptComment({
       commentID: this.props.comment.id,
       commentRevisionID: this.props.comment.revision.id,
+      storyID: this.props.match.params.storyID,
     });
   };
 
@@ -49,6 +51,7 @@ class ModerateCardContainer extends React.Component<
     this.props.rejectComment({
       commentID: this.props.comment.id,
       commentRevisionID: this.props.comment.revision.id,
+      storyID: this.props.match.params.storyID,
     });
   };
 
@@ -74,7 +77,7 @@ class ModerateCardContainer extends React.Component<
   }
 }
 
-const enhanced = withFragmentContainer<ModerateCardContainerProps>({
+const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardContainer_comment on Comment {
       id
@@ -105,8 +108,10 @@ const enhanced = withFragmentContainer<ModerateCardContainerProps>({
     }
   `,
 })(
-  withMutation(AcceptCommentMutation)(
-    withMutation(RejectCommentMutation)(ModerateCardContainer)
+  withRouter(
+    withMutation(AcceptCommentMutation)(
+      withMutation(RejectCommentMutation)(ModerateCardContainer)
+    )
   )
 );
 

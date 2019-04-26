@@ -1,31 +1,36 @@
 import React, { StatelessComponent } from "react";
 
 import MainLayout from "talk-admin/components/MainLayout";
+import { PropTypesOf } from "talk-framework/types";
 import { SubBar } from "talk-ui/components/SubBar";
 
-import Navigation from "./Navigation";
+import ModerateNavigationContainer from "../containers/ModerateNavigationContainer";
+import ModerateSearchBarContainer from "../containers/ModerateSearchBarContainer";
 
 import styles from "./Moderate.css";
 
 interface Props {
-  unmoderatedCount?: number;
-  reportedCount?: number;
-  pendingCount?: number;
+  story: PropTypesOf<typeof ModerateNavigationContainer>["story"] &
+    PropTypesOf<typeof ModerateSearchBarContainer>["story"];
+  moderationQueues: PropTypesOf<
+    typeof ModerateNavigationContainer
+  >["moderationQueues"];
+  allStories: boolean;
   children?: React.ReactNode;
 }
 
 const Moderate: StatelessComponent<Props> = ({
-  unmoderatedCount,
-  reportedCount,
-  pendingCount,
+  moderationQueues,
+  story,
+  allStories,
   children,
 }) => (
   <div data-testid="moderate-container">
+    <ModerateSearchBarContainer story={story} allStories={allStories} />
     <SubBar data-testid="moderate-subBar-container">
-      <Navigation
-        unmoderatedCount={unmoderatedCount}
-        reportedCount={reportedCount}
-        pendingCount={pendingCount}
+      <ModerateNavigationContainer
+        moderationQueues={moderationQueues}
+        story={story}
       />
     </SubBar>
     <div className={styles.background} />

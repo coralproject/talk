@@ -1,8 +1,10 @@
+import { Link } from "found";
 import React, { StatelessComponent } from "react";
 
 import NotAvailable from "talk-admin/components/NotAvailable";
+import { getModerationLink } from "talk-admin/helpers";
 import { PropTypesOf } from "talk-framework/types";
-import { TableCell, TableRow } from "talk-ui/components";
+import { TableCell, TableRow, TextLink } from "talk-ui/components";
 
 import StatusChangeContainer from "../containers/StatusChangeContainer";
 import StatusText from "./StatusText";
@@ -21,7 +23,12 @@ interface Props {
 const UserRow: StatelessComponent<Props> = props => (
   <TableRow>
     <TableCell className={styles.titleColumn}>
-      {props.title || <NotAvailable />}
+      <Link
+        to={getModerationLink("default", props.storyID)}
+        Component={TextLink}
+      >
+        {props.title || <NotAvailable />}
+      </Link>
     </TableCell>
     <TableCell className={styles.authorColumn}>
       {props.author || <NotAvailable />}

@@ -7,13 +7,11 @@
 }
 
 .header {
-  composes: bodyCopy from "talk-ui/shared/typography.css";
-  color: var(--palette-grey-dark);
+  composes: tableHeading from "talk-ui/shared/typography.css";
 }
 
 .body {
-  composes: detail from "talk-ui/shared/typography.css";
-  color: var(--palette-grey-dark);
+  composes: tableData from "talk-ui/shared/typography.css";
 }
 
 .alignCenter {

@@ -3,10 +3,7 @@
 }
 
 .keyboardFocus {
-  outline-width: 3px;
-  outline-color: Highlight;
-  outline-color: -webkit-focus-ring-color;
-  outline-style: auto;
+  @mixin outline;
 }
 
 .mouseHover {

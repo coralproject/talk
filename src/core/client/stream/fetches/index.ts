@@ -1,4 +1,1 @@
-export {
-  withRefreshSettingsFetch,
-  RefreshSettingsFetch,
-} from "./RefreshSettingsQuery";
+export { default as RefreshSettingsFetch } from "./RefreshSettingsQuery";

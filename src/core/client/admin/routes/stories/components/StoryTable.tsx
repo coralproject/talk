@@ -38,9 +38,19 @@ const StoryTable: StatelessComponent<Props> = props => (
       <Table fullWidth>
         <TableHead>
           <TableRow>
-            <Localized id="stories-column-title">
-              <TableCell className={styles.titleColumn}>Title</TableCell>
-            </Localized>
+            <TableCell className={styles.titleColumn}>
+              <Localized id="stories-column-title">
+                <span>Title</span>
+              </Localized>{" "}
+              <span className={styles.clickToModerate}>
+                (
+                <Localized id="stories-column-clickToModerate">
+                  <span>Click title to moderate story</span>
+                </Localized>
+                )
+              </span>
+            </TableCell>
+
             <Localized id="stories-column-author">
               <TableCell className={styles.authorColumn}>Author</TableCell>
             </Localized>
