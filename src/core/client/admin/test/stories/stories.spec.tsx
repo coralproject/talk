@@ -1,3 +1,4 @@
+import { noop } from "lodash";
 import TestRenderer from "react-test-renderer";
 
 import { pureMerge } from "talk-common/utils";
@@ -36,7 +37,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer } = create({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -62,7 +63,7 @@ async function createTestRenderer(
   const container = await waitForElement(() =>
     within(testRenderer.root).getByTestID("stories-container")
   );
-  return { testRenderer, container };
+  return { testRenderer, container, context };
 }
 
 it("renders stories", async () => {
@@ -79,6 +80,26 @@ it("renders empty stories", async () => {
     }),
   });
   expect(within(container).toJSON()).toMatchSnapshot();
+});
+
+it("goes to moderation when clicking on title", async () => {
+  const {
+    container,
+    context: { transitionControl },
+  } = await createTestRenderer();
+
+  // Prevent router transitions.
+  transitionControl.allowTransition = false;
+
+  const story = storyConnection.edges[0].node;
+  within(container)
+    .getByText(story.metadata!.title!)
+    .props.onClick({ button: 0, preventDefault: noop });
+
+  // Expect a routing request was made to the right url.
+  expect(transitionControl.history[0].pathname).toBe(
+    `/admin/moderate/${story.id}`
+  );
 });
 
 it("filter by status", async () => {
@@ -267,4 +288,25 @@ it("filter by search", async () => {
   await waitForElement(() =>
     within(container).getByText("could not find any", { exact: false })
   );
+});
+
+it("use searchFilter from url", async () => {
+  const searchFilter = "CandyMountain";
+  replaceHistoryLocation(`http://localhost/admin/stories?q=${searchFilter}`);
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        stories: ({ variables }) => {
+          expectAndFail(variables.query).toBe(searchFilter);
+          return emptyStories;
+        },
+      },
+    }),
+  });
+
+  const searchField = within(container).getByLabelText(
+    "Search by story title",
+    { exact: false }
+  );
+  expect(searchField.props.value).toBe(searchFilter);
 });

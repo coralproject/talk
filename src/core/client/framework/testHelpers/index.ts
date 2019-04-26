@@ -36,3 +36,7 @@ export {
   CreateTestRendererParams,
 } from "./createTestRenderer";
 export { default as createResolversStub } from "./createResolversStub";
+export {
+  TransitionControlData,
+  default as TransitionControl,
+} from "./TransitionControl";

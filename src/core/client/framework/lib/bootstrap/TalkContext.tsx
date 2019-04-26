@@ -11,6 +11,7 @@ import { BrowserInfo } from "talk-framework/lib/browserInfo";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
 import { PromisifiedStorage } from "talk-framework/lib/storage";
+import { TransitionControlData } from "talk-framework/testHelpers";
 import { UIContext } from "talk-ui/components";
 import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
 
@@ -62,6 +63,9 @@ export interface TalkContext {
 
   /** Clear session data. */
   clearSession: () => Promise<void>;
+
+  /** Controls router transitions (for tests) */
+  transitionControl?: TransitionControlData;
 }
 
 export const TalkReactContext = React.createContext<TalkContext>({} as any);
