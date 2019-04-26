@@ -17,7 +17,6 @@ import {
   extractJWTFromRequest,
   JWTSigningConfig,
   revokeJWT,
-  SigningTokenOptions,
   signTokenString,
 } from "talk-server/services/jwt";
 import { Request } from "talk-server/types/express";
