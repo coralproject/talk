@@ -1,19 +1,21 @@
 import convict from "convict";
 import Joi from "joi";
+import { parseConnectionString } from "mongodb-core";
 import os from "os";
 
 import { LOCALES } from "talk-common/helpers/i18n/locales";
+
+import { InternalError } from "./errors";
 
 // Add custom format for the mongo uri scheme.
 convict.addFormat({
   name: "mongo-uri",
   validate: (url: string) => {
-    Joi.assert(
-      url,
-      Joi.string().uri({
-        scheme: ["mongodb"],
-      })
-    );
+    parseConnectionString(url, err => {
+      if (err) {
+        throw new InternalError(err, "invalid mongo-uri");
+      }
+    });
   },
 });
 

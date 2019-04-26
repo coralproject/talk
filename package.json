@@ -94,6 +94,7 @@
     "metascraper-image": "^3.11.8",
     "metascraper-title": "^3.11.8",
     "mongodb": "^3.2.1",
+    "mongodb-core": "^3.2.3",
     "ms": "^2.1.1",
     "node-fetch": "^2.2.0",
     "nodemailer": "^4.6.7",
