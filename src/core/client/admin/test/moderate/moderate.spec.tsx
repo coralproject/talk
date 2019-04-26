@@ -45,18 +45,8 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          moderationQueues: ({ variables }) => {
-            expectAndFail(variables).toEqual({
-              storyID: null,
-            });
-            return emptyModerationQueues;
-          },
-          comments: ({ variables }) => {
-            expectAndFail(variables).toEqual({
-              storyID: null,
-            });
-            return emptyRejectedComments;
-          },
+          moderationQueues: () => emptyModerationQueues,
+          comments: () => emptyRejectedComments,
         },
       }),
       params.resolvers
