@@ -40,6 +40,7 @@ import {
 import { MailerQueue } from "talk-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "talk-server/services/jwt";
 
+import { sendConfirmationEmail } from "./auth";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
@@ -53,6 +54,7 @@ export type InsertUser = InsertUserInput;
  */
 export async function insert(
   mongo: Db,
+  mailer: MailerQueue | null,
   tenant: Tenant,
   input: InsertUser,
   now = new Date()
@@ -76,6 +78,17 @@ export async function insert(
   }
 
   const user = await insertUser(mongo, tenant.id, input, now);
+
+  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+  if (localProfile && user.email) {
+    if (mailer) {
+      // Send the email confirmation email.
+      await sendConfirmationEmail(mailer, tenant, user, user.email);
+    } else {
+      // FIXME: (wyattjoh) extract the local profile based inserts into another function.
+      throw new Error("local profile was provided, but the mailer was not");
+    }
+  }
 
   return user;
 }
@@ -116,6 +129,7 @@ export async function setUsername(
  */
 export async function setEmail(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   email: string
@@ -128,7 +142,13 @@ export async function setEmail(
 
   validateEmail(email);
 
-  return setUserEmail(mongo, tenant.id, user.id, email);
+  const updatedUser = await setUserEmail(mongo, tenant.id, user.id, email);
+
+  // FIXME: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+  // Send the email confirmation email.
+  await sendConfirmationEmail(mailer, tenant, updatedUser, email);
+
+  return updatedUser;
 }
 
 /**
@@ -178,6 +198,7 @@ export async function setPassword(
  */
 export async function updatePassword(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   password: string
@@ -195,7 +216,36 @@ export async function updatePassword(
 
   validatePassword(password);
 
-  return updateUserPassword(mongo, tenant.id, user.id, password);
+  const updatedUser = await updateUserPassword(
+    mongo,
+    tenant.id,
+    user.id,
+    password
+  );
+
+  // If the user has an email address associated with their account, send them
+  // a ban notification email.
+  if (updatedUser.email) {
+    // Send the ban user email.
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "password-change",
+        context: {
+          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+          username: updatedUser.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  }
+
+  return user;
 }
 
 /**
@@ -300,7 +350,9 @@ export async function updateRole(
 }
 
 /**
- * updateEmail will update the given User's email address.
+ * updateEmail will update the given User's email address. This should not
+ * trigger and email notifications as it's designed to be used by administrators
+ * to update a user's email address.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
@@ -369,6 +421,8 @@ export async function ban(
   // Ban the user.
   const user = await banUser(mongo, tenant.id, userID, banner.id, now);
 
+  // If the user has an email address associated with their account, send them
+  // a ban notification email.
   if (user.email) {
     // Send the ban user email.
     await mailer.add({
@@ -383,6 +437,7 @@ export async function ban(
           username: user.username!,
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
         },
       },
     });
@@ -403,6 +458,7 @@ export async function ban(
  */
 export async function suspend(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   userID: string,
@@ -410,9 +466,7 @@ export async function suspend(
   now = new Date()
 ) {
   // Convert the timeout to the until time.
-  const finish = DateTime.fromJSDate(now)
-    .plus({ seconds: timeout })
-    .toJSDate();
+  const finishDateTime = DateTime.fromJSDate(now).plus({ seconds: timeout });
 
   // Get the user being suspended to check to see if the user already has an
   // existing suspension.
@@ -430,7 +484,39 @@ export async function suspend(
     throw new UserAlreadySuspendedError(suspended.until);
   }
 
-  return suspendUser(mongo, tenant.id, userID, user.id, finish, now);
+  const updatedUser = await suspendUser(
+    mongo,
+    tenant.id,
+    userID,
+    user.id,
+    finishDateTime.toJSDate(),
+    now
+  );
+
+  // If the user has an email address associated with their account, send them
+  // a suspend notification email.
+  if (updatedUser.email) {
+    // Send the suspend user email.
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "suspend",
+        context: {
+          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+          username: updatedUser.username!,
+          until: finishDateTime.toRFC2822(),
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  }
+
+  return updatedUser;
 }
 
 export async function removeSuspension(

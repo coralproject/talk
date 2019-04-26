@@ -175,6 +175,7 @@ export async function findOrCreateOIDCUser(
     // Create the new user, as one didn't exist before!
     user = await insert(
       mongo,
+      null,
       tenant,
       {
         username,

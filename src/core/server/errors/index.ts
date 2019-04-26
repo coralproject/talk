@@ -387,7 +387,7 @@ export class UserForbiddenError extends TalkError {
 
 export class UserNotFoundError extends TalkError {
   constructor(userID: string) {
-    super({ code: ERROR_CODES.USER_NOT_FOUND, context: { pvt: { userID } } });
+    super({ code: ERROR_CODES.USER_NOT_FOUND, context: { pub: { userID } } });
   }
 }
 

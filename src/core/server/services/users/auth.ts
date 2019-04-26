@@ -18,6 +18,7 @@ import {
   retrieveUser,
   User,
 } from "talk-server/models/user";
+import { MailerQueue } from "talk-server/queue/tasks/mailer";
 import {
   JWTSigningConfig,
   signString,
@@ -25,6 +26,7 @@ import {
   StandardClaimsSchema,
   verifyJWT,
 } from "talk-server/services/jwt";
+
 import { validatePassword } from "./helpers";
 
 interface ResetToken extends Required<StandardClaims> {
@@ -181,4 +183,35 @@ export async function resetPassword(
 
   // Perform the password reset operation.
   return resetUserPassword(mongo, tenant.id, userID, password, resetID);
+}
+
+export async function sendConfirmationEmail(
+  mailer: MailerQueue,
+  tenant: Tenant,
+  user: User,
+  email: string
+) {
+  // Generate the confirmation url.
+  // FIXME: (wyattjoh) implement
+  const confirmURL =
+    "https://<your-confirm-url>/#confirmToken=<your-confirm-token>";
+
+  // Send the email confirmation.
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: email,
+    },
+    template: {
+      name: "confirm-email",
+      context: {
+        // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+        username: user.username!,
+        confirmURL,
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+        organizationContactEmail: tenant.organization.contactEmail,
+      },
+    },
+  });
 }

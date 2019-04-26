@@ -1,11 +1,9 @@
-import { Redis } from "ioredis";
 import Joi from "joi";
-import { Db } from "mongodb";
 
 import { LanguageCode, LOCALES } from "talk-common/helpers/i18n/locales";
 import { Omit } from "talk-common/types";
+import { AppOptions } from "talk-server/app";
 import { validate } from "talk-server/app/request/body";
-import { Config } from "talk-server/config";
 import { TenantInstalledAlreadyError } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { LocalProfile } from "talk-server/models/user";
@@ -53,16 +51,16 @@ const TenantInstallBodySchema = Joi.object().keys({
   }),
 });
 
-export interface TenantInstallHandlerOptions {
-  redis: Redis;
-  mongo: Db;
-  config: Config;
-}
+export type TenantInstallHandlerOptions = Pick<
+  AppOptions,
+  "redis" | "mongo" | "config" | "mailerQueue"
+>;
 
 export const installHandler = ({
   mongo,
   redis,
   config,
+  mailerQueue,
 }: TenantInstallHandlerOptions): RequestHandler => async (req, res, next) => {
   try {
     if (!req.talk) {
@@ -121,6 +119,7 @@ export const installHandler = ({
     // Create the first admin user.
     await insert(
       mongo,
+      mailerQueue,
       tenant,
       {
         email,

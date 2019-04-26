@@ -34,11 +34,15 @@ export const SignupBodySchema = Joi.object().keys({
     .email(),
 });
 
-export type SignupOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+export type SignupOptions = Pick<
+  AppOptions,
+  "mongo" | "signingConfig" | "mailerQueue"
+>;
 
 export const signupHandler = ({
   mongo,
   signingConfig,
+  mailerQueue,
 }: SignupOptions): RequestHandler => async (req, res, next) => {
   try {
     // TODO: rate limit based on the IP address and user agent.
@@ -74,6 +78,7 @@ export const signupHandler = ({
     // Create the new user.
     const user = await insert(
       mongo,
+      mailerQueue,
       tenant,
       {
         email,

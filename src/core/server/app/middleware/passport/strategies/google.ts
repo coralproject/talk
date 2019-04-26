@@ -73,6 +73,7 @@ export default class GoogleStrategy extends OAuth2Strategy<
 
       user = await insert(
         this.mongo,
+        null,
         tenant,
         {
           role: GQLUSER_ROLE.COMMENTER,
