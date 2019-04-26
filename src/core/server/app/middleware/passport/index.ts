@@ -175,8 +175,12 @@ export const wrapOAuth2Authn = (
   authenticator.authenticate(
     name,
     { ...options, session: false },
-    (err: Error | null, user: User | null) => {
-      handleOAuth2Callback(err, user, signingConfig, req, res);
+    async (err: Error | null, user: User | null) => {
+      try {
+        await handleOAuth2Callback(err, user, signingConfig, req, res);
+      } catch (err) {
+        return next(err);
+      }
     }
   )(req, res, next);
 
@@ -198,7 +202,7 @@ export const wrapAuthn = (
   authenticator.authenticate(
     name,
     { ...options, session: false },
-    (err: Error | null, user: User | null) => {
+    async (err: Error | null, user: User | null) => {
       if (err) {
         return next(err);
       }
@@ -206,8 +210,12 @@ export const wrapAuthn = (
         return next(new AuthenticationError("user not on request"));
       }
 
-      // Pass the login off to be signed.
-      handleSuccessfulLogin(user, signingConfig, req, res, next);
+      try {
+        // Pass the login off to be signed.
+        await handleSuccessfulLogin(user, signingConfig, req, res, next);
+      } catch (err) {
+        return next(err);
+      }
     }
   )(req, res, next);
 

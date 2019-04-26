@@ -20,13 +20,7 @@ async function run(
     config = config.default;
   }
 
-  try {
-    await watch(config, { only });
-  } catch (err) {
-    // tslint:disable-next-line:no-console
-    console.error(err);
-    process.exit(1);
-  }
+  await watch(config, { only });
 }
 
 const cmd = program
@@ -36,4 +30,8 @@ const cmd = program
   .description("Run watchers defined in <configFile>")
   .parse(process.argv);
 
-run(cmd.args, cmd.opts());
+run(cmd.args, cmd.opts()).catch(err => {
+  // tslint:disable-next-line:no-console
+  console.error(err);
+  process.exit(1);
+});
