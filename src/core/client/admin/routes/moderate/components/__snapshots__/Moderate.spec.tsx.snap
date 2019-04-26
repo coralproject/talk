@@ -9,7 +9,7 @@ exports[`renders correctly 1`] = `
     story={Object {}}
   />
   <withPropsOnChange(SubBar)
-    data-testid="moderate-subBar-container"
+    data-testid="moderate-tabBar-container"
   >
     <Relay(ModerateNavigationContainer)
       moderationQueues={Object {}}
