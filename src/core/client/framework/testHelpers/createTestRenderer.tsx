@@ -6,6 +6,7 @@ import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
+import { RequireProperty } from "talk-common/types";
 import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
 import { PostMessageService } from "talk-framework/lib/postMessage";
 import { RestClient } from "talk-framework/lib/rest";
@@ -77,7 +78,7 @@ export default function createTestRenderer<
     },
   });
 
-  const context: TalkContext = {
+  const context: RequireProperty<TalkContext, "transitionControl"> = {
     relayEnvironment: environment,
     locales: ["en-US"],
     localeBundles: [
@@ -94,6 +95,10 @@ export default function createTestRenderer<
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
     clearSession: () => Promise.resolve(),
+    transitionControl: {
+      allowTransition: true,
+      history: [],
+    },
   };
 
   let testRenderer: ReactTestRenderer;

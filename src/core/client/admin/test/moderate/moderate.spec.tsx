@@ -12,20 +12,27 @@ import {
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
+  findParentWithType,
   replaceHistoryLocation,
   toJSON,
+  wait,
   waitForElement,
   waitUntilThrow,
   within,
 } from "talk-framework/testHelpers";
 
+import { noop } from "lodash";
+import { ReactTestRenderer } from "react-test-renderer";
 import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
+  emptyStories,
   rejectedComments,
   reportedComments,
   settings,
+  stories,
+  storyConnection,
   users,
 } from "../fixtures";
 
@@ -38,7 +45,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer } = create({
+  const { testRenderer, context } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -58,21 +65,236 @@ async function createTestRenderer(
       }
     },
   });
-  return testRenderer;
+  return { testRenderer, context };
 }
 
-describe("navigation bar", () => {
-  it("renders navigation bar (empty queues)", async () => {
-    const testRenderer = await createTestRenderer();
+describe("search bar", () => {
+  const openSearchBar = async (testRenderer: ReactTestRenderer) => {
+    const searchBar = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("moderate-searchBar-container")
+    );
+    const textField = within(searchBar).getByLabelText(
+      "Search or jump to story..."
+    );
+    const form = findParentWithType(textField, "form")!;
+    textField.props.onFocus({});
+    return { searchBar, textField, form };
+  };
+
+  describe("all stories", () => {
+    it("renders search bar", async () => {
+      const { testRenderer } = await createTestRenderer();
+      const searchBar = await waitForElement(() =>
+        within(testRenderer.root).getByTestID("moderate-searchBar-container")
+      );
+      expect(within(searchBar).toJSON()).toMatchSnapshot();
+    });
+
+    describe("active", () => {
+      it("search with no results", async () => {
+        const query = "InterestingStory";
+        const { testRenderer } = await createTestRenderer({
+          resolvers: createResolversStub<GQLResolver>({
+            Query: {
+              stories: ({ variables }) => {
+                expectAndFail(variables.query).toBe(query);
+                return emptyStories;
+              },
+            },
+          }),
+        });
+        const { searchBar, textField, form } = await openSearchBar(
+          testRenderer
+        );
+        expect(within(searchBar).toJSON()).toMatchSnapshot();
+
+        // Search for sth.
+        textField.props.onChange(query);
+        form.props.onSubmit();
+
+        // Ensure no results message is shown.
+        await wait(() =>
+          within(searchBar).getByText("No results", { exact: false })
+        );
+
+        // Blurring should close the listbox.
+        textField.props.onBlur({});
+        expect(within(searchBar).queryByText("No results")).toBeNull();
+      });
+      it("search with actual results", async () => {
+        const query = "InterestingStory";
+        const {
+          testRenderer,
+          context: { transitionControl },
+        } = await createTestRenderer({
+          resolvers: createResolversStub<GQLResolver>({
+            Query: {
+              stories: ({ variables }) => {
+                expectAndFail(variables.query).toBe(query);
+                return storyConnection;
+              },
+            },
+          }),
+        });
+        transitionControl.allowTransition = false;
+        const { searchBar, textField, form } = await openSearchBar(
+          testRenderer
+        );
+
+        // Search for sth.
+        textField.props.onChange(query);
+        form.props.onSubmit();
+
+        const story = storyConnection.edges[0].node;
+
+        // Find the story in the search results.
+        const storyOption = findParentWithType(
+          await waitForElement(() =>
+            within(searchBar).getByText(story.metadata!.title!, {
+              exact: false,
+            })
+          ),
+          "li"
+        )!;
+
+        // Go to story.
+        storyOption.props.onClick({ button: 0, preventDefault: noop });
+
+        // Expect a routing request was made to the right url.
+        expect(transitionControl.history[0].pathname).toBe(
+          `/admin/moderate/${story.id}`
+        );
+      });
+      it("search with too many results", async () => {
+        const query = "InterestingStory";
+        const {
+          testRenderer,
+          context: { transitionControl },
+        } = await createTestRenderer({
+          resolvers: createResolversStub<GQLResolver>({
+            Query: {
+              stories: ({ variables }) => {
+                expectAndFail(variables.query).toBe(query);
+                return pureMerge<typeof storyConnection>(storyConnection, {
+                  pageInfo: { hasNextPage: true },
+                });
+              },
+            },
+          }),
+        });
+        transitionControl.allowTransition = false;
+        const { searchBar, textField, form } = await openSearchBar(
+          testRenderer
+        );
+
+        // Search for sth.
+        textField.props.onChange(query);
+        form.props.onSubmit();
+
+        // Find see all options in the search results.
+        const seeAllOption = findParentWithType(
+          await waitForElement(() =>
+            within(searchBar).getByText("See all results", { exact: false })
+          ),
+          "li"
+        )!;
+
+        expect(within(seeAllOption).toJSON()).toMatchSnapshot();
+
+        // Go to story.
+        seeAllOption.props.onClick({ button: 0, preventDefault: noop });
+
+        // Expect a routing request was made to the right url.
+        expect(transitionControl.history[0].pathname).toBe("/admin/stories");
+        expect(transitionControl.history[0].search).toBe(`?q=${query}`);
+      });
+    });
+  });
+  describe("specified story", () => {
+    beforeEach(() => {
+      replaceHistoryLocation(
+        `http://localhost/admin/moderate/${stories[0].id}`
+      );
+    });
+    it("renders search bar", async () => {
+      const { testRenderer } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            story: () => stories[0],
+          },
+        }),
+      });
+      const searchBar = await waitForElement(() =>
+        within(testRenderer.root).getByTestID("moderate-searchBar-container")
+      );
+      const textField = within(searchBar).getByLabelText(
+        "Search or jump to story..."
+      );
+      expect(textField.props.placeholder).toBe(stories[0].metadata!.title);
+    });
+    it("shows moderate all option", async () => {
+      const {
+        testRenderer,
+        context: { transitionControl },
+      } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            story: () => stories[0],
+          },
+        }),
+      });
+      transitionControl.allowTransition = false;
+      const { searchBar } = await openSearchBar(testRenderer);
+
+      // Find see all options in the search results.
+      const moderateAllOptions = findParentWithType(
+        await waitForElement(() =>
+          within(searchBar).getByText("Moderate all", { exact: false })
+        ),
+        "li"
+      )!;
+
+      // Activate moderate all.
+      moderateAllOptions.props.onClick({ button: 0, preventDefault: noop });
+
+      // Expect a routing request was made to the right url.
+      expect(transitionControl.history[0].pathname).toBe("/admin/moderate");
+    });
+  });
+});
+
+describe("tab bar", () => {
+  it("renders tab bar (empty queues)", async () => {
+    const { testRenderer } = await createTestRenderer();
     const { getByTestID } = within(testRenderer.root);
     await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-subBar-container"))).toMatchSnapshot();
+    expect(toJSON(getByTestID("moderate-tabBar-container"))).toMatchSnapshot();
+  });
+});
+
+describe("moderating specific story", () => {
+  it("passes storyID to the endpoints", async () => {
+    replaceHistoryLocation(`http://localhost/admin/moderate/${stories[0].id}`);
+    await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: ({ variables }) => {
+            expectAndFail(variables.storyID).toBe(stories[0].id);
+            return emptyModerationQueues;
+          },
+          comments: ({ variables }) => {
+            expectAndFail(variables.storyID).toBe(stories[0].id);
+            return emptyRejectedComments;
+          },
+        },
+      }),
+    });
   });
 });
 
 describe("reported queue", () => {
   it("renders empty reported queue", async () => {
-    const testRenderer = await createTestRenderer();
+    const { testRenderer } = await createTestRenderer();
     const { getByTestID } = within(testRenderer.root);
 
     await waitForElement(() => getByTestID("moderate-container"));
@@ -81,14 +303,14 @@ describe("reported queue", () => {
 
   it("renders empty pending queue", async () => {
     replaceHistoryLocation("http://localhost/admin/moderate/pending");
-    const testRenderer = await createTestRenderer();
+    const { testRenderer } = await createTestRenderer();
     const { getByText } = within(testRenderer.root);
     await waitForElement(() => getByText("no more pending", { exact: false }));
   });
 
   it("renders empty unmoderated queue", async () => {
     replaceHistoryLocation("http://localhost/admin/moderate/unmoderated");
-    const testRenderer = await createTestRenderer();
+    const { testRenderer } = await createTestRenderer();
     const { getByText } = within(testRenderer.root);
     await waitForElement(() =>
       getByText("comments have been moderated", { exact: false })
@@ -97,7 +319,7 @@ describe("reported queue", () => {
 
   it("renders empty rejected queue", async () => {
     replaceHistoryLocation("http://localhost/admin/moderate/rejected");
-    const testRenderer = await createTestRenderer();
+    const { testRenderer } = await createTestRenderer();
     const { getByText } = within(testRenderer.root);
     await waitForElement(() =>
       getByText("no rejected comments", { exact: false })
@@ -105,7 +327,7 @@ describe("reported queue", () => {
   });
 
   it("renders reported queue with comments", async () => {
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () =>
@@ -191,7 +413,7 @@ describe("reported queue", () => {
       },
     });
 
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () => moderationQueuesStub,
@@ -278,7 +500,7 @@ describe("reported queue", () => {
       },
     });
 
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () => moderationQueuesStub,
@@ -333,7 +555,7 @@ describe("reported queue", () => {
       };
     });
 
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           moderationQueues: () =>
@@ -400,7 +622,7 @@ describe("rejected queue", () => {
   });
 
   it("renders rejected queue with comments", async () => {
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           comments: ({ variables }) => {
@@ -435,7 +657,7 @@ describe("rejected queue", () => {
   });
 
   it("renders rejected queue with comments and load more", async () => {
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           comments: ({ variables, callCount }) => {
@@ -540,7 +762,7 @@ describe("rejected queue", () => {
       };
     });
 
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
           comments: ({ variables }) => {
@@ -613,7 +835,7 @@ describe("single comment view", () => {
   });
 
   it("renders single comment view", async () => {
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: {
         Query: {
           comment: commentStub,
@@ -644,7 +866,7 @@ describe("single comment view", () => {
       };
     });
 
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: {
         Query: {
           comment: commentStub,
@@ -683,7 +905,7 @@ describe("single comment view", () => {
       };
     });
 
-    const testRenderer = await createTestRenderer({
+    const { testRenderer } = await createTestRenderer({
       resolvers: {
         Query: {
           comment: commentStub,
