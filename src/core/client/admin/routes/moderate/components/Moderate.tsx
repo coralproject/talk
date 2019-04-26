@@ -27,7 +27,7 @@ const Moderate: StatelessComponent<Props> = ({
 }) => (
   <div data-testid="moderate-container">
     <ModerateSearchBarContainer story={story} allStories={allStories} />
-    <SubBar data-testid="moderate-subBar-container">
+    <SubBar data-testid="moderate-tabBar-container">
       <ModerateNavigationContainer
         moderationQueues={moderationQueues}
         story={story}

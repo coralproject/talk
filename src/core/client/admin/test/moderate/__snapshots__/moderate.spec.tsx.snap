@@ -1,131 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`navigation bar renders navigation bar (empty queues) 1`] = `
-<div
-  className="SubBar-root"
-  data-testid="moderate-subBar-container"
->
-  <div
-    className="Flex-root SubBar-container Flex-flex Flex-justifyCenter Flex-alignCenter"
-  >
-    <nav
-      className="Navigation-root"
-    >
-      <ul
-        className="Navigation-ul"
-      >
-        <li
-          className="NavigationItem-root"
-        >
-          <a
-            className="NavigationItem-anchor NavigationItem-active"
-            href="/admin/moderate/reported"
-            onClick={[Function]}
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              flag
-            </span>
-            <span>
-              reported
-            </span>
-            <span
-              className="Counter-root Counter-colorInherit"
-              data-testid="moderate-navigation-reported-count"
-            >
-              <span
-                className="Counter-text"
-              >
-                0
-              </span>
-            </span>
-          </a>
-        </li>
-        <li
-          className="NavigationItem-root"
-        >
-          <a
-            className="NavigationItem-anchor"
-            href="/admin/moderate/pending"
-            onClick={[Function]}
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              access_time
-            </span>
-            <span>
-              Pending
-            </span>
-            <span
-              className="Counter-root Counter-colorInherit"
-              data-testid="moderate-navigation-pending-count"
-            >
-              <span
-                className="Counter-text"
-              >
-                0
-              </span>
-            </span>
-          </a>
-        </li>
-        <li
-          className="NavigationItem-root"
-        >
-          <a
-            className="NavigationItem-anchor"
-            href="/admin/moderate/unmoderated"
-            onClick={[Function]}
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              forum
-            </span>
-            <span>
-              unmoderated
-            </span>
-            <span
-              className="Counter-root Counter-colorInherit"
-              data-testid="moderate-navigation-unmoderated-count"
-            >
-              <span
-                className="Counter-text"
-              >
-                0
-              </span>
-            </span>
-          </a>
-        </li>
-        <li
-          className="NavigationItem-root"
-        >
-          <a
-            className="NavigationItem-anchor"
-            href="/admin/moderate/rejected"
-            onClick={[Function]}
-          >
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              cancel
-            </span>
-            <span>
-              rejected
-            </span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</div>
-`;
-
 exports[`rejected queue accepts comment in rejected queue: count should be 1 1`] = `
 <span
   className="Counter-root Counter-colorInherit"
@@ -1519,6 +1393,260 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
 </div>
 `;
 
+exports[`search bar all stories active search with no results 1`] = `
+<div
+  aria-expanded={true}
+  aria-haspopup="listbox"
+  aria-label="Search or jump to story"
+  aria-owns="moderate-searchBar-listBox"
+  className="SubBar-root Bar-root"
+  data-testid="moderate-searchBar-container"
+  role="combobox"
+>
+  <div
+    className="Flex-root SubBar-container Flex-flex Flex-justifyCenter Flex-alignCenter"
+  >
+    <div
+      className="Backdrop-root Backdrop-active Bar-bumpZIndex"
+    />
+    <form
+      aria-label="Stories"
+      className="Bar-bumpZIndex"
+      onMouseDown={[Function]}
+      onSubmit={[Function]}
+      role="search"
+    >
+      <div
+        className="Popover-root"
+      >
+        <div>
+          <div
+            className="Flex-root Field-root Flex-flex Flex-alignStretch"
+          >
+            <div
+              className="Flex-root Field-begin Flex-flex Flex-alignCenter"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-md Field-searchIcon"
+              >
+                search
+              </span>
+              <div
+                className="Field-beginStories"
+              >
+                Stories:
+              </div>
+            </div>
+            <input
+              aria-autocomplete="list"
+              aria-controls="moderate-searchBar-listBox"
+              aria-label="Search or jump to story..."
+              autoComplete="off"
+              className="Field-input"
+              name="search"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="Use quotation marks around each search term (e.g. “team”, “St. Louis”)"
+              spellCheck={false}
+              value=""
+            />
+            <div
+              className="Flex-root Field-end Flex-flex Flex-alignCenter"
+            >
+              <button
+                className="BaseButton-root Field-searchButton"
+                disabled={true}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          aria-hidden={false}
+          aria-labelledby="moderate-searchBar-popover-ariainfo"
+          id="moderate-searchBar-popover"
+          role="popup"
+        >
+          <div
+            className="Popover-popover Bar-popover Popover-bottom"
+            style={
+              Object {
+                "left": 0,
+                "opacity": 0,
+                "pointerEvents": "none",
+                "position": "absolute",
+                "top": 0,
+              }
+            }
+          >
+            <ul
+              className="Bar-listBox"
+              id="moderate-searchBar-listBox"
+              role="listbox"
+            >
+              <ul
+                aria-labelledby="moderate-searchBar-context-title"
+                className="Group-root"
+                id="moderate-searchBar-context"
+                role="group"
+              >
+                <li
+                  className="Group-title"
+                  id="moderate-searchBar-context-title"
+                >
+                  Currently moderating
+                </li>
+                <li
+                  aria-selected={false}
+                  className="Option-root"
+                  id="moderate-searchBar-listBoxOption-0"
+                  onClick={[Function]}
+                  role="option"
+                >
+                  <a
+                    className="Option-link"
+                    href="/admin/moderate"
+                    tabIndex={-1}
+                  >
+                    <div
+                      className="Option-container"
+                    >
+                      <div
+                        className="Option-title"
+                      >
+                        <div
+                          className="AriaInfo-root"
+                        >
+                          Go to
+                        </div>
+                        <span>
+                          All stories
+                        </span>
+                      </div>
+                      <div
+                        className="Option-details"
+                      />
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`search bar all stories active search with too many results 1`] = `
+<li
+  aria-selected={false}
+  className="SeeAllOption-root"
+  id="moderate-searchBar-listBoxOption-3"
+  onClick={[Function]}
+  role="option"
+>
+  <a
+    className="SeeAllOption-link"
+    href="/admin/stories?q=InterestingStory"
+    tabIndex={-1}
+  >
+    <span>
+      See all results
+    </span>
+    <span
+      aria-hidden="true"
+      className="Icon-root Icon-sm SeeAllOption-icon"
+    >
+      arrow_forward
+    </span>
+  </a>
+</li>
+`;
+
+exports[`search bar all stories renders search bar 1`] = `
+<div
+  aria-expanded={false}
+  aria-haspopup="listbox"
+  aria-label="Search or jump to story"
+  aria-owns="moderate-searchBar-listBox"
+  className="SubBar-root Bar-root"
+  data-testid="moderate-searchBar-container"
+  role="combobox"
+>
+  <div
+    className="Flex-root SubBar-container Flex-flex Flex-justifyCenter Flex-alignCenter"
+  >
+    <div
+      className="Backdrop-root Bar-bumpZIndex"
+    />
+    <form
+      aria-label="Stories"
+      className="Bar-bumpZIndex"
+      onMouseDown={[Function]}
+      onSubmit={[Function]}
+      role="search"
+    >
+      <div
+        className="Popover-root"
+      >
+        <div>
+          <div
+            className="Flex-root Field-root Flex-flex Flex-alignStretch"
+          >
+            <div
+              className="Flex-root Field-begin Flex-flex Flex-alignCenter"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-md Field-searchIcon"
+              >
+                search
+              </span>
+            </div>
+            <input
+              aria-autocomplete="list"
+              aria-controls="moderate-searchBar-listBox"
+              aria-label="Search or jump to story..."
+              autoComplete="off"
+              className="Field-input Field-inputWithTitle"
+              name="search"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              placeholder="All stories"
+              spellCheck={false}
+              value=""
+            />
+            <div
+              className="Flex-root Field-end Flex-flex Flex-alignCenter"
+            />
+          </div>
+        </div>
+        <div
+          aria-hidden={true}
+          aria-labelledby="moderate-searchBar-popover-ariainfo"
+          id="moderate-searchBar-popover"
+          role="popup"
+        />
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
 exports[`single comment view accepts single comment 1`] = `
 <div
   className="Card-root ModerateCard-root"
@@ -1983,6 +2111,132 @@ exports[`single comment view renders single comment view 1`] = `
         </div>
       </div>
     </main>
+  </div>
+</div>
+`;
+
+exports[`tab bar renders tab bar (empty queues) 1`] = `
+<div
+  className="SubBar-root"
+  data-testid="moderate-tabBar-container"
+>
+  <div
+    className="Flex-root SubBar-container Flex-flex Flex-justifyCenter Flex-alignCenter"
+  >
+    <nav
+      className="Navigation-root"
+    >
+      <ul
+        className="Navigation-ul"
+      >
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor NavigationItem-active"
+            href="/admin/moderate/reported"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              flag
+            </span>
+            <span>
+              reported
+            </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-reported-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
+          </a>
+        </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
+            href="/admin/moderate/pending"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              access_time
+            </span>
+            <span>
+              Pending
+            </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-pending-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
+          </a>
+        </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
+            href="/admin/moderate/unmoderated"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              forum
+            </span>
+            <span>
+              unmoderated
+            </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-unmoderated-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
+          </a>
+        </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
+            href="/admin/moderate/rejected"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              cancel
+            </span>
+            <span>
+              rejected
+            </span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>
 `;
