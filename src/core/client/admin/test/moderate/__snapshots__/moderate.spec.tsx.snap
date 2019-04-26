@@ -448,7 +448,6 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
         </div>
       </div>
     </div>
-     
   </main>
 </div>
 `;
@@ -931,7 +930,13 @@ exports[`reported queue renders empty reported queue 1`] = `
   >
     <div
       className="HorizontalGutter-root Queue-root HorizontalGutter-double"
-    />
+    >
+      <div
+        className="Card-root EmptyMessage-root"
+      >
+        Nicely done! There are no more reported comments to moderate.
+      </div>
+    </div>
   </main>
 </div>
 `;
