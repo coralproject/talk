@@ -64,13 +64,13 @@ const wrapCheck = (
 
 /**
  * checkPermissions checks that the current user has all the required
- * permissions.
+ * permissions. It will return true if that's the case.
  *
  * @param {Object} ctx graph context
  * @param {Array<String>} permissions permissions that the user must have
  */
 const checkPermissions = (ctx, permissions) =>
-  !ctx.user || !ctx.user.can(...permissions);
+  ctx.user && ctx.user.can(...permissions);
 
 /**
  * wrapCheckPermissions will wrap a specific field with a permission check.
@@ -89,7 +89,7 @@ const wrapCheckPermissions = (
   wrapCheck(
     typeResolver,
     field,
-    (obj, args, ctx) => !checkPermissions(ctx, permissions),
+    (obj, args, ctx) => checkPermissions(ctx, permissions),
     skipFieldResolver
   );
 
