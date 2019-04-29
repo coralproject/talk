@@ -55,7 +55,7 @@ Start by making a new directory and create a file called `docker-compose.yml` an
 version: '2'
 services:
   talk:
-    image: coralproject/talk:4.5
+    image: coralproject/talk:4
     restart: always
     ports:
       - "3000:3000"
