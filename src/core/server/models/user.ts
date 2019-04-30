@@ -5,11 +5,12 @@ import uuid from "uuid";
 import { DeepPartial, Omit, Sub } from "talk-common/types";
 import { dotize } from "talk-common/utils/dotize";
 import {
+  ConfirmEmailTokenExpired,
   DuplicateEmailError,
   DuplicateUserError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
-  PasswordResetExpired,
+  PasswordResetTokenExpired,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
@@ -226,6 +227,12 @@ export interface User extends TenantResource {
    * email is the current email address for the User.
    */
   email?: string;
+
+  /**
+   * emailVerificationID is used to store state regarding the verification state
+   * of an email address to prevent replay attacks.
+   */
+  emailVerificationID?: string;
 
   /**
    * emailVerified when true indicates that the given email address has been verified.
@@ -1329,14 +1336,14 @@ export function consolidateUserStatus(
 }
 
 /**
- * createOrReplacePasswordResetID will create/replace a password reset ID on the
- * User.
+ * createOrRetrieveUserPasswordResetID will create/retrieve a password reset ID
+ * on the User.
  *
  * @param mongo MongoDB instance to interact with
  * @param tenantID Tenant ID that the User exists on
  * @param id ID of the User that we are creating a reset ID with
  */
-export async function createOrReplaceUserPasswordResetID(
+export async function createOrRetrieveUserPasswordResetID(
   mongo: Db,
   tenantID: string,
   id: string
@@ -1350,8 +1357,13 @@ export async function createOrReplaceUserPasswordResetID(
       tenantID,
       id,
       // This ensures that the document we're updating already has a local
-      // profile associated with them.
-      "profiles.type": "local",
+      // profile associated with them and also doesn't have a resetID.
+      profiles: {
+        $elemMatch: {
+          type: "local",
+          resetID: null,
+        },
+      },
     },
     {
       $set: {
@@ -1371,14 +1383,68 @@ export async function createOrReplaceUserPasswordResetID(
       throw new UserNotFoundError(id);
     }
 
-    if (!hasLocalProfile(user, user.email)) {
+    const localProfile = getLocalProfile(user);
+    if (!localProfile) {
       throw new LocalProfileNotSetError();
+    }
+
+    if (localProfile.resetID) {
+      return localProfile.resetID;
     }
 
     throw new Error("an unexpected error occurred");
   }
 
   return resetID;
+}
+
+export async function createOrRetrieveUserEmailVerificationID(
+  mongo: Db,
+  tenantID: string,
+  id: string
+): Promise<string> {
+  // Create the ID.
+  const emailVerificationID = uuid.v4();
+
+  // Associate the resetID with the user.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      // This ensures that we don't set a emailVerificationID when there is one
+      // already.
+      emailVerificationID: null,
+      $or: [{ emailVerified: false }, { emailVerified: null }],
+    },
+    {
+      $set: {
+        emailVerificationID,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    if (user.emailVerified) {
+      throw new Error("email address has already been verified");
+    }
+
+    if (user.emailVerificationID) {
+      return user.emailVerificationID;
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return emailVerificationID;
 }
 
 export async function resetUserPassword(
@@ -1432,7 +1498,56 @@ export async function resetUserPassword(
     }
 
     if (profile.resetID !== resetID) {
-      throw new PasswordResetExpired("reset id mismatch");
+      throw new PasswordResetTokenExpired("reset id mismatch");
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value || null;
+}
+
+export async function confirmUserEmail(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  email: string,
+  emailVerificationID: string
+) {
+  // Update the user with a confirmed email address.
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id,
+      email,
+      emailVerificationID,
+    },
+    {
+      $set: {
+        emailVerified: true,
+      },
+      $unset: {
+        emailVerificationID: "",
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    if (user.email !== email) {
+      throw new ConfirmEmailTokenExpired("email mismatch");
+    }
+
+    if (user.emailVerificationID !== emailVerificationID) {
+      throw new ConfirmEmailTokenExpired("email verification id mismatch");
     }
 
     throw new Error("an unexpected error occurred");

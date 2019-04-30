@@ -6,19 +6,18 @@ import uuid from "uuid";
 
 import {
   LocalProfileNotSetError,
-  PasswordResetExpired,
+  PasswordResetTokenExpired,
   TokenInvalidError,
   UserNotFoundError,
 } from "talk-server/errors";
 import { getLocalProfile } from "talk-server/helpers/users";
 import { Tenant } from "talk-server/models/tenant";
 import {
-  createOrReplaceUserPasswordResetID,
+  createOrRetrieveUserPasswordResetID,
   resetUserPassword,
   retrieveUser,
   User,
 } from "talk-server/models/user";
-import { MailerQueue } from "talk-server/queue/tasks/mailer";
 import {
   JWTSigningConfig,
   signString,
@@ -27,9 +26,9 @@ import {
   verifyJWT,
 } from "talk-server/services/jwt";
 
-import { validatePassword } from "./helpers";
+import { validatePassword } from "../helpers";
 
-interface ResetToken extends Required<StandardClaims> {
+export interface ResetToken extends Required<StandardClaims> {
   // aud specifies `reset` as the audience to indicate that this is a reset
   // token.
   aud: "reset";
@@ -52,7 +51,7 @@ const ResetTokenSchema = StandardClaimsSchema.keys({
   ruri: Joi.string().uri(),
 });
 
-function isResetToken(token: ResetToken | object): token is ResetToken {
+export function isResetToken(token: ResetToken | object): token is ResetToken {
   const { error } = Joi.validate(token, ResetTokenSchema, {
     presence: "required",
   });
@@ -79,7 +78,7 @@ export async function generateResetURL(
   now: Date = new Date()
 ) {
   // Generate a reset ID to associate with the user account.
-  const resetID = await createOrReplaceUserPasswordResetID(
+  const resetID = await createOrRetrieveUserPasswordResetID(
     mongo,
     tenant.id,
     user.id
@@ -138,6 +137,8 @@ export async function verifyResetTokenString(
   // Unpack some of the token.
   const { sub: userID, rid: resetID } = token;
 
+  // TODO: (wyattjoh) verify that the token has not been revoked.
+
   // Check to see if this reset id is a valid match against the user.
   const user = await retrieveUser(mongo, tenant.id, userID);
   if (!user) {
@@ -152,7 +153,7 @@ export async function verifyResetTokenString(
 
   // Verify that the reset id matches the current user.
   if (localProfile.resetID !== resetID) {
-    throw new PasswordResetExpired("reset id mismatch");
+    throw new PasswordResetTokenExpired("reset id mismatch");
   }
 
   // Now that we've verified that the token is valid and it has not expired,
@@ -182,36 +183,15 @@ export async function resetPassword(
   );
 
   // Perform the password reset operation.
-  return resetUserPassword(mongo, tenant.id, userID, password, resetID);
-}
+  const user = await resetUserPassword(
+    mongo,
+    tenant.id,
+    userID,
+    password,
+    resetID
+  );
 
-export async function sendConfirmationEmail(
-  mailer: MailerQueue,
-  tenant: Tenant,
-  user: User,
-  email: string
-) {
-  // Generate the confirmation url.
-  // FIXME: (wyattjoh) implement
-  const confirmURL =
-    "https://<your-confirm-url>/#confirmToken=<your-confirm-token>";
+  // TODO: (wyattjoh) revoke the JTI
 
-  // Send the email confirmation.
-  await mailer.add({
-    tenantID: tenant.id,
-    message: {
-      to: email,
-    },
-    template: {
-      name: "confirm-email",
-      context: {
-        // TODO: (wyattjoh) possibly reevaluate the use of a required username.
-        username: user.username!,
-        confirmURL,
-        organizationName: tenant.organization.name,
-        organizationURL: tenant.organization.url,
-        organizationContactEmail: tenant.organization.contactEmail,
-      },
-    },
-  });
+  return user;
 }

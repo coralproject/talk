@@ -60,7 +60,6 @@ export const installHandler = ({
   mongo,
   redis,
   config,
-  mailerQueue,
 }: TenantInstallHandlerOptions): RequestHandler => async (req, res, next) => {
   try {
     if (!req.talk) {
@@ -119,7 +118,6 @@ export const installHandler = ({
     // Create the first admin user.
     await insert(
       mongo,
-      mailerQueue,
       tenant,
       {
         email,

@@ -40,7 +40,6 @@ import {
 import { MailerQueue } from "talk-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "talk-server/services/jwt";
 
-import { sendConfirmationEmail } from "./auth";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
@@ -54,7 +53,6 @@ export type InsertUser = InsertUserInput;
  */
 export async function insert(
   mongo: Db,
-  mailer: MailerQueue | null,
   tenant: Tenant,
   input: InsertUser,
   now = new Date()
@@ -79,16 +77,16 @@ export async function insert(
 
   const user = await insertUser(mongo, tenant.id, input, now);
 
-  // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
-  if (localProfile && user.email) {
-    if (mailer) {
-      // Send the email confirmation email.
-      await sendConfirmationEmail(mailer, tenant, user, user.email);
-    } else {
-      // FIXME: (wyattjoh) extract the local profile based inserts into another function.
-      throw new Error("local profile was provided, but the mailer was not");
-    }
-  }
+  // // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+  // if (localProfile && user.email) {
+  //   if (mailer) {
+  //     // // Send the email confirmation email.
+  //     // await sendConfirmationEmail(mongo, mailer, tenant, user, user.email);
+  //   } else {
+  //     // FIXME: (wyattjoh) extract the local profile based inserts into another function.
+  //     throw new Error("local profile was provided, but the mailer was not");
+  //   }
+  // }
 
   return user;
 }
@@ -144,9 +142,9 @@ export async function setEmail(
 
   const updatedUser = await setUserEmail(mongo, tenant.id, user.id, email);
 
-  // FIXME: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
-  // Send the email confirmation email.
-  await sendConfirmationEmail(mailer, tenant, updatedUser, email);
+  // // FIXME: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+  // // Send the email confirmation email.
+  // await sendConfirmationEmail(mailer, tenant, updatedUser, email);
 
   return updatedUser;
 }

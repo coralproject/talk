@@ -48,4 +48,5 @@ error-userAlreadyBanned = The user is already banned.
 error-userBanned = Your account is currently banned.
 error-userSuspended = Your account is currently suspended until {$until}.
 error-integrationDisabled = Specified integration is disabled.
-error-passwordResetExpired = Password reset link expired.
+error-passwordResetTokenExpired = Password reset link expired.
+error-emailConfirmTokenExpired = Email confirmation link expired.

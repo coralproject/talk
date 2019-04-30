@@ -536,10 +536,21 @@ export class UserSuspended extends TalkError {
   }
 }
 
-export class PasswordResetExpired extends TalkError {
+export class PasswordResetTokenExpired extends TalkError {
   constructor(reason: string, cause?: Error) {
     super({
-      code: ERROR_CODES.PASSWORD_RESET_EXPIRED,
+      code: ERROR_CODES.PASSWORD_RESET_TOKEN_EXPIRED,
+      cause,
+      status: 400,
+      context: { pvt: { reason } },
+    });
+  }
+}
+
+export class ConfirmEmailTokenExpired extends TalkError {
+  constructor(reason: string, cause?: Error) {
+    super({
+      code: ERROR_CODES.EMAIL_CONFIRM_TOKEN_EXPIRED,
       cause,
       status: 400,
       context: { pvt: { reason } },

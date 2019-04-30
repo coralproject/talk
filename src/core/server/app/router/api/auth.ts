@@ -7,7 +7,7 @@ import {
   forgotResetHandler,
   logoutHandler,
   signupHandler,
-} from "talk-server/app/handlers/api/auth/local";
+} from "talk-server/app/handlers";
 import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
 import { jsonMiddleware } from "talk-server/app/middleware/json";
 import {
