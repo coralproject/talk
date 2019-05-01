@@ -13,6 +13,7 @@ Preview Talk easily by running Talk via a Heroku App:
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of Contents
 
 - [Requirements](#requirements)
@@ -181,6 +182,32 @@ npm run lint
 # Run our unit and integration tests.
 npm run test
 ```
+
+#### Email
+
+To test out the email sending functionality, you can run [inbucket](https://www.inbucket.org/)
+which provides a test SMTP server that can visualize emails in the browser:
+
+```bash
+docker run -d --name inbucket -p 2500:2500 -p 9000:9000 inbucket/inbucket
+```
+
+You can then configure the email server on Talk by updating the Tenant with:
+
+```js
+{
+  // ...
+  "email": {
+    "enabled": true,
+    "smtpURI": "smtp://localhost:2500",
+    "fromAddress": "community@test.com"
+  },
+  // ...
+}
+```
+
+Restarting Talk will be needed. Navigate to http://localhost:9000, click the
+"Monitor" tab. New emails received on this screen.
 
 #### Design Language System (UI Components)
 
