@@ -13,7 +13,6 @@ Preview Talk easily by running Talk via a Heroku App:
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 ## Table of Contents
 
 - [Requirements](#requirements)
@@ -21,6 +20,7 @@ Preview Talk easily by running Talk via a Heroku App:
   - [Docker](#docker)
   - [Source](#source)
   - [Development](#development)
+    - [Email](#email)
     - [Design Language System (UI Components)](#design-language-system-ui-components)
 - [Configuration](#configuration)
 - [License](#license)
