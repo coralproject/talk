@@ -5,14 +5,24 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "talk-common/types";
 import {
-  GQLActionCounts,
   GQLActionPresence,
   GQLCOMMENT_FLAG_DETECTED_REASON,
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_FLAG_REPORTED_REASON,
+  GQLDontAgreeActionCounts,
+  GQLFlagActionCounts,
+  GQLReactionActionCounts,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "talk-server/models/helpers/indexing";
-import { FilterQuery } from "talk-server/models/helpers/query";
+import {
+  Connection,
+  ConnectionInput,
+  resolveConnection,
+} from "talk-server/models/helpers/connection";
+import {
+  createConnectionOrderVariants,
+  createIndexFactory,
+} from "talk-server/models/helpers/indexing";
+import Query, { FilterQuery } from "talk-server/models/helpers/query";
 import { TenantResource } from "talk-server/models/tenant";
 
 function collection(mongo: Db) {
@@ -39,6 +49,27 @@ export enum ACTION_TYPE {
 }
 
 export type EncodedCommentActionCounts = Record<string, number>;
+
+export type FlagActionCounts = Omit<GQLFlagActionCounts, "flags">;
+
+export interface ActionCounts {
+  /**
+   * reaction returns the counts for the reaction action on an item.
+   */
+  reaction: GQLReactionActionCounts;
+
+  /**
+   * dontAgree returns the counts for the dontAgree action on an item. This edge is
+   * restricted to administrators and moderators.
+   */
+  dontAgree: GQLDontAgreeActionCounts;
+
+  /**
+   * flag returns the counts for the flag action on an item. This edge is
+   * restricted to administrators and moderators.
+   */
+  flag: FlagActionCounts;
+}
 
 /**
  * FLAG_REASON is the reason that a given Flag has been created.
@@ -115,6 +146,19 @@ export async function createCommentActionIndexes(mongo: Db) {
     { tenantID: 1, actionType: 1, commentID: 1, userID: 1 },
     { background: true }
   );
+
+  const variants = createConnectionOrderVariants<Readonly<CommentAction>>(
+    [{ createdAt: -1 }],
+    { background: true }
+  );
+
+  // Connection pagination.
+  // { ...connectionParams }
+  await variants(createIndex, {
+    tenantID: 1,
+    actionType: 1,
+    commentID: 1,
+  });
 }
 
 const ActionSchema = [
@@ -252,6 +296,38 @@ export async function createActions(
   return Promise.all(
     inputs.map(input => createAction(mongo, tenantID, input, now))
   );
+}
+
+export type CommentActionConnectionInput = ConnectionInput<CommentAction>;
+
+export async function retrieveCommentActionConnection(
+  mongo: Db,
+  tenantID: string,
+  input: CommentActionConnectionInput
+): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
+  // Create the query.
+  const query = new Query(collection(mongo)).where({ tenantID });
+
+  // If a filter is being applied, filter it as well.
+  if (input.filter) {
+    query.where(input.filter);
+  }
+
+  return retrieveConnection(input, query);
+}
+
+async function retrieveConnection(
+  input: CommentActionConnectionInput,
+  query: Query<CommentAction>
+): Promise<Readonly<Connection<Readonly<CommentAction>>>> {
+  // Apply the pagination arguments to the query.
+  query.orderBy({ createdAt: -1 });
+  if (input.after) {
+    query.where({ createdAt: { $lt: input.after as Date } });
+  }
+
+  // Return a connection.
+  return resolveConnection(query, input, action => action.createdAt);
 }
 
 export async function retrieveUserAction(
@@ -502,7 +578,7 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 /**
  * createEmptyActionCounts creates a default/empty set of action counts.
  */
-function createEmptyActionCounts(): GQLActionCounts {
+function createEmptyActionCounts(): ActionCounts {
   return {
     reaction: {
       total: 0,
@@ -557,9 +633,9 @@ export function countTotalActionCounts(
  */
 export function decodeActionCounts(
   encodedActionCounts: EncodedCommentActionCounts
-): GQLActionCounts {
+): ActionCounts {
   // Default all the action counts to zero.
-  const actionCounts: GQLActionCounts = createEmptyActionCounts();
+  const actionCounts: ActionCounts = createEmptyActionCounts();
 
   // Loop over all the encoded action counts to extract each of the action
   // counts as they are encoded.
@@ -575,7 +651,7 @@ export function decodeActionCounts(
 }
 
 function incrementActionCounts(
-  actionCounts: GQLActionCounts,
+  actionCounts: ActionCounts,
   actionType: ACTION_TYPE,
   reason: GQLCOMMENT_FLAG_REASON | undefined,
   count: number = 1

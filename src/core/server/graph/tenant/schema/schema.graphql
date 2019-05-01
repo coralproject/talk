@@ -182,6 +182,54 @@ type FlagReasonActionCounts {
   COMMENT_DETECTED_SUSPECT_WORD: Int!
 }
 
+type Flag {
+  """
+  flagger is the User that created the Flag. If this is null, then the system
+  created the Flag.
+  """
+  flagger: User
+
+  """
+  reason is the selected reason why the Flag is being created.
+  """
+  reason: COMMENT_FLAG_REPORTED_REASON!
+
+  """
+  additionalDetails stores information from the User as to why the Flag was
+  created or is relevant.
+  """
+  additionalDetails: String
+}
+
+type FlagEdge {
+  """
+  node is the Flag for this edge.
+  """
+  node: Flag!
+
+  """
+  cursor is used in pagination.
+  """
+  cursor: Cursor!
+}
+
+type FlagsConnection {
+  """
+  edges are a subset of FlagEdge's.
+  """
+  edges: [FlagEdge!]!
+
+  """
+  nodes is a list of Flags.
+  """
+  nodes: [Flag!]!
+
+  """
+  pageInfo is information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+}
+
 """
 FlagActionCounts stores all the counts for the counts for the flag action on a
 given item and the reason counts.
@@ -197,6 +245,11 @@ type FlagActionCounts {
   flagged for.
   """
   reasons: FlagReasonActionCounts!
+
+  """
+  flags is the actual Flags that were left by the Users or the system.
+  """
+  flags(first: Int = 10, after: Cursor): FlagsConnection!
 }
 
 """
