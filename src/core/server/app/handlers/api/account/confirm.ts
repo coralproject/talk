@@ -20,7 +20,7 @@ import { RequestHandler } from "talk-server/types/express";
 
 export type ConfirmRequestOptions = Pick<
   AppOptions,
-  "mongo" | "mailerQueue" | "signingConfig" | "redis"
+  "mongo" | "mailerQueue" | "signingConfig" | "redis" | "config"
 >;
 
 export interface ConfirmRequestBody {
@@ -35,6 +35,7 @@ export const ConfirmRequestBodySchema = Joi.object()
 
 export const confirmRequestHandler = ({
   redis: client,
+  config,
   mongo,
   mailerQueue,
   signingConfig,
@@ -113,6 +114,7 @@ export const confirmRequestHandler = ({
         mongo,
         mailerQueue,
         tenant,
+        config,
         signingConfig,
         // TODO: (wyattjoh) evaluate the use of required here.
         targetUser as Required<User>,

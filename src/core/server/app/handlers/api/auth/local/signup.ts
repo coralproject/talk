@@ -28,10 +28,11 @@ export const SignupBodySchema = Joi.object().keys({
 
 export type SignupOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "mailerQueue" | "redis"
+  "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
 >;
 
 export const signupHandler = ({
+  config,
   redis: client,
   mongo,
   signingConfig,
@@ -97,6 +98,7 @@ export const signupHandler = ({
         mongo,
         mailerQueue,
         tenant,
+        config,
         signingConfig,
         user as Required<User>,
         now

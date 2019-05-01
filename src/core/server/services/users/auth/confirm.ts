@@ -3,6 +3,8 @@ import { isNull } from "lodash";
 import { DateTime } from "luxon";
 
 import { Db } from "mongodb";
+import { constructTenantURL } from "talk-server/app/url";
+import { Config } from "talk-server/config";
 import {
   ConfirmEmailTokenExpired,
   TokenInvalidError,
@@ -65,6 +67,7 @@ export function isConfirmToken(
 export async function generateConfirmURL(
   mongo: Db,
   tenant: Tenant,
+  config: Config,
   signingConfig: JWTSigningConfig,
   user: Required<Pick<User, "id" | "email">>,
   now: Date
@@ -103,8 +106,12 @@ export async function generateConfirmURL(
   const token = await signString(signingConfig, confirmToken);
 
   // Generate the confirmation url.
-  // FIXME: (wyattjoh) implement
-  return `https://<your-confirm-url>/#confirmToken=${token}`;
+  return constructTenantURL(
+    config,
+    tenant,
+    // TODO: (kiwi) verify that url is correct.
+    `/account/email/confirm#confirmToken=${token}`
+  );
 }
 
 export async function verifyConfirmTokenString(
@@ -200,6 +207,7 @@ export async function sendConfirmationEmail(
   mongo: Db,
   mailer: MailerQueue,
   tenant: Tenant,
+  config: Config,
   signingConfig: JWTSigningConfig,
   user: Required<Pick<User, "id" | "username" | "email">>,
   now: Date
@@ -208,6 +216,7 @@ export async function sendConfirmationEmail(
   const confirmURL = await generateConfirmURL(
     mongo,
     tenant,
+    config,
     signingConfig,
     user,
     now

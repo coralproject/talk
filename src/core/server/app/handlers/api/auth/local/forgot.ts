@@ -30,10 +30,11 @@ export const ForgotBodySchema = Joi.object().keys({
 
 export type ForgotOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "mailerQueue" | "redis"
+  "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
 >;
 
 export const forgotHandler = ({
+  config,
   redis: client,
   mongo,
   signingConfig,
@@ -114,6 +115,7 @@ export const forgotHandler = ({
       const resetURL = await generateResetURL(
         mongo,
         tenant,
+        config,
         signingConfig,
         user,
         redirectURI,

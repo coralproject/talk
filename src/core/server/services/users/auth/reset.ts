@@ -26,6 +26,8 @@ import {
   verifyJWT,
 } from "talk-server/services/jwt";
 
+import { constructTenantURL } from "talk-server/app/url";
+import { Config } from "talk-server/config";
 import { validatePassword } from "../helpers";
 
 export interface ResetToken extends Required<StandardClaims> {
@@ -72,6 +74,7 @@ export function isResetToken(token: ResetToken | object): token is ResetToken {
 export async function generateResetURL(
   mongo: Db,
   tenant: Tenant,
+  config: Config,
   signingConfig: JWTSigningConfig,
   user: User,
   redirectURI: string,
@@ -108,8 +111,12 @@ export async function generateResetURL(
   const token = await signString(signingConfig, resetToken);
 
   // Generate and return the reset URL.
-  // FIXME: (wyattjoh) generate the reset URL.
-  return `https://<your-reset-url>/#resetToken=${token}`;
+  return constructTenantURL(
+    config,
+    tenant,
+    // TODO: (kiwi) verify that url is correct.
+    `/account/password/reset#resetToken=${token}`
+  );
 }
 
 export async function verifyResetTokenString(
