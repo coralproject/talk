@@ -297,3 +297,11 @@ export function verifyJWT(
     throw new TokenInvalidError(tokenString, "token validation error", err);
   }
 }
+
+export function decodeJWT(tokenString: string) {
+  try {
+    return jwt.decode(tokenString, {}) as StandardClaims;
+  } catch (err) {
+    throw new TokenInvalidError(tokenString, "token validation error", err);
+  }
+}

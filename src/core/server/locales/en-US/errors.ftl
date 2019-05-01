@@ -50,3 +50,4 @@ error-userSuspended = Your account is currently suspended until {$until}.
 error-integrationDisabled = Specified integration is disabled.
 error-passwordResetTokenExpired = Password reset link expired.
 error-emailConfirmTokenExpired = Email confirmation link expired.
+error-rateLimitExceeded = Rate limit exceeded.

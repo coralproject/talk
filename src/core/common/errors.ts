@@ -248,4 +248,10 @@ export enum ERROR_CODES {
    * token has expired.
    */
   EMAIL_CONFIRM_TOKEN_EXPIRED = "EMAIL_CONFIRM_TOKEN_EXPIRED",
+
+  /**
+   * RATE_LIMIT_EXCEEDED is returned when an operation is performed too many
+   * times by the same user.
+   */
+  RATE_LIMIT_EXCEEDED = "RATE_LIMIT_EXCEEDED",
 }

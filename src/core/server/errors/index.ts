@@ -557,3 +557,13 @@ export class ConfirmEmailTokenExpired extends TalkError {
     });
   }
 }
+
+export class RateLimitExceeded extends TalkError {
+  constructor(resource: string, max: number, tries: number) {
+    super({
+      code: ERROR_CODES.RATE_LIMIT_EXCEEDED,
+      status: 429,
+      context: { pvt: { resource, max, tries } },
+    });
+  }
+}

@@ -2,6 +2,7 @@ import Joi from "joi";
 
 import { AppOptions } from "talk-server/app";
 import { validate } from "talk-server/app/request/body";
+import { RequestLimiter } from "talk-server/app/request/limiter";
 import {
   AuthenticationError,
   UserForbiddenError,
@@ -9,7 +10,7 @@ import {
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import { retrieveUser, User } from "talk-server/models/user";
-import { extractJWTFromRequest } from "talk-server/services/jwt";
+import { decodeJWT, extractJWTFromRequest } from "talk-server/services/jwt";
 import {
   confirmEmail,
   sendConfirmationEmail,
@@ -19,7 +20,7 @@ import { RequestHandler } from "talk-server/types/express";
 
 export type ConfirmRequestOptions = Pick<
   AppOptions,
-  "mongo" | "mailerQueue" | "signingConfig"
+  "mongo" | "mailerQueue" | "signingConfig" | "redis"
 >;
 
 export interface ConfirmRequestBody {
@@ -33,144 +34,212 @@ export const ConfirmRequestBodySchema = Joi.object()
   .optionalKeys(["userID"]);
 
 export const confirmRequestHandler = ({
+  redis: client,
   mongo,
   mailerQueue,
   signingConfig,
-}: ConfirmRequestOptions): RequestHandler => async (req, res, next) => {
-  try {
-    // TODO: rate limit based on the IP address and user agent.
-    // TODO: rate limit based on the user ID.
+}: ConfirmRequestOptions): RequestHandler => {
+  const ipLimiter = new RequestLimiter({
+    client,
+    ttl: "10m",
+    max: 10,
+    prefix: "ip",
+  });
+  const userIDLimiter = new RequestLimiter({
+    client,
+    ttl: "10m",
+    max: 10,
+    prefix: "userID",
+  });
 
-    // Tenant is guaranteed at this point.
-    const talk = req.talk!;
-    const tenant = talk.tenant!;
+  return async (req, res, next) => {
+    try {
+      // Rate limit based on the IP address and user agent.
+      await ipLimiter.test(req, req.ip);
 
-    // Grab the requesting user.
-    const requestingUser = req.user;
-    if (!requestingUser) {
-      throw new AuthenticationError("no user on request");
-    }
+      // Tenant is guaranteed at this point.
+      const talk = req.talk!;
+      const tenant = talk.tenant!;
 
-    // Store the user's ID that should have a email confirmation email sent.
-    let targetUserID: string = requestingUser.id;
-
-    // Get the fields from the body. Validate will throw an error if the body
-    // does not conform to the specification.
-    const body: ConfirmRequestBody = validate(
-      ConfirmRequestBodySchema,
-      req.body
-    );
-
-    // Now check to see if they have specified a userID in the request.
-    if (body.userID) {
-      // If the user is an admin user, they can request a confirmation email for
-      // another user, so check their role.
-      if (requestingUser.role === GQLUSER_ROLE.ADMIN) {
-        if (body.userID) {
-          targetUserID = body.userID;
-        }
-      } else {
-        throw new UserForbiddenError(
-          "attempt to send a confirmation email as a non-admin user",
-          "/api/account/confirm",
-          "POST",
-          requestingUser.id
-        );
+      // Grab the requesting user.
+      const requestingUser = req.user;
+      if (!requestingUser) {
+        throw new AuthenticationError("no user on request");
       }
+
+      // Store the user's ID that should have a email confirmation email sent.
+      let targetUserID: string = requestingUser.id;
+
+      // Get the fields from the body. Validate will throw an error if the body
+      // does not conform to the specification.
+      const body: ConfirmRequestBody = validate(
+        ConfirmRequestBodySchema,
+        req.body
+      );
+
+      // Now check to see if they have specified a userID in the request.
+      if (body.userID) {
+        // If the user is an admin user, they can request a confirmation email for
+        // another user, so check their role.
+        if (requestingUser.role === GQLUSER_ROLE.ADMIN) {
+          if (body.userID) {
+            targetUserID = body.userID;
+          }
+        } else {
+          throw new UserForbiddenError(
+            "attempt to send a confirmation email as a non-admin user",
+            "/api/account/confirm",
+            "POST",
+            requestingUser.id
+          );
+        }
+      }
+
+      await userIDLimiter.test(req, targetUserID);
+
+      const log = talk.logger.child({
+        targetUserID,
+        requestingUserID: requestingUser.id,
+        tenantID: tenant.id,
+      });
+
+      // Lookup the user.
+      const targetUser = await retrieveUser(mongo, tenant.id, targetUserID);
+      if (!targetUser) {
+        throw new UserNotFoundError(targetUserID);
+      }
+
+      await sendConfirmationEmail(
+        mongo,
+        mailerQueue,
+        tenant,
+        signingConfig,
+        // TODO: (wyattjoh) evaluate the use of required here.
+        targetUser as Required<User>,
+        talk.now
+      );
+
+      log.trace("sent confirm email with token");
+
+      return res.sendStatus(204);
+    } catch (err) {
+      return next(err);
     }
-
-    const log = talk.logger.child({
-      targetUserID,
-      requestingUserID: requestingUser.id,
-      tenantID: tenant.id,
-    });
-
-    // Lookup the user.
-    const targetUser = await retrieveUser(mongo, tenant.id, targetUserID);
-    if (!targetUser) {
-      throw new UserNotFoundError(targetUserID);
-    }
-
-    await sendConfirmationEmail(
-      mongo,
-      mailerQueue,
-      tenant,
-      signingConfig,
-      // TODO: (wyattjoh) evaluate the use of required here.
-      targetUser as Required<User>,
-      talk.now
-    );
-
-    log.trace("sent confirm email with token");
-
-    return res.sendStatus(204);
-  } catch (err) {
-    return next(err);
-  }
+  };
 };
 
-export type ConfirmCheckOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+export type ConfirmCheckOptions = Pick<
+  AppOptions,
+  "mongo" | "signingConfig" | "redis"
+>;
 
 export const confirmCheckHandler = ({
+  redis: client,
   mongo,
   signingConfig,
-}: ConfirmCheckOptions): RequestHandler => async (req, res, next) => {
-  try {
-    // TODO: rate limit based on the IP address and user agent.
-    // TODO: rate limit based on the `sub` + `iss` claims.
+}: ConfirmCheckOptions): RequestHandler => {
+  const ipLimiter = new RequestLimiter({
+    client,
+    ttl: "10m",
+    max: 10,
+    prefix: "ip",
+  });
+  const subLimiter = new RequestLimiter({
+    client,
+    ttl: "5m",
+    max: 10,
+    prefix: "sub",
+  });
 
-    // Tenant is guaranteed at this point.
-    const talk = req.talk!;
-    const tenant = talk.tenant!;
+  return async (req, res, next) => {
+    try {
+      // Rate limit based on the IP address and user agent.
+      await ipLimiter.test(req, req.ip);
 
-    // TODO: evaluate verifying if the Tenant allows verifications to short circuit.
+      // Tenant is guaranteed at this point.
+      const talk = req.talk!;
+      const tenant = talk.tenant!;
 
-    // Grab the token from the request.
-    const tokenString = extractJWTFromRequest(req, true);
-    if (!tokenString) {
-      return res.sendStatus(400);
+      // TODO: evaluate verifying if the Tenant allows verifications to short circuit.
+
+      // Grab the token from the request.
+      const tokenString = extractJWTFromRequest(req, true);
+      if (!tokenString) {
+        return res.sendStatus(400);
+      }
+
+      // Decode the token so we can rate limit based on the user's ID.
+      const { sub } = decodeJWT(tokenString);
+      if (sub) {
+        await subLimiter.test(req, sub);
+      }
+
+      // Verify the token.
+      await verifyConfirmTokenString(
+        mongo,
+        tenant,
+        signingConfig,
+        tokenString,
+        talk.now
+      );
+
+      return res.sendStatus(204);
+    } catch (err) {
+      return next(err);
     }
-
-    // Verify the token.
-    await verifyConfirmTokenString(
-      mongo,
-      tenant,
-      signingConfig,
-      tokenString,
-      talk.now
-    );
-
-    return res.sendStatus(204);
-  } catch (err) {
-    return next(err);
-  }
+  };
 };
 
-export type ConfirmOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+export type ConfirmOptions = Pick<
+  AppOptions,
+  "mongo" | "signingConfig" | "redis"
+>;
 
 export const confirmHandler = ({
+  redis: client,
   mongo,
   signingConfig,
-}: ConfirmOptions): RequestHandler => async (req, res, next) => {
-  try {
-    // TODO: rate limit based on the IP address and user agent.
-    // TODO: rate limit based on the `sub` + `iss` claims.
+}: ConfirmOptions): RequestHandler => {
+  const ipLimiter = new RequestLimiter({
+    client,
+    ttl: "10m",
+    max: 10,
+    prefix: "ip",
+  });
+  const subLimiter = new RequestLimiter({
+    client,
+    ttl: "5m",
+    max: 10,
+    prefix: "sub",
+  });
 
-    // Tenant is guaranteed at this point.
-    const talk = req.talk!;
-    const tenant = talk.tenant!;
+  return async (req, res, next) => {
+    try {
+      // Rate limit based on the IP address and user agent.
+      await ipLimiter.test(req, req.ip);
 
-    // Grab the token from the request.
-    const tokenString = extractJWTFromRequest(req, true);
-    if (!tokenString) {
-      return res.sendStatus(400);
+      // Tenant is guaranteed at this point.
+      const talk = req.talk!;
+      const tenant = talk.tenant!;
+
+      // Grab the token from the request.
+      const tokenString = extractJWTFromRequest(req, true);
+      if (!tokenString) {
+        return res.sendStatus(400);
+      }
+
+      // Decode the token so we can rate limit based on the user's ID.
+      const { sub } = decodeJWT(tokenString);
+      if (sub) {
+        await subLimiter.test(req, sub);
+      }
+
+      // Execute the reset.
+      await confirmEmail(mongo, tenant, signingConfig, tokenString, talk.now);
+
+      return res.sendStatus(204);
+    } catch (err) {
+      return next(err);
     }
-
-    // Execute the reset.
-    await confirmEmail(mongo, tenant, signingConfig, tokenString, talk.now);
-
-    return res.sendStatus(204);
-  } catch (err) {
-    return next(err);
-  }
+  };
 };
