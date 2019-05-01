@@ -1,7 +1,7 @@
 .root {
-  padding-bottom: calc(0.5 * var(--spacing-unit));
+  padding-bottom: calc(0.5 * var(--mini-unit));
   border-bottom: 1px solid var(--palette-text-primary);
-  margin-bottom: calc(1.5 * var(--spacing-unit));
+  margin-bottom: calc(1.5 * var(--mini-unit));
   display: block;
   width: 100%;
 }

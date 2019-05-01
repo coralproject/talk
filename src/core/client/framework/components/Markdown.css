@@ -27,9 +27,9 @@
   }
   blockquote {
     background-color: rgba(255, 255, 255, 0.66);
-    padding: var(--spacing-unit);
-    margin: calc(2 * var(--spacing-unit)) 0 calc(2 * var(--spacing-unit))
-      var(--spacing-unit);
+    padding: var(--mini-unit);
+    margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
+      var(--mini-unit);
     border-radius: var(--round-corners);
     &::after {
       content: none;

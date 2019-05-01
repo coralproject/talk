@@ -12,5 +12,5 @@
   composes: heading3 from "talk-ui/shared/typography.css";
   position: relative;
   background-color: var(--palette-common-white);
-  padding: 0 var(--spacing-unit);
+  padding: 0 var(--mini-unit);
 }

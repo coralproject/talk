@@ -1,4 +1,4 @@
 .root {
   width: 100%;
-  max-width: calc(67 * var(--spacing-unit));
+  max-width: calc(84 * var(--mini-unit));
 }

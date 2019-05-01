@@ -1,6 +1,6 @@
 .root {
   position: relative;
-  padding: calc(2 * var(--spacing-unit));
+  padding: calc(2 * var(--mini-unit));
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.25);
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);

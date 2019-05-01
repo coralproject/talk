@@ -7,8 +7,8 @@
 .title {
   display: flex;
   align-items: center;
-  height: calc(3 * var(--spacing-unit));
-  padding-left: calc(1.5 * var(--spacing-unit));
+  height: calc(3 * var(--mini-unit));
+  padding-left: calc(1.5 * var(--mini-unit));
   background: var(--palette-text-primary);
 
   font-family: var(--font-family-sans-serif);

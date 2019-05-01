@@ -1,9 +1,9 @@
 .root {
-  padding: calc(1 * var(--spacing-unit));
+  padding: calc(1 * var(--mini-unit));
 }
 
 .close {
   position: absolute;
-  top: calc(0.5 * var(--spacing-unit));
-  right: calc(0.5 * var(--spacing-unit));
+  top: calc(0.5 * var(--mini-unit));
+  right: calc(0.5 * var(--mini-unit));
 }

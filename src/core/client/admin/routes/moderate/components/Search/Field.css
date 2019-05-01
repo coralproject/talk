@@ -1,13 +1,13 @@
 .root {
-  width: calc(75 * var(--spacing-unit));
-  height: calc(3 * var(--spacing-unit));
+  width: calc(94 * var(--mini-unit));
+  height: calc(4 * var(--mini-unit));
 }
 
 .begin {
   background-color: var(--palette-primary-darkest);
   border-top-left-radius: var(--round-corners);
   border-bottom-left-radius: var(--round-corners);
-  min-width: calc(4 * var(--spacing-unit));
+  min-width: calc(5 * var(--mini-unit));
   flex-shrink: 0;
   pointer-events: none;
 }
@@ -20,17 +20,17 @@
   letter-spacing: calc(0.2em / 13);
   color: var(--palette-text-light);
   text-transform: uppercase;
-  padding-right: calc(0.25 * var(--spacing-unit));
+  padding-right: calc(0.25 * var(--mini-unit));
 }
 
 .searchIcon {
-  padding: 0 calc(0.5 * var(--spacing-unit)) 0 calc(0.75 * var(--spacing-unit));
+  padding: 0 calc(0.5 * var(--mini-unit)) 0 calc(0.75 * var(--mini-unit));
   font-weight: var(--font-weight-medium);
   color: var(--palette-text-light);
 }
 
 .end {
-  min-width: calc(4 * var(--spacing-unit));
+  min-width: calc(5 * var(--mini-unit));
   background-color: var(--palette-primary-darkest);
   border-top-right-radius: var(--round-corners);
   border-bottom-right-radius: var(--round-corners);
@@ -39,10 +39,10 @@
 
 .searchButton {
   composes: button from "talk-ui/shared/typography.css";
-  padding: 0 calc(1 * var(--spacing-unit));
+  padding: 0 calc(1 * var(--mini-unit));
   color: var(--palette-text-light);
   border-left: 1px solid var(--palette-text-light);
-  height: calc(3 * var(--spacing-unit) - 4px);
+  height: calc(4 * var(--mini-unit) - 4px);
 
   &:disabled {
     cursor: pointer;
@@ -53,7 +53,7 @@
   composes: inputText placeholderPseudo from "talk-ui/shared/typography.css";
   position: relative;
   display: block;
-  padding: calc(0.5 * var(--spacing-unit));
+  padding: calc(0.5 * var(--mini-unit));
   box-sizing: border-box;
   width: 100%;
   line-height: 30px;

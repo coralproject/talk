@@ -7,21 +7,21 @@
 
 .halfItemGutter {
   & > * {
-    margin: 0 calc(0.5 * var(--spacing-unit)) 0 0 !important;
+    margin: 0 calc(0.5 * var(--mini-unit)) 0 0 !important;
   }
   &.directionRowReverse {
     & > * {
-      margin: 0 0 0 calc(0.5 * var(--spacing-unit)) !important;
+      margin: 0 0 0 calc(0.5 * var(--mini-unit)) !important;
     }
   }
   &.directionColumn {
     & > * {
-      margin: 0 0 calc(0.5 * var(--spacing-unit)) 0 !important;
+      margin: 0 0 calc(0.5 * var(--mini-unit)) 0 !important;
     }
   }
   &.directionColumnReverese {
     & > * {
-      margin: calc(0.5 * var(--spacing-unit)) 0 0 0 !important;
+      margin: calc(0.5 * var(--mini-unit)) 0 0 0 !important;
     }
   }
   & > *:last-child {
@@ -31,21 +31,21 @@
 
 .doubleItemGutter {
   & > * {
-    margin: 0 calc(2 * var(--spacing-unit)) 0 0 !important;
+    margin: 0 calc(2 * var(--mini-unit)) 0 0 !important;
   }
   &.directionRowReverse {
     & > * {
-      margin: 0 0 0 calc(2 * var(--spacing-unit)) !important;
+      margin: 0 0 0 calc(2 * var(--mini-unit)) !important;
     }
   }
   &.directionColumn {
     & > * {
-      margin: 0 0 calc(2 * var(--spacing-unit)) 0 !important;
+      margin: 0 0 calc(2 * var(--mini-unit)) 0 !important;
     }
   }
   &.directionColumnReverese {
     & > * {
-      margin: calc(2 * var(--spacing-unit)) 0 0 0 !important;
+      margin: calc(2 * var(--mini-unit)) 0 0 0 !important;
     }
   }
   & > *:last-child {
@@ -55,21 +55,21 @@
 
 .itemGutter {
   & > * {
-    margin: 0 var(--spacing-unit) 0 0 !important;
+    margin: 0 var(--mini-unit) 0 0 !important;
   }
   &.directionRowReverse {
     & > * {
-      margin: 0 0 0 var(--spacing-unit) !important;
+      margin: 0 0 0 var(--mini-unit) !important;
     }
   }
   &.directionColumn {
     & > * {
-      margin: 0 0 var(--spacing-unit) 0 !important;
+      margin: 0 0 var(--mini-unit) 0 !important;
     }
   }
   &.directionColumnReverese {
     & > * {
-      margin: var(--spacing-unit) 0 0 0 !important;
+      margin: var(--mini-unit) 0 0 0 !important;
     }
   }
   & > *:last-child {
@@ -89,69 +89,69 @@
 .wrapReverse {
   &:not(.directionColumn).itemGutter {
     &:not(:empty) {
-      margin-top: calc(-1 * var(--spacing-unit)) !important;
+      margin-top: calc(-1 * var(--mini-unit)) !important;
     }
     & > * {
-      margin-top: var(--spacing-unit) !important;
+      margin-top: var(--mini-unit) !important;
     }
   }
   &.directionColumn.itemGutter {
     &:not(:empty) {
-      margin-left: calc(-1 * var(--spacing-unit)) !important;
+      margin-left: calc(-1 * var(--mini-unit)) !important;
     }
     &.itemGutter > * {
-      margin-left: var(--spacing-unit) !important;
+      margin-left: var(--mini-unit) !important;
     }
   }
 
   &:not(.directionColumn).halfItemGutter {
     &:not(:empty) {
-      margin-top: calc(-0.5 * var(--spacing-unit)) !important;
+      margin-top: calc(-0.5 * var(--mini-unit)) !important;
     }
     & > * {
-      margin-top: calc(0.5 * var(--spacing-unit)) !important;
+      margin-top: calc(0.5 * var(--mini-unit)) !important;
     }
   }
   &.directionColumn.halfItemGutter {
     &:not(:empty) {
-      margin-left: calc(-0.5 * var(--spacing-unit)) !important;
+      margin-left: calc(-0.5 * var(--mini-unit)) !important;
     }
     &.halfItemGutter > * {
-      margin-left: calc(0.5 * var(--spacing-unit)) !important;
+      margin-left: calc(0.5 * var(--mini-unit)) !important;
     }
   }
 
   &:not(.directionColumn).doubleItemGutter {
     &:not(:empty) {
-      margin-top: calc(-2 * var(--spacing-unit)) !important;
+      margin-top: calc(-2 * var(--mini-unit)) !important;
     }
     & > * {
-      margin-top: calc(2 * var(--spacing-unit)) !important;
+      margin-top: calc(2 * var(--mini-unit)) !important;
     }
   }
   &.directionColumn.doubleItemGutter {
     &:not(:empty) {
-      margin-left: calc(-2 * var(--spacing-unit)) !important;
+      margin-left: calc(-2 * var(--mini-unit)) !important;
     }
     &.doubleItemGutter > * {
-      margin-left: calc(2 * var(--spacing-unit)) !important;
+      margin-left: calc(2 * var(--mini-unit)) !important;
     }
   }
 
   &:not(.directionColumn).tripleItemGutter {
     &:not(:empty) {
-      margin-top: calc(-3 * var(--spacing-unit)) !important;
+      margin-top: calc(-3 * var(--mini-unit)) !important;
     }
     & > * {
-      margin-top: calc(3 * var(--spacing-unit)) !important;
+      margin-top: calc(3 * var(--mini-unit)) !important;
     }
   }
   &.directionColumn.tripleItemGutter {
     &:not(:empty) {
-      margin-left: calc(-3 * var(--spacing-unit)) !important;
+      margin-left: calc(-3 * var(--mini-unit)) !important;
     }
     &.tripleItemGutter > * {
-      margin-left: calc(3 * var(--spacing-unit)) !important;
+      margin-left: calc(3 * var(--mini-unit)) !important;
     }
   }
 }

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit);
+  padding: calc(0.5 * var(--mini-unit)) var(--mini-unit);
   width: 100%;
   text-align: left;
 }
@@ -18,10 +18,10 @@
 
 .icon {
   color: var(--palette-grey-main);
-  margin-left: var(--spacing-unit);
+  margin-left: var(--mini-unit);
   padding-top: 1px;
 }
 
 .blankAdornment {
-  padding-right: calc(3.5 * var(--spacing-unit));
+  padding-right: calc(3.5 * var(--mini-unit));
 }

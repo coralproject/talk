@@ -1,6 +1,6 @@
 .root {
   display: flex;
-  width: calc(29 * var(--spacing-unit));
+  width: calc(29 * var(--mini-unit));
   align-items: center;
   height: 36px;
 }
@@ -9,7 +9,7 @@
   composes: inputText placeholderPseudo from "talk-ui/shared/typography.css";
   position: relative;
   display: block;
-  padding: calc(0.5 * var(--spacing-unit));
+  padding: calc(0.5 * var(--mini-unit));
   box-sizing: border-box;
   border-radius: var(--round-corners);
   width: 100%;
@@ -26,7 +26,7 @@
 }
 
 .adornment {
-  margin-left: calc(0.5 * var(--spacing-unit));
+  margin-left: calc(0.5 * var(--mini-unit));
 }
 
 .colorRegular {

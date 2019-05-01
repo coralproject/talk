@@ -7,6 +7,7 @@ import { Playground } from "docz";
 import Button from "./Button";
 import ButtonIcon from "./ButtonIcon";
 import Icon from "../Icon";
+import TextField from "../TextField";
 import Flex from "../Flex";
 
 # Button
@@ -146,5 +147,60 @@ import Flex from "../Flex";
     <Button variant="ghost" fullWidth>
       Push Me
     </Button>
+  </Flex>
+</Playground>
+
+## Underlined Button
+
+<Playground>
+  <Flex itemGutter wrap>
+    <Button variant="underlined">Push Me</Button>
+    <Button variant="underlined" size="small">
+      Push Me
+    </Button>
+    <Button variant="underlined" size="large">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="primary">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="error">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="success">
+      Push Me
+    </Button>
+    <Button variant="underlined" color="dark">
+      Push Me
+    </Button>
+    <Button variant="underlined" disabled>
+      Push Me
+    </Button>
+    <Button variant="underlined" active>
+      Push Me
+    </Button>
+    <Button variant="underlined">
+      <Icon>face</Icon>
+      <span>Push Me</span>
+    </Button>
+    <Button variant="underlined" fullWidth>
+      Push Me
+    </Button>
+  </Flex>
+</Playground>
+
+## TextField Adornment
+
+<Playground>
+  <Flex itemGutter wrap>
+    <TextField
+      placeholder="This is a placeholder"
+      variant="seamlessAdornment"
+      adornment={
+        <Button variant="adornment" color="dark">
+          <Icon size="md">search</Icon>
+        </Button>
+      }
+    />
   </Flex>
 </Playground>

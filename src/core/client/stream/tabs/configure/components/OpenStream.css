@@ -1,5 +1,5 @@
 .heading {
-  padding-bottom: calc(1.5 * var(--spacing-unit));
+  padding-bottom: calc(1.5 * var(--mini-unit));
 }
 
 .button {

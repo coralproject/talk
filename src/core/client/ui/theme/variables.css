@@ -6,11 +6,11 @@
 */
 
 :root {
-  --spacing-unit: calc(1px * var(--spacing-unit-small));
+  --mini-unit: calc(1px * var(--mini-unit-small));
 }
 
 @media (min-width: $breakpoints-xs) {
   :root {
-    --spacing-unit: calc(1px * var(--spacing-unit-large));
+    --mini-unit: calc(1px * var(--mini-unit-large));
   }
 }

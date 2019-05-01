@@ -1,5 +1,5 @@
 .root {
-  width: calc(75 * var(--spacing-unit));
+  width: calc(94 * var(--mini-unit));
 }
 
 .exitTransition {

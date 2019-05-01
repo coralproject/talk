@@ -9,7 +9,7 @@
 
 .link {
   justify-content: left;
-  min-height: calc(4 * var(--spacing-unit));
+  min-height: calc(4 * var(--mini-unit));
   font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(16rem / var(--rem-base));

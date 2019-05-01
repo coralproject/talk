@@ -11,7 +11,7 @@
   height: 150px;
   width: 100%;
   box-sizing: border-box;
-  padding: var(--spacing-unit);
+  padding: var(--mini-unit);
   border-radius: var(--round-corners);
   resize: vertical;
 }

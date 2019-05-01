@@ -1,7 +1,7 @@
 .root {
   min-height: 0px;
-  padding: calc(0.5 * var(--spacing-unit));
-  margin-left: calc(2 * var(--spacing-unit));
+  padding: calc(0.5 * var(--mini-unit));
+  margin-left: calc(2 * var(--mini-unit));
   float: right;
   position: relative;
   top: -5px;

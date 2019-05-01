@@ -1,7 +1,7 @@
 .root {
   border-left: 2px solid var(--palette-grey-main);
-  padding-left: var(--spacing-unit);
-  margin-left: calc(0.5 * var(--spacing-unit));
+  padding-left: var(--mini-unit);
+  margin-left: calc(0.5 * var(--mini-unit));
 }
 
 .dotted {

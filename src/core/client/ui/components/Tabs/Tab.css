@@ -10,7 +10,7 @@
   box-sizing: border-box;
   border-bottom: 0;
   list-style: none;
-  padding: var(--spacing-unit);
+  padding: var(--mini-unit);
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-serif);
 
@@ -32,12 +32,12 @@
   background: var(--palette-grey-lightest);
   color: var(--palette-grey-main);
   border: 1px solid var(--palette-grey-lighter);
-  padding: calc(0.5 * var(--spacing-unit)) calc(var(--spacing-unit) * 2);
+  padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2);
   &.active {
     background-color: var(--palette-common-white);
     color: var(--palette-common-black);
     border-bottom: 0;
-    border-top-width: calc(0.5 * var(--spacing-unit));
+    border-top-width: calc(0.5 * var(--mini-unit));
     border-top-color: var(--palette-primary-main);
     border-radius: 0;
     z-index: 10;
@@ -45,7 +45,7 @@
 }
 
 .secondary {
-  padding: calc(0.5 * var(--spacing-unit)) calc(var(--spacing-unit) * 2);
+  padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2);
 
   &.active {
     font-weight: var(--font-weight-medium);

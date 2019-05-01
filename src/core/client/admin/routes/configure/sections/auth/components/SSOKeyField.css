@@ -1,7 +1,7 @@
 .keyGenerated {
   composes: button from "talk-ui/shared/typography.css";
   color: var(--palette-text-secondary);
-  width: calc(29 * var(--spacing-unit));
+  width: calc(29 * var(--mini-unit));
   flex-shrink: 0;
 }
 

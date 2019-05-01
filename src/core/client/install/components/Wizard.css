@@ -9,5 +9,5 @@
 }
 
 .stepBar {
-  padding: var(--spacing-unit) 0 calc(6 * var(--spacing-unit));
+  padding: var(--mini-unit) 0 calc(6 * var(--mini-unit));
 }

@@ -6,13 +6,13 @@
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  height: calc(5 * var(--spacing-unit));
+  height: calc(7 * var(--mini-unit));
   box-sizing: border-box;
 }
 
 .gutterBegin {
-  padding-left: calc(2 * var(--spacing-unit));
+  padding-left: calc(2 * var(--mini-unit));
 }
 .gutterEnd {
-  padding-right: calc(2 * var(--spacing-unit));
+  padding-right: calc(2 * var(--mini-unit));
 }

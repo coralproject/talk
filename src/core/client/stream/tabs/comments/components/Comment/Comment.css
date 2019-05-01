@@ -2,11 +2,11 @@
 }
 .highlight {
   background-color: var(--palette-primary-lightest);
-  padding: var(--spacing-unit);
+  padding: var(--mini-unit);
 }
 .subBar {
-  margin-bottom: calc(0.5 * var(--spacing-unit));
+  margin-bottom: calc(0.5 * var(--mini-unit));
 }
 .footer:not(:empty) {
-  margin-top: var(--spacing-unit);
+  margin-top: var(--mini-unit);
 }

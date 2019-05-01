@@ -3,7 +3,7 @@
   font-size: calc(12rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
   font-family: var(--font-family-sans-serif);
-  line-height: calc(2 * var(--spacing-unit));
+  line-height: calc(2 * var(--mini-unit));
   letter-spacing: calc(0.2em / 12);
   color: var(--palette-grey-main);
   width: 100%;

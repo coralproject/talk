@@ -1,5 +1,5 @@
 .root {
-  padding: calc(4 * var(--spacing-unit)) 0;
+  padding: calc(4 * var(--mini-unit)) 0;
 }
 
 .headline {

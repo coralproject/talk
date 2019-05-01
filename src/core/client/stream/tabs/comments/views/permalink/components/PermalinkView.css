@@ -3,7 +3,7 @@
 }
 
 .replyList {
-  padding-left: calc(2 * var(--spacing-unit));
+  padding-left: calc(2 * var(--mini-unit));
 }
 
 .title1 {

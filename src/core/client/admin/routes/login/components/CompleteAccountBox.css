@@ -9,15 +9,15 @@
 
 .header {
   background-color: var(--palette-text-primary);
-  padding: calc(1.5 * var(--spacing-unit));
+  padding: calc(1.5 * var(--mini-unit));
   color: var(--palette-text-light);
 }
 
 .heading3 {
-  margin-bottom: calc(0.25 * var(--spacing-unit));
+  margin-bottom: calc(0.25 * var(--mini-unit));
 }
 
 .main {
-  padding: calc(2.5 * var(--spacing-unit)) calc(2 * var(--spacing-unit))
-    calc(2 * var(--spacing-unit)) calc(2 * var(--spacing-unit));
+  padding: calc(2.5 * var(--mini-unit)) calc(2 * var(--mini-unit))
+    calc(2 * var(--mini-unit)) calc(2 * var(--mini-unit));
 }
