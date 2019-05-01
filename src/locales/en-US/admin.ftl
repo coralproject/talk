@@ -324,13 +324,15 @@ moderate-emptyQueue-reported = Nicely done! There are no more reported comments 
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
 moderate-emptyQueue-rejected = There are no rejected comments.
 
-moderate-inReplyTo = Reply to <username><username>
-moderate-viewContext = View Context
-moderate-rejectButton =
+moderate-comment-inReplyTo = Reply to <username><username>
+moderate-comment-viewContext = View Context
+moderate-comment-rejectButton =
   .aria-label = Reject
-moderate-acceptButton =
+moderate-comment-acceptButton =
   .aria-label = Accept
-moderate-decision = Decision
+moderate-comment-decision = Decision
+moderate-comment-story = Story
+moderate-comment-moderateStory = Moderate Story
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View

@@ -16,7 +16,7 @@ const AcceptButton: StatelessComponent<Props> = ({
   className,
   ...rest
 }) => (
-  <Localized id="moderate-acceptButton" attrs={{ "aria-label": true }}>
+  <Localized id="moderate-comment-acceptButton" attrs={{ "aria-label": true }}>
     <BaseButton
       {...rest}
       className={cn(className, styles.root, {

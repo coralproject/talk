@@ -3,10 +3,10 @@ import * as React from "react";
 import { StatelessComponent } from "react";
 import Timestamp from "talk-stream/components/Timestamp";
 import {
-  Button,
   Flex,
   HorizontalGutter,
   Icon,
+  TextLink,
   Typography,
 } from "talk-ui/components";
 
@@ -53,18 +53,16 @@ const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
             </Localized>
           </div>
         )}
-        <Button
-          variant="underlined"
-          target="_parent"
-          href={props.conversationURL}
-          onClick={props.onGotoConversation}
-          anchor
-        >
-          <Icon>launch</Icon>
-          <Localized id="profile-historyComment-viewConversation">
-            <span>View Conversation</span>
-          </Localized>
-        </Button>
+        <Localized id="profile-historyComment-viewConversation">
+          <TextLink
+            target="_parent"
+            href={props.conversationURL}
+            onClick={props.onGotoConversation}
+            className={styles.viewConversation}
+          >
+            View Conversation
+          </TextLink>
+        </Localized>
       </Flex>
     </HorizontalGutter>
   );

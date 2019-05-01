@@ -25,6 +25,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.xs {
+  font-size: 10px;
+  width: 10px;
+}
+
 .sm {
   font-size: 14px;
   width: 14px;

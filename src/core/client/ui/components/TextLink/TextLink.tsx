@@ -1,11 +1,14 @@
 import cn from "classnames";
 import React, { AnchorHTMLAttributes, StatelessComponent } from "react";
+import { Icon } from "talk-ui/components";
 
 import { withStyles } from "talk-ui/hocs";
 
 import styles from "./TextLink.css";
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  /** external if set to true will show a little icon that indicates an external link */
+  external?: boolean;
   /**
    * Override or extend the styles applied to the component.
    */
@@ -13,7 +16,7 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 const TextLinkProps: StatelessComponent<Props> = props => {
-  const { className, children, classes, ...rest } = props;
+  const { className, children, classes, external, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);
 
@@ -24,6 +27,11 @@ const TextLinkProps: StatelessComponent<Props> = props => {
       {...rest}
     >
       {children}
+      {external && (
+        <Icon className={styles.icon} size="xs">
+          launch
+        </Icon>
+      )}
     </a>
   );
 };
