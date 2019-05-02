@@ -26,14 +26,14 @@ deploy_tag() {
   for version in $tag_list
   do
       echo "==> tagging $version"
-      echo docker tag coralproject/talk:latest coralproject/talk:$version
+      docker tag coralproject/talk:latest coralproject/talk:$version
   done
 
   # Push each of the tags to dockerhub, including latest
   for version in $tag_list
   do
       echo "==> pushing $version"
-      echo docker push coralproject/talk:$version
+      docker push coralproject/talk:$version
   done
 
   # Deploy latest if we're at master, or deploy this branch if we aren't.
@@ -47,15 +47,15 @@ deploy_tag() {
 
 deploy_latest() {
   echo "==> pushing latest"
-  echo docker push coralproject/talk:latest
+  docker push coralproject/talk:latest
 }
 
 deploy_branch() {
   echo "==> tagging branch $CIRCLE_BRANCH"
-  echo docker tag coralproject/talk:latest coralproject/talk:$CIRCLE_BRANCH
+  docker tag coralproject/talk:latest coralproject/talk:$CIRCLE_BRANCH
 
   echo "==> pushing branch $CIRCLE_BRANCH"
-  echo docker push coralproject/talk:$CIRCLE_BRANCH
+  docker push coralproject/talk:$CIRCLE_BRANCH
 }
 
 ARGS=""
@@ -66,7 +66,7 @@ then
 fi
 
 # build the repo, including the onbuild tagged versions.
-echo docker build -t coralproject/talk:latest ${ARGS} -f Dockerfile .
+docker build -t coralproject/talk:latest ${ARGS} -f Dockerfile .
 
 if [ "$1" = "deploy" ]
 then
@@ -75,7 +75,7 @@ then
   then
 
     # Log the Docker Daemon in
-    echo docker login -u $DOCKER_USER -p $DOCKER_PASS
+    docker login -u $DOCKER_USER -p $DOCKER_PASS
   fi
 
   # deploy based on the env
