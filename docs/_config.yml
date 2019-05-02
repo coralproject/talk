@@ -76,9 +76,7 @@ sidebar:
     - title: GitHub
       url: https://github.com/coralproject/
     - title: Docker
-      url: https://hub.docker.com/r/coralproject/
-    - title: Roadmap
-      url: https://www.pivotaltracker.com/n/projects/1863625
+      url: https://hub.docker.com/r/coralproject/talk/
   side:
     - title: Installation
       children:
