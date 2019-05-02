@@ -4,9 +4,9 @@ import React, { Component } from "react";
 import {
   SetViewMutation,
   SignInMutation,
-  withSetViewMutation,
   withSignInMutation,
 } from "talk-auth/mutations";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
 
 import SignInWithEmail, {
   SignInWithEmailForm,
@@ -14,7 +14,7 @@ import SignInWithEmail, {
 
 interface SignInContainerProps {
   signIn: SignInMutation;
-  setView: SetViewMutation;
+  setView: MutationProp<typeof SetViewMutation>;
 }
 
 class SignInContainer extends Component<SignInContainerProps> {
@@ -27,7 +27,7 @@ class SignInContainer extends Component<SignInContainerProps> {
     }
   };
   private goToForgotPassword = () =>
-    this.props.setView({ view: "FORGOT_PASSWORD" });
+    this.props.setView({ view: "FORGOT_PASSWORD", history: "push" });
   public render() {
     return (
       <SignInWithEmail
@@ -38,5 +38,7 @@ class SignInContainer extends Component<SignInContainerProps> {
   }
 }
 
-const enhanced = withSetViewMutation(withSignInMutation(SignInContainer));
+const enhanced = withMutation(SetViewMutation)(
+  withSignInMutation(SignInContainer)
+);
 export default enhanced;

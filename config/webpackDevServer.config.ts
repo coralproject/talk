@@ -69,7 +69,10 @@ export default function({
       disableDotRule: true,
       rewrites: [
         { from: /^\/admin/, to: "/admin.html" },
+        { from: /^\/embed\/stream/, to: "/stream.html" },
+        { from: /^\/embed\/auth/, to: "/auth.html" },
         { from: /^\/embed\/auth\/callback/, to: "/auth-callback.html" },
+        { from: /^\/install/, to: "/install.html" },
       ],
     },
     public: allowedHost,

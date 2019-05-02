@@ -8,17 +8,18 @@ import {
   CompleteAccountMutation,
   SetViewMutation,
   withCompleteAccountMutation,
-  withSetViewMutation,
 } from "talk-auth/mutations";
 import {
   graphql,
+  MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
+  withMutation,
 } from "talk-framework/lib/relay";
 
 interface Props {
   completeAccount: CompleteAccountMutation;
-  setView: SetViewMutation;
+  setView: MutationProp<typeof SetViewMutation>;
   local: Local;
   auth: AuthData;
   viewer: UserData | null;
@@ -119,7 +120,9 @@ const enhanced = withLocalStateContainer(
       }
     `,
   })(
-    withSetViewMutation(withCompleteAccountMutation(AccountCompletionContainer))
+    withMutation(SetViewMutation)(
+      withCompleteAccountMutation(AccountCompletionContainer)
+    )
   )
 );
 

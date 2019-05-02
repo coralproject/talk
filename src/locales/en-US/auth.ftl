@@ -53,7 +53,7 @@ signUp-accountAvailableSignIn = Already have an account? <button>Sign In</button
 
 ## Forgot Password
 
-forgotPassword-forgotPasswordHeader = Forgot Password
+forgotPassword-forgotPasswordHeader = Forgot Password?
 forgotPassword-enterEmailAndGetALink =
   Enter your email address below and we will send you a link to
   reset your password.

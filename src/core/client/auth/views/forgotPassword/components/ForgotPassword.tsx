@@ -26,16 +26,16 @@ interface FormProps {
   email: string;
 }
 
-export interface ForgotPasswordForm {
+interface Props {
   onSubmit: OnSubmit<FormProps>;
 }
 
-const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
+const ForgotPassword: StatelessComponent<Props> = props => {
   return (
     <div data-testid="forgotPassword-container">
       <Bar>
         <Localized id="forgotPassword-forgotPasswordHeader">
-          <Title>Forgot Password</Title>
+          <Title>Forgot Password?</Title>
         </Localized>
       </Bar>
       <Main data-testid="forgotPassword-main">
@@ -83,7 +83,7 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
                         />
                       </Localized>
                       {meta.touched && (meta.error || meta.submitError) && (
-                        <ValidationMessage>
+                        <ValidationMessage fullWidth>
                           {meta.error || meta.submitError}
                         </ValidationMessage>
                       )}
@@ -96,6 +96,7 @@ const ForgotPassword: StatelessComponent<ForgotPasswordForm> = props => {
                     color="primary"
                     size="large"
                     fullWidth
+                    type="submit"
                     disabled={submitting}
                   >
                     Send Email

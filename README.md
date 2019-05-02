@@ -168,7 +168,7 @@ Then start Talk with:
 npm run watch
 ```
 
-When the client code has been built, navigate to http://localhost:8080/install.html
+When the client code has been built, navigate to http://localhost:8080/install
 to start the installation wizard. **Note: Ensure `localhost:8080` is used in the permitted domains list.**
 
 To see the comment stream goto http://localhost:8080/.

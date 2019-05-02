@@ -49,7 +49,7 @@ export const forgotHandler = ({
   const emailLimiter = new RequestLimiter({
     client,
     ttl: "10m",
-    max: 1,
+    max: 100,
     prefix: "email",
   });
 

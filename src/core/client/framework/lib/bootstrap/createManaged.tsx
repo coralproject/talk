@@ -104,7 +104,7 @@ function createRelayEnvironment() {
   return { environment, tokenGetter };
 }
 
-function createRestAPI(tokenGetter: () => string) {
+function createRestClient(tokenGetter: () => string) {
   return new RestClient("/api", tokenGetter);
 }
 
@@ -144,7 +144,7 @@ function createMangedTalkContextProvider(
       const newContext = {
         ...this.state.context,
         relayEnvironment: newEnvironment,
-        rest: createRestAPI(newTokenGetter),
+        rest: createRestClient(newTokenGetter),
       };
 
       // Initialize local state.
@@ -244,7 +244,7 @@ export default async function createManaged({
     pym,
     eventEmitter,
     registerClickFarAway,
-    rest: createRestAPI(tokenGetter),
+    rest: createRestClient(tokenGetter),
     postMessage: new PostMessageService(),
     localStorage,
     sessionStorage,

@@ -37,7 +37,7 @@ export interface TalkContext {
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
 
-  /** Rest client */
+  /** Rest Client */
   rest: RestClient;
 
   /** postMessage service */
