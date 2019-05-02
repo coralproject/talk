@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Update NPM
           command: sudo npm update -g npm
-      # Disabled until there's capabilityies to ignore a specific vun. Related:
+      # Disabled until there's capabilities to ignore a specific vun. Related:
       # https://npm.community/t/please-provide-option-to-ignore-packages-in-npm-audit/403/4
       # https://github.com/npm/cli/pull/10
       # https://github.com/npm/rfcs/pull/18
@@ -107,7 +107,7 @@ jobs:
       - run:
           name: Build
           command: npm run build
-          no_output_timeout: 20m
+          no_output_timeout: 30m
       - run:
           name: Verify Bundle Size
           command: npx bundlesize
@@ -128,10 +128,10 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Update Image Dependancies
+          name: Update Image Dependencies
           command: apk --no-cache add git python
       - run:
-          name: Install NodeJS Dependancies
+          name: Install NodeJS Dependencies
           command: npm install
 
   # release_docker will build and push the Docker image.
@@ -140,16 +140,29 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: Login
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run:
-          name: Build
-          command: docker build -t coralproject/talk:next --build-arg REVISION_HASH=$CIRCLE_SHA1 .
+      - deploy:
+          name: Deploy the code
+          command: bash ./scripts/docker.sh deploy
           no_output_timeout: 30m
-      - run:
-          name: Push
-          command: docker push coralproject/talk:next
+
+# filter_release will add the filters for a deploy job in a workflow to make it
+# only execute on a deploy related job.
+filter_release: &filter_release
+  filters:
+    branches:
+      only:
+        - master
+        - next
+    tags:
+      only: /^v.*/
+
+# filter_develop will add the filters for a development related commit.
+filter_develop: &filter_develop
+  filters:
+    branches:
+      ignore:
+        - master
+        - next
 
 workflows:
   version: 2
@@ -158,9 +171,7 @@ workflows:
       # Run the docker build test on all branches except for next as we'll
       # already be releasing via docker with that route.
       - docker_tests:
-          filters:
-            branches:
-              ignore: next
+          <<: *filter_develop
       - npm_dependencies
       - lint:
           requires:
@@ -176,6 +187,4 @@ workflows:
             - lint
             - unit_tests
             - build
-          filters:
-            branches:
-              only: next
+          <<: *filter_release
