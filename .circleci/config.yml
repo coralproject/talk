@@ -166,25 +166,43 @@ filter_develop: &filter_develop
 
 workflows:
   version: 2
-  build-and-test:
+  build-test:
     jobs:
-      # Run the docker build test on all branches except for next as we'll
-      # already be releasing via docker with that route.
       - docker_tests:
           <<: *filter_develop
-      - npm_dependencies
+      - npm_dependencies:
+          <<: *filter_develop
       - lint:
+          <<: *filter_develop
           requires:
             - npm_dependencies
       - unit_tests:
+          <<: *filter_develop
           requires:
             - npm_dependencies
       - build:
+          <<: *filter_develop
+          requires:
+            - npm_dependencies
+  build-test-deploy:
+    jobs:
+      - npm_dependencies:
+          <<: *filter_release
+      - lint:
+          <<: *filter_release
+          requires:
+            - npm_dependencies
+      - unit_tests:
+          <<: *filter_release
+          requires:
+            - npm_dependencies
+      - build:
+          <<: *filter_release
           requires:
             - npm_dependencies
       - release_docker:
+          <<: *filter_release
           requires:
             - lint
             - unit_tests
             - build
-          <<: *filter_release
