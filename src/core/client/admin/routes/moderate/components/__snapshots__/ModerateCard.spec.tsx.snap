@@ -56,13 +56,9 @@ exports[`renders accepted correctly 1`] = `
               </withPropsOnChange(TextLinkProps)>
             </Localized>
           </div>
-          <ForwardRef(forwardRef)
-            itemGutter={true}
-          >
-            <Relay(MarkersContainer)
-              comment={Object {}}
-            />
-          </ForwardRef(forwardRef)>
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -158,13 +154,9 @@ exports[`renders correctly 1`] = `
               </withPropsOnChange(TextLinkProps)>
             </Localized>
           </div>
-          <ForwardRef(forwardRef)
-            itemGutter={true}
-          >
-            <Relay(MarkersContainer)
-              comment={Object {}}
-            />
-          </ForwardRef(forwardRef)>
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -259,13 +251,9 @@ exports[`renders dangling correctly 1`] = `
               </withPropsOnChange(TextLinkProps)>
             </Localized>
           </div>
-          <ForwardRef(forwardRef)
-            itemGutter={true}
-          >
-            <Relay(MarkersContainer)
-              comment={Object {}}
-            />
-          </ForwardRef(forwardRef)>
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -362,13 +350,9 @@ exports[`renders rejected correctly 1`] = `
               </withPropsOnChange(TextLinkProps)>
             </Localized>
           </div>
-          <ForwardRef(forwardRef)
-            itemGutter={true}
-          >
-            <Relay(MarkersContainer)
-              comment={Object {}}
-            />
-          </ForwardRef(forwardRef)>
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -469,13 +453,9 @@ exports[`renders reply correctly 1`] = `
               </withPropsOnChange(TextLinkProps)>
             </Localized>
           </div>
-          <ForwardRef(forwardRef)
-            itemGutter={true}
-          >
-            <Relay(MarkersContainer)
-              comment={Object {}}
-            />
-          </ForwardRef(forwardRef)>
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -600,13 +580,9 @@ exports[`renders story info 1`] = `
               </withPropsOnChange(TextLinkProps)>
             </Localized>
           </div>
-          <ForwardRef(forwardRef)
-            itemGutter={true}
-          >
-            <Relay(MarkersContainer)
-              comment={Object {}}
-            />
-          </ForwardRef(forwardRef)>
+          <Relay(MarkersContainer)
+            comment={Object {}}
+          />
         </ForwardRef(forwardRef)>
       </div>
     </div>

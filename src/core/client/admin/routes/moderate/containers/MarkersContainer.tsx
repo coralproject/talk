@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 
 import { MarkersContainer_comment as CommentData } from "talk-admin/__generated__/MarkersContainer_comment.graphql";
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { Marker, MarkerCount } from "talk-ui/components";
+import { Flex, Marker, MarkerCount } from "talk-ui/components";
 
 interface MarkersContainerProps {
   comment: CommentData;
@@ -91,7 +91,11 @@ const markers: Array<(c: CommentData) => React.ReactElement<any> | null> = [
 
 export class MarkersContainer extends React.Component<MarkersContainerProps> {
   public render() {
-    return markers.map(cb => cb(this.props.comment));
+    const elements = markers.map(cb => cb(this.props.comment)).filter(m => m);
+    if (elements.length) {
+      return <Flex itemGutter>{elements}</Flex>;
+    }
+    return null;
   }
 }
 

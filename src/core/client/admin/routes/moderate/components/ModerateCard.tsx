@@ -116,9 +116,7 @@ const ModerateCard: StatelessComponent<Props> = ({
                 </Localized>
               </div>
             )}
-            <Flex itemGutter>
-              <MarkersContainer comment={comment} />
-            </Flex>
+            <MarkersContainer comment={comment} />
           </HorizontalGutter>
         </div>
       </div>
