@@ -6,12 +6,16 @@ set -e
 
 deploy_tag() {
   # Find our individual versions from the tags. If the tag contains prerelease
-  # datam it will fall back to the next step which will just tag it as is.
+  # tag, it will fall back to the next step which will just tag it as is. For
+  # Example:
+  #
+  # v5.0.0-beta.1 will be tagged with v5.0.0-beta.1
+  # v5.0.0 will be tagged with
   if [ -n "$(echo $CIRCLE_TAG | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$')" ]
   then
-    major=$(echo ${CIRCLE_TAG//v} | cut -d. -f1)
-    minor=$(echo ${CIRCLE_TAG//v} | cut -d. -f2)
-    patch=$(echo ${CIRCLE_TAG//v} | cut -d. -f3)
+    major=$(echo ${CIRCLE_TAG/#v} | cut -d. -f1)
+    minor=$(echo ${CIRCLE_TAG/#v} | cut -d. -f2)
+    patch=$(echo ${CIRCLE_TAG/#v} | cut -d. -f3)
 
     major_version_tag=$major
     minor_version_tag=$major.$minor
@@ -19,7 +23,7 @@ deploy_tag() {
 
     tag_list="$major_version_tag $minor_version_tag $patch_version_tag"
   else
-    tag_list=$CIRCLE_TAG
+    tag_list=${CIRCLE_TAG/#v}
   fi
 
   # Tag the new image with major, minor and patch version tags.
