@@ -42,26 +42,12 @@ exports[`renders profile 1`] = `
       className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow"
     >
       <a
-        className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+        className="TextLink-root HistoryComment-viewConversation"
         href="http://localhost/stories/story-1?commentID=comment-0"
-        onBlur={[Function]}
         onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
         target="_parent"
-        type="button"
       >
-        <span
-          aria-hidden="true"
-          className="Icon-root Icon-sm"
-        >
-          launch
-        </span>
-        <span>
-          View Conversation
-        </span>
+        View Conversation
       </a>
     </div>
   </div>
@@ -97,26 +83,12 @@ exports[`renders profile 1`] = `
       className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow"
     >
       <a
-        className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+        className="TextLink-root HistoryComment-viewConversation"
         href="http://localhost/stories/story-1?commentID=comment-1"
-        onBlur={[Function]}
         onClick={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        onTouchEnd={[Function]}
         target="_parent"
-        type="button"
       >
-        <span
-          aria-hidden="true"
-          className="Icon-root Icon-sm"
-        >
-          launch
-        </span>
-        <span>
-          View Conversation
-        </span>
+        View Conversation
       </a>
     </div>
   </div>

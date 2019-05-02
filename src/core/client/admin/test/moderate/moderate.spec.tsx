@@ -1,3 +1,6 @@
+import { noop } from "lodash";
+import { ReactTestRenderer } from "react-test-renderer";
+
 import { pureMerge } from "talk-common/utils";
 import {
   GQLCOMMENT_STATUS,
@@ -21,8 +24,6 @@ import {
   within,
 } from "talk-framework/testHelpers";
 
-import { noop } from "lodash";
-import { ReactTestRenderer } from "react-test-renderer";
 import create from "../create";
 import {
   emptyModerationQueues,
@@ -270,6 +271,12 @@ describe("tab bar", () => {
     await waitForElement(() => getByTestID("moderate-container"));
     expect(toJSON(getByTestID("moderate-tabBar-container"))).toMatchSnapshot();
   });
+  it("should not show moderate story link in comment cards", async () => {
+    const { testRenderer } = await createTestRenderer();
+    const { getByTestID } = within(testRenderer.root);
+    await waitForElement(() => getByTestID("moderate-container"));
+    expect(within(testRenderer.root).queryByText("Moderate Story")).toBeNull();
+  });
 });
 
 describe("moderating specific story", () => {
@@ -365,6 +372,91 @@ describe("reported queue", () => {
     expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
   });
 
+  it("renders reported queue with comments", async () => {
+    const { testRenderer } = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () =>
+            pureMerge(emptyModerationQueues, {
+              reported: {
+                count: 2,
+                comments: createQueryResolverStub<
+                  ModerationQueueToCommentsResolver
+                >(({ variables }) => {
+                  expectAndFail(variables).toEqual({ first: 5 });
+                  return {
+                    edges: [
+                      {
+                        node: reportedComments[0],
+                        cursor: reportedComments[0].createdAt,
+                      },
+                      {
+                        node: reportedComments[1],
+                        cursor: reportedComments[1].createdAt,
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: reportedComments[1].createdAt,
+                      hasNextPage: false,
+                    },
+                  };
+                }) as any,
+              },
+            }),
+        },
+      }),
+    });
+    const { getByTestID } = within(testRenderer.root);
+    await waitForElement(() => getByTestID("moderate-container"));
+    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+  });
+  it("shows a moderate story", async () => {
+    const {
+      testRenderer,
+      context: { transitionControl },
+    } = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () =>
+            pureMerge(emptyModerationQueues, {
+              reported: {
+                count: 2,
+                comments: createQueryResolverStub<
+                  ModerationQueueToCommentsResolver
+                >(({ variables }) => {
+                  expectAndFail(variables).toEqual({ first: 5 });
+                  return {
+                    edges: [
+                      {
+                        node: reportedComments[0],
+                        cursor: reportedComments[0].createdAt,
+                      },
+                      {
+                        node: reportedComments[1],
+                        cursor: reportedComments[1].createdAt,
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: reportedComments[1].createdAt,
+                      hasNextPage: false,
+                    },
+                  };
+                }) as any,
+              },
+            }),
+        },
+      }),
+    });
+    const moderateStory = await waitForElement(
+      () => within(testRenderer.root).getAllByText("Moderate Story")[0]
+    );
+    transitionControl.allowTransition = false;
+    moderateStory.props.onClick({});
+    // Expect a routing request was made to the right url.
+    expect(transitionControl.history[0].pathname).toBe(
+      `/admin/moderate/${reportedComments[0].story.id}`
+    );
+  });
   it("renders reported queue with comments and load more", async () => {
     const moderationQueuesStub = pureMerge(emptyModerationQueues, {
       reported: {
@@ -654,6 +746,50 @@ describe("rejected queue", () => {
     const { getByTestID } = within(testRenderer.root);
     await waitForElement(() => getByTestID("moderate-container"));
     expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+  });
+
+  it("shows a moderate story", async () => {
+    const {
+      testRenderer,
+      context: { transitionControl },
+    } = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          comments: ({ variables }) => {
+            expectAndFail(variables).toEqual({
+              first: 5,
+              status: "REJECTED",
+              storyID: null,
+            });
+            return {
+              edges: [
+                {
+                  node: rejectedComments[0],
+                  cursor: rejectedComments[0].createdAt,
+                },
+                {
+                  node: rejectedComments[1],
+                  cursor: rejectedComments[1].createdAt,
+                },
+              ],
+              pageInfo: {
+                endCursor: rejectedComments[1].createdAt,
+                hasNextPage: false,
+              },
+            };
+          },
+        },
+      }),
+    });
+    const moderateStory = await waitForElement(
+      () => within(testRenderer.root).getAllByText("Moderate Story")[0]
+    );
+    transitionControl.allowTransition = false;
+    moderateStory.props.onClick({});
+    // Expect a routing request was made to the right url.
+    expect(transitionControl.history[0].pathname).toBe(
+      `/admin/moderate/${reportedComments[0].story.id}`
+    );
   });
 
   it("renders rejected queue with comments and load more", async () => {

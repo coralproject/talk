@@ -41,35 +41,28 @@ exports[`renders accepted correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)
-          justifyContent="flex-end"
-        >
-          <ForwardRef(forwardRef)
-            anchor={true}
-            color="primary"
-            href="http://localhost/comment"
-            target="_blank"
-            variant="underlined"
-          >
+        <ForwardRef(forwardRef)>
+          <div>
             <Localized
-              id="moderate-viewContext"
+              id="moderate-comment-viewContext"
             >
-              <span>
+              <withPropsOnChange(TextLinkProps)
+                className="ModerateCard-link"
+                external={true}
+                href="http://localhost/comment"
+                target="_blank"
+              >
                 View Context
-              </span>
+              </withPropsOnChange(TextLinkProps)>
             </Localized>
-             
-            <ForwardRef(forwardRef)>
-              arrow_forward
-            </ForwardRef(forwardRef)>
+          </div>
+          <ForwardRef(forwardRef)
+            itemGutter={true}
+          >
+            <Relay(MarkersContainer)
+              comment={Object {}}
+            />
           </ForwardRef(forwardRef)>
-        </ForwardRef(forwardRef)>
-        <ForwardRef(forwardRef)
-          itemGutter={true}
-        >
-          <Relay(MarkersContainer)
-            comment={Object {}}
-          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -83,7 +76,7 @@ exports[`renders accepted correctly 1`] = `
       itemGutter={true}
     >
       <Localized
-        id="moderate-decision"
+        id="moderate-comment-decision"
       >
         <div
           className="ModerateCard-decision"
@@ -150,35 +143,28 @@ exports[`renders correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)
-          justifyContent="flex-end"
-        >
-          <ForwardRef(forwardRef)
-            anchor={true}
-            color="primary"
-            href="http://localhost/comment"
-            target="_blank"
-            variant="underlined"
-          >
+        <ForwardRef(forwardRef)>
+          <div>
             <Localized
-              id="moderate-viewContext"
+              id="moderate-comment-viewContext"
             >
-              <span>
+              <withPropsOnChange(TextLinkProps)
+                className="ModerateCard-link"
+                external={true}
+                href="http://localhost/comment"
+                target="_blank"
+              >
                 View Context
-              </span>
+              </withPropsOnChange(TextLinkProps)>
             </Localized>
-             
-            <ForwardRef(forwardRef)>
-              arrow_forward
-            </ForwardRef(forwardRef)>
+          </div>
+          <ForwardRef(forwardRef)
+            itemGutter={true}
+          >
+            <Relay(MarkersContainer)
+              comment={Object {}}
+            />
           </ForwardRef(forwardRef)>
-        </ForwardRef(forwardRef)>
-        <ForwardRef(forwardRef)
-          itemGutter={true}
-        >
-          <Relay(MarkersContainer)
-            comment={Object {}}
-          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -192,7 +178,7 @@ exports[`renders correctly 1`] = `
       itemGutter={true}
     >
       <Localized
-        id="moderate-decision"
+        id="moderate-comment-decision"
       >
         <div
           className="ModerateCard-decision"
@@ -258,35 +244,28 @@ exports[`renders dangling correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)
-          justifyContent="flex-end"
-        >
-          <ForwardRef(forwardRef)
-            anchor={true}
-            color="primary"
-            href="http://localhost/comment"
-            target="_blank"
-            variant="underlined"
-          >
+        <ForwardRef(forwardRef)>
+          <div>
             <Localized
-              id="moderate-viewContext"
+              id="moderate-comment-viewContext"
             >
-              <span>
+              <withPropsOnChange(TextLinkProps)
+                className="ModerateCard-link"
+                external={true}
+                href="http://localhost/comment"
+                target="_blank"
+              >
                 View Context
-              </span>
+              </withPropsOnChange(TextLinkProps)>
             </Localized>
-             
-            <ForwardRef(forwardRef)>
-              arrow_forward
-            </ForwardRef(forwardRef)>
+          </div>
+          <ForwardRef(forwardRef)
+            itemGutter={true}
+          >
+            <Relay(MarkersContainer)
+              comment={Object {}}
+            />
           </ForwardRef(forwardRef)>
-        </ForwardRef(forwardRef)>
-        <ForwardRef(forwardRef)
-          itemGutter={true}
-        >
-          <Relay(MarkersContainer)
-            comment={Object {}}
-          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -300,7 +279,7 @@ exports[`renders dangling correctly 1`] = `
       itemGutter={true}
     >
       <Localized
-        id="moderate-decision"
+        id="moderate-comment-decision"
       >
         <div
           className="ModerateCard-decision"
@@ -368,35 +347,28 @@ exports[`renders rejected correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)
-          justifyContent="flex-end"
-        >
-          <ForwardRef(forwardRef)
-            anchor={true}
-            color="primary"
-            href="http://localhost/comment"
-            target="_blank"
-            variant="underlined"
-          >
+        <ForwardRef(forwardRef)>
+          <div>
             <Localized
-              id="moderate-viewContext"
+              id="moderate-comment-viewContext"
             >
-              <span>
+              <withPropsOnChange(TextLinkProps)
+                className="ModerateCard-link"
+                external={true}
+                href="http://localhost/comment"
+                target="_blank"
+              >
                 View Context
-              </span>
+              </withPropsOnChange(TextLinkProps)>
             </Localized>
-             
-            <ForwardRef(forwardRef)>
-              arrow_forward
-            </ForwardRef(forwardRef)>
+          </div>
+          <ForwardRef(forwardRef)
+            itemGutter={true}
+          >
+            <Relay(MarkersContainer)
+              comment={Object {}}
+            />
           </ForwardRef(forwardRef)>
-        </ForwardRef(forwardRef)>
-        <ForwardRef(forwardRef)
-          itemGutter={true}
-        >
-          <Relay(MarkersContainer)
-            comment={Object {}}
-          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -410,7 +382,7 @@ exports[`renders rejected correctly 1`] = `
       itemGutter={true}
     >
       <Localized
-        id="moderate-decision"
+        id="moderate-comment-decision"
       >
         <div
           className="ModerateCard-decision"
@@ -482,35 +454,28 @@ exports[`renders reply correctly 1`] = `
       <div
         className="ModerateCard-footer"
       >
-        <ForwardRef(forwardRef)
-          justifyContent="flex-end"
-        >
-          <ForwardRef(forwardRef)
-            anchor={true}
-            color="primary"
-            href="http://localhost/comment"
-            target="_blank"
-            variant="underlined"
-          >
+        <ForwardRef(forwardRef)>
+          <div>
             <Localized
-              id="moderate-viewContext"
+              id="moderate-comment-viewContext"
             >
-              <span>
+              <withPropsOnChange(TextLinkProps)
+                className="ModerateCard-link"
+                external={true}
+                href="http://localhost/comment"
+                target="_blank"
+              >
                 View Context
-              </span>
+              </withPropsOnChange(TextLinkProps)>
             </Localized>
-             
-            <ForwardRef(forwardRef)>
-              arrow_forward
-            </ForwardRef(forwardRef)>
+          </div>
+          <ForwardRef(forwardRef)
+            itemGutter={true}
+          >
+            <Relay(MarkersContainer)
+              comment={Object {}}
+            />
           </ForwardRef(forwardRef)>
-        </ForwardRef(forwardRef)>
-        <ForwardRef(forwardRef)
-          itemGutter={true}
-        >
-          <Relay(MarkersContainer)
-            comment={Object {}}
-          />
         </ForwardRef(forwardRef)>
       </div>
     </div>
@@ -524,7 +489,7 @@ exports[`renders reply correctly 1`] = `
       itemGutter={true}
     >
       <Localized
-        id="moderate-decision"
+        id="moderate-comment-decision"
       >
         <div
           className="ModerateCard-decision"

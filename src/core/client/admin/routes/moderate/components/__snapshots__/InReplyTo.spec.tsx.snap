@@ -11,7 +11,7 @@ exports[`renders correctly 1`] = `
   </ForwardRef(forwardRef)>
    
   <Localized
-    id="moderate-inReplyTo"
+    id="moderate-comment-inReplyTo"
     username={<Username />}
   >
     <ForwardRef(forwardRef)

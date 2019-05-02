@@ -131,7 +131,7 @@ const ModerateCard: StatelessComponent<Props> = ({
         direction="column"
         itemGutter
       >
-        <Localized id="moderate-decision">
+        <Localized id="moderate-comment-decision">
           <div className={styles.decision}>DECISION</div>
         </Localized>
         <Flex itemGutter>

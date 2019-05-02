@@ -7,7 +7,7 @@ exports[`renders correctly 1`] = `
       "aria-label": true,
     }
   }
-  id="moderate-rejectButton"
+  id="moderate-comment-rejectButton"
 >
   <ForwardRef(forwardRef)
     aria-label="Reject"
@@ -30,7 +30,7 @@ exports[`renders correctly inverted 1`] = `
       "aria-label": true,
     }
   }
-  id="moderate-rejectButton"
+  id="moderate-comment-rejectButton"
 >
   <ForwardRef(forwardRef)
     aria-label="Reject"

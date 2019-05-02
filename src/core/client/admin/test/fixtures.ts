@@ -353,6 +353,58 @@ export const users = {
   ),
 };
 
+export const stories = createFixtures<GQLStory>([
+  {
+    id: "story-1",
+    closedAt: null,
+    isClosed: false,
+    status: GQLSTORY_STATUS.OPEN,
+    createdAt: "2018-11-29T16:01:51.897Z",
+    metadata: {
+      author: "Vin Hoa",
+      title: "Finally a Cure for Cancer",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+  {
+    id: "story-2",
+    closedAt: null,
+    isClosed: false,
+    status: GQLSTORY_STATUS.OPEN,
+    createdAt: "2018-11-29T16:01:51.897Z",
+    metadata: {
+      author: "Linh Nguyen",
+      title: "First Colony on Mars",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+  {
+    id: "story-3",
+    closedAt: "2018-11-29T16:01:51.897Z",
+    createdAt: "2018-11-29T16:01:51.897Z",
+    isClosed: true,
+    status: GQLSTORY_STATUS.CLOSED,
+    metadata: {
+      author: undefined,
+      title: "World hunger has been defeated",
+      publishedAt: "2018-11-29T16:01:51.897Z",
+    },
+  },
+]);
+
+export const storyConnection = createFixture<GQLStoriesConnection>({
+  edges: [
+    { node: stories[0], cursor: stories[0].createdAt },
+    { node: stories[1], cursor: stories[1].createdAt },
+  ],
+  pageInfo: { endCursor: null, hasNextPage: false },
+});
+
+export const emptyStories = createFixture<GQLStoriesConnection>({
+  edges: [],
+  pageInfo: { endCursor: null, hasNextPage: false },
+});
+
 export const baseComment = createFixture<GQLComment>({
   author: users.commenters[0],
   body: "Comment Body",
@@ -372,6 +424,7 @@ export const baseComment = createFixture<GQLComment>({
       },
     },
   },
+  story: stories[0],
 });
 
 export const reportedComments = createFixtures<GQLComment>(
@@ -470,58 +523,6 @@ export const communityUsers = createFixture<GQLUsersConnection>({
 });
 
 export const emptyCommunityUsers = createFixture<GQLUsersConnection>({
-  edges: [],
-  pageInfo: { endCursor: null, hasNextPage: false },
-});
-
-export const stories = createFixtures<GQLStory>([
-  {
-    id: "story-1",
-    closedAt: null,
-    isClosed: false,
-    status: GQLSTORY_STATUS.OPEN,
-    createdAt: "2018-11-29T16:01:51.897Z",
-    metadata: {
-      author: "Vin Hoa",
-      title: "Finally a Cure for Cancer",
-      publishedAt: "2018-11-29T16:01:51.897Z",
-    },
-  },
-  {
-    id: "story-2",
-    closedAt: null,
-    isClosed: false,
-    status: GQLSTORY_STATUS.OPEN,
-    createdAt: "2018-11-29T16:01:51.897Z",
-    metadata: {
-      author: "Linh Nguyen",
-      title: "First Colony on Mars",
-      publishedAt: "2018-11-29T16:01:51.897Z",
-    },
-  },
-  {
-    id: "story-3",
-    closedAt: "2018-11-29T16:01:51.897Z",
-    createdAt: "2018-11-29T16:01:51.897Z",
-    isClosed: true,
-    status: GQLSTORY_STATUS.CLOSED,
-    metadata: {
-      author: undefined,
-      title: "World hunger has been defeated",
-      publishedAt: "2018-11-29T16:01:51.897Z",
-    },
-  },
-]);
-
-export const storyConnection = createFixture<GQLStoriesConnection>({
-  edges: [
-    { node: stories[0], cursor: stories[0].createdAt },
-    { node: stories[1], cursor: stories[1].createdAt },
-  ],
-  pageInfo: { endCursor: null, hasNextPage: false },
-});
-
-export const emptyStories = createFixture<GQLStoriesConnection>({
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
 });

@@ -47,24 +47,18 @@ exports[`renders correctly 1`] = `
         </span>
       </Localized>
     </div>
-    <ForwardRef(forwardRef)
-      anchor={true}
-      href="http://localhost/conversation"
-      onClick={[Function]}
-      target="_parent"
-      variant="underlined"
+    <Localized
+      id="profile-historyComment-viewConversation"
     >
-      <ForwardRef(forwardRef)>
-        launch
-      </ForwardRef(forwardRef)>
-      <Localized
-        id="profile-historyComment-viewConversation"
+      <withPropsOnChange(TextLinkProps)
+        className="HistoryComment-viewConversation"
+        href="http://localhost/conversation"
+        onClick={[Function]}
+        target="_parent"
       >
-        <span>
-          View Conversation
-        </span>
-      </Localized>
-    </ForwardRef(forwardRef)>
+        View Conversation
+      </withPropsOnChange(TextLinkProps)>
+    </Localized>
   </ForwardRef(forwardRef)>
 </ForwardRef(forwardRef)>
 `;
