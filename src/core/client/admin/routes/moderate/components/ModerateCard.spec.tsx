@@ -22,6 +22,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   bannedWords: ["fuck"],
   onAccept: noop,
   onReject: noop,
+  showStory: false,
 };
 
 it("renders correctly", () => {
@@ -67,6 +68,19 @@ it("renders dangling correctly", () => {
   const props: PropTypesOf<typeof ModerateCardN> = {
     ...baseProps,
     dangling: true,
+  };
+  const renderer = createRenderer();
+  renderer.render(<ModerateCardN {...props} />);
+  expect(renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+it("renders story info", () => {
+  const props: PropTypesOf<typeof ModerateCardN> = {
+    ...baseProps,
+    showStory: true,
+    storyTitle: "Cancer cured!",
+    storyHref: "/story",
+    onModerateStory: noop,
   };
   const renderer = createRenderer();
   renderer.render(<ModerateCardN {...props} />);
