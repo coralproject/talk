@@ -285,6 +285,22 @@ export default function createWebpackConfig(
               ],
             },
             {
+              test: paths.appAccountLocalesTemplate,
+              use: [
+                // This is the locales loader that loads available locales
+                // from a particular target.
+                {
+                  loader: "locales-loader",
+                  options: {
+                    ...localesOptions,
+                    // Target specifies the prefix for fluent files to be loaded.
+                    // ${target}-xyz.ftl and ${†arget}.ftl are loaded into the locales.
+                    target: "account",
+                  },
+                },
+              ],
+            },
+            {
               test: paths.appAdminLocalesTemplate,
               use: [
                 // This is the locales loader that loads available locales
@@ -550,6 +566,13 @@ export default function createWebpackConfig(
           ...devServerEntries,
           paths.appInstallIndex,
         ],
+        account: [
+          // We ship polyfills by default
+          paths.appPolyfill,
+          ...ifProduction(paths.appPublicPath),
+          ...devServerEntries,
+          paths.appAccountIndex,
+        ],
         admin: [
           // We ship polyfills by default
           paths.appPolyfill,
@@ -591,6 +614,13 @@ export default function createWebpackConfig(
             filename: "install.html",
             template: paths.appInstallHTML,
             chunks: ["install"],
+            inject: "body",
+          }),
+          // Generates an `account.html` file with the <script> injected.
+          new HtmlWebpackPlugin({
+            filename: "account.html",
+            template: paths.appAccountHTML,
+            chunks: ["account"],
             inject: "body",
           }),
           // Generates an `admin.html` file with the <script> injected.

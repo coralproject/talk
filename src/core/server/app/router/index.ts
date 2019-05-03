@@ -82,6 +82,17 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
 
     // Add the standalone targets.
     router.use(
+      "/account",
+      // If we aren't already installed, redirect the user to the install page.
+      installedMiddleware(),
+      createClientTargetRouter({
+        staticURI,
+        cacheDuration: false,
+        entrypoint: entrypoints.get("account"),
+      })
+    );
+    // Add the standalone targets.
+    router.use(
       "/admin",
       // If we aren't already installed, redirect the user to the install page.
       installedMiddleware(),

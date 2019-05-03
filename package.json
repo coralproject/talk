@@ -28,6 +28,7 @@
     "generate": "npm-run-all --parallel generate:*",
     "generate:css-types": "tcm src/core/client/",
     "generate:relay-stream": "TTS_NODE_FILES=true S_NODE_FILES=true ts-node ./scripts/compileRelay --src ./src/core/client/stream --schema tenant",
+    "generate:relay-account": "TS_NODE_FILES=true ts-node ./scripts/compileRelay --src ./src/core/client/account --schema tenant",
     "generate:relay-auth": "TS_NODE_FILES=true ts-node ./scripts/compileRelay --src ./src/core/client/auth --schema tenant",
     "generate:relay-install": "TS_NODE_FILES=true ts-node ./scripts/compileRelay --src ./src/core/client/install --schema tenant",
     "generate:relay-admin": "TS_NODE_FILES=true ts-node ./scripts/compileRelay --src ./src/core/client/admin --schema tenant",
