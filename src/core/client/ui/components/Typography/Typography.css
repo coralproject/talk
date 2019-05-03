@@ -99,7 +99,7 @@
 }
 
 .paragraph {
-  margin-bottom: var(--spacing-unit);
+  margin-bottom: var(--mini-unit);
 }
 
 .colorPrimary {

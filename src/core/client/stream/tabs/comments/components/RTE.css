@@ -10,5 +10,5 @@
 
 .placeholder {
   composes: placeholder from "talk-ui/shared/typography.css";
-  margin: var(--spacing-unit) 0 0 calc(1px + var(--spacing-unit));
+  margin: var(--mini-unit) 0 0 calc(1px + var(--mini-unit));
 }

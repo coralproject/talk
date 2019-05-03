@@ -30,9 +30,9 @@ $fullscreenZIndex: 10;
   }
   blockquote {
     background-color: rgba(0, 0, 0, 0.075);
-    padding: var(--spacing-unit);
-    margin: calc(2 * var(--spacing-unit)) 0 calc(2 * var(--spacing-unit))
-      var(--spacing-unit);
+    padding: var(--mini-unit);
+    margin: calc(2 * var(--mini-unit)) 0 calc(2 * var(--mini-unit))
+      var(--mini-unit);
     border-radius: var(--round-corners);
     &::after {
       content: none;

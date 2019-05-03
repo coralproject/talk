@@ -1,8 +1,8 @@
 .value {
-  width: calc(6 * var(--spacing-unit));
+  width: calc(6 * var(--mini-unit));
 }
 
 .unit {
   height: 100%;
-  min-width: calc(17 * var(--spacing-unit));
+  min-width: calc(17 * var(--mini-unit));
 }

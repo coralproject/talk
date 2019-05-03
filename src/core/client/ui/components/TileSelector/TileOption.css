@@ -14,7 +14,7 @@
   border: 1px solid var(--palette-grey-dark);
   border-radius: 2px;
   color: var(--palette-grey-dark);
-  padding: calc(0.5 * var(--spacing-unit));
+  padding: calc(0.5 * var(--mini-unit));
   line-height: 1;
   box-sizing: border-box;
   height: 100%;

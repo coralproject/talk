@@ -18,8 +18,8 @@
 }
 
 .container {
-  padding: var(--spacing-unit) var(--spacing-unit) calc(2 * var(--spacing-unit))
-    var(--spacing-unit);
+  padding: var(--mini-unit) var(--mini-unit) calc(2 * var(--mini-unit))
+    var(--mini-unit);
   max-width: 1080px;
   margin: 0 auto;
 }

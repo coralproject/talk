@@ -1,17 +1,17 @@
 .topBar {
-  margin-bottom: var(--spacing-unit);
+  margin-bottom: var(--mini-unit);
 }
 
 .username {
-  margin-right: var(--spacing-unit);
+  margin-right: var(--mini-unit);
 }
 
 .footer {
-  margin-top: calc(2 * var(--spacing-unit));
+  margin-top: calc(2 * var(--mini-unit));
 }
 
 .content {
-  min-height: calc(4.5 * var(--spacing-unit));
+  min-height: calc(4.5 * var(--mini-unit));
 }
 
 .mainContainer {
@@ -43,7 +43,7 @@
   flex-shrink: 0;
   flex-grow: 0;
   border-right: 1px solid var(--palette-divider);
-  margin: 0 calc(2 * var(--spacing-unit));
+  margin: 0 calc(2 * var(--mini-unit));
 }
 
 .root {
@@ -52,4 +52,32 @@
 
 .dangling {
   background-color: var(--palette-grey-lightest);
+}
+
+.link {
+  font-size: calc(12rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(18em / 12);
+  letter-spacing: calc(0.2em / 12);
+  text-transform: uppercase;
+}
+
+.story {
+  font-size: calc(12rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(18em / 12);
+  letter-spacing: calc(0.2em / 12);
+  text-transform: uppercase;
+  color: var(--palette-grey-main);
+}
+
+.storyTitle {
+  font-size: calc(12rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: calc(18em / 12);
+  letter-spacing: calc(0.2em / 12);
+  color: var(--palette-text-primary);
 }

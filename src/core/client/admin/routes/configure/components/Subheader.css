@@ -1,5 +1,5 @@
 .root {
-  padding-bottom: calc(0.25 * var(--spacing-unit));
+  padding-bottom: calc(0.25 * var(--mini-unit));
   border-bottom: 1px solid var(--palette-divider);
-  margin-bottom: calc(0.75 * var(--spacing-unit));
+  margin-bottom: calc(0.75 * var(--mini-unit));
 }

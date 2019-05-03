@@ -4,6 +4,6 @@
   flex-shrink: 0;
   color: var(--palette-text-light);
   &:first-child {
-    margin-right: calc(0.5 * var(--spacing-unit));
+    margin-right: calc(0.5 * var(--mini-unit));
   }
 }

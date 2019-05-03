@@ -3,7 +3,7 @@
   color: var(--palette-error-main);
   border: 1px solid currentColor;
   border-radius: 4px;
-  padding: 1px var(--spacing-unit);
+  padding: 1px var(--mini-unit);
   white-space: nowrap;
 }
 

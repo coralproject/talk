@@ -1,6 +1,6 @@
 .root {
   background-color: var(--palette-common-white);
-  height: calc(5 * var(--spacing-unit));
+  height: calc(6 * var(--mini-unit));
 }
 
 .container {
@@ -12,8 +12,8 @@
 }
 
 .gutterBegin {
-  padding-left: calc(2 * var(--spacing-unit));
+  padding-left: calc(2 * var(--mini-unit));
 }
 .gutterEnd {
-  padding-right: calc(2 * var(--spacing-unit));
+  padding-right: calc(2 * var(--mini-unit));
 }

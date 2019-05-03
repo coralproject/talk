@@ -5,9 +5,9 @@
 
 .textField {
   height: 31px;
-  width: calc(36 * var(--spacing-unit));
+  width: calc(45 * var(--mini-unit));
 }
 
 .adornment {
-  padding: 0 var(--spacing-unit);
+  padding: 0 var(--mini-unit);
 }

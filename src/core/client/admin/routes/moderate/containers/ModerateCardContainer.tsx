@@ -7,6 +7,7 @@ import {
   ModerateCardContainer_comment as CommentData,
 } from "talk-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { ModerateCardContainer_settings as SettingsData } from "talk-admin/__generated__/ModerateCardContainer_settings.graphql";
+import NotAvailable from "talk-admin/components/NotAvailable";
 import { AcceptCommentMutation } from "talk-admin/mutations";
 import { RejectCommentMutation } from "talk-admin/mutations";
 import {
@@ -15,6 +16,7 @@ import {
   withMutation,
 } from "talk-framework/lib/relay";
 
+import { getModerationLink } from "talk-admin/helpers";
 import ModerateCard from "../components/ModerateCard";
 
 interface Props {
@@ -25,6 +27,7 @@ interface Props {
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
   router: Router;
+  showStoryInfo: boolean;
 }
 
 function getStatus(comment: CommentData) {
@@ -55,8 +58,17 @@ class ModerateCardContainer extends React.Component<Props> {
     });
   };
 
+  private handleModerateStory = (e: React.MouseEvent) => {
+    this.props.router.push(
+      getModerationLink("default", this.props.comment.story.id)
+    );
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+  };
+
   public render() {
-    const { comment, settings, danglingLogic } = this.props;
+    const { comment, settings, danglingLogic, showStoryInfo } = this.props;
     return (
       <ModerateCard
         id={comment.id}
@@ -72,6 +84,14 @@ class ModerateCardContainer extends React.Component<Props> {
         onAccept={this.handleAccept}
         onReject={this.handleReject}
         dangling={danglingLogic(comment.status)}
+        showStory={showStoryInfo}
+        storyTitle={
+          (comment.story.metadata && comment.story.metadata.title) || (
+            <NotAvailable />
+          )
+        }
+        storyHref={getModerationLink("default", comment.story.id)}
+        onModerateStory={this.handleModerateStory}
       />
     );
   }
@@ -93,6 +113,12 @@ const enhanced = withFragmentContainer<Props>({
       parent {
         author {
           username
+        }
+      }
+      story {
+        id
+        metadata {
+          title
         }
       }
       permalink

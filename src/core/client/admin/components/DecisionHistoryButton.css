@@ -4,5 +4,5 @@
 
 .historyIcon {
   color: var(--palette-text-secondary);
-  margin-right: calc(1.5 * var(--spacing-unit));
+  margin-right: calc(1.5 * var(--mini-unit));
 }

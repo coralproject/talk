@@ -3,7 +3,7 @@ import { Localized } from "fluent-react/compat";
 import React, { StatelessComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
-import { Button, Card, Flex, Icon } from "talk-ui/components";
+import { Card, Flex, HorizontalGutter, TextLink } from "talk-ui/components";
 
 import MarkersContainer from "../containers/MarkersContainer";
 import AcceptButton from "./AcceptButton";
@@ -26,6 +26,10 @@ interface Props {
   viewContextHref: string;
   suspectWords: ReadonlyArray<string>;
   bannedWords: ReadonlyArray<string>;
+  showStory: boolean;
+  storyTitle?: React.ReactNode;
+  storyHref?: string;
+  onModerateStory?: React.EventHandler<React.MouseEvent>;
   onAccept: () => void;
   onReject: () => void;
   /**
@@ -50,6 +54,10 @@ const ModerateCard: StatelessComponent<Props> = ({
   onAccept,
   onReject,
   dangling,
+  showStory,
+  storyTitle,
+  storyHref,
+  onModerateStory,
 }) => (
   <Card
     className={cn(styles.root, { [styles.dangling]: dangling })}
@@ -76,23 +84,40 @@ const ModerateCard: StatelessComponent<Props> = ({
           {body}
         </CommentContent>
         <div className={styles.footer}>
-          <Flex justifyContent="flex-end">
-            <Button
-              variant="underlined"
-              color="primary"
-              anchor
-              href={viewContextHref}
-              target="_blank"
-            >
-              <Localized id="moderate-viewContext">
-                <span>View Context</span>
-              </Localized>{" "}
-              <Icon>arrow_forward</Icon>
-            </Button>
-          </Flex>
-          <Flex itemGutter>
+          <HorizontalGutter>
+            <div>
+              <Localized id="moderate-comment-viewContext">
+                <TextLink
+                  className={styles.link}
+                  href={viewContextHref}
+                  target="_blank"
+                  external
+                >
+                  View Context
+                </TextLink>
+              </Localized>
+            </div>
+            {showStory && (
+              <div>
+                <Localized id="moderate-comment-story">
+                  <span className={styles.story}>Story</span>
+                </Localized>
+                {": "}
+                <span className={styles.storyTitle}>{storyTitle}</span>{" "}
+                <Localized id="moderate-comment-moderateStory">
+                  <TextLink
+                    className={styles.link}
+                    href={storyHref}
+                    target="_blank"
+                    onClick={onModerateStory}
+                  >
+                    Moderate Story
+                  </TextLink>
+                </Localized>
+              </div>
+            )}
             <MarkersContainer comment={comment} />
-          </Flex>
+          </HorizontalGutter>
         </div>
       </div>
       <div className={styles.separator} />
@@ -104,7 +129,7 @@ const ModerateCard: StatelessComponent<Props> = ({
         direction="column"
         itemGutter
       >
-        <Localized id="moderate-decision">
+        <Localized id="moderate-comment-decision">
           <div className={styles.decision}>DECISION</div>
         </Localized>
         <Flex itemGutter>

@@ -2,8 +2,8 @@
 }
 
 .loadMore {
-  padding-left: var(--spacing-unit);
-  padding-bottom: var(--spacing-unit);
+  padding-left: var(--mini-unit);
+  padding-bottom: var(--mini-unit);
 }
 
 .showMoreButton {

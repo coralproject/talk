@@ -3,7 +3,7 @@
 }
 
 .title {
-  padding-right: calc(2 * var(--spacing-unit));
+  padding-right: calc(2 * var(--mini-unit));
 }
 
 .dismiss {

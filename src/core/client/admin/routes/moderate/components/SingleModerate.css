@@ -9,13 +9,13 @@
 }
 
 .main {
-  margin: calc(2 * var(--spacing-unit)) 0 calc(4 * var(--spacing-unit)) 0;
+  margin: calc(2 * var(--mini-unit)) 0 calc(4 * var(--mini-unit)) 0;
   display: flex;
   justify-content: center;
 }
 
 .subBar {
-  height: calc(3 * var(--spacing-unit));
+  height: calc(4 * var(--mini-unit));
   background-color: var(--palette-primary-dark);
   margin-top: -1px;
 }

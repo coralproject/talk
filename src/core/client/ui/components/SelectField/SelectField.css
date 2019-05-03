@@ -8,7 +8,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  right: calc(0.5 * var(--spacing-unit));
+  right: calc(0.5 * var(--mini-unit));
   height: 100%;
   user-select: none;
   pointer-events: none;
@@ -46,8 +46,8 @@
   border-radius: var(--round-corners);
   background-color: var(--palette-common-white);
 
-  padding: calc(0.5 * var(--spacing-unit)) calc(2 * var(--spacing-unit))
-    calc(0.5 * var(--spacing-unit)) var(--spacing-unit);
+  padding: calc(0.5 * var(--mini-unit)) calc(2 * var(--mini-unit))
+    calc(0.5 * var(--mini-unit)) var(--mini-unit);
 
   &::-ms-expand {
     display: none;

@@ -15,6 +15,7 @@ import Queue from "../components/Queue";
 interface RejectedQueueContainerProps {
   query: QueryData;
   relay: RelayPaginationProp;
+  storyID?: string;
 }
 
 // TODO: use generated types
@@ -45,6 +46,7 @@ export class RejectedQueueContainer extends React.Component<
               <EmptyMessage>There are no rejected comments.</EmptyMessage>
             </Localized>
           }
+          allStories={!Boolean(this.props.storyID)}
         />
       </IntersectionProvider>
     );
@@ -145,9 +147,9 @@ enhanced.routeConfig = {
     }
   `,
   cacheConfig: { force: true },
-  render: ({ Component, props }) => {
+  render: ({ Component, props, match }) => {
     if (Component && props) {
-      return <Component query={props} />;
+      return <Component query={props} storyID={match.params.storyID} />;
     }
     return <LoadingQueue />;
   },

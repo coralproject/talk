@@ -7,8 +7,8 @@
   }
 }
 .container {
-  min-height: calc(4 * var(--spacing-unit));
-  padding: var(--spacing-unit) calc(2.5 * var(--spacing-unit));
+  min-height: calc(4 * var(--mini-unit));
+  padding: var(--mini-unit) calc(2.5 * var(--mini-unit));
   box-sizing: border-box;
   &:hover {
     background: var(--palette-grey-lightest);

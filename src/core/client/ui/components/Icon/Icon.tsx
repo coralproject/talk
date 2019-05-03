@@ -13,7 +13,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
    */
   classes: typeof styles;
 
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 
   /**
    * The color of the component. It supports those theme colors that make sense for this component.

@@ -1,5 +1,5 @@
 .root {
-  padding: 0 calc(0.5 * var(--spacing-unit));
+  padding: 0 calc(0.5 * var(--mini-unit));
   background-color: #f2f2f2;
   color: var(--palette-text-primary);
   border-bottom: 1px solid var(--palette-grey-lighter);

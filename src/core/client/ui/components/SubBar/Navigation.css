@@ -1,7 +1,7 @@
 .root {
   height: 100%;
   border-bottom: 1px solid var(--palette-divider);
-  padding: 0 calc(1.5 * var(--spacing-unit));
+  padding: 0 calc(1.5 * var(--mini-unit));
 }
 
 .ul {
@@ -13,7 +13,7 @@
   align-items: flex-end;
 
   & > * {
-    margin: 0 calc(3 * var(--spacing-unit)) 0 0;
+    margin: 0 calc(3 * var(--mini-unit)) 0 0;
   }
   & > *:last-child {
     margin: 0;

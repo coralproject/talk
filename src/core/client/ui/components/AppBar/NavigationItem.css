@@ -7,7 +7,7 @@
   height: 100%;
   display: inline-flex;
   align-items: center;
-  padding: 0 var(--spacing-unit);
+  padding: 0 var(--mini-unit);
   text-transform: uppercase;
   text-decoration: none;
   &:hover {

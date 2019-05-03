@@ -29,7 +29,7 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
       >
         <div>
           <span
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
             Isabelle
           </span>
@@ -54,47 +54,62 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
         className="ModerateCard-footer"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <a
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-            href="http://localhost/comment/0"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            target="_blank"
-            type="button"
-          >
-            <span>
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/0"
+              target="_blank"
+            >
               View Context
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                launch
+              </span>
+            </a>
+          </div>
+          <div>
+            <span
+              className="ModerateCard-story"
+            >
+              Story
+            </span>
+            : 
+            <span
+              className="ModerateCard-storyTitle"
+            >
+              Finally a Cure for Cancer
             </span>
              
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="/admin/moderate/story-1"
+              onClick={[Function]}
+              target="_blank"
             >
-              arrow_forward
-            </span>
-          </a>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-itemGutter"
-        >
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
+              Moderate Story
+            </a>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter"
           >
-            <span>
-              Spam
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              2
+              <span>
+                Spam
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                2
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -182,7 +197,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
             >
               <div>
                 <span
-                  className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
                   Isabelle
                 </span>
@@ -207,47 +222,62 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               className="ModerateCard-footer"
             >
               <div
-                className="Flex-root Flex-flex Flex-justifyFlexEnd"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <a
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                  href="http://localhost/comment/0"
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  target="_blank"
-                  type="button"
-                >
-                  <span>
+                <div>
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="http://localhost/comment/0"
+                    target="_blank"
+                  >
                     View Context
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-xs TextLink-icon"
+                    >
+                      launch
+                    </span>
+                  </a>
+                </div>
+                <div>
+                  <span
+                    className="ModerateCard-story"
+                  >
+                    Story
+                  </span>
+                  : 
+                  <span
+                    className="ModerateCard-storyTitle"
+                  >
+                    Finally a Cure for Cancer
                   </span>
                    
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="/admin/moderate/story-1"
+                    onClick={[Function]}
+                    target="_blank"
                   >
-                    arrow_forward
-                  </span>
-                </a>
-              </div>
-              <div
-                className="Flex-root Flex-flex Flex-itemGutter"
-              >
-                <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
+                    Moderate Story
+                  </a>
+                </div>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter"
                 >
-                  <span>
-                    Spam
-                  </span>
-                   
                   <span
-                    className="Count-root"
+                    className="Marker-root Marker-colorError Marker-variantRegular"
                   >
-                    2
+                    <span>
+                      Spam
+                    </span>
+                     
+                    <span
+                      className="Count-root"
+                    >
+                      2
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
             </div>
           </div>
@@ -322,7 +352,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
             >
               <div>
                 <span
-                  className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
                   Ngoc
                 </span>
@@ -347,47 +377,62 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               className="ModerateCard-footer"
             >
               <div
-                className="Flex-root Flex-flex Flex-justifyFlexEnd"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <a
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                  href="http://localhost/comment/1"
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  target="_blank"
-                  type="button"
-                >
-                  <span>
+                <div>
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="http://localhost/comment/1"
+                    target="_blank"
+                  >
                     View Context
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-xs TextLink-icon"
+                    >
+                      launch
+                    </span>
+                  </a>
+                </div>
+                <div>
+                  <span
+                    className="ModerateCard-story"
+                  >
+                    Story
+                  </span>
+                  : 
+                  <span
+                    className="ModerateCard-storyTitle"
+                  >
+                    Finally a Cure for Cancer
                   </span>
                    
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="/admin/moderate/story-1"
+                    onClick={[Function]}
+                    target="_blank"
                   >
-                    arrow_forward
-                  </span>
-                </a>
-              </div>
-              <div
-                className="Flex-root Flex-flex Flex-itemGutter"
-              >
-                <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
+                    Moderate Story
+                  </a>
+                </div>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter"
                 >
-                  <span>
-                    Offensive
-                  </span>
-                   
                   <span
-                    className="Count-root"
+                    className="Marker-root Marker-colorError Marker-variantRegular"
                   >
-                    3
+                    <span>
+                      Offensive
+                    </span>
+                     
+                    <span
+                      className="Count-root"
+                    >
+                      3
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
             </div>
           </div>
@@ -468,7 +513,7 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
       >
         <div>
           <span
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
             Max
           </span>
@@ -493,60 +538,75 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
         className="ModerateCard-footer"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <a
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-            href="http://localhost/comment/2"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            target="_blank"
-            type="button"
-          >
-            <span>
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/2"
+              target="_blank"
+            >
               View Context
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                launch
+              </span>
+            </a>
+          </div>
+          <div>
+            <span
+              className="ModerateCard-story"
+            >
+              Story
+            </span>
+            : 
+            <span
+              className="ModerateCard-storyTitle"
+            >
+              Finally a Cure for Cancer
             </span>
              
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="/admin/moderate/story-1"
+              onClick={[Function]}
+              target="_blank"
             >
-              arrow_forward
-            </span>
-          </a>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-itemGutter"
-        >
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
+              Moderate Story
+            </a>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter"
           >
-            <span>
-              Offensive
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              1
+              <span>
+                Offensive
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                1
+              </span>
             </span>
-          </span>
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
-          >
-            <span>
-              Spam
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              1
+              <span>
+                Spam
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                1
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -637,7 +697,7 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
       >
         <div>
           <span
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
             Isabelle
           </span>
@@ -662,47 +722,62 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
         className="ModerateCard-footer"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <a
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-            href="http://localhost/comment/0"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            target="_blank"
-            type="button"
-          >
-            <span>
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/0"
+              target="_blank"
+            >
               View Context
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                launch
+              </span>
+            </a>
+          </div>
+          <div>
+            <span
+              className="ModerateCard-story"
+            >
+              Story
+            </span>
+            : 
+            <span
+              className="ModerateCard-storyTitle"
+            >
+              Finally a Cure for Cancer
             </span>
              
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="/admin/moderate/story-1"
+              onClick={[Function]}
+              target="_blank"
             >
-              arrow_forward
-            </span>
-          </a>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-itemGutter"
-        >
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
+              Moderate Story
+            </a>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter"
           >
-            <span>
-              Spam
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              2
+              <span>
+                Spam
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                2
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -793,7 +868,7 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
       >
         <div>
           <span
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
             Isabelle
           </span>
@@ -818,47 +893,62 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
         className="ModerateCard-footer"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <a
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-            href="http://localhost/comment/0"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            target="_blank"
-            type="button"
-          >
-            <span>
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/0"
+              target="_blank"
+            >
               View Context
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                launch
+              </span>
+            </a>
+          </div>
+          <div>
+            <span
+              className="ModerateCard-story"
+            >
+              Story
+            </span>
+            : 
+            <span
+              className="ModerateCard-storyTitle"
+            >
+              Finally a Cure for Cancer
             </span>
              
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="/admin/moderate/story-1"
+              onClick={[Function]}
+              target="_blank"
             >
-              arrow_forward
-            </span>
-          </a>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-itemGutter"
-        >
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
+              Moderate Story
+            </a>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter"
           >
-            <span>
-              Spam
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              2
+              <span>
+                Spam
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                2
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -967,7 +1057,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
             >
               <div>
                 <span
-                  className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
                   Isabelle
                 </span>
@@ -992,47 +1082,62 @@ exports[`reported queue renders reported queue with comments 1`] = `
               className="ModerateCard-footer"
             >
               <div
-                className="Flex-root Flex-flex Flex-justifyFlexEnd"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <a
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                  href="http://localhost/comment/0"
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  target="_blank"
-                  type="button"
-                >
-                  <span>
+                <div>
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="http://localhost/comment/0"
+                    target="_blank"
+                  >
                     View Context
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-xs TextLink-icon"
+                    >
+                      launch
+                    </span>
+                  </a>
+                </div>
+                <div>
+                  <span
+                    className="ModerateCard-story"
+                  >
+                    Story
+                  </span>
+                  : 
+                  <span
+                    className="ModerateCard-storyTitle"
+                  >
+                    Finally a Cure for Cancer
                   </span>
                    
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="/admin/moderate/story-1"
+                    onClick={[Function]}
+                    target="_blank"
                   >
-                    arrow_forward
-                  </span>
-                </a>
-              </div>
-              <div
-                className="Flex-root Flex-flex Flex-itemGutter"
-              >
-                <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
+                    Moderate Story
+                  </a>
+                </div>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter"
                 >
-                  <span>
-                    Spam
-                  </span>
-                   
                   <span
-                    className="Count-root"
+                    className="Marker-root Marker-colorError Marker-variantRegular"
                   >
-                    2
+                    <span>
+                      Spam
+                    </span>
+                     
+                    <span
+                      className="Count-root"
+                    >
+                      2
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
             </div>
           </div>
@@ -1107,7 +1212,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
             >
               <div>
                 <span
-                  className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
                 >
                   Ngoc
                 </span>
@@ -1132,47 +1237,388 @@ exports[`reported queue renders reported queue with comments 1`] = `
               className="ModerateCard-footer"
             >
               <div
-                className="Flex-root Flex-flex Flex-justifyFlexEnd"
+                className="HorizontalGutter-root HorizontalGutter-full"
               >
-                <a
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                  href="http://localhost/comment/1"
-                  onBlur={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  target="_blank"
-                  type="button"
-                >
-                  <span>
+                <div>
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="http://localhost/comment/1"
+                    target="_blank"
+                  >
                     View Context
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-xs TextLink-icon"
+                    >
+                      launch
+                    </span>
+                  </a>
+                </div>
+                <div>
+                  <span
+                    className="ModerateCard-story"
+                  >
+                    Story
+                  </span>
+                  : 
+                  <span
+                    className="ModerateCard-storyTitle"
+                  >
+                    Finally a Cure for Cancer
                   </span>
                    
-                  <span
-                    aria-hidden="true"
-                    className="Icon-root Icon-sm"
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="/admin/moderate/story-1"
+                    onClick={[Function]}
+                    target="_blank"
                   >
-                    arrow_forward
+                    Moderate Story
+                  </a>
+                </div>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter"
+                >
+                  <span
+                    className="Marker-root Marker-colorError Marker-variantRegular"
+                  >
+                    <span>
+                      Offensive
+                    </span>
+                     
+                    <span
+                      className="Count-root"
+                    >
+                      3
+                    </span>
                   </span>
-                </a>
+                </div>
               </div>
-              <div
-                className="Flex-root Flex-flex Flex-itemGutter"
+            </div>
+          </div>
+          <div
+            className="ModerateCard-separator"
+          />
+          <div
+            className="Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+          >
+            <div
+              className="ModerateCard-decision"
+            >
+              Decision
+            </div>
+            <div
+              className="Flex-root Flex-flex Flex-itemGutter"
+            >
+              <button
+                aria-label="Reject"
+                className="BaseButton-root RejectButton-root"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
               >
                 <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg RejectButton-icon"
                 >
-                  <span>
-                    Offensive
+                  close
+                </span>
+              </button>
+              <button
+                aria-label="Accept"
+                className="BaseButton-root AcceptButton-root"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg AcceptButton-icon"
+                >
+                  done
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+`;
+
+exports[`reported queue renders reported queue with comments 2`] = `
+<div
+  className="MainLayout-root"
+  data-testid="moderate-main-container"
+>
+  <main
+    className="Moderate-main"
+  >
+    <div
+      className="HorizontalGutter-root Queue-root HorizontalGutter-double"
+    >
+      <div
+        className="Card-root ModerateCard-root"
+        data-testid="moderate-comment-comment-0"
+      >
+        <div
+          className="Flex-root Flex-flex"
+        >
+          <div
+            className="ModerateCard-mainContainer"
+          >
+            <div
+              className="ModerateCard-topBar"
+            >
+              <div>
+                <span
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+                >
+                  Isabelle
+                </span>
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+            </div>
+            <div
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                }
+              }
+            />
+            <div
+              className="ModerateCard-footer"
+            >
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div>
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="http://localhost/comment/0"
+                    target="_blank"
+                  >
+                    View Context
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-xs TextLink-icon"
+                    >
+                      launch
+                    </span>
+                  </a>
+                </div>
+                <div>
+                  <span
+                    className="ModerateCard-story"
+                  >
+                    Story
+                  </span>
+                  : 
+                  <span
+                    className="ModerateCard-storyTitle"
+                  >
+                    Finally a Cure for Cancer
                   </span>
                    
-                  <span
-                    className="Count-root"
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="/admin/moderate/story-1"
+                    onClick={[Function]}
+                    target="_blank"
                   >
-                    3
+                    Moderate Story
+                  </a>
+                </div>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter"
+                >
+                  <span
+                    className="Marker-root Marker-colorError Marker-variantRegular"
+                  >
+                    <span>
+                      Spam
+                    </span>
+                     
+                    <span
+                      className="Count-root"
+                    >
+                      2
+                    </span>
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="ModerateCard-separator"
+          />
+          <div
+            className="Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn"
+          >
+            <div
+              className="ModerateCard-decision"
+            >
+              Decision
+            </div>
+            <div
+              className="Flex-root Flex-flex Flex-itemGutter"
+            >
+              <button
+                aria-label="Reject"
+                className="BaseButton-root RejectButton-root"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg RejectButton-icon"
+                >
+                  close
                 </span>
+              </button>
+              <button
+                aria-label="Accept"
+                className="BaseButton-root AcceptButton-root"
+                disabled={false}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-lg AcceptButton-icon"
+                >
+                  done
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="Card-root ModerateCard-root"
+        data-testid="moderate-comment-comment-1"
+      >
+        <div
+          className="Flex-root Flex-flex"
+        >
+          <div
+            className="ModerateCard-mainContainer"
+          >
+            <div
+              className="ModerateCard-topBar"
+            >
+              <div>
+                <span
+                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+                >
+                  Ngoc
+                </span>
+                <time
+                  className="Timestamp-root RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+            </div>
+            <div
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "Don't fool with me",
+                }
+              }
+            />
+            <div
+              className="ModerateCard-footer"
+            >
+              <div
+                className="HorizontalGutter-root HorizontalGutter-full"
+              >
+                <div>
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="http://localhost/comment/1"
+                    target="_blank"
+                  >
+                    View Context
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-xs TextLink-icon"
+                    >
+                      launch
+                    </span>
+                  </a>
+                </div>
+                <div>
+                  <span
+                    className="ModerateCard-story"
+                  >
+                    Story
+                  </span>
+                  : 
+                  <span
+                    className="ModerateCard-storyTitle"
+                  >
+                    Finally a Cure for Cancer
+                  </span>
+                   
+                  <a
+                    className="TextLink-root ModerateCard-link"
+                    href="/admin/moderate/story-1"
+                    onClick={[Function]}
+                    target="_blank"
+                  >
+                    Moderate Story
+                  </a>
+                </div>
+                <div
+                  className="Flex-root Flex-flex Flex-itemGutter"
+                >
+                  <span
+                    className="Marker-root Marker-colorError Marker-variantRegular"
+                  >
+                    <span>
+                      Offensive
+                    </span>
+                     
+                    <span
+                      className="Count-root"
+                    >
+                      3
+                    </span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -1253,7 +1699,7 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
       >
         <div>
           <span
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
             Max
           </span>
@@ -1278,65 +1724,80 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
         className="ModerateCard-footer"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <a
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-            href="http://localhost/comment/2"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            target="_blank"
-            type="button"
-          >
-            <span>
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/2"
+              target="_blank"
+            >
               View Context
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                launch
+              </span>
+            </a>
+          </div>
+          <div>
+            <span
+              className="ModerateCard-story"
+            >
+              Story
+            </span>
+            : 
+            <span
+              className="ModerateCard-storyTitle"
+            >
+              Finally a Cure for Cancer
             </span>
              
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="/admin/moderate/story-1"
+              onClick={[Function]}
+              target="_blank"
             >
-              arrow_forward
-            </span>
-          </a>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-itemGutter"
-        >
-          <span
-            className="Marker-root Marker-colorPrimary Marker-variantRegular"
+              Moderate Story
+            </a>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter"
           >
-            Pre-Mod
-          </span>
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
-          >
-            <span>
-              Offensive
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorPrimary Marker-variantRegular"
             >
-              1
+              Pre-Mod
             </span>
-          </span>
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
-          >
-            <span>
-              Spam
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              1
+              <span>
+                Offensive
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                1
+              </span>
             </span>
-          </span>
+            <span
+              className="Marker-root Marker-colorError Marker-variantRegular"
+            >
+              <span>
+                Spam
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                1
+              </span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -1668,7 +2129,7 @@ exports[`single comment view accepts single comment 1`] = `
       >
         <div>
           <span
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
             Isabelle
           </span>
@@ -1693,47 +2154,40 @@ exports[`single comment view accepts single comment 1`] = `
         className="ModerateCard-footer"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <a
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-            href="http://localhost/comment/0"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            target="_blank"
-            type="button"
-          >
-            <span>
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/0"
+              target="_blank"
+            >
               View Context
-            </span>
-             
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              arrow_forward
-            </span>
-          </a>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-itemGutter"
-        >
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                launch
+              </span>
+            </a>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter"
           >
-            <span>
-              Spam
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              2
+              <span>
+                Spam
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                2
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -1811,7 +2265,7 @@ exports[`single comment view rejects single comment 1`] = `
       >
         <div>
           <span
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+            className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
           >
             Isabelle
           </span>
@@ -1836,47 +2290,40 @@ exports[`single comment view rejects single comment 1`] = `
         className="ModerateCard-footer"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyFlexEnd"
+          className="HorizontalGutter-root HorizontalGutter-full"
         >
-          <a
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-            href="http://localhost/comment/0"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            target="_blank"
-            type="button"
-          >
-            <span>
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/0"
+              target="_blank"
+            >
               View Context
-            </span>
-             
-            <span
-              aria-hidden="true"
-              className="Icon-root Icon-sm"
-            >
-              arrow_forward
-            </span>
-          </a>
-        </div>
-        <div
-          className="Flex-root Flex-flex Flex-itemGutter"
-        >
-          <span
-            className="Marker-root Marker-colorError Marker-variantRegular"
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                launch
+              </span>
+            </a>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter"
           >
-            <span>
-              Spam
-            </span>
-             
             <span
-              className="Count-root"
+              className="Marker-root Marker-colorError Marker-variantRegular"
             >
-              2
+              <span>
+                Spam
+              </span>
+               
+              <span
+                className="Count-root"
+              >
+                2
+              </span>
             </span>
-          </span>
+          </div>
         </div>
       </div>
     </div>
@@ -1989,7 +2436,7 @@ exports[`single comment view renders single comment view 1`] = `
               >
                 <div>
                   <span
-                    className="Typography-root Typography-heading2 Typography-colorTextPrimary ModerateCard-username Username-root"
+                    className="Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
                   >
                     Isabelle
                   </span>
@@ -2014,47 +2461,40 @@ exports[`single comment view renders single comment view 1`] = `
                 className="ModerateCard-footer"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-justifyFlexEnd"
+                  className="HorizontalGutter-root HorizontalGutter-full"
                 >
-                  <a
-                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                    href="http://localhost/comment/0"
-                    onBlur={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                    onTouchEnd={[Function]}
-                    target="_blank"
-                    type="button"
-                  >
-                    <span>
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="http://localhost/comment/0"
+                      target="_blank"
+                    >
                       View Context
-                    </span>
-                     
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
-                    >
-                      arrow_forward
-                    </span>
-                  </a>
-                </div>
-                <div
-                  className="Flex-root Flex-flex Flex-itemGutter"
-                >
-                  <span
-                    className="Marker-root Marker-colorError Marker-variantRegular"
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-xs TextLink-icon"
+                      >
+                        launch
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    className="Flex-root Flex-flex Flex-itemGutter"
                   >
-                    <span>
-                      Spam
-                    </span>
-                     
                     <span
-                      className="Count-root"
+                      className="Marker-root Marker-colorError Marker-variantRegular"
                     >
-                      2
+                      <span>
+                        Spam
+                      </span>
+                       
+                      <span
+                        className="Count-root"
+                      >
+                        2
+                      </span>
                     </span>
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
 .root {
-  min-height: calc(var(--spacing-unit) * 4);
+  min-height: calc(var(--mini-unit) * 4);
   border-bottom: 1px solid var(--palette-divider);
 }

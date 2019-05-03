@@ -73,8 +73,8 @@ const variables = {
     },
   },
   /* gitter and spacing */
-  spacingUnitSmall: 5,
-  spacingUnitLarge: 10,
+  miniUnitSmall: 4,
+  miniUnitLarge: 8,
   /* Borders */
   roundCorners: "2px",
   /* Typography */

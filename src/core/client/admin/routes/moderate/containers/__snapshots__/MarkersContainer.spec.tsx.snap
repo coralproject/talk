@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders all markers 1`] = `
-Array [
+<ForwardRef(forwardRef)
+  itemGutter={true}
+>
   <Localized
     id="moderate-marker-preMod"
   >
@@ -10,7 +12,7 @@ Array [
     >
       Pre-Mod
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <Localized
     id="moderate-marker-link"
   >
@@ -19,7 +21,7 @@ Array [
     >
       Link
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <Localized
     id="moderate-marker-bannedWord"
   >
@@ -28,7 +30,7 @@ Array [
     >
       Banned Word
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <Localized
     id="moderate-marker-suspectWord"
   >
@@ -38,7 +40,7 @@ Array [
     >
       Suspect Word
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <Localized
     id="moderate-marker-spam"
   >
@@ -47,7 +49,7 @@ Array [
     >
       Spam
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <Localized
     id="moderate-marker-toxic"
   >
@@ -56,7 +58,7 @@ Array [
     >
       Toxic
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <Localized
     id="moderate-marker-karma"
   >
@@ -65,7 +67,7 @@ Array [
     >
       Karma
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <withPropsOnChange(Marker)
     color="error"
   >
@@ -80,7 +82,7 @@ Array [
     <withPropsOnChange(Count)>
       2
     </withPropsOnChange(Count)>
-  </withPropsOnChange(Marker)>,
+  </withPropsOnChange(Marker)>
   <withPropsOnChange(Marker)
     color="error"
   >
@@ -95,12 +97,14 @@ Array [
     <withPropsOnChange(Count)>
       3
     </withPropsOnChange(Count)>
-  </withPropsOnChange(Marker)>,
-]
+  </withPropsOnChange(Marker)>
+</ForwardRef(forwardRef)>
 `;
 
 exports[`renders some markers 1`] = `
-Array [
+<ForwardRef(forwardRef)
+  itemGutter={true}
+>
   <Localized
     id="moderate-marker-preMod"
   >
@@ -109,8 +113,7 @@ Array [
     >
       Pre-Mod
     </withPropsOnChange(Marker)>
-  </Localized>,
-  null,
+  </Localized>
   <Localized
     id="moderate-marker-bannedWord"
   >
@@ -119,9 +122,7 @@ Array [
     >
       Banned Word
     </withPropsOnChange(Marker)>
-  </Localized>,
-  null,
-  null,
+  </Localized>
   <Localized
     id="moderate-marker-toxic"
   >
@@ -130,7 +131,7 @@ Array [
     >
       Toxic
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <Localized
     id="moderate-marker-karma"
   >
@@ -139,7 +140,7 @@ Array [
     >
       Karma
     </withPropsOnChange(Marker)>
-  </Localized>,
+  </Localized>
   <withPropsOnChange(Marker)
     color="error"
   >
@@ -154,7 +155,6 @@ Array [
     <withPropsOnChange(Count)>
       2
     </withPropsOnChange(Count)>
-  </withPropsOnChange(Marker)>,
-  null,
-]
+  </withPropsOnChange(Marker)>
+</ForwardRef(forwardRef)>
 `;

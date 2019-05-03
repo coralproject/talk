@@ -3,7 +3,7 @@
   position: relative;
   justify-content: flex-start;
   align-items: center;
-  padding: calc(0.5 * var(--spacing-unit) + 1px) var(--spacing-unit);
+  padding: calc(0.5 * var(--mini-unit) + 1px) var(--mini-unit);
   box-sizing: border-box;
   width: 100%;
   background-color: var(--palette-text-primary);

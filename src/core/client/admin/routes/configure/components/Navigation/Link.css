@@ -1,8 +1,8 @@
 .link {
   composes: sideNavigationItem from "talk-ui/shared/typography.css";
   display: inline-block;
-  padding: calc(0.5 * var(--spacing-unit)) var(--spacing-unit)
-    calc(0.5 * var(--spacing-unit)) calc(var(--spacing-unit) + 2px);
+  padding: calc(0.5 * var(--mini-unit)) var(--mini-unit)
+    calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) + 2px);
   margin-left: 2px;
   border-left: 1px solid var(--palette-grey-lighter);
 
@@ -14,6 +14,6 @@
 .linkActive {
   composes: sideNavigationActive from "talk-ui/shared/typography.css";
   margin-left: 0px;
-  border-left: calc(0.5 * var(--spacing-unit)) solid var(--palette-brand-main);
-  padding-left: var(--spacing-unit);
+  border-left: calc(0.5 * var(--mini-unit)) solid var(--palette-brand-main);
+  padding-left: var(--mini-unit);
 }

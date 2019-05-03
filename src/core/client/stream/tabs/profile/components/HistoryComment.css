@@ -1,8 +1,13 @@
 .icon {
   color: var(--palette-text-secondary);
-  margin-right: calc(0.5 * var(--spacing-unit));
+  margin-right: calc(0.5 * var(--mini-unit));
 }
 
 .replies {
   composes: button from "talk-ui/shared/typography.css";
+}
+
+.viewConversation {
+  composes: button from "talk-ui/shared/typography.css";
+  color: var(--palette-grey-main);
 }

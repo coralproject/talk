@@ -18,6 +18,7 @@ interface QueueContainerProps {
   settings: SettingsData;
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
+  storyID?: string;
 }
 
 // TODO: use generated types
@@ -43,6 +44,7 @@ export class QueueContainer extends React.Component<QueueContainerProps> {
           disableLoadMore={this.state.disableLoadMore}
           danglingLogic={danglingLogic}
           emptyElement={this.props.emptyElement}
+          allStories={!Boolean(this.props.storyID)}
         />
       </IntersectionProvider>
     );
@@ -131,7 +133,7 @@ const createQueueContainer = (
     Component: enhanced,
     query: queueQuery,
     cacheConfig: { force: true },
-    render: ({ Component, props }) => {
+    render: ({ Component, props, match }) => {
       const anyProps = props as any;
       if (Component && props) {
         const queue =
@@ -141,6 +143,7 @@ const createQueueContainer = (
             queue={queue}
             settings={anyProps.settings}
             emptyElement={emptyElement}
+            storyID={match.params.storyID}
           />
         );
       }

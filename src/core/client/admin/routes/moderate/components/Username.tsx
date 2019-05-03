@@ -14,7 +14,7 @@ export interface UsernameProps {
 const Username: StatelessComponent<UsernameProps> = props => {
   return (
     <Typography
-      variant="heading2"
+      variant="heading4"
       className={cn(props.className, styles.root)}
       container="span"
     >
