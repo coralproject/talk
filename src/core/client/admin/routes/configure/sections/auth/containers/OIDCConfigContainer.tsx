@@ -34,7 +34,7 @@ class OIDCConfigContainer extends React.Component<Props, State> {
   };
 
   private handleDiscover = async () => {
-    const form = this.props.reactFinalForm!;
+    const form = this.props.reactFinalForm;
     this.setState({ awaitingResponse: true });
     try {
       const config = await this.props.discoverOIDCConfiguration({
