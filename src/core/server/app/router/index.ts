@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import path from "path";
+import { register } from "prom-client";
 
 import { AppOptions } from "talk-server/app";
 import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
@@ -11,6 +12,7 @@ import { RouterOptions } from "talk-server/app/router/types";
 import logger from "talk-server/logger";
 
 import Entrypoints from "../helpers/entrypoints";
+import { basicAuth } from "../middleware/basicAuth";
 import { createAPIRouter } from "./api";
 import { createClientTargetRouter } from "./client";
 
@@ -129,6 +131,26 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
       { manifest },
       "could not load the generated manifest, client routes will remain un-mounted"
     );
+  }
+
+  if (app.metrics) {
+    // Add basic auth if provided.
+    const username = app.config.get("metrics_username");
+    const password = app.config.get("metrics_password");
+    if (username && password) {
+      router.use("/metrics", basicAuth(username, password));
+      logger.info("adding authentication to metrics endpoint");
+    } else {
+      logger.info(
+        "not adding authentication to metrics endpoint, credentials not provided"
+      );
+    }
+
+    router.get("/metrics", noCacheMiddleware, (req, res) => {
+      res.set("Content-Type", register.contentType);
+      res.end(register.metrics());
+    });
+    logger.info({ path: "/metrics" }, "mounting metrics path on app");
   }
 
   return router;

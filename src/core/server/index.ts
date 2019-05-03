@@ -1,7 +1,9 @@
+import cluster from "cluster";
 import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
 import http from "http";
 import { Db } from "mongodb";
+import { AggregatorRegistry, collectDefaultMetrics } from "prom-client";
 
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { createApp, listenAndServe } from "talk-server/app";
@@ -19,12 +21,21 @@ import {
   createRedisClient,
 } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
+import { basicAuth } from "./app/middleware/basicAuth";
+import { noCacheMiddleware } from "./app/middleware/cacheHeaders";
+import { JSONErrorHandler } from "./app/middleware/error";
+import { accessLogger, errorLogger } from "./app/middleware/logging";
+import { notFoundMiddleware } from "./app/middleware/notFound";
 
 export interface ServerOptions {
   /**
    * config when specified will specify the configuration to load.
    */
   config?: Config;
+}
+
+export interface ServerStartOptions {
+  parent?: Express;
 }
 
 /**
@@ -122,6 +133,9 @@ class Server {
       tenantCache: this.tenantCache,
       i18n: this.i18n,
     });
+
+    // Setup the metrics collectors.
+    collectDefaultMetrics({ timeout: 5000 });
   }
 
   /**
@@ -146,6 +160,62 @@ class Server {
     // Launch all of the job processors.
     this.tasks.mailer.process();
     this.tasks.scraper.process();
+
+    // If we are running in concurrency mode, and we are the master, we should
+    // setup the aggregator for the cluster metrics.
+    if (cluster.isMaster && this.config.get("concurrency") > 1) {
+      // Create the aggregator registry for metrics.
+      const aggregatorRegistry = new AggregatorRegistry();
+
+      // Setup the cluster metrics server.
+      const metricsServer = express();
+
+      // Setup access logger.
+      metricsServer.use(accessLogger);
+
+      // Add basic auth if provided.
+      const username = this.config.get("metrics_username");
+      const password = this.config.get("metrics_password");
+      if (username && password) {
+        metricsServer.use("/cluster_metrics", basicAuth(username, password));
+        logger.info("adding authentication to metrics endpoint");
+      } else {
+        logger.info(
+          "not adding authentication to metrics endpoint, credentials not provided"
+        );
+      }
+
+      // Cluster metrics will be served on /cluster_metrics.
+      metricsServer.get(
+        "/cluster_metrics",
+        noCacheMiddleware,
+        (req, res, next) => {
+          aggregatorRegistry.clusterMetrics((err, metrics) => {
+            if (err) {
+              return next(err);
+            }
+
+            res.set("Content-Type", aggregatorRegistry.contentType);
+            res.send(metrics);
+          });
+        }
+      );
+
+      // Error handling.
+      metricsServer.use(notFoundMiddleware);
+      metricsServer.use(errorLogger);
+      metricsServer.use(JSONErrorHandler());
+
+      const port = this.config.get("cluster_metrics_port");
+
+      // Star the server listening for cluster metrics.
+      await listenAndServe(metricsServer, port);
+
+      logger.info(
+        { port, path: "/cluster_metrics" },
+        "now listening for cluster metrics"
+      );
+    }
   }
 
   /**
@@ -154,7 +224,7 @@ class Server {
    *
    * @param parent the optional express application to bind the server to.
    */
-  public async start(parent?: Express) {
+  public async start({ parent }: ServerStartOptions) {
     // Guard against not being connected.
     if (!this.connected) {
       throw new Error("server has not connected yet");
@@ -168,6 +238,9 @@ class Server {
     // Create the signing config.
     const signingConfig = createJWTSigningConfig(this.config);
 
+    // Only enable the metrics server if concurrency is set to 1.
+    const metrics = this.config.get("concurrency") === 1;
+
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
@@ -180,6 +253,7 @@ class Server {
       i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
+      metrics,
     });
 
     // Start the application and store the resulting http.Server. The server

@@ -1,6 +1,7 @@
 import { GraphQLOptions } from "apollo-server-express";
 import { Handler } from "express";
 import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
+import { Counter, Histogram } from "prom-client";
 
 // TODO: when https://github.com/apollographql/apollo-server/pull/1907 is merged, update this import path
 import {
@@ -13,6 +14,7 @@ import { Config } from "talk-server/config";
 import {
   ErrorWrappingExtension,
   LoggerExtension,
+  MetricsExtension,
 } from "talk-server/graph/common/extensions";
 
 export * from "./batch";
@@ -42,6 +44,20 @@ export const graphqlMiddleware = (
   config: Config,
   requestOptions: ExpressGraphQLOptionsFunction
 ): Handler => {
+  // Configure the metrics handlers.
+  const executedGraphQueriesTotalCounter = new Counter({
+    name: "talk_executed_graph_queries_total",
+    help: "number of GraphQL queries executed",
+    labelNames: ["operation_type", "operation_name"],
+  });
+
+  const graphQLExecutionTimingsHistogram = new Histogram({
+    name: "talk_executed_graph_queries_timings",
+    help: "timings for execution times of GraphQL operations",
+    buckets: [0.1, 5, 15, 50, 100, 500],
+    labelNames: ["operation_type", "operation_name"],
+  });
+
   // Create a new baseOptions that will be merged into the new options.
   const baseOptions: Omit<GraphQLOptions, "schema"> = {
     // Disable the debug mode, as we already add in our logging function.
@@ -50,6 +66,12 @@ export const graphqlMiddleware = (
     extensions: [
       () => new ErrorWrappingExtension(),
       () => new LoggerExtension(),
+      () =>
+        // Pass the metrics to the extension so it can increment.
+        new MetricsExtension({
+          executedGraphQueriesTotalCounter,
+          graphQLExecutionTimingsHistogram,
+        }),
     ],
   };
 

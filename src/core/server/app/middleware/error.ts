@@ -1,5 +1,6 @@
 import { ErrorRequestHandler } from "express";
 
+import { FluentBundle } from "fluent/compat";
 import { InternalError, TalkError } from "talk-server/errors";
 import { I18n } from "talk-server/services/i18n";
 import { Request } from "talk-server/types/express";
@@ -22,11 +23,14 @@ const wrapError = (err: Error) =>
  * @param bundles the translation bundles
  * @param tenant the optional tenant to use when selecting the language
  */
-const serializeError = (err: TalkError, req: Request, bundles: I18n) => {
+const serializeError = (err: TalkError, req: Request, bundles?: I18n) => {
   // Get the translation bundle.
-  let bundle = bundles.getDefaultBundle();
-  if (req.talk && req.talk.tenant) {
-    bundle = bundles.getBundle(req.talk.tenant.locale);
+  let bundle: FluentBundle | null = null;
+  if (bundles) {
+    bundle = bundles.getDefaultBundle();
+    if (req.talk && req.talk.tenant) {
+      bundle = bundles.getBundle(req.talk.tenant.locale);
+    }
   }
 
   return {
@@ -34,7 +38,7 @@ const serializeError = (err: TalkError, req: Request, bundles: I18n) => {
   };
 };
 
-export const JSONErrorHandler = (bundles: I18n): ErrorRequestHandler => (
+export const JSONErrorHandler = (bundles?: I18n): ErrorRequestHandler => (
   err,
   req,
   res,
@@ -47,7 +51,7 @@ export const JSONErrorHandler = (bundles: I18n): ErrorRequestHandler => (
   res.status(err.status).json(serializeError(err, req, bundles));
 };
 
-export const HTMLErrorHandler = (bundles: I18n): ErrorRequestHandler => (
+export const HTMLErrorHandler = (bundles?: I18n): ErrorRequestHandler => (
   err,
   req,
   res,
