@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex, Typography } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const CompleteAccountBox: StatelessComponent<Props> = ({ title, children }) => {
+const CompleteAccountBox: FunctionComponent<Props> = ({ title, children }) => {
   return (
     <div data-testid="completeAccountBox">
       <Flex justifyContent="center">

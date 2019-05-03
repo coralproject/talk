@@ -1,9 +1,9 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./EditedMarker.css";
 
-const EditedMarker: StatelessComponent = () => (
+const EditedMarker: FunctionComponent = () => (
   <div className={styles.root}>
     (
     <Localized id="comments-editedMarker-edited">

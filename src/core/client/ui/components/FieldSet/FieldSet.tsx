@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { AllHTMLAttributes, Ref, StatelessComponent } from "react";
+import React, { AllHTMLAttributes, FunctionComponent, Ref } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -16,7 +16,7 @@ interface InnerProps extends AllHTMLAttributes<HTMLElement> {
   forwardRef?: Ref<HTMLFieldSetElement>;
 }
 
-const FieldSet: StatelessComponent<InnerProps> = props => {
+const FieldSet: FunctionComponent<InnerProps> = props => {
   const { className, classes, forwardRef: ref, ...rest } = props;
   const rootClassName = cn(classes.root, className);
   return <fieldset className={rootClassName} {...rest} ref={ref} />;

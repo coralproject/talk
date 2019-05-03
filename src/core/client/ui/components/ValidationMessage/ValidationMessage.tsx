@@ -1,4 +1,4 @@
-import React, { ReactNode, StatelessComponent } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import Message from "../Message";
 import MessageIcon from "../Message/MessageIcon";
 
@@ -17,7 +17,7 @@ export interface ValidationMessageProps {
   fullWidth?: boolean;
 }
 
-const ValidationMessage: StatelessComponent<ValidationMessageProps> = props => {
+const ValidationMessage: FunctionComponent<ValidationMessageProps> = props => {
   const { className, fullWidth, children, ...rest } = props;
 
   return (

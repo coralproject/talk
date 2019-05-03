@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import {
   Flex,
@@ -24,7 +24,7 @@ interface Props {
   reactionSortLabel: string;
 }
 
-const SortMenu: StatelessComponent<Props> = props => (
+const SortMenu: FunctionComponent<Props> = props => (
   <MatchMedia ltWidth="sm">
     {matches => (
       <div>

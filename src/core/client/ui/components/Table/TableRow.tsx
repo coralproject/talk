@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent, useContext } from "react";
+import React, { FunctionComponent, useContext } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -15,7 +15,7 @@ interface Props extends React.HTMLAttributes<HTMLTableRowElement> {
   classes: typeof styles;
 }
 
-const TableRow: StatelessComponent<Props> = ({
+const TableRow: FunctionComponent<Props> = ({
   classes,
   className,
   children,

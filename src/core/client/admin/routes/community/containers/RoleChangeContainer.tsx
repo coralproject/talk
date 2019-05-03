@@ -1,4 +1,4 @@
-import React, { StatelessComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { UpdateUserRoleMutation } from "talk-admin/mutations";
 import { useMutation } from "talk-framework/lib/relay";
@@ -11,7 +11,7 @@ interface Props {
   role: GQLUSER_ROLE_RL;
 }
 
-const RoleChangeContainer: StatelessComponent<Props> = props => {
+const RoleChangeContainer: FunctionComponent<Props> = props => {
   const updateUserRole = useMutation(UpdateUserRoleMutation);
   const handleOnChangeRole = useCallback(
     (role: GQLUSER_ROLE_RL) => {

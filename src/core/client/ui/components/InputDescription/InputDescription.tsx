@@ -1,4 +1,4 @@
-import React, { ReactNode, StatelessComponent } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import { Typography } from "talk-ui/components";
 import { PropTypesOf } from "talk-ui/types";
 
@@ -9,7 +9,7 @@ interface InputDescriptionProps {
   container?: PropTypesOf<typeof Typography>["container"];
 }
 
-const InputDescription: StatelessComponent<InputDescriptionProps> = props => {
+const InputDescription: FunctionComponent<InputDescriptionProps> = props => {
   const { className, children, ...rest } = props;
   return (
     <Typography

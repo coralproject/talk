@@ -1,5 +1,5 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button } from "talk-ui/components";
@@ -11,7 +11,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const OIDCButton: StatelessComponent<Props> = props => (
+const OIDCButton: FunctionComponent<Props> = props => (
   <Button
     classes={styles}
     variant="filled"

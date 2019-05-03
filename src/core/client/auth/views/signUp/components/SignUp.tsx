@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Bar, SubBar, Subtitle, Title } from "talk-auth/components//Header";
 import Main from "talk-auth/components/Main";
@@ -30,7 +30,7 @@ interface Props {
     PropTypesOf<typeof SignUpWithGoogleContainer>["auth"];
 }
 
-const SignUp: StatelessComponent<Props> = ({
+const SignUp: FunctionComponent<Props> = ({
   onGotoSignIn,
   emailEnabled,
   facebookEnabled,

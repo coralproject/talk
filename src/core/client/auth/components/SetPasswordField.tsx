@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { PasswordField } from "talk-framework/components";
 import {
@@ -19,7 +19,7 @@ interface Props {
   disabled: boolean;
 }
 
-const SetPasswordField: StatelessComponent<Props> = props => (
+const SetPasswordField: FunctionComponent<Props> = props => (
   <Field
     name="password"
     validate={composeValidators(required, validatePassword)}

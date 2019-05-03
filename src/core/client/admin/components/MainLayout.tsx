@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./MainLayout.css";
 
@@ -8,7 +8,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const MainLayout: StatelessComponent<Props> = ({
+const MainLayout: FunctionComponent<Props> = ({
   children,
   className,
   ...rest

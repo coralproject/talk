@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { createPurify } from "talk-common/utils/purify";
 
@@ -15,7 +15,7 @@ interface HTMLContentProps {
   className?: string;
 }
 
-const HTMLContent: StatelessComponent<HTMLContentProps> = ({
+const HTMLContent: FunctionComponent<HTMLContentProps> = ({
   children,
   className,
 }) => (

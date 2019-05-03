@@ -1,12 +1,7 @@
 import { CoralRTE } from "@coralproject/rte";
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, {
-  EventHandler,
-  MouseEvent,
-  Ref,
-  StatelessComponent,
-} from "react";
+import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
@@ -43,7 +38,7 @@ export interface ReplyCommentFormProps {
   disabledMessage?: React.ReactNode;
 }
 
-const ReplyCommentForm: StatelessComponent<ReplyCommentFormProps> = props => {
+const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
   const inputID = `comments-replyCommentForm-rte-${props.id}`;
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>

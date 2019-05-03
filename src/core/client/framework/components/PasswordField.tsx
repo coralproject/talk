@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Omit, PropTypesOf } from "talk-framework/types";
 import { PasswordField as PasswordFieldUI } from "talk-ui/components";
@@ -10,7 +10,7 @@ export interface Props
     "showPasswordTitle" | "hidePasswordTitle"
   > {}
 
-const PasswordField: StatelessComponent<Props> = props => (
+const PasswordField: FunctionComponent<Props> = props => (
   <Localized
     id="framework-passwordField"
     attrs={{ showPasswordTitle: true, hidePasswordTitle: true }}

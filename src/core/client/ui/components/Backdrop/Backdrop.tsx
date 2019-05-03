@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { HTMLAttributes, StatelessComponent } from "react";
+import React, { FunctionComponent, HTMLAttributes } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -14,7 +14,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   active?: boolean;
 }
 
-const Backdrop: StatelessComponent<Props> = ({
+const Backdrop: FunctionComponent<Props> = ({
   classes,
   active,
   className,

@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { StoryRowContainer_story as StoryData } from "talk-admin/__generated__/StoryRowContainer_story.graphql";
@@ -14,7 +14,7 @@ interface Props {
   viewer: ViewerData;
 }
 
-const StoryRowContainer: StatelessComponent<Props> = props => {
+const StoryRowContainer: FunctionComponent<Props> = props => {
   const { locales } = useTalkContext();
   const title = props.story.metadata && props.story.metadata.title;
   const author = props.story.metadata && props.story.metadata.author;

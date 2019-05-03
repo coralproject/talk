@@ -1,4 +1,4 @@
-import React, { StatelessComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { CloseStoryMutation, OpenStoryMutation } from "talk-admin/mutations";
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
@@ -13,7 +13,7 @@ interface Props {
   closeStory: MutationProp<typeof CloseStoryMutation>;
 }
 
-const StatusChangeContainer: StatelessComponent<Props> = props => {
+const StatusChangeContainer: FunctionComponent<Props> = props => {
   const handleChangeStatus = useCallback(
     (status: GQLSTORY_STATUS_RL) => {
       if (props.status === status) {

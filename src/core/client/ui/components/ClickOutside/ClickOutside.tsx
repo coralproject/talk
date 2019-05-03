@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { findDOMNode } from "react-dom";
 
 import UIContext from "../UIContext";
@@ -65,9 +65,7 @@ export class ClickOutside extends React.Component<ClickOutsideProps> {
   }
 }
 
-const ClickOutsideWithContext: StatelessComponent<
-  ClickOutsideProps
-> = props => (
+const ClickOutsideWithContext: FunctionComponent<ClickOutsideProps> = props => (
   <UIContext.Consumer>
     {({ registerClickFarAway }) => (
       <ClickOutside {...props} registerClickFarAway={registerClickFarAway} />

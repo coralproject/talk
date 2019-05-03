@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
+import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -27,7 +27,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-const Icon: StatelessComponent<Props> = props => {
+const Icon: FunctionComponent<Props> = props => {
   const { classes, className, size, color, forwardRef, ...rest } = props;
 
   const rootClassName = cn(

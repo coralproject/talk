@@ -1,5 +1,5 @@
 import { Link, LocationDescriptor } from "found";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { SubBarNavigationItem } from "talk-ui/components";
 
@@ -8,7 +8,7 @@ interface Props {
   to: string | LocationDescriptor;
 }
 
-const NavigationLink: StatelessComponent<Props> = props => (
+const NavigationLink: FunctionComponent<Props> = props => (
   <Link to={props.to} Component={SubBarNavigationItem} activePropName="active">
     {props.children}
   </Link>

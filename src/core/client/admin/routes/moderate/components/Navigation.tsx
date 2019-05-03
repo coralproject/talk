@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { getModerationLink } from "talk-admin/helpers";
 import { Counter, Icon, SubBarNavigation } from "talk-ui/components";
@@ -13,7 +13,7 @@ interface Props {
   storyID?: string | null;
 }
 
-const Navigation: StatelessComponent<Props> = ({
+const Navigation: FunctionComponent<Props> = ({
   unmoderatedCount,
   reportedCount,
   pendingCount,

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./TileOption.css";
 import { SelectorChildProps } from "./TileSelector";
@@ -8,7 +8,7 @@ interface Props extends SelectorChildProps {
   className?: string;
 }
 
-const TileOption: StatelessComponent<Props> = ({
+const TileOption: FunctionComponent<Props> = ({
   id,
   name,
   onChange,

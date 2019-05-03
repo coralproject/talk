@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import TabBarQuery from "talk-stream/queries/TabBarQuery";
 import { HorizontalGutter, TabContent, TabPane } from "talk-ui/components";
 
@@ -15,7 +15,7 @@ export interface AppProps {
   activeTab: TabValue;
 }
 
-const App: StatelessComponent<AppProps> = props => {
+const App: FunctionComponent<AppProps> = props => {
   return (
     <HorizontalGutter className={styles.root}>
       <TabBarQuery />

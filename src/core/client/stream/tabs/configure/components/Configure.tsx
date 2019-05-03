@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
@@ -15,7 +15,7 @@ export interface Props {
     PropTypesOf<typeof OpenOrCloseStreamContainer>["story"];
 }
 
-const Configure: StatelessComponent<Props> = props => {
+const Configure: FunctionComponent<Props> = props => {
   return (
     <div>
       <HorizontalGutter size="double">

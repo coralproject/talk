@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Typography } from "talk-ui/components";
@@ -15,7 +15,7 @@ interface Props {
   size?: "md" | "lg";
 }
 
-const BrandName: StatelessComponent<Props> = ({
+const BrandName: FunctionComponent<Props> = ({
   align,
   className,
   classes,

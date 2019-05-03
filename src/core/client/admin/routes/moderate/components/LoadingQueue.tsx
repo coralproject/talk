@@ -1,8 +1,8 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex, Spinner } from "talk-ui/components";
 
-const LoadingQueue: StatelessComponent = () => (
+const LoadingQueue: FunctionComponent = () => (
   <Flex justifyContent="center" data-testid="loading-moderate-container">
     <Spinner />
   </Flex>

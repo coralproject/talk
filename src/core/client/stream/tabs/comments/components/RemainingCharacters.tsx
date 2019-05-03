@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Flex, Icon, Typography } from "talk-ui/components";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   remaining: number;
 }
 
-const RemainingCharacters: StatelessComponent<Props> = props => {
+const RemainingCharacters: FunctionComponent<Props> = props => {
   const belowZero = props.remaining < 0;
   return (
     <Flex

@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { Typography } from "talk-ui/components";
 
@@ -11,7 +11,7 @@ export interface UsernameProps {
   children: string;
 }
 
-const Username: StatelessComponent<UsernameProps> = props => {
+const Username: FunctionComponent<UsernameProps> = props => {
   return (
     <Typography
       variant="heading4"

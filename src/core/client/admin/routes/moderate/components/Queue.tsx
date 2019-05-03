@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AutoLoadMoreContainer from "talk-admin/containers/AutoLoadMoreContainer";
@@ -22,7 +22,7 @@ interface Props {
   allStories?: boolean;
 }
 
-const Queue: StatelessComponent<Props> = ({
+const Queue: FunctionComponent<Props> = ({
   settings,
   comments,
   hasMore,

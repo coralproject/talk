@@ -5,7 +5,7 @@ export default function findParentWithType(
   selector:
     | string
     | React.ComponentClass<any>
-    | React.StatelessComponent<any> = "*"
+    | React.FunctionComponent<any> = "*"
 ): ReactTestInstance | null {
   if (selector === "*") {
     return instance;

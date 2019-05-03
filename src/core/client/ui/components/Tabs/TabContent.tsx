@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 export interface TabContentProps {
   /**
@@ -11,7 +11,7 @@ export interface TabContentProps {
   className?: string;
 }
 
-const TabContent: StatelessComponent<TabContentProps> = props => {
+const TabContent: FunctionComponent<TabContentProps> = props => {
   const { children, activeTab, className } = props;
   return (
     <>

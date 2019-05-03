@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent, Suspense } from "react";
+import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "talk-framework/components/loadables";
@@ -16,7 +16,7 @@ interface Props {
   disabled: boolean;
 }
 
-const ClosedStreamMessageConfig: StatelessComponent<Props> = ({ disabled }) => (
+const ClosedStreamMessageConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-general-closedStreamMessage-title">
       <Header

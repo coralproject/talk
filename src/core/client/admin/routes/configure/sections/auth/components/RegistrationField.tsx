@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { CheckBox, FormField, InputLabel } from "talk-ui/components";
@@ -11,7 +11,7 @@ interface Props {
   disabled: boolean;
 }
 
-const RegistrationField: StatelessComponent<Props> = ({ name, disabled }) => (
+const RegistrationField: FunctionComponent<Props> = ({ name, disabled }) => (
   <FormField>
     <Localized id="configure-auth-registration">
       <InputLabel>Registration</InputLabel>

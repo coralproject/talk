@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import { Link } from "found";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Icon, TextLink } from "talk-ui/components";
 
@@ -11,7 +11,7 @@ interface Props {
   onClick?: React.EventHandler<React.MouseEvent>;
 }
 
-const GoToCommentLink: StatelessComponent<Props> = props => {
+const GoToCommentLink: FunctionComponent<Props> = props => {
   return (
     <Link
       Component={TextLink}

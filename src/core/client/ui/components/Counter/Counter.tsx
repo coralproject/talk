@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -17,7 +17,7 @@ interface Props {
   color?: "inherit" | "grey" | "primary";
 }
 
-const Counter: StatelessComponent<Props> = ({
+const Counter: FunctionComponent<Props> = ({
   classes,
   color,
   className,

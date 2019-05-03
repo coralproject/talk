@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import {
@@ -31,7 +31,7 @@ interface Props {
   onSetSearchFilter: (search: string) => void;
 }
 
-const UserTableFilter: StatelessComponent<Props> = props => (
+const UserTableFilter: FunctionComponent<Props> = props => (
   <Flex itemGutter="double">
     <FieldSet>
       <Localized id="community-filter-search">

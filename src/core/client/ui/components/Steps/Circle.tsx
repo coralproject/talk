@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import Icon from "../Icon";
 
 import styles from "./Circle.css";
@@ -9,7 +9,7 @@ interface CircleProps {
   completed?: boolean;
 }
 
-const Circle: StatelessComponent<CircleProps> = ({ active, completed }) => {
+const Circle: FunctionComponent<CircleProps> = ({ active, completed }) => {
   const rootClassName = cn(styles.root, {
     [styles.active]: active,
     [styles.completed]: completed,

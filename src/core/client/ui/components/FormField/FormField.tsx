@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { ReactNode } from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 import { Omit, PropTypesOf } from "talk-ui/types";
@@ -16,7 +16,7 @@ interface Props extends Omit<PropTypesOf<typeof HorizontalGutter>, "ref"> {
   className?: string;
 }
 
-const FormField: StatelessComponent<Props> = props => {
+const FormField: FunctionComponent<Props> = props => {
   const { classes, className, children, ...rest } = props;
 
   return (

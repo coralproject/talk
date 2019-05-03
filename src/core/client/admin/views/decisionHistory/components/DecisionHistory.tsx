@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -19,7 +19,7 @@ interface Props {
   onClosePopover: () => void;
 }
 
-const DecisionHistory: StatelessComponent<Props> = props => (
+const DecisionHistory: FunctionComponent<Props> = props => (
   <div data-testid="decisionHistory-container">
     <Title />
     <Main>

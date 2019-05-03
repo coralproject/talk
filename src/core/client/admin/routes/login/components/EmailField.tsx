@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import {
   composeValidators,
@@ -18,7 +18,7 @@ interface Props {
   disabled: boolean;
 }
 
-const EmailField: StatelessComponent<Props> = props => (
+const EmailField: FunctionComponent<Props> = props => (
   <Field name="email" validate={composeValidators(required, validateEmail)}>
     {({ input, meta }) => (
       <FormField>

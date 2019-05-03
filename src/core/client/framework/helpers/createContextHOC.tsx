@@ -19,7 +19,7 @@ function createContextHOC<Context>(
   ): InferableComponentEnhancer<T> {
     return hoistStatics<T>(
       <U extends T>(WrappedComponent: React.ComponentType<U>) => {
-        const Component: React.StatelessComponent<any> = props => (
+        const Component: React.FunctionComponent<any> = props => (
           <Consumer>
             {context => (
               <WrappedComponent {...props} {...propsCallback(context)} />

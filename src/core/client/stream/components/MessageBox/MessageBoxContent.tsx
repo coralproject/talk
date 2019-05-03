@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Markdown } from "talk-framework/components";
 import { withStyles } from "talk-ui/hocs";
@@ -21,7 +21,7 @@ interface Props {
   classes: typeof styles;
 }
 
-const MessageBox: StatelessComponent<Props> = props => {
+const MessageBox: FunctionComponent<Props> = props => {
   const { className, classes, children, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

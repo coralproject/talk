@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import RemainingCharacters from "../components/RemainingCharacters";
 import { getHTMLCharacterLength } from "../helpers";
@@ -9,7 +9,7 @@ interface Props {
   value: string | undefined;
 }
 
-const RemainingCharactersContainer: StatelessComponent<Props> = props => {
+const RemainingCharactersContainer: FunctionComponent<Props> = props => {
   return (
     <RemainingCharacters
       className={props.className}

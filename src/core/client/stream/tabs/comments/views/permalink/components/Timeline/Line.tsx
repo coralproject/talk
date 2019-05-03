@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import styles from "./Line.css";
 
@@ -9,7 +9,7 @@ interface LineProps {
   dotted?: boolean;
 }
 
-const Line: StatelessComponent<LineProps> = props => {
+const Line: FunctionComponent<LineProps> = props => {
   return (
     <div
       className={cn(styles.root, props.className, {

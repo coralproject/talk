@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { ReactNode, StatelessComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import { withStyles } from "talk-ui/hocs";
 
 import styles from "./Card.css";
@@ -20,7 +20,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   classes: typeof styles;
 }
 
-const Card: StatelessComponent<CardProps> = props => {
+const Card: FunctionComponent<CardProps> = props => {
   const { className, classes, children, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

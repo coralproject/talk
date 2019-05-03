@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 import { CommunityGuidelinesContainer_settings as SettingsData } from "talk-stream/__generated__/CommunityGuidelinesContainer_settings.graphql";
@@ -9,7 +9,7 @@ interface Props {
   settings: SettingsData;
 }
 
-export const CommunityGuidelinesContainerProps: StatelessComponent<Props> = ({
+export const CommunityGuidelinesContainerProps: FunctionComponent<Props> = ({
   settings,
 }) => {
   if (

@@ -1,5 +1,5 @@
 import { Link } from "found";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import NotAvailable from "talk-admin/components/NotAvailable";
 import { getModerationLink } from "talk-admin/helpers";
@@ -20,7 +20,7 @@ interface Props {
   status: PropTypesOf<typeof StatusChangeContainer>["status"];
 }
 
-const UserRow: StatelessComponent<Props> = props => (
+const UserRow: FunctionComponent<Props> = props => (
   <TableRow>
     <TableCell className={styles.titleColumn}>
       <Link

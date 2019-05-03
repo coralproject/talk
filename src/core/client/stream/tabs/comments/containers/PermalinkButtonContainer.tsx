@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 import { getURLWithCommentID } from "talk-framework/helpers";
 import { withFragmentContainer } from "talk-framework/lib/relay";
@@ -11,7 +11,7 @@ interface Props {
   commentID: string;
 }
 
-export const PermalinkButtonContainer: StatelessComponent<Props> = ({
+export const PermalinkButtonContainer: FunctionComponent<Props> = ({
   story,
   commentID,
 }) => {

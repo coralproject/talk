@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { Flex, MatchMedia } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ export interface TopBarLeftProps {
   children: React.ReactNode;
 }
 
-const TopBarLeft: StatelessComponent<TopBarLeftProps> = props => {
+const TopBarLeft: FunctionComponent<TopBarLeftProps> = props => {
   const rootClassName = cn(props.className);
   return (
     <MatchMedia gtWidth="xs">

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -11,7 +11,7 @@ interface Props {
   size?: "md" | "lg";
 }
 
-const BrandIcon: StatelessComponent<Props> = ({
+const BrandIcon: FunctionComponent<Props> = ({
   className,
   classes,
   size,

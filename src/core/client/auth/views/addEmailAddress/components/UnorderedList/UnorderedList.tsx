@@ -1,9 +1,9 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import styles from "./UnorderedList.css";
 
-const UnorderedList: StatelessComponent = props => (
+const UnorderedList: FunctionComponent = props => (
   <ul className={styles.root}>{props.children}</ul>
 );
 

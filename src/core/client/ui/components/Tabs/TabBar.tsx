@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -32,7 +32,7 @@ export interface TabBarProps {
   onTabClick?: (tabId: string) => void;
 }
 
-const TabBar: StatelessComponent<TabBarProps> = props => {
+const TabBar: FunctionComponent<TabBarProps> = props => {
   const {
     className,
     classes,

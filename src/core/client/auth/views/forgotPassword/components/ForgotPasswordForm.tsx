@@ -1,6 +1,6 @@
 import { FORM_ERROR } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { Bar, SubBar, Title } from "talk-auth/components/Header";
@@ -36,7 +36,7 @@ interface Props {
   onCheckEmail: (email: string) => void;
 }
 
-const ForgotPasswordForm: StatelessComponent<Props> = ({ onCheckEmail }) => {
+const ForgotPasswordForm: FunctionComponent<Props> = ({ onCheckEmail }) => {
   const signInHref = getViewURL("SIGN_IN");
   const forgotPassword = useMutation(ForgotPasswordMutation);
   const setView = useMutation(SetViewMutation);

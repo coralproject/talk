@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -15,7 +15,7 @@ interface Props extends React.HTMLAttributes<HTMLTableElement> {
   fullWidth?: boolean;
 }
 
-const Table: StatelessComponent<Props> = ({
+const Table: FunctionComponent<Props> = ({
   classes,
   className,
   fullWidth,

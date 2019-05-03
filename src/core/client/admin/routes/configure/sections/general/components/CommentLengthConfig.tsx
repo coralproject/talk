@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
@@ -38,7 +38,7 @@ interface Props {
   disabled: boolean;
 }
 
-const CommentLengthConfig: StatelessComponent<Props> = ({ disabled }) => (
+const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-commentLength-title">
       <Header container="legend">Comment Length</Header>

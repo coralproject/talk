@@ -1,10 +1,10 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Icon } from "talk-ui/components";
 
 import styles from "./RejectedIcon.css";
 
-const RejectedIcon: StatelessComponent = () => (
+const RejectedIcon: FunctionComponent = () => (
   <Icon className={styles.root}>cancel</Icon>
 );
 

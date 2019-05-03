@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { AllHTMLAttributes, ChangeEvent, EventHandler } from "react";
 
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 
 import styles from "./TextField.css";
@@ -66,7 +66,7 @@ export interface TextFieldProps {
   variant?: "regular" | "seamlessAdornment";
 }
 
-const TextField: StatelessComponent<TextFieldProps> = props => {
+const TextField: FunctionComponent<TextFieldProps> = props => {
   const {
     className,
     classes,

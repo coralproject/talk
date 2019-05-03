@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import {
   Button,
@@ -20,7 +20,7 @@ interface Props {
   onRegenerate?: () => void;
 }
 
-const SSOKeyField: StatelessComponent<Props> = ({
+const SSOKeyField: FunctionComponent<Props> = ({
   generatedKey,
   keyGeneratedAt,
   disabled,

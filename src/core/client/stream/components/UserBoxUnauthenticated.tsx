@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Button, Flex, Typography } from "talk-ui/components";
 import MatchMedia from "talk-ui/components/MatchMedia";
@@ -12,7 +12,7 @@ export interface UserBoxUnauthenticatedProps {
   showRegisterButton?: boolean;
 }
 
-const UserBoxUnauthenticated: StatelessComponent<
+const UserBoxUnauthenticated: FunctionComponent<
   UserBoxUnauthenticatedProps
 > = props => {
   return (

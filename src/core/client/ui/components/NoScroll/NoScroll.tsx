@@ -1,4 +1,4 @@
-import { StatelessComponent, useEffect } from "react";
+import { FunctionComponent, useEffect } from "react";
 
 import styles from "./NoScroll.css";
 
@@ -10,7 +10,7 @@ interface Props {
 /** Counter of current <NoScroll> instances */
 let instances = 0;
 
-const NoScroll: StatelessComponent<Props> = ({ active }) => {
+const NoScroll: FunctionComponent<Props> = ({ active }) => {
   useEffect(() => {
     if (active) {
       if (instances++ === 0) {

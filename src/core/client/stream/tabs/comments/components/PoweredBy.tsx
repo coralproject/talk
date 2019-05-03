@@ -1,13 +1,13 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Typography } from "talk-ui/components";
 
 interface Props {
   className: string;
 }
 
-const PoweredBy: StatelessComponent<Props> = props => {
+const PoweredBy: FunctionComponent<Props> = props => {
   return (
     <div className={cn(props.className)}>
       <Localized

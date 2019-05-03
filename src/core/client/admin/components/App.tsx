@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Logo } from "talk-ui/components";
@@ -17,7 +17,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const App: StatelessComponent<Props> = ({ children, viewer }) => (
+const App: FunctionComponent<Props> = ({ children, viewer }) => (
   <div className={styles.root}>
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">

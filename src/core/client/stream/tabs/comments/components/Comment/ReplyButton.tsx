@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { EventHandler, MouseEvent, StatelessComponent } from "react";
+import React, { EventHandler, FunctionComponent, MouseEvent } from "react";
 
 import { Button, ButtonIcon, MatchMedia } from "talk-ui/components";
 
@@ -10,7 +10,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const ReplyButton: StatelessComponent<Props> = props => (
+const ReplyButton: FunctionComponent<Props> = props => (
   <Button
     id={props.id}
     onClick={props.onClick}

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
 import { Bar, Title } from "talk-auth/components//Header";
@@ -23,7 +23,7 @@ export interface CreateUsernameForm {
   onSubmit: OnSubmit<FormProps>;
 }
 
-const CreateUsername: StatelessComponent<CreateUsernameForm> = props => {
+const CreateUsername: FunctionComponent<CreateUsernameForm> = props => {
   return (
     <div data-testid="createUsername-container">
       <Bar>

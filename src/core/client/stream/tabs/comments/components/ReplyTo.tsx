@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex, Icon, Typography } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ interface Props {
   username: string;
 }
 
-const ReplyTo: StatelessComponent<Props> = ({ username }) => {
+const ReplyTo: FunctionComponent<Props> = ({ username }) => {
   const Username = () => (
     <Typography variant="heading4" container="span" className={styles.username}>
       {username}

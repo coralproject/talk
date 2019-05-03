@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
 import {
@@ -49,7 +49,7 @@ export const render = ({
   );
 };
 
-const PermalinkViewQuery: StatelessComponent<Props> = ({
+const PermalinkViewQuery: FunctionComponent<Props> = ({
   local: { commentID, storyID, storyURL },
 }) => (
   <QueryRenderer<QueryTypes>

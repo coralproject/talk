@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Count: StatelessComponent<Props> = props => {
+const Count: FunctionComponent<Props> = props => {
   const { className, children, classes, ...rest } = props;
   const rootClassName = cn(classes.root, className);
 

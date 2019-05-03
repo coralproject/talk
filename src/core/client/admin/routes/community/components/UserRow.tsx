@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import NotAvailable from "talk-admin/components/NotAvailable";
 import { PropTypesOf } from "talk-framework/types";
@@ -21,7 +21,7 @@ interface Props {
   user: PropTypesOf<typeof UserStatusChangeContainer>["user"];
 }
 
-const UserRow: StatelessComponent<Props> = props => (
+const UserRow: FunctionComponent<Props> = props => (
   <TableRow>
     <TableCell className={styles.usernameColumn}>
       {props.username || <NotAvailable />}

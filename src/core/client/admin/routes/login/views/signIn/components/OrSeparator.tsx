@@ -1,10 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import HorizontalSeparator from "./HorizontalSeparator";
 
-const OrSeparator: StatelessComponent = () => (
+const OrSeparator: FunctionComponent = () => (
   <Localized id="login-signIn-orSeparator">
     <HorizontalSeparator>Or</HorizontalSeparator>
   </Localized>

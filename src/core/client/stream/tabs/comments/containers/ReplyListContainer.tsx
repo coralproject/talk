@@ -11,7 +11,7 @@ import { ReplyListContainer1_viewer as ViewerData } from "talk-stream/__generate
 import { ReplyListContainer1PaginationQueryVariables } from "talk-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
 import { ReplyListContainer5_comment as Comment5Data } from "talk-stream/__generated__/ReplyListContainer5_comment.graphql";
 
-import { StatelessComponent } from "enzyme";
+import { FunctionComponent } from "enzyme";
 import { FragmentKeys } from "talk-framework/lib/relay/types";
 import ReplyList from "../components/ReplyList";
 import { isCommentVisible } from "../helpers";
@@ -155,7 +155,7 @@ function createReplyListContainer(
 /**
  * LastReplyList uses the LocalReplyListContainer.
  */
-const LastReplyList: StatelessComponent<
+const LastReplyList: FunctionComponent<
   PropTypesOf<typeof LocalReplyListContainer>
 > = props => <LocalReplyListContainer {...props} indentLevel={6} />;
 

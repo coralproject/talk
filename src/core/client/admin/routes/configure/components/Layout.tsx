@@ -1,9 +1,9 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Flex } from "talk-ui/components";
 
 import styles from "./Layout.css";
 
-const Layout: StatelessComponent = ({ children }) => (
+const Layout: FunctionComponent = ({ children }) => (
   <Flex className={styles.root}>{children}</Flex>
 );
 

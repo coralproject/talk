@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -10,10 +10,8 @@ interface Props {
   classes: typeof styles;
 }
 
-const Divider: StatelessComponent<Props> = ({
-  className,
-  classes,
-  ...rest
-}) => <hr {...rest} className={cn(classes.root, className)} />;
+const Divider: FunctionComponent<Props> = ({ className, classes, ...rest }) => (
+  <hr {...rest} className={cn(classes.root, className)} />
+);
 
 export default withStyles(styles)(Divider);

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import AcceptedIcon from "./AcceptedIcon";
 import DecisionItem from "./DecisionItem";
@@ -18,11 +18,11 @@ interface Props {
   onGotoComment?: React.EventHandler<React.MouseEvent>;
 }
 
-const Username: StatelessComponent<{ username: string }> = ({ username }) => (
+const Username: FunctionComponent<{ username: string }> = ({ username }) => (
   <strong>{username}</strong>
 );
 
-const ApprovedComment: StatelessComponent<Props> = props => (
+const ApprovedComment: FunctionComponent<Props> = props => (
   <DecisionItem icon={<AcceptedIcon />}>
     <Localized
       id="decisionHistory-acceptedCommentBy"

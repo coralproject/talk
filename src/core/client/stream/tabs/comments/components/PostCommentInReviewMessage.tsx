@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Button, Flex, Message } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ export interface PostCommentInReviewProps {
   onDismiss: () => void;
 }
 
-const PostCommentInReview: StatelessComponent<
+const PostCommentInReview: FunctionComponent<
   PostCommentInReviewProps
 > = props => {
   return (

@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Delay, Flex, Spinner } from "talk-ui/components";
 
@@ -7,7 +7,7 @@ import Title from "./Title";
 
 import styles from "./DecisionHistoryLoading.css";
 
-const DecisionHistoryLoading: StatelessComponent = () => (
+const DecisionHistoryLoading: FunctionComponent = () => (
   <div data-testid="decisionHistory-loading-container">
     <Title />
     <Main>

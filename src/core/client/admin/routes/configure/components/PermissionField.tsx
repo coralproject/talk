@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { parseStringBool } from "talk-framework/lib/form";
@@ -13,7 +13,7 @@ interface Props {
   invert?: boolean;
 }
 
-const PermissionField: StatelessComponent<Props> = ({
+const PermissionField: FunctionComponent<Props> = ({
   name,
   disabled,
   invert = false,

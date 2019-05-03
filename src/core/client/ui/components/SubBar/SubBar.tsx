@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { HTMLAttributes, StatelessComponent } from "react";
+import React, { FunctionComponent, HTMLAttributes } from "react";
 
 import { Flex } from "talk-ui/components";
 import { withStyles } from "talk-ui/hocs";
@@ -14,7 +14,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   classes: typeof styles;
 }
 
-const SubBar: StatelessComponent<Props> = ({
+const SubBar: FunctionComponent<Props> = ({
   gutterBegin,
   gutterEnd,
   className,

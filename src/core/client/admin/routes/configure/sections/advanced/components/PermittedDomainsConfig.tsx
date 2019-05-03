@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { formatStringList, parseStringList } from "talk-framework/lib/form";
@@ -17,7 +17,7 @@ interface Props {
   disabled: boolean;
 }
 
-const PermittedDomainsConfig: StatelessComponent<Props> = ({ disabled }) => (
+const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-advanced-permittedDomains">

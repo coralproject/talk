@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -13,7 +13,7 @@ interface Props extends React.HTMLAttributes<HTMLTableSectionElement> {
   classes: typeof styles;
 }
 
-const TableBody: StatelessComponent<Props> = ({
+const TableBody: FunctionComponent<Props> = ({
   classes,
   className,
   children,

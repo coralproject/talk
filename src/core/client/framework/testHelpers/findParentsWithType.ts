@@ -7,7 +7,7 @@ export default function findParentsWithType(
   selector:
     | string
     | React.ComponentClass<any>
-    | React.StatelessComponent<any> = "*"
+    | React.FunctionComponent<any> = "*"
 ): ReactTestInstance[] {
   return instances
     .map(i => findParentWithType(i, selector))

@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -10,7 +10,7 @@ interface Props {
   classes: typeof styles;
 }
 
-const Dropdown: StatelessComponent<Props> = ({
+const Dropdown: FunctionComponent<Props> = ({
   className,
   children,
   classes,

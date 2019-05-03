@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import NotAvailable from "talk-admin/components/NotAvailable";
 import {
@@ -21,7 +21,7 @@ interface Props {
   onConfirm: () => void;
 }
 
-const BanModal: StatelessComponent<Props> = ({
+const BanModal: FunctionComponent<Props> = ({
   open,
   onClose,
   onConfirm,

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
@@ -36,7 +36,7 @@ export interface AddOrganizationForm {
   data: FormProps;
 }
 
-const AddOrganization: StatelessComponent<AddOrganizationForm> = props => {
+const AddOrganization: FunctionComponent<AddOrganizationForm> = props => {
   return (
     <Form
       onSubmit={props.onSubmit}

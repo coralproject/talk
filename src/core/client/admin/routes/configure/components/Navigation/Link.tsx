@@ -1,5 +1,5 @@
 import { Link as FoundLink, LocationDescriptor } from "found";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./Link.css";
 
@@ -9,7 +9,7 @@ interface Props {
   to: string | LocationDescriptor;
 }
 
-const Link: StatelessComponent<Props> = props => (
+const Link: FunctionComponent<Props> = props => (
   <li className={props.className}>
     <FoundLink
       to={props.to}

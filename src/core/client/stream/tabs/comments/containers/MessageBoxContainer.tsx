@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 import { withFragmentContainer } from "talk-framework/lib/relay";
 
@@ -14,7 +14,7 @@ interface Props {
   className?: string;
 }
 
-const MessageBoxContainer: StatelessComponent<Props> = ({
+const MessageBoxContainer: FunctionComponent<Props> = ({
   story,
   className,
 }) => {

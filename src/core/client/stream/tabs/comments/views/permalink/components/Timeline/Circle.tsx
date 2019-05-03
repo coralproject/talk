@@ -1,6 +1,6 @@
 import cn from "classnames";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import styles from "./Circle.css";
 
@@ -10,7 +10,7 @@ export interface CircleProps {
   end?: boolean;
 }
 
-const Circle: StatelessComponent<CircleProps> = props => {
+const Circle: FunctionComponent<CircleProps> = props => {
   return (
     <div className={cn(styles.circleContainer, props.className)}>
       <div

@@ -1,6 +1,6 @@
 import { Child as PymChild } from "pym.js";
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { createManaged } from "talk-framework/lib/bootstrap";
@@ -34,7 +34,7 @@ async function main() {
     pym: new PymChild({ polling: 100 }),
   });
 
-  const Index: StatelessComponent = () => (
+  const Index: FunctionComponent = () => (
     <ManagedTalkContextProvider>
       <>
         {listeners}

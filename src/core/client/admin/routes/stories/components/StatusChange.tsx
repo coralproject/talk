@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import TranslatedStoryStatus from "talk-admin/components/TranslatedStoryStatus";
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
@@ -20,7 +20,7 @@ interface Props {
   status: GQLSTORY_STATUS_RL;
 }
 
-const StatusChange: StatelessComponent<Props> = props => (
+const StatusChange: FunctionComponent<Props> = props => (
   <Localized id="stories-status-popover" attrs={{ description: true }}>
     <Popover
       id="stories-statusChange"

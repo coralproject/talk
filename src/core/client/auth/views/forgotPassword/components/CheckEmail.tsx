@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { Bar, Title } from "talk-auth/components/Header";
 import Main from "talk-auth/components/Main";
@@ -9,7 +9,7 @@ interface Props {
   email: string;
 }
 
-const CheckEmail: StatelessComponent<Props> = ({ email }) => {
+const CheckEmail: FunctionComponent<Props> = ({ email }) => {
   const closeWindow = useCallback(() => {
     window.close();
   }, []);

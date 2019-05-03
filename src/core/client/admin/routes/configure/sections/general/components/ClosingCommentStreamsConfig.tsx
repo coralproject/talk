@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { DURATION_UNIT, DurationField } from "talk-framework/components";
 import {
@@ -25,7 +25,7 @@ interface Props {
   disabled: boolean;
 }
 
-const ClosingCommentStreamsConfig: StatelessComponent<Props> = ({
+const ClosingCommentStreamsConfig: FunctionComponent<Props> = ({
   disabled,
 }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>

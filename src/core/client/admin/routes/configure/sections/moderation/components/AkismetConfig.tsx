@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { ExternalLink } from "talk-framework/lib/i18n/components";
@@ -28,7 +28,7 @@ interface Props {
   disabled: boolean;
 }
 
-const AkismetConfig: StatelessComponent<Props> = ({ disabled }) => {
+const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
   const validateWhenEnabled = (validator: Validator): Validator => (
     v,
     values

@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import { get } from "lodash";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
@@ -18,7 +18,7 @@ import {
 import PropagateMount from "./PropagateMount";
 import styles from "./ReportCommentForm.css";
 
-const RadioField: StatelessComponent<
+const RadioField: FunctionComponent<
   Pick<
     PropTypesOf<typeof Field>,
     "validate" | "name" | "value" | "disabled" | "children"

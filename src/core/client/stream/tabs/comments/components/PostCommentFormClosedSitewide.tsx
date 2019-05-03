@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Markdown } from "talk-framework/components";
 import { PropTypesOf } from "talk-framework/types";
@@ -13,7 +13,7 @@ interface Props {
   showMessageBox?: boolean;
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
 }
-const PostCommentFormClosedSitewide: StatelessComponent<Props> = props => (
+const PostCommentFormClosedSitewide: FunctionComponent<Props> = props => (
   <HorizontalGutter size="double">
     <CallOut fullWidth className={styles.root}>
       <Markdown className={styles.message}>{props.message}</Markdown>

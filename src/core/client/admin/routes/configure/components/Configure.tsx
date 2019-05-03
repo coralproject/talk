@@ -1,6 +1,6 @@
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
 
 import MainLayout from "talk-admin/components/MainLayout";
@@ -17,7 +17,7 @@ interface Props {
   children: React.ReactElement;
 }
 
-const Configure: StatelessComponent<Props> = ({
+const Configure: FunctionComponent<Props> = ({
   onSubmit,
   onChange,
   children,

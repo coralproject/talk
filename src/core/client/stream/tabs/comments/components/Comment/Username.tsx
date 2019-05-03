@@ -1,5 +1,5 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { MatchMedia, Typography } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ export interface UsernameProps {
   children: string;
 }
 
-const Username: StatelessComponent<UsernameProps> = props => {
+const Username: FunctionComponent<UsernameProps> = props => {
   return (
     <MatchMedia gtWidth="xs">
       {matches => (

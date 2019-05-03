@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button, Counter, Flex, HorizontalGutter } from "talk-ui/components";
@@ -36,7 +36,7 @@ export interface ConversationThreadProps {
   } | null;
 }
 
-const ConversationThread: StatelessComponent<
+const ConversationThread: FunctionComponent<
   ConversationThreadProps
 > = props => {
   const dataTestID = "comments-permalinkView-conversationThread";

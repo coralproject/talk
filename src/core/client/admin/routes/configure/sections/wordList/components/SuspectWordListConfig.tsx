@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { ExternalLink } from "talk-framework/lib/i18n/components";
 import {
@@ -19,7 +19,7 @@ interface Props {
   disabled: boolean;
 }
 
-const SuspectWordListConfig: StatelessComponent<Props> = ({ disabled }) => (
+const SuspectWordListConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-wordList-suspect-bannedWordsAndPhrases">
       <Header>Suspect Words and Phrases</Header>

@@ -1,11 +1,6 @@
 import { CoralRTE } from "@coralproject/rte";
 import { Localized } from "fluent-react/compat";
-import React, {
-  EventHandler,
-  MouseEvent,
-  Ref,
-  StatelessComponent,
-} from "react";
+import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 import { Field, Form } from "react-final-form";
 
 import { OnSubmit } from "talk-framework/lib/form";
@@ -49,7 +44,7 @@ export interface EditCommentFormProps {
   max: number | null;
 }
 
-const EditCommentForm: StatelessComponent<EditCommentFormProps> = props => {
+const EditCommentForm: FunctionComponent<EditCommentFormProps> = props => {
   const inputID = `comments-editCommentForm-rte-${props.id}`;
   return (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>

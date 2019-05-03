@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Button, ButtonIcon } from "talk-ui/components";
 
@@ -7,7 +7,7 @@ export interface NextButtonProps {
   submitting: boolean;
 }
 
-const NextButton: StatelessComponent<NextButtonProps> = props => {
+const NextButton: FunctionComponent<NextButtonProps> = props => {
   return (
     <Button
       variant="filled"

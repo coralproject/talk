@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import {
   Button,
@@ -22,7 +22,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const UserStatusChange: StatelessComponent<Props> = props => (
+const UserStatusChange: FunctionComponent<Props> = props => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
       id="community-statusChange"

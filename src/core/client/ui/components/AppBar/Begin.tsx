@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 import { withStyles } from "talk-ui/hocs";
@@ -13,7 +13,7 @@ interface Props extends PropTypesOf<typeof Flex> {
   classes: typeof styles;
 }
 
-const Begin: StatelessComponent<Props> = ({
+const Begin: FunctionComponent<Props> = ({
   className,
   children,
   classes,

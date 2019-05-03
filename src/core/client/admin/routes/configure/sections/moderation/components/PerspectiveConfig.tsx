@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Field } from "react-final-form";
 
@@ -39,7 +39,7 @@ interface Props {
   disabled: boolean;
 }
 
-const PerspectiveConfig: StatelessComponent<Props> = ({ disabled }) => {
+const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
   const validateWhenEnabled = (validator: Validator): Validator => (
     v,
     values

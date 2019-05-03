@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { AppBarNavigation } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ interface Props {
   showConfigure: boolean;
 }
 
-const Navigation: StatelessComponent<Props> = props => (
+const Navigation: FunctionComponent<Props> = props => (
   <AppBarNavigation>
     <Localized id="navigation-moderate">
       <NavigationLink to="/admin/moderate">Moderate</NavigationLink>

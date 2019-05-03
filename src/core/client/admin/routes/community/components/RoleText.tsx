@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import TranslatedRole from "talk-admin/components/TranslatedRole";
 import { GQLUSER_ROLE } from "talk-framework/schema";
@@ -11,7 +11,7 @@ interface Props {
   children: PropTypesOf<typeof TranslatedRole>["children"];
 }
 
-const RoleText: StatelessComponent<Props> = props => (
+const RoleText: FunctionComponent<Props> = props => (
   <TranslatedRole
     container={
       <span

@@ -1,5 +1,5 @@
 import React, { EventHandler, MouseEvent } from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { Localized } from "fluent-react/compat";
 import { Button } from "talk-ui/components";
@@ -10,7 +10,7 @@ export interface ShowConversationLinkProps {
   onClick?: EventHandler<MouseEvent>;
 }
 
-const ShowConversationLink: StatelessComponent<
+const ShowConversationLink: FunctionComponent<
   ShowConversationLinkProps
 > = props => {
   return (

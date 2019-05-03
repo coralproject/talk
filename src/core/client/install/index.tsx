@@ -1,5 +1,5 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
 import { createManaged } from "talk-framework/lib/bootstrap";
@@ -13,7 +13,7 @@ async function main() {
     userLocales: navigator.languages,
   });
 
-  const Index: StatelessComponent = () => (
+  const Index: FunctionComponent = () => (
     <ManagedTalkContextProvider>
       <App />
     </ManagedTalkContextProvider>

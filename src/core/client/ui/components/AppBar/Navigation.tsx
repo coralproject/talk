@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -11,7 +11,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Navigation: StatelessComponent<Props> = ({
+const Navigation: FunctionComponent<Props> = ({
   children,
   className,
   classes,

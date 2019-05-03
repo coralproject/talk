@@ -1,5 +1,5 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button } from "talk-ui/components";
@@ -26,7 +26,7 @@ const facebookIcon = (
   </svg>
 );
 
-const FacebookButton: StatelessComponent<Props> = props => (
+const FacebookButton: FunctionComponent<Props> = props => (
   <Button
     classes={styles}
     variant="filled"

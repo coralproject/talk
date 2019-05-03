@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent, Suspense } from "react";
+import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import { ExternalLink } from "talk-framework/lib/i18n/components";
@@ -22,7 +22,7 @@ interface Props {
   disabled: boolean;
 }
 
-const GuidelinesConfig: StatelessComponent<Props> = ({ disabled }) => (
+const GuidelinesConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
     <Localized id="configure-general-guidelines-title">
       <Header container="legend">Community Guidelines Summary</Header>

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
+import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -29,7 +29,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;
 }
 
-const HorizontalGutter: StatelessComponent<Props> = props => {
+const HorizontalGutter: FunctionComponent<Props> = props => {
   const { classes, className, size, forwardRef, container, ...rest } = props;
   const rootClassName = cn(classes.root, className, classes[size!]);
 

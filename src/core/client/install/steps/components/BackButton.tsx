@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Button } from "talk-ui/components";
 
@@ -8,7 +8,7 @@ export interface BackButtonProps {
   onGoToPreviousStep: () => void;
 }
 
-const BackButton: StatelessComponent<BackButtonProps> = ({
+const BackButton: FunctionComponent<BackButtonProps> = ({
   submitting,
   onGoToPreviousStep,
 }) => {
