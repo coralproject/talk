@@ -2,6 +2,7 @@ import { FormApi } from "final-form";
 import React from "react";
 import { ReactContext, withReactFinalForm } from "react-final-form";
 import { graphql } from "react-relay";
+import { InferableComponentEnhancer } from "recompose";
 
 import { OIDCConfigContainer_auth as AuthData } from "talk-admin/__generated__/OIDCConfigContainer_auth.graphql";
 import { OIDCConfigContainer_authReadOnly as AuthReadOnlyData } from "talk-admin/__generated__/OIDCConfigContainer_authReadOnly.graphql";
@@ -12,7 +13,6 @@ import {
   withFragmentContainer,
 } from "talk-framework/lib/relay";
 
-import { InferableComponentEnhancer } from "recompose";
 import OIDCConfig from "../components/OIDCConfig";
 
 interface Props {
