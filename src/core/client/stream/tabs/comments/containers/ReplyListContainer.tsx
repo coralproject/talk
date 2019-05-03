@@ -1,8 +1,9 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 import { withProps } from "recompose";
 
 import { withPaginationContainer } from "talk-framework/lib/relay";
+import { FragmentKeys } from "talk-framework/lib/relay/types";
 import { Omit, PropTypesOf } from "talk-framework/types";
 import { ReplyListContainer1_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer1_comment.graphql";
 import { ReplyListContainer1_settings as SettingsData } from "talk-stream/__generated__/ReplyListContainer1_settings.graphql";
@@ -11,8 +12,6 @@ import { ReplyListContainer1_viewer as ViewerData } from "talk-stream/__generate
 import { ReplyListContainer1PaginationQueryVariables } from "talk-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
 import { ReplyListContainer5_comment as Comment5Data } from "talk-stream/__generated__/ReplyListContainer5_comment.graphql";
 
-import { FunctionComponent } from "enzyme";
-import { FragmentKeys } from "talk-framework/lib/relay/types";
 import ReplyList from "../components/ReplyList";
 import { isCommentVisible } from "../helpers";
 import LocalReplyListContainer from "./LocalReplyListContainer";

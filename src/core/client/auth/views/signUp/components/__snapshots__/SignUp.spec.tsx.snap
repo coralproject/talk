@@ -19,6 +19,7 @@ exports[`renders correctly 1`] = `
       id="signUp-accountAvailableSignIn"
       textlink={
         <withPropsOnChange(TextLinkProps)
+          href="/signIn"
           onClick={[Function]}
         />
       }
@@ -79,6 +80,7 @@ exports[`renders without email sign up 1`] = `
       id="signUp-accountAvailableSignIn"
       textlink={
         <withPropsOnChange(TextLinkProps)
+          href="/signIn"
           onClick={[Function]}
         />
       }
