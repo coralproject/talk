@@ -16,16 +16,13 @@ exports[`renders correctly 1`] = `
   </Localized>
   <SubBar>
     <Localized
-      button={
-        <ForwardRef(forwardRef)
-          color="primary"
-          data-testid="gotoSignUpButton"
+      id="signIn-noAccountSignUp"
+      textlink={
+        <withPropsOnChange(TextLinkProps)
+          href="/signUp"
           onClick={[Function]}
-          size="small"
-          variant="underlined"
         />
       }
-      id="signIn-noAccountSignUp"
     >
       <ForwardRef(forwardRef)
         container={
@@ -36,7 +33,7 @@ exports[`renders correctly 1`] = `
         }
         variant="bodyCopy"
       >
-        Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+        Don't have an account? &lt;textlink&gt;Sign Up&lt;/textlink&gt;
       </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>
@@ -46,7 +43,7 @@ exports[`renders correctly 1`] = `
     <ForwardRef(forwardRef)
       size="oneAndAHalf"
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(SignInContainer)))) />
+      <withContext(withMutation(withContext(createMutationContainer(SignInContainer)))) />
       <OrSeparator />
       <ForwardRef(forwardRef)>
         <Relay(SignInWithFacebookContainer)
@@ -80,16 +77,13 @@ exports[`renders error 1`] = `
   </Localized>
   <SubBar>
     <Localized
-      button={
-        <ForwardRef(forwardRef)
-          color="primary"
-          data-testid="gotoSignUpButton"
+      id="signIn-noAccountSignUp"
+      textlink={
+        <withPropsOnChange(TextLinkProps)
+          href="/signUp"
           onClick={[Function]}
-          size="small"
-          variant="underlined"
         />
       }
-      id="signIn-noAccountSignUp"
     >
       <ForwardRef(forwardRef)
         container={
@@ -100,7 +94,7 @@ exports[`renders error 1`] = `
         }
         variant="bodyCopy"
       >
-        Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+        Don't have an account? &lt;textlink&gt;Sign Up&lt;/textlink&gt;
       </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>
@@ -116,7 +110,7 @@ exports[`renders error 1`] = `
       >
         Server Error
       </withPropsOnChange(CallOut)>
-      <withContext(createMutationContainer(withContext(createMutationContainer(SignInContainer)))) />
+      <withContext(withMutation(withContext(createMutationContainer(SignInContainer)))) />
       <OrSeparator />
       <ForwardRef(forwardRef)>
         <Relay(SignInWithFacebookContainer)
@@ -150,16 +144,13 @@ exports[`renders without email login 1`] = `
   </Localized>
   <SubBar>
     <Localized
-      button={
-        <ForwardRef(forwardRef)
-          color="primary"
-          data-testid="gotoSignUpButton"
+      id="signIn-noAccountSignUp"
+      textlink={
+        <withPropsOnChange(TextLinkProps)
+          href="/signUp"
           onClick={[Function]}
-          size="small"
-          variant="underlined"
         />
       }
-      id="signIn-noAccountSignUp"
     >
       <ForwardRef(forwardRef)
         container={
@@ -170,7 +161,7 @@ exports[`renders without email login 1`] = `
         }
         variant="bodyCopy"
       >
-        Don't have an account? &lt;button&gt;Sign Up&lt;/button&gt;
+        Don't have an account? &lt;textlink&gt;Sign Up&lt;/textlink&gt;
       </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>

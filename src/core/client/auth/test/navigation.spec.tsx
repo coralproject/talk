@@ -49,8 +49,8 @@ it("navigates to sign up form", async () => {
     within(testRenderer.root).getByTestID("signIn-container")
   );
   within(container)
-    .getByTestID("gotoSignUpButton")
-    .props.onClick();
+    .getByText("Sign Up")
+    .props.onClick({});
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signUp-container")
   );
@@ -62,8 +62,8 @@ it("navigates to sign in form", async () => {
     within(testRenderer.root).getByTestID("signUp-container")
   );
   within(container)
-    .getByTestID("gotoSignInButton")
-    .props.onClick();
+    .getByText("Sign In")
+    .props.onClick({});
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );
@@ -75,9 +75,22 @@ it("navigates to forgot password form", async () => {
     within(testRenderer.root).getByTestID("signIn-container")
   );
   within(container)
-    .getByTestID("gotoForgotPasswordButton")
-    .props.onClick();
+    .getByText("Forgot your password?")
+    .props.onClick({});
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("forgotPassword-container")
+  );
+});
+
+it("navigates back from forgot password form", async () => {
+  const testRenderer = await createTestRenderer("FORGOT_PASSWORD");
+  const container = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("forgotPassword-container")
+  );
+  within(container)
+    .getByText("back to sign in", { exact: false })
+    .props.onClick({});
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("signIn-container")
   );
 });

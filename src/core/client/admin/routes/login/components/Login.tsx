@@ -11,7 +11,6 @@ export type View =
   | "SIGN_UP"
   | "SIGN_IN"
   | "FORGOT_PASSWORD"
-  | "RESET_PASSWORD"
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD"
   | "ADD_EMAIL_ADDRESS"

@@ -37,7 +37,7 @@ signIn-passwordTextField =
 
 signIn-forgotYourPassword = Forgot your password?
 
-signIn-noAccountSignUp = Don't have an account? <button>Sign Up</button>
+signIn-noAccountSignUp = Don't have an account? <textlink>Sign Up</textlink>
 
 ## Sign Up
 
@@ -49,7 +49,7 @@ signUp-signUpWithFacebook = Sign up with Facebook
 signUp-signUpWithGoogle = Sign up with Google
 signUp-signUpWithOIDC = Sign up with { $name }
 
-signUp-accountAvailableSignIn = Already have an account? <button>Sign In</button>
+signUp-accountAvailableSignIn = Already have an account? <textlink>Sign In</textlink>
 
 ## Forgot Password
 
@@ -63,6 +63,19 @@ forgotPassword-sendEmailButton = Send Email
 forgotPassword-emailAddressLabel = Email Address
 forgotPassword-emailAddressTextField =
   .placeholder = Email Address
+forgotPassword-gotBackToSignIn = Go back to sign in page
+
+forgotPassword-enterEmailAndGetALink =
+  Enter your email address below and we will send you a link to
+  reset your password.
+
+### Check Email
+
+forgotPassword-checkEmail-checkEmailHeader = Check Your Email
+forgotPassword-checkEmail-receiveEmail =
+  If there is an account associated with <email></email>,
+  you will receive an email with a link to create a new password.
+forgotPassword-checkEmail-closeButton = Close
 
 ## Reset Password
 

@@ -5,8 +5,7 @@ import { PropTypesOf } from "talk-framework/types";
 import AddEmailAddressContainer from "../views/addEmailAddress/containers/AddEmailAddressContainer";
 import CreatePasswordContainer from "../views/createPassword/containers/CreatePasswordContainer";
 import CreateUsernameContainer from "../views/createUsername/containers/CreateUsernameContainer";
-import ForgotPasswordContainer from "../views/forgotPassword/containers/ForgotPasswordContainer";
-import ResetPasswordContainer from "../views/resetPassword/containers/ResetPasswordContainer";
+import ForgotPassword from "../views/forgotPassword/components/ForgotPassword";
 import SignInContainer from "../views/signIn/containers/SignInContainer";
 import SignUpContainer from "../views/signUp/containers/SignUpContainer";
 import "./App.css";
@@ -15,7 +14,6 @@ export type View =
   | "SIGN_UP"
   | "SIGN_IN"
   | "FORGOT_PASSWORD"
-  | "RESET_PASSWORD"
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD"
   | "ADD_EMAIL_ADDRESS"
@@ -34,9 +32,7 @@ const renderView = (view: AppProps["view"], auth: AppProps["auth"]) => {
     case "SIGN_IN":
       return <SignInContainer auth={auth} />;
     case "FORGOT_PASSWORD":
-      return <ForgotPasswordContainer />;
-    case "RESET_PASSWORD":
-      return <ResetPasswordContainer />;
+      return <ForgotPassword />;
     case "CREATE_USERNAME":
       return <CreateUsernameContainer />;
     case "CREATE_PASSWORD":

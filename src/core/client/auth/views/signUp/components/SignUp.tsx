@@ -6,7 +6,12 @@ import Main from "talk-auth/components/Main";
 import OrSeparator from "talk-auth/components/OrSeparator";
 import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
 import { PropTypesOf } from "talk-framework/types";
-import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
+import {
+  Flex,
+  HorizontalGutter,
+  TextLink,
+  Typography,
+} from "talk-ui/components";
 
 import SignUpWithEmailContainer from "../containers/SignUpWithEmailContainer";
 import SignUpWithFacebookContainer from "../containers/SignUpWithFacebookContainer";
@@ -14,7 +19,8 @@ import SignUpWithGoogleContainer from "../containers/SignUpWithGoogleContainer";
 import SignUpWithOIDCContainer from "../containers/SignUpWithOIDCContainer";
 
 interface Props {
-  onGotoSignIn: () => void;
+  onGotoSignIn: React.EventHandler<React.MouseEvent>;
+  signInHref: string;
   emailEnabled?: boolean;
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
@@ -30,6 +36,7 @@ const SignUp: StatelessComponent<Props> = ({
   facebookEnabled,
   googleEnabled,
   oidcEnabled,
+  signInHref,
   auth,
 }) => {
   const oneClickUptegrationEnabled =
@@ -51,18 +58,10 @@ const SignUp: StatelessComponent<Props> = ({
       <SubBar>
         <Localized
           id="signUp-accountAvailableSignIn"
-          button={
-            <Button
-              data-testid="gotoSignInButton"
-              variant="underlined"
-              size="small"
-              color="primary"
-              onClick={onGotoSignIn}
-            />
-          }
+          textlink={<TextLink onClick={onGotoSignIn} href={signInHref} />}
         >
           <Typography variant="bodyCopy" container={Flex}>
-            {"Already have an account? <button>Sign In</button>"}
+            {"Already have an account? <textlink>Sign In</textlink>"}
           </Typography>
         </Localized>
       </SubBar>

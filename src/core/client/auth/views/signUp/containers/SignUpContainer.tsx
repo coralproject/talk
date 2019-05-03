@@ -9,6 +9,7 @@ import {
   withMutation,
 } from "talk-framework/lib/relay";
 
+import { getViewURL } from "talk-auth/helpers";
 import SignUp from "../components/SignUp";
 
 interface Props {
@@ -17,12 +18,17 @@ interface Props {
 }
 
 class SignUpContainer extends Component<Props> {
-  private goToSignIn = () =>
+  private goToSignIn = (e: React.MouseEvent) => {
     this.props.setView({ view: "SIGN_IN", history: "push" });
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+  };
   public render() {
     const integrations = this.props.auth.integrations;
     return (
       <SignUp
+        signInHref={getViewURL("SIGN_IN")}
         auth={this.props.auth}
         onGotoSignIn={this.goToSignIn}
         emailEnabled={

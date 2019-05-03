@@ -8,6 +8,7 @@ import {
 } from "talk-auth/mutations";
 import { MutationProp, withMutation } from "talk-framework/lib/relay";
 
+import { getViewURL } from "talk-auth/helpers";
 import SignInWithEmail, {
   SignInWithEmailForm,
 } from "../components/SignInWithEmail";
@@ -26,13 +27,18 @@ class SignInContainer extends Component<SignInContainerProps> {
       return { [FORM_ERROR]: error.message };
     }
   };
-  private goToForgotPassword = () =>
+  private goToForgotPassword = (e: React.MouseEvent) => {
     this.props.setView({ view: "FORGOT_PASSWORD", history: "push" });
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+  };
   public render() {
     return (
       <SignInWithEmail
         onSubmit={this.onSubmit}
         onGotoForgotPassword={this.goToForgotPassword}
+        forgotPasswordHref={getViewURL("FORGOT_PASSWORD")}
       />
     );
   }

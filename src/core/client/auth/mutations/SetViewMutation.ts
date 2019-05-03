@@ -7,7 +7,6 @@ export type View =
   | "SIGN_IN"
   | "SIGN_UP"
   | "FORGOT_PASSWORD"
-  | "RESET_PASSWORD"
   | "ADD_EMAIL_ADDRESS"
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD";

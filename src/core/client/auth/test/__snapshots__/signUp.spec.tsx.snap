@@ -1747,19 +1747,13 @@ exports[`renders sign up form 1`] = `
           <span>
             Already have an account? 
           </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            data-testid="gotoSignInButton"
-            onBlur={[Function]}
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=SIGN_IN"
             onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
           >
             Sign In
-          </button>
+          </a>
         </div>
       </div>
     </div>

@@ -89,20 +89,17 @@ exports[`accepts correct password 1`] = `
       <div
         className="Flex-root Flex-flex Flex-justifyFlexEnd"
       >
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          data-testid="gotoForgotPasswordButton"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
-          Forgot your password?
-        </button>
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=FORGOT_PASSWORD"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
@@ -218,20 +215,17 @@ exports[`accepts valid email 1`] = `
       <div
         className="Flex-root Flex-flex Flex-justifyFlexEnd"
       >
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          data-testid="gotoForgotPasswordButton"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
-          Forgot your password?
-        </button>
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=FORGOT_PASSWORD"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
@@ -341,20 +335,17 @@ exports[`auth configuration renders all auth enabled 1`] = `
           <div
             className="Flex-root Flex-flex Flex-justifyFlexEnd"
           >
-            <button
-              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-              data-testid="gotoForgotPasswordButton"
-              disabled={false}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
+            <p
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
-              Forgot your password?
-            </button>
+              <a
+                className="TextLink-root"
+                href="http://localhost/?view=FORGOT_PASSWORD#accessToken=access-token"
+                onClick={[Function]}
+              >
+                Forgot your password?
+              </a>
+            </p>
           </div>
         </div>
         <button
@@ -635,20 +626,17 @@ exports[`checks for invalid email 1`] = `
       <div
         className="Flex-root Flex-flex Flex-justifyFlexEnd"
       >
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          data-testid="gotoForgotPasswordButton"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
-          Forgot your password?
-        </button>
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=FORGOT_PASSWORD"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
@@ -706,19 +694,13 @@ exports[`renders sign in view 1`] = `
           <span>
             Don't have an account? 
           </span>
-          <button
-            className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-            data-testid="gotoSignUpButton"
-            onBlur={[Function]}
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=SIGN_UP"
             onClick={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-            onTouchEnd={[Function]}
-            type="button"
           >
             Sign Up
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -804,20 +786,17 @@ exports[`renders sign in view 1`] = `
               <div
                 className="Flex-root Flex-flex Flex-justifyFlexEnd"
               >
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-                  data-testid="gotoForgotPasswordButton"
-                  disabled={false}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
+                <p
+                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                 >
-                  Forgot your password?
-                </button>
+                  <a
+                    className="TextLink-root"
+                    href="http://localhost/?view=FORGOT_PASSWORD"
+                    onClick={[Function]}
+                  >
+                    Forgot your password?
+                  </a>
+                </p>
               </div>
             </div>
             <button
@@ -881,19 +860,13 @@ exports[`renders sign in view with error 1`] = `
         <span>
           Don't have an account? 
         </span>
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          data-testid="gotoSignUpButton"
-          onBlur={[Function]}
+        <a
+          className="TextLink-root"
+          href="http://localhost/?view=SIGN_UP"
           onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
         >
           Sign Up
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -984,20 +957,17 @@ exports[`renders sign in view with error 1`] = `
             <div
               className="Flex-root Flex-flex Flex-justifyFlexEnd"
             >
-              <button
-                className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-                data-testid="gotoForgotPasswordButton"
-                disabled={false}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              <p
+                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
-                Forgot your password?
-              </button>
+                <a
+                  className="TextLink-root"
+                  href="http://localhost/?view=FORGOT_PASSWORD"
+                  onClick={[Function]}
+                >
+                  Forgot your password?
+                </a>
+              </p>
             </div>
           </div>
           <button
@@ -1132,20 +1102,17 @@ exports[`shows error when submitting empty form 1`] = `
       <div
         className="Flex-root Flex-flex Flex-justifyFlexEnd"
       >
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          data-testid="gotoForgotPasswordButton"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
-          Forgot your password?
-        </button>
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=FORGOT_PASSWORD"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
@@ -1253,20 +1220,17 @@ exports[`shows server error 1`] = `
       <div
         className="Flex-root Flex-flex Flex-justifyFlexEnd"
       >
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          data-testid="gotoForgotPasswordButton"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
-          Forgot your password?
-        </button>
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=FORGOT_PASSWORD"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button
@@ -1369,20 +1333,17 @@ exports[`submits form successfully 1`] = `
       <div
         className="Flex-root Flex-flex Flex-justifyFlexEnd"
       >
-        <button
-          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
-          data-testid="gotoForgotPasswordButton"
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-          onTouchEnd={[Function]}
-          type="button"
+        <p
+          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
-          Forgot your password?
-        </button>
+          <a
+            className="TextLink-root"
+            href="http://localhost/?view=FORGOT_PASSWORD"
+            onClick={[Function]}
+          >
+            Forgot your password?
+          </a>
+        </p>
       </div>
     </div>
     <button

@@ -17,6 +17,7 @@ import {
   withMutation,
 } from "talk-framework/lib/relay";
 
+import { getViewURL } from "talk-auth/helpers";
 import SignIn from "../components/SignIn";
 
 interface Props {
@@ -28,8 +29,12 @@ interface Props {
 }
 
 class SignInContainer extends Component<Props> {
-  private goToSignUp = () =>
+  private goToSignUp = (e: React.MouseEvent) => {
     this.props.setView({ view: "SIGN_UP", history: "push" });
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+  };
 
   public componentWillUnmount() {
     this.props.clearError();
@@ -55,6 +60,7 @@ class SignInContainer extends Component<Props> {
         oidcEnabled={
           integrations.oidc.enabled && integrations.oidc.targetFilter.stream
         }
+        signUpHref={getViewURL("SIGN_UP")}
       />
     );
   }
