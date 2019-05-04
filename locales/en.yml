@@ -35,6 +35,9 @@ en:
     flagged: flagged
     undo_reject: Undo
     view_context: 'View context'
+    edit_history: 'Edit history'
+    show_edit_history: 'Show edit history'
+    hide_edit_history: 'Hide edit history'
   comment_box:
     cancel: Cancel
     characters_remaining: 'characters remaining'

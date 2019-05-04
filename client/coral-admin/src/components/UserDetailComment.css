@@ -139,3 +139,21 @@
     margin-right: 5px;
   }
 }
+
+.bodyHistoryToggle {
+  color: #666;
+  font-size: 12px;
+  line-height: 1px;
+  font-weight: 300;
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.editedBody {
+  margin-top: 6px;
+  font-weight: 300;
+  font-size: 16px;
+  overflow-wrap: break-word;
+}

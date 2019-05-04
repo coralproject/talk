@@ -19,6 +19,8 @@ import TimeAgo from 'coral-framework/components/TimeAgo';
 import t from 'coral-framework/services/i18n';
 
 class UserDetailComment extends React.Component {
+  state = { showingEditHistory: false };
+
   approve = () =>
     this.props.comment.status === 'ACCEPTED'
       ? null
@@ -28,6 +30,25 @@ class UserDetailComment extends React.Component {
     this.props.comment.status === 'REJECTED'
       ? null
       : this.props.rejectComment({ commentId: this.props.comment.id });
+
+  getBodyHistory = () => {
+    const bodyHistory = [];
+    const comment = this.props.comment;
+    for (let i = 0; i < comment.body_history.length - 1; i++) {
+      bodyHistory.push(
+        <div key={i} className={styles.editedBody}>
+          <TimeAgo className={styles.created} datetime={comment.created_at} />
+          {comment.body_history[i].body}
+        </div>
+      );
+    }
+
+    return bodyHistory;
+  };
+
+  toggleEditHistory = () => {
+    this.setState({ showingEditHistory: !this.state.showingEditHistory });
+  };
 
   render() {
     const {
@@ -80,6 +101,14 @@ class UserDetailComment extends React.Component {
               <span>
                 &nbsp;<span className={styles.editedMarker}>
                   ({t('comment.edited')})
+                </span>
+                &nbsp;<span
+                  className={styles.bodyHistoryToggle}
+                  onClick={this.toggleEditHistory}
+                >
+                  {this.state.showingEditHistory
+                    ? t('comment.hide_edit_history')
+                    : t('comment.show_edit_history')}
                 </span>
               </span>
             ) : null}
@@ -142,6 +171,14 @@ class UserDetailComment extends React.Component {
             </div>
           </CommentAnimatedEdit>
         </div>
+
+        {this.state.showingEditHistory ? (
+          <div className={styles.container}>
+            {t('comment.edit_history')}
+            {this.getBodyHistory()}
+          </div>
+        ) : null}
+
         <CommentDetails root={root} comment={comment} />
       </li>
     );
