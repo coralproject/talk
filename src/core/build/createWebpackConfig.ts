@@ -350,6 +350,76 @@ export default function createWebpackConfig(
                   : "assets/media/[name].[ext]",
               },
             },
+            // "postcss" loader applies autoprefixer to our CSS.
+            // "css" loader resolves paths in CSS and adds assets as dependencies.
+            // "style" loader turns CSS into JS modules that inject <style> tags.
+            // In production, we use a plugin to extract that CSS to a file, and
+            // in development "style" loader enables hot editing of CSS.
+            {
+              test: /\.css$/,
+              use: [
+                isProduction ? MiniCssExtractPlugin.loader : styleLoader,
+                {
+                  loader: require.resolve("css-loader"),
+                  options: {
+                    modules: true,
+                    importLoaders: 1,
+                    localIdentName: "[name]-[local]-[hash:base64:5]",
+                    sourceMap: isProduction && !disableSourcemaps,
+                  },
+                },
+                {
+                  loader: require.resolve("postcss-loader"),
+                  options: {
+                    config: {
+                      path: paths.appPostCssConfig,
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              test: /\.css\.ts$/,
+              use: [
+                isProduction ? MiniCssExtractPlugin.loader : styleLoader,
+                {
+                  loader: require.resolve("css-loader"),
+                  options: {
+                    modules: true,
+                    importLoaders: 2,
+                    localIdentName: "[name]-[local]-[hash:base64:5]",
+                    sourceMap: isProduction && !disableSourcemaps,
+                  },
+                },
+                {
+                  loader: require.resolve("postcss-loader"),
+                  options: {
+                    config: {
+                      path: paths.appPostCssConfig,
+                    },
+                    parser: "postcss-js",
+                  },
+                },
+                {
+                  loader: require.resolve("babel-loader"),
+                  options: {
+                    configFile: false,
+                    babelrc: false,
+                    presets: [
+                      "@babel/typescript",
+                      [
+                        "@babel/env",
+                        { targets: { node: "10.0.0" }, modules: "commonjs" },
+                      ],
+                    ],
+                    // This is a feature of `babel-loader` for webpack (not Babel itself).
+                    // It enables caching results in ./node_modules/.cache/babel-loader/
+                    // directory for faster rebuilds.
+                    cacheDirectory: true,
+                  },
+                },
+              ],
+            },
             // Process JS with Babel.
             {
               test: /\.(ts|tsx)$/,
@@ -373,7 +443,7 @@ export default function createWebpackConfig(
                   },
                 },
                 {
-                  loader: "ts-loader",
+                  loader: require.resolve("ts-loader"),
                   options: {
                     configFile: paths.appTsconfig,
                     compilerOptions: {

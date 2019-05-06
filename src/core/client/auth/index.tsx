@@ -10,6 +10,9 @@ import { initLocalState } from "./local";
 import localesData from "./locales";
 import AppQuery from "./queries/AppQuery";
 
+// Import css variables.
+import "talk-ui/theme/variables.css";
+
 /**
  * Adapt popup height to current content every 100ms.
  *
