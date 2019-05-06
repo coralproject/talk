@@ -86,15 +86,7 @@ function generateBundleIterator(bundle: FluentBundle) {
   };
 }
 
-export const createJobProcessor = (options: MailProcessorOptions) => {
-  const { tenantCache, i18n } = options;
-
-  // Create the cache adapter that will handle invalidating the email transport
-  // when the tenant experiences a change.
-  const cache = new TenantCacheAdapter<ReturnType<typeof createTransport>>(
-    tenantCache
-  );
-
+function createMessageTranslator(i18n: I18n) {
   /**
    * translateMessage will translate the message to the specified locale as well
    * a juice the contents.
@@ -104,12 +96,12 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
    * @param fromAddress the address that is sending the email (from the Tenant)
    * @param data data used to send the message
    */
-  async function translateMessage(
+  return async (
     templateName: string,
     locale: LanguageCode,
     fromAddress: string,
     data: MailerData
-  ): Promise<Message> {
+  ): Promise<Message> => {
     // Setup the localization bundles.
     const bundle = i18n.getBundle(locale);
     const loc = new DOMLocalization([], generateBundleIterator(bundle));
@@ -157,7 +149,20 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       text,
       subject,
     };
-  }
+  };
+}
+
+export const createJobProcessor = (options: MailProcessorOptions) => {
+  const { tenantCache, i18n } = options;
+
+  // Create the cache adapter that will handle invalidating the email transport
+  // when the tenant experiences a change.
+  const cache = new TenantCacheAdapter<ReturnType<typeof createTransport>>(
+    tenantCache
+  );
+
+  // Create the message translator function.
+  const translateMessage = createMessageTranslator(i18n);
 
   return async (job: Job<MailerData>) => {
     const { value: data, error: err } = Joi.validate(
