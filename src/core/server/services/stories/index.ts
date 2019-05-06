@@ -173,7 +173,7 @@ export async function create(
     input,
     now
   );
-  if (!metadata) {
+  if (!metadata && tenant.storyScraping.enabled) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!
     newStory = await scrape(mongo, tenant.id, newStory.id, storyURL);

@@ -1024,6 +1024,24 @@ type Organization {
 }
 
 """
+StoryScrapingConfiguration stores the configuration around story scraping.
+"""
+type StoryScrapingConfiguration {
+  """
+  enabled, when true, enables stories to be scraped. When disabled, stories will
+  only be looked up instead, and must be created via the API directly.
+  """
+  enabled: Boolean!
+
+  """
+  proxyURL when specified, allows scraping requests to use the provided proxy.
+  All requests will then be passed through the appropriote proxy as parsed by
+  the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
+  """
+  proxyURL: String
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -1125,6 +1143,11 @@ type Settings {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfiguration!
+
+  """
+  storyScraping stores the configuration around story scraping.
+  """
+  storyScraping: StoryScrapingConfiguration! @auth(roles: [ADMIN])
 
   """
   createdAt is the time that the Settings was created at.
@@ -2745,6 +2768,24 @@ input SettingsCloseCommentingInput {
 }
 
 """
+StoryScrapingConfigurationInput stores the configuration around story scraping.
+"""
+input StoryScrapingConfigurationInput {
+  """
+  enabled, when true, enables stories to be scraped. When disabled, stories will
+  only be looked up instead, and must be created via the API directly.
+  """
+  enabled: Boolean
+
+  """
+  proxyURL when specified, allows scraping requests to use the provided proxy.
+  All requests will then be passed through the appropriote proxy as parsed by
+  the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
+  """
+  proxyURL: String
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
@@ -2826,6 +2867,11 @@ input SettingsInput {
   charCount stores the character count moderation settings.
   """
   charCount: SettingsCharCountInput
+
+  """
+  storyScraping stores the configuration around story scraping.
+  """
+  storyScraping: StoryScrapingConfigurationInput
 }
 
 """

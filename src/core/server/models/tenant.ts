@@ -180,6 +180,9 @@ export async function createTenant(
       sortLabel: "Most Respected",
       icon: "thumb_up",
     },
+    storyScraping: {
+      enabled: true,
+    },
     createdAt: now,
   };
 
