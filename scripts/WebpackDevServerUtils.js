@@ -3,6 +3,12 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * This file is taken from create-react-app.
+ * We disabled tty support, removed unessential parts to us and
+ * added support for `warningsFilter` and Multi Webpack Config.
+ *
+ * TODO: (cvle) The `forkTsCheckerWebpackPlugin` hooks are not working atm.
  */
 "use strict";
 
@@ -20,37 +26,6 @@ const Stats = require("webpack/lib/Stats");
 // (cvle): Changed to false as we are sharing the tty with other processes.
 // const isInteractive = process.stdout.isTTY && false;
 const isInteractive = false;
-
-// Taken from webpack/lib/Stats.js.
-function filterWarnings(warnings, warningsFilter) {
-  // we dont have anything to filter so all warnings can be shown
-  if (!warningsFilter) {
-    return warnings;
-  }
-
-  // create a chain of filters
-  // if they return "true" a warning should be suppressed
-  const normalizedWarningsFilters = [].concat(warningsFilter).map(filter => {
-    if (typeof filter === "string") {
-      return warning => warning.includes(filter);
-    }
-
-    if (filter instanceof RegExp) {
-      return warning => filter.test(warning);
-    }
-
-    if (typeof filter === "function") {
-      return filter;
-    }
-
-    throw new Error(
-      `Can only filter warnings with Strings or RegExps. (Given: ${filter})`
-    );
-  });
-  return warnings.filter(warning => {
-    return !normalizedWarningsFilters.some(check => check(warning));
-  });
-}
 
 function prepareUrls(protocol, host, port) {
   const formatUrl = hostname =>
