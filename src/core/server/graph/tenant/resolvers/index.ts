@@ -3,7 +3,6 @@ import Time from "talk-server/graph/common/scalars/time";
 import { GQLResolver } from "talk-server/graph/tenant/schema/__generated__/types";
 
 import { AcceptCommentPayload } from "./AcceptCommentPayload";
-import { ActionCounts } from "./ActionCounts";
 import { AuthIntegrations } from "./AuthIntegrations";
 import { BanStatus } from "./BanStatus";
 import { BanStatusHistory } from "./BanStatusHistory";
@@ -15,7 +14,6 @@ import { CommentRevision } from "./CommentRevision";
 import { DisableCommenting } from "./DisableCommenting";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { Flag } from "./Flag";
-import { FlagActionCounts } from "./FlagActionCounts";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
@@ -34,7 +32,6 @@ import { UserStatus } from "./UserStatus";
 
 const Resolvers: GQLResolver = {
   AcceptCommentPayload,
-  ActionCounts,
   AuthIntegrations,
   BanStatus,
   BanStatusHistory,
@@ -47,7 +44,6 @@ const Resolvers: GQLResolver = {
   DisableCommenting,
   FacebookAuthIntegration,
   Flag,
-  FlagActionCounts,
   GoogleAuthIntegration,
   ModerationQueue,
   ModerationQueues,

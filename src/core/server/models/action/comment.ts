@@ -50,7 +50,7 @@ export enum ACTION_TYPE {
 
 export type EncodedCommentActionCounts = Record<string, number>;
 
-export type FlagActionCounts = Omit<GQLFlagActionCounts, "flags">;
+export type FlagActionCounts = GQLFlagActionCounts;
 
 export interface ActionCounts {
   /**

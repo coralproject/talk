@@ -245,11 +245,6 @@ type FlagActionCounts {
   flagged for.
   """
   reasons: FlagReasonActionCounts!
-
-  """
-  flags is the actual Flags that were left by the Users or the system.
-  """
-  flags(first: Int = 10, after: Cursor): FlagsConnection!
 }
 
 """
@@ -1742,6 +1737,12 @@ type Comment {
   actionCounts stores the counts of all the actions for the Comment.
   """
   actionCounts: ActionCounts!
+
+  """
+  flags is the actual Flags that were left by the Users or the system.
+  """
+  flags(first: Int = 10, after: Cursor): FlagsConnection!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   viewerActionPresence stores the presence information for all the actions
