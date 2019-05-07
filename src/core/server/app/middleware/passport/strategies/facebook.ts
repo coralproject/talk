@@ -40,7 +40,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
   protected async findOrCreateUser(
     tenant: Tenant,
     integration: Required<GQLFacebookAuthIntegration>,
-    { id, photos, emails, displayName }: Profile,
+    { id, photos, emails }: Profile,
     now = new Date()
   ) {
     // Create the user profile that will be used to lookup the User.
@@ -76,7 +76,6 @@ export default class FacebookStrategy extends OAuth2Strategy<
         this.mongo,
         tenant,
         {
-          username: displayName,
           role: GQLUSER_ROLE.COMMENTER,
           email,
           emailVerified,
