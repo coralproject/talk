@@ -18,7 +18,7 @@ interface FormData {
   username: string;
   password: string;
   confirmPassword: string;
-  domains: string[];
+  allowedDomains: string[];
 }
 
 interface WizardContainerState {
@@ -31,7 +31,7 @@ function shapeFinalData(data: FormData): InstallInput {
     organizationName,
     organizationContactEmail,
     organizationURL,
-    domains,
+    allowedDomains,
     username,
     password,
     email,
@@ -44,7 +44,7 @@ function shapeFinalData(data: FormData): InstallInput {
         contactEmail: organizationContactEmail,
         url: organizationURL,
       },
-      domains,
+      allowedDomains,
     },
     user: {
       username,
@@ -69,7 +69,7 @@ class WizardContainer extends Component<Props, WizardContainerState> {
       username: "",
       password: "",
       confirmPassword: "",
-      domains: [],
+      allowedDomains: [],
     },
   };
 

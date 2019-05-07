@@ -1042,6 +1042,21 @@ type StoryScrapingConfiguration {
 }
 
 """
+StoryConfiguration stores the configuration for working with stories.
+"""
+type StoryConfiguration {
+  """
+  scraping stores configuration around story scraping.
+  """
+  scraping: StoryScrapingConfiguration!
+
+  """
+  disableLazy when true, will only allow lookups of stories created via the API.
+  """
+  disableLazy: Boolean!
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -1056,9 +1071,9 @@ type Settings {
   domain: String! @auth(roles: [ADMIN])
 
   """
-  domains will return a given list of permitted domains.
+  allowedDomains is the list of domains that stories can come from.
   """
-  domains: [String!]! @auth(roles: [ADMIN])
+  allowedDomains: [String!]! @auth(roles: [ADMIN])
 
   """
   locale is the specified locale for this Tenant.
@@ -1145,9 +1160,9 @@ type Settings {
   reaction: ReactionConfiguration!
 
   """
-  storyScraping stores the configuration around story scraping.
+  stories stores the configuration around stories.
   """
-  storyScraping: StoryScrapingConfiguration! @auth(roles: [ADMIN])
+  stories: StoryConfiguration! @auth(roles: [ADMIN])
 
   """
   createdAt is the time that the Settings was created at.
@@ -2786,13 +2801,28 @@ input StoryScrapingConfigurationInput {
 }
 
 """
+StoryConfiguration stores the configuration for working with stories.
+"""
+input StoryConfigurationInput {
+  """
+  scraping stores configuration around story scraping.
+  """
+  scraping: StoryScrapingConfigurationInput
+
+  """
+  disableLazy when true, will only allow lookups of stories created via the API.
+  """
+  disableLazy: Boolean
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
   """
-  domains will return a given list of domains that hosts Stories.
+  allowedDomains is the list of domains that stories can come from.
   """
-  domains: [String!]
+  allowedDomains: [String!]
 
   """
   moderation is the moderation mode for all Stories on the site.
@@ -2869,9 +2899,9 @@ input SettingsInput {
   charCount: SettingsCharCountInput
 
   """
-  storyScraping stores the configuration around story scraping.
+  stories stores the configuration around stories.
   """
-  storyScraping: StoryScrapingConfigurationInput
+  stories: StoryConfigurationInput
 }
 
 """

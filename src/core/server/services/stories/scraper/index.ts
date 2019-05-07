@@ -9,12 +9,12 @@ import { Db } from "mongodb";
 import fetch, { RequestInit } from "node-fetch";
 import ProxyAgent from "proxy-agent";
 
+import { version } from "coral-common/version";
 import { GQLStoryMetadata } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { retrieveStory, updateStory } from "coral-server/models/story";
+import { retrieveTenant } from "coral-server/models/tenant";
 
-import { version } from "talk-common/version";
-import { retrieveTenant } from "talk-server/models/tenant";
 import { modifiedScraper } from "./rules/modified";
 import { sectionScraper } from "./rules/section";
 
@@ -49,7 +49,9 @@ class Scraper {
     };
     if (proxyURL) {
       // Force the type here because there's a slight mismatch.
-      options.agent = new ProxyAgent(proxyURL) as RequestInit["agent"];
+      options.agent = (new ProxyAgent(
+        proxyURL
+      ) as unknown) as RequestInit["agent"];
       log.debug("using proxy for scrape");
     }
 
@@ -154,7 +156,7 @@ export async function scrape(
   // Get the metadata from the scraped html.
   const metadata = await scraper.scrape(
     storyURL,
-    tenant.storyScraping.proxyURL
+    tenant.stories.scraping.proxyURL
   );
   if (!metadata) {
     throw new Error("story at specified url not found");

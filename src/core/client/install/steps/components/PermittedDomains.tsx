@@ -19,14 +19,14 @@ import {
 import BackButton from "./BackButton";
 
 interface FormProps {
-  domains: string;
+  allowedDomains: string;
 }
 
 export interface PermittedDomainsForm {
   onSubmit: OnSubmit<FormProps>;
   onGoToPreviousStep: () => void;
   data: {
-    domains: string[];
+    allowedDomains: string[];
   };
 }
 
@@ -35,7 +35,7 @@ const PermittedDomains: FunctionComponent<PermittedDomainsForm> = props => {
     <Form
       onSubmit={props.onSubmit}
       initialValues={{
-        domains: props.data.domains.join(","),
+        allowedDomains: props.data.allowedDomains.join(","),
       }}
     >
       {({ handleSubmit, submitting, submitError }) => (
@@ -60,7 +60,7 @@ const PermittedDomains: FunctionComponent<PermittedDomainsForm> = props => {
               </CallOut>
             )}
 
-            <Field name="domains">
+            <Field name="allowedDomains">
               {({ input, meta }) => (
                 <FormField>
                   <Localized id="install-permittedDomains-permittedDomains">

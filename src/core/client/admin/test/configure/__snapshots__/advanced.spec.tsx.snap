@@ -152,7 +152,7 @@ exports[`renders configure advanced 1`] = `
             >
               <label
                 className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
-                htmlFor="configure-advanced-domains"
+                htmlFor="configure-advanced-allowedDomains"
               >
                 Permitted Domains
               </label>
@@ -172,8 +172,8 @@ yourdomain.com, etc.
                   autoCorrect="off"
                   className="TextField-input TextField-colorRegular"
                   disabled={false}
-                  id="configure-advanced-domains"
-                  name="domains"
+                  id="configure-advanced-allowedDomains"
+                  name="allowedDomains"
                   onChange={[Function]}
                   placeholder=""
                   spellCheck={false}

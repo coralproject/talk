@@ -21,8 +21,8 @@ class PermittedDomainsContainer extends Component<
 > {
   private onSubmit: PermittedDomainsForm["onSubmit"] = async (input, form) => {
     try {
-      const domains = input.domains.split(",");
-      await this.props.onInstall({ domains });
+      const allowedDomains = input.allowedDomains.split(",");
+      await this.props.onInstall({ allowedDomains });
       return this.props.onGoToNextStep();
     } catch (error) {
       return { [FORM_ERROR]: error.message };

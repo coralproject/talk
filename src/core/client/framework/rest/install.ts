@@ -7,7 +7,7 @@ export interface InstallInput {
       contactEmail: string;
       url: string;
     };
-    domains: string[];
+    allowedDomains: string[];
   };
   user: {
     username: string;

@@ -141,6 +141,7 @@
     "@coralproject/rte": "^0.10.15",
     "@intervolga/optimize-cssnano-plugin": "^1.0.6",
     "@types/basic-auth": "^1.1.2",
+    "@types/agent-base": "^4.2.0",
     "@types/bcryptjs": "^2.4.1",
     "@types/bull": "^3.5.12",
     "@types/bunyan": "^1.8.4",

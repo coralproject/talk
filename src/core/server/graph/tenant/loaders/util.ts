@@ -24,3 +24,9 @@ export class SingletonResolver<T> {
     return promise;
   }
 }
+
+export function createManyBatchLoadFn<U, V>(
+  batchLoadFn: (input: U) => Promise<V>
+) {
+  return (inputs: U[]) => Promise.all(inputs.map(input => batchLoadFn(input)));
+}
