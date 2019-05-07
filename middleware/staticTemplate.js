@@ -96,12 +96,18 @@ const createResolveFactory = (() => {
 
 module.exports = async (req, res, next) => {
   try {
-    // Attach the custom css url and organization name.
-    const { customCssUrl, organizationName } = await SettingsService.select(
+    // Attach the custom css urls and organization name.
+    const {
+      customCssUrl,
+      customAdminCssUrl,
+      organizationName,
+    } = await SettingsService.select(
       'customCssUrl',
+      'customAdminCssUrl',
       'organizationName'
     );
     res.locals.customCssUrl = customCssUrl;
+    res.locals.customAdminCssUrl = customAdminCssUrl;
     res.locals.organizationName = organizationName;
   } catch (err) {
     console.warn(err);

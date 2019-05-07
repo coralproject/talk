@@ -32,6 +32,7 @@ export default compose(
     settings: gql`
       fragment TalkAdmin_TechSettings_settings on Settings {
         customCssUrl
+        customAdminCssUrl
         domains {
           whitelist
         }
