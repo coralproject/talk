@@ -1,4 +1,5 @@
 import errorOverlayMiddleware from "react-dev-utils/errorOverlayMiddleware";
+import evalSourceMapMiddleware from "react-dev-utils/evalSourceMapMiddleware";
 import ignoredFiles from "react-dev-utils/ignoredFiles";
 import noopServiceWorkerMiddleware from "react-dev-utils/noopServiceWorkerMiddleware";
 import { Configuration } from "webpack-dev-server";
@@ -16,6 +17,12 @@ export default function({
   publicPath,
 }: WebpackDevServerConfig): Configuration {
   return {
+    stats: {
+      // https://github.com/TypeStrong/ts-loader#transpileonly-boolean-defaultfalse
+      // Using transpilation only without typechecks gives warnings when we reexport types.
+      // We can ignore them here.
+      warningsFilter: /export .* was not found in/,
+    },
     // Enable gzip compression of generated files.
     compress: true,
     // Silence WebpackDevServer's own logs since they're generally not useful.
@@ -73,7 +80,10 @@ export default function({
         target: `http://localhost:${serverPort}`,
       },
     },
-    before(app: any) {
+    before(app, server) {
+      // This lets us fetch source contents from webpack for the error overlay
+      app.use(evalSourceMapMiddleware(server));
+
       // This lets us open files from the runtime error overlay.
       app.use(errorOverlayMiddleware());
       // This service worker file is effectively a 'no-op' that will reset any

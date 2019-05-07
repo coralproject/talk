@@ -81,11 +81,13 @@ export default class LongRunningExecutor implements Executor {
         if (err) {
           reject(err);
         }
-        spawn.sync("kill", [
-          `-${signal}`,
-          this.process!.pid.toString(),
-          ...kids.map(p => p.PID.toString()),
-        ]);
+        if (kids) {
+          spawn.sync("kill", [
+            `-${signal}`,
+            this.process!.pid.toString(),
+            ...kids,
+          ]);
+        }
         resolve();
       });
     });

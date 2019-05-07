@@ -13,7 +13,9 @@ import { ConfigureQueryLocal as Local } from "talk-stream/__generated__/Configur
 import { Delay, Spinner } from "talk-ui/components";
 
 const loadConfigureContainer = () =>
-  import("../containers/ConfigureContainer" /* webpackChunkName: "configure" */);
+  import(
+    "../containers/ConfigureContainer" /* webpackChunkName: "configure" */
+  );
 // (cvle) For some reason without `setTimeout` this request will block other requests.
 const preloadConfigureContainer = once(() =>
   setTimeout(loadConfigureContainer)

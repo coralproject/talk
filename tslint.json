@@ -1,5 +1,6 @@
 {
   "extends": [
+    "./tslint.dynamic.js",
     "tslint:recommended",
     "tslint-config-prettier",
     "tslint-plugin-prettier"
