@@ -107,9 +107,8 @@ export const logoutHandler = ({
     // Get the user on the request.
     const user = req.user;
     if (!user) {
-      return next(
-        new Error("cannot logout when there is no user on the request")
-      );
+      // If a user is already logged out, then there's no need to do it again!
+      return res.sendStatus(204);
     }
 
     // Delegate to the logout handler.
