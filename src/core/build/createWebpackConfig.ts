@@ -569,7 +569,7 @@ export default function createWebpackConfig(
         account: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifProduction(paths.appPublicPath),
+          ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appAccountIndex,
         ],
