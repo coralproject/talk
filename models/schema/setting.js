@@ -28,6 +28,10 @@ const Setting = new Schema(
       type: String,
       default: '',
     },
+    customAdminCssUrl: {
+      type: String,
+      default: '',
+    },
     infoBoxContent: {
       type: String,
       default: '',

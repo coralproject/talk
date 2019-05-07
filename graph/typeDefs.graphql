@@ -879,6 +879,9 @@ type Settings {
   # customCssUrl is the URL of the custom CSS used to display on the frontend.
   customCssUrl: String
 
+  # customAdminCssUrl is the URL of the custom CSS used to display on the admin panel.
+  customAdminCssUrl: String
+
   # closedTimeout is the amount of seconds from the created_at timestamp that a
   # given asset will be considered closed.
   closedTimeout: Int
@@ -1352,6 +1355,9 @@ input UpdateSettingsInput {
 
   # customCssUrl is the URL of the custom CSS used to display on the frontend.
   customCssUrl: String
+
+  # customAdminCssUrl is the URL of the custom CSS used to display on the admin panel.
+  customAdminCssUrl: String
 
   # closedTimeout is the amount of seconds from the created_at timestamp that a
   # given asset will be considered closed.
