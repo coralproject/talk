@@ -26,3 +26,5 @@ declare module "react-dev-utils/WebpackDevServerUtils";
 declare module "react-dev-utils/FileSizeReporter";
 declare module "react-dev-utils/formatWebpackMessages";
 declare module "react-dev-utils/printBuildError";
+declare module "react-dev-utils/typescriptFormatter";
+declare module "react-dev-utils/evalSourceMapMiddleware";

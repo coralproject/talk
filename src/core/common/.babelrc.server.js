@@ -1,5 +1,5 @@
 module.exports = {
   presets: [
-    ["@babel/env", { targets: "last 2 versions, ie 11", modules: "commonjs" }],
+    ["@babel/env", { targets: { node: "10.0.0" }, modules: "commonjs" }],
   ],
 };

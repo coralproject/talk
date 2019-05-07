@@ -37,6 +37,19 @@
 }
 
 @font-face {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-display: block;
+  font-weight: 700;
+  src: local("Source Sans Pro SemiBold italic"),
+    local("Source Sans Pro-SemiBolditalic"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-700.woff2")
+      format("woff2"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-700.woff")
+      format("woff");
+}
+
+@font-face {
   font-family: "Manuale";
   font-style: normal;
   font-display: block;
@@ -54,6 +67,16 @@
   src: local("Manuale SemiBold "), local("Manuale-SemiBold"),
     url("typeface-manuale/files/manuale-latin-600.woff2") format("woff2"),
     url("typeface-manuale/files/manuale-latin-600.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Manuale";
+  font-style: normal;
+  font-display: block;
+  font-weight: 700;
+  src: local("Manuale SemiBold "), local("Manuale-SemiBold"),
+    url("typeface-manuale/files/manuale-latin-700.woff2") format("woff2"),
+    url("typeface-manuale/files/manuale-latin-700.woff") format("woff");
 }
 
 .heading1 {

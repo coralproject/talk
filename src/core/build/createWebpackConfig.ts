@@ -1,10 +1,12 @@
 import OptimizeCssnanoPlugin from "@intervolga/optimize-cssnano-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CompressionPlugin from "compression-webpack-plugin";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { identity } from "lodash";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
+import typescriptFormatter from "react-dev-utils/typescriptFormatter";
 import WatchMissingNodeModulesPlugin from "react-dev-utils/WatchMissingNodeModulesPlugin";
 import TerserPlugin from "terser-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
@@ -30,14 +32,16 @@ const filterPlugins = (plugins: Array<Plugin | null>): Plugin[] =>
 
 interface CreateWebpackOptions {
   appendPlugins?: any[];
+  watch?: boolean;
 }
 
 const publicPath = "/";
 
 export default function createWebpackConfig(
   config: Config,
-  { appendPlugins = [] }: CreateWebpackOptions = {}
+  { appendPlugins = [], watch = false }: CreateWebpackOptions = {}
 ): Configuration[] {
+  const maxCores = config.get("maxCores");
   const env = createClientEnv(config);
   const disableSourcemaps = config.get("disableSourcemaps");
   const generateReport = config.get("generateReport");
@@ -59,24 +63,20 @@ export default function createWebpackConfig(
   };
 
   /**
-   * ifProduction will only include the nodes if we're in production mode.
+   * ifWatch will only include the nodes if we're in watch mode.
    */
-  const ifProduction = isProduction
-    ? (...nodes: any[]) => nodes
-    : (...nodes: any[]) => [];
+  const ifWatch = watch ? (...nodes: any[]) => nodes : () => [];
 
   /**
-   * ifNotProduction will only include the nodes if we're not in production
-   * mode.
+   * ifBuild will only include the nodes if we're in build mode.
    */
-  const ifNotProduction = !isProduction
-    ? (...nodes: any[]) => nodes
-    : (...nodes: any[]) => [];
+  const ifBuild = !watch ? (...nodes: any[]) => nodes : () => [];
 
   const styleLoader = {
     loader: require.resolve("style-loader"),
     options: {
-      hmr: !isProduction,
+      sourceMap: !disableSourcemaps,
+      hmr: watch,
     },
   };
 
@@ -102,14 +102,19 @@ export default function createWebpackConfig(
     // availableLocales: ["en-US"],
   };
 
-  const additionalPlugins = isProduction
-    ? [
-        new MiniCssExtractPlugin({
-          filename: "assets/css/[name].[hash].css",
-          chunkFilename: "assets/css/[id].[hash].css",
-        }),
+  const additionalPlugins = [
+    ...ifBuild(
+      new MiniCssExtractPlugin({
+        filename: isProduction
+          ? "assets/css/[name].[hash].css"
+          : "assets/css/[name].css",
+        chunkFilename: isProduction
+          ? "assets/css/[id].[hash].css"
+          : "assets/css/[id].css",
+      }),
+      isProduction &&
         new OptimizeCssnanoPlugin({
-          sourceMap: true,
+          sourceMap: !disableSourcemaps,
           cssnanoOptions: {
             preset: [
               "default",
@@ -121,26 +126,31 @@ export default function createWebpackConfig(
             ],
           },
         }),
-        // Pre-compress all the assets as they will be served as is.
-        new CompressionPlugin({}),
-      ]
-    : [
-        // Add module names to factory functions so they appear in browser profiler.
-        new webpack.NamedModulesPlugin(),
-        // This is necessary to emit hot updates (currently CSS only):
-        new webpack.HotModuleReplacementPlugin(),
-        // Watcher doesn't work well if you mistype casing in a path so we use
-        // a plugin that prints an error when you attempt to do this.
-        // See https://github.com/facebookincubator/create-react-app/issues/240
-        new CaseSensitivePathsPlugin(),
-        // If you require a missing module and then `npm install` it, you still have
-        // to restart the development server for Webpack to discover it. This plugin
-        // makes the discovery automatic so you don't have to restart.
-        // See https://github.com/facebookincubator/create-react-app/issues/186
-        new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-      ];
+      // Pre-compress all the assets as they will be served as is.
+      new CompressionPlugin({})
+    ),
+    ...ifWatch(
+      // Add module names to factory functions so they appear in browser profiler.
+      new webpack.NamedModulesPlugin(),
+      // Watcher doesn't work well if you mistype casing in a path so we use
+      // a plugin that prints an error when you attempt to do this.
+      // See https://github.com/facebookincubator/create-react-app/issues/240
+      new CaseSensitivePathsPlugin(),
+      // If you require a missing module and then `npm install` it, you still have
+      // to restart the development server for Webpack to discover it. This plugin
+      // makes the discovery automatic so you don't have to restart.
+      // See https://github.com/facebookincubator/create-react-app/issues/186
+      new WatchMissingNodeModulesPlugin(paths.appNodeModules)
+    ),
+  ];
 
   const baseConfig: Configuration = {
+    stats: {
+      // https://github.com/TypeStrong/ts-loader#transpileonly-boolean-defaultfalse
+      // Using transpilation only without typechecks gives warnings when we reexport types.
+      // We can ignore them here.
+      warningsFilter: /export .* was not found in/,
+    },
     // Set webpack mode.
     mode: isProduction ? "production" : "development",
     optimization: {
@@ -182,14 +192,15 @@ export default function createWebpackConfig(
         }),
       ],
     },
-    devtool:
-      !disableSourcemaps && isProduction
-        ? // We generate sourcemaps in production. This is slow but gives good results.
-          // You can exclude the *.map files from the build during deployment.
-          "source-map"
-        : // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
-          // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
-          "cheap-module-source-map",
+    devtool: disableSourcemaps
+      ? false
+      : isProduction
+      ? // We generate sourcemaps in production. This is slow but gives good results.
+        // You can exclude the *.map files from the build during deployment.
+        "source-map"
+      : // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
+        // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
+        "cheap-module-source-map",
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     // The first two entry points enable "hot" CSS and auto-refreshes for JS.
@@ -229,26 +240,13 @@ export default function createWebpackConfig(
       modules: ["node_modules", paths.appLoaders],
     },
     module: {
-      strictExportPresence: true,
+      // https://github.com/TypeStrong/ts-loader#transpileonly-boolean-defaultfalse
+      // Using transpilation only without typechecks gives warnings when we reexport types
+      // thus we can't turn on `strictExportPresence` which would turn warnings into errors.
+      strictExportPresence: false,
       rules: [
         // Disable require.ensure as it's not a standard language feature.
         { parser: { requireEnsure: false } },
-
-        // First, run the linter.
-        // It's important to do this before Babel processes the JS.
-        {
-          test: /\.(js|ts|tsx)$/,
-          enforce: "pre",
-          use: [
-            {
-              options: {
-                tsConfigFile: paths.appTsconfig,
-              },
-              loader: require.resolve("tslint-loader"),
-            },
-          ],
-          include: paths.appSrc,
-        },
         {
           // "oneOf" will traverse all following loaders until one will
           // match the requirements. When no loader matches it will fall
@@ -331,7 +329,9 @@ export default function createWebpackConfig(
               loader: require.resolve("url-loader"),
               options: {
                 limit: 10000,
-                name: "assets/media/[name].[hash:8].[ext]",
+                name: isProduction
+                  ? "assets/media/[name].[hash:8].[ext]"
+                  : "assets/media/[name].[ext]",
               },
             },
             // Process JS with Babel.
@@ -339,6 +339,14 @@ export default function createWebpackConfig(
               test: /\.(ts|tsx)$/,
               include: paths.appSrc,
               use: [
+                {
+                  loader: "thread-loader",
+                  options: {
+                    // there should be 1 cpu for the fork-ts-checker-webpack-plugin
+                    workers: maxCores - 1,
+                    poolTimeout: watch ? Infinity : 500, // set this to Infinity in watch mode - see https://github.com/webpack-contrib/thread-loader
+                  },
+                },
                 {
                   loader: require.resolve("babel-loader"),
                   options: {
@@ -357,12 +365,14 @@ export default function createWebpackConfig(
                       module: "esnext",
                       jsx: "preserve",
                       noEmit: false,
+                      sourceMap: !disableSourcemaps,
                     },
-
+                    transpileOnly: true,
                     // Overwrites the behavior of `include` and `exclude` to only
                     // include files that are actually being imported and which
                     // are necessary to compile the bundle.
                     onlyCompileBundledFiles: true,
+                    happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
                   },
                 },
               ],
@@ -381,7 +391,7 @@ export default function createWebpackConfig(
                     presets: [
                       [
                         "@babel/env",
-                        { targets: "last 2 versions, ie 11", modules: false },
+                        { targets: "last 2 versions", modules: false },
                       ],
                     ],
                     cacheDirectory: true,
@@ -392,19 +402,19 @@ export default function createWebpackConfig(
             // "postcss" loader applies autoprefixer to our CSS.
             // "css" loader resolves paths in CSS and adds assets as dependencies.
             // "style" loader turns CSS into JS modules that inject <style> tags.
-            // In production, we use a plugin to extract that CSS to a file, and
-            // in development "style" loader enables hot editing of CSS.
+            // When building we use a plugin to extract that CSS to a file, and
+            // in watch mode "style" loader enables hot editing of CSS.
             {
               test: /\.css$/,
               use: [
-                isProduction ? MiniCssExtractPlugin.loader : styleLoader,
+                !watch ? MiniCssExtractPlugin.loader : styleLoader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
                     modules: true,
                     importLoaders: 1,
                     localIdentName: "[name]-[local]-[hash:base64:5]",
-                    sourceMap: isProduction && !disableSourcemaps,
+                    sourceMap: !disableSourcemaps,
                   },
                 },
                 {
@@ -413,13 +423,14 @@ export default function createWebpackConfig(
                     config: {
                       path: paths.appPostCssConfig,
                     },
+                    sourceMap: !disableSourcemaps,
                   },
                 },
               ],
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
-            // In production, they would get copied to the `build` folder.
+            // When building, they would get copied to the `build` folder.
             // This loader doesn't use a "test" so it will catch all modules
             // that fall through the other loaders.
             {
@@ -430,7 +441,9 @@ export default function createWebpackConfig(
               exclude: [/\.(js|ts|tsx)$/, /\.html$/, /\.json$/],
               loader: require.resolve("file-loader"),
               options: {
-                name: "assets/media/[name].[hash:8].[ext]",
+                name: isProduction
+                  ? "assets/media/[name].[hash:8].[ext]"
+                  : "assets/media/[name].[ext]",
               },
             },
           ],
@@ -440,6 +453,25 @@ export default function createWebpackConfig(
       ],
     },
     plugins: [
+      // TODO: (cvle) this should work in build too but for some reasons it terminates the build afterwards.
+      // Preventing from running post build steps.
+      ...ifWatch(
+        // We run tslint in a separate process to have a quicker build.
+        new ForkTsCheckerWebpackPlugin({
+          tslint: true,
+          typescript: require.resolve("typescript"),
+          async: true,
+          // TODO: (cvle) For some reason if incremental build is turned on it does not find lint errors during initial build.
+          useTypescriptIncrementalApi: false,
+          checkSyntacticErrors: true,
+          tsconfig: paths.appTsconfig,
+          watch: paths.appSrc,
+          // TODO: (cvle) ForkTsCheckerWebpackPlugin are currently not working, so we resort to default reporting.
+          silent: false,
+          // The formatter is normally invoked directly in WebpackDevServerUtils during development
+          formatter: typescriptFormatter,
+        })
+      ),
       // Makes some environment variables available to the JS code, for example:
       // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
       new webpack.DefinePlugin(envStringified),
@@ -470,7 +502,7 @@ export default function createWebpackConfig(
     },
   };
 
-  const devServerEntries = isProduction
+  const devServerEntries = !watch
     ? []
     : [
         // Include an alternative client for WebpackDevServer. A client's job is to
@@ -494,41 +526,45 @@ export default function createWebpackConfig(
         stream: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifProduction(paths.appPublicPath),
+          ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appStreamIndex,
         ],
         auth: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifProduction(paths.appPublicPath),
+          ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appAuthIndex,
           // Remove deactivated entries.
         ],
         authCallback: [
-          ...ifProduction(paths.appPublicPath),
+          ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appAuthCallbackIndex,
         ],
         install: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifProduction(paths.appPublicPath),
+          ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appInstallIndex,
         ],
         admin: [
           // We ship polyfills by default
           paths.appPolyfill,
-          ...ifProduction(paths.appPublicPath),
+          ...ifBuild(paths.appPublicPath),
           ...devServerEntries,
           paths.appAdminIndex,
         ],
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
-        ...ifNotProduction(
+        ...ifWatch(
+          // This is necessary to emit hot updates
+          new webpack.HotModuleReplacementPlugin({
+            multiStep: true,
+          }),
           // Generates an `stream.html` file with the <script> injected.
           new HtmlWebpackPlugin({
             filename: "stream.html",
@@ -565,7 +601,7 @@ export default function createWebpackConfig(
             inject: "body",
           })
         ),
-        ...ifProduction(
+        ...ifBuild(
           new WebpackAssetsManifest({
             output: "asset-manifest.json",
             entrypoints: true,
@@ -590,7 +626,6 @@ export default function createWebpackConfig(
       entry: [
         /* Use minimal amount of polyfills (for IE) */
         "intersection-observer", // also for Safari
-        ...devServerEntries,
         paths.appEmbedIndex,
       ],
       output: {
@@ -602,7 +637,7 @@ export default function createWebpackConfig(
       },
       plugins: filterPlugins([
         ...baseConfig.plugins!,
-        ...ifNotProduction(
+        ...ifWatch(
           // Generates an `embed.html` file with the <script> injected.
           new HtmlWebpackPlugin({
             filename: "embed.html",
@@ -620,7 +655,7 @@ export default function createWebpackConfig(
             inject: "head",
           })
         ),
-        ...ifProduction(
+        ...ifBuild(
           new WebpackAssetsManifest({
             output: "embed-asset-manifest.json",
             entrypoints: true,

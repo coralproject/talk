@@ -19,12 +19,14 @@ import createWebpackConfig from "../src/core/build/createWebpackConfig";
 
 // tslint:disable: no-console
 
-// Enforce environment to be production.
-config.validate().set("env", "production");
-
 process.env.WEBPACK = "true";
-process.env.BABEL_ENV = "production";
-process.env.NODE_ENV = "production";
+process.env.NODE_ENV = process.env.NODE_ENV || "production";
+process.env.BABEL_ENV = process.env.NODE_ENV;
+
+// Enforce environment to be NODE_ENV.
+config.validate().set("env", process.env.NODE_ENV);
+
+const isProduction = process.env.NODE_ENV === "production";
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -102,7 +104,11 @@ measureFileSizesBeforeBuild(paths.appDistStatic)
 
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes: any) {
-  console.log("Creating an optimized production build...");
+  if (isProduction) {
+    console.log("Creating an optimized production build...");
+  } else {
+    console.log("Creating development build...");
+  }
   const webpackConfig = createWebpackConfig(config);
   const compiler = webpack(webpackConfig);
   return new Promise((resolve, reject) => {
@@ -110,7 +116,9 @@ function build(previousFileSizes: any) {
       if (err) {
         return reject(err);
       }
-      const messages = formatWebpackMessages(stats.toJson({}));
+      const messages = formatWebpackMessages(
+        stats.toJson({ children: webpackConfig.map(c => c.stats || {}) as any })
+      );
       if (messages.errors.length) {
         // Only keep the first error. Others are often indicative
         // of the same problem, but confuse the reader with noise.

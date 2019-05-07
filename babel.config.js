@@ -18,10 +18,7 @@ module.exports = {
     },
     test: {
       presets: [
-        [
-          "@babel/env",
-          { targets: "last 2 versions, ie 11", modules: "commonjs" },
-        ],
+        ["@babel/env", { targets: "last 2 versions", modules: "commonjs" }],
         "@babel/react",
       ],
       plugins: ["dynamic-import-node"],

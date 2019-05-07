@@ -2,7 +2,7 @@ const lodashOptimizations = ["use-lodash-es", "lodash"];
 
 module.exports = {
   presets: [
-    ["@babel/env", { targets: "last 2 versions, ie 11", modules: false }],
+    ["@babel/env", { targets: "last 2 versions", modules: false }],
     "@babel/react",
   ],
   plugins: ["@babel/syntax-dynamic-import"],
