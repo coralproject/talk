@@ -41,6 +41,7 @@ export default function createWebpackConfig(
   config: Config,
   { appendPlugins = [], watch = false }: CreateWebpackOptions = {}
 ): Configuration[] {
+  const maxCores = config.get("maxCores");
   const env = createClientEnv(config);
   const disableSourcemaps = config.get("disableSourcemaps");
   const generateReport = config.get("generateReport");
@@ -342,7 +343,7 @@ export default function createWebpackConfig(
                   loader: "thread-loader",
                   options: {
                     // there should be 1 cpu for the fork-ts-checker-webpack-plugin
-                    workers: require("os").cpus().length - 1,
+                    workers: maxCores - 1,
                     poolTimeout: watch ? Infinity : 500, // set this to Infinity in watch mode - see https://github.com/webpack-contrib/thread-loader
                   },
                 },

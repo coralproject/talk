@@ -56,6 +56,13 @@ const config = convict({
     env: "WEBPACK_TREESHAKE",
     arg: "enableTreeShake",
   },
+  maxCores: {
+    doc: "Set maximum of available cores",
+    format: "nat",
+    default: require("os").cpus().length,
+    env: "WEBPACK_MAX_CORES",
+    arg: "maxCores",
+  },
 });
 
 export type Config = typeof config;
