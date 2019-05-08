@@ -42,7 +42,7 @@ class ModerateContainer extends React.Component<Props> {
   }
 }
 
-const enhanced = withRouteConfig<ModerateContainerQueryResponse>({
+const enhanced = withRouteConfig<Props>({
   query: graphql`
     query ModerateContainerQuery($storyID: ID, $includeStory: Boolean!) {
       story(id: $storyID) @include(if: $includeStory) {

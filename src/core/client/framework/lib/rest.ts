@@ -1,6 +1,8 @@
 import { merge } from "lodash";
 import { Overwrite } from "talk-framework/types";
 
+import { extractError } from "./network";
+
 const buildOptions = (inputOptions: RequestInit = {}) => {
   const defaultOptions: RequestInit = {
     method: "GET",
@@ -26,8 +28,14 @@ const handleResp = async (res: Response) => {
   }
 
   if (!res.ok) {
-    const response = await res.json();
-    throw new Error(response.error.message);
+    const ctype = res.headers.get("content-type");
+    if (ctype && ctype.includes("application/json")) {
+      const response = await res.json();
+      throw extractError(response.error);
+    } else {
+      const response = await res.text();
+      throw new Error(response);
+    }
   }
 
   if (res.status === 204) {
@@ -37,7 +45,9 @@ const handleResp = async (res: Response) => {
   return res.json();
 };
 
-type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }>;
+type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }> & {
+  token?: string;
+};
 
 export class RestClient {
   public readonly uri: string;
@@ -53,10 +63,11 @@ export class RestClient {
     options: PartialRequestInit
   ): Promise<T> {
     let opts = options;
-    if (this.tokenGetter) {
+    const token = options.token || (this.tokenGetter && this.tokenGetter());
+    if (token) {
       opts = merge({}, options, {
         headers: {
-          Authorization: `Bearer ${this.tokenGetter()}`,
+          Authorization: `Bearer ${token}`,
         },
       });
     }

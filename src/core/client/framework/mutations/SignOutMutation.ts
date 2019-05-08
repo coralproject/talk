@@ -2,7 +2,7 @@ import { Environment } from "relay-runtime";
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { createMutationContainer } from "talk-framework/lib/relay";
 import signOut from "../rest/signOut";
-import { commit as setAccessToken } from "./SetAccessTokenMutation";
+import SetAccessTokenMutation from "./SetAccessTokenMutation";
 
 export type SignOutMutation = () => Promise<void>;
 
@@ -12,7 +12,7 @@ export async function commit(
   ctx: TalkContext
 ) {
   await signOut(ctx.rest);
-  await setAccessToken(environment, { accessToken: "" }, ctx);
+  await SetAccessTokenMutation.commit(environment, { accessToken: "" }, ctx);
 }
 
 export const withSignOutMutation = createMutationContainer("signOut", commit);

@@ -34,7 +34,7 @@ class GeneralConfigRouteContainer extends React.Component<Props> {
   }
 }
 
-const enhanced = withRouteConfig({
+const enhanced = withRouteConfig<Props>({
   getQuery: () => {
     // Start prefetching markdown editor.
     loadMarkdownEditor();

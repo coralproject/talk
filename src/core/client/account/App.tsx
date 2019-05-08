@@ -9,6 +9,8 @@ import { TalkContextConsumer } from "talk-framework/lib/bootstrap/TalkContext";
 import routeConfig from "./routeConfig";
 import NotFound from "./routes/NotFound";
 
+import "./App.css";
+
 const Router = createFarceRouter({
   historyProtocol: new BrowserProtocol(),
   historyMiddlewares: [queryMiddleware],

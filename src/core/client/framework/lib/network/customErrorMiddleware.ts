@@ -1,12 +1,12 @@
 import { Middleware } from "react-relay-network-modern/es";
 
-import extractError from "./extractError";
+import extractGraphQLError from "./extractGraphQLError";
 
 const customErrorMiddleware: Middleware = next => async req => {
   const res = await next(req);
   if (res.errors) {
     // Extract custom error.
-    const error = extractError(res.errors);
+    const error = extractGraphQLError(res.errors);
     if (error) {
       throw error;
     }

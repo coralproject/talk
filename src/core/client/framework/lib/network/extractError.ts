@@ -6,21 +6,28 @@ import {
   UnknownServerError,
 } from "../errors";
 
-export default function extractError(errors: Error[]): Error | null {
-  if (errors.length > 1 || !(errors[0] as any).extensions) {
-    // Multiple errors are GraphQL errors.
-    // TODO: (cvle) Is this assumption correct?
-    // No extensions == GraphQL error.
-    // TODO: (cvle) harmonize with server.
-    return null;
+interface TalkError {
+  type: string;
+  code: string;
+  message: string;
+}
+
+function isTalkError(err: any): err is TalkError {
+  return err.type && err.code && err.message;
+}
+
+export default function extractError(
+  err: TalkError,
+  unknownErrorMessage: string = "Unknown error"
+): Error {
+  if (!isTalkError(err)) {
+    return new UnknownServerError(unknownErrorMessage, err);
   }
-  // Handle custom errors here.
-  const err = errors[0];
-  if ((err as any).extensions.type === ERROR_TYPES.INVALID_REQUEST_ERROR) {
-    return new InvalidRequestError((err as any).extensions);
+  if (err.type === ERROR_TYPES.INVALID_REQUEST_ERROR) {
+    return new InvalidRequestError(err as any);
   }
-  if ((err as any).extensions.type === ERROR_TYPES.MODERATION_NUDGE_ERROR) {
-    return new ModerationNudgeError((err as any).extensions);
+  if (err.type === ERROR_TYPES.MODERATION_NUDGE_ERROR) {
+    return new ModerationNudgeError(err as any);
   }
-  return new UnknownServerError(err.message, (err as any).extensions);
+  return new UnknownServerError(err.message, err);
 }

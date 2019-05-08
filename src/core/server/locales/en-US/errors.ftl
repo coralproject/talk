@@ -10,7 +10,7 @@ error-duplicateStoryURL =  The specified story URL already exists.
 error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
 error-notFound = Unrecognized request URL ({$method} {$path}).
-error-tokenInvalid = Invalid API Token provided: {$token}
+error-tokenInvalid = Invalid API Token provided.
 
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.

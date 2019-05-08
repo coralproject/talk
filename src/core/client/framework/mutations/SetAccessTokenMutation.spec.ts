@@ -9,7 +9,7 @@ import {
   createRelayEnvironment,
 } from "talk-framework/testHelpers";
 
-import { commit } from "./SetAccessTokenMutation";
+import SetAccessTokenMutation from "./SetAccessTokenMutation";
 
 let environment: Environment;
 const source: RecordSource = new RecordSource();
@@ -28,7 +28,11 @@ it("Sets auth token to localStorage", async () => {
     localStorage: createPromisifiedStorage(),
     clearSession: clearSessionStub,
   };
-  await commit(environment, { accessToken }, context as any);
+  await SetAccessTokenMutation.commit(
+    environment,
+    { accessToken },
+    context as any
+  );
   expect(source.get(LOCAL_ID)!.accessToken).toEqual(accessToken);
   await expect(context.localStorage!.getItem("accessToken")).resolves.toEqual(
     accessToken
@@ -43,7 +47,11 @@ it("Removes auth token from localStorage", async () => {
     clearSession: clearSessionStub,
   };
   localStorage.setItem("accessToken", accessToken);
-  await commit(environment, { accessToken: null }, context as any);
+  await SetAccessTokenMutation.commit(
+    environment,
+    { accessToken: null },
+    context as any
+  );
   await expect(
     context.localStorage!.getItem("accessToken")
   ).resolves.toBeNull();

@@ -49,7 +49,7 @@ export const forgotHandler = ({
   const emailLimiter = new RequestLimiter({
     client,
     ttl: "10m",
-    max: 100,
+    max: 1,
     prefix: "email",
   });
 
@@ -243,13 +243,13 @@ export const forgotCheckHandler = ({
   const ipLimiter = new RequestLimiter({
     client,
     ttl: "10m",
-    max: 10,
+    max: 100,
     prefix: "ip",
   });
   const subLimiter = new RequestLimiter({
     client,
     ttl: "5m",
-    max: 10,
+    max: 100,
     prefix: "sub",
   });
 

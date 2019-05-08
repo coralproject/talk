@@ -16,7 +16,7 @@ const CommunityContainer: FunctionComponent<Props> = props => {
   return <Community query={props.data} />;
 };
 
-const enhanced = withRouteConfig({
+const enhanced = withRouteConfig<Props>({
   query: graphql`
     query CommunityContainerQuery {
       ...UserTableContainer_query

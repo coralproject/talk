@@ -360,7 +360,7 @@ export class TokenInvalidError extends TalkError {
     super({
       code: ERROR_CODES.TOKEN_INVALID,
       cause,
-      context: { pub: { token }, pvt: { reason } },
+      context: { pvt: { token, reason } },
       status: 401,
     });
   }

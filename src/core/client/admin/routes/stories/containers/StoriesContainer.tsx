@@ -22,7 +22,7 @@ const StoriesContainer: FunctionComponent<Props> = props => {
   );
 };
 
-const enhanced = withRouteConfig({
+const enhanced = withRouteConfig<Props>({
   query: graphql`
     query StoriesContainerQuery($searchFilter: String) {
       ...StoryTableContainer_query @arguments(searchFilter: $searchFilter)

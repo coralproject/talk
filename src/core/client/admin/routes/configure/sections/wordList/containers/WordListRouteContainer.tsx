@@ -33,7 +33,7 @@ class WordListRouteContainer extends React.Component<Props> {
   }
 }
 
-const enhanced = withRouteConfig({
+const enhanced = withRouteConfig<Props>({
   query: graphql`
     query WordListRouteContainerQuery {
       settings {
