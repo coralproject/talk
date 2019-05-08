@@ -35,7 +35,7 @@
     "generate:schema": "node ./scripts/generateSchemaTypes.js",
     "docz": "docz",
     "start": "NODE_ENV=production node dist/index.js",
-    "start:development": "NODE_ENV=development CONCURRENCY=${CONCURRENCY:-1} TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --transpile-only --no-notify -r tsconfig-paths/register ./src/index.ts",
+    "start:development": "NODE_ENV=development CONCURRENCY=${CONCURRENCY:-1} TS_NODE_PROJECT=./src/tsconfig.json ts-node-dev --inspect --transpile-only --no-notify -r tsconfig-paths/register ./src/index.ts",
     "start:webpackDevServer": "ts-node --transpile-only ./scripts/start.ts",
     "lint": "npm-run-all --parallel lint:* tscheck:*",
     "lint:server": "tslint --project ./src/tsconfig.json",
