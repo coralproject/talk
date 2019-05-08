@@ -89,9 +89,19 @@ const config: Config = {
       }),
     },
     runServer: {
-      paths: ["core/**/*.ts", "core/locales/**/*.ftl"],
+      paths: ["locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor("npm run start:development"),
+    },
+    runServerLint: {
+      paths: ["core/**/*.ts"],
+      ignore: ["core/client/**/*"],
+      executor: new LongRunningExecutor("npm run lint:server"),
+    },
+    runServerSyntaxCheck: {
+      paths: ["core/**/*.ts"],
+      ignore: ["core/client/**/*"],
+      executor: new LongRunningExecutor("npm run tscheck:server"),
     },
     runWebpackDevServer: {
       paths: [],
@@ -104,9 +114,16 @@ const config: Config = {
   },
   defaultSet: "client",
   sets: {
-    server: ["generateSchemaTypes", "runServer"],
+    server: [
+      "generateSchemaTypes",
+      "runServer",
+      "runServerLint",
+      "runServerSyntaxCheck",
+    ],
     client: [
       "runServer",
+      "runServerLint",
+      "runServerSyntaxCheck",
       "runWebpackDevServer",
       "generateCSSTypes",
       "generateRelayStream",
