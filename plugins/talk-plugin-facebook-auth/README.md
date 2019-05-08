@@ -44,7 +44,7 @@ You can learn more about getting a Facebook App ID at the
     * enter your Talk domain url
     * click _Next_ several times to get through the add code steps (You do not need to modify any code, the plugin takes care of this part for you.)
 * Go back to Settings > Basic:
-    * enter the callback url
+    * enter the callback url (Use your Talk domain with this endpoint: `/api/v1/auth/facebook/callback`)
     * Locate your App Id and App Secret, set these as config vars on your instance of Talk
 * Toggle the "Live" button to make app live
 
