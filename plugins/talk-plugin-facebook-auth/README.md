@@ -29,7 +29,7 @@ Configuration:
   guide. This is only required while the `talk-plugin-facebook-auth` plugin is
   enabled.
 
-_NOTE: FabceBook auth requires your site to use `https` (SSL) not `http`. If your site is not `https` you can not use this plugin!_
+_NOTE: Facebook auth requires your site to use `https` (SSL) not `http`. If your site is not `https` you can not use this plugin!_
 
 ## GDPR Compliance
 
