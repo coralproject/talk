@@ -22,7 +22,7 @@ class Editor extends React.Component {
   };
 
   getHTML(props = this.props) {
-    if (props.input.richTextBody) {
+    if (props.input.richTextBody !== undefined) {
       return props.input.richTextBody;
     }
     return (
