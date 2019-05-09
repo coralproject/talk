@@ -42,17 +42,8 @@
   text-align: left;
   letter-spacing: 0.1px;
   margin: 0;
-  quotes: '\201c' '\201d';
   margin-bottom: 10px;
   word-wrap: break-word;
-}
-
-.quote:before {
-  content: open-quote;
-}
-
-.quote:after  {
-  content: close-quote;
 }
 
 .footer {
