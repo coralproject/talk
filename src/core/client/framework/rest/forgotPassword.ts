@@ -2,7 +2,6 @@ import { RestClient } from "../lib/rest";
 
 export interface ForgotPasswordInput {
   email: string;
-  redirectURI: string;
 }
 
 export default function forgotPassword(

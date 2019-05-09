@@ -45,7 +45,6 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({ onCheckEmail }) => {
       try {
         await forgotPassword({
           email,
-          redirectURI: window.location.href,
         });
         onCheckEmail(email);
       } catch (error) {

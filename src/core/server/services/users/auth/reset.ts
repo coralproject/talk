@@ -40,17 +40,11 @@ export interface ResetToken extends Required<StandardClaims> {
    * reset token.
    */
   rid: string;
-
-  /**
-   * ruri is the redirect URL to redirect the User to after a successful reset.
-   */
-  ruri: string;
 }
 
 const ResetTokenSchema = StandardClaimsSchema.keys({
   aud: Joi.string().only("reset"),
   rid: Joi.string(),
-  ruri: Joi.string().uri(),
 });
 
 export function isResetToken(token: ResetToken | object): token is ResetToken {
@@ -68,7 +62,6 @@ export function isResetToken(token: ResetToken | object): token is ResetToken {
  * @param tenant Tenant that the user exists on
  * @param signingConfig signing configuration that will be used to sign the token
  * @param user User to create the password reset URL for
- * @param redirectURI URL to redirect the User to after a successful reset
  * @param now the current time
  */
 export async function generateResetURL(
@@ -77,7 +70,6 @@ export async function generateResetURL(
   config: Config,
   signingConfig: JWTSigningConfig,
   user: User,
-  redirectURI: string,
   now: Date = new Date()
 ) {
   // Generate a reset ID to associate with the user account.
@@ -101,7 +93,6 @@ export async function generateResetURL(
     sub: user.id,
     exp: expiresAt,
     rid: resetID,
-    ruri: redirectURI,
     iat: nowSeconds,
     nbf: nowSeconds,
     aud: "reset",

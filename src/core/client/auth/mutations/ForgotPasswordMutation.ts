@@ -6,7 +6,7 @@ import { forgotPassword, ForgotPasswordInput } from "talk-framework/rest";
 const ForgotPasswordMutation = createMutation(
   "forgotPassword",
   (_, input: ForgotPasswordInput, { rest }) =>
-    forgotPassword(rest, pick(input, ["email", "redirectURI"]))
+    forgotPassword(rest, pick(input, ["email"]))
 );
 
 export default ForgotPasswordMutation;

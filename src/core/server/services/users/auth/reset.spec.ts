@@ -13,7 +13,6 @@ function createToken(partial: Partial<ResetToken> | any = {}): ResetToken {
     iat: now,
     aud: "reset",
     rid: uuid(),
-    ruri: "http://coralproject.net",
   };
 
   return {
@@ -29,9 +28,5 @@ describe("isResetToken", () => {
 
   it("rejects an invalid aud value in a token", () => {
     expect(isResetToken(createToken({ aud: "not-reset" }))).toBeFalsy();
-  });
-
-  it("rejects an invalid ruri value in a token", () => {
-    expect(isResetToken(createToken({ ruri: "not-a-uri" }))).toBeFalsy();
   });
 });

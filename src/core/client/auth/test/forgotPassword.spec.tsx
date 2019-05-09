@@ -97,7 +97,6 @@ it("shows server error", async () => {
       method: "POST",
       body: {
         email: "hans@test.com",
-        redirectURI: "http://localhost/",
       },
     })
     .once()
@@ -131,7 +130,6 @@ it("submits form successfully", async () => {
       method: "POST",
       body: {
         email: "hans@test.com",
-        redirectURI: "http://localhost/",
       },
     })
     .once();

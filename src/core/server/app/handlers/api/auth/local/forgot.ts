@@ -3,10 +3,9 @@ import Joi from "joi";
 import { AppOptions } from "talk-server/app";
 import { validate } from "talk-server/app/request/body";
 import { RequestLimiter } from "talk-server/app/request/limiter";
-import { IntegrationDisabled, URLInvalidError } from "talk-server/errors";
+import { IntegrationDisabled } from "talk-server/errors";
 import { retrieveUserWithProfile } from "talk-server/models/user";
 import { decodeJWT, extractJWTFromRequest } from "talk-server/services/jwt";
-import { isURLPermitted } from "talk-server/services/tenant/url";
 import {
   generateResetURL,
   resetPassword,
@@ -17,7 +16,6 @@ import { RequestHandler } from "talk-server/types/express";
 
 export interface ForgotBody {
   email: string;
-  redirectURI: string;
 }
 
 export const ForgotBodySchema = Joi.object().keys({
@@ -25,7 +23,6 @@ export const ForgotBodySchema = Joi.object().keys({
     .trim()
     .lowercase()
     .email(),
-  redirectURI: Joi.string().uri(),
 });
 
 export type ForgotOptions = Pick<
@@ -69,10 +66,7 @@ export const forgotHandler = ({
 
       // Get the fields from the body. Validate will throw an error if the body
       // does not conform to the specification.
-      const { email, redirectURI }: ForgotBody = validate(
-        ForgotBodySchema,
-        req.body
-      );
+      const { email }: ForgotBody = validate(ForgotBodySchema, req.body);
 
       // Validate the email address. This will ensure that if we end up rate
       // limiting based on it, it isn't too long.
@@ -81,22 +75,9 @@ export const forgotHandler = ({
       // Limit based on the email address.
       await emailLimiter.test(req, email);
 
-      // Validate the redirectURI is within the tenant scope. We also need to
-      // validate against the tenant's domain to ensure that if the redirect uri
-      // provided is for an internal route (such as the administrative login
-      // versus an article page).
-      if (!isURLPermitted(tenant, redirectURI, true)) {
-        throw new URLInvalidError({
-          url: redirectURI,
-          tenantDomain: tenant.domain,
-          tenantDomains: tenant.domains,
-        });
-      }
-
       const log = talk.logger.child({
         email,
         tenantID: tenant.id,
-        redirectURI,
       });
 
       // Lookup the user.
@@ -118,7 +99,6 @@ export const forgotHandler = ({
         config,
         signingConfig,
         user,
-        redirectURI,
         req.talk!.now
       );
 
