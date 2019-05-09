@@ -265,6 +265,11 @@ the variables in a `.env` file in the root of the project in a simple
   `os.cpus().length`)
 - `DEV_PORT` - The port where the Webpack Development server is running on.
   (Default `8080`)
+- `METRICS_USERNAME` - The username for _Basic Authentication_ at the `/metrics` and `/cluster_metrics`
+  endpoint.
+- `METRICS_PASSWORD` - The password for _Basic Authentication_ at the `/metrics` and `/cluster_metrics`
+  endpoint.
+- `CLUSTER_METRICS_PORT` - If `CONCURRENCY` is more than `1`, the metrics are provided at this port under `/cluster_metrics`. (Default `3001`)
 
 ## License
 
