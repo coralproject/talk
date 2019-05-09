@@ -13,7 +13,7 @@ export function logError(ctx: CommonContext, err: GraphQLError) {
   ctx.logger.error({ err }, "graphql query error");
 }
 
-export class LoggerExtension extends GraphQLExtension<CommonContext> {
+export class LoggerExtension implements GraphQLExtension<CommonContext> {
   public executionDidStart(o: {
     executionArgs: ExecutionArgs;
   }): EndHandler | void {

@@ -11,12 +11,10 @@ export interface MetricsExtensionOptions {
   graphQLExecutionTimingsHistogram: Histogram;
 }
 
-export class MetricsExtension extends GraphQLExtension<CommonContext> {
+export class MetricsExtension implements GraphQLExtension<CommonContext> {
   private options: MetricsExtensionOptions;
 
   constructor(options: MetricsExtensionOptions) {
-    super();
-
     this.options = options;
   }
 
