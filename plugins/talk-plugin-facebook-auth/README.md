@@ -45,7 +45,7 @@ You can learn more about getting a Facebook App ID at the
 * Under Product Settings:
     * set Valid OAuth Redirect URIs to your callback url (Use your Talk domain with this endpoint: `/api/v1/auth/facebook/callback`)
     * Locate your App Id and App Secret, set these as config vars on your instance of Talk
-* Toggle the "Live" button to make app live
+* Toggle the "Live" button on the top bar to make app live
 
 
 _NOTE: Facebook auth requires your site to use `https` (SSL) not `http`. If your site is not `https` you can not use this plugin!_
