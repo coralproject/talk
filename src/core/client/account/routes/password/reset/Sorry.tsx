@@ -4,7 +4,7 @@ import React from "react";
 import { CallOut, HorizontalGutter, Typography } from "talk-ui/components";
 
 interface Props {
-  reason: string;
+  reason: React.ReactNode;
 }
 
 const Sorry: React.FunctionComponent<Props> = ({ reason }) => {

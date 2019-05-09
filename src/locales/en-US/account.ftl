@@ -15,3 +15,4 @@ resetPassword-successfullyReset = Password successfully reset
 resetPassword-youMayClose =
   You may now close this window and sign in to your account with your new password.
 resetPassword-oopsSorry = Oops Sorry!
+resetPassword-missingResetToken = The Reset Token seems to be missing.

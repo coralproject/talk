@@ -7,6 +7,8 @@ import {
   CreateTestRendererParams,
 } from "talk-framework/testHelpers";
 
-export default function create(params: CreateTestRendererParams<GQLResolver>) {
+export default function create(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
   return createTestRenderer<GQLResolver>("account", <App />, params);
 }

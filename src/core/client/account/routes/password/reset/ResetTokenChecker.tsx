@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { useEffect, useState } from "react";
 
 import { CheckResetTokenFetch } from "talk-account/fetches";
@@ -74,6 +75,16 @@ const ResetTokenChecker: React.FunctionComponent<Props> = ({
             <Spinner />
           </Delay>
         </Flex>
+      );
+    case "MISSING":
+      return (
+        <Sorry
+          reason={
+            <Localized id="resetPassword-missingResetToken">
+              <span>The Reset Token seems to be missing.</span>
+            </Localized>
+          }
+        />
       );
     default:
       return <Sorry reason={reason} />;
