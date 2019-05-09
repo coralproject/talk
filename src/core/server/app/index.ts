@@ -20,6 +20,7 @@ import { AugmentedRedis } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 
 import { accessLogger, errorLogger } from "./middleware/logging";
+import { metricsRecorder } from "./middleware/metrics";
 import serveStatic from "./middleware/serveStatic";
 import { createRouter } from "./router";
 
@@ -34,6 +35,7 @@ export interface AppOptions {
   schema: GraphQLSchema;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
+  metrics: boolean;
 }
 
 /**
@@ -48,6 +50,9 @@ export async function createApp(options: AppOptions): Promise<Express> {
 
   // Logging
   parent.use(accessLogger);
+
+  // Capturing metrics.
+  parent.use(metricsRecorder());
 
   // Create some services for the router.
   const passport = createPassport(options);

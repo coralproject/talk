@@ -172,13 +172,18 @@ export class TalkError extends VError {
     this.param = param;
   }
 
-  public serializeExtensions(bundle: FluentBundle): TalkErrorExtensions {
-    const message = translate(
-      bundle,
-      this.code,
-      ERROR_TRANSLATIONS[this.code],
-      this.context.pub
-    );
+  public serializeExtensions(bundle: FluentBundle | null): TalkErrorExtensions {
+    let message: string;
+    if (bundle) {
+      message = translate(
+        bundle,
+        this.code,
+        ERROR_TRANSLATIONS[this.code],
+        this.context.pub
+      );
+    } else {
+      message = this.code;
+    }
 
     return {
       id: this.id,

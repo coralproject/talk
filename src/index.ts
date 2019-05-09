@@ -36,15 +36,15 @@ import Server from "./core/server";
 import logger from "./core/server/logger";
 
 // Create the app that will serve as the mounting point for the Talk Server.
-const app = express();
+const parent = express();
 
 // worker will start the worker process.
 async function worker(server: Server) {
   try {
-    logger.debug("started server worker");
-
     // Start the server.
-    await server.start(app);
+    await server.start({ parent });
+
+    logger.debug("started server worker");
   } catch (err) {
     logger.error({ err }, "can not start server in worker mode");
     throw err;
@@ -57,10 +57,10 @@ async function master(server: Server) {
   logger.debug({ workerCount }, "spawning workers to handle traffic");
 
   try {
-    logger.debug("started server master");
-
     // Process jobs.
     await server.process();
+
+    logger.debug("started server master");
   } catch (err) {
     logger.error({ err }, "can not start server in master mode");
     throw err;
@@ -73,7 +73,7 @@ async function bootstrap() {
     logger.debug("starting bootstrap");
 
     // Create the server instance.
-    const server = await createTalk();
+    const server = createTalk();
 
     // Determine the number of workers.
     const workerCount = server.config.get("concurrency");
@@ -91,7 +91,7 @@ async function bootstrap() {
       await server.process();
 
       // Start the server.
-      await server.start(app);
+      await server.start({ parent });
     } else {
       // Launch the server start within throng.
       throng({

@@ -104,7 +104,10 @@ export default class Entrypoints {
       // Create and return the entrypoints.
       return new Entrypoints(manifest);
     } catch (err) {
-      logger.error({ err }, "could not load the manifest");
+      logger.error(
+        { err },
+        "could not load the manifest, maybe you need to run `npm run build`"
+      );
       return null;
     }
   }
