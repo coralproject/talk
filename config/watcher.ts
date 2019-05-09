@@ -27,7 +27,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run generate:relay-stream", {
+      executor: new CommandExecutor("npm run --silent generate:relay-stream", {
         runOnInit: true,
       }),
     },
@@ -44,7 +44,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run generate:relay-admin", {
+      executor: new CommandExecutor("npm run --silent generate:relay-admin", {
         runOnInit: true,
       }),
     },
@@ -61,7 +61,7 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run generate:relay-auth", {
+      executor: new CommandExecutor("npm run --silent generate:relay-auth", {
         runOnInit: true,
       }),
     },
@@ -78,35 +78,54 @@ const config: Config = {
         "**/test/**/*",
         "core/**/*.spec.*",
       ],
-      executor: new CommandExecutor("npm run generate:relay-install", {
+      executor: new CommandExecutor("npm run --silent generate:relay-install", {
         runOnInit: true,
       }),
     },
     generateCSSTypes: {
       paths: ["**/*.css"],
-      executor: new CommandExecutor("npm run generate:css-types", {
+      executor: new CommandExecutor("npm run --silent generate:css-types", {
         runOnInit: true,
       }),
     },
     runServer: {
-      paths: ["core/**/*.ts", "core/locales/**/*.ftl"],
+      paths: ["locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
-      executor: new LongRunningExecutor("npm run start:development"),
+      executor: new LongRunningExecutor("npm run --silent start:development"),
+    },
+    runServerLint: {
+      paths: ["core/**/*.ts"],
+      ignore: ["core/client/**/*"],
+      executor: new LongRunningExecutor("npm run --silent lint:server"),
+    },
+    runServerSyntaxCheck: {
+      paths: ["core/**/*.ts"],
+      ignore: ["core/client/**/*"],
+      executor: new LongRunningExecutor("npm run --silent tscheck:server"),
     },
     runWebpackDevServer: {
       paths: [],
-      executor: new LongRunningExecutor("npm run start:webpackDevServer"),
+      executor: new LongRunningExecutor(
+        "npm run --silent start:webpackDevServer"
+      ),
     },
     runDocz: {
       paths: [],
-      executor: new LongRunningExecutor("npm run docz -- dev"),
+      executor: new LongRunningExecutor("npm run --silent docz -- dev"),
     },
   },
   defaultSet: "client",
   sets: {
-    server: ["generateSchemaTypes", "runServer"],
+    server: [
+      "generateSchemaTypes",
+      "runServer",
+      "runServerLint",
+      "runServerSyntaxCheck",
+    ],
     client: [
       "runServer",
+      "runServerLint",
+      "runServerSyntaxCheck",
       "runWebpackDevServer",
       "generateCSSTypes",
       "generateRelayStream",
