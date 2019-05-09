@@ -26,9 +26,9 @@ export function setAccessTokenInLocalState(
   source: RecordSourceProxy
 ) {
   const localRecord = source.get(LOCAL_ID)!;
+  localRecord.setValue(accessToken || "", "accessToken");
   if (accessToken) {
     const { payload, expired } = parseJWT(accessToken);
-    localRecord.setValue(accessToken || "", "accessToken");
     localRecord.setValue(payload.exp, "accessTokenExp");
     localRecord.setValue(payload.jti, "accessTokenJTI");
     localRecord.setValue(!expired, "loggedIn");
