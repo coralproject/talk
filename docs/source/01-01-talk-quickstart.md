@@ -5,9 +5,18 @@ permalink: /
 
 Online comments are broken. Our open-source Talk tool rethinks how moderation,
 comment display, and conversation function, creating the opportunity for safer,
-smarter discussions around your work. Read more about our product features and
-goals [here](https://coralproject.net/talk). The
-documentation available here is pertaining to the technical details for
+smarter discussions around your work. 
+
+More than 60 newsrooms use Talk to run their on-site communities, including the Washington Post, the Wall Street Journal, and IGN. 
+
+[Read more about our product features and
+goals here](https://coralproject.net/talk).
+
+<div class="callout">
+  We offer hosting and support packages for Talk. [Contact us for more information.](https://coralproject.net/pricing/)
+</div>
+
+The documentation available here is pertaining to the technical details for
 installing, configuring, and deploying Talk.
 
 Talk is a [Node](https://nodejs.org/) application with
@@ -46,7 +55,7 @@ Start by making a new directory and create a file called `docker-compose.yml` an
 version: '2'
 services:
   talk:
-    image: coralproject/talk:4.5
+    image: coralproject/talk:4
     restart: always
     ports:
       - "3000:3000"

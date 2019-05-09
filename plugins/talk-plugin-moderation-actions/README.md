@@ -1,9 +1,9 @@
 ---
-title: talk-plugin-moderator-actions
-permalink: /plugin/talk-plugin-moderator-actions/
+title: talk-plugin-moderation-actions
+permalink: /plugin/talk-plugin-moderation-actions/
 layout: plugin
 plugin:
-    name: talk-plugin-moderator-actions
+    name: talk-plugin-moderation-actions
     default: true
     provides:
         - Client

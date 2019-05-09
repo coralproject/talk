@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-notifications-digest-daily/
 layout: plugin
 plugin:
     name: talk-plugin-notifications-digest-daily
+    default: true
     depends:
         - name: talk-plugin-notifications
     provides:

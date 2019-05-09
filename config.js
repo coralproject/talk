@@ -43,6 +43,32 @@ const CONFIG = {
     process.env.TALK_WHITELISTED_LANGUAGES &&
     process.env.TALK_WHITELISTED_LANGUAGES.split(',').map(l => l.trim()),
 
+  // USERNAME_CAST_REGEXP defiles the regex expression that will be used to
+  // strip characters from a username during a username cast operation.
+  USERNAME_CAST_REGEXP: new RegExp(
+    process.env.USERNAME_CAST_REGEXP || '[^a-zA-Z_]',
+    'g'
+  ),
+
+  // USERNAME_REPLACEMENT_CAST_REGEXP defiles the regex expression that will be
+  // used to replace characters with the replacement character during a username
+  // cast operation. First duplicates will be replaced, then
+  USERNAME_REPLACEMENT_CAST_REGEXP: new RegExp(
+    process.env.USERNAME_REPLACEMENT_CAST_REGEXP || ' +',
+    'g'
+  ),
+
+  // USERNAME_REPLACEMENT_CHARACTER is the character used to replace other
+  // characters matching the USERNAME_REPLACEMENT_CAST_REGEXP.
+  USERNAME_REPLACEMENT_CHARACTER:
+    process.env.USERNAME_REPLACEMENT_CHARACTER || '_',
+
+  // USERNAME_VALIDATION_REGEX defines the allowed characters for a username in
+  // Talk.
+  USERNAME_VALIDATION_REGEX: new RegExp(
+    process.env.USERNAME_VALIDATION_REGEX || '^[A-Za-z0-9_]+$'
+  ),
+
   // When TRUE, it ensures that database indexes created in core will not add
   // indexes.
   CREATE_MONGO_INDEXES: process.env.DISABLE_CREATE_MONGO_INDEXES !== 'TRUE',

@@ -2,10 +2,16 @@
 
 {% block title %}Talk Admin{% endblock %}
 
+{# Favicon Configuration #}
+{% include "partials/favicon.njk" %}
+
 {% block css %}
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 <link href="https://code.getmdl.io/1.2.1/material.min.css" rel="stylesheet">
 <link href="{{ resolve('coral-admin/bundle.css') }}" rel="stylesheet">
+
+{# Custom CSS is included after the CSS block so that its overrides will apply #}
+{% include "partials/custom-admin-css.njk" %}
 {% endblock %}
 
 {% block js %}

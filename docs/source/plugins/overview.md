@@ -111,7 +111,7 @@ If you deploy using Docker, you can extend from the `*-onbuild` image, an
 example `Dockerfile` for your project could be:
 
 ```Dockerfile
-FROM coralproject/talk:4.5-onbuild
+FROM coralproject/talk:4-onbuild
 ```
 
 Establish a private repository for your instance that includes the following:

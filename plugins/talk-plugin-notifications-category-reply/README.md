@@ -4,6 +4,7 @@ permalink: /plugin/talk-plugin-notifications-category-reply/
 layout: plugin
 plugin:
     name: talk-plugin-notifications-category-reply
+    default: true
     depends:
         - name: talk-plugin-notifications
     provides:

@@ -39,10 +39,12 @@ describe('graph.mutations.editComment', () => {
   it('a user can edit their own comment', async () => {
     const context = new Context({ user });
     const testStartedAt = new Date();
+    const body = `hello there! ${String(Math.random()).slice(2)}`;
     const comment = await CommentsService.publicCreate({
       asset_id: asset.id,
       author_id: user.id,
-      body: `hello there! ${String(Math.random()).slice(2)}`,
+      body,
+      richTextBody: body,
     });
 
     // body_history should be there
@@ -58,6 +60,7 @@ describe('graph.mutations.editComment', () => {
       asset_id: asset.id,
       edit: {
         body: newBody,
+        richTextBody: newBody,
       },
     });
     if (response.errors && response.errors.length) {
@@ -86,10 +89,12 @@ describe('graph.mutations.editComment', () => {
   });
 
   it("A user can't edit their comment outside of the edit comment time window", async () => {
+    const body = `hello there! ${String(Math.random()).slice(2)}`;
     const comment = await CommentsService.publicCreate({
       asset_id: asset.id,
       author_id: user.id,
-      body: `hello there! ${String(Math.random()).slice(2)}`,
+      body,
+      richTextBody: body,
     });
 
     const now = new Date();
@@ -103,6 +108,7 @@ describe('graph.mutations.editComment', () => {
       asset_id: asset.id,
       edit: {
         body: newBody,
+        richTextBody: newBody,
       },
     });
     if (response.errors && response.errors.length > 0) {
@@ -120,10 +126,12 @@ describe('graph.mutations.editComment', () => {
   });
 
   it("A user can't edit someone else's comment", async () => {
+    const body = `hello there! ${String(Math.random()).slice(2)}`;
     const comment = await CommentsService.publicCreate({
       asset_id: asset.id,
       author_id: user.id,
-      body: `hello there! ${String(Math.random()).slice(2)}`,
+      body,
+      richTextBody: body,
     });
 
     const ctx = Context.forSystem();
@@ -140,6 +148,7 @@ describe('graph.mutations.editComment', () => {
       asset_id: asset.id,
       edit: {
         body: newBody,
+        richTextBody: newBody,
       },
     });
     expect(response.errors).to.be.empty;
@@ -162,6 +171,7 @@ describe('graph.mutations.editComment', () => {
       asset_id: asset.id,
       edit: {
         body: newBody,
+        richTextBody: newBody,
       },
     });
     if (response.errors && response.errors.length > 0) {
@@ -182,10 +192,12 @@ describe('graph.mutations.editComment', () => {
       },
       beforeEdit: {
         body: 'I was offensive and thus REJECTED',
+        richTextBody: 'I was offensive and thus REJECTED',
         status: 'REJECTED',
       },
       edit: {
         body: 'I have been edited to be less offensive',
+        richTextBody: 'I have been edited to be less offensive',
       },
       error: true,
     },
@@ -200,10 +212,12 @@ describe('graph.mutations.editComment', () => {
       },
       beforeEdit: {
         body: "I'm a perfectly acceptable comment",
+        richTextBody: "I'm a perfectly acceptable comment",
         status: 'ACCEPTED',
       },
       edit: {
         body: `I have been sneakily edited to add a banned word: ${bannedWord}`,
+        richTextBody: `I have been sneakily edited to add a banned word: ${bannedWord}`,
       },
       afterEdit: {
         status: 'REJECTED',
@@ -220,10 +234,12 @@ describe('graph.mutations.editComment', () => {
       },
       beforeEdit: {
         body: `I'm a rejected comment with bad word ${bannedWord}`,
+        richTextBody: `I'm a rejected comment with bad word ${bannedWord}`,
         status: 'REJECTED',
       },
       edit: {
         body: 'I have been edited to remove the bad word',
+        richTextBody: 'I have been edited to remove the bad word',
       },
       error: true,
     },
@@ -236,10 +252,13 @@ describe('graph.mutations.editComment', () => {
       },
       beforeEdit: {
         body: "I'm a perfectly acceptable comment",
+        richTextBody: "I'm a perfectly acceptable comment",
         status: 'ACCEPTED',
       },
       edit: {
         body: 'I have been edited to add a link: https://coralproject.net/',
+        richTextBody:
+          'I have been edited to add a link: https://coralproject.net/',
       },
       afterEdit: {
         status: 'SYSTEM_WITHHELD',
@@ -266,6 +285,7 @@ describe('graph.mutations.editComment', () => {
         asset_id: asset.id,
         edit: {
           body: newBody,
+          richTextBody: newBody,
         },
       });
 
