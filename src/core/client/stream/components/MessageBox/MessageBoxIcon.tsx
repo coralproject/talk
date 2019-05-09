@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { HTMLAttributes, Ref, StatelessComponent } from "react";
+import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
 import Icon, { IconProps } from "talk-ui/components/Icon";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
@@ -23,7 +23,7 @@ interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "color"> {
   forwardRef?: Ref<HTMLSpanElement>;
 }
 
-export const MessageBoxIcon: StatelessComponent<Props> = props => {
+export const MessageBoxIcon: FunctionComponent<Props> = props => {
   const { classes, className, forwardRef, ...rest } = props;
   const rootClassName = cn(classes.root, className);
   return <Icon className={rootClassName} {...rest} ref={forwardRef} />;

@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { PropTypesOf } from "talk-framework/types";
 import { Button, HorizontalGutter, Typography } from "talk-ui/components";
 
@@ -16,7 +16,7 @@ interface CommentHistoryProps {
   disableLoadMore?: boolean;
 }
 
-const CommentHistory: StatelessComponent<CommentHistoryProps> = props => {
+const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
   return (
     <HorizontalGutter size="double" data-testid="profile-commentHistory">
       <Localized id="profile-historyComment-commentHistory">

@@ -1,8 +1,8 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./DecisionList.css";
 
-const DecisionList: StatelessComponent = props => (
+const DecisionList: FunctionComponent = props => (
   <ul className={styles.root}>{props.children}</ul>
 );
 

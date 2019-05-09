@@ -1,6 +1,6 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import * as styles from "./Divider.css";
 
-const Divider: StatelessComponent = () => <hr className={styles.root} />;
+const Divider: FunctionComponent = () => <hr className={styles.root} />;
 export default Divider;

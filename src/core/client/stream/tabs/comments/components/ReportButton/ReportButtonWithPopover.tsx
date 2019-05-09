@@ -13,7 +13,7 @@ interface Props {
   reported: boolean;
 }
 
-const ReportButtonWithPopover: React.StatelessComponent<Props> = ({
+const ReportButtonWithPopover: React.FunctionComponent<Props> = ({
   comment,
   reported,
 }) => {

@@ -1,15 +1,13 @@
 import { Child } from "pym.js";
 import { Component } from "react";
-import {
-  SetAccessTokenMutation,
-  withSetAccessTokenMutation,
-} from "talk-framework/mutations";
 
 import { withContext } from "talk-framework/lib/bootstrap";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
+import { SetAccessTokenMutation } from "talk-framework/mutations";
 
 interface Props {
   pym: Child;
-  setAccessToken: SetAccessTokenMutation;
+  setAccessToken: MutationProp<typeof SetAccessTokenMutation>;
 }
 
 export class OnPymLogin extends Component<Props> {
@@ -29,6 +27,6 @@ export class OnPymLogin extends Component<Props> {
 
 const enhanced = withContext(({ pym }) => ({
   pym,
-}))(withSetAccessTokenMutation(OnPymLogin));
+}))(withMutation(SetAccessTokenMutation)(OnPymLogin));
 
 export default enhanced;

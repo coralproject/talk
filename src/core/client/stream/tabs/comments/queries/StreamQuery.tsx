@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 import {
   graphql,
@@ -50,7 +50,7 @@ export const render = (
   );
 };
 
-const StreamQuery: StatelessComponent<Props> = props => {
+const StreamQuery: FunctionComponent<Props> = props => {
   const {
     local: { storyID, storyURL, defaultStreamOrderBy },
   } = props;

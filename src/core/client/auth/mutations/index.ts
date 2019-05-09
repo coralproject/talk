@@ -1,4 +1,4 @@
-export { withSetViewMutation, SetViewMutation } from "./SetViewMutation";
+export { default as SetViewMutation } from "./SetViewMutation";
 export { withSignInMutation, SignInMutation } from "./SignInMutation";
 export {
   withCompleteAccountMutation,
@@ -18,3 +18,4 @@ export {
   withSetPasswordMutation,
   SetPasswordMutation,
 } from "./SetPasswordMutation";
+export { default as ForgotPasswordMutation } from "./ForgotPasswordMutation";

@@ -5,11 +5,12 @@ error-commentBodyExceedsMaxLength =
   Comment body exceeds maximum length of {$max} characters.
 error-storyURLNotPermitted =
   The specified story URL does not exist in the permitted domains list.
+error-urlNotPermitted = The specified URL ({$url}) is not permitted.
 error-duplicateStoryURL =  The specified story URL already exists.
 error-tenantNotFound = Tenant hostname ({$hostname}) not found.
 error-userNotFound = User ({$userID}) not found.
 error-notFound = Unrecognized request URL ({$method} {$path}).
-error-tokenInvalid = Invalid API Token provided: {$token}
+error-tokenInvalid = Invalid API Token provided.
 
 error-tokenNotFound = Specified token does not exist.
 error-emailAlreadySet = Email address has already been set.
@@ -46,3 +47,7 @@ error-userAlreadySuspended = The user already has an active suspension until {$u
 error-userAlreadyBanned = The user is already banned.
 error-userBanned = Your account is currently banned.
 error-userSuspended = Your account is currently suspended until {$until}.
+error-integrationDisabled = Specified integration is disabled.
+error-passwordResetTokenExpired = Password reset link expired.
+error-emailConfirmTokenExpired = Email confirmation link expired.
+error-rateLimitExceeded = Rate limit exceeded.

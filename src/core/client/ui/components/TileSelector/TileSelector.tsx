@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { ReactElement, StatelessComponent, useCallback } from "react";
+import React, { FunctionComponent, ReactElement, useCallback } from "react";
 
 import { Flex } from "talk-ui/components";
 
@@ -22,7 +22,7 @@ interface Props {
   children: Array<ReactElement<SelectorChildProps, any>>;
 }
 
-const TileSelector: StatelessComponent<Props> = props => {
+const TileSelector: FunctionComponent<Props> = props => {
   const { id, name, value, className, children, onChange } = props;
   const onItemChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) =>

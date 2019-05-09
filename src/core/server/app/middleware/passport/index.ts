@@ -17,7 +17,6 @@ import {
   extractJWTFromRequest,
   JWTSigningConfig,
   revokeJWT,
-  SigningTokenOptions,
   signTokenString,
 } from "talk-server/services/jwt";
 import { Request } from "talk-server/types/express";
@@ -109,18 +108,11 @@ export async function handleSuccessfulLogin(
   next: NextFunction
 ) {
   try {
-    // Talk is guaranteed at this point.
-    const { tenant } = req.talk!;
-
-    const options: SigningTokenOptions = {};
-
-    if (tenant) {
-      // Attach the tenant's id to the issued token as a `iss` claim.
-      options.issuer = tenant.id;
-    }
+    // Tenant is guaranteed at this point.
+    const tenant = req.talk!.tenant!;
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, options);
+    const token = await signTokenString(signingConfig, user, tenant);
 
     // Set the cache control headers.
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -152,18 +144,11 @@ export async function handleOAuth2Callback(
   }
 
   try {
-    // Talk is guaranteed at this point.
-    const { tenant } = req.talk!;
-
-    const options: SigningTokenOptions = {};
-
-    if (tenant) {
-      // Attach the tenant's id to the issued token as a `iss` claim.
-      options.issuer = tenant.id;
-    }
+    // Tenant is guaranteed at this point.
+    const tenant = req.talk!.tenant!;
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, options);
+    const token = await signTokenString(signingConfig, user, tenant);
 
     // Send back the details!
     res.redirect(path + `#accessToken=${token}`);
@@ -190,8 +175,12 @@ export const wrapOAuth2Authn = (
   authenticator.authenticate(
     name,
     { ...options, session: false },
-    (err: Error | null, user: User | null) => {
-      handleOAuth2Callback(err, user, signingConfig, req, res);
+    async (err: Error | null, user: User | null) => {
+      try {
+        await handleOAuth2Callback(err, user, signingConfig, req, res);
+      } catch (err) {
+        return next(err);
+      }
     }
   )(req, res, next);
 
@@ -213,7 +202,7 @@ export const wrapAuthn = (
   authenticator.authenticate(
     name,
     { ...options, session: false },
-    (err: Error | null, user: User | null) => {
+    async (err: Error | null, user: User | null) => {
       if (err) {
         return next(err);
       }
@@ -221,8 +210,12 @@ export const wrapAuthn = (
         return next(new AuthenticationError("user not on request"));
       }
 
-      // Pass the login off to be signed.
-      handleSuccessfulLogin(user, signingConfig, req, res, next);
+      try {
+        // Pass the login off to be signed.
+        await handleSuccessfulLogin(user, signingConfig, req, res, next);
+      } catch (err) {
+        return next(err);
+      }
     }
   )(req, res, next);
 

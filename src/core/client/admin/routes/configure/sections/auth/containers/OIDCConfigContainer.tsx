@@ -1,7 +1,8 @@
 import { FormApi } from "final-form";
-import PropTypes from "prop-types";
 import React from "react";
+import { ReactContext, withReactFinalForm } from "react-final-form";
 import { graphql } from "react-relay";
+import { InferableComponentEnhancer } from "recompose";
 
 import { OIDCConfigContainer_auth as AuthData } from "talk-admin/__generated__/OIDCConfigContainer_auth.graphql";
 import { OIDCConfigContainer_authReadOnly as AuthReadOnlyData } from "talk-admin/__generated__/OIDCConfigContainer_authReadOnly.graphql";
@@ -20,6 +21,7 @@ interface Props {
   onInitValues: (values: AuthData) => void;
   disabled?: boolean;
   discoverOIDCConfiguration: FetchProp<typeof DiscoverOIDCConfigurationFetch>;
+  reactFinalForm: FormApi;
 }
 
 interface State {
@@ -27,16 +29,12 @@ interface State {
 }
 
 class OIDCConfigContainer extends React.Component<Props, State> {
-  public static contextTypes = {
-    reactFinalForm: PropTypes.object,
-  };
-
   public state = {
     awaitingResponse: false,
   };
 
   private handleDiscover = async () => {
-    const form = this.context.reactFinalForm as FormApi;
+    const form = this.props.reactFinalForm;
     this.setState({ awaitingResponse: true });
     try {
       const config = await this.props.discoverOIDCConfiguration({
@@ -75,39 +73,45 @@ class OIDCConfigContainer extends React.Component<Props, State> {
   }
 }
 
-const enhanced = withFetch(DiscoverOIDCConfigurationFetch)(
-  withFragmentContainer<Props>({
-    auth: graphql`
-      fragment OIDCConfigContainer_auth on Auth {
-        integrations {
-          oidc {
-            enabled
-            allowRegistration
-            targetFilter {
-              admin
-              stream
+// (cvle) Fix `withReactFinalForm` typings (v4.1.0), forgive this, we'll
+// probably only use hooks in the future instead anyway ;-)
+const withForm = withReactFinalForm as InferableComponentEnhancer<ReactContext>;
+
+const enhanced = withForm(
+  withFetch(DiscoverOIDCConfigurationFetch)(
+    withFragmentContainer<Props>({
+      auth: graphql`
+        fragment OIDCConfigContainer_auth on Auth {
+          integrations {
+            oidc {
+              enabled
+              allowRegistration
+              targetFilter {
+                admin
+                stream
+              }
+              name
+              clientID
+              clientSecret
+              authorizationURL
+              tokenURL
+              jwksURI
+              issuer
             }
-            name
-            clientID
-            clientSecret
-            authorizationURL
-            tokenURL
-            jwksURI
-            issuer
           }
         }
-      }
-    `,
-    authReadOnly: graphql`
-      fragment OIDCConfigContainer_authReadOnly on Auth {
-        integrations {
-          oidc {
-            callbackURL
+      `,
+      authReadOnly: graphql`
+        fragment OIDCConfigContainer_authReadOnly on Auth {
+          integrations {
+            oidc {
+              callbackURL
+            }
           }
         }
-      }
-    `,
-  })(OIDCConfigContainer)
+      `,
+    })(OIDCConfigContainer)
+  )
 );
 
 export default enhanced;

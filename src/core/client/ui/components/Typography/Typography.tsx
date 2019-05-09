@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { Ref } from "react";
-import { HTMLAttributes, ReactNode, StatelessComponent } from "react";
+import { FunctionComponent, HTMLAttributes, ReactNode } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -89,7 +89,7 @@ interface Props extends HTMLAttributes<any> {
   forwardRef?: Ref<HTMLElement>;
 }
 
-const Typography: StatelessComponent<Props> = props => {
+const Typography: FunctionComponent<Props> = props => {
   const {
     align,
     classes,

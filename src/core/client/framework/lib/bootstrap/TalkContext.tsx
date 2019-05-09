@@ -2,7 +2,7 @@ import { EventEmitter2 } from "eventemitter2";
 import { LocalizationProvider } from "fluent-react/compat";
 import { FluentBundle } from "fluent/compat";
 import { Child as PymChild } from "pym.js";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
@@ -37,7 +37,7 @@ export interface TalkContext {
   /** media query values for testing purposes */
   mediaQueryValues?: MediaQueryMatchers;
 
-  /** Rest client */
+  /** Rest Client */
   rest: RestClient;
 
   /** postMessage service */
@@ -81,7 +81,7 @@ export const TalkContextConsumer = TalkReactContext.Consumer;
  * In addition to just providing the context, TalkContextProvider also
  * renders the `LocalizationProvider` with the appropite data.
  */
-export const TalkContextProvider: StatelessComponent<{
+export const TalkContextProvider: FunctionComponent<{
   value: TalkContext;
 }> = ({ value, children }) => (
   <TalkReactContext.Provider value={value}>

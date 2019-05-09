@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { InputDescription } from "talk-ui/components";
 import { PropTypesOf } from "talk-ui/types";
@@ -10,7 +10,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const ConfigDescription: StatelessComponent<Props> = ({
+const ConfigDescription: FunctionComponent<Props> = ({
   children,
   container,
 }) => (

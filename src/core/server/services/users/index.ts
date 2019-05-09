@@ -2,30 +2,18 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
-  EMAIL_REGEX,
-  PASSWORD_MIN_LENGTH,
-  USERNAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH,
-  USERNAME_REGEX,
-} from "talk-common/helpers/validate";
-import {
   EmailAlreadySetError,
-  EmailExceedsMaxLengthError,
-  EmailInvalidFormatError,
   EmailNotSetError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
-  PasswordTooShortError,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
   UsernameAlreadySetError,
-  UsernameContainsInvalidCharactersError,
-  UsernameExceedsMaxLengthError,
-  UsernameTooShortError,
   UserNotFoundError,
 } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
+import { getLocalProfile, hasLocalProfile } from "talk-server/helpers/users";
 import { Tenant } from "talk-server/models/tenant";
 import {
   banUser,
@@ -35,7 +23,6 @@ import {
   deactivateUserToken,
   insertUser,
   InsertUserInput,
-  LocalProfile,
   removeActiveUserSuspensions,
   removeUserBan,
   retrieveUser,
@@ -50,67 +37,10 @@ import {
   updateUserUsername,
   User,
 } from "talk-server/models/user";
+import { MailerQueue } from "talk-server/queue/tasks/mailer";
+import { JWTSigningConfig, signPATString } from "talk-server/services/jwt";
 
-import { JWTSigningConfig, signPATString } from "../jwt";
-
-/**
- * validateUsername will validate that the username is valid. Current
- * implementation uses a RegExp statically, future versions will expose this as
- * configuration.
- *
- * @param username the username to be tested
- */
-function validateUsername(username: string) {
-  // TODO: replace these static regex/length with database options in the Tenant eventually
-
-  if (!USERNAME_REGEX.test(username)) {
-    throw new UsernameContainsInvalidCharactersError();
-  }
-
-  if (username.length > USERNAME_MAX_LENGTH) {
-    throw new UsernameExceedsMaxLengthError(
-      username.length,
-      USERNAME_MAX_LENGTH
-    );
-  }
-
-  if (username.length < USERNAME_MIN_LENGTH) {
-    throw new UsernameTooShortError(username.length, USERNAME_MIN_LENGTH);
-  }
-}
-
-/**
- * validatePassword will validate that the password is valid. Current
- * implementation uses a length statically, future versions will expose this as
- * configuration.
- *
- * @param password the password to be tested
- */
-function validatePassword(password: string) {
-  // TODO: replace these static length with database options in the Tenant eventually
-  if (password.length < PASSWORD_MIN_LENGTH) {
-    throw new PasswordTooShortError(password.length, PASSWORD_MIN_LENGTH);
-  }
-}
-
-const EMAIL_MAX_LENGTH = 100;
-
-/**
- * validateEmail will validate that the email is valid. Current implementation
- * uses a length statically, future versions will expose this as configuration.
- *
- * @param email the email to be tested
- */
-function validateEmail(email: string) {
-  if (!EMAIL_REGEX.test(email)) {
-    throw new EmailInvalidFormatError();
-  }
-
-  // TODO: replace these static length with database options in the Tenant eventually
-  if (email.length > EMAIL_MAX_LENGTH) {
-    throw new EmailExceedsMaxLengthError(email.length, EMAIL_MAX_LENGTH);
-  }
-}
+import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
 
@@ -135,9 +65,7 @@ export async function insert(
     validateEmail(input.email);
   }
 
-  const localProfile: LocalProfile | undefined = input.profiles.find(
-    ({ type }) => type === "local"
-  ) as LocalProfile | undefined;
+  const localProfile = getLocalProfile(input);
   if (localProfile) {
     validateEmail(localProfile.id);
     validatePassword(localProfile.password);
@@ -148,6 +76,17 @@ export async function insert(
   }
 
   const user = await insertUser(mongo, tenant.id, input, now);
+
+  // // TODO: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+  // if (localProfile && user.email) {
+  //   if (mailer) {
+  //     // // Send the email confirmation email.
+  //     // await sendConfirmationEmail(mongo, mailer, tenant, user, user.email);
+  //   } else {
+  //     // FIXME: (wyattjoh) extract the local profile based inserts into another function.
+  //     throw new Error("local profile was provided, but the mailer was not");
+  //   }
+  // }
 
   return user;
 }
@@ -188,6 +127,7 @@ export async function setUsername(
  */
 export async function setEmail(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   email: string
@@ -200,7 +140,13 @@ export async function setEmail(
 
   validateEmail(email);
 
-  return setUserEmail(mongo, tenant.id, user.id, email);
+  const updatedUser = await setUserEmail(mongo, tenant.id, user.id, email);
+
+  // // FIXME: (wyattjoh) evaluate the tenant to determine if we should send the verification email.
+  // // Send the email confirmation email.
+  // await sendConfirmationEmail(mailer, tenant, updatedUser, email);
+
+  return updatedUser;
 }
 
 /**
@@ -228,7 +174,7 @@ export async function setPassword(
 
   // We also don't allow this method to be used by users that already have a
   // local profile.
-  if (user.profiles.some(({ type }) => type === "local")) {
+  if (hasLocalProfile(user)) {
     throw new LocalProfileAlreadySetError();
   }
 
@@ -250,6 +196,7 @@ export async function setPassword(
  */
 export async function updatePassword(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   password: string
@@ -261,15 +208,42 @@ export async function updatePassword(
 
   // We also don't allow this method to be used by users that don't have a local
   // profile already.
-  if (
-    !user.profiles.some(({ id, type }) => type === "local" && id === user.email)
-  ) {
+  if (!hasLocalProfile(user, user.email)) {
     throw new LocalProfileNotSetError();
   }
 
   validatePassword(password);
 
-  return updateUserPassword(mongo, tenant.id, user.id, password);
+  const updatedUser = await updateUserPassword(
+    mongo,
+    tenant.id,
+    user.id,
+    password
+  );
+
+  // If the user has an email address associated with their account, send them
+  // a ban notification email.
+  if (updatedUser.email) {
+    // Send the ban user email.
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "password-change",
+        context: {
+          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+          username: updatedUser.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  }
+
+  return user;
 }
 
 /**
@@ -374,7 +348,9 @@ export async function updateRole(
 }
 
 /**
- * updateEmail will update the given User's email address.
+ * updateEmail will update the given User's email address. This should not
+ * trigger and email notifications as it's designed to be used by administrators
+ * to update a user's email address.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
@@ -421,8 +397,9 @@ export async function updateAvatar(
  */
 export async function ban(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
-  user: User,
+  banner: User,
   userID: string,
   now = new Date()
 ) {
@@ -439,7 +416,32 @@ export async function ban(
     throw new UserAlreadyBannedError();
   }
 
-  return banUser(mongo, tenant.id, userID, user.id, now);
+  // Ban the user.
+  const user = await banUser(mongo, tenant.id, userID, banner.id, now);
+
+  // If the user has an email address associated with their account, send them
+  // a ban notification email.
+  if (user.email) {
+    // Send the ban user email.
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
+      },
+      template: {
+        name: "ban",
+        context: {
+          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+          username: user.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  }
+
+  return user;
 }
 
 /**
@@ -454,6 +456,7 @@ export async function ban(
  */
 export async function suspend(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   userID: string,
@@ -461,9 +464,7 @@ export async function suspend(
   now = new Date()
 ) {
   // Convert the timeout to the until time.
-  const finish = DateTime.fromJSDate(now)
-    .plus({ seconds: timeout })
-    .toJSDate();
+  const finishDateTime = DateTime.fromJSDate(now).plus({ seconds: timeout });
 
   // Get the user being suspended to check to see if the user already has an
   // existing suspension.
@@ -481,7 +482,39 @@ export async function suspend(
     throw new UserAlreadySuspendedError(suspended.until);
   }
 
-  return suspendUser(mongo, tenant.id, userID, user.id, finish, now);
+  const updatedUser = await suspendUser(
+    mongo,
+    tenant.id,
+    userID,
+    user.id,
+    finishDateTime.toJSDate(),
+    now
+  );
+
+  // If the user has an email address associated with their account, send them
+  // a suspend notification email.
+  if (updatedUser.email) {
+    // Send the suspend user email.
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: updatedUser.email,
+      },
+      template: {
+        name: "suspend",
+        context: {
+          // TODO: (wyattjoh) possibly reevaluate the use of a required username.
+          username: updatedUser.username!,
+          until: finishDateTime.toRFC2822(),
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  }
+
+  return updatedUser;
 }
 
 export async function removeSuspension(

@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -21,7 +21,7 @@ interface Props {
   variant?: "regular" | "filled";
 }
 
-const Marker: StatelessComponent<Props> = props => {
+const Marker: FunctionComponent<Props> = props => {
   const { className, children, classes, color, variant, ...rest } = props;
 
   const rootClassName = cn(classes.root, className, {

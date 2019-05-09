@@ -1,14 +1,12 @@
 import { Component } from "react";
 
 import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
-import {
-  SetAccessTokenMutation,
-  withSetAccessTokenMutation,
-} from "talk-framework/mutations/SetAccessTokenMutation";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
+import { SetAccessTokenMutation } from "talk-framework/mutations";
 
 interface Props {
   postMessage: TalkContext["postMessage"];
-  setAccessToken: SetAccessTokenMutation;
+  setAccessToken: MutationProp<typeof SetAccessTokenMutation>;
 }
 
 export class OnPostMessageSetAccessToken extends Component<Props> {
@@ -26,6 +24,6 @@ export class OnPostMessageSetAccessToken extends Component<Props> {
 }
 
 const enhanced = withContext(({ postMessage }) => ({ postMessage }))(
-  withSetAccessTokenMutation(OnPostMessageSetAccessToken)
+  withMutation(SetAccessTokenMutation)(OnPostMessageSetAccessToken)
 );
 export default enhanced;

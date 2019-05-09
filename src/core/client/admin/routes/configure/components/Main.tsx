@@ -1,8 +1,8 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./Main.css";
 
-const Main: StatelessComponent = ({ children }) => (
+const Main: FunctionComponent = ({ children }) => (
   <div className={styles.root}>{children}</div>
 );
 

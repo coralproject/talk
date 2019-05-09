@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
 import { CommentsPaneContainerLocal as Local } from "talk-stream/__generated__/CommentsPaneContainerLocal.graphql";
@@ -10,7 +10,7 @@ interface Props {
   local: Local;
 }
 
-const CommentsPaneContainer: StatelessComponent<Props> = ({
+const CommentsPaneContainer: FunctionComponent<Props> = ({
   local: { commentID },
 }) => {
   return <CommentsPane showPermalinkView={!!commentID} />;

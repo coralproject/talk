@@ -224,11 +224,31 @@ export class CommentBodyExceedsMaxLengthError extends TalkError {
   }
 }
 
+export class URLInvalidError extends TalkError {
+  constructor({
+    url,
+    ...properties
+  }: {
+    url: string;
+    tenantDomains: string[];
+    tenantDomain?: string;
+  }) {
+    super({
+      code: ERROR_CODES.URL_NOT_PERMITTED,
+      context: { pvt: properties, pub: { url } },
+    });
+  }
+}
+
 export class StoryURLInvalidError extends TalkError {
-  constructor(properties: { storyURL: string; tenantDomains: string[] }) {
+  constructor(properties: {
+    storyURL: string;
+    tenantDomains: string[];
+    tenantDomain?: string;
+  }) {
     super({
       code: ERROR_CODES.STORY_URL_NOT_PERMITTED,
-      context: { pub: properties },
+      context: { pvt: properties },
     });
   }
 }
@@ -336,10 +356,11 @@ export class TokenNotFoundError extends TalkError {
 }
 
 export class TokenInvalidError extends TalkError {
-  constructor(token: string, reason: string) {
+  constructor(token: string, reason: string, cause?: Error) {
     super({
       code: ERROR_CODES.TOKEN_INVALID,
-      context: { pub: { token }, pvt: { reason } },
+      cause,
+      context: { pvt: { token, reason } },
       status: 401,
     });
   }
@@ -366,7 +387,7 @@ export class UserForbiddenError extends TalkError {
 
 export class UserNotFoundError extends TalkError {
   constructor(userID: string) {
-    super({ code: ERROR_CODES.USER_NOT_FOUND, context: { pvt: { userID } } });
+    super({ code: ERROR_CODES.USER_NOT_FOUND, context: { pub: { userID } } });
   }
 }
 
@@ -390,6 +411,15 @@ export class TenantNotFoundError extends TalkError {
     super({
       code: ERROR_CODES.TENANT_NOT_FOUND,
       context: { pub: { hostname } },
+    });
+  }
+}
+
+export class IntegrationDisabled extends TalkError {
+  constructor(integrationName: string) {
+    super({
+      code: ERROR_CODES.INTEGRATION_DISABLED,
+      context: { pvt: { integrationName } },
     });
   }
 }
@@ -502,6 +532,38 @@ export class UserSuspended extends TalkError {
     super({
       code: ERROR_CODES.USER_SUSPENDED,
       context: { pvt: { resource, operation, userID }, pub: { until } },
+    });
+  }
+}
+
+export class PasswordResetTokenExpired extends TalkError {
+  constructor(reason: string, cause?: Error) {
+    super({
+      code: ERROR_CODES.PASSWORD_RESET_TOKEN_EXPIRED,
+      cause,
+      status: 400,
+      context: { pvt: { reason } },
+    });
+  }
+}
+
+export class ConfirmEmailTokenExpired extends TalkError {
+  constructor(reason: string, cause?: Error) {
+    super({
+      code: ERROR_CODES.EMAIL_CONFIRM_TOKEN_EXPIRED,
+      cause,
+      status: 400,
+      context: { pvt: { reason } },
+    });
+  }
+}
+
+export class RateLimitExceeded extends TalkError {
+  constructor(resource: string, max: number, tries: number) {
+    super({
+      code: ERROR_CODES.RATE_LIMIT_EXCEEDED,
+      status: 429,
+      context: { pvt: { resource, max, tries } },
     });
   }
 }

@@ -1,8 +1,8 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./ExternalLink.css";
 
-const ExternalLink: StatelessComponent<{
+const ExternalLink: FunctionComponent<{
   href?: string;
   children?: string;
 }> = ({ href, children }) => (

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Button, HorizontalGutter, Typography } from "talk-ui/components";
 
@@ -12,7 +12,7 @@ interface Props {
 class ReportForm extends React.Component<Props> {
   public render() {
     const { onDismiss } = this.props;
-    const Content: StatelessComponent = ({ children }) => (
+    const Content: FunctionComponent = ({ children }) => (
       <Typography variant="bodyCopy">
         {children}
         {" "}

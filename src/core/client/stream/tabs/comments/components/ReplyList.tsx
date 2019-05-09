@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button, HorizontalGutter } from "talk-ui/components";
@@ -30,7 +30,7 @@ export interface ReplyListProps {
   disableReplies?: boolean;
 }
 
-const ReplyList: StatelessComponent<ReplyListProps> = props => {
+const ReplyList: FunctionComponent<ReplyListProps> = props => {
   return (
     <HorizontalGutter
       id={`talk-comments-replyList-log--${props.comment.id}`}

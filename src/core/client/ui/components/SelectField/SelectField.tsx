@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { ChangeEvent, EventHandler, FocusEvent } from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
 import Icon from "../Icon";
@@ -42,7 +42,7 @@ export interface SelectFieldProps {
   afterWrapper?: React.ReactElement<any>;
 }
 
-const SelectField: StatelessComponent<SelectFieldProps> = props => {
+const SelectField: FunctionComponent<SelectFieldProps> = props => {
   const {
     className,
     classes,

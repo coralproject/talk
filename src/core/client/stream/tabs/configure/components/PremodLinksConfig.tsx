@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import { parseBool } from "talk-framework/lib/form";
 
@@ -10,7 +10,7 @@ interface Props {
   disabled: boolean;
 }
 
-const PremodLinksConfig: StatelessComponent<Props> = ({ disabled }) => (
+const PremodLinksConfig: FunctionComponent<Props> = ({ disabled }) => (
   <Field name="premodLinksEnable" type="checkbox" parse={parseBool}>
     {({ input }) => (
       <ToggleConfig

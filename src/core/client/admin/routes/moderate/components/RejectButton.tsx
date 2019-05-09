@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { BaseButton, Icon } from "talk-ui/components";
@@ -11,7 +11,7 @@ interface Props extends PropTypesOf<typeof BaseButton> {
   invert?: boolean;
 }
 
-const RejectButton: StatelessComponent<Props> = ({
+const RejectButton: FunctionComponent<Props> = ({
   invert,
   className,
   ...rest

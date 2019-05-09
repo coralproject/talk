@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import Timestamp from "talk-stream/components/Timestamp";
 import { Flex, Tag } from "talk-ui/components";
@@ -13,7 +13,7 @@ export interface RootParentProps {
   tags?: ReadonlyArray<string>;
 }
 
-const RootParent: StatelessComponent<RootParentProps> = props => {
+const RootParent: FunctionComponent<RootParentProps> = props => {
   return (
     <Flex direction="row" justifyContent="space-between" id={props.id}>
       <TopBarLeft>

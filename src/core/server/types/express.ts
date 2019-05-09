@@ -1,5 +1,6 @@
 import { NextFunction, Request as ExpressRequest, Response } from "express";
 
+import { Logger } from "talk-server/logger";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import TenantCache from "talk-server/services/tenant/cache";
@@ -11,6 +12,7 @@ export interface TalkRequest {
     tenant: TenantCache;
   };
   tenant?: Tenant;
+  logger: Logger;
 }
 
 export interface Request extends ExpressRequest {

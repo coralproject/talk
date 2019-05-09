@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Bar, SubBar, Subtitle, Title } from "talk-auth/components//Header";
 import Main from "talk-auth/components/Main";
@@ -7,10 +7,10 @@ import OrSeparator from "talk-auth/components/OrSeparator";
 import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
 import { PropTypesOf } from "talk-framework/types";
 import {
-  Button,
   CallOut,
   Flex,
   HorizontalGutter,
+  TextLink,
   Typography,
 } from "talk-ui/components";
 
@@ -21,7 +21,8 @@ import SignInWithOIDCContainer from "../containers/SignInWithOIDCContainer";
 
 export interface SignInForm {
   error: string | null;
-  onGotoSignUp: () => void;
+  onGotoSignUp: React.EventHandler<React.MouseEvent>;
+  signUpHref: string;
   emailEnabled?: boolean;
   facebookEnabled?: boolean;
   googleEnabled?: boolean;
@@ -31,12 +32,13 @@ export interface SignInForm {
     PropTypesOf<typeof SignInWithGoogleContainer>["auth"];
 }
 
-const SignIn: StatelessComponent<SignInForm> = ({
+const SignIn: FunctionComponent<SignInForm> = ({
   onGotoSignUp,
   emailEnabled,
   facebookEnabled,
   googleEnabled,
   oidcEnabled,
+  signUpHref,
   auth,
   error,
 }) => {
@@ -59,18 +61,10 @@ const SignIn: StatelessComponent<SignInForm> = ({
       <SubBar>
         <Localized
           id="signIn-noAccountSignUp"
-          button={
-            <Button
-              data-testid="gotoSignUpButton"
-              variant="underlined"
-              size="small"
-              color="primary"
-              onClick={onGotoSignUp}
-            />
-          }
+          textlink={<TextLink onClick={onGotoSignUp} href={signUpHref} />}
         >
           <Typography variant="bodyCopy" container={Flex}>
-            {"Don't have an account? <button>Sign Up</button>"}
+            {"Don't have an account? <textlink>Sign Up</textlink>"}
           </Typography>
         </Localized>
       </SubBar>

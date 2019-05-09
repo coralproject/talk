@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import { Link } from "found";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import MainLayout from "talk-admin/components/MainLayout";
 import { SubBar } from "talk-ui/components";
@@ -11,7 +11,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Moderate: StatelessComponent<Props> = ({ children }) => (
+const Moderate: FunctionComponent<Props> = ({ children }) => (
   <div data-testid="single-moderate-container">
     <SubBar className={styles.subBar} gutterBegin gutterEnd>
       <Localized id="moderate-single-goToModerationQueues">

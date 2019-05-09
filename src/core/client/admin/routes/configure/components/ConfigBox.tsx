@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 
@@ -11,7 +11,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const ConfigBox: StatelessComponent<Props> = ({
+const ConfigBox: FunctionComponent<Props> = ({
   id,
   title,
   topRight,

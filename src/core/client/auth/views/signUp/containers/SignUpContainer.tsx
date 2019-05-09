@@ -1,22 +1,34 @@
 import React, { Component } from "react";
 
 import { SignUpContainer_auth as AuthData } from "talk-auth/__generated__/SignUpContainer_auth.graphql";
-import { SetViewMutation, withSetViewMutation } from "talk-auth/mutations";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
+import { SetViewMutation } from "talk-auth/mutations";
+import {
+  graphql,
+  MutationProp,
+  withFragmentContainer,
+  withMutation,
+} from "talk-framework/lib/relay";
 
+import { getViewURL } from "talk-auth/helpers";
 import SignUp from "../components/SignUp";
 
 interface Props {
   auth: AuthData;
-  setView: SetViewMutation;
+  setView: MutationProp<typeof SetViewMutation>;
 }
 
 class SignUpContainer extends Component<Props> {
-  private goToSignIn = () => this.props.setView({ view: "SIGN_IN" });
+  private goToSignIn = (e: React.MouseEvent) => {
+    this.props.setView({ view: "SIGN_IN", history: "push" });
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+  };
   public render() {
     const integrations = this.props.auth.integrations;
     return (
       <SignUp
+        signInHref={getViewURL("SIGN_IN")}
         auth={this.props.auth}
         onGotoSignIn={this.goToSignIn}
         emailEnabled={
@@ -44,7 +56,7 @@ class SignUpContainer extends Component<Props> {
   }
 }
 
-const enhanced = withSetViewMutation(
+const enhanced = withMutation(SetViewMutation)(
   withFragmentContainer<Props>({
     auth: graphql`
       fragment SignUpContainer_auth on Auth {

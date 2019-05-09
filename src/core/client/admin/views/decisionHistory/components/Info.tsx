@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Typography } from "talk-ui/components";
 
@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Info: StatelessComponent<Props> = props => (
+const Info: FunctionComponent<Props> = props => (
   <Typography className={styles.root}>{props.children}</Typography>
 );
 

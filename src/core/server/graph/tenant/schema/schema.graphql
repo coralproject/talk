@@ -536,6 +536,9 @@ type OIDCAuthIntegration {
 ##########################
 
 type GoogleAuthIntegration {
+  """
+  enabled, when true, will enable Google as an authentication integration.
+  """
   enabled: Boolean!
 
   """
@@ -551,7 +554,14 @@ type GoogleAuthIntegration {
   """
   targetFilter: AuthenticationTargetFilter!
 
+  """
+  clientID is the Client Identifier as provided by the Google API Console.
+  """
   clientID: String @auth(roles: [ADMIN])
+
+  """
+  clientSecret is the Client Secret as provided by the Google API Console.
+  """
   clientSecret: String @auth(roles: [ADMIN])
 
   """
@@ -574,6 +584,9 @@ type GoogleAuthIntegration {
 ##########################
 
 type FacebookAuthIntegration {
+  """
+  enabled, when true, will enable Facebook as an authentication integration.
+  """
   enabled: Boolean!
 
   """
@@ -589,7 +602,16 @@ type FacebookAuthIntegration {
   """
   targetFilter: AuthenticationTargetFilter!
 
+  """
+  clientID is the Client Identifier as provided by the Facebook Developer
+  Console.
+  """
   clientID: String @auth(roles: [ADMIN])
+
+  """
+  clientSecret is the Client Secret as provided by the Facebook Developer
+  Console.
+  """
   clientSecret: String @auth(roles: [ADMIN])
 
   """
@@ -1343,7 +1365,7 @@ type User {
     )
 
   """
-  comments are the comments of the User.
+  comments are the comments written by the User.
   """
   comments(
     first: Int = 10
@@ -1352,8 +1374,8 @@ type User {
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
 
   """
-  commentModerationActionHistory returns a CommentModerationActionConnection that this User has
-  created.
+  commentModerationActionHistory returns a CommentModerationActionConnection
+  that this User has created.
   """
   commentModerationActionHistory(
     first: Int = 10
@@ -1373,7 +1395,7 @@ type User {
   """
   createdAt is the time that the User was created at.
   """
-  createdAt: Time! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  createdAt: Time!
 }
 
 """
@@ -2377,6 +2399,9 @@ input SettingsSSOAuthIntegrationInput {
 }
 
 input SettingsGoogleAuthIntegrationInput {
+  """
+  enabled, when true, will enable Google as an authentication integration.
+  """
   enabled: Boolean
 
   """
@@ -2392,11 +2417,21 @@ input SettingsGoogleAuthIntegrationInput {
   """
   targetFilter: SettingsAuthenticationTargetFilterInput
 
+  """
+  clientID is the Client Identifier as provided by the Google API Console.
+  """
   clientID: String
+
+  """
+  clientSecret is the Client Secret as provided by the Google API Console.
+  """
   clientSecret: String
 }
 
 input SettingsFacebookAuthIntegrationInput {
+  """
+  enabled, when true, will enable Facebook as an authentication integration.
+  """
   enabled: Boolean
 
   """
@@ -2412,7 +2447,16 @@ input SettingsFacebookAuthIntegrationInput {
   """
   targetFilter: SettingsAuthenticationTargetFilterInput
 
+  """
+  clientID is the Client Identifier as provided by the Facebook Developer
+  Console.
+  """
   clientID: String
+
+  """
+  clientSecret is the Client Secret as provided by the Facebook Developer
+  Console.
+  """
   clientSecret: String
 }
 

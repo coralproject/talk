@@ -1,11 +1,11 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex, Icon, Typography } from "talk-ui/components";
 
 import styles from "./Title.css";
 
-const Title: StatelessComponent = () => (
+const Title: FunctionComponent = () => (
   <Flex className={styles.root} alignItems="center">
     <Icon>history</Icon>{" "}
     <Localized id="decisionHistory-yourDecisionHistory">

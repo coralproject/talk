@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 import { OnSubmit } from "talk-framework/lib/form";
 
@@ -15,6 +15,8 @@ import {
   FormField,
   HorizontalGutter,
   InputLabel,
+  TextLink,
+  Typography,
   ValidationMessage,
 } from "talk-ui/components";
 
@@ -25,10 +27,11 @@ interface FormProps {
 
 export interface SignInWithEmailForm {
   onSubmit: OnSubmit<FormProps>;
-  onGotoForgotPassword: () => void;
+  onGotoForgotPassword: React.EventHandler<React.MouseEvent>;
+  forgotPasswordHref: string;
 }
 
-const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
+const SignInWithEmail: FunctionComponent<SignInWithEmailForm> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
@@ -73,18 +76,16 @@ const SignInWithEmail: StatelessComponent<SignInWithEmailForm> = props => {
                     </ValidationMessage>
                   )}
                   <Flex justifyContent="flex-end">
-                    <Localized id="signIn-forgotYourPassword">
-                      <Button
-                        data-testid="gotoForgotPasswordButton"
-                        variant="underlined"
-                        color="primary"
-                        size="small"
-                        disabled={submitting}
-                        onClick={props.onGotoForgotPassword}
-                      >
-                        Forgot your password?
-                      </Button>
-                    </Localized>
+                    <Typography variant="bodyCopy">
+                      <Localized id="signIn-forgotYourPassword">
+                        <TextLink
+                          onClick={props.onGotoForgotPassword}
+                          href={props.forgotPasswordHref}
+                        >
+                          Forgot your password?
+                        </TextLink>
+                      </Localized>
+                    </Typography>
                   </Flex>
                 </FormField>
               )}

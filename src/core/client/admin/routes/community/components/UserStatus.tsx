@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex, Typography } from "talk-ui/components";
 import { PropTypesOf } from "talk-ui/types";
@@ -25,7 +25,7 @@ const render = (
   </Typography>
 );
 
-const UserStatus: StatelessComponent<Props> = props => {
+const UserStatus: FunctionComponent<Props> = props => {
   if (props.banned) {
     return render(
       "error",

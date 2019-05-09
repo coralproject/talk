@@ -1,7 +1,7 @@
 import { BrowserProtocol, queryMiddleware } from "farce";
 import { createFarceRouter, ElementsRenderer } from "found";
 import { Resolver } from "found-relay";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import TransitionControl from "talk-framework/testHelpers/TransitionControl";
 
 import { TalkContextConsumer } from "talk-framework/lib/bootstrap/TalkContext";
@@ -25,7 +25,7 @@ const Router = createFarceRouter({
   ),
 });
 
-const EntryContainer: StatelessComponent = () => (
+const EntryContainer: FunctionComponent = () => (
   <TalkContextConsumer>
     {({ relayEnvironment }) => (
       <Router resolver={new Resolver(relayEnvironment)} />

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import {
   Button,
@@ -18,7 +18,7 @@ interface PermalinkProps {
   url: string;
 }
 
-const Permalink: StatelessComponent<PermalinkProps> = ({ commentID, url }) => {
+const Permalink: FunctionComponent<PermalinkProps> = ({ commentID, url }) => {
   const popoverID = `permalink-popover-${commentID}`;
   return (
     <Localized id="comments-permalinkPopover" attrs={{ description: true }}>

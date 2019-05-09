@@ -1,5 +1,30 @@
+// tslint:disable:max-classes-per-file
+
 // Allowing loading fluent files.
 declare module "*.ftl";
+
+declare module "fluent-dom/compat" {
+  import { FluentBundle } from "fluent/compat";
+
+  export class DOMLocalization {
+    constructor(resourceIDs: string[], generateBundles: any);
+
+    /**
+     * Translate a DOM element or fragment asynchronously using this
+     * `DOMLocalization` object.
+     *
+     * Manually trigger the translation (or re-translation) of a DOM fragment.
+     * Use the `data-l10n-id` and `data-l10n-args` attributes to mark up the DOM
+     * with information about which translations to use.
+     *
+     * Returns a `Promise` that gets resolved once the translation is complete.
+     *
+     * @param   {DOMFragment} frag - Element or DocumentFragment to be translated
+     * @returns {Promise}
+     */
+    public translateFragment(frag: DocumentFragment): Promise<DocumentFragment>;
+  }
+}
 
 declare module "fluent-react/compat" {
   import { FluentBundle } from "fluent/compat";

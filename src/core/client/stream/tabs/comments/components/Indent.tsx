@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./Indent.css";
 
@@ -27,7 +27,7 @@ function getLevelClassName(level: number = 0) {
   return levels[level];
 }
 
-const Indent: StatelessComponent<IndentProps> = props => {
+const Indent: FunctionComponent<IndentProps> = props => {
   return (
     <div className={cn(props.className, styles.root)}>
       <div

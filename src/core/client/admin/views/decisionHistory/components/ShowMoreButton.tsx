@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { BaseButton } from "talk-ui/components";
 
@@ -10,7 +10,7 @@ interface Props {
   onClick?: () => void;
 }
 
-const ShowMoreButton: StatelessComponent<Props> = props => (
+const ShowMoreButton: FunctionComponent<Props> = props => (
   <Localized id="decisionHistory-showMoreButton">
     <BaseButton
       className={styles.root}

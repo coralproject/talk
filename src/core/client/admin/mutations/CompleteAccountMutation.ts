@@ -2,7 +2,7 @@ import { Environment } from "relay-runtime";
 
 import { TalkContext } from "talk-framework/lib/bootstrap";
 import { createMutation } from "talk-framework/lib/relay";
-import { commit as setAccessToken } from "talk-framework/mutations/SetAccessTokenMutation";
+import SetAccessTokenMutation from "talk-framework/mutations/SetAccessTokenMutation";
 
 const CompleteAccountMutation = createMutation(
   "completeAccount",
@@ -13,7 +13,7 @@ const CompleteAccountMutation = createMutation(
     },
     context: TalkContext
   ) =>
-    await setAccessToken(
+    await SetAccessTokenMutation.commit(
       environment,
       { accessToken: input.accessToken },
       context

@@ -2,12 +2,6 @@ import { zip } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import {
-  doesRequireSchemePrefixing,
-  getOrigin,
-  isURLSecure,
-  prefixSchemeIfRequired,
-} from "talk-server/app/url";
 import { StoryURLInvalidError } from "talk-server/errors";
 import logger from "talk-server/logger";
 import {
@@ -46,6 +40,7 @@ import { ScraperQueue } from "talk-server/queue/tasks/scraper";
 import { scrape } from "talk-server/services/stories/scraper";
 
 import { AugmentedRedis } from "../redis";
+import { isURLPermitted } from "../tenant/url";
 
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
@@ -85,41 +80,6 @@ export async function findOrCreate(
   }
 
   return story;
-}
-
-/**
- * isURLInsideAllowedDomains will validate if the given origin is allowed given
- * the Tenant's domain configuration.
- */
-export function isURLPermitted(
-  tenant: Pick<Tenant, "domains">,
-  targetURL: string
-) {
-  // If there aren't any domains, then we reject it, because no url we have can
-  // satisfy those requirements.
-  if (tenant.domains.length === 0) {
-    return false;
-  }
-
-  // If the scheme can not be inferred, then we can't determine the
-  // admissability of the url.
-  if (doesRequireSchemePrefixing(targetURL)) {
-    return false;
-  }
-
-  // Determine the scheme of the targetOrigin. We know that the targetURL does
-  // not need prefixing, so it can only be true/false here.
-  const originSecure = isURLSecure(targetURL) as boolean;
-
-  // Extract the origin from the URL.
-  const targetOrigin = getOrigin(targetURL);
-
-  // Loop over all the Tenant domains provided. Prefix the domain of each if it
-  // is required with the target url scheme. Return if at least one match is
-  // found within the Tenant domains.
-  return tenant.domains
-    .map(domain => getOrigin(prefixSchemeIfRequired(originSecure, domain)))
-    .some(origin => origin === targetOrigin);
 }
 
 export async function remove(

@@ -1,6 +1,7 @@
 import uuid from "uuid/v1";
 
 import { TenantNotFoundError } from "talk-server/errors";
+import logger from "talk-server/logger";
 import TenantCache from "talk-server/services/tenant/cache";
 import { RequestHandler } from "talk-server/types/express";
 
@@ -25,7 +26,7 @@ export const tenantMiddleware = ({
       const now = new Date();
 
       // Set Talk on the request.
-      req.talk = { id, now };
+      req.talk = { id, now, logger: logger.child({ traceID: id }) };
     }
 
     // Set the Talk Tenant Cache on the request.
@@ -48,6 +49,9 @@ export const tenantMiddleware = ({
 
     // Attach the tenant to the request.
     req.talk.tenant = tenant;
+
+    // Attach the tenant's language to the request.
+    res.setHeader("Content-Language", tenant.locale);
 
     // Attach the tenant to the view locals.
     res.locals.tenant = tenant;

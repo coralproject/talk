@@ -1,9 +1,8 @@
-import bunyan from "bunyan";
 import uuid from "uuid";
 
 import { LanguageCode } from "talk-common/helpers/i18n/locales";
 import { Config } from "talk-server/config";
-import logger from "talk-server/logger";
+import logger, { Logger } from "talk-server/logger";
 import { User } from "talk-server/models/user";
 import { I18n } from "talk-server/services/i18n";
 import { Request } from "talk-server/types/express";
@@ -13,6 +12,7 @@ export interface CommonContextOptions {
   now?: Date;
   user?: User;
   req?: Request;
+  logger?: Logger;
   lang?: LanguageCode;
   config: Config;
   i18n: I18n;
@@ -26,11 +26,12 @@ export default class CommonContext {
   public readonly i18n: I18n;
   public readonly lang: LanguageCode;
   public readonly now: Date;
-  public readonly logger: ReturnType<typeof bunyan.createLogger>;
+  public readonly logger: Logger;
 
   constructor({
     id = uuid.v1(),
     now = new Date(),
+    logger: log = logger,
     user,
     req,
     config,
@@ -38,9 +39,9 @@ export default class CommonContext {
     lang = i18n.getDefaultLang(),
   }: CommonContextOptions) {
     this.id = id;
-    this.logger = logger.child({
+    this.logger = log.child({
       context: "graph",
-      contextID: this.id,
+      contextID: id,
     });
     this.now = now;
     this.user = user;

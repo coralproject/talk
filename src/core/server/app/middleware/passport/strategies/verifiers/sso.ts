@@ -1,8 +1,9 @@
 import Joi from "joi";
-import jwt from "jsonwebtoken";
+import { isNil } from "lodash";
 import { Db } from "mongodb";
 
 import { validate } from "talk-server/app/request/body";
+import { IntegrationDisabled } from "talk-server/errors";
 import {
   GQLSSOAuthIntegration,
   GQLUSER_ROLE,
@@ -11,6 +12,7 @@ import { Tenant } from "talk-server/models/tenant";
 import { retrieveUserWithProfile, SSOProfile } from "talk-server/models/user";
 import { insert } from "talk-server/services/users";
 
+import { SymmetricSigningAlgorithm, verifyJWT } from "talk-server/services/jwt";
 import { Verifier } from "../jwt";
 
 export interface SSOStrategyOptions {
@@ -30,13 +32,17 @@ export interface SSOToken {
 
 export const SSOUserProfileSchema = Joi.object()
   .keys({
-    id: Joi.string(),
-    email: Joi.string(),
-    username: Joi.string(),
+    id: Joi.string().required(),
+    email: Joi.string().required(),
+    username: Joi.string().required(),
     avatar: Joi.string().default(undefined),
     displayName: Joi.string().default(undefined),
   })
   .optionalKeys(["avatar", "displayName"]);
+
+export const SSOTokenSchema = Joi.object().keys({
+  user: SSOUserProfileSchema.required(),
+});
 
 export async function findOrCreateSSOUser(
   mongo: Db,
@@ -91,26 +97,9 @@ export async function findOrCreateSSOUser(
   return user;
 }
 
-/**
- * isSSOUserProfile will check if the given profile is a SSOUserProfile.
- *
- * @param profile the profile to check for the type
- */
-export function isSSOUserProfile(
-  profile: SSOUserProfile | object
-): profile is SSOUserProfile {
-  return (
-    typeof (profile as SSOUserProfile).id !== "undefined" &&
-    typeof (profile as SSOUserProfile).email !== "undefined" &&
-    typeof (profile as SSOUserProfile).username !== "undefined"
-  );
-}
-
 export function isSSOToken(token: SSOToken | object): token is SSOToken {
-  return (
-    typeof (token as SSOToken).user === "object" &&
-    isSSOUserProfile((token as SSOToken).user)
-  );
+  const { error } = Joi.validate(token, SSOTokenSchema);
+  return isNil(error);
 }
 
 export interface SSOVerifierOptions {
@@ -132,24 +121,28 @@ export class SSOVerifier implements Verifier<SSOToken> {
     tokenString: string,
     token: SSOToken,
     tenant: Tenant,
-    now = new Date()
+    now: Date
   ) {
     const integration = tenant.auth.integrations.sso;
     if (!integration.enabled) {
-      // TODO: (wyattjoh) return a better error.
-      throw new Error("integration not enabled");
+      throw new IntegrationDisabled("sso");
     }
 
     if (!integration.key) {
       throw new Error("integration key does not exist");
     }
 
-    // Verify that the token is valid. This will throw an error if it isn't.
-    jwt.verify(tokenString, integration.key, {
-      // Force the use of the HS256 algorithm. We can explore switching this
-      // out in the future..
-      algorithms: ["HS256"], // TODO: (wyattjoh) investigate replacing algorithm.
-    });
+    verifyJWT(
+      tokenString,
+      {
+        // Force the use of the HS256 algorithm. We can explore switching this
+        // out in the future..
+        // TODO: (wyattjoh) investigate replacing algorithm.
+        algorithm: SymmetricSigningAlgorithm.HS256,
+        secret: integration.key,
+      },
+      now
+    );
 
     return findOrCreateSSOUser(this.mongo, tenant, integration, token, now);
   }

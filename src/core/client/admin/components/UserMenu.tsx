@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import {
   Button,
@@ -18,7 +18,7 @@ interface Props {
   onSignOut: React.EventHandler<React.MouseEvent>;
 }
 
-const UserMenu: StatelessComponent<Props> = props => (
+const UserMenu: FunctionComponent<Props> = props => (
   <Localized id="userMenu-popover" attrs={{ description: true }}>
     <Popover
       id="userMenu"

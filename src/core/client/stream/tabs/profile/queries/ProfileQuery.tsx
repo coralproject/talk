@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import { once } from "lodash";
-import React, { StatelessComponent, Suspense } from "react";
+import React, { FunctionComponent, Suspense } from "react";
 import { ReadyState } from "react-relay";
 
 import {
@@ -67,7 +67,7 @@ export const render = ({
   );
 };
 
-const ProfileQuery: StatelessComponent<Props> = ({
+const ProfileQuery: FunctionComponent<Props> = ({
   local: { storyID, storyURL },
 }) => (
   <QueryRenderer<QueryTypes>

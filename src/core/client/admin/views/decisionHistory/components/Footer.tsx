@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 
@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Footer: StatelessComponent<Props> = props => (
+const Footer: FunctionComponent<Props> = props => (
   <Flex className={styles.root} alignItems="baseline">
     {props.children}
   </Flex>

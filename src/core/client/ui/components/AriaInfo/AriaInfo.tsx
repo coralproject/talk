@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { AllHTMLAttributes, Ref, StatelessComponent } from "react";
+import React, { AllHTMLAttributes, FunctionComponent, Ref } from "react";
 
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { PropTypesOf } from "talk-ui/types";
@@ -18,7 +18,7 @@ interface Props extends AllHTMLAttributes<HTMLElement> {
   forwardRef?: Ref<HTMLElement>;
 }
 
-const AriaInfo: StatelessComponent<Props> = props => {
+const AriaInfo: FunctionComponent<Props> = props => {
   const { component, className, classes, forwardRef: ref, ...rest } = props;
   const Component: React.ComponentType<
     React.HTMLAttributes<HTMLElement> & React.ClassAttributes<HTMLElement>

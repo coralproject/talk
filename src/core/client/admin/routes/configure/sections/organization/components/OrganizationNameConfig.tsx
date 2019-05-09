@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { required } from "talk-framework/lib/validation";
@@ -17,7 +17,7 @@ interface Props {
   disabled: boolean;
 }
 
-const OrganizationNameConfig: StatelessComponent<Props> = ({ disabled }) => (
+const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-organization-name">

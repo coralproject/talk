@@ -12,7 +12,7 @@ deploy_tag() {
   # v5.0.0-beta.1 will be tagged with 5.0.0-beta.1
   # v5.0.0 will be tagged with 5, 5.0, 5.0.0
   #
-  if [ -n "$(echo $CIRCLE_TAG | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$')" ]
+  if [[ -n "$(echo $CIRCLE_TAG | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$')" ]]
   then
     major=$(echo ${CIRCLE_TAG/#v} | cut -d. -f1)
     minor=$(echo ${CIRCLE_TAG/#v} | cut -d. -f2)
@@ -40,14 +40,6 @@ deploy_tag() {
       echo "==> pushing $version"
       docker push coralproject/talk:$version
   done
-
-  # Deploy latest if we're at master, or deploy this branch if we aren't.
-  if [ "$CIRCLE_BRANCH" = "master" ]
-  then
-    deploy_latest
-  else
-    deploy_branch
-  fi
 }
 
 deploy_latest() {

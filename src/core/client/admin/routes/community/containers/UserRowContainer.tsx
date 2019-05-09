@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { UserRowContainer_user as UserData } from "talk-admin/__generated__/UserRowContainer_user.graphql";
@@ -14,7 +14,7 @@ interface Props {
   viewer: ViewerData;
 }
 
-const UserRowContainer: StatelessComponent<Props> = props => {
+const UserRowContainer: FunctionComponent<Props> = props => {
   const { locales } = useTalkContext();
   return (
     <UserRow

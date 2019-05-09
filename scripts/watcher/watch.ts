@@ -101,6 +101,10 @@ export default async function watch(config: Config, options: Options = {}) {
     // tslint:disable-next-line:no-console
     console.log(chalk.cyanBright(`Start watcher "${key}"`));
     const watcherConfig = watchersConfigs[key];
-    beginWatch(watcher, key, watcherConfig, rootDir);
+    beginWatch(watcher, key, watcherConfig, rootDir).catch(err => {
+      // tslint:disable-next-line:no-console
+      console.error(err);
+      process.exit(1);
+    });
   }
 }

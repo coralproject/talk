@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import HTMLContent from "talk-stream/components/HTMLContent";
 import Timestamp from "talk-stream/components/Timestamp";
@@ -25,7 +25,7 @@ export interface CommentProps {
   tags?: ReadonlyArray<string>;
 }
 
-const Comment: StatelessComponent<CommentProps> = props => {
+const Comment: FunctionComponent<CommentProps> = props => {
   return (
     <div
       role="article"

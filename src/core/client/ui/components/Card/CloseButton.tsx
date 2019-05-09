@@ -1,5 +1,5 @@
 import React, { Ref } from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
 import { Omit, PropTypesOf } from "talk-ui/types";
 
@@ -19,7 +19,7 @@ export interface CloseButtonProps
   forwardRef?: Ref<HTMLButtonElement>;
 }
 
-const CloseButton: StatelessComponent<CloseButtonProps> = props => {
+const CloseButton: FunctionComponent<CloseButtonProps> = props => {
   const {
     classes: { icon: iconClassName, ...restClasses },
     forwardRef,

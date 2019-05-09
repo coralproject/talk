@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
@@ -20,7 +20,7 @@ interface Props {
   disabled: boolean;
 }
 
-const WordListTextArea: StatelessComponent<Props> = ({
+const WordListTextArea: FunctionComponent<Props> = ({
   id,
   name,
   disabled,

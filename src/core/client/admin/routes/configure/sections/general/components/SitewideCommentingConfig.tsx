@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent, Suspense } from "react";
+import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import {
@@ -21,7 +21,7 @@ interface Props {
   disabled: boolean;
 }
 
-const SitewideCommentingConfig: StatelessComponent<Props> = ({ disabled }) => (
+const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container="fieldset">
     <Localized id="configure-general-sitewideCommenting-title">
       <Header container="legend">Sitewide Commenting</Header>

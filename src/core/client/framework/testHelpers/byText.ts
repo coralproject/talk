@@ -30,7 +30,7 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
 };
 
 interface SelectorOptions {
-  selector?: string | React.ComponentClass<any> | React.StatelessComponent<any>;
+  selector?: string | React.ComponentClass<any> | React.FunctionComponent<any>;
 }
 
 export function getByText(

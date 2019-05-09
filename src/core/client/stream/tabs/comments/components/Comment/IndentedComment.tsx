@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -13,7 +13,7 @@ export interface IndentedCommentProps extends PropTypesOf<typeof Comment> {
   blur?: boolean;
 }
 
-const IndentedComment: StatelessComponent<IndentedCommentProps> = props => {
+const IndentedComment: FunctionComponent<IndentedCommentProps> = props => {
   const { indentLevel, ...rest } = props;
   const CommentElement = <Comment {...rest} />;
   const CommentwithIndent = (

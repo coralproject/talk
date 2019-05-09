@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex, Typography } from "talk-ui/components";
 
@@ -10,7 +10,7 @@ interface HeaderProps {
   main?: boolean;
 }
 
-const Header: StatelessComponent<HeaderProps> = ({ main }) => {
+const Header: FunctionComponent<HeaderProps> = ({ main }) => {
   return (
     <Flex
       alignItems="center"

@@ -1,5 +1,5 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { Icon } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ interface Props {
   icon?: React.ReactNode;
 }
 
-const ListItem: StatelessComponent<Props> = props => (
+const ListItem: FunctionComponent<Props> = props => (
   <li className={styles.root}>
     <div className={styles.leftCol}>{props.icon}</div>
     <div>{props.children}</div>

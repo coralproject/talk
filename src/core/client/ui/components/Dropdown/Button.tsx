@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Omit } from "talk-framework/types";
 import { withStyles } from "talk-ui/hocs";
@@ -23,7 +23,7 @@ interface Props extends Omit<BaseButtonProps, "ref"> {
   blankAdornment?: boolean;
 }
 
-const Button: StatelessComponent<Props> = ({
+const Button: FunctionComponent<Props> = ({
   blankAdornment,
   className,
   href,

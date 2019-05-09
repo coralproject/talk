@@ -1,12 +1,129 @@
 import { Redis } from "ioredis";
-import jwt, { SignOptions } from "jsonwebtoken";
-import { Bearer } from "permit";
+import Joi from "joi";
+import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
+import { Bearer, BearerOptions } from "permit";
 import uuid from "uuid/v4";
 
+import { Omit } from "talk-common/types";
 import { Config } from "talk-server/config";
-import { AuthenticationError } from "talk-server/errors";
+import { AuthenticationError, TokenInvalidError } from "talk-server/errors";
+import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
+
+/**
+ *  The following Claim Names are registered in the IANA "JSON Web Token
+ * Claims" registry established by Section 10.1.  None of the claims
+ * defined below are intended to be mandatory to use or implement in all
+ * cases, but rather they provide a starting point for a set of useful,
+ * interoperable claims.  Applications using JWTs should define which
+ * specific claims they use and when they are required or optional.  All
+ * the names are short because a core goal of JWTs is for the
+ * representation to be compact.
+ *
+ * https://tools.ietf.org/html/rfc7519#section-4.1
+ */
+export interface StandardClaims {
+  /**
+   * The "jti" (JWT ID) claim provides a unique identifier for the JWT. The
+   * identifier value MUST be assigned in a manner that ensures that there is a
+   * negligible probability that the same value will be accidentally assigned to
+   * a different data object; if the application uses multiple issuers,
+   * collisions MUST be prevented among values produced by different issuers as
+   * well.  The "jti" claim can be used to prevent the JWT from being replayed.
+   * The "jti" value is a case- sensitive string.  Use of this claim is
+   * OPTIONAL.
+   *
+   * https://tools.ietf.org/html/rfc7519#section-4.1.7
+   */
+  jti?: string;
+
+  /**
+   * The "aud" (audience) claim identifies the recipients that the JWT is
+   * intended for.  Each principal intended to process the JWT MUST
+   * identify itself with a value in the audience claim.  If the principal
+   * processing the claim does not identify itself with a value in the
+   * "aud" claim when this claim is present, then the JWT MUST be
+   * rejected.  In the general case, the "aud" value is an array of case-
+   * sensitive strings, each containing a StringOrURI value.  In the
+   * special case when the JWT has one audience, the "aud" value MAY be a
+   * single case-sensitive string containing a StringOrURI value.  The
+   * interpretation of audience values is generally application specific.
+   * Use of this claim is OPTIONAL.
+   *
+   * https://tools.ietf.org/html/rfc7519#section-4.1.3
+   */
+  aud?: string;
+
+  /**
+   * The "sub" (subject) claim identifies the principal that is the
+   * subject of the JWT. The claims in a JWT are normally statements
+   * about the subject. The subject value MUST either be scoped to be
+   * locally unique in the context of the issuer or be globally unique.
+   * The processing of this claim is generally application specific. The
+   * "sub" value is a case-sensitive string containing a StringOrURI
+   * value. Use of this claim is OPTIONAL.
+   *
+   * https://tools.ietf.org/html/rfc7519#section-4.1.2
+   */
+  sub?: string;
+
+  /**
+   * The "iss" (issuer) claim identifies the principal that issued the
+   * JWT. The processing of this claim is generally application specific.
+   * The "iss" value is a case-sensitive string containing a StringOrURI
+   * value. Use of this claim is OPTIONAL.
+   *
+   * https://tools.ietf.org/html/rfc7519#section-4.1.2
+   */
+  iss?: string;
+
+  /**
+   * The "exp" (expiration time) claim identifies the expiration time on
+   * or after which the JWT MUST NOT be accepted for processing.  The
+   * processing of the "exp" claim requires that the current date/time
+   * MUST be before the expiration date/time listed in the "exp" claim.
+   * Implementers MAY provide for some small leeway, usually no more than
+   * a few minutes, to account for clock skew.  Its value MUST be a number
+   * containing a NumericDate value.  Use of this claim is OPTIONAL.
+   *
+   * https://tools.ietf.org/html/rfc7519#section-4.1.4
+   */
+  exp?: number;
+
+  /**
+   *  The "nbf" (not before) claim identifies the time before which the JWT
+   * MUST NOT be accepted for processing.  The processing of the "nbf"
+   * claim requires that the current date/time MUST be after or equal to
+   * the not-before date/time listed in the "nbf" claim.  Implementers MAY
+   * provide for some small leeway, usually no more than a few minutes, to
+   * account for clock skew.  Its value MUST be a number containing a
+   * NumericDate value.  Use of this claim is OPTIONAL.
+   *
+   * https://tools.ietf.org/html/rfc7519#section-4.1.5
+   */
+  nbf?: number;
+
+  /**
+   * The "iat" (issued at) claim identifies the time at which the JWT was
+   * issued.  This claim can be used to determine the age of the JWT.  Its
+   * value MUST be a number containing a NumericDate value.  Use of this
+   * claim is OPTIONAL.
+   *
+   * https://tools.ietf.org/html/rfc7519#section-4.1.6
+   */
+  iat?: number;
+}
+
+export const StandardClaimsSchema = Joi.object().keys({
+  jti: Joi.string(),
+  aud: Joi.string(),
+  sub: Joi.string(),
+  iss: Joi.string(),
+  exp: Joi.number(),
+  nbf: Joi.number(),
+  iat: Joi.number(),
+});
 
 export enum AsymmetricSigningAlgorithm {
   RS256 = "RS256",
@@ -28,7 +145,7 @@ export type JWTSigningAlgorithm =
   | SymmetricSigningAlgorithm;
 
 export interface JWTSigningConfig {
-  secret: Buffer;
+  secret: Buffer | string;
   algorithm: JWTSigningAlgorithm;
 }
 
@@ -48,7 +165,7 @@ export function createSymmetricSigningConfig(
   secret: string
 ): JWTSigningConfig {
   return {
-    secret: Buffer.from(secret, "utf8"),
+    secret,
     algorithm,
   };
 }
@@ -89,14 +206,16 @@ export type SigningTokenOptions = Pick<
 
 export const signTokenString = async (
   { algorithm, secret }: JWTSigningConfig,
-  user: User,
-  options: SigningTokenOptions
+  user: Pick<User, "id">,
+  tenant: Pick<Tenant, "id">,
+  options: SigningTokenOptions = {}
 ) =>
   jwt.sign({}, secret, {
     jwtid: uuid(),
     // TODO: (wyattjoh) evaluate allowing configuration?
     expiresIn: "1 day",
     ...options,
+    issuer: tenant.id,
     subject: user.id,
     algorithm,
   });
@@ -112,11 +231,32 @@ export const signPATString = async (
     algorithm,
   });
 
-export function extractJWTFromRequest(req: Request) {
-  const permit = new Bearer({
+export async function signString<T extends {}>(
+  { algorithm, secret }: JWTSigningConfig,
+  payload: T,
+  options: Omit<SignOptions, "algorithm"> = {}
+) {
+  return jwt.sign(payload, secret, { ...options, algorithm });
+}
+
+/**
+ *
+ * @param req the request to extract the JWT from
+ * @param excludeQuery when true, does not pull from the query params
+ */
+export function extractJWTFromRequest(
+  req: Request,
+  excludeQuery: boolean = false
+) {
+  const options: BearerOptions = {
     basic: "password",
-    query: "accessToken",
-  });
+  };
+
+  if (!excludeQuery) {
+    options.query = "accessToken";
+  }
+
+  const permit = new Bearer(options);
 
   return permit.check(req) || null;
 }
@@ -138,5 +278,30 @@ export async function checkJWTRevoked(redis: Redis, jti: string) {
   const expiredAtString = await redis.get(generateJTIRevokedKey(jti));
   if (expiredAtString) {
     throw new AuthenticationError("JWT was revoked");
+  }
+}
+
+export function verifyJWT(
+  tokenString: string,
+  { algorithm, secret }: JWTSigningConfig,
+  now: Date,
+  options: Omit<VerifyOptions, "algorithms" | "clockTimestamp"> = {}
+) {
+  try {
+    return jwt.verify(tokenString, secret, {
+      ...options,
+      algorithms: [algorithm],
+      clockTimestamp: Math.floor(now.getTime() / 1000),
+    }) as object;
+  } catch (err) {
+    throw new TokenInvalidError(tokenString, "token validation error", err);
+  }
+}
+
+export function decodeJWT(tokenString: string) {
+  try {
+    return jwt.decode(tokenString, {}) as StandardClaims;
+  } catch (err) {
+    throw new TokenInvalidError(tokenString, "token validation error", err);
   }
 }

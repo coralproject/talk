@@ -4,6 +4,7 @@ import { Strategy } from "passport-strategy";
 import { Profile } from "passport";
 import { VerifyCallback } from "passport-oauth2";
 import { Config } from "talk-server/config";
+import { IntegrationDisabled } from "talk-server/errors";
 import { AuthIntegrations } from "talk-server/models/settings";
 import { Tenant } from "talk-server/models/tenant";
 import { User } from "talk-server/models/user";
@@ -28,6 +29,7 @@ export default abstract class OAuth2Strategy<
   T extends OAuth2Integration,
   U extends Strategy
 > extends Strategy {
+  public abstract name: string;
   protected config: Config;
   protected mongo: Db;
   protected cache: TenantCacheAdapter<U>;
@@ -59,7 +61,7 @@ export default abstract class OAuth2Strategy<
     integration: Required<T>,
     profile: Profile,
     now: Date
-  ): Promise<User | undefined>;
+  ): Promise<User | null | undefined>;
 
   protected verifyCallback = async (
     req: Request,
@@ -83,6 +85,9 @@ export default abstract class OAuth2Strategy<
         profile,
         now
       );
+      if (!user) {
+        return done(null);
+      }
 
       return done(null, user);
     } catch (err) {
@@ -100,8 +105,7 @@ export default abstract class OAuth2Strategy<
 
       // Check to see if the integration is enabled.
       if (!integration.enabled) {
-        // TODO: return a better error.
-        throw new Error("integration not enabled");
+        throw new IntegrationDisabled(this.name);
       }
 
       if (!integration.clientID) {

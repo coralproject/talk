@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -11,7 +11,6 @@ export type View =
   | "SIGN_UP"
   | "SIGN_IN"
   | "FORGOT_PASSWORD"
-  | "RESET_PASSWORD"
   | "CREATE_USERNAME"
   | "CREATE_PASSWORD"
   | "ADD_EMAIL_ADDRESS"
@@ -37,7 +36,7 @@ const renderView = (view: AppProps["view"], auth: AppProps["auth"]) => {
   }
 };
 
-const App: StatelessComponent<AppProps> = ({ view, auth }) => (
+const App: FunctionComponent<AppProps> = ({ view, auth }) => (
   <div>{renderView(view, auth)}</div>
 );
 

@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Card, Flex, HorizontalGutter, TextLink } from "talk-ui/components";
@@ -40,7 +40,7 @@ interface Props {
   dangling?: boolean;
 }
 
-const ModerateCard: StatelessComponent<Props> = ({
+const ModerateCard: FunctionComponent<Props> = ({
   id,
   username,
   createdAt,

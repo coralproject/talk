@@ -25,7 +25,7 @@ const withSetCommentID: Decorator = pym => {
   // Send new commentID when history state changes.
   const sendSetCommentID = (e: Event) => {
     const commentID = getCurrentCommentID();
-    pym.sendMessage("setCommentID", commentID);
+    pym.sendMessage("setCommentID", commentID || "");
   };
   window.addEventListener("popstate", sendSetCommentID);
 

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { ReactNode, StatelessComponent } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import { withStyles } from "talk-ui/hocs";
 
 import styles from "./Message.css";
@@ -27,7 +27,7 @@ export interface MessageProps {
   color?: "error" | "grey" | "primary" | "dark";
 }
 
-const Message: StatelessComponent<MessageProps> = props => {
+const Message: FunctionComponent<MessageProps> = props => {
   const { className, classes, fullWidth, children, color, ...rest } = props;
 
   const rootClassName = cn(

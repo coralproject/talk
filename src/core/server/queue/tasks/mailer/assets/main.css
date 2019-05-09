@@ -1,0 +1,14 @@
+/*
+ * Refer to https://www.campaignmonitor.com/css/lists/list-style/ for supported
+ * features.
+ */
+
+.content {
+  padding: 10px;
+  background-color: white;
+}
+
+table {
+  padding: 10px;
+  background-color: whitesmoke;
+}

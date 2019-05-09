@@ -1,6 +1,6 @@
 import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
 import { Localized as LocalizedOriginal } from "fluent-react/compat";
-import React, { Ref, StatelessComponent } from "react";
+import React, { FunctionComponent, Ref } from "react";
 
 import { Icon } from "talk-ui/components";
 import { PropTypesOf } from "talk-ui/types";
@@ -78,7 +78,7 @@ const features = [
 ];
 // tslint:enable:jsx-wrap-multiline
 
-const RTE: StatelessComponent<RTEProps> = props => {
+const RTE: FunctionComponent<RTEProps> = props => {
   const {
     className,
     fullWidth,

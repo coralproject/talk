@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./Main.css";
 
@@ -8,7 +8,7 @@ export interface MainProps {
   children: React.ReactNode;
 }
 
-const Main: StatelessComponent<MainProps> = ({
+const Main: FunctionComponent<MainProps> = ({
   children,
   className,
   ...rest

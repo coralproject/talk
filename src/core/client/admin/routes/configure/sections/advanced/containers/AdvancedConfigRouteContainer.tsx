@@ -33,7 +33,7 @@ class AdvancedConfigRouteContainer extends React.Component<Props> {
   }
 }
 
-const enhanced = withRouteConfig({
+const enhanced = withRouteConfig<Props>({
   query: graphql`
     query AdvancedConfigRouteContainerQuery {
       settings {

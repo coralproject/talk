@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { HorizontalGutter } from "talk-ui/components";
@@ -25,7 +25,7 @@ interface Props {
   onInitValues: (values: any) => void;
 }
 
-const AuthIntegrationsConfig: StatelessComponent<Props> = ({
+const AuthIntegrationsConfig: FunctionComponent<Props> = ({
   disabled,
   auth,
   onInitValues,

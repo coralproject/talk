@@ -17,6 +17,7 @@ it("renders correctly", () => {
     googleEnabled: true,
     oidcEnabled: true,
     auth: {},
+    signInHref: "/signIn",
   };
   const renderer = createRenderer();
   renderer.render(<SignUpN {...props} />);
@@ -31,6 +32,7 @@ it("renders without email sign up", () => {
     googleEnabled: true,
     oidcEnabled: true,
     auth: {},
+    signInHref: "/signIn",
   };
   const renderer = createRenderer();
   renderer.render(<SignUpN {...props} />);

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Button, Flex, Typography } from "talk-ui/components";
 
@@ -10,7 +10,7 @@ interface Props {
   disableButton?: boolean;
 }
 
-const CloseStream: StatelessComponent<Props> = ({ onClick, disableButton }) => (
+const CloseStream: FunctionComponent<Props> = ({ onClick, disableButton }) => (
   <div>
     <Localized id="configure-closeStream-title">
       <Typography variant="heading2" className={styles.heading}>

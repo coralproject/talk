@@ -1,5 +1,5 @@
 import { FormApi } from "final-form";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { StoriesContainerQueryResponse } from "talk-admin/__generated__/StoriesContainerQuery.graphql";
@@ -13,7 +13,7 @@ interface Props {
   initialSearchFilter?: string;
 }
 
-const StoriesContainer: StatelessComponent<Props> = props => {
+const StoriesContainer: FunctionComponent<Props> = props => {
   return (
     <Stories
       query={props.data}
@@ -22,7 +22,7 @@ const StoriesContainer: StatelessComponent<Props> = props => {
   );
 };
 
-const enhanced = withRouteConfig({
+const enhanced = withRouteConfig<Props>({
   query: graphql`
     query StoriesContainerQuery($searchFilter: String) {
       ...StoryTableContainer_query @arguments(searchFilter: $searchFilter)

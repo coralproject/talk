@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { DURATION_UNIT, DurationField } from "talk-framework/components";
@@ -23,7 +23,7 @@ interface Props {
   disabled: boolean;
 }
 
-const CommentEditingConfig: StatelessComponent<Props> = ({ disabled }) => (
+const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf">
     <Localized id="configure-general-commentEditing-title">
       <Header>Comment Editing</Header>

@@ -1,12 +1,14 @@
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 import jwks, { JwksClient } from "jwks-rsa";
+import { isNil } from "lodash";
 import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
 import { validate } from "talk-server/app/request/body";
 import { reconstructURL } from "talk-server/app/url";
+import { IntegrationDisabled, TokenInvalidError } from "talk-server/errors";
 import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
 import logger from "talk-server/logger";
 import { OIDCAuthIntegration } from "talk-server/models/settings";
@@ -16,6 +18,7 @@ import {
   retrieveUserWithProfile,
   User,
 } from "talk-server/models/user";
+import { AsymmetricSigningAlgorithm } from "talk-server/services/jwt";
 import TenantCache from "talk-server/services/tenant/cache";
 import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
 import { insert } from "talk-server/services/users";
@@ -43,21 +46,38 @@ export interface OIDCIDToken {
   preferred_username?: string;
 }
 
+export const OIDCIDTokenSchema = Joi.object()
+  .keys({
+    sub: Joi.string().required(),
+    iss: Joi.string().required(),
+    aud: Joi.string().required(),
+    email: Joi.string().required(),
+    email_verified: Joi.boolean().default(false),
+    picture: Joi.string().default(undefined),
+    name: Joi.string().default(undefined),
+    nickname: Joi.string().default(undefined),
+    preferred_username: Joi.string().default(undefined),
+  })
+  .optionalKeys([
+    "picture",
+    "email_verified",
+    "name",
+    "nickname",
+    "preferred_username",
+  ]);
+
 export interface StrategyItem {
   strategy: OAuth2Strategy;
   jwksClient?: JwksClient;
 }
 
 export function isOIDCToken(token: OIDCIDToken | object): token is OIDCIDToken {
-  if (
-    (token as OIDCIDToken).iss &&
-    (token as OIDCIDToken).sub &&
-    (token as OIDCIDToken).aud
-  ) {
-    return true;
-  }
-
-  return false;
+  const { error } = Joi.validate(token, OIDCIDTokenSchema, {
+    // OIDC ID tokens may contain many other fields we haven't seen.. We Just
+    // need to check to see that it contains at least the fields we need.
+    allowUnknown: true,
+  });
+  return isNil(error);
 }
 
 /**
@@ -92,8 +112,7 @@ export function getEnabledIntegration(
   integration: OIDCAuthIntegration
 ): Required<OIDCAuthIntegration> {
   if (!integration.enabled) {
-    // TODO: return a better error.
-    throw new Error("integration not enabled");
+    throw new IntegrationDisabled("oidc");
   }
 
   if (
@@ -105,33 +124,12 @@ export function getEnabledIntegration(
     !integration.jwksURI ||
     !integration.issuer
   ) {
-    // TODO: return a better error.
-    throw new Error("integration not configured");
+    throw new IntegrationDisabled("oidc");
   }
 
   // TODO: (wyattjoh) for some reason, type guards above to not allow coercion to this required type.
   return integration as Required<OIDCAuthIntegration>;
 }
-
-export const OIDCIDTokenSchema = Joi.object()
-  .keys({
-    sub: Joi.string(),
-    iss: Joi.string(),
-    aud: Joi.string(),
-    email: Joi.string(),
-    email_verified: Joi.boolean().default(false),
-    picture: Joi.string().default(undefined),
-    name: Joi.string().default(undefined),
-    nickname: Joi.string().default(undefined),
-    preferred_username: Joi.string().default(undefined),
-  })
-  .optionalKeys([
-    "picture",
-    "email_verified",
-    "name",
-    "nickname",
-    "preferred_username",
-  ]);
 
 export async function findOrCreateOIDCUser(
   mongo: Db,
@@ -200,25 +198,41 @@ export function findOrCreateOIDCUserWithToken(
   tenant: Tenant,
   client: JwksClient,
   integration: OIDCAuthIntegration,
-  token: string,
+  tokenString: string,
   now: Date
 ) {
   return new Promise<Readonly<User> | null>((resolve, reject) => {
     logger.trace({ tenantID: tenant.id }, "verifying oidc id_token");
     jwt.verify(
-      token,
+      tokenString,
       signingKeyFactory(client),
       {
         issuer: integration.issuer,
+        // FIXME: (wyattjoh) support additional algorithms.
+        // Currently we're limited by the key retrieval factory to only support
+        // RS256. Tracking available:
+        //
+        // https://github.com/auth0/node-jwks-rsa/issues/40
+        // https://github.com/auth0/node-jwks-rsa/issues/50
+        algorithms: [AsymmetricSigningAlgorithm.RS256],
+        clockTimestamp: Math.floor(now.getTime() / 1000),
       },
-      async (err, decoded) => {
+      async (err, token) => {
         logger.trace(
           { tenantID: tenant.id },
           "finished verifying oidc id_token"
         );
         if (err) {
-          // TODO: wrap error?
-          return reject(err);
+          return reject(
+            new TokenInvalidError(tokenString, "token validation error", err)
+          );
+        }
+
+        // Validate the token.
+        if (typeof token === "string" || !isOIDCToken(token)) {
+          return reject(
+            new TokenInvalidError(tokenString, "token is not an OIDCToken")
+          );
         }
 
         try {
@@ -226,7 +240,7 @@ export function findOrCreateOIDCUserWithToken(
             mongo,
             tenant,
             integration,
-            decoded as OIDCIDToken,
+            token,
             now
           );
           return resolve(user);

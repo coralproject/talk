@@ -1,8 +1,8 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./DotDivider.css";
 
-const Footer: StatelessComponent<{}> = () => (
+const Footer: FunctionComponent<{}> = () => (
   <div className={styles.root}>•</div>
 );
 

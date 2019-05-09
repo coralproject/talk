@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import MainLayout from "talk-admin/components/MainLayout";
 import { PropTypesOf } from "talk-framework/types";
@@ -12,7 +12,7 @@ interface Props {
   initialSearchFilter?: string;
 }
 
-const Stories: StatelessComponent<Props> = props => (
+const Stories: FunctionComponent<Props> = props => (
   <MainLayout className={styles.root} data-testid="stories-container">
     <StoryTableContainer
       query={props.query}

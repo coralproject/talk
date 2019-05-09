@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import { identity } from "lodash";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import { Validator } from "talk-framework/lib/validation";
@@ -14,7 +14,7 @@ interface Props {
   disabled: boolean;
 }
 
-const APIKeyField: StatelessComponent<Props> = ({
+const APIKeyField: FunctionComponent<Props> = ({
   name,
   disabled,
   validate,

@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import AuthBox from "talk-admin/components/AuthBox";
 import {
@@ -17,7 +17,7 @@ interface Props {
   onSignInAs: React.MouseEventHandler;
 }
 
-const SignIn: StatelessComponent<Props> = ({ username, onSignInAs }) => {
+const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
   const Username = () => (
     <Typography variant="heading1" align="center">
       {username}

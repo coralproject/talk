@@ -106,4 +106,6 @@ async function bootstrap() {
   }
 }
 
-bootstrap();
+bootstrap().catch(() => {
+  process.exit(1);
+});

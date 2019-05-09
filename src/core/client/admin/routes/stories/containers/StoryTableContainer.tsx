@@ -1,4 +1,4 @@
-import React, { StatelessComponent, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { StoryTableContainer_query as QueryData } from "talk-admin/__generated__/StoryTableContainer_query.graphql";
@@ -21,7 +21,7 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-const StoryTableContainer: StatelessComponent<Props> = props => {
+const StoryTableContainer: FunctionComponent<Props> = props => {
   const stories = props.query
     ? props.query.stories.edges.map(edge => edge.node)
     : [];

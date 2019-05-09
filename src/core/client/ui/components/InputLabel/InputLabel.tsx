@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { ReactNode } from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 import { Omit, PropTypesOf } from "talk-ui/types";
 
@@ -25,7 +25,7 @@ export interface InputLabelProps
   classes: typeof styles;
 }
 
-const InputLabelProps: StatelessComponent<InputLabelProps> = props => {
+const InputLabelProps: FunctionComponent<InputLabelProps> = props => {
   const { className, children, classes, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);

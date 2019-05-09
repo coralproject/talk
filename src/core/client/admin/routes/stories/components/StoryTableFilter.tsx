@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
 import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
@@ -23,7 +23,7 @@ interface Props {
   onSetSearchFilter: (search: string) => void;
 }
 
-const StoryTableFilter: StatelessComponent<Props> = props => (
+const StoryTableFilter: FunctionComponent<Props> = props => (
   <Flex itemGutter="double">
     <FieldSet>
       <Localized id="stories-filter-search">

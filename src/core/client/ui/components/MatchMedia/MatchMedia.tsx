@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactNode, StatelessComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import Responsive, { MediaQueryMatchers } from "react-responsive";
 
 import { PropTypesOf } from "talk-ui/types";
@@ -35,7 +35,7 @@ interface Props {
   values?: Partial<MediaQueryMatchers>;
 }
 
-export const MatchMedia: StatelessComponent<Props> = props => {
+export const MatchMedia: FunctionComponent<Props> = props => {
   const { speech, gteWidth, gtWidth, lteWidth, ltWidth, ...rest } = props;
   const mapped = {
     // TODO: Temporarily map newer speech to older aural type until
@@ -55,7 +55,7 @@ export const MatchMedia: StatelessComponent<Props> = props => {
   return <Responsive {...rest} {...mapped} />;
 };
 
-const MatchMediaWithContext: StatelessComponent<Props> = props => (
+const MatchMediaWithContext: FunctionComponent<Props> = props => (
   <UIContext.Consumer>
     {({ mediaQueryValues }) => (
       <MatchMedia {...props} values={mediaQueryValues} />

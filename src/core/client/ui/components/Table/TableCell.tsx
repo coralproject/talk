@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent, useContext } from "react";
+import React, { FunctionComponent, useContext } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 import { Omit } from "talk-ui/types";
@@ -19,7 +19,7 @@ interface Props
   align?: "begin" | "center" | "end";
 }
 
-const TableCell: StatelessComponent<Props> = ({
+const TableCell: FunctionComponent<Props> = ({
   align,
   classes,
   className,

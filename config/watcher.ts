@@ -31,6 +31,23 @@ const config: Config = {
         runOnInit: true,
       }),
     },
+    generateRelayAccount: {
+      paths: [
+        "core/client/account/**/*.ts",
+        "core/client/account/**/*.tsx",
+        "core/client/account/**/*.graphql",
+        "core/server/**/*.graphql",
+      ],
+      ignore: [
+        "core/**/*.d.ts",
+        "core/**/*.graphql.ts",
+        "**/test/**/*",
+        "core/**/*.spec.*",
+      ],
+      executor: new CommandExecutor("npm run generate:relay-account", {
+        runOnInit: true,
+      }),
+    },
     generateRelayAdmin: {
       paths: [
         "core/client/admin/**/*.ts",
@@ -131,6 +148,7 @@ const config: Config = {
       "generateRelayStream",
       "generateRelayAuth",
       "generateRelayInstall",
+      "generateRelayAccount",
       "generateRelayAdmin",
       "generateSchemaTypes",
     ],

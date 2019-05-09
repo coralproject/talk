@@ -3,9 +3,9 @@ import React, {
   ButtonHTMLAttributes,
   EventHandler,
   FocusEvent,
+  FunctionComponent,
   MouseEvent,
   Ref,
-  StatelessComponent,
   TouchEvent,
 } from "react";
 
@@ -53,7 +53,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
  * A button whose styling is stripped off to a minimum and supports
  * keyboard focus. It is the base for our other buttons.
  */
-const BaseButton: StatelessComponent<Props> = ({
+const BaseButton: FunctionComponent<Props> = ({
   anchor,
   className,
   classes,

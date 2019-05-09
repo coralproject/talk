@@ -1,8 +1,4 @@
-export {
-  withSetAccessTokenMutation,
-  SetAccessTokenMutation,
-  SetAccessTokenInput,
-} from "./SetAccessTokenMutation";
+export { default as SetAccessTokenMutation } from "./SetAccessTokenMutation";
 export { withSignOutMutation, SignOutMutation } from "./SignOutMutation";
 export {
   withSetNetworkStatusMutation,

@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const DecisionItem: StatelessComponent<Props> = props => (
+const DecisionItem: FunctionComponent<Props> = props => (
   <li className={styles.root}>
     <Flex>
       <div className={styles.leftCol}>{props.icon}</div>

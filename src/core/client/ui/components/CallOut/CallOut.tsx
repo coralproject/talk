@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { ReactNode, StatelessComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -29,7 +29,7 @@ export interface CallOutProps {
   fullWidth?: boolean;
 }
 
-const CallOut: StatelessComponent<CallOutProps> = props => {
+const CallOut: FunctionComponent<CallOutProps> = props => {
   const { className, classes, color, fullWidth, children, ...rest } = props;
 
   const rootClassName = cn(

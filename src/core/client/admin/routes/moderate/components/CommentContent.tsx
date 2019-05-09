@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { memoize } from "lodash";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { createPurify } from "talk-common/utils/purify";
 import { Typography } from "talk-ui/components";
@@ -111,7 +111,7 @@ function markHTMLNode(
   });
 }
 
-const CommentContent: StatelessComponent<Props> = ({
+const CommentContent: FunctionComponent<Props> = ({
   suspectWords,
   bannedWords,
   className,

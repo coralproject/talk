@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { withStyles } from "talk-ui/hocs";
 
@@ -14,7 +14,7 @@ interface Props {
   classes: typeof styles;
 }
 
-const NavigationItem: StatelessComponent<Props> = ({
+const NavigationItem: FunctionComponent<Props> = ({
   className,
   active,
   href,

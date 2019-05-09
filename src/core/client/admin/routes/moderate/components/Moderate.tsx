@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import MainLayout from "talk-admin/components/MainLayout";
 import { PropTypesOf } from "talk-framework/types";
@@ -19,7 +19,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Moderate: StatelessComponent<Props> = ({
+const Moderate: FunctionComponent<Props> = ({
   moderationQueues,
   story,
   allStories,

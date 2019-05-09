@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { BaseButton, ClickOutside, Icon, Popover } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ import styles from "./DecisionHistoryButton.css";
 
 const popoverID = "decision-history-popover";
 
-const DecisionHistoryButton: StatelessComponent = () => (
+const DecisionHistoryButton: FunctionComponent = () => (
   <Localized id="decisionHistory-popover" attrs={{ description: true }}>
     <Popover
       data-testid="decisionHistory-popover"

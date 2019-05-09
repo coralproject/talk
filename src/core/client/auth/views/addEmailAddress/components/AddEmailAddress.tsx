@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
 import { Bar, Title } from "talk-auth/components//Header";
@@ -26,7 +26,7 @@ export interface AddEmailAddressForm {
   onSubmit: OnSubmit<FormProps>;
 }
 
-const AddEmailAddress: StatelessComponent<AddEmailAddressForm> = props => {
+const AddEmailAddress: FunctionComponent<AddEmailAddressForm> = props => {
   return (
     <div data-testid="addEmailAddress-container">
       <Bar>

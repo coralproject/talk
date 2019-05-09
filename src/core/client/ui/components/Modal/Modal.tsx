@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, {
-  StatelessComponent,
+  FunctionComponent,
   useCallback,
   useEffect,
   useState,
@@ -60,7 +60,7 @@ interface Props {
   children?: PropTypesOf<typeof TrapFocus>["children"];
 }
 
-const Modal: StatelessComponent<Props> = ({
+const Modal: FunctionComponent<Props> = ({
   classes,
   open,
   onClose,

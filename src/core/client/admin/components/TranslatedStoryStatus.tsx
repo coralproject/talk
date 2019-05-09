@@ -19,7 +19,7 @@ function createElement(
   }
 }
 
-const TranslatedRole: React.StatelessComponent<Props> = props => {
+const TranslatedRole: React.FunctionComponent<Props> = props => {
   switch (props.children) {
     case GQLSTORY_STATUS.OPEN:
       return (

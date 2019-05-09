@@ -1,32 +1,56 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { createMutationContainer } from "talk-framework/lib/relay";
+import { createMutation } from "talk-framework/lib/relay";
 import { LOCAL_ID } from "talk-framework/lib/relay/withLocalStateContainer";
+
+export type View =
+  | "SIGN_IN"
+  | "SIGN_UP"
+  | "FORGOT_PASSWORD"
+  | "ADD_EMAIL_ADDRESS"
+  | "CREATE_USERNAME"
+  | "CREATE_PASSWORD";
 
 export interface SetViewInput {
   // TODO: replace with generated typescript types.
-  view:
-    | "SIGN_IN"
-    | "SIGN_UP"
-    | "FORGOT_PASSWORD"
-    | "RESET_PASSWORD"
-    | "ADD_EMAIL_ADDRESS"
-    | "CREATE_USERNAME"
-    | "CREATE_PASSWORD";
+  view: View;
+  history?: "push" | "replace";
 }
 
-export type SetViewMutation = (input: SetViewInput) => Promise<void>;
+const SetViewMutation = createMutation(
+  "setView",
+  (environment: Environment, input: SetViewInput) => {
+    return commitLocalUpdate(environment, store => {
+      const record = store.get(LOCAL_ID)!;
 
-export async function commit(
-  environment: Environment,
-  input: SetViewInput,
-  { pym }: TalkContext
-) {
-  return commitLocalUpdate(environment, store => {
-    const record = store.get(LOCAL_ID)!;
-    record.setValue(input.view, "view");
-  });
-}
+      if (input.history) {
+        const newLocation = window.location.href.replace(
+          /\?[^#]*/,
+          `?view=${input.view}`
+        );
+        const previousState = window.history.state;
+        switch (input.history) {
+          case "push":
+            window.history.pushState(
+              previousState,
+              document.title,
+              newLocation
+            );
+            break;
+          case "replace":
+            window.history.replaceState(
+              previousState,
+              document.title,
+              newLocation
+            );
+            break;
+          default:
+        }
+      }
 
-export const withSetViewMutation = createMutationContainer("setView", commit);
+      record.setValue(input.view, "view");
+    });
+  }
+);
+
+export default SetViewMutation;

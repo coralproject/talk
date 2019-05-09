@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { withStyles } from "talk-ui/hocs";
 
 import styles from "./Spinner.css";
@@ -32,7 +32,7 @@ function calculateSize(size: Size): number {
   }
 }
 
-const Spinner: StatelessComponent<SpinnerProps> = props => {
+const Spinner: FunctionComponent<SpinnerProps> = props => {
   const { className, classes } = props;
 
   const rootClassName = cn(classes.spinner, className);

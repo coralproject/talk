@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button, HorizontalGutter } from "talk-ui/components";
@@ -14,7 +14,7 @@ interface Props {
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
 }
 
-const PostCommentFormFake: StatelessComponent<Props> = props => (
+const PostCommentFormFake: FunctionComponent<Props> = props => (
   <div>
     {props.showMessageBox && (
       <MessageBoxContainer story={props.story} className={styles.messageBox} />

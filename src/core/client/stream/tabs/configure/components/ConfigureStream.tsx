@@ -1,6 +1,6 @@
 import { FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
 import { FormInitializer } from "talk-framework/lib/form";
@@ -26,7 +26,7 @@ interface Props {
     PropTypesOf<typeof MessageBoxConfigContainer>["storySettings"];
 }
 
-const ConfigureStream: StatelessComponent<Props> = ({
+const ConfigureStream: FunctionComponent<Props> = ({
   onSubmit,
   storySettings,
 }) => (

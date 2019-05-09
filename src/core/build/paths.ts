@@ -38,6 +38,10 @@ export default {
   appInstallLocalesTemplate: resolveSrc("core/client/install/locales.ts"),
   appInstallIndex: resolveSrc("core/client/install/index.tsx"),
 
+  appAccountHTML: resolveSrc("core/client/account/index.html"),
+  appAccountLocalesTemplate: resolveSrc("core/client/account/locales.ts"),
+  appAccountIndex: resolveSrc("core/client/account/index.tsx"),
+
   appAdminHTML: resolveSrc("core/client/admin/index.html"),
   appAdminLocalesTemplate: resolveSrc("core/client/admin/locales.ts"),
   appAdminIndex: resolveSrc("core/client/admin/index.tsx"),

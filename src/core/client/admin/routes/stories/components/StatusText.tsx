@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import TranslatedStoryStatus from "talk-admin/components/TranslatedStoryStatus";
 
@@ -10,7 +10,7 @@ interface Props {
   children: GQLSTORY_STATUS_RL;
 }
 
-const StatusText: StatelessComponent<Props> = props => (
+const StatusText: FunctionComponent<Props> = props => (
   <TranslatedStoryStatus
     container={
       <span

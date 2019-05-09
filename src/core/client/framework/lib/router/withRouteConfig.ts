@@ -1,13 +1,7 @@
 import { RouteMatch, RouteProps } from "found";
 import * as React from "react";
 
-interface InjectedProps<T> {
-  error?: Error | null;
-  data: T | null | undefined;
-  retry?: Error | null;
-}
-
-type RouteConfig<QueryResponse> = Partial<
+type RouteConfig<Props = any, QueryResponse = undefined> = Partial<
   Pick<RouteProps, "query" | "getQuery">
 > &
   Partial<Pick<RouteProps, "data" | "getData" | "defer">> & {
@@ -23,14 +17,17 @@ type RouteConfig<QueryResponse> = Partial<
       data: QueryResponse | null;
       retry: () => void;
       match: RouteMatch;
-      Component: React.ComponentType<any>;
+      Component: React.ComponentType<Partial<Props>>;
     }) => React.ReactElement;
   };
 
-function withRouteConfig<QueryResponse>(config: RouteConfig<QueryResponse>) {
-  const hoc = <T extends InjectedProps<QueryResponse>>(
-    component: React.ComponentType<T>
-  ) => {
+function withRouteConfig<
+  Props = any,
+  QueryResponse = Props extends { data: infer T | null | undefined }
+    ? T
+    : undefined
+>(config: RouteConfig<Props, QueryResponse>) {
+  const hoc = <T>(component: React.ComponentType<T>) => {
     (component as any).routeConfig = {
       ...config,
       Component: component,

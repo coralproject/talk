@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import {
   BrandIcon,
@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const AuthBox: StatelessComponent<Props> = ({ title, children }) => {
+const AuthBox: FunctionComponent<Props> = ({ title, children }) => {
   return (
     <div data-testid="authBox">
       <Flex justifyContent="center">

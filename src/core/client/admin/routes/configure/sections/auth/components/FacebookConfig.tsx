@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { required, Validator } from "talk-framework/lib/validation";
 import { HorizontalGutter, TextLink, Typography } from "talk-ui/components";
@@ -33,7 +33,7 @@ const validateWhenEnabled = (validator: Validator): Validator => (
   return "";
 };
 
-const FacebookConfig: StatelessComponent<Props> = ({
+const FacebookConfig: FunctionComponent<Props> = ({
   disabled,
   callbackURL,
 }) => (

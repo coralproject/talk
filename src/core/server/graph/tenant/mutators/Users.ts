@@ -52,7 +52,7 @@ export const Users = (ctx: TenantContext) => ({
     ),
   setEmail: async (input: GQLSetEmailInput): Promise<Readonly<User> | null> =>
     mapFieldsetToErrorCodes(
-      setEmail(ctx.mongo, ctx.tenant, ctx.user!, input.email),
+      setEmail(ctx.mongo, ctx.mailerQueue, ctx.tenant, ctx.user!, input.email),
       {
         "input.email": [
           ERROR_CODES.EMAIL_ALREADY_SET,
@@ -69,7 +69,13 @@ export const Users = (ctx: TenantContext) => ({
   updatePassword: async (
     input: GQLUpdatePasswordInput
   ): Promise<Readonly<User> | null> =>
-    updatePassword(ctx.mongo, ctx.tenant, ctx.user!, input.password),
+    updatePassword(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.password
+    ),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(
       ctx.mongo,
@@ -91,10 +97,18 @@ export const Users = (ctx: TenantContext) => ({
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
     updateRole(ctx.mongo, ctx.tenant, ctx.user!, input.userID, input.role),
   ban: async (input: GQLBanUserInput) =>
-    ban(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+    ban(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.userID,
+      ctx.now
+    ),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
       ctx.mongo,
+      ctx.mailerQueue,
       ctx.tenant,
       ctx.user!,
       input.userID,

@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 import {
   composeValidators,
@@ -19,7 +19,7 @@ interface Props {
   disabled: boolean;
 }
 
-const CreateUsernameField: StatelessComponent<Props> = props => (
+const CreateUsernameField: FunctionComponent<Props> = props => (
   <Field
     name="username"
     validate={composeValidators(required, validateUsername)}

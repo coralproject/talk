@@ -74,11 +74,11 @@ it("renders sign in view with error", async () => {
   );
   expect(within(container).toJSON()).toMatchSnapshot();
   within(testRenderer.root)
-    .getByTestID("gotoSignUpButton")
-    .props.onClick();
+    .getByText("Sign Up")
+    .props.onClick({});
   within(testRenderer.root)
-    .getByTestID("gotoSignInButton")
-    .props.onClick();
+    .getByText("Sign In")
+    .props.onClick({});
   const container2 = await waitForElement(() =>
     within(testRenderer.root).getByTestID("signIn-container")
   );

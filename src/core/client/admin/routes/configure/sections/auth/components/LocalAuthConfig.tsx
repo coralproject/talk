@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { HorizontalGutter } from "talk-ui/components";
 
@@ -11,7 +11,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const LocalAuthConfig: StatelessComponent<Props> = ({ disabled }) => (
+const LocalAuthConfig: FunctionComponent<Props> = ({ disabled }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-local-loginWith">

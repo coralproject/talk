@@ -16,16 +16,13 @@ exports[`renders correctly 1`] = `
   </Localized>
   <SubBar>
     <Localized
-      button={
-        <ForwardRef(forwardRef)
-          color="primary"
-          data-testid="gotoSignInButton"
+      id="signUp-accountAvailableSignIn"
+      textlink={
+        <withPropsOnChange(TextLinkProps)
+          href="/signIn"
           onClick={[Function]}
-          size="small"
-          variant="underlined"
         />
       }
-      id="signUp-accountAvailableSignIn"
     >
       <ForwardRef(forwardRef)
         container={
@@ -36,7 +33,7 @@ exports[`renders correctly 1`] = `
         }
         variant="bodyCopy"
       >
-        Already have an account? &lt;button&gt;Sign In&lt;/button&gt;
+        Already have an account? &lt;textlink&gt;Sign In&lt;/textlink&gt;
       </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>
@@ -80,16 +77,13 @@ exports[`renders without email sign up 1`] = `
   </Localized>
   <SubBar>
     <Localized
-      button={
-        <ForwardRef(forwardRef)
-          color="primary"
-          data-testid="gotoSignInButton"
+      id="signUp-accountAvailableSignIn"
+      textlink={
+        <withPropsOnChange(TextLinkProps)
+          href="/signIn"
           onClick={[Function]}
-          size="small"
-          variant="underlined"
         />
       }
-      id="signUp-accountAvailableSignIn"
     >
       <ForwardRef(forwardRef)
         container={
@@ -100,7 +94,7 @@ exports[`renders without email sign up 1`] = `
         }
         variant="bodyCopy"
       >
-        Already have an account? &lt;button&gt;Sign In&lt;/button&gt;
+        Already have an account? &lt;textlink&gt;Sign In&lt;/textlink&gt;
       </ForwardRef(forwardRef)>
     </Localized>
   </SubBar>

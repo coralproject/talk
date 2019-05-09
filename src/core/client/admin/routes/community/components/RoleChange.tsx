@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import TranslatedRole from "talk-admin/components/TranslatedRole";
 import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
@@ -20,7 +20,7 @@ interface Props {
   role: GQLUSER_ROLE_RL;
 }
 
-const RoleChange: StatelessComponent<Props> = props => (
+const RoleChange: FunctionComponent<Props> = props => (
   <Localized id="community-role-popover" attrs={{ description: true }}>
     <Popover
       id="community-roleChange"

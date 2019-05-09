@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import { identity } from "lodash";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import {
@@ -42,7 +42,7 @@ const OIDCLink = () => (
   <TextLink target="_blank">{"https://openid.net/connect/"}</TextLink>
 );
 
-const OIDCConfig: StatelessComponent<Props> = ({
+const OIDCConfig: FunctionComponent<Props> = ({
   disabled,
   callbackURL,
   onDiscover,

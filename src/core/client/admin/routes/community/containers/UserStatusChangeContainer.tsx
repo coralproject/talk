@@ -1,4 +1,4 @@
-import React, { StatelessComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { UserStatusChangeContainer_user as UserData } from "talk-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import { BanUserMutation, RemoveUserBanMutation } from "talk-admin/mutations";
@@ -18,7 +18,7 @@ interface Props {
   user: UserData;
 }
 
-const UserStatusChangeContainer: StatelessComponent<Props> = props => {
+const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   const banUser = useMutation(BanUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
   const [showBanned, setShowBanned] = useState<boolean>(false);

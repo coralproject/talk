@@ -53,7 +53,7 @@ export default class FacebookStrategy extends OAuth2Strategy<
     if (!user) {
       if (!integration.allowRegistration) {
         // Registration is disabled, so we can't create the user user here.
-        return;
+        return null;
       }
 
       // FIXME: implement rules.

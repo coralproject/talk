@@ -1,0 +1,10 @@
+type Local {
+  accessToken: String
+  accessTokenExp: Int
+  accessTokenJTI: String
+  loggedIn: Boolean!
+}
+
+extend type Query {
+  local: Local!
+}

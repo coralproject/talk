@@ -1,7 +1,9 @@
 import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
+import { Redis } from "ioredis";
 import { VerifyCallback } from "talk-server/app/middleware/passport";
+import { RequestLimiter } from "talk-server/app/request/limiter";
 import { InvalidCredentialsError } from "talk-server/errors";
 import {
   retrieveUserWithProfile,
@@ -9,14 +11,19 @@ import {
 } from "talk-server/models/user";
 import { Request } from "talk-server/types/express";
 
-const verifyFactory = (mongo: Db) => async (
+const verifyFactory = (
+  mongo: Db,
+  ipLimiter: RequestLimiter,
+  emailLimiter: RequestLimiter
+) => async (
   req: Request,
   email: string,
   password: string,
   done: VerifyCallback
 ) => {
   try {
-    // TODO: rate limit based on the IP address and user agent.
+    await ipLimiter.test(req, req.ip);
+    await emailLimiter.test(req, email);
 
     // The tenant is guaranteed at this point.
     const tenant = req.talk!.tenant!;
@@ -45,9 +52,26 @@ const verifyFactory = (mongo: Db) => async (
 
 export interface LocalStrategyOptions {
   mongo: Db;
+  redis: Redis;
 }
 
-export function createLocalStrategy({ mongo }: LocalStrategyOptions) {
+export function createLocalStrategy({
+  mongo,
+  redis: client,
+}: LocalStrategyOptions) {
+  const ipLimiter = new RequestLimiter({
+    client,
+    ttl: "10m",
+    max: 10,
+    prefix: "ip",
+  });
+  const emailLimiter = new RequestLimiter({
+    client,
+    ttl: "10m",
+    max: 10,
+    prefix: "email",
+  });
+
   return new LocalStrategy(
     {
       usernameField: "email",
@@ -55,6 +79,6 @@ export function createLocalStrategy({ mongo }: LocalStrategyOptions) {
       session: false,
       passReqToCallback: true,
     },
-    verifyFactory(mongo)
+    verifyFactory(mongo, ipLimiter, emailLimiter)
   );
 }

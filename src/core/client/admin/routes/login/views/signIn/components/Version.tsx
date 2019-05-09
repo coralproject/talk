@@ -1,10 +1,10 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex, Typography } from "talk-ui/components";
 
 import styles from "./Version.css";
 
-const Version: StatelessComponent = () => {
+const Version: FunctionComponent = () => {
   return (
     <Flex justifyContent="center">
       <Typography className={styles.version} variant="detail" align="center">

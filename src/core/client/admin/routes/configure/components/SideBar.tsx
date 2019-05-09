@@ -1,8 +1,8 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./SideBar.css";
 
-const SideBar: StatelessComponent = ({ children }) => (
+const SideBar: FunctionComponent = ({ children }) => (
   <div className={styles.root}>{children}</div>
 );
 

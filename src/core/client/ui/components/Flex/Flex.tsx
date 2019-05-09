@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React, { Ref } from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { pascalCase } from "talk-common/utils";
 import { withForwardRef, withStyles } from "talk-ui/hocs";
@@ -33,7 +33,7 @@ interface Props {
   forwardRef?: Ref<HTMLDivElement>;
 }
 
-const Flex: StatelessComponent<Props> = props => {
+const Flex: FunctionComponent<Props> = props => {
   const {
     classes,
     className,

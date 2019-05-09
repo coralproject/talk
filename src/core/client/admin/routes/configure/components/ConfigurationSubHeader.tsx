@@ -1,9 +1,9 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import Subheader from "../components/Subheader";
 
-const ConfigurationSubHeader: StatelessComponent<{}> = () => (
+const ConfigurationSubHeader: FunctionComponent<{}> = () => (
   <Localized id="configure-configurationSubHeader" strong={<strong />}>
     <Subheader>Configuration</Subheader>
   </Localized>

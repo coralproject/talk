@@ -4,17 +4,18 @@ import React, { Component } from "react";
 import {
   SetViewMutation,
   SignInMutation,
-  withSetViewMutation,
   withSignInMutation,
 } from "talk-auth/mutations";
+import { MutationProp, withMutation } from "talk-framework/lib/relay";
 
+import { getViewURL } from "talk-auth/helpers";
 import SignInWithEmail, {
   SignInWithEmailForm,
 } from "../components/SignInWithEmail";
 
 interface SignInContainerProps {
   signIn: SignInMutation;
-  setView: SetViewMutation;
+  setView: MutationProp<typeof SetViewMutation>;
 }
 
 class SignInContainer extends Component<SignInContainerProps> {
@@ -26,17 +27,24 @@ class SignInContainer extends Component<SignInContainerProps> {
       return { [FORM_ERROR]: error.message };
     }
   };
-  private goToForgotPassword = () =>
-    this.props.setView({ view: "FORGOT_PASSWORD" });
+  private goToForgotPassword = (e: React.MouseEvent) => {
+    this.props.setView({ view: "FORGOT_PASSWORD", history: "push" });
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+  };
   public render() {
     return (
       <SignInWithEmail
         onSubmit={this.onSubmit}
         onGotoForgotPassword={this.goToForgotPassword}
+        forgotPasswordHref={getViewURL("FORGOT_PASSWORD")}
       />
     );
   }
 }
 
-const enhanced = withSetViewMutation(withSignInMutation(SignInContainer));
+const enhanced = withMutation(SetViewMutation)(
+  withSignInMutation(SignInContainer)
+);
 export default enhanced;

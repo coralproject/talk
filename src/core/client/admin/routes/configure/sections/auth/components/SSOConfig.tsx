@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { HorizontalGutter } from "talk-ui/components";
@@ -14,7 +14,7 @@ interface Props {
   sso: PropTypesOf<typeof SSOKeyFieldContainer>["sso"];
 }
 
-const SSOConfig: StatelessComponent<Props> = ({ disabled, sso }) => (
+const SSOConfig: FunctionComponent<Props> = ({ disabled, sso }) => (
   <ConfigBoxWithToggleField
     title={
       <Localized id="configure-auth-sso-loginWith">

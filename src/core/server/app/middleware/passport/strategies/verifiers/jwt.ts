@@ -1,39 +1,22 @@
 import { Redis } from "ioredis";
-import jwt from "jsonwebtoken";
+import Joi from "joi";
+import { isNil } from "lodash";
 import { Db } from "mongodb";
-import now from "performance-now";
 
-import logger from "talk-server/logger";
 import { Tenant } from "talk-server/models/tenant";
 import { retrieveUser } from "talk-server/models/user";
-import { checkJWTRevoked, JWTSigningConfig } from "talk-server/services/jwt";
+import {
+  checkJWTRevoked,
+  JWTSigningConfig,
+  StandardClaims,
+  verifyJWT,
+} from "talk-server/services/jwt";
 
 import { Verifier } from "../jwt";
 
-export interface JWTToken {
-  /**
-   * jti is the Token identifier. With normal login tokens, this is a randomly
-   * generated uuid, which is added to a revoke list when the User "logs out".
-   * For Personal Access Tokens, this is the Token identifier.
-   */
-  jti: string;
-
-  /**
-   * sub is the ID of the User that this Token is associated with.
-   */
-  sub: string;
-
-  /**
-   * iss is the ID of the Tenant that this Token is associated with.
-   */
-  iss: string;
-
-  /**
-   * exp is the optional expiry for the tokens. Personal Access Token's do not
-   * have an expiry associated with them, hence why it's optional.
-   */
-  exp?: number;
-
+export interface JWTToken
+  extends Required<Pick<StandardClaims, "jti" | "sub" | "iss" | "iat">>,
+    Pick<StandardClaims, "exp"> {
   /**
    * pat, when true, indicates that this Token is a Personal Access Token, and
    * it's `jti` claim should be treated as the Token ID. These tokens cannot be
@@ -42,30 +25,18 @@ export interface JWTToken {
   pat?: boolean;
 }
 
+export const JWTTokenSchema = Joi.object().keys({
+  jti: Joi.string().required(),
+  sub: Joi.string().required(),
+  iat: Joi.number().required(),
+  iss: Joi.string().required(),
+  exp: Joi.number(),
+  pat: Joi.boolean(),
+});
+
 export function isJWTToken(token: JWTToken | object): token is JWTToken {
-  if (
-    typeof (token as JWTToken).jti !== "string" ||
-    typeof (token as JWTToken).sub !== "string" ||
-    typeof (token as JWTToken).iss !== "string"
-  ) {
-    return false;
-  }
-
-  if (
-    typeof (token as JWTToken).exp !== "undefined" &&
-    typeof (token as JWTToken).exp !== "number"
-  ) {
-    return false;
-  }
-
-  if (
-    typeof (token as JWTToken).pat !== "undefined" &&
-    typeof (token as JWTToken).pat !== "boolean"
-  ) {
-    return false;
-  }
-
-  return true;
+  const { error } = Joi.validate(token, JWTTokenSchema);
+  return isNil(error);
 }
 
 export interface JWTVerifierOptions {
@@ -89,19 +60,14 @@ export class JWTVerifier implements Verifier<JWTToken> {
     return isJWTToken(token) && token.iss === tenant.id;
   }
 
-  public async verify(tokenString: string, token: JWTToken, tenant: Tenant) {
-    const startTime = now();
-
+  public async verify(
+    tokenString: string,
+    token: JWTToken,
+    tenant: Tenant,
+    now: Date
+  ) {
     // Verify that the token is valid. This will throw an error if it isn't.
-    jwt.verify(tokenString, this.signingConfig.secret, {
-      issuer: tenant.id,
-      algorithms: [this.signingConfig.algorithm],
-    });
-
-    // Compute the end time.
-    const responseTime = Math.round(now() - startTime);
-
-    logger.trace({ responseTime }, "jwt verification complete");
+    verifyJWT(tokenString, this.signingConfig, now, { issuer: tenant.id });
 
     // Check to see if this is a Personal Access Token, these tokens cannot be
     // revoked.

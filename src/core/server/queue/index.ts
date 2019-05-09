@@ -7,6 +7,7 @@ import {
   createScraperTask,
   ScraperQueue,
 } from "talk-server/queue/tasks/scraper";
+import { I18n } from "talk-server/services/i18n";
 import { createRedisClient } from "talk-server/services/redis";
 import TenantCache from "talk-server/services/tenant/cache";
 
@@ -44,6 +45,7 @@ export interface QueueOptions {
   mongo: Db;
   config: Config;
   tenantCache: TenantCache;
+  i18n: I18n;
 }
 
 export interface TaskQueue {

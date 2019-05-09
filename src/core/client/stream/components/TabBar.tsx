@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { Icon, MatchMedia, Tab, TabBar } from "talk-ui/components";
 
 type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
@@ -13,7 +13,7 @@ export interface Props {
   showConfigureTab: boolean;
 }
 
-const AppTabBar: StatelessComponent<Props> = props => {
+const AppTabBar: FunctionComponent<Props> = props => {
   return (
     <TabBar activeTab={props.activeTab} onTabClick={props.onTabClick}>
       <Tab tabId="COMMENTS">

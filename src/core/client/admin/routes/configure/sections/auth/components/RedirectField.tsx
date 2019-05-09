@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { CopyButton } from "talk-framework/components";
 import { Flex, FormField, InputLabel, TextField } from "talk-ui/components";
@@ -9,7 +9,7 @@ interface Props {
   url: string;
 }
 
-const RedirectField: StatelessComponent<Props> = ({ url, description }) => (
+const RedirectField: FunctionComponent<Props> = ({ url, description }) => (
   <FormField>
     <Localized id="configure-auth-redirectURI">
       <InputLabel>Redirect URI</InputLabel>

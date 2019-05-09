@@ -1,5 +1,5 @@
 import { FormApi } from "final-form";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { CommunityContainerQueryResponse } from "talk-admin/__generated__/CommunityContainerQuery.graphql";
@@ -12,11 +12,11 @@ interface Props {
   form: FormApi;
 }
 
-const CommunityContainer: StatelessComponent<Props> = props => {
+const CommunityContainer: FunctionComponent<Props> = props => {
   return <Community query={props.data} />;
 };
 
-const enhanced = withRouteConfig({
+const enhanced = withRouteConfig<Props>({
   query: graphql`
     query CommunityContainerQuery {
       ...UserTableContainer_query

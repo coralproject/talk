@@ -1,6 +1,6 @@
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 import { PropTypesOf } from "talk-framework/types";
 
@@ -33,7 +33,7 @@ interface Props {
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
 }
 
-const PostCommentForm: StatelessComponent<Props> = props => (
+const PostCommentForm: FunctionComponent<Props> = props => (
   <div>
     {props.showMessageBox && (
       <MessageBoxContainer story={props.story} className={styles.messageBox} />

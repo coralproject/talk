@@ -27,6 +27,7 @@ module.exports = {
     "[/\\\\]node_modules[/\\\\](?!(fluent|react-relay-network-modern)[/\\\\]).+\\.(js|jsx|mjs|ts|tsx)$",
   ],
   moduleNameMapper: {
+    "^talk-account/(.*)$": "<rootDir>/src/core/client/account/$1",
     "^talk-admin/(.*)$": "<rootDir>/src/core/client/admin/$1",
     "^talk-auth/(.*)$": "<rootDir>/src/core/client/auth/$1",
     "^talk-ui/(.*)$": "<rootDir>/src/core/client/ui/$1",

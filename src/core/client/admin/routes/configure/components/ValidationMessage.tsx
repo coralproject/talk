@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { ValidationMessage as UIValidationMessage } from "talk-ui/components";
 
@@ -9,10 +9,7 @@ interface Props extends PropTypesOf<typeof UIValidationMessage> {
   children: React.ReactNode;
 }
 
-const ValidationMessage: StatelessComponent<Props> = ({
-  children,
-  ...rest
-}) => (
+const ValidationMessage: FunctionComponent<Props> = ({ children, ...rest }) => (
   <UIValidationMessage {...rest} className={styles.root}>
     {children}
   </UIValidationMessage>

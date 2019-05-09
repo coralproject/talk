@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Button, Flex, Typography } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ export interface UserBoxAuthenticatedProps {
   showLogoutButton?: boolean;
 }
 
-const UserBoxAuthenticated: StatelessComponent<
+const UserBoxAuthenticated: FunctionComponent<
   UserBoxAuthenticatedProps
 > = props => {
   const Username = () => (

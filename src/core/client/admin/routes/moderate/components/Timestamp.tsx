@@ -1,5 +1,5 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 import { RelativeTime } from "talk-ui/components";
 
@@ -9,7 +9,7 @@ export interface TimestampProps {
   children: string;
 }
 
-const Timestamp: StatelessComponent<TimestampProps> = props => (
+const Timestamp: FunctionComponent<TimestampProps> = props => (
   <RelativeTime className={styles.root} date={props.children} />
 );
 

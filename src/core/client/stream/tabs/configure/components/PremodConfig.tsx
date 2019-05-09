@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
 import ToggleConfig from "./ToggleConfig";
@@ -17,7 +17,7 @@ const format = (v: "PRE" | "POST") => {
   return v === "PRE";
 };
 
-const PremodConfig: StatelessComponent<Props> = ({ disabled }) => (
+const PremodConfig: FunctionComponent<Props> = ({ disabled }) => (
   <Field name="moderation" type="checkbox" parse={parse} format={format}>
     {({ input }) => (
       <ToggleConfig

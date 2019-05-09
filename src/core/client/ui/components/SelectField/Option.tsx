@@ -1,5 +1,5 @@
 import React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 
 export interface OptionProps {
   value?: string;
@@ -8,7 +8,7 @@ export interface OptionProps {
   children?: React.ReactNode;
 }
 
-const Option: StatelessComponent<OptionProps> = props => {
+const Option: FunctionComponent<OptionProps> = props => {
   return <option {...props} />;
 };
 

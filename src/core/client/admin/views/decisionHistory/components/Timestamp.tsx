@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { RelativeTime } from "talk-ui/components";
 
@@ -8,7 +8,7 @@ interface Props {
   children: string;
 }
 
-const DecisionHistory: StatelessComponent<Props> = props => (
+const DecisionHistory: FunctionComponent<Props> = props => (
   <RelativeTime className={styles.root} date={props.children} />
 );
 

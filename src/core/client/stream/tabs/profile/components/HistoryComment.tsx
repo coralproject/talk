@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import Timestamp from "talk-stream/components/Timestamp";
 import {
   Flex,
@@ -28,7 +28,7 @@ export interface HistoryCommentProps {
   onGotoConversation: (e: React.MouseEvent) => void;
 }
 
-const HistoryComment: StatelessComponent<HistoryCommentProps> = props => {
+const HistoryComment: FunctionComponent<HistoryCommentProps> = props => {
   return (
     <HorizontalGutter data-testid={`historyComment-${props.id}`}>
       <Localized

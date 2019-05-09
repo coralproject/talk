@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -28,7 +28,7 @@ interface Props {
   loading: boolean;
 }
 
-const UserTable: StatelessComponent<Props> = props => (
+const UserTable: FunctionComponent<Props> = props => (
   <>
     <HorizontalGutter size="double">
       <Table fullWidth>

@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { HorizontalGutter } from "talk-ui/components";
@@ -21,7 +21,7 @@ interface Props {
   onInitValues: (values: any) => void;
 }
 
-const General: StatelessComponent<Props> = ({
+const General: FunctionComponent<Props> = ({
   disabled,
   settings,
   onInitValues,

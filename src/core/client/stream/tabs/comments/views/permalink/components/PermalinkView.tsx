@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { MouseEvent, StatelessComponent } from "react";
+import React, { FunctionComponent, MouseEvent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
@@ -28,7 +28,7 @@ export interface PermalinkViewProps {
   onShowAllComments: (e: MouseEvent<any>) => void;
 }
 
-const PermalinkView: StatelessComponent<PermalinkViewProps> = ({
+const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
   showAllCommentsHref,
   comment,
   settings,

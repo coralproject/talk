@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { UserStatusContainer_user as UserData } from "talk-admin/__generated__/UserStatusContainer_user.graphql";
@@ -11,7 +11,7 @@ interface Props {
   user: UserData;
 }
 
-const UserStatusContainer: StatelessComponent<Props> = props => {
+const UserStatusContainer: FunctionComponent<Props> = props => {
   return (
     <UserStatus
       banned={props.user.status.current.includes(GQLUSER_STATUS.BANNED)}

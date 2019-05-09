@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent, Suspense } from "react";
+import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
 import { MarkdownEditor } from "talk-framework/components/loadables";
@@ -32,7 +32,7 @@ interface Props {
   disabled: boolean;
 }
 
-const MessageBoxConfig: StatelessComponent<Props> = ({ disabled }) => (
+const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
   <Field name="messageBox.enabled" type="checkbox" parse={parseBool}>
     {({ input }) => (
       <ToggleConfig

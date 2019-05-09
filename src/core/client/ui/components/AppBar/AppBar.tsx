@@ -1,5 +1,5 @@
 import cn from "classnames";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex } from "talk-ui/components";
 import { withStyles } from "talk-ui/hocs";
@@ -14,7 +14,7 @@ interface Props {
   classes: typeof styles;
 }
 
-const AppBar: StatelessComponent<Props> = ({
+const AppBar: FunctionComponent<Props> = ({
   gutterBegin,
   gutterEnd,
   className,

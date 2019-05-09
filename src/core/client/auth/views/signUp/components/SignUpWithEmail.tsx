@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
-import { StatelessComponent } from "react";
+import { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
 import EmailField from "talk-auth/components/EmailField";
@@ -27,7 +27,7 @@ interface Props {
   onSubmit: OnSubmit<FormProps>;
 }
 
-const SignUp: StatelessComponent<Props> = props => {
+const SignUp: FunctionComponent<Props> = props => {
   return (
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (

@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Omit, PropTypesOf } from "talk-framework/types";
 import { CheckBox, Typography } from "talk-ui/components";
@@ -10,7 +10,7 @@ export interface Props extends Omit<PropTypesOf<typeof CheckBox>, "children"> {
   children?: React.ReactNode;
 }
 
-const ToggleConfig: StatelessComponent<Props> = props => {
+const ToggleConfig: FunctionComponent<Props> = props => {
   const { title, children, ...rest } = props;
   return (
     <div>

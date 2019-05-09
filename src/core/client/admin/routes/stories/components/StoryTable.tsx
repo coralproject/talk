@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { StatelessComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 
@@ -32,7 +32,7 @@ interface Props {
   isSearching: boolean;
 }
 
-const StoryTable: StatelessComponent<Props> = props => (
+const StoryTable: FunctionComponent<Props> = props => (
   <>
     <HorizontalGutter size="double">
       <Table fullWidth>
