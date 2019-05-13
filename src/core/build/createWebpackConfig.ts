@@ -350,38 +350,10 @@ export default function createWebpackConfig(
                   : "assets/media/[name].[ext]",
               },
             },
-            // "postcss" loader applies autoprefixer to our CSS.
-            // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // In production, we use a plugin to extract that CSS to a file, and
-            // in development "style" loader enables hot editing of CSS.
-            {
-              test: /\.css$/,
-              use: [
-                isProduction ? MiniCssExtractPlugin.loader : styleLoader,
-                {
-                  loader: require.resolve("css-loader"),
-                  options: {
-                    modules: true,
-                    importLoaders: 1,
-                    localIdentName: "[name]-[local]-[hash:base64:5]",
-                    sourceMap: isProduction && !disableSourcemaps,
-                  },
-                },
-                {
-                  loader: require.resolve("postcss-loader"),
-                  options: {
-                    config: {
-                      path: paths.appPostCssConfig,
-                    },
-                  },
-                },
-              ],
-            },
             {
               test: /\.css\.ts$/,
               use: [
-                ifBuild ? MiniCssExtractPlugin.loader : styleLoader,
+                !watch ? MiniCssExtractPlugin.loader : styleLoader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
