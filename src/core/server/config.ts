@@ -181,6 +181,14 @@ const config = convict({
     env: "DISABLE_MONGODB_AUTOINDEXING",
     arg: "disableMongoDBAutoindexing",
   },
+  disable_client_routes: {
+    doc:
+      "Disables mounting of client routes for developing with Webpack Dev Server",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_CLIENT_ROUTES",
+    arg: "disableClientRoutes",
+  },
 });
 
 export type Config = typeof config;

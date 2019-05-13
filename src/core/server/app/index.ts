@@ -36,6 +36,7 @@ export interface AppOptions {
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
   metrics: boolean;
+  disableClientRoutes: boolean;
 }
 
 /**
@@ -58,7 +59,13 @@ export async function createApp(options: AppOptions): Promise<Express> {
   const passport = createPassport(options);
 
   // Mount the router.
-  parent.use("/", createRouter(options, { passport }));
+  parent.use(
+    "/",
+    createRouter(options, {
+      passport,
+      disableClientRoutes: options.disableClientRoutes,
+    })
+  );
 
   // Enable CORS headers for media assets, font's require them.
   parent.use("/assets/media", cors());
