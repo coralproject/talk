@@ -92,7 +92,7 @@ export default function createWebpackConfig(
     fallbackLocale: "en-US",
 
     // Common fluent files are always included in the locale bundles.
-    commonFiles: ["framework.ftl", "common.ftl"],
+    commonFiles: ["framework.ftl", "common.ftl", "ui.ftl"],
 
     // Locales that come with the main bundle. Others are loaded on demand.
     bundled: ["en-US"],
@@ -381,14 +381,14 @@ export default function createWebpackConfig(
             {
               test: /\.css\.ts$/,
               use: [
-                isProduction ? MiniCssExtractPlugin.loader : styleLoader,
+                ifBuild ? MiniCssExtractPlugin.loader : styleLoader,
                 {
                   loader: require.resolve("css-loader"),
                   options: {
                     modules: true,
                     importLoaders: 2,
                     localIdentName: "[name]-[local]-[hash:base64:5]",
-                    sourceMap: isProduction && !disableSourcemaps,
+                    sourceMap: !disableSourcemaps,
                   },
                 },
                 {
