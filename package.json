@@ -210,6 +210,7 @@
     "@types/webpack-dev-server": "^3.1.5",
     "@types/ws": "^5.1.2",
     "acorn": "^6.1.1",
+    "ansi-styles": "^3.2.0",
     "autoprefixer": "^9.5.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
