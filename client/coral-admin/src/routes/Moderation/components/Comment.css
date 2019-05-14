@@ -208,7 +208,11 @@
   }
 }
 
-.editedBody {
+.editedCommentBody {
+  padding: 5px;
+}
+
+.editedComment {
   margin-top: 6px;
   font-weight: 300;
   font-size: 16px;

@@ -52,9 +52,13 @@ class Comment extends React.Component {
     const comment = this.props.comment;
     for (let i = 0; i < comment.body_history.length - 1; i++) {
       bodyHistory.push(
-        <div key={i} className={styles.editedBody}>
-          <TimeAgo className={styles.created} datetime={comment.created_at} />
-          {comment.body_history[i].body}
+        <div key={i} className={styles.editedComment}>
+          <div>
+            <TimeAgo className={styles.created} datetime={comment.created_at} />
+          </div>
+          <div className={styles.editedCommentBody}>
+            {comment.body_history[i].body}
+          </div>
         </div>
       );
     }
