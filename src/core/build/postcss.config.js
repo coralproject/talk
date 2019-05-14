@@ -9,7 +9,6 @@ const paths = require("./paths").default;
 const autoprefixer = require("autoprefixer");
 const postcssFontMagician = require("postcss-font-magician");
 const postcssFlexbugsFixes = require("postcss-flexbugs-fixes");
-const postcssVariables = require("postcss-css-variables");
 const postcssPresetEnv = require("postcss-preset-env");
 const postcssNested = require("postcss-nested");
 const postcssImport = require("postcss-import");
@@ -49,7 +48,7 @@ module.exports = {
     // This allows us to define dynamic css variables.
     postcssPrependImports({
       path: "",
-      files: [paths.appThemeVariablesCSS, paths.appThemeMixinsCSS],
+      files: [paths.appThemeMixinsCSS],
     }),
     // Needed by above plugin.
     postcssImport(),
@@ -59,10 +58,6 @@ module.exports = {
     postcssNested(),
     // Sass style variables to be used in media queries.
     postcssAdvancedVariables({ variables: mediaQueryVariables }),
-    // CSS standard variables for everything else.
-    postcssVariables({
-      variables: cssVariables,
-    }),
     // Provides a modern CSS environment.
     postcssPresetEnv(),
     // Does all the font handling logic.

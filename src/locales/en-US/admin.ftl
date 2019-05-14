@@ -1,8 +1,6 @@
 ### Localization for Admin
 
 ## General
-
-general-brandName = { -product-name }
 general-notAvailable = Not available
 
 ## Story Status

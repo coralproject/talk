@@ -22,7 +22,7 @@ const BrandName: FunctionComponent<Props> = ({
   size,
   ...rest
 }) => (
-  <Localized id="general-brandName">
+  <Localized id="ui-brandName">
     <Typography
       {...rest}
       variant="heading1"

@@ -92,7 +92,7 @@ export default function createWebpackConfig(
     fallbackLocale: "en-US",
 
     // Common fluent files are always included in the locale bundles.
-    commonFiles: ["framework.ftl", "common.ftl"],
+    commonFiles: ["framework.ftl", "common.ftl", "ui.ftl"],
 
     // Locales that come with the main bundle. Others are loaded on demand.
     bundled: ["en-US"],
@@ -350,6 +350,48 @@ export default function createWebpackConfig(
                   : "assets/media/[name].[ext]",
               },
             },
+            {
+              test: /\.css\.ts$/,
+              use: [
+                !watch ? MiniCssExtractPlugin.loader : styleLoader,
+                {
+                  loader: require.resolve("css-loader"),
+                  options: {
+                    modules: true,
+                    importLoaders: 2,
+                    localIdentName: "[name]-[local]-[hash:base64:5]",
+                    sourceMap: !disableSourcemaps,
+                  },
+                },
+                {
+                  loader: require.resolve("postcss-loader"),
+                  options: {
+                    config: {
+                      path: paths.appPostCssConfig,
+                    },
+                    parser: "postcss-js",
+                  },
+                },
+                {
+                  loader: require.resolve("babel-loader"),
+                  options: {
+                    configFile: false,
+                    babelrc: false,
+                    presets: [
+                      "@babel/typescript",
+                      [
+                        "@babel/env",
+                        { targets: { node: "10.0.0" }, modules: "commonjs" },
+                      ],
+                    ],
+                    // This is a feature of `babel-loader` for webpack (not Babel itself).
+                    // It enables caching results in ./node_modules/.cache/babel-loader/
+                    // directory for faster rebuilds.
+                    cacheDirectory: true,
+                  },
+                },
+              ],
+            },
             // Process JS with Babel.
             {
               test: /\.(ts|tsx)$/,
@@ -373,7 +415,7 @@ export default function createWebpackConfig(
                   },
                 },
                 {
-                  loader: "ts-loader",
+                  loader: require.resolve("ts-loader"),
                   options: {
                     configFile: paths.appTsconfig,
                     compilerOptions: {

@@ -7,6 +7,9 @@ import { createManaged } from "talk-framework/lib/bootstrap";
 import App from "./components/App";
 import localesData from "./locales";
 
+// Import css variables.
+import "talk-ui/theme/variables.css";
+
 async function main() {
   const ManagedTalkContextProvider = await createManaged({
     localesData,
