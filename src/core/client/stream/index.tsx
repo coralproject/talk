@@ -16,6 +16,9 @@ import {
 import { initLocalState } from "./local";
 import localesData from "./locales";
 
+// Import css variables.
+import "talk-ui/theme/variables.css";
+
 const listeners = (
   <>
     <OnPymLogin />

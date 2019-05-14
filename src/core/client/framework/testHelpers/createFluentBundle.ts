@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 
 // These locale prefixes are always loaded.
-const commonPrefixes = ["common", "framework"];
+const commonPrefixes = ["ui", "common", "framework"];
 
 function decorateErrorWhenMissing(bundle: FluentBundle) {
   const originalHasMessage = bundle.hasMessage;
