@@ -241,6 +241,10 @@ class Server {
     // Only enable the metrics server if concurrency is set to 1.
     const metrics = this.config.get("concurrency") === 1;
 
+    // Disables the client routes to serve bundles etc. Useful for devleoping with
+    // Webpack Dev Server.
+    const disableClientRoutes = this.config.get("disable_client_routes");
+
     // Create the Talk App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
@@ -254,6 +258,7 @@ class Server {
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
       metrics,
+      disableClientRoutes,
     });
 
     // Start the application and store the resulting http.Server. The server

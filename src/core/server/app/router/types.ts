@@ -6,4 +6,9 @@ export interface RouterOptions {
    * and mount new authentication middleware.
    */
   passport: passport.Authenticator;
+
+  /**
+   * disableClientRoutes will not mount the routes to the client bundles.
+   */
+  disableClientRoutes: boolean;
 }
