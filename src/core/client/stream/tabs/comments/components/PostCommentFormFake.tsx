@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { PropTypesOf } from "talk-framework/types";
 import { Button, HorizontalGutter } from "talk-ui/components";
@@ -12,35 +12,51 @@ import styles from "./PostCommentFormFake.css";
 interface Props {
   showMessageBox?: boolean;
   story: PropTypesOf<typeof MessageBoxContainer>["story"];
+  draft: string;
+  onDraftChange: (draft: string) => void;
+  onSignIn: () => void;
 }
 
-const PostCommentFormFake: FunctionComponent<Props> = props => (
-  <div>
-    {props.showMessageBox && (
-      <MessageBoxContainer story={props.story} className={styles.messageBox} />
-    )}
-    <HorizontalGutter className={styles.root}>
-      <div aria-hidden="true">
-        <Localized
-          id="comments-postCommentFormFake-rte"
-          attrs={{ placeholder: true }}
-        >
-          <RTE placeholder="Post a comment" disabled />
+const PostCommentFormFake: FunctionComponent<Props> = props => {
+  const onChange = useCallback(
+    (data: { html: string; text: string }) => props.onDraftChange(data.html),
+    [props.onDraftChange]
+  );
+  return (
+    <div>
+      {props.showMessageBox && (
+        <MessageBoxContainer
+          story={props.story}
+          className={styles.messageBox}
+        />
+      )}
+      <HorizontalGutter className={styles.root}>
+        <div aria-hidden="true">
+          <Localized
+            id="comments-postCommentFormFake-rte"
+            attrs={{ placeholder: true }}
+          >
+            <RTE
+              placeholder="Post a comment"
+              value={props.draft}
+              onChange={onChange}
+            />
+          </Localized>
+        </div>
+        <Localized id="comments-postCommentFormFake-signInAndJoin">
+          <Button
+            color="primary"
+            variant="filled"
+            type="submit"
+            fullWidth
+            onClick={props.onSignIn}
+          >
+            Sign in and join the conversation
+          </Button>
         </Localized>
-      </div>
-      <Localized id="comments-postCommentFormFake-signInAndJoin">
-        <Button
-          color="primary"
-          variant="filled"
-          disabled
-          type="submit"
-          fullWidth
-        >
-          Sign in and join the conversation
-        </Button>
-      </Localized>
-    </HorizontalGutter>
-  </div>
-);
+      </HorizontalGutter>
+    </div>
+  );
+};
 
 export default PostCommentFormFake;
