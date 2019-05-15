@@ -4,10 +4,20 @@ import { graphql } from "react-relay";
 
 import { MarkersContainer_comment as CommentData } from "talk-admin/__generated__/MarkersContainer_comment.graphql";
 import { withFragmentContainer } from "talk-framework/lib/relay";
-import { Flex, Marker, MarkerCount } from "talk-ui/components";
+import { Marker, MarkerCount } from "talk-ui/components";
+import Markers from "../components/Markers";
+import FlagDetailsContainer from "./FlagDetailsContainer";
 
 interface MarkersContainerProps {
   comment: CommentData;
+}
+
+function hasDetails(c: CommentData) {
+  return (
+    c.actionCounts.flag.reasons.COMMENT_REPORTED_OFFENSIVE +
+      c.actionCounts.flag.reasons.COMMENT_REPORTED_SPAM >
+    0
+  );
 }
 
 let keyCounter = 0;
@@ -93,7 +103,17 @@ export class MarkersContainer extends React.Component<MarkersContainerProps> {
   public render() {
     const elements = markers.map(cb => cb(this.props.comment)).filter(m => m);
     if (elements.length) {
-      return <Flex itemGutter>{elements}</Flex>;
+      return (
+        <Markers
+          details={
+            hasDetails(this.props.comment) ? (
+              <FlagDetailsContainer comment={this.props.comment} />
+            ) : null
+          }
+        >
+          {elements}
+        </Markers>
+      );
     }
     return null;
   }
@@ -102,6 +122,7 @@ export class MarkersContainer extends React.Component<MarkersContainerProps> {
 const enhanced = withFragmentContainer<MarkersContainerProps>({
   comment: graphql`
     fragment MarkersContainer_comment on Comment {
+      ...FlagDetailsContainer_comment
       status
       actionCounts {
         flag {

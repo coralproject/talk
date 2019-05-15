@@ -192,7 +192,7 @@ type Flag {
   """
   reason is the selected reason why the Flag is being created.
   """
-  reason: COMMENT_FLAG_REPORTED_REASON!
+  reason: COMMENT_FLAG_REASON!
 
   """
   additionalDetails stores information from the User as to why the Flag was

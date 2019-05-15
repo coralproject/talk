@@ -9,6 +9,17 @@
     url("typeface-source-sans-pro/files/source-sans-pro-latin-300.woff")
       format("woff");
 }
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-display: block;
+  font-weight: 300;
+  src: local("Source Sans Pro Light "), local("Source Sans Pro-Light"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-300italic.woff2")
+      format("woff2"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-300italic.woff")
+      format("woff");
+}
 
 @font-face {
   font-family: "Source Sans Pro";
@@ -20,6 +31,17 @@
     url("typeface-source-sans-pro/files/source-sans-pro-latin-400.woff2")
       format("woff2"),
     url("typeface-source-sans-pro/files/source-sans-pro-latin-400.woff")
+      format("woff");
+}
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-display: block;
+  font-weight: 400;
+  src: local("Source Sans Pro Light "), local("Source Sans Pro-Light"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-400italic.woff2")
+      format("woff2"),
+    url("typeface-source-sans-pro/files/source-sans-pro-latin-400italic.woff")
       format("woff");
 }
 
