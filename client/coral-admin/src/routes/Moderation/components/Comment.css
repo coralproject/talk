@@ -62,7 +62,7 @@
   font-weight: 300;
   margin-bottom: 8px;
   overflow-wrap: break-word;
-  word-break:break-word;
+  word-break: break-word;
 }
 
 .body {
@@ -103,7 +103,7 @@
     color: #063b9a;
     text-decoration: none;
     font-weight: 500;
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
     margin-left: 10px;
     font-size: 13px;
     margin-left: 5px;
@@ -111,14 +111,14 @@
     border-bottom: solid 1px;
     line-height: 16px;
     &:hover {
-      opacity: .9;
+      opacity: 0.9;
       cursor: pointer;
     }
   }
 }
 
 .username {
-  color: #393B44;
+  color: #393b44;
   text-decoration: none;
   cursor: pointer;
   font-weight: 600;
@@ -127,12 +127,12 @@
   margin-left: -5px;
   transition: background-color 200ms ease;
   &:hover {
-    background-color: #E0E0E0;
+    background-color: #e0e0e0;
   }
 }
 
 .external {
-  font-size: .7em;
+  font-size: 0.7em;
   text-decoration: none;
   color: #063b9a;
   cursor: pointer;
@@ -140,7 +140,7 @@
   white-space: nowrap;
   &:hover {
     text-decoration: underline;
-    opacity: .9;
+    opacity: 0.9;
   }
   i {
     font-size: 12px;
@@ -209,7 +209,7 @@
 }
 
 .editedCommentBody {
-  padding: 5px;
+  padding: 0 5px 5px 5px;
 }
 
 .editedComment {
