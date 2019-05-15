@@ -573,7 +573,7 @@ export default function createWebpackConfig(
         // the line below with these two lines if you prefer the stock client:
         // require.resolve('webpack-dev-server/client') + '?/',
         // require.resolve('webpack/hot/dev-server'),
-        require.resolve("react-dev-utils/webpackHotDevClient"),
+        paths.appWebpackHotDevClient,
       ];
 
   return [
