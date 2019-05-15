@@ -1,5 +1,6 @@
 import {
   GQLComment,
+  GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
   GQLCommentModerationAction,
   GQLCommentsConnection,
@@ -424,6 +425,9 @@ export const baseComment = createFixture<GQLComment>({
       },
     },
   },
+  flags: {
+    nodes: [],
+  },
   story: stories[0],
 });
 
@@ -445,6 +449,20 @@ export const reportedComments = createFixtures<GQLComment>(
           },
         },
       },
+      flags: {
+        nodes: [
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+            flagger: users.commenters[0],
+            additionalDetails: "This looks like an ad",
+          },
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+            flagger: users.commenters[1],
+            additionalDetails: "",
+          },
+        ],
+      },
     },
     {
       id: "comment-1",
@@ -460,6 +478,25 @@ export const reportedComments = createFixtures<GQLComment>(
             COMMENT_REPORTED_OFFENSIVE: 3,
           },
         },
+      },
+      flags: {
+        nodes: [
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+            flagger: users.commenters[0],
+            additionalDetails: "I find this offensive",
+          },
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+            flagger: users.commenters[1],
+            additionalDetails: "Not like that",
+          },
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+            flagger: users.commenters[2],
+            additionalDetails: "",
+          },
+        ],
       },
     },
     {
@@ -478,6 +515,20 @@ export const reportedComments = createFixtures<GQLComment>(
             COMMENT_REPORTED_OFFENSIVE: 1,
           },
         },
+      },
+      flags: {
+        nodes: [
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE,
+            flagger: users.commenters[0],
+            additionalDetails: "I find this offensive",
+          },
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+            flagger: users.commenters[2],
+            additionalDetails: "",
+          },
+        ],
       },
     },
   ],

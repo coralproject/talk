@@ -317,6 +317,10 @@ moderate-marker-karma = Karma
 moderate-marker-bodyCount = Body Count
 moderate-marker-offensive = Offensive
 
+moderate-markers-details = Details
+moderate-flagDetails-offensive = Offensive
+moderate-flagDetails-spam = Spam
+
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.

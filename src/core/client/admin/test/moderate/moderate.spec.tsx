@@ -400,7 +400,7 @@ describe("reported queue", () => {
                       hasNextPage: false,
                     },
                   };
-                }) as any,
+                }),
               },
             }),
         },
@@ -409,6 +409,52 @@ describe("reported queue", () => {
     const { getByTestID } = within(testRenderer.root);
     await waitForElement(() => getByTestID("moderate-container"));
     expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+  });
+  it("show details of comment with flags", async () => {
+    const { testRenderer } = await createTestRenderer({
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          moderationQueues: () =>
+            pureMerge(emptyModerationQueues, {
+              reported: {
+                count: 1,
+                comments: createQueryResolverStub<
+                  ModerationQueueToCommentsResolver
+                >(({ variables }) => {
+                  expectAndFail(variables).toEqual({ first: 5 });
+                  return {
+                    edges: [
+                      {
+                        node: reportedComments[0],
+                        cursor: reportedComments[0].createdAt,
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: reportedComments[0].createdAt,
+                      hasNextPage: false,
+                    },
+                  };
+                }),
+              },
+            }),
+        },
+      }),
+    });
+    const { getByTestID } = within(testRenderer.root);
+    const reported = await waitForElement(() =>
+      getByTestID(`moderate-comment-${reportedComments[0].id}`)
+    );
+    expect(
+      within(reported).queryByText(
+        reportedComments[0].flags.nodes[0].additionalDetails!
+      )
+    ).toBeNull();
+    within(reported)
+      .getByText("Details", { selector: "button" })
+      .props.onClick();
+    within(reported).getByText(
+      reportedComments[0].flags.nodes[0].additionalDetails!
+    );
   });
   it("shows a moderate story", async () => {
     const {

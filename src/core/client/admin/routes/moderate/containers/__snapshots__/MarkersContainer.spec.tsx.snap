@@ -1,8 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders all markers 1`] = `
-<ForwardRef(forwardRef)
-  itemGutter={true}
+<Markers
+  details={
+    <Relay(FlagDetailsContainer)
+      comment={
+        Object {
+          "actionCounts": Object {
+            "flag": Object {
+              "reasons": Object {
+                "COMMENT_DETECTED_BANNED_WORD": 1,
+                "COMMENT_DETECTED_LINKS": 1,
+                "COMMENT_DETECTED_SPAM": 1,
+                "COMMENT_DETECTED_SUSPECT_WORD": 1,
+                "COMMENT_DETECTED_TOXIC": 1,
+                "COMMENT_DETECTED_TRUST": 1,
+                "COMMENT_REPORTED_OFFENSIVE": 2,
+                "COMMENT_REPORTED_SPAM": 3,
+              },
+            },
+          },
+          "status": "PREMOD",
+        }
+      }
+    />
+  }
 >
   <Localized
     id="moderate-marker-preMod"
@@ -98,12 +120,34 @@ exports[`renders all markers 1`] = `
       3
     </withPropsOnChange(Count)>
   </withPropsOnChange(Marker)>
-</ForwardRef(forwardRef)>
+</Markers>
 `;
 
 exports[`renders some markers 1`] = `
-<ForwardRef(forwardRef)
-  itemGutter={true}
+<Markers
+  details={
+    <Relay(FlagDetailsContainer)
+      comment={
+        Object {
+          "actionCounts": Object {
+            "flag": Object {
+              "reasons": Object {
+                "COMMENT_DETECTED_BANNED_WORD": 1,
+                "COMMENT_DETECTED_LINKS": 0,
+                "COMMENT_DETECTED_SPAM": 0,
+                "COMMENT_DETECTED_SUSPECT_WORD": 0,
+                "COMMENT_DETECTED_TOXIC": 1,
+                "COMMENT_DETECTED_TRUST": 1,
+                "COMMENT_REPORTED_OFFENSIVE": 2,
+                "COMMENT_REPORTED_SPAM": 0,
+              },
+            },
+          },
+          "status": "PREMOD",
+        }
+      }
+    />
+  }
 >
   <Localized
     id="moderate-marker-preMod"
@@ -156,5 +200,5 @@ exports[`renders some markers 1`] = `
       2
     </withPropsOnChange(Count)>
   </withPropsOnChange(Marker)>
-</ForwardRef(forwardRef)>
+</Markers>
 `;

@@ -5,7 +5,10 @@ import {
   GQLComment,
   GQLCommentTypeResolver,
 } from "talk-server/graph/tenant/schema/__generated__/types";
-import { decodeActionCounts } from "talk-server/models/action/comment";
+import {
+  ACTION_TYPE,
+  decodeActionCounts,
+} from "talk-server/models/action/comment";
 import * as comment from "talk-server/models/comment";
 import { getLatestRevision } from "talk-server/models/comment";
 import { createConnection } from "talk-server/models/helpers/connection";
@@ -64,6 +67,15 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
       : createConnection(),
   // Action Counts are encoded, decode them for use with the GraphQL system.
   actionCounts: c => decodeActionCounts(c.actionCounts),
+  flags: ({ id }, { first = 10, after }, ctx) =>
+    ctx.loaders.CommentActions.connection({
+      first,
+      after,
+      filter: {
+        actionType: ACTION_TYPE.FLAG,
+        commentID: id,
+      },
+    }),
   viewerActionPresence: (c, input, ctx) =>
     ctx.user ? ctx.loaders.Comments.retrieveMyActionPresence.load(c.id) : null,
   parentCount: c => (c.parentID ? c.grandparentIDs.length + 1 : 0),
