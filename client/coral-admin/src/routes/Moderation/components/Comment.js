@@ -22,6 +22,8 @@ import t from 'coral-framework/services/i18n';
 class Comment extends React.Component {
   ref = null;
 
+  state = { showingEditHistory: false };
+
   handleRef = ref => (this.ref = ref);
 
   handleFocusOrClick = () => {
@@ -44,6 +46,30 @@ class Comment extends React.Component {
     this.props.comment.status === 'REJECTED'
       ? null
       : this.props.rejectComment({ commentId: this.props.comment.id });
+
+  getBodyHistory = () => {
+    const bodyHistory = [];
+    const comment = this.props.comment;
+    for (let i = 0; i < comment.body_history.length - 1; i++) {
+      bodyHistory.push(
+        <div key={i} className={styles.editedComment}>
+          <div>
+            <TimeAgo className={styles.created} datetime={comment.created_at} />
+          </div>
+          <div className={styles.editedCommentBody}>
+            {comment.body_history[i].body}
+          </div>
+        </div>
+      );
+    }
+
+    return bodyHistory;
+  };
+
+  toggleEditHistory = () => {
+    this.setState({ showingEditHistory: !this.state.showingEditHistory });
+    this.props.clearHeightCache && this.props.clearHeightCache();
+  };
 
   componentDidUpdate(prev) {
     if (!prev.selected && this.props.selected) {
@@ -137,6 +163,14 @@ class Comment extends React.Component {
                   &nbsp;<span className={styles.editedMarker}>
                     ({t('comment.edited')})
                   </span>
+                  &nbsp;<span
+                    className={styles.bodyHistoryToggle}
+                    onClick={this.toggleEditHistory}
+                  >
+                    {this.state.showingEditHistory
+                      ? t('comment.hide_edit_history')
+                      : t('comment.show_edit_history')}
+                  </span>
                 </span>
               ) : null}
               <div className={styles.adminCommentInfoBar}>
@@ -201,6 +235,14 @@ class Comment extends React.Component {
             </div>
           </CommentAnimatedEdit>
         </div>
+
+        {this.state.showingEditHistory ? (
+          <div className={styles.container}>
+            {t('comment.edit_history')}
+            {this.getBodyHistory()}
+          </div>
+        ) : null}
+
         <CommentDetails
           root={root}
           comment={comment}

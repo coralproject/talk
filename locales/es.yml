@@ -35,6 +35,9 @@ es:
     flagged: Reportado
     undo_reject: Deshacer
     view_context: 'Ver contexto'
+    edit_history: 'Historial de ediciones'
+    show_edit_history: 'Mostrar historial de ediciones'
+    hide_edit_history: 'Ocultar historial de ediciones'
   comment_box:
     cancel: Cancelar
     characters_remaining: 'caracteres restantes'

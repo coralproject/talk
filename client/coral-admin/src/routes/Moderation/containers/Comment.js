@@ -52,6 +52,10 @@ export default withFragments({
       status_history {
         type
       }
+      body_history {
+        body
+        created_at
+      }
       hasParent
       ${getSlotFragmentSpreads(slots, 'comment')}
       ...${getDefinitionName(CommentLabels.fragments.comment)}
