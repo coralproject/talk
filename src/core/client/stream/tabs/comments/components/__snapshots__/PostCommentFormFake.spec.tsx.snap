@@ -23,6 +23,7 @@ exports[`renders correctly 1`] = `
         <RTE
           onChange={[Function]}
           placeholder="Post a comment"
+          value=""
         />
       </Localized>
     </div>
@@ -32,6 +33,7 @@ exports[`renders correctly 1`] = `
       <ForwardRef(forwardRef)
         color="primary"
         fullWidth={true}
+        onClick={[Function]}
         type="submit"
         variant="filled"
       >
