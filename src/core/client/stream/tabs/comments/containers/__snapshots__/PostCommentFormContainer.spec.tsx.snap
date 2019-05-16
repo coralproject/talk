@@ -4,6 +4,11 @@ exports[`renders correctly 1`] = `
 <PostCommentForm
   disabled={false}
   disabledMessage="closed"
+  initialValues={
+    Object {
+      "body": "",
+    }
+  }
   max={100}
   min={3}
   onChange={[Function]}
@@ -46,6 +51,11 @@ exports[`renders when commenting has been disabled (non-collapsing) 1`] = `
 <PostCommentForm
   disabled={true}
   disabledMessage="commenting disabled"
+  initialValues={
+    Object {
+      "body": "",
+    }
+  }
   max={100}
   min={3}
   onChange={[Function]}
@@ -88,6 +98,11 @@ exports[`renders when story has been closed (non-collapsing) 1`] = `
 <PostCommentForm
   disabled={true}
   disabledMessage="story closed"
+  initialValues={
+    Object {
+      "body": "",
+    }
+  }
   max={100}
   min={3}
   onChange={[Function]}

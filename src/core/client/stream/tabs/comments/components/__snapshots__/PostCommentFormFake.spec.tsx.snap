@@ -21,7 +21,7 @@ exports[`renders correctly 1`] = `
         id="comments-postCommentFormFake-rte"
       >
         <RTE
-          disabled={true}
+          onChange={[Function]}
           placeholder="Post a comment"
         />
       </Localized>
@@ -31,7 +31,6 @@ exports[`renders correctly 1`] = `
     >
       <ForwardRef(forwardRef)
         color="primary"
-        disabled={true}
         fullWidth={true}
         type="submit"
         variant="filled"
