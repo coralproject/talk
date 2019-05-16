@@ -7,6 +7,8 @@ exports[`renders correctly 1`] = `
     classNameDisabled=""
     contentClassName="RTE-content"
     contentClassNameDisabled=""
+    contentContainerClassName=""
+    contentContainerClassNameDisabled=""
     features={
       Array [
         <ForwardRef

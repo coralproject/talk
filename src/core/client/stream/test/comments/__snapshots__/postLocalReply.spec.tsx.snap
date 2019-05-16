@@ -228,31 +228,35 @@ exports[`post a reply: open reply form 1`] = `
                 className=""
               >
                 <div
-                  aria-hidden="true"
-                  className="RTE-placeholder RTE-placeholder"
+                  className="RTE-contentEditableContainer"
                 >
-                  Write a reply
-                </div>
-                <div
-                  aria-placeholder="Write a reply"
-                  className="RTE-contentEditable RTE-content"
-                  contentEditable={true}
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "",
+                  <div
+                    aria-placeholder="Write a reply"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "",
+                      }
                     }
-                  }
-                  disabled={false}
-                  id="comments-replyCommentForm-rte-comment-with-deepest-replies-5"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onCut={[Function]}
-                  onFocus={[Function]}
-                  onInput={[Function]}
-                  onKeyDown={[Function]}
-                  onPaste={[Function]}
-                  onSelect={[Function]}
-                />
+                    disabled={false}
+                    id="comments-replyCommentForm-rte-comment-with-deepest-replies-5"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Write a reply
+                  </div>
+                </div>
                 <div
                   className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
                 >

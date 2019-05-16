@@ -64,29 +64,33 @@ exports[`renders comment stream with community guidelines 1`] = `
               className=""
             >
               <div
-                aria-hidden="true"
-                className="RTE-placeholder RTE-placeholder"
+                className="RTE-contentEditableContainer"
               >
-                Post a comment
-              </div>
-              <div
-                aria-placeholder="Post a comment"
-                className="RTE-contentEditable RTE-content"
-                contentEditable={true}
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "",
+                <div
+                  aria-placeholder="Post a comment"
+                  className="RTE-contentEditable RTE-content"
+                  contentEditable={true}
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "",
+                    }
                   }
-                }
-                onBlur={[Function]}
-                onChange={[Function]}
-                onCut={[Function]}
-                onFocus={[Function]}
-                onInput={[Function]}
-                onKeyDown={[Function]}
-                onPaste={[Function]}
-                onSelect={[Function]}
-              />
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onCut={[Function]}
+                  onFocus={[Function]}
+                  onInput={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  onSelect={[Function]}
+                />
+                <div
+                  aria-hidden="true"
+                  className="RTE-placeholder RTE-placeholder"
+                >
+                  Post a comment
+                </div>
+              </div>
               <div
                 className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
               >
