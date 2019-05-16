@@ -2,13 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
-import { OnSubmit } from "talk-framework/lib/form";
+import { OnSubmit } from "coral-framework/lib/form";
 import {
   Button,
   CallOut,
   HorizontalGutter,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import CompleteAccountBox from "../../../components/CompleteAccountBox";
 import SetPasswordField from "./SetPasswordField";

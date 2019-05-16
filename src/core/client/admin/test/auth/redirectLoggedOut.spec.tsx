@@ -1,16 +1,16 @@
-import { pureMerge } from "talk-common/utils";
-import { LOCAL_ID, lookup } from "talk-framework/lib/relay";
+import { pureMerge } from "coral-common/utils";
+import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
 import {
   GQLResolver,
   QueryToModerationQueuesResolver,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import {
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "../create";
 import {

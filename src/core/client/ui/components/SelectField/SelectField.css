@@ -19,7 +19,7 @@
 }
 
 .select {
-  composes: menuItem from "talk-ui/shared/typography.css";
+  composes: menuItem from "coral-ui/shared/typography.css";
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

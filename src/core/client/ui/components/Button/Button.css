@@ -30,17 +30,17 @@
 }
 
 .sizeSmall {
-  composes: button from "talk-ui/shared/typography.css";
+  composes: button from "coral-ui/shared/typography.css";
   padding: 4px 10px;
 }
 
 .sizeRegular {
-  composes: button from "talk-ui/shared/typography.css";
+  composes: button from "coral-ui/shared/typography.css";
   padding: 8px 15px;
 }
 
 .sizeLarge {
-  composes: buttonLarge from "talk-ui/shared/typography.css";
+  composes: buttonLarge from "coral-ui/shared/typography.css";
   padding: 10px 15px;
 }
 

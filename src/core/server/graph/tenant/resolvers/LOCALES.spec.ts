@@ -1,4 +1,4 @@
-import { LanguageCode } from "talk-common/helpers/i18n/locales";
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
 
 import { GQLLOCALES } from "../schema/__generated__/types";
 import { LOCALES } from "./LOCALES";

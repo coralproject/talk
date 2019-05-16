@@ -5,5 +5,5 @@
  * This file only represents the types that gets exported.
  */
 
-import { LocalesData } from "talk-framework/lib/i18n";
+import { LocalesData } from "coral-framework/lib/i18n";
 export default {} as LocalesData;

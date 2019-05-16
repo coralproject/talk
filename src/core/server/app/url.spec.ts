@@ -1,9 +1,9 @@
-import { Request } from "express";
 import {
   doesRequireSchemePrefixing,
   extractParentsOrigin,
   prefixSchemeIfRequired,
-} from "talk-server/app/url";
+} from "coral-server/app/url";
+import { Request } from "express";
 
 it("extracts the url when the parentUrl is not provided", () => {
   const req = { headers: {}, query: {} } as Request;

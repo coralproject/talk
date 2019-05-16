@@ -1,21 +1,21 @@
 import DataLoader from "dataloader";
 
-import TenantContext from "talk-server/graph/tenant/context";
+import TenantContext from "coral-server/graph/tenant/context";
 import {
   GQLSTORY_STATUS,
   GQLStoryMetadata,
   QueryToStoriesArgs,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { Connection } from "talk-server/models/helpers/connection";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { Connection } from "coral-server/models/helpers/connection";
 import {
   FindOrCreateStoryInput,
   retrieveManyStories,
   retrieveStoryConnection,
   Story,
   StoryConnectionInput,
-} from "talk-server/models/story";
-import { findOrCreate } from "talk-server/services/stories";
-import { scraper } from "talk-server/services/stories/scraper";
+} from "coral-server/models/story";
+import { findOrCreate } from "coral-server/services/stories";
+import { scraper } from "coral-server/services/stories/scraper";
 
 const statusFilter = (
   status?: GQLSTORY_STATUS

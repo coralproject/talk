@@ -1,8 +1,8 @@
-import { MutationResponse } from "talk-framework/lib/relay";
-import { CreateCommentMutation } from "talk-stream/__generated__/CreateCommentMutation.graphql";
-import { CreateCommentReplyMutation } from "talk-stream/__generated__/CreateCommentReplyMutation.graphql";
-import { EditCommentMutation } from "talk-stream/__generated__/EditCommentMutation.graphql";
-import { isInReview, isRejected } from "talk-stream/helpers";
+import { MutationResponse } from "coral-framework/lib/relay";
+import { CreateCommentMutation } from "coral-stream/__generated__/CreateCommentMutation.graphql";
+import { CreateCommentReplyMutation } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
+import { EditCommentMutation } from "coral-stream/__generated__/EditCommentMutation.graphql";
+import { isInReview, isRejected } from "coral-stream/helpers";
 
 export type SubmitStatus = "APPROVED" | "RETRY" | "IN_REVIEW" | "REJECTED";
 

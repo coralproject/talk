@@ -66,7 +66,7 @@ const devSocket = {
 const compiler = createCompiler({
   webpack,
   config: webpackConfig,
-  appName: "Talk",
+  appName: "Coral",
   urls,
   // useTypeScript: true, /* This is currently not working, as the ForkTsCheckerWebpackPlugin hooks are not triggering for some reason */
   useTypeScript: false, // This would

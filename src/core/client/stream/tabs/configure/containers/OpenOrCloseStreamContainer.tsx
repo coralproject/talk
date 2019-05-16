@@ -1,13 +1,13 @@
 import React from "react";
 
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
-import { OpenOrCloseStreamContainer_story as StoryData } from "talk-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { OpenOrCloseStreamContainer_story as StoryData } from "coral-stream/__generated__/OpenOrCloseStreamContainer_story.graphql";
 import {
   CloseStoryMutation,
   OpenStoryMutation,
   withCloseStoryMutation,
   withOpenStoryMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 import CloseStream from "../components/CloseStream";
 import OpenStream from "../components/OpenStream";

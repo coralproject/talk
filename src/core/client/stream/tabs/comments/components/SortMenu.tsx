@@ -8,7 +8,7 @@ import {
   Option,
   SelectField,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import Divider from "./Divider";
 import * as styles from "./SortMenu.css";
@@ -33,14 +33,14 @@ const SortMenu: FunctionComponent<Props> = props => (
             <Localized id="comments-sortMenu-sortBy">
               <Typography
                 variant="bodyCopyBold"
-                container={<label htmlFor="talk-comments-sortMenu" />}
+                container={<label htmlFor="coral-comments-sortMenu" />}
               >
                 Sort By
               </Typography>
             </Localized>
           )}
           <SelectField
-            id="talk-comments-sortMenu"
+            id="coral-comments-sortMenu"
             value={props.orderBy}
             onChange={props.onChange}
             afterWrapper={(matches && <Icon>sort</Icon>) || undefined}

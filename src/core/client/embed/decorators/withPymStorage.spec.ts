@@ -1,7 +1,7 @@
 import mockConsole from "jest-mock-console";
 import sinon from "sinon";
 
-import { createInMemoryStorage } from "talk-framework/lib/storage";
+import { createInMemoryStorage } from "coral-framework/lib/storage";
 import withPymStorage from "./withPymStorage";
 
 class PymStub {
@@ -25,7 +25,7 @@ describe("withPymStorage", () => {
   it("should set, get and remove item", () => {
     const pym = new PymStub("localStorage");
     const storage = createInMemoryStorage();
-    withPymStorage(storage, "localStorage", "talk:")(pym as any);
+    withPymStorage(storage, "localStorage", "coral:")(pym as any);
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({
         id: "0",
@@ -114,7 +114,7 @@ describe("withPymStorage", () => {
     mockConsole();
     const pym = new PymStub("localStorage");
     const storage = createInMemoryStorage();
-    withPymStorage(storage, "localStorage", "talk:")(pym as any);
+    withPymStorage(storage, "localStorage", "coral:")(pym as any);
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({
         id: "0",
@@ -134,7 +134,7 @@ describe("withPymStorage", () => {
       .mock(storage)
       .expects("getItem")
       .throws("error");
-    withPymStorage(storage, "localStorage", "talk:")(pym as any);
+    withPymStorage(storage, "localStorage", "coral:")(pym as any);
     pym.listeners["pymStorage.localStorage.request"](
       JSON.stringify({
         id: "0",

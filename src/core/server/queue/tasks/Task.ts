@@ -1,5 +1,5 @@
 import Queue, { Job, Queue as QueueType } from "bull";
-import logger from "talk-server/logger";
+import logger from "coral-server/logger";
 
 export interface TaskOptions<T, U = any> {
   jobName: string;

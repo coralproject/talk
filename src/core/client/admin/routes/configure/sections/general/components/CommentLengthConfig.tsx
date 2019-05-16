@@ -6,7 +6,7 @@ import {
   composeValidators,
   createValidator,
   validateWholeNumberGreaterThan,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   FieldSet,
   FormField,
@@ -15,12 +15,12 @@ import {
   TextField,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import Header from "../../../components/Header";
 import OnOffField from "../../../components/OnOffField";
 
-import { formatEmpty, parseEmptyAsNull } from "talk-framework/lib/form";
+import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import styles from "./CommentLengthConfig.css";
 
 const validateMaxLongerThanMin = createValidator(

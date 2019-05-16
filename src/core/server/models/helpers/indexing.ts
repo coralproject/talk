@@ -1,8 +1,8 @@
 import { merge } from "lodash";
 import { Collection, IndexOptions } from "mongodb";
 
-import { Writeable } from "talk-common/types";
-import logger from "talk-server/logger";
+import { Writeable } from "coral-common/types";
+import logger from "coral-server/logger";
 
 type IndexType = 1 | -1 | "text";
 

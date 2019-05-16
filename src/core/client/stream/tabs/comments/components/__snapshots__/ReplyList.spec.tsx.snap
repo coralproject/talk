@@ -3,7 +3,7 @@
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
   data-testid="commentReplyList-comment-id"
-  id="talk-comments-replyList-log--comment-id"
+  id="coral-comments-replyList-log--comment-id"
   role="log"
 >
   <ForwardRef(forwardRef)
@@ -73,7 +73,7 @@ exports[`renders correctly 1`] = `
 exports[`when there is more disables load more button 1`] = `
 <ForwardRef(forwardRef)
   data-testid="commentReplyList-comment-id"
-  id="talk-comments-replyList-log--comment-id"
+  id="coral-comments-replyList-log--comment-id"
   role="log"
 >
   <ForwardRef(forwardRef)
@@ -140,10 +140,10 @@ exports[`when there is more disables load more button 1`] = `
       id="comments-replyList-showAll"
     >
       <ForwardRef(forwardRef)
-        aria-controls="talk-comments-replyList-log--comment-id"
+        aria-controls="coral-comments-replyList-log--comment-id"
         disabled={true}
         fullWidth={true}
-        id="talk-comments-replyList-showAll--comment-id"
+        id="coral-comments-replyList-showAll--comment-id"
         onClick={[Function]}
         variant="outlined"
       >
@@ -157,7 +157,7 @@ exports[`when there is more disables load more button 1`] = `
 exports[`when there is more renders a load more button 1`] = `
 <ForwardRef(forwardRef)
   data-testid="commentReplyList-comment-id"
-  id="talk-comments-replyList-log--comment-id"
+  id="coral-comments-replyList-log--comment-id"
   role="log"
 >
   <ForwardRef(forwardRef)
@@ -224,10 +224,10 @@ exports[`when there is more renders a load more button 1`] = `
       id="comments-replyList-showAll"
     >
       <ForwardRef(forwardRef)
-        aria-controls="talk-comments-replyList-log--comment-id"
+        aria-controls="coral-comments-replyList-log--comment-id"
         disabled={false}
         fullWidth={true}
-        id="talk-comments-replyList-showAll--comment-id"
+        id="coral-comments-replyList-showAll--comment-id"
         onClick={[Function]}
         variant="outlined"
       >

@@ -2,19 +2,19 @@ import { isNil } from "lodash";
 import ms from "ms";
 import fetch from "node-fetch";
 
-import { Omit } from "talk-common/types";
-import { ToxicCommentError } from "talk-server/errors";
+import { Omit } from "coral-common/types";
+import { ToxicCommentError } from "coral-server/errors";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
   GQLPerspectiveExternalIntegration,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import logger from "talk-server/logger";
-import { ACTION_TYPE } from "talk-server/models/action/comment";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 export const toxic: IntermediateModerationPhase = async ({
   tenant,

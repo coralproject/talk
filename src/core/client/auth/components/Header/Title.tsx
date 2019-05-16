@@ -1,7 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { Typography } from "talk-ui/components";
+import { Typography } from "coral-ui/components";
 import styles from "./Title.css";
 
 interface Props {

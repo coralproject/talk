@@ -2,9 +2,9 @@ import cn from "classnames";
 import React, { Ref } from "react";
 import { FunctionComponent } from "react";
 
-import { pascalCase } from "talk-common/utils";
-import { withForwardRef, withStyles } from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+import { pascalCase } from "coral-common/utils";
+import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./Flex.css";
 

@@ -1,14 +1,14 @@
 import express from "express";
 
-import { AppOptions } from "talk-server/app";
+import { AppOptions } from "coral-server/app";
 import {
   confirmCheckHandler,
   confirmHandler,
   confirmRequestHandler,
-} from "talk-server/app/handlers";
-import { jsonMiddleware } from "talk-server/app/middleware/json";
-import { authenticate } from "talk-server/app/middleware/passport";
-import { RouterOptions } from "talk-server/app/router/types";
+} from "coral-server/app/handlers";
+import { jsonMiddleware } from "coral-server/app/middleware/json";
+import { authenticate } from "coral-server/app/middleware/passport";
+import { RouterOptions } from "coral-server/app/router/types";
 
 export function createNewAccountRouter(
   app: AppOptions,

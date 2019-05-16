@@ -2,9 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { parseStringBool } from "talk-framework/lib/form";
-import { Validator } from "talk-framework/lib/validation";
-import { RadioButton } from "talk-ui/components";
+import { parseStringBool } from "coral-framework/lib/form";
+import { Validator } from "coral-framework/lib/validation";
+import { RadioButton } from "coral-ui/components";
 
 interface Props {
   validate?: Validator;

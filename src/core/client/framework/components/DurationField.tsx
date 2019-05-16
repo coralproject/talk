@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { ChangeEvent, Component } from "react";
 
-import { Flex, Option, SelectField, TextField } from "talk-ui/components";
+import { Flex, Option, SelectField, TextField } from "coral-ui/components";
 
 import styles from "./DurationField.css";
 

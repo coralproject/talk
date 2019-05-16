@@ -1,5 +1,5 @@
-import { OIDCIDTokenSchema } from "talk-server/app/middleware/passport/strategies/oidc";
-import { validate } from "talk-server/app/request/body";
+import { OIDCIDTokenSchema } from "coral-server/app/middleware/passport/strategies/oidc";
+import { validate } from "coral-server/app/request/body";
 
 describe("OIDCIDTokenSchema", () => {
   it("allows a valid payload", () => {

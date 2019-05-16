@@ -1,7 +1,7 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
 import CommentsPane from "./CommentsPane";
 

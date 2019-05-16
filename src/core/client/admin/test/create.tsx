@@ -1,11 +1,11 @@
 import React from "react";
 
-import EntryContainer from "talk-admin/containers/EntryContainer";
-import { GQLResolver } from "talk-framework/schema";
+import EntryContainer from "coral-admin/containers/EntryContainer";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createTestRenderer,
   CreateTestRendererParams,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 export default function create(params: CreateTestRendererParams<GQLResolver>) {
   return createTestRenderer<GQLResolver>("admin", <EntryContainer />, params);

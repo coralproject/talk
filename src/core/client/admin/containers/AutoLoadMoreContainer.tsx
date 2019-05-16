@@ -1,7 +1,7 @@
 import React from "react";
 
-import { withInView } from "talk-framework/lib/intersection";
-import { BaseButton, Spinner } from "talk-ui/components";
+import { withInView } from "coral-framework/lib/intersection";
+import { BaseButton, Spinner } from "coral-ui/components";
 
 interface Props {
   inView: boolean | undefined;

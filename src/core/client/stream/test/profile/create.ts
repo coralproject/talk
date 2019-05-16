@@ -1,4 +1,4 @@
-import { CreateTestRendererParams } from "talk-framework/testHelpers";
+import { CreateTestRendererParams } from "coral-framework/testHelpers";
 
 import createTopLevel from "../create";
 

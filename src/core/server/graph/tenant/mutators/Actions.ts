@@ -1,5 +1,5 @@
-import TenantContext from "talk-server/graph/tenant/context";
-import { accept, reject } from "talk-server/services/comments/moderation";
+import TenantContext from "coral-server/graph/tenant/context";
+import { accept, reject } from "coral-server/services/comments/moderation";
 import {
   GQLAcceptCommentInput,
   GQLRejectCommentInput,

@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { BaseButton } from "talk-ui/components";
+import { BaseButton } from "coral-ui/components";
 
 import styles from "./ShowMoreButton.css";
 

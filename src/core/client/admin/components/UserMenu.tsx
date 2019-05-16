@@ -9,7 +9,7 @@ import {
   DropdownButton,
   DropdownDivider,
   Popover,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./UserMenu.css";
 

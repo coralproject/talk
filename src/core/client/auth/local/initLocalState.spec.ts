@@ -1,11 +1,11 @@
 import { Environment, RecordSource } from "relay-runtime";
 
-import { LOCAL_ID } from "talk-framework/lib/relay";
+import { LOCAL_ID } from "coral-framework/lib/relay";
 import {
   createAccessToken,
   createRelayEnvironment,
   replaceHistoryLocation,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import initLocalState from "./initLocalState";
 

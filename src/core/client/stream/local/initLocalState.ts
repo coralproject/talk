@@ -1,9 +1,9 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { parseQuery } from "talk-common/utils";
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { getExternalConfig } from "talk-framework/lib/externalConfig";
-import { createAndRetain, initLocalBaseState } from "talk-framework/lib/relay";
+import { parseQuery } from "coral-common/utils";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { getExternalConfig } from "coral-framework/lib/externalConfig";
+import { createAndRetain, initLocalBaseState } from "coral-framework/lib/relay";
 
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
 
@@ -12,7 +12,7 @@ import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "./constants";
  */
 export default async function initLocalState(
   environment: Environment,
-  context: TalkContext
+  context: CoralContext
 ) {
   const config = await getExternalConfig(context.pym);
   await initLocalBaseState(

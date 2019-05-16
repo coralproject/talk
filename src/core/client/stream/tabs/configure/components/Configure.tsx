@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
-import { HorizontalGutter } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import UserBoxContainer from "coral-stream/containers/UserBoxContainer";
+import { HorizontalGutter } from "coral-ui/components";
 
 import ConfigureStreamContainer from "../containers/ConfigureStreamContainer";
 import OpenOrCloseStreamContainer from "../containers/OpenOrCloseStreamContainer";

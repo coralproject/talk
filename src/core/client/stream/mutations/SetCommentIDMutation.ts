@@ -1,9 +1,9 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { getURLWithCommentID } from "talk-framework/helpers";
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { createMutationContainer } from "talk-framework/lib/relay";
-import { LOCAL_ID } from "talk-framework/lib/relay/withLocalStateContainer";
+import { getURLWithCommentID } from "coral-framework/helpers";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { createMutationContainer } from "coral-framework/lib/relay";
+import { LOCAL_ID } from "coral-framework/lib/relay/withLocalStateContainer";
 
 export interface SetCommentIDInput {
   id: string | null;
@@ -14,7 +14,7 @@ export type SetCommentIDMutation = (input: SetCommentIDInput) => Promise<void>;
 export async function commit(
   environment: Environment,
   input: SetCommentIDInput,
-  { pym }: TalkContext
+  { pym }: CoralContext
 ) {
   return commitLocalUpdate(environment, store => {
     const record = store.get(LOCAL_ID)!;

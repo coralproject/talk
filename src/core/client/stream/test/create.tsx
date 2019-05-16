@@ -3,9 +3,9 @@ import React from "react";
 import {
   createTestRenderer,
   CreateTestRendererParams,
-} from "talk-framework/testHelpers";
-import AppContainer from "talk-stream/containers/AppContainer";
-import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "talk-stream/local";
+} from "coral-framework/testHelpers";
+import AppContainer from "coral-stream/containers/AppContainer";
+import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "coral-stream/local";
 
 export default function create(params: CreateTestRendererParams) {
   return createTestRenderer("stream", <AppContainer />, {

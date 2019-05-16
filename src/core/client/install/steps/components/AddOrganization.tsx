@@ -2,13 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import { OnSubmit } from "talk-framework/lib/form";
+import { OnSubmit } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
   validateEmail,
   validateURL,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   CallOut,
   Flex,
@@ -19,7 +19,7 @@ import {
   TextField,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import BackButton from "./BackButton";
 import NextButton from "./NextButton";

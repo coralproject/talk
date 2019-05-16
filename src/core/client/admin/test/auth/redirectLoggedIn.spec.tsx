@@ -1,7 +1,7 @@
 import {
   GQLResolver,
   QueryToModerationQueuesResolver,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import {
   createAccessToken,
   createQueryResolverStub,
@@ -9,9 +9,9 @@ import {
   CreateTestRendererParams,
   replaceHistoryLocation,
   wait,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
-import { pureMerge } from "talk-common/utils";
+import { pureMerge } from "coral-common/utils";
 import create from "../create";
 import {
   emptyModerationQueues,

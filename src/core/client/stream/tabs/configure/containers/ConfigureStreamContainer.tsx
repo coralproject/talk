@@ -1,14 +1,14 @@
 import { FormApi } from "final-form";
 import React from "react";
 
-import { SubmitHookHandler } from "talk-framework/lib/form";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
-import { ConfigureStreamContainer_story as StoryData } from "talk-stream/__generated__/ConfigureStreamContainer_story.graphql";
+import { SubmitHookHandler } from "coral-framework/lib/form";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { ConfigureStreamContainer_story as StoryData } from "coral-stream/__generated__/ConfigureStreamContainer_story.graphql";
 import {
   UpdateStorySettingsInput,
   UpdateStorySettingsMutation,
   withUpdateStorySettingsMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 import ConfigureStream from "../components/ConfigureStream";
 

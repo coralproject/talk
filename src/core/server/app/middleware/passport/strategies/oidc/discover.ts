@@ -1,10 +1,10 @@
 import fetch from "node-fetch";
 import { URL } from "url";
 
-import { ensureNoEndSlash } from "talk-common/utils";
+import { ensureNoEndSlash } from "coral-common/utils";
 
 /**
- * Configuration that Talk is expecting.
+ * Configuration that Coral is expecting.
  */
 export interface DiscoveryConfiguration {
   issuer: string;

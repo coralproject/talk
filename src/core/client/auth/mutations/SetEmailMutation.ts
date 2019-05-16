@@ -4,10 +4,10 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
-} from "talk-framework/lib/relay";
-import { Omit } from "talk-framework/types";
+} from "coral-framework/lib/relay";
+import { Omit } from "coral-framework/types";
 
-import { SetEmailMutation as MutationTypes } from "talk-auth/__generated__/SetEmailMutation.graphql";
+import { SetEmailMutation as MutationTypes } from "coral-auth/__generated__/SetEmailMutation.graphql";
 
 export type SetEmailInput = Omit<
   MutationTypes["variables"]["input"],

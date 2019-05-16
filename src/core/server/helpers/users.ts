@@ -1,4 +1,4 @@
-import { LocalProfile, User } from "talk-server/models/user";
+import { LocalProfile, User } from "coral-server/models/user";
 
 /**
  * getLocalProfile will get the LocalProfile from the User if it exists.

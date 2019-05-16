@@ -1,10 +1,10 @@
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
-import NotAvailable from "talk-admin/components/NotAvailable";
-import { getModerationLink } from "talk-admin/helpers";
-import { PropTypesOf } from "talk-framework/types";
-import { TableCell, TableRow, TextLink } from "talk-ui/components";
+import NotAvailable from "coral-admin/components/NotAvailable";
+import { getModerationLink } from "coral-admin/helpers";
+import { PropTypesOf } from "coral-framework/types";
+import { TableCell, TableRow, TextLink } from "coral-ui/components";
 
 import StatusChangeContainer from "../containers/StatusChangeContainer";
 import StatusText from "./StatusText";

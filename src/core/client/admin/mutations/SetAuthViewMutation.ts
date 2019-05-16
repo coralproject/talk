@@ -1,7 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { createMutation } from "talk-framework/lib/relay";
-import { LOCAL_ID } from "talk-framework/lib/relay/withLocalStateContainer";
+import { createMutation } from "coral-framework/lib/relay";
+import { LOCAL_ID } from "coral-framework/lib/relay/withLocalStateContainer";
 
 export interface SetAuthViewInput {
   // TODO: replace with generated typescript types.

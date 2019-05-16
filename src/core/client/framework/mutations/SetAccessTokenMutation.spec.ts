@@ -1,13 +1,13 @@
 import { Environment, RecordSource } from "relay-runtime";
 import sinon from "sinon";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { LOCAL_ID } from "talk-framework/lib/relay";
-import { createPromisifiedStorage } from "talk-framework/lib/storage";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { LOCAL_ID } from "coral-framework/lib/relay";
+import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import {
   createAccessToken,
   createRelayEnvironment,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import SetAccessTokenMutation from "./SetAccessTokenMutation";
 
@@ -24,7 +24,7 @@ const accessToken = createAccessToken();
 
 it("Sets auth token to localStorage", async () => {
   const clearSessionStub = sinon.stub();
-  const context: Partial<TalkContext> = {
+  const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
     clearSession: clearSessionStub,
   };
@@ -42,7 +42,7 @@ it("Sets auth token to localStorage", async () => {
 
 it("Removes auth token from localStorage", async () => {
   const clearSessionStub = sinon.stub();
-  const context: Partial<TalkContext> = {
+  const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
     clearSession: clearSessionStub,
   };

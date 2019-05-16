@@ -1,9 +1,9 @@
 import React from "react";
 
-import { AppContainerQueryResponse } from "talk-admin/__generated__/AppContainerQuery.graphql";
+import { AppContainerQueryResponse } from "coral-admin/__generated__/AppContainerQuery.graphql";
 
-import { graphql } from "talk-framework/lib/relay";
-import { withRouteConfig } from "talk-framework/lib/router";
+import { graphql } from "coral-framework/lib/relay";
+import { withRouteConfig } from "coral-framework/lib/router";
 
 import App from "../components/App";
 

@@ -71,7 +71,7 @@ exports[`show restricted screen for commenters and staff 1`] = `
         <h1
           className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
         >
-          Talk
+          Coral
         </h1>
       </div>
       <div
@@ -98,7 +98,7 @@ exports[`show restricted screen for commenters and staff 1`] = `
           <div
             className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter"
           >
-            You are signed in as: 
+            You are signed in as:
             <h1
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
             >
@@ -204,7 +204,7 @@ exports[`show restricted screen for commenters and staff 2`] = `
         <h1
           className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
         >
-          Talk
+          Coral
         </h1>
       </div>
       <div
@@ -231,7 +231,7 @@ exports[`show restricted screen for commenters and staff 2`] = `
           <div
             className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter"
           >
-            You are signed in as: 
+            You are signed in as:
             <h1
               className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
             >

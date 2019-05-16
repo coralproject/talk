@@ -4,9 +4,9 @@ import {
   RecordSourceProxy,
 } from "relay-runtime";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { parseJWT } from "talk-framework/lib/jwt";
-import { createAndRetain } from "talk-framework/lib/relay";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { parseJWT } from "coral-framework/lib/jwt";
+import { createAndRetain } from "coral-framework/lib/relay";
 
 /**
  * The Root Record of Client-Side Schema Extension must be of this type.
@@ -41,7 +41,7 @@ export function setAccessTokenInLocalState(
 
 export async function initLocalBaseState(
   environment: Environment,
-  { localStorage }: TalkContext,
+  { localStorage }: CoralContext,
   accessToken?: string | null
 ) {
   if (accessToken === undefined) {

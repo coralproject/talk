@@ -9,7 +9,7 @@ import {
   InputLabel,
   TextField,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./SSOKeyField.css";
 

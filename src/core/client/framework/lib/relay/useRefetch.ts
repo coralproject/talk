@@ -2,7 +2,7 @@ import { useState } from "react";
 import { RelayPaginationProp } from "react-relay";
 import { Variables } from "relay-runtime";
 
-import { useEffectWhenChanged } from "talk-framework/hooks";
+import { useEffectWhenChanged } from "coral-framework/hooks";
 
 /**
  * useRefetch is a react hook that returns a `refetch` callback

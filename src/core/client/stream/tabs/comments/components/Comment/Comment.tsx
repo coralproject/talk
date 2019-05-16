@@ -1,9 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import HTMLContent from "talk-stream/components/HTMLContent";
-import Timestamp from "talk-stream/components/Timestamp";
-import { Flex, HorizontalGutter, Tag } from "talk-ui/components";
+import HTMLContent from "coral-stream/components/HTMLContent";
+import Timestamp from "coral-stream/components/Timestamp";
+import { Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";

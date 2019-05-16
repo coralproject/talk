@@ -1,11 +1,11 @@
 import uuid from "uuid";
 
-import { LanguageCode } from "talk-common/helpers/i18n/locales";
-import { Config } from "talk-server/config";
-import logger, { Logger } from "talk-server/logger";
-import { User } from "talk-server/models/user";
-import { I18n } from "talk-server/services/i18n";
-import { Request } from "talk-server/types/express";
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { Config } from "coral-server/config";
+import logger, { Logger } from "coral-server/logger";
+import { User } from "coral-server/models/user";
+import { I18n } from "coral-server/services/i18n";
+import { Request } from "coral-server/types/express";
 
 export interface CommonContextOptions {
   id?: string;

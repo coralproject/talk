@@ -2,7 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Typography } from "talk-ui/components";
+import { Flex, Typography } from "coral-ui/components";
 
 import styles from "./Header.css";
 
@@ -32,7 +32,7 @@ const Header: FunctionComponent<HeaderProps> = ({ main }) => {
           })}
           variant="heading1"
         >
-          Talk Installation Wizard
+          Coral Installation Wizard
         </Typography>
       </Localized>
     </Flex>

@@ -1,7 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { Flex } from "talk-ui/components";
+import { Flex } from "coral-ui/components";
 
 import styles from "./SubBar.css";
 

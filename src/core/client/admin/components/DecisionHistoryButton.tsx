@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { BaseButton, ClickOutside, Icon, Popover } from "talk-ui/components";
+import { BaseButton, ClickOutside, Icon, Popover } from "coral-ui/components";
 
 import DecisionHistoryQuery from "../views/decisionHistory/queries/DecisionHistoryQuery";
 

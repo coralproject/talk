@@ -1,14 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { ExternalLink } from "talk-framework/lib/i18n/components";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FormField,
   HorizontalGutter,
   InputDescription,
   InputLabel,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import Header from "../../../components/Header";
 import WordListTextArea from "./WordListTextArea";

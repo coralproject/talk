@@ -1,5 +1,5 @@
-import { ERROR_CODES } from "talk-common/errors";
-import { TalkError } from "talk-server/errors";
+import { ERROR_CODES } from "coral-common/errors";
+import { CoralError } from "coral-server/errors";
 
 /**
  * mapFieldsetToErrorCodes will wait for any errors to occur with the request,
@@ -16,8 +16,8 @@ export async function mapFieldsetToErrorCodes<T>(
   try {
     return await promise;
   } catch (err) {
-    // If the error is a TalkError...
-    if (err instanceof TalkError) {
+    // If the error is a CoralError...
+    if (err instanceof CoralError) {
       // Then loop over all the fieldSpecs...
       for (const param in errorMap) {
         if (!errorMap.hasOwnProperty(param)) {

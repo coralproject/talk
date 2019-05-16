@@ -4,14 +4,14 @@ import { ReactContext, withReactFinalForm } from "react-final-form";
 import { graphql } from "react-relay";
 import { InferableComponentEnhancer } from "recompose";
 
-import { OIDCConfigContainer_auth as AuthData } from "talk-admin/__generated__/OIDCConfigContainer_auth.graphql";
-import { OIDCConfigContainer_authReadOnly as AuthReadOnlyData } from "talk-admin/__generated__/OIDCConfigContainer_authReadOnly.graphql";
-import { DiscoverOIDCConfigurationFetch } from "talk-admin/fetches";
+import { OIDCConfigContainer_auth as AuthData } from "coral-admin/__generated__/OIDCConfigContainer_auth.graphql";
+import { OIDCConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/OIDCConfigContainer_authReadOnly.graphql";
+import { DiscoverOIDCConfigurationFetch } from "coral-admin/fetches";
 import {
   FetchProp,
   withFetch,
   withFragmentContainer,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 import OIDCConfig from "../components/OIDCConfig";
 

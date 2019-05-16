@@ -7,15 +7,15 @@ import { MediaQueryMatchers } from "react-responsive";
 import { Formatter } from "react-timeago";
 import { Environment } from "relay-runtime";
 
-import { BrowserInfo } from "talk-framework/lib/browserInfo";
-import { PostMessageService } from "talk-framework/lib/postMessage";
-import { RestClient } from "talk-framework/lib/rest";
-import { PromisifiedStorage } from "talk-framework/lib/storage";
-import { TransitionControlData } from "talk-framework/testHelpers";
-import { UIContext } from "talk-ui/components";
-import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
+import { BrowserInfo } from "coral-framework/lib/browserInfo";
+import { PostMessageService } from "coral-framework/lib/postMessage";
+import { RestClient } from "coral-framework/lib/rest";
+import { PromisifiedStorage } from "coral-framework/lib/storage";
+import { TransitionControlData } from "coral-framework/testHelpers";
+import { UIContext } from "coral-ui/components";
+import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
 
-export interface TalkContext {
+export interface CoralContext {
   /** relayEnvironment for our relay framework. */
   relayEnvironment: Environment;
 
@@ -68,23 +68,23 @@ export interface TalkContext {
   transitionControl?: TransitionControlData;
 }
 
-export const TalkReactContext = React.createContext<TalkContext>({} as any);
+export const CoralReactContext = React.createContext<CoralContext>({} as any);
 
-export const useTalkContext = () => React.useContext(TalkReactContext);
+export const useCoralContext = () => React.useContext(CoralReactContext);
 
 /**
  * Allows consuming the provided context using the React Context API.
  */
-export const TalkContextConsumer = TalkReactContext.Consumer;
+export const CoralContextConsumer = CoralReactContext.Consumer;
 
 /**
- * In addition to just providing the context, TalkContextProvider also
+ * In addition to just providing the context, CoralContextProvider also
  * renders the `LocalizationProvider` with the appropite data.
  */
-export const TalkContextProvider: FunctionComponent<{
-  value: TalkContext;
+export const CoralContextProvider: FunctionComponent<{
+  value: CoralContext;
 }> = ({ value, children }) => (
-  <TalkReactContext.Provider value={value}>
+  <CoralReactContext.Provider value={value}>
     <LocalizationProvider bundles={value.localeBundles}>
       <UIContext.Provider
         value={{
@@ -96,5 +96,5 @@ export const TalkContextProvider: FunctionComponent<{
         {children}
       </UIContext.Provider>
     </LocalizationProvider>
-  </TalkReactContext.Provider>
+  </CoralReactContext.Provider>
 );

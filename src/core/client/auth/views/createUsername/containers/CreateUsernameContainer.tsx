@@ -4,8 +4,8 @@ import React, { Component } from "react";
 import {
   SetUsernameMutation,
   withSetUsernameMutation,
-} from "talk-auth/mutations/SetUsernameMutation";
-import { PropTypesOf } from "talk-framework/types";
+} from "coral-auth/mutations/SetUsernameMutation";
+import { PropTypesOf } from "coral-framework/types";
 
 import CreateUsername from "../components/CreateUsername";
 

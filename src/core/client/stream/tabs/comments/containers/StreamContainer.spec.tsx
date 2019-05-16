@@ -2,8 +2,8 @@ import { shallow, ShallowWrapper } from "enzyme";
 import { noop } from "lodash";
 import React from "react";
 
-import { removeFragmentRefs } from "talk-framework/testHelpers";
-import { PropTypesOf } from "talk-framework/types";
+import { removeFragmentRefs } from "coral-framework/testHelpers";
+import { PropTypesOf } from "coral-framework/types";
 
 import Stream from "../components/Stream";
 import { StreamContainer } from "./StreamContainer";

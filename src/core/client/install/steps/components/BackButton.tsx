@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button } from "talk-ui/components";
+import { Button } from "coral-ui/components";
 
 export interface BackButtonProps {
   submitting: boolean;

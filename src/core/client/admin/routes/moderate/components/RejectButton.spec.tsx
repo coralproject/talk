@@ -3,7 +3,7 @@ import { createRenderer } from "react-test-renderer/shallow";
 
 import RejectButton from "./RejectButton";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
 it("renders correctly", () => {
   const props: PropTypesOf<typeof RejectButton> = {

@@ -1,7 +1,7 @@
+import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { FunctionComponent } from "react";
-import { Icon, MatchMedia, Tab, TabBar } from "talk-ui/components";
 
 type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
 

@@ -1,7 +1,7 @@
 import { pick } from "lodash";
 
-import { createMutation } from "talk-framework/lib/relay";
-import { forgotPassword, ForgotPasswordInput } from "talk-framework/rest";
+import { createMutation } from "coral-framework/lib/relay";
+import { forgotPassword, ForgotPasswordInput } from "coral-framework/rest";
 
 const ForgotPasswordMutation = createMutation(
   "forgotPassword",

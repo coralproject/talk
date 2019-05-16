@@ -4,14 +4,14 @@ export * from "./shared";
 import { identity, isEmpty, pickBy } from "lodash";
 import { Db } from "mongodb";
 
-import { DeepPartial } from "talk-common/types";
-import { dotize } from "talk-common/utils/dotize";
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import logger from "talk-server/logger";
-import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
-import { createIndexFactory } from "talk-server/models/helpers/indexing";
-import { retrieveStory, Story } from "talk-server/models/story";
-import { AugmentedRedis } from "talk-server/services/redis";
+import { DeepPartial } from "coral-common/types";
+import { dotize } from "coral-common/utils/dotize";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
+import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
+import { createIndexFactory } from "coral-server/models/helpers/indexing";
+import { retrieveStory, Story } from "coral-server/models/story";
+import { AugmentedRedis } from "coral-server/services/redis";
 
 import { createEmptyCommentStatusCounts } from "./empty";
 import { updateSharedCommentCounts } from "./shared";

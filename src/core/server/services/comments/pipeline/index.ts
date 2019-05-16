@@ -1,12 +1,12 @@
-import { Omit, Promiseable, RequireProperty } from "talk-common/types";
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import { CreateActionInput } from "talk-server/models/action/comment";
-import { EditCommentInput } from "talk-server/models/comment";
-import { CommentTag } from "talk-server/models/comment/tag";
-import { Story } from "talk-server/models/story";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import { Request } from "talk-server/types/express";
+import { Omit, Promiseable, RequireProperty } from "coral-common/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { CreateActionInput } from "coral-server/models/action/comment";
+import { EditCommentInput } from "coral-server/models/comment";
+import { CommentTag } from "coral-server/models/comment/tag";
+import { Story } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import { Request } from "coral-server/types/express";
 
 import { moderationPhases } from "./phases";
 

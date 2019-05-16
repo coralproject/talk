@@ -159,7 +159,7 @@ exports[`renders configure advanced 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextPrimary"
               >
-                Domains where your Talk instance is allowed to be embedded.
+                Domains where your Coral instance is allowed to be embedded.
 Typical use is localhost, staging.yourdomain.com,
 yourdomain.com, etc.
               </p>

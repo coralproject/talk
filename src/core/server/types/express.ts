@@ -1,11 +1,11 @@
 import { NextFunction, Request as ExpressRequest, Response } from "express";
 
-import { Logger } from "talk-server/logger";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import TenantCache from "talk-server/services/tenant/cache";
+import { Logger } from "coral-server/logger";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import TenantCache from "coral-server/services/tenant/cache";
 
-export interface TalkRequest {
+export interface CoralRequest {
   id: string;
   now: Date;
   cache?: {
@@ -16,7 +16,7 @@ export interface TalkRequest {
 }
 
 export interface Request extends ExpressRequest {
-  talk?: TalkRequest;
+  coral?: CoralRequest;
   user?: User;
 }
 

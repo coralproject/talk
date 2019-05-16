@@ -1,4 +1,4 @@
-import { Omit } from "talk-common/types";
+import { Omit } from "coral-common/types";
 import {
   GQLAuth,
   GQLFacebookAuthIntegration,
@@ -8,7 +8,7 @@ import {
   GQLOIDCAuthIntegration,
   GQLSettings,
   GQLSSOAuthIntegration,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 export interface GlobalModerationSettings {
   moderation: GQLMODERATION_MODE;

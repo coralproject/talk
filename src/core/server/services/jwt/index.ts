@@ -4,12 +4,12 @@ import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
 import { Bearer, BearerOptions } from "permit";
 import uuid from "uuid/v4";
 
-import { Omit } from "talk-common/types";
-import { Config } from "talk-server/config";
-import { AuthenticationError, TokenInvalidError } from "talk-server/errors";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import { Request } from "talk-server/types/express";
+import { Omit } from "coral-common/types";
+import { Config } from "coral-server/config";
+import { AuthenticationError, TokenInvalidError } from "coral-server/errors";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import { Request } from "coral-server/types/express";
 
 /**
  *  The following Claim Names are registered in the IANA "JSON Web Token

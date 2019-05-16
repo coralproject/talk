@@ -5,8 +5,8 @@ import {
   createFetch,
   fetchQuery,
   FetchVariables,
-} from "talk-framework/lib/relay";
-import { RefreshSettingsQuery as QueryTypes } from "talk-stream/__generated__/RefreshSettingsQuery.graphql";
+} from "coral-framework/lib/relay";
+import { RefreshSettingsQuery as QueryTypes } from "coral-stream/__generated__/RefreshSettingsQuery.graphql";
 
 const RefreshSettingsFetch = createFetch(
   "refreshSettings",

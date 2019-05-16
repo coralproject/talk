@@ -1,4 +1,4 @@
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { calculateCountsDiff } from "./counts";
 
 it("allows transition from NONE to ACCEPTED", () => {

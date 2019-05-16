@@ -6,7 +6,7 @@ import {
   Flex,
   HorizontalGutter,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./AuthBox.css";
 

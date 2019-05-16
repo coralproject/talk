@@ -6,12 +6,15 @@ import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
 import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
-import { RequireProperty } from "talk-common/types";
-import { TalkContext, TalkContextProvider } from "talk-framework/lib/bootstrap";
-import { PostMessageService } from "talk-framework/lib/postMessage";
-import { RestClient } from "talk-framework/lib/rest";
-import { createPromisifiedStorage } from "talk-framework/lib/storage";
-import { createUUIDGenerator } from "talk-framework/testHelpers";
+import { RequireProperty } from "coral-common/types";
+import {
+  CoralContext,
+  CoralContextProvider,
+} from "coral-framework/lib/bootstrap";
+import { PostMessageService } from "coral-framework/lib/postMessage";
+import { RestClient } from "coral-framework/lib/rest";
+import { createPromisifiedStorage } from "coral-framework/lib/storage";
+import { createUUIDGenerator } from "coral-framework/testHelpers";
 
 import createFluentBundle from "./createFluentBundle";
 import createRelayEnvironment from "./createRelayEnvironment";
@@ -48,7 +51,7 @@ export interface CreateTestRendererParams<T extends Resolvers = any> {
   logNetwork?: boolean;
   muteNetworkErrors?: boolean;
   resolvers?: TestResolvers<T>;
-  browserInfo?: TalkContext["browserInfo"];
+  browserInfo?: CoralContext["browserInfo"];
   initLocalState?: (
     local: RecordProxy,
     source: RecordSourceProxy,
@@ -78,7 +81,7 @@ export default function createTestRenderer<
     },
   });
 
-  const context: RequireProperty<TalkContext, "transitionControl"> = {
+  const context: RequireProperty<CoralContext, "transitionControl"> = {
     relayEnvironment: environment,
     locales: ["en-US"],
     localeBundles: [
@@ -104,7 +107,7 @@ export default function createTestRenderer<
   let testRenderer: ReactTestRenderer;
   TestRenderer.act(() => {
     testRenderer = TestRenderer.create(
-      <TalkContextProvider value={context}>{element}</TalkContextProvider>,
+      <CoralContextProvider value={context}>{element}</CoralContextProvider>,
       { createNodeMock }
     );
   });

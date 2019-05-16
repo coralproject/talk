@@ -2,7 +2,7 @@ import cn from "classnames";
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { Flex, MatchMedia } from "talk-ui/components";
+import { Flex, MatchMedia } from "coral-ui/components";
 
 export interface TopBarLeftProps {
   className?: string;

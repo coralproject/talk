@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { useUUID } from "talk-framework/hooks";
-import { Button, Flex, HorizontalGutter, Icon } from "talk-ui/components";
+import { useUUID } from "coral-framework/hooks";
+import { Button, Flex, HorizontalGutter, Icon } from "coral-ui/components";
 
 import styles from "./Markers.css";
 

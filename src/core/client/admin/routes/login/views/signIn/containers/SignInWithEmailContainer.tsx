@@ -1,8 +1,8 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { SignInMutation } from "talk-admin/mutations";
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
+import { SignInMutation } from "coral-admin/mutations";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
 
 import SignInWithEmail, {
   SignInWithEmailForm,

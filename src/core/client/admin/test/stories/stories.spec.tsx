@@ -1,7 +1,7 @@
 import { noop } from "lodash";
 import TestRenderer from "react-test-renderer";
 
-import { pureMerge } from "talk-common/utils";
+import { pureMerge } from "coral-common/utils";
 import {
   createMutationResolverStub,
   createResolversStub,
@@ -11,14 +11,14 @@ import {
   waitForElement,
   waitUntilThrow,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import {
   GQLResolver,
   GQLSTORY_STATUS,
   MutationToCloseStoryResolver,
   MutationToOpenStoryResolver,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import create from "../create";
 import {
   emptyStories,

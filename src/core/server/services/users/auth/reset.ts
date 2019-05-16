@@ -9,25 +9,25 @@ import {
   PasswordResetTokenExpired,
   TokenInvalidError,
   UserNotFoundError,
-} from "talk-server/errors";
-import { getLocalProfile } from "talk-server/helpers/users";
-import { Tenant } from "talk-server/models/tenant";
+} from "coral-server/errors";
+import { getLocalProfile } from "coral-server/helpers/users";
+import { Tenant } from "coral-server/models/tenant";
 import {
   createOrRetrieveUserPasswordResetID,
   resetUserPassword,
   retrieveUser,
   User,
-} from "talk-server/models/user";
+} from "coral-server/models/user";
 import {
   JWTSigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
   verifyJWT,
-} from "talk-server/services/jwt";
+} from "coral-server/services/jwt";
 
-import { constructTenantURL } from "talk-server/app/url";
-import { Config } from "talk-server/config";
+import { constructTenantURL } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import { validatePassword } from "../helpers";
 
 export interface ResetToken extends Required<StandardClaims> {

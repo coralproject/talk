@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
 import AddEmailAddressContainer from "../views/addEmailAddress/containers/AddEmailAddressContainer";
 import CreatePasswordContainer from "../views/createPassword/containers/CreatePasswordContainer";

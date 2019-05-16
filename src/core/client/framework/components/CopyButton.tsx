@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-import { Button } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
+import { Button } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 interface Props extends PropTypesOf<typeof Button> {
   text: string;

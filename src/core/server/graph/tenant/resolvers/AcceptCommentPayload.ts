@@ -1,4 +1,4 @@
-import { GQLAcceptCommentPayloadTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLAcceptCommentPayloadTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { moderationQueuesResolver } from "./ModerationQueues";
 

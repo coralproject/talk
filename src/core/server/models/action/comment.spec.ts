@@ -1,4 +1,4 @@
-import { GQLCOMMENT_FLAG_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_FLAG_REASON } from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_TYPE,
   CommentAction,
@@ -7,7 +7,7 @@ import {
   encodeActionCounts,
   filterDuplicateActions,
   validateAction,
-} from "talk-server/models/action/comment";
+} from "coral-server/models/action/comment";
 
 describe("#encodeActionCounts", () => {
   it("generates the action counts correctly", () => {

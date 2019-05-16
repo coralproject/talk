@@ -9,13 +9,13 @@ import {
   graphqlExpress,
 } from "apollo-server-express/dist/expressApollo";
 
-import { Omit } from "talk-common/types";
-import { Config } from "talk-server/config";
+import { Omit } from "coral-common/types";
+import { Config } from "coral-server/config";
 import {
   ErrorWrappingExtension,
   LoggerExtension,
   MetricsExtension,
-} from "talk-server/graph/common/extensions";
+} from "coral-server/graph/common/extensions";
 
 export * from "./batch";
 
@@ -46,13 +46,13 @@ export const graphqlMiddleware = (
 ): Handler => {
   // Configure the metrics handlers.
   const executedGraphQueriesTotalCounter = new Counter({
-    name: "talk_executed_graph_queries_total",
+    name: "coral_executed_graph_queries_total",
     help: "number of GraphQL queries executed",
     labelNames: ["operation_type", "operation_name"],
   });
 
   const graphQLExecutionTimingsHistogram = new Histogram({
-    name: "talk_executed_graph_queries_timings",
+    name: "coral_executed_graph_queries_timings",
     help: "timings for execution times of GraphQL operations",
     buckets: [0.1, 5, 15, 50, 100, 500],
     labelNames: ["operation_type", "operation_name"],

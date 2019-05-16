@@ -1,14 +1,14 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { getURLWithCommentID } from "talk-framework/helpers";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { HistoryCommentContainer_comment as CommentData } from "talk-stream/__generated__/HistoryCommentContainer_comment.graphql";
-import { HistoryCommentContainer_story as StoryData } from "talk-stream/__generated__/HistoryCommentContainer_story.graphql";
+import { getURLWithCommentID } from "coral-framework/helpers";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { HistoryCommentContainer_comment as CommentData } from "coral-stream/__generated__/HistoryCommentContainer_comment.graphql";
+import { HistoryCommentContainer_story as StoryData } from "coral-stream/__generated__/HistoryCommentContainer_story.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 import HistoryComment from "../components/HistoryComment";
 
 interface HistoryCommentContainerProps {

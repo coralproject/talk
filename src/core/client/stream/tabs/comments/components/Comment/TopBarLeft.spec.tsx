@@ -1,8 +1,8 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
-import { PropTypesOf } from "talk-framework/types";
-import { UIContext, UIContextProps } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { UIContext, UIContextProps } from "coral-ui/components";
 
 import TopBarLeft from "./TopBarLeft";
 

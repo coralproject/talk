@@ -2,8 +2,8 @@ import { isUndefined, merge, omitBy } from "lodash";
 
 import { Collection, Cursor, FilterQuery as MongoFilterQuery } from "mongodb";
 
-import { Writeable } from "talk-common/types";
-import logger from "talk-server/logger";
+import { Writeable } from "coral-common/types";
+import logger from "coral-server/logger";
 
 /**
  * FilterQuery<T> ensures that given the type T, that the FilterQuery will be a

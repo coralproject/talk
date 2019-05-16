@@ -4,8 +4,8 @@ import React, { Component } from "react";
 import {
   SetEmailMutation,
   withSetEmailMutation,
-} from "talk-auth/mutations/SetEmailMutation";
-import { PropTypesOf } from "talk-framework/types";
+} from "coral-auth/mutations/SetEmailMutation";
+import { PropTypesOf } from "coral-framework/types";
 
 import AddEmailAddress from "../components/AddEmailAddress";
 

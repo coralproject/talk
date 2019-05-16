@@ -1,8 +1,8 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { PermittedDomainsConfigContainer_settings as SettingsData } from "talk-admin/__generated__/PermittedDomainsConfigContainer_settings.graphql";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { PermittedDomainsConfigContainer_settings as SettingsData } from "coral-admin/__generated__/PermittedDomainsConfigContainer_settings.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import PermittedDomainsConfig from "../components/PermittedDomainsConfig";
 

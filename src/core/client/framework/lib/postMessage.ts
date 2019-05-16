@@ -8,7 +8,7 @@ export class PostMessageService {
   private scope: string;
 
   constructor(
-    scope = "talk",
+    scope = "coral",
     origin: string = `${location.protocol}//${location.host}`
   ) {
     this.origin = origin;

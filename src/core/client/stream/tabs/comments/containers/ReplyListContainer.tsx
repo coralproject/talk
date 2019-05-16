@@ -2,15 +2,15 @@ import React, { FunctionComponent } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 import { withProps } from "recompose";
 
-import { withPaginationContainer } from "talk-framework/lib/relay";
-import { FragmentKeys } from "talk-framework/lib/relay/types";
-import { Omit, PropTypesOf } from "talk-framework/types";
-import { ReplyListContainer1_comment as CommentData } from "talk-stream/__generated__/ReplyListContainer1_comment.graphql";
-import { ReplyListContainer1_settings as SettingsData } from "talk-stream/__generated__/ReplyListContainer1_settings.graphql";
-import { ReplyListContainer1_story as StoryData } from "talk-stream/__generated__/ReplyListContainer1_story.graphql";
-import { ReplyListContainer1_viewer as ViewerData } from "talk-stream/__generated__/ReplyListContainer1_viewer.graphql";
-import { ReplyListContainer1PaginationQueryVariables } from "talk-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
-import { ReplyListContainer5_comment as Comment5Data } from "talk-stream/__generated__/ReplyListContainer5_comment.graphql";
+import { withPaginationContainer } from "coral-framework/lib/relay";
+import { FragmentKeys } from "coral-framework/lib/relay/types";
+import { Omit, PropTypesOf } from "coral-framework/types";
+import { ReplyListContainer1_comment as CommentData } from "coral-stream/__generated__/ReplyListContainer1_comment.graphql";
+import { ReplyListContainer1_settings as SettingsData } from "coral-stream/__generated__/ReplyListContainer1_settings.graphql";
+import { ReplyListContainer1_story as StoryData } from "coral-stream/__generated__/ReplyListContainer1_story.graphql";
+import { ReplyListContainer1_viewer as ViewerData } from "coral-stream/__generated__/ReplyListContainer1_viewer.graphql";
+import { ReplyListContainer1PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
+import { ReplyListContainer5_comment as Comment5Data } from "coral-stream/__generated__/ReplyListContainer5_comment.graphql";
 
 import ReplyList from "../components/ReplyList";
 import { isCommentVisible } from "../helpers";

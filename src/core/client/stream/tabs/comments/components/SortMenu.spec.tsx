@@ -2,9 +2,9 @@ import { noop } from "lodash";
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
+import { PropTypesOf } from "coral-framework/types";
+import { UIContext, UIContextProps } from "coral-ui/components";
 import { LocalizationProvider } from "fluent-react/compat";
-import { PropTypesOf } from "talk-framework/types";
-import { UIContext, UIContextProps } from "talk-ui/components";
 
 import SortMenu from "./SortMenu";
 

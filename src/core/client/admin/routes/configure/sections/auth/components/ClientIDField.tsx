@@ -3,8 +3,8 @@ import { identity } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { Validator } from "talk-framework/lib/validation";
-import { FormField, InputLabel, TextField } from "talk-ui/components";
+import { Validator } from "coral-framework/lib/validation";
+import { FormField, InputLabel, TextField } from "coral-ui/components";
 
 import ValidationMessage from "../../../components/ValidationMessage";
 

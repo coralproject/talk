@@ -1,19 +1,19 @@
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { Omit, Sub } from "talk-common/types";
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
+import { Omit, Sub } from "coral-common/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   Connection,
   ConnectionInput,
   resolveConnection,
-} from "talk-server/models/helpers/connection";
+} from "coral-server/models/helpers/connection";
 import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "talk-server/models/helpers/indexing";
-import Query from "talk-server/models/helpers/query";
-import { TenantResource } from "talk-server/models/tenant";
+} from "coral-server/models/helpers/indexing";
+import Query from "coral-server/models/helpers/query";
+import { TenantResource } from "coral-server/models/tenant";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<CommentModerationAction>>(

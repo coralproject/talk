@@ -2,9 +2,9 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Typography } from "talk-ui/components";
-import { withStyles } from "talk-ui/hocs";
+import { PropTypesOf } from "coral-framework/types";
+import { Typography } from "coral-ui/components";
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./BrandName.css";
 
@@ -32,7 +32,7 @@ const BrandName: FunctionComponent<Props> = ({
         [classes.lg]: size === "lg",
       })}
     >
-      Talk
+      Coral
     </Typography>
   </Localized>
 );

@@ -3,9 +3,9 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { GeneralConfigContainer_settings as SettingsData } from "talk-admin/__generated__/GeneralConfigContainer_settings.graphql";
-import { pureMerge } from "talk-common/utils";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { GeneralConfigContainer_settings as SettingsData } from "coral-admin/__generated__/GeneralConfigContainer_settings.graphql";
+import { pureMerge } from "coral-common/utils";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import GeneralConfig from "../components/GeneralConfig";
 

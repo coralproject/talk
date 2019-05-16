@@ -1,9 +1,9 @@
+import { parseBool } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
-import { parseBool } from "talk-framework/lib/form";
 
-import { CheckBox, Flex, FormField, InputLabel } from "talk-ui/components";
+import { CheckBox, Flex, FormField, InputLabel } from "coral-ui/components";
 
 interface Props {
   label: React.ReactNode;
@@ -21,7 +21,7 @@ const TargetFilterField: FunctionComponent<Props> = ({
     <Flex direction="row" itemGutter="double">
       <Field name={`${name}.admin`} type="checkbox" parse={parseBool}>
         {({ input, meta }) => (
-          <Localized id="configure-auth-targetFilterTalkAdmin">
+          <Localized id="configure-auth-targetFilterCoralAdmin">
             <CheckBox
               id={input.name}
               name={input.name}
@@ -29,7 +29,7 @@ const TargetFilterField: FunctionComponent<Props> = ({
               checked={!!input.value}
               disabled={disabled}
             >
-              Talk Admin
+              Coral Admin
             </CheckBox>
           </Localized>
         )}

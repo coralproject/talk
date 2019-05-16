@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { HorizontalGutter, Typography } from "talk-ui/components";
+import { HorizontalGutter, Typography } from "coral-ui/components";
 
 import styles from "./FlagDetailsCategory.css";
 

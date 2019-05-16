@@ -331,7 +331,7 @@ exports[`post a reply: optimistic response 1`] = `
 <div
   className="HorizontalGutter-root HorizontalGutter-full"
   data-testid="commentReplyList-comment-0"
-  id="talk-comments-replyList-log--comment-0"
+  id="coral-comments-replyList-log--comment-0"
   role="log"
 >
   <div

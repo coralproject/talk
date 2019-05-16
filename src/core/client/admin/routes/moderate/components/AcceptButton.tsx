@@ -2,8 +2,8 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { BaseButton, Icon } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { BaseButton, Icon } from "coral-ui/components";
 
 import styles from "./AcceptButton.css";
 

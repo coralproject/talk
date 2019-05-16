@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import { InputDescription } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
+import { InputDescription } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./ConfigDescription.css";
 

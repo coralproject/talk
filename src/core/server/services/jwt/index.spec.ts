@@ -1,11 +1,11 @@
 import sinon from "sinon";
 
-import { Config } from "talk-server/config";
+import { Config } from "coral-server/config";
 import {
   createJWTSigningConfig,
   extractJWTFromRequest,
-} from "talk-server/services/jwt";
-import { Request } from "talk-server/types/express";
+} from "coral-server/services/jwt";
+import { Request } from "coral-server/types/express";
 
 describe("extractJWTFromRequest", () => {
   it("extracts the token from header", () => {
@@ -29,14 +29,14 @@ describe("extractJWTFromRequest", () => {
     };
     expect(extractJWTFromRequest((req as any) as Request)).toEqual(null);
 
-    req.url = "https://talk.coralproject.net/api?accessToken=token";
+    req.url = "https://coral.coralproject.net/api?accessToken=token";
 
     expect(extractJWTFromRequest((req as any) as Request)).toEqual("token");
   });
 
   it("does not extract the token from query string when it's disabled", () => {
     const req = {
-      url: "https://talk.coralproject.net/api?accessToken=token",
+      url: "https://coral.coralproject.net/api?accessToken=token",
     };
 
     expect(extractJWTFromRequest((req as any) as Request, true)).toEqual(null);

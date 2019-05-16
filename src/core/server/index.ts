@@ -5,22 +5,22 @@ import http from "http";
 import { Db } from "mongodb";
 import { AggregatorRegistry, collectDefaultMetrics } from "prom-client";
 
-import { LanguageCode } from "talk-common/helpers/i18n/locales";
-import { createApp, listenAndServe } from "talk-server/app";
-import config, { Config } from "talk-server/config";
-import getTenantSchema from "talk-server/graph/tenant/schema";
-import logger from "talk-server/logger";
-import { createQueue, TaskQueue } from "talk-server/queue";
-import { I18n } from "talk-server/services/i18n";
-import { createJWTSigningConfig } from "talk-server/services/jwt";
-import { createMongoDB } from "talk-server/services/mongodb";
-import { ensureIndexes } from "talk-server/services/mongodb/indexes";
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { createApp, listenAndServe } from "coral-server/app";
+import config, { Config } from "coral-server/config";
+import getTenantSchema from "coral-server/graph/tenant/schema";
+import logger from "coral-server/logger";
+import { createQueue, TaskQueue } from "coral-server/queue";
+import { I18n } from "coral-server/services/i18n";
+import { createJWTSigningConfig } from "coral-server/services/jwt";
+import { createMongoDB } from "coral-server/services/mongodb";
+import { ensureIndexes } from "coral-server/services/mongodb/indexes";
 import {
   AugmentedRedis,
   createAugmentedRedisClient,
   createRedisClient,
-} from "talk-server/services/redis";
-import TenantCache from "talk-server/services/tenant/cache";
+} from "coral-server/services/redis";
+import TenantCache from "coral-server/services/tenant/cache";
 import { basicAuth } from "./app/middleware/basicAuth";
 import { noCacheMiddleware } from "./app/middleware/cacheHeaders";
 import { JSONErrorHandler } from "./app/middleware/error";
@@ -39,7 +39,7 @@ export interface ServerStartOptions {
 }
 
 /**
- * Server provides an interface to create, start, and manage a Talk Server.
+ * Server provides an interface to create, start, and manage a Coral Server.
  */
 class Server {
   // parentApp is the root application that the server will bind to.
@@ -245,7 +245,7 @@ class Server {
     // Webpack Dev Server.
     const disableClientRoutes = this.config.get("disable_client_routes");
 
-    // Create the Talk App, branching off from the parent app.
+    // Create the Coral App, branching off from the parent app.
     const app: Express = await createApp({
       parent,
       mongo: this.mongo,

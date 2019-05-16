@@ -1,11 +1,11 @@
 import { Match, Router, withRouter } from "found";
 import React from "react";
 
-import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
-import { getMessage } from "talk-framework/lib/i18n";
+import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
+import { getMessage } from "coral-framework/lib/i18n";
 
 interface Props {
-  localeBundles: TalkContext["localeBundles"];
+  localeBundles: CoralContext["localeBundles"];
   router: Router;
   active: boolean;
   match: Match;

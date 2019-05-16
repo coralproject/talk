@@ -2,16 +2,16 @@ import { isEmpty, merge } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { Omit, Sub } from "talk-common/types";
-import { dotize } from "talk-common/utils/dotize";
+import { Omit, Sub } from "coral-common/types";
+import { dotize } from "coral-common/utils/dotize";
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   EncodedCommentActionCounts,
   mergeCommentActionCounts,
-} from "talk-server/models/action/comment";
+} from "coral-server/models/action/comment";
 import {
   Connection,
   createConnection,
@@ -20,13 +20,13 @@ import {
   NodeToCursorTransformer,
   OrderedConnectionInput,
   resolveConnection,
-} from "talk-server/models/helpers/connection";
+} from "coral-server/models/helpers/connection";
 import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "talk-server/models/helpers/indexing";
-import Query from "talk-server/models/helpers/query";
-import { TenantResource } from "talk-server/models/tenant";
+} from "coral-server/models/helpers/indexing";
+import Query from "coral-server/models/helpers/query";
+import { TenantResource } from "coral-server/models/tenant";
 import { CommentTag } from "./tag";
 
 function collection(mongo: Db) {

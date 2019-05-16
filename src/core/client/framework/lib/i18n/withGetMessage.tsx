@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
-import { TalkContext, withContext } from "../bootstrap";
+import { CoralContext, withContext } from "../bootstrap";
 import getMessage from "./getMessage";
 
 export type GetMessage = (id: string, defaultTo?: string) => string;
@@ -11,7 +11,7 @@ interface InjectedProps {
 }
 
 interface Props {
-  localeBundles: TalkContext["localeBundles"];
+  localeBundles: CoralContext["localeBundles"];
 }
 
 interface InjectedProps {
@@ -19,7 +19,7 @@ interface InjectedProps {
 }
 
 interface Props {
-  localeBundles: TalkContext["localeBundles"];
+  localeBundles: CoralContext["localeBundles"];
 }
 
 /**

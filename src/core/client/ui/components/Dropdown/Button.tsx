@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Omit } from "talk-framework/types";
-import { withStyles } from "talk-ui/hocs";
+import { Omit } from "coral-framework/types";
+import { withStyles } from "coral-ui/hocs";
 
 import BaseButton, { BaseButtonProps } from "../BaseButton";
 import Icon from "../Icon";

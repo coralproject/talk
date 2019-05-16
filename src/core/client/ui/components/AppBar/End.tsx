@@ -1,9 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Flex } from "talk-ui/components";
-import { withStyles } from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+import { Flex } from "coral-ui/components";
+import { withStyles } from "coral-ui/hocs";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./End.css";
 

@@ -1,7 +1,7 @@
 import { Environment } from "relay-runtime";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { createMutationContainer } from "talk-framework/lib/relay";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { createMutationContainer } from "coral-framework/lib/relay";
 
 export interface CompleteAccountInput {
   accessToken: string;
@@ -13,7 +13,7 @@ export type CompleteAccountMutation = (
 export async function commit(
   environment: Environment,
   input: CompleteAccountInput,
-  { postMessage }: TalkContext
+  { postMessage }: CoralContext
 ) {
   postMessage.send("setAccessToken", input.accessToken, window.opener);
   window.close();

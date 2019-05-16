@@ -2,7 +2,7 @@ import React from "react";
 import { FunctionComponent, ReactNode } from "react";
 import Responsive, { MediaQueryMatchers } from "react-responsive";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import theme from "../../theme/variables";
 import UIContext from "../UIContext";

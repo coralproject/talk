@@ -1,4 +1,4 @@
-import TenantCache from "talk-server/services/tenant/cache";
+import TenantCache from "coral-server/services/tenant/cache";
 
 export type DeconstructionFn<T> = (tenantID: string, value: T) => Promise<void>;
 

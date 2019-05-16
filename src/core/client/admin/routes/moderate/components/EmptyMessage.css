@@ -1,5 +1,5 @@
 .root {
-  composes: bodyCopy from "talk-ui/shared/typography.css";
+  composes: bodyCopy from "coral-ui/shared/typography.css";
   color: var(--palette-grey-dark);
   text-align: center;
 }

@@ -1,5 +1,5 @@
 {
-  "name": "Talk",
+  "name": "Coral",
   "description": "A better commenting experience from Vox Media.",
   "env": {
     "REWRITE_ENV": {
@@ -7,8 +7,7 @@
       "value": "REDIS_URI:REDIS_URL,MONGODB_URI:MONGO_URI"
     },
     "SIGNING_SECRET": {
-      "description":
-        "The shared secret to use to sign JSON Web Tokens (JWT) with the selected signing algorithm.",
+      "description": "The shared secret to use to sign JSON Web Tokens (JWT) with the selected signing algorithm.",
       "generator": "secret"
     },
     "CONCURRENCY": {
@@ -16,8 +15,7 @@
       "value": "1"
     },
     "LOCALE": {
-      "description":
-        "Specify the default locale to use for all requests without a locale specified",
+      "description": "Specify the default locale to use for all requests without a locale specified",
       "value": "en-US"
     },
     "ENABLE_GRAPHIQL": {

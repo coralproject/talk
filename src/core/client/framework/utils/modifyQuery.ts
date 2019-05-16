@@ -1,4 +1,4 @@
-import { parseQuery, stringifyQuery } from "talk-common/utils";
+import { parseQuery, stringifyQuery } from "coral-common/utils";
 
 import buildURL from "./buildURL";
 import parseURL from "./parseURL";

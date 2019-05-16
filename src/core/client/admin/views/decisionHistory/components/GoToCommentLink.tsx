@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
-import { Icon, TextLink } from "talk-ui/components";
+import { Icon, TextLink } from "coral-ui/components";
 
 import styles from "./GoToCommentLink.css";
 

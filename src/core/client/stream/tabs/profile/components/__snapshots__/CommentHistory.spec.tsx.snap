@@ -34,10 +34,10 @@ exports[`has more disables load more 1`] = `
     id="profile-commentHistory-loadMore"
   >
     <ForwardRef(forwardRef)
-      aria-controls="talk-profile-commentHistory-log"
+      aria-controls="coral-profile-commentHistory-log"
       disabled={true}
       fullWidth={true}
-      id="talk-profile-commentHistory-loadMore"
+      id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
       variant="outlined"
     >
@@ -81,10 +81,10 @@ exports[`has more renders correctly 1`] = `
     id="profile-commentHistory-loadMore"
   >
     <ForwardRef(forwardRef)
-      aria-controls="talk-profile-commentHistory-log"
+      aria-controls="coral-profile-commentHistory-log"
       disabled={false}
       fullWidth={true}
-      id="talk-profile-commentHistory-loadMore"
+      id="coral-profile-commentHistory-loadMore"
       onClick={[Function]}
       variant="outlined"
     >

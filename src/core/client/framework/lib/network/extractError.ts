@@ -1,4 +1,4 @@
-import { ERROR_TYPES } from "talk-common/errors";
+import { ERROR_TYPES } from "coral-common/errors";
 
 import {
   InvalidRequestError,
@@ -6,21 +6,21 @@ import {
   UnknownServerError,
 } from "../errors";
 
-interface TalkError {
+interface CoralError {
   type: string;
   code: string;
   message: string;
 }
 
-function isTalkError(err: any): err is TalkError {
+function isCoralError(err: any): err is CoralError {
   return err.type && err.code && err.message;
 }
 
 export default function extractError(
-  err: TalkError,
+  err: CoralError,
   unknownErrorMessage: string = "Unknown error"
 ): Error {
-  if (!isTalkError(err)) {
+  if (!isCoralError(err)) {
     return new UnknownServerError(unknownErrorMessage, err);
   }
   if (err.type === ERROR_TYPES.INVALID_REQUEST_ERROR) {

@@ -13,8 +13,8 @@
     "lib": ["dom", "es2018", "esnext.asynciterable"],
     "baseUrl": "./",
     "paths": {
-      "talk-server/*": ["./core/server/*"],
-      "talk-common/*": ["./core/common/*"]
+      "coral-server/*": ["./core/server/*"],
+      "coral-common/*": ["./core/common/*"]
     }
   },
   "include": ["./**/*"],

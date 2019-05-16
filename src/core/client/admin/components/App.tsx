@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Logo } from "talk-ui/components";
-import { AppBar, Begin, Divider, End } from "talk-ui/components/AppBar";
+import { PropTypesOf } from "coral-framework/types";
+import { Logo } from "coral-ui/components";
+import { AppBar, Begin, Divider, End } from "coral-ui/components/AppBar";
 
 import NavigationContainer from "../containers/NavigationContainer";
 import UserMenuContainer from "../containers/UserMenuContainer";

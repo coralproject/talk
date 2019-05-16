@@ -1,15 +1,15 @@
 import { Environment } from "relay-runtime";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { createMutation } from "talk-framework/lib/relay";
-import { signIn, SignInInput } from "talk-framework/rest";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { createMutation } from "coral-framework/lib/relay";
+import { signIn, SignInInput } from "coral-framework/rest";
 
 const SignInMutation = createMutation(
   "signIn",
   async (
     environment: Environment,
     input: SignInInput,
-    context: TalkContext
+    context: CoralContext
   ) => {
     const result = await signIn(context.rest, input);
 

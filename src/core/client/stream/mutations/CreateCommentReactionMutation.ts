@@ -7,9 +7,9 @@ import {
   createMutationContainer,
   MutationInput,
   MutationResponsePromise,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
-import { CreateCommentReactionMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentReactionMutation.graphql";
+import { CreateCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReactionMutation.graphql";
 
 export type CreateCommentReactionInput = MutationInput<MutationTypes>;
 

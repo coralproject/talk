@@ -1,9 +1,9 @@
 import sinon from "sinon";
 
-import { ERROR_CODES } from "talk-common/errors";
-import { timeout } from "talk-common/utils";
-import { InvalidRequestError } from "talk-framework/lib/errors";
-import { wait, waitForElement, within } from "talk-framework/testHelpers";
+import { ERROR_CODES } from "coral-common/errors";
+import { timeout } from "coral-common/utils";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import { commenters, settings, stories } from "../fixtures";
 import create from "./create";

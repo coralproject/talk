@@ -1,7 +1,7 @@
+import { Tab } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
-import { Tab } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
 
 interface CommentCountTabProps extends PropTypesOf<typeof Tab> {
   commentCount: number;

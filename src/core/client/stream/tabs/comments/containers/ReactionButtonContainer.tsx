@@ -1,22 +1,22 @@
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { ReactionButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReactionButtonContainer_comment.graphql";
+import { ReactionButtonContainer_settings as SettingsData } from "coral-stream/__generated__/ReactionButtonContainer_settings.graphql";
+import { ReactionButtonContainer_viewer as ViewerData } from "coral-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 import React from "react";
 import { graphql } from "react-relay";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { ReactionButtonContainer_comment as CommentData } from "talk-stream/__generated__/ReactionButtonContainer_comment.graphql";
-import { ReactionButtonContainer_settings as SettingsData } from "talk-stream/__generated__/ReactionButtonContainer_settings.graphql";
-import { ReactionButtonContainer_viewer as ViewerData } from "talk-stream/__generated__/ReactionButtonContainer_viewer.graphql";
 
 import {
   CreateCommentReactionMutation,
   RemoveCommentReactionMutation,
   withCreateCommentReactionMutation,
   withRemoveCommentReactionMutation,
-} from "talk-stream/mutations";
-import ReactionButton from "talk-stream/tabs/comments/components/ReactionButton";
+} from "coral-stream/mutations";
+import ReactionButton from "coral-stream/tabs/comments/components/ReactionButton";
 
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 interface ReactionButtonContainerProps {
   createCommentReaction: CreateCommentReactionMutation;

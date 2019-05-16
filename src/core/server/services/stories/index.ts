@@ -2,18 +2,18 @@ import { zip } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { StoryURLInvalidError } from "talk-server/errors";
-import logger from "talk-server/logger";
+import { StoryURLInvalidError } from "coral-server/errors";
+import logger from "coral-server/logger";
 import {
   countTotalActionCounts,
   mergeCommentActionCounts,
   mergeManyStoryActions,
   removeStoryActions,
-} from "talk-server/models/action/comment";
+} from "coral-server/models/action/comment";
 import {
   mergeManyCommentStories,
   removeStoryComments,
-} from "talk-server/models/comment";
+} from "coral-server/models/comment";
 import {
   calculateTotalCommentCount,
   closeStory,
@@ -34,10 +34,10 @@ import {
   UpdateStoryInput,
   updateStorySettings,
   UpdateStorySettingsInput,
-} from "talk-server/models/story";
-import { Tenant } from "talk-server/models/tenant";
-import { ScraperQueue } from "talk-server/queue/tasks/scraper";
-import { scrape } from "talk-server/services/stories/scraper";
+} from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { scrape } from "coral-server/services/stories/scraper";
 
 import { AugmentedRedis } from "../redis";
 import { isURLPermitted } from "../tenant/url";

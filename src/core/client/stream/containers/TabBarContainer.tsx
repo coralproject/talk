@@ -5,18 +5,18 @@ import {
   graphql,
   withFragmentContainer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
-import { TabBarContainer_story as StoryData } from "talk-stream/__generated__/TabBarContainer_story.graphql";
-import { TabBarContainer_viewer as ViewerData } from "talk-stream/__generated__/TabBarContainer_viewer.graphql";
-import { TabBarContainerLocal as Local } from "talk-stream/__generated__/TabBarContainerLocal.graphql";
+import { TabBarContainer_story as StoryData } from "coral-stream/__generated__/TabBarContainer_story.graphql";
+import { TabBarContainer_viewer as ViewerData } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
+import { TabBarContainerLocal as Local } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
 import {
   SetActiveTabInput,
   SetActiveTabMutation,
   withSetActiveTabMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
-import { Ability, can } from "talk-stream/permissions";
+import { Ability, can } from "coral-stream/permissions";
 import TabBar from "../components/TabBar";
 
 interface Props {

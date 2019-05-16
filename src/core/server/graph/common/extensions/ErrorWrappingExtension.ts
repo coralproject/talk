@@ -2,18 +2,21 @@ import { GraphQLError } from "graphql";
 import { GraphQLExtension, GraphQLResponse } from "graphql-extensions";
 import { merge } from "lodash";
 
-import { InternalError, TalkError } from "talk-server/errors";
-import CommonContext from "talk-server/graph/common/context";
+import { CoralError, InternalError } from "coral-server/errors";
+import CommonContext from "coral-server/graph/common/context";
 
-function hoistTalkErrorExtensions(ctx: CommonContext, err: GraphQLError): void {
+function hoistCoralErrorExtensions(
+  ctx: CommonContext,
+  err: GraphQLError
+): void {
   if (!err.originalError) {
     // Only errors that have an originalError need to be hoisted.
     return;
   }
 
-  // Grab or wrap the originalError so that it's a TalkError.
-  const originalError: TalkError =
-    err.originalError instanceof TalkError
+  // Grab or wrap the originalError so that it's a CoralError.
+  const originalError: CoralError =
+    err.originalError instanceof CoralError
       ? err.originalError
       : new InternalError(err.originalError, "wrapped internal error");
 
@@ -52,7 +55,7 @@ export function enrichError(
 
     if (err.originalError) {
       // Hoist the extensions onto the error.
-      hoistTalkErrorExtensions(ctx, err);
+      hoistCoralErrorExtensions(ctx, err);
     }
   }
 

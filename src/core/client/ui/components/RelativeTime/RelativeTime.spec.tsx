@@ -1,7 +1,7 @@
 import React from "react";
 import { create } from "react-test-renderer";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import UIContext from "../UIContext";
 import RelativeTime from "./RelativeTime";

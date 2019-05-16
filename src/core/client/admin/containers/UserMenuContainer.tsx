@@ -1,8 +1,11 @@
 import React from "react";
 
-import { UserMenuContainer_viewer as ViewerData } from "talk-admin/__generated__/UserMenuContainer_viewer.graphql";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
-import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
+import { UserMenuContainer_viewer as ViewerData } from "coral-admin/__generated__/UserMenuContainer_viewer.graphql";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  SignOutMutation,
+  withSignOutMutation,
+} from "coral-framework/mutations";
 
 import UserMenu from "../components/UserMenu";
 

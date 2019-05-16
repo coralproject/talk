@@ -1,13 +1,13 @@
 import RTE from "@coralproject/rte";
-import { pureMerge } from "talk-common/utils";
-import { GQLResolver } from "talk-framework/schema";
+import { pureMerge } from "coral-common/utils";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
   findParentWithType,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import {
   baseComment,

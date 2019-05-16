@@ -1,9 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import TranslatedRole from "talk-admin/components/TranslatedRole";
-import { GQLUSER_ROLE } from "talk-framework/schema";
-import { PropTypesOf } from "talk-ui/types";
+import TranslatedRole from "coral-admin/components/TranslatedRole";
+import { GQLUSER_ROLE } from "coral-framework/schema";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./RoleText.css";
 

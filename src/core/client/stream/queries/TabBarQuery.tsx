@@ -1,12 +1,12 @@
-import React, { Component } from "react";
 import {
   graphql,
   QueryRenderer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
+import React, { Component } from "react";
 
-import { TabBarQuery as QueryTypes } from "talk-stream/__generated__/TabBarQuery.graphql";
-import { TabBarQueryLocal as Local } from "talk-stream/__generated__/TabBarQueryLocal.graphql";
+import { TabBarQuery as QueryTypes } from "coral-stream/__generated__/TabBarQuery.graphql";
+import { TabBarQueryLocal as Local } from "coral-stream/__generated__/TabBarQueryLocal.graphql";
 
 import TabBarContainer from "../containers/TabBarContainer";
 

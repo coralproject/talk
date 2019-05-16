@@ -1,8 +1,8 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { OrganizationContactEmailConfigContainer_settings as SettingsData } from "talk-admin/__generated__/OrganizationContactEmailConfigContainer_settings.graphql";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { OrganizationContactEmailConfigContainer_settings as SettingsData } from "coral-admin/__generated__/OrganizationContactEmailConfigContainer_settings.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import OrganizationContactEmailConfig from "../components/OrganizationContactEmailConfig";
 

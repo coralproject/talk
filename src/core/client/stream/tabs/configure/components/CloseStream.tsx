@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button, Flex, Typography } from "talk-ui/components";
+import { Button, Flex, Typography } from "coral-ui/components";
 
 import styles from "./CloseStream.css";
 

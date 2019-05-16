@@ -1,7 +1,7 @@
-import TenantContext from "talk-server/graph/tenant/context";
-import { GQLUpdateSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
-import { Tenant } from "talk-server/models/tenant";
-import { regenerateSSOKey, update } from "talk-server/services/tenant";
+import TenantContext from "coral-server/graph/tenant/context";
+import { GQLUpdateSettingsInput } from "coral-server/graph/tenant/schema/__generated__/types";
+import { Tenant } from "coral-server/models/tenant";
+import { regenerateSSOKey, update } from "coral-server/services/tenant";
 
 export const Settings = ({
   mongo,

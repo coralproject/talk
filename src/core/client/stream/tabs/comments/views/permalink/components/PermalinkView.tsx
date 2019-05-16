@@ -1,11 +1,16 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, MouseEvent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Button, Flex, HorizontalGutter, Typography } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import {
+  Button,
+  Flex,
+  HorizontalGutter,
+  Typography,
+} from "coral-ui/components";
 
-import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
-import ReplyListContainer from "talk-stream/tabs/comments/containers/ReplyListContainer";
+import UserBoxContainer from "coral-stream/containers/UserBoxContainer";
+import ReplyListContainer from "coral-stream/tabs/comments/containers/ReplyListContainer";
 
 import ConversationThreadContainer from "../containers/ConversationThreadContainer";
 

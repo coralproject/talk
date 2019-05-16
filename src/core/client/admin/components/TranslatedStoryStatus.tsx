@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React from "react";
 
-import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
+import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
 
 interface Props {
   container?: React.ReactElement<any> | React.ComponentType<any> | string;

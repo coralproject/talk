@@ -2,9 +2,9 @@ import { Match, RouteProps, Router, withRouter } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ModerateContainerQueryResponse } from "talk-admin/__generated__/ModerateContainerQuery.graphql";
-import { withRouteConfig } from "talk-framework/lib/router";
-import { Spinner } from "talk-ui/components";
+import { ModerateContainerQueryResponse } from "coral-admin/__generated__/ModerateContainerQuery.graphql";
+import { withRouteConfig } from "coral-framework/lib/router";
+import { Spinner } from "coral-ui/components";
 
 import Moderate from "../components/Moderate";
 

@@ -1,7 +1,7 @@
 import sinon from "sinon";
 
-import { pureMerge } from "talk-common/utils";
-import { waitForElement, within } from "talk-framework/testHelpers";
+import { pureMerge } from "coral-common/utils";
+import { waitForElement, within } from "coral-framework/testHelpers";
 
 import { commenters, settings, storyWithNoComments } from "../fixtures";
 import create from "./create";

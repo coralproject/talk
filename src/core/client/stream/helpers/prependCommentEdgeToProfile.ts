@@ -5,7 +5,7 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getViewerSourceID } from "talk-framework/helpers";
+import { getViewerSourceID } from "coral-framework/helpers";
 
 export default function prependCommentEdgeToProfile(
   environment: Environment,

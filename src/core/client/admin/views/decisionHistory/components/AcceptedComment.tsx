@@ -9,7 +9,7 @@ import GoToCommentLink from "./GoToCommentLink";
 import Info from "./Info";
 import Timestamp from "./Timestamp";
 
-import { Typography } from "talk-ui/components";
+import { Typography } from "coral-ui/components";
 
 interface Props {
   href: string;

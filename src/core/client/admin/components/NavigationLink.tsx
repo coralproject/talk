@@ -1,7 +1,7 @@
 import { Link, LocationDescriptor } from "found";
 import React, { FunctionComponent } from "react";
 
-import { AppBarNavigationItem } from "talk-ui/components";
+import { AppBarNavigationItem } from "coral-ui/components";
 
 interface Props {
   children: React.ReactNode;

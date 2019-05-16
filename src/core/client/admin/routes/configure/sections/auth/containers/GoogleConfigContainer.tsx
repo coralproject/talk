@@ -1,9 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { GoogleConfigContainer_auth as AuthData } from "talk-admin/__generated__/GoogleConfigContainer_auth.graphql";
-import { GoogleConfigContainer_authReadOnly as AuthReadOnlyData } from "talk-admin/__generated__/GoogleConfigContainer_authReadOnly.graphql";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { GoogleConfigContainer_auth as AuthData } from "coral-admin/__generated__/GoogleConfigContainer_auth.graphql";
+import { GoogleConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/GoogleConfigContainer_authReadOnly.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import GoogleConfig from "../components/GoogleConfig";
 

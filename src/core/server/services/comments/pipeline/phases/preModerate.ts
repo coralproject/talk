@@ -1,12 +1,12 @@
 import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_MODE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { GlobalModerationSettings } from "talk-server/models/settings";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { GlobalModerationSettings } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 const testModerationMode = (settings: Partial<GlobalModerationSettings>) =>
   settings.moderation === GQLMODERATION_MODE.PRE;

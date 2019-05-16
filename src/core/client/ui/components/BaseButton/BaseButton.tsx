@@ -14,8 +14,8 @@ import {
   withKeyboardFocus,
   withMouseHover,
   withStyles,
-} from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+} from "coral-ui/hocs";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./BaseButton.css";
 

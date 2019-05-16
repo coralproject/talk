@@ -1,7 +1,7 @@
 import {
   GQLOIDCAuthIntegration,
   GQLOIDCAuthIntegrationTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { reconstructTenantURLResolver } from "./util";
 

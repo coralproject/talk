@@ -1,9 +1,9 @@
-import { createContextHOC } from "talk-framework/helpers";
-import { TalkContext, TalkContextConsumer } from "./TalkContext";
+import { createContextHOC } from "coral-framework/helpers";
+import { CoralContext, CoralContextConsumer } from "./CoralContext";
 
-const withContext = createContextHOC<TalkContext>(
+const withContext = createContextHOC<CoralContext>(
   "withContext",
-  TalkContextConsumer
+  CoralContextConsumer
 );
 
 export default withContext;

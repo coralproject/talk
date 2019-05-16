@@ -1,13 +1,13 @@
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
-import { withFragmentContainer } from "talk-framework/lib/relay";
 
-import { MessageBoxContainer_story as StoryData } from "talk-stream/__generated__/MessageBoxContainer_story.graphql";
+import { MessageBoxContainer_story as StoryData } from "coral-stream/__generated__/MessageBoxContainer_story.graphql";
 import {
   MessageBox,
   MessageBoxContent,
   MessageBoxIcon,
-} from "talk-stream/components/MessageBox";
+} from "coral-stream/components/MessageBox";
 
 interface Props {
   story: StoryData;

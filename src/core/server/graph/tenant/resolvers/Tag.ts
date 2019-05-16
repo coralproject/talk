@@ -1,9 +1,9 @@
-import { GQLTagTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLTagTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   COMMENT_TAG_TYPE_TRANSLATIONS,
   CommentTag,
-} from "talk-server/models/comment/tag";
-import { translate } from "talk-server/services/i18n";
+} from "coral-server/models/comment/tag";
+import { translate } from "coral-server/services/i18n";
 
 export const Tag: GQLTagTypeResolver<CommentTag> = {
   name: ({ type }, input, ctx) => {

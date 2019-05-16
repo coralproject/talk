@@ -1,9 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import AuthBox from "talk-admin/components/AuthBox";
-import { PropTypesOf } from "talk-framework/types";
-import { CallOut, HorizontalGutter } from "talk-ui/components";
+import AuthBox from "coral-admin/components/AuthBox";
+import { PropTypesOf } from "coral-framework/types";
+import { CallOut, HorizontalGutter } from "coral-ui/components";
 
 import SignInWithEmailContainer from "../containers/SignInWithEmailContainer";
 import SignInWithFacebookContainer from "../containers/SignInWithFacebookContainer";

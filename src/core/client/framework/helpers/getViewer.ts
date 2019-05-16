@@ -1,6 +1,6 @@
+import { lookup } from "coral-framework/lib/relay";
+import { GQLUser } from "coral-framework/schema";
 import { Environment } from "relay-runtime";
-import { lookup } from "talk-framework/lib/relay";
-import { GQLUser } from "talk-framework/schema";
 
 import getViewerSourceID from "./getViewerSourceID";
 

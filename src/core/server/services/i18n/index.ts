@@ -2,8 +2,8 @@ import { FluentBundle } from "fluent/compat";
 import fs from "fs-extra";
 import path from "path";
 
-import { LanguageCode, LOCALES } from "talk-common/helpers/i18n/locales";
-import config from "talk-server/config";
+import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
+import config from "coral-server/config";
 
 /**
  * isLanguageCode will return true if the string is a `LanguageCode`.

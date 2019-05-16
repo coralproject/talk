@@ -6,7 +6,7 @@
 }
 
 .textarea {
-  composes: bodyCopy from "talk-ui/shared/typography.css";
+  composes: bodyCopy from "coral-ui/shared/typography.css";
   display: block;
   height: 150px;
   width: 100%;

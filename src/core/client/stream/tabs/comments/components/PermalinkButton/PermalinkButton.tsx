@@ -7,7 +7,7 @@ import {
   ClickOutside,
   MatchMedia,
   Popover,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import PermalinkPopover from "./PermalinkPopover";
 

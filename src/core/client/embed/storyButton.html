@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Talk 5.0 – Embed Stream – Story with Button</title>
+    <title>Coral 5.0 – Embed Stream – Story with Button</title>
     <meta charset="utf-8" />
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no" />
@@ -18,7 +18,7 @@
       <a href="/admin">Admin</a> | <a href="/">Default</a> |
       <a href="/story.html">Story</a>
     </p>
-    <h1 style="text-align: center">Talk 5.0 – Story with Button</h1>
+    <h1 style="text-align: center">Coral 5.0 – Story with Button</h1>
     <p>
       Dismember a mouse and then regurgitate parts of it on the family room
       floor. Dont wait for the storm to pass, dance in the rain stand in front
@@ -121,20 +121,20 @@
       <button id="showComments">Show Comments</button>
     </div>
     <script>
-      const TalkStreamEmbed = Coral.Talk.createStreamEmbed({
+      const CoralStreamEmbed = Coral.Coral.createStreamEmbed({
         id: "coralStreamEmbed",
       });
-      window.TalkStreamEmbed = TalkStreamEmbed;
+      window.CoralStreamEmbed = CoralStreamEmbed;
 
       const button = document.getElementById("showComments");
 
       const showStreamEmbed = () => {
-        TalkStreamEmbed.render();
+        CoralStreamEmbed.render();
         button.parentElement.removeChild(button);
       };
 
       button.onclick = showStreamEmbed;
-      TalkStreamEmbed.on("showPermalink", showStreamEmbed);
+      CoralStreamEmbed.on("showPermalink", showStreamEmbed);
     </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Typography } from "talk-ui/components";
+import { Typography } from "coral-ui/components";
 
 import styles from "./Info.css";
 

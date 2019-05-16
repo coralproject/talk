@@ -4,8 +4,8 @@ import React, { Component } from "react";
 import {
   SetPasswordMutation,
   withSetPasswordMutation,
-} from "talk-auth/mutations/SetPasswordMutation";
-import { PropTypesOf } from "talk-framework/types";
+} from "coral-auth/mutations/SetPasswordMutation";
+import { PropTypesOf } from "coral-framework/types";
 
 import CreatePassword from "../components/CreatePassword";
 

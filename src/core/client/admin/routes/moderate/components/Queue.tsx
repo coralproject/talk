@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import AutoLoadMoreContainer from "talk-admin/containers/AutoLoadMoreContainer";
-import { Flex, HorizontalGutter } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
+import AutoLoadMoreContainer from "coral-admin/containers/AutoLoadMoreContainer";
+import { Flex, HorizontalGutter } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 import ModerateCardContainer from "../containers/ModerateCardContainer";
 

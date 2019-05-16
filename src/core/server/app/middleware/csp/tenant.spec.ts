@@ -1,5 +1,5 @@
-import { generateFrameOptions } from "talk-server/app/middleware/csp/tenant";
-import { Request } from "talk-server/types/express";
+import { generateFrameOptions } from "coral-server/app/middleware/csp/tenant";
+import { Request } from "coral-server/types/express";
 
 it("denies when the tenant has no specified domains", () => {
   const tenant = { domains: [] };

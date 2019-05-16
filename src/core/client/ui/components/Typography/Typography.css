@@ -4,72 +4,72 @@
 }
 
 .heading1 {
-  composes: heading1 from "talk-ui/shared/typography.css";
+  composes: heading1 from "coral-ui/shared/typography.css";
 }
 
 .heading2 {
-  composes: heading2 from "talk-ui/shared/typography.css";
+  composes: heading2 from "coral-ui/shared/typography.css";
 }
 
 .heading3 {
-  composes: heading3 from "talk-ui/shared/typography.css";
+  composes: heading3 from "coral-ui/shared/typography.css";
 }
 
 .heading4 {
-  composes: heading4 from "talk-ui/shared/typography.css";
+  composes: heading4 from "coral-ui/shared/typography.css";
 }
 
 .heading5 {
-  composes: heading5 from "talk-ui/shared/typography.css";
+  composes: heading5 from "coral-ui/shared/typography.css";
 }
 
 .header1 {
-  composes: header1 from "talk-ui/shared/typography.css";
+  composes: header1 from "coral-ui/shared/typography.css";
 }
 
 .header2 {
-  composes: header2 from "talk-ui/shared/typography.css";
+  composes: header2 from "coral-ui/shared/typography.css";
 }
 
 .header3 {
-  composes: header3 from "talk-ui/shared/typography.css";
+  composes: header3 from "coral-ui/shared/typography.css";
 }
 
 .header4 {
-  composes: header4 from "talk-ui/shared/typography.css";
+  composes: header4 from "coral-ui/shared/typography.css";
 }
 
 .header5 {
-  composes: header5 from "talk-ui/shared/typography.css";
+  composes: header5 from "coral-ui/shared/typography.css";
 }
 
 .bodyCopy {
-  composes: bodyCopy from "talk-ui/shared/typography.css";
+  composes: bodyCopy from "coral-ui/shared/typography.css";
 }
 
 .bodyCopyBold {
-  composes: bodyCopy from "talk-ui/shared/typography.css";
+  composes: bodyCopy from "coral-ui/shared/typography.css";
   font-weight: var(--font-weight-medium);
 }
 
 .button {
-  composes: button from "talk-ui/shared/typography.css";
+  composes: button from "coral-ui/shared/typography.css";
 }
 
 .buttonLarge {
-  composes: buttonLarge from "talk-ui/shared/typography.css";
+  composes: buttonLarge from "coral-ui/shared/typography.css";
 }
 
 .inputLabel {
-  composes: inputLabel from "talk-ui/shared/typography.css";
+  composes: inputLabel from "coral-ui/shared/typography.css";
 }
 
 .detail {
-  composes: detail from "talk-ui/shared/typography.css";
+  composes: detail from "coral-ui/shared/typography.css";
 }
 
 .timestamp {
-  composes: timestamp from "talk-ui/shared/typography.css";
+  composes: timestamp from "coral-ui/shared/typography.css";
 }
 
 .alignLeft {

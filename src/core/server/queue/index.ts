@@ -1,15 +1,15 @@
 import Queue from "bull";
 import { Db } from "mongodb";
 
-import { Config } from "talk-server/config";
-import { createMailerTask, MailerQueue } from "talk-server/queue/tasks/mailer";
+import { Config } from "coral-server/config";
+import { createMailerTask, MailerQueue } from "coral-server/queue/tasks/mailer";
 import {
   createScraperTask,
   ScraperQueue,
-} from "talk-server/queue/tasks/scraper";
-import { I18n } from "talk-server/services/i18n";
-import { createRedisClient } from "talk-server/services/redis";
-import TenantCache from "talk-server/services/tenant/cache";
+} from "coral-server/queue/tasks/scraper";
+import { I18n } from "coral-server/services/i18n";
+import { createRedisClient } from "coral-server/services/redis";
+import TenantCache from "coral-server/services/tenant/cache";
 
 const createQueueOptions = async (
   config: Config

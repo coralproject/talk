@@ -2,7 +2,7 @@ import cn from "classnames";
 import React, { ChangeEvent, Component, Ref } from "react";
 import SimpleMDE from "simplemde";
 
-import { GetMessage, withGetMessage } from "talk-framework/lib/i18n";
+import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 
 import styles from "./MarkdownEditor.css";
 

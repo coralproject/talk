@@ -1,13 +1,13 @@
 import { get } from "lodash";
 import sinon from "sinon";
 
-import { pureMerge } from "talk-common/utils";
+import { pureMerge } from "coral-common/utils";
 import {
   toJSON,
   wait,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";

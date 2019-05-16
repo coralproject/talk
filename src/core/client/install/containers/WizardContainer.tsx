@@ -8,7 +8,7 @@ import AddOrganizationContainer from "../steps/containers/AddOrganizationContain
 import CreateYourAccountContainer from "../steps/containers/CreateYourAccountContainer";
 import PermittedDomainsContainer from "../steps/containers/PermittedDomainsContainer";
 
-import { InstallInput } from "talk-framework/rest";
+import { InstallInput } from "coral-framework/rest";
 
 interface FormData {
   organizationName: string;

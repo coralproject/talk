@@ -54,7 +54,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
       <p
         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
-        To learn more: 
+        To learn more:
         <a
           className="TextLink-root"
           href="https://openid.net/connect/"
@@ -203,7 +203,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          After entering your Issuer information, click the Discover button to have Talk complete
+          After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
         </p>
         <div
@@ -354,7 +354,7 @@ the remaining fields. You may also enter the information manually.
               <span
                 className="CheckBox-labelSpan"
               >
-                Talk Admin
+                Coral Admin
               </span>
             </label>
           </div>
@@ -490,7 +490,7 @@ exports[`change settings: enable facebook configure box 1`] = `
       >
         To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
-For more information visit: 
+For more information visit:
         <a
           className="TextLink-root"
           href="https://developers.facebook.com/docs/facebook-login/web"
@@ -631,7 +631,7 @@ For more information visit:
               <span
                 className="CheckBox-labelSpan"
               >
-                Talk Admin
+                Coral Admin
               </span>
             </label>
           </div>
@@ -765,7 +765,7 @@ exports[`change settings: enable oidc configure box 1`] = `
       <p
         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
-        To learn more: 
+        To learn more:
         <a
           className="TextLink-root"
           href="https://openid.net/connect/"
@@ -914,7 +914,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          After entering your Issuer information, click the Discover button to have Talk complete
+          After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
         </p>
         <div
@@ -1065,7 +1065,7 @@ the remaining fields. You may also enter the information manually.
               <span
                 className="CheckBox-labelSpan"
               >
-                Talk Admin
+                Coral Admin
               </span>
             </label>
           </div>
@@ -1199,7 +1199,7 @@ exports[`change settings: oidc validation errors 1`] = `
       <p
         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
-        To learn more: 
+        To learn more:
         <a
           className="TextLink-root"
           href="https://openid.net/connect/"
@@ -1387,7 +1387,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         <p
           className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
-          After entering your Issuer information, click the Discover button to have Talk complete
+          After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
         </p>
         <div
@@ -1590,7 +1590,7 @@ the remaining fields. You may also enter the information manually.
               <span
                 className="CheckBox-labelSpan"
               >
-                Talk Admin
+                Coral Admin
               </span>
             </label>
           </div>
@@ -1676,7 +1676,7 @@ exports[`prevents admin lock out 1`] = `
   data-testid="configure-auth-submitError"
 >
   <span>
-    Please enable at least one authentication integration for Talk Admin
+    Please enable at least one authentication integration for Coral Admin
   </span>
 </div>
 `;
@@ -1944,7 +1944,7 @@ exports[`renders configure auth 1`] = `
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Talk Admin
+                            Coral Admin
                           </span>
                         </label>
                       </div>
@@ -2075,7 +2075,7 @@ integration to register for a new account.
                   <p
                     className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
-                    To learn more: 
+                    To learn more:
                     <a
                       className="TextLink-root"
                       href="https://openid.net/connect/"
@@ -2224,7 +2224,7 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     <p
                       className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
-                      After entering your Issuer information, click the Discover button to have Talk complete
+                      After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
                     </p>
                     <div
@@ -2375,7 +2375,7 @@ the remaining fields. You may also enter the information manually.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Talk Admin
+                            Coral Admin
                           </span>
                         </label>
                       </div>
@@ -2597,7 +2597,7 @@ and all signed-in users will be signed out.
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Talk Admin
+                            Coral Admin
                           </span>
                         </label>
                       </div>
@@ -2870,7 +2870,7 @@ to create and set up a web application. For more information visit:
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Talk Admin
+                            Coral Admin
                           </span>
                         </label>
                       </div>
@@ -3003,7 +3003,7 @@ integration to register for a new account.
                   >
                     To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
-For more information visit: 
+For more information visit:
                     <a
                       className="TextLink-root"
                       href="https://developers.facebook.com/docs/facebook-login/web"
@@ -3144,7 +3144,7 @@ For more information visit:
                           <span
                             className="CheckBox-labelSpan"
                           >
-                            Talk Admin
+                            Coral Admin
                           </span>
                         </label>
                       </div>

@@ -1,7 +1,7 @@
 import { noop } from "lodash";
 import { ReactTestRenderer } from "react-test-renderer";
 
-import { pureMerge } from "talk-common/utils";
+import { pureMerge } from "coral-common/utils";
 import {
   GQLCOMMENT_STATUS,
   GQLResolver,
@@ -9,7 +9,7 @@ import {
   MutationToAcceptCommentResolver,
   MutationToRejectCommentResolver,
   QueryToCommentResolver,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import {
   createMutationResolverStub,
   createQueryResolverStub,
@@ -22,7 +22,7 @@ import {
   waitForElement,
   waitUntilThrow,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "../create";
 import {

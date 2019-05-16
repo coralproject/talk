@@ -2,15 +2,15 @@ import { flattenDeep, identity, isEmpty, pickBy } from "lodash";
 import { Db } from "mongodb";
 import ms from "ms";
 
-import logger from "talk-server/logger";
-import { EncodedCommentActionCounts } from "talk-server/models/action/comment";
-import { Story } from "talk-server/models/story";
+import logger from "coral-server/logger";
+import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
+import { Story } from "coral-server/models/story";
 import {
   CommentModerationCountsPerQueue,
   CommentStatusCounts,
   StoryCounts,
-} from "talk-server/models/story/counts";
-import { AugmentedPipeline, AugmentedRedis } from "talk-server/services/redis";
+} from "coral-server/models/story/counts";
+import { AugmentedPipeline, AugmentedRedis } from "coral-server/services/redis";
 
 import {
   createEmptyCommentModerationCountsPerQueue,

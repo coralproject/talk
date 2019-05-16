@@ -31,11 +31,11 @@ process.on("unhandledRejection", err => {
 import express from "express";
 import throng from "throng";
 
-import createTalk from "./core";
+import createCoral from "./core";
 import Server from "./core/server";
 import logger from "./core/server/logger";
 
-// Create the app that will serve as the mounting point for the Talk Server.
+// Create the app that will serve as the mounting point for the Coral Server.
 const parent = express();
 
 // worker will start the worker process.
@@ -67,13 +67,13 @@ async function master(server: Server) {
   }
 }
 
-// bootstrap will create a new Talk server, and start it up.
+// bootstrap will create a new Coral server, and start it up.
 async function bootstrap() {
   try {
     logger.debug("starting bootstrap");
 
     // Create the server instance.
-    const server = createTalk();
+    const server = createCoral();
 
     // Determine the number of workers.
     const workerCount = server.config.get("concurrency");

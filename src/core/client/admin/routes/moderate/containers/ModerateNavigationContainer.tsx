@@ -1,9 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "talk-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
-import { ModerateNavigationContainer_story as StoryData } from "talk-admin/__generated__/ModerateNavigationContainer_story.graphql";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
+import { ModerateNavigationContainer_story as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import Navigation from "../components/Navigation";
 

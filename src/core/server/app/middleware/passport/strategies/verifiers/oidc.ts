@@ -1,11 +1,11 @@
 import jwks, { JwksClient } from "jwks-rsa";
 import { Db } from "mongodb";
 
-import { AppOptions } from "talk-server/app";
-import { Tenant } from "talk-server/models/tenant";
-import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
+import { AppOptions } from "coral-server/app";
+import { Tenant } from "coral-server/models/tenant";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
 
-import logger from "talk-server/logger";
+import logger from "coral-server/logger";
 import { Verifier } from "../jwt";
 import {
   findOrCreateOIDCUserWithToken,

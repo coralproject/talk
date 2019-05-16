@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 
-import { SignUpContainer_auth as AuthData } from "talk-auth/__generated__/SignUpContainer_auth.graphql";
-import { SetViewMutation } from "talk-auth/mutations";
+import { SignUpContainer_auth as AuthData } from "coral-auth/__generated__/SignUpContainer_auth.graphql";
+import { SetViewMutation } from "coral-auth/mutations";
 import {
   graphql,
   MutationProp,
   withFragmentContainer,
   withMutation,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
-import { getViewURL } from "talk-auth/helpers";
+import { getViewURL } from "coral-auth/helpers";
 import SignUp from "../components/SignUp";
 
 interface Props {

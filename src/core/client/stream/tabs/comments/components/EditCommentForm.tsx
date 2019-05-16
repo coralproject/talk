@@ -3,8 +3,8 @@ import { Localized } from "fluent-react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 import { Field, Form } from "react-final-form";
 
-import { OnSubmit } from "talk-framework/lib/form";
-import Timestamp from "talk-stream/components/Timestamp";
+import { OnSubmit } from "coral-framework/lib/form";
+import Timestamp from "coral-stream/components/Timestamp";
 import {
   AriaInfo,
   Button,
@@ -15,7 +15,7 @@ import {
   MessageIcon,
   RelativeTime,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import RemainingCharactersContainer from "../containers/RemainingCharactersContainer";
 import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../helpers";

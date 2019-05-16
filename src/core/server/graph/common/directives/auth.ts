@@ -1,22 +1,22 @@
 import { DirectiveResolverFn } from "graphql-tools";
 import { memoize } from "lodash";
 
-import { GraphQLResolveInfo, ResponsePath } from "graphql";
 import {
   UserBanned,
   UserForbiddenError,
   UserSuspended,
-} from "talk-server/errors";
-import CommonContext from "talk-server/graph/common/context";
+} from "coral-server/errors";
+import CommonContext from "coral-server/graph/common/context";
 import {
   GQLUSER_AUTH_CONDITIONS,
   GQLUSER_ROLE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   consolidateUserStatus,
   consolidateUserSuspensionStatus,
   User,
-} from "talk-server/models/user";
+} from "coral-server/models/user";
+import { GraphQLResolveInfo, ResponsePath } from "graphql";
 
 // Replace `memoize.Cache`.
 memoize.Cache = WeakMap;

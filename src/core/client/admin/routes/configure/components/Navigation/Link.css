@@ -1,5 +1,5 @@
 .link {
-  composes: sideNavigationItem from "talk-ui/shared/typography.css";
+  composes: sideNavigationItem from "coral-ui/shared/typography.css";
   display: inline-block;
   padding: calc(0.5 * var(--mini-unit)) var(--mini-unit)
     calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) + 2px);
@@ -12,7 +12,7 @@
 }
 
 .linkActive {
-  composes: sideNavigationActive from "talk-ui/shared/typography.css";
+  composes: sideNavigationActive from "coral-ui/shared/typography.css";
   margin-left: 0px;
   border-left: calc(0.5 * var(--mini-unit)) solid var(--palette-brand-main);
   padding-left: var(--mini-unit);

@@ -1,13 +1,13 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { CloseStoryMutation as MutationTypes } from "talk-admin/__generated__/CloseStoryMutation.graphql";
+import { CloseStoryMutation as MutationTypes } from "coral-admin/__generated__/CloseStoryMutation.graphql";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
-} from "talk-framework/lib/relay";
-import { GQLSTORY_STATUS } from "talk-framework/schema";
+} from "coral-framework/lib/relay";
+import { GQLSTORY_STATUS } from "coral-framework/schema";
 
 let clientMutationId = 0;
 

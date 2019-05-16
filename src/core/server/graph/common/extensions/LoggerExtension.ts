@@ -6,7 +6,7 @@ import {
 } from "graphql-extensions";
 import now from "performance-now";
 
-import CommonContext from "talk-server/graph/common/context";
+import CommonContext from "coral-server/graph/common/context";
 import { getOperationMetadata } from "./helpers";
 
 export function logError(ctx: CommonContext, err: GraphQLError) {

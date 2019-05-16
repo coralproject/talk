@@ -2,12 +2,12 @@ import cn from "classnames";
 import React from "react";
 import { Manager, Popper, Reference, RefHandler } from "react-popper";
 
-import { oncePerFrame } from "talk-common/utils";
-import { withStyles } from "talk-ui/hocs";
+import { oncePerFrame } from "coral-common/utils";
+import { withStyles } from "coral-ui/hocs";
 
 import AriaInfo from "../AriaInfo";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 import styles from "./Popover.css";
 
 type Placement =

@@ -1,9 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { Ref } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Button, ButtonIcon, MatchMedia } from "talk-ui/components";
-import { withForwardRef } from "talk-ui/hocs";
+import { PropTypesOf } from "coral-framework/types";
+import { Button, ButtonIcon, MatchMedia } from "coral-ui/components";
+import { withForwardRef } from "coral-ui/hocs";
 
 import styles from "./ReportButton.css";
 

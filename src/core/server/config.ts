@@ -3,7 +3,7 @@ import Joi from "joi";
 import { parseConnectionString } from "mongodb-core";
 import os from "os";
 
-import { LOCALES } from "talk-common/helpers/i18n/locales";
+import { LOCALES } from "coral-common/helpers/i18n/locales";
 
 import { InternalError } from "./errors";
 
@@ -113,7 +113,7 @@ const config = convict({
   mongodb: {
     doc: "The MongoDB database to connect to.",
     format: "mongo-uri",
-    default: "mongodb://127.0.0.1:27017/talk",
+    default: "mongodb://127.0.0.1:27017/coral",
     env: "MONGODB_URI",
     arg: "mongodb",
     sensitive: true,

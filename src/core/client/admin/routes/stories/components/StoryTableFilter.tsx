@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
+import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import {
   Button,
   FieldSet,
@@ -12,7 +12,7 @@ import {
   SelectField,
   TextField,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./StoryTableFilter.css";
 

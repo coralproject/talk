@@ -1,8 +1,8 @@
-import Context from "talk-server/graph/tenant/context";
+import Context from "coral-server/graph/tenant/context";
 import {
   CommentActionConnectionInput,
   retrieveCommentActionConnection,
-} from "talk-server/models/action/comment";
+} from "coral-server/models/action/comment";
 
 export default (ctx: Context) => ({
   connection: ({ first = 10, after, filter }: CommentActionConnectionInput) =>

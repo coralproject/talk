@@ -1,7 +1,7 @@
 import React from "react";
 
-import { BaseButton, Icon } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
+import { BaseButton, Icon } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 import ReportCommentFormContainer from "../containers/ReportCommentFormContainer";
 import styles from "./ReportPopover.css";

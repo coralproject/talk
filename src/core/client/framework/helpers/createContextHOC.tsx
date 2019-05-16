@@ -6,8 +6,8 @@ import {
 } from "recompose";
 
 /**
- * withContext is a HOC wrapper around `TalkContextConsumer`.
- * `propsCallback` must be provided which accepts the `TalkContext`
+ * withContext is a HOC wrapper around `CoralContextConsumer`.
+ * `propsCallback` must be provided which accepts the `CoralContext`
  * and returns the props the should be injected.
  */
 function createContextHOC<Context>(

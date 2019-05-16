@@ -2,8 +2,8 @@ import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { StoriesContainerQueryResponse } from "talk-admin/__generated__/StoriesContainerQuery.graphql";
-import { withRouteConfig } from "talk-framework/lib/router";
+import { StoriesContainerQueryResponse } from "coral-admin/__generated__/StoriesContainerQuery.graphql";
+import { withRouteConfig } from "coral-framework/lib/router";
 
 import Stories from "../components/Stories";
 

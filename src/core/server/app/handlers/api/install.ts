@@ -1,15 +1,15 @@
 import Joi from "joi";
 
-import { LanguageCode, LOCALES } from "talk-common/helpers/i18n/locales";
-import { Omit } from "talk-common/types";
-import { AppOptions } from "talk-server/app";
-import { validate } from "talk-server/app/request/body";
-import { TenantInstalledAlreadyError } from "talk-server/errors";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { LocalProfile } from "talk-server/models/user";
-import { install, InstallTenant } from "talk-server/services/tenant";
-import { insert, InsertUser } from "talk-server/services/users";
-import { RequestHandler } from "talk-server/types/express";
+import { LanguageCode, LOCALES } from "coral-common/helpers/i18n/locales";
+import { Omit } from "coral-common/types";
+import { AppOptions } from "coral-server/app";
+import { validate } from "coral-server/app/request/body";
+import { TenantInstalledAlreadyError } from "coral-server/errors";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { LocalProfile } from "coral-server/models/user";
+import { install, InstallTenant } from "coral-server/services/tenant";
+import { insert, InsertUser } from "coral-server/services/users";
+import { RequestHandler } from "coral-server/types/express";
 
 export interface TenantInstallBody {
   tenant: Omit<InstallTenant, "domain" | "locale"> & {
@@ -62,15 +62,15 @@ export const installHandler = ({
   config,
 }: TenantInstallHandlerOptions): RequestHandler => async (req, res, next) => {
   try {
-    if (!req.talk) {
-      return next(new Error("talk was not set"));
+    if (!req.coral) {
+      return next(new Error("coral was not set"));
     }
 
-    if (!req.talk.cache) {
+    if (!req.coral.cache) {
       return next(new Error("cache was not set"));
     }
 
-    if (req.talk.tenant) {
+    if (req.coral.tenant) {
       // There's already a Tenant on the request! No need to process further.
       return next(new TenantInstalledAlreadyError());
     }
@@ -93,7 +93,7 @@ export const installHandler = ({
     const tenant = await install(
       mongo,
       redis,
-      req.talk.cache.tenant,
+      req.coral.cache.tenant,
       {
         ...tenantInput,
         // Infer the Tenant domain via the hostname parameter.
@@ -102,7 +102,7 @@ export const installHandler = ({
         // config.
         locale,
       },
-      req.talk.now
+      req.coral.now
     );
 
     // Pull the user details out of the input for the user.
@@ -125,7 +125,7 @@ export const installHandler = ({
         profiles: [profile],
         role: GQLUSER_ROLE.ADMIN,
       },
-      req.talk.now
+      req.coral.now
     );
 
     // Send back the Tenant.

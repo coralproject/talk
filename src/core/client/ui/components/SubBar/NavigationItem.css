@@ -3,7 +3,7 @@
 }
 
 .anchor {
-  composes: adminTabItem from "talk-ui/shared/typography.css";
+  composes: adminTabItem from "coral-ui/shared/typography.css";
   color: var(--palette-grey-dark);
   height: 100%;
   display: inline-flex;
@@ -24,7 +24,7 @@
 }
 
 .active {
-  composes: adminTabItemActive from "talk-ui/shared/typography.css";
+  composes: adminTabItemActive from "coral-ui/shared/typography.css";
   border-bottom: 3px solid var(--palette-primary-main);
   color: var(--palette-primary-main);
 }

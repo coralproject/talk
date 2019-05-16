@@ -1,4 +1,4 @@
-import { dotize } from "talk-common/utils/dotize";
+import { dotize } from "coral-common/utils/dotize";
 
 it("converts nested properties", () => {
   const input = {

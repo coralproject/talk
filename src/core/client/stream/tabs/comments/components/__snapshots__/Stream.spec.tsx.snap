@@ -47,7 +47,7 @@ exports[`renders correctly 1`] = `
   <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
-    id="talk-comments-stream-log"
+    id="coral-comments-stream-log"
     role="log"
   >
     <ForwardRef(forwardRef)
@@ -193,7 +193,7 @@ exports[`when there is more disables load more button 1`] = `
   <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
-    id="talk-comments-stream-log"
+    id="coral-comments-stream-log"
     role="log"
   >
     <ForwardRef(forwardRef)
@@ -292,10 +292,10 @@ exports[`when there is more disables load more button 1`] = `
       id="comments-stream-loadMore"
     >
       <ForwardRef(forwardRef)
-        aria-controls="talk-comments-stream-log"
+        aria-controls="coral-comments-stream-log"
         disabled={true}
         fullWidth={true}
-        id="talk-comments-stream-loadMore"
+        id="coral-comments-stream-loadMore"
         onClick={[Function]}
         variant="outlined"
       >
@@ -353,7 +353,7 @@ exports[`when there is more renders a load more button 1`] = `
   <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
-    id="talk-comments-stream-log"
+    id="coral-comments-stream-log"
     role="log"
   >
     <ForwardRef(forwardRef)
@@ -452,10 +452,10 @@ exports[`when there is more renders a load more button 1`] = `
       id="comments-stream-loadMore"
     >
       <ForwardRef(forwardRef)
-        aria-controls="talk-comments-stream-log"
+        aria-controls="coral-comments-stream-log"
         disabled={false}
         fullWidth={true}
-        id="talk-comments-stream-loadMore"
+        id="coral-comments-stream-loadMore"
         onClick={[Function]}
         variant="outlined"
       >
@@ -513,7 +513,7 @@ exports[`when use is logged in renders correctly 1`] = `
   <ForwardRef(forwardRef)
     aria-live="polite"
     data-testid="comments-stream-log"
-    id="talk-comments-stream-log"
+    id="coral-comments-stream-log"
     role="log"
   >
     <ForwardRef(forwardRef)

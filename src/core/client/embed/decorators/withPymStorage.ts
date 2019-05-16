@@ -4,7 +4,7 @@ import { Decorator } from "./types";
 const withPymStorage = (
   storage: Storage,
   type: "localStorage" | "sessionStorage",
-  prefix = "talk:"
+  prefix = "coral:"
 ): Decorator => pym => {
   pym.onMessage(`pymStorage.${type}.request`, (msg: any) => {
     const { id, method, parameters } = JSON.parse(msg);

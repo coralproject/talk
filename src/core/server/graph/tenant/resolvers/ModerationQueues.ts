@@ -3,18 +3,18 @@ import {
   GQLModerationQueuesTypeResolver,
   QueryToModerationQueuesResolver,
   RejectCommentPayloadToModerationQueuesResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { CommentConnectionInput } from "talk-server/models/comment";
-import { FilterQuery } from "talk-server/models/helpers/query";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { CommentConnectionInput } from "coral-server/models/comment";
+import { FilterQuery } from "coral-server/models/helpers/query";
 import {
   CommentModerationCountsPerQueue,
   Story,
-} from "talk-server/models/story";
+} from "coral-server/models/story";
 import {
   PENDING_STATUS,
   REPORTED_STATUS,
   UNMODERATED_STATUSES,
-} from "talk-server/services/comments/moderation/counts";
+} from "coral-server/services/comments/moderation/counts";
 
 import TenantContext from "../context";
 import { ModerationQueueInput } from "./ModerationQueue";

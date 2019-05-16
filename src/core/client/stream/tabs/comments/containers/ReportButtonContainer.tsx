@@ -1,9 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { ReportButtonContainer_comment as CommentData } from "talk-stream/__generated__/ReportButtonContainer_comment.graphql";
-import { ReportButtonContainer_viewer as ViewerData } from "talk-stream/__generated__/ReportButtonContainer_viewer.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { ReportButtonContainer_comment as CommentData } from "coral-stream/__generated__/ReportButtonContainer_comment.graphql";
+import { ReportButtonContainer_viewer as ViewerData } from "coral-stream/__generated__/ReportButtonContainer_viewer.graphql";
 
 import {
   ReportButton,
@@ -13,7 +13,7 @@ import {
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 interface ReportButtonContainerProps {
   comment: CommentData;

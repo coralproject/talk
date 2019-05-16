@@ -1,6 +1,6 @@
 import { isArray, mergeWith } from "lodash";
 
-import { DeepPartial } from "talk-common/types";
+import { DeepPartial } from "coral-common/types";
 
 function mergeCopyArrays(objValue: any, srcValue: any) {
   if (isArray(objValue)) {

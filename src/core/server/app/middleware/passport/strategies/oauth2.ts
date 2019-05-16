@@ -1,16 +1,16 @@
 import { Db } from "mongodb";
 import { Strategy } from "passport-strategy";
 
+import { Config } from "coral-server/config";
+import { IntegrationDisabled } from "coral-server/errors";
+import { AuthIntegrations } from "coral-server/models/settings";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
+import { Request } from "coral-server/types/express";
 import { Profile } from "passport";
 import { VerifyCallback } from "passport-oauth2";
-import { Config } from "talk-server/config";
-import { IntegrationDisabled } from "talk-server/errors";
-import { AuthIntegrations } from "talk-server/models/settings";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import TenantCache from "talk-server/services/tenant/cache";
-import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
-import { Request } from "talk-server/types/express";
 
 interface OAuth2Integration {
   enabled: boolean;
@@ -71,9 +71,9 @@ export default abstract class OAuth2Strategy<
     done: VerifyCallback
   ) => {
     try {
-      // Talk is defined at this point.
-      const tenant = req.talk!.tenant!;
-      const now = req.talk!.now;
+      // Coral is defined at this point.
+      const tenant = req.coral!.tenant!;
+      const now = req.coral!.now;
 
       // Get the integration.
       const integration = this.getIntegration(tenant.auth.integrations);
@@ -97,8 +97,8 @@ export default abstract class OAuth2Strategy<
 
   public authenticate(req: Request) {
     try {
-      // Talk is defined at this point.
-      const tenant = req.talk!.tenant!;
+      // Coral is defined at this point.
+      const tenant = req.coral!.tenant!;
 
       // Get the integration.
       const integration = this.getIntegration(tenant.auth.integrations);

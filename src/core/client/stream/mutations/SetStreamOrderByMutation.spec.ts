@@ -1,7 +1,7 @@
 import { Environment, RecordSource } from "relay-runtime";
 
-import { LOCAL_ID } from "talk-framework/lib/relay";
-import { createRelayEnvironment } from "talk-framework/testHelpers";
+import { LOCAL_ID } from "coral-framework/lib/relay";
+import { createRelayEnvironment } from "coral-framework/testHelpers";
 
 import { commit } from "./SetStreamOrderByMutation";
 

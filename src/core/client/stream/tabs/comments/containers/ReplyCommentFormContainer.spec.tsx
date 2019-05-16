@@ -4,11 +4,11 @@ import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { pureMerge } from "talk-common/utils";
-import { createPromisifiedStorage } from "talk-framework/lib/storage";
-import { removeFragmentRefs } from "talk-framework/testHelpers";
-import { DeepPartial, PropTypesOf } from "talk-framework/types";
+import { timeout } from "coral-common/utils";
+import { pureMerge } from "coral-common/utils";
+import { createPromisifiedStorage } from "coral-framework/lib/storage";
+import { removeFragmentRefs } from "coral-framework/testHelpers";
+import { DeepPartial, PropTypesOf } from "coral-framework/types";
 import { ReplyCommentFormContainer } from "./ReplyCommentFormContainer";
 
 const ReplyCommentFormContainerN = removeFragmentRefs(

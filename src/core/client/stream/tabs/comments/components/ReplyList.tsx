@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Button, HorizontalGutter } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { Button, HorizontalGutter } from "coral-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import Indent from "./Indent";
@@ -33,7 +33,7 @@ export interface ReplyListProps {
 const ReplyList: FunctionComponent<ReplyListProps> = props => {
   return (
     <HorizontalGutter
-      id={`talk-comments-replyList-log--${props.comment.id}`}
+      id={`coral-comments-replyList-log--${props.comment.id}`}
       data-testid={`commentReplyList-${props.comment.id}`}
       role="log"
     >
@@ -57,8 +57,10 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
         <Indent level={props.indentLevel} noBorder>
           <Localized id="comments-replyList-showAll">
             <Button
-              id={`talk-comments-replyList-showAll--${props.comment.id}`}
-              aria-controls={`talk-comments-replyList-log--${props.comment.id}`}
+              id={`coral-comments-replyList-showAll--${props.comment.id}`}
+              aria-controls={`coral-comments-replyList-log--${
+                props.comment.id
+              }`}
               onClick={props.onShowAll}
               disabled={props.disableShowAll}
               variant="outlined"

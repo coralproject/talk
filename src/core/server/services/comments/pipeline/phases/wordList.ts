@@ -1,13 +1,13 @@
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/action/comment";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
-import { containsMatchingPhraseMemoized } from "talk-server/services/comments/pipeline/wordList";
+} from "coral-server/services/comments/pipeline";
+import { containsMatchingPhraseMemoized } from "coral-server/services/comments/pipeline/wordList";
 
 // This phase checks the comment against the wordList.
 export const wordList: IntermediateModerationPhase = ({

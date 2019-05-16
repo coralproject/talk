@@ -3,7 +3,7 @@ import { camelCase, isEqual, omit, pick, uniqWith } from "lodash";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { Omit, Sub } from "talk-common/types";
+import { Omit, Sub } from "coral-common/types";
 import {
   GQLActionPresence,
   GQLCOMMENT_FLAG_DETECTED_REASON,
@@ -12,18 +12,18 @@ import {
   GQLDontAgreeActionCounts,
   GQLFlagActionCounts,
   GQLReactionActionCounts,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   Connection,
   ConnectionInput,
   resolveConnection,
-} from "talk-server/models/helpers/connection";
+} from "coral-server/models/helpers/connection";
 import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "talk-server/models/helpers/indexing";
-import Query, { FilterQuery } from "talk-server/models/helpers/query";
-import { TenantResource } from "talk-server/models/tenant";
+} from "coral-server/models/helpers/indexing";
+import Query, { FilterQuery } from "coral-server/models/helpers/query";
+import { TenantResource } from "coral-server/models/tenant";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<CommentAction>>("commentActions");
@@ -120,7 +120,7 @@ export interface CommentAction extends TenantResource {
 
   /**
    * userID is the ID of the User that left this Action. In the event that the
-   * Action was left by Talk, it will be null.
+   * Action was left by Coral, it will be null.
    */
   userID: string | null;
 

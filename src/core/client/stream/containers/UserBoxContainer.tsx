@@ -5,21 +5,24 @@ import {
   graphql,
   withFragmentContainer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
-import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
-import { UserBoxContainer_settings as SettingsData } from "talk-stream/__generated__/UserBoxContainer_settings.graphql";
-import { UserBoxContainer_viewer as ViewerData } from "talk-stream/__generated__/UserBoxContainer_viewer.graphql";
-import { UserBoxContainerLocal as Local } from "talk-stream/__generated__/UserBoxContainerLocal.graphql";
-import UserBoxUnauthenticated from "talk-stream/components/UserBoxUnauthenticated";
+} from "coral-framework/lib/relay";
+import {
+  SignOutMutation,
+  withSignOutMutation,
+} from "coral-framework/mutations";
+import { UserBoxContainer_settings as SettingsData } from "coral-stream/__generated__/UserBoxContainer_settings.graphql";
+import { UserBoxContainer_viewer as ViewerData } from "coral-stream/__generated__/UserBoxContainer_viewer.graphql";
+import { UserBoxContainerLocal as Local } from "coral-stream/__generated__/UserBoxContainerLocal.graphql";
+import UserBoxUnauthenticated from "coral-stream/components/UserBoxUnauthenticated";
 import {
   SetAuthPopupStateMutation,
   ShowAuthPopupMutation,
   withSetAuthPopupStateMutation,
   withShowAuthPopupMutation,
-} from "talk-stream/mutations";
-import { Popup } from "talk-ui/components";
+} from "coral-stream/mutations";
+import { Popup } from "coral-ui/components";
 
-import { urls } from "talk-framework/helpers";
+import { urls } from "coral-framework/helpers";
 import UserBoxAuthenticated from "../components/UserBoxAuthenticated";
 
 interface Props {
@@ -89,7 +92,7 @@ export class UserBoxContainer extends Component<Props> {
       <>
         <Popup
           href={`${urls.embed.auth}?view=${view}`}
-          title="Talk Auth"
+          title="Coral Auth"
           features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
           open={open}
           focus={focus}

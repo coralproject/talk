@@ -1,7 +1,7 @@
+import TabBarQuery from "coral-stream/queries/TabBarQuery";
+import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components";
 import * as React from "react";
 import { FunctionComponent } from "react";
-import TabBarQuery from "talk-stream/queries/TabBarQuery";
-import { HorizontalGutter, TabContent, TabPane } from "talk-ui/components";
 
 import CommentsPaneContainer from "../tabs/comments/containers/CommentsPaneContainer";
 import ConfigureQuery from "../tabs/configure/queries/ConfigureQuery";

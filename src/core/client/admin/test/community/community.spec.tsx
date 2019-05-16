@@ -1,12 +1,12 @@
 import TestRenderer from "react-test-renderer";
 
-import { pureMerge } from "talk-common/utils";
+import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
   QueryToUsersResolver,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import {
   createQueryResolverStub,
   createResolversStub,
@@ -16,7 +16,7 @@ import {
   waitForElement,
   waitUntilThrow,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "../create";
 import {

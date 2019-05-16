@@ -1,4 +1,4 @@
-import { createContextHOC } from "talk-framework/helpers";
+import { createContextHOC } from "coral-framework/helpers";
 import {
   SubmitHookContext,
   SubmitHookContextConsumer,

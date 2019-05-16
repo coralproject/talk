@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { validate } from "talk-server/app/request/body";
+import { validate } from "coral-server/app/request/body";
 
 it("strips out unknown fields", () => {
   const payload = { a: 1, b: 2, c: 3 };

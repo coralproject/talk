@@ -1,5 +1,5 @@
-import { isInstalled } from "talk-server/services/tenant";
-import { RequestHandler } from "talk-server/types/express";
+import { isInstalled } from "coral-server/services/tenant";
+import { RequestHandler } from "coral-server/types/express";
 
 export interface InstalledMiddlewareOptions {
   redirectURL?: string;
@@ -21,18 +21,18 @@ export const installedMiddleware = ({
   res,
   next
 ) => {
-  if (!req.talk) {
-    return next(new Error("talk was not set"));
+  if (!req.coral) {
+    return next(new Error("coral was not set"));
   }
 
-  if (!req.talk.cache) {
+  if (!req.coral.cache) {
     return next(new Error("cache was not set"));
   }
 
-  const installed = await isInstalled(req.talk.cache.tenant);
+  const installed = await isInstalled(req.coral.cache.tenant);
 
-  // If Talk is installed, and redirectIfInstall is true, then it will redirect.
-  // If Talk is not installed, and redirectIfInstall is false, then it will also
+  // If Coral is installed, and redirectIfInstall is true, then it will redirect.
+  // If Coral is not installed, and redirectIfInstall is false, then it will also
   // redirect.
   if (installed === redirectIfInstalled) {
     return res.redirect(redirectURL);

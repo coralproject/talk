@@ -1,12 +1,12 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { Omit } from "talk-common/types";
-import logger from "talk-server/logger";
+import { Omit } from "coral-common/types";
+import logger from "coral-server/logger";
 import {
   encodeActionCounts,
   filterDuplicateActions,
-} from "talk-server/models/action/comment";
+} from "coral-server/models/action/comment";
 import {
   createComment,
   CreateCommentInput,
@@ -16,22 +16,22 @@ import {
   pushChildCommentIDOntoParent,
   retrieveComment,
   validateEditable,
-} from "talk-server/models/comment";
+} from "coral-server/models/comment";
 import {
   retrieveStory,
   StoryCounts,
   updateStoryCounts,
-} from "talk-server/models/story";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import { Request } from "talk-server/types/express";
+} from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import { Request } from "coral-server/types/express";
 
-import { ERROR_TYPES } from "talk-common/errors";
+import { ERROR_TYPES } from "coral-common/errors";
 import {
   CommentNotFoundError,
+  CoralError,
   StoryNotFoundError,
-  TalkError,
-} from "talk-server/errors";
+} from "coral-server/errors";
 import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
@@ -108,7 +108,7 @@ export async function create(
     });
   } catch (err) {
     if (
-      err instanceof TalkError &&
+      err instanceof CoralError &&
       err.type === ERROR_TYPES.MODERATION_NUDGE_ERROR
     ) {
       log.info({ err }, "detected pipeline nudge");

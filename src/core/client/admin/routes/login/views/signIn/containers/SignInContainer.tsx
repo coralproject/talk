@@ -1,16 +1,16 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
 
-import { SignInContainer_auth as AuthData } from "talk-admin/__generated__/SignInContainer_auth.graphql";
-import { SignInContainerLocal as LocalData } from "talk-admin/__generated__/SignInContainerLocal.graphql";
-import { ClearAuthErrorMutation, SignInMutation } from "talk-admin/mutations";
+import { SignInContainer_auth as AuthData } from "coral-admin/__generated__/SignInContainer_auth.graphql";
+import { SignInContainerLocal as LocalData } from "coral-admin/__generated__/SignInContainerLocal.graphql";
+import { ClearAuthErrorMutation, SignInMutation } from "coral-admin/mutations";
 import {
   graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
   withMutation,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 import SignIn from "../components/SignIn";
 

@@ -3,7 +3,7 @@ import linkifyjs from "linkifyjs/html";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 // linkify configuration.
 const config = {

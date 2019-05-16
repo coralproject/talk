@@ -1,16 +1,16 @@
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/action/comment";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 import {
   getCommentTrustScore,
   isReliableCommenter,
-} from "talk-server/services/users/karma";
+} from "coral-server/services/users/karma";
 
 // This phase checks to see if the user making the comment is allowed to do so
 // considering their reliability (Trust) status.

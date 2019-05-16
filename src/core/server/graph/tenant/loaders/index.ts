@@ -1,4 +1,4 @@
-import Context from "talk-server/graph/tenant/context";
+import Context from "coral-server/graph/tenant/context";
 
 import Auth from "./Auth";
 import CommentActions from "./CommentActions";

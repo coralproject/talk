@@ -1,11 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { useEffect, useState } from "react";
 
-import { CheckResetTokenFetch } from "talk-account/fetches";
-import { ERROR_CODES } from "talk-common/errors";
-import { InvalidRequestError } from "talk-framework/lib/errors";
-import { useFetch } from "talk-framework/lib/relay";
-import { Delay, Flex, Spinner } from "talk-ui/components";
+import { CheckResetTokenFetch } from "coral-account/fetches";
+import { ERROR_CODES } from "coral-common/errors";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useFetch } from "coral-framework/lib/relay";
+import { Delay, Flex, Spinner } from "coral-ui/components";
 
 import Sorry from "./Sorry";
 

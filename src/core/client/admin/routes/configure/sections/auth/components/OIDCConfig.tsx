@@ -8,7 +8,7 @@ import {
   required,
   validateURL,
   Validator,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   Button,
   Flex,
@@ -18,7 +18,7 @@ import {
   TextField,
   TextLink,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import HorizontalRule from "../../../components/HorizontalRule";
 import ClientIDField from "./ClientIDField";
@@ -132,7 +132,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
             <Localized id="configure-auth-oidc-issuerDescription">
               <ConfigDescription>
                 After entering your Issuer information, click the Discover
-                button to have Talk complete the remaining fields. You may also
+                button to have Coral complete the remaining fields. You may also
                 enter the information manually
               </ConfigDescription>
             </Localized>

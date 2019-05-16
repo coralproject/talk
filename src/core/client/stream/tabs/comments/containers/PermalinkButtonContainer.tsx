@@ -1,8 +1,8 @@
+import { getURLWithCommentID } from "coral-framework/helpers";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { PermalinkButtonContainer_story as StoryData } from "coral-stream/__generated__/PermalinkButtonContainer_story.graphql";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
-import { getURLWithCommentID } from "talk-framework/helpers";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PermalinkButtonContainer_story as StoryData } from "talk-stream/__generated__/PermalinkButtonContainer_story.graphql";
 
 import PermalinkButton from "../components/PermalinkButton";
 

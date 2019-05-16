@@ -1,12 +1,12 @@
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { ACTION_TYPE } from "talk-server/models/action/comment";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   compose,
   ModerationPhaseContext,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 const context = {
   comment: { body: "This is a test" },

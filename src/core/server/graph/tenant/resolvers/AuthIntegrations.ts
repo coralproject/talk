@@ -1,7 +1,7 @@
 import {
   GQLAuthIntegrations,
   GQLAuthIntegrationsTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 const disabled = { enabled: false };
 

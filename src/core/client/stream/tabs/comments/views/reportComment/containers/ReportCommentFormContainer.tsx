@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
-import { InvalidRequestError } from "talk-framework/lib/errors";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
-import { ReportCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReportCommentFormContainer_comment.graphql";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { PropTypesOf } from "coral-framework/types";
+import { ReportCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReportCommentFormContainer_comment.graphql";
 
 import {
   CreateCommentDontAgreeMutation,
   CreateCommentFlagMutation,
   withCreateCommentDontAgreeMutation,
   withCreateCommentFlagMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 import ReportCommentForm from "../components/ReportCommentForm";
 import ThankYou from "../components/ThankYou";
 

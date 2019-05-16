@@ -1,9 +1,9 @@
-import TenantContext from "talk-server/graph/tenant/context";
+import TenantContext from "coral-server/graph/tenant/context";
 import {
   CommentToStatusHistoryArgs,
   UserToCommentModerationActionHistoryArgs,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { retrieveCommentModerationActionConnection } from "talk-server/models/action/moderation/comment";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { retrieveCommentModerationActionConnection } from "coral-server/models/action/moderation/comment";
 
 export default (ctx: TenantContext) => ({
   forModerator: (

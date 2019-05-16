@@ -1,10 +1,10 @@
 import { Environment, RecordSource } from "relay-runtime";
 import sinon from "sinon";
 
-import { timeout } from "talk-common/utils";
-import { parseQuery } from "talk-common/utils";
-import { LOCAL_ID } from "talk-framework/lib/relay";
-import { createRelayEnvironment } from "talk-framework/testHelpers";
+import { timeout } from "coral-common/utils";
+import { parseQuery } from "coral-common/utils";
+import { LOCAL_ID } from "coral-framework/lib/relay";
+import { createRelayEnvironment } from "coral-framework/testHelpers";
 
 import { commit } from "./SetCommentIDMutation";
 

@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 
-import { Omit } from "talk-common/types";
-import { GQLCOMMENT_FLAG_REPORTED_REASON } from "talk-server/graph/tenant/schema/__generated__/types";
+import { Omit } from "coral-common/types";
+import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_TYPE,
   CommentAction,
@@ -12,19 +12,19 @@ import {
   removeAction,
   RemoveActionInput,
   retrieveUserAction,
-} from "talk-server/models/action/comment";
+} from "coral-server/models/action/comment";
 import {
   getLatestRevision,
   retrieveComment,
   updateCommentActionCounts,
-} from "talk-server/models/comment";
-import { Comment } from "talk-server/models/comment";
+} from "coral-server/models/comment";
+import { Comment } from "coral-server/models/comment";
 import {
   updateStoryActionCounts,
   updateStoryCounts,
-} from "talk-server/models/story";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
+} from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
 
 import { AugmentedRedis } from "../redis";
 import { calculateCountsDiff } from "./moderation/counts";

@@ -4,18 +4,18 @@ import { FluentBundle } from "fluent/compat";
 import uuid from "uuid";
 import { VError } from "verror";
 
-import { ERROR_CODES, ERROR_TYPES } from "talk-common/errors";
-import { translate } from "talk-server/services/i18n";
+import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
+import { translate } from "coral-server/services/i18n";
 
-import { GQLUSER_AUTH_CONDITIONS } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ERROR_TRANSLATIONS } from "./translations";
 
 /**
- * TalkErrorExtensions is the different extension data that is associated with
+ * CoralErrorExtensions is the different extension data that is associated with
  * a given error. This data is surfaced in the GraphQL, REST error response as
  * well as via logs.
  */
-export interface TalkErrorExtensions {
+export interface CoralErrorExtensions {
   /**
    * id identifies this specific error that was thrown, allowing offline tracing
    * to occur.
@@ -23,7 +23,7 @@ export interface TalkErrorExtensions {
   readonly id: string;
 
   /**
-   * code is the identifier specific to this Error. No other TalkError should
+   * code is the identifier specific to this Error. No other CoralError should
    * share the same code.
    */
   readonly code: ERROR_CODES;
@@ -46,7 +46,7 @@ export interface TalkErrorExtensions {
   param?: string;
 }
 
-export interface TalkErrorContext {
+export interface CoralErrorContext {
   /**
    * pub stores information that is used by the translation framework
    * to provide context to the error being emitted to pass publicly. Sensitive
@@ -63,11 +63,11 @@ export interface TalkErrorContext {
 }
 
 /**
- * TalkErrorOptions describes the options used to create a TalkError.
+ * CoralErrorOptions describes the options used to create a CoralError.
  */
-export interface TalkErrorOptions {
+export interface CoralErrorOptions {
   /**
-   * code is the identifier specific to this Error. No other TalkError should
+   * code is the identifier specific to this Error. No other CoralError should
    * share the same code.
    */
   code: ERROR_CODES;
@@ -75,7 +75,7 @@ export interface TalkErrorOptions {
   /**
    * context stores the public and private details about the error.
    */
-  context?: Partial<TalkErrorContext>;
+  context?: Partial<CoralErrorContext>;
 
   /**
    * status is the number sent via the REST error responses. GraphQL responses
@@ -102,7 +102,7 @@ export interface TalkErrorOptions {
   param?: string;
 }
 
-export class TalkError extends VError {
+export class CoralError extends VError {
   /**
    * id identifies this specific error that was thrown, allowing offline tracing
    * to occur.
@@ -110,7 +110,7 @@ export class TalkError extends VError {
   public readonly id: string;
 
   /**
-   * code is the identifier specific to this Error. No other TalkError should
+   * code is the identifier specific to this Error. No other CoralError should
    * share the same code.
    */
   public readonly code: ERROR_CODES;
@@ -136,7 +136,7 @@ export class TalkError extends VError {
   /**
    * context stores the public and private details about the error.
    */
-  public readonly context: Readonly<TalkErrorContext>;
+  public readonly context: Readonly<CoralErrorContext>;
 
   constructor({
     code,
@@ -145,7 +145,7 @@ export class TalkError extends VError {
     type = ERROR_TYPES.INVALID_REQUEST_ERROR,
     cause,
     param,
-  }: TalkErrorOptions) {
+  }: CoralErrorOptions) {
     // Call the super method with the right arguments depending on if we're
     // supposed to be handling a causal error or not.
     if (cause) {
@@ -172,7 +172,9 @@ export class TalkError extends VError {
     this.param = param;
   }
 
-  public serializeExtensions(bundle: FluentBundle | null): TalkErrorExtensions {
+  public serializeExtensions(
+    bundle: FluentBundle | null
+  ): CoralErrorExtensions {
     let message: string;
     if (bundle) {
       message = translate(
@@ -195,7 +197,7 @@ export class TalkError extends VError {
   }
 }
 
-export class CommentingDisabledError extends TalkError {
+export class CommentingDisabledError extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.COMMENTING_DISABLED,
@@ -203,7 +205,7 @@ export class CommentingDisabledError extends TalkError {
   }
 }
 
-export class StoryClosedError extends TalkError {
+export class StoryClosedError extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.STORY_CLOSED,
@@ -211,7 +213,7 @@ export class StoryClosedError extends TalkError {
   }
 }
 
-export class CommentBodyTooShortError extends TalkError {
+export class CommentBodyTooShortError extends CoralError {
   constructor(min: number) {
     super({
       code: ERROR_CODES.COMMENT_BODY_TOO_SHORT,
@@ -220,7 +222,7 @@ export class CommentBodyTooShortError extends TalkError {
   }
 }
 
-export class CommentBodyExceedsMaxLengthError extends TalkError {
+export class CommentBodyExceedsMaxLengthError extends CoralError {
   constructor(max: number) {
     super({
       code: ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
@@ -229,7 +231,7 @@ export class CommentBodyExceedsMaxLengthError extends TalkError {
   }
 }
 
-export class URLInvalidError extends TalkError {
+export class URLInvalidError extends CoralError {
   constructor({
     url,
     ...properties
@@ -245,7 +247,7 @@ export class URLInvalidError extends TalkError {
   }
 }
 
-export class StoryURLInvalidError extends TalkError {
+export class StoryURLInvalidError extends CoralError {
   constructor(properties: {
     storyURL: string;
     tenantDomains: string[];
@@ -258,61 +260,61 @@ export class StoryURLInvalidError extends TalkError {
   }
 }
 
-export class DuplicateUserError extends TalkError {
+export class DuplicateUserError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.DUPLICATE_USER });
   }
 }
 
-export class EmailNotSetError extends TalkError {
+export class EmailNotSetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.EMAIL_NOT_SET });
   }
 }
 
-export class DuplicateStoryURLError extends TalkError {
+export class DuplicateStoryURLError extends CoralError {
   constructor(url: string) {
     super({ code: ERROR_CODES.DUPLICATE_STORY_URL, context: { pvt: { url } } });
   }
 }
 
-export class DuplicateEmailError extends TalkError {
+export class DuplicateEmailError extends CoralError {
   constructor(email: string) {
     super({ code: ERROR_CODES.DUPLICATE_EMAIL, context: { pvt: { email } } });
   }
 }
 
-export class UsernameAlreadySetError extends TalkError {
+export class UsernameAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.USERNAME_ALREADY_SET });
   }
 }
 
-export class EmailAlreadySetError extends TalkError {
+export class EmailAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.EMAIL_ALREADY_SET });
   }
 }
 
-export class LocalProfileNotSetError extends TalkError {
+export class LocalProfileNotSetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.LOCAL_PROFILE_NOT_SET });
   }
 }
 
-export class LocalProfileAlreadySetError extends TalkError {
+export class LocalProfileAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.LOCAL_PROFILE_ALREADY_SET });
   }
 }
 
-export class UsernameContainsInvalidCharactersError extends TalkError {
+export class UsernameContainsInvalidCharactersError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.USERNAME_CONTAINS_INVALID_CHARACTERS });
   }
 }
 
-export class UsernameExceedsMaxLengthError extends TalkError {
+export class UsernameExceedsMaxLengthError extends CoralError {
   constructor(length: number, max: number) {
     super({
       code: ERROR_CODES.USERNAME_EXCEEDS_MAX_LENGTH,
@@ -321,7 +323,7 @@ export class UsernameExceedsMaxLengthError extends TalkError {
   }
 }
 
-export class UsernameTooShortError extends TalkError {
+export class UsernameTooShortError extends CoralError {
   constructor(length: number, min: number) {
     super({
       code: ERROR_CODES.USERNAME_TOO_SHORT,
@@ -330,7 +332,7 @@ export class UsernameTooShortError extends TalkError {
   }
 }
 
-export class PasswordTooShortError extends TalkError {
+export class PasswordTooShortError extends CoralError {
   constructor(length: number, min: number) {
     super({
       code: ERROR_CODES.PASSWORD_TOO_SHORT,
@@ -339,13 +341,13 @@ export class PasswordTooShortError extends TalkError {
   }
 }
 
-export class EmailInvalidFormatError extends TalkError {
+export class EmailInvalidFormatError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.EMAIL_INVALID_FORMAT });
   }
 }
 
-export class EmailExceedsMaxLengthError extends TalkError {
+export class EmailExceedsMaxLengthError extends CoralError {
   constructor(length: number, max: number) {
     super({
       code: ERROR_CODES.EMAIL_EXCEEDS_MAX_LENGTH,
@@ -354,13 +356,13 @@ export class EmailExceedsMaxLengthError extends TalkError {
   }
 }
 
-export class TokenNotFoundError extends TalkError {
+export class TokenNotFoundError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.TOKEN_NOT_FOUND });
   }
 }
 
-export class TokenInvalidError extends TalkError {
+export class TokenInvalidError extends CoralError {
   constructor(token: string, reason: string, cause?: Error) {
     super({
       code: ERROR_CODES.TOKEN_INVALID,
@@ -371,7 +373,7 @@ export class TokenInvalidError extends TalkError {
   }
 }
 
-export class UserForbiddenError extends TalkError {
+export class UserForbiddenError extends CoralError {
   constructor(
     reason: string,
     resource: string,
@@ -390,19 +392,19 @@ export class UserForbiddenError extends TalkError {
   }
 }
 
-export class UserNotFoundError extends TalkError {
+export class UserNotFoundError extends CoralError {
   constructor(userID: string) {
     super({ code: ERROR_CODES.USER_NOT_FOUND, context: { pub: { userID } } });
   }
 }
 
-export class StoryNotFoundError extends TalkError {
+export class StoryNotFoundError extends CoralError {
   constructor(storyID: string) {
     super({ code: ERROR_CODES.STORY_NOT_FOUND, context: { pvt: { storyID } } });
   }
 }
 
-export class CommentNotFoundError extends TalkError {
+export class CommentNotFoundError extends CoralError {
   constructor(commentID: string) {
     super({
       code: ERROR_CODES.COMMENT_NOT_FOUND,
@@ -411,7 +413,7 @@ export class CommentNotFoundError extends TalkError {
   }
 }
 
-export class TenantNotFoundError extends TalkError {
+export class TenantNotFoundError extends CoralError {
   constructor(hostname: string) {
     super({
       code: ERROR_CODES.TENANT_NOT_FOUND,
@@ -420,7 +422,7 @@ export class TenantNotFoundError extends TalkError {
   }
 }
 
-export class IntegrationDisabled extends TalkError {
+export class IntegrationDisabled extends CoralError {
   constructor(integrationName: string) {
     super({
       code: ERROR_CODES.INTEGRATION_DISABLED,
@@ -429,7 +431,7 @@ export class IntegrationDisabled extends TalkError {
   }
 }
 
-export class InternalError extends TalkError {
+export class InternalError extends CoralError {
   constructor(cause: Error, reason: string) {
     super({
       code: ERROR_CODES.INTERNAL_ERROR,
@@ -440,7 +442,7 @@ export class InternalError extends TalkError {
   }
 }
 
-export class NotFoundError extends TalkError {
+export class NotFoundError extends CoralError {
   constructor(method: string, path: string) {
     super({
       code: ERROR_CODES.NOT_FOUND,
@@ -450,13 +452,13 @@ export class NotFoundError extends TalkError {
   }
 }
 
-export class TenantInstalledAlreadyError extends TalkError {
+export class TenantInstalledAlreadyError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.TENANT_INSTALLED_ALREADY, status: 400 });
   }
 }
 
-export class InvalidCredentialsError extends TalkError {
+export class InvalidCredentialsError extends CoralError {
   constructor(reason: string) {
     super({
       code: ERROR_CODES.INVALID_CREDENTIALS,
@@ -466,7 +468,7 @@ export class InvalidCredentialsError extends TalkError {
   }
 }
 
-export class AuthenticationError extends TalkError {
+export class AuthenticationError extends CoralError {
   constructor(reason: string) {
     super({
       code: ERROR_CODES.AUTHENTICATION_ERROR,
@@ -476,7 +478,7 @@ export class AuthenticationError extends TalkError {
   }
 }
 
-export class ToxicCommentError extends TalkError {
+export class ToxicCommentError extends CoralError {
   constructor(model: string, score: number, threshold: number) {
     super({
       code: ERROR_CODES.TOXIC_COMMENT,
@@ -487,7 +489,7 @@ export class ToxicCommentError extends TalkError {
   }
 }
 
-export class SpamCommentError extends TalkError {
+export class SpamCommentError extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.SPAM_COMMENT,
@@ -497,7 +499,7 @@ export class SpamCommentError extends TalkError {
   }
 }
 
-export class UserAlreadySuspendedError extends TalkError {
+export class UserAlreadySuspendedError extends CoralError {
   constructor(until: Date) {
     super({
       code: ERROR_CODES.USER_ALREADY_SUSPENDED,
@@ -510,7 +512,7 @@ export class UserAlreadySuspendedError extends TalkError {
   }
 }
 
-export class UserAlreadyBannedError extends TalkError {
+export class UserAlreadyBannedError extends CoralError {
   constructor() {
     super({
       code: ERROR_CODES.USER_ALREADY_BANNED,
@@ -518,7 +520,7 @@ export class UserAlreadyBannedError extends TalkError {
   }
 }
 
-export class UserBanned extends TalkError {
+export class UserBanned extends CoralError {
   constructor(userID: string, resource?: string, operation?: string) {
     super({
       code: ERROR_CODES.USER_BANNED,
@@ -527,7 +529,7 @@ export class UserBanned extends TalkError {
   }
 }
 
-export class UserSuspended extends TalkError {
+export class UserSuspended extends CoralError {
   constructor(
     userID: string,
     until: Date,
@@ -541,7 +543,7 @@ export class UserSuspended extends TalkError {
   }
 }
 
-export class PasswordResetTokenExpired extends TalkError {
+export class PasswordResetTokenExpired extends CoralError {
   constructor(reason: string, cause?: Error) {
     super({
       code: ERROR_CODES.PASSWORD_RESET_TOKEN_EXPIRED,
@@ -552,7 +554,7 @@ export class PasswordResetTokenExpired extends TalkError {
   }
 }
 
-export class ConfirmEmailTokenExpired extends TalkError {
+export class ConfirmEmailTokenExpired extends CoralError {
   constructor(reason: string, cause?: Error) {
     super({
       code: ERROR_CODES.EMAIL_CONFIRM_TOKEN_EXPIRED,
@@ -563,7 +565,7 @@ export class ConfirmEmailTokenExpired extends TalkError {
   }
 }
 
-export class RateLimitExceeded extends TalkError {
+export class RateLimitExceeded extends CoralError {
   constructor(resource: string, max: number, tries: number) {
     super({
       code: ERROR_CODES.RATE_LIMIT_EXCEEDED,

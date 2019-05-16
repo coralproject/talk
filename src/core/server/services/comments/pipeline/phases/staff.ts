@@ -1,12 +1,12 @@
 import {
   GQLCOMMENT_STATUS,
   GQLUSER_ROLE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { COMMENT_TAG_TYPE } from "talk-server/models/comment/tag";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { COMMENT_TAG_TYPE } from "coral-server/models/comment/tag";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 // If a given user is a staff member, always approve their comment.
 export const staff: IntermediateModerationPhase = ({

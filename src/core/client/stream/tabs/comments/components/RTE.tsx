@@ -2,8 +2,8 @@ import { Blockquote, Bold, CoralRTE, Italic } from "@coralproject/rte";
 import { Localized as LocalizedOriginal } from "fluent-react/compat";
 import React, { FunctionComponent, Ref } from "react";
 
-import { Icon } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
+import { Icon } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./RTE.css";
 

@@ -3,7 +3,7 @@ import {
   required,
   validateMaxLength,
   validateMinLength,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 
 import getHTMLCharacterLength from "./getHTMLCharacterLength";
 

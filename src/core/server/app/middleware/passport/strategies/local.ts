@@ -1,15 +1,15 @@
 import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
-import { Redis } from "ioredis";
-import { VerifyCallback } from "talk-server/app/middleware/passport";
-import { RequestLimiter } from "talk-server/app/request/limiter";
-import { InvalidCredentialsError } from "talk-server/errors";
+import { VerifyCallback } from "coral-server/app/middleware/passport";
+import { RequestLimiter } from "coral-server/app/request/limiter";
+import { InvalidCredentialsError } from "coral-server/errors";
 import {
   retrieveUserWithProfile,
   verifyUserPassword,
-} from "talk-server/models/user";
-import { Request } from "talk-server/types/express";
+} from "coral-server/models/user";
+import { Request } from "coral-server/types/express";
+import { Redis } from "ioredis";
 
 const verifyFactory = (
   mongo: Db,
@@ -26,7 +26,7 @@ const verifyFactory = (
     await emailLimiter.test(req, email);
 
     // The tenant is guaranteed at this point.
-    const tenant = req.talk!.tenant!;
+    const tenant = req.coral!.tenant!;
 
     // Get the user from the database.
     const user = await retrieveUserWithProfile(mongo, tenant.id, {

@@ -1,7 +1,7 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { wait, waitForElement, within } from "talk-framework/testHelpers";
+import { wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";

@@ -1,6 +1,6 @@
-import { GQLCommentRevisionTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import { decodeActionCounts } from "talk-server/models/action/comment";
-import { Comment, Revision } from "talk-server/models/comment";
+import { GQLCommentRevisionTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
+import { decodeActionCounts } from "coral-server/models/action/comment";
+import { Comment, Revision } from "coral-server/models/comment";
 
 export interface WrappedCommentRevision {
   revision: Revision;

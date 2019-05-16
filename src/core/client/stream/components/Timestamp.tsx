@@ -1,7 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { RelativeTime } from "talk-ui/components";
+import { RelativeTime } from "coral-ui/components";
 
 import styles from "./Timestamp.css";
 

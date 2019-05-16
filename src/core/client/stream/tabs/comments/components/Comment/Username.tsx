@@ -1,7 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { MatchMedia, Typography } from "talk-ui/components";
+import { MatchMedia, Typography } from "coral-ui/components";
 
 import styles from "./Username.css";
 

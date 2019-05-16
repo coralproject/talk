@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Typography } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
+import { Typography } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./Header.css";
 

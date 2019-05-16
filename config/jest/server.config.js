@@ -12,8 +12,8 @@ module.exports = {
     "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest",
   },
   moduleNameMapper: {
-    "^talk-server/(.*)$": "<rootDir>/src/core/server/$1",
-    "^talk-common/(.*)$": "<rootDir>/src/core/common/$1",
+    "^coral-server/(.*)$": "<rootDir>/src/core/server/$1",
+    "^coral-common/(.*)$": "<rootDir>/src/core/common/$1",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   globals: {

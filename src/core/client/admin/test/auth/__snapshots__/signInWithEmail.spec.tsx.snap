@@ -418,7 +418,7 @@ exports[`renders sign in form 1`] = `
           <h1
             className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
           >
-            Talk
+            Coral
           </h1>
         </div>
         <div

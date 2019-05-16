@@ -2,14 +2,14 @@ import { stdSerializers } from "bunyan";
 import { GraphQLError } from "graphql";
 import StackUtils from "stack-utils";
 
-import { TalkError, TalkErrorContext } from "talk-server/errors";
+import { CoralError, CoralErrorContext } from "coral-server/errors";
 
 interface SerializedError {
   id?: string;
   message: string;
   name: string;
   stack?: string;
-  context?: TalkErrorContext;
+  context?: CoralErrorContext;
   originalError?: SerializedError;
 }
 
@@ -29,8 +29,8 @@ const errSerializer = (err: Error) => {
   if (err instanceof GraphQLError && err.originalError) {
     // If the error was caused by another error, integrate it.
     obj.originalError = errSerializer(err.originalError);
-  } else if (err instanceof TalkError) {
-    // Copy over the TalkError specific details.
+  } else if (err instanceof CoralError) {
+    // Copy over the CoralError specific details.
     obj.id = err.id;
     obj.context = err.context;
 

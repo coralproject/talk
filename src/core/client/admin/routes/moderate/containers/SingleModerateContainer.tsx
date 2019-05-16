@@ -3,7 +3,7 @@ import { noop } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { SingleModerateContainerQueryResponse } from "talk-admin/__generated__/SingleModerateContainerQuery.graphql";
+import { SingleModerateContainerQueryResponse } from "coral-admin/__generated__/SingleModerateContainerQuery.graphql";
 
 import NotFound from "../../NotFound";
 import LoadingQueue from "../components/LoadingQueue";

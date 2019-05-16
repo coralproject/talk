@@ -1,4 +1,4 @@
-import { ERROR_CODES } from "talk-common/errors";
+import { ERROR_CODES } from "coral-common/errors";
 
 export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   COMMENT_BODY_EXCEEDS_MAX_LENGTH: "error-commentBodyExceedsMaxLength",

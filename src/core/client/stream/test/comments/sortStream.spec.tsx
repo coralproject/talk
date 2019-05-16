@@ -4,7 +4,7 @@ import {
   createSinonStub,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import { settings, stories } from "../fixtures";
 import create from "./create";

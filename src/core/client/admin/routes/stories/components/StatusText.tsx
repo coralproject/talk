@@ -1,9 +1,9 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import TranslatedStoryStatus from "talk-admin/components/TranslatedStoryStatus";
+import TranslatedStoryStatus from "coral-admin/components/TranslatedStoryStatus";
 
-import { GQLSTORY_STATUS_RL } from "talk-framework/schema";
+import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import styles from "./StatusText.css";
 
 interface Props {

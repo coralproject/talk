@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
 
-import { withForwardRef, withStyles } from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./HorizontalGutter.css";
 

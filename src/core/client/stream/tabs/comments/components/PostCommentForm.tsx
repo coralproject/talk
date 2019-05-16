@@ -1,12 +1,12 @@
+import { PropTypesOf } from "coral-framework/types";
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
-import { PropTypesOf } from "talk-framework/types";
 
-import ValidationMessage from "talk-admin/routes/configure/components/ValidationMessage";
-import { OnSubmit } from "talk-framework/lib/form";
-import { AriaInfo, Button, Flex, HorizontalGutter } from "talk-ui/components";
+import ValidationMessage from "coral-admin/routes/configure/components/ValidationMessage";
+import { OnSubmit } from "coral-framework/lib/form";
+import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";
 
 import MessageBoxContainer from "../containers/MessageBoxContainer";
 import PostCommentSubmitStatusContainer from "../containers/PostCommentSubmitStatusContainer";

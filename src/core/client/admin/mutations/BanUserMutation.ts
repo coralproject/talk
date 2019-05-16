@@ -1,14 +1,14 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { BanUserMutation as MutationTypes } from "talk-admin/__generated__/BanUserMutation.graphql";
+import { BanUserMutation as MutationTypes } from "coral-admin/__generated__/BanUserMutation.graphql";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   lookup,
   MutationInput,
-} from "talk-framework/lib/relay";
-import { GQLUser, GQLUSER_STATUS } from "talk-framework/schema";
+} from "coral-framework/lib/relay";
+import { GQLUser, GQLUSER_STATUS } from "coral-framework/schema";
 
 let clientMutationId = 0;
 

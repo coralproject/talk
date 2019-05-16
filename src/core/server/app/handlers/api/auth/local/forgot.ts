@@ -1,18 +1,18 @@
 import Joi from "joi";
 
-import { AppOptions } from "talk-server/app";
-import { validate } from "talk-server/app/request/body";
-import { RequestLimiter } from "talk-server/app/request/limiter";
-import { IntegrationDisabled } from "talk-server/errors";
-import { retrieveUserWithProfile } from "talk-server/models/user";
-import { decodeJWT, extractJWTFromRequest } from "talk-server/services/jwt";
+import { AppOptions } from "coral-server/app";
+import { validate } from "coral-server/app/request/body";
+import { RequestLimiter } from "coral-server/app/request/limiter";
+import { IntegrationDisabled } from "coral-server/errors";
+import { retrieveUserWithProfile } from "coral-server/models/user";
+import { decodeJWT, extractJWTFromRequest } from "coral-server/services/jwt";
 import {
   generateResetURL,
   resetPassword,
   verifyResetTokenString,
-} from "talk-server/services/users/auth";
-import { validateEmail } from "talk-server/services/users/helpers";
-import { RequestHandler } from "talk-server/types/express";
+} from "coral-server/services/users/auth";
+import { validateEmail } from "coral-server/services/users/helpers";
+import { RequestHandler } from "coral-server/types/express";
 
 export interface ForgotBody {
   email: string;
@@ -56,8 +56,8 @@ export const forgotHandler = ({
       await ipLimiter.test(req, req.ip);
 
       // Tenant is guaranteed at this point.
-      const talk = req.talk!;
-      const tenant = talk.tenant!;
+      const coral = req.coral!;
+      const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
       if (!tenant.auth.integrations.local.enabled) {
@@ -75,7 +75,7 @@ export const forgotHandler = ({
       // Limit based on the email address.
       await emailLimiter.test(req, email);
 
-      const log = talk.logger.child({
+      const log = coral.logger.child({
         email,
         tenantID: tenant.id,
       });
@@ -99,7 +99,7 @@ export const forgotHandler = ({
         config,
         signingConfig,
         user,
-        req.talk!.now
+        req.coral!.now
       );
 
       // Add the email to the processing queue.
@@ -166,8 +166,8 @@ export const forgotResetHandler = ({
       await ipLimiter.test(req, req.ip);
 
       // Tenant is guaranteed at this point.
-      const talk = req.talk!;
-      const tenant = talk.tenant!;
+      const coral = req.coral!;
+      const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
       if (!tenant.auth.integrations.local.enabled) {
@@ -200,7 +200,7 @@ export const forgotResetHandler = ({
         signingConfig,
         tokenString,
         password,
-        talk.now
+        coral.now
       );
 
       return res.sendStatus(204);
@@ -239,8 +239,8 @@ export const forgotCheckHandler = ({
       await ipLimiter.test(req, req.ip);
 
       // Tenant is guaranteed at this point.
-      const talk = req.talk!;
-      const tenant = talk.tenant!;
+      const coral = req.coral!;
+      const tenant = coral.tenant!;
 
       // Check to ensure that the local integration has been enabled.
       if (!tenant.auth.integrations.local.enabled) {
@@ -265,7 +265,7 @@ export const forgotCheckHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        talk.now
+        coral.now
       );
 
       return res.sendStatus(204);

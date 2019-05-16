@@ -1,18 +1,19 @@
-# talk ![CircleCI](https://img.shields.io/circleci/project/github/coralproject/talk/next.svg)
+# Coral ![CircleCI](https://img.shields.io/circleci/project/github/coralproject/talk/next.svg)
 
-Online comments are broken. Our open-source commenting platform, Talk, rethinks
+Online comments are broken. Our open-source commenting platform, Coral, rethinks
 how moderation, comment display, and conversation function, creating the
 opportunity for safer, smarter discussions around your work.
-[Read more about Talk here](https://coralproject.net/talk).
+[Read more about Coral here](https://coralproject.net/talk).
 
 Built with <3 by The Coral Project, a part of [Vox Media](https://product.voxmedia.com/).
 
-Preview Talk easily by running Talk via a Heroku App:
+Preview Coral easily by running Coral via a Heroku App:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/coralproject/talk/tree/next)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of Contents
 
 - [Requirements](#requirements)
@@ -36,7 +37,7 @@ Preview Talk easily by running Talk via a Heroku App:
 
 ## Running
 
-You can install Talk using Docker or via Source. We recommend Docker, as it
+You can install Coral using Docker or via Source. We recommend Docker, as it
 provides the easiest deployment solution going forward, as all the dependencies
 are baked and shipped with the provided
 [coralproject/talk:next](https://hub.docker.com/r/coralproject/talk) image.
@@ -45,7 +46,7 @@ When v5 releases to master, you'll be able to select it using
 
 ### Docker
 
-The easiest way to get started with Talk is through our published Docker image
+The easiest way to get started with Coral is through our published Docker image
 and provided example `docker-compose.yml` file. The following assumes that you
 have Docker and Docker Compose installed on your local machine:
 
@@ -69,7 +70,7 @@ services:
       - mongo
       - redis
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/talk
+      - MONGODB_URI=mongodb://mongo:27017/coral
       - REDIS_URI=redis://redis:6379
       - SIGNING_SECRET=<replace me with something secret>
   mongo:
@@ -82,19 +83,19 @@ services:
       - ./data/redis:/data
 EOF
 
-# Start up Talk using Docker.
+# Start up Coral using Docker.
 docker-compose up -d
 ```
 
-Then head on over to http://localhost:3000 to install Talk!
+Then head on over to http://localhost:3000 to install Coral!
 
 ### Source
 
-Talk requires NodeJS >=10, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
-# Clone and cd into the Talk directory.
+# Clone and cd into the Coral directory.
 git clone https://github.com/coralproject/talk.git
 cd talk
 
@@ -108,7 +109,7 @@ npm run build
 
 This should output all the compiled application code to `./dist`.
 
-Running Talk with default settings assumes that you have:
+Running Coral with default settings assumes that you have:
 
 - MongoDB >=3.6 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
@@ -121,25 +122,25 @@ docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 ```
 
-Then start Talk with:
+Then start Coral with:
 
 ```bash
 # Start the server in production mode.
 npm run start
 ```
 
-Then head on over to http://localhost:3000 to install Talk!
+Then head on over to http://localhost:3000 to install Coral!
 
 ### Development
 
-Running Talk for development is very similar to installing Talk via Source as
+Running Coral for development is very similar to installing Coral via Source as
 described above.
 
-Talk requires NodeJS >=10, we recommend using `nvm` to help manage node
+Coral requires NodeJS >=10, we recommend using `nvm` to help manage node
 versions: https://github.com/creationix/nvm.
 
 ```bash
-# Clone and cd into the Talk directory.
+# Clone and cd into the Coral directory.
 git clone https://github.com/coralproject/talk.git
 cd talk
 
@@ -147,7 +148,7 @@ cd talk
 npm install
 ```
 
-Running Talk with default settings assumes that you have:
+Running Coral with default settings assumes that you have:
 
 - MongoDB >=3.6 running on `127.0.0.1:27017`
 - Redis >=3.2 running on `127.0.0.1:6379`
@@ -160,7 +161,7 @@ docker run -d -p 27017:27017 --restart always --name mongo mongo:3.6
 docker run -d -p 6379:6379 --restart always --name redis redis:3.2
 ```
 
-Then start Talk with:
+Then start Coral with:
 
 ```bash
 # Run the server in development mode in order to facilitate auto-restarting and
@@ -192,7 +193,7 @@ which provides a test SMTP server that can visualize emails in the browser:
 docker run -d --name inbucket -p 2500:2500 -p 9000:9000 inbucket/inbucket
 ```
 
-You can then configure the email server on Talk by updating the Tenant with:
+You can then configure the email server on Coral by updating the Tenant with:
 
 ```js
 {
@@ -206,7 +207,7 @@ You can then configure the email server on Talk by updating the Tenant with:
 }
 ```
 
-Restarting Talk will be needed. Navigate to http://localhost:9000, click the
+Restarting Coral will be needed. Navigate to http://localhost:9000, click the
 "Monitor" tab. New emails received on this screen.
 
 #### Design Language System (UI Components)
@@ -226,7 +227,7 @@ After compilation has finished you can access docz at http://localhost:3030/.
 
 ## Configuration
 
-The following environment variables can be set to configure the Talk Server. You
+The following environment variables can be set to configure the Coral Server. You
 can expose them in your shell via `export NODE_ENV=development` or by placing
 the variables in a `.env` file in the root of the project in a simple
 `NODE_ENV=development` format delimited by newlines.
@@ -236,7 +237,7 @@ the variables in a `.env` file in the root of the project in a simple
   `npm run start` and `development` when run with `npm run start:development`.
 - `PORT` - The port to listen for HTTP and Websocket requests. (Default `3000`)
 - `MONGODB_URI` - The MongoDB database URI to connect to.
-  (Default `mongodb://127.0.0.1:27017/talk`)
+  (Default `mongodb://127.0.0.1:27017/coral`)
 - `REDIS_URI` - The Redis database URI to connect to.
   (Default `redis://127.0.0.1:6379`)
 - `SIGNING_SECRET` - The shared secret to use to sign JSON Web Tokens (JWT) with
@@ -247,14 +248,14 @@ the variables in a `.env` file in the root of the project in a simple
 - `LOGGING_LEVEL` - The logging level that can be set to one of `fatal`,
   `error`, `warn`, `info`, `debug`, or `trace`. (Default `info`)
 - `STATIC_URI` - The URI that static assets can be accessed from. This URI can
-  be to a proxy that uses this Talk server on `PORT` as the upstream. Disabled
+  be to a proxy that uses this Coral server on `PORT` as the upstream. Disabled
   by default.
 - `DISABLE_TENANT_CACHING` - When `true`, all tenants will be loaded from the
   database when needed rather than keeping a in-memory copy in sync via
   published events on Redis. (Default `false`)
-- `DISABLE_MONGODB_AUTOINDEXING` - When `true`, Talk will not perform indexing
+- `DISABLE_MONGODB_AUTOINDEXING` - When `true`, Coral will not perform indexing
   operations when it starts up. This can be desired when you've already
-  installed Talk on the target MongoDB, but want to improve start performance.
+  installed Coral on the target MongoDB, but want to improve start performance.
   (Default `false`)
 - `LOCALE` - Specify the default locale to use for all requests without a locale
   specified. (Default `en-US`)
@@ -273,4 +274,4 @@ the variables in a `.env` file in the root of the project in a simple
 
 ## License
 
-Talk is released under the [Apache License, v2.0](/LICENSE).
+Coral is released under the [Apache License, v2.0](/LICENSE).

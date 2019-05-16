@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { UserRowContainer_user as UserData } from "talk-admin/__generated__/UserRowContainer_user.graphql";
-import { UserRowContainer_viewer as ViewerData } from "talk-admin/__generated__/UserRowContainer_viewer.graphql";
-import { useTalkContext } from "talk-framework/lib/bootstrap";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { UserRowContainer_user as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
+import { UserRowContainer_viewer as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { Ability, can } from "talk-admin/permissions";
+import { Ability, can } from "coral-admin/permissions";
 import UserRow from "../components/UserRow";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const UserRowContainer: FunctionComponent<Props> = props => {
-  const { locales } = useTalkContext();
+  const { locales } = useCoralContext();
   return (
     <UserRow
       user={props.user}

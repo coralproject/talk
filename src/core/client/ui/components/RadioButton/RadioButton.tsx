@@ -2,8 +2,8 @@ import cn from "classnames";
 import React, { ChangeEvent, Component, EventHandler, FocusEvent } from "react";
 import uuid from "uuid/v4";
 
-import { Flex } from "talk-ui/components";
-import { withKeyboardFocus, withStyles } from "talk-ui/hocs";
+import { Flex } from "coral-ui/components";
+import { withKeyboardFocus, withStyles } from "coral-ui/hocs";
 
 import styles from "./RadioButton.css";
 

@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import { Markdown } from "talk-framework/components";
-import { PropTypesOf } from "talk-framework/types";
-import { CallOut } from "talk-ui/components";
+import { Markdown } from "coral-framework/components";
+import { PropTypesOf } from "coral-framework/types";
+import { CallOut } from "coral-ui/components";
 
 import MessageBoxContainer from "../containers/MessageBoxContainer";
 

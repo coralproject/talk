@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { Markdown } from "talk-framework/components";
-import { withStyles } from "talk-ui/hocs";
+import { Markdown } from "coral-framework/components";
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./MessageBoxContent.css";
 

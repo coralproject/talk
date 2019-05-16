@@ -1,5 +1,5 @@
-import { GQLUserTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import * as user from "talk-server/models/user";
+import { GQLUserTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
+import * as user from "coral-server/models/user";
 
 import { UserStatusInput } from "./UserStatus";
 

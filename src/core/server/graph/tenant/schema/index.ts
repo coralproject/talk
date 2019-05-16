@@ -5,10 +5,10 @@ import {
   IResolvers,
 } from "graphql-tools";
 
-import { loadSchema } from "talk-common/graphql";
-import auth from "talk-server/graph/common/directives/auth";
-import resolvers from "talk-server/graph/tenant/resolvers";
-import { LOCALES } from "talk-server/graph/tenant/resolvers/LOCALES";
+import { loadSchema } from "coral-common/graphql";
+import auth from "coral-server/graph/common/directives/auth";
+import resolvers from "coral-server/graph/tenant/resolvers";
+import { LOCALES } from "coral-server/graph/tenant/resolvers/LOCALES";
 
 export default function getTenantSchema() {
   const schema = loadSchema("tenant", resolvers as IResolvers);

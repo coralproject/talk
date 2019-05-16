@@ -1,7 +1,7 @@
+import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { Omit, PropTypesOf } from "coral-ui/types";
 import React, { Ref } from "react";
 import { FunctionComponent } from "react";
-import { withForwardRef, withStyles } from "talk-ui/hocs";
-import { Omit, PropTypesOf } from "talk-ui/types";
 
 import BaseButton from "../BaseButton";
 import Icon from "../Icon";

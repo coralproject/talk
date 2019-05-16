@@ -3,18 +3,18 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { Bar, SubBar, Title } from "talk-auth/components/Header";
-import Main from "talk-auth/components/Main";
-import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
-import { getViewURL } from "talk-auth/helpers";
-import { ForgotPasswordMutation, SetViewMutation } from "talk-auth/mutations";
-import { InvalidRequestError } from "talk-framework/lib/errors";
-import { useMutation } from "talk-framework/lib/relay";
+import { Bar, SubBar, Title } from "coral-auth/components/Header";
+import Main from "coral-auth/components/Main";
+import AutoHeightContainer from "coral-auth/containers/AutoHeightContainer";
+import { getViewURL } from "coral-auth/helpers";
+import { ForgotPasswordMutation, SetViewMutation } from "coral-auth/mutations";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validateEmail,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   Button,
   CallOut,
@@ -26,7 +26,7 @@ import {
   TextLink,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 interface FormProps {
   email: string;

@@ -2,17 +2,17 @@ import { Child as PymChild } from "pym.js";
 import React, { MouseEvent } from "react";
 import { graphql } from "react-relay";
 
-import { getURLWithCommentID } from "talk-framework/helpers";
-import { withContext } from "talk-framework/lib/bootstrap";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PermalinkViewContainer_comment as CommentData } from "talk-stream/__generated__/PermalinkViewContainer_comment.graphql";
-import { PermalinkViewContainer_settings as SettingsData } from "talk-stream/__generated__/PermalinkViewContainer_settings.graphql";
-import { PermalinkViewContainer_story as StoryData } from "talk-stream/__generated__/PermalinkViewContainer_story.graphql";
-import { PermalinkViewContainer_viewer as ViewerData } from "talk-stream/__generated__/PermalinkViewContainer_viewer.graphql";
+import { getURLWithCommentID } from "coral-framework/helpers";
+import { withContext } from "coral-framework/lib/bootstrap";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { PermalinkViewContainer_comment as CommentData } from "coral-stream/__generated__/PermalinkViewContainer_comment.graphql";
+import { PermalinkViewContainer_settings as SettingsData } from "coral-stream/__generated__/PermalinkViewContainer_settings.graphql";
+import { PermalinkViewContainer_story as StoryData } from "coral-stream/__generated__/PermalinkViewContainer_story.graphql";
+import { PermalinkViewContainer_viewer as ViewerData } from "coral-stream/__generated__/PermalinkViewContainer_viewer.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 import PermalinkView from "../components/PermalinkView";
 

@@ -7,17 +7,17 @@ import { Db } from "mongodb";
 import nunjucks from "nunjucks";
 import path from "path";
 
-import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import { HTMLErrorHandler } from "talk-server/app/middleware/error";
-import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
-import { createPassport } from "talk-server/app/middleware/passport";
-import { Config } from "talk-server/config";
-import { MailerQueue } from "talk-server/queue/tasks/mailer";
-import { ScraperQueue } from "talk-server/queue/tasks/scraper";
-import { I18n } from "talk-server/services/i18n";
-import { JWTSigningConfig } from "talk-server/services/jwt";
-import { AugmentedRedis } from "talk-server/services/redis";
-import TenantCache from "talk-server/services/tenant/cache";
+import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
+import { HTMLErrorHandler } from "coral-server/app/middleware/error";
+import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
+import { createPassport } from "coral-server/app/middleware/passport";
+import { Config } from "coral-server/config";
+import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { I18n } from "coral-server/services/i18n";
+import { JWTSigningConfig } from "coral-server/services/jwt";
+import { AugmentedRedis } from "coral-server/services/redis";
+import TenantCache from "coral-server/services/tenant/cache";
 
 import { accessLogger, errorLogger } from "./middleware/logging";
 import { metricsRecorder } from "./middleware/metrics";
@@ -40,7 +40,7 @@ export interface AppOptions {
 }
 
 /**
- * createApp will create a Talk Express app that can be used to handle requests.
+ * createApp will create a Coral Express app that can be used to handle requests.
  */
 export async function createApp(options: AppOptions): Promise<Express> {
   // Configure the application.

@@ -2,9 +2,9 @@ import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 import { Environment, RecordSource } from "relay-runtime";
 
-import { parseQuery } from "talk-common/utils";
-import { LOCAL_ID } from "talk-framework/lib/relay";
-import { createRelayEnvironment } from "talk-framework/testHelpers";
+import { parseQuery } from "coral-common/utils";
+import { LOCAL_ID } from "coral-framework/lib/relay";
+import { createRelayEnvironment } from "coral-framework/testHelpers";
 
 import { OnPymSetCommentID } from "./OnPymSetCommentID";
 

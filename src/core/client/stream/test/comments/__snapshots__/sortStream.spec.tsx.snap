@@ -5,7 +5,7 @@ exports[`renders app with comment stream 1`] = `
   aria-live="polite"
   className="HorizontalGutter-root HorizontalGutter-full"
   data-testid="comments-stream-log"
-  id="talk-comments-stream-log"
+  id="coral-comments-stream-log"
   role="log"
 >
   <div

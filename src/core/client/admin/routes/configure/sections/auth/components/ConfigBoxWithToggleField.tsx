@@ -1,9 +1,9 @@
+import { parseBool } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
-import { parseBool } from "talk-framework/lib/form";
 
-import { CheckBox, FormField } from "talk-ui/components";
+import { CheckBox, FormField } from "coral-ui/components";
 
 import ConfigBox from "../../../components/ConfigBox";
 

@@ -1,11 +1,11 @@
 import { Component } from "react";
 
-import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
-import { SetAccessTokenMutation } from "talk-framework/mutations";
+import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
+import { SetAccessTokenMutation } from "coral-framework/mutations";
 
 interface Props {
-  postMessage: TalkContext["postMessage"];
+  postMessage: CoralContext["postMessage"];
   setAccessToken: MutationProp<typeof SetAccessTokenMutation>;
 }
 

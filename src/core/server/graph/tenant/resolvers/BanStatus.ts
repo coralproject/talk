@@ -1,5 +1,5 @@
-import { GQLBanStatusTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import * as user from "talk-server/models/user";
+import { GQLBanStatusTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
+import * as user from "coral-server/models/user";
 
 export type BanStatusInput = user.ConsolidatedBanStatus & {
   userID: string;

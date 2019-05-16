@@ -1,4 +1,4 @@
-import { GQLComment, GQLCommentEdge, GQLStory } from "talk-framework/schema";
+import { GQLComment, GQLCommentEdge, GQLStory } from "coral-framework/schema";
 
 import createFixture, { Fixture } from "./createFixture";
 

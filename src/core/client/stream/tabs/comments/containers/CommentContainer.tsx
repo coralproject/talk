@@ -2,22 +2,22 @@ import { Localized } from "fluent-react/compat";
 import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 
-import { isBeforeDate } from "talk-common/utils";
-import { getURLWithCommentID } from "talk-framework/helpers";
-import withFragmentContainer from "talk-framework/lib/relay/withFragmentContainer";
-import { PropTypesOf } from "talk-framework/types";
-import { CommentContainer_comment as CommentData } from "talk-stream/__generated__/CommentContainer_comment.graphql";
-import { CommentContainer_settings as SettingsData } from "talk-stream/__generated__/CommentContainer_settings.graphql";
-import { CommentContainer_story as StoryData } from "talk-stream/__generated__/CommentContainer_story.graphql";
-import { CommentContainer_viewer as ViewerData } from "talk-stream/__generated__/CommentContainer_viewer.graphql";
+import { isBeforeDate } from "coral-common/utils";
+import { getURLWithCommentID } from "coral-framework/helpers";
+import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
+import { PropTypesOf } from "coral-framework/types";
+import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
+import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
+import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
+import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
   withSetCommentIDMutation,
   withShowAuthPopupMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
-import { Button, Flex, HorizontalGutter } from "talk-ui/components";
+import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 import ReactionButtonContainer from "./ReactionButtonContainer";
 
 import Comment, {

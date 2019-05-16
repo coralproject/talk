@@ -1,5 +1,5 @@
 .root {
-  composes: root from "talk-stream/shared/htmlContent.css";
+  composes: root from "coral-stream/shared/htmlContent.css";
 
   mark {
     background-color: var(--palette-highlight);

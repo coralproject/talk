@@ -1,16 +1,16 @@
 import sinon from "sinon";
 
-import { GQLResolver } from "talk-framework/schema";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createAccessToken,
   CreateTestRendererParams,
   replaceHistoryLocation,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
-import { ERROR_CODES } from "talk-common/errors";
-import { InvalidRequestError } from "talk-framework/lib/errors";
+import { ERROR_CODES } from "coral-common/errors";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import create from "./create";
 
 const token = createAccessToken();

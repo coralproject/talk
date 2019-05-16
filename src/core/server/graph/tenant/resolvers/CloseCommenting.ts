@@ -1,6 +1,6 @@
-import { GQLCloseCommentingTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import * as settings from "talk-server/models/settings";
-import { translate } from "talk-server/services/i18n";
+import { GQLCloseCommentingTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
+import * as settings from "coral-server/models/settings";
+import { translate } from "coral-server/services/i18n";
 
 export const CloseCommenting: GQLCloseCommentingTypeResolver<
   settings.CloseCommenting

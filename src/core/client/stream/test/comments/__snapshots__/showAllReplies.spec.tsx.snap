@@ -4,7 +4,7 @@ exports[`renders comment stream 1`] = `
 <div
   className="HorizontalGutter-root HorizontalGutter-full"
   data-testid="commentReplyList-comment-0"
-  id="talk-comments-replyList-log--comment-0"
+  id="coral-comments-replyList-log--comment-0"
   role="log"
 >
   <div
@@ -168,10 +168,10 @@ exports[`renders comment stream 1`] = `
       className="Indent-level1 Indent-noBorder"
     >
       <button
-        aria-controls="talk-comments-replyList-log--comment-0"
+        aria-controls="coral-comments-replyList-log--comment-0"
         className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
         disabled={false}
-        id="talk-comments-replyList-showAll--comment-0"
+        id="coral-comments-replyList-showAll--comment-0"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}

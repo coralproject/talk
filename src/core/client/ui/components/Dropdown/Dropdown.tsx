@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { withStyles } from "talk-ui/hocs";
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./Dropdown.css";
 

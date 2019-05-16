@@ -1,5 +1,5 @@
 .keyGenerated {
-  composes: button from "talk-ui/shared/typography.css";
+  composes: button from "coral-ui/shared/typography.css";
   color: var(--palette-text-secondary);
   width: calc(29 * var(--mini-unit));
   flex-shrink: 0;

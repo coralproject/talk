@@ -1,8 +1,8 @@
 import { isNull, omitBy } from "lodash";
 
-import { ERROR_CODES } from "talk-common/errors";
-import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
-import TenantContext from "talk-server/graph/tenant/context";
+import { ERROR_CODES } from "coral-common/errors";
+import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
+import TenantContext from "coral-server/graph/tenant/context";
 import {
   GQLCloseStoryInput,
   GQLCreateStoryInput,
@@ -12,8 +12,8 @@ import {
   GQLScrapeStoryInput,
   GQLUpdateStoryInput,
   GQLUpdateStorySettingsInput,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { Story } from "talk-server/models/story";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { Story } from "coral-server/models/story";
 import {
   close,
   create,
@@ -22,8 +22,8 @@ import {
   remove,
   update,
   updateSettings,
-} from "talk-server/services/stories";
-import { scrape } from "talk-server/services/stories/scraper";
+} from "coral-server/services/stories";
+import { scrape } from "coral-server/services/stories/scraper";
 
 export const Stories = (ctx: TenantContext) => ({
   create: async (input: GQLCreateStoryInput): Promise<Readonly<Story> | null> =>

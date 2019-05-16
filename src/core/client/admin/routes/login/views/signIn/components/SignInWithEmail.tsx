@@ -1,10 +1,10 @@
+import { OnSubmit } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
-import { OnSubmit } from "talk-framework/lib/form";
 
-import { PasswordField } from "talk-framework/components";
-import { composeValidators, required } from "talk-framework/lib/validation";
+import { PasswordField } from "coral-framework/components";
+import { composeValidators, required } from "coral-framework/lib/validation";
 import {
   Button,
   ButtonIcon,
@@ -13,7 +13,7 @@ import {
   HorizontalGutter,
   InputLabel,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import EmailField from "../../../components/EmailField";
 

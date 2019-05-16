@@ -3,7 +3,7 @@ import { createRenderer } from "react-test-renderer/shallow";
 
 import Navigation from "./Navigation";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 it("renders correctly", () => {
   const renderer = createRenderer();
   renderer.render(<Navigation />);

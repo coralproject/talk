@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import NotAvailable from "talk-admin/components/NotAvailable";
+import NotAvailable from "coral-admin/components/NotAvailable";
 import {
   Button,
   Card,
@@ -10,7 +10,7 @@ import {
   HorizontalGutter,
   Modal,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./BanModal.css";
 

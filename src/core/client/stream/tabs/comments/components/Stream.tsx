@@ -2,9 +2,9 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
-import { Button, Flex, HorizontalGutter, Spinner } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import UserBoxContainer from "coral-stream/containers/UserBoxContainer";
+import { Button, Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 
 import CommentContainer from "../containers/CommentContainer";
 import CommunityGuidelinesContainer from "../containers/CommunityGuidelinesContainer";
@@ -67,7 +67,7 @@ const Stream: FunctionComponent<StreamProps> = props => {
       )}
       {!props.refetching && (
         <HorizontalGutter
-          id="talk-comments-stream-log"
+          id="coral-comments-stream-log"
           data-testid="comments-stream-log"
           role="log"
           aria-live="polite"
@@ -91,12 +91,12 @@ const Stream: FunctionComponent<StreamProps> = props => {
           {props.hasMore && (
             <Localized id="comments-stream-loadMore">
               <Button
-                id={"talk-comments-stream-loadMore"}
+                id={"coral-comments-stream-loadMore"}
                 onClick={props.onLoadMore}
                 variant="outlined"
                 fullWidth
                 disabled={props.disableLoadMore}
-                aria-controls="talk-comments-stream-log"
+                aria-controls="coral-comments-stream-log"
               >
                 Load More
               </Button>

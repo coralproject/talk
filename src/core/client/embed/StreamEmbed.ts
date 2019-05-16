@@ -1,9 +1,9 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import { stringifyQuery } from "talk-common/utils";
-import ensureNoEndSlash from "talk-common/utils/ensureNoEndSlash";
-import urls from "talk-framework/helpers/urls";
-import { ExternalConfig } from "talk-framework/lib/externalConfig";
+import { stringifyQuery } from "coral-common/utils";
+import ensureNoEndSlash from "coral-common/utils/ensureNoEndSlash";
+import urls from "coral-framework/helpers/urls";
+import { ExternalConfig } from "coral-framework/lib/externalConfig";
 
 import {
   Decorator,

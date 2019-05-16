@@ -1,16 +1,16 @@
 import React, { ChangeEvent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { withPaginationContainer } from "talk-framework/lib/relay";
-import { Omit, PropTypesOf } from "talk-framework/types";
-import { StreamContainer_settings as SettingsData } from "talk-stream/__generated__/StreamContainer_settings.graphql";
-import { StreamContainer_story as StoryData } from "talk-stream/__generated__/StreamContainer_story.graphql";
-import { StreamContainer_viewer as ViewerData } from "talk-stream/__generated__/StreamContainer_viewer.graphql";
+import { withPaginationContainer } from "coral-framework/lib/relay";
+import { Omit, PropTypesOf } from "coral-framework/types";
+import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
+import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
+import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
 import {
   COMMENT_SORT,
   StreamContainerPaginationQueryVariables,
-} from "talk-stream/__generated__/StreamContainerPaginationQuery.graphql";
-import StoryClosedTimeoutContainer from "talk-stream/containers/StoryClosedTimeoutContainer";
+} from "coral-stream/__generated__/StreamContainerPaginationQuery.graphql";
+import StoryClosedTimeoutContainer from "coral-stream/containers/StoryClosedTimeoutContainer";
 
 import Stream from "../components/Stream";
 

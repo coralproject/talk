@@ -1,17 +1,17 @@
 import React, { FunctionComponent, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { StoryTableContainer_query as QueryData } from "talk-admin/__generated__/StoryTableContainer_query.graphql";
-import { StoryTableContainerPaginationQueryVariables } from "talk-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
-import { IntersectionProvider } from "talk-framework/lib/intersection";
+import { StoryTableContainer_query as QueryData } from "coral-admin/__generated__/StoryTableContainer_query.graphql";
+import { StoryTableContainerPaginationQueryVariables } from "coral-admin/__generated__/StoryTableContainerPaginationQuery.graphql";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useRefetch,
   withPaginationContainer,
-} from "talk-framework/lib/relay";
-import { GQLSTORY_STATUS_RL } from "talk-framework/schema";
+} from "coral-framework/lib/relay";
+import { GQLSTORY_STATUS_RL } from "coral-framework/schema";
 
-import { HorizontalGutter } from "talk-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 import StoryTable from "../components/StoryTable";
 import StoryTableFilter from "../components/StoryTableFilter";
 

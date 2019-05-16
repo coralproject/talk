@@ -1,9 +1,9 @@
 import { FormApi, FormState } from "final-form";
 import React from "react";
 
-import { UpdateSettingsMutation } from "talk-admin/mutations";
-import { SubmitHookHandler } from "talk-framework/lib/form";
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
+import { UpdateSettingsMutation } from "coral-admin/mutations";
+import { SubmitHookHandler } from "coral-framework/lib/form";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
 
 import Configure from "../components/Configure";
 import NavigationWarningContainer from "./NavigationWarningContainer";

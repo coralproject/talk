@@ -1,9 +1,12 @@
 import React from "react";
 
-import { NavigationContainer_viewer as ViewerData } from "talk-admin/__generated__/NavigationContainer_viewer.graphql";
-import { Ability, can } from "talk-admin/permissions";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
-import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
+import { NavigationContainer_viewer as ViewerData } from "coral-admin/__generated__/NavigationContainer_viewer.graphql";
+import { Ability, can } from "coral-admin/permissions";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  SignOutMutation,
+  withSignOutMutation,
+} from "coral-framework/mutations";
 
 import Navigation from "../components/Navigation";
 

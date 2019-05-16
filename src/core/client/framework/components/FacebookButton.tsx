@@ -1,8 +1,8 @@
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Button } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { Button } from "coral-ui/components";
 
 import styles from "./FacebookButton.css";
 

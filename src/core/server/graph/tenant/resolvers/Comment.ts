@@ -1,18 +1,18 @@
 import { GraphQLResolveInfo } from "graphql";
 
-import { getRequestedFields } from "talk-server/graph/tenant/resolvers/util";
+import { getRequestedFields } from "coral-server/graph/tenant/resolvers/util";
 import {
   GQLComment,
   GQLCommentTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   ACTION_TYPE,
   decodeActionCounts,
-} from "talk-server/models/action/comment";
-import * as comment from "talk-server/models/comment";
-import { getLatestRevision } from "talk-server/models/comment";
-import { createConnection } from "talk-server/models/helpers/connection";
-import { getCommentEditableUntilDate } from "talk-server/services/comments";
+} from "coral-server/models/action/comment";
+import * as comment from "coral-server/models/comment";
+import { getLatestRevision } from "coral-server/models/comment";
+import { createConnection } from "coral-server/models/helpers/connection";
+import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import TenantContext from "../context";
 import { getURLWithCommentID } from "./util";

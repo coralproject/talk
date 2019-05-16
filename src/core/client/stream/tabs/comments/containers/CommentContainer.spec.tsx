@@ -2,9 +2,9 @@ import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
-import { pureMerge } from "talk-common/utils";
-import { removeFragmentRefs } from "talk-framework/testHelpers";
-import { DeepPartial, PropTypesOf } from "talk-framework/types";
+import { pureMerge } from "coral-common/utils";
+import { removeFragmentRefs } from "coral-framework/testHelpers";
+import { DeepPartial, PropTypesOf } from "coral-framework/types";
 
 import { CommentContainer } from "./CommentContainer";
 

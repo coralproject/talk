@@ -3,8 +3,8 @@ import {
   getOrigin,
   isURLSecure,
   prefixSchemeIfRequired,
-} from "talk-server/app/url";
-import { Tenant } from "talk-server/models/tenant";
+} from "coral-server/app/url";
+import { Tenant } from "coral-server/models/tenant";
 
 export function isURLPermitted(
   tenant: Pick<Tenant, "domains">,

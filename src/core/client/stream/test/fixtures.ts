@@ -6,7 +6,7 @@ import {
   GQLStory,
   GQLUser,
   GQLUSER_ROLE,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import {
   createFixture,
   createFixtures,
@@ -14,7 +14,7 @@ import {
   denormalizeComments,
   denormalizeStories,
   denormalizeStory,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 export const settings = createFixture<GQLSettings>({
   id: "settings",

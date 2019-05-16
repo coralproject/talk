@@ -5,18 +5,18 @@ import { graphql } from "react-relay";
 import {
   COMMENT_STATUS,
   ModerateCardContainer_comment as CommentData,
-} from "talk-admin/__generated__/ModerateCardContainer_comment.graphql";
-import { ModerateCardContainer_settings as SettingsData } from "talk-admin/__generated__/ModerateCardContainer_settings.graphql";
-import NotAvailable from "talk-admin/components/NotAvailable";
-import { AcceptCommentMutation } from "talk-admin/mutations";
-import { RejectCommentMutation } from "talk-admin/mutations";
+} from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
+import { ModerateCardContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import NotAvailable from "coral-admin/components/NotAvailable";
+import { AcceptCommentMutation } from "coral-admin/mutations";
+import { RejectCommentMutation } from "coral-admin/mutations";
 import {
   MutationProp,
   withFragmentContainer,
   withMutation,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
-import { getModerationLink } from "talk-admin/helpers";
+import { getModerationLink } from "coral-admin/helpers";
 import ModerateCard from "../components/ModerateCard";
 
 interface Props {

@@ -1,13 +1,13 @@
 import { Match, Router, withRouter } from "found";
 import React from "react";
 
-import { AuthCheckContainerQueryResponse } from "talk-admin/__generated__/AuthCheckContainerQuery.graphql";
-import { SetRedirectPathMutation } from "talk-admin/mutations";
-import { AbilityType, can } from "talk-admin/permissions";
-import RestrictedContainer from "talk-admin/views/restricted/containers/RestrictedContainer";
-import { graphql, MutationProp, withMutation } from "talk-framework/lib/relay";
-import { withRouteConfig } from "talk-framework/lib/router";
-import { GQLUSER_ROLE } from "talk-framework/schema";
+import { AuthCheckContainerQueryResponse } from "coral-admin/__generated__/AuthCheckContainerQuery.graphql";
+import { SetRedirectPathMutation } from "coral-admin/mutations";
+import { AbilityType, can } from "coral-admin/permissions";
+import RestrictedContainer from "coral-admin/views/restricted/containers/RestrictedContainer";
+import { graphql, MutationProp, withMutation } from "coral-framework/lib/relay";
+import { withRouteConfig } from "coral-framework/lib/router";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 
 interface Props {
   match: Match;

@@ -1,8 +1,11 @@
+import {
+  SignOutMutation,
+  withSignOutMutation,
+} from "coral-framework/mutations";
 import { Child } from "pym.js";
 import { Component } from "react";
-import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
 
-import { withContext } from "talk-framework/lib/bootstrap";
+import { withContext } from "coral-framework/lib/bootstrap";
 
 interface Props {
   pym: Child;

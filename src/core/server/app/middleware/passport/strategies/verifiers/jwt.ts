@@ -3,14 +3,14 @@ import Joi from "joi";
 import { isNil } from "lodash";
 import { Db } from "mongodb";
 
-import { Tenant } from "talk-server/models/tenant";
-import { retrieveUser } from "talk-server/models/user";
+import { Tenant } from "coral-server/models/tenant";
+import { retrieveUser } from "coral-server/models/user";
 import {
   checkJWTRevoked,
   JWTSigningConfig,
   StandardClaims,
   verifyJWT,
-} from "talk-server/services/jwt";
+} from "coral-server/services/jwt";
 
 import { Verifier } from "../jwt";
 

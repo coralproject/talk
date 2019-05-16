@@ -11,10 +11,10 @@ import {
   UserAlreadySuspendedError,
   UsernameAlreadySetError,
   UserNotFoundError,
-} from "talk-server/errors";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { getLocalProfile, hasLocalProfile } from "talk-server/helpers/users";
-import { Tenant } from "talk-server/models/tenant";
+} from "coral-server/errors";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { getLocalProfile, hasLocalProfile } from "coral-server/helpers/users";
+import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
   consolidateUserBanStatus,
@@ -36,9 +36,9 @@ import {
   updateUserRole,
   updateUserUsername,
   User,
-} from "talk-server/models/user";
-import { MailerQueue } from "talk-server/queue/tasks/mailer";
-import { JWTSigningConfig, signPATString } from "talk-server/services/jwt";
+} from "coral-server/models/user";
+import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
@@ -387,7 +387,7 @@ export async function updateAvatar(
 }
 
 /**
- * ban will ban a specific user from interacting with Talk.
+ * ban will ban a specific user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be banned on
@@ -445,7 +445,7 @@ export async function ban(
 }
 
 /**
- * suspend will suspend a give user from interacting with Talk.
+ * suspend will suspend a give user from interacting with Coral.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be suspended on

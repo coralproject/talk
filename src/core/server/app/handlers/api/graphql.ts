@@ -1,10 +1,10 @@
-import { AppOptions } from "talk-server/app";
+import { AppOptions } from "coral-server/app";
 import {
   graphqlBatchMiddleware,
   graphqlMiddleware,
-} from "talk-server/app/middleware/graphql";
-import TenantContext from "talk-server/graph/tenant/context";
-import { Request, RequestHandler } from "talk-server/types/express";
+} from "coral-server/app/middleware/graphql";
+import TenantContext from "coral-server/graph/tenant/context";
+import { Request, RequestHandler } from "coral-server/types/express";
 
 export type GraphMiddlewareOptions = Pick<
   AppOptions,
@@ -25,12 +25,12 @@ export const graphQLHandler = ({
 }: GraphMiddlewareOptions): RequestHandler =>
   graphqlBatchMiddleware(
     graphqlMiddleware(config, async (req: Request) => {
-      if (!req.talk) {
-        throw new Error("talk was not set");
+      if (!req.coral) {
+        throw new Error("coral was not set");
       }
 
-      // Pull out some useful properties from Talk.
-      const { id, now, tenant, cache, logger } = req.talk;
+      // Pull out some useful properties from Coral.
+      const { id, now, tenant, cache, logger } = req.coral;
 
       if (!cache) {
         throw new Error("cache was not set");

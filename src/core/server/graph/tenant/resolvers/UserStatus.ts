@@ -1,8 +1,8 @@
 import {
   GQLUSER_STATUS,
   GQLUserStatusTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import * as user from "talk-server/models/user";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import * as user from "coral-server/models/user";
 
 import { BanStatusInput } from "./BanStatus";
 import { SuspensionStatusInput } from "./SuspensionStatus";
