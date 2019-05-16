@@ -18,18 +18,17 @@ import {
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
 
-interface ReactionButtonContainerProps {
+interface Props {
   createCommentReaction: CreateCommentReactionMutation;
   removeCommentReaction: RemoveCommentReactionMutation;
   comment: CommentData;
   settings: SettingsData;
   viewer: ViewerData | null;
   showAuthPopup: ShowAuthPopupMutation;
+  readOnly?: boolean;
 }
 
-class ReactionButtonContainer extends React.Component<
-  ReactionButtonContainerProps
-> {
+class ReactionButtonContainer extends React.Component<Props> {
   private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
 
   private handleClick = () => {
@@ -53,6 +52,7 @@ class ReactionButtonContainer extends React.Component<
   };
 
   public render() {
+    const { readOnly } = this.props;
     const {
       actionCounts: {
         reaction: { total: totalReactions },
@@ -66,7 +66,7 @@ class ReactionButtonContainer extends React.Component<
       this.props.comment.viewerActionPresence &&
       this.props.comment.viewerActionPresence.reaction;
 
-    return (
+    return totalReactions > 0 ? (
       <ReactionButton
         onClick={this.handleClick}
         totalReactions={totalReactions}
@@ -75,15 +75,16 @@ class ReactionButtonContainer extends React.Component<
         labelActive={labelActive}
         icon={icon}
         iconActive={iconActive}
+        readOnly={readOnly}
       />
-    );
+    ) : null;
   }
 }
 
 export default withShowAuthPopupMutation(
   withRemoveCommentReactionMutation(
     withCreateCommentReactionMutation(
-      withFragmentContainer<ReactionButtonContainerProps>({
+      withFragmentContainer<Props>({
         viewer: graphql`
           fragment ReactionButtonContainer_viewer on User {
             id

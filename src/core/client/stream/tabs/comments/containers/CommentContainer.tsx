@@ -5,6 +5,7 @@ import { graphql } from "react-relay";
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
+import { GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -16,8 +17,8 @@ import {
   withSetCommentIDMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
-
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
+
 import ReactionButtonContainer from "./ReactionButtonContainer";
 
 import Comment, {
@@ -148,6 +149,10 @@ export class CommentContainer extends Component<Props, State> {
       viewer,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
+    const banned = Boolean(
+      this.props.viewer &&
+        this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
+    );
     if (showEditDialog) {
       return (
         <div data-testid={`comment-${comment.id}`}>
@@ -201,7 +206,13 @@ export class CommentContainer extends Component<Props, State> {
               <>
                 <Flex justifyContent="space-between">
                   <ButtonsBar>
-                    {!disableReplies && (
+                    <ReactionButtonContainer
+                      comment={comment}
+                      settings={settings}
+                      viewer={viewer}
+                      readOnly={banned}
+                    />
+                    {!disableReplies && !banned && (
                       <ReplyButton
                         id={`comments-commentContainer-replyButton-${
                           comment.id
@@ -217,14 +228,14 @@ export class CommentContainer extends Component<Props, State> {
                       story={story}
                       commentID={comment.id}
                     />
-                    <ReactionButtonContainer
-                      comment={comment}
-                      settings={settings}
-                      viewer={viewer}
-                    />
                   </ButtonsBar>
                   <ButtonsBar>
-                    <ReportButtonContainer comment={comment} viewer={viewer} />
+                    {!banned && (
+                      <ReportButtonContainer
+                        comment={comment}
+                        viewer={viewer}
+                      />
+                    )}
                   </ButtonsBar>
                 </Flex>
                 {showConversationLink && (
@@ -263,6 +274,9 @@ const enhanced = withSetCommentIDMutation(
       viewer: graphql`
         fragment CommentContainer_viewer on User {
           id
+          status {
+            current
+          }
           ...ReactionButtonContainer_viewer
           ...ReportButtonContainer_viewer
         }
