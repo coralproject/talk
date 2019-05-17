@@ -57,7 +57,7 @@ The timeframe in seconds in which commenters have to edit their comment.
 
 #### Close Comments After
 
-Default time after which all comment streams will close.
+Default time after which all comment streams will close. Applies to assets created in Talk after this configuration is saved, and does not update existing assets. 
 
 ### Moderation Settings
 
