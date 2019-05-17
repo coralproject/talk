@@ -19,7 +19,7 @@ the target pages that allow us to extract some properties.
 | `modified_date`    | `meta[property="article:modified"]` |
 | `section`          | `meta[property="article:section"]` |
 
-You can use the `./bin/cli assets debug <url>` to print the scraped metadata
+You can use the `./bin/cli assets debug <url>` command to print the scraped metadata
 from that URL. For example:
 
 ```bash
@@ -42,3 +42,8 @@ from that URL. For example:
 │ section          │                                                                                                                                                                                  │
 └──────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+Asset scraping is performed by the `scraper` job which is enabled by default when you launch Talk. If your production site is behind a paywall or otherwise prevents scraping, you might need to confiugre a [TALK_SCRAPER_PROXY_URL](/talk/advanced-configuration/#talk-scraper-proxy-url) or custom [TALK_SCRAPER_HEADERS](/talk/advanced-configuration/#talk-scraper-headers). 
+
+
+You can also use the `./bin/cli assets refresh [age]` to trigger scraping or rescrape assets where the scraper job was unsuccessful. 
