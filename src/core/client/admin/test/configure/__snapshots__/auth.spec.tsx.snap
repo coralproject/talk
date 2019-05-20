@@ -54,7 +54,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
       <p
         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
-        To learn more:
+        To learn more: 
         <a
           className="TextLink-root"
           href="https://openid.net/connect/"
@@ -490,7 +490,7 @@ exports[`change settings: enable facebook configure box 1`] = `
       >
         To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
-For more information visit:
+For more information visit: 
         <a
           className="TextLink-root"
           href="https://developers.facebook.com/docs/facebook-login/web"
@@ -765,7 +765,7 @@ exports[`change settings: enable oidc configure box 1`] = `
       <p
         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
-        To learn more:
+        To learn more: 
         <a
           className="TextLink-root"
           href="https://openid.net/connect/"
@@ -1199,7 +1199,7 @@ exports[`change settings: oidc validation errors 1`] = `
       <p
         className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
-        To learn more:
+        To learn more: 
         <a
           className="TextLink-root"
           href="https://openid.net/connect/"
@@ -2075,7 +2075,7 @@ integration to register for a new account.
                   <p
                     className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
-                    To learn more:
+                    To learn more: 
                     <a
                       className="TextLink-root"
                       href="https://openid.net/connect/"
@@ -3003,7 +3003,7 @@ integration to register for a new account.
                   >
                     To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
-For more information visit:
+For more information visit: 
                     <a
                       className="TextLink-root"
                       href="https://developers.facebook.com/docs/facebook-login/web"
