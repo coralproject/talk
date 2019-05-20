@@ -21,7 +21,9 @@ import { PostCommentFormContainerLocal as Local } from "talk-stream/__generated_
 import { RefreshSettingsFetch } from "talk-stream/fetches";
 import {
   CreateCommentMutation,
+  ShowAuthPopupMutation,
   withCreateCommentMutation,
+  withShowAuthPopupMutation,
 } from "talk-stream/mutations";
 
 import PostCommentForm from "../components/PostCommentForm";
@@ -41,6 +43,7 @@ interface Props {
   settings: SettingsData;
   local: Local;
   story: StoryData;
+  showAuthPopup: ShowAuthPopupMutation;
 }
 
 interface State {
@@ -50,9 +53,16 @@ interface State {
   initialized: boolean;
   keepFormWhenClosed: boolean;
   submitStatus: SubmitStatus | null;
+  notLoggedInDraft: string;
 }
 
 const contextKey = "postCommentFormBody";
+
+/**
+ * A temporary variable to save draft when user is not logged in.
+ * This will be restored after the stream has refreshed.
+ */
+let preserveNotLoggedInDraft = "";
 
 export class PostCommentFormContainer extends Component<Props, State> {
   public state: State = {
@@ -63,22 +73,29 @@ export class PostCommentFormContainer extends Component<Props, State> {
       !this.props.story.isClosed &&
       !this.props.settings.disableCommenting.enabled,
     submitStatus: null,
+    notLoggedInDraft: "",
   };
 
   constructor(props: Props) {
     super(props);
+    // Restore comment draft, if available.
+    this.state.notLoggedInDraft = preserveNotLoggedInDraft;
+    preserveNotLoggedInDraft = "";
     this.init();
+  }
+
+  public componentWillUnmount() {
+    // Keep comment draft around. User might just have signed in and caused a reload.
+    preserveNotLoggedInDraft = this.state.notLoggedInDraft;
   }
 
   private async init() {
     const body = await this.props.sessionStorage.getItem(contextKey);
-    if (body) {
-      this.setState({
-        initialValues: {
-          body,
-        },
-      });
-    }
+    this.setState({
+      initialValues: {
+        body: body || this.state.notLoggedInDraft,
+      },
+    });
     this.setState({
       initialized: true,
     });
@@ -145,6 +162,12 @@ export class PostCommentFormContainer extends Component<Props, State> {
     }
   };
 
+  private handleDraftChange = (draft: string) => {
+    this.setState({ notLoggedInDraft: draft });
+  };
+
+  private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
+
   public render() {
     if (!this.state.initialized) {
       return null;
@@ -172,8 +195,11 @@ export class PostCommentFormContainer extends Component<Props, State> {
     if (!this.props.local.loggedIn) {
       return (
         <PostCommentFormFake
+          draft={this.state.notLoggedInDraft}
+          onDraftChange={this.handleDraftChange}
           story={this.props.story}
           showMessageBox={this.props.story.settings.messageBox.enabled}
+          onSignIn={this.handleSignIn}
         />
       );
     }
@@ -212,45 +238,47 @@ export class PostCommentFormContainer extends Component<Props, State> {
 const enhanced = withContext(({ sessionStorage }) => ({
   sessionStorage,
 }))(
-  withCreateCommentMutation(
-    withFetch(RefreshSettingsFetch)(
-      withLocalStateContainer(
-        graphql`
-          fragment PostCommentFormContainerLocal on Local {
-            loggedIn
-          }
-        `
-      )(
-        withFragmentContainer<Props>({
-          settings: graphql`
-            fragment PostCommentFormContainer_settings on Settings {
-              charCount {
-                enabled
-                min
-                max
-              }
-              disableCommenting {
-                enabled
-                message
-              }
-              closeCommenting {
-                message
-              }
+  withShowAuthPopupMutation(
+    withCreateCommentMutation(
+      withFetch(RefreshSettingsFetch)(
+        withLocalStateContainer(
+          graphql`
+            fragment PostCommentFormContainerLocal on Local {
+              loggedIn
             }
-          `,
-          story: graphql`
-            fragment PostCommentFormContainer_story on Story {
-              id
-              isClosed
-              ...MessageBoxContainer_story
-              settings {
-                messageBox {
+          `
+        )(
+          withFragmentContainer<Props>({
+            settings: graphql`
+              fragment PostCommentFormContainer_settings on Settings {
+                charCount {
                   enabled
+                  min
+                  max
+                }
+                disableCommenting {
+                  enabled
+                  message
+                }
+                closeCommenting {
+                  message
                 }
               }
-            }
-          `,
-        })(PostCommentFormContainer)
+            `,
+            story: graphql`
+              fragment PostCommentFormContainer_story on Story {
+                id
+                isClosed
+                ...MessageBoxContainer_story
+                settings {
+                  messageBox {
+                    enabled
+                  }
+                }
+              }
+            `,
+          })(PostCommentFormContainer)
+        )
       )
     )
   )

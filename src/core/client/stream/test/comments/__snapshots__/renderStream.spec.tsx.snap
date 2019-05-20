@@ -82,32 +82,35 @@ exports[`renders comment stream 1`] = `
                 className=""
               >
                 <div
-                  aria-hidden="true"
-                  className="RTE-placeholder RTE-placeholder "
+                  className="RTE-contentEditableContainer"
                 >
-                  Post a comment
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "",
+                      }
+                    }
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
                 </div>
                 <div
-                  aria-placeholder="Post a comment"
-                  className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
-                  contentEditable={false}
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "",
-                    }
-                  }
-                  disabled={true}
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onCut={[Function]}
-                  onFocus={[Function]}
-                  onInput={[Function]}
-                  onKeyDown={[Function]}
-                  onPaste={[Function]}
-                  onSelect={[Function]}
-                />
-                <div
-                  className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
+                  className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
                 >
                   <button
                     className="Button-button"
@@ -156,9 +159,9 @@ exports[`renders comment stream 1`] = `
             </div>
           </div>
           <button
-            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth Button-disabled"
-            disabled={true}
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
             onBlur={[Function]}
+            onClick={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}

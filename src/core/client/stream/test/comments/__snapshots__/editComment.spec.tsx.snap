@@ -228,25 +228,29 @@ exports[`edit a comment and handle server error: edit form 1`] = `
             className=""
           >
             <div
-              aria-placeholder="Edit comment"
-              className="RTE-contentEditable RTE-content"
-              contentEditable={true}
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "I like yoghurt",
+              className="RTE-contentEditableContainer"
+            >
+              <div
+                aria-placeholder="Edit comment"
+                className="RTE-contentEditable RTE-content"
+                contentEditable={true}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "I like yoghurt",
+                  }
                 }
-              }
-              disabled={false}
-              id="comments-editCommentForm-rte-comment-with-replies"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onCut={[Function]}
-              onFocus={[Function]}
-              onInput={[Function]}
-              onKeyDown={[Function]}
-              onPaste={[Function]}
-              onSelect={[Function]}
-            />
+                disabled={false}
+                id="comments-editCommentForm-rte-comment-with-replies"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+            </div>
             <div
               className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
             >
@@ -394,25 +398,29 @@ exports[`edit a comment: edit form 1`] = `
             className=""
           >
             <div
-              aria-placeholder="Edit comment"
-              className="RTE-contentEditable RTE-content"
-              contentEditable={true}
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "I like yoghurt",
+              className="RTE-contentEditableContainer"
+            >
+              <div
+                aria-placeholder="Edit comment"
+                className="RTE-contentEditable RTE-content"
+                contentEditable={true}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "I like yoghurt",
+                  }
                 }
-              }
-              disabled={false}
-              id="comments-editCommentForm-rte-comment-with-replies"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onCut={[Function]}
-              onFocus={[Function]}
-              onInput={[Function]}
-              onKeyDown={[Function]}
-              onPaste={[Function]}
-              onSelect={[Function]}
-            />
+                disabled={false}
+                id="comments-editCommentForm-rte-comment-with-replies"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+            </div>
             <div
               className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
             >
@@ -560,25 +568,29 @@ exports[`edit a comment: optimistic response 1`] = `
             className=""
           >
             <div
-              aria-placeholder="Edit comment"
-              className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
-              contentEditable={false}
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "Edited!",
+              className="RTE-contentEditableContainer"
+            >
+              <div
+                aria-placeholder="Edit comment"
+                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                contentEditable={false}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Edited!",
+                  }
                 }
-              }
-              disabled={true}
-              id="comments-editCommentForm-rte-comment-with-replies"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onCut={[Function]}
-              onFocus={[Function]}
-              onInput={[Function]}
-              onKeyDown={[Function]}
-              onPaste={[Function]}
-              onSelect={[Function]}
-            />
+                disabled={true}
+                id="comments-editCommentForm-rte-comment-with-replies"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+            </div>
             <div
               className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
             >
@@ -1290,25 +1302,29 @@ exports[`shows expiry message: edit time expired 1`] = `
             className=""
           >
             <div
-              aria-placeholder="Edit comment"
-              className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
-              contentEditable={false}
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "I like yoghurt",
+              className="RTE-contentEditableContainer"
+            >
+              <div
+                aria-placeholder="Edit comment"
+                className="RTE-contentEditable RTE-content  RTE-contentEditableDisabled"
+                contentEditable={false}
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "I like yoghurt",
+                  }
                 }
-              }
-              disabled={true}
-              id="comments-editCommentForm-rte-comment-with-replies"
-              onBlur={[Function]}
-              onChange={[Function]}
-              onCut={[Function]}
-              onFocus={[Function]}
-              onInput={[Function]}
-              onKeyDown={[Function]}
-              onPaste={[Function]}
-              onSelect={[Function]}
-            />
+                disabled={true}
+                id="comments-editCommentForm-rte-comment-with-replies"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onCut={[Function]}
+                onFocus={[Function]}
+                onInput={[Function]}
+                onKeyDown={[Function]}
+                onPaste={[Function]}
+                onSelect={[Function]}
+              />
+            </div>
             <div
               className="RTE-toolbar  RTE-toolbarDisabled RTE-toolbarBottom Toolbar-toolbar"
             >

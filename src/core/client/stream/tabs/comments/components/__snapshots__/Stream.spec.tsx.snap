@@ -24,7 +24,7 @@ exports[`renders correctly 1`] = `
       }
     }
   />
-  <withContext(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
+  <withContext(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))))
     settings={
       Object {
         "reaction": Object {
@@ -170,7 +170,7 @@ exports[`when there is more disables load more button 1`] = `
       }
     }
   />
-  <withContext(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
+  <withContext(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))))
     settings={
       Object {
         "reaction": Object {
@@ -330,7 +330,7 @@ exports[`when there is more renders a load more button 1`] = `
       }
     }
   />
-  <withContext(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
+  <withContext(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))))
     settings={
       Object {
         "reaction": Object {
@@ -490,7 +490,7 @@ exports[`when use is logged in renders correctly 1`] = `
       }
     }
   />
-  <withContext(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))
+  <withContext(withContext(createMutationContainer(withContext(createMutationContainer(withContext(withFetch(withContext(withLocalStateContainer(Relay(PostCommentFormContainer))))))))))
     settings={
       Object {
         "reaction": Object {
