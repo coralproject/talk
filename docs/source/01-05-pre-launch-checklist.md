@@ -77,7 +77,8 @@ permalink: /pre-launch-checklist/
   - See [our blog for more information](https://coralproject.net/blog/slacking-on/)
   
   
-- [ ] Has your community team configured Talk to match your community strategy?
+- [ ] Have you configured Talk’s admin settings and determined your community strategy?
   - See [our tutorial for more information](https://docs.coralproject.net/talk/when-youve-installed-talk/)
+  - See [Configuring Talk](/talk/configuring-talk/)
  
  

@@ -9,6 +9,9 @@ in a simple way. We use the following
 [meta tags](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta) on
 the target pages that allow us to extract some properties.
 
+Asset scraping is performed by the `scraper` job which is enabled by default when you launch Talk. If your production site is behind a paywall or otherwise prevents scraping, you might need to confiugre a [TALK_SCRAPER_PROXY_URL](/talk/advanced-configuration/#talk-scraper-proxy-url) or custom [TALK_SCRAPER_HEADERS](/talk/advanced-configuration/#talk-scraper-headers). 
+
+
 | Asset Property     | Selector |
 |--------------------|----------|
 | `title`            | See [`metascraper-title`](https://github.com/microlinkhq/metascraper/blob/dc664c37ea1b238b1e3e9d5342edfacc9027892c/packages/metascraper-title/index.js) |
@@ -43,7 +46,6 @@ from that URL. For example:
 └──────────────────┴──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-Asset scraping is performed by the `scraper` job which is enabled by default when you launch Talk. If your production site is behind a paywall or otherwise prevents scraping, you might need to confiugre a [TALK_SCRAPER_PROXY_URL](/talk/advanced-configuration/#talk-scraper-proxy-url) or custom [TALK_SCRAPER_HEADERS](/talk/advanced-configuration/#talk-scraper-headers). 
 
 
-You can also use the `./bin/cli assets refresh [age]` to trigger scraping or rescrape assets where the scraper job was unsuccessful. 
+You can use the `./bin/cli assets refresh [age]` to trigger scraping or rescrape assets where the scraper job was unsuccessful. 
