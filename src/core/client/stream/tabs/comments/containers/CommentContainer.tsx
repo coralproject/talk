@@ -84,8 +84,14 @@ export class CommentContainer extends Component<Props, State> {
       this.props.comment.author &&
       this.props.viewer.id === this.props.comment.author.id
     );
+    const banned = Boolean(
+      this.props.viewer &&
+        this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
+    );
     return (
-      isMyComment && isBeforeDate(this.props.comment.editing.editableUntil)
+      !banned &&
+      isMyComment &&
+      isBeforeDate(this.props.comment.editing.editableUntil)
     );
   }
 
