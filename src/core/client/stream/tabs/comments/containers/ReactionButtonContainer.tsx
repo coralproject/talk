@@ -66,7 +66,7 @@ class ReactionButtonContainer extends React.Component<Props> {
       this.props.comment.viewerActionPresence &&
       this.props.comment.viewerActionPresence.reaction;
 
-    return totalReactions > 0 ? (
+    return !readOnly || totalReactions > 0 ? (
       <ReactionButton
         onClick={this.handleClick}
         totalReactions={totalReactions}

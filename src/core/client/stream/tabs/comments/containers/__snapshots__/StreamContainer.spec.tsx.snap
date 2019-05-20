@@ -25,6 +25,7 @@ exports[`renders correctly 1`] = `
     }
   />
   <Stream
+    banned={false}
     comments={
       Array [
         Object {
@@ -97,6 +98,7 @@ exports[`when has more comments renders hasMore 1`] = `
     }
   />
   <Stream
+    banned={false}
     comments={
       Array [
         Object {
@@ -170,6 +172,7 @@ exports[`when has more comments when loading more disables load more button 1`] 
     }
   />
   <Stream
+    banned={false}
     comments={
       Array [
         Object {
@@ -243,6 +246,7 @@ exports[`when has more comments when loading more enable load more button after 
     }
   />
   <Stream
+    banned={false}
     comments={
       Array [
         Object {
