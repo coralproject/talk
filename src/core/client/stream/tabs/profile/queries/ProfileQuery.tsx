@@ -10,7 +10,7 @@ import {
 } from "coral-framework/lib/relay";
 import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
 import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
-import { Delay, Spinner } from "coral-ui/components";
+import { CallOut, Delay, Spinner } from "coral-ui/components";
 
 const loadProfileContainer = () =>
   import("../containers/ProfileContainer" /* webpackChunkName: "profile" */);
@@ -28,7 +28,11 @@ export const render = ({
   props,
 }: ReadyState<QueryTypes["response"]>) => {
   if (error) {
-    return <div>{error.message}</div>;
+    return (
+      <CallOut color="error" fullWidth>
+        {error.message}
+      </CallOut>
+    );
   }
 
   // TODO: use official React API once it has one :-)
@@ -38,14 +42,16 @@ export const render = ({
     if (!props.viewer) {
       return (
         <Localized id="profile-profileQuery-errorLoadingProfile">
-          <div>Error loading profile</div>
+          <CallOut color="error" fullWidth>
+            Error loading profile
+          </CallOut>
         </Localized>
       );
     }
     if (!props.story) {
       return (
         <Localized id="profile-profileQuery-storyNotFound">
-          <div>Story not found</div>
+          <CallOut>Story not found</CallOut>
         </Localized>
       );
     }

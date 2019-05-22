@@ -305,6 +305,21 @@ exports[`renders comment stream 1`] = `
                           <button
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                             disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            disabled={false}
                             id="comments-commentContainer-replyButton-comment-0"
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -350,20 +365,6 @@ exports[`renders comment stream 1`] = `
                               </div>
                             </div>
                           </div>
-                          <button
-                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <span>
-                              Respect
-                            </span>
-                          </button>
                         </div>
                         <div
                           className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -464,6 +465,21 @@ exports[`renders comment stream 1`] = `
                           <button
                             className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                             disabled={false}
+                            onBlur={[Function]}
+                            onClick={[Function]}
+                            onFocus={[Function]}
+                            onMouseOut={[Function]}
+                            onMouseOver={[Function]}
+                            onTouchEnd={[Function]}
+                            type="button"
+                          >
+                            <span>
+                              Respect
+                            </span>
+                          </button>
+                          <button
+                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                            disabled={false}
                             id="comments-commentContainer-replyButton-comment-from-staff-0"
                             onBlur={[Function]}
                             onClick={[Function]}
@@ -509,20 +525,6 @@ exports[`renders comment stream 1`] = `
                               </div>
                             </div>
                           </div>
-                          <button
-                            className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                            onBlur={[Function]}
-                            onClick={[Function]}
-                            onFocus={[Function]}
-                            onMouseOut={[Function]}
-                            onMouseOver={[Function]}
-                            onTouchEnd={[Function]}
-                            type="button"
-                          >
-                            <span>
-                              Respect
-                            </span>
-                          </button>
                         </div>
                         <div
                           className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"

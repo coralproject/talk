@@ -79,6 +79,21 @@ exports[`cancel edit 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -124,20 +139,6 @@ exports[`cancel edit 1`] = `
                     </div>
                   </div>
                 </div>
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span>
-                    Respect
-                  </span>
-                </button>
               </div>
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -774,6 +775,21 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -819,20 +835,6 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     </div>
                   </div>
                 </div>
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span>
-                    Respect
-                  </span>
-                </button>
               </div>
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -968,6 +970,21 @@ exports[`edit a comment: server response 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -1013,20 +1030,6 @@ exports[`edit a comment: server response 1`] = `
                     </div>
                   </div>
                 </div>
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span>
-                    Respect
-                  </span>
-                </button>
               </div>
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -1153,6 +1156,21 @@ exports[`shows expiry message: edit form closed 1`] = `
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                   disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
                   id="comments-commentContainer-replyButton-comment-with-replies"
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -1198,20 +1216,6 @@ exports[`shows expiry message: edit form closed 1`] = `
                     </div>
                   </div>
                 </div>
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span>
-                    Respect
-                  </span>
-                </button>
               </div>
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"

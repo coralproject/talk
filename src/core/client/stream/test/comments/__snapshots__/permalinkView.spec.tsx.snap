@@ -162,6 +162,21 @@ exports[`renders permalink view 1`] = `
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                               disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              disabled={false}
                               id="comments-commentContainer-replyButton-comment-1"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -207,20 +222,6 @@ exports[`renders permalink view 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
-                            >
-                              <span>
-                                Respect
-                              </span>
-                            </button>
                           </div>
                           <div
                             className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -333,6 +334,21 @@ exports[`renders permalink view 1`] = `
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                               disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              disabled={false}
                               id="comments-commentContainer-replyButton-comment-2"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -378,20 +394,6 @@ exports[`renders permalink view 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
-                            >
-                              <span>
-                                Respect
-                              </span>
-                            </button>
                           </div>
                           <div
                             className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -502,6 +504,21 @@ exports[`renders permalink view 1`] = `
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                               disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              disabled={false}
                               id="comments-commentContainer-replyButton-comment-with-replies"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -547,20 +564,6 @@ exports[`renders permalink view 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
-                            >
-                              <span>
-                                Respect
-                              </span>
-                            </button>
                           </div>
                           <div
                             className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -667,6 +670,21 @@ exports[`renders permalink view 1`] = `
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                               disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              disabled={false}
                               id="comments-commentContainer-replyButton-comment-3"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -712,20 +730,6 @@ exports[`renders permalink view 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
-                            >
-                              <span>
-                                Respect
-                              </span>
-                            </button>
                           </div>
                           <div
                             className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -821,6 +825,21 @@ exports[`renders permalink view 1`] = `
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                               disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                              onTouchEnd={[Function]}
+                              type="button"
+                            >
+                              <span>
+                                Respect
+                              </span>
+                            </button>
+                            <button
+                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                              disabled={false}
                               id="comments-commentContainer-replyButton-comment-4"
                               onBlur={[Function]}
                               onClick={[Function]}
@@ -866,20 +885,6 @@ exports[`renders permalink view 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <button
-                              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                              onBlur={[Function]}
-                              onClick={[Function]}
-                              onFocus={[Function]}
-                              onMouseOut={[Function]}
-                              onMouseOver={[Function]}
-                              onTouchEnd={[Function]}
-                              type="button"
-                            >
-                              <span>
-                                Respect
-                              </span>
-                            </button>
                           </div>
                           <div
                             className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"

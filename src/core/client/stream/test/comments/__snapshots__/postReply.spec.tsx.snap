@@ -63,6 +63,21 @@ exports[`post a reply: open reply form 1`] = `
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
               >
                 <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+                <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost Button-active"
                   disabled={false}
                   id="comments-commentContainer-replyButton-comment-0"
@@ -110,20 +125,6 @@ exports[`post a reply: open reply form 1`] = `
                     </div>
                   </div>
                 </div>
-                <button
-                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  <span>
-                    Respect
-                  </span>
-                </button>
               </div>
               <div
                 className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
@@ -415,6 +416,21 @@ exports[`post a reply: optimistic response 1`] = `
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
                       disabled={false}
+                      onBlur={[Function]}
+                      onClick={[Function]}
+                      onFocus={[Function]}
+                      onMouseOut={[Function]}
+                      onMouseOver={[Function]}
+                      onTouchEnd={[Function]}
+                      type="button"
+                    >
+                      <span>
+                        Respect
+                      </span>
+                    </button>
+                    <button
+                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                      disabled={false}
                       id="comments-commentContainer-replyButton-uuid-0"
                       onBlur={[Function]}
                       onClick={[Function]}
@@ -460,20 +476,6 @@ exports[`post a reply: optimistic response 1`] = `
                         </div>
                       </div>
                     </div>
-                    <button
-                      className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
-                      onBlur={[Function]}
-                      onClick={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                      onTouchEnd={[Function]}
-                      type="button"
-                    >
-                      <span>
-                        Respect
-                      </span>
-                    </button>
                   </div>
                   <div
                     className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"

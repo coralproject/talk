@@ -1390,7 +1390,12 @@ type User {
   emailVerified when true indicates that the given email address has been
   verified.
   """
-  emailVerified: Boolean @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  emailVerified: Boolean
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   profiles is the array of profiles assigned to the user.
@@ -1419,7 +1424,12 @@ type User {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
-  ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  ): CommentsConnection!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   commentModerationActionHistory returns a CommentModerationActionConnection
@@ -1438,7 +1448,8 @@ type User {
   """
   tokens lists the access tokens associated with the account.
   """
-  tokens: [Token!]! @auth(roles: [ADMIN], userIDField: "id")
+  tokens: [Token!]!
+    @auth(roles: [ADMIN], userIDField: "id", permit: [SUSPENDED, BANNED])
 
   """
   createdAt is the time that the User was created at.
@@ -1658,7 +1669,11 @@ type Comment {
   edit last.
   """
   revisionHistory: [CommentRevision!]!
-    @auth(roles: [MODERATOR, ADMIN], userIDField: "author_id")
+    @auth(
+      roles: [MODERATOR, ADMIN]
+      userIDField: "author_id"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   createdAt is the date in which the Comment was created.
