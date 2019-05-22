@@ -1,11 +1,7 @@
 {% import "macros.html" as macros %} {% extends "templates/base.html" %} {%
 block title %}Coral{% endblock %} {% block meta %}
 <script type="application/javascript" id="config">
-  {
-    {
-      staticURI | dump | safe;
-    }
-  }
+  {{ staticURI | dump | safe }}
 </script>
 {% endblock %} {# Include all the styles from the entrypoint #} {% if
 entrypoint.css or enableCustomCSS %} {% block css %} {% if entrypoint.css %} {%
