@@ -1,6 +1,6 @@
 .version {
   position: absolute;
   right: 0;
-  top: 22px;
+  top: 23px;
   font-size: calc(10rem / var(--rem-base));
 }

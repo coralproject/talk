@@ -1,7 +1,7 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import PermittedDomains, {
   PermittedDomainsForm,

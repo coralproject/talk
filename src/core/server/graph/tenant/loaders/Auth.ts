@@ -1,8 +1,8 @@
 import DataLoader from "dataloader";
 
-import TenantContext from "talk-server/graph/tenant/context";
-import { GQLDiscoveredOIDCConfiguration } from "talk-server/graph/tenant/schema/__generated__/types";
-import { discoverOIDCConfiguration } from "talk-server/services/tenant";
+import TenantContext from "coral-server/graph/tenant/context";
+import { GQLDiscoveredOIDCConfiguration } from "coral-server/graph/tenant/schema/__generated__/types";
+import { discoverOIDCConfiguration } from "coral-server/services/tenant";
 
 export default (ctx: TenantContext) => ({
   discoverOIDCConfiguration: new DataLoader<

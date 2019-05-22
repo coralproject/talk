@@ -5,9 +5,9 @@ import {
 } from "react-relay";
 import { OperationBase, OperationDefaults } from "relay-runtime";
 
-import { Omit } from "talk-framework/types";
+import { Omit } from "coral-framework/types";
 
-import { TalkContextConsumer } from "../bootstrap/TalkContext";
+import { CoralContextConsumer } from "../bootstrap/CoralContext";
 
 // Omit environment as we are passing this from the context.
 export type QueryRendererProps<
@@ -15,22 +15,22 @@ export type QueryRendererProps<
 > = Omit<QueryRendererPropsOrig<T>, "environment">;
 
 /**
- * TalkQueryRenderer is a wrappper around  Relay's `QueryRenderer`.
+ * CoralQueryRenderer is a wrappper around  Relay's `QueryRenderer`.
  * It supplies the `environment` from the context and has better
  * generics type support.
  */
-class TalkQueryRenderer<
+class CoralQueryRenderer<
   T extends OperationBase = OperationDefaults
 > extends Component<QueryRendererProps<T>> {
   public render() {
     return (
-      <TalkContextConsumer>
+      <CoralContextConsumer>
         {({ relayEnvironment }) => (
           <QueryRenderer environment={relayEnvironment} {...this.props} />
         )}
-      </TalkContextConsumer>
+      </CoralContextConsumer>
     );
   }
 }
 
-export default TalkQueryRenderer;
+export default CoralQueryRenderer;

@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import { Flex } from "talk-ui/components";
-import { withStyles } from "talk-ui/hocs";
+import { Flex } from "coral-ui/components";
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./SubBar.css";
 

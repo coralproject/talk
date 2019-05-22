@@ -3,8 +3,8 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form, FormSpy } from "react-final-form";
 
-import MainLayout from "talk-admin/components/MainLayout";
-import { Button, CallOut, HorizontalGutter } from "talk-ui/components";
+import MainLayout from "coral-admin/components/MainLayout";
+import { Button, CallOut, HorizontalGutter } from "coral-ui/components";
 
 import Layout from "./Layout";
 import Main from "./Main";

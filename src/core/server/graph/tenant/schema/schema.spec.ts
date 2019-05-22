@@ -1,7 +1,7 @@
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLFlagReasonActionCounts,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 
 type ExtractKeys<T> = { [P in keyof T]: P }[keyof T];
 type A = ExtractKeys<typeof GQLCOMMENT_FLAG_REASON>;

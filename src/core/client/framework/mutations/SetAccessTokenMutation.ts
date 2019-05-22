@@ -1,11 +1,11 @@
 import { Environment } from "relay-runtime";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitLocalUpdatePromisified,
   createMutation,
   setAccessTokenInLocalState,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 interface SetAccessTokenInput {
   accessToken: string | null;
@@ -16,7 +16,7 @@ const SetAccessTokenMutation = createMutation(
   async (
     environment: Environment,
     input: SetAccessTokenInput,
-    { localStorage, clearSession }: TalkContext
+    { localStorage, clearSession }: CoralContext
   ) => {
     await commitLocalUpdatePromisified(environment, async store => {
       setAccessTokenInLocalState(input.accessToken, store);

@@ -1,17 +1,17 @@
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import { ERROR_CODES } from "talk-common/errors";
+import { ERROR_CODES } from "coral-common/errors";
 import {
   InvalidRequestError,
   ModerationNudgeError,
-} from "talk-framework/lib/errors";
+} from "coral-framework/lib/errors";
 import {
   createSinonStub,
   findParentWithType,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import RTE from "@coralproject/rte";
 import { baseComment, commenters, settings, stories } from "../fixtures";

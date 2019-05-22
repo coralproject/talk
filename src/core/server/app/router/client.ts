@@ -2,12 +2,12 @@ import express, { Router } from "express";
 import { minify } from "html-minifier";
 import path from "path";
 
-import { cacheHeadersMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import { cspTenantMiddleware } from "talk-server/app/middleware/csp/tenant";
-import { installedMiddleware } from "talk-server/app/middleware/installed";
-import { tenantMiddleware } from "talk-server/app/middleware/tenant";
-import logger from "talk-server/logger";
-import TenantCache from "talk-server/services/tenant/cache";
+import { cacheHeadersMiddleware } from "coral-server/app/middleware/cacheHeaders";
+import { cspTenantMiddleware } from "coral-server/app/middleware/csp/tenant";
+import { installedMiddleware } from "coral-server/app/middleware/installed";
+import { tenantMiddleware } from "coral-server/app/middleware/tenant";
+import logger from "coral-server/logger";
+import TenantCache from "coral-server/services/tenant/cache";
 
 import Entrypoints, { Entrypoint } from "../helpers/entrypoints";
 

@@ -1,7 +1,7 @@
 import { FormApi } from "final-form";
 import React from "react";
 
-import { InvalidRequestError } from "talk-framework/lib/errors";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 
 import { AddSubmitHook, SubmitHook, SubmitHookContextProvider } from "./";
 

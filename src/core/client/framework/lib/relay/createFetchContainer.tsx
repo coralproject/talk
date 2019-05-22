@@ -7,7 +7,7 @@ import {
 } from "recompose";
 import { Environment } from "relay-runtime";
 
-import { TalkContext, withContext } from "../bootstrap";
+import { CoralContext, withContext } from "../bootstrap";
 
 /**
  * createFetchContainer creates a HOC that
@@ -20,7 +20,7 @@ function createFetchContainer<T extends string, V, R>(
   fetch: (
     environment: Environment,
     variables: V,
-    context: TalkContext
+    context: CoralContext
   ) => Promise<R>
 ): InferableComponentEnhancer<{ [P in T]: (variables: V) => Promise<R> }> {
   return compose(

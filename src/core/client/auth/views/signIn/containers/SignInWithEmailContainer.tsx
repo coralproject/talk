@@ -5,10 +5,10 @@ import {
   SetViewMutation,
   SignInMutation,
   withSignInMutation,
-} from "talk-auth/mutations";
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
+} from "coral-auth/mutations";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
 
-import { getViewURL } from "talk-auth/helpers";
+import { getViewURL } from "coral-auth/helpers";
 import SignInWithEmail, {
   SignInWithEmailForm,
 } from "../components/SignInWithEmail";

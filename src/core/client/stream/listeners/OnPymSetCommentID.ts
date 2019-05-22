@@ -3,9 +3,9 @@ import { Component } from "react";
 import { commitLocalUpdate } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { getURLWithCommentID } from "talk-framework/helpers";
-import { withContext } from "talk-framework/lib/bootstrap";
-import { LOCAL_ID } from "talk-framework/lib/relay";
+import { getURLWithCommentID } from "coral-framework/helpers";
+import { withContext } from "coral-framework/lib/bootstrap";
+import { LOCAL_ID } from "coral-framework/lib/relay";
 
 interface Props {
   relayEnvironment: Environment;

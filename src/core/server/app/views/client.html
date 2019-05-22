@@ -1,37 +1,22 @@
-{% import "macros.html" as macros %}
-
-{% extends "templates/base.html" %}
-
-{% block title %}Talk{% endblock %}
-
-{% block meta %}
-<script type="application/javascript" id="config">{{ staticURI | dump | safe }}</script>
-{% endblock %}
-
-{# Include all the styles from the entrypoint #}
-{% if entrypoint.css or enableCustomCSS %}
-  {% block css %}
-    {% if entrypoint.css %}
-      {% for asset in entrypoint.css %}
-        {{ macros.css(asset.src, asset.integrity, staticURI) }}
-      {% endfor %}
-    {% endif %}
-    {% if enableCustomCSS %}
-      {# Custom CSS is included after the CSS block so that its overrides will apply #}
-      {% include "partials/customCSS.html" %}
-    {% endif %}
-  {% endblock %}
-{% endif %}
-
-{% block html %}
+{% import "macros.html" as macros %} {% extends "templates/base.html" %} {%
+block title %}Coral{% endblock %} {% block meta %}
+<script type="application/javascript" id="config">
+  {
+    {
+      staticURI | dump | safe;
+    }
+  }
+</script>
+{% endblock %} {# Include all the styles from the entrypoint #} {% if
+entrypoint.css or enableCustomCSS %} {% block css %} {% if entrypoint.css %} {%
+for asset in entrypoint.css %}
+{{ macros.css(asset.src, asset.integrity, staticURI) }}
+{% endfor %} {% endif %} {% if enableCustomCSS %} {# Custom CSS is included
+after the CSS block so that its overrides will apply #} {% include
+"partials/customCSS.html" %} {% endif %} {% endblock %} {% endif %} {% block
+html %}
 <div id="app"></div>
-{% endblock %}
-
-{# Include all the scripts from the entrypoint #}
-{% if entrypoint.js %}
-  {% block js %}
-    {% for asset in entrypoint.js %}
-      {{ macros.js(asset.src, asset.integrity, staticURI) }}
-    {% endfor %}
-  {% endblock %}
-{% endif %}
+{% endblock %} {# Include all the scripts from the entrypoint #} {% if
+entrypoint.js %} {% block js %} {% for asset in entrypoint.js %}
+{{ macros.js(asset.src, asset.integrity, staticURI) }}
+{% endfor %} {% endblock %} {% endif %}

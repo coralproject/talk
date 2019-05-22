@@ -4,10 +4,10 @@
 }
 
 .replies {
-  composes: button from "talk-ui/shared/typography.css";
+  composes: button from "coral-ui/shared/typography.css";
 }
 
 .viewConversation {
-  composes: button from "talk-ui/shared/typography.css";
+  composes: button from "coral-ui/shared/typography.css";
   color: var(--palette-grey-main);
 }

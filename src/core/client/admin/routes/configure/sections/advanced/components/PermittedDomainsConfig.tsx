@@ -2,14 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { formatStringList, parseStringList } from "talk-framework/lib/form";
+import { formatStringList, parseStringList } from "coral-framework/lib/form";
 import {
   FormField,
   HorizontalGutter,
   TextField,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import Header from "../../../components/Header";
 
@@ -30,7 +30,7 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
         strong={<strong />}
       >
         <Typography variant="detail">
-          Domains where your Talk instance is allowed to be embedded. Typical
+          Domains where your Coral instance is allowed to be embedded. Typical
           use is localhost, staging.yourdomain.com, yourdomain.com, etc.
         </Typography>
       </Localized>

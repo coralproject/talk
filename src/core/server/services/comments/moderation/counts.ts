@@ -1,7 +1,7 @@
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import { decodeActionCounts } from "talk-server/models/action/comment";
-import { Comment } from "talk-server/models/comment";
-import { CommentModerationQueueCounts } from "talk-server/models/story";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { decodeActionCounts } from "coral-server/models/action/comment";
+import { Comment } from "coral-server/models/comment";
+import { CommentModerationQueueCounts } from "coral-server/models/story";
 
 export const UNMODERATED_STATUSES = [
   GQLCOMMENT_STATUS.NONE,

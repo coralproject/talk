@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React from "react";
 
-import { HorizontalGutter, Typography } from "talk-ui/components";
+import { HorizontalGutter, Typography } from "coral-ui/components";
 
 const Sorry: React.FunctionComponent = () => {
   return (

@@ -1,21 +1,21 @@
 import express from "express";
 
-import { AppOptions } from "talk-server/app";
+import { AppOptions } from "coral-server/app";
 import {
   forgotCheckHandler,
   forgotHandler,
   forgotResetHandler,
   logoutHandler,
   signupHandler,
-} from "talk-server/app/handlers";
-import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import { jsonMiddleware } from "talk-server/app/middleware/json";
+} from "coral-server/app/handlers";
+import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
+import { jsonMiddleware } from "coral-server/app/middleware/json";
 import {
   authenticate,
   wrapAuthn,
   wrapOAuth2Authn,
-} from "talk-server/app/middleware/passport";
-import { RouterOptions } from "talk-server/app/router/types";
+} from "coral-server/app/middleware/passport";
+import { RouterOptions } from "coral-server/app/router/types";
 
 function wrapPath(
   app: AppOptions,

@@ -1,7 +1,7 @@
 import { RequestHandler, Response } from "express";
 
-import logger from "talk-server/logger";
-import { Request } from "talk-server/types/express";
+import logger from "coral-server/logger";
+import { Request } from "coral-server/types/express";
 
 function wrapResponse(req: Request, res: Response) {
   // If the request is not an array, or has no elements, we should skip it.

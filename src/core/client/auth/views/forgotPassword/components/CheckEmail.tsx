@@ -1,9 +1,9 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { Bar, Title } from "talk-auth/components/Header";
-import Main from "talk-auth/components/Main";
-import { Button, HorizontalGutter, Typography } from "talk-ui/components";
+import { Bar, Title } from "coral-auth/components/Header";
+import Main from "coral-auth/components/Main";
+import { Button, HorizontalGutter, Typography } from "coral-ui/components";
 
 interface Props {
   email: string;

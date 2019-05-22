@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent, useContext } from "react";
 
-import { withStyles } from "talk-ui/hocs";
-import { Omit } from "talk-ui/types";
+import { withStyles } from "coral-ui/hocs";
+import { Omit } from "coral-ui/types";
 
 import { TableHeadContext } from "./TableHead";
 

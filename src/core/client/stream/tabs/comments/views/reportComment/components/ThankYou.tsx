@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button, HorizontalGutter, Typography } from "talk-ui/components";
+import { Button, HorizontalGutter, Typography } from "coral-ui/components";
 
 import styles from "./ThankYou.css";
 

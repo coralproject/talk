@@ -1,16 +1,16 @@
 import { pick } from "lodash";
 import { Environment } from "relay-runtime";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { createMutationContainer } from "talk-framework/lib/relay";
-import { signUp, SignUpInput } from "talk-framework/rest";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { createMutationContainer } from "coral-framework/lib/relay";
+import { signUp, SignUpInput } from "coral-framework/rest";
 
 export type SignUpMutation = (input: SignUpInput) => Promise<void>;
 
 export async function commit(
   environment: Environment,
   input: SignUpInput,
-  { rest, clearSession }: TalkContext
+  { rest, clearSession }: CoralContext
 ) {
   const result = await signUp(
     rest,

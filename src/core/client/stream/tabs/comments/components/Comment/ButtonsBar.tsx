@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Flex } from "talk-ui/components";
+import { Flex } from "coral-ui/components";
 
 const ButtonsBar: FunctionComponent = props => {
   return (

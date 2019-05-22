@@ -1,9 +1,9 @@
-import { CommentingDisabledError } from "talk-server/errors";
-import { Settings } from "talk-server/models/settings";
+import { CommentingDisabledError } from "coral-server/errors";
+import { Settings } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 const testDisabledCommenting = (settings: Partial<Settings>) =>
   settings.disableCommenting && settings.disableCommenting.enabled;

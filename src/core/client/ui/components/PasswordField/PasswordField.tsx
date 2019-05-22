@@ -1,4 +1,5 @@
 import cn from "classnames";
+import { withStyles } from "coral-ui/hocs";
 import React, {
   AllHTMLAttributes,
   ChangeEvent,
@@ -6,7 +7,6 @@ import React, {
   EventHandler,
   MouseEvent,
 } from "react";
-import { withStyles } from "talk-ui/hocs";
 
 import Icon from "../Icon";
 import styles from "./PasswordField.css";

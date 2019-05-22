@@ -3,7 +3,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 import { Field as FormField } from "react-final-form";
 
-import { BaseButton, Flex, Icon } from "talk-ui/components";
+import { BaseButton, Flex, Icon } from "coral-ui/components";
 
 import styles from "./Field.css";
 

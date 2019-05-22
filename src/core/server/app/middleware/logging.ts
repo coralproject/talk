@@ -2,7 +2,7 @@ import { ErrorRequestHandler, RequestHandler } from "express";
 import onFinished from "on-finished";
 import now from "performance-now";
 
-import logger from "talk-server/logger";
+import logger from "coral-server/logger";
 
 export const accessLogger: RequestHandler = (req, res, next) => {
   const startTime = now();

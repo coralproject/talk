@@ -7,11 +7,11 @@ import {
   graphql,
   QueryRenderer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
-import { PermalinkViewQuery as QueryTypes } from "talk-stream/__generated__/PermalinkViewQuery.graphql";
-import { PermalinkViewQueryLocal as Local } from "talk-stream/__generated__/PermalinkViewQueryLocal.graphql";
+} from "coral-framework/lib/relay";
+import { PermalinkViewQuery as QueryTypes } from "coral-stream/__generated__/PermalinkViewQuery.graphql";
+import { PermalinkViewQueryLocal as Local } from "coral-stream/__generated__/PermalinkViewQueryLocal.graphql";
 
-import { Delay, Spinner } from "talk-ui/components";
+import { Delay, Spinner } from "coral-ui/components";
 import PermalinkViewContainer from "../containers/PermalinkViewContainer";
 
 interface Props {

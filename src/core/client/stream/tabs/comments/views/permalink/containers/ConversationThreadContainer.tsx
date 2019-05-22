@@ -2,17 +2,17 @@ import { Child as PymChild } from "pym.js";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { withContext } from "talk-framework/lib/bootstrap";
-import { withPaginationContainer } from "talk-framework/lib/relay";
-import { ConversationThreadContainer_comment as CommentData } from "talk-stream/__generated__/ConversationThreadContainer_comment.graphql";
-import { ConversationThreadContainer_settings as SettingsData } from "talk-stream/__generated__/ConversationThreadContainer_settings.graphql";
-import { ConversationThreadContainer_story as StoryData } from "talk-stream/__generated__/ConversationThreadContainer_story.graphql";
-import { ConversationThreadContainer_viewer as ViewerData } from "talk-stream/__generated__/ConversationThreadContainer_viewer.graphql";
-import { ConversationThreadContainerPaginationQueryVariables } from "talk-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
+import { withContext } from "coral-framework/lib/bootstrap";
+import { withPaginationContainer } from "coral-framework/lib/relay";
+import { ConversationThreadContainer_comment as CommentData } from "coral-stream/__generated__/ConversationThreadContainer_comment.graphql";
+import { ConversationThreadContainer_settings as SettingsData } from "coral-stream/__generated__/ConversationThreadContainer_settings.graphql";
+import { ConversationThreadContainer_story as StoryData } from "coral-stream/__generated__/ConversationThreadContainer_story.graphql";
+import { ConversationThreadContainer_viewer as ViewerData } from "coral-stream/__generated__/ConversationThreadContainer_viewer.graphql";
+import { ConversationThreadContainerPaginationQueryVariables } from "coral-stream/__generated__/ConversationThreadContainerPaginationQuery.graphql";
 import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 import ConversationThread from "../components/ConversationThread";
 

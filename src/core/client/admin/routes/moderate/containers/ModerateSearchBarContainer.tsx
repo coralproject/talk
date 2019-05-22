@@ -9,17 +9,17 @@ import React, {
 } from "react";
 import { graphql } from "react-relay";
 
-import { ModerateSearchBarContainer_story as ModerationQueuesData } from "talk-admin/__generated__/ModerateSearchBarContainer_story.graphql";
-import { SearchStoryFetch } from "talk-admin/fetches";
-import { useEffectWhenChanged } from "talk-framework/hooks";
-import { useFetch, withFragmentContainer } from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
-import { Spinner } from "talk-ui/components";
-import { blur } from "talk-ui/helpers";
+import { ModerateSearchBarContainer_story as ModerationQueuesData } from "coral-admin/__generated__/ModerateSearchBarContainer_story.graphql";
+import { SearchStoryFetch } from "coral-admin/fetches";
+import { useEffectWhenChanged } from "coral-framework/hooks";
+import { useFetch, withFragmentContainer } from "coral-framework/lib/relay";
+import { PropTypesOf } from "coral-framework/types";
+import { Spinner } from "coral-ui/components";
+import { blur } from "coral-ui/helpers";
 import {
   ListBoxOptionClickOrEnterHandler,
   ListBoxOptionElement,
-} from "talk-ui/hooks/useComboBox";
+} from "coral-ui/hooks/useComboBox";
 
 import * as Search from "../components/Search";
 import GoToAriaInfo from "../components/Search/GoToAriaInfo";

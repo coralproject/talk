@@ -1,11 +1,11 @@
 import express, { Router } from "express";
 import { register } from "prom-client";
 
-import { AppOptions } from "talk-server/app";
-import { noCacheMiddleware } from "talk-server/app/middleware/cacheHeaders";
-import playground from "talk-server/app/middleware/playground";
-import { RouterOptions } from "talk-server/app/router/types";
-import logger from "talk-server/logger";
+import { AppOptions } from "coral-server/app";
+import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
+import playground from "coral-server/app/middleware/playground";
+import { RouterOptions } from "coral-server/app/router/types";
+import logger from "coral-server/logger";
 
 import { basicAuth } from "../middleware/basicAuth";
 import { createAPIRouter } from "./api";

@@ -2,14 +2,14 @@ import { Db } from "mongodb";
 
 import CommonContext, {
   CommonContextOptions,
-} from "talk-server/graph/common/context";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import { MailerQueue } from "talk-server/queue/tasks/mailer";
-import { ScraperQueue } from "talk-server/queue/tasks/scraper";
-import { JWTSigningConfig } from "talk-server/services/jwt";
-import { AugmentedRedis } from "talk-server/services/redis";
-import TenantCache from "talk-server/services/tenant/cache";
+} from "coral-server/graph/common/context";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { ScraperQueue } from "coral-server/queue/tasks/scraper";
+import { JWTSigningConfig } from "coral-server/services/jwt";
+import { AugmentedRedis } from "coral-server/services/redis";
+import TenantCache from "coral-server/services/tenant/cache";
 
 import loaders from "./loaders";
 import mutators from "./mutators";

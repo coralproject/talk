@@ -1,12 +1,12 @@
 import React from "react";
 
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
-import { StoryClosedTimeoutContainer_story as StoryData } from "talk-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";
+import { StoryClosedTimeoutContainer_story as StoryData } from "coral-stream/__generated__/StoryClosedTimeoutContainer_story.graphql";
 import {
   SetStoryClosedMutation,
   withSetStoryClosedMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 interface Props {
   story: StoryData;

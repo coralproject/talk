@@ -3,8 +3,8 @@ import graphqlFields from "graphql-fields";
 import { pull } from "lodash";
 import { URL } from "url";
 
-import { parseQuery, stringifyQuery } from "talk-common/utils";
-import { constructTenantURL, reconstructURL } from "talk-server/app/url";
+import { parseQuery, stringifyQuery } from "coral-common/utils";
+import { constructTenantURL, reconstructURL } from "coral-server/app/url";
 
 import TenantContext from "../context";
 

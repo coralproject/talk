@@ -1,9 +1,9 @@
 import { Child } from "pym.js";
 import { Component } from "react";
 
-import { withContext } from "talk-framework/lib/bootstrap";
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
-import { SetAccessTokenMutation } from "talk-framework/mutations";
+import { withContext } from "coral-framework/lib/bootstrap";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
+import { SetAccessTokenMutation } from "coral-framework/mutations";
 
 interface Props {
   pym: Child;

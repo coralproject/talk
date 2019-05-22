@@ -122,7 +122,7 @@ exports[`renders configure organization 1`] = `
               <p
                 className="Typography-root Typography-detail Typography-colorTextPrimary"
               >
-                Your organization name will appear on emails sent by Talk to your community and organization members.
+                Your organization name will appear on emails sent by Coral to your community and organization members.
               </p>
               <div
                 className="TextField-root TextField-fullWidth"

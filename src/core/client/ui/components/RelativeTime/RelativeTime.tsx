@@ -2,9 +2,9 @@ import cn from "classnames";
 import React, { Ref } from "react";
 import TimeAgo, { Formatter } from "react-timeago";
 
-import { UIContext } from "talk-ui/components";
-import { withForwardRef, withStyles } from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+import { UIContext } from "coral-ui/components";
+import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./RelativeTime.css";
 

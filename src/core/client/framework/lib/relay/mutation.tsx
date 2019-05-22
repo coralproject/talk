@@ -7,13 +7,13 @@ import {
 } from "recompose";
 import { Environment } from "relay-runtime";
 
-import { Omit } from "talk-framework/types";
+import { Omit } from "coral-framework/types";
 
-import { TalkContext, useTalkContext, withContext } from "../bootstrap";
+import { CoralContext, useCoralContext, withContext } from "../bootstrap";
 
 export interface Mutation<N, I, R> {
   name: N;
-  commit: (environment: Environment, input: I, context: TalkContext) => R;
+  commit: (environment: Environment, input: I, context: CoralContext) => R;
 }
 
 export type MutationInput<
@@ -50,7 +50,7 @@ type RemoveClientMutationID<T> = T extends Promise<infer U>
 
 export function createMutation<N extends string, I, R>(
   name: N,
-  commit: (environment: Environment, input: I, context: TalkContext) => R
+  commit: (environment: Environment, input: I, context: CoralContext) => R
   // (cvle) We remove `clientMutationId` from the response, so we don't use it inside our app.
   // It is a Relay implementation detail that is pending for removal.
   // https://github.com/facebook/relay/pull/2349
@@ -68,7 +68,7 @@ export function createMutation<N extends string, I, R>(
 export function useMutation<I, R>(
   mutation: Mutation<any, I, R>
 ): MutationProp<typeof mutation> {
-  const context = useTalkContext();
+  const context = useCoralContext();
   return useCallback<MutationProp<typeof mutation>>(
     ((input: I) => {
       context.eventEmitter.emit(`mutation.${mutation.name}`, input);
@@ -89,7 +89,7 @@ export function withMutation<N extends string, I, R>(
     withContext(context => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class WithMutation extends React.Component<{
-        context: TalkContext;
+        context: CoralContext;
       }> {
         public static displayName = wrapDisplayName(
           BaseComponent,

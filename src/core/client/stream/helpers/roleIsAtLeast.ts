@@ -1,4 +1,4 @@
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 const hierarchy: GQLUSER_ROLE_RL[] = [
   GQLUSER_ROLE.COMMENTER,

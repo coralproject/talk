@@ -1,5 +1,5 @@
-import { parseQuery, stringifyQuery } from "talk-common/utils";
-import { buildURL } from "talk-framework/utils";
+import { parseQuery, stringifyQuery } from "coral-common/utils";
+import { buildURL } from "coral-framework/utils";
 
 import { Decorator } from "./types";
 

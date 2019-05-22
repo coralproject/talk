@@ -1,7 +1,7 @@
-import { AppOptions } from "talk-server/app";
-import { handleLogout } from "talk-server/app/middleware/passport";
-import { IntegrationDisabled } from "talk-server/errors";
-import { RequestHandler } from "talk-server/types/express";
+import { AppOptions } from "coral-server/app";
+import { handleLogout } from "coral-server/app/middleware/passport";
+import { IntegrationDisabled } from "coral-server/errors";
+import { RequestHandler } from "coral-server/types/express";
 
 export * from "./signup";
 export * from "./forgot";
@@ -13,7 +13,7 @@ export const logoutHandler = ({
 }: LogoutOptions): RequestHandler => async (req, res, next) => {
   try {
     // Tenant is guaranteed at this point.
-    const tenant = req.talk!.tenant!;
+    const tenant = req.coral!.tenant!;
 
     // Check to ensure that the local integration has been enabled.
     if (!tenant.auth.integrations.local.enabled) {

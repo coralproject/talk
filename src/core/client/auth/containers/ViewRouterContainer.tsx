@@ -1,9 +1,9 @@
 import { FunctionComponent, useEffect } from "react";
 
-import { SetViewMutation } from "talk-auth/mutations";
-import { View } from "talk-auth/mutations/SetViewMutation";
-import { parseQuery } from "talk-common/utils";
-import { useMutation } from "talk-framework/lib/relay";
+import { SetViewMutation } from "coral-auth/mutations";
+import { View } from "coral-auth/mutations/SetViewMutation";
+import { parseQuery } from "coral-common/utils";
+import { useMutation } from "coral-framework/lib/relay";
 
 /**
  * ViewRouterContainer listens for changes to the location

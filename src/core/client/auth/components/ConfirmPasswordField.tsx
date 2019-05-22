@@ -7,13 +7,13 @@ import {
   composeValidators,
   required,
   validateEqualPasswords,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   FormField,
   InputLabel,
   TextField,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 interface Props {
   disabled: boolean;

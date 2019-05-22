@@ -1,6 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { createMutationContainer, LOCAL_ID } from "talk-framework/lib/relay";
+import { createMutationContainer, LOCAL_ID } from "coral-framework/lib/relay";
 
 export interface SetStreamOrderByInput {
   orderBy:

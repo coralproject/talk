@@ -1,4 +1,4 @@
-import { GQLQueryTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLQueryTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { moderationQueuesResolver } from "./ModerationQueues";
 

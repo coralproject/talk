@@ -7,9 +7,9 @@ import imageScraper from "metascraper-image";
 import titleScraper from "metascraper-title";
 import { Db } from "mongodb";
 
-import { GQLStoryMetadata } from "talk-server/graph/tenant/schema/__generated__/types";
-import logger from "talk-server/logger";
-import { retrieveStory, updateStory } from "talk-server/models/story";
+import { GQLStoryMetadata } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
+import { retrieveStory, updateStory } from "coral-server/models/story";
 
 import { modifiedScraper } from "./rules/modified";
 import { sectionScraper } from "./rules/section";

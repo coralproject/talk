@@ -1,2 +1,2 @@
-import * as TalkImport from "./Talk";
-export const Talk = TalkImport;
+import * as CoralImport from "./Coral";
+export const Coral = CoralImport;

@@ -18,8 +18,8 @@ async function main() {
       config: {
         contextType: "TenantContext",
         importStatements: [
-          'import TenantContext from "talk-server/graph/tenant/context";',
-          'import { Cursor } from "talk-server/models/helpers/connection";',
+          'import TenantContext from "coral-server/graph/tenant/context";',
+          'import { Cursor } from "coral-server/models/helpers/connection";',
         ],
         customScalarType: { Cursor: "Cursor", Time: "Date" },
       },

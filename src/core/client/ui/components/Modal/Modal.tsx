@@ -7,8 +7,8 @@ import React, {
 } from "react";
 import ReactDOM from "react-dom";
 
-import { withStyles } from "talk-ui/hocs";
-import { PropTypesOf } from "talk-ui/types";
+import { withStyles } from "coral-ui/hocs";
+import { PropTypesOf } from "coral-ui/types";
 
 import Backdrop from "../Backdrop";
 import NoScroll from "../NoScroll";

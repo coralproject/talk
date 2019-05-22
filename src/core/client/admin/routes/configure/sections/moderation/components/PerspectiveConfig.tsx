@@ -3,16 +3,16 @@ import React, { FunctionComponent } from "react";
 
 import { Field } from "react-final-form";
 
-import { formatPercentage, parsePercentage } from "talk-framework/lib/form";
+import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
 
-import { ExternalLink } from "talk-framework/lib/i18n/components";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   composeValidators,
   required,
   validatePercentage,
   validateURL,
   Validator,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   FieldSet,
   FormField,
@@ -21,7 +21,7 @@ import {
   InputLabel,
   TextField,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import ConfigurationSubHeader from "../../../components/ConfigurationSubHeader";
 import Header from "../../../components/Header";

@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
-import { urls } from "talk-framework/helpers";
-import { Button, Flex, Typography } from "talk-ui/components";
+import { urls } from "coral-framework/helpers";
+import { Button, Flex, Typography } from "coral-ui/components";
 
 class FinalStep extends Component {
   public render() {
@@ -10,7 +10,7 @@ class FinalStep extends Component {
       <Flex direction="column" justifyContent="center" itemGutter="double">
         <Localized id="install-finalStep-description">
           <Typography variant="bodyCopy">
-            Thanks for installing Talk! We sent an email to verify your email
+            Thanks for installing Coral! We sent an email to verify your email
             address. While you finish setting up the account, you can start
             engaging with your readers now.
           </Typography>

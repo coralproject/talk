@@ -1,8 +1,8 @@
 import {
   isSSOToken,
   SSOUserProfileSchema,
-} from "talk-server/app/middleware/passport/strategies/verifiers/sso";
-import { validate } from "talk-server/app/request/body";
+} from "coral-server/app/middleware/passport/strategies/verifiers/sso";
+import { validate } from "coral-server/app/request/body";
 
 describe("isSSOToken", () => {
   it("understands valid sso tokens", () => {

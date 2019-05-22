@@ -1,7 +1,7 @@
 import { commitMutation } from "react-relay";
 import { Environment, MutationConfig, OperationBase } from "relay-runtime";
 
-import { DeepPartial, Omit } from "talk-framework/types";
+import { DeepPartial, Omit } from "coral-framework/types";
 
 import extractPayload from "./extractPayload";
 

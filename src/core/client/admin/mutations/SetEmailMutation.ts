@@ -1,12 +1,12 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { SetEmailMutation as MutationTypes } from "talk-admin/__generated__/SetEmailMutation.graphql";
+import { SetEmailMutation as MutationTypes } from "coral-admin/__generated__/SetEmailMutation.graphql";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 let clientMutationId = 0;
 

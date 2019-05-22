@@ -1,7 +1,8 @@
 import { noop } from "lodash";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
-import { removeFragmentRefs } from "talk-framework/testHelpers";
+
+import { removeFragmentRefs } from "coral-framework/testHelpers";
 
 import PostCommentFormFake from "./PostCommentFormFake";
 

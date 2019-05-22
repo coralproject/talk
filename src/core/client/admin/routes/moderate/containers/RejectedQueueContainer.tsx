@@ -3,10 +3,10 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { RejectedQueueContainer_query as QueryData } from "talk-admin/__generated__/RejectedQueueContainer_query.graphql";
-import { RejectedQueueContainerPaginationQueryVariables } from "talk-admin/__generated__/RejectedQueueContainerPaginationQuery.graphql";
-import { IntersectionProvider } from "talk-framework/lib/intersection";
-import { withPaginationContainer } from "talk-framework/lib/relay";
+import { RejectedQueueContainer_query as QueryData } from "coral-admin/__generated__/RejectedQueueContainer_query.graphql";
+import { RejectedQueueContainerPaginationQueryVariables } from "coral-admin/__generated__/RejectedQueueContainerPaginationQuery.graphql";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
+import { withPaginationContainer } from "coral-framework/lib/relay";
 
 import EmptyMessage from "../components/EmptyMessage";
 import LoadingQueue from "../components/LoadingQueue";

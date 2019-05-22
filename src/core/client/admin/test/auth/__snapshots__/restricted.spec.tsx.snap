@@ -71,7 +71,7 @@ exports[`show restricted screen for commenters and staff 1`] = `
         <h1
           className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
         >
-          Talk
+          Coral
         </h1>
       </div>
       <div
@@ -204,7 +204,7 @@ exports[`show restricted screen for commenters and staff 2`] = `
         <h1
           className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
         >
-          Talk
+          Coral
         </h1>
       </div>
       <div

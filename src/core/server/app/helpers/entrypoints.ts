@@ -1,5 +1,5 @@
+import logger from "coral-server/logger";
 import fs from "fs";
-import logger from "talk-server/logger";
 
 export interface Asset {
   src: string;

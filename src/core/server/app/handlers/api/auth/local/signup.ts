@@ -1,15 +1,15 @@
 import Joi from "joi";
 
-import { AppOptions } from "talk-server/app";
-import { handleSuccessfulLogin } from "talk-server/app/middleware/passport";
-import { validate } from "talk-server/app/request/body";
-import { RequestLimiter } from "talk-server/app/request/limiter";
-import { IntegrationDisabled } from "talk-server/errors";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { LocalProfile, User } from "talk-server/models/user";
-import { insert } from "talk-server/services/users";
-import { sendConfirmationEmail } from "talk-server/services/users/auth";
-import { RequestHandler } from "talk-server/types/express";
+import { AppOptions } from "coral-server/app";
+import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
+import { validate } from "coral-server/app/request/body";
+import { RequestLimiter } from "coral-server/app/request/limiter";
+import { IntegrationDisabled } from "coral-server/errors";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { LocalProfile, User } from "coral-server/models/user";
+import { insert } from "coral-server/services/users";
+import { sendConfirmationEmail } from "coral-server/services/users/auth";
+import { RequestHandler } from "coral-server/types/express";
 
 export interface SignupBody {
   username: string;
@@ -51,8 +51,8 @@ export const signupHandler = ({
       await ipLimiter.test(req, req.ip);
 
       // Tenant is guaranteed at this point.
-      const tenant = req.talk!.tenant!;
-      const now = req.talk!.now;
+      const tenant = req.coral!.tenant!;
+      const now = req.coral!.now;
 
       // Check to ensure that the local integration has been enabled.
       if (!tenant.auth.integrations.local.enabled) {

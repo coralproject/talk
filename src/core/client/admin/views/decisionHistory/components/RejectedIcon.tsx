@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Icon } from "talk-ui/components";
+import { Icon } from "coral-ui/components";
 
 import styles from "./RejectedIcon.css";
 

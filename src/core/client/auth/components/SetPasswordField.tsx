@@ -1,19 +1,19 @@
-import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
-import { Field } from "react-final-form";
-import { PasswordField } from "talk-framework/components";
+import { PasswordField } from "coral-framework/components";
 import {
   composeValidators,
   required,
   validatePassword,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   FormField,
   InputDescription,
   InputLabel,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
+import { Localized } from "fluent-react/compat";
+import * as React from "react";
+import { FunctionComponent } from "react";
+import { Field } from "react-final-form";
 
 interface Props {
   disabled: boolean;

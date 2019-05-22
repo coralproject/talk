@@ -1,5 +1,5 @@
+import { Overwrite } from "coral-framework/types";
 import { merge } from "lodash";
-import { Overwrite } from "talk-framework/types";
 
 import { extractError } from "./network";
 

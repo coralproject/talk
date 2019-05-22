@@ -1,6 +1,6 @@
 import sinon from "sinon";
 
-import { waitForElement, within } from "talk-framework/testHelpers";
+import { waitForElement, within } from "coral-framework/testHelpers";
 
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";

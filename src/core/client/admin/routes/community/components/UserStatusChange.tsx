@@ -8,7 +8,7 @@ import {
   Dropdown,
   DropdownButton,
   Popover,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./UserStatusChange.css";
 

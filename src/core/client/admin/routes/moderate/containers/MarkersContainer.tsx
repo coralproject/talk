@@ -2,9 +2,9 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { MarkersContainer_comment as CommentData } from "talk-admin/__generated__/MarkersContainer_comment.graphql";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { Marker, MarkerCount } from "talk-ui/components";
+import { MarkersContainer_comment as CommentData } from "coral-admin/__generated__/MarkersContainer_comment.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { Marker, MarkerCount } from "coral-ui/components";
 import Markers from "../components/Markers";
 import FlagDetailsContainer from "./FlagDetailsContainer";
 

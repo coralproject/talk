@@ -38,7 +38,7 @@
 }
 
 .searchButton {
-  composes: button from "talk-ui/shared/typography.css";
+  composes: button from "coral-ui/shared/typography.css";
   padding: 0 calc(1 * var(--mini-unit));
   color: var(--palette-text-light);
   border-left: 1px solid var(--palette-text-light);
@@ -50,7 +50,7 @@
 }
 
 .input {
-  composes: inputText placeholderPseudo from "talk-ui/shared/typography.css";
+  composes: inputText placeholderPseudo from "coral-ui/shared/typography.css";
   position: relative;
   display: block;
   padding: calc(0.5 * var(--mini-unit));

@@ -1,5 +1,5 @@
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import { mapValues } from "lodash";
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
 
 /**
  * permissionMap describes what abilities certain roles have.

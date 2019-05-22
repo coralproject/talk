@@ -1,4 +1,4 @@
-import * as actions from "talk-server/models/action/moderation/comment";
+import * as actions from "coral-server/models/action/moderation/comment";
 
 import { GQLCommentModerationActionTypeResolver } from "../schema/__generated__/types";
 

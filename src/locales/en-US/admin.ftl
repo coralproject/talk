@@ -144,7 +144,7 @@ configure-general-closedStreamMessage-explanation = Write a message to appear af
 ### Organization
 configure-organization-name = Organization Name
 configure-organization-nameExplanation =
-  Your organization name will appear on emails sent by Talk to your community and organization members.
+  Your organization name will appear on emails sent by Coral to your community and organization members.
 configure-organization-email = Organization Email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across
@@ -158,7 +158,7 @@ configure-auth-authIntegrations = Authentication Integrations
 configure-auth-clientID = Client ID
 configure-auth-clientSecret = Client Secret
 configure-auth-configBoxEnabled = Enabled
-configure-auth-targetFilterTalkAdmin = Talk Admin
+configure-auth-targetFilterCoralAdmin = Coral Admin
 configure-auth-targetFilterCommentStream = Comment Stream
 configure-auth-redirectURI = Redirect URI
 configure-auth-registration = Registration
@@ -167,7 +167,7 @@ configure-auth-registrationDescription =
   integration to register for a new account.
 configure-auth-registrationCheckBox = Allow Registration
 configure-auth-pleaseEnableAuthForAdmin =
-  Please enable at least one authentication integration for Talk Admin
+  Please enable at least one authentication integration for Coral Admin
 configure-auth-confirmNoAuthForCommentStream =
   No authentication integration has been enabled for the Comment Stream.
   Do you really want to continue?
@@ -207,7 +207,7 @@ configure-auth-oidc-providerNameDescription =
   needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
 configure-auth-oidc-issuer = Issuer
 configure-auth-oidc-issuerDescription =
-  After entering your Issuer information, click the Discover button to have Talk complete
+  After entering your Issuer information, click the Discover button to have Coral complete
   the remaining fields. You may also enter the information manually.
 configure-auth-oidc-authorizationURL = Authorization URL
 configure-auth-oidc-tokenURL = Token URL
@@ -285,7 +285,7 @@ configure-advanced-customCSS-explanation =
   URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
 configure-advanced-permittedDomains = Permitted Domains
 configure-advanced-permittedDomains-explanation =
-  Domains where your Talk instance is allowed to be embedded.
+  Domains where your Coral instance is allowed to be embedded.
   Typical use is localhost, staging.yourdomain.com,
   yourdomain.com, etc.
 

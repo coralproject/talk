@@ -3,8 +3,8 @@ import { noop } from "lodash";
 import React from "react";
 import sinon, { SinonSpy } from "sinon";
 
-import { removeFragmentRefs } from "talk-framework/testHelpers";
-import { PropTypesOf } from "talk-framework/types";
+import { removeFragmentRefs } from "coral-framework/testHelpers";
+import { PropTypesOf } from "coral-framework/types";
 
 import ReplyList from "./ReplyList";
 
@@ -61,7 +61,7 @@ describe("when there is more", () => {
 
   it("calls onLoadMore", () => {
     wrapper
-      .find("#talk-comments-replyList-showAll--comment-id")
+      .find("#coral-comments-replyList-showAll--comment-id")
       .simulate("click");
     expect((props.onShowAll as SinonSpy).calledOnce).toBe(true);
   });

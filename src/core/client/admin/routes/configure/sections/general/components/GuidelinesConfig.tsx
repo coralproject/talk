@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
-import { ExternalLink } from "talk-framework/lib/i18n/components";
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   FieldSet,
   FormField,
@@ -11,10 +11,10 @@ import {
   Spinner,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
-import OnOffField from "talk-admin/routes/configure/components/OnOffField";
-import { MarkdownEditor } from "talk-framework/components/loadables";
+import OnOffField from "coral-admin/routes/configure/components/OnOffField";
+import { MarkdownEditor } from "coral-framework/components/loadables";
 
 import Header from "../../../components/Header";
 

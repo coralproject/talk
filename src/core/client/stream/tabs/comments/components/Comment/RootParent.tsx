@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import Timestamp from "talk-stream/components/Timestamp";
-import { Flex, Tag } from "talk-ui/components";
+import Timestamp from "coral-stream/components/Timestamp";
+import { Flex, Tag } from "coral-ui/components";
 
 import TopBarLeft from "./TopBarLeft";
 import Username from "./Username";

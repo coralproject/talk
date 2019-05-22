@@ -2,11 +2,11 @@ import { camelCase } from "lodash";
 import nunjucks, { Environment, ILoader } from "nunjucks";
 import path from "path";
 
-import { Config } from "talk-server/config";
-import TenantCache from "talk-server/services/tenant/cache";
-import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
+import { Config } from "coral-server/config";
+import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
 
-import { Tenant } from "talk-server/models/tenant";
+import { Tenant } from "coral-server/models/tenant";
 import { Template } from "./templates";
 
 // templateDirectory is the directory containing the email templates.

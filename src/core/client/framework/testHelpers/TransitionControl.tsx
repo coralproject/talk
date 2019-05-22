@@ -1,6 +1,6 @@
+import { withContext } from "coral-framework/lib/bootstrap";
 import { Location, Match, Router, withRouter } from "found";
 import React, { useEffect } from "react";
-import { withContext } from "talk-framework/lib/bootstrap";
 
 interface Props {
   /** router is injected by `withRouter` HOC */

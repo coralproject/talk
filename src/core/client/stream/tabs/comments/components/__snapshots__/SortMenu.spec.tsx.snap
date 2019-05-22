@@ -7,7 +7,7 @@ exports[`renders correctly on big screens 1`] = `
   >
     <label
       className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-      htmlFor="talk-comments-sortMenu"
+      htmlFor="coral-comments-sortMenu"
     >
       Sort By
     </label>
@@ -16,7 +16,7 @@ exports[`renders correctly on big screens 1`] = `
     >
       <select
         className="SelectField-select undefined"
-        id="talk-comments-sortMenu"
+        id="coral-comments-sortMenu"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -72,7 +72,7 @@ exports[`renders correctly on small screens 1`] = `
     >
       <select
         className="SelectField-select SortMenu-mobileSelect"
-        id="talk-comments-sortMenu"
+        id="coral-comments-sortMenu"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}

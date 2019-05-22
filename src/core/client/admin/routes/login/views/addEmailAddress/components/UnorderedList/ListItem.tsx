@@ -1,7 +1,7 @@
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { Icon } from "talk-ui/components";
+import { Icon } from "coral-ui/components";
 
 import styles from "./ListItem.css";
 

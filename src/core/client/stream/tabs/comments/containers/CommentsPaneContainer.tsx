@@ -1,8 +1,8 @@
 import * as React from "react";
 import { FunctionComponent } from "react";
 
-import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
-import { CommentsPaneContainerLocal as Local } from "talk-stream/__generated__/CommentsPaneContainerLocal.graphql";
+import { graphql, withLocalStateContainer } from "coral-framework/lib/relay";
+import { CommentsPaneContainerLocal as Local } from "coral-stream/__generated__/CommentsPaneContainerLocal.graphql";
 
 import CommentsPane from "../components/CommentsPane";
 

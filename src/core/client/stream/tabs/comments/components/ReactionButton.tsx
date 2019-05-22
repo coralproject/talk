@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, ButtonIcon, MatchMedia } from "talk-ui/components";
+import { Button, ButtonIcon, MatchMedia } from "coral-ui/components";
 
 interface ReactionButtonProps {
   onClick: () => void;

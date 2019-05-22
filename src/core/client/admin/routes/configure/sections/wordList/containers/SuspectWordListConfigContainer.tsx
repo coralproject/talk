@@ -1,8 +1,8 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { SuspectWordListConfigContainer_settings as SettingsData } from "talk-admin/__generated__/SuspectWordListConfigContainer_settings.graphql";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { SuspectWordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/SuspectWordListConfigContainer_settings.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import SuspectWordListConfig from "../components/SuspectWordListConfig";
 

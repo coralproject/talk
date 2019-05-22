@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
 import Indent from "../Indent";
 import Comment from "./Comment";

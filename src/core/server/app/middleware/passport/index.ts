@@ -4,22 +4,22 @@ import Joi from "joi";
 import jwt from "jsonwebtoken";
 import passport, { Authenticator } from "passport";
 
-import { AppOptions } from "talk-server/app";
-import FacebookStrategy from "talk-server/app/middleware/passport/strategies/facebook";
-import GoogleStrategy from "talk-server/app/middleware/passport/strategies/google";
-import { JWTStrategy } from "talk-server/app/middleware/passport/strategies/jwt";
-import { createLocalStrategy } from "talk-server/app/middleware/passport/strategies/local";
-import OIDCStrategy from "talk-server/app/middleware/passport/strategies/oidc";
-import { validate } from "talk-server/app/request/body";
-import { AuthenticationError } from "talk-server/errors";
-import { User } from "talk-server/models/user";
+import { AppOptions } from "coral-server/app";
+import FacebookStrategy from "coral-server/app/middleware/passport/strategies/facebook";
+import GoogleStrategy from "coral-server/app/middleware/passport/strategies/google";
+import { JWTStrategy } from "coral-server/app/middleware/passport/strategies/jwt";
+import { createLocalStrategy } from "coral-server/app/middleware/passport/strategies/local";
+import OIDCStrategy from "coral-server/app/middleware/passport/strategies/oidc";
+import { validate } from "coral-server/app/request/body";
+import { AuthenticationError } from "coral-server/errors";
+import { User } from "coral-server/models/user";
 import {
   extractJWTFromRequest,
   JWTSigningConfig,
   revokeJWT,
   signTokenString,
-} from "talk-server/services/jwt";
-import { Request } from "talk-server/types/express";
+} from "coral-server/services/jwt";
+import { Request } from "coral-server/types/express";
 
 export type VerifyCallback = (
   err?: Error | null,
@@ -74,8 +74,8 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
     throw new Error("logout requires a token on the request, none was found");
   }
 
-  // Talk is guarenteed at this point.
-  const { now } = req.talk!;
+  // Coral is guarenteed at this point.
+  const { now } = req.coral!;
 
   // Decode the token.
   const decoded = jwt.decode(token, {});
@@ -109,7 +109,7 @@ export async function handleSuccessfulLogin(
 ) {
   try {
     // Tenant is guaranteed at this point.
-    const tenant = req.talk!.tenant!;
+    const tenant = req.coral!.tenant!;
 
     // Grab the token.
     const token = await signTokenString(signingConfig, user, tenant);
@@ -145,7 +145,7 @@ export async function handleOAuth2Callback(
 
   try {
     // Tenant is guaranteed at this point.
-    const tenant = req.talk!.tenant!;
+    const tenant = req.coral!.tenant!;
 
     // Grab the token.
     const token = await signTokenString(signingConfig, user, tenant);

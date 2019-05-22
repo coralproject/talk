@@ -1,6 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { createMutationContainer } from "talk-framework/lib/relay";
+import { createMutationContainer } from "coral-framework/lib/relay";
 
 export interface SetStoryClosedInput {
   storyID: string;

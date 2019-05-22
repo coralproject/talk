@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, CallOut, Flex, HorizontalGutter } from "talk-ui/components";
+import { Button, CallOut, Flex, HorizontalGutter } from "coral-ui/components";
 import { SubmitStatus } from "../helpers/getSubmitStatus";
 
 import { Localized } from "fluent-react/compat";

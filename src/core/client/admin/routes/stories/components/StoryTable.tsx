@@ -1,17 +1,17 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
-import AutoLoadMoreContainer from "talk-admin/containers/AutoLoadMoreContainer";
-import { Flex, HorizontalGutter, Spinner } from "talk-ui/components";
+import AutoLoadMoreContainer from "coral-admin/containers/AutoLoadMoreContainer";
+import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "talk-ui/components/Table";
+} from "coral-ui/components/Table";
 
 import StoryRowContainer from "../containers/StoryRowContainer";
 

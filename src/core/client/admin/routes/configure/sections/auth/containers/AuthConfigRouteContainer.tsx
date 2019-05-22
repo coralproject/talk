@@ -2,9 +2,9 @@ import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AuthConfigRouteContainerQueryResponse } from "talk-admin/__generated__/AuthConfigRouteContainerQuery.graphql";
-import { withRouteConfig } from "talk-framework/lib/router";
-import { Delay, Spinner } from "talk-ui/components";
+import { AuthConfigRouteContainerQueryResponse } from "coral-admin/__generated__/AuthConfigRouteContainerQuery.graphql";
+import { withRouteConfig } from "coral-framework/lib/router";
+import { Delay, Spinner } from "coral-ui/components";
 
 import AuthConfigContainer from "./AuthConfigContainer";
 

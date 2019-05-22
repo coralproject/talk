@@ -1,6 +1,6 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { createMutationContainer } from "talk-framework/lib/relay";
+import { createMutationContainer } from "coral-framework/lib/relay";
 
 import { NETWORK_ID } from "../lib/relay/localState";
 

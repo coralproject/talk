@@ -1,10 +1,10 @@
+import TransitionControl from "coral-framework/testHelpers/TransitionControl";
 import { BrowserProtocol, queryMiddleware } from "farce";
 import { createFarceRouter, ElementsRenderer } from "found";
 import { Resolver } from "found-relay";
 import React, { FunctionComponent } from "react";
-import TransitionControl from "talk-framework/testHelpers/TransitionControl";
 
-import { TalkContextConsumer } from "talk-framework/lib/bootstrap/TalkContext";
+import { CoralContextConsumer } from "coral-framework/lib/bootstrap/CoralContext";
 
 import routeConfig from "../routeConfig";
 import NotFound from "../routes/NotFound";
@@ -26,11 +26,11 @@ const Router = createFarceRouter({
 });
 
 const EntryContainer: FunctionComponent = () => (
-  <TalkContextConsumer>
+  <CoralContextConsumer>
     {({ relayEnvironment }) => (
       <Router resolver={new Resolver(relayEnvironment)} />
     )}
-  </TalkContextConsumer>
+  </CoralContextConsumer>
 );
 
 export default EntryContainer;

@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Button, Flex, Typography } from "talk-ui/components";
-import MatchMedia from "talk-ui/components/MatchMedia";
+import { Button, Flex, Typography } from "coral-ui/components";
+import MatchMedia from "coral-ui/components/MatchMedia";
 
 import styles from "./UserBoxUnauthenticated.css";
 

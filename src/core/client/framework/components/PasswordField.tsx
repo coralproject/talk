@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Omit, PropTypesOf } from "talk-framework/types";
-import { PasswordField as PasswordFieldUI } from "talk-ui/components";
+import { Omit, PropTypesOf } from "coral-framework/types";
+import { PasswordField as PasswordFieldUI } from "coral-ui/components";
 
 export interface Props
   extends Omit<

@@ -2,24 +2,24 @@ import { CoralRTE } from "@coralproject/rte";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
-import { isBeforeDate } from "talk-common/utils";
-import { withContext } from "talk-framework/lib/bootstrap";
-import { InvalidRequestError } from "talk-framework/lib/errors";
+import { isBeforeDate } from "coral-common/utils";
+import { withContext } from "coral-framework/lib/bootstrap";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   FetchProp,
   withFetch,
   withFragmentContainer,
-} from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
-import { RefreshSettingsFetch } from "talk-stream/fetches";
+} from "coral-framework/lib/relay";
+import { PropTypesOf } from "coral-framework/types";
+import { RefreshSettingsFetch } from "coral-stream/fetches";
 
-import { EditCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/EditCommentFormContainer_comment.graphql";
-import { EditCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/EditCommentFormContainer_settings.graphql";
-import { EditCommentFormContainer_story as StoryData } from "talk-stream/__generated__/EditCommentFormContainer_story.graphql";
+import { EditCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/EditCommentFormContainer_comment.graphql";
+import { EditCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/EditCommentFormContainer_settings.graphql";
+import { EditCommentFormContainer_story as StoryData } from "coral-stream/__generated__/EditCommentFormContainer_story.graphql";
 import {
   EditCommentMutation,
   withEditCommentMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 import EditCommentForm, {
   EditCommentFormProps,

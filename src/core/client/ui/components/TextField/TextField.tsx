@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { AllHTMLAttributes, ChangeEvent, EventHandler } from "react";
 
+import { withStyles } from "coral-ui/hocs";
 import { FunctionComponent } from "react";
-import { withStyles } from "talk-ui/hocs";
 
 import styles from "./TextField.css";
 

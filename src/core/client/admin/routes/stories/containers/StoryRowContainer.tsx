@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { StoryRowContainer_story as StoryData } from "talk-admin/__generated__/StoryRowContainer_story.graphql";
-import { StoryRowContainer_viewer as ViewerData } from "talk-admin/__generated__/StoryRowContainer_viewer.graphql";
-import { useTalkContext } from "talk-framework/lib/bootstrap";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { StoryRowContainer_story as StoryData } from "coral-admin/__generated__/StoryRowContainer_story.graphql";
+import { StoryRowContainer_viewer as ViewerData } from "coral-admin/__generated__/StoryRowContainer_viewer.graphql";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import { Ability, can } from "talk-admin/permissions";
+import { Ability, can } from "coral-admin/permissions";
 import StoryRow from "../components/StoryRow";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const StoryRowContainer: FunctionComponent<Props> = props => {
-  const { locales } = useTalkContext();
+  const { locales } = useCoralContext();
   const title = props.story.metadata && props.story.metadata.title;
   const author = props.story.metadata && props.story.metadata.author;
   const publishedAt = props.story.metadata && props.story.metadata.publishedAt;

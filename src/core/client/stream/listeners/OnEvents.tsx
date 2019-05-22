@@ -1,10 +1,10 @@
 import { Component } from "react";
 
-import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
+import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 
 interface Props {
-  pym: TalkContext["pym"];
-  eventEmitter: TalkContext["eventEmitter"];
+  pym: CoralContext["pym"];
+  eventEmitter: CoralContext["eventEmitter"];
 }
 
 export class OnEvents extends Component<Props> {

@@ -6,23 +6,23 @@ import { Db } from "mongodb";
 import { Strategy as OAuth2Strategy, VerifyCallback } from "passport-oauth2";
 import { Strategy } from "passport-strategy";
 
-import { validate } from "talk-server/app/request/body";
-import { reconstructURL } from "talk-server/app/url";
-import { IntegrationDisabled, TokenInvalidError } from "talk-server/errors";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import logger from "talk-server/logger";
-import { OIDCAuthIntegration } from "talk-server/models/settings";
-import { Tenant } from "talk-server/models/tenant";
+import { validate } from "coral-server/app/request/body";
+import { reconstructURL } from "coral-server/app/url";
+import { IntegrationDisabled, TokenInvalidError } from "coral-server/errors";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
+import { OIDCAuthIntegration } from "coral-server/models/settings";
+import { Tenant } from "coral-server/models/tenant";
 import {
   OIDCProfile,
   retrieveUserWithProfile,
   User,
-} from "talk-server/models/user";
-import { AsymmetricSigningAlgorithm } from "talk-server/services/jwt";
-import TenantCache from "talk-server/services/tenant/cache";
-import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
-import { insert } from "talk-server/services/users";
-import { Request } from "talk-server/types/express";
+} from "coral-server/models/user";
+import { AsymmetricSigningAlgorithm } from "coral-server/services/jwt";
+import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
+import { insert } from "coral-server/services/users";
+import { Request } from "coral-server/types/express";
 
 export interface Params {
   id_token?: string;
@@ -325,9 +325,9 @@ export default class OIDCStrategy extends Strategy {
       return done(new Error("no id_token in params"));
     }
 
-    // Grab the tenant out of the request, as we need some more details. Talk
+    // Grab the tenant out of the request, as we need some more details. Coral
     // is guaranteed at this point.
-    const { now, tenant } = req.talk!;
+    const { now, tenant } = req.coral!;
     if (!tenant) {
       // TODO: return a better error.
       return done(new Error("tenant not found"));
@@ -387,7 +387,7 @@ export default class OIDCStrategy extends Strategy {
   }
 
   private lookupStrategy(req: Request): OAuth2Strategy {
-    const { tenant } = req.talk!;
+    const { tenant } = req.coral!;
     if (!tenant) {
       // TODO: return a better error.
       throw new Error("tenant not found");

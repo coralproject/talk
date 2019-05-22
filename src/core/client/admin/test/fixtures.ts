@@ -14,8 +14,8 @@ import {
   GQLUSER_ROLE,
   GQLUSER_STATUS,
   GQLUsersConnection,
-} from "talk-framework/schema";
-import { createFixture, createFixtures } from "talk-framework/testHelpers";
+} from "coral-framework/schema";
+import { createFixture, createFixtures } from "coral-framework/testHelpers";
 
 export const settings = createFixture<GQLSettings>({
   id: "settings",

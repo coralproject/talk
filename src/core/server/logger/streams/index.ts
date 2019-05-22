@@ -1,4 +1,4 @@
-import config from "talk-server/config";
+import config from "coral-server/config";
 
 import PrettyStream from "@coralproject/bunyan-prettystream";
 import { SecretStream } from "./SecretStream";

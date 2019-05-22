@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
 import DecisionHistoryItemContainer from "../containers/DecisionHistoryItemContainer";
 import DecisionList from "./DecisionList";

@@ -1,16 +1,19 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
 
-import { RestrictedContainer_viewer as ViewerData } from "talk-admin/__generated__/RestrictedContainer_viewer.graphql";
-import { SetRedirectPathMutation } from "talk-admin/mutations";
-import { timeout } from "talk-common/utils";
+import { RestrictedContainer_viewer as ViewerData } from "coral-admin/__generated__/RestrictedContainer_viewer.graphql";
+import { SetRedirectPathMutation } from "coral-admin/mutations";
+import { timeout } from "coral-common/utils";
 import {
   graphql,
   MutationProp,
   withFragmentContainer,
   withMutation,
-} from "talk-framework/lib/relay";
-import { SignOutMutation, withSignOutMutation } from "talk-framework/mutations";
+} from "coral-framework/lib/relay";
+import {
+  SignOutMutation,
+  withSignOutMutation,
+} from "coral-framework/mutations";
 
 import Restricted from "../components/Restricted";
 

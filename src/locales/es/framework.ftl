@@ -1,4 +1,4 @@
-### Localizations for the talk framework.
+### Localizations for the coral framework.
 ### All keys must start with `framework` because this file is shared
 ### among different targets.
 

@@ -2,14 +2,14 @@ import RTE from "@coralproject/rte";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
-import { ERROR_CODES } from "talk-common/errors";
-import { InvalidRequestError } from "talk-framework/lib/errors";
+import { ERROR_CODES } from "coral-common/errors";
+import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
   createSinonStub,
   findParentWithType,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import { commenters, settings, stories } from "../fixtures";
 import create from "./create";

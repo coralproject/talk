@@ -9,7 +9,7 @@
   margin: 0;
 }
 .text {
-  composes: heading3 from "talk-ui/shared/typography.css";
+  composes: heading3 from "coral-ui/shared/typography.css";
   position: relative;
   background-color: #f5f5f5;
   padding: 0 var(--mini-unit);

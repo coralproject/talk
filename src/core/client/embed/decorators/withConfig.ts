@@ -1,4 +1,4 @@
-import { ExternalConfig } from "talk-framework/lib/externalConfig";
+import { ExternalConfig } from "coral-framework/lib/externalConfig";
 
 import { Decorator } from "./types";
 

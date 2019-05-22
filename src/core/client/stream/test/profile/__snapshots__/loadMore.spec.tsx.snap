@@ -93,10 +93,10 @@ exports[`renders profile 1`] = `
     </div>
   </div>
   <button
-    aria-controls="talk-profile-commentHistory-log"
+    aria-controls="coral-profile-commentHistory-log"
     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
     disabled={false}
-    id="talk-profile-commentHistory-loadMore"
+    id="coral-profile-commentHistory-loadMore"
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}

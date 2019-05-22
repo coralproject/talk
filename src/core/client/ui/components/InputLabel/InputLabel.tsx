@@ -1,8 +1,8 @@
 import cn from "classnames";
+import { withStyles } from "coral-ui/hocs";
+import { Omit, PropTypesOf } from "coral-ui/types";
 import React, { ReactNode } from "react";
 import { FunctionComponent } from "react";
-import { withStyles } from "talk-ui/hocs";
-import { Omit, PropTypesOf } from "talk-ui/types";
 
 import Typography from "../Typography";
 import styles from "./InputLabel.css";

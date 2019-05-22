@@ -1,4 +1,4 @@
-import { parseQuery } from "talk-common/utils";
+import { parseQuery } from "coral-common/utils";
 
 export default function parseQueryHash(
   hash: string

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { CopyButton } from "talk-framework/components";
-import { Flex, TextField } from "talk-ui/components";
+import { CopyButton } from "coral-framework/components";
+import { Flex, TextField } from "coral-ui/components";
 
 import styles from "./PermalinkPopover.css";
 

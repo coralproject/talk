@@ -1,17 +1,17 @@
 import { ErrorRequestHandler } from "express";
 
+import { CoralError, InternalError } from "coral-server/errors";
+import { I18n } from "coral-server/services/i18n";
+import { Request } from "coral-server/types/express";
 import { FluentBundle } from "fluent/compat";
-import { InternalError, TalkError } from "talk-server/errors";
-import { I18n } from "talk-server/services/i18n";
-import { Request } from "talk-server/types/express";
 
 /**
- * wrapError ensures that the error being propagated is a TalkError.
+ * wrapError ensures that the error being propagated is a CoralError.
  *
  * @param err the error to be wrapped
  */
 const wrapError = (err: Error) =>
-  err instanceof TalkError
+  err instanceof CoralError
     ? err
     : new InternalError(err, "wrapped internal error");
 
@@ -19,17 +19,17 @@ const wrapError = (err: Error) =>
  * serializeError will return a serialized error that can be returned via the
  * API response.
  *
- * @param err the TalkError that should be serialized
+ * @param err the CoralError that should be serialized
  * @param bundles the translation bundles
  * @param tenant the optional tenant to use when selecting the language
  */
-const serializeError = (err: TalkError, req: Request, bundles?: I18n) => {
+const serializeError = (err: CoralError, req: Request, bundles?: I18n) => {
   // Get the translation bundle.
   let bundle: FluentBundle | null = null;
   if (bundles) {
     bundle = bundles.getDefaultBundle();
-    if (req.talk && req.talk.tenant) {
-      bundle = bundles.getBundle(req.talk.tenant.locale);
+    if (req.coral && req.coral.tenant) {
+      bundle = bundles.getBundle(req.coral.tenant.locale);
     }
   }
 

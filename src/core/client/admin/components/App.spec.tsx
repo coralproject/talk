@@ -1,8 +1,8 @@
+import { removeFragmentRefs } from "coral-framework/testHelpers";
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
-import { removeFragmentRefs } from "talk-framework/testHelpers";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
 import App from "./App";
 

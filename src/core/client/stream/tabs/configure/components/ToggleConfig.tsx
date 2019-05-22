@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import { Omit, PropTypesOf } from "talk-framework/types";
-import { CheckBox, Typography } from "talk-ui/components";
+import { Omit, PropTypesOf } from "coral-framework/types";
+import { CheckBox, Typography } from "coral-ui/components";
 
 import styles from "./ToggleConfig.css";
 

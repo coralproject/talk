@@ -1,6 +1,6 @@
+import { Typography } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 import React, { FunctionComponent, ReactNode } from "react";
-import { Typography } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
 
 interface InputDescriptionProps {
   children: ReactNode;

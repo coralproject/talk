@@ -1,8 +1,8 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Card } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { Card } from "coral-ui/components";
 
 import styles from "./EmptyMessage.css";
 

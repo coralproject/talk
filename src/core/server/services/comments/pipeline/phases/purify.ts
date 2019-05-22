@@ -1,10 +1,10 @@
 import { JSDOM } from "jsdom";
 
-import { createPurify, sanitizeCommentBody } from "talk-common/utils/purify";
+import { createPurify, sanitizeCommentBody } from "coral-common/utils/purify";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 // Initializing JSDOM and DOMPurify
 const window = new JSDOM("", {}).window;

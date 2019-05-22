@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import TranslatedRole from "talk-admin/components/TranslatedRole";
-import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "talk-framework/schema";
+import TranslatedRole from "coral-admin/components/TranslatedRole";
+import { GQLUSER_ROLE, GQLUSER_ROLE_RL } from "coral-framework/schema";
 import {
   Button,
   ButtonIcon,
@@ -10,7 +10,7 @@ import {
   Dropdown,
   DropdownButton,
   Popover,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./RoleChange.css";
 import RoleText from "./RoleText";

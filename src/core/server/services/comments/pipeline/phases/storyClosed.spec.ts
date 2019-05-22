@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 
-import { storyClosed } from "talk-server/services/comments/pipeline/phases/storyClosed";
+import { storyClosed } from "coral-server/services/comments/pipeline/phases/storyClosed";
 import { ModerationPhaseContext } from "..";
 
 describe("storyClosed", () => {

@@ -1,5 +1,5 @@
 import prefixStorage from "./prefixStorage";
 
-export default function createLocalStorage(prefix = "talk:"): Storage {
+export default function createLocalStorage(prefix = "coral:"): Storage {
   return prefixStorage(window.localStorage, prefix);
 }

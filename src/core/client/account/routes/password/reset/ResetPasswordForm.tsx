@@ -3,14 +3,14 @@ import { Localized } from "fluent-react/compat";
 import React, { useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { ResetPasswordMutation } from "talk-account/mutations";
-import { InvalidRequestError } from "talk-framework/lib/errors";
-import { useMutation } from "talk-framework/lib/relay";
+import { ResetPasswordMutation } from "coral-account/mutations";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validatePassword,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   Button,
   CallOut,
@@ -21,7 +21,7 @@ import {
   PasswordField,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 interface Props {
   token: string;

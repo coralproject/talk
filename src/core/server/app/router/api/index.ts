@@ -1,18 +1,18 @@
 import express from "express";
 import passport from "passport";
 
-import { AppOptions } from "talk-server/app";
+import { AppOptions } from "coral-server/app";
 import {
   graphQLHandler,
   installHandler,
   versionHandler,
-} from "talk-server/app/handlers";
-import { JSONErrorHandler } from "talk-server/app/middleware/error";
-import { jsonMiddleware } from "talk-server/app/middleware/json";
-import { errorLogger } from "talk-server/app/middleware/logging";
-import { notFoundMiddleware } from "talk-server/app/middleware/notFound";
-import { authenticate } from "talk-server/app/middleware/passport";
-import { tenantMiddleware } from "talk-server/app/middleware/tenant";
+} from "coral-server/app/handlers";
+import { JSONErrorHandler } from "coral-server/app/middleware/error";
+import { jsonMiddleware } from "coral-server/app/middleware/json";
+import { errorLogger } from "coral-server/app/middleware/logging";
+import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
+import { authenticate } from "coral-server/app/middleware/passport";
+import { tenantMiddleware } from "coral-server/app/middleware/tenant";
 
 import { createNewAccountRouter } from "./account";
 import { createNewAuthRouter } from "./auth";

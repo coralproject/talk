@@ -4,7 +4,7 @@ import {
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
   USERNAME_REGEX,
-} from "talk-common/helpers/validate";
+} from "coral-common/helpers/validate";
 
 import {
   EmailExceedsMaxLengthError,
@@ -13,7 +13,7 @@ import {
   UsernameContainsInvalidCharactersError,
   UsernameExceedsMaxLengthError,
   UsernameTooShortError,
-} from "talk-server/errors";
+} from "coral-server/errors";
 
 /**
  * validateUsername will validate that the username is valid. Current

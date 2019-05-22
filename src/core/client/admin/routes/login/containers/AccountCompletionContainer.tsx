@@ -2,21 +2,21 @@ import { withRouter, WithRouter } from "found";
 import * as React from "react";
 import { Component } from "react";
 
-import { AccountCompletionContainer_auth as AuthData } from "talk-admin/__generated__/AccountCompletionContainer_auth.graphql";
-import { AccountCompletionContainer_viewer as UserData } from "talk-admin/__generated__/AccountCompletionContainer_viewer.graphql";
-import { AccountCompletionContainerLocal as Local } from "talk-admin/__generated__/AccountCompletionContainerLocal.graphql";
+import { AccountCompletionContainer_auth as AuthData } from "coral-admin/__generated__/AccountCompletionContainer_auth.graphql";
+import { AccountCompletionContainer_viewer as UserData } from "coral-admin/__generated__/AccountCompletionContainer_viewer.graphql";
+import { AccountCompletionContainerLocal as Local } from "coral-admin/__generated__/AccountCompletionContainerLocal.graphql";
 import {
   CompleteAccountMutation,
   SetAuthViewMutation,
   SetRedirectPathMutation,
-} from "talk-admin/mutations";
+} from "coral-admin/mutations";
 import {
   graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
   withMutation,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 type Props = {
   completeAccount: MutationProp<typeof CompleteAccountMutation>;

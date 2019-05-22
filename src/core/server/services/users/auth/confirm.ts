@@ -2,29 +2,29 @@ import Joi from "joi";
 import { isNull } from "lodash";
 import { DateTime } from "luxon";
 
-import { Db } from "mongodb";
-import { constructTenantURL } from "talk-server/app/url";
-import { Config } from "talk-server/config";
+import { constructTenantURL } from "coral-server/app/url";
+import { Config } from "coral-server/config";
 import {
   ConfirmEmailTokenExpired,
   TokenInvalidError,
   UserNotFoundError,
-} from "talk-server/errors";
-import { Tenant } from "talk-server/models/tenant";
+} from "coral-server/errors";
+import { Tenant } from "coral-server/models/tenant";
 import {
   confirmUserEmail,
   createOrRetrieveUserEmailVerificationID,
   retrieveUser,
   User,
-} from "talk-server/models/user";
-import { MailerQueue } from "talk-server/queue/tasks/mailer";
+} from "coral-server/models/user";
+import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import {
   JWTSigningConfig,
   signString,
   StandardClaims,
   StandardClaimsSchema,
   verifyJWT,
-} from "talk-server/services/jwt";
+} from "coral-server/services/jwt";
+import { Db } from "mongodb";
 import uuid = require("uuid");
 
 export interface ConfirmToken extends Required<StandardClaims> {

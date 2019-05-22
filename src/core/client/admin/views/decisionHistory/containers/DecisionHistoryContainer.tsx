@@ -1,9 +1,9 @@
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { DecisionHistoryContainer_viewer as ViewerData } from "talk-admin/__generated__/DecisionHistoryContainer_viewer.graphql";
-import { DecisionHistoryContainerPaginationQueryVariables } from "talk-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
-import { withPaginationContainer } from "talk-framework/lib/relay";
+import { DecisionHistoryContainer_viewer as ViewerData } from "coral-admin/__generated__/DecisionHistoryContainer_viewer.graphql";
+import { DecisionHistoryContainerPaginationQueryVariables } from "coral-admin/__generated__/DecisionHistoryContainerPaginationQuery.graphql";
+import { withPaginationContainer } from "coral-framework/lib/relay";
 
 import DecisionHistory from "../components/DecisionHistory";
 

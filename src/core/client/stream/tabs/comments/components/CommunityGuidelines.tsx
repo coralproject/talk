@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import { Markdown } from "talk-framework/components";
-import { CallOut } from "talk-ui/components";
+import { Markdown } from "coral-framework/components";
+import { CallOut } from "coral-ui/components";
 
 interface Props {
   children: string;

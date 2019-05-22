@@ -13,12 +13,12 @@ import {
   Variables,
 } from "relay-runtime";
 
-import { TalkContext, useTalkContext, withContext } from "../bootstrap";
+import { CoralContext, useCoralContext, withContext } from "../bootstrap";
 import extractPayload from "./extractPayload";
 
 export interface Fetch<N, V, R> {
   name: N;
-  fetch: (environment: Environment, variables: V, context: TalkContext) => R;
+  fetch: (environment: Environment, variables: V, context: CoralContext) => R;
 }
 
 export type FetchVariables<T extends { variables: any }> = T["variables"];
@@ -36,7 +36,7 @@ export type FetchProp<T extends Fetch<any, any, any>> = T extends Fetch<
 
 export function createFetch<N extends string, V, R>(
   name: N,
-  fetch: (environment: Environment, variables: V, context: TalkContext) => R
+  fetch: (environment: Environment, variables: V, context: CoralContext) => R
 ): Fetch<N, V, R> {
   return {
     name,
@@ -66,7 +66,7 @@ export async function fetchQuery<T extends { response: any }>(
 export function useFetch<V, R>(
   fetch: Fetch<any, V, R>
 ): FetchProp<typeof fetch> {
-  const context = useTalkContext();
+  const context = useCoralContext();
   return useCallback<FetchProp<typeof fetch>>(
     ((variables: V) => {
       context.eventEmitter.emit(`fetch.${fetch.name}`, variables);
@@ -87,7 +87,7 @@ export function withFetch<N extends string, V, R>(
     withContext(context => ({ context })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {
       class WithFetch extends React.Component<{
-        context: TalkContext;
+        context: CoralContext;
       }> {
         public static displayName = wrapDisplayName(BaseComponent, "withFetch");
 

@@ -1,15 +1,15 @@
 import { Db } from "mongodb";
 
-import logger from "talk-server/logger";
-import { createCommentActionIndexes } from "talk-server/models/action/comment";
-import { createCommentModerationActionIndexes } from "talk-server/models/action/moderation/comment";
-import { createCommentIndexes } from "talk-server/models/comment";
+import logger from "coral-server/logger";
+import { createCommentActionIndexes } from "coral-server/models/action/comment";
+import { createCommentModerationActionIndexes } from "coral-server/models/action/moderation/comment";
+import { createCommentIndexes } from "coral-server/models/comment";
 import {
   createStoryCountIndexes,
   createStoryIndexes,
-} from "talk-server/models/story";
-import { createTenantIndexes } from "talk-server/models/tenant";
-import { createUserIndexes } from "talk-server/models/user";
+} from "coral-server/models/story";
+import { createTenantIndexes } from "coral-server/models/tenant";
+import { createUserIndexes } from "coral-server/models/user";
 
 type IndexCreationFunction = (mongo: Db) => Promise<void>;
 

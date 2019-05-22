@@ -1,12 +1,12 @@
 import React from "react";
 
+import { ClickOutside, Popover } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
-import { ClickOutside, Popover } from "talk-ui/components";
 
 import ReportCommentView from "../../views/reportComment";
 import ReportButton from "./ReportButton";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 interface Props {
   comment: { id: string } & PropTypesOf<typeof ReportCommentView>["comment"];

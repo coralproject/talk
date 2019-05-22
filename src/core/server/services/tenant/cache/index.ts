@@ -3,16 +3,16 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { EventEmitter } from "events";
-import { Config } from "talk-server/config";
-import logger from "talk-server/logger";
+import { Config } from "coral-server/config";
+import logger from "coral-server/logger";
 import {
   countTenants,
   retrieveAllTenants,
   retrieveManyTenants,
   retrieveManyTenantsByDomain,
   Tenant,
-} from "talk-server/models/tenant";
+} from "coral-server/models/tenant";
+import { EventEmitter } from "events";
 
 const TENANT_UPDATE_CHANNEL = "tenant";
 

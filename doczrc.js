@@ -19,7 +19,7 @@ const styleLoader = {
 };
 
 export default {
-  title: "Talk 5.0",
+  title: "Coral 5.0",
   source: "./src",
   typescript: true,
   host: process.env.HOST || "0.0.0.0",

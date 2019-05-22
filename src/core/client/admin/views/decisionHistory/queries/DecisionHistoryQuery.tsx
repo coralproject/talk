@@ -1,7 +1,7 @@
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import React, { Component } from "react";
-import { graphql, QueryRenderer } from "talk-framework/lib/relay";
 
-import { DecisionHistoryQuery as QueryTypes } from "talk-admin/__generated__/DecisionHistoryQuery.graphql";
+import { DecisionHistoryQuery as QueryTypes } from "coral-admin/__generated__/DecisionHistoryQuery.graphql";
 
 import DecisionHistoryLoading from "../components/DecisionHistoryLoading";
 import DecisionHistoryContainer from "../containers/DecisionHistoryContainer";

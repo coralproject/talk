@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Button, HorizontalGutter } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { Button, HorizontalGutter } from "coral-ui/components";
 
 import MessageBoxContainer from "../containers/MessageBoxContainer";
 import RTE from "./RTE";

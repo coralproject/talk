@@ -1,14 +1,14 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import AuthBox from "talk-admin/components/AuthBox";
+import AuthBox from "coral-admin/components/AuthBox";
 import {
   Button,
   Flex,
   HorizontalGutter,
   Icon,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./Restricted.css";
 

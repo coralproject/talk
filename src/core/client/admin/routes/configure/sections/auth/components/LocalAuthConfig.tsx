@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { HorizontalGutter } from "talk-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
 import RegistrationField from "./RegistrationField";

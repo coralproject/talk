@@ -1,6 +1,6 @@
 import cn from "classnames";
+import { withStyles } from "coral-ui/hocs";
 import React, { FunctionComponent } from "react";
-import { withStyles } from "talk-ui/hocs";
 
 import styles from "./Spinner.css";
 

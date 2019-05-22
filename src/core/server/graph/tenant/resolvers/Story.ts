@@ -3,10 +3,10 @@ import { defaultsDeep } from "lodash";
 import {
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { decodeActionCounts } from "talk-server/models/action/comment";
-import * as story from "talk-server/models/story";
-import { getStoryClosedAt } from "talk-server/services/stories";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { decodeActionCounts } from "coral-server/models/action/comment";
+import * as story from "coral-server/models/story";
+import { getStoryClosedAt } from "coral-server/services/stories";
 
 import TenantContext from "../context";
 import { storyModerationInputResolver } from "./ModerationQueues";

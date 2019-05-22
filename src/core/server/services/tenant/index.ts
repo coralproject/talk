@@ -2,18 +2,18 @@ import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { URL } from "url";
 
-import { GQLSettingsInput } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLSettingsInput } from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   createTenant,
   CreateTenantInput,
   regenerateTenantSSOKey,
   Tenant,
   updateTenant,
-} from "talk-server/models/tenant";
+} from "coral-server/models/tenant";
 
-import { discover } from "talk-server/app/middleware/passport/strategies/oidc/discover";
-import { TenantInstalledAlreadyError } from "talk-server/errors";
-import logger from "talk-server/logger";
+import { discover } from "coral-server/app/middleware/passport/strategies/oidc/discover";
+import { TenantInstalledAlreadyError } from "coral-server/errors";
+import logger from "coral-server/logger";
 import TenantCache from "./cache";
 
 export type UpdateTenant = GQLSettingsInput;

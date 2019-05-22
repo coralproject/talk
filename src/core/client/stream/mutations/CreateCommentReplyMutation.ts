@@ -6,17 +6,17 @@ import {
   RecordSourceSelectorProxy,
 } from "relay-runtime";
 
-import { getViewer } from "talk-framework/helpers";
-import { TalkContext } from "talk-framework/lib/bootstrap";
+import { getViewer } from "coral-framework/helpers";
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
   lookup,
   MutationInput,
   MutationResponsePromise,
-} from "talk-framework/lib/relay";
-import { GQLStory, GQLUSER_ROLE } from "talk-framework/schema";
-import { CreateCommentReplyMutation as MutationTypes } from "talk-stream/__generated__/CreateCommentReplyMutation.graphql";
+} from "coral-framework/lib/relay";
+import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
 import {
   incrementStoryCommentCounts,
@@ -133,7 +133,7 @@ let clientMutationId = 0;
 function commit(
   environment: Environment,
   input: CreateCommentReplyInput,
-  { uuidGenerator, relayEnvironment }: TalkContext
+  { uuidGenerator, relayEnvironment }: CoralContext
 ) {
   const viewer = getViewer(environment)!;
   const currentDate = new Date().toISOString();

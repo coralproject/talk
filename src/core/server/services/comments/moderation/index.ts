@@ -1,16 +1,16 @@
 import { Db } from "mongodb";
 
-import { Omit } from "talk-common/types";
-import { GQLCOMMENT_STATUS } from "talk-server/graph/tenant/schema/__generated__/types";
-import logger from "talk-server/logger";
+import { Omit } from "coral-common/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
 import {
   createCommentModerationAction,
   CreateCommentModerationActionInput,
-} from "talk-server/models/action/moderation/comment";
-import { updateCommentStatus } from "talk-server/models/comment";
-import { updateStoryCounts } from "talk-server/models/story";
-import { Tenant } from "talk-server/models/tenant";
-import { AugmentedRedis } from "talk-server/services/redis";
+} from "coral-server/models/action/moderation/comment";
+import { updateCommentStatus } from "coral-server/models/comment";
+import { updateStoryCounts } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
+import { AugmentedRedis } from "coral-server/services/redis";
 import { calculateCountsDiff } from "./counts";
 
 export type Moderate = Omit<CreateCommentModerationActionInput, "status">;

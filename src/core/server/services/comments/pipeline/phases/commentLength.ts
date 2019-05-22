@@ -1,15 +1,15 @@
 import striptags from "striptags";
 
-import { isNil } from "lodash";
 import {
   CommentBodyExceedsMaxLengthError,
   CommentBodyTooShortError,
-} from "talk-server/errors";
-import { Settings } from "talk-server/models/settings";
+} from "coral-server/errors";
+import { Settings } from "coral-server/models/settings";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
+import { isNil } from "lodash";
 
 const testCharCount = (settings: Partial<Settings>, length: number) => {
   if (settings.charCount && settings.charCount.enabled) {

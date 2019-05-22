@@ -1,9 +1,9 @@
 import RedisClient, { Pipeline, Redis } from "ioredis";
 
-import { Omit } from "talk-common/types";
-import { Config } from "talk-server/config";
-import { InternalError } from "talk-server/errors";
-import logger from "talk-server/logger";
+import { Omit } from "coral-common/types";
+import { Config } from "coral-server/config";
+import { InternalError } from "coral-server/errors";
+import logger from "coral-server/logger";
 
 export interface AugmentedRedisCommands {
   mhincrby(key: string, ...args: any[]): Promise<void>;

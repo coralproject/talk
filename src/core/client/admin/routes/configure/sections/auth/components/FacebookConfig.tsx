@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { required, Validator } from "talk-framework/lib/validation";
-import { HorizontalGutter, TextLink, Typography } from "talk-ui/components";
+import { required, Validator } from "coral-framework/lib/validation";
+import { HorizontalGutter, TextLink, Typography } from "coral-ui/components";
 
 import HorizontalRule from "../../../components/HorizontalRule";
 import ClientIDField from "./ClientIDField";

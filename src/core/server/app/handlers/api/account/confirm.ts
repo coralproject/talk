@@ -1,22 +1,22 @@
 import Joi from "joi";
 
-import { AppOptions } from "talk-server/app";
-import { validate } from "talk-server/app/request/body";
-import { RequestLimiter } from "talk-server/app/request/limiter";
+import { AppOptions } from "coral-server/app";
+import { validate } from "coral-server/app/request/body";
+import { RequestLimiter } from "coral-server/app/request/limiter";
 import {
   AuthenticationError,
   UserForbiddenError,
   UserNotFoundError,
-} from "talk-server/errors";
-import { GQLUSER_ROLE } from "talk-server/graph/tenant/schema/__generated__/types";
-import { retrieveUser, User } from "talk-server/models/user";
-import { decodeJWT, extractJWTFromRequest } from "talk-server/services/jwt";
+} from "coral-server/errors";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { retrieveUser, User } from "coral-server/models/user";
+import { decodeJWT, extractJWTFromRequest } from "coral-server/services/jwt";
 import {
   confirmEmail,
   sendConfirmationEmail,
   verifyConfirmTokenString,
-} from "talk-server/services/users/auth/confirm";
-import { RequestHandler } from "talk-server/types/express";
+} from "coral-server/services/users/auth/confirm";
+import { RequestHandler } from "coral-server/types/express";
 
 export type ConfirmRequestOptions = Pick<
   AppOptions,
@@ -59,8 +59,8 @@ export const confirmRequestHandler = ({
       await ipLimiter.test(req, req.ip);
 
       // Tenant is guaranteed at this point.
-      const talk = req.talk!;
-      const tenant = talk.tenant!;
+      const coral = req.coral!;
+      const tenant = coral.tenant!;
 
       // Grab the requesting user.
       const requestingUser = req.user;
@@ -98,7 +98,7 @@ export const confirmRequestHandler = ({
 
       await userIDLimiter.test(req, targetUserID);
 
-      const log = talk.logger.child({
+      const log = coral.logger.child({
         targetUserID,
         requestingUserID: requestingUser.id,
         tenantID: tenant.id,
@@ -118,7 +118,7 @@ export const confirmRequestHandler = ({
         signingConfig,
         // TODO: (wyattjoh) evaluate the use of required here.
         targetUser as Required<User>,
-        talk.now
+        coral.now
       );
 
       log.trace("sent confirm email with token");
@@ -159,8 +159,8 @@ export const confirmCheckHandler = ({
       await ipLimiter.test(req, req.ip);
 
       // Tenant is guaranteed at this point.
-      const talk = req.talk!;
-      const tenant = talk.tenant!;
+      const coral = req.coral!;
+      const tenant = coral.tenant!;
 
       // TODO: evaluate verifying if the Tenant allows verifications to short circuit.
 
@@ -182,7 +182,7 @@ export const confirmCheckHandler = ({
         tenant,
         signingConfig,
         tokenString,
-        talk.now
+        coral.now
       );
 
       return res.sendStatus(204);
@@ -221,8 +221,8 @@ export const confirmHandler = ({
       await ipLimiter.test(req, req.ip);
 
       // Tenant is guaranteed at this point.
-      const talk = req.talk!;
-      const tenant = talk.tenant!;
+      const coral = req.coral!;
+      const tenant = coral.tenant!;
 
       // Grab the token from the request.
       const tokenString = extractJWTFromRequest(req, true);
@@ -237,7 +237,7 @@ export const confirmHandler = ({
       }
 
       // Execute the reset.
-      await confirmEmail(mongo, tenant, signingConfig, tokenString, talk.now);
+      await confirmEmail(mongo, tenant, signingConfig, tokenString, coral.now);
 
       return res.sendStatus(204);
     } catch (err) {

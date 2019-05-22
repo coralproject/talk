@@ -14,7 +14,7 @@ https://github.com/babel/babel/issues/8167#issuecomment-397295483
 
 ## Relay Client Side Schema Extensions
 
-We use Client Side Schema Extension in `Relay` to store client and UI related state. It works great, the only limitation currently is that locally created `Records` are garbage collected. We created a little helper in `talk-framework/lib/relay/createAndRetain.ts` that creates and retains these `Records` forever. Hopefully this gets resolved and we don't need to do this kind of manual lifecycle management.
+We use Client Side Schema Extension in `Relay` to store client and UI related state. It works great, the only limitation currently is that locally created `Records` are garbage collected. We created a little helper in `coral-framework/lib/relay/createAndRetain.ts` that creates and retains these `Records` forever. Hopefully this gets resolved and we don't need to do this kind of manual lifecycle management.
 
 Related: https://github.com/facebook/relay/issues/1656#issuecomment-374079965
 
@@ -25,7 +25,7 @@ import {
   createAndRetain,
   LOCAL_ID,
   LOCAL_TYPE,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 commitLocalUpdate(environment, s => {
   const root = s.getRoot();

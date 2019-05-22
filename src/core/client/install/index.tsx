@@ -2,24 +2,24 @@ import React from "react";
 import { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
-import { createManaged } from "talk-framework/lib/bootstrap";
+import { createManaged } from "coral-framework/lib/bootstrap";
 
 import App from "./components/App";
 import localesData from "./locales";
 
 // Import css variables.
-import "talk-ui/theme/variables.css";
+import "coral-ui/theme/variables.css";
 
 async function main() {
-  const ManagedTalkContextProvider = await createManaged({
+  const ManagedCoralContextProvider = await createManaged({
     localesData,
     userLocales: navigator.languages,
   });
 
   const Index: FunctionComponent = () => (
-    <ManagedTalkContextProvider>
+    <ManagedCoralContextProvider>
       <App />
-    </ManagedTalkContextProvider>
+    </ManagedCoralContextProvider>
   );
 
   ReactDOM.render(<Index />, document.getElementById("app"));

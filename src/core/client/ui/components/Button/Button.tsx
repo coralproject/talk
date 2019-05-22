@@ -2,8 +2,8 @@ import cn from "classnames";
 import { pick } from "lodash";
 import React, { Ref } from "react";
 
-import { withForwardRef, withStyles } from "talk-ui/hocs";
-import { Omit, PropTypesOf } from "talk-ui/types";
+import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { Omit, PropTypesOf } from "coral-ui/types";
 
 import BaseButton, { BaseButtonProps } from "../BaseButton";
 

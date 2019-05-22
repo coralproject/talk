@@ -2,8 +2,8 @@ import { Localized } from "fluent-react/compat";
 import { Link } from "found";
 import React, { FunctionComponent } from "react";
 
-import MainLayout from "talk-admin/components/MainLayout";
-import { SubBar } from "talk-ui/components";
+import MainLayout from "coral-admin/components/MainLayout";
+import { SubBar } from "coral-ui/components";
 
 import styles from "./SingleModerate.css";
 

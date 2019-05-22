@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Delay, Flex, Spinner } from "talk-ui/components";
+import { Delay, Flex, Spinner } from "coral-ui/components";
 
 import Main from "./Main";
 import Title from "./Title";

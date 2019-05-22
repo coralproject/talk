@@ -1,8 +1,8 @@
 import sinon from "sinon";
 
-import { pureMerge } from "talk-common/utils";
-import { LOCAL_ID, lookup } from "talk-framework/lib/relay";
-import { GQLResolver } from "talk-framework/schema";
+import { pureMerge } from "coral-common/utils";
+import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -10,7 +10,7 @@ import {
   wait,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "../create";
 import {

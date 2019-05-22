@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import { Strategy } from "passport-strategy";
 
-import { AppOptions } from "talk-server/app";
-import { TenantNotFoundError, TokenInvalidError } from "talk-server/errors";
-import { Tenant } from "talk-server/models/tenant";
-import { User } from "talk-server/models/user";
-import { extractJWTFromRequest } from "talk-server/services/jwt";
-import { Request } from "talk-server/types/express";
+import { AppOptions } from "coral-server/app";
+import { TenantNotFoundError, TokenInvalidError } from "coral-server/errors";
+import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
+import { extractJWTFromRequest } from "coral-server/services/jwt";
+import { Request } from "coral-server/types/express";
 
 import { JWTToken, JWTVerifier } from "./verifiers/jwt";
 import { OIDCIDToken, OIDCVerifier } from "./verifiers/oidc";
@@ -88,7 +88,7 @@ export class JWTStrategy extends Strategy {
       return this.pass();
     }
 
-    const { now, tenant } = req.talk!;
+    const { now, tenant } = req.coral!;
     if (!tenant) {
       return this.error(new TenantNotFoundError(req.hostname));
     }

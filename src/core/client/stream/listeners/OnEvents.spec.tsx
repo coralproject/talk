@@ -1,7 +1,7 @@
 import React from "react";
 import { createRenderer } from "react-test-renderer/shallow";
 
-import { createSinonStub } from "talk-framework/testHelpers";
+import { createSinonStub } from "coral-framework/testHelpers";
 
 import { OnEvents } from "./OnEvents";
 

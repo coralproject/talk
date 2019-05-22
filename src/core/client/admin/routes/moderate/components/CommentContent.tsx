@@ -2,8 +2,8 @@ import cn from "classnames";
 import { memoize } from "lodash";
 import React, { FunctionComponent } from "react";
 
-import { createPurify } from "talk-common/utils/purify";
-import { Typography } from "talk-ui/components";
+import { createPurify } from "coral-common/utils/purify";
+import { Typography } from "coral-ui/components";
 
 import styles from "./CommentContent.css";
 

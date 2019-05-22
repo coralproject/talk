@@ -1,7 +1,7 @@
-import { ERROR_CODES } from "talk-common/errors";
-import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
-import TenantContext from "talk-server/graph/tenant/context";
-import { User } from "talk-server/models/user";
+import { ERROR_CODES } from "coral-common/errors";
+import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
+import TenantContext from "coral-server/graph/tenant/context";
+import { User } from "coral-server/models/user";
 import {
   ban,
   createToken,
@@ -17,7 +17,7 @@ import {
   updatePassword,
   updateRole,
   updateUsername,
-} from "talk-server/services/users";
+} from "coral-server/services/users";
 import {
   GQLBanUserInput,
   GQLCreateTokenInput,

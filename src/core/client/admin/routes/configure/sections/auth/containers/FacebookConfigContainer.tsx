@@ -1,9 +1,9 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { FacebookConfigContainer_auth as AuthData } from "talk-admin/__generated__/FacebookConfigContainer_auth.graphql";
-import { FacebookConfigContainer_authReadOnly as AuthReadOnlyData } from "talk-admin/__generated__/FacebookConfigContainer_authReadOnly.graphql";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { FacebookConfigContainer_auth as AuthData } from "coral-admin/__generated__/FacebookConfigContainer_auth.graphql";
+import { FacebookConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/FacebookConfigContainer_authReadOnly.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import FacebookConfig from "../components/FacebookConfig";
 

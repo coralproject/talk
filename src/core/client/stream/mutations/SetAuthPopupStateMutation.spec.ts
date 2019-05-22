@@ -1,6 +1,6 @@
 import { Environment, RecordSource } from "relay-runtime";
 
-import { createRelayEnvironment } from "talk-framework/testHelpers";
+import { createRelayEnvironment } from "coral-framework/testHelpers";
 
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "../local";
 import { commit } from "./SetAuthPopupStateMutation";

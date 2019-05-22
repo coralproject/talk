@@ -14,10 +14,10 @@ describe("Basic integration test", () => {
   });
   it("should render iframe", () => {
     mockConsole();
-    const TalkEmbedStream = Coral.Talk.createStreamEmbed({
+    const CoralEmbedStream = Coral.Coral.createStreamEmbed({
       id: "basic-integration-test-id",
     });
-    TalkEmbedStream.render();
+    CoralEmbedStream.render();
     expect(container.innerHTML).toMatchSnapshot();
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.error).not.toHaveBeenCalled();
@@ -28,10 +28,10 @@ describe("Basic integration test", () => {
     link.rel = "canonical";
     link.href = "http://localhost/canonical";
     document.head!.appendChild(link);
-    const TalkEmbedStream = Coral.Talk.createStreamEmbed({
+    const CoralEmbedStream = Coral.Coral.createStreamEmbed({
       id: "basic-integration-test-id",
     });
-    TalkEmbedStream.render();
+    CoralEmbedStream.render();
     expect(container.innerHTML).toMatchSnapshot();
     document.head!.removeChild(link);
     expect(console.warn).not.toHaveBeenCalled();
@@ -39,11 +39,11 @@ describe("Basic integration test", () => {
   });
   it("should remove iframe", () => {
     mockConsole();
-    const TalkEmbedStream = Coral.Talk.createStreamEmbed({
+    const CoralEmbedStream = Coral.Coral.createStreamEmbed({
       id: "basic-integration-test-id",
     });
-    TalkEmbedStream.render();
-    TalkEmbedStream.remove();
+    CoralEmbedStream.render();
+    CoralEmbedStream.remove();
     expect(container.innerHTML).toBe("");
     // tslint:disable-next-line:no-console
     expect(console.warn).toHaveBeenCalledTimes(1);

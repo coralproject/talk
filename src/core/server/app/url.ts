@@ -1,6 +1,6 @@
-import { Config } from "talk-server/config";
-import { Tenant } from "talk-server/models/tenant";
-import { Request } from "talk-server/types/express";
+import { Config } from "coral-server/config";
+import { Tenant } from "coral-server/models/tenant";
+import { Request } from "coral-server/types/express";
 import { URL } from "url";
 
 export function reconstructURL(req: Request, path: string = "/"): string {

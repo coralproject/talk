@@ -1,5 +1,5 @@
-import { GQLSuspensionStatusTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
-import * as user from "talk-server/models/user";
+import { GQLSuspensionStatusTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
+import * as user from "coral-server/models/user";
 
 export type SuspensionStatusInput = user.ConsolidatedSuspensionStatus & {
   userID: string;

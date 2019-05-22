@@ -1,18 +1,18 @@
 import DataLoader from "dataloader";
 
-import Context from "talk-server/graph/tenant/context";
+import Context from "coral-server/graph/tenant/context";
 import {
   GQLUSER_ROLE,
   GQLUSER_STATUS,
   QueryToUsersArgs,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { Connection } from "talk-server/models/helpers/connection";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { Connection } from "coral-server/models/helpers/connection";
 import {
   retrieveManyUsers,
   retrieveUserConnection,
   User,
   UserConnectionInput,
-} from "talk-server/models/user";
+} from "coral-server/models/user";
 
 type UserConnectionFilterInput = UserConnectionInput["filter"];
 

@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useCallback } from "react";
 
-import { CloseStoryMutation, OpenStoryMutation } from "talk-admin/mutations";
-import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
+import { CloseStoryMutation, OpenStoryMutation } from "coral-admin/mutations";
+import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
 
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
 import StatusChange from "../components/StatusChange";
 
 interface Props {

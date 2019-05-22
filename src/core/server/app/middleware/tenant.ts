@@ -1,9 +1,9 @@
 import uuid from "uuid/v1";
 
-import { TenantNotFoundError } from "talk-server/errors";
-import logger from "talk-server/logger";
-import TenantCache from "talk-server/services/tenant/cache";
-import { RequestHandler } from "talk-server/types/express";
+import { TenantNotFoundError } from "coral-server/errors";
+import logger from "coral-server/logger";
+import TenantCache from "coral-server/services/tenant/cache";
+import { RequestHandler } from "coral-server/types/express";
 
 export interface MiddlewareOptions {
   cache: TenantCache;
@@ -15,7 +15,7 @@ export const tenantMiddleware = ({
   passNoTenant = false,
 }: MiddlewareOptions): RequestHandler => async (req, res, next) => {
   try {
-    if (!req.talk) {
+    if (!req.coral) {
       const id = uuid();
 
       // Write the ID on the request.
@@ -25,13 +25,13 @@ export const tenantMiddleware = ({
       // is passed around the request to ensure constant-time actions.
       const now = new Date();
 
-      // Set Talk on the request.
-      req.talk = { id, now, logger: logger.child({ traceID: id }) };
+      // Set Coral on the request.
+      req.coral = { id, now, logger: logger.child({ traceID: id }) };
     }
 
-    // Set the Talk Tenant Cache on the request.
-    if (!req.talk.cache) {
-      req.talk.cache = {
+    // Set the Coral Tenant Cache on the request.
+    if (!req.coral.cache) {
+      req.coral.cache = {
         // Attach the tenant cache to the request.
         tenant: cache,
       };
@@ -48,7 +48,7 @@ export const tenantMiddleware = ({
     }
 
     // Attach the tenant to the request.
-    req.talk.tenant = tenant;
+    req.coral.tenant = tenant;
 
     // Attach the tenant's language to the request.
     res.setHeader("Content-Language", tenant.locale);

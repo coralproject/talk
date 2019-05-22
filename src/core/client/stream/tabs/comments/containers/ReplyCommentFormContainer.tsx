@@ -3,26 +3,26 @@ import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
-import { withContext } from "talk-framework/lib/bootstrap";
+import { withContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
   ModerationNudgeError,
-} from "talk-framework/lib/errors";
+} from "coral-framework/lib/errors";
 import {
   FetchProp,
   withFetch,
   withFragmentContainer,
-} from "talk-framework/lib/relay";
-import { PromisifiedStorage } from "talk-framework/lib/storage";
-import { PropTypesOf } from "talk-framework/types";
-import { ReplyCommentFormContainer_comment as CommentData } from "talk-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
-import { ReplyCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
-import { ReplyCommentFormContainer_story as StoryData } from "talk-stream/__generated__/ReplyCommentFormContainer_story.graphql";
-import { RefreshSettingsFetch } from "talk-stream/fetches";
+} from "coral-framework/lib/relay";
+import { PromisifiedStorage } from "coral-framework/lib/storage";
+import { PropTypesOf } from "coral-framework/types";
+import { ReplyCommentFormContainer_comment as CommentData } from "coral-stream/__generated__/ReplyCommentFormContainer_comment.graphql";
+import { ReplyCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/ReplyCommentFormContainer_settings.graphql";
+import { ReplyCommentFormContainer_story as StoryData } from "coral-stream/__generated__/ReplyCommentFormContainer_story.graphql";
+import { RefreshSettingsFetch } from "coral-stream/fetches";
 import {
   CreateCommentReplyMutation,
   withCreateCommentReplyMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 import ReplyCommentForm, {
   ReplyCommentFormProps,

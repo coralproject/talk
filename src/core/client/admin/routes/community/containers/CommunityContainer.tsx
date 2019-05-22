@@ -2,8 +2,8 @@ import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { CommunityContainerQueryResponse } from "talk-admin/__generated__/CommunityContainerQuery.graphql";
-import { withRouteConfig } from "talk-framework/lib/router";
+import { CommunityContainerQueryResponse } from "coral-admin/__generated__/CommunityContainerQuery.graphql";
+import { withRouteConfig } from "coral-framework/lib/router";
 
 import Community from "../components/Community";
 

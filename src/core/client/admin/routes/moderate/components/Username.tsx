@@ -2,7 +2,7 @@ import cn from "classnames";
 import React from "react";
 import { FunctionComponent } from "react";
 
-import { Typography } from "talk-ui/components";
+import { Typography } from "coral-ui/components";
 
 import styles from "./Username.css";
 

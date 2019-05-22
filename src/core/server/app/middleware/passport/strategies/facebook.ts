@@ -2,19 +2,19 @@ import { Profile, Strategy } from "passport-facebook";
 
 import OAuth2Strategy, {
   OAuth2StrategyOptions,
-} from "talk-server/app/middleware/passport/strategies/oauth2";
-import { constructTenantURL } from "talk-server/app/url";
+} from "coral-server/app/middleware/passport/strategies/oauth2";
+import { constructTenantURL } from "coral-server/app/url";
 import {
   GQLAuthIntegrations,
   GQLFacebookAuthIntegration,
   GQLUSER_ROLE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { Tenant } from "talk-server/models/tenant";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { Tenant } from "coral-server/models/tenant";
 import {
   FacebookProfile,
   retrieveUserWithProfile,
-} from "talk-server/models/user";
-import { insert } from "talk-server/services/users";
+} from "coral-server/models/user";
+import { insert } from "coral-server/services/users";
 
 export type FacebookStrategyOptions = OAuth2StrategyOptions;
 

@@ -7,7 +7,7 @@ import {
   GQLUSER_ROLE_RL,
   GQLUSER_STATUS,
   GQLUSER_STATUS_RL,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import {
   Button,
   FieldSet,
@@ -18,7 +18,7 @@ import {
   SelectField,
   TextField,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./UserTableFilter.css";
 

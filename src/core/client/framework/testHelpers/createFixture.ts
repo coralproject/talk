@@ -1,5 +1,5 @@
-import { pureMerge } from "talk-common/utils";
-import { DeepPartial } from "talk-framework/types";
+import { pureMerge } from "coral-common/utils";
+import { DeepPartial } from "coral-framework/types";
 
 /**
  * Callbackify turns Fields e.g. `{a: string}`

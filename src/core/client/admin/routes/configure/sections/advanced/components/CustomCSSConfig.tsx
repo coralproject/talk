@@ -2,14 +2,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { formatEmpty, parseEmptyAsNull } from "talk-framework/lib/form";
+import { formatEmpty, parseEmptyAsNull } from "coral-framework/lib/form";
 import {
   FormField,
   HorizontalGutter,
   TextField,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import Header from "../../../components/Header";
 

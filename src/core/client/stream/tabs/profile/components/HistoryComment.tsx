@@ -1,14 +1,14 @@
-import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
-import Timestamp from "talk-stream/components/Timestamp";
+import Timestamp from "coral-stream/components/Timestamp";
 import {
   Flex,
   HorizontalGutter,
   Icon,
   TextLink,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
+import { Localized } from "fluent-react/compat";
+import * as React from "react";
+import { FunctionComponent } from "react";
 
 import HTMLContent from "../../../components/HTMLContent";
 

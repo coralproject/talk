@@ -1,4 +1,4 @@
-import { containsMatchingPhrase } from "talk-server/services/comments/pipeline/wordList";
+import { containsMatchingPhrase } from "coral-server/services/comments/pipeline/wordList";
 
 const phrases = [
   "cookies",

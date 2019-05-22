@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { DURATION_UNIT, DurationField } from "talk-framework/components";
+import { DURATION_UNIT, DurationField } from "coral-framework/components";
 import {
   FieldSet,
   FormField,
@@ -9,15 +9,15 @@ import {
   InputLabel,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
-import { Field } from "react-final-form";
-import OnOffField from "talk-admin/routes/configure/components/OnOffField";
+import OnOffField from "coral-admin/routes/configure/components/OnOffField";
 import {
   composeValidators,
   required,
   validateWholeNumberGreaterThan,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
+import { Field } from "react-final-form";
 
 import Header from "../../../components/Header";
 

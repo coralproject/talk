@@ -11,13 +11,13 @@ import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
 import now from "performance-now";
 
-import { LanguageCode } from "talk-common/helpers/i18n/locales";
-import { Config } from "talk-server/config";
-import { InternalError } from "talk-server/errors";
-import logger from "talk-server/logger";
-import { I18n, translate } from "talk-server/services/i18n";
-import TenantCache from "talk-server/services/tenant/cache";
-import { TenantCacheAdapter } from "talk-server/services/tenant/cache/adapter";
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { Config } from "coral-server/config";
+import { InternalError } from "coral-server/errors";
+import logger from "coral-server/logger";
+import { I18n, translate } from "coral-server/services/i18n";
+import TenantCache from "coral-server/services/tenant/cache";
+import { TenantCacheAdapter } from "coral-server/services/tenant/cache/adapter";
 
 export const JOB_NAME = "mailer";
 

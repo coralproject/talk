@@ -1,10 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
-import { SignInWithFacebookContainer_auth as AuthData } from "talk-auth/__generated__/SignInWithFacebookContainer_auth.graphql";
-import FacebookButton from "talk-framework/components/FacebookButton";
-import { redirectOAuth2 } from "talk-framework/helpers";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
+import { SignInWithFacebookContainer_auth as AuthData } from "coral-auth/__generated__/SignInWithFacebookContainer_auth.graphql";
+import FacebookButton from "coral-framework/components/FacebookButton";
+import { redirectOAuth2 } from "coral-framework/helpers";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
 interface Props {
   auth: AuthData;

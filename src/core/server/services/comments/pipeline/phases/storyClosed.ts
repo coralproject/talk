@@ -1,9 +1,9 @@
-import { StoryClosedError } from "talk-server/errors";
+import { StoryClosedError } from "coral-server/errors";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
-import { getStoryClosedAt } from "talk-server/services/stories";
+} from "coral-server/services/comments/pipeline";
+import { getStoryClosedAt } from "coral-server/services/stories";
 
 // This phase checks to see if the story being processed is closed or not.
 export const storyClosed: IntermediateModerationPhase = ({

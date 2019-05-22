@@ -1,14 +1,14 @@
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
-import { ReadyState } from "react-relay";
 import {
   graphql,
   QueryRenderer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
-import { StreamQuery as QueryTypes } from "talk-stream/__generated__/StreamQuery.graphql";
-import { StreamQueryLocal as Local } from "talk-stream/__generated__/StreamQueryLocal.graphql";
-import { Delay, Flex, Spinner } from "talk-ui/components";
+} from "coral-framework/lib/relay";
+import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";
+import { StreamQueryLocal as Local } from "coral-stream/__generated__/StreamQueryLocal.graphql";
+import { Delay, Flex, Spinner } from "coral-ui/components";
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent } from "react";
+import { ReadyState } from "react-relay";
 import StreamContainer from "../containers/StreamContainer";
 
 interface Props {

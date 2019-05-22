@@ -6,7 +6,7 @@ import {
   createSinonStub,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import {
   baseComment,

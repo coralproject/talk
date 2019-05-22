@@ -3,7 +3,7 @@ import React from "react";
 import { MediaQueryMatchers } from "react-responsive";
 import { createRenderer } from "react-test-renderer/shallow";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 
 import UIContext from "../UIContext";
 import { default as MatchMediaWithContext, MatchMedia } from "./MatchMedia";

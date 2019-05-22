@@ -3,18 +3,18 @@ import * as React from "react";
 import { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
-import EmailField from "talk-auth/components/EmailField";
-import SetPasswordField from "talk-auth/components/SetPasswordField";
-import UsernameField from "talk-auth/components/UsernameField";
-import { OnSubmit } from "talk-framework/lib/form";
+import EmailField from "coral-auth/components/EmailField";
+import SetPasswordField from "coral-auth/components/SetPasswordField";
+import UsernameField from "coral-auth/components/UsernameField";
+import { OnSubmit } from "coral-framework/lib/form";
 import {
   Button,
   ButtonIcon,
   CallOut,
   HorizontalGutter,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
-import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
+import AutoHeightContainer from "coral-auth/containers/AutoHeightContainer";
 
 interface FormProps {
   email: string;

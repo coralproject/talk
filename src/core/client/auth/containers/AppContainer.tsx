@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Component } from "react";
 
-import { AppContainer_auth as AuthData } from "talk-auth/__generated__/AppContainer_auth.graphql";
-import { AppContainer_viewer as UserData } from "talk-auth/__generated__/AppContainer_viewer.graphql";
-import { AppContainerLocal as Local } from "talk-auth/__generated__/AppContainerLocal.graphql";
+import { AppContainer_auth as AuthData } from "coral-auth/__generated__/AppContainer_auth.graphql";
+import { AppContainer_viewer as UserData } from "coral-auth/__generated__/AppContainer_viewer.graphql";
+import { AppContainerLocal as Local } from "coral-auth/__generated__/AppContainerLocal.graphql";
 import {
   graphql,
   withFragmentContainer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 import App from "../components/App";
 import AccountCompletionContainer from "./AccountCompletionContainer";

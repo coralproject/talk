@@ -160,7 +160,7 @@ exports[`renders comment stream with community guidelines 1`] = `
       >
         <label
           className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-          htmlFor="talk-comments-sortMenu"
+          htmlFor="coral-comments-sortMenu"
         >
           Sort By
         </label>
@@ -169,7 +169,7 @@ exports[`renders comment stream with community guidelines 1`] = `
         >
           <select
             className="SelectField-select undefined"
-            id="talk-comments-sortMenu"
+            id="coral-comments-sortMenu"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
@@ -217,7 +217,7 @@ exports[`renders comment stream with community guidelines 1`] = `
       aria-live="polite"
       className="HorizontalGutter-root HorizontalGutter-full"
       data-testid="comments-stream-log"
-      id="talk-comments-stream-log"
+      id="coral-comments-stream-log"
       role="log"
     >
       <div

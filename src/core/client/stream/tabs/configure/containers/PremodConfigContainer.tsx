@@ -1,8 +1,8 @@
 import React from "react";
 import { graphql } from "react-relay";
 
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { PremodConfigContainer_storySettings as StorySettingsData } from "talk-stream/__generated__/PremodConfigContainer_storySettings.graphql";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { PremodConfigContainer_storySettings as StorySettingsData } from "coral-stream/__generated__/PremodConfigContainer_storySettings.graphql";
 
 import PremodConfig from "../components/PremodConfig";
 

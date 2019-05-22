@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { UserStatusChangeContainer_user as UserData } from "talk-admin/__generated__/UserStatusChangeContainer_user.graphql";
-import { BanUserMutation, RemoveUserBanMutation } from "talk-admin/mutations";
+import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
+import { BanUserMutation, RemoveUserBanMutation } from "coral-admin/mutations";
 import {
   graphql,
   useMutation,
   withFragmentContainer,
-} from "talk-framework/lib/relay";
-import { GQLUSER_ROLE } from "talk-framework/schema";
+} from "coral-framework/lib/relay";
+import { GQLUSER_ROLE } from "coral-framework/schema";
 
 import BanModal from "../components/BanModal";
 import ButtonPadding from "../components/ButtonPadding";

@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { withStyles } from "talk-ui/hocs";
+import { withStyles } from "coral-ui/hocs";
 
 import styles from "./Table.css";
 

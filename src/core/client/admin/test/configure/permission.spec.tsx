@@ -1,12 +1,12 @@
-import { pureMerge } from "talk-common/utils";
-import { GQLResolver, GQLUSER_ROLE } from "talk-framework/schema";
+import { pureMerge } from "coral-common/utils";
+import { GQLResolver, GQLUSER_ROLE } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "../create";
 import { settings, users } from "../fixtures";

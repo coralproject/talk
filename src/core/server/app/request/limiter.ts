@@ -3,9 +3,9 @@
 import { Redis } from "ioredis";
 import ms from "ms";
 
-import { Omit } from "talk-common/types";
-import { RateLimitExceeded } from "talk-server/errors";
-import { Request } from "talk-server/types/express";
+import { Omit } from "coral-common/types";
+import { RateLimitExceeded } from "coral-server/errors";
+import { Request } from "coral-server/types/express";
 
 export interface LimiterOptions {
   client: Redis;

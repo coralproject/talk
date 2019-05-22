@@ -2,11 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { FlagDetailsContainer_comment as CommentData } from "talk-admin/__generated__/FlagDetailsContainer_comment.graphql";
-import NotAvailable from "talk-admin/components/NotAvailable";
-import { withFragmentContainer } from "talk-framework/lib/relay";
-import { GQLCOMMENT_FLAG_REASON } from "talk-framework/schema";
-import { HorizontalGutter } from "talk-ui/components";
+import { FlagDetailsContainer_comment as CommentData } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
+import NotAvailable from "coral-admin/components/NotAvailable";
+import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
+import { HorizontalGutter } from "coral-ui/components";
 
 import FlagDetailsCategory from "../components/FlagDetailsCategory";
 import FlagDetailsEntry from "../components/FlagDetailsEntry";

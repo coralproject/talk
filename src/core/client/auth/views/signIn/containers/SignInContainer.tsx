@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 
-import { SignInContainer_auth as AuthData } from "talk-auth/__generated__/SignInContainer_auth.graphql";
-import { SignInContainerLocal as LocalData } from "talk-auth/__generated__/SignInContainerLocal.graphql";
+import { SignInContainer_auth as AuthData } from "coral-auth/__generated__/SignInContainer_auth.graphql";
+import { SignInContainerLocal as LocalData } from "coral-auth/__generated__/SignInContainerLocal.graphql";
 import {
   ClearErrorMutation,
   SetViewMutation,
   SignInMutation,
   withClearErrorMutation,
   withSignInMutation,
-} from "talk-auth/mutations";
+} from "coral-auth/mutations";
 import {
   graphql,
   MutationProp,
   withFragmentContainer,
   withLocalStateContainer,
   withMutation,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
-import { getViewURL } from "talk-auth/helpers";
+import { getViewURL } from "coral-auth/helpers";
 import SignIn from "../components/SignIn";
 
 interface Props {

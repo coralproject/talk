@@ -1,20 +1,20 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
+import { PropTypesOf } from "coral-framework/types";
 
-import AutoLoadMoreContainer from "talk-admin/containers/AutoLoadMoreContainer";
+import AutoLoadMoreContainer from "coral-admin/containers/AutoLoadMoreContainer";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "talk-ui/components/Table";
+} from "coral-ui/components/Table";
 
 import UserRowContainer from "../containers/UserRowContainer";
 
-import { Flex, HorizontalGutter, Spinner } from "talk-ui/components";
+import { Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 import EmptyMessage from "./EmptyMessage";
 
 import styles from "./UserTable.css";

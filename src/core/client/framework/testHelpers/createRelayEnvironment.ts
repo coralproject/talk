@@ -16,13 +16,13 @@ import {
   LOCAL_ID,
   LOCAL_TYPE,
   wrapFetchWithLogger,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
-import { loadSchema } from "talk-common/graphql";
+import { loadSchema } from "coral-common/graphql";
 import {
   InvalidRequestError,
   ModerationNudgeError,
-} from "talk-framework/lib/errors";
+} from "coral-framework/lib/errors";
 
 export interface CreateRelayEnvironmentNetworkParams {
   /** project name of graphql-config */

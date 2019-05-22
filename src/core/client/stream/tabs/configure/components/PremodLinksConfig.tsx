@@ -1,7 +1,7 @@
+import { parseBool } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
-import { parseBool } from "talk-framework/lib/form";
 
 import ToggleConfig from "./ToggleConfig";
 import WidthLimitedDescription from "./WidthLimitedDescription";

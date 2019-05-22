@@ -1,6 +1,6 @@
 import { Environment } from "relay-runtime";
 
-import { createFetch } from "talk-framework/lib/relay";
+import { createFetch } from "coral-framework/lib/relay";
 
 const CheckResetTokenFetch = createFetch(
   "resetToken",

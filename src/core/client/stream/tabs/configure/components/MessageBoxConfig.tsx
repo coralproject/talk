@@ -2,17 +2,17 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
-import { MarkdownEditor } from "talk-framework/components/loadables";
+import { MarkdownEditor } from "coral-framework/components/loadables";
 import {
   formatEmpty,
   parseBool,
   parseEmptyAsNull,
-} from "talk-framework/lib/form";
+} from "coral-framework/lib/form";
 import {
   MessageBox,
   MessageBoxContent,
   MessageBoxIcon,
-} from "talk-stream/components/MessageBox";
+} from "coral-stream/components/MessageBox";
 import {
   HorizontalGutter,
   Icon,
@@ -21,7 +21,7 @@ import {
   TileSelector,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import ToggleConfig from "./ToggleConfig";
 import WidthLimitedDescription from "./WidthLimitedDescription";

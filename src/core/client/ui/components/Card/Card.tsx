@@ -1,7 +1,7 @@
 import cn from "classnames";
+import { withStyles } from "coral-ui/hocs";
 import React from "react";
 import { FunctionComponent, ReactNode } from "react";
-import { withStyles } from "talk-ui/hocs";
 
 import styles from "./Card.css";
 

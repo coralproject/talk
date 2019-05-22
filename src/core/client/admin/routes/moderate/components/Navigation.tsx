@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { getModerationLink } from "talk-admin/helpers";
-import { Counter, Icon, SubBarNavigation } from "talk-ui/components";
+import { getModerationLink } from "coral-admin/helpers";
+import { Counter, Icon, SubBarNavigation } from "coral-ui/components";
 
 import NavigationLink from "./NavigationLink";
 

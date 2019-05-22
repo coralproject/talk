@@ -3,9 +3,9 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { WordListConfigContainer_settings as SettingsData } from "talk-admin/__generated__/WordListConfigContainer_settings.graphql";
-import { pureMerge } from "talk-common/utils";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+import { WordListConfigContainer_settings as SettingsData } from "coral-admin/__generated__/WordListConfigContainer_settings.graphql";
+import { pureMerge } from "coral-common/utils";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import WordListConfig from "../components/WordListConfig";
 

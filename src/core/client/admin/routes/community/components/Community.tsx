@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import MainLayout from "talk-admin/components/MainLayout";
-import { PropTypesOf } from "talk-framework/types";
+import MainLayout from "coral-admin/components/MainLayout";
+import { PropTypesOf } from "coral-framework/types";
 
 import UserTableContainer from "../containers/UserTableContainer";
 

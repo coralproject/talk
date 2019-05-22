@@ -1,7 +1,7 @@
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import React, { Component } from "react";
-import { graphql, QueryRenderer } from "talk-framework/lib/relay";
 
-import { AppQuery as QueryTypes } from "talk-auth/__generated__/AppQuery.graphql";
+import { AppQuery as QueryTypes } from "coral-auth/__generated__/AppQuery.graphql";
 
 import AppContainer from "../containers/AppContainer";
 

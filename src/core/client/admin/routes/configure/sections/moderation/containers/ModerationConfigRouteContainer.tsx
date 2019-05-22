@@ -2,9 +2,9 @@ import { FormApi } from "final-form";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { ModerationConfigRouteContainerQueryResponse } from "talk-admin/__generated__/ModerationConfigRouteContainerQuery.graphql";
-import { withRouteConfig } from "talk-framework/lib/router";
-import { Delay, Spinner } from "talk-ui/components";
+import { ModerationConfigRouteContainerQueryResponse } from "coral-admin/__generated__/ModerationConfigRouteContainerQuery.graphql";
+import { withRouteConfig } from "coral-framework/lib/router";
+import { Delay, Spinner } from "coral-ui/components";
 
 import ModerationConfigContainer from "./ModerationConfigContainer";
 

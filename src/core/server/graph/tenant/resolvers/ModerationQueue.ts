@@ -1,7 +1,7 @@
 import {
   CommentConnectionInput,
   retrieveCommentConnection,
-} from "talk-server/models/comment";
+} from "coral-server/models/comment";
 import {
   GQLCOMMENT_SORT,
   GQLModerationQueueTypeResolver,

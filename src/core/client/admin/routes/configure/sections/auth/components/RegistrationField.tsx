@@ -2,7 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { CheckBox, FormField, InputLabel } from "talk-ui/components";
+import { CheckBox, FormField, InputLabel } from "coral-ui/components";
 
 import ConfigDescription from "./ConfigDescription";
 

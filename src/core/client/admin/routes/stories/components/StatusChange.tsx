@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import TranslatedStoryStatus from "talk-admin/components/TranslatedStoryStatus";
-import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "talk-framework/schema";
+import TranslatedStoryStatus from "coral-admin/components/TranslatedStoryStatus";
+import { GQLSTORY_STATUS, GQLSTORY_STATUS_RL } from "coral-framework/schema";
 import {
   Button,
   ButtonIcon,
@@ -10,7 +10,7 @@ import {
   Dropdown,
   DropdownButton,
   Popover,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import styles from "./StatusChange.css";
 import StatusText from "./StatusText";

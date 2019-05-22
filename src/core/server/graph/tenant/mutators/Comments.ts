@@ -1,7 +1,7 @@
-import { ERROR_CODES } from "talk-common/errors";
-import { ADDITIONAL_DETAILS_MAX_LENGTH } from "talk-common/helpers/validate";
-import { mapFieldsetToErrorCodes } from "talk-server/graph/common/errors";
-import TenantContext from "talk-server/graph/tenant/context";
+import { ERROR_CODES } from "coral-common/errors";
+import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
+import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
+import TenantContext from "coral-server/graph/tenant/context";
 import {
   GQLCreateCommentDontAgreeInput,
   GQLCreateCommentFlagInput,
@@ -11,15 +11,15 @@ import {
   GQLEditCommentInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { create, edit } from "talk-server/services/comments";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { create, edit } from "coral-server/services/comments";
 import {
   createDontAgree,
   createFlag,
   createReaction,
   removeDontAgree,
   removeReaction,
-} from "talk-server/services/comments/actions";
+} from "coral-server/services/comments/actions";
 
 import { validateMaximumLength } from "./util";
 

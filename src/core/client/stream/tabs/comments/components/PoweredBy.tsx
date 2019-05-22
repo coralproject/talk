@@ -1,7 +1,7 @@
 import cn from "classnames";
+import { Typography } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
-import { Typography } from "talk-ui/components";
 
 interface Props {
   className: string;

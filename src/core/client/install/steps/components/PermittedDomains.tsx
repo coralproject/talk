@@ -1,7 +1,7 @@
+import { OnSubmit } from "coral-framework/lib/form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
-import { OnSubmit } from "talk-framework/lib/form";
 
 import {
   Button,
@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import BackButton from "./BackButton";
 
@@ -48,7 +48,7 @@ const PermittedDomains: FunctionComponent<PermittedDomainsForm> = props => {
             </Localized>
             <Localized id="install-permittedDomains-description">
               <Typography variant="bodyCopy" align="center">
-                Enter the domains you would like to permit for Talk, e.g. your
+                Enter the domains you would like to permit for Coral, e.g. your
                 local, staging and production environments (ex. localhost:3000,
                 staging.domain.com, domain.com).
               </Typography>

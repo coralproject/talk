@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Typography } from "talk-ui/components";
+import { Typography } from "coral-ui/components";
 
 import styles from "./MainBar.css";
 
@@ -9,7 +9,7 @@ const MainBar = () => {
     <div className={styles.root}>
       <div className={styles.container}>
         <Typography variant="heading1" className={styles.title}>
-          Talk
+          Coral
         </Typography>
       </div>
     </div>

@@ -3,8 +3,8 @@ import React from "react";
 import { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
-import { createManaged } from "talk-framework/lib/bootstrap";
-import AppContainer from "talk-stream/containers/AppContainer";
+import { createManaged } from "coral-framework/lib/bootstrap";
+import AppContainer from "coral-stream/containers/AppContainer";
 
 import {
   OnEvents,
@@ -17,7 +17,7 @@ import { initLocalState } from "./local";
 import localesData from "./locales";
 
 // Import css variables.
-import "talk-ui/theme/variables.css";
+import "coral-ui/theme/variables.css";
 
 const listeners = (
   <>
@@ -30,7 +30,7 @@ const listeners = (
 );
 
 async function main() {
-  const ManagedTalkContextProvider = await createManaged({
+  const ManagedCoralContextProvider = await createManaged({
     initLocalState,
     localesData,
     userLocales: navigator.languages,
@@ -38,12 +38,12 @@ async function main() {
   });
 
   const Index: FunctionComponent = () => (
-    <ManagedTalkContextProvider>
+    <ManagedCoralContextProvider>
       <>
         {listeners}
         <AppContainer />
       </>
-    </ManagedTalkContextProvider>
+    </ManagedCoralContextProvider>
   );
 
   ReactDOM.render(<Index />, document.getElementById("app"));

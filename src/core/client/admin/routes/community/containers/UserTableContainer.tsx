@@ -1,17 +1,17 @@
 import React, { FunctionComponent, useState } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { UserTableContainer_query as QueryData } from "talk-admin/__generated__/UserTableContainer_query.graphql";
-import { UserTableContainerPaginationQueryVariables } from "talk-admin/__generated__/UserTableContainerPaginationQuery.graphql";
-import { IntersectionProvider } from "talk-framework/lib/intersection";
+import { UserTableContainer_query as QueryData } from "coral-admin/__generated__/UserTableContainer_query.graphql";
+import { UserTableContainerPaginationQueryVariables } from "coral-admin/__generated__/UserTableContainerPaginationQuery.graphql";
+import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
   useRefetch,
   withPaginationContainer,
-} from "talk-framework/lib/relay";
-import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "talk-framework/schema";
+} from "coral-framework/lib/relay";
+import { GQLUSER_ROLE_RL, GQLUSER_STATUS_RL } from "coral-framework/schema";
 
-import { HorizontalGutter } from "talk-ui/components";
+import { HorizontalGutter } from "coral-ui/components";
 import UserTable from "../components/UserTable";
 import UserTableFilter from "../components/UserTableFilter";
 

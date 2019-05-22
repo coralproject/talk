@@ -1,6 +1,6 @@
 import { EventEmitter2 } from "eventemitter2";
 
-import { parseQuery } from "talk-common/utils";
+import { parseQuery } from "coral-common/utils";
 
 import { default as create, StreamEmbed } from "./StreamEmbed";
 
@@ -34,7 +34,7 @@ function resolveStoryURL() {
 
   // tslint:disable-next-line:no-console
   console.warn(
-    "This page does not include a canonical link tag. Talk has inferred this story_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages."
+    "This page does not include a canonical link tag. Coral has inferred this story_url from the window object. Query params have been stripped, which may cause a single thread to be present across multiple pages."
   );
 
   return getLocationOrigin() + window.location.pathname;
@@ -50,11 +50,11 @@ export function createStreamEmbed(config: Config): StreamEmbed {
   }
 
   return create({
-    title: "Talk Embed Stream",
+    title: "Coral Embed Stream",
     storyID: config.storyID || query.storyID,
     storyURL: config.storyURL || resolveStoryURL(),
     commentID: config.commentID || query.commentID,
-    id: config.id || "talk-embed-stream",
+    id: config.id || "coral-embed-stream",
     rootURL: config.rootURL || getLocationOrigin(),
     autoRender: config.autoRender,
     eventEmitter,

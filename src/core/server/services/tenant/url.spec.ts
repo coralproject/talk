@@ -1,5 +1,5 @@
-import { Tenant } from "talk-server/models/tenant";
-import { isURLPermitted } from "talk-server/services/tenant/url";
+import { Tenant } from "coral-server/models/tenant";
+import { isURLPermitted } from "coral-server/services/tenant/url";
 
 type PartialTenant = Pick<Tenant, "domains" | "domain">;
 
@@ -87,7 +87,7 @@ it("allows and validates with the tenant domain", () => {
 
 it("denies and validates with the tenant domain", () => {
   const tenant = createTenant({
-    domain: "talk.coralproject.net",
+    domain: "coral.coralproject.net",
   });
 
   expect(

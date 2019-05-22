@@ -1,9 +1,9 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { waitForElement, within } from "talk-framework/testHelpers";
-import create from "talk-stream/test/comments/create";
-import { settings } from "talk-stream/test/fixtures";
+import { waitForElement, within } from "coral-framework/testHelpers";
+import create from "coral-stream/test/comments/create";
+import { settings } from "coral-stream/test/fixtures";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {

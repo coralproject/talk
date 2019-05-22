@@ -5,22 +5,22 @@ import { get } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AuthConfigContainer_auth as AuthData } from "talk-admin/__generated__/AuthConfigContainer_auth.graphql";
-import { pureMerge } from "talk-common/utils";
-import { TalkContext, withContext } from "talk-framework/lib/bootstrap";
+import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/AuthConfigContainer_auth.graphql";
+import { pureMerge } from "coral-common/utils";
+import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import {
   AddSubmitHook,
   RemoveSubmitHook,
   SubmitHook,
   withSubmitHookContext,
-} from "talk-framework/lib/form";
-import { getMessage } from "talk-framework/lib/i18n";
-import { withFragmentContainer } from "talk-framework/lib/relay";
+} from "coral-framework/lib/form";
+import { getMessage } from "coral-framework/lib/i18n";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 
 import AuthConfig from "../components/AuthConfig";
 
 interface Props {
-  localeBundles: TalkContext["localeBundles"];
+  localeBundles: CoralContext["localeBundles"];
   form: FormApi;
   submitting?: boolean;
   addSubmitHook: AddSubmitHook;
@@ -58,7 +58,7 @@ class AuthConfigContainer extends React.Component<Props> {
         [FORM_ERROR]: (
           <Localized id="configure-auth-pleaseEnableAuthForAdmin">
             <span>
-              Please enable at least one authentication integration for Talk
+              Please enable at least one authentication integration for Coral
               Admin
             </span>
           </Localized>

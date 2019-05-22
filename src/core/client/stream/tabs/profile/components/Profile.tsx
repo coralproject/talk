@@ -1,8 +1,8 @@
+import { PropTypesOf } from "coral-framework/types";
+import UserBoxContainer from "coral-stream/containers/UserBoxContainer";
+import { HorizontalGutter } from "coral-ui/components";
 import * as React from "react";
 import { FunctionComponent } from "react";
-import { PropTypesOf } from "talk-framework/types";
-import UserBoxContainer from "talk-stream/containers/UserBoxContainer";
-import { HorizontalGutter } from "talk-ui/components";
 import CommentHistoryContainer from "../containers/CommentHistoryContainer";
 
 export interface ProfileProps {

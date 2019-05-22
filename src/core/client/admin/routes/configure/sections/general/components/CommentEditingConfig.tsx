@@ -2,12 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { DURATION_UNIT, DurationField } from "talk-framework/components";
+import { DURATION_UNIT, DurationField } from "coral-framework/components";
 import {
   composeValidators,
   required,
   validateWholeNumberGreaterThanOrEqual,
-} from "talk-framework/lib/validation";
+} from "coral-framework/lib/validation";
 import {
   FieldSet,
   FormField,
@@ -15,7 +15,7 @@ import {
   InputLabel,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import Header from "../../../components/Header";
 

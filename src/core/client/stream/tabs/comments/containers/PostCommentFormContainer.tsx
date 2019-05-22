@@ -1,30 +1,30 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { withContext } from "talk-framework/lib/bootstrap";
+import { withContext } from "coral-framework/lib/bootstrap";
 import {
   InvalidRequestError,
   ModerationNudgeError,
-} from "talk-framework/lib/errors";
+} from "coral-framework/lib/errors";
 import {
   FetchProp,
   graphql,
   withFetch,
   withFragmentContainer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
-import { PromisifiedStorage } from "talk-framework/lib/storage";
-import { PropTypesOf } from "talk-framework/types";
-import { PostCommentFormContainer_settings as SettingsData } from "talk-stream/__generated__/PostCommentFormContainer_settings.graphql";
-import { PostCommentFormContainer_story as StoryData } from "talk-stream/__generated__/PostCommentFormContainer_story.graphql";
-import { PostCommentFormContainerLocal as Local } from "talk-stream/__generated__/PostCommentFormContainerLocal.graphql";
-import { RefreshSettingsFetch } from "talk-stream/fetches";
+} from "coral-framework/lib/relay";
+import { PromisifiedStorage } from "coral-framework/lib/storage";
+import { PropTypesOf } from "coral-framework/types";
+import { PostCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
+import { PostCommentFormContainer_story as StoryData } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
+import { PostCommentFormContainerLocal as Local } from "coral-stream/__generated__/PostCommentFormContainerLocal.graphql";
+import { RefreshSettingsFetch } from "coral-stream/fetches";
 import {
   CreateCommentMutation,
   ShowAuthPopupMutation,
   withCreateCommentMutation,
   withShowAuthPopupMutation,
-} from "talk-stream/mutations";
+} from "coral-stream/mutations";
 
 import PostCommentForm from "../components/PostCommentForm";
 import PostCommentFormClosed from "../components/PostCommentFormClosed";

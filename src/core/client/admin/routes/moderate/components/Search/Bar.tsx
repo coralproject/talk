@@ -2,15 +2,15 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Form } from "react-final-form";
 
-import { Backdrop, Icon, Popover, SubBar } from "talk-ui/components";
-import { combineEventHandlers } from "talk-ui/helpers";
+import { Backdrop, Icon, Popover, SubBar } from "coral-ui/components";
+import { combineEventHandlers } from "coral-ui/helpers";
 import {
   useBlurOnEsc,
   useComboBox,
   useFocus,
   usePreventFocusLoss,
-} from "talk-ui/hooks";
-import { ListBoxOption } from "talk-ui/hooks/useComboBox";
+} from "coral-ui/hooks";
+import { ListBoxOption } from "coral-ui/hooks/useComboBox";
 
 import Field from "./Field";
 import Group from "./Group";

@@ -1,10 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
-import { SignInWithGoogleContainer_auth as AuthData } from "talk-admin/__generated__/SignInWithGoogleContainer_auth.graphql";
-import GoogleButton from "talk-framework/components/GoogleButton";
-import { redirectOAuth2 } from "talk-framework/helpers";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
+import { SignInWithGoogleContainer_auth as AuthData } from "coral-admin/__generated__/SignInWithGoogleContainer_auth.graphql";
+import GoogleButton from "coral-framework/components/GoogleButton";
+import { redirectOAuth2 } from "coral-framework/helpers";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
 interface Props {
   auth: AuthData;

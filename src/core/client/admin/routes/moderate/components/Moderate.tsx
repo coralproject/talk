@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import MainLayout from "talk-admin/components/MainLayout";
-import { PropTypesOf } from "talk-framework/types";
-import { SubBar } from "talk-ui/components/SubBar";
+import MainLayout from "coral-admin/components/MainLayout";
+import { PropTypesOf } from "coral-framework/types";
+import { SubBar } from "coral-ui/components/SubBar";
 
 import ModerateNavigationContainer from "../containers/ModerateNavigationContainer";
 import ModerateSearchBarContainer from "../containers/ModerateSearchBarContainer";

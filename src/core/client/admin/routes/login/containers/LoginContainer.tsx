@@ -1,10 +1,10 @@
 import { RouteProps } from "found";
 import React, { Component } from "react";
 
-import { LoginContainerLocal as LocalData } from "talk-admin/__generated__/LoginContainerLocal.graphql";
-import { LoginContainerQueryResponse } from "talk-admin/__generated__/LoginContainerQuery.graphql";
-import { graphql, withLocalStateContainer } from "talk-framework/lib/relay";
-import { withRouteConfig } from "talk-framework/lib/router";
+import { LoginContainerLocal as LocalData } from "coral-admin/__generated__/LoginContainerLocal.graphql";
+import { LoginContainerQueryResponse } from "coral-admin/__generated__/LoginContainerQuery.graphql";
+import { graphql, withLocalStateContainer } from "coral-framework/lib/relay";
+import { withRouteConfig } from "coral-framework/lib/router";
 
 import Login from "../components/Login";
 import AccountCompletionContainer from "./AccountCompletionContainer";

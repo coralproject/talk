@@ -2,9 +2,9 @@ import Queue, { Job } from "bull";
 import { Db } from "mongodb";
 import now from "performance-now";
 
-import logger from "talk-server/logger";
-import Task from "talk-server/queue/Task";
-import { scrape } from "talk-server/services/stories/scraper";
+import logger from "coral-server/logger";
+import Task from "coral-server/queue/Task";
+import { scrape } from "coral-server/services/stories/scraper";
 
 const JOB_NAME = "scraper";
 

@@ -1,16 +1,16 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { REDIRECT_PATH_KEY } from "talk-admin/constants";
-import { getParamsFromHashAndClearIt } from "talk-framework/helpers";
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { initLocalBaseState, LOCAL_ID } from "talk-framework/lib/relay";
+import { REDIRECT_PATH_KEY } from "coral-admin/constants";
+import { getParamsFromHashAndClearIt } from "coral-framework/helpers";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
 /**
  * Initializes the local state, before we start the App.
  */
 export default async function initLocalState(
   environment: Environment,
-  context: TalkContext
+  context: CoralContext
 ) {
   const { error = null, accessToken } = getParamsFromHashAndClearIt();
   let redirectPath: string | null = null;

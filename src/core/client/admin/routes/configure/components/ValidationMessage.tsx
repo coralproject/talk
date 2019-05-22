@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import { ValidationMessage as UIValidationMessage } from "talk-ui/components";
+import { ValidationMessage as UIValidationMessage } from "coral-ui/components";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 import styles from "./ValidationMessage.css";
 
 interface Props extends PropTypesOf<typeof UIValidationMessage> {

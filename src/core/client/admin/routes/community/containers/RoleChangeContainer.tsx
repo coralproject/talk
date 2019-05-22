@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useCallback } from "react";
 
-import { UpdateUserRoleMutation } from "talk-admin/mutations";
-import { useMutation } from "talk-framework/lib/relay";
-import { GQLUSER_ROLE_RL } from "talk-framework/schema";
+import { UpdateUserRoleMutation } from "coral-admin/mutations";
+import { useMutation } from "coral-framework/lib/relay";
+import { GQLUSER_ROLE_RL } from "coral-framework/schema";
 
 import RoleChange from "../components/RoleChange";
 

@@ -5,21 +5,21 @@ import {
   getOrigin,
   isURLSecure,
   prefixSchemeIfRequired,
-} from "talk-server/app/url";
-import { Tenant } from "talk-server/models/tenant";
-import { isURLPermitted } from "talk-server/services/tenant/url";
-import { Request, RequestHandler } from "talk-server/types/express";
+} from "coral-server/app/url";
+import { Tenant } from "coral-server/models/tenant";
+import { isURLPermitted } from "coral-server/services/tenant/url";
+import { Request, RequestHandler } from "coral-server/types/express";
 
 /**
  * cspMiddleware handles adding the CSP middleware to each outgoing request.
  */
 export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
-  if (!req.talk || !req.talk.tenant) {
+  if (!req.coral || !req.coral.tenant) {
     // There is no tenant for the request, don't add any headers.
     return next();
   }
 
-  const tenant = req.talk.tenant;
+  const tenant = req.coral.tenant;
 
   res.setHeader(
     "Content-Security-Policy",
@@ -39,7 +39,7 @@ function generateContentSecurityPolicy(
 ) {
   const directives: Record<string, any> = {};
 
-  // Only the domains that are allowed by the tenant may embed Talk.
+  // Only the domains that are allowed by the tenant may embed Coral.
   directives.frameAncestors =
     tenant.domains.length > 0 ? tenant.domains : ["'none'"];
 

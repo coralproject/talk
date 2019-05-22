@@ -1,6 +1,6 @@
 import { Environment } from "relay-runtime";
 
-import { createMutation } from "talk-framework/lib/relay";
+import { createMutation } from "coral-framework/lib/relay";
 
 const ResetPasswordMutation = createMutation(
   "resetPassword",

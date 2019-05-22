@@ -1,7 +1,7 @@
-import { ERROR_CODES } from "talk-common/errors";
-import { pureMerge } from "talk-common/utils";
-import { InvalidRequestError } from "talk-framework/lib/errors";
-import { GQLResolver } from "talk-framework/schema";
+import { ERROR_CODES } from "coral-common/errors";
+import { pureMerge } from "coral-common/utils";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -9,7 +9,7 @@ import {
   wait,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "../create";
 import { settings, users } from "../fixtures";

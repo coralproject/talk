@@ -2,7 +2,7 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import { Icon } from "talk-ui/components";
+import { Icon } from "coral-ui/components";
 
 import styles from "./SeeAllOption.css";
 

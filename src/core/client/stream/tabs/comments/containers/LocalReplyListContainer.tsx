@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { graphql } from "react-relay";
 
-import withFragmentContainer from "talk-framework/lib/relay/withFragmentContainer";
-import { PropTypesOf } from "talk-framework/types";
-import { LocalReplyListContainer_comment as CommentData } from "talk-stream/__generated__/LocalReplyListContainer_comment.graphql";
-import { LocalReplyListContainer_settings as SettingsData } from "talk-stream/__generated__/LocalReplyListContainer_settings.graphql";
-import { LocalReplyListContainer_story as StoryData } from "talk-stream/__generated__/LocalReplyListContainer_story.graphql";
-import { LocalReplyListContainer_viewer as ViewerData } from "talk-stream/__generated__/LocalReplyListContainer_viewer.graphql";
+import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
+import { PropTypesOf } from "coral-framework/types";
+import { LocalReplyListContainer_comment as CommentData } from "coral-stream/__generated__/LocalReplyListContainer_comment.graphql";
+import { LocalReplyListContainer_settings as SettingsData } from "coral-stream/__generated__/LocalReplyListContainer_settings.graphql";
+import { LocalReplyListContainer_story as StoryData } from "coral-stream/__generated__/LocalReplyListContainer_story.graphql";
+import { LocalReplyListContainer_viewer as ViewerData } from "coral-stream/__generated__/LocalReplyListContainer_viewer.graphql";
 
 import ReplyList from "../components/ReplyList";
 

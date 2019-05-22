@@ -1,4 +1,4 @@
-import { GQLMutationTypeResolver } from "talk-server/graph/tenant/schema/__generated__/types";
+import { GQLMutationTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   editComment: async (source, { input }, ctx) => ({

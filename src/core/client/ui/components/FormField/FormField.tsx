@@ -2,8 +2,8 @@ import cn from "classnames";
 import React, { ReactNode } from "react";
 import { FunctionComponent } from "react";
 
-import { withStyles } from "talk-ui/hocs";
-import { Omit, PropTypesOf } from "talk-ui/types";
+import { withStyles } from "coral-ui/hocs";
+import { Omit, PropTypesOf } from "coral-ui/types";
 
 import HorizontalGutter from "../HorizontalGutter";
 

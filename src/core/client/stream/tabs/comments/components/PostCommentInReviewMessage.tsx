@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Button, Flex, Message } from "talk-ui/components";
+import { Button, Flex, Message } from "coral-ui/components";
 
 import { Localized } from "fluent-react/compat";
 import styles from "./PostCommentInReviewMessage.css";

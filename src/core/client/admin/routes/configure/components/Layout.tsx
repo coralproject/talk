@@ -1,5 +1,5 @@
+import { Flex } from "coral-ui/components";
 import React, { FunctionComponent } from "react";
-import { Flex } from "talk-ui/components";
 
 import styles from "./Layout.css";
 

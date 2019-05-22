@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { HorizontalGutter } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { HorizontalGutter } from "coral-ui/components";
 
 import Header from "../../../components/Header";
 import FacebookConfigContainer from "../containers/FacebookConfigContainer";

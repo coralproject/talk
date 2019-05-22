@@ -1,4 +1,4 @@
-import * as story from "talk-server/models/story";
+import * as story from "coral-server/models/story";
 
 import { GQLStorySettingsTypeResolver } from "../schema/__generated__/types";
 

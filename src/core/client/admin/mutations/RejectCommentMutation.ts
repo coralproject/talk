@@ -1,13 +1,13 @@
 import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
-import { RejectCommentMutation as MutationTypes } from "talk-admin/__generated__/RejectCommentMutation.graphql";
-import { getQueueConnection } from "talk-admin/helpers";
+import { RejectCommentMutation as MutationTypes } from "coral-admin/__generated__/RejectCommentMutation.graphql";
+import { getQueueConnection } from "coral-admin/helpers";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
 let clientMutationId = 0;
 

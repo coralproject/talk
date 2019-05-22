@@ -2,8 +2,8 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Card, Flex, HorizontalGutter, TextLink } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { Card, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
 
 import MarkersContainer from "../containers/MarkersContainer";
 import AcceptButton from "./AcceptButton";

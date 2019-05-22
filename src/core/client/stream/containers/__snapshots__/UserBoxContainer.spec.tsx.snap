@@ -10,7 +10,7 @@ exports[`renders fully 1`] = `
     onClose={[Function]}
     onFocus={[Function]}
     open={false}
-    title="Talk Auth"
+    title="Coral Auth"
   />
   <UserBoxUnauthenticated
     onRegister={[Function]}
@@ -34,7 +34,7 @@ exports[`renders without logout button 1`] = `
     onClose={[Function]}
     onFocus={[Function]}
     open={false}
-    title="Talk Auth"
+    title="Coral Auth"
   />
   <UserBoxUnauthenticated
     onRegister={[Function]}
@@ -54,7 +54,7 @@ exports[`renders without register button 1`] = `
     onClose={[Function]}
     onFocus={[Function]}
     open={false}
-    title="Talk Auth"
+    title="Coral Auth"
   />
   <UserBoxUnauthenticated
     onSignIn={[Function]}

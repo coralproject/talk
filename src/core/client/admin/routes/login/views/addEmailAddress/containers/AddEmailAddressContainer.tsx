@@ -1,9 +1,9 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { SetEmailMutation } from "talk-admin/mutations";
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
+import { SetEmailMutation } from "coral-admin/mutations";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
+import { PropTypesOf } from "coral-framework/types";
 
 import AddEmailAddress from "../components/AddEmailAddress";
 

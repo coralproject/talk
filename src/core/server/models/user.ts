@@ -2,8 +2,8 @@ import bcrypt from "bcryptjs";
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { DeepPartial, Omit, Sub } from "talk-common/types";
-import { dotize } from "talk-common/utils/dotize";
+import { DeepPartial, Omit, Sub } from "coral-common/types";
+import { dotize } from "coral-common/utils/dotize";
 import {
   ConfirmEmailTokenExpired,
   DuplicateEmailError,
@@ -16,21 +16,21 @@ import {
   UserAlreadySuspendedError,
   UsernameAlreadySetError,
   UserNotFoundError,
-} from "talk-server/errors";
+} from "coral-server/errors";
 import {
   GQLBanStatus,
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { getLocalProfile, hasLocalProfile } from "talk-server/helpers/users";
-import logger from "talk-server/logger";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { getLocalProfile, hasLocalProfile } from "coral-server/helpers/users";
+import logger from "coral-server/logger";
 import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "talk-server/models/helpers/indexing";
-import Query from "talk-server/models/helpers/query";
-import { TenantResource } from "talk-server/models/tenant";
+} from "coral-server/models/helpers/indexing";
+import Query from "coral-server/models/helpers/query";
+import { TenantResource } from "coral-server/models/tenant";
 import {
   Connection,
   ConnectionInput,

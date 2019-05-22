@@ -1,4 +1,4 @@
-import TenantContext from "talk-server/graph/tenant/context";
+import TenantContext from "coral-server/graph/tenant/context";
 
 import { Actions } from "./Actions";
 import { Comments } from "./Comments";

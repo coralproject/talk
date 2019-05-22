@@ -1,5 +1,5 @@
 .root {
-  composes: markerText from "talk-ui/shared/typography.css";
+  composes: markerText from "coral-ui/shared/typography.css";
   border-left: 1px solid currentColor;
   margin-left: calc(0.5 * var(--mini-unit));
   margin-right: calc(-0.5 * var(--mini-unit));

@@ -6,9 +6,9 @@ import {
   createMutationContainer,
   MutationInput,
   MutationResponsePromise,
-} from "talk-framework/lib/relay";
+} from "coral-framework/lib/relay";
 
-import { UpdateStorySettingsMutation as MutationTypes } from "talk-stream/__generated__/UpdateStorySettingsMutation.graphql";
+import { UpdateStorySettingsMutation as MutationTypes } from "coral-stream/__generated__/UpdateStorySettingsMutation.graphql";
 
 export type UpdateStorySettingsInput = MutationInput<MutationTypes>;
 

@@ -1,17 +1,17 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Bar, SubBar, Subtitle, Title } from "talk-auth/components//Header";
-import Main from "talk-auth/components/Main";
-import OrSeparator from "talk-auth/components/OrSeparator";
-import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
-import { PropTypesOf } from "talk-framework/types";
+import { Bar, SubBar, Subtitle, Title } from "coral-auth/components//Header";
+import Main from "coral-auth/components/Main";
+import OrSeparator from "coral-auth/components/OrSeparator";
+import AutoHeightContainer from "coral-auth/containers/AutoHeightContainer";
+import { PropTypesOf } from "coral-framework/types";
 import {
   Flex,
   HorizontalGutter,
   TextLink,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import SignUpWithEmailContainer from "../containers/SignUpWithEmailContainer";
 import SignUpWithFacebookContainer from "../containers/SignUpWithFacebookContainer";

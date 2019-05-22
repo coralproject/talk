@@ -1,10 +1,10 @@
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 
-import { SignInWithOIDCContainer_auth as AuthData } from "talk-admin/__generated__/SignInWithOIDCContainer_auth.graphql";
-import OIDCButton from "talk-framework/components/OIDCButton";
-import { redirectOAuth2 } from "talk-framework/helpers";
-import { graphql, withFragmentContainer } from "talk-framework/lib/relay";
+import { SignInWithOIDCContainer_auth as AuthData } from "coral-admin/__generated__/SignInWithOIDCContainer_auth.graphql";
+import OIDCButton from "coral-framework/components/OIDCButton";
+import { redirectOAuth2 } from "coral-framework/helpers";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
 interface Props {
   auth: AuthData;

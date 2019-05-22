@@ -1,9 +1,9 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { SetUsernameMutation } from "talk-admin/mutations";
-import { MutationProp, withMutation } from "talk-framework/lib/relay";
-import { PropTypesOf } from "talk-framework/types";
+import { SetUsernameMutation } from "coral-admin/mutations";
+import { MutationProp, withMutation } from "coral-framework/lib/relay";
+import { PropTypesOf } from "coral-framework/types";
 
 import CreateUsername from "../components/CreateUsername";
 

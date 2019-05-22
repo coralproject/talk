@@ -1,7 +1,7 @@
 import auth from "basic-auth";
 import compare from "tsscmp";
 
-import { RequestHandler } from "talk-server/types/express";
+import { RequestHandler } from "coral-server/types/express";
 
 export const basicAuth = (
   username: string,

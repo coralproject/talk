@@ -2,17 +2,20 @@ import Joi from "joi";
 import { isNil } from "lodash";
 import { Db } from "mongodb";
 
-import { validate } from "talk-server/app/request/body";
-import { IntegrationDisabled } from "talk-server/errors";
+import { validate } from "coral-server/app/request/body";
+import { IntegrationDisabled } from "coral-server/errors";
 import {
   GQLSSOAuthIntegration,
   GQLUSER_ROLE,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { Tenant } from "talk-server/models/tenant";
-import { retrieveUserWithProfile, SSOProfile } from "talk-server/models/user";
-import { insert } from "talk-server/services/users";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { Tenant } from "coral-server/models/tenant";
+import { retrieveUserWithProfile, SSOProfile } from "coral-server/models/user";
+import { insert } from "coral-server/services/users";
 
-import { SymmetricSigningAlgorithm, verifyJWT } from "talk-server/services/jwt";
+import {
+  SymmetricSigningAlgorithm,
+  verifyJWT,
+} from "coral-server/services/jwt";
 import { Verifier } from "../jwt";
 
 export interface SSOStrategyOptions {

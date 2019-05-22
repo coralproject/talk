@@ -1,16 +1,16 @@
 import { Client } from "akismet-api";
 
-import { SpamCommentError } from "talk-server/errors";
+import { SpamCommentError } from "coral-server/errors";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import logger from "talk-server/logger";
-import { ACTION_TYPE } from "talk-server/models/action/comment";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
+import { ACTION_TYPE } from "coral-server/models/action/comment";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
-} from "talk-server/services/comments/pipeline";
+} from "coral-server/services/comments/pipeline";
 
 export const spam: IntermediateModerationPhase = async ({
   story,

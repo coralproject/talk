@@ -1,7 +1,7 @@
 import { Db, MongoClient } from "mongodb";
 
-import { Config } from "talk-server/config";
-import { InternalError } from "talk-server/errors";
+import { Config } from "coral-server/config";
+import { InternalError } from "coral-server/errors";
 
 export async function createMongoClient(config: Config): Promise<MongoClient> {
   try {

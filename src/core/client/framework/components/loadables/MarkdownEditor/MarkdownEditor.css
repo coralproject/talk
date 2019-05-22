@@ -44,84 +44,84 @@ $fullscreenZIndex: 10;
 }
 
 .iconBold {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "format_bold";
   }
 }
 
 .iconItalic {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "format_italic";
   }
 }
 
 .iconTitle {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "title";
   }
 }
 
 .iconQuote {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "format_quote";
   }
 }
 
 .iconUnorderedList {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "format_list_bulleted";
   }
 }
 
 .iconOrderedList {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "format_list_numbered";
   }
 }
 
 .iconLink {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "link";
   }
 }
 
 .iconImage {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "insert_photo";
   }
 }
 
 .iconPreview {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "remove_red_eye";
   }
 }
 
 .iconSideBySide {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "chrome_reader_mode";
   }
 }
 
 .iconFullscreen {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "fullscreen";
   }
 }
 
 .iconGuide {
-  composes: icon from "talk-ui/shared/icon.css";
+  composes: icon from "coral-ui/shared/icon.css";
   &::before {
     content: "help_outline";
   }

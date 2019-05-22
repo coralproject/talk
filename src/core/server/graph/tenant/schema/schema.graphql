@@ -350,7 +350,7 @@ type ModerationQueue {
 
 """
 ModerationQueues are the list of ModerationQueue's that are supported inside
-Talk that can be used to moderate Comments.
+Coral that can be used to moderate Comments.
 """
 type ModerationQueues {
   """
@@ -748,7 +748,7 @@ type PerspectiveExternalIntegration {
   enabled: Boolean!
 
   """
-  The endpoint that Talk should use to communicate with the perspective API.
+  The endpoint that Coral should use to communicate with the perspective API.
   """
   endpoint: String
 
@@ -759,7 +759,7 @@ type PerspectiveExternalIntegration {
 
   """
   The threshold that given a specific toxic comment score, the comment will
-  be marked by Talk as toxic.
+  be marked by Coral as toxic.
   """
   threshold: Float
 
@@ -869,7 +869,7 @@ type DisableCommenting {
 
 type Email {
   """
-  enabled when True, will enable the emailing functionality in Talk.
+  enabled when True, will enable the emailing functionality in Coral.
   """
   enabled: Boolean!
 
@@ -1004,7 +1004,7 @@ type CloseCommenting {
 
 """
 Organization stores information about the organization behind this specific
-instance of Talk.
+instance of Coral.
 """
 type Organization {
   """
@@ -1091,7 +1091,7 @@ type Settings {
 
   """
   organization stores information about the organization behind this specific
-  instance of Talk.
+  instance of Coral.
   """
   organization: Organization!
 
@@ -1176,7 +1176,7 @@ union Profile =
   | GoogleProfile
 
 """
-Token facilitates accessing Talk externally with a token.
+Token facilitates accessing Coral externally with a token.
 """
 type Token {
   id: ID!
@@ -1880,7 +1880,7 @@ enum COMMENT_SORT {
 
 """
 StoryMetadata stores all the metadata that is scraped using the scraping tools
-inside Talk. Talk utilizes [metascraper](https://metascraper.js.org/) which uses
+inside Coral. Coral utilizes [metascraper](https://metascraper.js.org/) which uses
 a variety of filters derived from [The Open Graph Protocol](https://ogp.me/) to
 scan for metadata on the page.
 """
@@ -2149,7 +2149,7 @@ type Query {
     @auth(roles: [ADMIN])
 
   """
-  debugScrapeStoryMetadata will return the information that Talk was able to
+  debugScrapeStoryMetadata will return the information that Coral was able to
   scrape from the given URL. No data will be saved related to the Story based
   on this scrape.
   """
@@ -2386,7 +2386,7 @@ input SettingsOIDCAuthIntegrationInput {
 
 input SettingsEmailInput {
   """
-  enabled when True, will enable the emailing functionality in Talk.
+  enabled when True, will enable the emailing functionality in Coral.
   """
   enabled: Boolean
 
@@ -2577,7 +2577,7 @@ input SettingsPerspectiveExternalIntegrationInput {
   enabled: Boolean
 
   """
-  The endpoint that Talk should use to communicate with the perspective API.
+  The endpoint that Coral should use to communicate with the perspective API.
   """
   endpoint: String
 
@@ -2588,7 +2588,7 @@ input SettingsPerspectiveExternalIntegrationInput {
 
   """
   The threshold that given a specific toxic comment score, the comment will
-  be marked by Talk as toxic.
+  be marked by Coral as toxic.
   """
   threshold: Float
 
@@ -2771,7 +2771,7 @@ input SettingsInput {
 
   """
   organization stores information about the organization behind this specific
-  instance of Talk.
+  instance of Coral.
   """
   organization: SettingsOrganizationInput
 
@@ -3155,7 +3155,7 @@ input UpdateStory {
 input UpdateStoryInput {
   """
   id is the identifier of the Story used either when the Story was created via
-  the API or from Talk when it was lazily created.
+  the API or from Coral when it was lazily created.
   """
   id: ID!
 
@@ -3231,7 +3231,7 @@ input UpdateStorySettings {
 input UpdateStorySettingsInput {
   """
   id is the identifier of the Story used either when the Story was created via
-  the API or from Talk when it was lazily created.
+  the API or from Coral when it was lazily created.
   """
   id: ID!
 
@@ -3266,7 +3266,7 @@ type UpdateStorySettingsPayload {
 input CloseStoryInput {
   """
   id is the identifier of the Story used either when the Story was created via
-  the API or from Talk when it was lazily created.
+  the API or from Coral when it was lazily created.
   """
   id: ID!
 
@@ -3295,7 +3295,7 @@ type CloseStoryPayload {
 input OpenStoryInput {
   """
   id is the identifier of the Story used either when the Story was created via
-  the API or from Talk when it was lazily created.
+  the API or from Coral when it was lazily created.
   """
   id: ID!
 
@@ -3360,7 +3360,7 @@ type MergeStoriesPayload {
 input RemoveStoryInput {
   """
   id is the identifier of the Story used either when the Story was created via
-  the API or from Talk when it was lazily created.
+  the API or from Coral when it was lazily created.
   """
   id: ID!
 
@@ -3396,7 +3396,7 @@ type RemoveStoryPayload {
 input ScrapeStoryInput {
   """
   id is the identifier of the Story used either when the Story was created via
-  the API or from Talk when it was lazily created.
+  the API or from Coral when it was lazily created.
   """
   id: ID!
 

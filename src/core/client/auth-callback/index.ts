@@ -1,4 +1,4 @@
-import { authRedirectBackTo as key } from "talk-framework/helpers/storageKeys";
+import { authRedirectBackTo as key } from "coral-framework/helpers/storageKeys";
 
 try {
   // Pull the redirection

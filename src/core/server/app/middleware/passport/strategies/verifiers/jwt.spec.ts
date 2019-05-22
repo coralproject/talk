@@ -4,7 +4,7 @@ import {
   JWTSigningConfig,
   signTokenString,
   SymmetricSigningAlgorithm,
-} from "talk-server/services/jwt";
+} from "coral-server/services/jwt";
 import { isJWTToken } from "./jwt";
 
 // Create signing config.

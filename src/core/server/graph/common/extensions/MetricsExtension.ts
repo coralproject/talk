@@ -3,7 +3,7 @@ import { EndHandler, GraphQLExtension } from "graphql-extensions";
 import now from "performance-now";
 import { Counter, Histogram } from "prom-client";
 
-import CommonContext from "talk-server/graph/common/context";
+import CommonContext from "coral-server/graph/common/context";
 import { getOperationMetadata } from "./helpers";
 
 export interface MetricsExtensionOptions {

@@ -1,14 +1,14 @@
 import { Environment, RecordSource } from "relay-runtime";
 
-import { timeout } from "talk-common/utils";
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { LOCAL_ID } from "talk-framework/lib/relay";
-import { createPromisifiedStorage } from "talk-framework/lib/storage";
+import { timeout } from "coral-common/utils";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { LOCAL_ID } from "coral-framework/lib/relay";
+import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import {
   createAccessToken,
   createRelayEnvironment,
   replaceHistoryLocation,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import initLocalState from "./initLocalState";
 
@@ -24,7 +24,7 @@ beforeEach(() => {
 });
 
 it("init local state", async () => {
-  const context: Partial<TalkContext> = {
+  const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
   };
   await initLocalState(environment, context as any);
@@ -33,7 +33,7 @@ it("init local state", async () => {
 });
 
 it("set storyID from query", async () => {
-  const context: Partial<TalkContext> = {
+  const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
   };
   const storyID = "story-id";
@@ -46,7 +46,7 @@ it("set storyID from query", async () => {
 });
 
 it("set commentID from query", async () => {
-  const context: Partial<TalkContext> = {
+  const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
   };
   const commentID = "comment-id";
@@ -59,7 +59,7 @@ it("set commentID from query", async () => {
 });
 
 it("set accessToken from localStorage", async () => {
-  const context: Partial<TalkContext> = {
+  const context: Partial<CoralContext> = {
     localStorage: createPromisifiedStorage(),
   };
   const accessToken = createAccessToken();

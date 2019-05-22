@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent, ReactElement, useCallback } from "react";
 
-import { Flex } from "talk-ui/components";
+import { Flex } from "coral-ui/components";
 
 import styles from "./TileSelector.css";
 

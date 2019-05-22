@@ -1,4 +1,4 @@
-import { ERROR_CODES } from "talk-common/errors";
+import { ERROR_CODES } from "coral-common/errors";
 
 const triggers = [
   ERROR_CODES.COMMENT_BODY_TOO_SHORT,

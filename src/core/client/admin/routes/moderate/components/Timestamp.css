@@ -1,4 +1,4 @@
 .root {
-  composes: timestamp from "talk-ui/shared/typography.css";
+  composes: timestamp from "coral-ui/shared/typography.css";
   color: var(--palette-grey-lighter);
 }

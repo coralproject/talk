@@ -1,7 +1,7 @@
 import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
-import { createPurify } from "talk-common/utils/purify";
+import { createPurify } from "coral-common/utils/purify";
 
 import styles from "./HTMLContent.css";
 

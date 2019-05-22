@@ -1,7 +1,7 @@
 import bunyan, { LogLevelString } from "bunyan";
 import cluster from "cluster";
 
-import config from "talk-server/config";
+import config from "coral-server/config";
 
 import serializers from "./serializers";
 import { getStreams } from "./streams";
@@ -9,7 +9,7 @@ import { getStreams } from "./streams";
 export type Logger = ReturnType<typeof bunyan.createLogger>;
 
 const logger = bunyan.createLogger({
-  name: "talk",
+  name: "coral",
 
   // Attach the cluster node information to the log entries.
   clusterNode: cluster.worker ? `worker.${cluster.worker.id}` : "master",

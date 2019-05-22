@@ -2,12 +2,12 @@ import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { Button, Counter, Flex, HorizontalGutter } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { Button, Counter, Flex, HorizontalGutter } from "coral-ui/components";
 
-import { RootParent } from "talk-stream/tabs/comments/components/Comment";
-import CommentContainer from "talk-stream/tabs/comments/containers/CommentContainer";
-import LocalReplyListContainer from "talk-stream/tabs/comments/containers/LocalReplyListContainer";
+import { RootParent } from "coral-stream/tabs/comments/components/Comment";
+import CommentContainer from "coral-stream/tabs/comments/containers/CommentContainer";
+import LocalReplyListContainer from "coral-stream/tabs/comments/containers/LocalReplyListContainer";
 
 import styles from "./ConversationThread.css";
 import { Circle, Line } from "./Timeline";

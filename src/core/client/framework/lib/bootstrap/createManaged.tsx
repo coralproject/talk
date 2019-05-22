@@ -7,28 +7,28 @@ import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import uuid from "uuid/v4";
 
-import { getBrowserInfo } from "talk-framework/lib/browserInfo";
-import { LOCAL_ID } from "talk-framework/lib/relay";
+import { getBrowserInfo } from "coral-framework/lib/browserInfo";
+import { LOCAL_ID } from "coral-framework/lib/relay";
 import {
   createLocalStorage,
   createPromisifiedStorage,
   createPymStorage,
   createSessionStorage,
   PromisifiedStorage,
-} from "talk-framework/lib/storage";
+} from "coral-framework/lib/storage";
 
-import { RestClient } from "talk-framework/lib/rest";
-import { ClickFarAwayRegister } from "talk-ui/components/ClickOutside";
+import { RestClient } from "coral-framework/lib/rest";
+import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
 
 import { generateBundles, LocalesData, negotiateLanguages } from "../i18n";
 import { createNetwork, TokenGetter } from "../network";
 import { PostMessageService } from "../postMessage";
+import { CoralContext, CoralContextProvider } from "./CoralContext";
 import SendPymReady from "./SendPymReady";
-import { TalkContext, TalkContextProvider } from "./TalkContext";
 
 export type InitLocalState = (
   environment: Environment,
-  context: TalkContext
+  context: CoralContext
 ) => void | Promise<void>;
 
 interface CreateContextArguments {
@@ -109,16 +109,16 @@ function createRestClient(tokenGetter: () => string) {
 }
 
 /**
- * Returns a managed TalkContextProvider, that includes given context
+ * Returns a managed CoralContextProvider, that includes given context
  * and handles context changes, e.g. when a user session changes.
  */
-function createMangedTalkContextProvider(
-  context: TalkContext,
+function createMangedCoralContextProvider(
+  context: CoralContext,
   initLocalState: InitLocalState
 ) {
-  const ManagedTalkContextProvider = class extends Component<
+  const ManagedCoralContextProvider = class extends Component<
     {},
-    { context: TalkContext }
+    { context: CoralContext }
   > {
     constructor(props: {}) {
       super(props);
@@ -158,15 +158,15 @@ function createMangedTalkContextProvider(
 
     public render() {
       return (
-        <TalkContextProvider value={this.state.context}>
+        <CoralContextProvider value={this.state.context}>
           {this.props.children}
           {this.state.context.pym && <SendPymReady />}
-        </TalkContextProvider>
+        </CoralContextProvider>
       );
     }
   };
 
-  return ManagedTalkContextProvider;
+  return ManagedCoralContextProvider;
 }
 
 /**
@@ -195,7 +195,7 @@ function resolveSessionStorage(pym?: PymChild): PromisifiedStorage {
 
 /**
  * `createManaged` establishes the dependencies of our framework
- * and returns a `ManagedTalkContextProvider` that provides the context
+ * and returns a `ManagedCoralContextProvider` that provides the context
  * to the rest of the application.
  */
 export default async function createManaged({
@@ -236,7 +236,7 @@ export default async function createManaged({
   const { environment, tokenGetter } = createRelayEnvironment();
 
   // Assemble context.
-  const context: TalkContext = {
+  const context: CoralContext = {
     relayEnvironment: environment,
     locales,
     localeBundles,
@@ -251,14 +251,14 @@ export default async function createManaged({
     browserInfo: getBrowserInfo(),
     uuidGenerator: uuid,
     // Noop, this is later replaced by the
-    // managed TalkContextProvider.
+    // managed CoralContextProvider.
     clearSession: () => Promise.resolve(),
   };
 
   // Initialize local state.
   await initLocalState(context.relayEnvironment, context);
 
-  // Returns a managed TalkContextProvider, that includes the above
+  // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
-  return createMangedTalkContextProvider(context, initLocalState);
+  return createMangedCoralContextProvider(context, initLocalState);
 }

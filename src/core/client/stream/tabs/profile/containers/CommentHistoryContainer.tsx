@@ -1,10 +1,10 @@
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { withPaginationContainer } from "talk-framework/lib/relay";
-import { CommentHistoryContainer_story as StoryData } from "talk-stream/__generated__/CommentHistoryContainer_story.graphql";
-import { CommentHistoryContainer_viewer as ViewerData } from "talk-stream/__generated__/CommentHistoryContainer_viewer.graphql";
-import { CommentHistoryContainerPaginationQueryVariables } from "talk-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
+import { withPaginationContainer } from "coral-framework/lib/relay";
+import { CommentHistoryContainer_story as StoryData } from "coral-stream/__generated__/CommentHistoryContainer_story.graphql";
+import { CommentHistoryContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentHistoryContainer_viewer.graphql";
+import { CommentHistoryContainerPaginationQueryVariables } from "coral-stream/__generated__/CommentHistoryContainerPaginationQuery.graphql";
 
 import CommentHistory from "../components/CommentHistory";
 

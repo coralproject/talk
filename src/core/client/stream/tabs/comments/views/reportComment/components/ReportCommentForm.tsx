@@ -3,9 +3,9 @@ import { get } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field, Form } from "react-final-form";
 
-import { OnSubmit } from "talk-framework/lib/form";
-import { validateMaxLength } from "talk-framework/lib/validation";
-import { PropTypesOf } from "talk-framework/types";
+import { OnSubmit } from "coral-framework/lib/form";
+import { validateMaxLength } from "coral-framework/lib/validation";
+import { PropTypesOf } from "coral-framework/types";
 import {
   Button,
   Flex,
@@ -13,7 +13,7 @@ import {
   RadioButton,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import PropagateMount from "./PropagateMount";
 import styles from "./ReportCommentForm.css";

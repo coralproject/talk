@@ -1,8 +1,8 @@
 import { FORM_ERROR } from "final-form";
 import React, { Component } from "react";
 
-import { SignUpMutation, withSignUpMutation } from "talk-auth/mutations";
-import { PropTypesOf } from "talk-framework/types";
+import { SignUpMutation, withSignUpMutation } from "coral-auth/mutations";
+import { PropTypesOf } from "coral-framework/types";
 
 import SignUp from "../components/SignUpWithEmail";
 

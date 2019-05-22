@@ -3,7 +3,7 @@ import React from "react";
 import { create } from "react-test-renderer";
 import sinon from "sinon";
 
-import { PropTypesOf } from "talk-ui/types";
+import { PropTypesOf } from "coral-ui/types";
 import TrapFocus from "./TrapFocus";
 
 const FakeFocusable: any = class extends React.Component {

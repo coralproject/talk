@@ -6,7 +6,7 @@ import {
   wait,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";

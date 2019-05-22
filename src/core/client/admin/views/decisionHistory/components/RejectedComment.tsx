@@ -9,7 +9,7 @@ import Info from "./Info";
 import RejectedIcon from "./RejectedIcon";
 import Timestamp from "./Timestamp";
 
-import { Typography } from "talk-ui/components";
+import { Typography } from "coral-ui/components";
 
 interface Props {
   href: string;

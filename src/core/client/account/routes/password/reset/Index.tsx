@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
 
-import { withRouteConfig } from "talk-framework/lib/router";
+import { withRouteConfig } from "coral-framework/lib/router";
 
-import { parseHashQuery } from "talk-framework/utils";
+import { parseHashQuery } from "coral-framework/utils";
 import ResetPasswordForm from "./ResetPasswordForm";
 import ResetTokenChecker from "./ResetTokenChecker";
 import Success from "./Success";

@@ -2,7 +2,7 @@ import React from "react";
 import { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
-import { createManaged } from "talk-framework/lib/bootstrap";
+import { createManaged } from "coral-framework/lib/bootstrap";
 
 import ViewRouterContainer from "./containers/ViewRouterContainer";
 import resizePopup from "./dom/resizePopup";
@@ -11,7 +11,7 @@ import localesData from "./locales";
 import AppQuery from "./queries/AppQuery";
 
 // Import css variables.
-import "talk-ui/theme/variables.css";
+import "coral-ui/theme/variables.css";
 
 /**
  * Adapt popup height to current content every 100ms.
@@ -33,19 +33,19 @@ function pollPopupHeight(interval: number = 100) {
 }
 
 async function main() {
-  const ManagedTalkContextProvider = await createManaged({
+  const ManagedCoralContextProvider = await createManaged({
     initLocalState,
     localesData,
     userLocales: navigator.languages,
   });
 
   const Index: FunctionComponent = () => (
-    <ManagedTalkContextProvider>
+    <ManagedCoralContextProvider>
       <>
         <ViewRouterContainer />
         <AppQuery />
       </>
-    </ManagedTalkContextProvider>
+    </ManagedCoralContextProvider>
   );
 
   ReactDOM.render(<Index />, document.getElementById("app"));

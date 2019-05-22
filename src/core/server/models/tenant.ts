@@ -2,15 +2,15 @@ import crypto from "crypto";
 import { Db } from "mongodb";
 import uuid from "uuid";
 
-import { LanguageCode } from "talk-common/helpers/i18n/locales";
-import { DeepPartial, Omit, Sub } from "talk-common/types";
-import { dotize } from "talk-common/utils/dotize";
+import { LanguageCode } from "coral-common/helpers/i18n/locales";
+import { DeepPartial, Omit, Sub } from "coral-common/types";
+import { dotize } from "coral-common/utils/dotize";
 import {
   GQLMODERATION_MODE,
   GQLSettings,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "talk-server/models/helpers/indexing";
-import { Settings } from "talk-server/models/settings";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { createIndexFactory } from "coral-server/models/helpers/indexing";
+import { Settings } from "coral-server/models/settings";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<Tenant>>("tenants");
@@ -39,7 +39,7 @@ export interface TenantSettings
 }
 
 /**
- * Tenant describes a given Tenant on Talk that has Stories, Comments, and Users.
+ * Tenant describes a given Tenant on Coral that has Stories, Comments, and Users.
  */
 export type Tenant = Settings & TenantSettings;
 

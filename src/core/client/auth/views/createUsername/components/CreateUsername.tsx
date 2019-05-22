@@ -2,18 +2,18 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
-import { Bar, Title } from "talk-auth/components//Header";
-import Main from "talk-auth/components/Main";
-import AutoHeightContainer from "talk-auth/containers/AutoHeightContainer";
-import { OnSubmit } from "talk-framework/lib/form";
+import { Bar, Title } from "coral-auth/components//Header";
+import Main from "coral-auth/components/Main";
+import AutoHeightContainer from "coral-auth/containers/AutoHeightContainer";
+import { OnSubmit } from "coral-framework/lib/form";
 import {
   Button,
   CallOut,
   HorizontalGutter,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
-import UsernameField from "talk-auth/components/UsernameField";
+import UsernameField from "coral-auth/components/UsernameField";
 
 interface FormProps {
   username: string;

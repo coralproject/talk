@@ -7,10 +7,10 @@ import {
   graphql,
   QueryRenderer,
   withLocalStateContainer,
-} from "talk-framework/lib/relay";
-import { ProfileQuery as QueryTypes } from "talk-stream/__generated__/ProfileQuery.graphql";
-import { ProfileQueryLocal as Local } from "talk-stream/__generated__/ProfileQueryLocal.graphql";
-import { Delay, Spinner } from "talk-ui/components";
+} from "coral-framework/lib/relay";
+import { ProfileQuery as QueryTypes } from "coral-stream/__generated__/ProfileQuery.graphql";
+import { ProfileQueryLocal as Local } from "coral-stream/__generated__/ProfileQueryLocal.graphql";
+import { Delay, Spinner } from "coral-ui/components";
 
 const loadProfileContainer = () =>
   import("../containers/ProfileContainer" /* webpackChunkName: "profile" */);

@@ -1,8 +1,8 @@
 import {
   GQLCOMMENT_STATUS,
   GQLCommentCountsTypeResolver,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { CommentStatusCounts } from "talk-server/models/story";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { CommentStatusCounts } from "coral-server/models/story";
 
 export const CommentCounts: GQLCommentCountsTypeResolver<
   CommentStatusCounts

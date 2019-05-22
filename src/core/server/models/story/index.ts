@@ -1,24 +1,24 @@
 import { Db, MongoError } from "mongodb";
 import uuid from "uuid";
 
-import { DeepPartial, Omit } from "talk-common/types";
-import { dotize } from "talk-common/utils/dotize";
-import { DuplicateStoryURLError } from "talk-server/errors";
+import { DeepPartial, Omit } from "coral-common/types";
+import { dotize } from "coral-common/utils/dotize";
+import { DuplicateStoryURLError } from "coral-server/errors";
 import {
   GQLStoryMetadata,
   GQLStorySettings,
-} from "talk-server/graph/tenant/schema/__generated__/types";
+} from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   Connection,
   ConnectionInput,
   resolveConnection,
-} from "talk-server/models/helpers/connection";
+} from "coral-server/models/helpers/connection";
 import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "talk-server/models/helpers/indexing";
-import Query from "talk-server/models/helpers/query";
-import { TenantResource } from "talk-server/models/tenant";
+} from "coral-server/models/helpers/indexing";
+import Query from "coral-server/models/helpers/query";
+import { TenantResource } from "coral-server/models/tenant";
 
 import {
   createEmptyCommentModerationQueueCounts,
@@ -73,7 +73,7 @@ export interface Story extends TenantResource {
   closedAt?: Date | false;
 
   /**
-   * createdAt is the date that the Story was added to the Talk database.
+   * createdAt is the date that the Story was added to the Coral database.
    */
   createdAt: Date;
 }

@@ -1,4 +1,4 @@
-import { LocalProfile, SSOProfile } from "talk-server/models/user";
+import { LocalProfile, SSOProfile } from "coral-server/models/user";
 import { getLocalProfile, hasLocalProfile } from "./users";
 
 const localProfile: LocalProfile = {

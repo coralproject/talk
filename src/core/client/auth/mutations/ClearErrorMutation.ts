@@ -1,15 +1,15 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { createMutationContainer } from "talk-framework/lib/relay";
-import { LOCAL_ID } from "talk-framework/lib/relay/withLocalStateContainer";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { createMutationContainer } from "coral-framework/lib/relay";
+import { LOCAL_ID } from "coral-framework/lib/relay/withLocalStateContainer";
 
 export type ClearErrorMutation = () => Promise<void>;
 
 export async function commit(
   environment: Environment,
   input: undefined,
-  { pym }: TalkContext
+  { pym }: CoralContext
 ) {
   return commitLocalUpdate(environment, store => {
     const record = store.get(LOCAL_ID)!;

@@ -1,4 +1,4 @@
-import { COMMENT_STATUS } from "talk-stream/__generated__/CreateCommentMutation.graphql";
+import { COMMENT_STATUS } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 
 const VisibleStatus = ["ACCEPTED", "NONE"];
 

@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
 import { isNil, omitBy } from "lodash";
 
-import Context from "talk-server/graph/tenant/context";
+import Context from "coral-server/graph/tenant/context";
 import {
   CommentToParentsArgs,
   CommentToRepliesArgs,
@@ -9,8 +9,8 @@ import {
   GQLCOMMENT_SORT,
   QueryToCommentsArgs,
   StoryToCommentsArgs,
-} from "talk-server/graph/tenant/schema/__generated__/types";
-import { retrieveManyUserActionPresence } from "talk-server/models/action/comment";
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
   retrieveCommentConnection,
@@ -19,9 +19,9 @@ import {
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
-} from "talk-server/models/comment";
-import { Connection } from "talk-server/models/helpers/connection";
-import { retrieveSharedModerationQueueQueuesCounts } from "talk-server/models/story/counts/shared";
+} from "coral-server/models/comment";
+import { Connection } from "coral-server/models/helpers/connection";
+import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/story/counts/shared";
 
 import { SingletonResolver } from "./util";
 

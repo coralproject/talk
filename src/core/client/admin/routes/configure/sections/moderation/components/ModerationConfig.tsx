@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import { PropTypesOf } from "talk-framework/types";
-import { HorizontalGutter } from "talk-ui/components";
+import { PropTypesOf } from "coral-framework/types";
+import { HorizontalGutter } from "coral-ui/components";
 
 import AkismetConfigContainer from "../containers/AkismetConfigContainer";
 import PerspectiveConfigContainer from "../containers/PerspectiveConfigContainer";

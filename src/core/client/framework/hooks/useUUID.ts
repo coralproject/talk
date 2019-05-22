@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 
-import { useTalkContext } from "talk-framework/lib/bootstrap";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 
 /**
  * useUUID returns a unique identifier.
  */
 export default function useUUID(): string {
-  const { uuidGenerator } = useTalkContext();
+  const { uuidGenerator } = useCoralContext();
   return useMemo(() => uuidGenerator(), []);
 }

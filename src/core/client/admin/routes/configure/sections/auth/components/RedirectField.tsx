@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { CopyButton } from "talk-framework/components";
-import { Flex, FormField, InputLabel, TextField } from "talk-ui/components";
+import { CopyButton } from "coral-framework/components";
+import { Flex, FormField, InputLabel, TextField } from "coral-ui/components";
 
 interface Props {
   description?: React.ReactNode;

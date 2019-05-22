@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
 
-import NotAvailable from "talk-admin/components/NotAvailable";
-import { PropTypesOf } from "talk-framework/types";
-import { TableCell, TableRow, TextLink } from "talk-ui/components";
+import NotAvailable from "coral-admin/components/NotAvailable";
+import { PropTypesOf } from "coral-framework/types";
+import { TableCell, TableRow, TextLink } from "coral-ui/components";
 
 import RoleChangeContainer from "../containers/RoleChangeContainer";
 import UserStatusChangeContainer from "../containers/UserStatusChangeContainer";

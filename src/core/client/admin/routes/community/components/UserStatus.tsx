@@ -1,8 +1,8 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Flex, Typography } from "talk-ui/components";
-import { PropTypesOf } from "talk-ui/types";
+import { Flex, Typography } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./UserStatus.css";
 

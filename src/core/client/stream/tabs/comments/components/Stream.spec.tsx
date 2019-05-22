@@ -3,8 +3,8 @@ import { noop } from "lodash";
 import React from "react";
 import sinon, { SinonSpy } from "sinon";
 
-import { removeFragmentRefs } from "talk-framework/testHelpers";
-import { PropTypesOf } from "talk-framework/types";
+import { removeFragmentRefs } from "coral-framework/testHelpers";
+import { PropTypesOf } from "coral-framework/types";
 
 import Stream from "./Stream";
 
@@ -72,7 +72,7 @@ describe("when there is more", () => {
   });
 
   it("calls onLoadMore", () => {
-    wrapper.find("#talk-comments-stream-loadMore").simulate("click");
+    wrapper.find("#coral-comments-stream-loadMore").simulate("click");
     expect((props.onLoadMore as SinonSpy).calledOnce).toBe(true);
   });
 

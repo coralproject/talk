@@ -1,8 +1,8 @@
-import { pureMerge } from "talk-common/utils";
+import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   MutationToUpdateStorySettingsResolver,
-} from "talk-framework/schema";
+} from "coral-framework/schema";
 import {
   createMutationResolverStub,
   createResolversStub,
@@ -12,7 +12,7 @@ import {
   wait,
   waitForElement,
   within,
-} from "talk-framework/testHelpers";
+} from "coral-framework/testHelpers";
 
 import { moderators, settings, stories } from "../fixtures";
 import create from "./create";

@@ -2,13 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, Suspense } from "react";
 import { Field } from "react-final-form";
 
-import { MarkdownEditor } from "talk-framework/components/loadables";
+import { MarkdownEditor } from "coral-framework/components/loadables";
 import {
   HorizontalGutter,
   Spinner,
   Typography,
   ValidationMessage,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import Header from "../../../components/Header";
 

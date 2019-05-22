@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { createContextHOC } from "talk-framework/helpers";
+import { createContextHOC } from "coral-framework/helpers";
 
 export type IntersectionCallback = (entry: IntersectionObserverEntry) => void;
 export type Observe = (

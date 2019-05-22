@@ -1,4 +1,4 @@
-import { modifyQuery } from "talk-framework/utils";
+import { modifyQuery } from "coral-framework/utils";
 
 export default function getURLWithCommentID(
   storyURL: string,

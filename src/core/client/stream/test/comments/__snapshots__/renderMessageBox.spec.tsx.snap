@@ -79,7 +79,7 @@ exports[`renders message box when commenting disabled 1`] = `
       aria-live="polite"
       className="HorizontalGutter-root HorizontalGutter-full"
       data-testid="comments-stream-log"
-      id="talk-comments-stream-log"
+      id="coral-comments-stream-log"
       role="log"
     />
   </div>
@@ -278,7 +278,7 @@ exports[`renders message box when logged in 1`] = `
       aria-live="polite"
       className="HorizontalGutter-root HorizontalGutter-full"
       data-testid="comments-stream-log"
-      id="talk-comments-stream-log"
+      id="coral-comments-stream-log"
       role="log"
     />
   </div>
@@ -449,7 +449,7 @@ exports[`renders message box when not logged in 1`] = `
       aria-live="polite"
       className="HorizontalGutter-root HorizontalGutter-full"
       data-testid="comments-stream-log"
-      id="talk-comments-stream-log"
+      id="coral-comments-stream-log"
       role="log"
     />
   </div>
@@ -527,7 +527,7 @@ exports[`renders message box when story isClosed 1`] = `
       aria-live="polite"
       className="HorizontalGutter-root HorizontalGutter-full"
       data-testid="comments-stream-log"
-      id="talk-comments-stream-log"
+      id="coral-comments-stream-log"
       role="log"
     />
   </div>

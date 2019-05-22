@@ -1,7 +1,7 @@
 import "fluent-intl-polyfill/compat";
 import { FluentBundle } from "fluent/compat";
 
-import * as functions from "talk-framework/lib/i18n/functions";
+import * as functions from "coral-framework/lib/i18n/functions";
 
 import fs from "fs";
 import path from "path";

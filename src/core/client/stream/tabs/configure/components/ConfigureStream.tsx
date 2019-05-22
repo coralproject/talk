@@ -3,15 +3,15 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
-import { FormInitializer } from "talk-framework/lib/form";
-import { PropTypesOf } from "talk-framework/types";
+import { FormInitializer } from "coral-framework/lib/form";
+import { PropTypesOf } from "coral-framework/types";
 import {
   Button,
   CallOut,
   Flex,
   HorizontalGutter,
   Typography,
-} from "talk-ui/components";
+} from "coral-ui/components";
 
 import MessageBoxConfigContainer from "../containers/MessageBoxConfigContainer";
 import PremodConfigContainer from "../containers/PremodConfigContainer";

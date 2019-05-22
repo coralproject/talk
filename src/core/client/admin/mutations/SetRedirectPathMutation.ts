@@ -1,8 +1,8 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { REDIRECT_PATH_KEY } from "talk-admin/constants";
-import { TalkContext } from "talk-framework/lib/bootstrap";
-import { createMutation, LOCAL_ID } from "talk-framework/lib/relay";
+import { REDIRECT_PATH_KEY } from "coral-admin/constants";
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { createMutation, LOCAL_ID } from "coral-framework/lib/relay";
 
 export interface SetRedirectPathInput {
   path: string | null;
@@ -13,7 +13,7 @@ const SetRedirectPathMutation = createMutation(
   async (
     environment: Environment,
     input: SetRedirectPathInput,
-    { localStorage }: TalkContext
+    { localStorage }: CoralContext
   ) => {
     if (!input.path) {
       await localStorage.removeItem(REDIRECT_PATH_KEY);
