@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { withPaginationContainer } from "coral-framework/lib/relay";
+import { GQLUSER_STATUS } from "coral-framework/schema";
 import { Omit, PropTypesOf } from "coral-framework/types";
 import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
 import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
@@ -73,6 +74,10 @@ export class StreamContainer extends React.Component<Props> {
           orderBy={this.orderBy}
           onChangeOrderBy={this.handleOnChangeOrderBy}
           refetching={this.state.refetching}
+          banned={Boolean(
+            this.props.viewer &&
+              this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
+          )}
         />
       </>
     );
@@ -140,6 +145,9 @@ const enhanced = withPaginationContainer<
         ...UserBoxContainer_viewer
         ...CreateCommentReplyMutation_viewer
         ...CreateCommentMutation_viewer
+        status {
+          current
+        }
       }
     `,
     settings: graphql`

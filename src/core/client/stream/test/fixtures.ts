@@ -6,6 +6,7 @@ import {
   GQLStory,
   GQLUser,
   GQLUSER_ROLE,
+  GQLUSER_STATUS,
 } from "coral-framework/schema";
 import {
   createFixture,
@@ -83,28 +84,37 @@ export const settings = createFixture<GQLSettings>({
   },
 });
 
-export const commenters = createFixtures<GQLUser>([
-  {
-    id: "user-0",
-    username: "Markus",
-    role: GQLUSER_ROLE.COMMENTER,
+export const baseUser = createFixture<GQLUser>({
+  status: {
+    current: [GQLUSER_STATUS.ACTIVE],
   },
-  {
-    id: "user-1",
-    username: "Lukas",
-    role: GQLUSER_ROLE.COMMENTER,
-  },
-  {
-    id: "user-2",
-    username: "Isabelle",
-    role: GQLUSER_ROLE.COMMENTER,
-  },
-  {
-    id: "user-3",
-    username: "Markus",
-    role: GQLUSER_ROLE.COMMENTER,
-  },
-]);
+});
+
+export const commenters = createFixtures<GQLUser>(
+  [
+    {
+      id: "user-0",
+      username: "Markus",
+      role: GQLUSER_ROLE.COMMENTER,
+    },
+    {
+      id: "user-1",
+      username: "Lukas",
+      role: GQLUSER_ROLE.COMMENTER,
+    },
+    {
+      id: "user-2",
+      username: "Isabelle",
+      role: GQLUSER_ROLE.COMMENTER,
+    },
+    {
+      id: "user-3",
+      username: "Markus",
+      role: GQLUSER_ROLE.COMMENTER,
+    },
+  ],
+  baseUser
+);
 
 export const baseComment = createFixture<GQLComment>({
   author: commenters[0],
@@ -330,13 +340,16 @@ export const baseStory = createFixture<GQLStory>({
   },
 });
 
-export const moderators = createFixtures<GQLUser>([
-  {
-    id: "me-as-moderator",
-    username: "Moderator",
-    role: GQLUSER_ROLE.MODERATOR,
-  },
-]);
+export const moderators = createFixtures<GQLUser>(
+  [
+    {
+      id: "me-as-moderator",
+      username: "Moderator",
+      role: GQLUSER_ROLE.MODERATOR,
+    },
+  ],
+  baseUser
+);
 
 export const commentsFromStaff = denormalizeComments(
   createFixtures<GQLComment>(
@@ -480,23 +493,26 @@ export const storyWithDeepestReplies = denormalizeStory(
   )
 );
 
-export const viewerWithComments = createFixture<GQLUser>({
-  id: "me-with-comments",
-  username: "Markus",
-  role: GQLUSER_ROLE.COMMENTER,
-  comments: {
-    edges: [
-      {
-        node: { ...stories[0].comments.edges[0].node, story: stories[0] },
-        cursor: comments[0].createdAt,
+export const viewerWithComments = createFixture<GQLUser>(
+  {
+    id: "me-with-comments",
+    username: "Markus",
+    role: GQLUSER_ROLE.COMMENTER,
+    comments: {
+      edges: [
+        {
+          node: { ...stories[0].comments.edges[0].node, story: stories[0] },
+          cursor: comments[0].createdAt,
+        },
+        {
+          node: { ...stories[1].comments.edges[0].node, story: stories[1] },
+          cursor: comments[1].createdAt,
+        },
+      ],
+      pageInfo: {
+        hasNextPage: false,
       },
-      {
-        node: { ...stories[1].comments.edges[0].node, story: stories[1] },
-        cursor: comments[1].createdAt,
-      },
-    ],
-    pageInfo: {
-      hasNextPage: false,
     },
   },
-});
+  baseUser
+);

@@ -52,13 +52,13 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
     endCursor: null,
     hasNextPage: false,
   };
-  return {
+  return createFixture<GQLStory>({
     ...story,
     comments: { edges: commentNodes, pageInfo: commentsPageInfo },
     commentCounts: {
       totalVisible: commentNodes.length,
     },
-  };
+  });
 }
 
 export function denormalizeStories(storyList: Array<Fixture<GQLStory>>) {

@@ -4,7 +4,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: var(--mini-unit);
+  padding: calc(1.5 * var(--mini-unit));
   box-sizing: border-box;
   border-width: 1px;
   border-style: solid;

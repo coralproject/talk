@@ -12,6 +12,7 @@ import PostCommentFormContainer from "../containers/PostCommentFormContainer";
 import ReplyListContainer from "../containers/ReplyListContainer";
 import SortMenu from "./SortMenu";
 
+import BannedInfo from "./BannedInfo";
 import styles from "./Stream.css";
 
 export interface StreamProps {
@@ -45,6 +46,7 @@ export interface StreamProps {
   orderBy: PropTypesOf<typeof SortMenu>["orderBy"];
   onChangeOrderBy: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   refetching?: boolean;
+  banned?: boolean;
 }
 
 const Stream: FunctionComponent<StreamProps> = props => {
@@ -52,7 +54,13 @@ const Stream: FunctionComponent<StreamProps> = props => {
     <HorizontalGutter className={styles.root} size="double">
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <CommunityGuidelinesContainer settings={props.settings} />
-      <PostCommentFormContainer settings={props.settings} story={props.story} />
+      {!props.banned && (
+        <PostCommentFormContainer
+          settings={props.settings}
+          story={props.story}
+        />
+      )}
+      {props.banned && <BannedInfo />}
       {props.comments.length > 0 && (
         <SortMenu
           orderBy={props.orderBy}
