@@ -14,7 +14,7 @@ describe("Basic integration test", () => {
   });
   it("should render iframe", () => {
     mockConsole();
-    const CoralEmbedStream = Coral.Coral.createStreamEmbed({
+    const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
     });
     CoralEmbedStream.render();
@@ -28,7 +28,7 @@ describe("Basic integration test", () => {
     link.rel = "canonical";
     link.href = "http://localhost/canonical";
     document.head!.appendChild(link);
-    const CoralEmbedStream = Coral.Coral.createStreamEmbed({
+    const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
     });
     CoralEmbedStream.render();
@@ -39,7 +39,7 @@ describe("Basic integration test", () => {
   });
   it("should remove iframe", () => {
     mockConsole();
-    const CoralEmbedStream = Coral.Coral.createStreamEmbed({
+    const CoralEmbedStream = Coral.createStreamEmbed({
       id: "basic-integration-test-id",
     });
     CoralEmbedStream.render();
