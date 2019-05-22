@@ -1,2 +1,1 @@
-import * as CoralImport from "./Coral";
-export const Coral = CoralImport;
+export * from "./Coral";
