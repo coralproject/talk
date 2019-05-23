@@ -126,6 +126,13 @@ const config = convict({
     arg: "redis",
     sensitive: true,
   },
+  redis_options: {
+    doc: "The Redis options to connect to Redis Server.",
+    format: Object,
+    default: {},
+    env: "REDIS_OPTIONS",
+    arg: "redis-options",
+  },
   signing_secret: {
     doc:
       "The shared secret to use to sign JSON Web Tokens (JWT) with the selected signing algorithm.",
