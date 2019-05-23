@@ -3,6 +3,7 @@ import URLSearchParams from '@ungap/url-search-params';
 import pym from 'pym.js';
 import EventEmitter from 'eventemitter2';
 import { buildUrl } from 'coral-framework/utils/url';
+
 import SnackBar from './SnackBar';
 import onIntersect from './onIntersect';
 import {
@@ -92,6 +93,21 @@ function viewportDimensions() {
   };
 }
 
+function parseAMPHash(opts) {
+  const result = { ...opts };
+  const query = window.location.hash.length && window.location.hash.substr(1);
+  if (query) {
+    const parsed = queryString.parse(query);
+    if (parsed.asset_url && !result.asset_url) {
+      result.asset_url = parsed.asset_url;
+    }
+    if (parsed.asset_id && !result.asset_id) {
+      result.asset_id = parsed.asset_id;
+    }
+  }
+  return result;
+}
+
 export default class Bridge {
   constructor(
     element,
@@ -110,19 +126,23 @@ export default class Bridge {
       lazy = process.env.TALK_DEFAULT_LAZY_RENDER === 'TRUE',
       // Any additional options are extracted to be sent to the embed via the
       // pym bridge.
+      amp,
       ...opts
     }
   ) {
     this.pym = null;
     this.element = element;
-    this.opts = opts;
+    this.amp = amp;
+    this.lazy = !amp && lazy;
+
+    // Parse amp hash.
+    this.opts = amp ? parseAMPHash(opts) : opts;
     this.query = buildQuery(this.opts);
     this.emitter = new EventEmitter({ wildcard: true });
-    this.snackBar = new SnackBar(snackBarStyles || {});
+    this.snackBar = amp ? null : new SnackBar(snackBarStyles || {});
     this.onAuthChanged = onAuthChanged;
     this.talkBaseUrl = ensureEndSlash(talkBaseUrl);
     this.talkStaticUrl = ensureEndSlash(talkStaticUrl);
-    this.lazy = lazy;
 
     // Store queued operations in a queue that can be processed once the stream
     // is rendered.
@@ -179,6 +199,16 @@ export default class Bridge {
       if (height !== cachedHeight) {
         this.pym.el.firstChild.style.height = `${height}px`;
         cachedHeight = height;
+        if (this.amp) {
+          window.parent.postMessage(
+            {
+              sentinel: 'amp',
+              type: 'embed-size',
+              height,
+            },
+            '*'
+          );
+        }
       }
     });
 
@@ -267,8 +297,10 @@ export default class Bridge {
     // Setup Pym.
     this.setupPym();
 
-    // Attach the snackBar to the pym parent and to the body of the page.
-    this.snackBar.attach(window.document.body, this.pym);
+    if (this.snackBar) {
+      // Attach the snackBar to the pym parent and to the body of the page.
+      this.snackBar.attach(window.document.body, this.pym);
+    }
 
     // If the user clicks outside the embed, then tell the embed.
     document.addEventListener('click', this.handleClick.bind(this), true);
@@ -315,7 +347,10 @@ export default class Bridge {
     this.emitter.removeAllListeners();
 
     // Remove the snackbar.
-    this.snackBar.remove();
+    if (this.snackBar) {
+      this.snackBar.remove();
+      this.snackBar = null;
+    }
 
     // Remove the pym parent.
     this.pym.remove();
