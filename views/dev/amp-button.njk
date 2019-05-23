@@ -1,0 +1,73 @@
+<!-- ## Introduction -->
+<!--
+This is a sample showing how to use Talk with AMP. You need to access
+this using an URL other than localhost. You can use ngrok to achieve that.
+-->
+<!-- -->
+<!doctype html>
+<html ⚡>
+  <head>
+    <meta charset="utf-8">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <link rel="canonical" href="/dev">
+
+    <!-- ## Setup -->
+    <script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script>
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+
+    <title>Coral Talk AMP</title>
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+    <style amp-custom>
+      .container {
+        width: auto;
+        max-width: 680px;
+        padding: 0 15px;
+        margin: auto;
+      }
+      .title {
+        margin-top: 1rem;
+        margin-bottom: .5rem;
+        font-size: 2.5rem;
+        font-weight: 500;
+        line-height: 1.2;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+      }
+      .hide{
+        display:none
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Coral Talk AMP</h1>
+      <p>
+        Ask to go outside and ask to come inside and ask to go outside and ask to
+        come inside the dog smells bad. Lick butt and make a weird face. Toilet
+        paper attack claws fluff everywhere meow miao french ciao litterbox. Shake
+        treat bag immediately regret falling into bathtub or white cat sleeps on a
+        black shirt so what a cat-ass-trophy! eat owner's food spit up on light
+        gray carpet instead of adjacent linoleum. Warm up laptop with butt lick
+        butt fart rainbows until owner yells pee in litter box hiss at cats
+        scratch the box so loved it, hated it, loved it, hated it but need to
+        check on human, have not seen in an hour might be dead oh look, human is
+        alive, hiss at human, feed me.
+      </p>
+      <button id=menu on="tap:AMP.setState({visible: !visible})">Show Comments</button>
+      <div [class]=visible?"show":"hide" class="hide">
+        <amp-iframe
+          width=600 height=140
+          layout="responsive"
+          sandbox="allow-scripts allow-same-origin allow-modals allow-popups allow-forms"
+          resizable
+          src="http://localhost:3000/embed/amp">
+          <div placeholder></div>
+          <div overflow tabindex=0 role=button aria-label="Read more">Read more</div>
+        </amp-iframe>
+        </div<
+    </div>
+  </body>
+</html>
+
