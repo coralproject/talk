@@ -56,6 +56,7 @@ export const Talk = {
    * @param {String} [config.auth_token] - (optional) A jwt representing the session
    * @param {String} [config.lazy] - (optional) If set the stream will only render lazily
    * @param {String} [config.talkStaticUrl] - (optional) Static URL used to serve Talk
+   * @param {Boolean} [config.amp] - (optional) Run Talk in AMP mode
    * @return {Object}
    */
   render: (element, config) => {

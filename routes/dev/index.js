@@ -19,5 +19,6 @@ router.get('/', staticTemplate, async (req, res) => {
     });
   }
 });
+router.use('/amp', staticTemplate, require('./amp'));
 
 module.exports = router;

@@ -12,6 +12,8 @@ const {
   STATIC_ORIGIN,
 } = require('../url');
 
+const { PORT } = require('../config');
+
 const { RECAPTCHA_PUBLIC, WEBSOCKET_LIVE_URI } = require('../config');
 
 // Grab TALK_CLIENT_* environment variables.
@@ -42,6 +44,7 @@ const TEMPLATE_LOCALS = {
   MOUNT_PATH,
   STATIC_URL,
   TALK_CLIENT_ENV,
+  PORT,
   data: TALK_CLIENT_ENV,
 };
 

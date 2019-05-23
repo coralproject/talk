@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Coral Talk Amp Embed</title>
+  </head>
+  <body>
+    <div id='coralStreamEmbed'></div>
+    <script src="{{ resolve('embed.js') }}"></script>
+    <script>
+      window.TalkEmbed = Coral.Talk.render(document.getElementById('coralStreamEmbed'), {
+        talk: '{{ BASE_URL }}',
+        auth_token: '',
+        amp: true,
+      })
+    </script>
+  </body>
+</html>
