@@ -239,6 +239,9 @@ the variables in a `.env` file in the root of the project in a simple
   (Default `mongodb://127.0.0.1:27017/coral`)
 - `REDIS_URI` - The Redis database URI to connect to.
   (Default `redis://127.0.0.1:6379`)
+- `REDIS_OPTIONS` - A JSON string with optional configuration options to be used
+  when connecting to Redis as specified in the [ioredis](https://github.com/luin/ioredis/blob/1dac50a63753c2afc969315cfe38faf0edc50bc5/API.md#new_Redis_new) documentation.
+  (Default: `{}`)
 - `SIGNING_SECRET` - The shared secret to use to sign JSON Web Tokens (JWT) with
   the selected signing algorithm. 🚨 **Don't forget to set this variable!** 🚨
   (Default: `keyboard cat`)

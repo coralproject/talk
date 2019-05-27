@@ -1,6 +1,8 @@
 # job_environment will setup the environment for any job being executed.
 job_environment: &job_environment
   NODE_ENV: test
+  WEBPACK_MAX_CORES: 2
+  NODE_OPTIONS: --max-old-space-size=4096
 
 # job_defaults applies all the defaults for each job.
 job_defaults: &job_defaults

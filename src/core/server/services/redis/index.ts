@@ -42,7 +42,12 @@ export function createRedisClient(
   lazyConnect: boolean = false
 ): Redis {
   try {
+    const options = config.get("redis_options") || {};
+
     const redis = new RedisClient(config.get("redis"), {
+      // Merge in the custom options.
+      ...options,
+      // Enforce the lazyConnect option as provided by the function invocation.
       lazyConnect,
     });
 
