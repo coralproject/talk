@@ -205,6 +205,21 @@ export interface UserStatus {
 }
 
 /**
+ * IgnoredUser is the entry describing a User being ignored.
+ */
+export interface IgnoredUser {
+  /**
+   * id is the ID of the User that was ignored.
+   */
+  id: string;
+
+  /**
+   * createdAt is the date that the User was ignored on.
+   */
+  createdAt: Date;
+}
+
+/**
  * User is someone that leaves Comments, and logs in.
  */
 export interface User extends TenantResource {
@@ -258,6 +273,11 @@ export interface User extends TenantResource {
    * status stores the user status information regarding moderation state.
    */
   status: UserStatus;
+
+  /**
+   * ignoredUsers stores the users that have been ignored by this User.
+   */
+  ignoredUsers: IgnoredUser[];
 
   /**
    * createdAt is the time that the User was created at.
@@ -342,7 +362,7 @@ function hashPassword(password: string): Promise<string> {
 
 export type InsertUserInput = Omit<
   User,
-  "id" | "tenantID" | "tokens" | "status" | "createdAt"
+  "id" | "tenantID" | "tokens" | "status" | "ignoredUsers" | "createdAt"
 >;
 
 export async function insertUser(
@@ -360,6 +380,7 @@ export async function insertUser(
     id,
     tenantID,
     tokens: [],
+    ignoredUsers: [],
     status: {
       suspension: { history: [] },
       ban: { active: false, history: [] },
@@ -1558,4 +1579,102 @@ export async function confirmUserEmail(
   }
 
   return result.value || null;
+}
+
+export async function ignoreUser(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  ignoreUserID: string,
+  now = new Date()
+) {
+  const ignoredUser: IgnoredUser = {
+    id: ignoreUserID,
+    createdAt: now,
+  };
+
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      ignoredUsers: {
+        $not: {
+          $eq: {
+            id: ignoreUserID,
+          },
+        },
+      },
+    },
+    {
+      $push: { ignoredUsers: ignoredUser },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ignore operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // TODO: extract function
+    if (
+      user.ignoredUsers &&
+      user.ignoredUsers.some(u => u.id === ignoreUserID)
+    ) {
+      // TODO: improve error
+      throw new Error("user already ignored");
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export async function removeUserIgnore(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  ignoreUserID: string
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      "ignoredUsers.id": ignoreUserID,
+    },
+    {
+      $pull: { ignoredUsers: { id: ignoreUserID } },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ignore operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    // TODO: extract function
+    if (
+      user.ignoredUsers &&
+      user.ignoredUsers.every(u => u.id !== ignoreUserID)
+    ) {
+      // TODO: improve error
+      throw new Error("user already not ignored");
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
 }

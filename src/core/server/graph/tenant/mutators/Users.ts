@@ -6,7 +6,9 @@ import {
   ban,
   createToken,
   deactivateToken,
+  ignore,
   removeBan,
+  removeIgnore,
   removeSuspension,
   setEmail,
   setPassword,
@@ -18,11 +20,14 @@ import {
   updateRole,
   updateUsername,
 } from "coral-server/services/users";
+
 import {
   GQLBanUserInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
+  GQLIgnoreUserInput,
   GQLRemoveUserBanInput,
+  GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
@@ -119,4 +124,8 @@ export const Users = (ctx: TenantContext) => ({
     removeBan(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeSuspension: async (input: GQLRemoveUserSuspensionInput) =>
     removeSuspension(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  ignore: async (input: GQLIgnoreUserInput) =>
+    ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
+  removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
+    removeIgnore(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
 });

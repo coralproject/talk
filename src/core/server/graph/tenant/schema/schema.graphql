@@ -1490,6 +1490,11 @@ type User {
     @auth(roles: [ADMIN], userIDField: "id", permit: [SUSPENDED, BANNED])
 
   """
+  ignoredUsers will return the list of ignored users.
+  """
+  ignoredUsers: [User!]! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+
+  """
   createdAt is the time that the User was created at.
   """
   createdAt: Time!
@@ -4025,6 +4030,62 @@ type RemoveUserSuspensionPayload {
 }
 
 ##################
+# ignoreUser
+##################
+
+input IgnoreUserInput {
+  """
+  userID is the ID of the User that should be ignored.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type IgnoreUserPayload {
+  """
+  user is the User that we just ignored.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# removeUserIgnore
+##################
+
+input RemoveUserIgnoreInput {
+  """
+  userID is the ID of the User that should have the ignore removed.
+  """
+  userID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RemoveUserIgnorePayload {
+  """
+  user is the User that we removed the ignore from.
+  """
+  user: User!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 ## Mutation
 ##################
 
@@ -4255,4 +4316,17 @@ type Mutation {
   removeUserSuspension(
     input: RemoveUserSuspensionInput!
   ): RemoveUserSuspensionPayload! @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  ignoreUser will mark the given User as ignored by the current logged in User.
+  """
+  ignoreUser(input: IgnoreUserInput!): IgnoreUserPayload!
+    @auth(permit: [SUSPENDED, BANNED])
+
+  """
+  removeUserIgnore will remove the given User from the ignored user list from
+  the current logged in User.
+  """
+  removeUserIgnore(input: RemoveUserIgnoreInput!): RemoveUserIgnorePayload!
+    @auth(permit: [SUSPENDED, BANNED])
 }
