@@ -1,9 +1,9 @@
+import RedisClient, { Pipeline, Redis } from "ioredis";
+
 import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
 import { InternalError } from "coral-server/errors";
 import logger from "coral-server/logger";
-import RedisClient, { Pipeline, Redis } from "ioredis";
-import { merge } from "lodash";
 
 export interface AugmentedRedisCommands {
   mhincrby(key: string, ...args: any[]): Promise<void>;
@@ -42,16 +42,14 @@ export function createRedisClient(
   lazyConnect: boolean = false
 ): Redis {
   try {
-    const redis = new RedisClient(
-      config.get("redis"),
-      merge(
-        {},
-        {
-          lazyConnect,
-        },
-        config.get("redis_options")
-      )
-    );
+    const options = config.get("redis_options") || {};
+
+    const redis = new RedisClient(config.get("redis"), {
+      // Merge in the custom options.
+      ...options,
+      // Enforce the lazyConnect option as provided by the function invocation.
+      lazyConnect,
+    });
 
     // Configure the redis client with the handlers for logging
     attachHandlers(redis);

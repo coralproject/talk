@@ -131,7 +131,7 @@ const config = convict({
     format: Object,
     default: {},
     env: "REDIS_OPTIONS",
-    arg: "redis-options",
+    arg: "redisOptions",
   },
   signing_secret: {
     doc:
