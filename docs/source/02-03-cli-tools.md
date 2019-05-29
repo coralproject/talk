@@ -81,11 +81,16 @@ Usage: cli-assets [options] [command]
   Commands:
 
     list [options]                        list all the assets in the database
+    debug <url>                           prints the scraped metadata from that URL
     refresh [age]                         queues the assets that exceed the age requested
     update-url <assetID> <url>            update the URL of an asset
     merge <srcID> <dstID>                 merges two assets together by moving comments from src to dst and deleting the src asset
     rewrite [options] <search> <replace>  rewrites asset url's using the provided regex replacement pattern
 ```
+
+When using the `refresh` command, the `age` value specifies how far back in time to re-scrape assets; i.e. to re-scrape everything that was scraped in the last week use `1w` or `7d`. Supports ms (milliseconds), s (seconds), m (minutes), h (hours), d (days) and w (weeks). Assets that have not been scraped will also be queued for scraping. 
+
+See also, [Asset Scraping](/talk/integrating/asset-scraping/) for more details about asset scraping.  
 
 ## Setting up the application
 You can also run a setup wizard to setup the wizard using `./bin/cli setup`. Below is a list of additional options available for this command:

@@ -41,7 +41,7 @@ type CancelAccountDeletionResponse implements Response {
   errors: [UserError!]
 }
 
-# DownloadUserResponse contaisn the account download archiveURL that can be used
+# DownloadUserResponse contains the account download archiveURL that can be used
 # to directly download a zip file containing the user data.
 type DownloadUserResponse implements Response {
 
