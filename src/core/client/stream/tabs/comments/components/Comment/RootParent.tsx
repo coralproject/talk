@@ -18,7 +18,7 @@ const RootParent: FunctionComponent<RootParentProps> = props => {
     <Flex direction="row" justifyContent="space-between" id={props.id}>
       <TopBarLeft>
         <Flex direction="row" alignItems="center" itemGutter="half">
-          {props.username && <Username>{props.username}</Username>}
+          <div>{props.username && <Username>{props.username}</Username>}</div>
           {props.tags && props.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
         </Flex>
         <Flex direction="row" alignItems="baseline" itemGutter>

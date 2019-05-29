@@ -5,11 +5,11 @@ import { MatchMedia, Typography } from "coral-ui/components";
 
 import styles from "./Username.css";
 
-export interface UsernameProps {
-  children: string;
+interface Props {
+  children: React.ReactNode;
 }
 
-const Username: FunctionComponent<UsernameProps> = props => {
+const Username: FunctionComponent<Props> = props => {
   return (
     <MatchMedia gtWidth="xs">
       {matches => (

@@ -24,7 +24,7 @@ const Permalink: FunctionComponent<PermalinkProps> = ({ commentID, url }) => {
     <Localized id="comments-permalinkPopover" attrs={{ description: true }}>
       <Popover
         id={popoverID}
-        placement="top-start"
+        placement="top"
         description="A dialog showing a permalink to the comment"
         classes={{ popover: styles.popover }}
         body={({ toggleVisibility }) => (

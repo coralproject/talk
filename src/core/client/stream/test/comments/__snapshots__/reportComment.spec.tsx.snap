@@ -42,6 +42,10 @@ exports[`render popup 1`] = `
     }
   >
     <div
+      className="Arrow-root"
+      style={Object {}}
+    />
+    <div
       className="ReportPopover-root"
     >
       <button
@@ -217,6 +221,10 @@ exports[`render popup expanded 1`] = `
       }
     }
   >
+    <div
+      className="Arrow-root"
+      style={Object {}}
+    />
     <div
       className="ReportPopover-root"
     >
@@ -445,6 +453,10 @@ exports[`report comment as offensive 1`] = `
       }
     }
   >
+    <div
+      className="Arrow-root"
+      style={Object {}}
+    />
     <div
       className="ReportPopover-root"
     >

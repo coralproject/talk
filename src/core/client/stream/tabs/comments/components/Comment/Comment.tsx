@@ -8,13 +8,12 @@ import { Flex, HorizontalGutter, Tag } from "coral-ui/components";
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
 import TopBarLeft from "./TopBarLeft";
-import Username from "./Username";
 
 import styles from "./Comment.css";
 
 export interface CommentProps {
   className?: string;
-  username: string | null;
+  username: React.ReactNode;
   body: string | null;
   createdAt: string;
   topBarRight?: React.ReactNode;
@@ -34,7 +33,7 @@ const Comment: FunctionComponent<CommentProps> = props => {
       <Flex direction="row" justifyContent="space-between">
         <TopBarLeft>
           <Flex direction="row" alignItems="center" itemGutter="half">
-            {props.username && <Username>{props.username}</Username>}
+            {props.username && props.username}
             {props.tags && props.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
           </Flex>
           <Flex direction="row" alignItems="baseline" itemGutter>

@@ -13,7 +13,10 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
    */
   classes: typeof styles;
 
+  /** @deprecated use `spacing` instead */
   size?: "half" | "full" | "double" | "triple" | "oneAndAHalf";
+
+  spacing?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
   /** The name of the HorizontalGutter to render */
   children?: React.ReactNode;
@@ -30,8 +33,20 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
 }
 
 const HorizontalGutter: FunctionComponent<Props> = props => {
-  const { classes, className, size, forwardRef, container, ...rest } = props;
-  const rootClassName = cn(classes.root, className, classes[size!]);
+  const {
+    classes,
+    className,
+    size,
+    forwardRef,
+    container,
+    spacing,
+    ...rest
+  } = props;
+  const rootClassName = cn(
+    classes.root,
+    className,
+    spacing ? (classes as any)[`spacing-${spacing!}`] : classes[size!]
+  );
 
   const innerProps = {
     className: rootClassName,

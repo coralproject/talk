@@ -19,16 +19,17 @@ import {
 } from "coral-stream/mutations";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 
-import ReactionButtonContainer from "./ReactionButtonContainer";
-
 import Comment, {
   ButtonsBar,
   ShowConversationLink,
 } from "../components/Comment";
+import UsernameWithPopover from "../components/Comment/AuthorPopover/UsernameWithPopover";
 import ReplyButton from "../components/Comment/ReplyButton";
 import { isCommentVisible } from "../helpers";
+import AuthorPopoverContainer from "./AuthorPopoverContainer";
 import EditCommentFormContainer from "./EditCommentFormContainer";
 import PermalinkButtonContainer from "./PermalinkButtonContainer";
+import ReactionButtonContainer from "./ReactionButtonContainer";
 import ReplyCommentFormContainer from "./ReplyCommentFormContainer";
 import ReportButtonContainer from "./ReportButtonContainer";
 
@@ -182,7 +183,6 @@ export class CommentContainer extends Component<Props, State> {
         <HorizontalGutter>
           <Comment
             indentLevel={indentLevel}
-            username={comment.author && comment.author.username}
             body={comment.body}
             createdAt={comment.createdAt}
             blur={comment.pending || false}
@@ -192,6 +192,15 @@ export class CommentContainer extends Component<Props, State> {
               comment.parent &&
               comment.parent.author &&
               comment.parent.author.username
+            }
+            username={
+              comment.author && (
+                <UsernameWithPopover
+                  popover={<AuthorPopoverContainer author={comment.author} />}
+                >
+                  {comment.author.username}
+                </UsernameWithPopover>
+              )
             }
             tags={comment.tags.map(t => t.name)}
             topBarRight={
@@ -300,6 +309,7 @@ const enhanced = withSetCommentIDMutation(
         fragment CommentContainer_comment on Comment {
           id
           author {
+            ...AuthorPopoverContainer_author
             id
             username
           }

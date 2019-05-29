@@ -17,6 +17,7 @@ const DecisionHistoryButton: FunctionComponent = () => (
       placement="bottom-end"
       description="A dialog showing the decision history"
       classes={{ popover: styles.popover }}
+      modifiers={{ arrow: { enabled: false } }}
       body={({ toggleVisibility }) => (
         <ClickOutside onClickOutside={toggleVisibility}>
           <div>

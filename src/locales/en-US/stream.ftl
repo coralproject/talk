@@ -95,6 +95,10 @@ comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
 comments-sortMenu-mostReplies = Most Replies
 
+comments-authorPopover =
+  .description = A popover with more user information
+comments-authorPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
