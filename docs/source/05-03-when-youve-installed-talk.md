@@ -87,6 +87,8 @@ The most important predictors of the success of an online community are:
 
 #### Effectively
 
+* Keep conversations fresh and reduce moderation overhead by configuring Talk to automatically close commenting after a specified time window. Should comments be open for a day, a week, or a month? Set a manageable window and automatically close stories for commenting after that time period. 
+
 * If you're using the Toxic Comments plugin, make sure that its threshold is set at the level that catches most comments with fewest false positives (default is 80%). You can see the Likely to be Toxic level of every comment by clicking "More Details" on the comment card in the moderation view.
 
 * Publicly discourage behavior in the comments that doesn't cross the line but suggests that the tone or focus could shift quickly in a direction you don't want. Point to relevant sections of your community guidelines. [Read more about defining and discouraging this kind of behavior here.](https://guides.coralproject.net/manage-a-successful-community/)
