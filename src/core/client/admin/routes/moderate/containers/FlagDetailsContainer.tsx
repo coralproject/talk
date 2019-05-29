@@ -61,7 +61,7 @@ export class FlagDetailsContainer extends React.Component<Props> {
         {spamList.length > 0 && (
           <FlagDetailsCategory
             category={
-              <Localized id="moderate-flagDetails-span">
+              <Localized id="moderate-flagDetails-spam">
                 <span>Spam</span>
               </Localized>
             }

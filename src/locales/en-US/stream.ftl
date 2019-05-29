@@ -43,8 +43,6 @@ comments-rte-italic =
 comments-rte-blockquote =
   .title = Blockquote
 
-comments-poweredBy = Powered by <logo>{ -brand-name }</logo>
-
 comments-remainingCharacters = { $remaining } characters remaining
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
@@ -95,9 +93,9 @@ comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
 comments-sortMenu-mostReplies = Most Replies
 
-comments-authorPopover =
+comments-userPopover =
   .description = A popover with more user information
-comments-authorPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
 
 ## Profile Tab
 profile-historyComment-viewConversation = View Conversation

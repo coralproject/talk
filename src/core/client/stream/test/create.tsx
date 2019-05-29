@@ -4,11 +4,11 @@ import {
   createTestRenderer,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
-import AppContainer from "coral-stream/containers/AppContainer";
+import AppContainer from "coral-stream/App";
 import { AUTH_POPUP_ID, AUTH_POPUP_TYPE } from "coral-stream/local";
 
 export default function create(params: CreateTestRendererParams) {
-  return createTestRenderer("stream", <AppContainer />, {
+  return createTestRenderer("stream", <AppContainer disableListeners />, {
     ...params,
     initLocalState: (localRecord, source, environment) => {
       const authPopupRecord = source.create(AUTH_POPUP_ID, AUTH_POPUP_TYPE);
