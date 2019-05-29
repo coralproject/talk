@@ -93,7 +93,6 @@ export const Comment: GQLCommentTypeResolver<comment.Comment> = {
   permalink: async ({ id, storyID }, input, ctx) => {
     const story = await ctx.loaders.Stories.story.load(storyID);
     if (!story) {
-      // TODO: better error reporting?
       throw new StoryNotFoundError(storyID);
     }
     return getURLWithCommentID(story.url, id);
