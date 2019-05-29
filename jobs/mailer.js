@@ -111,7 +111,12 @@ const processJob = transport => async ({ id, data }, done) => {
   const { message } = data;
 
   // Get the email address from the job data.
-  message.to = await getEmailAddress(data);
+  try {
+    message.to = await getEmailAddress(data);
+  } catch (err) {
+    logger.error({ err }, 'Failed to get user email address to send mail');
+    return done(err);
+  }
 
   const log = logger.child({ jobID: id });
   log.info('Starting to send mail');
