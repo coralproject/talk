@@ -4,6 +4,7 @@ import passport from "passport";
 import { AppOptions } from "coral-server/app";
 import {
   graphQLHandler,
+  healthHandler,
   installHandler,
   versionHandler,
 } from "coral-server/app/handlers";
@@ -31,6 +32,9 @@ export function createAPIRouter(app: AppOptions, options: RouterOptions) {
 
   // Configure the version route.
   router.get("/version", versionHandler);
+
+  // Configure the Health route.
+  router.get("/health", healthHandler);
 
   // Installation middleware.
   router.use(
