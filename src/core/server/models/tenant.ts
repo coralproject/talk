@@ -170,6 +170,7 @@ export async function createTenant(
       perspective: {
         enabled: false,
         doNotStore: true,
+        model: "TOXICITY",
       },
     },
     reaction: {

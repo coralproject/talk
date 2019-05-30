@@ -81,16 +81,13 @@ export const toxic: IntermediateModerationPhase = async ({
   try {
     logger.trace("checking comment toxicity");
 
-    // TODO: (wyattjoh) support custom toxicity model.
-    const model = "TOXICITY";
-
     // Call into the Toxic comment API.
     const score = await getScore(
       comment.body,
-      model,
       {
         endpoint,
         key: integration.key,
+        model: integration.model,
         doNotStore,
       },
       timeout
@@ -98,11 +95,14 @@ export const toxic: IntermediateModerationPhase = async ({
 
     const isToxic = score > threshold;
     if (isToxic) {
-      log.trace({ score, isToxic, threshold, model }, "comment was toxic");
+      log.trace(
+        { score, isToxic, threshold, model: integration.model },
+        "comment was toxic"
+      );
 
       // Throw an error if we're nudging instead of recording.
       if (nudge) {
-        throw new ToxicCommentError(model, score, threshold);
+        throw new ToxicCommentError(integration.model, score, threshold);
       }
 
       return {
@@ -116,7 +116,7 @@ export const toxic: IntermediateModerationPhase = async ({
         ],
         metadata: {
           // Store the scores from perspective in the Comment metadata.
-          perspective: { model, score },
+          perspective: { model: integration.model, score },
         },
       };
     }
@@ -142,10 +142,10 @@ export const toxic: IntermediateModerationPhase = async ({
  */
 async function getScore(
   text: string,
-  model: string,
   {
     key,
     endpoint,
+    model,
     doNotStore,
   }: Required<Omit<GQLPerspectiveExternalIntegration, "enabled" | "threshold">>,
   timeout: number
