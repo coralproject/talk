@@ -8,11 +8,12 @@ import { Button, Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
 import ReplyListContainer from "../ReplyList";
+import TombstoneOrHideContainer from "../TombstoneOrHideContainer";
+import BannedInfo from "./BannedInfo";
 import CommunityGuidelinesContainer from "./CommunityGuidelines";
 import PostCommentFormContainer from "./PostCommentForm";
 import SortMenu from "./SortMenu";
 
-import BannedInfo from "./BannedInfo";
 import styles from "./Stream.css";
 
 export interface StreamProps {
@@ -33,7 +34,8 @@ export interface StreamProps {
     };
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
-      PropTypesOf<typeof ReplyListContainer>["comment"]
+      PropTypesOf<typeof ReplyListContainer>["comment"] &
+      PropTypesOf<typeof TombstoneOrHideContainer>["comment"]
   >;
   onLoadMore?: () => void;
   hasMore?: boolean;
@@ -41,7 +43,8 @@ export interface StreamProps {
   viewer:
     | PropTypesOf<typeof UserBoxContainer>["viewer"] &
         PropTypesOf<typeof CommentContainer>["viewer"] &
-        PropTypesOf<typeof ReplyListContainer>["viewer"]
+        PropTypesOf<typeof ReplyListContainer>["viewer"] &
+        PropTypesOf<typeof TombstoneOrHideContainer>["viewer"]
     | null;
   orderBy: PropTypesOf<typeof SortMenu>["orderBy"];
   onChangeOrderBy: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -81,20 +84,26 @@ const Stream: FunctionComponent<StreamProps> = props => {
           aria-live="polite"
         >
           {props.comments.map(comment => (
-            <HorizontalGutter key={comment.id}>
-              <CommentContainer
-                viewer={props.viewer}
-                settings={props.settings}
-                comment={comment}
-                story={props.story}
-              />
-              <ReplyListContainer
-                settings={props.settings}
-                viewer={props.viewer}
-                comment={comment}
-                story={props.story}
-              />
-            </HorizontalGutter>
+            <TombstoneOrHideContainer
+              key={comment.id}
+              viewer={props.viewer}
+              comment={comment}
+            >
+              <HorizontalGutter>
+                <CommentContainer
+                  viewer={props.viewer}
+                  settings={props.settings}
+                  comment={comment}
+                  story={props.story}
+                />
+                <ReplyListContainer
+                  settings={props.settings}
+                  viewer={props.viewer}
+                  comment={comment}
+                  story={props.story}
+                />
+              </HorizontalGutter>
+            </TombstoneOrHideContainer>
           ))}
           {props.hasMore && (
             <Localized id="comments-stream-loadMore">

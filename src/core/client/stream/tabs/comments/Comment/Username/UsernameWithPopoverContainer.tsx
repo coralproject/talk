@@ -2,18 +2,17 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import NotAvailable from "coral-admin/components/NotAvailable";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { UsernameWithPopoverContainer_user as UserData } from "coral-stream/__generated__/UsernameWithPopoverContainer_user.graphql";
+import { UsernameWithPopoverContainer_viewer as ViewerData } from "coral-stream/__generated__/UsernameWithPopoverContainer_viewer.graphql";
 import { BaseButton, ClickOutside, Popover } from "coral-ui/components";
 
-import UserPopover from "../UserPopover";
+import UserPopoverContainer from "../UserPopover";
 import Username from "./Username";
-
-import styles from "./UsernameWithPopoverContainer.css";
 
 interface Props {
   user: UserData;
+  viewer: ViewerData | null;
 }
 
 const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
@@ -24,10 +23,13 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
         id={popoverID}
         placement="bottom-start"
         description="A popover with more user information"
-        classes={{ popover: styles.popover }}
         body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
-            <UserPopover user={props.user} />
+            <UserPopoverContainer
+              user={props.user}
+              viewer={props.viewer}
+              onDismiss={toggleVisibility}
+            />
           </ClickOutside>
         )}
       >
@@ -37,7 +39,7 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
             aria-controls={popoverID}
             ref={ref}
           >
-            <Username>{props.user.username || <NotAvailable />}</Username>
+            <Username>{props.user.username!}</Username>
           </BaseButton>
         )}
       </Popover>
@@ -46,6 +48,11 @@ const UsernameWithPopoverContainer: FunctionComponent<Props> = props => {
 };
 
 const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment UsernameWithPopoverContainer_viewer on User {
+      ...UserPopoverContainer_viewer
+    }
+  `,
   user: graphql`
     fragment UsernameWithPopoverContainer_user on User {
       username

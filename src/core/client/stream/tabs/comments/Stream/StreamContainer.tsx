@@ -127,6 +127,7 @@ const enhanced = withPaginationContainer<
           edges {
             node {
               ...StreamContainer_comment @relay(mask: false)
+              ...TombstoneOrHideContainer_comment
             }
           }
         }
@@ -145,6 +146,7 @@ const enhanced = withPaginationContainer<
         ...UserBoxContainer_viewer
         ...CreateCommentReplyMutation_viewer
         ...CreateCommentMutation_viewer
+        ...TombstoneOrHideContainer_viewer
         status {
           current
         }

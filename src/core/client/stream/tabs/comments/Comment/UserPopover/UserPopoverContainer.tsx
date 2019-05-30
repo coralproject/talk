@@ -1,30 +1,53 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import NotAvailable from "coral-admin/components/NotAvailable";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { UserPopoverContainer_user as UserData } from "coral-stream/__generated__/UserPopoverContainer_user.graphql";
+import { UserPopoverContainer_viewer as ViewerData } from "coral-stream/__generated__/UserPopoverContainer_viewer.graphql";
 
-import UserPopover from "./UserPopover";
+import UserIgnorePopoverContainer from "../UserIgnorePopover/UserIgnorePopoverContainer";
+import UserPopoverOverviewContainer from "./UserPopoverOverviewContainer";
+
+type View = "OVERVIEW" | "IGNORE";
 
 interface Props {
+  onDismiss: () => void;
   user: UserData;
+  viewer: ViewerData | null;
 }
 
-export const UserPopoverContainer: FunctionComponent<Props> = ({ user }) => {
+export const UserPopoverContainer: FunctionComponent<Props> = ({
+  user,
+  viewer,
+  onDismiss,
+}) => {
+  const [view, setView] = useState<View>("OVERVIEW");
+  const onIgnore = useCallback(() => setView("IGNORE"), [setView]);
   return (
-    <UserPopover
-      createdAt={user.createdAt}
-      username={user.username || <NotAvailable />}
-    />
+    <div>
+      {view === "OVERVIEW" ? (
+        <UserPopoverOverviewContainer
+          user={user}
+          viewer={viewer}
+          onIgnore={onIgnore}
+        />
+      ) : (
+        <UserIgnorePopoverContainer user={user} onDismiss={onDismiss} />
+      )}
+    </div>
   );
 };
 
 const enhanced = withFragmentContainer<Props>({
+  viewer: graphql`
+    fragment UserPopoverContainer_viewer on User {
+      ...UserPopoverOverviewContainer_viewer
+    }
+  `,
   user: graphql`
     fragment UserPopoverContainer_user on User {
-      username
-      createdAt
+      ...UserPopoverOverviewContainer_user
+      ...UserIgnorePopoverContainer_user
     }
   `,
 })(UserPopoverContainer);

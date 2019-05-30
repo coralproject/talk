@@ -16,7 +16,7 @@ export interface Props {
 const AppTabBar: FunctionComponent<Props> = props => {
   return (
     <TabBar activeTab={props.activeTab} onTabClick={props.onTabClick}>
-      <Tab tabId="COMMENTS">
+      <Tab tabID="COMMENTS">
         <Localized
           id="general-tabBar-commentsTab"
           $commentCount={props.commentCount}
@@ -25,14 +25,14 @@ const AppTabBar: FunctionComponent<Props> = props => {
         </Localized>
       </Tab>
       {props.showProfileTab && (
-        <Tab tabId="PROFILE">
+        <Tab tabID="PROFILE">
           <Localized id="general-tabBar-myProfileTab">
             <span>My Profile</span>
           </Localized>
         </Tab>
       )}
       {props.showConfigureTab && (
-        <Tab tabId="CONFIGURE">
+        <Tab tabID="CONFIGURE">
           <MatchMedia gteWidth="sm">
             {matches =>
               matches ? (

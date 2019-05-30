@@ -47,6 +47,7 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment LocalReplyListContainer_viewer on User {
       ...CommentContainer_viewer
+      ...TombstoneOrHideContainer_viewer
     }
   `,
   story: graphql`
@@ -60,6 +61,7 @@ const enhanced = withFragmentContainer<Props>({
       localReplies {
         id
         ...CommentContainer_comment
+        ...TombstoneOrHideContainer_comment
       }
     }
   `,

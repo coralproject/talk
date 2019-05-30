@@ -193,7 +193,10 @@ export class CommentContainer extends Component<Props, State> {
             }
             username={
               comment.author && (
-                <UsernameWithPopoverContainer user={comment.author} />
+                <UsernameWithPopoverContainer
+                  viewer={viewer}
+                  user={comment.author}
+                />
               )
             }
             tags={comment.tags.map(t => t.name)}
@@ -286,6 +289,10 @@ const enhanced = withSetCommentIDMutation(
           status {
             current
           }
+          ignoredUsers {
+            id
+          }
+          ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
           ...ReportButtonContainer_viewer
         }

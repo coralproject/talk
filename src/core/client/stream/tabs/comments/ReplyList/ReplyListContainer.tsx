@@ -164,6 +164,7 @@ const ReplyListContainer5 = createReplyListContainer(
     viewer: graphql`
       fragment ReplyListContainer5_viewer on User {
         ...CommentContainer_viewer
+        ...TombstoneOrHideContainer_viewer
         ...LocalReplyListContainer_viewer
       }
     `,
@@ -195,6 +196,7 @@ const ReplyListContainer5 = createReplyListContainer(
               id
               replyCount
               ...CommentContainer_comment
+              ...TombstoneOrHideContainer_comment
               ...LocalReplyListContainer_comment
             }
           }
@@ -228,6 +230,7 @@ const ReplyListContainer4 = createReplyListContainer(
       fragment ReplyListContainer4_viewer on User {
         ...ReplyListContainer5_viewer
         ...CommentContainer_viewer
+        ...TombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -257,6 +260,7 @@ const ReplyListContainer4 = createReplyListContainer(
             node {
               id
               ...CommentContainer_comment
+              ...TombstoneOrHideContainer_comment
               ...ReplyListContainer5_comment
             }
           }
@@ -289,6 +293,7 @@ const ReplyListContainer3 = createReplyListContainer(
       fragment ReplyListContainer3_viewer on User {
         ...ReplyListContainer4_viewer
         ...CommentContainer_viewer
+        ...TombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -318,6 +323,7 @@ const ReplyListContainer3 = createReplyListContainer(
             node {
               id
               ...CommentContainer_comment
+              ...TombstoneOrHideContainer_comment
               ...ReplyListContainer4_comment
             }
           }
@@ -350,6 +356,7 @@ const ReplyListContainer2 = createReplyListContainer(
       fragment ReplyListContainer2_viewer on User {
         ...ReplyListContainer3_viewer
         ...CommentContainer_viewer
+        ...TombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -379,6 +386,7 @@ const ReplyListContainer2 = createReplyListContainer(
             node {
               id
               ...CommentContainer_comment
+              ...TombstoneOrHideContainer_comment
               ...ReplyListContainer3_comment
             }
           }
@@ -411,6 +419,7 @@ const ReplyListContainer1 = createReplyListContainer(
       fragment ReplyListContainer1_viewer on User {
         ...ReplyListContainer2_viewer
         ...CommentContainer_viewer
+        ...TombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -440,6 +449,7 @@ const ReplyListContainer1 = createReplyListContainer(
             node {
               id
               ...CommentContainer_comment
+              ...TombstoneOrHideContainer_comment
               ...ReplyListContainer2_comment
             }
           }

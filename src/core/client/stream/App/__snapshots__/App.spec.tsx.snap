@@ -11,19 +11,19 @@ exports[`renders correctly 1`] = `
   >
     <TabPane
       data-testid="current-tab-pane"
-      tabId="COMMENTS"
+      tabID="COMMENTS"
     >
       <withContext(withLocalStateContainer(CommentsPaneContainer)) />
     </TabPane>
     <TabPane
       data-testid="current-tab-pane"
-      tabId="PROFILE"
+      tabID="PROFILE"
     >
       <withContext(withLocalStateContainer(ProfileQuery)) />
     </TabPane>
     <TabPane
       data-testid="current-tab-pane"
-      tabId="CONFIGURE"
+      tabID="CONFIGURE"
     >
       <withContext(withLocalStateContainer(ConfigureQuery)) />
     </TabPane>

@@ -1,0 +1,5 @@
+.root {
+  min-width: 192px;
+  max-width: 80vw;
+  padding: var(--spacing-3);
+}

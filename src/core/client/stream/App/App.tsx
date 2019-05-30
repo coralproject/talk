@@ -20,13 +20,13 @@ const App: FunctionComponent<AppProps> = props => {
     <HorizontalGutter className={styles.root}>
       <TabBarQuery />
       <TabContent activeTab={props.activeTab} className={styles.tabContent}>
-        <TabPane tabId="COMMENTS" data-testid="current-tab-pane">
+        <TabPane tabID="COMMENTS" data-testid="current-tab-pane">
           <Comments />
         </TabPane>
-        <TabPane tabId="PROFILE" data-testid="current-tab-pane">
+        <TabPane tabID="PROFILE" data-testid="current-tab-pane">
           <Profile />
         </TabPane>
-        <TabPane tabId="CONFIGURE" data-testid="current-tab-pane">
+        <TabPane tabID="CONFIGURE" data-testid="current-tab-pane">
           <Configure />
         </TabPane>
       </TabContent>

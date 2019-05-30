@@ -7,10 +7,12 @@ import { Button, HorizontalGutter } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
 import Indent from "../Indent";
+import TombstoneOrHideContainer from "../TombstoneOrHideContainer";
 
 export interface ReplyListProps {
   story: PropTypesOf<typeof CommentContainer>["story"];
-  viewer: PropTypesOf<typeof CommentContainer>["viewer"];
+  viewer: PropTypesOf<typeof CommentContainer>["viewer"] &
+    PropTypesOf<typeof TombstoneOrHideContainer>["viewer"];
   comment: {
     id: string;
   };
@@ -19,7 +21,8 @@ export interface ReplyListProps {
       id: string;
       replyListElement?: React.ReactElement<any>;
       showConversationLink?: boolean;
-    } & PropTypesOf<typeof CommentContainer>["comment"]
+    } & PropTypesOf<typeof CommentContainer>["comment"] &
+      PropTypesOf<typeof TombstoneOrHideContainer>["comment"]
   >;
   settings: PropTypesOf<typeof CommentContainer>["settings"];
   onShowAll?: () => void;
@@ -38,20 +41,26 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
       role="log"
     >
       {props.comments.map(comment => (
-        <HorizontalGutter key={comment.id}>
-          <CommentContainer
-            key={comment.id}
-            viewer={props.viewer}
-            comment={comment}
-            story={props.story}
-            settings={props.settings}
-            indentLevel={props.indentLevel}
-            localReply={props.localReply}
-            disableReplies={props.disableReplies}
-            showConversationLink={!!comment.showConversationLink}
-          />
-          {comment.replyListElement}
-        </HorizontalGutter>
+        <TombstoneOrHideContainer
+          key={comment.id}
+          viewer={props.viewer}
+          comment={comment}
+        >
+          <HorizontalGutter key={comment.id}>
+            <CommentContainer
+              key={comment.id}
+              viewer={props.viewer}
+              comment={comment}
+              story={props.story}
+              settings={props.settings}
+              indentLevel={props.indentLevel}
+              localReply={props.localReply}
+              disableReplies={props.disableReplies}
+              showConversationLink={!!comment.showConversationLink}
+            />
+            {comment.replyListElement}
+          </HorizontalGutter>
+        </TombstoneOrHideContainer>
       ))}
       {props.hasMore && (
         <Indent level={props.indentLevel} noBorder>
