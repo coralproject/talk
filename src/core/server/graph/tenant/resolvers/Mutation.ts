@@ -47,6 +47,22 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     comment: await ctx.mutators.Comments.createFlag(input),
     clientMutationId: input.clientMutationId,
   }),
+  featureComment: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    comment: await ctx.mutators.Comments.feature(input),
+    clientMutationId,
+  }),
+  unfeatureComment: async (
+    source,
+    { input: { clientMutationId, ...input } },
+    ctx
+  ) => ({
+    comment: await ctx.mutators.Comments.unfeature(input),
+    clientMutationId,
+  }),
   regenerateSSOKey: async (source, { input }, ctx) => ({
     settings: await ctx.mutators.Settings.regenerateSSOKey(),
     clientMutationId: input.clientMutationId,

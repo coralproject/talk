@@ -13,6 +13,7 @@ export const Tag: GQLTagTypeResolver<CommentTag> = {
     // Return the translated string.
     return translate(bundle, type, COMMENT_TAG_TYPE_TRANSLATIONS[type]);
   },
+  code: ({ type }) => type,
   createdBy: ({ createdBy }, input, ctx) => {
     if (createdBy) {
       return ctx.loaders.Users.user.load(createdBy);

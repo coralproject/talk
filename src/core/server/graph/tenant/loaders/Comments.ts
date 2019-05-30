@@ -14,6 +14,7 @@ import {
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
+  CommentConnectionInput,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
@@ -27,6 +28,16 @@ import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/s
 import { User } from "coral-server/models/user";
 
 import { SingletonResolver } from "./util";
+
+const tagFilter = (tag?: string): CommentConnectionInput["filter"] => {
+  if (tag && tag.length > 0) {
+    return {
+      "tags.type": tag,
+    };
+  }
+
+  return {};
+};
 
 /**
  * primeCommentsFromConnection will prime a given context with the comments
@@ -88,13 +99,20 @@ export default (ctx: Context) => ({
       mapVisibleComments(ctx.user)
     )
   ),
-  forFilter: ({ first = 10, after, storyID, status }: QueryToCommentsArgs) =>
+  forFilter: ({
+    first = 10,
+    after,
+    storyID,
+    status,
+    tag,
+  }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
       first,
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       filter: omitBy(
         {
+          ...tagFilter(tag),
           storyID,
           status,
         },
@@ -139,12 +157,17 @@ export default (ctx: Context) => ({
       first = 10,
       orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
+      tag,
     }: StoryToCommentsArgs
   ) =>
     retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
       first,
       orderBy,
       after,
+      filter: {
+        // Filter optionally for comments with a specific tag.
+        ...tagFilter(tag),
+      },
     }).then(primeCommentsFromConnection(ctx)),
   forParent: (
     storyID: string,

@@ -4,6 +4,7 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import { dotize } from "coral-common/utils/dotize";
+import { CommentNotFoundError } from "coral-server/errors";
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
@@ -29,7 +30,9 @@ import Query from "coral-server/models/helpers/query";
 import { TenantResource } from "coral-server/models/tenant";
 import { VISIBLE_STATUSES } from "./constants";
 import { hasAncestors } from "./helpers";
-import { CommentTag } from "./tag";
+import { COMMENT_TAG_TYPE, CommentTag } from "./tag";
+
+export * from "./helpers";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<Comment>>("comments");
@@ -873,13 +876,81 @@ export async function mergeManyCommentStories(
   );
 }
 
-/**
- * getLatestRevision will get the latest revision from a Comment.
- *
- * @param comment the comment that contains the revisions
- */
-export function getLatestRevision(
-  comment: Pick<Comment, "revisions">
-): Revision {
-  return comment.revisions[comment.revisions.length - 1];
+export async function addCommentTag(
+  mongo: Db,
+  tenantID: string,
+  commentID: string,
+  tag: CommentTag
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: commentID,
+      tags: {
+        $not: {
+          $eq: {
+            type: tag.type,
+          },
+        },
+      },
+    },
+    {
+      $push: {
+        tags: tag,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const comment = await retrieveComment(mongo, tenantID, commentID);
+    if (!comment) {
+      throw new CommentNotFoundError(commentID);
+    }
+
+    if (comment.tags.some(({ type }) => type === tag.type)) {
+      return comment;
+    }
+
+    throw new Error("could not add a tag for an unexpected reason");
+  }
+
+  return result.value;
+}
+
+export async function removeCommentTag(
+  mongo: Db,
+  tenantID: string,
+  commentID: string,
+  tagType: COMMENT_TAG_TYPE
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      tenantID,
+      id: commentID,
+    },
+    {
+      $pull: {
+        tags: { type: tagType },
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    const comment = await retrieveComment(mongo, tenantID, commentID);
+    if (!comment) {
+      throw new CommentNotFoundError(commentID);
+    }
+
+    throw new Error("could not add a tag for an unexpected reason");
+  }
+
+  return result.value;
 }

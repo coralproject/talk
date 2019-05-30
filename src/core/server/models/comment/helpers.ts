@@ -1,4 +1,4 @@
-import { Comment } from ".";
+import { Comment, Revision } from ".";
 import { VISIBLE_STATUSES } from "./constants";
 
 /**
@@ -20,4 +20,15 @@ export function hasAncestors(
  */
 export function hasVisibleStatus(comment: Pick<Comment, "status">): boolean {
   return VISIBLE_STATUSES.includes(comment.status);
+}
+
+/**
+ * getLatestRevision will get the latest revision from a Comment.
+ *
+ * @param comment the comment that contains the revisions
+ */
+export function getLatestRevision(
+  comment: Pick<Comment, "revisions">
+): Revision {
+  return comment.revisions[comment.revisions.length - 1];
 }
