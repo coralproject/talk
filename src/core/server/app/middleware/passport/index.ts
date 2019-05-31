@@ -1,4 +1,4 @@
-import { NextFunction, RequestHandler, Response } from "express";
+import { CookieOptions, NextFunction, RequestHandler, Response } from "express";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
@@ -12,14 +12,17 @@ import { createLocalStrategy } from "coral-server/app/middleware/passport/strate
 import OIDCStrategy from "coral-server/app/middleware/passport/strategies/oidc";
 import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
+import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
+  COOKIE_NAME,
   extractTokenFromRequest,
   JWTSigningConfig,
   revokeJWT,
   signTokenString,
 } from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
+import { DateTime } from "luxon";
 
 export type VerifyCallback = (
   err?: Error | null,
@@ -74,8 +77,8 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
     throw new Error("logout requires a token on the request, none was found");
   }
 
-  // Coral is guarenteed at this point.
-  const { now } = req.coral!;
+  // Coral is guaranteed at this point.
+  const { now, tenant } = req.coral!;
 
   // Decode the token.
   const decoded = jwt.decode(token, {});
@@ -97,6 +100,9 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
     await revokeJWT(redis, jti, validFor);
   }
 
+  // Clear the cookie.
+  res.clearCookie(COOKIE_NAME, generateCookieOptions(req, tenant!));
+
   return res.sendStatus(204);
 }
 
@@ -108,22 +114,50 @@ export async function handleSuccessfulLogin(
   next: NextFunction
 ) {
   try {
+    // Coral is guaranteed at this point.
+    const coral = req.coral!;
+
     // Tenant is guaranteed at this point.
-    const tenant = req.coral!.tenant!;
+    const tenant = coral.tenant!;
+
+    // Compute the expiry date.
+    const expiresIn = DateTime.fromJSDate(coral.now).plus({ days: 1 });
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant);
+    const token = await signTokenString(signingConfig, user, tenant, {
+      expiresIn: Math.floor(expiresIn.toSeconds()),
+    });
 
     // Set the cache control headers.
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
     res.header("Expires", "-1");
     res.header("Pragma", "no-cache");
+    res.cookie(
+      COOKIE_NAME,
+      token,
+      generateCookieOptions(req, tenant, expiresIn.toJSDate())
+    );
 
     // Send back the details!
     res.json({ token });
   } catch (err) {
     return next(err);
   }
+}
+
+function generateCookieOptions(req: Request, tenant: Tenant, expiresIn?: Date) {
+  const options: CookieOptions = {
+    domain: tenant.domain,
+    path: "/api",
+    httpOnly: true,
+    secure: req.secure,
+  };
+
+  if (expiresIn) {
+    options.expires = expiresIn;
+  }
+
+  return options;
 }
 
 export async function handleOAuth2Callback(

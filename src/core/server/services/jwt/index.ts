@@ -213,7 +213,6 @@ export const signTokenString = async (
 ) =>
   jwt.sign({}, secret, {
     jwtid: uuid(),
-    // TODO: (wyattjoh) evaluate allowing configuration?
     expiresIn: "1 day",
     ...options,
     issuer: tenant.id,
@@ -241,12 +240,37 @@ export async function signString<T extends {}>(
 }
 
 /**
+ * extractJWTFromRequest will extract the token from the request if it can find
+ * it. It first tries to get the token from the headers, then from the cookie.
  *
  * @param req the request to extract the JWT from
  * @param excludeQuery when true, does not pull from the query params
  */
 export function extractTokenFromRequest(
   req: Request | IncomingMessage,
+  excludeQuery: boolean = false
+): string | null {
+  return (
+    extractJWTFromRequestHeaders(req, excludeQuery) ||
+    extractJWTFromRequestCookie(req)
+  );
+}
+
+export const COOKIE_NAME = "authorization";
+
+function extractJWTFromRequestCookie(req: Request): string | null {
+  return req.cookies && req.cookies[COOKIE_NAME]
+    ? req.cookies[COOKIE_NAME]
+    : null;
+}
+
+/**
+ *
+ * @param req the request to extract the JWT from
+ * @param excludeQuery when true, does not pull from the query params
+ */
+function extractJWTFromRequestHeaders(
+  req: Request,
   excludeQuery: boolean = false
 ) {
   const options: BearerOptions = {
