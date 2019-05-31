@@ -94,6 +94,7 @@ exports[`hide reply button 1`] = `
               "username": "Marvin",
             }
           }
+          viewer={null}
         />
       }
     />
@@ -201,6 +202,7 @@ exports[`renders body only 1`] = `
               "username": null,
             }
           }
+          viewer={null}
         />
       }
     />
@@ -308,6 +310,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
               "username": "Marvin",
             }
           }
+          viewer={null}
         />
       }
     />
@@ -415,6 +418,7 @@ exports[`renders disabled reply when story is closed 1`] = `
               "username": "Marvin",
             }
           }
+          viewer={null}
         />
       }
     />
@@ -530,6 +534,7 @@ exports[`renders in reply to 1`] = `
               "username": "Marvin",
             }
           }
+          viewer={null}
         />
       }
     />
@@ -649,6 +654,7 @@ exports[`renders staff badge 1`] = `
               "username": "Marvin",
             }
           }
+          viewer={null}
         />
       }
     />
@@ -756,6 +762,7 @@ exports[`renders username and body 1`] = `
               "username": "Marvin",
             }
           }
+          viewer={null}
         />
       }
     />
@@ -868,6 +875,7 @@ exports[`shows conversation link 1`] = `
               "username": "Marvin",
             }
           }
+          viewer={null}
         />
       }
     />

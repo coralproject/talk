@@ -1,7 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { createMutation } from "coral-framework/lib/relay";
-import { LOCAL_ID } from "coral-framework/lib/relay/withLocalStateContainer";
+import { LOCAL_ID } from "coral-framework/lib/relay";
 
 const ClearAuthErrorMutation = createMutation(
   "clearAuthError",

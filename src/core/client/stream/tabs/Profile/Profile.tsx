@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
+import { ProfileLocal as Local } from "coral-stream/__generated__/ProfileLocal.graphql";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import {
   HorizontalGutter,
@@ -10,6 +11,7 @@ import {
   TabPane,
 } from "coral-ui/components";
 
+import { graphql, useLocal } from "coral-framework/lib/relay";
 import CommentHistoryContainer from "./CommentHistory";
 import SettingsContainer from "./Settings";
 
@@ -22,22 +24,31 @@ export interface ProfileProps {
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
-  const [activeTab, setActiveTab] = useState<string>("profile-myComments");
-  const onTabClick = useCallback((tab: string) => setActiveTab(tab), [
-    setActiveTab,
-  ]);
+  const [local, setLocal] = useLocal<Local>(graphql`
+    fragment ProfileLocal on Local {
+      profileTab
+    }
+  `);
+  const onTabClick = useCallback(
+    (tab: Local["profileTab"]) => setLocal({ profileTab: tab }),
+    [setLocal]
+  );
   return (
     <HorizontalGutter spacing={5}>
       <UserBoxContainer viewer={props.viewer} settings={props.settings} />
-      <TabBar variant="secondary" activeTab={activeTab} onTabClick={onTabClick}>
-        <Tab tabID="profile-myComments">My Comments</Tab>
-        <Tab tabID="profile-settings">Settings</Tab>
+      <TabBar
+        variant="secondary"
+        activeTab={local.profileTab}
+        onTabClick={onTabClick}
+      >
+        <Tab tabID="MY_COMMENTS">My Comments</Tab>
+        <Tab tabID="SETTINGS">Settings</Tab>
       </TabBar>
-      <TabContent activeTab={activeTab}>
-        <TabPane tabID="profile-myComments">
+      <TabContent activeTab={local.profileTab}>
+        <TabPane tabID="MY_COMMENTS">
           <CommentHistoryContainer viewer={props.viewer} story={props.story} />
         </TabPane>
-        <TabPane tabID="profile-settings">
+        <TabPane tabID="SETTINGS">
           <SettingsContainer viewer={props.viewer} />
         </TabPane>
       </TabContent>

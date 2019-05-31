@@ -3,7 +3,7 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 import { getURLWithCommentID } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutationContainer } from "coral-framework/lib/relay";
-import { LOCAL_ID } from "coral-framework/lib/relay/withLocalStateContainer";
+import { LOCAL_ID } from "coral-framework/lib/relay";
 
 export interface SetCommentIDInput {
   id: string | null;

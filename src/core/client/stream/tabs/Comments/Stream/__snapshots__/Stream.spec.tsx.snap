@@ -50,98 +50,114 @@ exports[`renders correctly 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <ForwardRef(forwardRef)
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-1",
+        }
+      }
       key="comment-1"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-1",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-1",
+          viewer={null}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-2",
         }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-    <ForwardRef(forwardRef)
+      }
       key="comment-2"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-2",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-2",
+          viewer={null}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
   </ForwardRef(forwardRef)>
 </ForwardRef(forwardRef)>
 `;
@@ -196,98 +212,114 @@ exports[`when there is more disables load more button 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <ForwardRef(forwardRef)
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-1",
+        }
+      }
       key="comment-1"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-1",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-1",
+          viewer={null}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-2",
         }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-    <ForwardRef(forwardRef)
+      }
       key="comment-2"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-2",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-2",
+          viewer={null}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -356,98 +388,114 @@ exports[`when there is more renders a load more button 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <ForwardRef(forwardRef)
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-1",
+        }
+      }
       key="comment-1"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-1",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-1",
+          viewer={null}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-2",
         }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
-    <ForwardRef(forwardRef)
+      }
       key="comment-2"
+      viewer={null}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-2",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-2",
+          viewer={null}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={null}
-      />
-    </ForwardRef(forwardRef)>
+          viewer={null}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -516,98 +564,114 @@ exports[`when use is logged in renders correctly 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <ForwardRef(forwardRef)
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-1",
+        }
+      }
       key="comment-1"
+      viewer={Object {}}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-1",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={Object {}}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-1",
+          viewer={Object {}}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-1",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
+          viewer={Object {}}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
+    <Relay(TombstoneOrHideContainer)
+      comment={
+        Object {
+          "id": "comment-2",
         }
-        viewer={Object {}}
-      />
-    </ForwardRef(forwardRef)>
-    <ForwardRef(forwardRef)
+      }
       key="comment-2"
+      viewer={Object {}}
     >
-      <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
-        comment={
-          Object {
-            "id": "comment-2",
+      <ForwardRef(forwardRef)>
+        <withContext(createMutationContainer(withContext(createMutationContainer(Relay(CommentContainer)))))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={Object {}}
-      />
-      <withProps(Relay(ReplyListContainer))
-        comment={
-          Object {
-            "id": "comment-2",
+          viewer={Object {}}
+        />
+        <withProps(Relay(ReplyListContainer))
+          comment={
+            Object {
+              "id": "comment-2",
+            }
           }
-        }
-        settings={
-          Object {
-            "reaction": Object {
-              "sortLabel": "Most Reacted",
-            },
+          settings={
+            Object {
+              "reaction": Object {
+                "sortLabel": "Most Reacted",
+              },
+            }
           }
-        }
-        story={
-          Object {
-            "id": "story-id",
-            "isClosed": false,
+          story={
+            Object {
+              "id": "story-id",
+              "isClosed": false,
+            }
           }
-        }
-        viewer={Object {}}
-      />
-    </ForwardRef(forwardRef)>
+          viewer={Object {}}
+        />
+      </ForwardRef(forwardRef)>
+    </Relay(TombstoneOrHideContainer)>
   </ForwardRef(forwardRef)>
 </ForwardRef(forwardRef)>
 `;

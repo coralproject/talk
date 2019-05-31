@@ -75,6 +75,7 @@ beforeEach(() => {
     logNetwork: false,
     resolvers,
     initLocalState: localRecord => {
+      localRecord.setValue("MY_COMMENTS", "profileTab");
       localRecord.setValue(stories[0].id, "storyID");
     },
   }));

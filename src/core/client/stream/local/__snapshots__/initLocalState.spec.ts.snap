@@ -23,7 +23,8 @@ exports[`init local state 1`] = `
     \\"authPopup\\": {
       \\"__ref\\": \\"client:root.local.authPopup\\"
     },
-    \\"activeTab\\": \\"COMMENTS\\"
+    \\"activeTab\\": \\"COMMENTS\\",
+    \\"profileTab\\": \\"MY_COMMENTS\\"
   },
   \\"client:root.local.network\\": {
     \\"__id\\": \\"client:root.local.network\\",

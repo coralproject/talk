@@ -54,8 +54,9 @@ export default async function initLocalState(
     authPopupRecord.setValue("", "href");
     localRecord.setLinkedRecord(authPopupRecord, "authPopup");
 
-    // Set active tab
+    // Set active tabs
     localRecord.setValue("COMMENTS", "activeTab");
+    localRecord.setValue("MY_COMMENTS", "profileTab");
 
     // Set sort
     localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
