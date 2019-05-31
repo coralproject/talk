@@ -1686,7 +1686,7 @@ type Tag {
   """
   code is the machine representation of the tag name.
   """
-  code: String
+  code: String!
 
   """
   createdBy is the User that assigned the Tag. This is null when the Tag is
