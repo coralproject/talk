@@ -27,7 +27,7 @@ class PermittedDomainsConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment PermittedDomainsConfigContainer_settings on Settings {
-      domains
+      allowedDomains
     }
   `,
 })(PermittedDomainsConfigContainer);

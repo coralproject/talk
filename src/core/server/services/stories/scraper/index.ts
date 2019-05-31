@@ -6,10 +6,14 @@ import descriptionScraper from "metascraper-description";
 import imageScraper from "metascraper-image";
 import titleScraper from "metascraper-title";
 import { Db } from "mongodb";
+import fetch, { RequestInit } from "node-fetch";
+import ProxyAgent from "proxy-agent";
 
+import { version } from "coral-common/version";
 import { GQLStoryMetadata } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { retrieveStory, updateStory } from "coral-server/models/story";
+import { retrieveTenant } from "coral-server/models/tenant";
 
 import { modifiedScraper } from "./rules/modified";
 import { sectionScraper } from "./rules/section";
@@ -30,16 +34,31 @@ class Scraper {
     this.log = logger.child({ taskName: "scraper" });
   }
 
-  public async scrape(url: string): Promise<GQLStoryMetadata | null> {
+  public async scrape(
+    url: string,
+    proxyURL?: string
+  ): Promise<GQLStoryMetadata | null> {
     // Grab the page HTML.
 
     const log = this.log.child({ storyURL: url });
 
+    const options: RequestInit = {
+      headers: {
+        "User-Agent": `Talk Scraper/${version}`,
+      },
+    };
+    if (proxyURL) {
+      // Force the type here because there's a slight mismatch.
+      options.agent = (new ProxyAgent(
+        proxyURL
+      ) as unknown) as RequestInit["agent"];
+      log.debug("using proxy for scrape");
+    }
+
     const start = Date.now();
     log.debug("starting scrape of Story");
 
-    // TODO: investigate adding scraping proxy support based on the Tenant.
-    const res = await fetch(url, {});
+    const res = await fetch(url, options);
     if (res.status !== 200) {
       log.warn(
         { statusCode: res.status },
@@ -117,6 +136,12 @@ export async function scrape(
   storyID: string,
   storyURL?: string
 ) {
+  // Grab the Tenant.
+  const tenant = await retrieveTenant(mongo, tenantID);
+  if (!tenant) {
+    throw new Error("tenant not found");
+  }
+
   // If the URL wasn't provided, grab it from the database.
   if (!storyURL) {
     const retrievedStory = await retrieveStory(mongo, tenantID, storyID);
@@ -129,7 +154,10 @@ export async function scrape(
   }
 
   // Get the metadata from the scraped html.
-  const metadata = await scraper.scrape(storyURL);
+  const metadata = await scraper.scrape(
+    storyURL,
+    tenant.stories.scraping.proxyURL
+  );
   if (!metadata) {
     throw new Error("story at specified url not found");
   }

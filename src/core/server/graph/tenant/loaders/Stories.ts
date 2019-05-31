@@ -3,19 +3,24 @@ import DataLoader from "dataloader";
 import TenantContext from "coral-server/graph/tenant/context";
 import {
   GQLSTORY_STATUS,
-  GQLStoryMetadata,
   QueryToStoriesArgs,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { Connection } from "coral-server/models/helpers/connection";
 import {
-  FindOrCreateStoryInput,
   retrieveManyStories,
   retrieveStoryConnection,
   Story,
   StoryConnectionInput,
 } from "coral-server/models/story";
-import { findOrCreate } from "coral-server/services/stories";
+import {
+  find,
+  findOrCreate,
+  FindOrCreateStory,
+  FindStory,
+} from "coral-server/services/stories";
 import { scraper } from "coral-server/services/stories/scraper";
+
+import { createManyBatchLoadFn } from "./util";
 
 const statusFilter = (
   status?: GQLSTORY_STATUS
@@ -61,15 +66,21 @@ const primeStoriesFromConnection = (ctx: TenantContext) => (
 
 export default (ctx: TenantContext) => ({
   findOrCreate: new DataLoader(
-    (inputs: FindOrCreateStoryInput[]) =>
-      Promise.all(
-        inputs.map(input =>
-          findOrCreate(ctx.mongo, ctx.tenant, input, ctx.scraperQueue, ctx.now)
-        )
-      ),
+    createManyBatchLoadFn((input: FindOrCreateStory) =>
+      findOrCreate(ctx.mongo, ctx.tenant, input, ctx.scraperQueue, ctx.now)
+    ),
     {
       // TODO: (wyattjoh) see if there's something we can do to improve the cache key
-      cacheKeyFn: (input: FindOrCreateStoryInput) => `${input.id}:${input.url}`,
+      cacheKeyFn: (input: FindOrCreateStory) => `${input.id}:${input.url}`,
+    }
+  ),
+  find: new DataLoader(
+    createManyBatchLoadFn((input: FindStory) =>
+      find(ctx.mongo, ctx.tenant, input)
+    ),
+    {
+      // TODO: (wyattjoh) see if there's something we can do to improve the cache key
+      cacheKeyFn: (input: FindStory) => `${input.id}:${input.url}`,
     }
   ),
   story: new DataLoader<string, Story | null>(ids =>
@@ -87,7 +98,7 @@ export default (ctx: TenantContext) => ({
         ...queryFilter(query),
       },
     }).then(primeStoriesFromConnection(ctx)),
-  debugScrapeMetadata: new DataLoader<string, GQLStoryMetadata | null>(urls =>
-    Promise.all(urls.map(url => scraper.scrape(url)))
+  debugScrapeMetadata: new DataLoader(
+    createManyBatchLoadFn((url: string) => scraper.scrape(url))
   ),
 });

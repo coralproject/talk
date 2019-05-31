@@ -1024,6 +1024,39 @@ type Organization {
 }
 
 """
+StoryScrapingConfiguration stores the configuration around story scraping.
+"""
+type StoryScrapingConfiguration {
+  """
+  enabled, when true, enables stories to be scraped. When disabled, stories will
+  only be looked up instead, and must be created via the API directly.
+  """
+  enabled: Boolean!
+
+  """
+  proxyURL when specified, allows scraping requests to use the provided proxy.
+  All requests will then be passed through the appropriote proxy as parsed by
+  the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
+  """
+  proxyURL: String
+}
+
+"""
+StoryConfiguration stores the configuration for working with stories.
+"""
+type StoryConfiguration {
+  """
+  scraping stores configuration around story scraping.
+  """
+  scraping: StoryScrapingConfiguration!
+
+  """
+  disableLazy when true, will only allow lookups of stories created via the API.
+  """
+  disableLazy: Boolean!
+}
+
+"""
 Settings stores the global settings for a given Tenant.
 """
 type Settings {
@@ -1038,9 +1071,9 @@ type Settings {
   domain: String! @auth(roles: [ADMIN])
 
   """
-  domains will return a given list of permitted domains.
+  allowedDomains is the list of domains that stories can come from.
   """
-  domains: [String!]! @auth(roles: [ADMIN])
+  allowedDomains: [String!]! @auth(roles: [ADMIN])
 
   """
   locale is the specified locale for this Tenant.
@@ -1125,6 +1158,11 @@ type Settings {
   reaction specifies the configuration for reactions.
   """
   reaction: ReactionConfiguration!
+
+  """
+  stories stores the configuration around stories.
+  """
+  stories: StoryConfiguration! @auth(roles: [ADMIN])
 
   """
   createdAt is the time that the Settings was created at.
@@ -2745,13 +2783,46 @@ input SettingsCloseCommentingInput {
 }
 
 """
+StoryScrapingConfigurationInput stores the configuration around story scraping.
+"""
+input StoryScrapingConfigurationInput {
+  """
+  enabled, when true, enables stories to be scraped. When disabled, stories will
+  only be looked up instead, and must be created via the API directly.
+  """
+  enabled: Boolean
+
+  """
+  proxyURL when specified, allows scraping requests to use the provided proxy.
+  All requests will then be passed through the appropriote proxy as parsed by
+  the [proxy-agent](https://www.npmjs.com/package/proxy-agent) package.
+  """
+  proxyURL: String
+}
+
+"""
+StoryConfiguration stores the configuration for working with stories.
+"""
+input StoryConfigurationInput {
+  """
+  scraping stores configuration around story scraping.
+  """
+  scraping: StoryScrapingConfigurationInput
+
+  """
+  disableLazy when true, will only allow lookups of stories created via the API.
+  """
+  disableLazy: Boolean
+}
+
+"""
 SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
   """
-  domains will return a given list of domains that hosts Stories.
+  allowedDomains is the list of domains that stories can come from.
   """
-  domains: [String!]
+  allowedDomains: [String!]
 
   """
   moderation is the moderation mode for all Stories on the site.
@@ -2826,6 +2897,11 @@ input SettingsInput {
   charCount stores the character count moderation settings.
   """
   charCount: SettingsCharCountInput
+
+  """
+  stories stores the configuration around stories.
+  """
+  stories: StoryConfigurationInput
 }
 
 """

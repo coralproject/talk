@@ -81,6 +81,7 @@ export type Settings = GlobalModerationSettings &
     | "editCommentWindowLength"
     | "customCSSURL"
     | "communityGuidelines"
+    | "stories"
     | "createdAt"
   > & {
     /**

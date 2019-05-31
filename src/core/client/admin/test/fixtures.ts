@@ -40,7 +40,7 @@ export const settings = createFixture<GQLSettings>({
     message: "Comments are closed on this story.",
   },
   customCSSURL: "",
-  domains: ["localhost:8080"],
+  allowedDomains: ["localhost:8080"],
   editCommentWindowLength: 30000,
   communityGuidelines: {
     enabled: false,

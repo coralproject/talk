@@ -31,7 +31,7 @@ const TenantInstallBodySchema = Joi.object().keys({
           .lowercase()
           .email(),
       }),
-      domains: Joi.array().items(
+      allowedDomains: Joi.array().items(
         Joi.string()
           .trim()
           .uri()

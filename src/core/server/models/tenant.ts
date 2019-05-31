@@ -29,7 +29,7 @@ export interface TenantResource {
 }
 
 export interface TenantSettings
-  extends Pick<GQLSettings, "domain" | "domains" | "organization"> {
+  extends Pick<GQLSettings, "domain" | "allowedDomains" | "organization"> {
   readonly id: string;
 
   /**
@@ -60,7 +60,7 @@ export async function createTenantIndexes(mongo: Db) {
  */
 export type CreateTenantInput = Pick<
   Tenant,
-  "domain" | "domains" | "locale" | "organization"
+  "domain" | "allowedDomains" | "locale" | "organization"
 >;
 
 /**
@@ -179,6 +179,12 @@ export async function createTenant(
       labelActive: "Respected",
       sortLabel: "Most Respected",
       icon: "thumb_up",
+    },
+    stories: {
+      scraping: {
+        enabled: true,
+      },
+      disableLazy: false,
     },
     createdAt: now,
   };

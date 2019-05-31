@@ -146,7 +146,7 @@ it("change permitted domains to be empty", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
-        expectAndFail(variables.settings.domains).toEqual([]);
+        expectAndFail(variables.settings.allowedDomains).toEqual([]);
         return {
           settings: pureMerge(settings, variables.settings),
         };
@@ -190,7 +190,7 @@ it("change permitted domains to include more domains", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {
       updateSettings: ({ variables }) => {
-        expectAndFail(variables.settings.domains).toEqual([
+        expectAndFail(variables.settings.allowedDomains).toEqual([
           "localhost:8080",
           "localhost:3000",
         ]);

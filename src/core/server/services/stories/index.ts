@@ -21,6 +21,8 @@ import {
   CreateStoryInput,
   findOrCreateStory,
   FindOrCreateStoryInput,
+  findStory,
+  FindStoryInput,
   mergeCommentStatusCount,
   openStory,
   removeStories,
@@ -42,6 +44,21 @@ import { scrape } from "coral-server/services/stories/scraper";
 import { AugmentedRedis } from "../redis";
 import { isURLPermitted } from "../tenant/url";
 
+export type FindStory = FindStoryInput;
+
+export async function find(mongo: Db, tenant: Tenant, input: FindStory) {
+  // If the URL is provided, and the url is not on a allowed domain, then refuse
+  // to create the Asset.
+  if (input.url && !isURLPermitted(tenant, input.url)) {
+    throw new StoryURLInvalidError({
+      storyURL: input.url,
+      allowedDomains: tenant.allowedDomains,
+    });
+  }
+
+  return findStory(mongo, tenant.id, input);
+}
+
 export type FindOrCreateStory = FindOrCreateStoryInput;
 
 export async function findOrCreate(
@@ -56,20 +73,16 @@ export async function findOrCreate(
   if (input.url && !isURLPermitted(tenant, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      tenantDomains: tenant.domains,
+      allowedDomains: tenant.allowedDomains,
     });
   }
-
-  // TODO: check to see if the tenant has enabled lazy story creation, if they haven't, switch to find only.
 
   const story = await findOrCreateStory(mongo, tenant.id, input, now);
   if (!story) {
     return null;
   }
 
-  // TODO: check to see if the tenant has scraping enabled.
-
-  if (!story.metadata && !story.scrapedAt) {
+  if (tenant.stories.scraping.enabled && !story.metadata && !story.scrapedAt) {
     // If the scraper has not scraped this story, and we have no metadata, we
     // need to scrape it now!
     await scraper.add({
@@ -155,7 +168,10 @@ export async function create(
 ) {
   // Ensure that the given URL is allowed.
   if (!isURLPermitted(tenant, storyURL)) {
-    throw new StoryURLInvalidError({ storyURL, tenantDomains: tenant.domains });
+    throw new StoryURLInvalidError({
+      storyURL,
+      allowedDomains: tenant.allowedDomains,
+    });
   }
 
   // Construct the input payload.
@@ -173,7 +189,7 @@ export async function create(
     input,
     now
   );
-  if (!metadata) {
+  if (!metadata && tenant.stories.scraping.enabled) {
     // If the scraper has not scraped this story and story metadata was not
     // provided, we need to scrape it now!
     newStory = await scrape(mongo, tenant.id, newStory.id, storyURL);
@@ -195,7 +211,7 @@ export async function update(
   if (input.url && !isURLPermitted(tenant, input.url)) {
     throw new StoryURLInvalidError({
       storyURL: input.url,
-      tenantDomains: tenant.domains,
+      allowedDomains: tenant.allowedDomains,
     });
   }
 
