@@ -1,0 +1,2 @@
+-brand-name = The Coral Project
+-product-name = Coral
