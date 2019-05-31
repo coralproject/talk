@@ -17,11 +17,11 @@ const TabContent: FunctionComponent<TabContentProps> = props => {
     <>
       {React.Children.toArray(children)
         .filter(
-          (child: React.ReactElement<any>) => child.props.tabId === activeTab
+          (child: React.ReactElement<any>) => child.props.tabID === activeTab
         )
         .map((child: React.ReactElement<any>, i) =>
           React.cloneElement(child, {
-            tabId: child.props.tabId ? child.props.tabId : i,
+            tabID: child.props.tabID ? child.props.tabID : i,
             className,
           })
         )}

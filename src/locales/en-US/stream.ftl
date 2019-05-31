@@ -43,8 +43,6 @@ comments-rte-italic =
 comments-rte-blockquote =
   .title = Blockquote
 
-comments-poweredBy = Powered by <logo>{ -brand-name }</logo>
-
 comments-remainingCharacters = { $remaining } characters remaining
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
@@ -95,7 +93,22 @@ comments-sortMenu-newest = Newest
 comments-sortMenu-oldest = Oldest
 comments-sortMenu-mostReplies = Most Replies
 
+comments-userPopover =
+  .description = A popover with more user information
+comments-userPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-ignore = Ignore
+
+comments-userIgnorePopover-ignoreUser = Ignore {$username}?
+comments-userIgnorePopover-description =
+  When you ignore a commenter, all comments they
+  wrote on the site will be hidden from you. You can
+  undo this later from My Profile.
+comments-userIgnorePopover-ignore = Ignore
+comments-userIgnorePopover-cancel = Cancel
+
 ## Profile Tab
+
+### Comment History
 profile-historyComment-viewConversation = View Conversation
 profile-historyComment-replies = Replies {$replyCount}
 profile-historyComment-commentHistory = Comment History
@@ -103,6 +116,15 @@ profile-historyComment-story = Story: {$title}
 profile-profileQuery-errorLoadingProfile = Error loading profile
 profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
+
+### Settings
+profile-settings-ignoredCommenters = Ignored Commenters
+profile-settings-description =
+  Once you ignore someone, all of their comments are hidden from you.
+  Commenters you ignore will still be able to see your comments.
+profile-settings-empty = You are not currently ignoring anyone
+profile-settings-stopIgnoring = Stop ignoring
+
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -170,3 +192,5 @@ configure-openStream-description =
   This comment stream is currently closed. By opening this comment
   stream new comments may be submitted and displayed.
 configure-openStream-openStream = Open Stream
+
+comments-tombstone-ignore = This comment is hidden because you ignored {$username}

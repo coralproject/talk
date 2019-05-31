@@ -88,6 +88,7 @@ const Bar: FunctionComponent<Props> = ({ title, options, onSearch }) => {
                     preventOverflow: { enabled: false },
                     flip: { enabled: false },
                     hide: { enabled: false },
+                    arrow: { enabled: false },
                   }}
                   body={() => (
                     <ul

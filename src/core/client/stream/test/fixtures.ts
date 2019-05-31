@@ -85,8 +85,16 @@ export const settings = createFixture<GQLSettings>({
 });
 
 export const baseUser = createFixture<GQLUser>({
+  createdAt: "2018-02-06T18:24:00.000Z",
   status: {
     current: [GQLUSER_STATUS.ACTIVE],
+  },
+  ignoredUsers: [],
+  comments: {
+    edges: [],
+    pageInfo: {
+      hasNextPage: false,
+    },
   },
 });
 
@@ -513,6 +521,18 @@ export const viewerWithComments = createFixture<GQLUser>(
         hasNextPage: false,
       },
     },
+  },
+  baseUser
+);
+
+/**
+ * viewerPassive is a viewer who has not participated in any story.
+ */
+export const viewerPassive = createFixture<GQLUser>(
+  {
+    id: "viewer-passive",
+    username: "Passivo",
+    role: GQLUSER_ROLE.COMMENTER,
   },
   baseUser
 );

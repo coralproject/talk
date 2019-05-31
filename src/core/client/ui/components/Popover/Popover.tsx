@@ -4,10 +4,11 @@ import { Manager, Popper, Reference, RefHandler } from "react-popper";
 
 import { oncePerFrame } from "coral-common/utils";
 import { withStyles } from "coral-ui/hocs";
+import { PropTypesOf } from "coral-ui/types";
 
 import AriaInfo from "../AriaInfo";
 
-import { PropTypesOf } from "coral-ui/types";
+import Arrow from "./Arrow";
 import styles from "./Popover.css";
 
 type Placement =
@@ -123,6 +124,8 @@ class Popover extends React.Component<PopoverProps> {
 
     const visible =
       controlledVisible !== undefined ? controlledVisible : this.state.visible;
+    const includeArrow =
+      !modifiers || !modifiers.arrow || modifiers.arrow.enabled;
     const popoverClassName = cn(classes.popover, {
       [classes.top]: placement!.startsWith("top"),
       [classes.left]: placement!.startsWith("left"),
@@ -164,6 +167,13 @@ class Popover extends React.Component<PopoverProps> {
                     className={popoverClassName}
                     ref={props.ref}
                   >
+                    {includeArrow && (
+                      <Arrow
+                        ref={props.arrowProps.ref}
+                        data-placement={props.placement}
+                        style={props.arrowProps.style}
+                      />
+                    )}
                     {typeof body === "function"
                       ? body({
                           scheduleUpdate: props.scheduleUpdate,

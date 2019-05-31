@@ -1,0 +1,513 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`close popup 1`] = `
+<div
+  aria-hidden={true}
+  aria-labelledby="report-popover-comment-0-ariainfo"
+  id="report-popover-comment-0"
+  role="popup"
+>
+  <div
+    className="AriaInfo-root"
+    id="report-popover-comment-0-ariainfo"
+  >
+    A dialog for reporting comments
+  </div>
+</div>
+`;
+
+exports[`render popup 1`] = `
+<div
+  aria-hidden={false}
+  aria-labelledby="report-popover-comment-0-ariainfo"
+  id="report-popover-comment-0"
+  role="popup"
+>
+  <div
+    className="AriaInfo-root"
+    id="report-popover-comment-0-ariainfo"
+  >
+    A dialog for reporting comments
+  </div>
+  <div
+    className="Popover-popover Popover-top"
+    style={
+      Object {
+        "left": 0,
+        "opacity": 0,
+        "pointerEvents": "none",
+        "position": "absolute",
+        "top": 0,
+      }
+    }
+  >
+    <div
+      className="Arrow-root"
+      style={Object {}}
+    />
+    <div
+      className="ReportPopover-root"
+    >
+      <button
+        aria-label="Close Popover"
+        className="BaseButton-root ReportPopover-close"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
+        >
+          close
+        </span>
+      </button>
+      <form
+        autoComplete="off"
+        className="ReportCommentForm-root"
+        id="report-comments-form"
+        onSubmit={[Function]}
+      >
+        <div
+          className="HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
+        >
+          <h1
+            className="Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
+          >
+            Report This Comment
+          </h1>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-half"
+          >
+            <p
+              className="Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
+            >
+              Why are you reporting this comment?
+            </p>
+            <ul
+              className="ReportCommentForm-list"
+            >
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="COMMENT_REPORTED_OFFENSIVE"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
+                  >
+                    This comment is offensive
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-DISAGREE"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="DISAGREE"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-DISAGREE"
+                  >
+                    I disagree with this comment
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="COMMENT_REPORTED_SPAM"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
+                  >
+                    This looks like an ad or marketing
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="COMMENT_REPORTED_OTHER"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
+                  >
+                    Other
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render popup expanded 1`] = `
+<div
+  aria-hidden={false}
+  aria-labelledby="report-popover-comment-0-ariainfo"
+  id="report-popover-comment-0"
+  role="popup"
+>
+  <div
+    className="AriaInfo-root"
+    id="report-popover-comment-0-ariainfo"
+  >
+    A dialog for reporting comments
+  </div>
+  <div
+    className="Popover-popover Popover-top"
+    style={
+      Object {
+        "left": 0,
+        "opacity": 0,
+        "pointerEvents": "none",
+        "position": "absolute",
+        "top": 0,
+      }
+    }
+  >
+    <div
+      className="Arrow-root"
+      style={Object {}}
+    />
+    <div
+      className="ReportPopover-root"
+    >
+      <button
+        aria-label="Close Popover"
+        className="BaseButton-root ReportPopover-close"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
+        >
+          close
+        </span>
+      </button>
+      <form
+        autoComplete="off"
+        className="ReportCommentForm-root"
+        id="report-comments-form"
+        onSubmit={[Function]}
+      >
+        <div
+          className="HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
+        >
+          <h1
+            className="Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
+          >
+            Report This Comment
+          </h1>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-half"
+          >
+            <p
+              className="Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
+            >
+              Why are you reporting this comment?
+            </p>
+            <ul
+              className="ReportCommentForm-list"
+            >
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="COMMENT_REPORTED_OFFENSIVE"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OFFENSIVE"
+                  >
+                    This comment is offensive
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-DISAGREE"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="DISAGREE"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-DISAGREE"
+                  >
+                    I disagree with this comment
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="COMMENT_REPORTED_SPAM"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_SPAM"
+                  >
+                    This looks like an ad or marketing
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div
+                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
+                    name="reason"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="COMMENT_REPORTED_OTHER"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="reportComment-popover--reason-COMMENT_REPORTED_OTHER"
+                  >
+                    Other
+                  </label>
+                </div>
+              </li>
+            </ul>
+            <label
+              className="Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
+              htmlFor="comments-reportCommentForm-aditionalDetails--comment-0"
+            >
+              Please leave any additional information that may be helpful to our moderators. (Optional)
+            </label>
+            <div>
+              <div>
+                <textarea
+                  className="ReportCommentForm-textarea"
+                  disabled={false}
+                  id="comments-reportCommentForm-aditionalDetails--comment-0"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  value=""
+                />
+                <p
+                  className="Typography-root Typography-detail Typography-colorTextSecondary ReportCommentForm-textareaInfo"
+                >
+                  Max. 500 Characters
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-justifyFlexEnd Flex-alignCenter"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
+              disabled={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`report comment as offensive 1`] = `
+<div
+  aria-hidden={false}
+  aria-labelledby="report-popover-comment-0-ariainfo"
+  id="report-popover-comment-0"
+  role="popup"
+>
+  <div
+    className="AriaInfo-root"
+    id="report-popover-comment-0-ariainfo"
+  >
+    A dialog for reporting comments
+  </div>
+  <div
+    className="Popover-popover Popover-top"
+    style={
+      Object {
+        "left": 0,
+        "opacity": 0,
+        "pointerEvents": "none",
+        "position": "absolute",
+        "top": 0,
+      }
+    }
+  >
+    <div
+      className="Arrow-root"
+      style={Object {}}
+    />
+    <div
+      className="ReportPopover-root"
+    >
+      <button
+        aria-label="Close Popover"
+        className="BaseButton-root ReportPopover-close"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="Icon-root Icon-sm"
+        >
+          close
+        </span>
+      </button>
+      <div
+        className="HorizontalGutter-root ThankYou-root HorizontalGutter-full"
+      >
+        <h1
+          className="Typography-root Typography-heading2 Typography-colorTextPrimary ThankYou-title"
+        >
+          Thank you!
+        </h1>
+        <div>
+          <p
+            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          >
+            We’ve received your message. Reports from members like you keep the community safe.
+             
+            <button
+              className="BaseButton-root Button-root ThankYou-dismiss Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              Dismiss
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

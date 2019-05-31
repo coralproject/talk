@@ -45,10 +45,13 @@
 }
 
 .secondary {
-  padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2);
+  font-family: var(--font-family-sans-serif);
+  padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2)
+    calc(0.5 * var(--mini-unit) + 3px) calc(var(--mini-unit) * 2);
 
   &.active {
     font-weight: var(--font-weight-medium);
     border-bottom: 3px solid var(--palette-primary-main);
+    padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2);
   }
 }

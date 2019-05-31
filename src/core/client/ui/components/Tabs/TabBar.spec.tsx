@@ -7,9 +7,9 @@ import TabBar from "./TabBar";
 it("renders correctly", () => {
   const renderer = TestRenderer.create(
     <TabBar activeTab="one">
-      <Tab tabId="one">One</Tab>
-      <Tab tabId="two">Two</Tab>
-      <Tab tabId="three">Three</Tab>
+      <Tab tabID="one">One</Tab>
+      <Tab tabID="two">Two</Tab>
+      <Tab tabID="three">Three</Tab>
     </TabBar>
   );
   expect(renderer.toJSON()).toMatchSnapshot();
@@ -18,9 +18,9 @@ it("renders correctly", () => {
 it("sets initial tab as active", () => {
   const renderer = TestRenderer.create(
     <TabBar activeTab="one">
-      <Tab tabId="one">One</Tab>
-      <Tab tabId="two">Two</Tab>
-      <Tab tabId="three">Three</Tab>
+      <Tab tabID="one">One</Tab>
+      <Tab tabID="two">Two</Tab>
+      <Tab tabID="three">Three</Tab>
     </TabBar>
   );
 

@@ -106,12 +106,12 @@ const config: Config = {
       }),
     },
     runServer: {
-      paths: ["locales/**/*.ftl"],
+      paths: ["core/server/locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor("npm run --silent start:development"),
     },
     runServerWithoutClientRoutes: {
-      paths: ["locales/**/*.ftl"],
+      paths: ["core/server/locales/**/*.ftl"],
       ignore: ["core/client/**/*"],
       executor: new LongRunningExecutor(
         "DISABLE_CLIENT_ROUTES=true npm run --silent start:development"

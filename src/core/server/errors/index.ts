@@ -7,6 +7,7 @@ import { VError } from "verror";
 import { ERROR_CODES, ERROR_TYPES } from "coral-common/errors";
 import { translate } from "coral-server/services/i18n";
 
+import { Writeable } from "coral-common/types";
 import { GQLUSER_AUTH_CONDITIONS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ERROR_TRANSLATIONS } from "./translations";
 
@@ -440,6 +441,35 @@ export class InternalError extends CoralError {
       status: 500,
     });
   }
+}
+
+export class InternalDevelopmentError extends CoralError {
+  constructor(cause: Error, reason: string) {
+    super({
+      code: ERROR_CODES.INTERNAL_ERROR,
+      cause,
+      context: { pvt: { reason } },
+      status: 500,
+    });
+  }
+
+  public serializeExtensions(
+    bundle: FluentBundle | null
+  ): CoralErrorExtensions {
+    // Serialize the extensions from the public source.
+    const extensions = super.serializeExtensions(bundle) as Writeable<
+      CoralErrorExtensions
+    >;
+
+    // Push in the internal message for this override.
+    extensions.message = this.cause()!.message;
+
+    return extensions;
+  }
+
+  // public get message() {
+  //   return this.cause()!.message;
+  // }
 }
 
 export class NotFoundError extends CoralError {

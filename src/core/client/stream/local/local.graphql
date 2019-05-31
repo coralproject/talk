@@ -6,6 +6,12 @@ enum View {
 
 enum Tab {
   COMMENTS
+  PROFILE
+}
+
+enum ProfileTab {
+  MY_COMMENTS
+  SETTINGS
 }
 
 type AuthPopup {
@@ -33,6 +39,8 @@ type Local {
   storyURL: String
   commentID: String
   defaultStreamOrderBy: COMMENT_SORT!
+  profileTab: ProfileTab!
+  bla: [String]
 }
 
 extend type Query {
