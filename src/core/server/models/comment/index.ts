@@ -27,6 +27,8 @@ import {
 } from "coral-server/models/helpers/indexing";
 import Query from "coral-server/models/helpers/query";
 import { TenantResource } from "coral-server/models/tenant";
+import { VISIBLE_STATUSES } from "./constants";
+import { hasAncestors } from "./helpers";
 import { CommentTag } from "./tag";
 
 function collection(mongo: Db) {
@@ -70,13 +72,19 @@ export interface Comment extends TenantResource {
   readonly id: string;
 
   /**
-   * parentID stores the ID of a parent Comment if this Comment is a reply.
+   * ancestorIDs stores all the ancestor ID's, with the direct parent being
+   * first.
+   */
+  ancestorIDs: string[];
+
+  /**
+   * parentID is the ID of the parent Comment if this Comment is a reply.
    */
   parentID?: string;
 
   /**
-   * parentRevisionID is the ID of the Revision on the parent Comment that this
-   * was a reply to.
+   * parentRevisionID is the ID of the Revision on the Comment referenced by the
+   * `parentID`.
    */
   parentRevisionID?: string;
 
@@ -108,16 +116,9 @@ export interface Comment extends TenantResource {
   actionCounts: EncodedCommentActionCounts;
 
   /**
-   * grandparentIDs stores all the ID's of all the Comment's that came before.
-   * This prevents the need for performing multiple queries to retrieve the
-   * Comment ancestors.
+   * childIDs are the ID's of all the Comment's that are direct replies.
    */
-  grandparentIDs: string[];
-
-  /**
-   * replyIDs are the ID's of all the Comment's that are direct replies.
-   */
-  replyIDs: string[];
+  childIDs: string[];
 
   /**
    * tags are CommentTag's on a specific Comment to be showcased with the
@@ -126,11 +127,11 @@ export interface Comment extends TenantResource {
   tags: CommentTag[];
 
   /**
-   * replyCount is the count of direct replies. It is stored as a separate value
-   * here even though the replyIDs field technically contained the same data in
+   * childCount is the count of direct replies. It is stored as a separate value
+   * here even though the childIDs field technically contained the same data in
    * it's length because we needed to sort by this field sometimes.
    */
-  replyCount: number;
+  childCount: number;
 
   /**
    * metadata stores the deep Comment properties.
@@ -158,7 +159,7 @@ export async function createCommentIndexes(mongo: Db) {
   const variants = createConnectionOrderVariants<Readonly<Comment>>([
     { createdAt: -1 },
     { createdAt: 1 },
-    { replyCount: -1, createdAt: -1 },
+    { childCount: -1, createdAt: -1 },
     { "actionCounts.REACTION": -1, createdAt: -1 },
   ]);
 
@@ -209,8 +210,8 @@ export type CreateCommentInput = Omit<
   | "id"
   | "tenantID"
   | "createdAt"
-  | "replyIDs"
-  | "replyCount"
+  | "childIDs"
+  | "childCount"
   | "actionCounts"
   | "revisions"
   | "deletedAt"
@@ -240,8 +241,8 @@ export async function createComment(
   const defaults: Sub<Comment, CreateCommentInput> = {
     id: uuid.v4(),
     tenantID,
-    replyIDs: [],
-    replyCount: 0,
+    childIDs: [],
+    childCount: 0,
     revisions: [revision],
     createdAt: now,
   };
@@ -279,8 +280,8 @@ export async function pushChildCommentIDOntoParent(
       id: parentID,
     },
     {
-      $push: { replyIDs: childID },
-      $inc: { replyCount: 1 },
+      $push: { childIDs: childID },
+      $inc: { childCount: 1 },
     }
   );
 
@@ -533,7 +534,7 @@ export async function retrieveCommentParentsConnection(
   { last: limit, before: skip = 0 }: { last: number; before?: number }
 ): Promise<Readonly<Connection<Readonly<Comment>>>> {
   // Return nothing if this comment does not have any parents.
-  if (!comment.parentID) {
+  if (!hasAncestors(comment)) {
     return createConnection({
       pageInfo: {
         hasNextPage: false,
@@ -548,41 +549,18 @@ export async function retrieveCommentParentsConnection(
     return createConnection({
       pageInfo: {
         hasNextPage: false,
-        hasPreviousPage: !!comment.parentID,
+        hasPreviousPage: true,
         endCursor: 0,
         startCursor: 0,
       },
     });
   }
 
-  // If the last paramter is 1, and the after paramter is either unset or equal
-  // to zero, then all we have to return is the direct parent.
-  if (limit === 1 && skip <= 0) {
-    const parent = await retrieveComment(mongo, tenantID, comment.parentID);
-    if (!parent) {
-      throw new Error("parent comment not found");
-    }
-
-    return {
-      edges: [{ node: parent, cursor: 1 }],
-      nodes: [parent],
-      pageInfo: {
-        hasNextPage: false,
-        hasPreviousPage: comment.grandparentIDs.length > 0,
-        endCursor: 1,
-        startCursor: 1,
-      },
-    };
-  }
-
-  // Create a list of all the comment parent ids, in reverse order.
-  const parentIDs = [comment.parentID, ...comment.grandparentIDs.reverse()];
-
   // Fetch the subset of the comment id's that we are going to query for.
-  const parentIDSubset = parentIDs.slice(skip, skip + limit);
+  const ancestorIDs = comment.ancestorIDs.slice(skip, skip + limit);
 
   // Retrieve the parents via the subset list.
-  const nodes = await retrieveManyComments(mongo, tenantID, parentIDSubset);
+  const nodes = await retrieveManyComments(mongo, tenantID, ancestorIDs);
 
   // Loop over the list to ensure that none of the entries is null (indicating
   // that there was a misplaced parent). We can assert the type here because we
@@ -604,7 +582,7 @@ export async function retrieveCommentParentsConnection(
     nodes,
     pageInfo: {
       hasNextPage: false,
-      hasPreviousPage: parentIDs.length > limit + skip,
+      hasPreviousPage: comment.ancestorIDs.length > limit + skip,
       startCursor: edges.length > 0 ? edges[0].cursor : null,
       endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null,
     },
@@ -671,14 +649,7 @@ export const retrieveVisibleCommentConnection = (
   mongo: Db,
   tenantID: string,
   input: CommentConnectionInput
-) =>
-  retrieveStatusCommentConnection(
-    mongo,
-    tenantID,
-    // Only get Comment's that are visible.
-    [GQLCOMMENT_STATUS.NONE, GQLCOMMENT_STATUS.ACCEPTED],
-    input
-  );
+) => retrieveStatusCommentConnection(mongo, tenantID, VISIBLE_STATUSES, input);
 
 /**
  * retrieveStatusCommentConnection will retrieve a connection that contains
