@@ -1,4 +1,5 @@
 import * as React from "react";
+import { _RefType } from "react-relay";
 import {
   compose,
   hoistStatics,
@@ -13,23 +14,12 @@ import {
   GraphQLTaggedNode,
 } from "relay-runtime";
 
-import { _RefType } from "react-relay";
 import { withContext } from "../bootstrap";
+import { LOCAL_ID, LOCAL_TYPE } from "./localState";
 
 interface Props {
   relayEnvironment: Environment;
 }
-
-/**
- * The Root Record of Client-Side Schema Extension must be of this type.
- */
-export const LOCAL_TYPE = "Local";
-
-/**
- * The Root Record of Client-Side Schema Extension must have this id.
- */
-export const LOCAL_ID = "client:root.local";
-
 /**
  * withLocalStateContainer allows for subscribing to local state
  * that has been added using Client-Side Schema Extensions.
