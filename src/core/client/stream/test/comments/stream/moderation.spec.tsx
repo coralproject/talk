@@ -1,0 +1,135 @@
+import { pureMerge } from "coral-common/utils";
+import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
+import {
+  createResolversStub,
+  CreateTestRendererParams,
+  waitForElement,
+  within,
+} from "coral-framework/testHelpers";
+
+import { moderators, settings, stories } from "../../fixtures";
+import create from "../create";
+
+const story = stories[0];
+const firstComment = story.comments.edges[0].node;
+const viewer = moderators[0];
+
+async function createTestRenderer(
+  params: CreateTestRendererParams<GQLResolver> = {}
+) {
+  const { testRenderer, context } = create({
+    ...params,
+    resolvers: pureMerge(
+      createResolversStub<GQLResolver>({
+        Query: {
+          settings: () => settings,
+          viewer: () => viewer,
+          story: () => story,
+        },
+      }),
+      params.resolvers
+    ),
+    initLocalState: (localRecord, source, environment) => {
+      localRecord.setValue(story.id, "storyID");
+      localRecord.setValue(true, "loggedIn");
+      if (params.initLocalState) {
+        params.initLocalState(localRecord, source, environment);
+      }
+    },
+  });
+
+  const tabPane = await waitForElement(() =>
+    within(testRenderer.root).getByTestID("current-tab-pane")
+  );
+
+  return {
+    testRenderer,
+    context,
+    tabPane,
+  };
+}
+
+it("render go to moderate link", async () => {
+  const { testRenderer } = await createTestRenderer();
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  );
+  const caretButton = within(comment).getByLabelText("Moderate");
+  caretButton.props.onClick();
+  const link = within(comment).getByText("Go to Moderate", {
+    selector: "a",
+    exact: false,
+  });
+  expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
+});
+
+it("accept comment", async () => {
+  const { testRenderer } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        acceptComment: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            commentID: firstComment.id,
+            commentRevisionID: firstComment.revision.id,
+          });
+          return {
+            comment: pureMerge<typeof firstComment>(firstComment, {
+              status: GQLCOMMENT_STATUS.ACCEPTED,
+            }),
+          };
+        },
+      },
+    }),
+  });
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  );
+  const caretButton = within(comment).getByLabelText("Moderate");
+  caretButton.props.onClick();
+  const approveButton = within(comment).getByText("Approve", {
+    selector: "button",
+  });
+  approveButton.props.onClick();
+  await waitForElement(() =>
+    within(comment).getByText("Approved", { exact: false })
+  );
+});
+
+it("reject comment", async () => {
+  const { testRenderer, tabPane } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        rejectComment: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            commentID: firstComment.id,
+            commentRevisionID: firstComment.revision.id,
+          });
+          return {
+            comment: pureMerge<typeof firstComment>(firstComment, {
+              status: GQLCOMMENT_STATUS.REJECTED,
+            }),
+          };
+        },
+      },
+    }),
+  });
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  );
+  const caretButton = within(comment).getByLabelText("Moderate");
+  caretButton.props.onClick();
+  const rejectButton = within(comment).getByText("Reject", {
+    selector: "button",
+  });
+  rejectButton.props.onClick();
+  await waitForElement(() =>
+    within(tabPane).getByText("You have rejected this comment", {
+      exact: false,
+    })
+  );
+  const link = within(tabPane).getByText(
+    "Go to Moderate to review this decision",
+    { selector: "a", exact: false }
+  );
+  expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
+});

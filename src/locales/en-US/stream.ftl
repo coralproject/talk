@@ -113,6 +113,8 @@ comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
 comments-moderationDropdown-goToModerate = Go to Moderate
+comments-moderationDropdown-caretButton =
+  .aria-label = Moderate
 
 comments-rejectedTombstone =
   You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>

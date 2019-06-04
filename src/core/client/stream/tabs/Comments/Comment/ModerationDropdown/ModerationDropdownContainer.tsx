@@ -17,17 +17,19 @@ import RejectCommentMutation from "./RejectCommentMutation";
 
 interface Props {
   comment: CommentData;
+  onDismiss: () => void;
 }
 
-const ModerationDropdownContainer: FunctionComponent<Props> = ({ comment }) => {
+const ModerationDropdownContainer: FunctionComponent<Props> = ({
+  comment,
+  onDismiss,
+}) => {
   const accept = useMutation(AcceptCommentMutation);
   const reject = useMutation(RejectCommentMutation);
 
-  const onAccept = useCallback(
-    () =>
-      accept({ commentID: comment.id, commentRevisionID: comment.revision.id }),
-    [accept, comment]
-  );
+  const onAccept = useCallback(() => {
+    accept({ commentID: comment.id, commentRevisionID: comment.revision.id });
+  }, [accept, comment]);
   const onReject = useCallback(
     () =>
       reject({ commentID: comment.id, commentRevisionID: comment.revision.id }),

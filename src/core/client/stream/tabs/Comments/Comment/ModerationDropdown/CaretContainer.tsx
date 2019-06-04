@@ -27,22 +27,31 @@ const CaretContainer: FunctionComponent<Props> = props => {
         description="A popover menu to moderate the comment"
         body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
-            <ModerationDropdownContainer comment={props.comment} />
+            <ModerationDropdownContainer
+              comment={props.comment}
+              onDismiss={toggleVisibility}
+            />
           </ClickOutside>
         )}
       >
         {({ toggleVisibility, visible, ref }) => (
-          <Button
-            variant="ghost"
-            size="small"
-            className={styles.root}
-            onClick={toggleVisibility}
-            aria-controls={popoverID}
-            active={visible}
-            ref={ref}
+          <Localized
+            id="comments-moderationDropdown-caretButton"
+            attrs={{ "aria-label": true }}
           >
-            <Icon>{visible ? "expand_less" : "expand_more"}</Icon>
-          </Button>
+            <Button
+              variant="ghost"
+              size="small"
+              className={styles.root}
+              onClick={toggleVisibility}
+              aria-controls={popoverID}
+              active={visible}
+              ref={ref}
+              aria-label="Moderate"
+            >
+              <Icon>{visible ? "expand_less" : "expand_more"}</Icon>
+            </Button>
+          </Localized>
         )}
       </Popover>
     </Localized>
