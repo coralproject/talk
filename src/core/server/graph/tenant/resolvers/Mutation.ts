@@ -83,8 +83,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     story: await ctx.mutators.Stories.scrape(input),
     clientMutationId: input.clientMutationId,
   }),
-  acceptComment: async (source, { input }, ctx) => ({
-    comment: await ctx.mutators.Actions.acceptComment(input),
+  approveComment: async (source, { input }, ctx) => ({
+    comment: await ctx.mutators.Actions.approveComment(input),
     clientMutationId: input.clientMutationId,
   }),
   rejectComment: async (source, { input }, ctx) => ({

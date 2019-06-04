@@ -196,7 +196,7 @@ export const moderationActions = createFixtures<GQLCommentModerationAction>([
       },
     },
     createdAt: "2018-11-29T16:01:51.897Z",
-    status: GQLCOMMENT_STATUS.ACCEPTED,
+    status: GQLCOMMENT_STATUS.APPROVED,
     __typename: "CommentModerationAction",
   },
   {
@@ -228,7 +228,7 @@ export const moderationActions = createFixtures<GQLCommentModerationAction>([
       },
     },
     createdAt: "2018-11-29T16:01:42.060Z",
-    status: GQLCOMMENT_STATUS.ACCEPTED,
+    status: GQLCOMMENT_STATUS.APPROVED,
     __typename: "CommentModerationAction",
   },
   {
@@ -260,7 +260,7 @@ export const moderationActions = createFixtures<GQLCommentModerationAction>([
       },
     },
     createdAt: "2018-11-29T16:01:30.648Z",
-    status: GQLCOMMENT_STATUS.ACCEPTED,
+    status: GQLCOMMENT_STATUS.APPROVED,
     __typename: "CommentModerationAction",
   },
 ]);

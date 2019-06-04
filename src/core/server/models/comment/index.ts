@@ -305,7 +305,7 @@ export type EditCommentInput = Pick<
 const EDITABLE_STATUSES = [
   GQLCOMMENT_STATUS.NONE,
   GQLCOMMENT_STATUS.PREMOD,
-  GQLCOMMENT_STATUS.ACCEPTED,
+  GQLCOMMENT_STATUS.APPROVED,
 ];
 
 export function validateEditable(

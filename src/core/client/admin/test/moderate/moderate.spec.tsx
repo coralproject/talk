@@ -6,7 +6,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLResolver,
   ModerationQueueToCommentsResolver,
-  MutationToAcceptCommentResolver,
+  MutationToApproveCommentResolver,
   MutationToRejectCommentResolver,
   QueryToCommentResolver,
 } from "coral-framework/schema";
@@ -590,9 +590,9 @@ describe("reported queue", () => {
     ).toMatchSnapshot();
   });
 
-  it("accepts comment in reported queue", async () => {
-    const acceptCommentStub = createMutationResolverStub<
-      MutationToAcceptCommentResolver
+  it("approves comment in reported queue", async () => {
+    const approveCommentStub = createMutationResolverStub<
+      MutationToApproveCommentResolver
     >(({ variables }) => {
       expectAndFail(variables).toMatchObject({
         commentID: reportedComments[0].id,
@@ -601,7 +601,7 @@ describe("reported queue", () => {
       return {
         comment: {
           id: reportedComments[0].id,
-          status: GQLCOMMENT_STATUS.ACCEPTED,
+          status: GQLCOMMENT_STATUS.APPROVED,
         },
         moderationQueues: pureMerge(emptyModerationQueues, {
           reported: {
@@ -644,7 +644,7 @@ describe("reported queue", () => {
           moderationQueues: () => moderationQueuesStub,
         },
         Mutation: {
-          acceptComment: acceptCommentStub,
+          approveComment: approveCommentStub,
         },
       }),
     });
@@ -653,10 +653,10 @@ describe("reported queue", () => {
     const { getByTestID } = within(testRenderer.root);
     const comment = await waitForElement(() => getByTestID(testID));
 
-    const AcceptButton = await waitForElement(() =>
-      within(comment).getByLabelText("Accept")
+    const ApproveButton = await waitForElement(() =>
+      within(comment).getByLabelText("Approve")
     );
-    AcceptButton.props.onClick();
+    ApproveButton.props.onClick();
 
     // Snapshot dangling state of comment.
     expect(toJSON(comment)).toMatchSnapshot("dangling");
@@ -664,7 +664,7 @@ describe("reported queue", () => {
     // Wait until comment is gone.
     await waitUntilThrow(() => getByTestID(testID));
 
-    expect(acceptCommentStub.called).toBe(true);
+    expect(approveCommentStub.called).toBe(true);
 
     // Count should have been updated.
     expect(
@@ -923,9 +923,9 @@ describe("rejected queue", () => {
     ).toMatchSnapshot();
   });
 
-  it("accepts comment in rejected queue", async () => {
-    const acceptCommentStub = createMutationResolverStub<
-      MutationToAcceptCommentResolver
+  it("approves comment in rejected queue", async () => {
+    const approveCommentStub = createMutationResolverStub<
+      MutationToApproveCommentResolver
     >(({ variables }) => {
       expectAndFail(variables).toMatchObject({
         commentID: rejectedComments[0].id,
@@ -934,7 +934,7 @@ describe("rejected queue", () => {
       return {
         comment: {
           id: rejectedComments[0].id,
-          status: GQLCOMMENT_STATUS.ACCEPTED,
+          status: GQLCOMMENT_STATUS.APPROVED,
         },
         moderationQueues: pureMerge(emptyModerationQueues, {
           reported: {
@@ -972,7 +972,7 @@ describe("rejected queue", () => {
           },
         },
         Mutation: {
-          acceptComment: acceptCommentStub,
+          approveComment: approveCommentStub,
         },
       }),
     });
@@ -981,10 +981,10 @@ describe("rejected queue", () => {
     const { getByTestID } = within(testRenderer.root);
     const comment = await waitForElement(() => getByTestID(testID));
 
-    const AcceptButton = await waitForElement(() =>
-      within(comment).getByLabelText("Accept")
+    const ApproveButton = await waitForElement(() =>
+      within(comment).getByLabelText("Approve")
     );
-    AcceptButton.props.onClick();
+    ApproveButton.props.onClick();
 
     // Snapshot dangling state of comment.
     expect(toJSON(getByTestID(testID))).toMatchSnapshot("dangling");
@@ -992,7 +992,7 @@ describe("rejected queue", () => {
     // Wait until comment is gone.
     await waitUntilThrow(() => getByTestID(testID));
 
-    expect(acceptCommentStub.called).toBe(true);
+    expect(approveCommentStub.called).toBe(true);
 
     // Count should have been updated.
     expect(
@@ -1031,9 +1031,9 @@ describe("single comment view", () => {
     expect(toJSON(container)).toMatchSnapshot();
   });
 
-  it("accepts single comment", async () => {
-    const acceptCommentStub = createMutationResolverStub<
-      MutationToAcceptCommentResolver
+  it("approves single comment", async () => {
+    const approveCommentStub = createMutationResolverStub<
+      MutationToApproveCommentResolver
     >(({ variables }) => {
       expectAndFail(variables).toMatchObject({
         commentID: comment.id,
@@ -1042,7 +1042,7 @@ describe("single comment view", () => {
       return {
         comment: {
           id: comment.id,
-          status: GQLCOMMENT_STATUS.ACCEPTED,
+          status: GQLCOMMENT_STATUS.APPROVED,
         },
         moderationQueues: emptyModerationQueues,
       };
@@ -1054,20 +1054,20 @@ describe("single comment view", () => {
           comment: commentStub,
         },
         Mutation: {
-          acceptComment: acceptCommentStub,
+          approveComment: approveCommentStub,
         },
       },
     });
 
     const { getByLabelText, getByTestID } = within(testRenderer.root);
-    const AcceptButton = await waitForElement(() => getByLabelText("Accept"));
-    AcceptButton.props.onClick();
+    const ApproveButton = await waitForElement(() => getByLabelText("Approve"));
+    ApproveButton.props.onClick();
 
     expect(
       toJSON(getByTestID(`moderate-comment-${comment.id}`))
     ).toMatchSnapshot();
 
-    expect(acceptCommentStub.called).toBe(true);
+    expect(approveCommentStub.called).toBe(true);
   });
 
   it("rejects single comment", async () => {

@@ -2,7 +2,7 @@ import Cursor from "coral-server/graph/common/scalars/cursor";
 import Time from "coral-server/graph/common/scalars/time";
 import { GQLResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import { AcceptCommentPayload } from "./AcceptCommentPayload";
+import { ApproveCommentPayload } from "./ApproveCommentPayload";
 import { AuthIntegrations } from "./AuthIntegrations";
 import { BanStatus } from "./BanStatus";
 import { BanStatusHistory } from "./BanStatusHistory";
@@ -31,7 +31,7 @@ import { User } from "./User";
 import { UserStatus } from "./UserStatus";
 
 const Resolvers: GQLResolver = {
-  AcceptCommentPayload,
+  ApproveCommentPayload,
   AuthIntegrations,
   BanStatus,
   BanStatusHistory,

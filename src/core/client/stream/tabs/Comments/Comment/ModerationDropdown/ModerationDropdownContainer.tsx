@@ -11,7 +11,7 @@ import {
   Icon,
 } from "coral-ui/components";
 
-import AcceptCommentMutation from "./AcceptCommentMutation";
+import ApproveCommentMutation from "./ApproveCommentMutation";
 import styles from "./ModerationDropdownContainer.css";
 import RejectCommentMutation from "./RejectCommentMutation";
 
@@ -24,24 +24,24 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   comment,
   onDismiss,
 }) => {
-  const accept = useMutation(AcceptCommentMutation);
+  const approve = useMutation(ApproveCommentMutation);
   const reject = useMutation(RejectCommentMutation);
 
-  const onAccept = useCallback(() => {
-    accept({ commentID: comment.id, commentRevisionID: comment.revision.id });
-  }, [accept, comment]);
+  const onApprove = useCallback(() => {
+    approve({ commentID: comment.id, commentRevisionID: comment.revision.id });
+  }, [approve, comment]);
   const onReject = useCallback(
     () =>
       reject({ commentID: comment.id, commentRevisionID: comment.revision.id }),
-    [accept, comment]
+    [approve, comment]
   );
 
-  const accepted = comment.status === "ACCEPTED";
+  const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
 
   return (
     <Dropdown>
-      {accepted ? (
+      {approved ? (
         <Localized id="comments-moderationDropdown-approved">
           <DropdownButton
             icon={<Icon className={styles.approved}>check</Icon>}
@@ -53,7 +53,7 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
         </Localized>
       ) : (
         <Localized id="comments-moderationDropdown-approve">
-          <DropdownButton icon={<Icon>check</Icon>} onClick={onAccept}>
+          <DropdownButton icon={<Icon>check</Icon>} onClick={onApprove}>
             Approve
           </DropdownButton>
         </Localized>

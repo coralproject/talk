@@ -7,14 +7,14 @@ exports[`renders correctly 1`] = `
       "aria-label": true,
     }
   }
-  id="moderate-comment-acceptButton"
+  id="moderate-comment-approveButton"
 >
   <ForwardRef(forwardRef)
-    aria-label="Accept"
-    className="AcceptButton-root"
+    aria-label="Approve"
+    className="ApproveButton-root"
   >
     <ForwardRef(forwardRef)
-      className="AcceptButton-icon"
+      className="ApproveButton-icon"
       size="lg"
     >
       done
@@ -30,14 +30,14 @@ exports[`renders correctly inverted 1`] = `
       "aria-label": true,
     }
   }
-  id="moderate-comment-acceptButton"
+  id="moderate-comment-approveButton"
 >
   <ForwardRef(forwardRef)
-    aria-label="Accept"
-    className="AcceptButton-root AcceptButton-invert"
+    aria-label="Approve"
+    className="ApproveButton-root ApproveButton-invert"
   >
     <ForwardRef(forwardRef)
-      className="AcceptButton-icon"
+      className="ApproveButton-icon"
       size="lg"
     >
       done

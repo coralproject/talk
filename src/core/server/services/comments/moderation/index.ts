@@ -16,7 +16,7 @@ import { calculateCountsDiff } from "./counts";
 export type Moderate = Omit<CreateCommentModerationActionInput, "status">;
 
 const moderate = (
-  status: GQLCOMMENT_STATUS.ACCEPTED | GQLCOMMENT_STATUS.REJECTED
+  status: GQLCOMMENT_STATUS.APPROVED | GQLCOMMENT_STATUS.REJECTED
 ) => async (
   mongo: Db,
   redis: AugmentedRedis,
@@ -98,6 +98,6 @@ const moderate = (
   return result.comment;
 };
 
-export const accept = moderate(GQLCOMMENT_STATUS.ACCEPTED);
+export const approve = moderate(GQLCOMMENT_STATUS.APPROVED);
 
 export const reject = moderate(GQLCOMMENT_STATUS.REJECTED);

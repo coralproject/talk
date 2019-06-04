@@ -2,10 +2,10 @@ import React, { FunctionComponent } from "react";
 
 import { Icon } from "coral-ui/components";
 
-import styles from "./AcceptedIcon.css";
+import styles from "./ApprovedIcon.css";
 
-const AcceptedIcon: FunctionComponent = () => (
+const ApprovedIcon: FunctionComponent = () => (
   <Icon className={styles.root}>check</Icon>
 );
 
-export default AcceptedIcon;
+export default ApprovedIcon;

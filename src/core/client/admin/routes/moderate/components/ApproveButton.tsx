@@ -5,24 +5,24 @@ import React, { FunctionComponent } from "react";
 import { PropTypesOf } from "coral-framework/types";
 import { BaseButton, Icon } from "coral-ui/components";
 
-import styles from "./AcceptButton.css";
+import styles from "./ApproveButton.css";
 
 interface Props extends PropTypesOf<typeof BaseButton> {
   invert?: boolean;
 }
 
-const AcceptButton: FunctionComponent<Props> = ({
+const ApproveButton: FunctionComponent<Props> = ({
   invert,
   className,
   ...rest
 }) => (
-  <Localized id="moderate-comment-acceptButton" attrs={{ "aria-label": true }}>
+  <Localized id="moderate-comment-approveButton" attrs={{ "aria-label": true }}>
     <BaseButton
       {...rest}
       className={cn(className, styles.root, {
         [styles.invert]: invert,
       })}
-      aria-label="Accept"
+      aria-label="Approve"
     >
       <Icon size="lg" className={styles.icon}>
         done
@@ -31,4 +31,4 @@ const AcceptButton: FunctionComponent<Props> = ({
   </Localized>
 );
 
-export default AcceptButton;
+export default ApproveButton;

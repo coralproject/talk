@@ -25,7 +25,7 @@ describe("compose", () => {
   });
 
   it("handles when it returns a status", async () => {
-    const status = GQLCOMMENT_STATUS.ACCEPTED;
+    const status = GQLCOMMENT_STATUS.APPROVED;
     const enhanced = compose([() => ({ status })]);
 
     await expect(enhanced(context)).resolves.toEqual({
@@ -38,7 +38,7 @@ describe("compose", () => {
   });
 
   it("merges the metadata", async () => {
-    const status = GQLCOMMENT_STATUS.ACCEPTED;
+    const status = GQLCOMMENT_STATUS.APPROVED;
     const enhanced = compose([
       () => ({ metadata: { first: true } }),
       () => ({ status, metadata: { second: true } }),
@@ -55,7 +55,7 @@ describe("compose", () => {
   });
 
   it("merges actions", async () => {
-    const status = GQLCOMMENT_STATUS.ACCEPTED;
+    const status = GQLCOMMENT_STATUS.APPROVED;
 
     const flags = [
       {

@@ -1,6 +1,6 @@
 export { default as SignInMutation } from "./SignInMutation";
 export { default as SetRedirectPathMutation } from "./SetRedirectPathMutation";
-export { default as AcceptCommentMutation } from "./AcceptCommentMutation";
+export { default as ApproveCommentMutation } from "./ApproveCommentMutation";
 export { default as RejectCommentMutation } from "./RejectCommentMutation";
 export { default as UpdateSettingsMutation } from "./UpdateSettingsMutation";
 export {

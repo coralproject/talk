@@ -7,7 +7,7 @@ const buildOptions = (inputOptions: RequestInit = {}) => {
   const defaultOptions: RequestInit = {
     method: "GET",
     headers: {
-      Accept: "application/json",
+      Approve: "application/json",
       "Content-Type": "application/json",
     },
     credentials: "same-origin",

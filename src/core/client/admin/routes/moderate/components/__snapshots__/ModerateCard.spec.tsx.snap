@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders accepted correctly 1`] = `
+exports[`renders approved correctly 1`] = `
 <withPropsOnChange(Card)
   className="ModerateCard-root"
   data-testid="moderate-comment-comment-id"
@@ -86,7 +86,7 @@ exports[`renders accepted correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-        <AcceptButton
+        <ApproveButton
           disabled={true}
           invert={true}
           onClick={[Function]}
@@ -183,7 +183,7 @@ exports[`renders correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-        <AcceptButton
+        <ApproveButton
           invert={false}
           onClick={[Function]}
         />
@@ -280,7 +280,7 @@ exports[`renders dangling correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-        <AcceptButton
+        <ApproveButton
           disabled={true}
           invert={false}
           onClick={[Function]}
@@ -378,7 +378,7 @@ exports[`renders rejected correctly 1`] = `
           invert={true}
           onClick={[Function]}
         />
-        <AcceptButton
+        <ApproveButton
           invert={false}
           onClick={[Function]}
         />
@@ -479,7 +479,7 @@ exports[`renders reply correctly 1`] = `
           invert={false}
           onClick={[Function]}
         />
-        <AcceptButton
+        <ApproveButton
           invert={false}
           onClick={[Function]}
         />
@@ -604,7 +604,7 @@ exports[`renders story info 1`] = `
           invert={false}
           onClick={[Function]}
         />
-        <AcceptButton
+        <ApproveButton
           invert={false}
           onClick={[Function]}
         />

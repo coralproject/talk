@@ -1,11 +1,11 @@
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { calculateCountsDiff } from "./counts";
 
-it("allows transition from NONE to ACCEPTED", () => {
+it("allows transition from NONE to APPROVED", () => {
   expect(
     calculateCountsDiff(
       { status: GQLCOMMENT_STATUS.NONE, actionCounts: {} },
-      { status: GQLCOMMENT_STATUS.ACCEPTED, actionCounts: {} }
+      { status: GQLCOMMENT_STATUS.APPROVED, actionCounts: {} }
     )
   ).toEqual({
     total: -1,
@@ -49,11 +49,11 @@ it("allows transition from NONE to FLAGGED*", () => {
   });
 });
 
-it("allows transition from FLAGGED* to ACCEPTED", () => {
+it("allows transition from FLAGGED* to APPROVED", () => {
   expect(
     calculateCountsDiff(
       { status: GQLCOMMENT_STATUS.NONE, actionCounts: { FLAG: 1 } },
-      { status: GQLCOMMENT_STATUS.ACCEPTED, actionCounts: { FLAG: 1 } }
+      { status: GQLCOMMENT_STATUS.APPROVED, actionCounts: { FLAG: 1 } }
     )
   ).toEqual({
     total: -1,
@@ -81,11 +81,11 @@ it("allows transition from FLAGGED* to REJECTED", () => {
   });
 });
 
-it("allows transition from PREMOD to ACCEPTED", () => {
+it("allows transition from PREMOD to APPROVED", () => {
   expect(
     calculateCountsDiff(
       { status: GQLCOMMENT_STATUS.PREMOD, actionCounts: {} },
-      { status: GQLCOMMENT_STATUS.ACCEPTED, actionCounts: {} }
+      { status: GQLCOMMENT_STATUS.APPROVED, actionCounts: {} }
     )
   ).toEqual({
     total: -1,
@@ -113,11 +113,11 @@ it("allows transition from PREMOD to REJECTED", () => {
   });
 });
 
-it("allows transition from SYSTEM_WITHHELD to ACCEPTED", () => {
+it("allows transition from SYSTEM_WITHHELD to APPROVED", () => {
   expect(
     calculateCountsDiff(
       { status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD, actionCounts: {} },
-      { status: GQLCOMMENT_STATUS.ACCEPTED, actionCounts: {} }
+      { status: GQLCOMMENT_STATUS.APPROVED, actionCounts: {} }
     )
   ).toEqual({
     total: -1,
@@ -145,10 +145,10 @@ it("allows transition from SYSTEM_WITHHELD to REJECTED", () => {
   });
 });
 
-it("allows transition from ACCEPTED to REJECTED", () => {
+it("allows transition from APPROVED to REJECTED", () => {
   expect(
     calculateCountsDiff(
-      { status: GQLCOMMENT_STATUS.ACCEPTED, actionCounts: {} },
+      { status: GQLCOMMENT_STATUS.APPROVED, actionCounts: {} },
       { status: GQLCOMMENT_STATUS.REJECTED, actionCounts: {} }
     )
   ).toEqual({
@@ -161,11 +161,11 @@ it("allows transition from ACCEPTED to REJECTED", () => {
   });
 });
 
-it("allows transition from REJECTED to ACCEPTED", () => {
+it("allows transition from REJECTED to APPROVED", () => {
   expect(
     calculateCountsDiff(
       { status: GQLCOMMENT_STATUS.REJECTED, actionCounts: {} },
-      { status: GQLCOMMENT_STATUS.ACCEPTED, actionCounts: {} }
+      { status: GQLCOMMENT_STATUS.APPROVED, actionCounts: {} }
     )
   ).toEqual({
     total: 0,

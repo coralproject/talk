@@ -8,7 +8,7 @@ import {
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
 import { ModerateCardContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { AcceptCommentMutation } from "coral-admin/mutations";
+import { ApproveCommentMutation } from "coral-admin/mutations";
 import { RejectCommentMutation } from "coral-admin/mutations";
 import {
   MutationProp,
@@ -22,7 +22,7 @@ import ModerateCard from "../components/ModerateCard";
 interface Props {
   comment: CommentData;
   settings: SettingsData;
-  acceptComment: MutationProp<typeof AcceptCommentMutation>;
+  approveComment: MutationProp<typeof ApproveCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
@@ -32,8 +32,8 @@ interface Props {
 
 function getStatus(comment: CommentData) {
   switch (comment.status) {
-    case "ACCEPTED":
-      return "accepted";
+    case "APPROVED":
+      return "approved";
     case "REJECTED":
       return "rejected";
     default:
@@ -42,8 +42,8 @@ function getStatus(comment: CommentData) {
 }
 
 class ModerateCardContainer extends React.Component<Props> {
-  private handleAccept = () => {
-    this.props.acceptComment({
+  private handleApprove = () => {
+    this.props.approveComment({
       commentID: this.props.comment.id,
       commentRevisionID: this.props.comment.revision.id,
       storyID: this.props.match.params.storyID,
@@ -81,7 +81,7 @@ class ModerateCardContainer extends React.Component<Props> {
         viewContextHref={comment.permalink}
         suspectWords={settings.wordList.suspect}
         bannedWords={settings.wordList.banned}
-        onAccept={this.handleAccept}
+        onApprove={this.handleApprove}
         onReject={this.handleReject}
         dangling={danglingLogic(comment.status)}
         showStory={showStoryInfo}
@@ -135,7 +135,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
 })(
   withRouter(
-    withMutation(AcceptCommentMutation)(
+    withMutation(ApproveCommentMutation)(
       withMutation(RejectCommentMutation)(ModerateCardContainer)
     )
   )

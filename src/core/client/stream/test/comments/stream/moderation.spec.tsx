@@ -63,18 +63,18 @@ it("render go to moderate link", async () => {
   expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
 });
 
-it("accept comment", async () => {
+it("approve comment", async () => {
   const { testRenderer } = await createTestRenderer({
     resolvers: createResolversStub<GQLResolver>({
       Mutation: {
-        acceptComment: ({ variables }) => {
+        approveComment: ({ variables }) => {
           expectAndFail(variables).toMatchObject({
             commentID: firstComment.id,
             commentRevisionID: firstComment.revision.id,
           });
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
-              status: GQLCOMMENT_STATUS.ACCEPTED,
+              status: GQLCOMMENT_STATUS.APPROVED,
             }),
           };
         },

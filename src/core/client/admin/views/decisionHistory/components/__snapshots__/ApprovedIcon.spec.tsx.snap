@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <ForwardRef(forwardRef)
-  className="AcceptedIcon-root"
+  className="ApprovedIcon-root"
 >
   check
 </ForwardRef(forwardRef)>

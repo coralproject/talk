@@ -38,7 +38,7 @@ export async function createStoryCountIndexes(mongo: Db) {
  * statuses.
  */
 export interface CommentStatusCounts {
-  [GQLCOMMENT_STATUS.ACCEPTED]: number;
+  [GQLCOMMENT_STATUS.APPROVED]: number;
   [GQLCOMMENT_STATUS.NONE]: number;
   [GQLCOMMENT_STATUS.PREMOD]: number;
   [GQLCOMMENT_STATUS.REJECTED]: number;
@@ -208,7 +208,7 @@ export function mergeCommentStatusCount(
       // Because the CommentStatusCounts are not indexable, it should be accessed
       // by walking the structure.
       switch (status) {
-        case GQLCOMMENT_STATUS.ACCEPTED:
+        case GQLCOMMENT_STATUS.APPROVED:
         case GQLCOMMENT_STATUS.NONE:
         case GQLCOMMENT_STATUS.PREMOD:
         case GQLCOMMENT_STATUS.REJECTED:
@@ -239,7 +239,7 @@ export function calculateTotalCommentCount(
     // Because the CommentStatusCounts are not indexable, it should be accessed
     // by walking the structure.
     switch (status) {
-      case GQLCOMMENT_STATUS.ACCEPTED:
+      case GQLCOMMENT_STATUS.APPROVED:
       case GQLCOMMENT_STATUS.NONE:
       case GQLCOMMENT_STATUS.PREMOD:
       case GQLCOMMENT_STATUS.REJECTED:

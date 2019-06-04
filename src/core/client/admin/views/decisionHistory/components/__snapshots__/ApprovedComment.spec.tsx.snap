@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <DecisionItem
-  icon={<AcceptedIcon />}
+  icon={<ApprovedIcon />}
 >
   <Localized
     Username={
@@ -10,10 +10,10 @@ exports[`renders correctly 1`] = `
         username="InTheExpensiveSeats"
       />
     }
-    id="decisionHistory-acceptedCommentBy"
+    id="decisionHistory-approvedCommentBy"
   >
     <Info>
-      Accepted comment by &lt;Username&gt;&lt;/Username&gt;
+      Approved comment by &lt;Username&gt;&lt;/Username&gt;
     </Info>
   </Localized>
   <Footer>
