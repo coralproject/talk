@@ -50,7 +50,7 @@ exports[`renders correctly 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <Relay(TombstoneOrHideContainer)
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-1",
@@ -103,8 +103,8 @@ exports[`renders correctly 1`] = `
           viewer={null}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
-    <Relay(TombstoneOrHideContainer)
+    </Relay(IgnoredTombstoneOrHideContainer)>
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-2",
@@ -157,7 +157,7 @@ exports[`renders correctly 1`] = `
           viewer={null}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
   </ForwardRef(forwardRef)>
 </ForwardRef(forwardRef)>
 `;
@@ -212,7 +212,7 @@ exports[`when there is more disables load more button 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <Relay(TombstoneOrHideContainer)
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-1",
@@ -265,8 +265,8 @@ exports[`when there is more disables load more button 1`] = `
           viewer={null}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
-    <Relay(TombstoneOrHideContainer)
+    </Relay(IgnoredTombstoneOrHideContainer)>
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-2",
@@ -319,7 +319,7 @@ exports[`when there is more disables load more button 1`] = `
           viewer={null}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -388,7 +388,7 @@ exports[`when there is more renders a load more button 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <Relay(TombstoneOrHideContainer)
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-1",
@@ -441,8 +441,8 @@ exports[`when there is more renders a load more button 1`] = `
           viewer={null}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
-    <Relay(TombstoneOrHideContainer)
+    </Relay(IgnoredTombstoneOrHideContainer)>
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-2",
@@ -495,7 +495,7 @@ exports[`when there is more renders a load more button 1`] = `
           viewer={null}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
     <Localized
       id="comments-stream-loadMore"
     >
@@ -564,7 +564,7 @@ exports[`when use is logged in renders correctly 1`] = `
     id="coral-comments-stream-log"
     role="log"
   >
-    <Relay(TombstoneOrHideContainer)
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-1",
@@ -617,8 +617,8 @@ exports[`when use is logged in renders correctly 1`] = `
           viewer={Object {}}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
-    <Relay(TombstoneOrHideContainer)
+    </Relay(IgnoredTombstoneOrHideContainer)>
+    <Relay(IgnoredTombstoneOrHideContainer)
       comment={
         Object {
           "id": "comment-2",
@@ -671,7 +671,7 @@ exports[`when use is logged in renders correctly 1`] = `
           viewer={Object {}}
         />
       </ForwardRef(forwardRef)>
-    </Relay(TombstoneOrHideContainer)>
+    </Relay(IgnoredTombstoneOrHideContainer)>
   </ForwardRef(forwardRef)>
 </ForwardRef(forwardRef)>
 `;

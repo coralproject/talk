@@ -22,10 +22,10 @@ const UserBoxAuthenticated: FunctionComponent<
     <Flex itemGutter="half" wrap>
       <Localized
         id="general-userBoxAuthenticated-signedInAs"
-        username={<Username />}
+        Username={<Username />}
       >
         <Typography variant="bodyCopy" container="div">
-          {"Signed in as <username></username>."}
+          {"Signed in as <Username></Username>."}
         </Typography>
       </Localized>
       {props.showLogoutButton && (

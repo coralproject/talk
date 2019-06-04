@@ -8,8 +8,8 @@ import React, {
 
 import { usePrevious } from "coral-framework/hooks";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
-import { TombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/TombstoneOrHideContainer_comment.graphql";
-import { TombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/TombstoneOrHideContainer_viewer.graphql";
+import { IgnoredTombstoneOrHideContainer_comment as CommentData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_comment.graphql";
+import { IgnoredTombstoneOrHideContainer_viewer as ViewerData } from "coral-stream/__generated__/IgnoredTombstoneOrHideContainer_viewer.graphql";
 import { CallOut } from "coral-ui/components";
 
 interface Props {
@@ -37,7 +37,7 @@ const useTombstone = (hide: boolean) => {
   return tombstone;
 };
 
-const TombstoneOrHideContainer: FunctionComponent<Props> = ({
+const IgnoredTombstoneOrHideContainer: FunctionComponent<Props> = ({
   viewer,
   comment,
   children,
@@ -70,20 +70,20 @@ const TombstoneOrHideContainer: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
-    fragment TombstoneOrHideContainer_viewer on User {
+    fragment IgnoredTombstoneOrHideContainer_viewer on User {
       ignoredUsers {
         id
       }
     }
   `,
   comment: graphql`
-    fragment TombstoneOrHideContainer_comment on Comment {
+    fragment IgnoredTombstoneOrHideContainer_comment on Comment {
       author {
         id
         username
       }
     }
   `,
-})(TombstoneOrHideContainer);
+})(IgnoredTombstoneOrHideContainer);
 
 export default enhanced;

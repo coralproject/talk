@@ -52,10 +52,10 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
               total: currentCount + 1,
             },
           },
-        },
+        } as any,
         clientMutationId: (clientMutationId++).toString(),
       },
-    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
+    },
   });
 }
 

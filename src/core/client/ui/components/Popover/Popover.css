@@ -8,6 +8,7 @@
   box-shadow: var(--elevation-main);
   border-radius: var(--round-corners);
   z-index: var(--zindex-popover);
+  margin: 2px;
 }
 
 .top {

@@ -7,8 +7,8 @@ import UserBoxContainer from "coral-stream/common/UserBox";
 import { Button, Flex, HorizontalGutter, Spinner } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
+import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import ReplyListContainer from "../ReplyList";
-import TombstoneOrHideContainer from "../TombstoneOrHideContainer";
 import BannedInfo from "./BannedInfo";
 import CommunityGuidelinesContainer from "./CommunityGuidelines";
 import PostCommentFormContainer from "./PostCommentForm";
@@ -35,7 +35,7 @@ export interface StreamProps {
   comments: ReadonlyArray<
     { id: string } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof ReplyListContainer>["comment"] &
-      PropTypesOf<typeof TombstoneOrHideContainer>["comment"]
+      PropTypesOf<typeof IgnoredTombstoneOrHideContainer>["comment"]
   >;
   onLoadMore?: () => void;
   hasMore?: boolean;
@@ -44,7 +44,7 @@ export interface StreamProps {
     | PropTypesOf<typeof UserBoxContainer>["viewer"] &
         PropTypesOf<typeof CommentContainer>["viewer"] &
         PropTypesOf<typeof ReplyListContainer>["viewer"] &
-        PropTypesOf<typeof TombstoneOrHideContainer>["viewer"]
+        PropTypesOf<typeof IgnoredTombstoneOrHideContainer>["viewer"]
     | null;
   orderBy: PropTypesOf<typeof SortMenu>["orderBy"];
   onChangeOrderBy: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -84,7 +84,7 @@ const Stream: FunctionComponent<StreamProps> = props => {
           aria-live="polite"
         >
           {props.comments.map(comment => (
-            <TombstoneOrHideContainer
+            <IgnoredTombstoneOrHideContainer
               key={comment.id}
               viewer={props.viewer}
               comment={comment}
@@ -103,7 +103,7 @@ const Stream: FunctionComponent<StreamProps> = props => {
                   story={props.story}
                 />
               </HorizontalGutter>
-            </TombstoneOrHideContainer>
+            </IgnoredTombstoneOrHideContainer>
           ))}
           {props.hasMore && (
             <Localized id="comments-stream-loadMore">

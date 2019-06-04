@@ -91,7 +91,6 @@ const ModerateCard: FunctionComponent<Props> = ({
                   className={styles.link}
                   href={viewContextHref}
                   target="_blank"
-                  external
                 >
                   View Context
                 </TextLink>
@@ -108,7 +107,6 @@ const ModerateCard: FunctionComponent<Props> = ({
                   <TextLink
                     className={styles.link}
                     href={storyHref}
-                    target="_blank"
                     onClick={onModerateStory}
                   >
                     Moderate Story

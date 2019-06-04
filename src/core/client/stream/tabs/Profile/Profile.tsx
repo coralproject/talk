@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { ProfileLocal as Local } from "coral-stream/__generated__/ProfileLocal.graphql";
+import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 import UserBoxContainer from "coral-stream/common/UserBox";
 import {
   HorizontalGutter,
@@ -24,13 +24,13 @@ export interface ProfileProps {
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
-  const [local, setLocal] = useLocal<Local>(graphql`
+  const [local, setLocal] = useLocal<ProfileLocal>(graphql`
     fragment ProfileLocal on Local {
       profileTab
     }
   `);
   const onTabClick = useCallback(
-    (tab: Local["profileTab"]) => setLocal({ profileTab: tab }),
+    (tab: ProfileLocal["profileTab"]) => setLocal({ profileTab: tab }),
     [setLocal]
   );
   return (

@@ -53,27 +53,25 @@ export class ReplyListContainer extends React.Component<Props> {
     ) {
       return null;
     }
-    // Don't render replies if comment is not visible.
-    // We have this comment here because it's
-    // status just changed due to an edit.
-    // We keep it around for the CommentContainer to show
-    // some information to the user.
-    const comments = !isCommentVisible(this.props.comment)
-      ? []
-      : this.props.comment.replies.edges.map(edge => ({
-          ...edge.node,
-          replyListElement: this.props.ReplyListComponent && (
-            <this.props.ReplyListComponent
-              viewer={this.props.viewer}
-              comment={edge.node}
-              story={this.props.story}
-              settings={this.props.settings}
-            />
-          ),
-          // ReplyListContainer5 contains replyCount.
-          showConversationLink:
-            ((edge.node as any) as ReplyNode5).replyCount > 0,
-        }));
+    const comments =
+      // Comment is not visible after a viewer action, so don't render it anymore.
+      this.props.comment.lastViewerAction &&
+      !isCommentVisible(this.props.comment)
+        ? []
+        : this.props.comment.replies.edges.map(edge => ({
+            ...edge.node,
+            replyListElement: this.props.ReplyListComponent && (
+              <this.props.ReplyListComponent
+                viewer={this.props.viewer}
+                comment={edge.node}
+                story={this.props.story}
+                settings={this.props.settings}
+              />
+            ),
+            // ReplyListContainer5 contains replyCount.
+            showConversationLink:
+              ((edge.node as any) as ReplyNode5).replyCount > 0,
+          }));
     return (
       <ReplyList
         viewer={this.props.viewer}
@@ -164,7 +162,7 @@ const ReplyListContainer5 = createReplyListContainer(
     viewer: graphql`
       fragment ReplyListContainer5_viewer on User {
         ...CommentContainer_viewer
-        ...TombstoneOrHideContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
         ...LocalReplyListContainer_viewer
       }
     `,
@@ -189,6 +187,7 @@ const ReplyListContainer5 = createReplyListContainer(
         ) {
         id
         status
+        lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
@@ -196,7 +195,7 @@ const ReplyListContainer5 = createReplyListContainer(
               id
               replyCount
               ...CommentContainer_comment
-              ...TombstoneOrHideContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
               ...LocalReplyListContainer_comment
             }
           }
@@ -230,7 +229,7 @@ const ReplyListContainer4 = createReplyListContainer(
       fragment ReplyListContainer4_viewer on User {
         ...ReplyListContainer5_viewer
         ...CommentContainer_viewer
-        ...TombstoneOrHideContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -254,13 +253,14 @@ const ReplyListContainer4 = createReplyListContainer(
         ) {
         id
         status
+        lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
             node {
               id
               ...CommentContainer_comment
-              ...TombstoneOrHideContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
               ...ReplyListContainer5_comment
             }
           }
@@ -293,7 +293,7 @@ const ReplyListContainer3 = createReplyListContainer(
       fragment ReplyListContainer3_viewer on User {
         ...ReplyListContainer4_viewer
         ...CommentContainer_viewer
-        ...TombstoneOrHideContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -317,13 +317,14 @@ const ReplyListContainer3 = createReplyListContainer(
         ) {
         id
         status
+        lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
             node {
               id
               ...CommentContainer_comment
-              ...TombstoneOrHideContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
               ...ReplyListContainer4_comment
             }
           }
@@ -356,7 +357,7 @@ const ReplyListContainer2 = createReplyListContainer(
       fragment ReplyListContainer2_viewer on User {
         ...ReplyListContainer3_viewer
         ...CommentContainer_viewer
-        ...TombstoneOrHideContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -380,13 +381,14 @@ const ReplyListContainer2 = createReplyListContainer(
         ) {
         id
         status
+        lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
             node {
               id
               ...CommentContainer_comment
-              ...TombstoneOrHideContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
               ...ReplyListContainer3_comment
             }
           }
@@ -419,7 +421,7 @@ const ReplyListContainer1 = createReplyListContainer(
       fragment ReplyListContainer1_viewer on User {
         ...ReplyListContainer2_viewer
         ...CommentContainer_viewer
-        ...TombstoneOrHideContainer_viewer
+        ...IgnoredTombstoneOrHideContainer_viewer
       }
     `,
     settings: graphql`
@@ -443,13 +445,14 @@ const ReplyListContainer1 = createReplyListContainer(
         ) {
         id
         status
+        lastViewerAction
         replies(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "ReplyList_replies") {
           edges {
             node {
               id
               ...CommentContainer_comment
-              ...TombstoneOrHideContainer_comment
+              ...IgnoredTombstoneOrHideContainer_comment
               ...ReplyListContainer2_comment
             }
           }

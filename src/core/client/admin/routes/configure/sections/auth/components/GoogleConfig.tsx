@@ -49,7 +49,7 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
       <HorizontalGutter size="double">
         <Localized
           id="configure-auth-google-toEnableIntegration"
-          link={<GoogleLink />}
+          Link={<GoogleLink />}
         >
           <Typography>
             To enable the integration with Google Authentication you need to
