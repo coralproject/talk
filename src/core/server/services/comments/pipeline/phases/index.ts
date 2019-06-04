@@ -22,11 +22,11 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   commentingDisabled,
   linkify,
   purify,
-  detectLinks,
   wordList,
   staff,
   karma,
   spam,
   toxic,
+  detectLinks,
   preModerate,
 ];
