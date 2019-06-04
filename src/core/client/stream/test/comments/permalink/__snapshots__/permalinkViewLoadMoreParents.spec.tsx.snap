@@ -204,6 +204,11 @@ exports[`renders conversation thread 1`] = `
                       </time>
                     </div>
                   </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
+                  </div>
                 </div>
                 <div
                   className="HorizontalGutter-root HorizontalGutter-full"
@@ -418,6 +423,11 @@ exports[`shows more of this conversation 1`] = `
                       </time>
                     </div>
                   </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
+                  </div>
                 </div>
                 <div
                   className="HorizontalGutter-root HorizontalGutter-full"
@@ -624,6 +634,11 @@ exports[`shows more of this conversation 1`] = `
                       </time>
                     </div>
                   </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
+                  </div>
                 </div>
                 <div
                   className="HorizontalGutter-root HorizontalGutter-full"
@@ -822,6 +837,11 @@ exports[`shows more of this conversation 1`] = `
                         2018-07-06T18:24:00.000Z
                       </time>
                     </div>
+                  </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
                   </div>
                 </div>
                 <div

@@ -86,6 +86,11 @@ exports[`hide reply button 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -194,6 +199,11 @@ exports[`renders body only 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -302,6 +312,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -410,6 +425,11 @@ exports[`renders disabled reply when story is closed 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -526,6 +546,11 @@ exports[`renders in reply to 1`] = `
       parentAuthorName="ParentAuthor"
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -646,6 +671,11 @@ exports[`renders staff badge 1`] = `
           "Staff",
         ]
       }
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -754,6 +784,11 @@ exports[`renders username and body 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -867,6 +902,11 @@ exports[`shows conversation link 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={

@@ -161,7 +161,7 @@ it("change user role", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Staff")
+      .getByText("Staff", { selector: "button" })
       .props.onClick();
   });
 
@@ -360,7 +360,7 @@ it("ban user", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Ban User")
+      .getByText("Ban User", { selector: "button" })
       .props.onClick();
   });
 
@@ -434,7 +434,7 @@ it("remove user ban", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Remove Ban")
+      .getByText("Remove Ban", { selector: "button" })
       .props.onClick();
   });
 

@@ -11,15 +11,15 @@ exports[`renders correctly 1`] = `
   </ForwardRef(forwardRef)>
    
   <Localized
+    Username={<Username />}
     id="moderate-comment-inReplyTo"
-    username={<Username />}
   >
     <ForwardRef(forwardRef)
       className="InReplyTo-inReplyTo"
       container="span"
       variant="timestamp"
     >
-      Reply to &lt;username&gt;&lt;username&gt;
+      Reply to &lt;Username&gt;&lt;/Username&gt;
     </ForwardRef(forwardRef)>
   </Localized>
 </ForwardRef(forwardRef)>

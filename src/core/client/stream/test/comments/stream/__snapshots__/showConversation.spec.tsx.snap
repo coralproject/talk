@@ -73,6 +73,11 @@ exports[`renders deepest comment with link 1`] = `
                 </time>
               </div>
             </div>
+            <div>
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter"
+              />
+            </div>
           </div>
           <div
             className="HorizontalGutter-root HorizontalGutter-full"

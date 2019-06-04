@@ -40,15 +40,15 @@ exports[`renders correctly 1`] = `
     </div>
     <div>
       <Localized
+        Username={<Username />}
         id="restricted-signedInAs"
-        username={<Username />}
       >
         <ForwardRef(forwardRef)
           align="center"
           container="div"
           variant="bodyCopy"
         >
-          You are signed in as: &lt;username&gt;&lt;/username&gt;
+          You are signed in as: &lt;Username&gt;&lt;/Username&gt;
         </ForwardRef(forwardRef)>
       </Localized>
     </div>
