@@ -191,7 +191,7 @@ it("change story status", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Closed")
+      .getByText("Closed", { selector: "button" })
       .props.onClick();
   });
 
@@ -205,7 +205,7 @@ it("change story status", async () => {
 
   TestRenderer.act(() => {
     within(popup)
-      .getByText("Open")
+      .getByText("Open", { selector: "button" })
       .props.onClick();
   });
 

@@ -70,7 +70,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
     >
       {disabledInside => (
         <HorizontalGutter size="double">
-          <Localized id="configure-auth-oidc-toLearnMore" link={<OIDCLink />}>
+          <Localized id="configure-auth-oidc-toLearnMore" Link={<OIDCLink />}>
             <Typography>
               {"To learn more: https://openid.net/connect/"}
             </Typography>

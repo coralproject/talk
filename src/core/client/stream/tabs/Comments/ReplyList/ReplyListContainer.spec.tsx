@@ -22,6 +22,7 @@ it("renders correctly", () => {
       replies: {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
+      lastViewerAction: null,
     },
     settings: {
       reaction: {
@@ -51,6 +52,7 @@ it("renders correctly when replies are empty", () => {
       id: "comment-id",
       status: "NONE",
       replies: { edges: [] },
+      lastViewerAction: null,
     },
     relay: {
       hasMore: noop,
@@ -83,6 +85,7 @@ describe("when has more replies", () => {
       replies: {
         edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
       },
+      lastViewerAction: null,
     },
     settings: {
       reaction: {

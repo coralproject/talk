@@ -5,8 +5,10 @@ exports[`renders anchor button 1`] = `
   className="custom"
   classes={
     Object {
+      "anchor": "Button-anchor",
       "blankAdornment": "Button-blankAdornment",
-      "icon": "Button-icon",
+      "iconAfter": "Button-iconAfter",
+      "iconBefore": "Button-iconBefore",
       "mouseHover": "Button-mouseHover",
       "root": "Button-root",
     }
@@ -25,8 +27,10 @@ exports[`renders button 1`] = `
   className="custom"
   classes={
     Object {
+      "anchor": "Button-anchor",
       "blankAdornment": "Button-blankAdornment",
-      "icon": "Button-icon",
+      "iconAfter": "Button-iconAfter",
+      "iconBefore": "Button-iconBefore",
       "mouseHover": "Button-mouseHover",
       "root": "Button-root",
     }

@@ -187,7 +187,7 @@ function commit(
         },
         clientMutationId: (clientMutationId++).toString(),
       },
-    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
+    },
     optimisticUpdater: store => {
       // Skip optimistic update if comment is probably premoderated.
       if (expectPremoderation) {

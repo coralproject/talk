@@ -61,6 +61,12 @@ exports[`change settings: during submit: oidc without errors 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-xs TextLink-icon"
+          >
+            open_in_new
+          </span>
         </a>
       </p>
       <hr
@@ -497,6 +503,12 @@ For more information visit:
           target="_blank"
         >
           https://developers.facebook.com/docs/facebook-login/web
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-xs TextLink-icon"
+          >
+            open_in_new
+          </span>
         </a>
         .
       </p>
@@ -772,6 +784,12 @@ exports[`change settings: enable oidc configure box 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-xs TextLink-icon"
+          >
+            open_in_new
+          </span>
         </a>
       </p>
       <hr
@@ -1206,6 +1224,12 @@ exports[`change settings: oidc validation errors 1`] = `
           target="_blank"
         >
           https://openid.net/connect/
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-xs TextLink-icon"
+          >
+            open_in_new
+          </span>
         </a>
       </p>
       <hr
@@ -2082,6 +2106,12 @@ integration to register for a new account.
                       target="_blank"
                     >
                       https://openid.net/connect/
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-xs TextLink-icon"
+                      >
+                        open_in_new
+                      </span>
                     </a>
                   </p>
                   <hr
@@ -2736,6 +2766,12 @@ to create and set up a web application. For more information visit:
                       target="_blank"
                     >
                       https://developers.google.com/identity/protocols/OAuth2WebServer#creatingcred
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-xs TextLink-icon"
+                      >
+                        open_in_new
+                      </span>
                     </a>
                     .
                   </p>
@@ -3010,6 +3046,12 @@ For more information visit:
                       target="_blank"
                     >
                       https://developers.facebook.com/docs/facebook-login/web
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-xs TextLink-icon"
+                      >
+                        open_in_new
+                      </span>
                     </a>
                     .
                   </p>

@@ -5,15 +5,15 @@ exports[`renders correctly 1`] = `
   icon={<AcceptedIcon />}
 >
   <Localized
-    id="decisionHistory-acceptedCommentBy"
-    username={
+    Username={
       <Username
         username="InTheExpensiveSeats"
       />
     }
+    id="decisionHistory-acceptedCommentBy"
   >
     <Info>
-      Accepted comment by &lt;username&gt;&lt;/username&gt;
+      Accepted comment by &lt;Username&gt;&lt;/Username&gt;
     </Info>
   </Localized>
   <Footer>

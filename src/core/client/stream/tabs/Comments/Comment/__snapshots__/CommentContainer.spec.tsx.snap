@@ -29,6 +29,7 @@ exports[`hide reply button 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -70,6 +71,7 @@ exports[`hide reply button 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -86,6 +88,11 @@ exports[`hide reply button 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -131,6 +138,7 @@ exports[`renders body only 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -178,6 +186,7 @@ exports[`renders body only 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -194,6 +203,11 @@ exports[`renders body only 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -239,6 +253,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -286,6 +301,7 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -302,6 +318,11 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -347,6 +368,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -394,6 +416,7 @@ exports[`renders disabled reply when story is closed 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -410,6 +433,11 @@ exports[`renders disabled reply when story is closed 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -455,6 +483,7 @@ exports[`renders in reply to 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": Object {
                       "author": Object {
                         "username": "ParentAuthor",
@@ -506,6 +535,7 @@ exports[`renders in reply to 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": Object {
                       "author": Object {
                         "username": "ParentAuthor",
@@ -526,6 +556,11 @@ exports[`renders in reply to 1`] = `
       parentAuthorName="ParentAuthor"
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -571,6 +606,7 @@ exports[`renders staff badge 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -622,6 +658,7 @@ exports[`renders staff badge 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -645,6 +682,11 @@ exports[`renders staff badge 1`] = `
         Array [
           "Staff",
         ]
+      }
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
       }
       username={
         <Relay(UsernameWithPopoverContainer)
@@ -691,6 +733,7 @@ exports[`renders username and body 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -738,6 +781,7 @@ exports[`renders username and body 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -754,6 +798,11 @@ exports[`renders username and body 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={
@@ -799,6 +848,7 @@ exports[`shows conversation link 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -846,6 +896,7 @@ exports[`shows conversation link 1`] = `
                       "edited": false,
                     },
                     "id": "comment-id",
+                    "lastViewerAction": null,
                     "parent": null,
                     "pending": false,
                     "status": "NONE",
@@ -867,6 +918,11 @@ exports[`shows conversation link 1`] = `
       parentAuthorName={null}
       showEditedMarker={false}
       tags={Array []}
+      topBarRight={
+        <ForwardRef(forwardRef)
+          itemGutter={true}
+        />
+      }
       username={
         <Relay(UsernameWithPopoverContainer)
           user={

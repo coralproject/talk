@@ -1,23 +1,29 @@
-enum View {
+enum VIEW {
   SIGN_UP
   SIGN_IN
   FORGOT_PASSWORD
 }
 
-enum Tab {
+enum TAB {
   COMMENTS
   PROFILE
 }
 
-enum ProfileTab {
+enum PROFILE_TAB {
   MY_COMMENTS
   SETTINGS
+}
+
+enum COMMENT_VIEWER_ACTION {
+  EDIT
+  ACCEPT
+  REJECT
 }
 
 type AuthPopup {
   open: Boolean!
   focus: Boolean!
-  view: View
+  view: VIEW
 }
 
 extend type Comment {
@@ -26,6 +32,9 @@ extend type Comment {
   # localReplies contains only comments created by the user
   # on the ultimate threading level.
   localReplies: [Comment!]
+
+  # Remember last viewer action that could have caused a status change.
+  lastViewerAction: COMMENT_VIEWER_ACTION
 }
 
 type Local {
@@ -33,13 +42,13 @@ type Local {
   accessTokenExp: Int
   accessTokenJTI: String
   loggedIn: Boolean!
-  activeTab: Tab!
+  activeTab: TAB!
   authPopup: AuthPopup!
   storyID: String
   storyURL: String
   commentID: String
   defaultStreamOrderBy: COMMENT_SORT!
-  profileTab: ProfileTab!
+  profileTab: PROFILE_TAB!
   bla: [String]
 }
 

@@ -22,13 +22,13 @@ const Username: FunctionComponent<{ username: string }> = ({ username }) => (
   <strong>{username}</strong>
 );
 
-const ApprovedComment: FunctionComponent<Props> = props => (
+const AcceptedComment: FunctionComponent<Props> = props => (
   <DecisionItem icon={<AcceptedIcon />}>
     <Localized
       id="decisionHistory-acceptedCommentBy"
-      username={<Username username={props.username} />}
+      Username={<Username username={props.username} />}
     >
-      <Info>{"Accepted comment by <username></username>"}</Info>
+      <Info>{"Accepted comment by <Username></Username>"}</Info>
     </Localized>
     <Footer>
       <Typography variant="timestamp">
@@ -40,4 +40,4 @@ const ApprovedComment: FunctionComponent<Props> = props => (
   </DecisionItem>
 );
 
-export default ApprovedComment;
+export default AcceptedComment;

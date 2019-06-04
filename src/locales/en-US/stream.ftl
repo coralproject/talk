@@ -7,7 +7,7 @@ general-userBoxUnauthenticated-signIn = Sign in
 general-userBoxUnauthenticated-register = Register
 
 general-userBoxAuthenticated-signedInAs =
-  Signed in as <username></username>.
+  Signed in as <Username></Username>.
 
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
@@ -82,8 +82,8 @@ comments-conversationThread-showMoreOfThisConversation =
 
 comments-permalinkView-currentViewing = You are currently viewing a
 comments-permalinkView-singleConversation = SINGLE CONVERSATION
-comments-inReplyTo = In reply to <username></username>
-comments-replyTo = Replying to: <username></username>
+comments-inReplyTo = In reply to <Username></Username>
+comments-replyTo = Replying to: <Username></Username>
 
 comments-reportButton-report = Report
 comments-reportButton-reported = Reported
@@ -105,6 +105,19 @@ comments-userIgnorePopover-description =
   undo this later from My Profile.
 comments-userIgnorePopover-ignore = Ignore
 comments-userIgnorePopover-cancel = Cancel
+
+comments-moderationDropdown-popover =
+  .description = A popover menu to moderate the comment
+comments-moderationDropdown-approve = Approve
+comments-moderationDropdown-approved = Approved
+comments-moderationDropdown-reject = Reject
+comments-moderationDropdown-rejected = Rejected
+comments-moderationDropdown-goToModerate = Go to Moderate
+comments-moderationDropdown-caretButton =
+  .aria-label = Moderate
+
+comments-rejectedTombstone =
+  You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
 
 ## Profile Tab
 

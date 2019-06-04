@@ -74,18 +74,22 @@ exports[`cancel edit 1`] = `
               </div>
             </div>
             <div>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter"
               >
-                Edit
-              </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
           </div>
           <div
@@ -805,18 +809,22 @@ exports[`edit a comment: render comment with edit button 1`] = `
               </div>
             </div>
             <div>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter"
               >
-                Edit
-              </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
           </div>
           <div
@@ -1029,18 +1037,22 @@ exports[`edit a comment: server response 1`] = `
               </div>
             </div>
             <div>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter"
               >
-                Edit
-              </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
           </div>
           <div
@@ -1244,18 +1256,22 @@ exports[`shows expiry message: edit form closed 1`] = `
               </div>
             </div>
             <div>
-              <button
-                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-                onTouchEnd={[Function]}
-                type="button"
+              <div
+                className="Flex-root Flex-flex Flex-itemGutter"
               >
-                Edit
-              </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
           </div>
           <div

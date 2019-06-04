@@ -51,7 +51,10 @@ function commit(environment: Environment, input: EditCommentInput) {
         },
         clientMutationId: (clientMutationId++).toString(),
       },
-    } as any, // TODO: (cvle) generated types should contain one for the optimistic response.
+    },
+    updater: store => {
+      store.get(input.commentID)!.setValue("EDIT", "lastViewerAction");
+    },
   });
 }
 

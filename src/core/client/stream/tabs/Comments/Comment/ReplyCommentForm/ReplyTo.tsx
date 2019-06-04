@@ -19,9 +19,9 @@ const ReplyTo: FunctionComponent<Props> = ({ username }) => {
   return (
     <Flex alignItems="center" className={styles.root}>
       <Icon>reply</Icon>{" "}
-      <Localized id="comments-replyTo" username={<Username />}>
+      <Localized id="comments-replyTo" Username={<Username />}>
         <Typography container="span" className={styles.text}>
-          {"Replying to: <username></username>"}
+          {"Replying to: <Username></Username>"}
         </Typography>
       </Localized>
     </Flex>

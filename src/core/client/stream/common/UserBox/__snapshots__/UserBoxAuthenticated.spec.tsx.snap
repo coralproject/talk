@@ -6,14 +6,14 @@ exports[`renders correctly with logout button 1`] = `
   wrap={true}
 >
   <Localized
+    Username={<Username />}
     id="general-userBoxAuthenticated-signedInAs"
-    username={<Username />}
   >
     <ForwardRef(forwardRef)
       container="div"
       variant="bodyCopy"
     >
-      Signed in as &lt;username&gt;&lt;/username&gt;.
+      Signed in as &lt;Username&gt;&lt;/Username&gt;.
     </ForwardRef(forwardRef)>
   </Localized>
   <Localized
@@ -48,14 +48,14 @@ exports[`renders correctly without logout button 1`] = `
   wrap={true}
 >
   <Localized
+    Username={<Username />}
     id="general-userBoxAuthenticated-signedInAs"
-    username={<Username />}
   >
     <ForwardRef(forwardRef)
       container="div"
       variant="bodyCopy"
     >
-      Signed in as &lt;username&gt;&lt;/username&gt;.
+      Signed in as &lt;Username&gt;&lt;/Username&gt;.
     </ForwardRef(forwardRef)>
   </Localized>
 </ForwardRef(forwardRef)>

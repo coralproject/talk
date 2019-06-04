@@ -6,13 +6,13 @@ import { PropTypesOf } from "coral-framework/types";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
+import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import Indent from "../Indent";
-import TombstoneOrHideContainer from "../TombstoneOrHideContainer";
 
 export interface ReplyListProps {
   story: PropTypesOf<typeof CommentContainer>["story"];
   viewer: PropTypesOf<typeof CommentContainer>["viewer"] &
-    PropTypesOf<typeof TombstoneOrHideContainer>["viewer"];
+    PropTypesOf<typeof IgnoredTombstoneOrHideContainer>["viewer"];
   comment: {
     id: string;
   };
@@ -22,7 +22,7 @@ export interface ReplyListProps {
       replyListElement?: React.ReactElement<any>;
       showConversationLink?: boolean;
     } & PropTypesOf<typeof CommentContainer>["comment"] &
-      PropTypesOf<typeof TombstoneOrHideContainer>["comment"]
+      PropTypesOf<typeof IgnoredTombstoneOrHideContainer>["comment"]
   >;
   settings: PropTypesOf<typeof CommentContainer>["settings"];
   onShowAll?: () => void;
@@ -41,7 +41,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
       role="log"
     >
       {props.comments.map(comment => (
-        <TombstoneOrHideContainer
+        <IgnoredTombstoneOrHideContainer
           key={comment.id}
           viewer={props.viewer}
           comment={comment}
@@ -60,7 +60,7 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
             />
             {comment.replyListElement}
           </HorizontalGutter>
-        </TombstoneOrHideContainer>
+        </IgnoredTombstoneOrHideContainer>
       ))}
       {props.hasMore && (
         <Indent level={props.indentLevel} noBorder>

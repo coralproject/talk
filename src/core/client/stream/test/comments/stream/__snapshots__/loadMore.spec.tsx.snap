@@ -83,6 +83,11 @@ exports[`renders comment stream with load more button 1`] = `
                     </time>
                   </div>
                 </div>
+                <div>
+                  <div
+                    className="Flex-root Flex-flex Flex-itemGutter"
+                  />
+                </div>
               </div>
               <div
                 className="HorizontalGutter-root HorizontalGutter-full"
@@ -266,6 +271,11 @@ exports[`renders comment stream with load more button 1`] = `
                       2018-07-06T18:24:00.000Z
                     </time>
                   </div>
+                </div>
+                <div>
+                  <div
+                    className="Flex-root Flex-flex Flex-itemGutter"
+                  />
                 </div>
               </div>
               <div

@@ -37,6 +37,7 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
         },
         pending: false,
         tags: [],
+        lastViewerAction: null,
       },
       settings: {
         disableCommenting: {

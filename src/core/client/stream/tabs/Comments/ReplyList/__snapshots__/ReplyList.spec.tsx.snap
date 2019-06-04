@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(TombstoneOrHideContainer)
+  <Relay(IgnoredTombstoneOrHideContainer)
     comment={
       Object {
         "id": "comment-1",
@@ -45,8 +45,8 @@ exports[`renders correctly 1`] = `
         viewer={null}
       />
     </ForwardRef(forwardRef)>
-  </Relay(TombstoneOrHideContainer)>
-  <Relay(TombstoneOrHideContainer)
+  </Relay(IgnoredTombstoneOrHideContainer)>
+  <Relay(IgnoredTombstoneOrHideContainer)
     comment={
       Object {
         "id": "comment-2",
@@ -87,7 +87,7 @@ exports[`renders correctly 1`] = `
         viewer={null}
       />
     </ForwardRef(forwardRef)>
-  </Relay(TombstoneOrHideContainer)>
+  </Relay(IgnoredTombstoneOrHideContainer)>
 </ForwardRef(forwardRef)>
 `;
 
@@ -97,7 +97,7 @@ exports[`when there is more disables load more button 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(TombstoneOrHideContainer)
+  <Relay(IgnoredTombstoneOrHideContainer)
     comment={
       Object {
         "id": "comment-1",
@@ -134,8 +134,8 @@ exports[`when there is more disables load more button 1`] = `
         viewer={null}
       />
     </ForwardRef(forwardRef)>
-  </Relay(TombstoneOrHideContainer)>
-  <Relay(TombstoneOrHideContainer)
+  </Relay(IgnoredTombstoneOrHideContainer)>
+  <Relay(IgnoredTombstoneOrHideContainer)
     comment={
       Object {
         "id": "comment-2",
@@ -172,7 +172,7 @@ exports[`when there is more disables load more button 1`] = `
         viewer={null}
       />
     </ForwardRef(forwardRef)>
-  </Relay(TombstoneOrHideContainer)>
+  </Relay(IgnoredTombstoneOrHideContainer)>
   <Indent
     level={1}
     noBorder={true}
@@ -201,7 +201,7 @@ exports[`when there is more renders a load more button 1`] = `
   id="coral-comments-replyList-log--comment-id"
   role="log"
 >
-  <Relay(TombstoneOrHideContainer)
+  <Relay(IgnoredTombstoneOrHideContainer)
     comment={
       Object {
         "id": "comment-1",
@@ -238,8 +238,8 @@ exports[`when there is more renders a load more button 1`] = `
         viewer={null}
       />
     </ForwardRef(forwardRef)>
-  </Relay(TombstoneOrHideContainer)>
-  <Relay(TombstoneOrHideContainer)
+  </Relay(IgnoredTombstoneOrHideContainer)>
+  <Relay(IgnoredTombstoneOrHideContainer)
     comment={
       Object {
         "id": "comment-2",
@@ -276,7 +276,7 @@ exports[`when there is more renders a load more button 1`] = `
         viewer={null}
       />
     </ForwardRef(forwardRef)>
-  </Relay(TombstoneOrHideContainer)>
+  </Relay(IgnoredTombstoneOrHideContainer)>
   <Indent
     level={1}
     noBorder={true}

@@ -3,9 +3,9 @@ import React, { Component, MouseEvent } from "react";
 import { graphql } from "react-relay";
 
 import { isBeforeDate } from "coral-common/utils";
-import { getURLWithCommentID } from "coral-framework/helpers";
+import { getURLWithCommentID, roleIsAtLeast } from "coral-framework/helpers";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLUSER_ROLE, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -23,6 +23,9 @@ import { isCommentVisible } from "../helpers";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import IndentedComment from "./IndentedComment";
+import CaretContainer, {
+  RejectedTombstoneContainer,
+} from "./ModerationDropdown";
 import PermalinkButtonContainer from "./PermalinkButton";
 import ReactionButtonContainer from "./ReactionButton";
 import ReplyButton from "./ReplyButton";
@@ -158,6 +161,9 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
     );
+    const showCaret =
+      this.props.viewer &&
+      roleIsAtLeast(this.props.viewer.role, GQLUSER_ROLE.MODERATOR);
     if (showEditDialog) {
       return (
         <div data-testid={`comment-${comment.id}`}>
@@ -170,10 +176,15 @@ export class CommentContainer extends Component<Props, State> {
         </div>
       );
     }
-    // Comment is not visible, so don't render it.
-    // This is the case when the comment was just edited and
-    // the comment status has changed.
-    if (!isCommentVisible(comment)) {
+    // Comment is not visible after viewer rejected it.
+    if (
+      comment.lastViewerAction === "REJECT" &&
+      comment.status === "REJECTED"
+    ) {
+      return <RejectedTombstoneContainer comment={comment} />;
+    }
+    // Comment is not visible after edit, so don't render it anymore.
+    if (comment.lastViewerAction === "EDIT" && !isCommentVisible(comment)) {
       return null;
     }
     return (
@@ -201,18 +212,20 @@ export class CommentContainer extends Component<Props, State> {
             }
             tags={comment.tags.map(t => t.name)}
             topBarRight={
-              (editable && (
-                <Localized id="comments-commentContainer-editButton">
-                  <Button
-                    color="primary"
-                    variant="underlined"
-                    onClick={this.openEditDialog}
-                  >
-                    Edit
-                  </Button>
-                </Localized>
-              )) ||
-              undefined
+              <Flex itemGutter>
+                {editable && (
+                  <Localized id="comments-commentContainer-editButton">
+                    <Button
+                      color="primary"
+                      variant="underlined"
+                      onClick={this.openEditDialog}
+                    >
+                      Edit
+                    </Button>
+                  </Localized>
+                )}
+                {showCaret && <CaretContainer comment={comment} />}
+              </Flex>
             }
             footer={
               <>
@@ -292,6 +305,7 @@ const enhanced = withSetCommentIDMutation(
           ignoredUsers {
             id
           }
+          role
           ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
           ...ReportButtonContainer_viewer
@@ -330,10 +344,13 @@ const enhanced = withSetCommentIDMutation(
             name
           }
           pending
+          lastViewerAction
           ...ReplyCommentFormContainer_comment
           ...EditCommentFormContainer_comment
           ...ReactionButtonContainer_comment
           ...ReportButtonContainer_comment
+          ...CaretContainer_comment
+          ...RejectedTombstoneContainer_comment
         }
       `,
       settings: graphql`

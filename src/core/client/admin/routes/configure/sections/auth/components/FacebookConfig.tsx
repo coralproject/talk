@@ -51,7 +51,7 @@ const FacebookConfig: FunctionComponent<Props> = ({
       <HorizontalGutter size="double">
         <Localized
           id="configure-auth-facebook-toEnableIntegration"
-          link={<FacebookLink />}
+          Link={<FacebookLink />}
         >
           <Typography>
             To enable the integration with Facebook Authentication, you need to

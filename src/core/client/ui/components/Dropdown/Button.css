@@ -3,25 +3,46 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: calc(0.5 * var(--mini-unit)) var(--mini-unit);
+  padding: var(--spacing-2);
   width: 100%;
   text-align: left;
+  line-height: 1;
 }
 
-.root:active {
-  background-color: var(--palette-grey-lighter);
+.anchor {
+  color: var(--palette-primary-main);
+  text-decoration: underline;
+  &:visited {
+    color: var(--palette-primary-main);
+  }
+}
+
+.root:not(:disabled):active {
+  background-color: var(--palette-primary-lightest);
 }
 
 .mouseHover {
-  background-color: var(--palette-grey-lightest);
+  background-color: var(--palette-primary-lightest);
 }
 
-.icon {
+.iconBefore {
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
   color: var(--palette-grey-main);
-  margin-left: var(--mini-unit);
+  margin-right: var(--spacing-2);
   padding-top: 1px;
+}
+.iconAfter {
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  margin-left: var(--spacing-2);
+  padding-top: 1px;
+  color: var(--palette-primary-main);
+  text-decoration: unset;
 }
 
 .blankAdornment {
-  padding-right: calc(3.5 * var(--mini-unit));
+  padding-right: var(--spacing-6);
 }
