@@ -120,6 +120,8 @@ sidebar:
           url: /integrating/translations-i18n/
         - title: GDPR Compliance
           url: /integrating/gdpr/
+        - title: Accelerated Mobile Page
+          url: /integrating/amp/
     - title: Product Guide
       children:
         - title: How Talk Works
