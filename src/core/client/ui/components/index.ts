@@ -30,6 +30,7 @@ export { default as TextLink } from "./TextLink";
 export { default as CheckBox } from "./CheckBox";
 export { default as RadioButton } from "./RadioButton";
 export { default as Delay } from "./Delay";
+export { default as Box } from "./Box";
 export {
   AppBar,
   Begin as AppBarBegin,

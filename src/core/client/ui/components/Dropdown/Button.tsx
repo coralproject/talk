@@ -50,7 +50,7 @@ const Button: FunctionComponent<Props> = ({
       disabled={disabled}
       {...rest}
     >
-      <Flex>
+      <Flex alignItems="center">
         {icon && <div className={classes.iconBefore}>{icon}</div>}
         <div
           className={cn({

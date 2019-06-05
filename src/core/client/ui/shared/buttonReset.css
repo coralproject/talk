@@ -27,10 +27,6 @@
     cursor: default;
   }
 
-  &:visited {
-    color: inherit;
-  }
-
   &::-moz-focus-inner {
     border: 0;
   }

@@ -1,11 +1,14 @@
 import cn from "classnames";
-import React, { Ref } from "react";
-import { FunctionComponent, HTMLAttributes, ReactNode } from "react";
+import React from "react";
+import { FunctionComponent, ReactNode } from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
+/* In this case the Box styles have higher priority! */
 import styles from "./Typography.css";
+
+import Box from "../Box";
 
 type Variant =
   | "heading1"
@@ -27,7 +30,7 @@ type Variant =
 // Based on Typography Component of Material UI.
 // https://github.com/mui-org/material-ui/blob/303199d39b42a321d28347d8440d69166f872f27/packages/material-ui/src/Typography/Typography.js
 
-interface Props extends HTMLAttributes<any> {
+interface Props extends PropTypesOf<typeof Box> {
   /**
    * Set the text-align on the component.
    */
@@ -86,7 +89,7 @@ interface Props extends HTMLAttributes<any> {
   variant?: Variant;
 
   /** Internal: Forwarded Ref */
-  forwardRef?: Ref<HTMLElement>;
+  forwardRef?: PropTypesOf<typeof Box>["ref"];
 }
 
 const Typography: FunctionComponent<Props> = props => {
@@ -133,14 +136,11 @@ const Typography: FunctionComponent<Props> = props => {
   const innerProps = {
     ref: forwardRef,
     className: rootClassName,
+    container: Container,
     ...rest,
   };
 
-  if (React.isValidElement<any>(Container)) {
-    return React.cloneElement(Container, innerProps);
-  } else {
-    return <Container {...innerProps} />;
-  }
+  return <Box {...innerProps} />;
 };
 
 Typography.defaultProps = {

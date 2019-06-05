@@ -12,8 +12,11 @@ import {
 } from "coral-ui/components";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
-import styles from "./ModerationDropdownContainer.css";
+import FeatureCommentMutation from "./FeatureCommentMutation";
 import RejectCommentMutation from "./RejectCommentMutation";
+import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
+
+import styles from "./ModerationDropdownContainer.css";
 
 interface Props {
   comment: CommentData;
@@ -25,6 +28,8 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
   onDismiss,
 }) => {
   const approve = useMutation(ApproveCommentMutation);
+  const feature = useMutation(FeatureCommentMutation);
+  const unfeature = useMutation(UnfeatureCommentMutation);
   const reject = useMutation(RejectCommentMutation);
 
   const onApprove = useCallback(() => {
@@ -35,16 +40,55 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
       reject({ commentID: comment.id, commentRevisionID: comment.revision.id }),
     [approve, comment]
   );
+  const onFeature = useCallback(() => {
+    feature({ commentID: comment.id, commentRevisionID: comment.revision.id });
+    onDismiss();
+  }, [feature, comment]);
+  const onUnfeature = useCallback(() => {
+    unfeature({
+      commentID: comment.id,
+    });
+    onDismiss();
+  }, [unfeature, comment]);
 
   const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
+  const featured = comment.tags.some(t => t.code === "FEATURED");
 
   return (
     <Dropdown>
+      {featured ? (
+        <Localized id="comments-moderationDropdown-unfeature">
+          <DropdownButton
+            icon={
+              <Icon className={styles.featured} size="md">
+                star
+              </Icon>
+            }
+            className={styles.featured}
+            onClick={onUnfeature}
+          >
+            Un-Feature
+          </DropdownButton>
+        </Localized>
+      ) : (
+        <Localized id="comments-moderationDropdown-feature">
+          <DropdownButton
+            icon={<Icon size="md">star_border</Icon>}
+            onClick={onFeature}
+          >
+            Feature
+          </DropdownButton>
+        </Localized>
+      )}
       {approved ? (
         <Localized id="comments-moderationDropdown-approved">
           <DropdownButton
-            icon={<Icon className={styles.approved}>check</Icon>}
+            icon={
+              <Icon className={styles.approved} size="md">
+                check
+              </Icon>
+            }
             className={styles.approved}
             disabled
           >
@@ -53,7 +97,10 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
         </Localized>
       ) : (
         <Localized id="comments-moderationDropdown-approve">
-          <DropdownButton icon={<Icon>check</Icon>} onClick={onApprove}>
+          <DropdownButton
+            icon={<Icon size="md">check</Icon>}
+            onClick={onApprove}
+          >
             Approve
           </DropdownButton>
         </Localized>
@@ -61,7 +108,11 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
       {rejected ? (
         <Localized id="comments-moderationDropdown-rejected">
           <DropdownButton
-            icon={<Icon className={styles.rejected}>close</Icon>}
+            icon={
+              <Icon className={styles.rejected} size="md">
+                close
+              </Icon>
+            }
             className={styles.rejected}
             disabled
           >
@@ -70,7 +121,10 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
         </Localized>
       ) : (
         <Localized id="comments-moderationDropdown-reject">
-          <DropdownButton icon={<Icon>close</Icon>} onClick={onReject}>
+          <DropdownButton
+            icon={<Icon size="md">close</Icon>}
+            onClick={onReject}
+          >
             Reject
           </DropdownButton>
         </Localized>
@@ -97,6 +151,9 @@ const enhanced = withFragmentContainer<Props>({
         id
       }
       status
+      tags {
+        code
+      }
     }
   `,
 })(ModerationDropdownContainer);
