@@ -32,6 +32,10 @@ import {
   CoralError,
   StoryNotFoundError,
 } from "coral-server/errors";
+import {
+  hasAncestors,
+  hasVisibleStatus,
+} from "coral-server/models/comment/helpers";
 import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
@@ -39,7 +43,7 @@ import { PhaseResult, processForModeration } from "./pipeline";
 
 export type CreateComment = Omit<
   CreateCommentInput,
-  "status" | "metadata" | "grandparentIDs" | "actionCounts" | "tags"
+  "status" | "metadata" | "ancestorIDs" | "actionCounts" | "tags"
 >;
 
 export async function create(
@@ -70,7 +74,7 @@ export async function create(
     throw new StoryNotFoundError(input.storyID);
   }
 
-  const grandparentIDs: string[] = [];
+  const ancestorIDs: string[] = [];
   if (input.parentID) {
     // Check to see that the reference parent ID exists.
     const parent = await retrieveComment(mongo, tenant.id, input.parentID);
@@ -78,18 +82,20 @@ export async function create(
       throw new CommentNotFoundError(input.parentID);
     }
 
-    // FIXME: (wyattjoh) Check that the parent comment was visible!
+    // Check that the parent comment was visible.
+    if (!hasVisibleStatus(parent)) {
+      throw new CommentNotFoundError(parent.id);
+    }
 
-    // Push the parent's parent id's into the comment's grandparent id's.
-    grandparentIDs.push(...parent.grandparentIDs);
-    if (parent.parentID) {
-      // If this parent has a parent, push it down as well.
-      grandparentIDs.push(parent.parentID);
+    ancestorIDs.push(input.parentID);
+    if (hasAncestors(parent)) {
+      // Push the parent's ancestors id's into the comment's ancestor id's.
+      ancestorIDs.push(...parent.ancestorIDs);
     }
 
     log.trace(
-      { grandparentIDs: grandparentIDs.length },
-      "pushed grandparent id's into comment creation"
+      { ancestorIDs: ancestorIDs.length },
+      "pushed parent ancestorIDs into comment"
     );
   }
 
@@ -149,7 +155,7 @@ export async function create(
       tags,
       body,
       status,
-      grandparentIDs,
+      ancestorIDs,
       metadata,
       actionCounts,
     },

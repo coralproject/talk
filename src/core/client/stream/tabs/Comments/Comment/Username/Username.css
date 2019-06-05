@@ -1,0 +1,8 @@
+.root {
+  line-height: 0;
+}
+.popover {
+  width: 232px;
+  max-width: 80%;
+  padding: var(--spacing-3);
+}

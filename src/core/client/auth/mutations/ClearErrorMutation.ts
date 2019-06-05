@@ -2,7 +2,7 @@ import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { createMutationContainer } from "coral-framework/lib/relay";
-import { LOCAL_ID } from "coral-framework/lib/relay/withLocalStateContainer";
+import { LOCAL_ID } from "coral-framework/lib/relay";
 
 export type ClearErrorMutation = () => Promise<void>;
 

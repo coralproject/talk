@@ -1,0 +1,7 @@
+.root {
+  color: var(--palette-text-primary);
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: calc(16rem / var(--rem-base));
+  line-height: calc(16em / 16);
+}

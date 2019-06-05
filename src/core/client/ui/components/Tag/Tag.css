@@ -1,7 +1,8 @@
 .root {
   composes: tagText from "coral-ui/shared/typography.css";
   color: var(--palette-text-light);
-  padding: 3px 4px;
+  line-height: 1;
+  padding: 2px 4px;
   white-space: nowrap;
   background-color: var(--palette-grey-dark);
   border-radius: 1px;

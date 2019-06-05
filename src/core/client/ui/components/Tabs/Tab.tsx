@@ -19,7 +19,7 @@ export interface TabProps {
   /**
    * The id/name of the tab
    */
-  tabId: string;
+  tabID: string;
   /**
    * Active status
    */
@@ -31,18 +31,18 @@ export interface TabProps {
   /**
    * Action taken on tab click
    */
-  onTabClick?: (tabId: string) => void;
+  onTabClick?: (tabID: string) => void;
 }
 
 class Tab extends React.Component<TabProps> {
   public handleTabClick = () => {
     if (this.props.onTabClick) {
-      this.props.onTabClick(this.props.tabId);
+      this.props.onTabClick(this.props.tabID);
     }
   };
 
   public render() {
-    const { className, classes, children, tabId, active, variant } = this.props;
+    const { className, classes, children, tabID, active, variant } = this.props;
 
     const buttonClassName = cn(
       classes.button,
@@ -57,13 +57,13 @@ class Tab extends React.Component<TabProps> {
     return (
       <li
         className={styles.root}
-        key={tabId}
-        id={`tab-${tabId}`}
+        key={tabID}
+        id={`tab-${tabID}`}
         role="presentation"
       >
         <BaseButton
           className={buttonClassName}
-          aria-controls={`tabPane-${tabId}`}
+          aria-controls={`tabPane-${tabID}`}
           role="tab"
           aria-selected={active}
           onClick={this.handleTabClick}

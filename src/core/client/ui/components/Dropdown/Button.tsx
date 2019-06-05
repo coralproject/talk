@@ -7,10 +7,12 @@ import { withStyles } from "coral-ui/hocs";
 import BaseButton, { BaseButtonProps } from "../BaseButton";
 import Icon from "../Icon";
 
+import { Flex } from "..";
 import styles from "./Button.css";
 
 interface Props extends Omit<BaseButtonProps, "ref"> {
   children: React.ReactNode;
+  icon?: React.ReactNode;
   href?: string;
   className?: string;
   onClick?: React.EventHandler<React.MouseEvent>;
@@ -30,6 +32,8 @@ const Button: FunctionComponent<Props> = ({
   onClick,
   children,
   classes,
+  icon,
+  disabled,
   ...rest
 }) => {
   return (
@@ -38,16 +42,26 @@ const Button: FunctionComponent<Props> = ({
         root: cn(classes.root, className, {
           [classes.blankAdornment]: blankAdornment,
         }),
-        mouseHover: classes.mouseHover,
+        mouseHover: cn({ [classes.mouseHover]: !disabled }),
       }}
       href={href}
       onClick={onClick}
       anchor={Boolean(href)}
+      disabled={disabled}
       {...rest}
     >
-      {children}
+      <Flex>
+        {icon && <div className={classes.iconBefore}>{icon}</div>}
+        <div
+          className={cn({
+            [classes.anchor]: Boolean(href),
+          })}
+        >
+          {children}
+        </div>
+      </Flex>
       {rest.target === "_blank" && (
-        <Icon className={classes.icon}>open_in_new</Icon>
+        <Icon className={classes.iconAfter}>open_in_new</Icon>
       )}
     </BaseButton>
   );

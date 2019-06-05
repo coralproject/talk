@@ -2,14 +2,14 @@ import { generateFrameOptions } from "coral-server/app/middleware/csp/tenant";
 import { Request } from "coral-server/types/express";
 
 it("denies when the tenant has no specified domains", () => {
-  const tenant = { domains: [] };
+  const tenant = { allowedDomains: [] };
   const req = {} as Request;
 
   expect(generateFrameOptions(req, tenant)).toEqual("deny");
 });
 
 it("allow-from single domain when there is one domain", () => {
-  const tenant = { domains: ["https://coralproject.net"] };
+  const tenant = { allowedDomains: ["https://coralproject.net"] };
   const req = {} as Request;
 
   expect(generateFrameOptions(req, tenant)).toEqual(
@@ -19,7 +19,10 @@ it("allow-from single domain when there is one domain", () => {
 
 it("deny from the domain when it does not provide and there are multiple tenants domains", () => {
   const tenant = {
-    domains: ["https://coralproject.net", "https://news.coralproject.net"],
+    allowedDomains: [
+      "https://coralproject.net",
+      "https://news.coralproject.net",
+    ],
   };
   const req = { headers: {}, query: { parentUrl: "" } } as Request;
 
@@ -28,7 +31,10 @@ it("deny from the domain when it does not provide and there are multiple tenants
 
 it("allows from the domain when it does not provide a match and there are multiple tenants domains", () => {
   const tenant = {
-    domains: ["https://coralproject.net", "https://news.coralproject.net"],
+    allowedDomains: [
+      "https://coralproject.net",
+      "https://news.coralproject.net",
+    ],
   };
   const req = {
     headers: {},
@@ -40,7 +46,10 @@ it("allows from the domain when it does not provide a match and there are multip
 
 it("allows from the domain when it does provide a match and there are multiple tenants domains", () => {
   const tenant = {
-    domains: ["https://coralproject.net", "https://news.coralproject.net"],
+    allowedDomains: [
+      "https://coralproject.net",
+      "https://news.coralproject.net",
+    ],
   };
   const req = {
     headers: {},
@@ -54,7 +63,7 @@ it("allows from the domain when it does provide a match and there are multiple t
 
 it("it prefixes domains of the tenant when generating the frame option", () => {
   const tenant = {
-    domains: ["coralproject.net", "news.coralproject.net"],
+    allowedDomains: ["coralproject.net", "news.coralproject.net"],
   };
   const req = {
     headers: {},
@@ -68,7 +77,7 @@ it("it prefixes domains of the tenant when generating the frame option", () => {
 
 it("it prefixes domains of the tenant when generating the frame option", () => {
   const tenant = {
-    domains: ["coralproject.net", "news.coralproject.net"],
+    allowedDomains: ["coralproject.net", "news.coralproject.net"],
   };
   const req = {
     headers: {},
@@ -82,7 +91,7 @@ it("it prefixes domains of the tenant when generating the frame option", () => {
 
 it("it prefixes domains of the tenant when generating the frame option and denies based on it", () => {
   const tenant = {
-    domains: ["coralproject.net", "news.coralproject.net"],
+    allowedDomains: ["coralproject.net", "news.coralproject.net"],
   };
   const req = {
     headers: {},

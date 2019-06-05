@@ -7,8 +7,6 @@ import { withStyles } from "coral-ui/hocs";
 import styles from "./TextLink.css";
 
 interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  /** external if set to true will show a little icon that indicates an external link */
-  external?: boolean;
   /**
    * Override or extend the styles applied to the component.
    */
@@ -16,7 +14,7 @@ interface Props extends AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 const TextLinkProps: StatelessComponent<Props> = props => {
-  const { className, children, classes, external, ...rest } = props;
+  const { className, children, classes, target, ...rest } = props;
 
   const rootClassName = cn(classes.root, className);
 
@@ -24,12 +22,13 @@ const TextLinkProps: StatelessComponent<Props> = props => {
     <a
       className={rootClassName}
       href={props.href || (children as string)}
+      target={target}
       {...rest}
     >
       {children}
-      {external && (
-        <Icon className={styles.icon} size="xs">
-          launch
+      {target === "_blank" && (
+        <Icon className={classes.icon} size="xs">
+          open_in_new
         </Icon>
       )}
     </a>

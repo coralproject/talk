@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ForwardRef(forwardRef)
+  className="App-root"
+>
+  <withContext(withLocalStateContainer(TabBarQuery)) />
+  <TabContent
+    activeTab="COMMENTS"
+    className="App-tabContent"
+  >
+    <TabPane
+      data-testid="current-tab-pane"
+      tabID="COMMENTS"
+    >
+      <withContext(withLocalStateContainer(CommentsPaneContainer)) />
+    </TabPane>
+    <TabPane
+      data-testid="current-tab-pane"
+      tabID="PROFILE"
+    >
+      <withContext(withLocalStateContainer(ProfileQuery)) />
+    </TabPane>
+    <TabPane
+      data-testid="current-tab-pane"
+      tabID="CONFIGURE"
+    >
+      <withContext(withLocalStateContainer(ConfigureQuery)) />
+    </TabPane>
+  </TabContent>
+</ForwardRef(forwardRef)>
+`;

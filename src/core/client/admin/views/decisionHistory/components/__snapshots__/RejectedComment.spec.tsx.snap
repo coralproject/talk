@@ -5,15 +5,15 @@ exports[`renders correctly 1`] = `
   icon={<RejectedIcon />}
 >
   <Localized
-    id="decisionHistory-rejectedCommentBy"
-    username={
+    Username={
       <Username
         username="InTheExpensiveSeats"
       />
     }
+    id="decisionHistory-rejectedCommentBy"
   >
     <Info>
-      Rejected comment by &lt;username&gt;&lt;/username&gt;
+      Rejected comment by &lt;Username&gt;&lt;/Username&gt;
     </Info>
   </Localized>
   <Footer>

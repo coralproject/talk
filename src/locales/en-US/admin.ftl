@@ -39,7 +39,7 @@ userMenu-popover =
 ## Restricted
 restricted-currentlySignedInTo = Currently signed in to
 restricted-noPermissionInfo = You do not have permission to access this page.
-restricted-signedInAs = You are signed in as: <username></username>
+restricted-signedInAs = You are signed in as: <Username></Username>
 restricted-signInWithADifferentAccount = Sign in with a different account
 restricted-contactAdmin = If you think this is an error, please contact your administrator for assistance.
 
@@ -176,14 +176,14 @@ configure-auth-facebook-loginWith = Login with Facebook
 configure-auth-facebook-toEnableIntegration =
   To enable the integration with Facebook Authentication,
   you need to create and set up a web application.
-  For more information visit: <link></link>.
+  For more information visit: <Link></Link>.
 configure-auth-facebook-useLoginOn = Use Facebook login on
 
 configure-auth-google-loginWith = Login with Google
 configure-auth-google-toEnableIntegration =
   To enable the integration with Google Authentication you need
   to create and set up a web application. For more information visit:
-  <link></link>.
+  <Link></Link>.
 configure-auth-google-useLoginOn = Use Google login on
 
 configure-auth-sso-loginWith = Login with Single Sign On
@@ -200,7 +200,7 @@ configure-auth-local-loginWith = Login with Email Authentication
 configure-auth-local-useLoginOn = Use Email Authentication login on
 
 configure-auth-oidc-loginWith = Login with OpenID Connect
-configure-auth-oidc-toLearnMore = To learn more: <link></link>
+configure-auth-oidc-toLearnMore = To learn more: <Link></Link>
 configure-auth-oidc-providerName = Provider Name
 configure-auth-oidc-providerNameDescription =
   The provider of the OpenID Connect integration. This will be used when the name of the provider
@@ -297,8 +297,8 @@ decisionHistory-youWillSeeAList =
 decisionHistory-showMoreButton =
   Show More
 decisionHistory-yourDecisionHistory = Your Decision History
-decisionHistory-rejectedCommentBy = Rejected comment by <username></username>
-decisionHistory-acceptedCommentBy = Accepted comment by <username></username>
+decisionHistory-rejectedCommentBy = Rejected comment by <Username></Username>
+decisionHistory-acceptedCommentBy = Accepted comment by <Username></Username>
 decisionHistory-goToComment = Go to comment
 
 ## moderate
@@ -326,7 +326,7 @@ moderate-emptyQueue-reported = Nicely done! There are no more reported comments 
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
 moderate-emptyQueue-rejected = There are no rejected comments.
 
-moderate-comment-inReplyTo = Reply to <username><username>
+moderate-comment-inReplyTo = Reply to <Username></Username>
 moderate-comment-viewContext = View Context
 moderate-comment-rejectButton =
   .aria-label = Reject
@@ -444,7 +444,7 @@ community-userStatus-popover =
 community-userStatus-banUser = Ban User
 community-userStatus-removeBan = Remove Ban
 community-userStatus-suspendUser = Suspend User
-community-userStatus-removeSupsension = Remove Suspension
+community-userStatus-removeSuspension = Remove Suspension
 community-userStatus-unknown = Unknown
 community-userStatus-changeButton =
   .aria-label = Change user status

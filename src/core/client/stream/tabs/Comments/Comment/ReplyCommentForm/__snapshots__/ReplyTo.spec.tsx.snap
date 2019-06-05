@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ForwardRef(forwardRef)
+  alignItems="center"
+  className="ReplyTo-root"
+>
+  <ForwardRef(forwardRef)>
+    reply
+  </ForwardRef(forwardRef)>
+   
+  <Localized
+    Username={<Username />}
+    id="comments-replyTo"
+  >
+    <ForwardRef(forwardRef)
+      className="ReplyTo-text"
+      container="span"
+    >
+      Replying to: &lt;Username&gt;&lt;/Username&gt;
+    </ForwardRef(forwardRef)>
+  </Localized>
+</ForwardRef(forwardRef)>
+`;

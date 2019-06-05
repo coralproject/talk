@@ -161,6 +161,29 @@ export async function upsertStory(
   return result.value || null;
 }
 
+export interface FindStoryInput {
+  id?: string;
+  url?: string;
+}
+
+export async function findStory(
+  mongo: Db,
+  tenantID: string,
+  { id, url }: FindStoryInput
+) {
+  if (id) {
+    return retrieveStory(mongo, tenantID, id);
+  }
+
+  if (url) {
+    return retrieveStoryByURL(mongo, tenantID, url);
+  }
+
+  // Story can't be found with that ID/URL combination and scraping is
+  // disabled, so we fail here.
+  return null;
+}
+
 export interface FindOrCreateStoryInput {
   id?: string;
   url?: string;

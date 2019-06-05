@@ -49,9 +49,9 @@ const SignIn: FunctionComponent<Props> = ({ username, onSignInAs }) => {
           </Localized>
         </div>
         <div>
-          <Localized id="restricted-signedInAs" username={<Username />}>
+          <Localized id="restricted-signedInAs" Username={<Username />}>
             <Typography variant="bodyCopy" align="center" container="div">
-              {"You are signed in as: <username></username>"}
+              {"You are signed in as: <Username></Username>"}
             </Typography>
           </Localized>
         </div>

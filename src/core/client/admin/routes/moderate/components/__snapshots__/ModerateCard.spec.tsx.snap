@@ -48,7 +48,6 @@ exports[`renders accepted correctly 1`] = `
             >
               <withPropsOnChange(TextLinkProps)
                 className="ModerateCard-link"
-                external={true}
                 href="http://localhost/comment"
                 target="_blank"
               >
@@ -146,7 +145,6 @@ exports[`renders correctly 1`] = `
             >
               <withPropsOnChange(TextLinkProps)
                 className="ModerateCard-link"
-                external={true}
                 href="http://localhost/comment"
                 target="_blank"
               >
@@ -243,7 +241,6 @@ exports[`renders dangling correctly 1`] = `
             >
               <withPropsOnChange(TextLinkProps)
                 className="ModerateCard-link"
-                external={true}
                 href="http://localhost/comment"
                 target="_blank"
               >
@@ -342,7 +339,6 @@ exports[`renders rejected correctly 1`] = `
             >
               <withPropsOnChange(TextLinkProps)
                 className="ModerateCard-link"
-                external={true}
                 href="http://localhost/comment"
                 target="_blank"
               >
@@ -445,7 +441,6 @@ exports[`renders reply correctly 1`] = `
             >
               <withPropsOnChange(TextLinkProps)
                 className="ModerateCard-link"
-                external={true}
                 href="http://localhost/comment"
                 target="_blank"
               >
@@ -542,7 +537,6 @@ exports[`renders story info 1`] = `
             >
               <withPropsOnChange(TextLinkProps)
                 className="ModerateCard-link"
-                external={true}
                 href="http://localhost/comment"
                 target="_blank"
               >
@@ -574,7 +568,6 @@ exports[`renders story info 1`] = `
                 className="ModerateCard-link"
                 href="/story"
                 onClick={[Function]}
-                target="_blank"
               >
                 Moderate Story
               </withPropsOnChange(TextLinkProps)>

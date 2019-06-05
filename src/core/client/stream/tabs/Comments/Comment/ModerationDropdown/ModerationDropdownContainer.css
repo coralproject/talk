@@ -1,0 +1,8 @@
+.approved {
+  color: var(--palette-success-dark);
+  font-weight: var(--font-weight-bold);
+}
+.rejected {
+  color: var(--palette-error-dark);
+  font-weight: var(--font-weight-bold);
+}

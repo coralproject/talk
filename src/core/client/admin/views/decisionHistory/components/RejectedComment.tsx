@@ -26,9 +26,9 @@ const RejectedComment: FunctionComponent<Props> = props => (
   <DecisionItem icon={<RejectedIcon />}>
     <Localized
       id="decisionHistory-rejectedCommentBy"
-      username={<Username username={props.username} />}
+      Username={<Username username={props.username} />}
     >
-      <Info>{"Rejected comment by <username></username>"}</Info>
+      <Info>{"Rejected comment by <Username></Username>"}</Info>
     </Localized>
     <Footer>
       <Typography variant="timestamp">

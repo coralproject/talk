@@ -35,13 +35,13 @@ export const cspTenantMiddleware: RequestHandler = (req, res, next) => {
 
 function generateContentSecurityPolicy(
   req: Request,
-  tenant: Pick<Tenant, "domains">
+  tenant: Pick<Tenant, "allowedDomains">
 ) {
   const directives: Record<string, any> = {};
 
   // Only the domains that are allowed by the tenant may embed Coral.
   directives.frameAncestors =
-    tenant.domains.length > 0 ? tenant.domains : ["'none'"];
+    tenant.allowedDomains.length > 0 ? tenant.allowedDomains : ["'none'"];
 
   // Build the directive.
   const directive = builder({ directives });
@@ -51,20 +51,20 @@ function generateContentSecurityPolicy(
 
 export function generateFrameOptions(
   req: Request,
-  tenant: Pick<Tenant, "domains">
+  tenant: Pick<Tenant, "allowedDomains">
 ) {
   // If there aren't any domains, then we reject it.
-  if (tenant.domains.length === 0) {
+  if (tenant.allowedDomains.length === 0) {
     return "deny";
   }
 
   // If there is only one domain on the tenant, and we don't require
   // prefixing, then return it!
   if (
-    tenant.domains.length === 1 &&
-    !doesRequireSchemePrefixing(tenant.domains[0])
+    tenant.allowedDomains.length === 1 &&
+    !doesRequireSchemePrefixing(tenant.allowedDomains[0])
   ) {
-    return `allow-from ${getOrigin(tenant.domains[0])}`;
+    return `allow-from ${getOrigin(tenant.allowedDomains[0])}`;
   }
 
   const parentsURL = extractParentsURL(req);
@@ -87,11 +87,11 @@ export function generateFrameOptions(
   // If there is only one domain on the tenant, and we require prefixing, then
   // return it with prefixing!
   if (
-    tenant.domains.length === 1 &&
-    !doesRequireSchemePrefixing(tenant.domains[0])
+    tenant.allowedDomains.length === 1 &&
+    !doesRequireSchemePrefixing(tenant.allowedDomains[0])
   ) {
     return `allow-from ${getOrigin(
-      prefixSchemeIfRequired(parentSecure, tenant.domains[0])
+      prefixSchemeIfRequired(parentSecure, tenant.allowedDomains[0])
     )}`;
   }
 
@@ -104,7 +104,7 @@ export function generateFrameOptions(
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   // We need to find the domain that is asking so we can respond with the right
   // result, sort of like CORS!
-  const allowFrom = tenant.domains
+  const allowFrom = tenant.allowedDomains
     .map(domain => getOrigin(prefixSchemeIfRequired(parentSecure, domain)))
     .find(origin => origin === parentsOrigin);
   if (!allowFrom) {

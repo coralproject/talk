@@ -29,7 +29,7 @@ export interface TabBarProps {
   /**
    * Action taken on tab click
    */
-  onTabClick?: (tabId: string) => void;
+  onTabClick?: (tabID: string) => void;
 }
 
 const TabBar: FunctionComponent<TabBarProps> = props => {
@@ -57,11 +57,11 @@ const TabBar: FunctionComponent<TabBarProps> = props => {
   const tabs = React.Children.toArray(children).map(
     (child: React.ReactElement<any>, index: number) =>
       React.cloneElement(child, {
-        tabId: child.props.tabId ? child.props.tabId : index,
+        tabID: child.props.tabID ? child.props.tabID : index,
         active:
           defaultActiveTab && !activeTab
-            ? child.props.tabId === defaultActiveTab
-            : child.props.tabId === activeTab,
+            ? child.props.tabID === defaultActiveTab
+            : child.props.tabID === activeTab,
         variant,
         onTabClick,
       })

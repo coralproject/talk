@@ -7,9 +7,9 @@ import TabPane from "./TabPane";
 it("renders correctly", () => {
   const renderer = TestRenderer.create(
     <TabContent activeTab="one">
-      <TabPane tabId="one">Hola One</TabPane>
-      <TabPane tabId="two">Hola Two</TabPane>
-      <TabPane tabId="three">Hola Three</TabPane>
+      <TabPane tabID="one">Hola One</TabPane>
+      <TabPane tabID="two">Hola Two</TabPane>
+      <TabPane tabID="three">Hola Three</TabPane>
     </TabContent>
   );
   expect(renderer.toJSON()).toMatchSnapshot();
@@ -18,9 +18,9 @@ it("renders correctly", () => {
 it("sets initial tab as active, renders only one", () => {
   const renderer = TestRenderer.create(
     <TabContent activeTab="one">
-      <TabPane tabId="one">Hola One</TabPane>
-      <TabPane tabId="two">Hola Two</TabPane>
-      <TabPane tabId="three">Hola Three</TabPane>
+      <TabPane tabID="one">Hola One</TabPane>
+      <TabPane tabID="two">Hola Two</TabPane>
+      <TabPane tabID="three">Hola Three</TabPane>
     </TabContent>
   );
 

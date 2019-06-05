@@ -21,7 +21,9 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
   <FormField>
     <HorizontalGutter size="full">
       <Localized id="configure-advanced-permittedDomains">
-        <Header container={<label htmlFor="configure-advanced-domains" />}>
+        <Header
+          container={<label htmlFor="configure-advanced-allowedDomains" />}
+        >
           Permitted Domains
         </Header>
       </Localized>
@@ -34,7 +36,11 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
           use is localhost, staging.yourdomain.com, yourdomain.com, etc.
         </Typography>
       </Localized>
-      <Field name="domains" parse={parseStringList} format={formatStringList}>
+      <Field
+        name="allowedDomains"
+        parse={parseStringList}
+        format={formatStringList}
+      >
         {({ input, meta }) => (
           <>
             <TextField

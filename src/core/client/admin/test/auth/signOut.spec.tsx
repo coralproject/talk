@@ -72,7 +72,7 @@ it("logs out", async () => {
   userMenu.props.onClick();
 
   const signOutButton = await waitForElement(() =>
-    within(testRenderer.root).getByText("Sign Out")
+    within(testRenderer.root).getByText("Sign Out", { selector: "button" })
   );
   signOutButton.props.onClick();
 

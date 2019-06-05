@@ -19,13 +19,13 @@ const InReplyTo: FunctionComponent<Props> = ({ children }) => {
   return (
     <Flex alignItems="center">
       <Icon className={styles.icon}>reply</Icon>{" "}
-      <Localized id="moderate-comment-inReplyTo" username={<Username />}>
+      <Localized id="moderate-comment-inReplyTo" Username={<Username />}>
         <Typography
           variant="timestamp"
           container="span"
           className={styles.inReplyTo}
         >
-          {"Reply to <username><username>"}
+          {"Reply to <Username></Username>"}
         </Typography>
       </Localized>
     </Flex>

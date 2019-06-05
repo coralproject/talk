@@ -97,6 +97,17 @@ const variables = {
     popover: 300,
     modal: 1000,
   },
+  spacing: {
+    1: "4px",
+    2: "8px",
+    3: "12px",
+    4: "16px",
+    5: "24px",
+    6: "32px",
+    7: "44px",
+    8: "60px",
+    9: "84px",
+  },
 };
 
 export default variables;

@@ -7,3 +7,4 @@ export { default as redirectOAuth2 } from "./redirectOAuth2";
 export {
   default as getParamsFromHashAndClearIt,
 } from "./getParamsFromHashAndClearIt";
+export { default as roleIsAtLeast } from "./roleIsAtLeast";

@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders username and body 1`] = `
+<div
+  className="Comment-root"
+  role="article"
+>
+  <ForwardRef(forwardRef)
+    direction="row"
+    justifyContent="space-between"
+  >
+    <TopBarLeft>
+      <ForwardRef(forwardRef)
+        alignItems="center"
+        direction="row"
+        itemGutter="half"
+      >
+        Marvin
+      </ForwardRef(forwardRef)>
+      <ForwardRef(forwardRef)
+        alignItems="baseline"
+        direction="row"
+        itemGutter={true}
+      >
+        <Timestamp>
+          1995-12-17T03:24:00.000Z
+        </Timestamp>
+        <EditedMarker />
+      </ForwardRef(forwardRef)>
+    </TopBarLeft>
+    <div>
+      topBarRight
+    </div>
+  </ForwardRef(forwardRef)>
+  <ForwardRef(forwardRef)>
+    <HTMLContent>
+      Woof
+    </HTMLContent>
+    footer
+  </ForwardRef(forwardRef)>
+</div>
+`;

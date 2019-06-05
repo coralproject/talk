@@ -1,0 +1,957 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders conversation thread 1`] = `
+<div
+  className="ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
+>
+  <div
+    className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
+  >
+    <div
+      className="Circle-circleContainer"
+    >
+      <div
+        className="Circle-circleSubContainer"
+      >
+        <svg
+          className="Circle-circle"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="50"
+          />
+        </svg>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+        id="comment-from-staff-0"
+      >
+        <div
+          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+        >
+          <div
+            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          >
+            <div>
+              <span
+                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              >
+                Moderator
+              </span>
+            </div>
+            <span
+              className="Tag-root"
+            >
+              Staff
+            </span>
+          </div>
+          <div
+            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+          >
+            <time
+              className="Timestamp-root RelativeTime-root"
+              dateTime="2018-07-06T18:24:00.000Z"
+              title="2018-07-06T18:24:00.000Z"
+            >
+              2018-07-06T18:24:00.000Z
+            </time>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="Circle-circleContainer ConversationThread-loadMore"
+    >
+      <div
+        className="Circle-circleSubContainer"
+      >
+        <svg
+          className="Circle-circle"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            fill="none"
+            r="40"
+            strokeWidth="8"
+          />
+        </svg>
+      </div>
+      <div
+        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+      >
+        <button
+          className="BaseButton-root Button-root ConversationThread-showMoreButton Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Show More of This Conversation
+        </button>
+        <span
+          className="Counter-root Counter-colorInherit"
+        >
+          <span
+            className="Counter-text"
+          >
+            2
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    className="Line-root HorizontalGutter-root HorizontalGutter-full"
+  >
+    <div
+      className="Circle-circleContainer"
+    >
+      <div
+        className="Circle-circleSubContainer Circle-end"
+      >
+        <svg
+          className="Circle-circle"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="50"
+          />
+        </svg>
+      </div>
+      <div
+        data-testid="comment-comment-0"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="Indent-root"
+          >
+            <div
+              className=""
+            >
+              <div
+                className="Comment-root Comment-highlight"
+                role="article"
+              >
+                <div
+                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                    >
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="username-popover"
+                          className="BaseButton-root"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Markus
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="username-popover-ariainfo"
+                          id="username-popover"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="username-popover-ariainfo"
+                          >
+                            A popover with more user information
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Joining Too",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Respect
+                        </span>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        id="comments-commentContainer-replyButton-comment-0"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="permalink-popover-comment-0"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Share
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="permalink-popover-comment-0-ariainfo"
+                          id="permalink-popover-comment-0"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="permalink-popover-comment-0-ariainfo"
+                          >
+                            A dialog showing a permalink to the comment
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Report
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`shows more of this conversation 1`] = `
+<div
+  className="ConversationThread-root"
+  data-testid="comments-permalinkView-conversationThread"
+>
+  <div
+    className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
+  />
+  <div
+    className="Line-root HorizontalGutter-root HorizontalGutter-full"
+  >
+    <div
+      className="Circle-circleContainer"
+    >
+      <div
+        className="Circle-circleSubContainer"
+      >
+        <svg
+          className="Circle-circle"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="50"
+          />
+        </svg>
+      </div>
+      <div
+        data-testid="comment-comment-1"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="Indent-root"
+          >
+            <div
+              className=""
+            >
+              <div
+                className="Comment-root"
+                role="article"
+              >
+                <div
+                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                    >
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="username-popover"
+                          className="BaseButton-root"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Lukas
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="username-popover-ariainfo"
+                          id="username-popover"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="username-popover-ariainfo"
+                          >
+                            A popover with more user information
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "What's up?",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Respect
+                        </span>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        id="comments-commentContainer-replyButton-comment-1"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="permalink-popover-comment-1"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Share
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="permalink-popover-comment-1-ariainfo"
+                          id="permalink-popover-comment-1"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="permalink-popover-comment-1-ariainfo"
+                          >
+                            A dialog showing a permalink to the comment
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Report
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="Circle-circleContainer"
+    >
+      <div
+        className="Circle-circleSubContainer"
+      >
+        <svg
+          className="Circle-circle"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            fill="none"
+            r="40"
+            strokeWidth="8"
+          />
+        </svg>
+      </div>
+      <div
+        data-testid="comment-comment-from-staff-0"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="Indent-root"
+          >
+            <div
+              className=""
+            >
+              <div
+                className="Comment-root"
+                role="article"
+              >
+                <div
+                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                    >
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="username-popover"
+                          className="BaseButton-root"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Moderator
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="username-popover-ariainfo"
+                          id="username-popover"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="username-popover-ariainfo"
+                          >
+                            A popover with more user information
+                          </div>
+                        </div>
+                      </div>
+                      <span
+                        className="Tag-root"
+                      >
+                        Staff
+                      </span>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Joining Too",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Respect
+                        </span>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        id="comments-commentContainer-replyButton-comment-from-staff-0"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="permalink-popover-comment-from-staff-0"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Share
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="permalink-popover-comment-from-staff-0-ariainfo"
+                          id="permalink-popover-comment-from-staff-0"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="permalink-popover-comment-from-staff-0-ariainfo"
+                          >
+                            A dialog showing a permalink to the comment
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Report
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="Circle-circleContainer"
+    >
+      <div
+        className="Circle-circleSubContainer Circle-end"
+      >
+        <svg
+          className="Circle-circle"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r="50"
+          />
+        </svg>
+      </div>
+      <div
+        data-testid="comment-comment-0"
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div
+            className="Indent-root"
+          >
+            <div
+              className=""
+            >
+              <div
+                className="Comment-root Comment-highlight"
+                role="article"
+              >
+                <div
+                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                >
+                  <div
+                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                    >
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="username-popover"
+                          className="BaseButton-root"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          >
+                            Markus
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="username-popover-ariainfo"
+                          id="username-popover"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="username-popover-ariainfo"
+                          >
+                            A popover with more user information
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    >
+                      <time
+                        className="Timestamp-root RelativeTime-root"
+                        dateTime="2018-07-06T18:24:00.000Z"
+                        title="2018-07-06T18:24:00.000Z"
+                      >
+                        2018-07-06T18:24:00.000Z
+                      </time>
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className="Flex-root Flex-flex Flex-itemGutter"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div
+                    className="HTMLContent-root"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "Joining Too",
+                      }
+                    }
+                  />
+                  <div
+                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                  >
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Respect
+                        </span>
+                      </button>
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        id="comments-commentContainer-replyButton-comment-0"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Reply
+                        </span>
+                      </button>
+                      <div
+                        className="Popover-root"
+                      >
+                        <button
+                          aria-controls="permalink-popover-comment-0"
+                          className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                          onTouchEnd={[Function]}
+                          type="button"
+                        >
+                          <span>
+                            Share
+                          </span>
+                        </button>
+                        <div
+                          aria-hidden={true}
+                          aria-labelledby="permalink-popover-comment-0-ariainfo"
+                          id="permalink-popover-comment-0"
+                          role="popup"
+                        >
+                          <div
+                            className="AriaInfo-root"
+                            id="permalink-popover-comment-0-ariainfo"
+                          >
+                            A dialog showing a permalink to the comment
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    >
+                      <button
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                        disabled={false}
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span>
+                          Report
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

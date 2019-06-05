@@ -21,10 +21,12 @@ import {
   consolidateUserSuspensionStatus,
   createUserToken,
   deactivateUserToken,
+  ignoreUser,
   insertUser,
   InsertUserInput,
   removeActiveUserSuspensions,
   removeUserBan,
+  removeUserIgnore,
   retrieveUser,
   setUserEmail,
   setUserLocalProfile,
@@ -568,4 +570,50 @@ export async function removeBan(
   }
 
   return removeUserBan(mongo, tenant.id, userID, user.id, now);
+}
+
+export async function ignore(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  userID: string,
+  now = new Date()
+) {
+  // Get the user being ignored to check if they exist.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  // TODO: extract function
+  if (user.ignoredUsers && user.ignoredUsers.some(u => u.id === userID)) {
+    // TODO: improve error
+    throw new Error("user already ignored");
+  }
+
+  await ignoreUser(mongo, tenant.id, user.id, userID, now);
+
+  return targetUser;
+}
+
+export async function removeIgnore(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  userID: string
+) {
+  // Get the user being un-ignored to check if they exist.
+  const targetUser = await retrieveUser(mongo, tenant.id, userID);
+  if (!targetUser) {
+    throw new UserNotFoundError(userID);
+  }
+
+  if (user.ignoredUsers && user.ignoredUsers.every(u => u.id !== userID)) {
+    // TODO: improve error
+    throw new Error("user already not ignored");
+  }
+
+  await removeUserIgnore(mongo, tenant.id, user.id, userID);
+
+  return targetUser;
 }

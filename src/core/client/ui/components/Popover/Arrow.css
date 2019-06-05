@@ -1,0 +1,102 @@
+.root {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+
+  &[data-placement*="bottom"] {
+    top: 0;
+    left: 0;
+    margin-top: -6px;
+    width: 20px;
+    height: 6px;
+    filter: drop-shadow(0px -2px 1px rgba(0, 0, 0, 0.1));
+    &::before {
+      border-width: 0 10px 6px 10px;
+      border-color: transparent transparent var(--palette-grey-lighter)
+        transparent;
+    }
+    &::after {
+      margin-top: -5px;
+      border-width: 0 10px 6px 10px;
+      border-color: transparent transparent var(--palette-common-white)
+        transparent;
+    }
+  }
+
+  &[data-placement*="top"] {
+    bottom: 0;
+    left: 0;
+    margin-bottom: -6px;
+    width: 20px;
+    height: 6px;
+    filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.1));
+    &::before {
+      border-width: 6px 10px 0 10px;
+      border-color: var(--palette-grey-lighter) transparent transparent
+        transparent;
+    }
+    &::after {
+      margin-top: -7px;
+      border-width: 6px 10px 0 10px;
+      border-color: var(--palette-common-white) transparent transparent
+        transparent;
+    }
+  }
+
+  &[data-placement*="right"] {
+    left: 0;
+    height: 20px;
+    width: 6px;
+    margin-left: -6px;
+    filter: drop-shadow(-1px 0px 1px rgba(0, 0, 0, 0.1));
+    &::before {
+      border-width: 10px 6px 10px 0;
+      border-color: transparent var(--palette-grey-lighter) transparent
+        transparent;
+    }
+    &::after {
+      margin-top: -20px;
+      margin-right: -1px;
+      border-width: 10px 6px 10px 0;
+      border-color: transparent var(--palette-common-white) transparent
+        transparent;
+    }
+  }
+
+  &[data-placement*="left"] {
+    right: 0;
+    height: 20px;
+    width: 6px;
+    margin-right: -6px;
+    filter: drop-shadow(1px 0px 1px rgba(0, 0, 0, 0.1));
+    &::before {
+      border-width: 10px 0 10px 6px;
+      border-color: transparent transparent transparent
+        var(--palette-grey-lighter);
+    }
+    &::after {
+      margin-top: -20px;
+      margin-left: -1px;
+      border-width: 10px 0 10px 6px;
+      border-color: transparent transparent transparent
+        var(--palette-common-white);
+    }
+  }
+
+  &::before {
+    content: "";
+    margin: auto;
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+  &::after {
+    content: "";
+    margin: auto;
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+}
