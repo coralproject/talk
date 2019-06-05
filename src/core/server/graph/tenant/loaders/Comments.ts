@@ -7,6 +7,7 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLUSER_ROLE,
   QueryToCommentsArgs,
   StoryToCommentsArgs,
 } from "coral-server/graph/tenant/schema/__generated__/types";
@@ -20,8 +21,10 @@ import {
   retrieveCommentUserConnection,
   retrieveManyComments,
 } from "coral-server/models/comment";
+import { hasVisibleStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers/connection";
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/story/counts/shared";
+import { User } from "coral-server/models/user";
 
 import { SingletonResolver } from "./util";
 
@@ -42,9 +45,48 @@ const primeCommentsFromConnection = (ctx: Context) => (
   return connection;
 };
 
+/**
+ * mapVisibleComment will provide a mapping function that will mark as null each
+ * comment that should not be visible to the target User.
+ *
+ * @param user the User to determine the visibility status with based on
+ * permissions
+ */
+const mapVisibleComment = (user?: Pick<User, "role">) => {
+  // Check to see if this user is privileged and can view non-visible comments.
+  const isPrivilegedUser =
+    user && [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(user.role);
+
+  // Return a function that will map out the non-visible comments if needed.
+  return (comment: Readonly<Comment> | null) => {
+    if (comment === null) {
+      return null;
+    }
+
+    if (hasVisibleStatus(comment) || isPrivilegedUser) {
+      return comment;
+    }
+
+    return null;
+  };
+};
+
+/**
+ * mapVisibleComments will map each comment an array to an array of Comment and
+ * null.
+ *
+ * @param user the User to determine the visibility status with based on
+ * permissions
+ */
+const mapVisibleComments = (user?: Pick<User, "role">) => (
+  comments: Array<Readonly<Comment> | null>
+): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
+
 export default (ctx: Context) => ({
   comment: new DataLoader((ids: string[]) =>
-    retrieveManyComments(ctx.mongo, ctx.tenant.id, ids)
+    retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
+      mapVisibleComments(ctx.user)
+    )
   ),
   forFilter: ({ first = 10, after, storyID, status }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
@@ -65,7 +107,7 @@ export default (ctx: Context) => ({
         // This should only ever be accessed when a user is logged in. It should
         // be safe to get the user here, but we'll throw an error anyways just
         // in case.
-        throw new Error("can't get action presense of an undefined user");
+        throw new Error("can't get action presence of an undefined user");
       }
 
       return retrieveManyUserActionPresence(
