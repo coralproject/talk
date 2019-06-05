@@ -974,6 +974,7 @@ hyphen is replaced by an underscore.
 """
 enum LOCALES {
   en_US
+  pt_BR
   es
   de
 }
