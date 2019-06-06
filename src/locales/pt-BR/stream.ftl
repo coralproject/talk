@@ -32,8 +32,7 @@ comments-permalinkPopover =
   .description = Uma caixa de diálogo mostrando um link permanente para o comentário
 comments-permalinkButton-share = Compartilhar
 comments-permalinkView-viewFullDiscussion = Ver discussão completa
-comments-permalinkView-commentNotFound = Comentário não encontrado
-
+comments-permalinkView-commentRemovedOrDoesNotExist = Este comentário foi removido ou não existe.
 comments-rte-bold =
   .title = Negrito
 

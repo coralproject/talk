@@ -32,7 +32,7 @@ comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment
 comments-permalinkButton-share = Share
 comments-permalinkView-viewFullDiscussion = View Full Discussion
-comments-permalinkView-commentNotFound = Comment not found
+comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
 
 comments-rte-bold =
   .title = Bold
