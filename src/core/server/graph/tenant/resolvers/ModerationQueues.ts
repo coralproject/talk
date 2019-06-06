@@ -1,5 +1,5 @@
 import {
-  AcceptCommentPayloadToModerationQueuesResolver,
+  ApproveCommentPayloadToModerationQueuesResolver,
   GQLModerationQueuesTypeResolver,
   QueryToModerationQueuesResolver,
   RejectCommentPayloadToModerationQueuesResolver,
@@ -89,7 +89,7 @@ export const sharedModerationInputResolver = async (
  */
 export const moderationQueuesResolver:
   | QueryToModerationQueuesResolver
-  | AcceptCommentPayloadToModerationQueuesResolver
+  | ApproveCommentPayloadToModerationQueuesResolver
   | RejectCommentPayloadToModerationQueuesResolver = async (
   source,
   args,

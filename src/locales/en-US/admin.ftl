@@ -298,7 +298,7 @@ decisionHistory-showMoreButton =
   Show More
 decisionHistory-yourDecisionHistory = Your Decision History
 decisionHistory-rejectedCommentBy = Rejected comment by <Username></Username>
-decisionHistory-acceptedCommentBy = Accepted comment by <Username></Username>
+decisionHistory-approvedCommentBy = Approved comment by <Username></Username>
 decisionHistory-goToComment = Go to comment
 
 ## moderate
@@ -330,8 +330,8 @@ moderate-comment-inReplyTo = Reply to <Username></Username>
 moderate-comment-viewContext = View Context
 moderate-comment-rejectButton =
   .aria-label = Reject
-moderate-comment-acceptButton =
-  .aria-label = Accept
+moderate-comment-approveButton =
+  .aria-label = Approve
 moderate-comment-decision = Decision
 moderate-comment-story = Story
 moderate-comment-moderateStory = Moderate Story

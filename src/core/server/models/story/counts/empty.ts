@@ -23,7 +23,7 @@ export function createEmptyCommentModerationQueueCounts(): CommentModerationQueu
 
 export function createEmptyCommentStatusCounts(): CommentStatusCounts {
   return {
-    [GQLCOMMENT_STATUS.ACCEPTED]: 0,
+    [GQLCOMMENT_STATUS.APPROVED]: 0,
     [GQLCOMMENT_STATUS.NONE]: 0,
     [GQLCOMMENT_STATUS.PREMOD]: 0,
     [GQLCOMMENT_STATUS.REJECTED]: 0,

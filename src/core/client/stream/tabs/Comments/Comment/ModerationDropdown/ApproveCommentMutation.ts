@@ -6,17 +6,17 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { AcceptCommentMutation as MutationTypes } from "coral-stream/__generated__/AcceptCommentMutation.graphql";
+import { ApproveCommentMutation as MutationTypes } from "coral-stream/__generated__/ApproveCommentMutation.graphql";
 
 let clientMutationId = 0;
 
-const AcceptCommentMutation = createMutation(
-  "acceptComment",
+const ApproveCommentMutation = createMutation(
+  "approveComment",
   (environment: Environment, input: MutationInput<MutationTypes>) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation AcceptCommentMutation($input: AcceptCommentInput!) {
-          acceptComment(input: $input) {
+        mutation ApproveCommentMutation($input: ApproveCommentInput!) {
+          approveComment(input: $input) {
             comment {
               status
             }
@@ -25,9 +25,9 @@ const AcceptCommentMutation = createMutation(
         }
       `,
       optimisticResponse: {
-        acceptComment: {
+        approveComment: {
           comment: {
-            status: "ACCEPTED",
+            status: "APPROVED",
           },
         },
       },
@@ -38,9 +38,9 @@ const AcceptCommentMutation = createMutation(
         },
       },
       updater: store => {
-        store.get(input.commentID)!.setValue("ACCEPT", "lastViewerAction");
+        store.get(input.commentID)!.setValue("APPROVE", "lastViewerAction");
       },
     })
 );
 
-export default AcceptCommentMutation;
+export default ApproveCommentMutation;

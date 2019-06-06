@@ -4,7 +4,7 @@ import { graphql } from "react-relay";
 import { DecisionHistoryItemContainer_action as ActionData } from "coral-admin/__generated__/DecisionHistoryItemContainer_action.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
-import AcceptedComment from "../components/AcceptedComment";
+import ApprovedComment from "../components/ApprovedComment";
 import RejectedComment from "../components/RejectedComment";
 
 interface DecisionHistoryItemContainerProps {
@@ -23,9 +23,9 @@ class DecisionHistoryItemContainer extends React.Component<
       (this.props.action.revision.comment.author &&
         this.props.action.revision.comment.author.username) ||
       "Unknown"; // TODO: (cvle) Figure out what to display, when username is not available.
-    if (this.props.action.status === "ACCEPTED") {
+    if (this.props.action.status === "APPROVED") {
       return (
-        <AcceptedComment
+        <ApprovedComment
           href={href}
           username={username}
           date={this.props.action.createdAt}

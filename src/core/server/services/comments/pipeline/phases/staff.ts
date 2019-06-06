@@ -15,7 +15,7 @@ export const staff: IntermediateModerationPhase = ({
 }): IntermediatePhaseResult | void => {
   if (author.role !== GQLUSER_ROLE.COMMENTER) {
     return {
-      status: GQLCOMMENT_STATUS.ACCEPTED,
+      status: GQLCOMMENT_STATUS.APPROVED,
       tags: [
         {
           type: COMMENT_TAG_TYPE.STAFF,

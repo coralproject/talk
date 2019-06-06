@@ -19,7 +19,7 @@ interface RejectedQueueContainerProps {
 }
 
 // TODO: use generated types
-const danglingLogic = (status: string) => ["ACCEPTED"].indexOf(status) >= 0;
+const danglingLogic = (status: string) => ["APPROVED"].indexOf(status) >= 0;
 
 export class RejectedQueueContainer extends React.Component<
   RejectedQueueContainerProps

@@ -1560,9 +1560,9 @@ enum COMMENT_STATUS {
   NONE
 
   """
-  The comment has been accepted by a moderator.
+  The comment has been approved by a moderator.
   """
-  ACCEPTED
+  APPROVED
 
   """
   The comment has been rejected by a moderator.
@@ -1894,9 +1894,9 @@ type CommentStatusCounts {
   NONE: Int!
 
   """
-  The comment has been accepted by a moderator.
+  The comment has been approved by a moderator.
   """
-  ACCEPTED: Int!
+  APPROVED: Int!
 
   """
   The comment has been rejected by a moderator.
@@ -3516,17 +3516,17 @@ type ScrapeStoryPayload {
 }
 
 ##################
-# acceptComment
+# approveComment
 ##################
 
-input AcceptCommentInput {
+input ApproveCommentInput {
   """
-  commentID is the ID of the Comment that was accepted.
+  commentID is the ID of the Comment that was approved.
   """
   commentID: ID!
 
   """
-  commentRevisionID is the ID of the CommentRevision that is being accepted.
+  commentRevisionID is the ID of the CommentRevision that is being approved.
   """
   commentRevisionID: ID!
 
@@ -3536,9 +3536,9 @@ input AcceptCommentInput {
   clientMutationId: String!
 }
 
-type AcceptCommentPayload {
+type ApproveCommentPayload {
   """
-  comment is the Comment that was accepted.
+  comment is the Comment that was approved.
   """
   comment: Comment
 
@@ -4213,9 +4213,9 @@ type Mutation {
     @auth(roles: [ADMIN, MODERATOR])
 
   """
-  acceptComment will mark the Comment as ACCEPTED.
+  approveComment will mark the Comment as APPROVED.
   """
-  acceptComment(input: AcceptCommentInput!): AcceptCommentPayload!
+  approveComment(input: ApproveCommentInput!): ApproveCommentPayload!
     @auth(roles: [MODERATOR, ADMIN])
 
   """

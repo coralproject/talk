@@ -1,7 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import AcceptedIcon from "./AcceptedIcon";
+import ApprovedIcon from "./ApprovedIcon";
 import DecisionItem from "./DecisionItem";
 import DotDivider from "./DotDivider";
 import Footer from "./Footer";
@@ -22,13 +22,13 @@ const Username: FunctionComponent<{ username: string }> = ({ username }) => (
   <strong>{username}</strong>
 );
 
-const AcceptedComment: FunctionComponent<Props> = props => (
-  <DecisionItem icon={<AcceptedIcon />}>
+const ApprovedComment: FunctionComponent<Props> = props => (
+  <DecisionItem icon={<ApprovedIcon />}>
     <Localized
-      id="decisionHistory-acceptedCommentBy"
+      id="decisionHistory-approvedCommentBy"
       Username={<Username username={props.username} />}
     >
-      <Info>{"Accepted comment by <Username></Username>"}</Info>
+      <Info>{"Approved comment by <Username></Username>"}</Info>
     </Localized>
     <Footer>
       <Typography variant="timestamp">
@@ -40,4 +40,4 @@ const AcceptedComment: FunctionComponent<Props> = props => (
   </DecisionItem>
 );
 
-export default AcceptedComment;
+export default ApprovedComment;

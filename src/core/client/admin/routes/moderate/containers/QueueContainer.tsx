@@ -23,7 +23,7 @@ interface QueueContainerProps {
 
 // TODO: use generated types
 const danglingLogic = (status: string) =>
-  ["ACCEPTED", "REJECTED"].indexOf(status) >= 0;
+  ["APPROVED", "REJECTED"].indexOf(status) >= 0;
 
 export class QueueContainer extends React.Component<QueueContainerProps> {
   public static routeConfig: RouteProps;

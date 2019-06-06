@@ -39,7 +39,7 @@ exports[`loads more 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root Icon-sm AcceptedIcon-root"
+              className="Icon-root Icon-sm ApprovedIcon-root"
             >
               check
             </span>
@@ -48,7 +48,7 @@ exports[`loads more 1`] = `
             <p
               className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
-              Accepted comment by 
+              Approved comment by 
               <strong>
                 dany
               </strong>
@@ -167,7 +167,7 @@ exports[`loads more 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root Icon-sm AcceptedIcon-root"
+              className="Icon-root Icon-sm ApprovedIcon-root"
             >
               check
             </span>
@@ -176,7 +176,7 @@ exports[`loads more 1`] = `
             <p
               className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
-              Accepted comment by 
+              Approved comment by 
               <strong>
                 dany
               </strong>
@@ -296,7 +296,7 @@ exports[`render popover content 1`] = `
           >
             <span
               aria-hidden="true"
-              className="Icon-root Icon-sm AcceptedIcon-root"
+              className="Icon-root Icon-sm ApprovedIcon-root"
             >
               check
             </span>
@@ -305,7 +305,7 @@ exports[`render popover content 1`] = `
             <p
               className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
-              Accepted comment by 
+              Approved comment by 
               <strong>
                 addy
               </strong>

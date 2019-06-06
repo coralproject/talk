@@ -6,5 +6,5 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated_
  */
 export const VISIBLE_STATUSES = [
   GQLCOMMENT_STATUS.NONE,
-  GQLCOMMENT_STATUS.ACCEPTED,
+  GQLCOMMENT_STATUS.APPROVED,
 ];

@@ -6,7 +6,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { Card, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
 
 import MarkersContainer from "../containers/MarkersContainer";
-import AcceptButton from "./AcceptButton";
+import ApproveButton from "./ApproveButton";
 import CommentContent from "./CommentContent";
 import InReplyTo from "./InReplyTo";
 import RejectButton from "./RejectButton";
@@ -22,7 +22,7 @@ interface Props {
   body: string;
   inReplyTo: string | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"];
-  status: "accepted" | "rejected" | "undecided";
+  status: "approved" | "rejected" | "undecided";
   viewContextHref: string;
   suspectWords: ReadonlyArray<string>;
   bannedWords: ReadonlyArray<string>;
@@ -30,7 +30,7 @@ interface Props {
   storyTitle?: React.ReactNode;
   storyHref?: string;
   onModerateStory?: React.EventHandler<React.MouseEvent>;
-  onAccept: () => void;
+  onApprove: () => void;
   onReject: () => void;
   /**
    * If set to true, it means this comment is about to be removed
@@ -51,7 +51,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   status,
   suspectWords,
   bannedWords,
-  onAccept,
+  onApprove,
   onReject,
   dangling,
   showStory,
@@ -136,10 +136,10 @@ const ModerateCard: FunctionComponent<Props> = ({
             invert={status === "rejected"}
             disabled={status === "rejected" || dangling}
           />
-          <AcceptButton
-            onClick={onAccept}
-            invert={status === "accepted"}
-            disabled={status === "accepted" || dangling}
+          <ApproveButton
+            onClick={onApprove}
+            invert={status === "approved"}
+            disabled={status === "approved" || dangling}
           />
         </Flex>
       </Flex>

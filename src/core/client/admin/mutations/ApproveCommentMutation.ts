@@ -1,7 +1,7 @@
 import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
-import { AcceptCommentMutation as MutationTypes } from "coral-admin/__generated__/AcceptCommentMutation.graphql";
+import { ApproveCommentMutation as MutationTypes } from "coral-admin/__generated__/ApproveCommentMutation.graphql";
 import { getQueueConnection } from "coral-admin/helpers";
 import {
   commitMutationPromiseNormalized,
@@ -11,19 +11,19 @@ import {
 
 let clientMutationId = 0;
 
-const AcceptCommentMutation = createMutation(
-  "acceptComment",
+const ApproveCommentMutation = createMutation(
+  "approveComment",
   (
     environment: Environment,
     input: MutationInput<MutationTypes> & { storyID?: string }
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
-        mutation AcceptCommentMutation(
-          $input: AcceptCommentInput!
+        mutation ApproveCommentMutation(
+          $input: ApproveCommentInput!
           $storyID: ID
         ) {
-          acceptComment(input: $input) {
+          approveComment(input: $input) {
             comment {
               id
               status
@@ -51,10 +51,10 @@ const AcceptCommentMutation = createMutation(
         },
       },
       optimisticResponse: {
-        acceptComment: {
+        approveComment: {
           comment: {
             id: input.commentID,
-            status: "ACCEPTED",
+            status: "APPROVED",
           },
           clientMutationId: (clientMutationId++).toString(),
         },
@@ -73,4 +73,4 @@ const AcceptCommentMutation = createMutation(
     })
 );
 
-export default AcceptCommentMutation;
+export default ApproveCommentMutation;

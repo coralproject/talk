@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`rejected queue accepts comment in rejected queue: count should be 1 1`] = `
+exports[`rejected queue approves comment in rejected queue: count should be 1 1`] = `
 <span
   className="Counter-root Counter-colorInherit"
   data-testid="moderate-navigation-reported-count"
@@ -13,7 +13,7 @@ exports[`rejected queue accepts comment in rejected queue: count should be 1 1`]
 </span>
 `;
 
-exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
+exports[`rejected queue approves comment in rejected queue: dangling 1`] = `
 <div
   className="Card-root ModerateCard-root ModerateCard-dangling"
   data-testid="moderate-comment-comment-0"
@@ -178,8 +178,8 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
           </span>
         </button>
         <button
-          aria-label="Accept"
-          className="BaseButton-root AcceptButton-root AcceptButton-invert"
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root ApproveButton-invert"
           disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
@@ -191,7 +191,7 @@ exports[`rejected queue accepts comment in rejected queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root Icon-lg AcceptButton-icon"
+            className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
           </span>
@@ -377,8 +377,8 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                 </span>
               </button>
               <button
-                aria-label="Accept"
-                className="BaseButton-root AcceptButton-root"
+                aria-label="Approve"
+                className="BaseButton-root ApproveButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -390,7 +390,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root Icon-lg AcceptButton-icon"
+                  className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
                 </span>
@@ -563,8 +563,8 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                 </span>
               </button>
               <button
-                aria-label="Accept"
-                className="BaseButton-root AcceptButton-root"
+                aria-label="Approve"
+                className="BaseButton-root ApproveButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -576,7 +576,7 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root Icon-lg AcceptButton-icon"
+                  className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
                 </span>
@@ -768,8 +768,8 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
           </span>
         </button>
         <button
-          aria-label="Accept"
-          className="BaseButton-root AcceptButton-root"
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -781,7 +781,7 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
         >
           <span
             aria-hidden="true"
-            className="Icon-root Icon-lg AcceptButton-icon"
+            className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
           </span>
@@ -792,7 +792,7 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
 </div>
 `;
 
-exports[`reported queue accepts comment in reported queue: count should be 1 1`] = `
+exports[`reported queue approves comment in reported queue: count should be 1 1`] = `
 <span
   className="Counter-root Counter-colorInherit"
   data-testid="moderate-navigation-reported-count"
@@ -805,7 +805,7 @@ exports[`reported queue accepts comment in reported queue: count should be 1 1`]
 </span>
 `;
 
-exports[`reported queue accepts comment in reported queue: dangling 1`] = `
+exports[`reported queue approves comment in reported queue: dangling 1`] = `
 <div
   className="Card-root ModerateCard-root ModerateCard-dangling"
   data-testid="moderate-comment-comment-0"
@@ -970,8 +970,8 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
           </span>
         </button>
         <button
-          aria-label="Accept"
-          className="BaseButton-root AcceptButton-root AcceptButton-invert"
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root ApproveButton-invert"
           disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
@@ -983,7 +983,7 @@ exports[`reported queue accepts comment in reported queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root Icon-lg AcceptButton-icon"
+            className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
           </span>
@@ -1172,8 +1172,8 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
           </span>
         </button>
         <button
-          aria-label="Accept"
-          className="BaseButton-root AcceptButton-root"
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root"
           disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
@@ -1185,7 +1185,7 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root Icon-lg AcceptButton-icon"
+            className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
           </span>
@@ -1392,8 +1392,8 @@ exports[`reported queue renders reported queue with comments 1`] = `
                 </span>
               </button>
               <button
-                aria-label="Accept"
-                className="BaseButton-root AcceptButton-root"
+                aria-label="Approve"
+                className="BaseButton-root ApproveButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -1405,7 +1405,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root Icon-lg AcceptButton-icon"
+                  className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
                 </span>
@@ -1578,8 +1578,8 @@ exports[`reported queue renders reported queue with comments 1`] = `
                 </span>
               </button>
               <button
-                aria-label="Accept"
-                className="BaseButton-root AcceptButton-root"
+                aria-label="Approve"
+                className="BaseButton-root ApproveButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -1591,7 +1591,7 @@ exports[`reported queue renders reported queue with comments 1`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root Icon-lg AcceptButton-icon"
+                  className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
                 </span>
@@ -1780,8 +1780,8 @@ exports[`reported queue renders reported queue with comments 2`] = `
                 </span>
               </button>
               <button
-                aria-label="Accept"
-                className="BaseButton-root AcceptButton-root"
+                aria-label="Approve"
+                className="BaseButton-root ApproveButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -1793,7 +1793,7 @@ exports[`reported queue renders reported queue with comments 2`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root Icon-lg AcceptButton-icon"
+                  className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
                 </span>
@@ -1966,8 +1966,8 @@ exports[`reported queue renders reported queue with comments 2`] = `
                 </span>
               </button>
               <button
-                aria-label="Accept"
-                className="BaseButton-root AcceptButton-root"
+                aria-label="Approve"
+                className="BaseButton-root ApproveButton-root"
                 disabled={false}
                 onBlur={[Function]}
                 onClick={[Function]}
@@ -1979,7 +1979,7 @@ exports[`reported queue renders reported queue with comments 2`] = `
               >
                 <span
                   aria-hidden="true"
-                  className="Icon-root Icon-lg AcceptButton-icon"
+                  className="Icon-root Icon-lg ApproveButton-icon"
                 >
                   done
                 </span>
@@ -2176,8 +2176,8 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
           </span>
         </button>
         <button
-          aria-label="Accept"
-          className="BaseButton-root AcceptButton-root"
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -2189,7 +2189,7 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
         >
           <span
             aria-hidden="true"
-            className="Icon-root Icon-lg AcceptButton-icon"
+            className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
           </span>
@@ -2454,7 +2454,7 @@ exports[`search bar all stories renders search bar 1`] = `
 </div>
 `;
 
-exports[`single comment view accepts single comment 1`] = `
+exports[`single comment view approves single comment 1`] = `
 <div
   className="Card-root ModerateCard-root"
   data-testid="moderate-comment-comment-0"
@@ -2598,8 +2598,8 @@ exports[`single comment view accepts single comment 1`] = `
           </span>
         </button>
         <button
-          aria-label="Accept"
-          className="BaseButton-root AcceptButton-root AcceptButton-invert"
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root ApproveButton-invert"
           disabled={true}
           onBlur={[Function]}
           onClick={[Function]}
@@ -2611,7 +2611,7 @@ exports[`single comment view accepts single comment 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root Icon-lg AcceptButton-icon"
+            className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
           </span>
@@ -2766,8 +2766,8 @@ exports[`single comment view rejects single comment 1`] = `
           </span>
         </button>
         <button
-          aria-label="Accept"
-          className="BaseButton-root AcceptButton-root"
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -2779,7 +2779,7 @@ exports[`single comment view rejects single comment 1`] = `
         >
           <span
             aria-hidden="true"
-            className="Icon-root Icon-lg AcceptButton-icon"
+            className="Icon-root Icon-lg ApproveButton-icon"
           >
             done
           </span>
@@ -2969,8 +2969,8 @@ exports[`single comment view renders single comment view 1`] = `
                   </span>
                 </button>
                 <button
-                  aria-label="Accept"
-                  className="BaseButton-root AcceptButton-root"
+                  aria-label="Approve"
+                  className="BaseButton-root ApproveButton-root"
                   disabled={false}
                   onBlur={[Function]}
                   onClick={[Function]}
@@ -2982,7 +2982,7 @@ exports[`single comment view renders single comment view 1`] = `
                 >
                   <span
                     aria-hidden="true"
-                    className="Icon-root Icon-lg AcceptButton-icon"
+                    className="Icon-root Icon-lg ApproveButton-icon"
                   >
                     done
                   </span>

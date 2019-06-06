@@ -20,7 +20,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   viewContextHref: "http://localhost/comment",
   suspectWords: ["idiot"],
   bannedWords: ["fuck"],
-  onAccept: noop,
+  onApprove: noop,
   onReject: noop,
   showStory: false,
 };
@@ -44,10 +44,10 @@ it("renders reply correctly", () => {
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
 
-it("renders accepted correctly", () => {
+it("renders approved correctly", () => {
   const props: PropTypesOf<typeof ModerateCardN> = {
     ...baseProps,
-    status: "accepted",
+    status: "approved",
   };
   const renderer = createRenderer();
   renderer.render(<ModerateCardN {...props} />);
