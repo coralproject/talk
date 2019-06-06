@@ -18,9 +18,6 @@ export const LOCAL_TYPE = "Local";
  */
 export const LOCAL_ID = "client:root.local";
 
-export const NETWORK_TYPE = "Network";
-export const NETWORK_ID = "client:root.local.network";
-
 export function setAccessTokenInLocalState(
   accessToken: string | null,
   source: RecordSourceProxy
@@ -57,15 +54,5 @@ export async function initLocalBaseState(
 
     // Set auth token
     setAccessTokenInLocalState(accessToken || null, s);
-
-    // Create network Record
-    const networkRecord = createAndRetain(
-      environment,
-      s,
-      NETWORK_ID,
-      NETWORK_TYPE
-    );
-    networkRecord.setValue(false, "isOffline");
-    localRecord.setLinkedRecord(networkRecord, "network");
   });
 }

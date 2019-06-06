@@ -57,6 +57,8 @@ const args = [
   `${program.src}/__generated__`,
   "--schema",
   config.projects[program.schema].schemaPath,
+  // "--persist-output",
+  // `${program.src}/persisted-queries.json`,
 ];
 
 spawn.sync("relay-compiler", args, { stdio: "inherit" });
