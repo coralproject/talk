@@ -69,8 +69,10 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
         )}
       </Flex>
       {!comment && (
-        <Localized id="comments-permalinkView-commentNotFound">
-          <Typography>Comment not found</Typography>
+        <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
+          <Typography>
+            This comment has been removed or does not exist.
+          </Typography>
         </Localized>
       )}
       {comment && (

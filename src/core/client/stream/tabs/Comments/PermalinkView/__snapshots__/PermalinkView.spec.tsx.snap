@@ -48,10 +48,10 @@ exports[`renders comment not found 1`] = `
     </Localized>
   </ForwardRef(forwardRef)>
   <Localized
-    id="comments-permalinkView-commentNotFound"
+    id="comments-permalinkView-commentRemovedOrDoesNotExist"
   >
     <ForwardRef(forwardRef)>
-      Comment not found
+      This comment has been removed or does not exist.
     </ForwardRef(forwardRef)>
   </Localized>
 </ForwardRef(forwardRef)>
