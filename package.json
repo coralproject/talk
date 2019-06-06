@@ -1,6 +1,6 @@
 {
   "name": "talk",
-  "version": "4.8.7",
+  "version": "4.9.0",
   "description": "A better commenting experience from Mozilla, The New York Times, and the Washington Post. https://coralproject.net",
   "main": "app.js",
   "private": true,
