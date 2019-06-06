@@ -4,6 +4,7 @@ import React, { FunctionComponent, MouseEvent } from "react";
 import { PropTypesOf } from "coral-framework/types";
 import {
   Button,
+  CallOut,
   Flex,
   HorizontalGutter,
   Typography,
@@ -69,11 +70,13 @@ const PermalinkView: FunctionComponent<PermalinkViewProps> = ({
         )}
       </Flex>
       {!comment && (
-        <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
-          <Typography>
-            This comment has been removed or does not exist.
-          </Typography>
-        </Localized>
+        <CallOut fullWidth>
+          <Localized id="comments-permalinkView-commentRemovedOrDoesNotExist">
+            <Typography>
+              This comment has been removed or does not exist.
+            </Typography>
+          </Localized>
+        </CallOut>
       )}
       {comment && (
         <HorizontalGutter>

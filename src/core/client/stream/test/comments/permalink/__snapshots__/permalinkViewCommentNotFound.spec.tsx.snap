@@ -67,11 +67,15 @@ exports[`renders permalink view with unknown comment 1`] = `
         View Full Discussion
       </a>
     </div>
-    <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+    <div
+      className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
     >
-      This comment has been removed or does not exist.
-    </p>
+      <p
+        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      >
+        This comment has been removed or does not exist.
+      </p>
+    </div>
   </div>
 </section>
 `;

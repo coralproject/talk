@@ -47,13 +47,17 @@ exports[`renders comment not found 1`] = `
       </ForwardRef(forwardRef)>
     </Localized>
   </ForwardRef(forwardRef)>
-  <Localized
-    id="comments-permalinkView-commentRemovedOrDoesNotExist"
+  <withPropsOnChange(CallOut)
+    fullWidth={true}
   >
-    <ForwardRef(forwardRef)>
-      This comment has been removed or does not exist.
-    </ForwardRef(forwardRef)>
-  </Localized>
+    <Localized
+      id="comments-permalinkView-commentRemovedOrDoesNotExist"
+    >
+      <ForwardRef(forwardRef)>
+        This comment has been removed or does not exist.
+      </ForwardRef(forwardRef)>
+    </Localized>
+  </withPropsOnChange(CallOut)>
 </ForwardRef(forwardRef)>
 `;
 
