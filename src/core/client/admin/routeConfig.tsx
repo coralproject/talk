@@ -3,7 +3,7 @@ import React from "react";
 
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import AppContainer from "./containers/AppContainer";
-import createAuthCheckContainer from "./containers/createAuthCheckContainer";
+import createAuthCheckContainer from "./containers/AuthCheckContainer";
 import { Ability } from "./permissions";
 import CommunityContainer from "./routes/community/containers/CommunityContainer";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
