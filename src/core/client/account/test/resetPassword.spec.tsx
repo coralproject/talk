@@ -2,6 +2,7 @@ import sinon from "sinon";
 
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -52,11 +53,13 @@ it("renders form", async () => {
     })
     .once();
 
-  await waitForElement(() =>
-    within(root).getByText("Reset your password", {
-      exact: false,
-    })
-  );
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByText("Reset your password", {
+        exact: false,
+      })
+    );
+  });
   expect(within(root).toJSON()).toMatchSnapshot();
   restMock.verify();
 });
@@ -91,11 +94,13 @@ it("renders error from server", async () => {
         })
       );
 
-    await waitForElement(() =>
-      within(root).getByText(code, {
-        exact: false,
-      })
-    );
+    await act(async () => {
+      await waitForElement(() =>
+        within(root).getByText(code, {
+          exact: false,
+        })
+      );
+    });
     restMock.verify();
   }
 });
@@ -126,36 +131,42 @@ it("submits form", async () => {
     })
     .once();
 
-  await waitForElement(() =>
-    within(root).getByText("Reset your password", {
-      exact: false,
-    })
-  );
-
+  await act(async () => {
+    await waitForElement(() =>
+      within(root).getByText("Reset your password", {
+        exact: false,
+      })
+    );
+  });
   const form = within(root).getByType("form");
   const textField = within(root).getByLabelText("Password");
 
   // Submit an empty form.
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   within(root).getByText("field is required", {
     exact: false,
   });
 
   // Password too short.
-  textField.props.onChange("test");
+  act(() => {
+    textField.props.onChange("test");
+  });
   within(root).getByText("Password must contain at least 8 characters", {
     exact: false,
   });
 
   // Submit valid form.
-  textField.props.onChange("testtest");
-  form.props.onSubmit();
-
-  await waitForElement(() =>
-    within(root).getByText("successfully", {
-      exact: false,
-    })
-  );
+  await act(async () => {
+    textField.props.onChange("testtest");
+    form.props.onSubmit();
+    await waitForElement(() =>
+      within(root).getByText("successfully", {
+        exact: false,
+      })
+    );
+  });
 
   restMock.verify();
 });

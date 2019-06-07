@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
@@ -69,23 +70,29 @@ it("ignore user", async () => {
   const username = within(comment).getByText(firstCommentAuthor.username!, {
     selector: "button",
   });
-  username.props.onClick();
+  act(() => {
+    username.props.onClick();
+  });
   const ignoreButton = within(comment).getByText("Ignore", {
     selector: "button",
   });
-  ignoreButton.props.onClick();
+  act(() => {
+    ignoreButton.props.onClick();
+  });
   within(comment).getByText("Cancel", {
     selector: "button",
   });
-  within(comment)
-    .getByText("Ignore", {
-      selector: "button",
-    })
-    .props.onClick();
-  // Check for a tombstone
-  await waitForElement(() =>
-    within(tabPane).getByText("This comment is hidden", { exact: false })
-  );
+  await act(async () => {
+    within(comment)
+      .getByText("Ignore", {
+        selector: "button",
+      })
+      .props.onClick();
+    // Check for a tombstone
+    await waitForElement(() =>
+      within(tabPane).getByText("This comment is hidden", { exact: false })
+    );
+  });
 });
 
 it("render stream with ignored user", async () => {

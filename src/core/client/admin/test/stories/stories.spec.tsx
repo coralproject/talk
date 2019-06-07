@@ -1,8 +1,8 @@
 import { noop } from "lodash";
-import TestRenderer from "react-test-renderer";
 
 import { pureMerge } from "coral-common/utils";
 import {
+  act,
   createMutationResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -92,10 +92,11 @@ it("goes to moderation when clicking on title", async () => {
   transitionControl.allowTransition = false;
 
   const story = storyConnection.edges[0].node;
-  within(container)
-    .getByText(story.metadata!.title!)
-    .props.onClick({ button: 0, preventDefault: noop });
-
+  act(() => {
+    within(container)
+      .getByText(story.metadata!.title!)
+      .props.onClick({ button: 0, preventDefault: noop });
+  });
   // Expect a routing request was made to the right url.
   expect(transitionControl.history[0].pathname).toBe(
     `/admin/moderate/${story.id}`
@@ -122,17 +123,14 @@ it("filter by status", async () => {
   const selectField = within(container).getByLabelText("Search by status");
   const closedOption = within(selectField).getByText("Closed Stories");
 
-  TestRenderer.act(() => {
+  await act(async () => {
     selectField.props.onChange({
       target: { value: closedOption.props.value.toString() },
     });
-    // TODO: Fix act warnings until await Promise.resolve();
-    // or whatever comes out at https://github.com/facebook/react/issues/14769
+    await waitForElement(() =>
+      within(container).getByText("could not find any", { exact: false })
+    );
   });
-
-  await waitForElement(() =>
-    within(container).getByText("could not find any", { exact: false })
-  );
 });
 
 it("change story status", async () => {
@@ -185,11 +183,11 @@ it("change story status", async () => {
   );
 
   /** CLOSE STORY */
-  TestRenderer.act(() => {
+  act(() => {
     changeStatusButton.props.onClick();
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup)
       .getByText("Closed", { selector: "button" })
       .props.onClick();
@@ -199,11 +197,11 @@ it("change story status", async () => {
   expect(closeStory.called).toBe(true);
 
   /** OPEN STORY */
-  TestRenderer.act(() => {
+  act(() => {
     changeStatusButton.props.onClick();
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup)
       .getByText("Open", { selector: "button" })
       .props.onClick();
@@ -244,12 +242,11 @@ it("load more", async () => {
     }),
   });
   const loadMore = within(container).getByText("Load More");
-  TestRenderer.act(() => {
+  await act(async () => {
     loadMore.props.onClick();
+    // Wait for load more to disappear.
+    await waitUntilThrow(() => within(container).getByText("Load More"));
   });
-
-  // Wait for load more to disappear.
-  await waitUntilThrow(() => within(container).getByText("Load More"));
 
   // Make sure third user was added.
   within(container).getByText(stories[2].metadata!.title!);
@@ -278,16 +275,15 @@ it("filter by search", async () => {
   );
   const form = findParentWithType(searchField, "form")!;
 
-  TestRenderer.act(() => {
+  await act(async () => {
     searchField.props.onChange({
       target: { value: "search" },
     });
     form.props.onSubmit();
+    await waitForElement(() =>
+      within(container).getByText("could not find any", { exact: false })
+    );
   });
-
-  await waitForElement(() =>
-    within(container).getByText("could not find any", { exact: false })
-  );
 });
 
 it("use searchFilter from url", async () => {

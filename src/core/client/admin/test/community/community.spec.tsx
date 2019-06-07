@@ -8,6 +8,7 @@ import {
   QueryToUsersResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -101,17 +102,14 @@ it("filter by role", async () => {
   const selectField = within(container).getByLabelText("Search by role");
   const commentersOption = within(selectField).getByText("Commenters");
 
-  TestRenderer.act(() => {
+  await act(async () => {
     selectField.props.onChange({
       target: { value: commentersOption.props.value.toString() },
     });
-    // TODO: Fix act warnings until await Promise.resolve();
-    // or whatever comes out at https://github.com/facebook/react/issues/14769
+    await waitForElement(() =>
+      within(container).getByText("We could not find anyone", { exact: false })
+    );
   });
-
-  await waitForElement(() =>
-    within(container).getByText("We could not find anyone", { exact: false })
-  );
 });
 
 it("can't change viewer role", async () => {
@@ -149,7 +147,7 @@ it("change user role", async () => {
     selector: "tr",
   });
 
-  TestRenderer.act(() => {
+  act(() => {
     within(userRow)
       .getByLabelText("Change role")
       .props.onClick();
@@ -159,7 +157,7 @@ it("change user role", async () => {
     "A dropdown to change the user role"
   );
 
-  TestRenderer.act(() => {
+  act(() => {
     within(popup)
       .getByText("Staff", { selector: "button" })
       .props.onClick();
@@ -223,13 +221,11 @@ it("load more", async () => {
     }),
   });
   const loadMore = within(container).getByText("Load More");
-  TestRenderer.act(() => {
+  await act(async () => {
     loadMore.props.onClick();
+    // Wait for load more to disappear.
+    await waitUntilThrow(() => within(container).getByText("Load More"));
   });
-
-  // Wait for load more to disappear.
-  await waitUntilThrow(() => within(container).getByText("Load More"));
-
   // Make sure third user was added.
   within(container).getByText(users.commenters[1].username!);
 });
@@ -256,16 +252,15 @@ it("filter by search", async () => {
   });
   const form = findParentWithType(searchField, "form")!;
 
-  TestRenderer.act(() => {
+  await act(async () => {
     searchField.props.onChange({
       target: { value: "search" },
     });
     form.props.onSubmit();
+    await waitForElement(() =>
+      within(container).getByText("could not find anyone", { exact: false })
+    );
   });
-
-  await waitForElement(() =>
-    within(container).getByText("could not find anyone", { exact: false })
-  );
 });
 
 it("filter by status", async () => {
@@ -293,17 +288,14 @@ it("filter by status", async () => {
   );
   const bannedOption = within(statusField).getByText("Banned");
 
-  TestRenderer.act(() => {
+  await act(async () => {
     statusField.props.onChange({
       target: { value: bannedOption.props.value.toString() },
     });
-    // TODO: Fix act warnings until await Promise.resolve();
-    // or whatever comes out at https://github.com/facebook/react/issues/14769
+    await waitForElement(() =>
+      within(container).getByText("We could not find anyone", { exact: false })
+    );
   });
-
-  await waitForElement(() =>
-    within(container).getByText("We could not find anyone", { exact: false })
-  );
 });
 
 it("can't change staff, moderator and admin status", async () => {
@@ -373,9 +365,11 @@ it("ban user", async () => {
 
   expect(within(modal).toJSON()).toMatchSnapshot();
 
-  within(modal)
-    .getByText("Ban User")
-    .props.onClick();
+  TestRenderer.act(() => {
+    within(modal)
+      .getByText("Ban User")
+      .props.onClick();
+  });
   within(userRow).getByText("Banned");
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });

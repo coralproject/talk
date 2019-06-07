@@ -1,9 +1,9 @@
-import { act } from "react-test-renderer";
 import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   wait,
@@ -134,14 +134,14 @@ it("submits form successfully", async () => {
     })
     .once();
 
-  act(() => {
+  await act(async () => {
     emailField.props.onChange("hans@test.com");
     form!.props.onSubmit();
+    await waitForElement(() =>
+      within(testRenderer.root).getByText("Check Your Email", { exact: false })
+    );
   });
 
-  await waitForElement(() =>
-    within(testRenderer.root).getByText("Check Your Email", { exact: false })
-  );
   within(testRenderer.root)
     .getByText("Close")
     .props.onClick();
