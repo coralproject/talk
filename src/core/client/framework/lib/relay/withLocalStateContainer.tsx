@@ -29,7 +29,10 @@ interface Props {
 function withLocalStateContainer(
   fragmentSpec: GraphQLTaggedNode
 ): InferableComponentEnhancer<{ local: _RefType<any> }> {
-  const fragment = (fragmentSpec as any).data().default;
+  const fragment =
+    typeof fragmentSpec === "function"
+      ? fragmentSpec().default
+      : (fragmentSpec as any).data().default;
   return compose(
     withContext(({ relayEnvironment }) => ({ relayEnvironment })),
     hoistStatics((BaseComponent: React.ComponentType<any>) => {

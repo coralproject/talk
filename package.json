@@ -74,7 +74,7 @@
     "farce": "^0.2.6",
     "fluent": "^0.10.0",
     "fluent-dom": "^0.4.1",
-    "found": "^0.3.21",
+    "found": "^0.4.0-alpha.17",
     "found-relay": "^0.4.0-alpha.8",
     "fs-extra": "^6.0.1",
     "graphql": "^0.13.2",

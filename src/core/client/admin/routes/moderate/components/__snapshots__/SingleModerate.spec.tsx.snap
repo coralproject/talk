@@ -12,12 +12,12 @@ exports[`renders correctly 1`] = `
     <Localized
       id="moderate-single-goToModerationQueues"
     >
-      <Link
+      <ForwardRef(render)
         className="SingleModerate-subBarBegin"
         to="/admin/moderate/"
       >
         Go to moderation queues
-      </Link>
+      </ForwardRef(render)>
     </Localized>
     <Localized
       id="moderate-single-singleCommentView"

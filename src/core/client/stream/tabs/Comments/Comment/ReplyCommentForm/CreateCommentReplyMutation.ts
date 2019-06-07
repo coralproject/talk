@@ -16,9 +16,10 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
+import { pick } from "lodash";
 import {
   incrementStoryCommentCounts,
   isVisible,
@@ -108,6 +109,9 @@ graphql`
       moderation
     }
   }
+`;
+// tslint:disable-next-line:no-unused-expression
+graphql`
   fragment CreateCommentReplyMutation_viewer on User {
     role
   }
@@ -135,6 +139,7 @@ function commit(
   input: CreateCommentReplyInput,
   { uuidGenerator, relayEnvironment }: CoralContext
 ) {
+  const parentComment = lookup<GQLComment>(environment, input.parentID)!;
   const viewer = getViewer(environment)!;
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
@@ -172,17 +177,39 @@ function commit(
             author: {
               id: viewer.id,
               username: viewer.username,
+              createdAt: viewer.createdAt,
             },
             body: input.body,
+            revision: {
+              id: uuidGenerator(),
+            },
+            parent: {
+              id: parentComment.id,
+              author: parentComment.author
+                ? pick(parentComment.author, "username", "id")
+                : null,
+            },
             editing: {
-              editableUntil: new Date(Date.now() + 10000),
+              editableUntil: new Date(Date.now() + 10000).toISOString(),
+              edited: false,
             },
             actionCounts: {
               reaction: {
                 total: 0,
               },
             },
-            tags: [],
+            tags: roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF)
+              ? [{ name: "Staff" }]
+              : [],
+            viewerActionPresence: {
+              reaction: false,
+              dontAgree: false,
+              flag: false,
+            },
+            replies: {
+              edges: [],
+              pageInfo: { endCursor: null, hasNextPage: false },
+            },
           },
         },
         clientMutationId: (clientMutationId++).toString(),

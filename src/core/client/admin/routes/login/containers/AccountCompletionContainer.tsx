@@ -1,4 +1,4 @@
-import { withRouter, WithRouter } from "found";
+import { RouterState, withRouter } from "found";
 import * as React from "react";
 import { Component } from "react";
 
@@ -25,7 +25,7 @@ type Props = {
   auth: AuthData;
   viewer: UserData | null;
   setRedirectPath: MutationProp<typeof SetRedirectPathMutation>;
-} & WithRouter;
+} & RouterState;
 
 function handleAccountCompletion(props: Props) {
   const {

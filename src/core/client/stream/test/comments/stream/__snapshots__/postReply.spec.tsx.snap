@@ -464,6 +464,33 @@ exports[`post a reply: optimistic response 1`] = `
                 </div>
               </div>
               <div
+                className="Comment-subBar"
+              >
+                <div
+                  className="Flex-root Flex-flex Flex-alignCenter"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-sm InReplyTo-icon"
+                  >
+                    reply
+                  </span>
+                  <span>
+                     
+                  </span>
+                  <span
+                    className="Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                  >
+                    In reply to 
+                    <span
+                      className="Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                    >
+                      Markus
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div
                 className="HorizontalGutter-root HorizontalGutter-full"
               >
                 <div

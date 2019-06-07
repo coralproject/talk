@@ -106,7 +106,7 @@ function useLocal<T>(
         if (isAdvancedUpdater(update)) {
           update(record);
         } else {
-          applySimplified(record, fragment.selections, update);
+          applySimplified(record, fragment.selections[0].selections, update);
         }
       });
       return;

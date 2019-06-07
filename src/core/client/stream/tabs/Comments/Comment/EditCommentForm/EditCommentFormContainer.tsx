@@ -48,6 +48,7 @@ interface State {
 
 export class EditCommentFormContainer extends Component<Props, State> {
   private expiredTimer: any;
+  private intitialValues = { body: this.props.comment.body || "" };
 
   public state: State = {
     initialized: false,
@@ -129,7 +130,7 @@ export class EditCommentFormContainer extends Component<Props, State> {
       <EditCommentForm
         id={this.props.comment.id}
         onSubmit={this.handleOnSubmit}
-        initialValues={{ body: this.props.comment.body || "" }}
+        initialValues={this.intitialValues}
         onCancel={this.handleOnCancelOrClose}
         onClose={this.handleOnCancelOrClose}
         rteRef={this.handleRTERef}

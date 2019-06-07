@@ -5,10 +5,12 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  lookup,
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 
+import { GQLComment } from "coral-framework/schema";
 import { CreateCommentReactionMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReactionMutation.graphql";
 
 export type CreateCommentReactionInput = MutationInput<MutationTypes>;
@@ -46,6 +48,9 @@ function commit(environment: Environment, input: CreateCommentReactionInput) {
           id: input.commentID,
           viewerActionPresence: {
             reaction: true,
+          },
+          revision: {
+            id: lookup<GQLComment>(environment, input.commentID)!.revision.id,
           },
           actionCounts: {
             reaction: {

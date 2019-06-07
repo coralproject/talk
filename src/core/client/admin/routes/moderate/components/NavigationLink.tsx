@@ -9,7 +9,7 @@ interface Props {
 }
 
 const NavigationLink: FunctionComponent<Props> = props => (
-  <Link to={props.to} Component={SubBarNavigationItem} activePropName="active">
+  <Link to={props.to} as={SubBarNavigationItem} activePropName="active">
     {props.children}
   </Link>
 );
