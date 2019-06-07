@@ -1196,27 +1196,6 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
 </div>
 `;
 
-exports[`reported queue renders empty reported queue 1`] = `
-<div
-  className="MainLayout-root"
-  data-testid="moderate-main-container"
->
-  <main
-    className="Moderate-main"
-  >
-    <div
-      className="HorizontalGutter-root Queue-root HorizontalGutter-double"
-    >
-      <div
-        className="Card-root EmptyMessage-root"
-      >
-        Nicely done! There are no more reported comments to moderate.
-      </div>
-    </div>
-  </main>
-</div>
-`;
-
 exports[`reported queue renders reported queue with comments 1`] = `
 <div
   className="MainLayout-root"

@@ -88,7 +88,7 @@ jobs:
           name: Perform testing
           # We're running these tests in band to avoid errors where the circleci
           # test runner runs out of RAM trying to run them all in parallel.
-          command: npm run test -- --ci --runInBand --testResultsProcessor="jest-junit"
+          command: npm run test -- --ci --runInBand --reporters=default --reporters=jest-junit
       - store_test_results:
           path: reports/junit
       - store_artifacts:

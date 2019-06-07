@@ -1,5 +1,5 @@
 import { noop } from "lodash";
-import { ReactTestRenderer } from "react-test-renderer";
+import { ReactTestInstance, ReactTestRenderer } from "react-test-renderer";
 
 import { pureMerge } from "coral-common/utils";
 import {
@@ -11,6 +11,7 @@ import {
   QueryToCommentResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createMutationResolverStub,
   createQueryResolverStub,
   createResolversStub,
@@ -71,24 +72,32 @@ async function createTestRenderer(
 
 describe("search bar", () => {
   const openSearchBar = async (testRenderer: ReactTestRenderer) => {
-    const searchBar = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("moderate-searchBar-container")
+    await act(async () => {
+      await waitForElement(() =>
+        within(testRenderer.root).getByTestID("moderate-searchBar-container")
+      );
+    });
+    const searchBar = within(testRenderer.root).getByTestID(
+      "moderate-searchBar-container"
     );
     const textField = within(searchBar).getByLabelText(
       "Search or jump to story..."
     );
     const form = findParentWithType(textField, "form")!;
-    textField.props.onFocus({});
+    act(() => textField.props.onFocus({}));
     return { searchBar, textField, form };
   };
 
   describe("all stories", () => {
     it("renders search bar", async () => {
-      const { testRenderer } = await createTestRenderer();
-      const searchBar = await waitForElement(() =>
-        within(testRenderer.root).getByTestID("moderate-searchBar-container")
-      );
-      expect(within(searchBar).toJSON()).toMatchSnapshot();
+      let searchBar: ReactTestInstance;
+      await act(async () => {
+        const { testRenderer } = await createTestRenderer();
+        searchBar = await waitForElement(() =>
+          within(testRenderer.root).getByTestID("moderate-searchBar-container")
+        );
+      });
+      expect(within(searchBar!).toJSON()).toMatchSnapshot();
     });
 
     describe("active", () => {
@@ -109,17 +118,21 @@ describe("search bar", () => {
         );
         expect(within(searchBar).toJSON()).toMatchSnapshot();
 
-        // Search for sth.
-        textField.props.onChange(query);
-        form.props.onSubmit();
+        await act(async () => {
+          // Search for sth.
+          textField.props.onChange(query);
+          form.props.onSubmit();
 
-        // Ensure no results message is shown.
-        await wait(() =>
-          within(searchBar).getByText("No results", { exact: false })
-        );
+          // Ensure no results message is shown.
+          await wait(() =>
+            within(searchBar).getByText("No results", { exact: false })
+          );
+        });
 
-        // Blurring should close the listbox.
-        textField.props.onBlur({});
+        act(() => {
+          // Blurring should close the listbox.
+          textField.props.onBlur({});
+        });
         expect(within(searchBar).queryByText("No results")).toBeNull();
       });
       it("search with actual results", async () => {
@@ -142,24 +155,28 @@ describe("search bar", () => {
           testRenderer
         );
 
-        // Search for sth.
-        textField.props.onChange(query);
-        form.props.onSubmit();
-
         const story = storyConnection.edges[0].node;
 
-        // Find the story in the search results.
-        const storyOption = findParentWithType(
-          await waitForElement(() =>
-            within(searchBar).getByText(story.metadata!.title!, {
-              exact: false,
-            })
-          ),
-          "li"
-        )!;
+        let storyOption: ReactTestInstance;
+
+        await act(async () => {
+          // Search for sth.
+          textField.props.onChange(query);
+          form.props.onSubmit();
+
+          // Find the story in the search results.
+          storyOption = findParentWithType(
+            await waitForElement(() =>
+              within(searchBar).getByText(story.metadata!.title!, {
+                exact: false,
+              })
+            ),
+            "li"
+          )!;
+        });
 
         // Go to story.
-        storyOption.props.onClick({ button: 0, preventDefault: noop });
+        storyOption!.props.onClick({ button: 0, preventDefault: noop });
 
         // Expect a routing request was made to the right url.
         expect(transitionControl.history[0].pathname).toBe(
@@ -188,22 +205,25 @@ describe("search bar", () => {
           testRenderer
         );
 
-        // Search for sth.
-        textField.props.onChange(query);
-        form.props.onSubmit();
+        let seeAllOption: ReactTestInstance;
+        await act(async () => {
+          // Search for sth.
+          textField.props.onChange(query);
+          form.props.onSubmit();
 
-        // Find see all options in the search results.
-        const seeAllOption = findParentWithType(
-          await waitForElement(() =>
-            within(searchBar).getByText("See all results", { exact: false })
-          ),
-          "li"
-        )!;
+          // Find see all options in the search results.
+          seeAllOption = findParentWithType(
+            await waitForElement(() =>
+              within(searchBar).getByText("See all results", { exact: false })
+            ),
+            "li"
+          )!;
+        });
 
-        expect(within(seeAllOption).toJSON()).toMatchSnapshot();
+        expect(within(seeAllOption!).toJSON()).toMatchSnapshot();
 
         // Go to story.
-        seeAllOption.props.onClick({ button: 0, preventDefault: noop });
+        seeAllOption!.props.onClick({ button: 0, preventDefault: noop });
 
         // Expect a routing request was made to the right url.
         expect(transitionControl.history[0].pathname).toBe("/admin/stories");
@@ -218,20 +238,22 @@ describe("search bar", () => {
       );
     });
     it("renders search bar", async () => {
-      const { testRenderer } = await createTestRenderer({
-        resolvers: createResolversStub<GQLResolver>({
-          Query: {
-            story: () => stories[0],
-          },
-        }),
+      await act(async () => {
+        const { testRenderer } = await createTestRenderer({
+          resolvers: createResolversStub<GQLResolver>({
+            Query: {
+              story: () => stories[0],
+            },
+          }),
+        });
+        const searchBar = await waitForElement(() =>
+          within(testRenderer.root).getByTestID("moderate-searchBar-container")
+        );
+        const textField = within(searchBar).getByLabelText(
+          "Search or jump to story..."
+        );
+        expect(textField.props.placeholder).toBe(stories[0].metadata!.title);
       });
-      const searchBar = await waitForElement(() =>
-        within(testRenderer.root).getByTestID("moderate-searchBar-container")
-      );
-      const textField = within(searchBar).getByLabelText(
-        "Search or jump to story..."
-      );
-      expect(textField.props.placeholder).toBe(stories[0].metadata!.title);
     });
     it("shows moderate all option", async () => {
       const {
@@ -266,46 +288,58 @@ describe("search bar", () => {
 
 describe("tab bar", () => {
   it("renders tab bar (empty queues)", async () => {
-    const { testRenderer } = await createTestRenderer();
-    const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-tabBar-container"))).toMatchSnapshot();
+    await act(async () => {
+      const { testRenderer } = await createTestRenderer();
+      const { getByTestID } = within(testRenderer.root);
+      await waitForElement(() => getByTestID("moderate-container"));
+      expect(
+        toJSON(getByTestID("moderate-tabBar-container"))
+      ).toMatchSnapshot();
+    });
   });
   it("should not show moderate story link in comment cards", async () => {
-    const { testRenderer } = await createTestRenderer();
-    const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(within(testRenderer.root).queryByText("Moderate Story")).toBeNull();
+    await act(async () => {
+      const { testRenderer } = await createTestRenderer();
+      const { getByTestID } = within(testRenderer.root);
+      await waitForElement(() => getByTestID("moderate-container"));
+      expect(
+        within(testRenderer.root).queryByText("Moderate Story")
+      ).toBeNull();
+    });
   });
 });
 
 describe("moderating specific story", () => {
   it("passes storyID to the endpoints", async () => {
     replaceHistoryLocation(`http://localhost/admin/moderate/${stories[0].id}`);
-    await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: ({ variables }) => {
-            expectAndFail(variables.storyID).toBe(stories[0].id);
-            return emptyModerationQueues;
+    await act(async () => {
+      await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: ({ variables }) => {
+              expectAndFail(variables.storyID).toBe(stories[0].id);
+              return emptyModerationQueues;
+            },
+            comments: ({ variables }) => {
+              expectAndFail(variables.storyID).toBe(stories[0].id);
+              return emptyRejectedComments;
+            },
           },
-          comments: ({ variables }) => {
-            expectAndFail(variables.storyID).toBe(stories[0].id);
-            return emptyRejectedComments;
-          },
-        },
-      }),
+        }),
+      });
     });
   });
 });
 
 describe("reported queue", () => {
   it("renders empty reported queue", async () => {
-    const { testRenderer } = await createTestRenderer();
-    const { getByTestID } = within(testRenderer.root);
-
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
+    await act(async () => {
+      const { testRenderer } = await createTestRenderer();
+      const { getByText } = within(testRenderer.root);
+      await waitForElement(() =>
+        getByText("no more reported", { exact: false })
+      );
+    });
   });
 
   it("renders empty pending queue", async () => {
@@ -334,142 +368,192 @@ describe("reported queue", () => {
   });
 
   it("renders reported queue with comments", async () => {
-    const { testRenderer } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () =>
-            pureMerge(emptyModerationQueues, {
-              reported: {
-                count: 2,
-                comments: createQueryResolverStub<
-                  ModerationQueueToCommentsResolver
-                >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
-                  return {
-                    edges: [
-                      {
-                        node: reportedComments[0],
-                        cursor: reportedComments[0].createdAt,
+    await act(async () => {
+      const { testRenderer } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: () =>
+              pureMerge(emptyModerationQueues, {
+                reported: {
+                  count: 2,
+                  comments: createQueryResolverStub<
+                    ModerationQueueToCommentsResolver
+                  >(({ variables }) => {
+                    expectAndFail(variables).toEqual({ first: 5 });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
                       },
-                      {
-                        node: reportedComments[1],
-                        cursor: reportedComments[1].createdAt,
-                      },
-                    ],
-                    pageInfo: {
-                      endCursor: reportedComments[1].createdAt,
-                      hasNextPage: false,
-                    },
-                  };
-                }) as any,
-              },
-            }),
-        },
-      }),
+                    };
+                  }) as any,
+                },
+              }),
+          },
+        }),
+      });
+      const { getByTestID } = within(testRenderer.root);
+      await waitForElement(() => getByTestID("moderate-container"));
+      expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
     });
-    const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
   });
 
   it("renders reported queue with comments", async () => {
-    const { testRenderer } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () =>
-            pureMerge(emptyModerationQueues, {
-              reported: {
-                count: 2,
-                comments: createQueryResolverStub<
-                  ModerationQueueToCommentsResolver
-                >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
-                  return {
-                    edges: [
-                      {
-                        node: reportedComments[0],
-                        cursor: reportedComments[0].createdAt,
+    await act(async () => {
+      const { testRenderer } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: () =>
+              pureMerge(emptyModerationQueues, {
+                reported: {
+                  count: 2,
+                  comments: createQueryResolverStub<
+                    ModerationQueueToCommentsResolver
+                  >(({ variables }) => {
+                    expectAndFail(variables).toEqual({ first: 5 });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
                       },
-                      {
-                        node: reportedComments[1],
-                        cursor: reportedComments[1].createdAt,
-                      },
-                    ],
-                    pageInfo: {
-                      endCursor: reportedComments[1].createdAt,
-                      hasNextPage: false,
-                    },
-                  };
-                }),
-              },
-            }),
-        },
-      }),
+                    };
+                  }),
+                },
+              }),
+          },
+        }),
+      });
+      const { getByTestID } = within(testRenderer.root);
+      await waitForElement(() => getByTestID("moderate-container"));
+      expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
     });
-    const { getByTestID } = within(testRenderer.root);
-    await waitForElement(() => getByTestID("moderate-container"));
-    expect(toJSON(getByTestID("moderate-main-container"))).toMatchSnapshot();
   });
   it("show details of comment with flags", async () => {
-    const { testRenderer } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () =>
-            pureMerge(emptyModerationQueues, {
-              reported: {
-                count: 1,
-                comments: createQueryResolverStub<
-                  ModerationQueueToCommentsResolver
-                >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
-                  return {
-                    edges: [
-                      {
-                        node: reportedComments[0],
-                        cursor: reportedComments[0].createdAt,
+    await act(async () => {
+      const { testRenderer } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: () =>
+              pureMerge(emptyModerationQueues, {
+                reported: {
+                  count: 1,
+                  comments: createQueryResolverStub<
+                    ModerationQueueToCommentsResolver
+                  >(({ variables }) => {
+                    expectAndFail(variables).toEqual({ first: 5 });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[0].createdAt,
+                        hasNextPage: false,
                       },
-                    ],
-                    pageInfo: {
-                      endCursor: reportedComments[0].createdAt,
-                      hasNextPage: false,
-                    },
-                  };
-                }),
-              },
-            }),
-        },
-      }),
-    });
-    const { getByTestID } = within(testRenderer.root);
-    const reported = await waitForElement(() =>
-      getByTestID(`moderate-comment-${reportedComments[0].id}`)
-    );
-    expect(
-      within(reported).queryByText(
+                    };
+                  }),
+                },
+              }),
+          },
+        }),
+      });
+      const { getByTestID } = within(testRenderer.root);
+      const reported = await waitForElement(() =>
+        getByTestID(`moderate-comment-${reportedComments[0].id}`)
+      );
+      expect(
+        within(reported).queryByText(
+          reportedComments[0].flags.nodes[0].additionalDetails!
+        )
+      ).toBeNull();
+      within(reported)
+        .getByText("Details", { selector: "button" })
+        .props.onClick();
+      within(reported).getByText(
         reportedComments[0].flags.nodes[0].additionalDetails!
-      )
-    ).toBeNull();
-    within(reported)
-      .getByText("Details", { selector: "button" })
-      .props.onClick();
-    within(reported).getByText(
-      reportedComments[0].flags.nodes[0].additionalDetails!
-    );
+      );
+    });
   });
   it("shows a moderate story", async () => {
-    const {
-      testRenderer,
-      context: { transitionControl },
-    } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () =>
-            pureMerge(emptyModerationQueues, {
-              reported: {
-                count: 2,
-                comments: createQueryResolverStub<
-                  ModerationQueueToCommentsResolver
-                >(({ variables }) => {
+    await act(async () => {
+      const {
+        testRenderer,
+        context: { transitionControl },
+      } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: () =>
+              pureMerge(emptyModerationQueues, {
+                reported: {
+                  count: 2,
+                  comments: createQueryResolverStub<
+                    ModerationQueueToCommentsResolver
+                  >(({ variables }) => {
+                    expectAndFail(variables).toEqual({ first: 5 });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
+                      },
+                    };
+                  }) as any,
+                },
+              }),
+          },
+        }),
+      });
+      const moderateStory = await waitForElement(
+        () => within(testRenderer.root).getAllByText("Moderate Story")[0]
+      );
+      transitionControl.allowTransition = false;
+      moderateStory.props.onClick({});
+      // Expect a routing request was made to the right url.
+      expect(transitionControl.history[0].pathname).toBe(
+        `/admin/moderate/${reportedComments[0].story.id}`
+      );
+    });
+  });
+  it("renders reported queue with comments and load more", async () => {
+    await act(async () => {
+      const moderationQueuesStub = pureMerge(emptyModerationQueues, {
+        reported: {
+          count: 2,
+          comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
+            ({ variables, callCount }) => {
+              switch (callCount) {
+                case 0:
                   expectAndFail(variables).toEqual({ first: 5 });
                   return {
                     edges: [
@@ -484,273 +568,237 @@ describe("reported queue", () => {
                     ],
                     pageInfo: {
                       endCursor: reportedComments[1].createdAt,
+                      hasNextPage: true,
+                    },
+                  };
+                default:
+                  expectAndFail(variables).toEqual({
+                    first: 10,
+                    after: reportedComments[1].createdAt,
+                  });
+                  return {
+                    edges: [
+                      {
+                        node: reportedComments[2],
+                        cursor: reportedComments[2].createdAt,
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: reportedComments[2].createdAt,
                       hasNextPage: false,
                     },
                   };
-                }) as any,
-              },
-            }),
-        },
-      }),
-    });
-    const moderateStory = await waitForElement(
-      () => within(testRenderer.root).getAllByText("Moderate Story")[0]
-    );
-    transitionControl.allowTransition = false;
-    moderateStory.props.onClick({});
-    // Expect a routing request was made to the right url.
-    expect(transitionControl.history[0].pathname).toBe(
-      `/admin/moderate/${reportedComments[0].story.id}`
-    );
-  });
-  it("renders reported queue with comments and load more", async () => {
-    const moderationQueuesStub = pureMerge(emptyModerationQueues, {
-      reported: {
-        count: 2,
-        comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
-          ({ variables, callCount }) => {
-            switch (callCount) {
-              case 0:
-                expectAndFail(variables).toEqual({ first: 5 });
-                return {
-                  edges: [
-                    {
-                      node: reportedComments[0],
-                      cursor: reportedComments[0].createdAt,
-                    },
-                    {
-                      node: reportedComments[1],
-                      cursor: reportedComments[1].createdAt,
-                    },
-                  ],
-                  pageInfo: {
-                    endCursor: reportedComments[1].createdAt,
-                    hasNextPage: true,
-                  },
-                };
-              default:
-                expectAndFail(variables).toEqual({
-                  first: 10,
-                  after: reportedComments[1].createdAt,
-                });
-                return {
-                  edges: [
-                    {
-                      node: reportedComments[2],
-                      cursor: reportedComments[2].createdAt,
-                    },
-                  ],
-                  pageInfo: {
-                    endCursor: reportedComments[2].createdAt,
-                    hasNextPage: false,
-                  },
-                };
+              }
             }
-          }
-        ) as any,
-      },
-    });
-
-    const { testRenderer } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () => moderationQueuesStub,
+          ) as any,
         },
-      }),
+      });
+
+      const { testRenderer } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: () => moderationQueuesStub,
+          },
+        }),
+      });
+      const moderateContainer = await waitForElement(() =>
+        within(testRenderer.root).getByTestID("moderate-container")
+      );
+
+      const { getByText, getAllByTestID, getByTestID } = within(
+        moderateContainer
+      );
+
+      // Get previous count of comments.
+      const previousCount = getAllByTestID(/^moderate-comment-.*$/).length;
+
+      const loadMore = await waitForElement(() => getByText("Load More"));
+      loadMore.props.onClick();
+
+      // Wait for load more to disappear.
+      await waitUntilThrow(() => getByText("Load More"));
+
+      // Verify we have one more item now.
+      const comments = getAllByTestID(/^moderate-comment-.*$/);
+      expect(comments.length).toBe(previousCount + 1);
+
+      // Verify last one added was our new one
+      expect(comments[comments.length - 1].props["data-testid"]).toBe(
+        `moderate-comment-${reportedComments[2].id}`
+      );
+
+      // Snapshot of added comment.
+      expect(
+        toJSON(getByTestID(`moderate-comment-${reportedComments[2].id}`))
+      ).toMatchSnapshot();
     });
-    const moderateContainer = await waitForElement(() =>
-      within(testRenderer.root).getByTestID("moderate-container")
-    );
-
-    const { getByText, getAllByTestID, getByTestID } = within(
-      moderateContainer
-    );
-
-    // Get previous count of comments.
-    const previousCount = getAllByTestID(/^moderate-comment-.*$/).length;
-
-    const loadMore = await waitForElement(() => getByText("Load More"));
-    loadMore.props.onClick();
-
-    // Wait for load more to disappear.
-    await waitUntilThrow(() => getByText("Load More"));
-
-    // Verify we have one more item now.
-    const comments = getAllByTestID(/^moderate-comment-.*$/);
-    expect(comments.length).toBe(previousCount + 1);
-
-    // Verify last one added was our new one
-    expect(comments[comments.length - 1].props["data-testid"]).toBe(
-      `moderate-comment-${reportedComments[2].id}`
-    );
-
-    // Snapshot of added comment.
-    expect(
-      toJSON(getByTestID(`moderate-comment-${reportedComments[2].id}`))
-    ).toMatchSnapshot();
   });
 
   it("approves comment in reported queue", async () => {
-    const approveCommentStub = createMutationResolverStub<
-      MutationToApproveCommentResolver
-    >(({ variables }) => {
-      expectAndFail(variables).toMatchObject({
-        commentID: reportedComments[0].id,
-        commentRevisionID: reportedComments[0].revision.id,
+    await act(async () => {
+      const approveCommentStub = createMutationResolverStub<
+        MutationToApproveCommentResolver
+      >(({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          commentID: reportedComments[0].id,
+          commentRevisionID: reportedComments[0].revision.id,
+        });
+        return {
+          comment: {
+            id: reportedComments[0].id,
+            status: GQLCOMMENT_STATUS.APPROVED,
+          },
+          moderationQueues: pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 1,
+            },
+          }),
+        };
       });
-      return {
-        comment: {
-          id: reportedComments[0].id,
-          status: GQLCOMMENT_STATUS.APPROVED,
+
+      const moderationQueuesStub = pureMerge(emptyModerationQueues, {
+        reported: {
+          count: 2,
+          comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
+            ({ variables }) => {
+              expectAndFail(variables).toEqual({ first: 5 });
+              return {
+                edges: [
+                  {
+                    node: reportedComments[0],
+                    cursor: reportedComments[0].createdAt,
+                  },
+                  {
+                    node: reportedComments[1],
+                    cursor: reportedComments[1].createdAt,
+                  },
+                ],
+                pageInfo: {
+                  endCursor: reportedComments[1].createdAt,
+                  hasNextPage: false,
+                },
+              };
+            }
+          ) as any,
         },
-        moderationQueues: pureMerge(emptyModerationQueues, {
-          reported: {
-            count: 1,
+      });
+
+      const { testRenderer } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: () => moderationQueuesStub,
+          },
+          Mutation: {
+            approveComment: approveCommentStub,
           },
         }),
-      };
+      });
+
+      const testID = `moderate-comment-${reportedComments[0].id}`;
+      const { getByTestID } = within(testRenderer.root);
+      const comment = await waitForElement(() => getByTestID(testID));
+
+      const ApproveButton = await waitForElement(() =>
+        within(comment).getByLabelText("Approve")
+      );
+      ApproveButton.props.onClick();
+
+      // Snapshot dangling state of comment.
+      expect(toJSON(comment)).toMatchSnapshot("dangling");
+
+      // Wait until comment is gone.
+      await waitUntilThrow(() => getByTestID(testID));
+
+      expect(approveCommentStub.called).toBe(true);
+
+      // Count should have been updated.
+      expect(
+        toJSON(getByTestID("moderate-navigation-reported-count"))
+      ).toMatchSnapshot("count should be 1");
     });
-
-    const moderationQueuesStub = pureMerge(emptyModerationQueues, {
-      reported: {
-        count: 2,
-        comments: createQueryResolverStub<ModerationQueueToCommentsResolver>(
-          ({ variables }) => {
-            expectAndFail(variables).toEqual({ first: 5 });
-            return {
-              edges: [
-                {
-                  node: reportedComments[0],
-                  cursor: reportedComments[0].createdAt,
-                },
-                {
-                  node: reportedComments[1],
-                  cursor: reportedComments[1].createdAt,
-                },
-              ],
-              pageInfo: {
-                endCursor: reportedComments[1].createdAt,
-                hasNextPage: false,
-              },
-            };
-          }
-        ) as any,
-      },
-    });
-
-    const { testRenderer } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () => moderationQueuesStub,
-        },
-        Mutation: {
-          approveComment: approveCommentStub,
-        },
-      }),
-    });
-
-    const testID = `moderate-comment-${reportedComments[0].id}`;
-    const { getByTestID } = within(testRenderer.root);
-    const comment = await waitForElement(() => getByTestID(testID));
-
-    const ApproveButton = await waitForElement(() =>
-      within(comment).getByLabelText("Approve")
-    );
-    ApproveButton.props.onClick();
-
-    // Snapshot dangling state of comment.
-    expect(toJSON(comment)).toMatchSnapshot("dangling");
-
-    // Wait until comment is gone.
-    await waitUntilThrow(() => getByTestID(testID));
-
-    expect(approveCommentStub.called).toBe(true);
-
-    // Count should have been updated.
-    expect(
-      toJSON(getByTestID("moderate-navigation-reported-count"))
-    ).toMatchSnapshot("count should be 1");
   });
 
   it("rejects comment in reported queue", async () => {
-    const rejectCommentStub = createMutationResolverStub<
-      MutationToRejectCommentResolver
-    >(({ variables }) => {
-      expectAndFail(variables).toMatchObject({
-        commentID: reportedComments[0].id,
-        commentRevisionID: reportedComments[0].revision.id,
+    await act(async () => {
+      const rejectCommentStub = createMutationResolverStub<
+        MutationToRejectCommentResolver
+      >(({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          commentID: reportedComments[0].id,
+          commentRevisionID: reportedComments[0].revision.id,
+        });
+        return {
+          comment: {
+            id: reportedComments[0].id,
+            status: GQLCOMMENT_STATUS.REJECTED,
+          },
+          moderationQueues: pureMerge(emptyModerationQueues, {
+            reported: {
+              count: 1,
+            },
+          }),
+        };
       });
-      return {
-        comment: {
-          id: reportedComments[0].id,
-          status: GQLCOMMENT_STATUS.REJECTED,
-        },
-        moderationQueues: pureMerge(emptyModerationQueues, {
-          reported: {
-            count: 1,
+
+      const { testRenderer } = await createTestRenderer({
+        resolvers: createResolversStub<GQLResolver>({
+          Query: {
+            moderationQueues: () =>
+              pureMerge(emptyModerationQueues, {
+                reported: {
+                  count: 2,
+                  comments: createQueryResolverStub<
+                    ModerationQueueToCommentsResolver
+                  >(({ variables }) => {
+                    expectAndFail(variables).toEqual({ first: 5 });
+                    return {
+                      edges: [
+                        {
+                          node: reportedComments[0],
+                          cursor: reportedComments[0].createdAt,
+                        },
+                        {
+                          node: reportedComments[1],
+                          cursor: reportedComments[1].createdAt,
+                        },
+                      ],
+                      pageInfo: {
+                        endCursor: reportedComments[1].createdAt,
+                        hasNextPage: false,
+                      },
+                    };
+                  }) as any,
+                },
+              }),
+          },
+          Mutation: {
+            rejectComment: rejectCommentStub,
           },
         }),
-      };
+      });
+
+      const testID = `moderate-comment-${reportedComments[0].id}`;
+      const { getByTestID } = within(testRenderer.root);
+      const comment = await waitForElement(() => getByTestID(testID));
+
+      const RejectButton = await waitForElement(() =>
+        within(comment).getByLabelText("Reject")
+      );
+      RejectButton.props.onClick();
+
+      // Snapshot dangling state of comment.
+      expect(toJSON(comment)).toMatchSnapshot("dangling");
+
+      // Wait until comment is gone.
+      await waitUntilThrow(() => getByTestID(testID));
+
+      expect(rejectCommentStub.called).toBe(true);
+
+      // Count should have been updated.
+      expect(
+        toJSON(getByTestID("moderate-navigation-reported-count"))
+      ).toMatchSnapshot("count should be 1");
     });
-
-    const { testRenderer } = await createTestRenderer({
-      resolvers: createResolversStub<GQLResolver>({
-        Query: {
-          moderationQueues: () =>
-            pureMerge(emptyModerationQueues, {
-              reported: {
-                count: 2,
-                comments: createQueryResolverStub<
-                  ModerationQueueToCommentsResolver
-                >(({ variables }) => {
-                  expectAndFail(variables).toEqual({ first: 5 });
-                  return {
-                    edges: [
-                      {
-                        node: reportedComments[0],
-                        cursor: reportedComments[0].createdAt,
-                      },
-                      {
-                        node: reportedComments[1],
-                        cursor: reportedComments[1].createdAt,
-                      },
-                    ],
-                    pageInfo: {
-                      endCursor: reportedComments[1].createdAt,
-                      hasNextPage: false,
-                    },
-                  };
-                }) as any,
-              },
-            }),
-        },
-        Mutation: {
-          rejectComment: rejectCommentStub,
-        },
-      }),
-    });
-
-    const testID = `moderate-comment-${reportedComments[0].id}`;
-    const { getByTestID } = within(testRenderer.root);
-    const comment = await waitForElement(() => getByTestID(testID));
-
-    const RejectButton = await waitForElement(() =>
-      within(comment).getByLabelText("Reject")
-    );
-    RejectButton.props.onClick();
-
-    // Snapshot dangling state of comment.
-    expect(toJSON(comment)).toMatchSnapshot("dangling");
-
-    // Wait until comment is gone.
-    await waitUntilThrow(() => getByTestID(testID));
-
-    expect(rejectCommentStub.called).toBe(true);
-
-    // Count should have been updated.
-    expect(
-      toJSON(getByTestID("moderate-navigation-reported-count"))
-    ).toMatchSnapshot("count should be 1");
   });
 });
 

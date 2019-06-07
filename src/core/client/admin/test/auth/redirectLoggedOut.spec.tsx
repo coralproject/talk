@@ -5,6 +5,7 @@ import {
   QueryToModerationQueuesResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
@@ -50,10 +51,12 @@ async function createTestRenderer(
 
 it("redirect when not logged in", async () => {
   const { context } = await createTestRenderer();
-  await wait(() => {
-    expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
-      "/admin/moderate/reported"
-    );
-    expect(window.location.toString()).toBe("http://localhost/admin/login");
+  await act(async () => {
+    await wait(() => {
+      expect(lookup(context.relayEnvironment, LOCAL_ID)!.redirectPath).toBe(
+        "/admin/moderate/reported"
+      );
+      expect(window.location.toString()).toBe("http://localhost/admin/login");
+    });
   });
 });

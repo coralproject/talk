@@ -3,6 +3,7 @@ import {
   QueryToModerationQueuesResolver,
 } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createQueryResolverStub,
   createResolversStub,
@@ -55,11 +56,13 @@ async function createTestRenderer(
 
 it("redirect when already logged in", async () => {
   await createTestRenderer();
-  await wait(() =>
-    expect(window.location.toString()).toBe(
-      "http://localhost/admin/moderate/reported"
-    )
-  );
+  await act(async () => {
+    await wait(() =>
+      expect(window.location.toString()).toBe(
+        "http://localhost/admin/moderate/reported"
+      )
+    );
+  });
 });
 
 it("redirect to redirectPath when already logged in", async () => {
@@ -68,9 +71,11 @@ it("redirect to redirectPath when already logged in", async () => {
       localRecord.setValue("/admin/moderate/pending", "redirectPath");
     },
   });
-  await wait(() =>
-    expect(window.location.toString()).toBe(
-      "http://localhost/admin/moderate/pending"
-    )
-  );
+  await act(async () => {
+    await wait(() =>
+      expect(window.location.toString()).toBe(
+        "http://localhost/admin/moderate/pending"
+      )
+    );
+  });
 });

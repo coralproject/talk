@@ -3,6 +3,7 @@ import sinon from "sinon";
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
@@ -12,6 +13,7 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
+import { ReactTestInstance } from "react-test-renderer";
 import create from "../create";
 import {
   emptyModerationQueues,
@@ -47,10 +49,14 @@ async function createTestRenderer(
     },
   });
 
-  const form = await waitForElement(() =>
-    within(testRenderer.root).getByType("form")
-  );
-  return { testRenderer, form, context };
+  let form: ReactTestInstance;
+
+  await act(async () => {
+    form = await waitForElement(() =>
+      within(testRenderer.root).getByType("form")
+    );
+  });
+  return { testRenderer, form: form!, context };
 }
 
 it("renders sign in form", async () => {
@@ -150,12 +156,16 @@ it("submits form successfully", async () => {
 
   const historyMock = sinon.mock(window.history);
 
-  form.props.onSubmit();
+  act(() => {
+    form.props.onSubmit();
+  });
   const submitButton = within(form).getByText("Sign in with Email", {
     selector: "button",
   });
   expect(submitButton.props.disabled).toBe(true);
-  await wait(() => expect(submitButton.props.disabled).toBe(false));
+  await act(async () => {
+    await wait(() => expect(submitButton.props.disabled).toBe(false));
+  });
   expect(location.toString()).toMatchSnapshot();
   restMock.verify();
   historyMock.verify();

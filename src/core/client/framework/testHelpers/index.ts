@@ -10,6 +10,7 @@ export {
 } from "./removeFragmentRefs";
 export { default as createUUIDGenerator } from "./createUUIDGenerator";
 export * from "./denormalize";
+export { default as act } from "./act";
 export { default as limitSnapshotTo } from "./limitSnapshotTo";
 export { default as within } from "./within";
 export { default as wait } from "./wait";

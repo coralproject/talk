@@ -1,6 +1,7 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
@@ -117,11 +118,13 @@ it("do not render createPassword view when local auth is disabled", async () => 
     }),
   });
 
-  await wait(() =>
-    expect(window.location.toString()).toBe(
-      "http://localhost/admin/moderate/reported"
-    )
-  );
+  await act(async () => {
+    await wait(() =>
+      expect(window.location.toString()).toBe(
+        "http://localhost/admin/moderate/reported"
+      )
+    );
+  });
 });
 
 it("complete account", async () => {
@@ -137,9 +140,11 @@ it("complete account", async () => {
       },
     }),
   });
-  await wait(() =>
-    expect(window.location.toString()).toBe(
-      "http://localhost/admin/moderate/reported"
-    )
-  );
+  await act(async () => {
+    await wait(() =>
+      expect(window.location.toString()).toBe(
+        "http://localhost/admin/moderate/reported"
+      )
+    );
+  });
 });
