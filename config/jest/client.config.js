@@ -10,8 +10,7 @@ module.exports = {
     "<rootDir>/src/core/build/polyfills.js",
     "<rootDir>/src/core/client/test/setup.ts",
   ],
-  setupTestFrameworkScriptFile:
-    "<rootDir>/src/core/client/test/setupTestFramework.ts",
+  setupFilesAfterEnv: ["<rootDir>/src/core/client/test/setupTestFramework.ts"],
   testMatch: ["**/*.spec.{js,jsx,mjs,ts,tsx}"],
   testEnvironment: "node",
   testURL: "http://localhost",
@@ -40,7 +39,10 @@ module.exports = {
   globals: {
     "ts-jest": {
       useBabelrc: true,
-      tsConfigFile: path.resolve(__dirname, "tsconfig.jest.json"),
+      tsConfigFile: path.resolve(
+        __dirname,
+        "../../src/core/client/tsconfig.json"
+      ),
     },
   },
 };

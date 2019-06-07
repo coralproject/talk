@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   displayName: "server",
   rootDir: "../../",
@@ -19,6 +21,7 @@ module.exports = {
   globals: {
     "ts-jest": {
       useBabelrc: true,
+      tsConfigFile: path.resolve(__dirname, "../../src/tsconfig.json"),
     },
   },
 };

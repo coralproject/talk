@@ -9,6 +9,7 @@ const lodashOptimizations =
   process.env.WEBPACK === "true" ? ["use-lodash-es", "lodash"] : [];
 
 module.exports = {
+  babelrcRoots: ["./src/core/client/*"],
   env: {
     production: {
       plugins: [...lodashOptimizations],
@@ -18,7 +19,7 @@ module.exports = {
     },
     test: {
       presets: [
-        ["@babel/env", { targets: "last 2 versions", modules: "commonjs" }],
+        ["@babel/env", { targets: { node: "current" } }],
         "@babel/react",
       ],
       plugins: ["dynamic-import-node"],
