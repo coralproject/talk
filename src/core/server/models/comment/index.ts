@@ -728,7 +728,7 @@ function applyInputToQuery(
       }
       break;
     case GQLCOMMENT_SORT.REPLIES_DESC:
-      query.orderBy({ replyCount: -1, createdAt: -1 });
+      query.orderBy({ childCount: -1, createdAt: -1 });
       if (input.after) {
         query.after(input.after as number);
       }
