@@ -83,7 +83,10 @@ function applySimplified(
 function useLocal<T>(
   fragmentSpec: GraphQLTaggedNode
 ): [OmitFragments<T>, (update: LocalUpdater<OmitFragments<T>>) => void] {
-  const fragment = (fragmentSpec as any).data().default;
+  const fragment =
+    typeof fragmentSpec === "function"
+      ? fragmentSpec().default
+      : (fragmentSpec as any).data().default;
   if (fragment.kind !== "Fragment") {
     throw new Error("Expected fragment");
   }
@@ -106,7 +109,7 @@ function useLocal<T>(
         if (isAdvancedUpdater(update)) {
           update(record);
         } else {
-          applySimplified(record, fragment.selections, update);
+          applySimplified(record, fragment.selections[0].selections, update);
         }
       });
       return;

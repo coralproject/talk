@@ -47,17 +47,11 @@ const ApproveCommentMutation = createMutation(
         input: {
           commentID: input.commentID,
           commentRevisionID: input.commentRevisionID,
-          clientMutationId: clientMutationId.toString(),
-        },
-      },
-      optimisticResponse: {
-        approveComment: {
-          comment: {
-            id: input.commentID,
-            status: "APPROVED",
-          },
           clientMutationId: (clientMutationId++).toString(),
         },
+      },
+      optimisticUpdater: store => {
+        store.get(input.commentID)!.setValue("APPROVED", "status");
       },
       updater: store => {
         const connections = [

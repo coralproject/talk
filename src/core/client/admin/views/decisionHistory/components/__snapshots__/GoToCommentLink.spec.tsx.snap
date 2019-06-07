@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Link
-  Component={[Function]}
+<ForwardRef(render)
+  as={[Function]}
   className="GoToCommentLink-root"
   onClick={[Function]}
   to="#"
@@ -18,5 +18,5 @@ exports[`renders correctly 1`] = `
   <ForwardRef(forwardRef)>
     chevron_right
   </ForwardRef(forwardRef)>
-</Link>
+</ForwardRef(render)>
 `;

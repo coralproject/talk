@@ -14,7 +14,7 @@ interface Props {
 const GoToCommentLink: FunctionComponent<Props> = props => {
   return (
     <Link
-      Component={TextLink}
+      as={TextLink}
       className={styles.root}
       to={props.href}
       onClick={props.onClick}

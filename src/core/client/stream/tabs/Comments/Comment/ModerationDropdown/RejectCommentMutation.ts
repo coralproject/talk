@@ -6,6 +6,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS } from "coral-framework/schema";
 import { RejectCommentMutation as MutationTypes } from "coral-stream/__generated__/RejectCommentMutation.graphql";
 
 let clientMutationId = 0;
@@ -27,8 +28,10 @@ const RejectCommentMutation = createMutation(
       optimisticResponse: {
         rejectComment: {
           comment: {
-            status: "REJECTED",
+            id: input.commentID,
+            status: GQLCOMMENT_STATUS.REJECTED,
           },
+          clientMutationId: clientMutationId.toString(),
         },
       },
       variables: {

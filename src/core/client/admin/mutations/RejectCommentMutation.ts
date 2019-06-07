@@ -47,17 +47,11 @@ const RejectCommentMutation = createMutation(
         input: {
           commentID: input.commentID,
           commentRevisionID: input.commentRevisionID,
-          clientMutationId: clientMutationId.toString(),
-        },
-      },
-      optimisticResponse: {
-        rejectComment: {
-          comment: {
-            id: input.commentID,
-            status: "REJECTED",
-          },
           clientMutationId: (clientMutationId++).toString(),
         },
+      },
+      optimisticUpdater: store => {
+        store.get(input.commentID)!.setValue("REJECTED", "status");
       },
       updater: store => {
         const connections = [

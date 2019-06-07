@@ -75,13 +75,16 @@ function addCommentToStory(
 /** These are needed to be included when querying for the stream. */
 // tslint:disable-next-line:no-unused-expression
 graphql`
+  fragment CreateCommentMutation_viewer on User {
+    role
+  }
+`;
+// tslint:disable-next-line:no-unused-expression
+graphql`
   fragment CreateCommentMutation_story on Story {
     settings {
       moderation
     }
-  }
-  fragment CreateCommentMutation_viewer on User {
-    role
   }
 `;
 /** end */
@@ -108,7 +111,7 @@ function commit(
   input: CreateCommentInput,
   { uuidGenerator, relayEnvironment }: CoralContext
 ) {
-  const me = getViewer(environment)!;
+  const viewer = getViewer(environment)!;
   const currentDate = new Date().toISOString();
   const id = uuidGenerator();
 
@@ -120,7 +123,7 @@ function commit(
 
   // TODO: Generate and use schema types.
   const expectPremoderation =
-    !roleIsAtLeast(me.role, GQLUSER_ROLE.STAFF) &&
+    !roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF) &&
     storySettings.moderation === "PRE";
 
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -142,19 +145,36 @@ function commit(
             createdAt: currentDate,
             status: "NONE",
             author: {
-              id: me.id,
-              username: me.username,
+              id: viewer.id,
+              username: viewer.username,
+              createdAt: viewer.createdAt,
             },
+            revision: {
+              id: uuidGenerator(),
+            },
+            parent: null,
             body: input.body,
             editing: {
-              editableUntil: new Date(Date.now() + 10000),
+              editableUntil: new Date(Date.now() + 10000).toISOString(),
+              edited: false,
             },
             actionCounts: {
               reaction: {
                 total: 0,
               },
             },
-            tags: [],
+            tags: roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF)
+              ? [{ name: "Staff" }]
+              : [],
+            viewerActionPresence: {
+              reaction: false,
+              dontAgree: false,
+              flag: false,
+            },
+            replies: {
+              edges: [],
+              pageInfo: { endCursor: null, hasNextPage: false },
+            },
           },
         },
         clientMutationId: (clientMutationId++).toString(),

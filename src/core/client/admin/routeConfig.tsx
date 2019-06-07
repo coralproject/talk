@@ -1,8 +1,9 @@
 import { makeRouteConfig, Redirect, Route } from "found";
 import React from "react";
 
+import { GQLUSER_ROLE } from "coral-framework/schema";
 import AppContainer from "./containers/AppContainer";
-import AuthCheckContainer from "./containers/AuthCheckContainer";
+import createAuthCheckContainer from "./containers/AuthCheckContainer";
 import { Ability } from "./permissions";
 import CommunityContainer from "./routes/community/containers/CommunityContainer";
 import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
@@ -26,7 +27,10 @@ import StoriesContainer from "./routes/stories/containers/StoriesContainer";
 
 export default makeRouteConfig(
   <Route path="admin">
-    <Route {...AuthCheckContainer.routeConfig}>
+    <Route
+      {...createAuthCheckContainer({ role: GQLUSER_ROLE.MODERATOR })
+        .routeConfig}
+    >
       <Route {...AppContainer.routeConfig}>
         <Redirect from="/" to="/admin/moderate" />
         <Route
@@ -64,8 +68,9 @@ export default makeRouteConfig(
         <Route path="community" {...CommunityContainer.routeConfig} />
         <Route path="stories" Component={Stories} />
         <Route
-          {...AuthCheckContainer.routeConfig}
-          data={Ability.CHANGE_CONFIGURATION}
+          {...createAuthCheckContainer({
+            ability: Ability.CHANGE_CONFIGURATION,
+          }).routeConfig}
         >
           <Route path="configure" Component={ConfigureContainer}>
             <Redirect from="/" to="/admin/configure/general" />

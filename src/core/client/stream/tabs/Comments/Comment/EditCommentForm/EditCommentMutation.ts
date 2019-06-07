@@ -5,10 +5,13 @@ import { Environment } from "relay-runtime";
 import {
   commitMutationPromiseNormalized,
   createMutationContainer,
+  lookup,
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
 
+import { CoralContext } from "coral-framework/lib/bootstrap";
+import { GQLComment } from "coral-framework/schema";
 import { EditCommentMutation as MutationTypes } from "coral-stream/__generated__/EditCommentMutation.graphql";
 
 export type EditCommentInput = MutationInput<MutationTypes>;
@@ -33,7 +36,11 @@ const mutation = graphql`
 
 let clientMutationId = 0;
 
-function commit(environment: Environment, input: EditCommentInput) {
+function commit(
+  environment: Environment,
+  input: EditCommentInput,
+  { uuidGenerator }: CoralContext
+) {
   return commitMutationPromiseNormalized<MutationTypes>(environment, {
     mutation,
     variables: {
@@ -44,10 +51,16 @@ function commit(environment: Environment, input: EditCommentInput) {
     },
     optimisticResponse: {
       editComment: {
-        id: input.commentID,
-        body: input.body,
-        editing: {
-          edited: true,
+        comment: {
+          id: input.commentID,
+          body: input.body,
+          status: lookup<GQLComment>(environment, input.commentID)!.status,
+          revision: {
+            id: uuidGenerator(),
+          },
+          editing: {
+            edited: true,
+          },
         },
         clientMutationId: (clientMutationId++).toString(),
       },

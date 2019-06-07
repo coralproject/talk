@@ -20,11 +20,12 @@ export class FlagDetailsContainer extends React.Component<Props> {
     const nodes = this.props.comment.flags.nodes;
     const offensiveList: React.ReactElement[] = [];
     const spamList: React.ReactElement[] = [];
-    nodes.forEach(n => {
+    nodes.forEach((n, i) => {
       switch (n.reason) {
         case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE:
           offensiveList.push(
             <FlagDetailsEntry
+              key={i}
               user={n.flagger ? n.flagger.username : <NotAvailable />}
               details={n.additionalDetails}
             />
@@ -33,6 +34,7 @@ export class FlagDetailsContainer extends React.Component<Props> {
         case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM:
           spamList.push(
             <FlagDetailsEntry
+              key={i}
               user={n.flagger ? n.flagger.username : <NotAvailable />}
               details={n.additionalDetails}
             />

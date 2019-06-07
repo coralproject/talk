@@ -23,10 +23,7 @@ interface Props {
 const UserRow: FunctionComponent<Props> = props => (
   <TableRow>
     <TableCell className={styles.titleColumn}>
-      <Link
-        to={getModerationLink("default", props.storyID)}
-        Component={TextLink}
-      >
+      <Link to={getModerationLink("default", props.storyID)} as={TextLink}>
         {props.title || <NotAvailable />}
       </Link>
     </TableCell>
