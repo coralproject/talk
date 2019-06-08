@@ -1,4 +1,4 @@
-import { isUndefined, merge, omitBy } from "lodash";
+import { isUndefined, omitBy } from "lodash";
 
 import { Collection, Cursor, FilterQuery as MongoFilterQuery } from "mongodb";
 
@@ -26,6 +26,7 @@ export default class Query<T> {
 
   constructor(collection: Collection<T>) {
     this.collection = collection;
+    this.filter = {};
   }
 
   /**
@@ -34,7 +35,7 @@ export default class Query<T> {
    * @param filter the filter to merge into the existing query
    */
   public where(filter: FilterQuery<T>): Query<T> {
-    this.filter = merge({}, this.filter || {}, omitBy(filter, isUndefined));
+    this.filter = { ...this.filter, ...omitBy(filter, isUndefined) };
     return this;
   }
 
@@ -64,7 +65,7 @@ export default class Query<T> {
    * @param sort the sorting option for the documents
    */
   public orderBy(sort: object): Query<T> {
-    this.sort = merge({}, this.sort || {}, sort);
+    this.sort = { ...this.sort, ...sort };
     return this;
   }
 
