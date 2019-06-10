@@ -4,11 +4,10 @@ import ReactDOM from "react-dom";
 
 import { createManaged } from "coral-framework/lib/bootstrap";
 
-import ViewRouterContainer from "./containers/ViewRouterContainer";
+import App from "./App";
 import resizePopup from "./dom/resizePopup";
 import { initLocalState } from "./local";
 import localesData from "./locales";
-import AppQuery from "./queries/AppQuery";
 
 // Import css variables.
 import "coral-ui/theme/variables.css";
@@ -20,7 +19,7 @@ import "coral-ui/theme/variables.css";
  * are switched out or other resources being loaded that React has no influence
  * over.
  *
- * This works in addition to <AutoHeightContainer /> which
+ * This works in addition to <AutoHeight /> which
  * adapt popup height when React does an update.
  */
 function pollPopupHeight(interval: number = 100) {
@@ -41,10 +40,7 @@ async function main() {
 
   const Index: FunctionComponent = () => (
     <ManagedCoralContextProvider>
-      <>
-        <ViewRouterContainer />
-        <AppQuery />
-      </>
+      <App />
     </ManagedCoralContextProvider>
   );
 
