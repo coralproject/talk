@@ -20,6 +20,7 @@ Preview Coral easily by running Coral via a Heroku App:
   - [Docker](#docker)
   - [Source](#source)
   - [Development](#development)
+    - [Embed On Your Site](#embed-on-your-site)
     - [Email](#email)
     - [Design Language System (UI Components)](#design-language-system-ui-components)
 - [Configuration](#configuration)
