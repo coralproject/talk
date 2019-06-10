@@ -183,6 +183,29 @@ npm run lint
 npm run test
 ```
 
+#### Embed On Your Site
+With Coral setup and running locally you can test embeding the comment stream with this sample embed script:
+
+```
+<div id="coral_thread"></div>
+<script type="text/javascript">
+(function() {
+    var talk = document.createElement('script'); talk.type = 'text/javascript'; talk.async = true;
+    var url = '{{ CORAL_DOMAIN_NAME }}';
+    talk.src = '//' + url + '/assets/js/embed.js';
+    talk.onload = function() {
+        Coral.createStreamEmbed({
+            id: "coral_thread",
+            autoRender: true,
+            rootURL: '//' + url,
+        });
+    };
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(talk);
+})();
+</script>
+```
+Replace the value of CORAL_DOMAIN_NAME with the location of your running instance of Coral.
+
 #### Email
 
 To test out the email sending functionality, you can run [inbucket](https://www.inbucket.org/)
