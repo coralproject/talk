@@ -2,7 +2,7 @@ import { createManaged } from "coral-framework/lib/bootstrap";
 import React, { FunctionComponent } from "react";
 import ReactDOM from "react-dom";
 
-import EntryContainer from "./containers/EntryContainer";
+import App from "./App";
 import { initLocalState } from "./local";
 import localesData from "./locales";
 
@@ -18,7 +18,7 @@ async function main() {
 
   const Index: FunctionComponent = () => (
     <ManagedCoralContextProvider>
-      <EntryContainer />
+      <App />
     </ManagedCoralContextProvider>
   );
 

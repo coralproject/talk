@@ -8,7 +8,7 @@ exports[`renders correctly 1`] = `
   <div
     className="App-container"
   >
-    <withContext(createMutationContainer(WizardContainer)) />
+    <withContext(createMutationContainer(InstallWizard)) />
   </div>
 </div>
 `;

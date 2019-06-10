@@ -2,103 +2,78 @@ import { makeRouteConfig, Redirect, Route } from "found";
 import React from "react";
 
 import { GQLUSER_ROLE } from "coral-framework/schema";
-import AppContainer from "./containers/AppContainer";
-import createAuthCheckContainer from "./containers/AuthCheckContainer";
+import MainRoute from "./App/MainRoute";
 import { Ability } from "./permissions";
-import CommunityContainer from "./routes/community/containers/CommunityContainer";
-import ConfigureContainer from "./routes/configure/containers/ConfigureContainer";
-import ConfigureAdvancedRouteContainer from "./routes/configure/sections/advanced/containers/AdvancedConfigRouteContainer";
-import ConfigureAuthRouteContainer from "./routes/configure/sections/auth/containers/AuthConfigRouteContainer";
-import ConfigureGeneralRouteContainer from "./routes/configure/sections/general/containers/GeneralConfigRouteContainer";
-import ConfigureModerationRouteContainer from "./routes/configure/sections/moderation/containers/ModerationConfigRouteContainer";
-import ConfigureOrganizationRouteContainer from "./routes/configure/sections/organization/containers/OrganizationRouteContainer";
-import ConfigureWordListRouteContainer from "./routes/configure/sections/wordList/containers/WordListRouteContainer";
-import LoginContainer from "./routes/login/containers/LoginContainer";
-import ModerateContainer from "./routes/moderate/containers/ModerateContainer";
+import { createAuthCheckRoute } from "./routes/AuthCheck";
+import CommunityRoute from "./routes/Community";
+import ConfigureRoute from "./routes/Configure";
 import {
-  PendingQueueContainer,
-  ReportedQueueContainer,
-  UnmoderatedQueueContainer,
-} from "./routes/moderate/containers/QueueContainer";
-import RejectedQueueContainer from "./routes/moderate/containers/RejectedQueueContainer";
-import SingleModerateContainer from "./routes/moderate/containers/SingleModerateContainer";
-import Stories from "./routes/stories/components/Stories";
-import StoriesContainer from "./routes/stories/containers/StoriesContainer";
+  AdvancedConfigRoute,
+  AuthConfigRoute,
+  GeneralConfigRoute,
+  ModerationConfigRoute,
+  OrganizationConfigRoute,
+  WordListConfigRoute,
+} from "./routes/Configure/sections";
+import LoginRoute from "./routes/Login";
+import ModerateRoute from "./routes/Moderate";
+import {
+  PendingQueueRoute,
+  RejectedQueueRoute,
+  ReportedQueueRoute,
+  UnmoderatedQueueRoute,
+} from "./routes/Moderate/Queue";
+import SingleModerateRoute from "./routes/Moderate/SingleModerate";
+import StoriesRoute from "./routes/Stories";
 
 export default makeRouteConfig(
   <Route path="admin">
     <Route
-      {...createAuthCheckContainer({ role: GQLUSER_ROLE.MODERATOR })
-        .routeConfig}
+      {...createAuthCheckRoute({ role: GQLUSER_ROLE.MODERATOR }).routeConfig}
     >
-      <Route {...AppContainer.routeConfig}>
+      <Route {...MainRoute.routeConfig}>
         <Redirect from="/" to="/admin/moderate" />
         <Route
           path="moderate/comment/:commentID"
-          {...SingleModerateContainer.routeConfig}
+          {...SingleModerateRoute.routeConfig}
         />
-        <Route path="moderate" {...ModerateContainer.routeConfig}>
+        <Route path="moderate" {...ModerateRoute.routeConfig}>
           <Redirect from="/" to="/admin/moderate/reported" />
-          <Route path="reported" {...ReportedQueueContainer.routeConfig} />
-          <Route
-            path="reported/:storyID"
-            {...ReportedQueueContainer.routeConfig}
-          />
-          <Route path="pending" {...PendingQueueContainer.routeConfig} />
-          <Route
-            path="pending/:storyID"
-            {...PendingQueueContainer.routeConfig}
-          />
-          <Route
-            path="unmoderated"
-            {...UnmoderatedQueueContainer.routeConfig}
-          />
+          <Route path="reported" {...ReportedQueueRoute.routeConfig} />
+          <Route path="reported/:storyID" {...ReportedQueueRoute.routeConfig} />
+          <Route path="pending" {...PendingQueueRoute.routeConfig} />
+          <Route path="pending/:storyID" {...PendingQueueRoute.routeConfig} />
+          <Route path="unmoderated" {...UnmoderatedQueueRoute.routeConfig} />
           <Route
             path="unmoderated/:storyID"
-            {...UnmoderatedQueueContainer.routeConfig}
+            {...UnmoderatedQueueRoute.routeConfig}
           />
-          <Route path="rejected" {...RejectedQueueContainer.routeConfig} />
-          <Route
-            path="rejected/:storyID"
-            {...RejectedQueueContainer.routeConfig}
-          />
+          <Route path="rejected" {...RejectedQueueRoute.routeConfig} />
+          <Route path="rejected/:storyID" {...RejectedQueueRoute.routeConfig} />
           <Redirect from=":storyID" to="/admin/moderate/reported/:storyID" />
         </Route>
-        <Route path="stories" {...StoriesContainer.routeConfig} />
-        <Route path="community" {...CommunityContainer.routeConfig} />
-        <Route path="stories" Component={Stories} />
+        <Route path="stories" {...StoriesRoute.routeConfig} />
+        <Route path="community" {...CommunityRoute.routeConfig} />
         <Route
-          {...createAuthCheckContainer({
+          {...createAuthCheckRoute({
             ability: Ability.CHANGE_CONFIGURATION,
           }).routeConfig}
         >
-          <Route path="configure" Component={ConfigureContainer}>
+          <Route path="configure" Component={ConfigureRoute}>
             <Redirect from="/" to="/admin/configure/general" />
-            <Route
-              path="general"
-              {...ConfigureGeneralRouteContainer.routeConfig}
-            />
+            <Route path="general" {...GeneralConfigRoute.routeConfig} />
             <Route
               path="organization"
-              {...ConfigureOrganizationRouteContainer.routeConfig}
+              {...OrganizationConfigRoute.routeConfig}
             />
-            <Route
-              path="moderation"
-              {...ConfigureModerationRouteContainer.routeConfig}
-            />
-            <Route
-              path="wordList"
-              {...ConfigureWordListRouteContainer.routeConfig}
-            />
-            <Route path="auth" {...ConfigureAuthRouteContainer.routeConfig} />
-            <Route
-              path="advanced"
-              {...ConfigureAdvancedRouteContainer.routeConfig}
-            />
+            <Route path="moderation" {...ModerationConfigRoute.routeConfig} />
+            <Route path="wordList" {...WordListConfigRoute.routeConfig} />
+            <Route path="auth" {...AuthConfigRoute.routeConfig} />
+            <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
           </Route>
         </Route>
       </Route>
     </Route>
-    <Route path="login" {...LoginContainer.routeConfig} />
+    <Route path="login" {...LoginRoute.routeConfig} />
   </Route>
 );

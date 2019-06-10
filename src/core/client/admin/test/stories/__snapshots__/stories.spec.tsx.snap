@@ -190,7 +190,7 @@ exports[`renders empty stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root StoryStatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -200,7 +200,7 @@ exports[`renders empty stories 1`] = `
                   type="button"
                 >
                   <span
-                    className="StatusText-root StatusText-open"
+                    className="StoryStatusText-root StoryStatusText-open"
                   >
                     Open
                   </span>
@@ -259,7 +259,7 @@ exports[`renders empty stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root StoryStatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -269,7 +269,7 @@ exports[`renders empty stories 1`] = `
                   type="button"
                 >
                   <span
-                    className="StatusText-root StatusText-open"
+                    className="StoryStatusText-root StoryStatusText-open"
                   >
                     Open
                   </span>
@@ -493,7 +493,7 @@ exports[`renders stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root StoryStatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -503,7 +503,7 @@ exports[`renders stories 1`] = `
                   type="button"
                 >
                   <span
-                    className="StatusText-root StatusText-open"
+                    className="StoryStatusText-root StoryStatusText-open"
                   >
                     Open
                   </span>
@@ -562,7 +562,7 @@ exports[`renders stories 1`] = `
               >
                 <button
                   aria-label="Change status"
-                  className="BaseButton-root Button-root StatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root StoryStatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -572,7 +572,7 @@ exports[`renders stories 1`] = `
                   type="button"
                 >
                   <span
-                    className="StatusText-root StatusText-open"
+                    className="StoryStatusText-root StoryStatusText-open"
                   >
                     Open
                   </span>

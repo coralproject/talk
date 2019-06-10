@@ -4,9 +4,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
-import ValidationMessage from "coral-admin/routes/configure/components/ValidationMessage";
 import { OnSubmit } from "coral-framework/lib/form";
-import { AriaInfo, Button, Flex, HorizontalGutter } from "coral-ui/components";
+import {
+  AriaInfo,
+  Button,
+  Flex,
+  HorizontalGutter,
+  ValidationMessage,
+} from "coral-ui/components";
 
 import { cleanupRTEEmptyHTML, getCommentBodyValidators } from "../../helpers";
 import RemainingCharactersContainer from "../../RemainingCharacters";

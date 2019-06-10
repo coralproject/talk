@@ -346,14 +346,14 @@ exports[`renders community 1`] = `
                 className="ButtonPadding-root"
               >
                 <span
-                  className="RoleText-root"
+                  className="UserRoleText-root"
                 >
                   Admin
                 </span>
               </div>
             </td>
             <td
-              className="TableCell-root UserRow-roleColumn TableCell-body"
+              className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
                 className="ButtonPadding-root"
@@ -409,7 +409,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root RoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root UserRoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -419,7 +419,7 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <span
-                    className="RoleText-root"
+                    className="UserRoleText-root"
                   >
                     Moderator
                   </span>
@@ -446,7 +446,7 @@ exports[`renders community 1`] = `
               </div>
             </td>
             <td
-              className="TableCell-root UserRow-roleColumn TableCell-body"
+              className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
                 className="ButtonPadding-root"
@@ -502,7 +502,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root RoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root UserRoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -512,7 +512,7 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <span
-                    className="RoleText-root"
+                    className="UserRoleText-root"
                   >
                     Staff
                   </span>
@@ -539,7 +539,7 @@ exports[`renders community 1`] = `
               </div>
             </td>
             <td
-              className="TableCell-root UserRow-roleColumn TableCell-body"
+              className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
                 className="ButtonPadding-root"
@@ -595,7 +595,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root RoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root UserRoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -605,7 +605,7 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <span
-                    className="RoleText-root RoleText-commenter"
+                    className="UserRoleText-root UserRoleText-commenter"
                   >
                     Commenter
                   </span>
@@ -632,7 +632,7 @@ exports[`renders community 1`] = `
               </div>
             </td>
             <td
-              className="TableCell-root UserRow-roleColumn TableCell-body"
+              className="TableCell-root UserRow-statusColumn TableCell-body"
             >
               <div
                 className="Popover-root"
