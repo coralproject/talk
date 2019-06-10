@@ -3,7 +3,6 @@ import { Localized } from "fluent-react/compat";
 import React, { useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { ResetPasswordMutation } from "coral-account/mutations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useMutation } from "coral-framework/lib/relay";
 import {
@@ -22,6 +21,8 @@ import {
   Typography,
   ValidationMessage,
 } from "coral-ui/components";
+
+import ResetPasswordMutation from "./ResetPasswordMutation";
 
 interface Props {
   token: string;

@@ -6,8 +6,9 @@ import React, { FunctionComponent } from "react";
 
 import { CoralContextConsumer } from "coral-framework/lib/bootstrap/CoralContext";
 
-import routeConfig from "./routeConfig";
-import NotFound from "./routes/NotFound";
+import routeConfig from "../routeConfig";
+import NotFound from "../routes/NotFound";
+import MainLayout from "./MainLayout";
 
 import "./App.css";
 
@@ -30,7 +31,9 @@ const Router = createFarceRouter({
 const EntryContainer: FunctionComponent = () => (
   <CoralContextConsumer>
     {({ relayEnvironment }) => (
-      <Router resolver={new Resolver(relayEnvironment)} />
+      <MainLayout>
+        <Router resolver={new Resolver(relayEnvironment)} />
+      </MainLayout>
     )}
   </CoralContextConsumer>
 );
