@@ -11,7 +11,7 @@ interface Props {
   token: string | undefined;
 }
 
-const Index: React.FunctionComponent<Props> = ({ token }) => {
+const ResetRoute: React.FunctionComponent<Props> = ({ token }) => {
   const [suceeded, setSuceeded] = useState<boolean>(false);
   const onSuccess = useCallback(() => {
     setSuceeded(true);
@@ -28,6 +28,6 @@ const enhanced = withRouteConfig<Props>({
   render: ({ match, Component }) => (
     <Component token={parseHashQuery(match.location.hash).resetToken} />
   ),
-})(Index);
+})(ResetRoute);
 
 export default enhanced;
