@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import WizardContainer from "../containers/WizardContainer";
+import InstallWizard from "./InstallWizard";
 import MainBar from "./MainBar";
 
 import styles from "./App.css";
@@ -11,7 +11,7 @@ class App extends Component {
       <div className={styles.root}>
         <MainBar />
         <div className={styles.container}>
-          <WizardContainer />
+          <InstallWizard />
         </div>
       </div>
     );

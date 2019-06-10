@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
-import Wizard from "../components/Wizard";
-import { InstallMutation, withInstallMutation } from "../mutations";
-import FinalStep from "../steps/components/FinalStep";
-import InitialStep from "../steps/components/InitialStep";
-import AddOrganizationContainer from "../steps/containers/AddOrganizationContainer";
-import CreateYourAccountContainer from "../steps/containers/CreateYourAccountContainer";
-import PermittedDomainsContainer from "../steps/containers/PermittedDomainsContainer";
-
 import { InstallInput } from "coral-framework/rest";
+
+import { InstallMutation, withInstallMutation } from "./InstallMutation";
+import AddOrganizationStep from "./steps/AddOrganizationStep";
+import CreateYourAccountStep from "./steps/CreateYourAccountStep";
+import FinalStep from "./steps/FinalStep";
+import InitialStep from "./steps/InitialStep";
+import PermittedDomainsStep from "./steps/PermittedDomainsStep";
+import Wizard from "./Wizard";
 
 interface FormData {
   organizationName: string;
@@ -21,7 +21,7 @@ interface FormData {
   allowedDomains: string[];
 }
 
-interface WizardContainerState {
+interface InstallWizardState {
   step: number;
   data: FormData;
 }
@@ -58,7 +58,7 @@ interface Props {
   install: InstallMutation;
 }
 
-class WizardContainer extends Component<Props, WizardContainerState> {
+class InstallWizard extends Component<Props, InstallWizardState> {
   public state = {
     step: 0,
     data: {
@@ -99,19 +99,19 @@ class WizardContainer extends Component<Props, WizardContainerState> {
     return (
       <Wizard currentStep={this.state.step}>
         <InitialStep onGoToNextStep={this.handleGoToNextStep} />
-        <CreateYourAccountContainer
+        <CreateYourAccountStep
           data={this.state.data}
           onSaveData={this.handleSaveData}
           onGoToNextStep={this.handleGoToNextStep}
           onGoToPreviousStep={this.handleGoToPreviousStep}
         />
-        <AddOrganizationContainer
+        <AddOrganizationStep
           data={this.state.data}
           onSaveData={this.handleSaveData}
           onGoToNextStep={this.handleGoToNextStep}
           onGoToPreviousStep={this.handleGoToPreviousStep}
         />
-        <PermittedDomainsContainer
+        <PermittedDomainsStep
           data={this.state.data}
           onGoToNextStep={this.handleGoToNextStep}
           onGoToPreviousStep={this.handleGoToPreviousStep}
@@ -123,4 +123,4 @@ class WizardContainer extends Component<Props, WizardContainerState> {
   }
 }
 
-export default withInstallMutation(WizardContainer);
+export default withInstallMutation(InstallWizard);

@@ -4,8 +4,8 @@ import React, { Component, ReactNode } from "react";
 
 import { Step, StepBar } from "coral-ui/components";
 
-import { WizardProps } from "../components/Wizard";
 import Header from "./Header";
+import { WizardProps } from "./Wizard";
 
 import styles from "./Wizard.css";
 
