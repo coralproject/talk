@@ -27,6 +27,7 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   TOKEN_NOT_FOUND: "error-tokenNotFound",
   USER_NOT_ENTITLED: "error-userNotEntitled",
   USER_NOT_FOUND: "error-userNotFound",
+  USER_CANNOT_BE_IGNORED: "error-userCannotBeIgnored",
   USERNAME_ALREADY_SET: "error-usernameAlreadySet",
   USERNAME_CONTAINS_INVALID_CHARACTERS:
     "error-usernameContainsInvalidCharacters",

@@ -9,6 +9,7 @@ import {
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
+  UserCannotBeIgnoredError,
   UsernameAlreadySetError,
   UserNotFoundError,
 } from "coral-server/errors";
@@ -39,6 +40,7 @@ import {
   updateUserUsername,
   User,
 } from "coral-server/models/user";
+import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
@@ -583,6 +585,11 @@ export async function ignore(
   const targetUser = await retrieveUser(mongo, tenant.id, userID);
   if (!targetUser) {
     throw new UserNotFoundError(userID);
+  }
+
+  const userToBeIgnoredIsStaff = await userIsStaff(targetUser);
+  if (userToBeIgnoredIsStaff) {
+    throw new UserCannotBeIgnoredError(userID);
   }
 
   // TODO: extract function

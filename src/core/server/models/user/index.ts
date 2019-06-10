@@ -26,16 +26,16 @@ import {
 import { getLocalProfile, hasLocalProfile } from "coral-server/helpers/users";
 import logger from "coral-server/logger";
 import {
+  Connection,
+  ConnectionInput,
+  resolveConnection,
+} from "coral-server/models/helpers/connection";
+import {
   createConnectionOrderVariants,
   createIndexFactory,
 } from "coral-server/models/helpers/indexing";
 import Query from "coral-server/models/helpers/query";
 import { TenantResource } from "coral-server/models/tenant";
-import {
-  Connection,
-  ConnectionInput,
-  resolveConnection,
-} from "./helpers/connection";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<User>>("users");
