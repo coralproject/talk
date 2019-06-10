@@ -2,27 +2,27 @@ import { FormApi } from "final-form";
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { CommunityContainerQueryResponse } from "coral-admin/__generated__/CommunityContainerQuery.graphql";
+import { CommunityRouteQueryResponse } from "coral-admin/__generated__/CommunityRouteQuery.graphql";
 import { withRouteConfig } from "coral-framework/lib/router";
 
 import Community from "./Community";
 
 interface Props {
-  data: CommunityContainerQueryResponse | null;
+  data: CommunityRouteQueryResponse | null;
   form: FormApi;
 }
 
-const CommunityContainer: FunctionComponent<Props> = props => {
+const CommunityRoute: FunctionComponent<Props> = props => {
   return <Community query={props.data} />;
 };
 
 const enhanced = withRouteConfig<Props>({
   query: graphql`
-    query CommunityContainerQuery {
+    query CommunityRouteQuery {
       ...UserTableContainer_query
     }
   `,
   cacheConfig: { force: true },
-})(CommunityContainer);
+})(CommunityRoute);
 
 export default enhanced;
