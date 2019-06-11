@@ -1,7 +1,6 @@
 import { GQLCommentCountsTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 import { VISIBLE_STATUSES } from "coral-server/models/comment/constants";
 import { Story } from "coral-server/models/story";
-
 export type CommentCountsInput = Pick<Story, "commentCounts" | "id">;
 
 export const CommentCounts: GQLCommentCountsTypeResolver<CommentCountsInput> = {

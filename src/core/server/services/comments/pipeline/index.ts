@@ -1,3 +1,5 @@
+import { Db } from "mongodb";
+
 import { Omit, Promiseable, RequireProperty } from "coral-common/types";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { CreateActionInput } from "coral-server/models/action/comment";
@@ -27,6 +29,7 @@ export interface PhaseResult {
 }
 
 export interface ModerationPhaseContext {
+  mongo: Db;
   story: Story;
   tenant: Tenant;
   comment: RequireProperty<Partial<EditCommentInput>, "body">;

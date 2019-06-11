@@ -160,14 +160,13 @@ export async function createTenant(
       enabled: false,
       smtp: {},
     },
-    karma: {
-      enabled: true,
-      thresholds: {
-        // By default, flaggers are reliable after one correct flag, and
-        // unreliable if there is an incorrect flag.
-        flag: { reliable: 1, unreliable: -1 },
-        comment: { reliable: 1, unreliable: -1 },
-      },
+    automaticPreModeration: {
+      enabled: false,
+      // 7 days in seconds.
+      timeFrame: 604800,
+      // Rejection rate defaulting to 30%, once exceeded, comments will be
+      // pre-moderated.
+      triggerRejectionRate: 30,
     },
     integrations: {
       akismet: {

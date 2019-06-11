@@ -80,7 +80,8 @@ export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
     | "charCount"
-    | "karma"
+    | "email"
+    | "automaticPreModeration"
     | "wordList"
     | "integrations"
     | "reaction"

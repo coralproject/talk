@@ -795,46 +795,33 @@ type ExternalIntegrations {
 }
 
 ################################################################################
-## Karma
+## Automatic Pre-Moderation
 ################################################################################
 
 """
-KarmaThreshold defines the bounds for which a User will become unreliable or
-reliable based on their karma score. If the score is equal or less than the
-unreliable value, they are unreliable. If the score is equal or more than the
-reliable value, they are reliable. If they are neither reliable or unreliable
-then they are neutral.
+AutomaticPreModeration controls the beheviour around when comments from Users
+should be marked for pre-moderation automatically once they have reached the
+trigger rate for rejected comments.
 """
-type KarmaThreshold {
-  reliable: Int!
-  unreliable: Int!
-}
-
-type KarmaThresholds {
+type AutomaticPreModeration {
   """
-  flag represents karma settings in relation to how well a User's flagging
-  ability aligns with the moderation decisions made by moderators.
-  """
-  flag: KarmaThreshold!
-
-  """
-  comment represents the karma setting in relation to how well a User's comments are moderated.
-  """
-  comment: KarmaThreshold!
-}
-
-type Karma {
-  """
-  When true, checks will be completed to ensure that the Karma checks are
-  completed.
+  enabled when true will pre-moderate users new comments once they have reached
+  the trigger rejection rate.
   """
   enabled: Boolean!
 
   """
-  karmaThresholds contains the currently set thresholds for triggering Trust
-  behavior.
+  timeFrame specifies the number of seconds that comments from a given User will
+  be taken into account when computing their rejection rate.
   """
-  thresholds: KarmaThresholds!
+  timeFrame: Int!
+
+  """
+  triggerRejectionRate specifies the percentage of comments that a given User
+  may have before their comments will then be placed into pre-moderation until
+  the rejection rate decreases.
+  """
+  triggerRejectionRate: Int!
 }
 
 ################################################################################
@@ -1176,10 +1163,11 @@ type Settings {
   integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  karma is the set of settings related to how user Trust and Karma are
-  handled.
+  automaticPreModeration is the set of settings related to how automatic
+  pre-moderation is controlled.
   """
-  karma: Karma! @auth(roles: [ADMIN, MODERATOR])
+  automaticPreModeration: AutomaticPreModeration!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   reaction specifies the configuration for reactions.
@@ -2854,42 +2842,29 @@ input SettingsExternalIntegrationsInput {
 }
 
 """
-KarmaThreshold defines the bounds for which a User will become unreliable or
-reliable based on their karma score. If the score is equal or less than the
-unreliable value, they are unreliable. If the score is equal or more than the
-reliable value, they are reliable. If they are neither reliable or unreliable
-then they are neutral.
+AutomaticPreModerationInput controls the beheviour around when comments from Users
+should be marked for pre-moderation automatically once they have reached the
+trigger rate for rejected comments.
 """
-input SettingsKarmaThresholdInput {
-  reliable: Int
-  unreliable: Int
-}
-
-input SettingsKarmaThresholdsInput {
+input AutomaticPreModerationInput {
   """
-  flag represents karma settings in relation to how well a User's flagging
-  ability aligns with the moderation decisions made by moderators.
-  """
-  flag: SettingsKarmaThresholdInput
-
-  """
-  comment represents the karma setting in relation to how well a User's comments are moderated.
-  """
-  comment: SettingsKarmaThresholdInput
-}
-
-input SettingsKarmaInput {
-  """
-  When true, checks will be completed to ensure that the Karma checks are
-  completed.
+  enabled when true will pre-moderate users new comments once they have reached
+  the trigger rejection rate.
   """
   enabled: Boolean
 
   """
-  karmaThresholds contains the currently set thresholds for triggering Trust
-  behavior.
+  timeFrame specifies the number of seconds that comments from a given User will
+  be taken into account when computing their rejection rate.
   """
-  thresholds: SettingsKarmaThresholdsInput
+  timeFrame: Int
+
+  """
+  triggerRejectionRate specifies the percentage of comments that a given User
+  may have before their comments will then be placed into pre-moderation until
+  the rejection rate decreases.
+  """
+  triggerRejectionRate: Int
 }
 
 input SettingsCommunityGuidelinesInput {
@@ -3083,10 +3058,10 @@ input SettingsInput {
   integrations: SettingsExternalIntegrationsInput
 
   """
-  karma is the set of settings related to how user Trust and Karma are
-  handled.
+  automaticPreModeration is the set of settings related to how automatic
+  pre-moderation is controlled.
   """
-  karma: SettingsKarmaInput
+  automaticPreModeration: AutomaticPreModerationInput
 
   """
   charCount stores the character count moderation settings.

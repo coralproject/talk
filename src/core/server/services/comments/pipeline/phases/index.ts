@@ -1,9 +1,9 @@
 import { IntermediateModerationPhase } from "coral-server/services/comments/pipeline";
 
+import { automaticPreModeration } from "./automaticPreModeration";
 import { commentingDisabled } from "./commentingDisabled";
 import { commentLength } from "./commentLength";
 import { detectLinks } from "./detectLinks";
-import { karma } from "./karma";
 import { linkify } from "./linkify";
 import { preModerate } from "./preModerate";
 import { purify } from "./purify";
@@ -24,7 +24,7 @@ export const moderationPhases: IntermediateModerationPhase[] = [
   purify,
   wordList,
   staff,
-  karma,
+  automaticPreModeration,
   spam,
   toxic,
   detectLinks,

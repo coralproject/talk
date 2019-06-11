@@ -116,6 +116,7 @@ export async function create(
   try {
     // Run the comment through the moderation phases.
     result = await processForModeration({
+      mongo,
       nudge,
       story,
       tenant,
@@ -301,6 +302,7 @@ export async function edit(
 
   // Run the comment through the moderation phases.
   const { body, status, metadata, actions } = await processForModeration({
+    mongo,
     story,
     tenant,
     comment: input,
