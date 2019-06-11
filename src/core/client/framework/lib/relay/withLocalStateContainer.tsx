@@ -25,6 +25,8 @@ interface Props {
  * that has been added using Client-Side Schema Extensions.
  * The `fragmentSpec` must be a `Fragment` on the `LOCAL_TYPE` which
  * must have the `LOCAL_ID`.
+ *
+ * @deprecated use `useLocal` instead.
  */
 function withLocalStateContainer(
   fragmentSpec: GraphQLTaggedNode

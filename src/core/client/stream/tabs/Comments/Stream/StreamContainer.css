@@ -1,0 +1,14 @@
+.root {
+  width: 100%;
+}
+
+.tabBarContainer {
+  position: relative;
+  padding-top: var(--spacing-1);
+}
+
+.sortMenu {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

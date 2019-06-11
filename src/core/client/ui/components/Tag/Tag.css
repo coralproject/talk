@@ -4,6 +4,39 @@
   line-height: 1;
   padding: 2px 4px;
   white-space: nowrap;
-  background-color: var(--palette-grey-dark);
   border-radius: 1px;
+  display: inline-block;
+}
+
+.colorPrimary {
+  background-color: var(--palette-primary-dark);
+}
+
+.colorGrey {
+  background-color: var(--palette-grey-dark);
+}
+
+.colorError {
+  background-color: var(--palette-error-dark);
+}
+
+.variantPill {
+  border-radius: 20px;
+  padding: 2px 6px;
+  font-weight: var(--font-weight-medium);
+  &.colorGrey {
+    border: 1px solid var(--palette-grey-dark);
+    background-color: var(--palette-grey-lightest);
+    color: var(--palette-grey-dark);
+  }
+  &.colorPrimary {
+    border: 1px solid var(--palette-primary-dark);
+    background-color: var(--palette-primary-lightest);
+    color: var(--palette-primary-dark);
+  }
+  &.colorError {
+    border: 1px solid var(--palette-error-dark);
+    background-color: var(--palette-error-lightest);
+    color: var(--palette-error-dark);
+  }
 }

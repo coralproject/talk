@@ -1,8 +1,23 @@
 .root {
-  composes: subTabCounter from "coral-ui/shared/typography.css";
-  border-radius: 1px;
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: 1;
+  letter-spacing: calc(0.2em / 14);
+  color: var(--palette-text-primary);
+  border-radius: var(--round-corners);
   padding: 2px 3px 3px 3px;
   color: inherit;
+}
+
+.sizeSmall {
+  font-size: calc(12rem / var(--rem-base));
+  padding: 2px 3px;
+  line-height: 1;
+}
+
+.text {
+  color: var(--palette-text-light);
 }
 
 .colorPrimary {
@@ -10,13 +25,17 @@
 }
 
 .colorGrey {
+  background-color: var(--palette-grey-lightest);
+  box-shadow: inset 0px 0px 0px 1px var(--palette-grey-dark);
+  & .text {
+    color: var(--palette-grey-dark);
+  }
+}
+
+.colorDark {
   background-color: var(--palette-grey-dark);
 }
 
 .colorInherit {
   background-color: currentColor;
-}
-
-.text {
-  color: var(--palette-text-light);
 }

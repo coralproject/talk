@@ -1,0 +1,25 @@
+.root {
+  background-color: var(--palette-primary-lightest);
+  border: 1px solid var(--palette-primary-light);
+  color: var(--palette-text-primary);
+  padding: var(--spacing-4);
+  box-sizing: border-box;
+}
+
+.replies,
+.gotoConversation {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: 0;
+}
+
+.gotoArrow {
+  display: inline-block;
+  text-decoration: none;
+  margin-left: var(--spacing-1);
+}
+
+.replies {
+  color: var(--palette-grey-main);
+}

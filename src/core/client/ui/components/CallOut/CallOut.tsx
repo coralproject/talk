@@ -45,7 +45,7 @@ const CallOut: FunctionComponent<CallOutProps> = props => {
 
   return (
     <div className={rootClassName} {...rest}>
-      {children}
+      <div>{children}</div>
     </div>
   );
 };

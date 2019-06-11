@@ -4,6 +4,9 @@ import { Variables } from "relay-runtime";
 
 import { useEffectWhenChanged } from "coral-framework/hooks";
 
+type RefetchFunction = () => void;
+type IsRefetching = boolean;
+
 /**
  * useRefetch is a react hook that returns a `refetch` callback
  * and a `isRefetching` boolean. Any change to the variables
@@ -12,7 +15,7 @@ import { useEffectWhenChanged } from "coral-framework/hooks";
 export default function useRefetch<V = Variables>(
   relay: RelayPaginationProp,
   variables: V = {} as any
-): [() => void, boolean] {
+): [RefetchFunction, IsRefetching] {
   const [manualRefetchCount, setManualRefetchCount] = useState(0);
   const [refetching, setRefetching] = useState(false);
   useEffectWhenChanged(() => {

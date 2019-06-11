@@ -3,14 +3,13 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";
-import { StreamQueryLocal as Local } from "coral-stream/__generated__/StreamQueryLocal.graphql";
+import { AllCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/AllCommentsTabQuery.graphql";
+import { AllCommentsTabQueryLocal as Local } from "coral-stream/__generated__/AllCommentsTabQueryLocal.graphql";
 import { Delay, Flex, Spinner } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import StreamContainer from "./StreamContainer";
+import AllCommentsTabContainer from "./AllCommentsTabContainer";
 
 interface Props {
   local: Local;
@@ -20,20 +19,19 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
-
-  if (data.props) {
-    if (!data.props.story) {
-      return (
-        <Localized id="comments-streamQuery-storyNotFound">
-          <div>Story not found</div>
-        </Localized>
-      );
-    }
+  if (!data.props) {
     return (
-      <StreamContainer
+      <Flex justifyContent="center">
+        <Spinner />
+      </Flex>
+    );
+  }
+  if (data.props) {
+    return (
+      <AllCommentsTabContainer
         settings={data.props.settings}
         viewer={data.props.viewer}
-        story={data.props.story}
+        story={data.props.story!}
       />
     );
   }
@@ -47,28 +45,34 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
   );
 };
 
-const StreamQuery: FunctionComponent<Props> = props => {
+const AllCommentsTabQuery: FunctionComponent<Props> = props => {
   const {
-    local: { storyID, storyURL },
+    local: { storyID, storyURL, commentsOrderBy },
   } = props;
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query StreamQuery($storyID: ID, $storyURL: String) {
+        query AllCommentsTabQuery(
+          $storyID: ID
+          $storyURL: String
+          $commentsOrderBy: COMMENT_SORT
+        ) {
           viewer {
-            ...StreamContainer_viewer
+            ...AllCommentsTabContainer_viewer
           }
           story(id: $storyID, url: $storyURL) {
-            ...StreamContainer_story
+            ...AllCommentsTabContainer_story
+              @arguments(orderBy: $commentsOrderBy)
           }
           settings {
-            ...StreamContainer_settings
+            ...AllCommentsTabContainer_settings
           }
         }
       `}
       variables={{
         storyID,
         storyURL,
+        commentsOrderBy,
       }}
       render={data => render(data)}
     />
@@ -77,12 +81,12 @@ const StreamQuery: FunctionComponent<Props> = props => {
 
 const enhanced = withLocalStateContainer(
   graphql`
-    fragment StreamQueryLocal on Local {
+    fragment AllCommentsTabQueryLocal on Local {
       storyID
       storyURL
       commentsOrderBy
     }
   `
-)(StreamQuery);
+)(AllCommentsTabQuery);
 
 export default enhanced;

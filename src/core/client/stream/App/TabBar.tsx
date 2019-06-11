@@ -8,7 +8,6 @@ type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
 export interface Props {
   activeTab: TabValue;
   onTabClick: (tab: TabValue) => void;
-  commentCount: number;
   showProfileTab: boolean;
   showConfigureTab: boolean;
 }
@@ -17,11 +16,8 @@ const AppTabBar: FunctionComponent<Props> = props => {
   return (
     <TabBar activeTab={props.activeTab} onTabClick={props.onTabClick}>
       <Tab tabID="COMMENTS">
-        <Localized
-          id="general-tabBar-commentsTab"
-          $commentCount={props.commentCount}
-        >
-          <span>{"{$commentCount} Comments"}</span>
+        <Localized id="general-tabBar-commentsTab">
+          <span>Comments</span>
         </Localized>
       </Tab>
       {props.showProfileTab && (

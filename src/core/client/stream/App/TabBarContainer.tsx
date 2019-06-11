@@ -7,7 +7,6 @@ import {
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
 
-import { TabBarContainer_story as StoryData } from "coral-stream/__generated__/TabBarContainer_story.graphql";
 import { TabBarContainer_viewer as ViewerData } from "coral-stream/__generated__/TabBarContainer_viewer.graphql";
 import { TabBarContainerLocal as Local } from "coral-stream/__generated__/TabBarContainerLocal.graphql";
 import { Ability, can } from "coral-stream/permissions";
@@ -20,7 +19,6 @@ import {
 import TabBar from "./TabBar";
 
 interface Props {
-  story: StoryData | null;
   viewer: ViewerData | null;
   local: Local;
   setActiveTab: SetActiveTabMutation;
@@ -34,14 +32,11 @@ export class TabBarContainer extends Component<Props> {
   public render() {
     const {
       local: { loggedIn, activeTab },
-      story,
     } = this.props;
 
-    const commentCount = (story && story.commentCounts.totalVisible) || -1;
     return (
       <TabBar
         activeTab={activeTab}
-        commentCount={commentCount}
         showProfileTab={loggedIn}
         showConfigureTab={
           !!this.props.viewer &&
@@ -66,13 +61,6 @@ const enhanced = withSetActiveTabMutation(
       viewer: graphql`
         fragment TabBarContainer_viewer on User {
           role
-        }
-      `,
-      story: graphql`
-        fragment TabBarContainer_story on Story {
-          commentCounts {
-            totalVisible
-          }
         }
       `,
     })(TabBarContainer)

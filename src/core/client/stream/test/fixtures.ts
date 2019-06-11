@@ -371,7 +371,7 @@ export const commentsFromStaff = denormalizeComments(
         id: "comment-from-staff-0",
         author: moderators[0],
         body: "Joining Too",
-        tags: [{ name: "Staff" }],
+        tags: [{ name: "Staff", code: "STAFF" }],
       },
     ],
     baseComment

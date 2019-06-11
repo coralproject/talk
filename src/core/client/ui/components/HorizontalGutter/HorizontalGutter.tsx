@@ -1,12 +1,16 @@
 import cn from "classnames";
-import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
+import React, { FunctionComponent, Ref } from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { Spacing } from "coral-ui/theme/variables";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./HorizontalGutter.css";
 
-interface Props extends HTMLAttributes<HTMLSpanElement> {
+/** Needs to be loaded after styles, because Box styles have priority */
+import Box from "../Box";
+
+interface Props extends PropTypesOf<typeof Box> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -16,7 +20,7 @@ interface Props extends HTMLAttributes<HTMLSpanElement> {
   /** @deprecated use `spacing` instead */
   size?: "half" | "full" | "double" | "triple" | "oneAndAHalf";
 
-  spacing?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+  spacing?: Spacing;
 
   /** The name of the HorizontalGutter to render */
   children?: React.ReactNode;
@@ -51,16 +55,10 @@ const HorizontalGutter: FunctionComponent<Props> = props => {
   const innerProps = {
     className: rootClassName,
     ref: forwardRef,
+    container,
     ...rest,
   };
-
-  const Container = container!;
-
-  if (React.isValidElement<any>(Container)) {
-    return React.cloneElement(Container, innerProps);
-  } else {
-    return <Container {...innerProps} />;
-  }
+  return <Box {...innerProps} />;
 };
 
 HorizontalGutter.defaultProps = {

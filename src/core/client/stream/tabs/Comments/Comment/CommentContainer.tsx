@@ -17,7 +17,7 @@ import {
   withSetCommentIDMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
-import { Button, Flex, HorizontalGutter } from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import { isCommentVisible } from "../helpers";
 import ButtonsBar from "./ButtonsBar";
@@ -33,6 +33,7 @@ import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportButtonContainer from "./ReportButton";
 import ShowConversationLink from "./ShowConversationLink";
 import { UsernameWithPopoverContainer } from "./Username";
+import UserTagsContainer from "./UserTagsContainer";
 
 interface Props {
   viewer: ViewerData | null;
@@ -157,6 +158,16 @@ export class CommentContainer extends Component<Props, State> {
       viewer,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
+    const featuredTag = comment.tags.find(t => t.code === "FEATURED");
+    const commentTags = (
+      <>
+        {featuredTag && (
+          <Tag color="primary" variant="pill">
+            {featuredTag.name}
+          </Tag>
+        )}
+      </>
+    );
     const banned = Boolean(
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
@@ -204,15 +215,18 @@ export class CommentContainer extends Component<Props, State> {
             }
             username={
               comment.author && (
-                <UsernameWithPopoverContainer
-                  viewer={viewer}
-                  user={comment.author}
-                />
+                <>
+                  <UsernameWithPopoverContainer
+                    viewer={viewer}
+                    user={comment.author}
+                  />
+                  <UserTagsContainer comment={comment} />
+                </>
               )
             }
-            tags={comment.tags.map(t => t.name)}
             topBarRight={
-              <Flex itemGutter>
+              <Flex alignItems="center" itemGutter>
+                {commentTags}
                 {editable && (
                   <Localized id="comments-commentContainer-editButton">
                     <Button
@@ -342,6 +356,7 @@ const enhanced = withSetCommentIDMutation(
           }
           tags {
             name
+            code
           }
           pending
           lastViewerAction
@@ -351,6 +366,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReportButtonContainer_comment
           ...CaretContainer_comment
           ...RejectedTombstoneContainer_comment
+          ...UserTagsContainer_comment
         }
       `,
       settings: graphql`

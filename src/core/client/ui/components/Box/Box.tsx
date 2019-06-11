@@ -1,5 +1,10 @@
 import cn from "classnames";
-import React, { FunctionComponent, HTMLAttributes, Ref } from "react";
+import React, {
+  FunctionComponent,
+  HTMLAttributes,
+  ReactElement,
+  Ref,
+} from "react";
 
 import { withForwardRef, withStyles } from "coral-ui/hocs";
 import { Spacing } from "coral-ui/theme/variables";
@@ -49,6 +54,9 @@ interface Props extends HTMLAttributes<any> {
   pt?: Spacing;
   pb?: Spacing;
 
+  /** If set, will perform React.cloneElement instead */
+  clone?: boolean;
+
   /** The name of the Box to render */
   children?: React.ReactNode;
 
@@ -64,10 +72,12 @@ interface Props extends HTMLAttributes<any> {
 
 const Box: FunctionComponent<Props> = props => {
   const {
+    clone,
     classes,
     className,
     forwardRef,
     container,
+    children,
     m,
     mx,
     my,
@@ -135,10 +145,14 @@ const Box: FunctionComponent<Props> = props => {
 
   const Container = container!;
 
+  if (clone) {
+    const child = React.Children.only(children) as ReactElement;
+    return React.cloneElement(child, innerProps);
+  }
   if (React.isValidElement<any>(Container)) {
-    return React.cloneElement(Container, innerProps);
+    return React.cloneElement(Container, { ...innerProps, children });
   } else {
-    return <Container {...innerProps} />;
+    return <Container {...innerProps}>{children}</Container>;
   }
 };
 

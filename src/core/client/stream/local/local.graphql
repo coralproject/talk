@@ -14,6 +14,11 @@ enum PROFILE_TAB {
   SETTINGS
 }
 
+enum COMMENTS_TAB {
+  ALL_COMMENTS
+  FEATURED_COMMENTS
+}
+
 enum COMMENT_VIEWER_ACTION {
   EDIT
   APPROVE
@@ -47,8 +52,9 @@ type Local {
   storyID: String
   storyURL: String
   commentID: String
-  defaultStreamOrderBy: COMMENT_SORT!
+  commentsOrderBy: COMMENT_SORT!
   profileTab: PROFILE_TAB!
+  commentsTab: COMMENTS_TAB!
   bla: [String]
 }
 

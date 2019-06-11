@@ -16,7 +16,7 @@ import { CoralContext, withContext } from "../bootstrap";
  * this will call the specified `commit` callback with
  * the Relay `environment` provided by the context.
  *
- * @deprecated
+ * @deprecated use `createMutation` instead
  */
 function createMutationContainer<T extends string, I, R>(
   propName: T,

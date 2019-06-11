@@ -5,3 +5,4 @@ export { default as ButtonsBar } from "./ButtonsBar";
 export { default as ShowConversationLink } from "./ShowConversationLink";
 export { default as RootParent } from "./RootParent";
 export { default as IndentedComment } from "./IndentedComment";
+export { default as UserTagsContainer } from "./UserTagsContainer";

@@ -12,10 +12,7 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Não é você? <button>Sair</button>
 
-general-tabBar-commentsTab = { $commentCount ->
-        [-1] Comentário
-        [1] { SHORT_NUMBER($commentCount) } Comentário
-        *[other] { SHORT_NUMBER($commentCount) } Comentários
+general-tabBar-commentsTab = Comentários
     }
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-configure = Configurações

@@ -8,6 +8,7 @@ import { PropTypesOf } from "coral-ui/types";
 /* In this case the Box styles have higher priority! */
 import styles from "./Typography.css";
 
+/** Needs to be loaded after styles, because Box styles have priority */
 import Box from "../Box";
 
 type Variant =
