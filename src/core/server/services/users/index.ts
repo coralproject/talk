@@ -587,7 +587,7 @@ export async function ignore(
     throw new UserNotFoundError(userID);
   }
 
-  const userToBeIgnoredIsStaff = await userIsStaff(targetUser);
+  const userToBeIgnoredIsStaff = userIsStaff(targetUser);
   if (userToBeIgnoredIsStaff) {
     throw new UserCannotBeIgnoredError(userID);
   }
