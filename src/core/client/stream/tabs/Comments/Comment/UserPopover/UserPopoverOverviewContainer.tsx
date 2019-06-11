@@ -30,7 +30,8 @@ export const UserPopoverOverviewContainer: FunctionComponent<Props> = ({
   const canIgnore =
     viewer &&
     viewer.id !== user.id &&
-    viewer.ignoredUsers.every(u => u.id !== user.id);
+    viewer.ignoredUsers.every(u => u.id !== user.id) &&
+    user.ignoreable;
   return (
     <HorizontalGutter spacing={3} className={styles.root}>
       <HorizontalGutter spacing={2}>
@@ -73,6 +74,7 @@ const enhanced = withFragmentContainer<Props>({
       id
       username
       createdAt
+      ignoreable
     }
   `,
 })(UserPopoverOverviewContainer);

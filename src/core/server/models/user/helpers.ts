@@ -1,15 +1,9 @@
-import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { STAFF_ROLES } from "coral-server/models/user/constants";
 
 import { User } from ".";
 
 export async function userIsStaff(user: User) {
-  const staffRoles = [
-    GQLUSER_ROLE.ADMIN,
-    GQLUSER_ROLE.MODERATOR,
-    GQLUSER_ROLE.STAFF,
-  ];
-
-  if (staffRoles.includes(user.role)) {
+  if (STAFF_ROLES.includes(user.role)) {
     return true;
   }
 

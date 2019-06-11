@@ -6,6 +6,7 @@ import {
   GQLUserTypeResolver,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import * as user from "coral-server/models/user";
+import { STAFF_ROLES } from "coral-server/models/user/constants";
 
 import { UserStatusInput } from "./UserStatus";
 import { getRequestedFields } from "./util";
@@ -41,4 +42,5 @@ export const User: GQLUserTypeResolver<user.User> = {
   }),
   ignoredUsers: ({ ignoredUsers }, input, ctx, info) =>
     maybeLoadOnlyIgnoredUserID(ctx, info, ignoredUsers),
+  ignoreable: ({ role }) => !STAFF_ROLES.includes(role),
 };
