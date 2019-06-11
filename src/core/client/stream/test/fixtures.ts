@@ -104,21 +104,25 @@ export const commenters = createFixtures<GQLUser>(
       id: "user-0",
       username: "Markus",
       role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
     },
     {
       id: "user-1",
       username: "Lukas",
       role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
     },
     {
       id: "user-2",
       username: "Isabelle",
       role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
     },
     {
       id: "user-3",
       username: "Markus",
       role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
     },
   ],
   baseUser
@@ -354,6 +358,7 @@ export const moderators = createFixtures<GQLUser>(
       id: "me-as-moderator",
       username: "Moderator",
       role: GQLUSER_ROLE.MODERATOR,
+      ignoreable: false,
     },
   ],
   baseUser
