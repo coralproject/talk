@@ -1,6 +1,6 @@
 import React from "react";
 
-import EntryContainer from "coral-admin/containers/EntryContainer";
+import App from "coral-admin/App";
 import { GQLResolver } from "coral-framework/schema";
 import {
   createTestRenderer,
@@ -8,5 +8,5 @@ import {
 } from "coral-framework/testHelpers";
 
 export default function create(params: CreateTestRendererParams<GQLResolver>) {
-  return createTestRenderer<GQLResolver>("admin", <EntryContainer />, params);
+  return createTestRenderer<GQLResolver>("admin", <App />, params);
 }

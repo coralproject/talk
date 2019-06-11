@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<div
+  className="Main-root"
+>
+  <withPropsOnChange(AppBar)
+    gutterBegin={true}
+    gutterEnd={true}
+  >
+    <withPropsOnChange(Begin)
+      itemGutter="double"
+    >
+      <div
+        className="Main-logoContainer"
+      >
+        <withPropsOnChange(Logo) />
+        <Version />
+      </div>
+      <withContext(createMutationContainer(Relay(NavigationContainer)))
+        viewer={Object {}}
+      />
+    </withPropsOnChange(Begin)>
+    <withPropsOnChange(End)>
+      <DecisionHistoryButton />
+      <withPropsOnChange(Divider) />
+      <withContext(createMutationContainer(Relay(UserMenuContainer)))
+        viewer={Object {}}
+      />
+    </withPropsOnChange(End)>
+  </withPropsOnChange(AppBar)>
+  child
+</div>
+`;

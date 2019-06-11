@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 
 import { createManaged } from "coral-framework/lib/bootstrap";
 
-import App from "./components/App";
+import App from "./App";
 import localesData from "./locales";
 
 // Import css variables.

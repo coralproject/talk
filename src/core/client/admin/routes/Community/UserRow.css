@@ -1,0 +1,23 @@
+.usernameColumn {
+  vertical-align: top;
+  word-break: break-word;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.emailColumn {
+  vertical-align: top;
+  word-break: break-word;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.memberSinceColumn {
+  vertical-align: top;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.roleColumn {
+  vertical-align: top;
+}
+.statusColumn {
+  vertical-align: top;
+}

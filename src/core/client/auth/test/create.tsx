@@ -1,11 +1,11 @@
 import React from "react";
 
-import AppQuery from "coral-auth/queries/AppQuery";
+import App from "coral-auth/App";
 import {
   createTestRenderer,
   CreateTestRendererParams,
 } from "coral-framework/testHelpers";
 
 export default function create(params: CreateTestRendererParams) {
-  return createTestRenderer("auth", <AppQuery />, params);
+  return createTestRenderer("auth", <App />, params);
 }
