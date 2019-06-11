@@ -13,6 +13,7 @@ import {
   GQLFlagActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/tenant/schema/__generated__/types";
+import { createCollection } from "coral-server/models/helpers/collection";
 import {
   Connection,
   ConnectionInput,
@@ -25,9 +26,7 @@ import {
 import Query, { FilterQuery } from "coral-server/models/helpers/query";
 import { TenantResource } from "coral-server/models/tenant";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<CommentAction>>("commentActions");
-}
+const collection = createCollection<CommentAction>("commentActions");
 
 export enum ACTION_TYPE {
   /**

@@ -17,6 +17,7 @@ import {
   EncodedCommentActionCounts,
   mergeCommentActionCounts,
 } from "coral-server/models/action/comment";
+import { createCollection } from "coral-server/models/helpers/collection";
 import {
   Connection,
   createConnection,
@@ -37,11 +38,7 @@ import { VISIBLE_STATUSES } from "./constants";
 import { createEmptyCommentStatusCounts, hasAncestors } from "./helpers";
 import { CommentTag } from "./tag";
 
-export * from "./helpers";
-
-function collection<T = Comment>(mongo: Db) {
-  return mongo.collection<Readonly<T>>("comments");
-}
+const collection = createCollection<Comment>("comments");
 
 export interface RevisionMetadata {
   akismet?: boolean;

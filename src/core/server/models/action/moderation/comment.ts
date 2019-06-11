@@ -3,6 +3,7 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { createCollection } from "coral-server/models/helpers/collection";
 import {
   Connection,
   ConnectionInput,
@@ -15,11 +16,9 @@ import {
 import Query from "coral-server/models/helpers/query";
 import { TenantResource } from "coral-server/models/tenant";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<CommentModerationAction>>(
-    "commentModerationActions"
-  );
-}
+const collection = createCollection<CommentModerationAction>(
+  "commentModerationActions"
+);
 
 export async function createCommentModerationActionIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));

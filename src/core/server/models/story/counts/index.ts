@@ -13,6 +13,7 @@ import {
   CommentStatusCounts,
   createEmptyCommentStatusCounts,
 } from "coral-server/models/comment/helpers";
+import { createCollection } from "coral-server/models/helpers/collection";
 import { createIndexFactory } from "coral-server/models/helpers/indexing";
 import { retrieveStory, Story } from "coral-server/models/story";
 import { AugmentedRedis } from "coral-server/services/redis";
@@ -23,9 +24,7 @@ import { updateSharedCommentCounts } from "./shared";
  * collection provides a reference to the stories collection used by the
  * counting system.
  */
-function collection<T = Story>(mongo: Db) {
-  return mongo.collection<Readonly<T>>("stories");
-}
+const collection = createCollection<Story>("stories");
 
 export async function createStoryCountIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));

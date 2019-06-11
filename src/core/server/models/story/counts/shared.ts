@@ -8,6 +8,7 @@ import {
   CommentStatusCounts,
   createEmptyCommentStatusCounts,
 } from "coral-server/models/comment/helpers";
+import { createCollection } from "coral-server/models/helpers/collection";
 import { Story } from "coral-server/models/story";
 import {
   CommentModerationCountsPerQueue,
@@ -49,9 +50,7 @@ const commentCountsModerationQueueQueuesKey = (tenantID: string) =>
  * collection provides a reference to the stories collection used by the
  * counting system.
  */
-function collection<T = Story>(mongo: Db) {
-  return mongo.collection<Readonly<T>>("stories");
-}
+const collection = createCollection<Story>("stories");
 
 /**
  * recalculateSharedModerationQueueQueueCounts will reset the counts stored for

@@ -9,12 +9,11 @@ import {
   GQLMODERATION_MODE,
   GQLSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
+import { createCollection } from "coral-server/models/helpers/collection";
 import { createIndexFactory } from "coral-server/models/helpers/indexing";
 import { Settings } from "coral-server/models/settings";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<Tenant>>("tenants");
-}
+const collection = createCollection<Tenant>("tenants");
 
 /**
  * TenantResource references a given resource that should be owned by a specific
