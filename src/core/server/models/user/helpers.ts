@@ -1,11 +1,16 @@
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import { STAFF_ROLES } from "coral-server/models/user/constants";
 
 import { User } from ".";
 
-export function userIsStaff(user: User) {
-  if (STAFF_ROLES.includes(user.role)) {
+export function roleIsStaff(role: GQLUSER_ROLE) {
+  if (STAFF_ROLES.includes(role)) {
     return true;
   }
 
   return false;
+}
+
+export function userIsStaff(user: User) {
+  return roleIsStaff(user.role);
 }
