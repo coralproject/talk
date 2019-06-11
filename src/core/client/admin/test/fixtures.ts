@@ -289,6 +289,7 @@ export const users = {
         username: "Markus",
         email: "markus@test.com",
         role: GQLUSER_ROLE.ADMIN,
+        ignoreable: false,
       },
     ],
     baseUser
@@ -300,6 +301,7 @@ export const users = {
         username: "Lukas",
         email: "lukas@test.com",
         role: GQLUSER_ROLE.MODERATOR,
+        ignoreable: false,
       },
     ],
     baseUser
@@ -311,6 +313,7 @@ export const users = {
         username: "Huy",
         email: "huy@test.com",
         role: GQLUSER_ROLE.STAFF,
+        ignoreable: false,
       },
     ],
     baseUser
@@ -322,18 +325,21 @@ export const users = {
         username: "Isabelle",
         email: "isabelle@test.com",
         role: GQLUSER_ROLE.COMMENTER,
+        ignoreable: true,
       },
       {
         id: "user-commenter-1",
         username: "Ngoc",
         email: "ngoc@test.com",
         role: GQLUSER_ROLE.COMMENTER,
+        ignoreable: true,
       },
       {
         id: "user-commenter-2",
         username: "Max",
         email: "max@test.com",
         role: GQLUSER_ROLE.COMMENTER,
+        ignoreable: true,
       },
     ],
     baseUser
@@ -344,6 +350,7 @@ export const users = {
       username: "Ingrid",
       email: "ingrid@test.com",
       role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
       status: {
         current: [GQLUSER_STATUS.BANNED],
         ban: { active: true },
