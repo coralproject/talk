@@ -178,6 +178,7 @@ function commit(
               id: viewer.id,
               username: viewer.username,
               createdAt: viewer.createdAt,
+              ignoreable: false,
             },
             body: input.body,
             revision: {
