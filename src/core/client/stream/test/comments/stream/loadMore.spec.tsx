@@ -2,6 +2,7 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
+  act,
   createSinonStub,
   wait,
   waitForElement,
@@ -99,17 +100,18 @@ it("loads more comments", async () => {
   // Get amount of comments before.
   const commentsBefore = within(streamLog).getAllByTestID(/^comment-/).length;
 
-  within(streamLog)
-    .getByText("Load More")
-    .props.onClick();
+  await act(async () => {
+    within(streamLog)
+      .getByText("Load More")
+      .props.onClick();
 
-  // Wait for load more button to disappear
+    // Wait for load more button to disappear
 
-  // Should now have one more comment
-  await wait(() =>
-    expect(within(streamLog).queryByText("Load More")).toBeNull()
-  );
-
+    // Should now have one more comment
+    await wait(() =>
+      expect(within(streamLog).queryByText("Load More")).toBeNull()
+    );
+  });
   expect(within(streamLog).getAllByTestID(/^comment-/).length).toBe(
     commentsBefore + 1
   );

@@ -40,13 +40,13 @@ exports[`ban user 1`] = `
       </span>
     </button>
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <h1
-          className="Typography-root Typography-header2 Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
           id="banModal-title"
         >
           Are you sure you want to ban 
@@ -56,14 +56,14 @@ exports[`ban user 1`] = `
           ?
         </h1>
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           Once banned, this user will no longer be able to comment, use
 reactions, or report comments.
         </p>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd"
+        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
       >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
@@ -105,16 +105,16 @@ exports[`renders community 1`] = `
   data-testid="community-container"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-doubleItemGutter"
+      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
     >
       <fieldset
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
         >
           Search
         </legend>
@@ -163,12 +163,12 @@ exports[`renders community 1`] = `
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
         >
           Show Me
         </legend>
         <div
-          className="Flex-root Flex-flex Flex-itemGutter"
+          className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
         >
           <span
             className="SelectField-root UserTableFilter-selectField"
@@ -275,7 +275,7 @@ exports[`renders community 1`] = `
       </fieldset>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <table
         className="Table-root Table-fullWidth"
@@ -359,10 +359,10 @@ exports[`renders community 1`] = `
                 className="ButtonPadding-root"
               >
                 <div
-                  className="Typography-root Typography-detail Typography-colorSuccess"
+                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                   >
                     <div
                       aria-hidden={true}
@@ -452,10 +452,10 @@ exports[`renders community 1`] = `
                 className="ButtonPadding-root"
               >
                 <div
-                  className="Typography-root Typography-detail Typography-colorSuccess"
+                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                   >
                     <div
                       aria-hidden={true}
@@ -545,10 +545,10 @@ exports[`renders community 1`] = `
                 className="ButtonPadding-root"
               >
                 <div
-                  className="Typography-root Typography-detail Typography-colorSuccess"
+                  className="Box-root Typography-root Typography-detail Typography-colorSuccess"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                   >
                     <div
                       aria-hidden={true}
@@ -649,10 +649,10 @@ exports[`renders community 1`] = `
                   type="button"
                 >
                   <div
-                    className="Typography-root Typography-detail Typography-colorSuccess"
+                    className="Box-root Typography-root Typography-detail Typography-colorSuccess"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                     >
                       <div
                         aria-hidden={true}
@@ -701,16 +701,16 @@ exports[`renders empty community 1`] = `
   data-testid="community-container"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-doubleItemGutter"
+      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
     >
       <fieldset
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
         >
           Search
         </legend>
@@ -759,12 +759,12 @@ exports[`renders empty community 1`] = `
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary UserTableFilter-legend"
         >
           Show Me
         </legend>
         <div
-          className="Flex-root Flex-flex Flex-itemGutter"
+          className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
         >
           <span
             className="SelectField-root UserTableFilter-selectField"
@@ -871,7 +871,7 @@ exports[`renders empty community 1`] = `
       </fieldset>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <table
         className="Table-root Table-fullWidth"
@@ -914,7 +914,7 @@ exports[`renders empty community 1`] = `
         />
       </table>
       <p
-        className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary Typography-alignCenter EmptyMessage-root"
+        className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary Typography-alignCenter EmptyMessage-root"
       >
         We could not find anyone in your community matching your criteria.
       </p>

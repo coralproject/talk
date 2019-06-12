@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <span
-  className="Tag-root custom"
+  className="Tag-root custom Tag-colorGrey"
 >
   Staff
 </span>

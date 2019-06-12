@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
       data-testid="current-tab-pane"
       tabID="COMMENTS"
     >
-      <withContext(withLocalStateContainer(CommentsPaneContainer)) />
+      <CommentsPaneQuery />
     </TabPane>
     <TabPane
       data-testid="current-tab-pane"

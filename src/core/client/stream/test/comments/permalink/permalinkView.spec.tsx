@@ -2,6 +2,7 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
+  act,
   createSinonStub,
   waitForElement,
   within,
@@ -96,12 +97,14 @@ it("show all comments", async () => {
     within(testRenderer.root).getByTestID("current-tab-pane")
   );
 
-  within(tabPane)
-    .getByText("View Full Discussion")
-    .props.onClick(mockEvent);
+  await act(async () => {
+    within(tabPane)
+      .getByText("View Full Discussion")
+      .props.onClick(mockEvent);
 
-  await waitForElement(() =>
-    within(tabPane).getByTestID("comments-stream-log")
-  );
+    await waitForElement(() =>
+      within(tabPane).getByTestID("comments-stream-log")
+    );
+  });
   mockEvent.preventDefault.verify();
 });

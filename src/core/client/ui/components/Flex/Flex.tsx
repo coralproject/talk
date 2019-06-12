@@ -29,7 +29,9 @@ interface Props extends PropTypesOf<typeof Box> {
     | "space-evenly";
   alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
   direction?: "row" | "column" | "row-reverse" | "column-reverse";
+  /** @deprecated use `spacing` instead */
   itemGutter?: boolean | "half" | "double" | "triple";
+  /** Adds a gutter between items. Uses predefined sizes from design tokens */
   spacing?: Spacing;
   className?: string;
   wrap?: boolean | "reverse";

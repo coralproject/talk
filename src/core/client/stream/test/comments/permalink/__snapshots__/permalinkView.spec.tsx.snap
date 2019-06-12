@@ -9,10 +9,10 @@ exports[`renders permalink view 1`] = `
   role="tabpanel"
 >
   <div
-    className="HorizontalGutter-root PermalinkView-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root PermalinkView-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
@@ -40,15 +40,15 @@ exports[`renders permalink view 1`] = `
       </button>
     </div>
     <div
-      className="Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
+      className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionColumn"
     >
       <p
-        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title1"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title1"
       >
         You are currently viewing a
       </p>
       <p
-        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title2"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary PermalinkView-title2"
       >
         SINGLE CONVERSATION
       </p>
@@ -68,17 +68,17 @@ exports[`renders permalink view 1`] = `
       </a>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <div
         className="ConversationThread-root"
         data-testid="comments-permalinkView-conversationThread"
       >
         <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
+          className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
         />
         <div
-          className="Line-root HorizontalGutter-root HorizontalGutter-full"
+          className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
             className="Circle-circleContainer"
@@ -102,7 +102,7 @@ exports[`renders permalink view 1`] = `
               data-testid="comment-comment-1"
             >
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
                   className="Indent-root"
@@ -115,13 +115,13 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
-                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <div
                               className="Popover-root"
@@ -138,7 +138,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Lukas
                                 </span>
@@ -159,7 +159,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
                               className="Timestamp-root RelativeTime-root"
@@ -172,12 +172,12 @@ exports[`renders permalink view 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
                       <div
-                        className="HorizontalGutter-root HorizontalGutter-full"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
                           className="HTMLContent-root"
@@ -188,10 +188,10 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -258,7 +258,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -308,7 +308,7 @@ exports[`renders permalink view 1`] = `
               data-testid="comment-comment-2"
             >
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
                   className="Indent-root"
@@ -321,13 +321,13 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
-                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <div
                               className="Popover-root"
@@ -344,7 +344,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -365,7 +365,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
                               className="Timestamp-root RelativeTime-root"
@@ -378,12 +378,12 @@ exports[`renders permalink view 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
                       <div
-                        className="HorizontalGutter-root HorizontalGutter-full"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
                           className="HTMLContent-root"
@@ -394,10 +394,10 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -464,7 +464,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -512,7 +512,7 @@ exports[`renders permalink view 1`] = `
               data-testid="comment-comment-with-replies"
             >
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
                   className="Indent-root"
@@ -525,13 +525,13 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
-                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <div
                               className="Popover-root"
@@ -548,7 +548,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Markus
                                 </span>
@@ -569,7 +569,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
                               className="Timestamp-root RelativeTime-root"
@@ -582,12 +582,12 @@ exports[`renders permalink view 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
                       <div
-                        className="HorizontalGutter-root HorizontalGutter-full"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
                           className="HTMLContent-root"
@@ -598,10 +598,10 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -668,7 +668,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -700,19 +700,19 @@ exports[`renders permalink view 1`] = `
         className="PermalinkView-replyList"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
           data-testid="commentReplyList-comment-with-replies"
           id="coral-comments-replyList-log--comment-with-replies"
           role="log"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
               data-testid="comment-comment-3"
             >
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
                   className="Indent-root"
@@ -725,13 +725,13 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
-                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <div
                               className="Popover-root"
@@ -748,7 +748,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -769,7 +769,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
                               className="Timestamp-root RelativeTime-root"
@@ -782,12 +782,12 @@ exports[`renders permalink view 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
                       <div
-                        className="HorizontalGutter-root HorizontalGutter-full"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
                           className="HTMLContent-root"
@@ -798,10 +798,10 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -868,7 +868,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -895,13 +895,13 @@ exports[`renders permalink view 1`] = `
             </div>
           </div>
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
               data-testid="comment-comment-4"
             >
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
               >
                 <div
                   className="Indent-root"
@@ -914,13 +914,13 @@ exports[`renders permalink view 1`] = `
                       role="article"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                       >
                         <div
-                          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                           >
                             <div
                               className="Popover-root"
@@ -937,7 +937,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                                 >
                                   Isabelle
                                 </span>
@@ -958,7 +958,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
                               className="Timestamp-root RelativeTime-root"
@@ -971,12 +971,12 @@ exports[`renders permalink view 1`] = `
                         </div>
                         <div>
                           <div
-                            className="Flex-root Flex-flex Flex-itemGutter"
+                            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                           />
                         </div>
                       </div>
                       <div
-                        className="HorizontalGutter-root HorizontalGutter-full"
+                        className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
                           className="HTMLContent-root"
@@ -987,10 +987,10 @@ exports[`renders permalink view 1`] = `
                           }
                         />
                         <div
-                          className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                          className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                         >
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -1057,7 +1057,7 @@ exports[`renders permalink view 1`] = `
                             </div>
                           </div>
                           <div
-                            className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                           >
                             <button
                               className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"

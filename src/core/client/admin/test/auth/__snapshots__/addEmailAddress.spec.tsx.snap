@@ -6,18 +6,18 @@ exports[`accepts valid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
     </p>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -38,10 +38,10 @@ exports[`accepts valid email 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -96,18 +96,18 @@ exports[`checks for invalid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
     </p>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -141,10 +141,10 @@ exports[`checks for invalid email 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -199,7 +199,7 @@ exports[`renders addEmailAddress view 1`] = `
     data-testid="completeAccountBox"
   >
     <div
-      className="Flex-root Flex-flex Flex-justifyCenter"
+      className="Box-root Flex-root Flex-flex Flex-justifyCenter"
     >
       <div
         className="CompleteAccountBox-container"
@@ -208,12 +208,12 @@ exports[`renders addEmailAddress view 1`] = `
           className="CompleteAccountBox-header"
         >
           <h1
-            className="Typography-root Typography-heading3 Typography-colorTextLight Typography-alignCenter CompleteAccountBox-heading3"
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextLight Typography-alignCenter CompleteAccountBox-heading3"
           >
             Finish Setting Up Your Account
           </h1>
           <h1
-            className="Typography-root Typography-heading1 Typography-colorTextLight Typography-alignCenter"
+            className="Box-root Typography-root Typography-heading1 Typography-colorTextLight Typography-alignCenter"
           >
             <span>
               Add Email Address
@@ -228,18 +228,18 @@ exports[`renders addEmailAddress view 1`] = `
             onSubmit={[Function]}
           >
             <div
-              className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
             >
               <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
                 For your added security, we require users to add an email address to their accounts.
               </p>
               <div
-                className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
                 <label
-                  className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                   htmlFor="email"
                 >
                   Email Address
@@ -260,10 +260,10 @@ exports[`renders addEmailAddress view 1`] = `
                 </div>
               </div>
               <div
-                className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
                 <label
-                  className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                   htmlFor="confirmEmail"
                 >
                   Confirm Email Address
@@ -310,18 +310,18 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
     </p>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -355,10 +355,10 @@ exports[`shows error when submitting empty form 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -413,17 +413,18 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
     </p>
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      server error
+      <div>
+        server error
 
 GraphQL request (4:3)
 3: ) {
@@ -431,12 +432,13 @@ GraphQL request (4:3)
      ^
 5:     user {
 
+      </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -457,10 +459,10 @@ GraphQL request (4:3)
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -502,18 +504,18 @@ exports[`successfully sets email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
     </p>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -534,10 +536,10 @@ exports[`successfully sets email 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address

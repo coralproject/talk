@@ -1,20 +1,23 @@
+import { ReactTestInstance } from "react-test-renderer";
 import sinon from "sinon";
 import timekeeper from "timekeeper";
 
+import RTE from "@coralproject/rte";
 import { ERROR_CODES } from "coral-common/errors";
 import {
   InvalidRequestError,
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
+import { GQLResolver } from "coral-framework/schema";
 import {
+  act,
+  createResolversStub,
   createSinonStub,
   findParentWithType,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
-import RTE from "@coralproject/rte";
-import { ReactTestInstance } from "react-test-renderer";
 import { baseComment, commenters, settings, stories } from "../../fixtures";
 import create from "../create";
 
@@ -252,35 +255,40 @@ it("handle moderation nudge error", async () => {
 });
 
 it("handle disabled commenting error", async () => {
+  let createCommentCalled = false;
   const { rte, form } = await createTestRenderer(
-    {
+    createResolversStub<GQLResolver>({
       Mutation: {
-        createComment: sinon.stub().callsFake(() => {
+        createComment: () => {
+          createCommentCalled = true;
           throw new InvalidRequestError({
             code: ERROR_CODES.COMMENTING_DISABLED,
           });
-        }),
+        },
       },
       Query: {
-        settings: createSinonStub(
-          s => s.onFirstCall().returns(settings),
-          s =>
-            s.onSecondCall().returns({
-              ...settings,
-              disableCommenting: {
-                enabled: true,
-                message: "commenting disabled",
-              },
-            })
-        ),
+        settings: () => {
+          if (!createCommentCalled) {
+            return settings;
+          }
+          return {
+            ...settings,
+            disableCommenting: {
+              enabled: true,
+              message: "commenting disabled",
+            },
+          };
+        },
       },
-    },
+    }),
     { muteNetworkErrors: true }
   );
 
-  rte.props.onChange({ html: "abc" });
-  form.props.onSubmit();
-  await waitForElement(() => within(form).getByText("commenting disabled"));
+  await act(async () => {
+    rte.props.onChange({ html: "abc" });
+    form.props.onSubmit();
+    await waitForElement(() => within(form).getByText("commenting disabled"));
+  });
   expect(rte.props.disabled).toBe(true);
   expect(within(form).getByText("Submit").props.disabled).toBe(true);
 });

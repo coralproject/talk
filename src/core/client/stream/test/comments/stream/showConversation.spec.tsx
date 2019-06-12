@@ -2,6 +2,7 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
+  act,
   createSinonStub,
   waitForElement,
   within,
@@ -59,11 +60,13 @@ it("shows conversation", async () => {
   const streamLog = await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-stream-log")
   );
-  within(streamLog)
-    .getByText("Read More of this Conversation", { exact: false })
-    .props.onClick(mockEvent);
+  await act(async () => {
+    within(streamLog)
+      .getByText("Read More of this Conversation", { exact: false })
+      .props.onClick(mockEvent);
 
-  await waitForElement(() =>
-    within(testRenderer.root).getByText("SINGLE CONVERSATION")
-  );
+    await waitForElement(() =>
+      within(testRenderer.root).getByText("SINGLE CONVERSATION")
+    );
+  });
 });

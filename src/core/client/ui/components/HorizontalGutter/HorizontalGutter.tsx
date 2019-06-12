@@ -20,6 +20,7 @@ interface Props extends PropTypesOf<typeof Box> {
   /** @deprecated use `spacing` instead */
   size?: "half" | "full" | "double" | "triple" | "oneAndAHalf";
 
+  /** Choose gutter size, uses predefined sizes from design tokens */
   spacing?: Spacing;
 
   /** The name of the HorizontalGutter to render */

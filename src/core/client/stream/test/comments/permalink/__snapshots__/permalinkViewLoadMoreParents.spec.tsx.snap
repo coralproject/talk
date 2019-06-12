@@ -6,7 +6,7 @@ exports[`renders conversation thread 1`] = `
   data-testid="comments-permalinkView-conversationThread"
 >
   <div
-    className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
+    className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
   >
     <div
       className="Circle-circleContainer"
@@ -27,30 +27,30 @@ exports[`renders conversation thread 1`] = `
         </svg>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+        className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
         id="comment-from-staff-0"
       >
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
         >
           <div
-            className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+            className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
           >
             <div>
               <span
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
               >
                 Moderator
               </span>
             </div>
             <span
-              className="Tag-root"
+              className="Tag-root Tag-colorGrey"
             >
               Staff
             </span>
           </div>
           <div
-            className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+            className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
           >
             <time
               className="Timestamp-root RelativeTime-root"
@@ -84,7 +84,7 @@ exports[`renders conversation thread 1`] = `
         </svg>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter"
+        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
       >
         <button
           className="BaseButton-root Button-root ConversationThread-showMoreButton Button-sizeRegular Button-colorRegular Button-variantUnderlined"
@@ -112,7 +112,7 @@ exports[`renders conversation thread 1`] = `
     </div>
   </div>
   <div
-    className="Line-root HorizontalGutter-root HorizontalGutter-full"
+    className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       className="Circle-circleContainer"
@@ -136,7 +136,7 @@ exports[`renders conversation thread 1`] = `
         data-testid="comment-comment-0"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
             className="Indent-root"
@@ -149,13 +149,13 @@ exports[`renders conversation thread 1`] = `
                 role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="Popover-root"
@@ -172,7 +172,7 @@ exports[`renders conversation thread 1`] = `
                           type="button"
                         >
                           <span
-                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Markus
                           </span>
@@ -193,7 +193,7 @@ exports[`renders conversation thread 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
@@ -206,12 +206,12 @@ exports[`renders conversation thread 1`] = `
                   </div>
                   <div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                     />
                   </div>
                 </div>
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-full"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
                     className="HTMLContent-root"
@@ -222,10 +222,10 @@ exports[`renders conversation thread 1`] = `
                     }
                   />
                   <div
-                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -292,7 +292,7 @@ exports[`renders conversation thread 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -328,10 +328,10 @@ exports[`shows more of this conversation 1`] = `
   data-testid="comments-permalinkView-conversationThread"
 >
   <div
-    className="Line-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
+    className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full Line-dotted"
   />
   <div
-    className="Line-root HorizontalGutter-root HorizontalGutter-full"
+    className="Line-root Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       className="Circle-circleContainer"
@@ -355,7 +355,7 @@ exports[`shows more of this conversation 1`] = `
         data-testid="comment-comment-1"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
             className="Indent-root"
@@ -368,13 +368,13 @@ exports[`shows more of this conversation 1`] = `
                 role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="Popover-root"
@@ -391,7 +391,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Lukas
                           </span>
@@ -412,7 +412,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
@@ -425,12 +425,12 @@ exports[`shows more of this conversation 1`] = `
                   </div>
                   <div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                     />
                   </div>
                 </div>
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-full"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
                     className="HTMLContent-root"
@@ -441,10 +441,10 @@ exports[`shows more of this conversation 1`] = `
                     }
                   />
                   <div
-                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -511,7 +511,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -561,7 +561,7 @@ exports[`shows more of this conversation 1`] = `
         data-testid="comment-comment-from-staff-0"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
             className="Indent-root"
@@ -574,13 +574,13 @@ exports[`shows more of this conversation 1`] = `
                 role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="Popover-root"
@@ -597,7 +597,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Moderator
                           </span>
@@ -617,13 +617,13 @@ exports[`shows more of this conversation 1`] = `
                         </div>
                       </div>
                       <span
-                        className="Tag-root"
+                        className="Tag-root Tag-colorGrey"
                       >
                         Staff
                       </span>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
@@ -636,12 +636,12 @@ exports[`shows more of this conversation 1`] = `
                   </div>
                   <div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                     />
                   </div>
                 </div>
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-full"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
                     className="HTMLContent-root"
@@ -652,10 +652,10 @@ exports[`shows more of this conversation 1`] = `
                     }
                   />
                   <div
-                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -722,7 +722,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -770,7 +770,7 @@ exports[`shows more of this conversation 1`] = `
         data-testid="comment-comment-0"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
             className="Indent-root"
@@ -783,13 +783,13 @@ exports[`shows more of this conversation 1`] = `
                 role="article"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="Popover-root"
@@ -806,7 +806,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                           >
                             Markus
                           </span>
@@ -827,7 +827,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
                         className="Timestamp-root RelativeTime-root"
@@ -840,12 +840,12 @@ exports[`shows more of this conversation 1`] = `
                   </div>
                   <div>
                     <div
-                      className="Flex-root Flex-flex Flex-itemGutter"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                     />
                   </div>
                 </div>
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-full"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                 >
                   <div
                     className="HTMLContent-root"
@@ -856,10 +856,10 @@ exports[`shows more of this conversation 1`] = `
                     }
                   />
                   <div
-                    className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -926,7 +926,7 @@ exports[`shows more of this conversation 1`] = `
                       </div>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"

@@ -2,19 +2,19 @@
 
 exports[`renders reply list 1`] = `
 <div
-  className="HorizontalGutter-root HorizontalGutter-full"
+  className="Box-root HorizontalGutter-root HorizontalGutter-full"
   data-testid="commentReplyList-comment-with-deep-replies"
   id="coral-comments-replyList-log--comment-with-deep-replies"
   role="log"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       data-testid="comment-comment-with-replies"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
           className="Indent-root"
@@ -27,13 +27,13 @@ exports[`renders reply list 1`] = `
               role="article"
             >
               <div
-                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <div
                       className="Popover-root"
@@ -50,7 +50,7 @@ exports[`renders reply list 1`] = `
                         type="button"
                       >
                         <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                         >
                           Markus
                         </span>
@@ -71,7 +71,7 @@ exports[`renders reply list 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
                       className="Timestamp-root RelativeTime-root"
@@ -84,12 +84,12 @@ exports[`renders reply list 1`] = `
                 </div>
                 <div>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                   />
                 </div>
               </div>
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
               >
                 <div
                   className="HTMLContent-root"
@@ -100,10 +100,10 @@ exports[`renders reply list 1`] = `
                   }
                 />
                 <div
-                  className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -170,7 +170,7 @@ exports[`renders reply list 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -196,19 +196,19 @@ exports[`renders reply list 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
       data-testid="commentReplyList-comment-with-replies"
       id="coral-comments-replyList-log--comment-with-replies"
       role="log"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
           data-testid="comment-comment-3"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
               className="Indent-root"
@@ -221,13 +221,13 @@ exports[`renders reply list 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                       >
                         <div
                           className="Popover-root"
@@ -244,7 +244,7 @@ exports[`renders reply list 1`] = `
                             type="button"
                           >
                             <span
-                              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                             >
                               Isabelle
                             </span>
@@ -265,7 +265,7 @@ exports[`renders reply list 1`] = `
                         </div>
                       </div>
                       <div
-                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                       >
                         <time
                           className="Timestamp-root RelativeTime-root"
@@ -278,12 +278,12 @@ exports[`renders reply list 1`] = `
                     </div>
                     <div>
                       <div
-                        className="Flex-root Flex-flex Flex-itemGutter"
+                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                       />
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root HorizontalGutter-full"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                   >
                     <div
                       className="HTMLContent-root"
@@ -294,10 +294,10 @@ exports[`renders reply list 1`] = `
                       }
                     />
                     <div
-                      className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -364,7 +364,7 @@ exports[`renders reply list 1`] = `
                         </div>
                       </div>
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -391,13 +391,13 @@ exports[`renders reply list 1`] = `
         </div>
       </div>
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
           data-testid="comment-comment-4"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
               className="Indent-root"
@@ -410,13 +410,13 @@ exports[`renders reply list 1`] = `
                   role="article"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
                   >
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                       >
                         <div
                           className="Popover-root"
@@ -433,7 +433,7 @@ exports[`renders reply list 1`] = `
                             type="button"
                           >
                             <span
-                              className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                             >
                               Isabelle
                             </span>
@@ -454,7 +454,7 @@ exports[`renders reply list 1`] = `
                         </div>
                       </div>
                       <div
-                        className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                       >
                         <time
                           className="Timestamp-root RelativeTime-root"
@@ -467,12 +467,12 @@ exports[`renders reply list 1`] = `
                     </div>
                     <div>
                       <div
-                        className="Flex-root Flex-flex Flex-itemGutter"
+                        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                       />
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root HorizontalGutter-full"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                   >
                     <div
                       className="HTMLContent-root"
@@ -483,10 +483,10 @@ exports[`renders reply list 1`] = `
                       }
                     />
                     <div
-                      className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                      className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                     >
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -553,7 +553,7 @@ exports[`renders reply list 1`] = `
                         </div>
                       </div>
                       <div
-                        className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                        className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                       >
                         <button
                           className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -582,13 +582,13 @@ exports[`renders reply list 1`] = `
     </div>
   </div>
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       data-testid="comment-comment-5"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
           className="Indent-root"
@@ -601,13 +601,13 @@ exports[`renders reply list 1`] = `
               role="article"
             >
               <div
-                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <div
                       className="Popover-root"
@@ -624,7 +624,7 @@ exports[`renders reply list 1`] = `
                         type="button"
                       >
                         <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                         >
                           Isabelle
                         </span>
@@ -645,7 +645,7 @@ exports[`renders reply list 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
                       className="Timestamp-root RelativeTime-root"
@@ -658,12 +658,12 @@ exports[`renders reply list 1`] = `
                 </div>
                 <div>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                   />
                 </div>
               </div>
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
               >
                 <div
                   className="HTMLContent-root"
@@ -674,10 +674,10 @@ exports[`renders reply list 1`] = `
                   }
                 />
                 <div
-                  className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -744,7 +744,7 @@ exports[`renders reply list 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"

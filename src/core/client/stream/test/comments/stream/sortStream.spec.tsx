@@ -1,6 +1,7 @@
 import sinon from "sinon";
 
 import {
+  act,
   createSinonStub,
   waitForElement,
   within,
@@ -40,7 +41,6 @@ it("renders app with comment stream", async () => {
     s =>
       s.onSecondCall().callsFake((input: any) => {
         expectAndFail(input).toEqual({
-          after: null,
           first: 5,
           orderBy: "CREATED_AT_ASC",
         });
@@ -70,12 +70,14 @@ it("renders app with comment stream", async () => {
   const selectField = within(testRenderer.root).getByLabelText("Sort By");
   const oldestOption = within(selectField).getByText("Oldest");
 
-  selectField.props.onChange({
-    target: { value: oldestOption.props.value.toString() },
-  });
+  await act(async () => {
+    selectField.props.onChange({
+      target: { value: oldestOption.props.value.toString() },
+    });
 
-  streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
-  );
+    streamLog = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("comments-stream-log")
+    );
+  });
   expect(within(streamLog).toJSON()).toMatchSnapshot();
 });

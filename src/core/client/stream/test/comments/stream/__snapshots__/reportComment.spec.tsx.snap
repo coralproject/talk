@@ -73,18 +73,18 @@ exports[`render popup 1`] = `
         onSubmit={[Function]}
       >
         <div
-          className="HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
         >
           <h1
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
+            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
           >
             Report This Comment
           </h1>
           <div
-            className="HorizontalGutter-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root HorizontalGutter-half"
           >
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
             >
               Why are you reporting this comment?
             </p>
@@ -93,7 +93,7 @@ exports[`render popup 1`] = `
             >
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -117,7 +117,7 @@ exports[`render popup 1`] = `
               </li>
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -141,7 +141,7 @@ exports[`render popup 1`] = `
               </li>
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -165,7 +165,7 @@ exports[`render popup 1`] = `
               </li>
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -253,18 +253,18 @@ exports[`render popup expanded 1`] = `
         onSubmit={[Function]}
       >
         <div
-          className="HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root ReportCommentForm-root HorizontalGutter-full"
         >
           <h1
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
+            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ReportCommentForm-title"
           >
             Report This Comment
           </h1>
           <div
-            className="HorizontalGutter-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root HorizontalGutter-half"
           >
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
             >
               Why are you reporting this comment?
             </p>
@@ -273,7 +273,7 @@ exports[`render popup expanded 1`] = `
             >
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={true}
@@ -297,7 +297,7 @@ exports[`render popup expanded 1`] = `
               </li>
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -321,7 +321,7 @@ exports[`render popup expanded 1`] = `
               </li>
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -345,7 +345,7 @@ exports[`render popup expanded 1`] = `
               </li>
               <li>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -369,7 +369,7 @@ exports[`render popup expanded 1`] = `
               </li>
             </ul>
             <label
-              className="Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary ReportCommentForm-detail"
               htmlFor="comments-reportCommentForm-aditionalDetails--comment-0"
             >
               Please leave any additional information that may be helpful to our moderators. (Optional)
@@ -386,7 +386,7 @@ exports[`render popup expanded 1`] = `
                   value=""
                 />
                 <p
-                  className="Typography-root Typography-detail Typography-colorTextSecondary ReportCommentForm-textareaInfo"
+                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ReportCommentForm-textareaInfo"
                 >
                   Max. 500 Characters
                 </p>
@@ -394,7 +394,7 @@ exports[`render popup expanded 1`] = `
             </div>
           </div>
           <div
-            className="Flex-root Flex-flex Flex-justifyFlexEnd Flex-alignCenter"
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd Flex-alignCenter"
           >
             <button
               className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantRegular"
@@ -479,16 +479,16 @@ exports[`report comment as offensive 1`] = `
         </span>
       </button>
       <div
-        className="HorizontalGutter-root ThankYou-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root ThankYou-root HorizontalGutter-full"
       >
         <h1
-          className="Typography-root Typography-heading2 Typography-colorTextPrimary ThankYou-title"
+          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ThankYou-title"
         >
           Thank you!
         </h1>
         <div>
           <p
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             We’ve received your message. Reports from members like you keep the community safe.
              

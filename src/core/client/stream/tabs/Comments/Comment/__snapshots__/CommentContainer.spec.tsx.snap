@@ -87,22 +87,48 @@ exports[`hide reply button 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
-      tags={Array []}
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": "Marvin",
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": "Marvin",
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>
@@ -202,22 +228,48 @@ exports[`renders body only 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
-      tags={Array []}
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": null,
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": null,
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": null,
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>
@@ -317,22 +369,48 @@ exports[`renders disabled reply when commenting has been disabled 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
-      tags={Array []}
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": "Marvin",
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": "Marvin",
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>
@@ -432,22 +510,48 @@ exports[`renders disabled reply when story is closed 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
-      tags={Array []}
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": "Marvin",
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": "Marvin",
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>
@@ -555,22 +659,52 @@ exports[`renders in reply to 1`] = `
       indentLevel={1}
       parentAuthorName="ParentAuthor"
       showEditedMarker={false}
-      tags={Array []}
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": "Marvin",
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": "Marvin",
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": Object {
+                  "author": Object {
+                    "username": "ParentAuthor",
+                  },
+                },
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>
@@ -678,26 +812,52 @@ exports[`renders staff badge 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
-      tags={
-        Array [
-          "Staff",
-        ]
-      }
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": "Marvin",
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": "Marvin",
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [
+                  Object {
+                    "name": "Staff",
+                  },
+                ],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>
@@ -797,22 +957,48 @@ exports[`renders username and body 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
-      tags={Array []}
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": "Marvin",
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": "Marvin",
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>
@@ -917,22 +1103,48 @@ exports[`shows conversation link 1`] = `
       indentLevel={1}
       parentAuthorName={null}
       showEditedMarker={false}
-      tags={Array []}
       topBarRight={
         <ForwardRef(forwardRef)
+          alignItems="center"
           itemGutter={true}
-        />
+        >
+          <React.Fragment />
+        </ForwardRef(forwardRef)>
       }
       username={
-        <Relay(UsernameWithPopoverContainer)
-          user={
-            Object {
-              "id": "author-id",
-              "username": "Marvin",
+        <React.Fragment>
+          <Relay(UsernameWithPopoverContainer)
+            user={
+              Object {
+                "id": "author-id",
+                "username": "Marvin",
+              }
             }
-          }
-          viewer={null}
-        />
+            viewer={null}
+          />
+          <Relay(UserTagsContainer)
+            comment={
+              Object {
+                "author": Object {
+                  "id": "author-id",
+                  "username": "Marvin",
+                },
+                "body": "Woof",
+                "createdAt": "1995-12-17T03:24:00.000Z",
+                "editing": Object {
+                  "editableUntil": "1995-12-17T03:24:30.000Z",
+                  "edited": false,
+                },
+                "id": "comment-id",
+                "lastViewerAction": null,
+                "parent": null,
+                "pending": false,
+                "status": "NONE",
+                "tags": Array [],
+              }
+            }
+          />
+        </React.Fragment>
       }
     />
   </ForwardRef(forwardRef)>

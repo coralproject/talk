@@ -7,9 +7,10 @@ export default function create(params: CreateTestRendererParams) {
     ...params,
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("COMMENTS", "activeTab");
+      localRecord.setValue("ALL_COMMENTS", "commentsTab");
       localRecord.setValue(false, "loggedIn");
       localRecord.setValue("jti", "accessTokenJTI");
-      localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
+      localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

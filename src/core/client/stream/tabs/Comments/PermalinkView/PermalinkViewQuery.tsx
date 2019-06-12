@@ -51,36 +51,38 @@ export const render = ({
 
 const PermalinkViewQuery: FunctionComponent<Props> = ({
   local: { commentID, storyID, storyURL },
-}) => (
-  <QueryRenderer<QueryTypes>
-    query={graphql`
-      query PermalinkViewQuery(
-        $commentID: ID!
-        $storyID: ID
-        $storyURL: String
-      ) {
-        viewer {
-          ...PermalinkViewContainer_viewer
+}) => {
+  return (
+    <QueryRenderer<QueryTypes>
+      query={graphql`
+        query PermalinkViewQuery(
+          $commentID: ID!
+          $storyID: ID
+          $storyURL: String
+        ) {
+          viewer {
+            ...PermalinkViewContainer_viewer
+          }
+          story(id: $storyID, url: $storyURL) {
+            ...PermalinkViewContainer_story
+          }
+          comment(id: $commentID) {
+            ...PermalinkViewContainer_comment
+          }
+          settings {
+            ...PermalinkViewContainer_settings
+          }
         }
-        story(id: $storyID, url: $storyURL) {
-          ...PermalinkViewContainer_story
-        }
-        comment(id: $commentID) {
-          ...PermalinkViewContainer_comment
-        }
-        settings {
-          ...PermalinkViewContainer_settings
-        }
-      }
-    `}
-    variables={{
-      commentID: commentID!,
-      storyID,
-      storyURL,
-    }}
-    render={render}
-  />
-);
+      `}
+      variables={{
+        commentID: commentID!,
+        storyID,
+        storyURL,
+      }}
+      render={render}
+    />
+  );
+};
 
 const enhanced = withLocalStateContainer(
   graphql`

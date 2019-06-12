@@ -11,13 +11,13 @@ exports[`renders configure general 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="Flex-root Layout-root Flex-flex"
+      className="Box-root Flex-root Layout-root Flex-flex"
     >
       <div
         className="SideBar-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <nav
             className="Navigation-root"
@@ -83,7 +83,7 @@ exports[`renders configure general 1`] = `
           </nav>
         </div>
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
@@ -104,19 +104,19 @@ exports[`renders configure general 1`] = `
         className="Main-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-generalContainer"
         >
           <fieldset
-            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Sitewide Commenting
             </legend>
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Open or close comment streams for new comments sitewide. When new comments
 are turned off sitewide, new comments cannot be submitted, but existing
@@ -124,16 +124,16 @@ comments can continue to receive “Respect” reactions, be reported, and be
 shared.
             </p>
             <fieldset
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Enable New Comments Sitewide
               </legend>
               <div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={true}
@@ -157,7 +157,7 @@ shared.
                   </label>
                 </div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -183,16 +183,16 @@ shared.
               </div>
             </fieldset>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-sitewideCommenting-message"
               >
                 Sitewide Closed Comments Message
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Write a message that will be displayed when comment streams are closed sitewide
               </p>
@@ -209,24 +209,24 @@ shared.
             </div>
           </fieldset>
           <fieldset
-            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Community Guidelines Summary
             </legend>
             <fieldset
-              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Show Community Guidelines Summary
               </legend>
               <div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -250,7 +250,7 @@ shared.
                   </label>
                 </div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={true}
@@ -276,16 +276,16 @@ shared.
               </div>
             </fieldset>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-guidelines-content"
               >
                 Community Guidelines Summary
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
                 Write a summary of your community guidelines that will appear
 at the top of each comment stream sitewide. Your summary can be
@@ -313,29 +313,29 @@ Markdown can be found
             </div>
           </fieldset>
           <fieldset
-            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Comment Length
             </legend>
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Set a limit on the length of comments sitewide
             </p>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Limit Comment Length
               </label>
               <div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -359,7 +359,7 @@ Markdown can be found
                   </label>
                 </div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={true}
@@ -385,10 +385,10 @@ Markdown can be found
               </div>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-commentLength-min"
               >
                 Minimum Comment Length
@@ -414,7 +414,7 @@ Markdown can be found
                   className="TextField-adornment"
                 >
                   <p
-                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
                     Characters
                   </p>
@@ -422,10 +422,10 @@ Markdown can be found
               </div>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-general-commentLength-max"
               >
                 Maximum Comment Length
@@ -451,7 +451,7 @@ Markdown can be found
                   className="TextField-adornment"
                 >
                   <p
-                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
                     Characters
                   </p>
@@ -460,30 +460,30 @@ Markdown can be found
             </div>
           </fieldset>
           <div
-            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <h1
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Comment Editing
             </h1>
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Set a limit on how long commenters have to edit their comments sitewide.
 Edited comments are marked as (Edited) on the comment stream and the
 moderation panel.
             </p>
             <fieldset
-              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Comment Edit Timeframe
               </legend>
               <div
-                className="Flex-root Flex-flex Flex-itemGutter"
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
               >
                 <div
                   className="TextField-root DurationField-value"
@@ -548,29 +548,29 @@ moderation panel.
             </fieldset>
           </div>
           <fieldset
-            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Closing Comment Streams
             </legend>
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Set comment streams to close after a defined period of time after a story’s publication
             </p>
             <fieldset
-              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Close Comments Automatically
               </legend>
               <div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -594,7 +594,7 @@ moderation panel.
                   </label>
                 </div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={true}
@@ -620,15 +620,15 @@ moderation panel.
               </div>
             </fieldset>
             <fieldset
-              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Close Comments After
               </legend>
               <div
-                className="Flex-root Flex-flex Flex-itemGutter"
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
               >
                 <div
                   className="TextField-root DurationField-value"
@@ -693,16 +693,16 @@ moderation panel.
             </fieldset>
           </fieldset>
           <div
-            className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <label
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
               htmlFor="configure-general-closedStreamMessage-content"
             >
               Closed Stream Message
             </label>
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Write a message to appear after a story is closed for commenting.
             </p>

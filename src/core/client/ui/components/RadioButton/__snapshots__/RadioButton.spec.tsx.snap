@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Flex-root RadioButton-root custom Flex-flex Flex-alignCenter"
+  className="Box-root Flex-root RadioButton-root custom Flex-flex Flex-alignCenter"
 >
   <input
     className="RadioButton-input"

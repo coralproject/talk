@@ -4,12 +4,13 @@ import RTE from "@coralproject/rte";
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import {
-  createSinonStub,
+  createResolversStub,
   findParentWithType,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
+import { GQLResolver } from "coral-framework/schema";
 import { commenters, settings, stories } from "../../fixtures";
 import create from "../create";
 
@@ -125,31 +126,34 @@ it("update from server upon specific char count error", async () => {
     ERROR_CODES.COMMENT_BODY_EXCEEDS_MAX_LENGTH,
     ERROR_CODES.COMMENT_BODY_TOO_SHORT,
   ]) {
+    let createCommentCalled = false;
     const { rte, form } = await createTestRenderer(
-      {
+      createResolversStub<GQLResolver>({
         Mutation: {
-          createCommentReply: sinon.stub().callsFake(() => {
+          createCommentReply: () => {
+            createCommentCalled = true;
             throw new InvalidRequestError({
               code: errorCode,
               param: "input.body",
             });
-          }),
+          },
         },
         Query: {
-          settings: createSinonStub(
-            s => s.onFirstCall().returns(settingsWithCharCount),
-            s =>
-              s.onSecondCall().returns({
-                ...settingsWithCharCount,
-                charCount: {
-                  enabled: true,
-                  min: 3,
-                  max: 5,
-                },
-              })
-          ),
+          settings: () => {
+            if (!createCommentCalled) {
+              return settingsWithCharCount;
+            }
+            return {
+              ...settingsWithCharCount,
+              charCount: {
+                enabled: true,
+                min: 3,
+                max: 5,
+              },
+            };
+          },
         },
-      },
+      }),
       { muteNetworkErrors: true }
     );
 

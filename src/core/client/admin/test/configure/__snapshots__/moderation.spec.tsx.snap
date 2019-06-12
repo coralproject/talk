@@ -11,13 +11,13 @@ exports[`renders configure moderation 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="Flex-root Layout-root Flex-flex"
+      className="Box-root Flex-root Layout-root Flex-flex"
     >
       <div
         className="SideBar-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <nav
             className="Navigation-root"
@@ -83,7 +83,7 @@ exports[`renders configure moderation 1`] = `
           </nav>
         </div>
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
@@ -104,19 +104,19 @@ exports[`renders configure moderation 1`] = `
         className="Main-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-moderationContainer"
         >
           <fieldset
-            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Perspective Toxic Comment Filter
             </legend>
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
 threshold. Comments with a toxicity score above the threshold 
@@ -131,16 +131,16 @@ the
               . If approved by a moderator, the comment will be published.
             </p>
             <fieldset
-              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Toxic Comment Filter
               </legend>
               <div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -164,7 +164,7 @@ the
                   </label>
                 </div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={true}
@@ -190,16 +190,16 @@ the
               </div>
             </fieldset>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-moderation-perspective-threshold"
               >
                 Toxicity Threshold
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 This value can be set a percentage between 0 and 100. This number represents the likelihood that a
 comment is toxic, according to Perspective API. By default the treshold is set to 80.
@@ -225,7 +225,7 @@ comment is toxic, according to Perspective API. By default the treshold is set t
                   className="TextField-adornment"
                 >
                   <p
-                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
                     %
                   </p>
@@ -233,15 +233,15 @@ comment is toxic, according to Perspective API. By default the treshold is set t
               </div>
             </div>
             <fieldset
-              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Allow Google to Store Comment Data
               </legend>
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Stored comments will be used for future research and community model building purposes to
 improve the API over time
@@ -249,7 +249,7 @@ improve the API over time
               <div>
                 <div>
                   <div
-                    className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                   >
                     <input
                       checked={false}
@@ -271,7 +271,7 @@ improve the API over time
                     </label>
                   </div>
                   <div
-                    className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                   >
                     <input
                       checked={false}
@@ -297,12 +297,12 @@ improve the API over time
             </fieldset>
             <div>
               <h1
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
               >
                 Configuration
               </h1>
               <p
-                className="Typography-root Typography-detail Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
                 For additional information on how to set up the Perspective Toxic Comment Filter please visit:
 
@@ -316,10 +316,10 @@ improve the API over time
               </p>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-moderation-integrations.perspective.key"
               >
                 API Key
@@ -344,16 +344,16 @@ improve the API over time
               </div>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-moderation-perspective-customEndpoint"
               >
                 Custom Endpoint
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 By default the endpoint is set to https://commentanalyzer.googleapis.com/v1alpha1. You may override this here.
               </p>
@@ -378,15 +378,15 @@ improve the API over time
             </div>
           </fieldset>
           <fieldset
-            className="FieldSet-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
           >
             <legend
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Akismet Spam Detection Filter
             </legend>
             <p
-              className="Typography-root Typography-detail Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
             >
               Submitted comments are passed to the Akismet API for spam detection.
 If a comment is determined to be spam, it will prompt the user,
@@ -405,16 +405,16 @@ are placed in the
 the comment will be published.
             </p>
             <fieldset
-              className="FieldSet-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <legend
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               >
                 Spam Detection Filter
               </legend>
               <div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={false}
@@ -438,7 +438,7 @@ the comment will be published.
                   </label>
                 </div>
                 <div
-                  className="Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
                 >
                   <input
                     checked={true}
@@ -465,12 +465,12 @@ the comment will be published.
             </fieldset>
             <div>
               <h1
-                className="Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Subheader-root"
               >
                 Configuration
               </h1>
               <p
-                className="Typography-root Typography-detail Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
                 Note: You must add your active domain(s)
 in your Akismet account: 
@@ -484,10 +484,10 @@ in your Akismet account:
               </p>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-moderation-integrations.akismet.key"
               >
                 API Key
@@ -512,10 +512,10 @@ in your Akismet account:
               </div>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="configure-moderation-akismet-site"
               >
                 Site URL

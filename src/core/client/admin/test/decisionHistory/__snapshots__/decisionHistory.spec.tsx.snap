@@ -5,7 +5,7 @@ exports[`loads more 1`] = `
   data-testid="decisionHistory-container"
 >
   <div
-    className="Flex-root Title-root Flex-flex Flex-alignCenter"
+    className="Box-root Flex-root Title-root Flex-flex Flex-alignCenter"
   >
     <span
       aria-hidden="true"
@@ -17,7 +17,7 @@ exports[`loads more 1`] = `
        
     </span>
     <span
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
     >
       Your Decision History
     </span>
@@ -32,7 +32,7 @@ exports[`loads more 1`] = `
         className="DecisionItem-root"
       >
         <div
-          className="Flex-root Flex-flex"
+          className="Box-root Flex-root Flex-flex"
         >
           <div
             className="DecisionItem-leftCol"
@@ -46,7 +46,7 @@ exports[`loads more 1`] = `
           </div>
           <div>
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
               Approved comment by 
               <strong>
@@ -54,10 +54,10 @@ exports[`loads more 1`] = `
               </strong>
             </p>
             <div
-              className="Flex-root Footer-root Flex-flex Flex-alignBaseline"
+              className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
               <span
-                className="Typography-root Typography-timestamp Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -96,7 +96,7 @@ exports[`loads more 1`] = `
         className="DecisionItem-root"
       >
         <div
-          className="Flex-root Flex-flex"
+          className="Box-root Flex-root Flex-flex"
         >
           <div
             className="DecisionItem-leftCol"
@@ -110,7 +110,7 @@ exports[`loads more 1`] = `
           </div>
           <div>
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
               Rejected comment by 
               <strong>
@@ -118,10 +118,10 @@ exports[`loads more 1`] = `
               </strong>
             </p>
             <div
-              className="Flex-root Footer-root Flex-flex Flex-alignBaseline"
+              className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
               <span
-                className="Typography-root Typography-timestamp Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -160,7 +160,7 @@ exports[`loads more 1`] = `
         className="DecisionItem-root"
       >
         <div
-          className="Flex-root Flex-flex"
+          className="Box-root Flex-root Flex-flex"
         >
           <div
             className="DecisionItem-leftCol"
@@ -174,7 +174,7 @@ exports[`loads more 1`] = `
           </div>
           <div>
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
               Approved comment by 
               <strong>
@@ -182,10 +182,10 @@ exports[`loads more 1`] = `
               </strong>
             </p>
             <div
-              className="Flex-root Footer-root Flex-flex Flex-alignBaseline"
+              className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
               <span
-                className="Typography-root Typography-timestamp Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -230,7 +230,7 @@ exports[`opens popover when clicked on button showing loading state 1`] = `
   data-testid="decisionHistory-loading-container"
 >
   <div
-    className="Flex-root Title-root Flex-flex Flex-alignCenter"
+    className="Box-root Flex-root Title-root Flex-flex Flex-alignCenter"
   >
     <span
       aria-hidden="true"
@@ -242,7 +242,7 @@ exports[`opens popover when clicked on button showing loading state 1`] = `
        
     </span>
     <span
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
     >
       Your Decision History
     </span>
@@ -251,7 +251,7 @@ exports[`opens popover when clicked on button showing loading state 1`] = `
     className="Main-root"
   >
     <div
-      className="Flex-root DecisionHistoryLoading-container Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root DecisionHistoryLoading-container Flex-flex Flex-justifyCenter Flex-alignCenter"
     />
   </div>
 </div>
@@ -262,7 +262,7 @@ exports[`render popover content 1`] = `
   data-testid="decisionHistory-container"
 >
   <div
-    className="Flex-root Title-root Flex-flex Flex-alignCenter"
+    className="Box-root Flex-root Title-root Flex-flex Flex-alignCenter"
   >
     <span
       aria-hidden="true"
@@ -274,7 +274,7 @@ exports[`render popover content 1`] = `
        
     </span>
     <span
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Title-text"
     >
       Your Decision History
     </span>
@@ -289,7 +289,7 @@ exports[`render popover content 1`] = `
         className="DecisionItem-root"
       >
         <div
-          className="Flex-root Flex-flex"
+          className="Box-root Flex-root Flex-flex"
         >
           <div
             className="DecisionItem-leftCol"
@@ -303,7 +303,7 @@ exports[`render popover content 1`] = `
           </div>
           <div>
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
               Approved comment by 
               <strong>
@@ -311,10 +311,10 @@ exports[`render popover content 1`] = `
               </strong>
             </p>
             <div
-              className="Flex-root Footer-root Flex-flex Flex-alignBaseline"
+              className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
               <span
-                className="Typography-root Typography-timestamp Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -353,7 +353,7 @@ exports[`render popover content 1`] = `
         className="DecisionItem-root"
       >
         <div
-          className="Flex-root Flex-flex"
+          className="Box-root Flex-root Flex-flex"
         >
           <div
             className="DecisionItem-leftCol"
@@ -367,7 +367,7 @@ exports[`render popover content 1`] = `
           </div>
           <div>
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Info-root"
             >
               Rejected comment by 
               <strong>
@@ -375,10 +375,10 @@ exports[`render popover content 1`] = `
               </strong>
             </p>
             <div
-              className="Flex-root Footer-root Flex-flex Flex-alignBaseline"
+              className="Box-root Flex-root Footer-root Flex-flex Flex-alignBaseline"
             >
               <span
-                className="Typography-root Typography-timestamp Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
                   className="Timestamp-root RelativeTime-root"

@@ -58,8 +58,5 @@ export default async function initLocalState(
     localRecord.setValue("COMMENTS", "activeTab");
     localRecord.setValue("MY_COMMENTS", "profileTab");
     localRecord.setValue("ALL_COMMENTS", "commentsTab");
-
-    // Set sort
-    localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
   });
 }

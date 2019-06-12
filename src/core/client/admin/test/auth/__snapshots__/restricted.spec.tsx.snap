@@ -5,13 +5,13 @@ exports[`show restricted screen for commenters and staff 1`] = `
   data-testid="authBox"
 >
   <div
-    className="Flex-root Flex-flex Flex-justifyCenter"
+    className="Box-root Flex-root Flex-flex Flex-justifyCenter"
   >
     <div
-      className="HorizontalGutter-root AuthBox-container HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root AuthBox-container HorizontalGutter-double"
     >
       <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
+        className="Box-root Flex-root Flex-flex Flex-justifyCenter"
       >
         <div
           className="AuthBox-brandIcon"
@@ -62,24 +62,24 @@ exports[`show restricted screen for commenters and staff 1`] = `
       </div>
       <div>
         <h1
-          className="Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
+          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
         >
           <span>
             Currently signed in to
           </span>
         </h1>
         <h1
-          className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
+          className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
         >
           Coral
         </h1>
       </div>
       <div
-        className="HorizontalGutter-root HorizontalGutter-double"
+        className="Box-root HorizontalGutter-root HorizontalGutter-double"
       >
         <div>
           <div
-            className="Flex-root Flex-flex Flex-justifyCenter"
+            className="Box-root Flex-root Flex-flex Flex-justifyCenter"
           >
             <span
               aria-hidden="true"
@@ -89,25 +89,25 @@ exports[`show restricted screen for commenters and staff 1`] = `
             </span>
           </div>
           <h1
-            className="Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter Restricted-noPermission"
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter Restricted-noPermission"
           >
             You do not have permission to access this page.
           </h1>
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter"
           >
             You are signed in as: 
             <h1
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
             >
               Markus
             </h1>
           </div>
         </div>
         <div
-          className="Flex-root Flex-flex Flex-justifyCenter"
+          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
@@ -123,7 +123,7 @@ exports[`show restricted screen for commenters and staff 1`] = `
           </button>
         </div>
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter Restricted-contactAdmin"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter Restricted-contactAdmin"
         >
           If you think this is an error, please contact your administrator for assistance.
         </p>
@@ -138,13 +138,13 @@ exports[`show restricted screen for commenters and staff 2`] = `
   data-testid="authBox"
 >
   <div
-    className="Flex-root Flex-flex Flex-justifyCenter"
+    className="Box-root Flex-root Flex-flex Flex-justifyCenter"
   >
     <div
-      className="HorizontalGutter-root AuthBox-container HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root AuthBox-container HorizontalGutter-double"
     >
       <div
-        className="Flex-root Flex-flex Flex-justifyCenter"
+        className="Box-root Flex-root Flex-flex Flex-justifyCenter"
       >
         <div
           className="AuthBox-brandIcon"
@@ -195,24 +195,24 @@ exports[`show restricted screen for commenters and staff 2`] = `
       </div>
       <div>
         <h1
-          className="Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
+          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
         >
           <span>
             Currently signed in to
           </span>
         </h1>
         <h1
-          className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
+          className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
         >
           Coral
         </h1>
       </div>
       <div
-        className="HorizontalGutter-root HorizontalGutter-double"
+        className="Box-root HorizontalGutter-root HorizontalGutter-double"
       >
         <div>
           <div
-            className="Flex-root Flex-flex Flex-justifyCenter"
+            className="Box-root Flex-root Flex-flex Flex-justifyCenter"
           >
             <span
               aria-hidden="true"
@@ -222,25 +222,25 @@ exports[`show restricted screen for commenters and staff 2`] = `
             </span>
           </div>
           <h1
-            className="Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter Restricted-noPermission"
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter Restricted-noPermission"
           >
             You do not have permission to access this page.
           </h1>
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter"
           >
             You are signed in as: 
             <h1
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter"
             >
               Markus
             </h1>
           </div>
         </div>
         <div
-          className="Flex-root Flex-flex Flex-justifyCenter"
+          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
@@ -256,7 +256,7 @@ exports[`show restricted screen for commenters and staff 2`] = `
           </button>
         </div>
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter Restricted-contactAdmin"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Typography-alignCenter Restricted-contactAdmin"
         >
           If you think this is an error, please contact your administrator for assistance.
         </p>
