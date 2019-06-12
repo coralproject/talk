@@ -3,7 +3,7 @@ ar:
     label: الأحدث أولاً
 da:
   talk-plugin-sort-newest:
-    label: Newest first    
+    label: Newest first
 de:
   talk-plugin-sort-newest:
     label: Neueste zuerst
@@ -15,7 +15,7 @@ es:
     label: Más nuevas primero
 fr:
   talk-plugin-sort-newest:
-    label: Newest first
+    label: Les plus récents en premier
 he:
   talk-plugin-sort-newest:
     label: מהראשונה לאחרונה

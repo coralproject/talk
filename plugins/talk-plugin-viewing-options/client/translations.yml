@@ -7,7 +7,7 @@ da:
   talk-plugin-viewing-options:
     viewing_options: "Viewing Options"
     sort: Sorting
-    filter: Filtering    
+    filter: Filtering
 de:
   talk-plugin-viewing-options:
     viewing_options: "Ansichtsoptionen"
@@ -25,9 +25,9 @@ es:
     filter: Filtrado por
 fr:
   talk-plugin-viewing-options:
-    viewing_options: "Viewing Options"
-    sort: Sorting
-    filter: Filtering
+    viewing_options: "Options d'affichage"
+    sort: Trier par
+    filter: Filtrer par
 he:
   talk-plugin-viewing-options:
     viewing_options: "אפשרויות צפייה"
