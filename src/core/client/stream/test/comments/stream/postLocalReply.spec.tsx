@@ -14,7 +14,7 @@ import {
   settings,
   storyWithDeepestReplies,
 } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {

@@ -67,6 +67,9 @@ export const StreamContainer: FunctionComponent<Props> = props => {
     ),
     [props.story, local.commentsTab]
   );
+
+  // TODO (cvle): Switch this hack with actual counts :-)
+  const hasFeaturedComments = props.story.featuredComments.pageInfo.endCursor;
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
@@ -92,11 +95,13 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             activeTab={local.commentsTab}
             onTabClick={onChangeTab}
           >
-            <Tab tabID="FEATURED_COMMENTS">
-              <Localized id="comments-featuredTab">
-                <span>Featured</span>
-              </Localized>
-            </Tab>
+            {hasFeaturedComments && (
+              <Tab tabID="FEATURED_COMMENTS">
+                <Localized id="comments-featuredTab">
+                  <span>Featured</span>
+                </Localized>
+              </Tab>
+            )}
             <Tab tabID="ALL_COMMENTS">
               <Localized
                 id="comments-allCommentsTab"
@@ -129,6 +134,12 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
+      # TODO: (cvle) add flatten here.
+      featuredComments: comments(first: 1, tag: "FEATURED") {
+        pageInfo {
+          endCursor
+        }
+      }
       commentCounts {
         totalVisible
       }

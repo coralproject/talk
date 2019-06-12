@@ -9,7 +9,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import { comments, settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {

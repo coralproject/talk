@@ -15,7 +15,7 @@ import {
 
 import RTE from "@coralproject/rte";
 import { baseComment, commenters, settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 async function createTestRenderer(
   resolver: any = {},

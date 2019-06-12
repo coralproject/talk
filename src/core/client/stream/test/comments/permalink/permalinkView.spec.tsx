@@ -14,7 +14,7 @@ import {
   settings,
   stories,
 } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 let testRenderer: ReactTestRenderer;
 beforeEach(() => {
@@ -101,10 +101,10 @@ it("show all comments", async () => {
     within(tabPane)
       .getByText("View Full Discussion")
       .props.onClick(mockEvent);
-
     await waitForElement(() =>
       within(tabPane).getByTestID("comments-stream-log")
     );
   });
+
   mockEvent.preventDefault.verify();
 });

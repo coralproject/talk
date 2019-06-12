@@ -235,29 +235,6 @@ exports[`renders comment stream 1`] = `
         >
           <li
             className="Tab-root"
-            id="tab-FEATURED_COMMENTS"
-            role="presentation"
-          >
-            <button
-              aria-controls="tabPane-FEATURED_COMMENTS"
-              aria-selected={false}
-              className="BaseButton-root Tab-button Tab-secondary"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              role="tab"
-              type="button"
-            >
-              <span>
-                Featured
-              </span>
-            </button>
-          </li>
-          <li
-            className="Tab-root"
             id="tab-ALL_COMMENTS"
             role="presentation"
           >

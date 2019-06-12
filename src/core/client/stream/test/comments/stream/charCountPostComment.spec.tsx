@@ -12,7 +12,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import { commenters, settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 const settingsWithCharCount = {
   ...settings,

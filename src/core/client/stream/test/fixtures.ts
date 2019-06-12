@@ -230,6 +230,8 @@ export const commentWithDeepReplies = denormalizeComment(
   )
 );
 
+export const featuredTag = { name: "Featured", code: "FEATURED" };
+
 export const commentWithDeepestReplies = denormalizeComment(
   createFixture<GQLComment>({
     ...baseComment,
@@ -435,6 +437,31 @@ export const storyWithNoComments = denormalizeStory(
       url: "http://localhost/stories/story-with-no-comments",
       comments: {
         edges: [],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    },
+    baseStory
+  )
+);
+
+export const storyWithFeaturedComments = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-with-featured-comments",
+      url: "http://localhost/stories/story-with-featured-comments",
+      comments: {
+        edges: [
+          {
+            node: { ...comments[0], tags: [featuredTag] },
+            cursor: comments[0].createdAt,
+          },
+          {
+            node: { ...comments[1], tags: [featuredTag] },
+            cursor: comments[1].createdAt,
+          },
+        ],
         pageInfo: {
           hasNextPage: false,
         },

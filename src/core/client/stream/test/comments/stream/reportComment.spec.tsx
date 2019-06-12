@@ -6,7 +6,7 @@ import { InvalidRequestError } from "coral-framework/lib/errors";
 import { wait, waitForElement, within } from "coral-framework/testHelpers";
 
 import { commenters, settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 function createTestRenderer(
   resolver: any = {},

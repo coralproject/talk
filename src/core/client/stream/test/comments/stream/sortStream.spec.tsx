@@ -8,7 +8,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import { settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 const createTestRenderer = async (resolver: any = {}) => {
   const resolvers = {
@@ -32,20 +32,19 @@ const createTestRenderer = async (resolver: any = {}) => {
 };
 
 it("renders app with comment stream", async () => {
-  const commentsQueryStub = createSinonStub(
-    s =>
-      s.onFirstCall().callsFake((input: any) => {
+  let changedSort = false;
+  const commentsQueryStub = createSinonStub(s =>
+    s.callsFake((input: any) => {
+      if (!changedSort) {
         expectAndFail(input).toEqual({ first: 5, orderBy: "CREATED_AT_DESC" });
         return stories[0].comments;
-      }),
-    s =>
-      s.onSecondCall().callsFake((input: any) => {
-        expectAndFail(input).toEqual({
-          first: 5,
-          orderBy: "CREATED_AT_ASC",
-        });
-        return stories[1].comments;
-      })
+      }
+      expectAndFail(input).toEqual({
+        first: 5,
+        orderBy: "CREATED_AT_ASC",
+      });
+      return stories[1].comments;
+    })
   );
   const storyQueryStub = createSinonStub(s =>
     s.callsFake((_: any, input: any) => {
@@ -71,6 +70,7 @@ it("renders app with comment stream", async () => {
   const oldestOption = within(selectField).getByText("Oldest");
 
   await act(async () => {
+    changedSort = true;
     selectField.props.onChange({
       target: { value: oldestOption.props.value.toString() },
     });

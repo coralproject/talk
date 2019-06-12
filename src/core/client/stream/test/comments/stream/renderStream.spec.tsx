@@ -3,7 +3,7 @@ import sinon from "sinon";
 import { waitForElement, within } from "coral-framework/testHelpers";
 
 import { settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 const story = stories[2];
 

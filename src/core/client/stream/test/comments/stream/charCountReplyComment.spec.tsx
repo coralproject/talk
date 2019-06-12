@@ -12,7 +12,7 @@ import {
 
 import { GQLResolver } from "coral-framework/schema";
 import { commenters, settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 const settingsWithCharCount = {
   ...settings,

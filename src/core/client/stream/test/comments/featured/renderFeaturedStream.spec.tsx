@@ -1,18 +1,17 @@
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
+import { GQLResolver, StoryToCommentsResolver } from "coral-framework/schema";
 import {
+  createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
-import { commenters, settings, stories } from "../../fixtures";
+import { settings, storyWithFeaturedComments } from "../../fixtures";
 import create from "./create";
 
-const story = stories[0];
-const firstComment = story.comments.edges[0].node;
-const viewer = commenters[0];
+const story = storyWithFeaturedComments;
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
@@ -23,40 +22,36 @@ async function createTestRenderer(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          viewer: () => viewer,
-          story: () => story,
+          story: () => ({
+            ...story,
+            comments: createQueryResolverStub<StoryToCommentsResolver>(
+              ({ variables }) => {
+                expectAndFail(variables.tag).toBe("FEATURED");
+                return story.comments;
+              }
+            ) as any,
+          }),
         },
       }),
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(story.id, "storyID");
-      localRecord.setValue(true, "loggedIn");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
     },
   });
-
-  const tabPane = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("current-tab-pane")
-  );
-
   return {
     testRenderer,
     context,
-    tabPane,
   };
 }
 
-it("show member since", async () => {
+it("renders comment stream", async () => {
   const { testRenderer } = await createTestRenderer();
-  const comment = await waitForElement(() =>
-    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
   );
-  const username = within(comment).getByText(firstComment.author!.username!, {
-    selector: "button",
-  });
-  username.props.onClick();
-  within(comment).getByText("Member Since", { exact: false });
+  expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
 });

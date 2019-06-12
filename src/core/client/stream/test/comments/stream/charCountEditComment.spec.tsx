@@ -13,7 +13,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import { commenters, settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 beforeAll(() => {
   timekeeper.freeze(stories[0].comments.edges[0].node.createdAt);
