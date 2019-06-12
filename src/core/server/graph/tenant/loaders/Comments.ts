@@ -39,6 +39,16 @@ const tagFilter = (tag?: string): CommentConnectionInput["filter"] => {
   return {};
 };
 
+const flattenFilter = (flatten: boolean): CommentConnectionInput["filter"] => {
+  if (!flatten) {
+    // Only get Comments that are top level. If the client wants to load
+    // another layer, they can request another nested connection.
+    return { parentID: null };
+  }
+
+  return {};
+};
+
 /**
  * primeCommentsFromConnection will prime a given context with the comments
  * retrieved via a connection.
@@ -158,6 +168,7 @@ export default (ctx: Context) => ({
       orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
       tag,
+      flatten = false,
     }: StoryToCommentsArgs
   ) =>
     retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
@@ -167,6 +178,7 @@ export default (ctx: Context) => ({
       filter: {
         // Filter optionally for comments with a specific tag.
         ...tagFilter(tag),
+        ...flattenFilter(flatten),
       },
     }).then(primeCommentsFromConnection(ctx)),
   forParent: (

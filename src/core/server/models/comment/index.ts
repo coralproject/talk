@@ -611,9 +611,6 @@ export const retrieveCommentStoryConnection = (
     filter: {
       ...input.filter,
       storyID,
-      // Only get Comments that are top level. If the client wants to load another
-      // layer, they can request another nested connection.
-      parentID: null,
     },
   });
 
