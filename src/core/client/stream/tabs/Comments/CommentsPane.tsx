@@ -2,14 +2,14 @@ import * as React from "react";
 import { FunctionComponent } from "react";
 
 import { graphql, useLocal } from "coral-framework/lib/relay";
-import { CommentsPaneQueryLocal } from "coral-stream/__generated__/CommentsPaneQueryLocal.graphql";
+import { CommentsPaneLocal } from "coral-stream/__generated__/CommentsPaneLocal.graphql";
 
 import PermalinkView from "./PermalinkView";
 import Stream from "./Stream";
 
-const CommentsPaneQuery: FunctionComponent = () => {
-  const [local] = useLocal<CommentsPaneQueryLocal>(graphql`
-    fragment CommentsPaneQueryLocal on Local {
+const CommentsPane: FunctionComponent = () => {
+  const [local] = useLocal<CommentsPaneLocal>(graphql`
+    fragment CommentsPaneLocal on Local {
       commentID
     }
   `);
@@ -20,4 +20,4 @@ const CommentsPaneQuery: FunctionComponent = () => {
   return <Stream />;
 };
 
-export default CommentsPaneQuery;
+export default CommentsPane;

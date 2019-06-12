@@ -13,6 +13,7 @@ import AllCommentsTabContainer from "./AllCommentsTabContainer";
 
 interface Props {
   local: Local;
+  preload?: boolean;
 }
 
 export const render = (data: ReadyState<QueryTypes["response"]>) => {
@@ -74,7 +75,7 @@ const AllCommentsTabQuery: FunctionComponent<Props> = props => {
         storyURL,
         commentsOrderBy,
       }}
-      render={data => render(data)}
+      render={data => (props.preload ? null : render(data))}
     />
   );
 };

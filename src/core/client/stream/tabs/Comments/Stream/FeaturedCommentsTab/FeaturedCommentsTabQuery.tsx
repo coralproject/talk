@@ -13,6 +13,7 @@ import FeaturedCommentsTabContainer from "./FeaturedCommentsTabContainer";
 
 interface Props {
   local: Local;
+  preload?: boolean;
 }
 
 export const render = (data: ReadyState<QueryTypes["response"]>) => {
@@ -74,7 +75,7 @@ const FeaturedCommentsTabQuery: FunctionComponent<Props> = props => {
         storyURL,
         commentsOrderBy,
       }}
-      render={data => render(data)}
+      render={data => (props.preload ? null : render(data))}
     />
   );
 };

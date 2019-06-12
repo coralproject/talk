@@ -1,1 +1,1 @@
-export { default, default as CommentsPaneQuery } from "./CommentsPaneQuery";
+export { default, default as CommentsPane } from "./CommentsPane";
