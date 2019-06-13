@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders form 1`] = `
+<div
+  data-testid="main-layout"
+>
+  <div
+    className="MainLayout-bar"
+  />
+  <div
+    className="MainLayout-centered"
+  >
+    <div>
+      <form
+        autoComplete="off"
+        onSubmit={[Function]}
+      >
+        <div
+          className="HorizontalGutter-root HorizontalGutter-double"
+        >
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+          >
+            <h1
+              className="Typography-root Typography-heading1 Typography-colorTextPrimary"
+            >
+              Email Confirmation
+            </h1>
+            <p
+              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            >
+              Click below to confirm your email address.
+            </p>
+          </div>
+          <div
+            className="HorizontalGutter-root HorizontalGutter-full"
+          >
+            <button
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+              disabled={false}
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="submit"
+            >
+              Confirm email
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders missing confirm token 1`] = `
+<div
+  data-testid="main-layout"
+>
+  <div
+    className="MainLayout-bar"
+  />
+  <div
+    className="MainLayout-centered"
+  >
+    <div
+      className="HorizontalGutter-root HorizontalGutter-double"
+    >
+      <h1
+        className="Typography-root Typography-heading1 Typography-colorTextPrimary"
+      >
+        Oops Sorry!
+      </h1>
+      <div
+        className="CallOut-root CallOut-colorError CallOut-fullWidth"
+      >
+        <span>
+          The Confirm Token seems to be missing.
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

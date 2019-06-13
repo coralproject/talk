@@ -16,3 +16,14 @@ resetPassword-youMayClose =
   You may now close this window and sign in to your account with your new password.
 resetPassword-oopsSorry = Oops Sorry!
 resetPassword-missingResetToken = The Reset Token seems to be missing.
+
+## Email Confirmation
+
+confirmEmail-emailConfirmation = Email Confirmation
+confirmEmail-confirmEmail = Confirm email
+confirmEmail-pleaseClickToConfirm = Click below to confirm your email address.
+confirmEmail-oopsSorry = Oops Sorry!
+confirmEmail-missingConfirmToken = The Confirm Token seems to be missing.
+confirmEmail-successfullyConfirmed = Email successfully confirmed
+confirmEmail-youMayClose =
+  You may now close this window.
