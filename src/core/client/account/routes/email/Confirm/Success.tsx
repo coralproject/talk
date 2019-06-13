@@ -6,13 +6,12 @@ import { HorizontalGutter, Typography } from "coral-ui/components";
 const Success: React.FunctionComponent = () => {
   return (
     <HorizontalGutter size="double">
-      <Localized id="resetPassword-successfullyReset">
-        <Typography variant="heading1">Password successfully reset</Typography>
+      <Localized id="confirmEmail-successfullyConfirmed">
+        <Typography variant="heading1">Email successfully confirmed</Typography>
       </Localized>
-      <Localized id="resetPassword-youMayClose">
+      <Localized id="confirmEmail-youMayClose">
         <Typography variant="bodyCopy">
-          You may now close this window and sign in to your account with your
-          new password.
+          You may now close this window.
         </Typography>
       </Localized>
     </HorizontalGutter>
