@@ -1,0 +1,19 @@
+.root {
+  align-items: center;
+  display: flex;
+}
+
+.tooltip {
+  width: max-content;
+  max-width: 220px;
+}
+
+.title {
+  line-height: 1;
+}
+
+.button {
+  line-height: 0;
+  color: var(--palette-grey-dark);
+  padding: 6px;
+}

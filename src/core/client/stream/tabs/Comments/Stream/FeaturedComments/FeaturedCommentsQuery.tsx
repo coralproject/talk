@@ -3,13 +3,13 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
-import { FeaturedCommentsTabQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsTabQuery.graphql";
-import { FeaturedCommentsTabQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsTabQueryLocal.graphql";
+import { FeaturedCommentsQuery as QueryTypes } from "coral-stream/__generated__/FeaturedCommentsQuery.graphql";
+import { FeaturedCommentsQueryLocal as Local } from "coral-stream/__generated__/FeaturedCommentsQueryLocal.graphql";
 import { Delay, Flex, Spinner } from "coral-ui/components";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import FeaturedCommentsTabContainer from "./FeaturedCommentsTabContainer";
+import FeaturedCommentsContainer from "./FeaturedCommentsContainer";
 
 interface Props {
   local: Local;
@@ -29,7 +29,7 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
   }
   if (data.props) {
     return (
-      <FeaturedCommentsTabContainer
+      <FeaturedCommentsContainer
         settings={data.props.settings}
         viewer={data.props.viewer}
         story={data.props.story!}
@@ -46,27 +46,27 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
   );
 };
 
-const FeaturedCommentsTabQuery: FunctionComponent<Props> = props => {
+const FeaturedCommentsQuery: FunctionComponent<Props> = props => {
   const {
     local: { storyID, storyURL, commentsOrderBy },
   } = props;
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query FeaturedCommentsTabQuery(
+        query FeaturedCommentsQuery(
           $storyID: ID
           $storyURL: String
           $commentsOrderBy: COMMENT_SORT
         ) {
           viewer {
-            ...FeaturedCommentsTabContainer_viewer
+            ...FeaturedCommentsContainer_viewer
           }
           story(id: $storyID, url: $storyURL) {
-            ...FeaturedCommentsTabContainer_story
+            ...FeaturedCommentsContainer_story
               @arguments(orderBy: $commentsOrderBy)
           }
           settings {
-            ...FeaturedCommentsTabContainer_settings
+            ...FeaturedCommentsContainer_settings
           }
         }
       `}
@@ -82,12 +82,12 @@ const FeaturedCommentsTabQuery: FunctionComponent<Props> = props => {
 
 const enhanced = withLocalStateContainer(
   graphql`
-    fragment FeaturedCommentsTabQueryLocal on Local {
+    fragment FeaturedCommentsQueryLocal on Local {
       storyID
       storyURL
       commentsOrderBy
     }
   `
-)(FeaturedCommentsTabQuery);
+)(FeaturedCommentsQuery);
 
 export default enhanced;

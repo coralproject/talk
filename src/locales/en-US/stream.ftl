@@ -20,6 +20,12 @@ general-tabBar-configure = Configure
 
 comments-allCommentsTab = All Comments <Counter></Counter>
 comments-featuredTab = Featured
+comments-featuredCommentTooltip-how = How is a comment featured?
+comments-featuredCommentTooltip-handSelectedComments =
+  Comments are hand selected by our team as worth reading.
+comments-featuredCommentTooltip-toggleButton =
+  .aria-label = Toggle featured comments tooltip
+
 
 comments-streamQuery-storyNotFound = Story not found
 

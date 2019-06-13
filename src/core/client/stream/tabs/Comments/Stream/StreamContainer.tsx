@@ -8,7 +8,6 @@ import { StreamContainer_settings as SettingsData } from "coral-stream/__generat
 import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
 import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
 import { StreamContainerLocal } from "coral-stream/__generated__/StreamContainerLocal.graphql";
-
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
   Counter,
@@ -19,14 +18,16 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components";
-import BannedInfo from "./BannedInfo";
-import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
-import { PostCommentFormContainer } from "./PostCommentForm";
-import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
+import { PropTypesOf } from "coral-ui/types";
 
 import AllCommentsTab from "./AllCommentsTab";
-import FeaturedCommentsTab from "./FeaturedCommentsTab";
+import BannedInfo from "./BannedInfo";
+import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
+import FeaturedComments from "./FeaturedComments";
+import FeaturedCommentTooltip from "./FeaturedCommentTooltip";
+import { PostCommentFormContainer } from "./PostCommentForm";
 import SortMenu from "./SortMenu";
+import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import styles from "./StreamContainer.css";
 
 interface Props {
@@ -34,6 +35,27 @@ interface Props {
   settings: SettingsData;
   viewer: ViewerData | null;
 }
+
+// Use a custom tab for featured comments, because we need to put the tooltip
+// button logically next to the tab as both are buttons and position them together
+// using absolute positioning.
+const FeaturedCommentsTab: FunctionComponent<PropTypesOf<typeof Tab>> = ({
+  ...props
+}) => (
+  <div className={styles.featuredCommentsTabContainer}>
+    <Tab {...props} className={styles.featuredCommentsTab}>
+      <Flex spacing={1} alignItems="center">
+        <Localized id="comments-featuredTab">
+          <span>Featured</span>
+        </Localized>
+      </Flex>
+    </Tab>
+    <FeaturedCommentTooltip
+      active={props.active}
+      className={styles.featuredCommentsInfo}
+    />
+  </div>
+);
 
 export const StreamContainer: FunctionComponent<Props> = props => {
   const [local, setLocal] = useLocal<StreamContainerLocal>(
@@ -96,11 +118,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             onTabClick={onChangeTab}
           >
             {hasFeaturedComments && (
-              <Tab tabID="FEATURED_COMMENTS">
-                <Localized id="comments-featuredTab">
-                  <span>Featured</span>
-                </Localized>
-              </Tab>
+              <FeaturedCommentsTab tabID="FEATURED_COMMENTS" />
             )}
             <Tab tabID="ALL_COMMENTS">
               <Localized
@@ -115,7 +133,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
           </TabBar>
           <TabContent activeTab={local.commentsTab}>
             <TabPane tabID="FEATURED_COMMENTS">
-              <FeaturedCommentsTab />
+              <FeaturedComments />
             </TabPane>
             <TabPane tabID="ALL_COMMENTS">
               <AllCommentsTab />
