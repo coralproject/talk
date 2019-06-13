@@ -71,9 +71,7 @@ const FeaturedCommentContainer: FunctionComponent<Props> = props => {
             <Flex alignItems="center" className={styles.replies}>
               <Icon size="md">reply</Icon>
               <Localized id="comments-featured-replies">
-                <Box ml={1} mr={2}>
-                  Replies
-                </Box>
+                <Box mx={1}>Replies</Box>
               </Localized>
               <Box>{comment.replyCount}</Box>
               <Box mx={2}>|</Box>

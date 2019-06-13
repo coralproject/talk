@@ -32,7 +32,7 @@ export default {
     config.module.rules.push({
       test: /\.css\.ts$/,
       use: [
-        isProduction ? MiniCssExtractPlugin.loader : styleLoader,
+        styleLoader,
         {
           loader: require.resolve("css-loader"),
           options: {

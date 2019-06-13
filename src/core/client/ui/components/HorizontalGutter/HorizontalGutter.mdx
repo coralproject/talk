@@ -3,40 +3,34 @@ name: HorizontalGutter
 menu: UI Kit
 ---
 
-import { Playground } from "docz"
-import HorizontalGutter from "./HorizontalGutter"
-import Button from "../Button"
+import { Playground } from "docz";
+import HorizontalGutter from "./HorizontalGutter";
+import Button from "../Button";
 
 # Spinner
 
 ## Usage
 
-### Full gutter
-
 <Playground>
-  <HorizontalGutter>
-    <div style={{backgroundColor: "grey", height: "30px"}} />
-    <div style={{backgroundColor: "grey", height: "30px"}} />
-    <div style={{backgroundColor: "grey", height: "30px"}} />
+  <HorizontalGutter spacing={2}>
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
   </HorizontalGutter>
 </Playground>
 
-### Half gutter
-
 <Playground>
-  <HorizontalGutter size="half">
-    <div style={{backgroundColor: "grey", height: "30px"}} />
-    <div style={{backgroundColor: "grey", height: "30px"}} />
-    <div style={{backgroundColor: "grey", height: "30px"}} />
+  <HorizontalGutter spacing={4}>
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
   </HorizontalGutter>
 </Playground>
 
-### Double gutter
-
 <Playground>
-  <HorizontalGutter size="double">
-    <div style={{backgroundColor: "grey", height: "30px"}} />
-    <div style={{backgroundColor: "grey", height: "30px"}} />
-    <div style={{backgroundColor: "grey", height: "30px"}} />
+  <HorizontalGutter spacing={6}>
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
+    <div style={{ backgroundColor: "grey", height: "30px" }} />
   </HorizontalGutter>
 </Playground>

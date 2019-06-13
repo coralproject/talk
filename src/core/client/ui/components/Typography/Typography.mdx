@@ -3,13 +3,14 @@ name: Typography
 menu: UI Kit
 ---
 
-import { Playground } from 'docz'
-import Typography from './Typography'
-import HorizontalGutter from '../HorizontalGutter'
+import { Playground } from "docz";
+import Typography from "./Typography";
+import HorizontalGutter from "../HorizontalGutter";
 
 # Typography
 
 ## Basic Use
+
 <Playground>
   <HorizontalGutter>
     <Typography variant="heading1">Heading1</Typography>
@@ -23,6 +24,7 @@ import HorizontalGutter from '../HorizontalGutter'
 </Playground>
 
 ## Using different colors
+
 <Playground>
   <HorizontalGutter>
     <Typography color="textPrimary">textPrimary</Typography>
@@ -33,25 +35,33 @@ import HorizontalGutter from '../HorizontalGutter'
 </Playground>
 
 ## Set align
+
 <Playground>
-  <HorizontalGutter style={{width: "200px"}}>
+  <HorizontalGutter style={{ width: "200px" }}>
     <Typography align="left">left</Typography>
     <Typography align="center">center</Typography>
     <Typography align="right">right</Typography>
-    <Typography align="justify"> No hay nadie que ame el dolor mismo, que lo busque, lo encuentre y lo
-  quiera, simplemente porque es el dolor.</Typography>
+    <Typography align="justify">
+      {" "}
+      No hay nadie que ame el dolor mismo, que lo busque, lo encuentre y lo
+      quiera, simplemente porque es el dolor.
+    </Typography>
   </HorizontalGutter>
 </Playground>
 
 ## Cut off long text
+
 <Playground>
-    <Typography noWrap style={{width: "200px"}}>No hay nadie que ame el dolor mismo, que lo busque, lo encuentre y lo quiera, simplemente porque es el dolor.</Typography>
+  <Typography noWrap style={{ width: "200px" }}>
+    No hay nadie que ame el dolor mismo, que lo busque, lo encuentre y lo
+    quiera, simplemente porque es el dolor.
+  </Typography>
 </Playground>
 
 ## Gutters
-<Playground>
-    <Typography gutterBottom>I have a bottom gutter</Typography>
-    <Typography paragraph>I have a paragraph gutter</Typography>
-    <Typography>Just a normal text</Typography>
-</Playground>
 
+<Playground>
+  <Typography gutterBottom>I have a bottom gutter</Typography>
+  <Typography paragraph>I have a paragraph gutter</Typography>
+  <Typography>Just a normal text</Typography>
+</Playground>
