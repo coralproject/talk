@@ -36,11 +36,16 @@ it("renders app with comment stream", async () => {
   const commentsQueryStub = createSinonStub(s =>
     s.callsFake((input: any) => {
       if (!changedSort) {
-        expectAndFail(input).toEqual({ first: 5, orderBy: "CREATED_AT_DESC" });
+        expectAndFail(input).toMatchObject({
+          first: 5,
+          flatten: false,
+          orderBy: "CREATED_AT_DESC",
+        });
         return stories[0].comments;
       }
-      expectAndFail(input).toEqual({
+      expectAndFail(input).toMatchObject({
         first: 5,
+        flatten: false,
         orderBy: "CREATED_AT_ASC",
       });
       return stories[1].comments;

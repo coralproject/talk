@@ -134,8 +134,7 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
-      # TODO: (cvle) add flatten here.
-      featuredComments: comments(first: 1, tag: "FEATURED") {
+      featuredComments: comments(first: 1, flatten: true, tag: "FEATURED") {
         pageInfo {
           endCursor
         }

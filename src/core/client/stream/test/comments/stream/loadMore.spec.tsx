@@ -8,6 +8,7 @@ import {
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
+import { isMatch } from "lodash";
 
 import { comments, settings, stories } from "../../fixtures";
 import create from "./create";
@@ -16,33 +17,40 @@ let testRenderer: ReactTestRenderer;
 beforeEach(() => {
   const storyStub = {
     ...stories[0],
-    comments: createSinonStub(
-      s => s.throws(),
-      s =>
-        s.withArgs({ first: 5, orderBy: "CREATED_AT_DESC" }).returns({
-          edges: [
-            {
-              node: comments[0],
-              cursor: comments[0].createdAt,
+    comments: createSinonStub(s =>
+      s.callsFake((input: any) => {
+        if (
+          isMatch(input, {
+            first: 5,
+            flatten: false,
+            orderBy: "CREATED_AT_DESC",
+          })
+        ) {
+          return {
+            edges: [
+              {
+                node: comments[0],
+                cursor: comments[0].createdAt,
+              },
+              {
+                node: comments[1],
+                cursor: comments[1].createdAt,
+              },
+            ],
+            pageInfo: {
+              endCursor: comments[1].createdAt,
+              hasNextPage: true,
             },
-            {
-              node: comments[1],
-              cursor: comments[1].createdAt,
-            },
-          ],
-          pageInfo: {
-            endCursor: comments[1].createdAt,
-            hasNextPage: true,
-          },
-        }),
-      s =>
-        s
-          .withArgs({
+          };
+        }
+        if (
+          isMatch(input, {
             first: 10,
             orderBy: "CREATED_AT_DESC",
             after: comments[1].createdAt,
           })
-          .returns({
+        ) {
+          return {
             edges: [
               {
                 node: comments[2],
@@ -53,7 +61,9 @@ beforeEach(() => {
               endCursor: comments[2].createdAt,
               hasNextPage: false,
             },
-          })
+          };
+        }
+      })
     ),
   };
 

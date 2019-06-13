@@ -92,6 +92,7 @@ const enhanced = withPaginationContainer<
           first: $count
           after: $cursor
           orderBy: $orderBy
+          flatten: true
           tag: "FEATURED"
         ) @connection(key: "Stream_comments") {
           edges {
