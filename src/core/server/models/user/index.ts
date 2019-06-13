@@ -300,6 +300,7 @@ export async function createUserIndexes(mongo: Db) {
   // UNIQUE { profiles.type, profiles.id }
   await createIndex(
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
+    // TODO: (wyattjoh) change the `partialFilterExpression` to `{ "profiles.id": { $exists: true } }`
     { unique: true, partialFilterExpression: { profiles: { $exists: true } } }
   );
 

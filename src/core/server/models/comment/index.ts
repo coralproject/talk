@@ -26,7 +26,7 @@ import {
   createConnectionOrderVariants,
   createIndexFactory,
 } from "coral-server/models/helpers/indexing";
-import Query from "coral-server/models/helpers/query";
+import Query, { FilterQuery } from "coral-server/models/helpers/query";
 import { TenantResource } from "coral-server/models/tenant";
 import { VISIBLE_STATUSES } from "./constants";
 import { hasAncestors } from "./helpers";
@@ -34,8 +34,8 @@ import { COMMENT_TAG_TYPE, CommentTag } from "./tag";
 
 export * from "./helpers";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<Comment>>("comments");
+function collection<T = Comment>(mongo: Db) {
+  return mongo.collection<Readonly<T>>("comments");
 }
 
 /**
@@ -158,6 +158,22 @@ export async function createCommentIndexes(mongo: Db) {
 
   // UNIQUE { id }
   await createIndex({ tenantID: 1, id: 1 }, { unique: true });
+
+  // Facility for counting the tags against a story.
+  await createIndex(
+    {
+      tenantID: 1,
+      storyID: 1,
+      "tags.type": 1,
+      status: 1,
+    },
+    {
+      background: true,
+      partialFilterExpression: {
+        "tags.type": { $exists: true },
+      },
+    }
+  );
 
   const variants = createConnectionOrderVariants<Readonly<Comment>>([
     { createdAt: -1 },
@@ -950,4 +966,50 @@ export async function removeCommentTag(
   }
 
   return result.value;
+}
+
+export async function retrieveStoryCommentTagCounts(
+  mongo: Db,
+  tenantID: string,
+  storyIDs: string[]
+) {
+  // Build up the $match query.
+  const $match: FilterQuery<Comment> = {
+    tenantID,
+    "tags.type": { $exists: true },
+    status: { $in: VISIBLE_STATUSES },
+  };
+  if (storyIDs.length > 1) {
+    $match.storyID = { $in: storyIDs };
+  } else {
+    $match.storyID = storyIDs[0];
+  }
+
+  // Load the counts from the database for this particular tag query.
+  const cursor = await collection<{
+    _id: { tag: COMMENT_TAG_TYPE; storyID: string };
+    total: number;
+  }>(mongo).aggregate([
+    { $match },
+    { $unwind: "$tags" },
+    {
+      $group: {
+        _id: { tag: "$tags.type", storyID: "$storyID" },
+        total: { $sum: 1 },
+      },
+    },
+  ]);
+
+  // Get all of the counts.
+  const counts = await cursor.toArray();
+
+  // For each of the storyIDs...
+  return storyIDs.map(storyID => {
+    // Get the tags associated with this storyID.
+    const tagCounts = counts.filter(({ _id }) => _id.storyID === storyID) || [];
+
+    // Then remap these tags to strip the storyID as the returned order already
+    // preserves the storyID information.
+    return tagCounts.map(({ _id: { tag: code }, total }) => ({ code, total }));
+  });
 }

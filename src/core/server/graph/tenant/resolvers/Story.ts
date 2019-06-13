@@ -9,6 +9,7 @@ import * as story from "coral-server/models/story";
 import { getStoryClosedAt } from "coral-server/services/stories";
 
 import TenantContext from "../context";
+import { CommentCountsInput } from "./CommentCounts";
 import { storyModerationInputResolver } from "./ModerationQueues";
 
 const isStoryClosed = (s: story.Story, ctx: TenantContext) => {
@@ -23,7 +24,7 @@ export const Story: GQLStoryTypeResolver<story.Story> = {
   isClosed: (s, input, ctx) => isStoryClosed(s, ctx),
   closedAt: (s, input, ctx) => getStoryClosedAt(ctx.tenant, s) || null,
   commentActionCounts: s => decodeActionCounts(s.commentCounts.action),
-  commentCounts: s => s.commentCounts.status,
+  commentCounts: (s): CommentCountsInput => s,
   // Merge tenant settings into the story settings so we can easily inherit the
   // options if they exist.
   settings: (s, input, ctx) => defaultsDeep({}, s.settings, ctx.tenant),

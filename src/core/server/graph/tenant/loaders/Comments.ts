@@ -21,6 +21,7 @@ import {
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
+  retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
 import { hasVisibleStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers/connection";
@@ -215,5 +216,8 @@ export default (ctx: Context) => ({
       ctx.tenant.id,
       ctx.now
     )
+  ),
+  tagCounts: new DataLoader((storyIDs: string[]) =>
+    retrieveStoryCommentTagCounts(ctx.mongo, ctx.tenant.id, storyIDs)
   ),
 });

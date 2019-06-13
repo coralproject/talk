@@ -1701,6 +1701,21 @@ type Tag {
 }
 
 """
+TagCounts provides count data for Tags made against Comment's.
+"""
+type TagCounts {
+  """
+  code is the machine representation of the tag name.
+  """
+  code: String!
+
+  """
+  total is the total number of Comments with this specific Tag that are visible.
+  """
+  total: Int!
+}
+
+"""
 Comment is a comment left by a User on an Story or another Comment as a reply.
 """
 type Comment {
@@ -1935,6 +1950,14 @@ type CommentCounts {
   """
   totalVisible: Int!
 
+  """
+  tags stores the counts of all the Tags against Comment's on this Story.
+  """
+  tags: [TagCounts!]!
+
+  """
+  statuses stores the counts of all the statuses against Comments on this Story.
+  """
   statuses: CommentStatusCounts! @auth(roles: [ADMIN, MODERATOR])
 }
 
