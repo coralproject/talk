@@ -7,6 +7,7 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
   StoryToCommentsArgs,
@@ -30,21 +31,11 @@ import { User } from "coral-server/models/user";
 
 import { SingletonResolver } from "./util";
 
-const tagFilter = (tag?: string): CommentConnectionInput["filter"] => {
-  if (tag && tag.length > 0) {
+const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
+  if (tag) {
     return {
       "tags.type": tag,
     };
-  }
-
-  return {};
-};
-
-const flattenFilter = (flatten: boolean): CommentConnectionInput["filter"] => {
-  if (!flatten) {
-    // Only get Comments that are top level. If the client wants to load
-    // another layer, they can request another nested connection.
-    return { parentID: null };
   }
 
   return {};
@@ -161,15 +152,14 @@ export default (ctx: Context) => ({
       orderBy,
       after,
     }).then(primeCommentsFromConnection(ctx)),
-  forStory: (
+  taggedForStory: (
     storyID: string,
+    tag: GQLTAG,
     // Apply the graph schema defaults at the loader.
     {
       first = 10,
       orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
-      tag,
-      flatten = false,
     }: StoryToCommentsArgs
   ) =>
     retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
@@ -178,8 +168,26 @@ export default (ctx: Context) => ({
       after,
       filter: {
         // Filter optionally for comments with a specific tag.
-        ...tagFilter(tag),
-        ...flattenFilter(flatten),
+        "tags.type": tag,
+      },
+    }).then(primeCommentsFromConnection(ctx)),
+  forStory: (
+    storyID: string,
+    // Apply the graph schema defaults at the loader.
+    {
+      first = 10,
+      orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
+      after,
+    }: StoryToCommentsArgs
+  ) =>
+    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
+      first,
+      orderBy,
+      after,
+      filter: {
+        // Only get Comments that are top level. If the client wants to load
+        // another layer, they can request another nested connection.
+        parentID: null,
       },
     }).then(primeCommentsFromConnection(ctx)),
   forParent: (

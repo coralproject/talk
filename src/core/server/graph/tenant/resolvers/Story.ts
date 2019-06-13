@@ -3,6 +3,7 @@ import { defaultsDeep } from "lodash";
 import {
   GQLSTORY_STATUS,
   GQLStoryTypeResolver,
+  GQLTAG,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { decodeActionCounts } from "coral-server/models/action/comment";
 import * as story from "coral-server/models/story";
@@ -19,6 +20,8 @@ const isStoryClosed = (s: story.Story, ctx: TenantContext) => {
 
 export const Story: GQLStoryTypeResolver<story.Story> = {
   comments: (s, input, ctx) => ctx.loaders.Comments.forStory(s.id, input),
+  featuredComments: (s, input, ctx) =>
+    ctx.loaders.Comments.taggedForStory(s.id, GQLTAG.FEATURED, input),
   status: (s, input, ctx) =>
     isStoryClosed(s, ctx) ? GQLSTORY_STATUS.CLOSED : GQLSTORY_STATUS.OPEN,
   isClosed: (s, input, ctx) => isStoryClosed(s, ctx),

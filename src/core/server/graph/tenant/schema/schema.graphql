@@ -2081,14 +2081,21 @@ type Story {
   scrapedAt: Time
 
   """
+  featuredComments are the Comments with the FEATURED tag on the Story.
+  """
+  featuredComments(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
+    after: Cursor
+  ): CommentsConnection!
+
+  """
   comments are the comments on the Story.
   """
   comments(
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
-    tag: TAG
-    flatten: Boolean = false
   ): CommentsConnection!
 
   """
@@ -2186,7 +2193,7 @@ type Query {
     after: Cursor
     storyID: ID
     status: COMMENT_STATUS
-    tag: String
+    tag: TAG
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
