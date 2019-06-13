@@ -573,6 +573,15 @@ export class UserSuspended extends CoralError {
   }
 }
 
+export class UserCannotBeIgnoredError extends CoralError {
+  constructor(userID: string) {
+    super({
+      code: ERROR_CODES.USER_CANNOT_BE_IGNORED,
+      context: { pub: { userID } },
+    });
+  }
+}
+
 export class PasswordResetTokenExpired extends CoralError {
   constructor(reason: string, cause?: Error) {
     super({

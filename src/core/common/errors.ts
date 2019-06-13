@@ -232,6 +232,13 @@ export enum ERROR_CODES {
   USER_BANNED = "USER_BANNED",
 
   /**
+   * USER_CANNOT_BE_IGNORED is returned when the user attempts to ignore
+   * a user that is not allowed to be ignored. This is usually because the
+   * user is staff member.
+   */
+  USER_CANNOT_BE_IGNORED = "USER_CANNOT_BE_IGNORED",
+
+  /**
    * INTEGRATION_DISABLED is returned when an operation is attempted against an
    * integration that has been disabled.
    */

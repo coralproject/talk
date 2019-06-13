@@ -148,6 +148,7 @@ function commit(
               id: viewer.id,
               username: viewer.username,
               createdAt: viewer.createdAt,
+              ignoreable: false,
             },
             revision: {
               id: uuidGenerator(),

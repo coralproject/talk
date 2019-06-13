@@ -1457,6 +1457,13 @@ type User {
     )
 
   """
+  ignoreable is a computed property based on the
+  user's role. Typically, users with elevated privileges
+  aren't allowed to be ignored.
+  """
+  ignoreable: Boolean!
+
+  """
   comments are the comments written by the User.
   """
   comments(
