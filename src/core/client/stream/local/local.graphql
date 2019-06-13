@@ -55,7 +55,6 @@ type Local {
   commentsOrderBy: COMMENT_SORT!
   profileTab: PROFILE_TAB!
   commentsTab: COMMENTS_TAB!
-  bla: [String]
 }
 
 extend type Query {

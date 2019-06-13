@@ -26,7 +26,10 @@ async function createTestRenderer(
             ...story,
             comments: createQueryResolverStub<StoryToCommentsResolver>(
               ({ variables }) => {
-                expectAndFail(variables.tag).toBe("FEATURED");
+                expectAndFail(variables).toMatchObject({
+                  tag: "FEATURED",
+                  flatten: true,
+                });
                 return story.comments;
               }
             ) as any,

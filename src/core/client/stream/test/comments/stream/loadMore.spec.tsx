@@ -63,6 +63,7 @@ beforeEach(() => {
             },
           };
         }
+        throw new Error("Unexpected request");
       })
     ),
   };

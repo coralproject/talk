@@ -28,7 +28,10 @@ async function createTestRenderer(
             ...story,
             comments: createQueryResolverStub<StoryToCommentsResolver>(
               ({ variables }) => {
-                expectAndFail(variables.tag).toBe("FEATURED");
+                expectAndFail(variables).toMatchObject({
+                  tag: "FEATURED",
+                  flatten: true,
+                });
                 if (!variables.after) {
                   return {
                     edges: [story.comments.edges[0]],
@@ -73,6 +76,11 @@ it("loads more", async () => {
   const streamLog = await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-stream-log")
   );
+
+  // Get amount of comments before.
+  const commentsBefore = within(streamLog).getAllByTestID(/^featuredComment-/)
+    .length;
+
   const loadMoreButton = await waitForElement(() =>
     within(streamLog).getByText("Load More", {
       exact: false,
@@ -88,4 +96,8 @@ it("loads more", async () => {
       })
     );
   });
+  // Get amount of comments after.
+  const commentsAfter = within(streamLog).getAllByTestID(/^featuredComment-/)
+    .length;
+  expect(commentsAfter).toBeGreaterThan(commentsBefore);
 });
