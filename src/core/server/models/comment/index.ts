@@ -1,5 +1,6 @@
 import { isEmpty, merge } from "lodash";
 import { Db } from "mongodb";
+import performanceNow from "performance-now";
 import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
@@ -8,7 +9,10 @@ import { CommentNotFoundError } from "coral-server/errors";
 import {
   GQLCOMMENT_SORT,
   GQLCOMMENT_STATUS,
+  GQLCommentTagCounts,
+  GQLTAG,
 } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
 import {
   EncodedCommentActionCounts,
   mergeCommentActionCounts,
@@ -30,7 +34,7 @@ import Query, { FilterQuery } from "coral-server/models/helpers/query";
 import { TenantResource } from "coral-server/models/tenant";
 import { VISIBLE_STATUSES } from "./constants";
 import { hasAncestors } from "./helpers";
-import { COMMENT_TAG_TYPE, CommentTag } from "./tag";
+import { CommentTag } from "./tag";
 
 export * from "./helpers";
 
@@ -938,7 +942,7 @@ export async function removeCommentTag(
   mongo: Db,
   tenantID: string,
   commentID: string,
-  tagType: COMMENT_TAG_TYPE
+  tagType: GQLTAG
 ) {
   const result = await collection(mongo).findOneAndUpdate(
     {
@@ -972,11 +976,17 @@ export async function retrieveStoryCommentTagCounts(
   mongo: Db,
   tenantID: string,
   storyIDs: string[]
-) {
+): Promise<GQLCommentTagCounts[]> {
   // Build up the $match query.
   const $match: FilterQuery<Comment> = {
     tenantID,
-    "tags.type": { $exists: true },
+    // We're filtering only for featured comments for now because that's all
+    // that is returned by the tag counts at the moment. If we ever extend this
+    // we should switch this out to something like
+    // `"tags.type": { $exists: true }` to ensure that we are using the
+    // specified index.
+    "tags.type": GQLTAG.FEATURED,
+    // Only show visible comment's tag counts.
     status: { $in: VISIBLE_STATUSES },
   };
   if (storyIDs.length > 1) {
@@ -985,9 +995,12 @@ export async function retrieveStoryCommentTagCounts(
     $match.storyID = storyIDs[0];
   }
 
+  // Get the start time.
+  const startTime = performanceNow();
+
   // Load the counts from the database for this particular tag query.
   const cursor = await collection<{
-    _id: { tag: COMMENT_TAG_TYPE; storyID: string };
+    _id: { tag: GQLTAG; storyID: string };
     total: number;
   }>(mongo).aggregate([
     { $match },
@@ -1001,15 +1014,33 @@ export async function retrieveStoryCommentTagCounts(
   ]);
 
   // Get all of the counts.
-  const counts = await cursor.toArray();
+  const tags = await cursor.toArray();
+
+  // Compute the end time.
+  const responseTime = Math.round(performanceNow() - startTime);
+
+  // Logging at the info level here to ensure we track any degrading performance
+  // issues from this query.
+  logger.info({ responseTime, filter: $match }, "counting tags");
 
   // For each of the storyIDs...
   return storyIDs.map(storyID => {
     // Get the tags associated with this storyID.
-    const tagCounts = counts.filter(({ _id }) => _id.storyID === storyID) || [];
+    const tagCounts = tags.filter(({ _id }) => _id.storyID === storyID) || [];
 
     // Then remap these tags to strip the storyID as the returned order already
     // preserves the storyID information.
-    return tagCounts.map(({ _id: { tag: code }, total }) => ({ code, total }));
+    return tagCounts.reduce(
+      (counts, { _id: { tag: code }, total }) => ({
+        ...counts,
+        [code]: total,
+      }),
+      // Keep this collection of empty tag counts up to date to ensure we
+      // provide an accurate model. The type system should warn you if there is
+      // missing/extra tags here.
+      {
+        [GQLTAG.FEATURED]: 0,
+      }
+    );
   });
 }

@@ -12,6 +12,7 @@ import {
   GQLFeatureCommentInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
+  GQLTAG,
   GQLUnfeatureCommentInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import {
@@ -28,7 +29,6 @@ import {
   removeReaction,
 } from "coral-server/services/comments/actions";
 
-import { COMMENT_TAG_TYPE } from "coral-server/models/comment/tag";
 import { validateMaximumLength, WithoutMutationID } from "./util";
 
 export const Comments = (ctx: TenantContext) => ({
@@ -155,9 +155,9 @@ export const Comments = (ctx: TenantContext) => ({
       commentID,
       commentRevisionID,
       ctx.user!,
-      COMMENT_TAG_TYPE.FEATURED,
+      GQLTAG.FEATURED,
       ctx.now
     ),
   unfeature: ({ commentID }: WithoutMutationID<GQLUnfeatureCommentInput>) =>
-    removeTag(ctx.mongo, ctx.tenant, commentID, COMMENT_TAG_TYPE.FEATURED),
+    removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED),
 });

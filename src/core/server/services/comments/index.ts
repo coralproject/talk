@@ -34,11 +34,11 @@ import {
   CoralError,
   StoryNotFoundError,
 } from "coral-server/errors";
+import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
 import {
   hasAncestors,
   hasVisibleStatus,
 } from "coral-server/models/comment/helpers";
-import { COMMENT_TAG_TYPE } from "coral-server/models/comment/tag";
 import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
@@ -425,7 +425,7 @@ export async function addTag(
   commentID: string,
   commentRevisionID: string,
   user: User,
-  tagType: COMMENT_TAG_TYPE,
+  tagType: GQLTAG,
   now = new Date()
 ) {
   const comment = await retrieveComment(mongo, tenant.id, commentID);
@@ -455,7 +455,7 @@ export async function removeTag(
   mongo: Db,
   tenant: Tenant,
   commentID: string,
-  tagType: COMMENT_TAG_TYPE
+  tagType: GQLTAG
 ) {
   const comment = await retrieveComment(mongo, tenant.id, commentID);
   if (!comment) {

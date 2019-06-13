@@ -462,14 +462,13 @@ export class InternalDevelopmentError extends CoralError {
     >;
 
     // Push in the internal message for this override.
-    extensions.message = this.cause()!.message;
+    const cause = this.cause();
+    if (cause) {
+      extensions.message = cause.message;
+    }
 
     return extensions;
   }
-
-  // public get message() {
-  //   return this.cause()!.message;
-  // }
 }
 
 export class NotFoundError extends CoralError {

@@ -1,3 +1,4 @@
+import { ApolloError } from "apollo-server-core";
 import { GraphQLError } from "graphql";
 import { GraphQLExtension, GraphQLResponse } from "graphql-extensions";
 import { merge } from "lodash";
@@ -45,6 +46,12 @@ function extractOriginalError(
   err: GraphQLError,
   ctx: CommonContext
 ): CoralError | undefined {
+  if (err instanceof ApolloError) {
+    // ApolloError's don't need to be hoisted as they contain validation
+    // messages about the graph.
+    return;
+  }
+
   if (!err.originalError) {
     // Only errors that have an originalError need to be hoisted.
     return;

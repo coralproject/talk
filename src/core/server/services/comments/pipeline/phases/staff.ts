@@ -1,8 +1,8 @@
 import {
   GQLCOMMENT_STATUS,
+  GQLTAG,
   GQLUSER_ROLE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { COMMENT_TAG_TYPE } from "coral-server/models/comment/tag";
 import {
   IntermediateModerationPhase,
   IntermediatePhaseResult,
@@ -18,7 +18,7 @@ export const staff: IntermediateModerationPhase = ({
       status: GQLCOMMENT_STATUS.APPROVED,
       tags: [
         {
-          type: COMMENT_TAG_TYPE.STAFF,
+          type: GQLTAG.STAFF,
           createdAt: now,
         },
       ],

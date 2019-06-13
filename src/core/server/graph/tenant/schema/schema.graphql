@@ -1674,19 +1674,27 @@ type CommentRevision {
   createdAt: Time!
 }
 
+enum TAG {
+  """
+  STAFF is used when a Comment is written by a User that has the STAFF, ADMIN,
+  or MODERATOR role.
+  """
+  STAFF
+
+  """
+  FEATURED is used when a Comment is marked as such by a staff member.
+  """
+  FEATURED
+}
+
 """
 Tag is a simple text message that can be displayed to segment tagable entities.
 """
 type Tag {
   """
-  name is the publicly displayable name assigned to this Tag.
-  """
-  name: String!
-
-  """
   code is the machine representation of the tag name.
   """
-  code: String!
+  code: TAG!
 
   """
   createdBy is the User that assigned the Tag. This is null when the Tag is
@@ -1701,18 +1709,13 @@ type Tag {
 }
 
 """
-TagCounts provides count data for Tags made against Comment's.
+CommentTagCounts provides count data for Tags made against Comment's.
 """
-type TagCounts {
+type CommentTagCounts {
   """
-  code is the machine representation of the tag name.
+  FEATURED is the count of Comment's with the FEATURED tag.
   """
-  code: String!
-
-  """
-  total is the total number of Comments with this specific Tag that are visible.
-  """
-  total: Int!
+  FEATURED: Int!
 }
 
 """
@@ -1953,7 +1956,7 @@ type CommentCounts {
   """
   tags stores the counts of all the Tags against Comment's on this Story.
   """
-  tags: [TagCounts!]!
+  tags: CommentTagCounts!
 
   """
   statuses stores the counts of all the statuses against Comments on this Story.
