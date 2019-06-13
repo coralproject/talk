@@ -2087,7 +2087,7 @@ type Story {
     first: Int = 10
     orderBy: COMMENT_SORT = CREATED_AT_DESC
     after: Cursor
-    tag: String
+    tag: TAG
     flatten: Boolean = false
   ): CommentsConnection!
 
