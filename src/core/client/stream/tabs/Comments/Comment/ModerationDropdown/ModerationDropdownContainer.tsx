@@ -3,7 +3,8 @@ import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
-import { ModerationDropdownContainer_comment as CommentData } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
+import { ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
+import { ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
 import {
   Dropdown,
   DropdownButton,
@@ -19,12 +20,14 @@ import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 import styles from "./ModerationDropdownContainer.css";
 
 interface Props {
-  comment: CommentData;
+  comment: ModerationDropdownContainer_comment;
+  story: ModerationDropdownContainer_story;
   onDismiss: () => void;
 }
 
 const ModerationDropdownContainer: FunctionComponent<Props> = ({
   comment,
+  story,
   onDismiss,
 }) => {
   const approve = useMutation(ApproveCommentMutation);
@@ -41,12 +44,17 @@ const ModerationDropdownContainer: FunctionComponent<Props> = ({
     [approve, comment]
   );
   const onFeature = useCallback(() => {
-    feature({ commentID: comment.id, commentRevisionID: comment.revision.id });
+    feature({
+      storyID: story.id,
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+    });
     onDismiss();
   }, [feature, comment]);
   const onUnfeature = useCallback(() => {
     unfeature({
       commentID: comment.id,
+      storyID: story.id,
     });
     onDismiss();
   }, [unfeature, comment]);
@@ -154,6 +162,11 @@ const enhanced = withFragmentContainer<Props>({
       tags {
         code
       }
+    }
+  `,
+  story: graphql`
+    fragment ModerationDropdownContainer_story on Story {
+      id
     }
   `,
 })(ModerationDropdownContainer);

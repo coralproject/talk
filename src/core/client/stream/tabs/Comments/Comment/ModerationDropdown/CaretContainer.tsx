@@ -3,7 +3,8 @@ import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { CaretContainer_comment as CommentData } from "coral-stream/__generated__/CaretContainer_comment.graphql";
+import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
+import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
 import { Button, ClickOutside, Icon, Popover } from "coral-ui/components";
 
 import ModerationDropdownContainer from "./ModerationDropdownContainer";
@@ -11,7 +12,8 @@ import ModerationDropdownContainer from "./ModerationDropdownContainer";
 import styles from "./CaretContainer.css";
 
 interface Props {
-  comment: CommentData;
+  comment: CaretContainer_comment;
+  story: CaretContainer_story;
 }
 
 const CaretContainer: FunctionComponent<Props> = props => {
@@ -29,6 +31,7 @@ const CaretContainer: FunctionComponent<Props> = props => {
           <ClickOutside onClickOutside={toggleVisibility}>
             <ModerationDropdownContainer
               comment={props.comment}
+              story={props.story}
               onDismiss={toggleVisibility}
             />
           </ClickOutside>
@@ -62,6 +65,11 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment CaretContainer_comment on Comment {
       ...ModerationDropdownContainer_comment
+    }
+  `,
+  story: graphql`
+    fragment CaretContainer_story on Story {
+      ...ModerationDropdownContainer_story
     }
   `,
 })(CaretContainer);

@@ -236,10 +236,10 @@ exports[`renders comment stream with community guidelines 1`] = `
             type="button"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
             >
               <span>
-                All Comments 
+                All Comments
               </span>
               <span
                 className="Counter-root Counter-colorPrimary Counter-sizeSmall"

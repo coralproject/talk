@@ -1,7 +1,6 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
-import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
@@ -12,12 +11,19 @@ import { UnfeatureCommentMutation as MutationTypes } from "coral-stream/__genera
 
 let clientMutationId = 0;
 
+function decrementCount(store: RecordSourceSelectorProxy, storyID: string) {
+  const tagsRecord = store
+    .get(storyID)!
+    .getLinkedRecord("commentCounts")!
+    .getLinkedRecord("tags")!;
+  tagsRecord.setValue(tagsRecord.getValue("FEATURED") - 1, "FEATURED");
+}
+
 const UnfeatureCommentMutation = createMutation(
   "unfeatureComment",
   (
     environment: Environment,
-    input: MutationInput<MutationTypes>,
-    { uuidGenerator }: CoralContext
+    input: MutationInput<MutationTypes> & { storyID: string }
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
@@ -39,10 +45,14 @@ const UnfeatureCommentMutation = createMutation(
           tags.filter(t => t!.getValue("code") === GQLTAG.FEATURED),
           "tags"
         );
+        decrementCount(store, input.storyID);
+      },
+      updater: store => {
+        decrementCount(store, input.storyID);
       },
       variables: {
         input: {
-          ...input,
+          commentID: input.commentID,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

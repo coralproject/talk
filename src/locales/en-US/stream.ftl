@@ -18,7 +18,7 @@ general-tabBar-configure = Configure
 
 ## Comments Tab
 
-comments-allCommentsTab = All Comments <Counter></Counter>
+comments-allCommentsTab = All Comments
 comments-featuredTab = Featured
 comments-featuredCommentTooltip-how = How is a comment featured?
 comments-featuredCommentTooltip-handSelectedComments =

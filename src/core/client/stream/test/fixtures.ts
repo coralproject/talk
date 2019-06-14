@@ -349,6 +349,9 @@ export const baseStory = createFixture<GQLStory>({
   },
   commentCounts: {
     totalVisible: 0,
+    tags: {
+      FEATURED: 0,
+    },
   },
   settings: {
     moderation: GQLMODERATION_MODE.POST,

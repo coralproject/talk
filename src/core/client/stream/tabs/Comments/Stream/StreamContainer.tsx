@@ -39,17 +39,11 @@ interface Props {
 // Use a custom tab for featured comments, because we need to put the tooltip
 // button logically next to the tab as both are buttons and position them together
 // using absolute positioning.
-const FeaturedCommentsTab: FunctionComponent<PropTypesOf<typeof Tab>> = ({
+const TabWithFeaturedTooltip: FunctionComponent<PropTypesOf<typeof Tab>> = ({
   ...props
 }) => (
   <div className={styles.featuredCommentsTabContainer}>
-    <Tab {...props} className={styles.featuredCommentsTab}>
-      <Flex spacing={1} alignItems="center">
-        <Localized id="comments-featuredTab">
-          <span>Featured</span>
-        </Localized>
-      </Flex>
-    </Tab>
+    <Tab {...props} className={styles.featuredCommentsTab} />
     <FeaturedCommentTooltip
       active={props.active}
       className={styles.featuredCommentsInfo}
@@ -78,20 +72,9 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   const banned = Boolean(
     props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
   );
-  const AllCommentsCounter = useMemo(
-    () => () => (
-      <Counter
-        size="sm"
-        color={local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"}
-      >
-        {props.story.commentCounts.totalVisible}
-      </Counter>
-    ),
-    [props.story, local.commentsTab]
-  );
 
-  // TODO (cvle): Switch this hack with actual counts :-)
-  const hasFeaturedComments = props.story.featuredComments.pageInfo.endCursor;
+  const allCommentsCount = props.story.commentCounts.totalVisible;
+  const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
@@ -117,18 +100,39 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             activeTab={local.commentsTab}
             onTabClick={onChangeTab}
           >
-            {hasFeaturedComments && (
-              <FeaturedCommentsTab tabID="FEATURED_COMMENTS" />
+            {featuredCommentsCount > 0 && (
+              <TabWithFeaturedTooltip tabID="FEATURED_COMMENTS">
+                <Flex spacing={1} alignItems="center">
+                  <Localized id="comments-featuredTab">
+                    <span>Featured</span>
+                  </Localized>
+                  <Counter
+                    size="sm"
+                    color={
+                      local.commentsTab === "FEATURED_COMMENTS"
+                        ? "primary"
+                        : "grey"
+                    }
+                  >
+                    {featuredCommentsCount}
+                  </Counter>
+                </Flex>
+              </TabWithFeaturedTooltip>
             )}
             <Tab tabID="ALL_COMMENTS">
-              <Localized
-                id="comments-allCommentsTab"
-                Counter={<AllCommentsCounter />}
-              >
-                <Flex alignItems="center">
-                  All Comments <AllCommentsCounter />
-                </Flex>
-              </Localized>
+              <Flex alignItems="center" spacing={1}>
+                <Localized id="comments-allCommentsTab">
+                  <span>All Comments</span>
+                </Localized>
+                <Counter
+                  size="sm"
+                  color={
+                    local.commentsTab === "ALL_COMMENTS" ? "primary" : "grey"
+                  }
+                >
+                  {allCommentsCount}
+                </Counter>
+              </Flex>
             </Tab>
           </TabBar>
           <TabContent activeTab={local.commentsTab}>
@@ -152,13 +156,11 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
-      featuredComments(first: 1) {
-        pageInfo {
-          endCursor
-        }
-      }
       commentCounts {
         totalVisible
+        tags {
+          FEATURED
+        }
       }
     }
   `,

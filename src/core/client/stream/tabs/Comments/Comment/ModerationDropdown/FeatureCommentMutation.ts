@@ -1,5 +1,5 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
@@ -12,11 +12,19 @@ import { FeatureCommentMutation as MutationTypes } from "coral-stream/__generate
 
 let clientMutationId = 0;
 
+function incrementCount(store: RecordSourceSelectorProxy, storyID: string) {
+  const tagsRecord = store
+    .get(storyID)!
+    .getLinkedRecord("commentCounts")!
+    .getLinkedRecord("tags")!;
+  tagsRecord.setValue(tagsRecord.getValue("FEATURED") + 1, "FEATURED");
+}
+
 const FeatureCommentMutation = createMutation(
   "featureComment",
   (
     environment: Environment,
-    input: MutationInput<MutationTypes>,
+    input: MutationInput<MutationTypes> & { storyID: string },
     { uuidGenerator }: CoralContext
   ) =>
     commitMutationPromiseNormalized<MutationTypes>(environment, {
@@ -38,10 +46,15 @@ const FeatureCommentMutation = createMutation(
         const newTag = store.create(uuidGenerator(), "Tag");
         newTag.setValue(GQLTAG.FEATURED, "code");
         comment.setLinkedRecords(tags.concat(newTag), "tags");
+        incrementCount(store, input.storyID);
+      },
+      updater: store => {
+        incrementCount(store, input.storyID);
       },
       variables: {
         input: {
-          ...input,
+          commentID: input.commentID,
+          commentRevisionID: input.commentRevisionID,
           clientMutationId: (clientMutationId++).toString(),
         },
       },

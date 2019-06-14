@@ -242,7 +242,9 @@ export class CommentContainer extends Component<Props, State> {
                     </Button>
                   </Localized>
                 )}
-                {showCaret && <CaretContainer comment={comment} />}
+                {showCaret && (
+                  <CaretContainer comment={comment} story={story} />
+                )}
               </Flex>
             }
             footer={
@@ -333,6 +335,7 @@ const enhanced = withSetCommentIDMutation(
         fragment CommentContainer_story on Story {
           url
           isClosed
+          ...CaretContainer_story
           ...ReplyCommentFormContainer_story
           ...PermalinkButtonContainer_story
           ...EditCommentFormContainer_story

@@ -157,10 +157,10 @@ exports[`renders message box when commenting disabled 1`] = `
             type="button"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
             >
               <span>
-                All Comments 
+                All Comments
               </span>
               <span
                 className="Counter-root Counter-colorPrimary Counter-sizeSmall"
@@ -461,10 +461,10 @@ exports[`renders message box when logged in 1`] = `
             type="button"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
             >
               <span>
-                All Comments 
+                All Comments
               </span>
               <span
                 className="Counter-root Counter-colorPrimary Counter-sizeSmall"
@@ -737,10 +737,10 @@ exports[`renders message box when not logged in 1`] = `
             type="button"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
             >
               <span>
-                All Comments 
+                All Comments
               </span>
               <span
                 className="Counter-root Counter-colorPrimary Counter-sizeSmall"
@@ -922,10 +922,10 @@ exports[`renders message box when story isClosed 1`] = `
             type="button"
           >
             <div
-              className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
             >
               <span>
-                All Comments 
+                All Comments
               </span>
               <span
                 className="Counter-root Counter-colorPrimary Counter-sizeSmall"
