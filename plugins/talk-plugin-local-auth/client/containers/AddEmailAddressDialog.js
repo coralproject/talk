@@ -17,6 +17,8 @@ import {
   EmailAddressAdded,
 } from '../components/AddEmailAddress';
 
+import styles from './AddEmailAddressDialog.css';
+
 class AddEmailAddressDialog extends React.Component {
   state = {
     step: 0,
@@ -72,7 +74,11 @@ class AddEmailAddressDialog extends React.Component {
     } = this.props;
 
     return (
-      <Dialog open={true} id="talk-plugin-local-auth-email-dialog">
+      <Dialog
+        open={true}
+        id="talk-plugin-local-auth-email-dialog"
+        className={styles.dialog}
+      >
         {step === 0 && <AddEmailForm onSubmit={this.handleSubmit} />}
         {step === 1 &&
           !requireEmailConfirmation && (
