@@ -78,6 +78,7 @@ it("feature and unfeature comment", async () => {
           return {
             comment: pureMerge<typeof firstComment>(firstComment, {
               tags: [featuredTag],
+              status: GQLCOMMENT_STATUS.APPROVED,
             }),
           };
         },
@@ -111,6 +112,8 @@ it("feature and unfeature comment", async () => {
     );
   });
 
+  // Comment should be approved as well.
+  within(comment).getByText("Approved", { exact: false });
   within(
     within(testRenderer.root).getByTestID("comments-featuredCount")
   ).getByText("1");

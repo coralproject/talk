@@ -7,7 +7,7 @@ import {
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-import { GQLTAG } from "coral-framework/schema";
+import { GQLCOMMENT_STATUS, GQLTAG } from "coral-framework/schema";
 import { FeatureCommentMutation as MutationTypes } from "coral-stream/__generated__/FeatureCommentMutation.graphql";
 
 let clientMutationId = 0;
@@ -35,6 +35,7 @@ const FeatureCommentMutation = createMutation(
               tags {
                 code
               }
+              status
             }
             clientMutationId
           }
@@ -46,6 +47,7 @@ const FeatureCommentMutation = createMutation(
         const newTag = store.create(uuidGenerator(), "Tag");
         newTag.setValue(GQLTAG.FEATURED, "code");
         comment.setLinkedRecords(tags.concat(newTag), "tags");
+        comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
         incrementCount(store, input.storyID);
       },
       updater: store => {
