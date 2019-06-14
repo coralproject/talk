@@ -1,5 +1,5 @@
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
+import { GQLResolver, GQLStory } from "coral-framework/schema";
 import {
   act,
   createResolversStub,
@@ -18,14 +18,11 @@ import {
 } from "../../fixtures";
 import create from "../create";
 
-const story = stories[0];
-const firstComment = story.comments.edges[0].node;
-const firstCommentAuthor = story.comments.edges[0].node.author!;
 const viewer = viewerPassive;
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {},
-  storyMock: any
+  story: GQLStory
 ) {
   const { testRenderer, context } = create({
     ...params,
@@ -34,13 +31,13 @@ async function createTestRenderer(
         Query: {
           settings: () => settings,
           viewer: () => viewer,
-          story: () => storyMock,
+          story: () => story,
         },
       }),
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(storyMock.id, "storyID");
+      localRecord.setValue(story.id, "storyID");
       localRecord.setValue(true, "loggedIn");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
@@ -60,6 +57,8 @@ async function createTestRenderer(
 }
 
 it("ignore user", async () => {
+  const firstComment = stories[0].comments.edges[0].node;
+  const firstCommentAuthor = stories[0].comments.edges[0].node.author!;
   const { testRenderer, tabPane } = await createTestRenderer(
     {
       resolvers: createResolversStub<GQLResolver>({
@@ -73,7 +72,7 @@ it("ignore user", async () => {
         },
       }),
     },
-    story
+    stories[0]
   );
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
@@ -107,6 +106,8 @@ it("ignore user", async () => {
 });
 
 it("render stream with ignored user", async () => {
+  const firstComment = stories[0].comments.edges[0].node;
+  const firstCommentAuthor = stories[0].comments.edges[0].node.author!;
   const { testRenderer, tabPane } = await createTestRenderer(
     {
       resolvers: createResolversStub<GQLResolver>({
@@ -118,7 +119,7 @@ it("render stream with ignored user", async () => {
         },
       }),
     },
-    story
+    stories[0]
   );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-stream-log")
@@ -173,7 +174,7 @@ it("render stream with regular comments, ignore user button should be present", 
         },
       }),
     },
-    story
+    stories[0]
   );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-stream-log")
