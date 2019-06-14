@@ -1,5 +1,5 @@
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
+import { GQLResolver, GQLStory } from "coral-framework/schema";
 import {
   act,
   createResolversStub,
@@ -8,16 +8,21 @@ import {
   within,
 } from "coral-framework/testHelpers";
 
-import { settings, stories, viewerPassive } from "../../fixtures";
-import create from "./create";
+import {
+  commenters,
+  moderators,
+  settings,
+  stories,
+  storyWithOnlyStaffComments,
+  viewerPassive,
+} from "../../fixtures";
+import create from "../create";
 
-const story = stories[0];
-const firstComment = story.comments.edges[0].node;
-const firstCommentAuthor = story.comments.edges[0].node.author!;
 const viewer = viewerPassive;
 
 async function createTestRenderer(
-  params: CreateTestRendererParams<GQLResolver> = {}
+  params: CreateTestRendererParams<GQLResolver> = {},
+  story: GQLStory
 ) {
   const { testRenderer, context } = create({
     ...params,
@@ -52,18 +57,23 @@ async function createTestRenderer(
 }
 
 it("ignore user", async () => {
-  const { testRenderer, tabPane } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Mutation: {
-        ignoreUser: ({ variables }) => {
-          expectAndFail(variables).toMatchObject({
-            userID: firstCommentAuthor.id,
-          });
-          return {};
+  const firstComment = stories[0].comments.edges[0].node;
+  const firstCommentAuthor = stories[0].comments.edges[0].node.author!;
+  const { testRenderer, tabPane } = await createTestRenderer(
+    {
+      resolvers: createResolversStub<GQLResolver>({
+        Mutation: {
+          ignoreUser: ({ variables }) => {
+            expectAndFail(variables).toMatchObject({
+              userID: firstCommentAuthor.id,
+            });
+            return {};
+          },
         },
-      },
-    }),
-  });
+      }),
+    },
+    stories[0]
+  );
   const comment = await waitForElement(() =>
     within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
   );
@@ -96,20 +106,91 @@ it("ignore user", async () => {
 });
 
 it("render stream with ignored user", async () => {
-  const { testRenderer, tabPane } = await createTestRenderer({
-    resolvers: createResolversStub<GQLResolver>({
-      Query: {
-        viewer: () =>
-          pureMerge<typeof viewer>(viewer, {
-            ignoredUsers: [firstCommentAuthor],
-          }),
-      },
-    }),
-  });
+  const firstComment = stories[0].comments.edges[0].node;
+  const firstCommentAuthor = stories[0].comments.edges[0].node.author!;
+  const { testRenderer, tabPane } = await createTestRenderer(
+    {
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              ignoredUsers: [firstCommentAuthor],
+            }),
+        },
+      }),
+    },
+    stories[0]
+  );
   await waitForElement(() =>
     within(testRenderer.root).getByTestID("comments-stream-log")
   );
   expect(
     within(tabPane).queryByTestID(`comment-${firstComment.id}`)
   ).toBeNull();
+});
+
+it("render stream with only staff comments, ignore user button should not be present", async () => {
+  const { testRenderer, tabPane } = await createTestRenderer(
+    {
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              ignoredUsers: [],
+            }),
+        },
+      }),
+    },
+    storyWithOnlyStaffComments
+  );
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+  const moderator = moderators[0];
+  const username = within(tabPane).getByText(moderator!.username!, {
+    selector: "button",
+  });
+
+  // Click on the staff member's username to
+  // reveal the user pop over
+  act(() => {
+    username.props.onClick();
+  });
+
+  // Staff members cannot be ignored, expect the
+  // ignore button to be missing
+  expect(within(tabPane).queryByText("Ignore")).toBeNull();
+});
+
+it("render stream with regular comments, ignore user button should be present", async () => {
+  const { testRenderer, tabPane } = await createTestRenderer(
+    {
+      resolvers: createResolversStub<GQLResolver>({
+        Query: {
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              ignoredUsers: [],
+            }),
+        },
+      }),
+    },
+    stories[0]
+  );
+  await waitForElement(() =>
+    within(testRenderer.root).getByTestID("comments-stream-log")
+  );
+  const commenter = commenters[0];
+  const username = within(tabPane).getByText(commenter!.username!, {
+    selector: "button",
+  });
+
+  // Click on the user's name to
+  // reveal the user pop over
+  act(() => {
+    username.props.onClick();
+  });
+
+  // Regular members can be ignored, expect the
+  // ignore button to be present
+  expect(within(tabPane).queryByText("Ignore")).toBeDefined();
 });

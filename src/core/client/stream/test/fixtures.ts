@@ -98,6 +98,7 @@ export const baseUser = createFixture<GQLUser>({
       hasNextPage: false,
     },
   },
+  ignoreable: true,
 });
 
 export const commenters = createFixtures<GQLUser>(
@@ -106,25 +107,21 @@ export const commenters = createFixtures<GQLUser>(
       id: "user-0",
       username: "Markus",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
     {
       id: "user-1",
       username: "Lukas",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
     {
       id: "user-2",
       username: "Isabelle",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
     {
       id: "user-3",
       username: "Markus",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
   ],
   baseUser
@@ -530,6 +527,27 @@ export const storyWithDeepestReplies = denormalizeStory(
           {
             node: commentWithDeepestReplies,
             cursor: commentWithDeepestReplies.createdAt,
+          },
+        ],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    },
+    baseStory
+  )
+);
+
+export const storyWithOnlyStaffComments = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-with-only-staff-comments",
+      url: "http://localhost/stories/story-with-only-staff-comments",
+      comments: {
+        edges: [
+          {
+            node: commentsFromStaff[0],
+            cursor: commentsFromStaff[0].createdAt,
           },
         ],
         pageInfo: {
