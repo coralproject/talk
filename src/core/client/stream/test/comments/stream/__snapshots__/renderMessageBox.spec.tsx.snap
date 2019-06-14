@@ -9,10 +9,10 @@ exports[`renders message box when commenting disabled 1`] = `
   role="tabpanel"
 >
   <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
@@ -40,20 +40,22 @@ exports[`renders message box when commenting disabled 1`] = `
       </button>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth PostCommentFormClosedSitewide-root"
       >
-        <div
-          className="Markdown-root PostCommentFormClosedSitewide-message"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<p>Commenting disabled</p>
+        <div>
+          <div
+            className="Markdown-root PostCommentFormClosedSitewide-message"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<p>Commenting disabled</p>
 ",
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
       <div
         className="MessageBox-root"
@@ -76,12 +78,117 @@ exports[`renders message box when commenting disabled 1`] = `
       </div>
     </div>
     <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      data-testid="comments-stream-log"
-      id="coral-comments-stream-log"
-      role="log"
-    />
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+    >
+      <div
+        className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+      >
+        <label
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          htmlFor="coral-comments-sortMenu"
+        >
+          Sort By
+        </label>
+        <span
+          className="SelectField-root"
+        >
+          <select
+            className="SelectField-select undefined"
+            id="coral-comments-sortMenu"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            value="CREATED_AT_DESC"
+          >
+            <option
+              value="CREATED_AT_DESC"
+            >
+              Newest
+            </option>
+            <option
+              value="CREATED_AT_ASC"
+            >
+              Oldest
+            </option>
+            <option
+              value="REPLIES_DESC"
+            >
+              Most Replies
+            </option>
+            <option
+              value="REACTION_DESC"
+            >
+              Most Respected
+            </option>
+          </select>
+          <span
+            aria-hidden={true}
+            className="SelectField-afterWrapper undefined"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              expand_more
+            </span>
+          </span>
+        </span>
+      </div>
+      <ul
+        className="TabBar-root TabBar-secondary"
+        role="tablist"
+      >
+        <li
+          className="Tab-root"
+          id="tab-ALL_COMMENTS"
+          role="presentation"
+        >
+          <button
+            aria-controls="tabPane-ALL_COMMENTS"
+            aria-selected={true}
+            className="BaseButton-root Tab-button Tab-secondary Tab-active"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            role="tab"
+            type="button"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
+            >
+              <span>
+                All Comments
+              </span>
+              <span
+                className="Counter-root Counter-colorPrimary Counter-sizeSmall"
+              >
+                <span
+                  className="Counter-text"
+                >
+                  0
+                </span>
+              </span>
+            </div>
+          </button>
+        </li>
+      </ul>
+      <section
+        aria-labelledby="tab-ALL_COMMENTS"
+        id="tabPane-ALL_COMMENTS"
+        role="tabpanel"
+      >
+        <div
+          aria-live="polite"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          data-testid="comments-stream-log"
+          id="coral-comments-stream-log"
+          role="log"
+        />
+      </section>
+    </div>
   </div>
 </section>
 `;
@@ -95,27 +202,27 @@ exports[`renders message box when logged in 1`] = `
   role="tabpanel"
 >
   <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root"
+      className="Box-root Flex-root"
     >
       <div
-        className="Flex-flex Flex-halfItemGutter Flex-wrap"
+        className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
       >
         <div
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           Signed in as 
           <span
-            className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
           >
             Markus
           </span>
           .
         </div>
         <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
             Not you? 
@@ -161,10 +268,10 @@ exports[`renders message box when logged in 1`] = `
         onSubmit={[Function]}
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root HorizontalGutter-half"
           >
             <label
               className="AriaInfo-root"
@@ -256,7 +363,7 @@ exports[`renders message box when logged in 1`] = `
             </div>
           </div>
           <div
-            className="Flex-root Flex-flex Flex-alignFlexEnd Flex-directionColumn"
+            className="Box-root Flex-root Flex-flex Flex-alignFlexEnd Flex-directionColumn"
           >
             <button
               className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
@@ -275,12 +382,117 @@ exports[`renders message box when logged in 1`] = `
       </form>
     </div>
     <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      data-testid="comments-stream-log"
-      id="coral-comments-stream-log"
-      role="log"
-    />
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+    >
+      <div
+        className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+      >
+        <label
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          htmlFor="coral-comments-sortMenu"
+        >
+          Sort By
+        </label>
+        <span
+          className="SelectField-root"
+        >
+          <select
+            className="SelectField-select undefined"
+            id="coral-comments-sortMenu"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            value="CREATED_AT_DESC"
+          >
+            <option
+              value="CREATED_AT_DESC"
+            >
+              Newest
+            </option>
+            <option
+              value="CREATED_AT_ASC"
+            >
+              Oldest
+            </option>
+            <option
+              value="REPLIES_DESC"
+            >
+              Most Replies
+            </option>
+            <option
+              value="REACTION_DESC"
+            >
+              Most Respected
+            </option>
+          </select>
+          <span
+            aria-hidden={true}
+            className="SelectField-afterWrapper undefined"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              expand_more
+            </span>
+          </span>
+        </span>
+      </div>
+      <ul
+        className="TabBar-root TabBar-secondary"
+        role="tablist"
+      >
+        <li
+          className="Tab-root"
+          id="tab-ALL_COMMENTS"
+          role="presentation"
+        >
+          <button
+            aria-controls="tabPane-ALL_COMMENTS"
+            aria-selected={true}
+            className="BaseButton-root Tab-button Tab-secondary Tab-active"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            role="tab"
+            type="button"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
+            >
+              <span>
+                All Comments
+              </span>
+              <span
+                className="Counter-root Counter-colorPrimary Counter-sizeSmall"
+              >
+                <span
+                  className="Counter-text"
+                >
+                  0
+                </span>
+              </span>
+            </div>
+          </button>
+        </li>
+      </ul>
+      <section
+        aria-labelledby="tab-ALL_COMMENTS"
+        id="tabPane-ALL_COMMENTS"
+        role="tabpanel"
+      >
+        <div
+          aria-live="polite"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          data-testid="comments-stream-log"
+          id="coral-comments-stream-log"
+          role="log"
+        />
+      </section>
+    </div>
   </div>
 </section>
 `;
@@ -294,10 +506,10 @@ exports[`renders message box when not logged in 1`] = `
   role="tabpanel"
 >
   <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
@@ -345,7 +557,7 @@ exports[`renders message box when not logged in 1`] = `
         />
       </div>
       <div
-        className="HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
       >
         <div
           aria-hidden="true"
@@ -446,12 +658,117 @@ exports[`renders message box when not logged in 1`] = `
       </div>
     </div>
     <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      data-testid="comments-stream-log"
-      id="coral-comments-stream-log"
-      role="log"
-    />
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+    >
+      <div
+        className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+      >
+        <label
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          htmlFor="coral-comments-sortMenu"
+        >
+          Sort By
+        </label>
+        <span
+          className="SelectField-root"
+        >
+          <select
+            className="SelectField-select undefined"
+            id="coral-comments-sortMenu"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            value="CREATED_AT_DESC"
+          >
+            <option
+              value="CREATED_AT_DESC"
+            >
+              Newest
+            </option>
+            <option
+              value="CREATED_AT_ASC"
+            >
+              Oldest
+            </option>
+            <option
+              value="REPLIES_DESC"
+            >
+              Most Replies
+            </option>
+            <option
+              value="REACTION_DESC"
+            >
+              Most Respected
+            </option>
+          </select>
+          <span
+            aria-hidden={true}
+            className="SelectField-afterWrapper undefined"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              expand_more
+            </span>
+          </span>
+        </span>
+      </div>
+      <ul
+        className="TabBar-root TabBar-secondary"
+        role="tablist"
+      >
+        <li
+          className="Tab-root"
+          id="tab-ALL_COMMENTS"
+          role="presentation"
+        >
+          <button
+            aria-controls="tabPane-ALL_COMMENTS"
+            aria-selected={true}
+            className="BaseButton-root Tab-button Tab-secondary Tab-active"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            role="tab"
+            type="button"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
+            >
+              <span>
+                All Comments
+              </span>
+              <span
+                className="Counter-root Counter-colorPrimary Counter-sizeSmall"
+              >
+                <span
+                  className="Counter-text"
+                >
+                  0
+                </span>
+              </span>
+            </div>
+          </button>
+        </li>
+      </ul>
+      <section
+        aria-labelledby="tab-ALL_COMMENTS"
+        id="tabPane-ALL_COMMENTS"
+        role="tabpanel"
+      >
+        <div
+          aria-live="polite"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          data-testid="comments-stream-log"
+          id="coral-comments-stream-log"
+          role="log"
+        />
+      </section>
+    </div>
   </div>
 </section>
 `;
@@ -465,10 +782,10 @@ exports[`renders message box when story isClosed 1`] = `
   role="tabpanel"
 >
   <div
-    className="HorizontalGutter-root Stream-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter"
+      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
     >
       <button
         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
@@ -512,24 +829,131 @@ exports[`renders message box when story isClosed 1`] = `
       <div
         className="CallOut-root CallOut-colorRegular CallOut-fullWidth"
       >
-        <div
-          className="Markdown-root"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<p>Story is closed</p>
+        <div>
+          <div
+            className="Markdown-root"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<p>Story is closed</p>
 ",
+              }
             }
-          }
-        />
+          />
+        </div>
       </div>
     </div>
     <div
-      aria-live="polite"
-      className="HorizontalGutter-root HorizontalGutter-full"
-      data-testid="comments-stream-log"
-      id="coral-comments-stream-log"
-      role="log"
-    />
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+    >
+      <div
+        className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+      >
+        <label
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+          htmlFor="coral-comments-sortMenu"
+        >
+          Sort By
+        </label>
+        <span
+          className="SelectField-root"
+        >
+          <select
+            className="SelectField-select undefined"
+            id="coral-comments-sortMenu"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            value="CREATED_AT_DESC"
+          >
+            <option
+              value="CREATED_AT_DESC"
+            >
+              Newest
+            </option>
+            <option
+              value="CREATED_AT_ASC"
+            >
+              Oldest
+            </option>
+            <option
+              value="REPLIES_DESC"
+            >
+              Most Replies
+            </option>
+            <option
+              value="REACTION_DESC"
+            >
+              Most Respected
+            </option>
+          </select>
+          <span
+            aria-hidden={true}
+            className="SelectField-afterWrapper undefined"
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              expand_more
+            </span>
+          </span>
+        </span>
+      </div>
+      <ul
+        className="TabBar-root TabBar-secondary"
+        role="tablist"
+      >
+        <li
+          className="Tab-root"
+          id="tab-ALL_COMMENTS"
+          role="presentation"
+        >
+          <button
+            aria-controls="tabPane-ALL_COMMENTS"
+            aria-selected={true}
+            className="BaseButton-root Tab-button Tab-secondary Tab-active"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            role="tab"
+            type="button"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
+            >
+              <span>
+                All Comments
+              </span>
+              <span
+                className="Counter-root Counter-colorPrimary Counter-sizeSmall"
+              >
+                <span
+                  className="Counter-text"
+                >
+                  0
+                </span>
+              </span>
+            </div>
+          </button>
+        </li>
+      </ul>
+      <section
+        aria-labelledby="tab-ALL_COMMENTS"
+        id="tabPane-ALL_COMMENTS"
+        role="tabpanel"
+      >
+        <div
+          aria-live="polite"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          data-testid="comments-stream-log"
+          id="coral-comments-stream-log"
+          role="log"
+        />
+      </section>
+    </div>
   </div>
 </section>
 `;

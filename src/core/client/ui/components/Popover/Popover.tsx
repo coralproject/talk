@@ -51,6 +51,7 @@ interface PopoverProps {
   modifiers?: PropTypesOf<typeof Popper>["modifiers"];
   eventsEnabled?: PropTypesOf<typeof Popper>["eventsEnabled"];
   positionFixed?: PropTypesOf<typeof Popper>["positionFixed"];
+  dark?: boolean;
 }
 
 interface State {
@@ -119,6 +120,7 @@ class Popover extends React.Component<PopoverProps> {
       positionFixed,
       modifiers,
       eventsEnabled,
+      dark,
       ...rest
     } = this.props;
 
@@ -164,7 +166,9 @@ class Popover extends React.Component<PopoverProps> {
                 {visible && (
                   <div
                     style={props.style}
-                    className={popoverClassName}
+                    className={cn(popoverClassName, {
+                      [classes.colorDark]: dark,
+                    })}
                     ref={props.ref}
                   >
                     {includeArrow && (
@@ -172,6 +176,7 @@ class Popover extends React.Component<PopoverProps> {
                         ref={props.arrowProps.ref}
                         data-placement={props.placement}
                         style={props.arrowProps.style}
+                        dark={dark}
                       />
                     )}
                     {typeof body === "function"

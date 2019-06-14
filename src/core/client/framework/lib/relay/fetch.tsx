@@ -79,6 +79,8 @@ export function useFetch<V, R>(
 /**
  * withFetch creates a HOC that injects the fetch as
  * a property.
+ *
+ * @deprecated use `useFetch` instead
  */
 export function withFetch<N extends string, V, R>(
   fetch: Fetch<N, V, R>

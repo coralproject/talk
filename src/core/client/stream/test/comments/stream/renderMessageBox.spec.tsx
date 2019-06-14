@@ -4,7 +4,7 @@ import { pureMerge } from "coral-common/utils";
 import { waitForElement, within } from "coral-framework/testHelpers";
 
 import { commenters, settings, storyWithNoComments } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 async function createTestRenderer(
   data: {

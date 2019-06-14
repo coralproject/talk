@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`renders permalink view 1`] = `<withContext(withLocalStateContainer(PermalinkViewQuery)) />`;
-
-exports[`renders stream 1`] = `<withContext(withLocalStateContainer(StreamQuery)) />`;

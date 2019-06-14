@@ -6,16 +6,16 @@ exports[`renders empty stories 1`] = `
   data-testid="stories-container"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-doubleItemGutter"
+      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
     >
       <fieldset
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
         >
           Search
         </legend>
@@ -64,7 +64,7 @@ exports[`renders empty stories 1`] = `
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
         >
           Show Me
         </legend>
@@ -110,7 +110,7 @@ exports[`renders empty stories 1`] = `
       </fieldset>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <table
         className="Table-root Table-fullWidth"
@@ -309,16 +309,16 @@ exports[`renders stories 1`] = `
   data-testid="stories-container"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-double"
+    className="Box-root HorizontalGutter-root HorizontalGutter-double"
   >
     <div
-      className="Flex-root Flex-flex Flex-doubleItemGutter"
+      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter gutter"
     >
       <fieldset
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
         >
           Search
         </legend>
@@ -367,7 +367,7 @@ exports[`renders stories 1`] = `
         className="FieldSet-root"
       >
         <legend
-          className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
+          className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary StoryTableFilter-legend"
         >
           Show Me
         </legend>
@@ -413,7 +413,7 @@ exports[`renders stories 1`] = `
       </fieldset>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <table
         className="Table-root Table-fullWidth"

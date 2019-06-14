@@ -1,14 +1,16 @@
 import { pureMerge } from "coral-common/utils";
 import { GQLCOMMENT_STATUS, GQLResolver } from "coral-framework/schema";
 import {
+  act,
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
+  waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
 
-import { moderators, settings, stories } from "../../fixtures";
-import create from "../create";
+import { featuredTag, moderators, settings, stories } from "../../fixtures";
+import create from "./create";
 
 const story = stories[0];
 const firstComment = story.comments.edges[0].node;
@@ -61,6 +63,75 @@ it("render go to moderate link", async () => {
     exact: false,
   });
   expect(link.props.href).toBe(`/admin/moderate/comment/${firstComment.id}`);
+});
+
+it("feature and unfeature comment", async () => {
+  const { testRenderer } = await createTestRenderer({
+    logNetwork: false,
+    resolvers: createResolversStub<GQLResolver>({
+      Mutation: {
+        featureComment: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            commentID: firstComment.id,
+            commentRevisionID: firstComment.revision.id,
+          });
+          return {
+            comment: pureMerge<typeof firstComment>(firstComment, {
+              tags: [featuredTag],
+              status: GQLCOMMENT_STATUS.APPROVED,
+            }),
+          };
+        },
+        unfeatureComment: ({ variables }) => {
+          expectAndFail(variables).toMatchObject({
+            commentID: firstComment.id,
+          });
+          return { comment: firstComment };
+        },
+      },
+    }),
+  });
+  const comment = await waitForElement(() =>
+    within(testRenderer.root).getByTestID(`comment-${firstComment.id}`)
+  );
+  const caretButton = within(comment).getByLabelText("Moderate");
+
+  // Feature
+  act(() => {
+    caretButton.props.onClick();
+  });
+  const featureButton = await waitForElement(() =>
+    within(comment).getByText("Feature", {
+      selector: "button",
+    })
+  );
+  await act(async () => {
+    featureButton.props.onClick();
+    await waitForElement(() =>
+      within(comment).getByText("Featured", { exact: false })
+    );
+  });
+
+  within(
+    within(testRenderer.root).getByTestID("comments-featuredCount")
+  ).getByText("1");
+
+  // Unfeature
+  act(() => {
+    caretButton.props.onClick();
+  });
+  const UnfeatureButton = within(comment).getByText("Un-Feature", {
+    selector: "button",
+  });
+  await act(async () => {
+    UnfeatureButton.props.onClick();
+    await waitUntilThrow(() =>
+      within(comment).getByText("Featured", { exact: false })
+    );
+  });
+  expect(() =>
+    within(testRenderer.root).getByTestID("comments-featuredCount")
+  ).toThrow();
 });
 
 it("approve comment", async () => {

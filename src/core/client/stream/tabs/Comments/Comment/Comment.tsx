@@ -3,7 +3,7 @@ import React, { FunctionComponent } from "react";
 
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";
-import { Flex, HorizontalGutter, Tag } from "coral-ui/components";
+import { Flex, HorizontalGutter } from "coral-ui/components";
 
 import EditedMarker from "./EditedMarker";
 import InReplyTo from "./InReplyTo";
@@ -21,7 +21,7 @@ export interface CommentProps {
   showEditedMarker?: boolean;
   highlight?: boolean;
   parentAuthorName?: string | null;
-  tags?: ReadonlyArray<string>;
+  userTags?: React.ReactNode;
 }
 
 const Comment: FunctionComponent<CommentProps> = props => {
@@ -34,7 +34,7 @@ const Comment: FunctionComponent<CommentProps> = props => {
         <TopBarLeft>
           <Flex direction="row" alignItems="center" itemGutter="half">
             {props.username && props.username}
-            {props.tags && props.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
+            {props.userTags}
           </Flex>
           <Flex direction="row" alignItems="baseline" itemGutter>
             <Timestamp>{props.createdAt}</Timestamp>
@@ -49,7 +49,7 @@ const Comment: FunctionComponent<CommentProps> = props => {
         </div>
       )}
 
-      <HorizontalGutter>
+      <HorizontalGutter spacing={1}>
         <HTMLContent>{props.body || ""}</HTMLContent>
         {props.footer}
       </HorizontalGutter>

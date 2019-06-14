@@ -7,6 +7,7 @@ import {
   CommentToRepliesArgs,
   GQLActionPresence,
   GQLCOMMENT_SORT,
+  GQLTAG,
   GQLUSER_ROLE,
   QueryToCommentsArgs,
   StoryToCommentsArgs,
@@ -14,12 +15,14 @@ import {
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
+  CommentConnectionInput,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
+  retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
 import { hasVisibleStatus } from "coral-server/models/comment/helpers";
 import { Connection } from "coral-server/models/helpers/connection";
@@ -27,6 +30,16 @@ import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/s
 import { User } from "coral-server/models/user";
 
 import { SingletonResolver } from "./util";
+
+const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
+  if (tag) {
+    return {
+      "tags.type": tag,
+    };
+  }
+
+  return {};
+};
 
 /**
  * primeCommentsFromConnection will prime a given context with the comments
@@ -88,13 +101,20 @@ export default (ctx: Context) => ({
       mapVisibleComments(ctx.user)
     )
   ),
-  forFilter: ({ first = 10, after, storyID, status }: QueryToCommentsArgs) =>
+  forFilter: ({
+    first = 10,
+    after,
+    storyID,
+    status,
+    tag,
+  }: QueryToCommentsArgs) =>
     retrieveCommentConnection(ctx.mongo, ctx.tenant.id, {
       first,
       after,
       orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       filter: omitBy(
         {
+          ...tagFilter(tag),
           storyID,
           status,
         },
@@ -132,6 +152,25 @@ export default (ctx: Context) => ({
       orderBy,
       after,
     }).then(primeCommentsFromConnection(ctx)),
+  taggedForStory: (
+    storyID: string,
+    tag: GQLTAG,
+    // Apply the graph schema defaults at the loader.
+    {
+      first = 10,
+      orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
+      after,
+    }: StoryToCommentsArgs
+  ) =>
+    retrieveCommentStoryConnection(ctx.mongo, ctx.tenant.id, storyID, {
+      first,
+      orderBy,
+      after,
+      filter: {
+        // Filter optionally for comments with a specific tag.
+        "tags.type": tag,
+      },
+    }).then(primeCommentsFromConnection(ctx)),
   forStory: (
     storyID: string,
     // Apply the graph schema defaults at the loader.
@@ -145,6 +184,11 @@ export default (ctx: Context) => ({
       first,
       orderBy,
       after,
+      filter: {
+        // Only get Comments that are top level. If the client wants to load
+        // another layer, they can request another nested connection.
+        parentID: null,
+      },
     }).then(primeCommentsFromConnection(ctx)),
   forParent: (
     storyID: string,
@@ -180,5 +224,8 @@ export default (ctx: Context) => ({
       ctx.tenant.id,
       ctx.now
     )
+  ),
+  tagCounts: new DataLoader((storyIDs: string[]) =>
+    retrieveStoryCommentTagCounts(ctx.mongo, ctx.tenant.id, storyIDs)
   ),
 });

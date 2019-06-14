@@ -12,15 +12,20 @@ general-userBoxAuthenticated-signedInAs =
 general-userBoxAuthenticated-notYou =
   Not you? <button>Sign Out</button>
 
-general-tabBar-commentsTab = { $commentCount ->
-        [-1] Comments
-        [1] { SHORT_NUMBER($commentCount) } Comment
-        *[other] { SHORT_NUMBER($commentCount) } Comments
-    }
+general-tabBar-commentsTab = Comments
 general-tabBar-myProfileTab = My Profile
 general-tabBar-configure = Configure
 
 ## Comments Tab
+
+comments-allCommentsTab = All Comments
+comments-featuredTab = Featured
+comments-featuredCommentTooltip-how = How is a comment featured?
+comments-featuredCommentTooltip-handSelectedComments =
+  Comments are hand selected by our team as worth reading.
+comments-featuredCommentTooltip-toggleButton =
+  .aria-label = Toggle featured comments tooltip
+
 
 comments-streamQuery-storyNotFound = Story not found
 
@@ -108,6 +113,8 @@ comments-userIgnorePopover-cancel = Cancel
 
 comments-moderationDropdown-popover =
   .description = A popover menu to moderate the comment
+comments-moderationDropdown-feature = Feature
+comments-moderationDropdown-unfeature = Un-Feature
 comments-moderationDropdown-approve = Approve
 comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
@@ -119,7 +126,17 @@ comments-moderationDropdown-caretButton =
 comments-rejectedTombstone =
   You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
 
+comments-featuredTag = Featured
+comments-staffTag = Staff
+
+### Featured Comments
+comments-featured-gotoConversation = Go to Conversation
+comments-featured-replies = Replies
+
 ## Profile Tab
+
+profile-myCommentsTab = My Comments
+profile-settingsTab = Settings
 
 ### Comment History
 profile-historyComment-viewConversation = View Conversation

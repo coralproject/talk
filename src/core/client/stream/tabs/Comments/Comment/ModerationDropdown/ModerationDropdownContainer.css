@@ -6,3 +6,7 @@
   color: var(--palette-error-dark);
   font-weight: var(--font-weight-bold);
 }
+.featured {
+  color: var(--palette-primary-dark);
+  font-weight: var(--font-weight-bold);
+}

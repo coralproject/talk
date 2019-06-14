@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <span
-  className="Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
 >
   Marvin
 </span>

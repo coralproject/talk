@@ -10,27 +10,27 @@ exports[`renders configure 1`] = `
 >
   <div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <div
-        className="Flex-root"
+        className="Box-root Flex-root"
       >
         <div
-          className="Flex-flex Flex-halfItemGutter Flex-wrap"
+          className="Flex-flex Flex-halfItemGutter Flex-wrap gutter"
         >
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Signed in as 
             <span
-              className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
             >
               Moderator
             </span>
             .
           </div>
           <div
-            className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+            className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
           >
             <span>
               Not you? 
@@ -56,10 +56,10 @@ exports[`renders configure 1`] = `
         onSubmit={[Function]}
       >
         <div
-          className="Flex-root Flex-flex Flex-itemGutter Flex-justifySpaceBetween Flex-alignFlexStart"
+          className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifySpaceBetween Flex-alignFlexStart gutter"
         >
           <h1
-            className="Typography-root Typography-heading2 Typography-colorTextPrimary ConfigureStream-heading"
+            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary ConfigureStream-heading"
           >
             Configure this Comment Stream
           </h1>
@@ -77,7 +77,7 @@ exports[`renders configure 1`] = `
           </button>
         </div>
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <div>
             <div
@@ -102,7 +102,7 @@ exports[`renders configure 1`] = `
                   className="CheckBox-labelSpan"
                 >
                   <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
                   >
                     <span>
                       Enable Pre-Moderation
@@ -115,7 +115,7 @@ exports[`renders configure 1`] = `
               className="ToggleConfig-details"
             >
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
               >
                 Moderators must approve any comment before it is published to this stream.
               </p>
@@ -144,7 +144,7 @@ exports[`renders configure 1`] = `
                   className="CheckBox-labelSpan"
                 >
                   <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
                   >
                     <span>
                       Pre-Moderate Comments Containing Links
@@ -157,7 +157,7 @@ exports[`renders configure 1`] = `
               className="ToggleConfig-details"
             >
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
               >
                 Moderators must approve any comment that contains a link before it is published to this stream.
               </p>
@@ -186,7 +186,7 @@ exports[`renders configure 1`] = `
                   className="CheckBox-labelSpan"
                 >
                   <span
-                    className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
                   >
                     <span>
                       Enable Message Box for this Stream
@@ -199,10 +199,10 @@ exports[`renders configure 1`] = `
               className="ToggleConfig-details"
             >
               <div
-                className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+                className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
               >
                 <p
-                  className="Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
+                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
                 >
                   Add a message to the top of the comment box for your readers. Use this to pose a topic,
 ask a question or make announcements relating to this story.
@@ -218,15 +218,15 @@ ask a question or make announcements relating to this story.
     />
     <div>
       <h1
-        className="Typography-root Typography-heading2 Typography-colorTextPrimary CloseStream-heading"
+        className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary CloseStream-heading"
       >
         Close Comment Stream
       </h1>
       <div
-        className="Flex-root Flex-flex Flex-itemGutter Flex-alignFlexStart"
+        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignFlexStart gutter"
       >
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           This comment stream is currently open. By closing this comment stream,
 no new comments may be submitted and all previously submitted comments

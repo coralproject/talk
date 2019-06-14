@@ -1,0 +1,491 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders comment stream 1`] = `
+<div
+  className="Box-root HorizontalGutter-root App-root HorizontalGutter-full"
+>
+  <ul
+    className="TabBar-root TabBar-primary"
+    role="tablist"
+  >
+    <li
+      className="Tab-root"
+      id="tab-COMMENTS"
+      role="presentation"
+    >
+      <button
+        aria-controls="tabPane-COMMENTS"
+        aria-selected={true}
+        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        onTouchEnd={[Function]}
+        role="tab"
+        type="button"
+      >
+        <span>
+          Comments
+        </span>
+      </button>
+    </li>
+  </ul>
+  <section
+    aria-labelledby="tab-COMMENTS"
+    className="App-tabContent"
+    data-testid="current-tab-pane"
+    id="tabPane-COMMENTS"
+    role="tabpanel"
+  >
+    <div
+      className="Box-root HorizontalGutter-root StreamContainer-root HorizontalGutter-double"
+    >
+      <div
+        className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
+      >
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantUnderlined"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Sign in
+        </button>
+        <button
+          className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantOutlined"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          Register
+        </button>
+      </div>
+      <div>
+        <div
+          className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
+        >
+          <div
+            aria-hidden="true"
+          >
+            <div>
+              <div
+                className=""
+              >
+                <div
+                  className="RTE-contentEditableContainer"
+                >
+                  <div
+                    aria-placeholder="Post a comment"
+                    className="RTE-contentEditable RTE-content"
+                    contentEditable={true}
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "",
+                      }
+                    }
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onCut={[Function]}
+                    onFocus={[Function]}
+                    onInput={[Function]}
+                    onKeyDown={[Function]}
+                    onPaste={[Function]}
+                    onSelect={[Function]}
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="RTE-placeholder RTE-placeholder"
+                  >
+                    Post a comment
+                  </div>
+                </div>
+                <div
+                  className="RTE-toolbar RTE-toolbarBottom Toolbar-toolbar"
+                >
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Bold"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_bold
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Italic"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_italic
+                    </span>
+                  </button>
+                  <button
+                    className="Button-button"
+                    disabled={false}
+                    onClick={[Function]}
+                    title="Blockquote"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-md"
+                    >
+                      format_quote
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="submit"
+          >
+            Sign in and Join the Conversation
+          </button>
+        </div>
+      </div>
+      <div
+        className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+      >
+        <div
+          className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+        >
+          <label
+            className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+            htmlFor="coral-comments-sortMenu"
+          >
+            Sort By
+          </label>
+          <span
+            className="SelectField-root"
+          >
+            <select
+              className="SelectField-select undefined"
+              id="coral-comments-sortMenu"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              value="CREATED_AT_DESC"
+            >
+              <option
+                value="CREATED_AT_DESC"
+              >
+                Newest
+              </option>
+              <option
+                value="CREATED_AT_ASC"
+              >
+                Oldest
+              </option>
+              <option
+                value="REPLIES_DESC"
+              >
+                Most Replies
+              </option>
+              <option
+                value="REACTION_DESC"
+              >
+                Most Respected
+              </option>
+            </select>
+            <span
+              aria-hidden={true}
+              className="SelectField-afterWrapper undefined"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                expand_more
+              </span>
+            </span>
+          </span>
+        </div>
+        <ul
+          className="TabBar-root TabBar-secondary"
+          role="tablist"
+        >
+          <li
+            className="Tab-root"
+            id="tab-ALL_COMMENTS"
+            role="presentation"
+          >
+            <button
+              aria-controls="tabPane-ALL_COMMENTS"
+              aria-selected={false}
+              className="BaseButton-root Tab-button Tab-secondary"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              role="tab"
+              type="button"
+            >
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter gutter Flex-spacing-1"
+              >
+                <span>
+                  All Comments
+                </span>
+                <span
+                  className="Counter-root Counter-colorGrey Counter-sizeSmall"
+                >
+                  <span
+                    className="Counter-text"
+                  >
+                    2
+                  </span>
+                </span>
+              </div>
+            </button>
+          </li>
+        </ul>
+        <section
+          aria-labelledby="tab-FEATURED_COMMENTS"
+          id="tabPane-FEATURED_COMMENTS"
+          role="tabpanel"
+        >
+          <div
+            aria-live="polite"
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
+            data-testid="comments-stream-log"
+            id="coral-comments-stream-log"
+            role="log"
+          >
+            <div
+              className="FeaturedCommentContainer-root"
+              data-testid="featuredComment-comment-0"
+            >
+              <div
+                className="HTMLContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "Joining Too",
+                  }
+                }
+              />
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter Flex-directionRow Box-mt-4"
+              >
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="username-popover"
+                    className="BaseButton-root"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    >
+                      Markus
+                    </span>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="username-popover-ariainfo"
+                    id="username-popover"
+                    role="popup"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="username-popover-ariainfo"
+                    >
+                      A popover with more user information
+                    </div>
+                  </div>
+                </div>
+                <span
+                  className="Box-root Box-ml-1"
+                />
+                <time
+                  className="Timestamp-root Box-root Box-ml-2 RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Box-mt-2"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                >
+                  <div>
+                    <a
+                      className="TextLink-root FeaturedCommentContainer-gotoConversation"
+                      href="http://localhost/stories/story-with-featured-comments?commentID=comment-0"
+                      onClick={[Function]}
+                    >
+                      <span>
+                        Go to Conversation
+                      </span>
+                      <span
+                        className="FeaturedCommentContainer-gotoArrow"
+                      >
+                        &gt;
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="FeaturedCommentContainer-root"
+              data-testid="featuredComment-comment-1"
+            >
+              <div
+                className="HTMLContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "What's up?",
+                  }
+                }
+              />
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter Flex-directionRow Box-mt-4"
+              >
+                <div
+                  className="Popover-root"
+                >
+                  <button
+                    aria-controls="username-popover"
+                    className="BaseButton-root"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                    >
+                      Lukas
+                    </span>
+                  </button>
+                  <div
+                    aria-hidden={true}
+                    aria-labelledby="username-popover-ariainfo"
+                    id="username-popover"
+                    role="popup"
+                  >
+                    <div
+                      className="AriaInfo-root"
+                      id="username-popover-ariainfo"
+                    >
+                      A popover with more user information
+                    </div>
+                  </div>
+                </div>
+                <span
+                  className="Box-root Box-ml-1"
+                />
+                <time
+                  className="Timestamp-root Box-root Box-ml-2 RelativeTime-root"
+                  dateTime="2018-07-06T18:24:00.000Z"
+                  title="2018-07-06T18:24:00.000Z"
+                >
+                  2018-07-06T18:24:00.000Z
+                </time>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Box-mt-2"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Respect
+                  </span>
+                </button>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                >
+                  <div>
+                    <a
+                      className="TextLink-root FeaturedCommentContainer-gotoConversation"
+                      href="http://localhost/stories/story-with-featured-comments?commentID=comment-1"
+                      onClick={[Function]}
+                    >
+                      <span>
+                        Go to Conversation
+                      </span>
+                      <span
+                        className="FeaturedCommentContainer-gotoArrow"
+                      >
+                        &gt;
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+`;

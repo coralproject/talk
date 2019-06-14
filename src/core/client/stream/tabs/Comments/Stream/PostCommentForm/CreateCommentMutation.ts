@@ -95,7 +95,7 @@ const mutation = graphql`
       edge {
         cursor
         node {
-          ...StreamContainer_comment @relay(mask: false)
+          ...AllCommentsTabContainer_comment @relay(mask: false)
           status
         }
       }
@@ -165,7 +165,7 @@ function commit(
               },
             },
             tags: roleIsAtLeast(viewer.role, GQLUSER_ROLE.STAFF)
-              ? [{ name: "Staff" }]
+              ? [{ code: "STAFF" }]
               : [],
             viewerActionPresence: {
               reaction: false,

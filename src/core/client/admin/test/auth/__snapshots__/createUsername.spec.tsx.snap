@@ -6,24 +6,24 @@ exports[`checks for invalid username 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       Your username is an identifier that will appear on all of your comments.
     </p>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
       <p
-        className="Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
@@ -77,7 +77,7 @@ exports[`renders createUsername view 1`] = `
     data-testid="completeAccountBox"
   >
     <div
-      className="Flex-root Flex-flex Flex-justifyCenter"
+      className="Box-root Flex-root Flex-flex Flex-justifyCenter"
     >
       <div
         className="CompleteAccountBox-container"
@@ -86,12 +86,12 @@ exports[`renders createUsername view 1`] = `
           className="CompleteAccountBox-header"
         >
           <h1
-            className="Typography-root Typography-heading3 Typography-colorTextLight Typography-alignCenter CompleteAccountBox-heading3"
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextLight Typography-alignCenter CompleteAccountBox-heading3"
           >
             Finish Setting Up Your Account
           </h1>
           <h1
-            className="Typography-root Typography-heading1 Typography-colorTextLight Typography-alignCenter"
+            className="Box-root Typography-root Typography-heading1 Typography-colorTextLight Typography-alignCenter"
           >
             <span>
               Create Username
@@ -106,24 +106,24 @@ exports[`renders createUsername view 1`] = `
             onSubmit={[Function]}
           >
             <div
-              className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+              className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
             >
               <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
                 Your username is an identifier that will appear on all of your comments.
               </p>
               <div
-                className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
                 <label
-                  className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                   htmlFor="username"
                 >
                   Username
                 </label>
                 <p
-                  className="Typography-root Typography-detail Typography-colorTextSecondary"
+                  className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
                 >
                   You may use “_” and “.” Spaces not permitted.
                 </p>
@@ -169,24 +169,24 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       Your username is an identifier that will appear on all of your comments.
     </p>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
       <p
-        className="Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
@@ -240,17 +240,18 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       Your username is an identifier that will appear on all of your comments.
     </p>
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      server error
+      <div>
+        server error
 
 GraphQL request (4:3)
 3: ) {
@@ -258,18 +259,19 @@ GraphQL request (4:3)
      ^
 5:     user {
 
+      </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
       <p
-        className="Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>
@@ -310,24 +312,24 @@ exports[`successfully sets username 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       Your username is an identifier that will appear on all of your comments.
     </p>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="username"
       >
         Username
       </label>
       <p
-        className="Typography-root Typography-detail Typography-colorTextSecondary"
+        className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
       >
         You may use “_” and “.” Spaces not permitted.
       </p>

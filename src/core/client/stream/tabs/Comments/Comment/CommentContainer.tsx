@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID, roleIsAtLeast } from "coral-framework/helpers";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLUSER_ROLE, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLTAG, GQLUSER_ROLE, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -17,7 +17,7 @@ import {
   withSetCommentIDMutation,
   withShowAuthPopupMutation,
 } from "coral-stream/mutations";
-import { Button, Flex, HorizontalGutter } from "coral-ui/components";
+import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
 import { isCommentVisible } from "../helpers";
 import ButtonsBar from "./ButtonsBar";
@@ -33,6 +33,7 @@ import ReplyCommentFormContainer from "./ReplyCommentForm";
 import ReportButtonContainer from "./ReportButton";
 import ShowConversationLink from "./ShowConversationLink";
 import { UsernameWithPopoverContainer } from "./Username";
+import UserTagsContainer from "./UserTagsContainer";
 
 interface Props {
   viewer: ViewerData | null;
@@ -157,6 +158,20 @@ export class CommentContainer extends Component<Props, State> {
       viewer,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
+    const hasFeaturedTag = Boolean(
+      comment.tags.find(t => t.code === GQLTAG.FEATURED)
+    );
+    const commentTags = (
+      <>
+        {hasFeaturedTag && (
+          <Tag color="primary" variant="pill">
+            <Localized id="comments-featuredTag">
+              <span>Featured</span>
+            </Localized>
+          </Tag>
+        )}
+      </>
+    );
     const banned = Boolean(
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
@@ -204,15 +219,18 @@ export class CommentContainer extends Component<Props, State> {
             }
             username={
               comment.author && (
-                <UsernameWithPopoverContainer
-                  viewer={viewer}
-                  user={comment.author}
-                />
+                <>
+                  <UsernameWithPopoverContainer
+                    viewer={viewer}
+                    user={comment.author}
+                  />
+                  <UserTagsContainer comment={comment} />
+                </>
               )
             }
-            tags={comment.tags.map(t => t.name)}
             topBarRight={
-              <Flex itemGutter>
+              <Flex alignItems="center" itemGutter>
+                {commentTags}
                 {editable && (
                   <Localized id="comments-commentContainer-editButton">
                     <Button
@@ -224,7 +242,9 @@ export class CommentContainer extends Component<Props, State> {
                     </Button>
                   </Localized>
                 )}
-                {showCaret && <CaretContainer comment={comment} />}
+                {showCaret && (
+                  <CaretContainer comment={comment} story={story} />
+                )}
               </Flex>
             }
             footer={
@@ -315,6 +335,7 @@ const enhanced = withSetCommentIDMutation(
         fragment CommentContainer_story on Story {
           url
           isClosed
+          ...CaretContainer_story
           ...ReplyCommentFormContainer_story
           ...PermalinkButtonContainer_story
           ...EditCommentFormContainer_story
@@ -341,7 +362,7 @@ const enhanced = withSetCommentIDMutation(
             editableUntil
           }
           tags {
-            name
+            code
           }
           pending
           lastViewerAction
@@ -351,6 +372,7 @@ const enhanced = withSetCommentIDMutation(
           ...ReportButtonContainer_comment
           ...CaretContainer_comment
           ...RejectedTombstoneContainer_comment
+          ...UserTagsContainer_comment
         }
       `,
       settings: graphql`

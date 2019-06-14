@@ -6,10 +6,10 @@ exports[`accepts valid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
@@ -32,7 +32,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Receive updates regarding any changes to your account
 (email address, username, password, etc.)
@@ -54,7 +54,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Allow you to download your comments.
           </div>
@@ -75,7 +75,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Send comment notifications that you have chosen to receive.
           </div>
@@ -83,10 +83,10 @@ Your email address will be used to:
       </li>
     </ul>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -107,10 +107,10 @@ Your email address will be used to:
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -165,10 +165,10 @@ exports[`checks for invalid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
@@ -191,7 +191,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Receive updates regarding any changes to your account
 (email address, username, password, etc.)
@@ -213,7 +213,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Allow you to download your comments.
           </div>
@@ -234,7 +234,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Send comment notifications that you have chosen to receive.
           </div>
@@ -242,10 +242,10 @@ Your email address will be used to:
       </li>
     </ul>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -279,10 +279,10 @@ Your email address will be used to:
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -337,11 +337,11 @@ exports[`renders addEmailAddress view 1`] = `
     data-testid="addEmailAddress-container"
   >
     <div
-      className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <div>
         <h1
-          className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
         >
           Add Email Address
         </h1>
@@ -356,10 +356,10 @@ exports[`renders addEmailAddress view 1`] = `
         onSubmit={[Function]}
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
         >
           <p
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
@@ -382,7 +382,7 @@ Your email address will be used to:
               </div>
               <div>
                 <div
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                 >
                   Receive updates regarding any changes to your account
 (email address, username, password, etc.)
@@ -404,7 +404,7 @@ Your email address will be used to:
               </div>
               <div>
                 <div
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                 >
                   Allow you to download your comments.
                 </div>
@@ -425,7 +425,7 @@ Your email address will be used to:
               </div>
               <div>
                 <div
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                 >
                   Send comment notifications that you have chosen to receive.
                 </div>
@@ -433,10 +433,10 @@ Your email address will be used to:
             </li>
           </ul>
           <div
-            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
             <label
-              className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               htmlFor="email"
             >
               Email Address
@@ -457,10 +457,10 @@ Your email address will be used to:
             </div>
           </div>
           <div
-            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
             <label
-              className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               htmlFor="confirmEmail"
             >
               Confirm Email Address
@@ -505,10 +505,10 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
@@ -531,7 +531,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Receive updates regarding any changes to your account
 (email address, username, password, etc.)
@@ -553,7 +553,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Allow you to download your comments.
           </div>
@@ -574,7 +574,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Send comment notifications that you have chosen to receive.
           </div>
@@ -582,10 +582,10 @@ Your email address will be used to:
       </li>
     </ul>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -619,10 +619,10 @@ Your email address will be used to:
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -677,10 +677,10 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
@@ -703,7 +703,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Receive updates regarding any changes to your account
 (email address, username, password, etc.)
@@ -725,7 +725,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Allow you to download your comments.
           </div>
@@ -746,7 +746,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Send comment notifications that you have chosen to receive.
           </div>
@@ -756,7 +756,8 @@ Your email address will be used to:
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      server error
+      <div>
+        server error
 
 GraphQL request (4:3)
 3: ) {
@@ -764,12 +765,13 @@ GraphQL request (4:3)
      ^
 5:     user {
 
+      </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -790,10 +792,10 @@ GraphQL request (4:3)
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address
@@ -835,10 +837,10 @@ exports[`successfully sets email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       For your added security, we require users to add an email address to their accounts.
 Your email address will be used to:
@@ -861,7 +863,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Receive updates regarding any changes to your account
 (email address, username, password, etc.)
@@ -883,7 +885,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Allow you to download your comments.
           </div>
@@ -904,7 +906,7 @@ Your email address will be used to:
         </div>
         <div>
           <div
-            className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+            className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
           >
             Send comment notifications that you have chosen to receive.
           </div>
@@ -912,10 +914,10 @@ Your email address will be used to:
       </li>
     </ul>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -936,10 +938,10 @@ Your email address will be used to:
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="confirmEmail"
       >
         Confirm Email Address

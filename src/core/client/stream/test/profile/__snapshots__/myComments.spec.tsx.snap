@@ -2,20 +2,20 @@
 
 exports[`renders profile 1`] = `
 <div
-  className="HorizontalGutter-root HorizontalGutter-double"
+  className="Box-root HorizontalGutter-root HorizontalGutter-double"
   data-testid="profile-commentHistory"
 >
   <h1
-    className="Typography-root Typography-heading3 Typography-colorTextPrimary"
+    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
   >
     Comment History
   </h1>
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
     data-testid="historyComment-comment-0"
   >
     <h1
-      className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
     >
       Story: title
     </h1>
@@ -27,7 +27,7 @@ exports[`renders profile 1`] = `
       2018-07-06T18:24:00.000Z
     </time>
     <div
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       <div
         className="HTMLContent-root"
@@ -39,7 +39,7 @@ exports[`renders profile 1`] = `
       />
     </div>
     <div
-      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow"
+      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
     >
       <a
         className="TextLink-root HistoryComment-viewConversation"
@@ -52,11 +52,11 @@ exports[`renders profile 1`] = `
     </div>
   </div>
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
     data-testid="historyComment-comment-1"
   >
     <h1
-      className="Typography-root Typography-heading4 Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary"
     >
       Story: title
     </h1>
@@ -68,7 +68,7 @@ exports[`renders profile 1`] = `
       2018-07-06T18:24:00.000Z
     </time>
     <div
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
     >
       <div
         className="HTMLContent-root"
@@ -80,7 +80,7 @@ exports[`renders profile 1`] = `
       />
     </div>
     <div
-      className="Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow"
+      className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionRow gutter"
     >
       <a
         className="TextLink-root HistoryComment-viewConversation"

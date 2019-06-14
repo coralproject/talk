@@ -5,7 +5,7 @@ exports[`post a reply: open reply form 1`] = `
   data-testid="comment-comment-0"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       className="Indent-root"
@@ -18,13 +18,13 @@ exports[`post a reply: open reply form 1`] = `
           role="article"
         >
           <div
-            className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+            className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
           >
             <div
-              className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+              className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
             >
               <div
-                className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
               >
                 <div
                   className="Popover-root"
@@ -41,7 +41,7 @@ exports[`post a reply: open reply form 1`] = `
                     type="button"
                   >
                     <span
-                      className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                     >
                       Markus
                     </span>
@@ -62,7 +62,7 @@ exports[`post a reply: open reply form 1`] = `
                 </div>
               </div>
               <div
-                className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
                   className="Timestamp-root RelativeTime-root"
@@ -75,12 +75,12 @@ exports[`post a reply: open reply form 1`] = `
             </div>
             <div>
               <div
-                className="Flex-root Flex-flex Flex-itemGutter"
+                className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
               />
             </div>
           </div>
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
           >
             <div
               className="HTMLContent-root"
@@ -91,10 +91,10 @@ exports[`post a reply: open reply form 1`] = `
               }
             />
             <div
-              className="Flex-root Flex-flex Flex-justifySpaceBetween"
+              className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
             >
               <div
-                className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <button
                   className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -161,7 +161,7 @@ exports[`post a reply: open reply form 1`] = `
                 </div>
               </div>
               <div
-                className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
               >
                 <div
                   className="Popover-root"
@@ -208,10 +208,10 @@ exports[`post a reply: open reply form 1`] = `
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root HorizontalGutter-half"
         >
           <div>
             <label
@@ -221,7 +221,7 @@ exports[`post a reply: open reply form 1`] = `
               Write a reply
             </label>
             <div
-              className="Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
+              className="Box-root Flex-root ReplyTo-root Flex-flex Flex-alignCenter"
             >
               <span
                 aria-hidden="true"
@@ -233,11 +233,11 @@ exports[`post a reply: open reply form 1`] = `
                  
               </span>
               <span
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ReplyTo-text"
               >
                 Replying to: 
                 <span
-                  className="Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
+                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ReplyTo-username"
                 >
                   Markus
                 </span>
@@ -328,7 +328,7 @@ exports[`post a reply: open reply form 1`] = `
           </div>
         </div>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd Flex-directionRow gutter"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
@@ -364,19 +364,19 @@ exports[`post a reply: open reply form 1`] = `
 
 exports[`post a reply: optimistic response 1`] = `
 <div
-  className="HorizontalGutter-root HorizontalGutter-full"
+  className="Box-root HorizontalGutter-root HorizontalGutter-full"
   data-testid="commentReplyList-comment-0"
   id="coral-comments-replyList-log--comment-0"
   role="log"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       data-testid="comment-uuid-0"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
           className="IndentedComment-blur Indent-root"
@@ -389,13 +389,13 @@ exports[`post a reply: optimistic response 1`] = `
               role="article"
             >
               <div
-                className="Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
+                className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween Flex-directionRow"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn"
+                  className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignBaseline Flex-directionColumn gutter"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                   >
                     <div
                       className="Popover-root"
@@ -412,7 +412,7 @@ exports[`post a reply: optimistic response 1`] = `
                         type="button"
                       >
                         <span
-                          className="Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                          className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
                         >
                           Markus
                         </span>
@@ -433,7 +433,7 @@ exports[`post a reply: optimistic response 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
                       className="Timestamp-root RelativeTime-root"
@@ -446,7 +446,7 @@ exports[`post a reply: optimistic response 1`] = `
                 </div>
                 <div>
                   <div
-                    className="Flex-root Flex-flex Flex-itemGutter"
+                    className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
@@ -467,7 +467,7 @@ exports[`post a reply: optimistic response 1`] = `
                 className="Comment-subBar"
               >
                 <div
-                  className="Flex-root Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
                 >
                   <span
                     aria-hidden="true"
@@ -479,11 +479,11 @@ exports[`post a reply: optimistic response 1`] = `
                      
                   </span>
                   <span
-                    className="Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                    className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
                   >
                     In reply to 
                     <span
-                      className="Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                      className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
                     >
                       Markus
                     </span>
@@ -491,7 +491,7 @@ exports[`post a reply: optimistic response 1`] = `
                 </div>
               </div>
               <div
-                className="HorizontalGutter-root HorizontalGutter-full"
+                className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
               >
                 <div
                   className="HTMLContent-root"
@@ -502,10 +502,10 @@ exports[`post a reply: optimistic response 1`] = `
                   }
                 />
                 <div
-                  className="Flex-root Flex-flex Flex-justifySpaceBetween"
+                  className="Box-root Flex-root Flex-flex Flex-justifySpaceBetween"
                 >
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <button
                       className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantGhost"
@@ -572,7 +572,7 @@ exports[`post a reply: optimistic response 1`] = `
                     </div>
                   </div>
                   <div
-                    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                   >
                     <div
                       className="Popover-root"

@@ -4,10 +4,12 @@ exports[`renders correctly 1`] = `
 <Counter
   classes={
     Object {
+      "colorDark": "Counter-colorDark",
       "colorGrey": "Counter-colorGrey",
       "colorInherit": "Counter-colorInherit",
       "colorPrimary": "Counter-colorPrimary",
       "root": "Counter-root",
+      "sizeSmall": "Counter-sizeSmall",
       "text": "Counter-text",
     }
   }

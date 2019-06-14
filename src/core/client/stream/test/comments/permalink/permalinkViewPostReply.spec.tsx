@@ -16,7 +16,7 @@ import {
   settings,
   stories,
 } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 const commentFixture = comments[0];
 

@@ -13,7 +13,23 @@ import Flex from "../Flex";
 ## Basic Use
 
 <Playground>
-  <HorizontalGutter>
+  <Flex spacing={1}>
     <Tag>Staff</Tag>
-  </HorizontalGutter>
+    <Tag color="primary">Featured</Tag>
+    <Tag color="error">Rejected</Tag>
+  </Flex>
+</Playground>
+
+## Pill variant
+
+<Playground>
+  <Flex spacing={1}>
+    <Tag variant="pill">Staff</Tag>
+    <Tag variant="pill" color="primary">
+      Featured
+    </Tag>
+    <Tag variant="pill" color="error">
+      Rejected
+    </Tag>
+  </Flex>
 </Playground>

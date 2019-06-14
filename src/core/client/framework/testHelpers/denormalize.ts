@@ -1,4 +1,10 @@
-import { GQLComment, GQLCommentEdge, GQLStory } from "coral-framework/schema";
+import {
+  GQLComment,
+  GQLCommentEdge,
+  GQLStory,
+  GQLTAG,
+  GQLTag,
+} from "coral-framework/schema";
 
 import createFixture, { Fixture } from "./createFixture";
 
@@ -52,11 +58,19 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
     endCursor: null,
     hasNextPage: false,
   };
+  const featuredCommentsCount = commentNodes.filter(
+    n => n.tags && n.tags.some((t: GQLTag) => t.code === GQLTAG.FEATURED)
+  ).length;
   return createFixture<GQLStory>({
     ...story,
     comments: { edges: commentNodes, pageInfo: commentsPageInfo },
     commentCounts: {
+      ...story.commentCounts,
       totalVisible: commentNodes.length,
+      tags: {
+        ...(story.commentCounts && story.commentCounts.tags),
+        FEATURED: featuredCommentsCount,
+      },
     },
   });
 }

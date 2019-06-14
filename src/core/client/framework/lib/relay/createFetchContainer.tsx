@@ -14,6 +14,8 @@ import { CoralContext, withContext } from "../bootstrap";
  * injects a property with the name specified in `propName`
  * and the signature (input: I) => Promise<R>. Calling
  * this will start a one off query.
+ *
+ * @deprecated use `createFetch` instead
  */
 function createFetchContainer<T extends string, V, R>(
   propName: T,

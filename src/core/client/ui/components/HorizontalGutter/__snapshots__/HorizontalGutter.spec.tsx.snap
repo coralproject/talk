@@ -2,12 +2,12 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="HorizontalGutter-root custom HorizontalGutter-full"
+  className="Box-root HorizontalGutter-root custom HorizontalGutter-full"
 />
 `;
 
 exports[`renders double size 1`] = `
 <div
-  className="HorizontalGutter-root HorizontalGutter-double"
+  className="Box-root HorizontalGutter-root HorizontalGutter-double"
 />
 `;

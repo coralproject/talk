@@ -15,7 +15,7 @@ import {
   settings,
   storyWithReplies,
 } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 function createTestRenderer(
   resolver: any = {},

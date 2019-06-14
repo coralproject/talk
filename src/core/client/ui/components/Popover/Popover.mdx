@@ -9,6 +9,9 @@ import Button from "../Button";
 import Flex from "../Flex";
 import Typography from "../Typography";
 import ButtonIcon from "../Button/ButtonIcon";
+import BaseButton from "../BaseButton";
+import ClickOutside from "../ClickOutside";
+import Icon from "../Icon";
 
 # Popover
 
@@ -17,7 +20,10 @@ import ButtonIcon from "../Button/ButtonIcon";
 ## Basic usage
 
 <Playground>
-  <Popover body={<Typography>This is the body</Typography>}>
+  <Popover
+    id="my-popover-1"
+    body={() => <Typography p={2}>This is the body</Typography>}
+  >
     {({ toggleVisibility, ref }) => (
       <Button
         onClick={toggleVisibility}
@@ -35,10 +41,11 @@ import ButtonIcon from "../Button/ButtonIcon";
 
 <Playground>
   <Popover
+    id="my-popover-2"
     placement="top"
     body={({ toggleVisibility }) => (
       <Flex itemGutter="half">
-        <Typography>This is the body</Typography>
+        <Typography p={2}>This is the body</Typography>
         <Button onClick={toggleVisibility} size="small">
           <ButtonIcon>close</ButtonIcon>
         </Button>
@@ -54,6 +61,28 @@ import ButtonIcon from "../Button/ButtonIcon";
       >
         Click me!
       </Button>
+    )}
+  </Popover>
+</Playground>
+
+## Tooltip
+
+<Playground>
+  <Popover
+    id="my-popover-1"
+    body={({ toggleVisibility }) => (
+      <ClickOutside onClickOutside={toggleVisibility}>
+        <Typography color="textLight" p={2}>
+          I am a Tooltip
+        </Typography>
+      </ClickOutside>
+    )}
+    dark
+  >
+    {({ toggleVisibility, ref }) => (
+      <BaseButton onClick={toggleVisibility} ref={ref}>
+        <Icon color="primary">info</Icon>
+      </BaseButton>
     )}
   </Popover>
 </Playground>

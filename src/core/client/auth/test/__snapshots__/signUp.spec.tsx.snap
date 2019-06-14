@@ -6,20 +6,20 @@ exports[`accepts correct password 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -53,16 +53,16 @@ exports[`accepts correct password 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -95,16 +95,16 @@ exports[`accepts correct password 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -164,7 +164,7 @@ exports[`accepts correct password 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -176,20 +176,20 @@ exports[`accepts valid email 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -210,16 +210,16 @@ exports[`accepts valid email 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -252,16 +252,16 @@ exports[`accepts valid email 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -334,7 +334,7 @@ exports[`accepts valid email 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -346,20 +346,20 @@ exports[`accepts valid username 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -393,16 +393,16 @@ exports[`accepts valid username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -422,16 +422,16 @@ exports[`accepts valid username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -504,7 +504,7 @@ exports[`accepts valid username 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -516,20 +516,20 @@ exports[`auth configuration renders all auth enabled 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -550,16 +550,16 @@ exports[`auth configuration renders all auth enabled 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -579,16 +579,16 @@ exports[`auth configuration renders all auth enabled 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -648,7 +648,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </form>
     <div
-      className="Flex-root HorizontalSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root HorizontalSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <hr
         className="HorizontalSeparator-hr"
@@ -660,7 +660,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
@@ -739,10 +739,10 @@ exports[`auth configuration renders only some social login enabled 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
@@ -807,20 +807,20 @@ exports[`checks for invalid characters in username 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -854,16 +854,16 @@ exports[`checks for invalid characters in username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -896,16 +896,16 @@ exports[`checks for invalid characters in username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -978,7 +978,7 @@ exports[`checks for invalid characters in username 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -990,20 +990,20 @@ exports[`checks for invalid email 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -1037,16 +1037,16 @@ exports[`checks for invalid email 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1079,16 +1079,16 @@ exports[`checks for invalid email 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1161,7 +1161,7 @@ exports[`checks for invalid email 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -1173,20 +1173,20 @@ exports[`checks for too long username 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -1220,16 +1220,16 @@ exports[`checks for too long username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1262,16 +1262,16 @@ exports[`checks for too long username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1344,7 +1344,7 @@ exports[`checks for too long username 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -1356,20 +1356,20 @@ exports[`checks for too short password 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -1403,16 +1403,16 @@ exports[`checks for too short password 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1445,16 +1445,16 @@ exports[`checks for too short password 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1527,7 +1527,7 @@ exports[`checks for too short password 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -1539,20 +1539,20 @@ exports[`checks for too short username 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -1586,16 +1586,16 @@ exports[`checks for too short username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1628,16 +1628,16 @@ exports[`checks for too short username 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -1710,7 +1710,7 @@ exports[`checks for too short username 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -1722,27 +1722,27 @@ exports[`renders sign up form 1`] = `
     data-testid="signUp-container"
   >
     <div
-      className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <div>
         <h1
-          className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
         >
           Sign Up
         </h1>
         <h1
-          className="Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
+          className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
         >
           to join the conversation
         </h1>
       </div>
     </div>
     <div
-      className="Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <div>
         <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
             Already have an account? 
@@ -1762,20 +1762,20 @@ exports[`renders sign up form 1`] = `
       data-testid="signUp-main"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+        className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
       >
         <form
           autoComplete="off"
           onSubmit={[Function]}
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="email"
               >
                 Email Address
@@ -1796,16 +1796,16 @@ exports[`renders sign up form 1`] = `
               </div>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="username"
               >
                 Username
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 You may use “_” and “.” Spaces not permitted.
               </p>
@@ -1825,16 +1825,16 @@ exports[`renders sign up form 1`] = `
               </div>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="password"
               >
                 Password
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextSecondary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Must be at least 8 characters
               </p>
@@ -1894,7 +1894,7 @@ exports[`renders sign up form 1`] = `
           </div>
         </form>
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         />
       </div>
     </div>
@@ -1908,20 +1908,20 @@ exports[`shows error when submitting empty form 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -1955,16 +1955,16 @@ exports[`shows error when submitting empty form 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -1997,16 +1997,16 @@ exports[`shows error when submitting empty form 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -2079,7 +2079,7 @@ exports[`shows error when submitting empty form 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -2091,25 +2091,27 @@ exports[`shows server error 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
           className="CallOut-root CallOut-colorError CallOut-fullWidth"
         >
-          Server Error
+          <div>
+            Server Error
+          </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -2130,16 +2132,16 @@ exports[`shows server error 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -2159,16 +2161,16 @@ exports[`shows server error 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -2228,7 +2230,7 @@ exports[`shows server error 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>
@@ -2240,20 +2242,20 @@ exports[`submits form successfully 1`] = `
   data-testid="signUp-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -2274,16 +2276,16 @@ exports[`submits form successfully 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="username"
           >
             Username
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             You may use “_” and “.” Spaces not permitted.
           </p>
@@ -2303,16 +2305,16 @@ exports[`submits form successfully 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
           </label>
           <p
-            className="Typography-root Typography-detail Typography-colorTextSecondary"
+            className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
           >
             Must be at least 8 characters
           </p>
@@ -2372,7 +2374,7 @@ exports[`submits form successfully 1`] = `
       </div>
     </form>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     />
   </div>
 </div>

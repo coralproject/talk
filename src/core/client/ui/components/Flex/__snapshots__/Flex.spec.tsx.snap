@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <div
-  className="Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionRow"
+  className="Box-root Flex-root Flex-flex Flex-justifyCenter Flex-alignCenter Flex-directionRow"
 >
   <div>
     Hello World
@@ -12,7 +12,7 @@ exports[`renders correctly 1`] = `
 
 exports[`renders with half item gutter 1`] = `
 <div
-  className="Flex-root Flex-flex Flex-halfItemGutter"
+  className="Box-root Flex-root Flex-flex Flex-halfItemGutter gutter"
 >
   <div>
     Hello World
@@ -22,7 +22,7 @@ exports[`renders with half item gutter 1`] = `
 
 exports[`renders with item gutter 1`] = `
 <div
-  className="Flex-root Flex-flex Flex-itemGutter"
+  className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
 >
   <div>
     Hello World
@@ -32,7 +32,7 @@ exports[`renders with item gutter 1`] = `
 
 exports[`renders with wrap 1`] = `
 <div
-  className="Flex-root Flex-flex Flex-wrap"
+  className="Box-root Flex-root Flex-flex Flex-wrap"
 >
   <div>
     Hello World
@@ -42,7 +42,7 @@ exports[`renders with wrap 1`] = `
 
 exports[`renders with wrap reverse 1`] = `
 <div
-  className="Flex-root Flex-flex Flex-wrapReverse"
+  className="Box-root Flex-root Flex-flex Flex-wrapReverse"
 >
   <div>
     Hello World

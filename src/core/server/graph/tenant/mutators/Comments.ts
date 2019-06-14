@@ -3,16 +3,25 @@ import { ADDITIONAL_DETAILS_MAX_LENGTH } from "coral-common/helpers/validate";
 import { mapFieldsetToErrorCodes } from "coral-server/graph/common/errors";
 import TenantContext from "coral-server/graph/tenant/context";
 import {
+  GQLCOMMENT_STATUS,
   GQLCreateCommentDontAgreeInput,
   GQLCreateCommentFlagInput,
   GQLCreateCommentInput,
   GQLCreateCommentReactionInput,
   GQLCreateCommentReplyInput,
   GQLEditCommentInput,
+  GQLFeatureCommentInput,
   GQLRemoveCommentDontAgreeInput,
   GQLRemoveCommentReactionInput,
+  GQLTAG,
+  GQLUnfeatureCommentInput,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { create, edit } from "coral-server/services/comments";
+import {
+  addTag,
+  create,
+  edit,
+  removeTag,
+} from "coral-server/services/comments";
 import {
   createDontAgree,
   createFlag,
@@ -21,7 +30,8 @@ import {
   removeReaction,
 } from "coral-server/services/comments/actions";
 
-import { validateMaximumLength } from "./util";
+import { approve } from "coral-server/services/comments/moderation";
+import { validateMaximumLength, WithoutMutationID } from "./util";
 
 export const Comments = (ctx: TenantContext) => ({
   create: ({
@@ -137,4 +147,27 @@ export const Comments = (ctx: TenantContext) => ({
       },
       ctx.now
     ),
+  feature: ({
+    commentID,
+    commentRevisionID,
+  }: WithoutMutationID<GQLFeatureCommentInput>) =>
+    addTag(
+      ctx.mongo,
+      ctx.tenant,
+      commentID,
+      commentRevisionID,
+      ctx.user!,
+      GQLTAG.FEATURED,
+      ctx.now
+    ).then(comment =>
+      comment.status !== GQLCOMMENT_STATUS.APPROVED
+        ? approve(ctx.mongo, ctx.redis, ctx.tenant, {
+            commentID,
+            commentRevisionID,
+            moderatorID: ctx.user!.id,
+          })
+        : comment
+    ),
+  unfeature: ({ commentID }: WithoutMutationID<GQLUnfeatureCommentInput>) =>
+    removeTag(ctx.mongo, ctx.tenant, commentID, GQLTAG.FEATURED),
 });

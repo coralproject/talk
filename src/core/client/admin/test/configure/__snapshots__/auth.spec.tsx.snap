@@ -6,7 +6,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
   data-testid="configure-auth-oidc-container"
 >
   <div
-    className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+    className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
       <span>
@@ -15,7 +15,7 @@ exports[`change settings: during submit: oidc without errors 1`] = `
     </div>
     <div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <div
           className="CheckBox-root"
@@ -49,10 +49,10 @@ exports[`change settings: during submit: oidc without errors 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <p
-        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
         To learn more: 
         <a
@@ -73,15 +73,15 @@ exports[`change settings: during submit: oidc without errors 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Redirect URI
         </label>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
           <div
             className="TextField-root"
@@ -115,15 +115,15 @@ exports[`change settings: during submit: oidc without errors 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Provider Name
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -147,10 +147,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client ID
         </label>
@@ -173,10 +173,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client Secret
         </label>
@@ -199,21 +199,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Issuer
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
         </p>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
           <div
             className="TextField-root"
@@ -249,10 +249,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Authorization URL
         </label>
@@ -275,10 +275,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Token URL
         </label>
@@ -301,10 +301,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           JWKS URI
         </label>
@@ -327,17 +327,17 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           <span>
             Use OpenID Connect login on
           </span>
         </label>
         <div
-          className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
         >
           <div
             className="CheckBox-root"
@@ -392,21 +392,21 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Registration
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
         </p>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <div
             className="CheckBox-root"
@@ -446,7 +446,7 @@ exports[`change settings: enable facebook configure box 1`] = `
   data-testid="configure-auth-facebook-container"
 >
   <div
-    className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+    className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
       <span>
@@ -455,7 +455,7 @@ exports[`change settings: enable facebook configure box 1`] = `
     </div>
     <div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <div
           className="CheckBox-root"
@@ -489,10 +489,10 @@ exports[`change settings: enable facebook configure box 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <p
-        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
         To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
@@ -516,15 +516,15 @@ For more information visit:
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Redirect URI
         </label>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
           <div
             className="TextField-root"
@@ -558,10 +558,10 @@ For more information visit:
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client ID
         </label>
@@ -584,10 +584,10 @@ For more information visit:
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client Secret
         </label>
@@ -610,17 +610,17 @@ For more information visit:
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           <span>
             Use Facebook login on
           </span>
         </label>
         <div
-          className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
         >
           <div
             className="CheckBox-root"
@@ -675,21 +675,21 @@ For more information visit:
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Registration
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
         </p>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <div
             className="CheckBox-root"
@@ -729,7 +729,7 @@ exports[`change settings: enable oidc configure box 1`] = `
   data-testid="configure-auth-oidc-container"
 >
   <div
-    className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+    className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
       <span>
@@ -738,7 +738,7 @@ exports[`change settings: enable oidc configure box 1`] = `
     </div>
     <div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <div
           className="CheckBox-root"
@@ -772,10 +772,10 @@ exports[`change settings: enable oidc configure box 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <p
-        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
         To learn more: 
         <a
@@ -796,15 +796,15 @@ exports[`change settings: enable oidc configure box 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Redirect URI
         </label>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
           <div
             className="TextField-root"
@@ -838,15 +838,15 @@ exports[`change settings: enable oidc configure box 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Provider Name
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -870,10 +870,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client ID
         </label>
@@ -896,10 +896,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client Secret
         </label>
@@ -922,21 +922,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Issuer
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
         </p>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
           <div
             className="TextField-root"
@@ -972,10 +972,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Authorization URL
         </label>
@@ -998,10 +998,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Token URL
         </label>
@@ -1024,10 +1024,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           JWKS URI
         </label>
@@ -1050,17 +1050,17 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           <span>
             Use OpenID Connect login on
           </span>
         </label>
         <div
-          className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
         >
           <div
             className="CheckBox-root"
@@ -1115,21 +1115,21 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Registration
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
         </p>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <div
             className="CheckBox-root"
@@ -1169,7 +1169,7 @@ exports[`change settings: oidc validation errors 1`] = `
   data-testid="configure-auth-oidc-container"
 >
   <div
-    className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+    className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
   >
     <div>
       <span>
@@ -1178,7 +1178,7 @@ exports[`change settings: oidc validation errors 1`] = `
     </div>
     <div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <div
           className="CheckBox-root"
@@ -1212,10 +1212,10 @@ exports[`change settings: oidc validation errors 1`] = `
     className="ConfigBox-content"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-double"
+      className="Box-root HorizontalGutter-root HorizontalGutter-double"
     >
       <p
-        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
       >
         To learn more: 
         <a
@@ -1236,15 +1236,15 @@ exports[`change settings: oidc validation errors 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Redirect URI
         </label>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
           <div
             className="TextField-root"
@@ -1278,15 +1278,15 @@ exports[`change settings: oidc validation errors 1`] = `
         className="HorizontalRule-root"
       />
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Provider Name
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -1323,10 +1323,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client ID
         </label>
@@ -1362,10 +1362,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Client Secret
         </label>
@@ -1401,21 +1401,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Issuer
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
         </p>
         <div
-          className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
         >
           <div
             className="TextField-root"
@@ -1464,10 +1464,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Authorization URL
         </label>
@@ -1503,10 +1503,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Token URL
         </label>
@@ -1542,10 +1542,10 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           JWKS URI
         </label>
@@ -1581,17 +1581,17 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           <span>
             Use OpenID Connect login on
           </span>
         </label>
         <div
-          className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+          className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
         >
           <div
             className="CheckBox-root"
@@ -1646,21 +1646,21 @@ the remaining fields. You may also enter the information manually.
         </div>
       </div>
       <div
-        className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+        className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
       >
         <label
-          className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+          className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         >
           Registration
         </label>
         <p
-          className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+          className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
         >
           Allow users that have not signed up before with this authentication
 integration to register for a new account.
         </p>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <div
             className="CheckBox-root"
@@ -1699,24 +1699,26 @@ exports[`prevents admin lock out 1`] = `
   className="CallOut-root CallOut-colorError CallOut-fullWidth"
   data-testid="configure-auth-submitError"
 >
-  <span>
-    Please enable at least one authentication integration for Coral Admin
-  </span>
+  <div>
+    <span>
+      Please enable at least one authentication integration for Coral Admin
+    </span>
+  </div>
 </div>
 `;
 
 exports[`regenerate sso key 1`] = `
 <div
-  className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+  className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
   data-testid="configure-auth-sso-key"
 >
   <label
-    className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+    className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
   >
     Key
   </label>
   <div
-    className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
   >
     <div
       className="TextField-root"
@@ -1746,10 +1748,10 @@ exports[`regenerate sso key 1`] = `
     </button>
   </div>
   <div
-    className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+    className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
   >
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
     >
       KEY GENERATED AT:
 11/12/2018, 11:26 PM
@@ -1761,7 +1763,7 @@ exports[`regenerate sso key 1`] = `
       warning
     </span>
     <p
-      className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
+      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
     >
       Regenerating a key will invalidate any existing user sessions,
 and all signed-in users will be signed out.
@@ -1781,13 +1783,13 @@ exports[`renders configure auth 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="Flex-root Layout-root Flex-flex"
+      className="Box-root Flex-root Layout-root Flex-flex"
     >
       <div
         className="SideBar-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <nav
             className="Navigation-root"
@@ -1853,7 +1855,7 @@ exports[`renders configure auth 1`] = `
           </nav>
         </div>
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
@@ -1874,14 +1876,14 @@ exports[`renders configure auth 1`] = `
         className="Main-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-authContainer"
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-double"
+            className="Box-root HorizontalGutter-root HorizontalGutter-double"
           >
             <h1
-              className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
               Authentication Integrations
             </h1>
@@ -1889,7 +1891,7 @@ exports[`renders configure auth 1`] = `
               className="ConfigBox-root"
             >
               <div
-                className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
                 <div>
                   <span>
@@ -1898,7 +1900,7 @@ exports[`renders configure auth 1`] = `
                 </div>
                 <div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
                       className="CheckBox-root"
@@ -1932,20 +1934,20 @@ exports[`renders configure auth 1`] = `
                 className="ConfigBox-content"
               >
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
                 >
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
                         Use Email Authentication login on
                       </span>
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
                         className="CheckBox-root"
@@ -2000,21 +2002,21 @@ exports[`renders configure auth 1`] = `
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Registration
                     </label>
                     <p
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       Allow users that have not signed up before with this authentication
 integration to register for a new account.
                     </p>
                     <div
-                      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
                       <div
                         className="CheckBox-root"
@@ -2051,7 +2053,7 @@ integration to register for a new account.
               data-testid="configure-auth-oidc-container"
             >
               <div
-                className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
                 <div>
                   <span>
@@ -2060,7 +2062,7 @@ integration to register for a new account.
                 </div>
                 <div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
                       className="CheckBox-root"
@@ -2094,10 +2096,10 @@ integration to register for a new account.
                 className="ConfigBox-content"
               >
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
                 >
                   <p
-                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
                     To learn more: 
                     <a
@@ -2118,15 +2120,15 @@ integration to register for a new account.
                     className="HorizontalRule-root"
                   />
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Redirect URI
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="TextField-root"
@@ -2160,15 +2162,15 @@ integration to register for a new account.
                     className="HorizontalRule-root"
                   />
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Provider Name
                     </label>
                     <p
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       The provider of the OpenID Connect integration. This will be used when the name of the provider
 needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
@@ -2192,10 +2194,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Client ID
                     </label>
@@ -2218,10 +2220,10 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Client Secret
                     </label>
@@ -2244,21 +2246,21 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Issuer
                     </label>
                     <p
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       After entering your Issuer information, click the Discover button to have Coral complete
 the remaining fields. You may also enter the information manually.
                     </p>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="TextField-root"
@@ -2294,10 +2296,10 @@ the remaining fields. You may also enter the information manually.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Authorization URL
                     </label>
@@ -2320,10 +2322,10 @@ the remaining fields. You may also enter the information manually.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Token URL
                     </label>
@@ -2346,10 +2348,10 @@ the remaining fields. You may also enter the information manually.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       JWKS URI
                     </label>
@@ -2372,17 +2374,17 @@ the remaining fields. You may also enter the information manually.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
                         Use OpenID Connect login on
                       </span>
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
                         className="CheckBox-root"
@@ -2437,21 +2439,21 @@ the remaining fields. You may also enter the information manually.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Registration
                     </label>
                     <p
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       Allow users that have not signed up before with this authentication
 integration to register for a new account.
                     </p>
                     <div
-                      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
                       <div
                         className="CheckBox-root"
@@ -2487,7 +2489,7 @@ integration to register for a new account.
               className="ConfigBox-root"
             >
               <div
-                className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
                 <div>
                   <span>
@@ -2496,7 +2498,7 @@ integration to register for a new account.
                 </div>
                 <div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
                       className="CheckBox-root"
@@ -2530,19 +2532,19 @@ integration to register for a new account.
                 className="ConfigBox-content"
               >
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
                 >
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     data-testid="configure-auth-sso-key"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Key
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="TextField-root"
@@ -2571,10 +2573,10 @@ integration to register for a new account.
                       </button>
                     </div>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-directionRow gutter"
                     >
                       <p
-                        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
+                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-keyGenerated"
                       >
                         KEY GENERATED AT:
 Invalid Date
@@ -2586,7 +2588,7 @@ Invalid Date
                         warning
                       </span>
                       <p
-                        className="Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
+                        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary SSOKeyField-warn"
                       >
                         Regenerating a key will invalidate any existing user sessions,
 and all signed-in users will be signed out.
@@ -2594,17 +2596,17 @@ and all signed-in users will be signed out.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
                         Use Single Sign On login on
                       </span>
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
                         className="CheckBox-root"
@@ -2659,21 +2661,21 @@ and all signed-in users will be signed out.
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Registration
                     </label>
                     <p
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       Allow users that have not signed up before with this authentication
 integration to register for a new account.
                     </p>
                     <div
-                      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
                       <div
                         className="CheckBox-root"
@@ -2709,7 +2711,7 @@ integration to register for a new account.
               className="ConfigBox-root"
             >
               <div
-                className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
                 <div>
                   <span>
@@ -2718,7 +2720,7 @@ integration to register for a new account.
                 </div>
                 <div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
                       className="CheckBox-root"
@@ -2752,10 +2754,10 @@ integration to register for a new account.
                 className="ConfigBox-content"
               >
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
                 >
                   <p
-                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
                     To enable the integration with Google Authentication you need
 to create and set up a web application. For more information visit:
@@ -2779,15 +2781,15 @@ to create and set up a web application. For more information visit:
                     className="HorizontalRule-root"
                   />
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Redirect URI
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="TextField-root"
@@ -2821,10 +2823,10 @@ to create and set up a web application. For more information visit:
                     className="HorizontalRule-root"
                   />
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Client ID
                     </label>
@@ -2847,10 +2849,10 @@ to create and set up a web application. For more information visit:
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Client Secret
                     </label>
@@ -2873,17 +2875,17 @@ to create and set up a web application. For more information visit:
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
                         Use Google login on
                       </span>
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
                         className="CheckBox-root"
@@ -2938,21 +2940,21 @@ to create and set up a web application. For more information visit:
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Registration
                     </label>
                     <p
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       Allow users that have not signed up before with this authentication
 integration to register for a new account.
                     </p>
                     <div
-                      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
                       <div
                         className="CheckBox-root"
@@ -2989,7 +2991,7 @@ integration to register for a new account.
               data-testid="configure-auth-facebook-container"
             >
               <div
-                className="Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
+                className="Box-root Flex-root ConfigBox-title Flex-flex Flex-justifySpaceBetween"
               >
                 <div>
                   <span>
@@ -2998,7 +3000,7 @@ integration to register for a new account.
                 </div>
                 <div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <div
                       className="CheckBox-root"
@@ -3032,10 +3034,10 @@ integration to register for a new account.
                 className="ConfigBox-content"
               >
                 <div
-                  className="HorizontalGutter-root HorizontalGutter-double"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-double"
                 >
                   <p
-                    className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                   >
                     To enable the integration with Facebook Authentication,
 you need to create and set up a web application.
@@ -3059,15 +3061,15 @@ For more information visit:
                     className="HorizontalRule-root"
                   />
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Redirect URI
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
                         className="TextField-root"
@@ -3101,10 +3103,10 @@ For more information visit:
                     className="HorizontalRule-root"
                   />
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Client ID
                     </label>
@@ -3127,10 +3129,10 @@ For more information visit:
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Client Secret
                     </label>
@@ -3153,17 +3155,17 @@ For more information visit:
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       <span>
                         Use Facebook login on
                       </span>
                     </label>
                     <div
-                      className="Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow"
+                      className="Box-root Flex-root Flex-flex Flex-doubleItemGutter Flex-directionRow gutter"
                     >
                       <div
                         className="CheckBox-root"
@@ -3218,21 +3220,21 @@ For more information visit:
                     </div>
                   </div>
                   <div
-                    className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                    className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                   >
                     <label
-                      className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                      className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                     >
                       Registration
                     </label>
                     <p
-                      className="Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
+                      className="Box-root Typography-root Typography-detail Typography-colorTextSecondary ConfigDescription-description"
                     >
                       Allow users that have not signed up before with this authentication
 integration to register for a new account.
                     </p>
                     <div
-                      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
                     >
                       <div
                         className="CheckBox-root"

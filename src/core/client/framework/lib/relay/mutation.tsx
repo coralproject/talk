@@ -81,6 +81,8 @@ export function useMutation<I, R>(
 /**
  * withMutation creates a HOC that injects the mutation as
  * a property.
+ *
+ * @deprecated use `useMutation` instead
  */
 export function withMutation<N extends string, I, R>(
   mutation: Mutation<N, I, R>

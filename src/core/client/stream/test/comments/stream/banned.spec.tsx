@@ -10,7 +10,7 @@ import {
 } from "coral-framework/testHelpers";
 
 import { comments, settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 const story = stories[0];
 const firstComment = story.comments.edges[0].node;

@@ -1,13 +1,14 @@
 import sinon from "sinon";
 
 import {
+  act,
   createSinonStub,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
 
 import { settings, stories } from "../../fixtures";
-import create from "../create";
+import create from "./create";
 
 const createTestRenderer = async (resolver: any = {}) => {
   const resolvers = {
@@ -31,21 +32,22 @@ const createTestRenderer = async (resolver: any = {}) => {
 };
 
 it("renders app with comment stream", async () => {
-  const commentsQueryStub = createSinonStub(
-    s =>
-      s.onFirstCall().callsFake((input: any) => {
-        expectAndFail(input).toEqual({ first: 5, orderBy: "CREATED_AT_DESC" });
-        return stories[0].comments;
-      }),
-    s =>
-      s.onSecondCall().callsFake((input: any) => {
-        expectAndFail(input).toEqual({
-          after: null,
+  let changedSort = false;
+  const commentsQueryStub = createSinonStub(s =>
+    s.callsFake((input: any) => {
+      if (!changedSort) {
+        expectAndFail(input).toMatchObject({
           first: 5,
-          orderBy: "CREATED_AT_ASC",
+          orderBy: "CREATED_AT_DESC",
         });
-        return stories[1].comments;
-      })
+        return stories[0].comments;
+      }
+      expectAndFail(input).toMatchObject({
+        first: 5,
+        orderBy: "CREATED_AT_ASC",
+      });
+      return stories[1].comments;
+    })
   );
   const storyQueryStub = createSinonStub(s =>
     s.callsFake((_: any, input: any) => {
@@ -70,12 +72,15 @@ it("renders app with comment stream", async () => {
   const selectField = within(testRenderer.root).getByLabelText("Sort By");
   const oldestOption = within(selectField).getByText("Oldest");
 
-  selectField.props.onChange({
-    target: { value: oldestOption.props.value.toString() },
-  });
+  await act(async () => {
+    changedSort = true;
+    selectField.props.onChange({
+      target: { value: oldestOption.props.value.toString() },
+    });
 
-  streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
-  );
+    streamLog = await waitForElement(() =>
+      within(testRenderer.root).getByTestID("comments-stream-log")
+    );
+  });
   expect(within(streamLog).toJSON()).toMatchSnapshot();
 });

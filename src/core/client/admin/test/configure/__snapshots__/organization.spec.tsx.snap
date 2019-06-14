@@ -11,13 +11,13 @@ exports[`renders configure organization 1`] = `
     onSubmit={[Function]}
   >
     <div
-      className="Flex-root Layout-root Flex-flex"
+      className="Box-root Flex-root Layout-root Flex-flex"
     >
       <div
         className="SideBar-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <nav
             className="Navigation-root"
@@ -83,7 +83,7 @@ exports[`renders configure organization 1`] = `
           </nav>
         </div>
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
         >
           <button
             className="BaseButton-root Button-root Button-sizeRegular Button-colorSuccess Button-variantFilled Button-disabled"
@@ -104,23 +104,23 @@ exports[`renders configure organization 1`] = `
         className="Main-root"
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-double"
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-organizationContainer"
         >
           <div
-            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
             <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-organization-organization.name"
               >
                 Organization Name
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
                 Your organization name will appear on emails sent by Coral to your community and organization members.
               </p>
@@ -145,19 +145,19 @@ exports[`renders configure organization 1`] = `
             </div>
           </div>
           <div
-            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
             <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <label
-                className="Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-organization-organization.contactEmail"
               >
                 Organization Email
               </label>
               <p
-                className="Typography-root Typography-detail Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
               >
                 This email address will be used as in emails and across
 the platform for community members to get in touch with

@@ -1,0 +1,28 @@
+.root {
+  width: 100%;
+}
+
+.tabBarContainer {
+  position: relative;
+  padding-top: var(--spacing-1);
+}
+
+.sortMenu {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.featuredCommentsInfo {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  height: 100%;
+}
+
+.featuredCommentsTabContainer {
+  position: relative;
+}
+.featuredCommentsTab {
+  padding-right: 30px !important;
+}

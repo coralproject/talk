@@ -6,13 +6,13 @@ exports[`accepts correct password 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -46,10 +46,10 @@ exports[`accepts correct password 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -117,13 +117,13 @@ exports[`accepts valid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -144,10 +144,10 @@ exports[`accepts valid email 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -228,13 +228,13 @@ exports[`checks for invalid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -268,10 +268,10 @@ exports[`checks for invalid email 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -352,13 +352,13 @@ exports[`renders sign in form 1`] = `
     data-testid="authBox"
   >
     <div
-      className="Flex-root Flex-flex Flex-justifyCenter"
+      className="Box-root Flex-root Flex-flex Flex-justifyCenter"
     >
       <div
-        className="HorizontalGutter-root AuthBox-container HorizontalGutter-double"
+        className="Box-root HorizontalGutter-root AuthBox-container HorizontalGutter-double"
       >
         <div
-          className="Flex-root Flex-flex Flex-justifyCenter"
+          className="Box-root Flex-root Flex-flex Flex-justifyCenter"
         >
           <div
             className="AuthBox-brandIcon"
@@ -409,33 +409,33 @@ exports[`renders sign in form 1`] = `
         </div>
         <div>
           <h1
-            className="Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
+            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Typography-alignCenter"
           >
             <span>
               Sign in to
             </span>
           </h1>
           <h1
-            className="Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
+            className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Typography-alignCenter BrandName-root BrandName-lg"
           >
             Coral
           </h1>
         </div>
         <div
-          className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
         >
           <form
             autoComplete="off"
             onSubmit={[Function]}
           >
             <div
-              className="HorizontalGutter-root HorizontalGutter-full"
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
               <div
-                className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
                 <label
-                  className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                   htmlFor="email"
                 >
                   Email Address
@@ -456,10 +456,10 @@ exports[`renders sign in form 1`] = `
                 </div>
               </div>
               <div
-                className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
                 <label
-                  className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                   htmlFor="password"
                 >
                   Password
@@ -524,10 +524,10 @@ exports[`renders sign in form 1`] = `
     </div>
   </div>
   <div
-    className="Flex-root Flex-flex Flex-justifyCenter"
+    className="Box-root Flex-root Flex-flex Flex-justifyCenter"
   >
     <p
-      className="Typography-root Typography-detail Typography-colorTextPrimary Typography-alignCenter Version-version"
+      className="Box-root Typography-root Typography-detail Typography-colorTextPrimary Typography-alignCenter Version-version"
     >
       vTest
     </p>
@@ -541,13 +541,13 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -581,10 +581,10 @@ exports[`shows error when submitting empty form 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -665,18 +665,20 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      Server Error
+      <div>
+        Server Error
+      </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -697,10 +699,10 @@ exports[`shows server error 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password

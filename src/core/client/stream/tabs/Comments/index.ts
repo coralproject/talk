@@ -1,4 +1,1 @@
-export {
-  default,
-  default as CommentsPaneContainer,
-} from "./CommentsPaneContainer";
+export { default, default as CommentsPane } from "./CommentsPane";

@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <label
-  className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root custom"
+  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root custom"
 >
   Hello
 </label>

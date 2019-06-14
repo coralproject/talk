@@ -130,14 +130,3 @@ it("renders disabled reply when commenting has been disabled", () => {
   renderer.render(<CommentContainerN {...props} />);
   expect(renderer.getRenderOutput()).toMatchSnapshot();
 });
-
-it("renders staff badge", () => {
-  const props = createDefaultProps({
-    comment: {
-      tags: [{ name: "Staff" }],
-    },
-  });
-  const renderer = createRenderer();
-  renderer.render(<CommentContainerN {...props} />);
-  expect(renderer.getRenderOutput()).toMatchSnapshot();
-});

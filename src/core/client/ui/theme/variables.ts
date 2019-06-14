@@ -3,6 +3,9 @@
  * We keep the `.ts` extension to keep the types.
  */
 
+export type Spacing = keyof typeof variables["spacing"];
+export type Shade = keyof typeof variables["palette"]["primary"];
+
 const variables = {
   elevation: {
     main: "1px 0px 4px rgba(0, 0, 0, 0.25)",

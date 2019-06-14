@@ -1674,14 +1674,27 @@ type CommentRevision {
   createdAt: Time!
 }
 
+enum TAG {
+  """
+  STAFF is used when a Comment is written by a User that has the STAFF, ADMIN,
+  or MODERATOR role.
+  """
+  STAFF
+
+  """
+  FEATURED is used when a Comment is marked as such by a staff member.
+  """
+  FEATURED
+}
+
 """
 Tag is a simple text message that can be displayed to segment tagable entities.
 """
 type Tag {
   """
-  name is the publicly displayable name assigned to this Tag.
+  code is the machine representation of the tag name.
   """
-  name: String!
+  code: TAG!
 
   """
   createdBy is the User that assigned the Tag. This is null when the Tag is
@@ -1693,6 +1706,16 @@ type Tag {
   createdAt is the time that the Tag was assigned on.
   """
   createdAt: Time! @auth(roles: [MODERATOR, ADMIN])
+}
+
+"""
+CommentTagCounts provides count data for Tags made against Comment's.
+"""
+type CommentTagCounts {
+  """
+  FEATURED is the count of Comment's with the FEATURED tag.
+  """
+  FEATURED: Int!
 }
 
 """
@@ -1930,6 +1953,14 @@ type CommentCounts {
   """
   totalVisible: Int!
 
+  """
+  tags stores the counts of all the Tags against Comment's on this Story.
+  """
+  tags: CommentTagCounts!
+
+  """
+  statuses stores the counts of all the statuses against Comments on this Story.
+  """
   statuses: CommentStatusCounts! @auth(roles: [ADMIN, MODERATOR])
 }
 
@@ -2050,6 +2081,15 @@ type Story {
   scrapedAt: Time
 
   """
+  featuredComments are the Comments with the FEATURED tag on the Story.
+  """
+  featuredComments(
+    first: Int = 10
+    orderBy: COMMENT_SORT = CREATED_AT_DESC
+    after: Cursor
+  ): CommentsConnection!
+
+  """
   comments are the comments on the Story.
   """
   comments(
@@ -2153,6 +2193,7 @@ type Query {
     after: Cursor
     storyID: ID
     status: COMMENT_STATUS
+    tag: TAG
   ): CommentsConnection! @auth(roles: [ADMIN, MODERATOR])
 
   """
@@ -3603,6 +3644,67 @@ type RejectCommentPayload {
 }
 
 ##################
+# featureComment
+##################
+
+input FeatureCommentInput {
+  """
+  commentID is the ID of the Comment that should be featured.
+  """
+  commentID: ID!
+
+  """
+  commentRevisionID is the ID of the CommentRevision that should be featured
+  """
+  commentRevisionID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type FeatureCommentPayload {
+  """
+  comment is the Comment that was featured.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
+# unfeatureComment
+##################
+
+input UnfeatureCommentInput {
+  """
+  commentID is the ID of the featured Comment that should be unfeatured.
+  """
+  commentID: ID!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type UnfeatureCommentPayload {
+  """
+  comment is the Comment that was unfeatured.
+  """
+  comment: Comment
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+##################
 # setUsername
 ##################
 
@@ -4168,6 +4270,18 @@ type Mutation {
   """
   createCommentFlag(input: CreateCommentFlagInput!): CreateCommentFlagPayload!
     @auth
+
+  """
+  featureComment will mark a given Comment as featured.
+  """
+  featureComment(input: FeatureCommentInput!): FeatureCommentPayload!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  unfeatureComment will remove the featured tag from a Comment that is featured.
+  """
+  unfeatureComment(input: UnfeatureCommentInput!): UnfeatureCommentPayload!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   createStory will create the provided Story.

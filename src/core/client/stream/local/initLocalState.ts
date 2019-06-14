@@ -40,7 +40,7 @@ export default async function initLocalState(
       localRecord.setValue(query.commentID, "commentID");
     }
     // Set sort
-    localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
+    localRecord.setValue("CREATED_AT_DESC", "commentsOrderBy");
 
     // Create authPopup Record
     const authPopupRecord = createAndRetain(
@@ -57,8 +57,6 @@ export default async function initLocalState(
     // Set active tabs
     localRecord.setValue("COMMENTS", "activeTab");
     localRecord.setValue("MY_COMMENTS", "profileTab");
-
-    // Set sort
-    localRecord.setValue("CREATED_AT_DESC", "defaultStreamOrderBy");
+    localRecord.setValue("ALL_COMMENTS", "commentsTab");
   });
 }

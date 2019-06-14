@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useCallback } from "react";
 
+import { graphql, useLocal } from "coral-framework/lib/relay";
 import { PropTypesOf } from "coral-framework/types";
 import { ProfileLocal } from "coral-stream/__generated__/ProfileLocal.graphql";
 import UserBoxContainer from "coral-stream/common/UserBox";
@@ -10,8 +11,8 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components";
+import { Localized } from "fluent-react/compat";
 
-import { graphql, useLocal } from "coral-framework/lib/relay";
 import CommentHistoryContainer from "./CommentHistory";
 import SettingsContainer from "./Settings";
 
@@ -41,8 +42,16 @@ const Profile: FunctionComponent<ProfileProps> = props => {
         activeTab={local.profileTab}
         onTabClick={onTabClick}
       >
-        <Tab tabID="MY_COMMENTS">My Comments</Tab>
-        <Tab tabID="SETTINGS">Settings</Tab>
+        <Tab tabID="MY_COMMENTS">
+          <Localized id="profile-myCommentsTab">
+            <span>My Comments</span>
+          </Localized>
+        </Tab>
+        <Tab tabID="SETTINGS">
+          <Localized id="profile-settingsTab">
+            <span>Settings</span>
+          </Localized>
+        </Tab>
       </TabBar>
       <TabContent activeTab={local.profileTab}>
         <TabPane tabID="MY_COMMENTS">

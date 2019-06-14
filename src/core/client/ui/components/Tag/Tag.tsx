@@ -13,18 +13,31 @@ interface Props {
    */
   classes: typeof styles;
   children: React.ReactNode;
+  color?: "grey" | "primary" | "error";
+
+  variant?: "regular" | "pill";
 }
 
 const Tag: FunctionComponent<Props> = props => {
-  const { className, children, classes, ...rest } = props;
+  const { className, children, classes, variant, color, ...rest } = props;
 
-  const rootClassName = cn(classes.root, className);
+  const rootClassName = cn(classes.root, className, {
+    [classes.variantPill]: variant === "pill",
+    [classes.colorPrimary]: color === "primary",
+    [classes.colorError]: color === "error",
+    [classes.colorGrey]: color === "grey",
+  });
 
   return (
     <span className={rootClassName} {...rest}>
       {children}
     </span>
   );
+};
+
+Tag.defaultProps = {
+  color: "grey",
+  variant: "regular",
 };
 
 const enhanced = withStyles(styles)(Tag);

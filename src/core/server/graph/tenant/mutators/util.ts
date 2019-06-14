@@ -1,3 +1,5 @@
+import { Omit } from "coral-common/types";
+
 /**
  * validateMaximumLength will limit the value of an optional string to the
  * specified amount, otherwise will throw an error.
@@ -12,3 +14,8 @@ export function validateMaximumLength(maxLength: number, value?: string) {
 
   return value;
 }
+
+export type WithoutMutationID<T extends { clientMutationId: string }> = Omit<
+  T,
+  "clientMutationId"
+>;

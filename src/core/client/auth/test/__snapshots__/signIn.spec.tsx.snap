@@ -6,13 +6,13 @@ exports[`accepts correct password 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -46,10 +46,10 @@ exports[`accepts correct password 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -87,10 +87,10 @@ exports[`accepts correct password 1`] = `
         </div>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
       >
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           <a
             className="TextLink-root"
@@ -132,13 +132,13 @@ exports[`accepts valid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -159,10 +159,10 @@ exports[`accepts valid email 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -213,10 +213,10 @@ exports[`accepts valid email 1`] = `
         </span>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
       >
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           <a
             className="TextLink-root"
@@ -258,20 +258,20 @@ exports[`auth configuration renders all auth enabled 1`] = `
   data-testid="signIn-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <form
       autoComplete="off"
       onSubmit={[Function]}
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       >
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="email"
           >
             Email Address
@@ -292,10 +292,10 @@ exports[`auth configuration renders all auth enabled 1`] = `
           </div>
         </div>
         <div
-          className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+          className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
         >
           <label
-            className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+            className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
             htmlFor="password"
           >
             Password
@@ -333,10 +333,10 @@ exports[`auth configuration renders all auth enabled 1`] = `
             </div>
           </div>
           <div
-            className="Flex-root Flex-flex Flex-justifyFlexEnd"
+            className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
           >
             <p
-              className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
             >
               <a
                 className="TextLink-root"
@@ -371,7 +371,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </form>
     <div
-      className="Flex-root HorizontalSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root HorizontalSeparator-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <hr
         className="HorizontalSeparator-hr"
@@ -383,7 +383,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
@@ -462,10 +462,10 @@ exports[`auth configuration renders only some social login enabled 1`] = `
   data-testid="signIn-main"
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+    className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-full"
+      className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <button
         className="BaseButton-root Button-root Button-sizeLarge Button-colorRegular FacebookButton-colorRegular Button-variantFilled FacebookButton-variantFilled Button-fullWidth"
@@ -530,13 +530,13 @@ exports[`checks for invalid email 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -570,10 +570,10 @@ exports[`checks for invalid email 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -624,10 +624,10 @@ exports[`checks for invalid email 1`] = `
         </span>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
       >
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           <a
             className="TextLink-root"
@@ -669,27 +669,27 @@ exports[`renders sign in view 1`] = `
     data-testid="signIn-container"
   >
     <div
-      className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <div>
         <h1
-          className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
         >
           Sign In
         </h1>
         <h1
-          className="Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
+          className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
         >
           to join the conversation
         </h1>
       </div>
     </div>
     <div
-      className="Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
     >
       <div>
         <div
-          className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
         >
           <span>
             Don't have an account? 
@@ -709,20 +709,20 @@ exports[`renders sign in view 1`] = `
       data-testid="signIn-main"
     >
       <div
-        className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+        className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
       >
         <form
           autoComplete="off"
           onSubmit={[Function]}
         >
           <div
-            className="HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="email"
               >
                 Email Address
@@ -743,10 +743,10 @@ exports[`renders sign in view 1`] = `
               </div>
             </div>
             <div
-              className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
               <label
-                className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
                 htmlFor="password"
               >
                 Password
@@ -784,10 +784,10 @@ exports[`renders sign in view 1`] = `
                 </div>
               </div>
               <div
-                className="Flex-root Flex-flex Flex-justifyFlexEnd"
+                className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
               >
                 <p
-                  className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
                 >
                   <a
                     className="TextLink-root"
@@ -822,7 +822,7 @@ exports[`renders sign in view 1`] = `
           </div>
         </form>
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         />
       </div>
     </div>
@@ -835,27 +835,27 @@ exports[`renders sign in view with error 1`] = `
   data-testid="signIn-container"
 >
   <div
-    className="Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+    className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
   >
     <div>
       <h1
-        className="Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+        className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
       >
         Sign In
       </h1>
       <h1
-        className="Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
+        className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
       >
         to join the conversation
       </h1>
     </div>
   </div>
   <div
-    className="Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+    className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
   >
     <div>
       <div
-        className="Flex-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+        className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
       >
         <span>
           Don't have an account? 
@@ -875,25 +875,27 @@ exports[`renders sign in view with error 1`] = `
     data-testid="signIn-main"
   >
     <div
-      className="HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+      className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
     >
       <div
         className="CallOut-root CallOut-colorError CallOut-fullWidth"
       >
-        Social Login Error
+        <div>
+          Social Login Error
+        </div>
       </div>
       <form
         autoComplete="off"
         onSubmit={[Function]}
       >
         <div
-          className="HorizontalGutter-root HorizontalGutter-full"
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
         >
           <div
-            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
             <label
-              className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               htmlFor="email"
             >
               Email Address
@@ -914,10 +916,10 @@ exports[`renders sign in view with error 1`] = `
             </div>
           </div>
           <div
-            className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
             <label
-              className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
               htmlFor="password"
             >
               Password
@@ -955,10 +957,10 @@ exports[`renders sign in view with error 1`] = `
               </div>
             </div>
             <div
-              className="Flex-root Flex-flex Flex-justifyFlexEnd"
+              className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
             >
               <p
-                className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
                 <a
                   className="TextLink-root"
@@ -993,7 +995,7 @@ exports[`renders sign in view with error 1`] = `
         </div>
       </form>
       <div
-        className="HorizontalGutter-root HorizontalGutter-full"
+        className="Box-root HorizontalGutter-root HorizontalGutter-full"
       />
     </div>
   </div>
@@ -1006,13 +1008,13 @@ exports[`shows error when submitting empty form 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -1046,10 +1048,10 @@ exports[`shows error when submitting empty form 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -1100,10 +1102,10 @@ exports[`shows error when submitting empty form 1`] = `
         </span>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
       >
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           <a
             className="TextLink-root"
@@ -1145,18 +1147,20 @@ exports[`shows server error 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
       className="CallOut-root CallOut-colorError CallOut-fullWidth"
     >
-      Server Error
+      <div>
+        Server Error
+      </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -1177,10 +1181,10 @@ exports[`shows server error 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -1218,10 +1222,10 @@ exports[`shows server error 1`] = `
         </div>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
       >
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           <a
             className="TextLink-root"
@@ -1263,13 +1267,13 @@ exports[`submits form successfully 1`] = `
   onSubmit={[Function]}
 >
   <div
-    className="HorizontalGutter-root HorizontalGutter-full"
+    className="Box-root HorizontalGutter-root HorizontalGutter-full"
   >
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="email"
       >
         Email Address
@@ -1290,10 +1294,10 @@ exports[`submits form successfully 1`] = `
       </div>
     </div>
     <div
-      className="HorizontalGutter-root FormField-root HorizontalGutter-half"
+      className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
     >
       <label
-        className="Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+        className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
         htmlFor="password"
       >
         Password
@@ -1331,10 +1335,10 @@ exports[`submits form successfully 1`] = `
         </div>
       </div>
       <div
-        className="Flex-root Flex-flex Flex-justifyFlexEnd"
+        className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
       >
         <p
-          className="Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+          className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
         >
           <a
             className="TextLink-root"

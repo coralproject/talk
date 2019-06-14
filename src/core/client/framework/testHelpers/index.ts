@@ -41,3 +41,7 @@ export {
   TransitionControlData,
   default as TransitionControl,
 } from "./TransitionControl";
+export {
+  default as overwriteQueryResolver,
+  createQueryResolverOverwrite,
+} from "./overwriteQueryResolver";

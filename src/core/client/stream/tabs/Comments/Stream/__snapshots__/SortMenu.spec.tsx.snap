@@ -1,119 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly on big screens 1`] = `
-<div>
-  <div
-    className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+<div
+  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+>
+  <label
+    className="Box-root Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
+    htmlFor="coral-comments-sortMenu"
   >
-    <label
-      className="Typography-root Typography-bodyCopyBold Typography-colorTextPrimary"
-      htmlFor="coral-comments-sortMenu"
+    Sort By
+  </label>
+  <span
+    className="SelectField-root"
+  >
+    <select
+      className="SelectField-select undefined"
+      id="coral-comments-sortMenu"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      value="CREATED_AT_ASC"
     >
-      Sort By
-    </label>
-    <span
-      className="SelectField-root"
-    >
-      <select
-        className="SelectField-select undefined"
-        id="coral-comments-sortMenu"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onFocus={[Function]}
+      <option
+        value="CREATED_AT_DESC"
+      >
+        Newest
+      </option>
+      <option
         value="CREATED_AT_ASC"
       >
-        <option
-          value="CREATED_AT_DESC"
-        >
-          Newest
-        </option>
-        <option
-          value="CREATED_AT_ASC"
-        >
-          Oldest
-        </option>
-        <option
-          value="REPLIES_DESC"
-        >
-          Most Replies
-        </option>
-        <option
-          value="REACTION_DESC"
-        >
-          Most Reacted
-        </option>
-      </select>
-      <span
-        aria-hidden={true}
-        className="SelectField-afterWrapper undefined"
+        Oldest
+      </option>
+      <option
+        value="REPLIES_DESC"
       >
-        <span
-          aria-hidden="true"
-          className="Icon-root Icon-sm"
-        >
-          expand_more
-        </span>
+        Most Replies
+      </option>
+      <option
+        value="REACTION_DESC"
+      >
+        Most Reacted
+      </option>
+    </select>
+    <span
+      aria-hidden={true}
+      className="SelectField-afterWrapper undefined"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root Icon-sm"
+      >
+        expand_more
       </span>
     </span>
-  </div>
-  <hr
-    className="Divider-root"
-  />
+  </span>
 </div>
 `;
 
 exports[`renders correctly on small screens 1`] = `
-<div>
-  <div
-    className="Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter"
+<div
+  className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
+>
+  <span
+    className="SelectField-root"
   >
-    <span
-      className="SelectField-root"
+    <select
+      className="SelectField-select SortMenu-mobileSelect"
+      id="coral-comments-sortMenu"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onFocus={[Function]}
+      value="CREATED_AT_ASC"
     >
-      <select
-        className="SelectField-select SortMenu-mobileSelect"
-        id="coral-comments-sortMenu"
-        onBlur={[Function]}
-        onChange={[Function]}
-        onFocus={[Function]}
+      <option
+        value="CREATED_AT_DESC"
+      >
+        Newest
+      </option>
+      <option
         value="CREATED_AT_ASC"
       >
-        <option
-          value="CREATED_AT_DESC"
-        >
-          Newest
-        </option>
-        <option
-          value="CREATED_AT_ASC"
-        >
-          Oldest
-        </option>
-        <option
-          value="REPLIES_DESC"
-        >
-          Most Replies
-        </option>
-        <option
-          value="REACTION_DESC"
-        >
-          Most Reacted
-        </option>
-      </select>
-      <span
-        aria-hidden={true}
-        className="SelectField-afterWrapper SortMenu-mobileAfterWrapper"
+        Oldest
+      </option>
+      <option
+        value="REPLIES_DESC"
       >
-        <span
-          aria-hidden="true"
-          className="Icon-root Icon-sm"
-        >
-          sort
-        </span>
+        Most Replies
+      </option>
+      <option
+        value="REACTION_DESC"
+      >
+        Most Reacted
+      </option>
+    </select>
+    <span
+      aria-hidden={true}
+      className="SelectField-afterWrapper SortMenu-mobileAfterWrapper"
+    >
+      <span
+        aria-hidden="true"
+        className="Icon-root Icon-sm"
+      >
+        sort
       </span>
     </span>
-  </div>
-  <hr
-    className="Divider-root"
-  />
+  </span>
 </div>
 `;

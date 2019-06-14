@@ -4,6 +4,8 @@ import {
   GQLMODERATION_MODE,
   GQLSettings,
   GQLStory,
+  GQLTag,
+  GQLTAG,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -230,6 +232,11 @@ export const commentWithDeepReplies = denormalizeComment(
   )
 );
 
+export const featuredTag = createFixture<GQLTag>({
+  code: GQLTAG.FEATURED,
+  createdAt: "2015-02-06T18:24:00.000Z",
+});
+
 export const commentWithDeepestReplies = denormalizeComment(
   createFixture<GQLComment>({
     ...baseComment,
@@ -342,6 +349,9 @@ export const baseStory = createFixture<GQLStory>({
   },
   commentCounts: {
     totalVisible: 0,
+    tags: {
+      FEATURED: 0,
+    },
   },
   settings: {
     moderation: GQLMODERATION_MODE.POST,
@@ -371,7 +381,7 @@ export const commentsFromStaff = denormalizeComments(
         id: "comment-from-staff-0",
         author: moderators[0],
         body: "Joining Too",
-        tags: [{ name: "Staff" }],
+        tags: [{ code: GQLTAG.STAFF }],
       },
     ],
     baseComment
@@ -435,6 +445,31 @@ export const storyWithNoComments = denormalizeStory(
       url: "http://localhost/stories/story-with-no-comments",
       comments: {
         edges: [],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    },
+    baseStory
+  )
+);
+
+export const storyWithFeaturedComments = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-with-featured-comments",
+      url: "http://localhost/stories/story-with-featured-comments",
+      comments: {
+        edges: [
+          {
+            node: { ...comments[0], tags: [featuredTag] },
+            cursor: comments[0].createdAt,
+          },
+          {
+            node: { ...comments[1], tags: [featuredTag] },
+            cursor: comments[1].createdAt,
+          },
+        ],
         pageInfo: {
           hasNextPage: false,
         },

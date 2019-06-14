@@ -21,6 +21,16 @@
       border-color: transparent transparent var(--palette-common-white)
         transparent;
     }
+    &.colorDark {
+      &::before {
+        border-color: transparent transparent var(--palette-grey-dark)
+          transparent;
+      }
+      &::after {
+        border-color: transparent transparent var(--palette-grey-dark)
+          transparent;
+      }
+    }
   }
 
   &[data-placement*="top"] {
@@ -40,6 +50,16 @@
       border-width: 6px 10px 0 10px;
       border-color: var(--palette-common-white) transparent transparent
         transparent;
+    }
+    &.colorDark {
+      &::before {
+        border-color: var(--palette-grey-dark) transparent transparent
+          transparent;
+      }
+      &::after {
+        border-color: var(--palette-grey-dark) transparent transparent
+          transparent;
+      }
     }
   }
 
@@ -61,6 +81,16 @@
       border-color: transparent var(--palette-common-white) transparent
         transparent;
     }
+    &.colorDark {
+      &::before {
+        border-color: transparent var(--palette-grey-dark) transparent
+          transparent;
+      }
+      &::after {
+        border-color: transparent var(--palette-grey-dark) transparent
+          transparent;
+      }
+    }
   }
 
   &[data-placement*="left"] {
@@ -80,6 +110,16 @@
       border-width: 10px 0 10px 6px;
       border-color: transparent transparent transparent
         var(--palette-common-white);
+    }
+    &.colorDark {
+      &::before {
+        border-color: transparent transparent transparent
+          var(--palette-grey-dark);
+      }
+      &::after {
+        border-color: transparent transparent transparent
+          var(--palette-grey-dark);
+      }
     }
   }
 

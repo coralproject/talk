@@ -3,12 +3,7 @@ import { graphql } from "react-relay";
 
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { UserIgnorePopoverContainer_user as UserData } from "coral-stream/__generated__/UserIgnorePopoverContainer_user.graphql";
-import {
-  Button,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Box, Button, Flex, Typography } from "coral-ui/components";
 
 import IgnoreUserMutation from "./IgnoreUserMutation";
 
@@ -30,21 +25,21 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
     onDismiss();
   }, [user.id, ignoreUser]);
   return (
-    <HorizontalGutter spacing={3} className={styles.root}>
-      <HorizontalGutter spacing={2}>
-        <Localized
-          id="comments-userIgnorePopover-ignoreUser"
-          $username={user.username}
-        >
-          <Typography variant="heading3">Ignore {user.username}?</Typography>
-        </Localized>
-        <Localized id="comments-userIgnorePopover-description">
-          <Typography variant="detail">
-            When you ignore a commenter, all comments they wrote on the site
-            will be hidden from you. You can undo this later from My Profile.
-          </Typography>
-        </Localized>
-      </HorizontalGutter>
+    <Box className={styles.root} p={3}>
+      <Localized
+        id="comments-userIgnorePopover-ignoreUser"
+        $username={user.username}
+      >
+        <Typography variant="heading3" mb={2}>
+          Ignore {user.username}?
+        </Typography>
+      </Localized>
+      <Localized id="comments-userIgnorePopover-description">
+        <Typography variant="detail" mb={3}>
+          When you ignore a commenter, all comments they wrote on the site will
+          be hidden from you. You can undo this later from My Profile.
+        </Typography>
+      </Localized>
       <Flex justifyContent="flex-end" itemGutter="half">
         <Localized id="comments-userIgnorePopover-cancel">
           <Button variant="outlined" size="small" onClick={onDismiss}>
@@ -57,7 +52,7 @@ export const UserIgnorePopoverContainer: FunctionComponent<Props> = ({
           </Button>
         </Localized>
       </Flex>
-    </HorizontalGutter>
+    </Box>
   );
 };
 

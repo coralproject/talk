@@ -224,15 +224,6 @@
   color: var(--palette-grey-lighter);
 }
 
-.subTabCounter {
-  font-size: calc(14rem / var(--rem-base));
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
-  line-height: calc(18em / 18);
-  letter-spacing: calc(0.2em / 18);
-  color: var(--palette-text-primary);
-}
-
 .menuItem {
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
@@ -284,8 +275,8 @@
 .tagText {
   font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-regular);
-  font-size: calc(13rem / var(--rem-base));
-  letter-spacing: calc(-0.2em / 13);
+  font-size: calc(14rem / var(--rem-base));
+  letter-spacing: calc(-0.2em / 14);
 }
 
 .sideNavigationItem {

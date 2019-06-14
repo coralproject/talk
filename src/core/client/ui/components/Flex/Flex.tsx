@@ -4,11 +4,15 @@ import { FunctionComponent } from "react";
 
 import { pascalCase } from "coral-common/utils";
 import { withForwardRef, withStyles } from "coral-ui/hocs";
+import { Spacing } from "coral-ui/theme/variables";
 import { PropTypesOf } from "coral-ui/types";
 
 import styles from "./Flex.css";
 
-interface Props {
+/** Needs to be loaded after styles, because Box styles have priority */
+import Box from "../Box";
+
+interface Props extends PropTypesOf<typeof Box> {
   /**
    * This prop can be used to add custom classnames.
    * It is handled by the `withStyles `HOC.
@@ -25,7 +29,10 @@ interface Props {
     | "space-evenly";
   alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
   direction?: "row" | "column" | "row-reverse" | "column-reverse";
+  /** @deprecated use `spacing` instead */
   itemGutter?: boolean | "half" | "double" | "triple";
+  /** Adds a gutter between items. Uses predefined sizes from design tokens */
+  spacing?: Spacing;
   className?: string;
   wrap?: boolean | "reverse";
 
@@ -44,6 +51,7 @@ const Flex: FunctionComponent<Props> = props => {
     wrap,
     forwardRef,
     children,
+    spacing,
     ...rest
   } = props;
 
@@ -71,7 +79,12 @@ const Flex: FunctionComponent<Props> = props => {
   }
 
   const rootClassNames: string = cn(classes.root, className);
-  const flexClassNames: string = cn(classes.flex, classObject);
+  const flexClassNames: string = cn(
+    classes.flex,
+    classObject,
+    (itemGutter || spacing) && "gutter",
+    spacing && (classes as any)[`spacing-${spacing!}`]
+  );
 
   // text nodes can't be modified with css, so replace them with spans.
   // Readd spaces at the beginning or end of text nodes because
@@ -86,19 +99,19 @@ const Flex: FunctionComponent<Props> = props => {
   if (wrap && itemGutter) {
     // The first div is required to support nested `Flex` components with itemGutters.
     return (
-      <div ref={forwardRef} className={rootClassNames} {...rest}>
+      <Box ref={forwardRef} className={rootClassNames} {...rest}>
         <div className={flexClassNames}>{content}</div>
-      </div>
+      </Box>
     );
   }
   return (
-    <div
+    <Box
       ref={forwardRef}
       className={cn(rootClassNames, flexClassNames)}
       {...rest}
     >
       {content}
-    </div>
+    </Box>
   );
 };
 

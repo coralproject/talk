@@ -3,31 +3,39 @@ name: Flex
 menu: UI Kit
 ---
 
-import { Playground, PropsTable } from 'docz'
-import Flex from './Flex'
-import Button from '../Button'
+import { Playground, PropsTable } from "docz";
+import Flex from "./Flex";
+import HorizontalGutter from "../HorizontalGutter";
+import Button from "../Button";
 
 # Flex
 
 `Flex` is a wrapper around `flexbox`.
 
 ## Justify content
+
 <Playground>
   <Flex justifyContent="center">I'm centered</Flex>
 </Playground>
 
 ## Align items
+
 <Playground>
-  <Flex alignItems="center" itemGutter>
+  <Flex alignItems="center" spacing={2}>
     <Button variant="filled">Push Me</Button>
-    <Button variant="filled" size="small">Push Me</Button>
-    <Button variant="filled" size="large">Push Me</Button>
+    <Button variant="filled" size="small">
+      Push Me
+    </Button>
+    <Button variant="filled" size="large">
+      Push Me
+    </Button>
   </Flex>
 </Playground>
 
 ## Direction
+
 <Playground>
-  <Flex direction="column" itemGutter>
+  <Flex direction="column" spacing={2}>
     <Button variant="filled">Push Me</Button>
     <Button variant="filled">Push Me</Button>
     <Button variant="filled">Push Me</Button>
@@ -37,25 +45,16 @@ import Button from '../Button'
 ## Item Gutter
 
 <Playground>
-  <Flex direction="column" itemGutter>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-  </Flex>
-</Playground>
-
-<Playground>
-  <Flex direction="column" itemGutter="half">
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-  </Flex>
-</Playground>
-
-<Playground>
-  <Flex direction="column" itemGutter="double">
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-    <Button variant="filled">Push Me</Button>
-  </Flex>
+  <HorizontalGutter>
+    <Flex direction="row" spacing={2}>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+    </Flex>
+    <Flex direction="row" spacing={8}>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+      <Button variant="filled">Push Me</Button>
+    </Flex>
+  </HorizontalGutter>
 </Playground>
