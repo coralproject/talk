@@ -112,8 +112,6 @@ it("feature and unfeature comment", async () => {
     );
   });
 
-  // Comment should be approved as well.
-  within(comment).getByText("Approved", { exact: false });
   within(
     within(testRenderer.root).getByTestID("comments-featuredCount")
   ).getByText("1");
