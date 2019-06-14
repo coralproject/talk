@@ -38,14 +38,12 @@ it("renders app with comment stream", async () => {
       if (!changedSort) {
         expectAndFail(input).toMatchObject({
           first: 5,
-          flatten: false,
           orderBy: "CREATED_AT_DESC",
         });
         return stories[0].comments;
       }
       expectAndFail(input).toMatchObject({
         first: 5,
-        flatten: false,
         orderBy: "CREATED_AT_ASC",
       });
       return stories[1].comments;

@@ -25,7 +25,7 @@ interface Props {
 
 export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const comments = props.story.comments.edges.map(edge => edge.node);
+  const comments = props.story.featuredComments.edges.map(edge => edge.node);
   return (
     <>
       <HorizontalGutter
@@ -88,13 +88,8 @@ const enhanced = withPaginationContainer<
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         ) {
         id
-        comments(
-          first: $count
-          after: $cursor
-          orderBy: $orderBy
-          flatten: true
-          tag: "FEATURED"
-        ) @connection(key: "Stream_comments") {
+        featuredComments(first: $count, after: $cursor, orderBy: $orderBy)
+          @connection(key: "Stream_featuredComments") {
           edges {
             node {
               id
@@ -128,7 +123,7 @@ const enhanced = withPaginationContainer<
   {
     direction: "forward",
     getConnectionFromProps(props) {
-      return props.story && props.story.comments;
+      return props.story && props.story.featuredComments;
     },
     // This is also the default implementation of `getFragmentVariables` if it isn't provided.
     getFragmentVariables(prevVars, totalCount) {

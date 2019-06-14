@@ -126,6 +126,9 @@ comments-moderationDropdown-caretButton =
 comments-rejectedTombstone =
   You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
 
+comments-featuredTag = Featured
+comments-staffTag = Staff
+
 ### Featured Comments
 comments-featured-gotoConversation = Go to Conversation
 comments-featured-replies = Replies

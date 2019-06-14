@@ -13,13 +13,10 @@ export default function create(params: CreateTestRendererParams) {
     ...params,
     resolvers: overwriteQueryResolver<GQLResolver>(params.resolvers || {}, {
       story: {
-        comments: createQueryResolverOverwrite<StoryToCommentsResolver>(
-          ({ variables }) => {
-            // TODO: (cvle) Remove this overwrite once we have featured comment counts.
-            if (variables.tag === "FEATURED") {
-              return storyWithNoComments.comments;
-            }
-            return;
+        featuredComments: createQueryResolverOverwrite<StoryToCommentsResolver>(
+          () => {
+            // TODO: remove this.
+            return storyWithNoComments.comments;
           }
         ),
       },

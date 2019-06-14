@@ -5,7 +5,7 @@ import { graphql } from "react-relay";
 import { isBeforeDate } from "coral-common/utils";
 import { getURLWithCommentID, roleIsAtLeast } from "coral-framework/helpers";
 import withFragmentContainer from "coral-framework/lib/relay/withFragmentContainer";
-import { GQLUSER_ROLE, GQLUSER_STATUS } from "coral-framework/schema";
+import { GQLTAG, GQLUSER_ROLE, GQLUSER_STATUS } from "coral-framework/schema";
 import { PropTypesOf } from "coral-framework/types";
 import { CommentContainer_comment as CommentData } from "coral-stream/__generated__/CommentContainer_comment.graphql";
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
@@ -158,12 +158,16 @@ export class CommentContainer extends Component<Props, State> {
       viewer,
     } = this.props;
     const { showReplyDialog, showEditDialog, editable } = this.state;
-    const featuredTag = comment.tags.find(t => t.code === "FEATURED");
+    const hasFeaturedTag = Boolean(
+      comment.tags.find(t => t.code === GQLTAG.FEATURED)
+    );
     const commentTags = (
       <>
-        {featuredTag && (
+        {hasFeaturedTag && (
           <Tag color="primary" variant="pill">
-            {featuredTag.name}
+            <Localized id="comments-featuredTag">
+              <span>Featured</span>
+            </Localized>
           </Tag>
         )}
       </>
@@ -355,7 +359,6 @@ const enhanced = withSetCommentIDMutation(
             editableUntil
           }
           tags {
-            name
             code
           }
           pending

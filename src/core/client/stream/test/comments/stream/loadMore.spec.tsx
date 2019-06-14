@@ -22,7 +22,6 @@ beforeEach(() => {
         if (
           isMatch(input, {
             first: 5,
-            flatten: false,
             orderBy: "CREATED_AT_DESC",
           })
         ) {

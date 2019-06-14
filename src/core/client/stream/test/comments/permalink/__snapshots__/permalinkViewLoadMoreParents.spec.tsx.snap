@@ -2,7 +2,7 @@
 
 exports[`renders conversation thread 1`] = `
 <div
-  className="ConversationThread-root"
+  className="ConversationThreadContainer-root"
   data-testid="comments-permalinkView-conversationThread"
 >
   <div
@@ -64,7 +64,7 @@ exports[`renders conversation thread 1`] = `
       </div>
     </div>
     <div
-      className="Circle-circleContainer ConversationThread-loadMore"
+      className="Circle-circleContainer ConversationThreadContainer-loadMore"
     >
       <div
         className="Circle-circleSubContainer"
@@ -87,7 +87,7 @@ exports[`renders conversation thread 1`] = `
         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
       >
         <button
-          className="BaseButton-root Button-root ConversationThread-showMoreButton Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+          className="BaseButton-root Button-root ConversationThreadContainer-showMoreButton Button-sizeRegular Button-colorRegular Button-variantUnderlined"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -100,7 +100,7 @@ exports[`renders conversation thread 1`] = `
           Show More of This Conversation
         </button>
         <span
-          className="Counter-root Counter-colorInherit"
+          className="Counter-root Counter-colorDark"
         >
           <span
             className="Counter-text"
@@ -324,7 +324,7 @@ exports[`renders conversation thread 1`] = `
 
 exports[`shows more of this conversation 1`] = `
 <div
-  className="ConversationThread-root"
+  className="ConversationThreadContainer-root"
   data-testid="comments-permalinkView-conversationThread"
 >
   <div

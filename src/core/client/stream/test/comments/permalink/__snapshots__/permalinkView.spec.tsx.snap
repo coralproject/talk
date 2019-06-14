@@ -71,7 +71,7 @@ exports[`renders permalink view 1`] = `
       className="Box-root HorizontalGutter-root HorizontalGutter-full"
     >
       <div
-        className="ConversationThread-root"
+        className="ConversationThreadContainer-root"
         data-testid="comments-permalinkView-conversationThread"
       >
         <div

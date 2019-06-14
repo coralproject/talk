@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import { Child as PymChild } from "pym.js";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
@@ -13,8 +14,17 @@ import {
   SetCommentIDMutation,
   withSetCommentIDMutation,
 } from "coral-stream/mutations";
+import {
+  CommentContainer,
+  RootParent,
+  UserTagsContainer,
+} from "coral-stream/tabs/Comments/Comment";
+import LocalReplyListContainer from "coral-stream/tabs/Comments/ReplyList/LocalReplyListContainer";
+import { Button, Counter, Flex, HorizontalGutter } from "coral-ui/components";
 
-import ConversationThread from "./ConversationThread";
+import { Circle, Line } from "./Timeline";
+
+import styles from "./ConversationThreadContainer.css";
 
 interface ConversationThreadContainerProps {
   comment: CommentData;
@@ -52,30 +62,91 @@ class ConversationThreadContainer extends React.Component<
 
   public render() {
     const { comment, story, viewer, settings } = this.props;
+    const parents = comment.parents.edges.map(edge => edge.node);
+    const remaining = comment.parentCount - comment.parents.edges.length;
     const hasMore = this.props.relay.hasMore();
+    const rootParent = hasMore && comment && comment.rootParent;
+
+    const dataTestID = "comments-permalinkView-conversationThread";
+    if (remaining === 0 && parents.length === 0) {
+      return (
+        <div className={styles.root} data-testid={dataTestID}>
+          <CommentContainer
+            comment={comment}
+            story={story}
+            settings={settings}
+            viewer={viewer}
+            highlight
+          />
+        </div>
+      );
+    }
     return (
-      <ConversationThread
-        viewer={viewer}
-        story={story}
-        comment={comment}
-        settings={settings}
-        parents={comment.parents.edges.map(edge => edge.node)}
-        disableLoadMore={this.state.disableLoadMore}
-        loadMore={this.loadMore}
-        remaining={comment.parentCount - comment.parents.edges.length}
-        rootParent={
-          (hasMore &&
-            comment &&
-            comment.rootParent && {
-              id: comment.rootParent.id,
-              createdAt: comment.rootParent.createdAt,
-              username:
-                comment.rootParent.author && comment.rootParent.author.username,
-              tags: comment.rootParent.tags.map(t => t.name),
-            }) ||
-          null
-        }
-      />
+      <div className={styles.root} data-testid={dataTestID}>
+        <HorizontalGutter container={<Line dotted />}>
+          {rootParent && (
+            <Circle>
+              <RootParent
+                id={rootParent.id}
+                username={rootParent.author && rootParent.author.username}
+                createdAt={rootParent.createdAt}
+                tags={<UserTagsContainer comment={rootParent} />}
+              />
+            </Circle>
+          )}
+          {remaining > 0 && (
+            <Circle hollow className={styles.loadMore}>
+              <Flex alignItems="center" itemGutter="half">
+                <Localized
+                  id="comments-conversationThread-showMoreOfThisConversation"
+                  $count={remaining}
+                >
+                  <Button
+                    className={styles.showMoreButton}
+                    onClick={this.loadMore}
+                    disabled={this.state.disableLoadMore}
+                    variant="underlined"
+                  >
+                    Show more of this conversation
+                  </Button>
+                </Localized>
+                {remaining > 1 && <Counter color="dark">{remaining}</Counter>}
+              </Flex>
+            </Circle>
+          )}
+        </HorizontalGutter>
+        <HorizontalGutter container={Line}>
+          {parents.map((parent, i) => (
+            <Circle key={parent.id} hollow={!!remaining || i > 0}>
+              <CommentContainer
+                comment={parent}
+                story={story}
+                viewer={viewer}
+                settings={settings}
+                localReply
+              />
+              {viewer && (
+                <LocalReplyListContainer
+                  story={story}
+                  viewer={viewer}
+                  settings={settings}
+                  comment={parent}
+                  indentLevel={1}
+                />
+              )}
+            </Circle>
+          ))}
+          <Circle end>
+            <CommentContainer
+              comment={comment}
+              story={story}
+              settings={settings}
+              viewer={viewer}
+              highlight
+            />
+          </Circle>
+        </HorizontalGutter>
+      </div>
     );
   }
 }
@@ -123,9 +194,7 @@ const enhanced = withContext(ctx => ({
                 username
               }
               createdAt
-              tags {
-                name
-              }
+              ...UserTagsContainer_comment
             }
             parentCount
             parents(last: $count, before: $cursor)

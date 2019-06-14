@@ -4,6 +4,8 @@ import {
   GQLMODERATION_MODE,
   GQLSettings,
   GQLStory,
+  GQLTag,
+  GQLTAG,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -230,7 +232,10 @@ export const commentWithDeepReplies = denormalizeComment(
   )
 );
 
-export const featuredTag = { name: "Featured", code: "FEATURED" };
+export const featuredTag = createFixture<GQLTag>({
+  code: GQLTAG.FEATURED,
+  createdAt: "2015-02-06T18:24:00.000Z",
+});
 
 export const commentWithDeepestReplies = denormalizeComment(
   createFixture<GQLComment>({
@@ -373,7 +378,7 @@ export const commentsFromStaff = denormalizeComments(
         id: "comment-from-staff-0",
         author: moderators[0],
         body: "Joining Too",
-        tags: [{ name: "Staff", code: "STAFF" }],
+        tags: [{ code: GQLTAG.STAFF }],
       },
     ],
     baseComment

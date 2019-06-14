@@ -26,12 +26,8 @@ async function createTestRenderer(
           settings: () => settings,
           story: () => ({
             ...story,
-            comments: createQueryResolverStub<StoryToCommentsResolver>(
+            featuredComments: createQueryResolverStub<StoryToCommentsResolver>(
               ({ variables }) => {
-                expectAndFail(variables).toMatchObject({
-                  tag: "FEATURED",
-                  flatten: true,
-                });
                 if (!variables.after) {
                   return {
                     edges: [story.comments.edges[0]],

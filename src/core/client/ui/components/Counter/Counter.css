@@ -4,7 +4,6 @@
   font-family: var(--font-family-sans-serif);
   line-height: 1;
   letter-spacing: calc(0.2em / 14);
-  color: var(--palette-text-primary);
   border-radius: var(--round-corners);
   padding: 2px 3px 3px 3px;
   color: inherit;

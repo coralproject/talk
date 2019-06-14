@@ -152,7 +152,7 @@ const enhanced = withFragmentContainer<Props>({
       ...StoryClosedTimeoutContainer_story
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
-      featuredComments: comments(first: 1, flatten: true, tag: "FEATURED") {
+      featuredComments(first: 1) {
         pageInfo {
           endCursor
         }
