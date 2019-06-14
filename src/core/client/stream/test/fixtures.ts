@@ -98,6 +98,7 @@ export const baseUser = createFixture<GQLUser>({
       hasNextPage: false,
     },
   },
+  ignoreable: true,
 });
 
 export const commenters = createFixtures<GQLUser>(
@@ -106,25 +107,21 @@ export const commenters = createFixtures<GQLUser>(
       id: "user-0",
       username: "Markus",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
     {
       id: "user-1",
       username: "Lukas",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
     {
       id: "user-2",
       username: "Isabelle",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
     {
       id: "user-3",
       username: "Markus",
       role: GQLUSER_ROLE.COMMENTER,
-      ignoreable: true,
     },
   ],
   baseUser
