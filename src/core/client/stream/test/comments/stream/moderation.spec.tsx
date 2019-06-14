@@ -111,6 +111,10 @@ it("feature and unfeature comment", async () => {
     );
   });
 
+  within(
+    within(testRenderer.root).getByTestID("comments-featuredCount")
+  ).getByText("1");
+
   // Unfeature
   act(() => {
     caretButton.props.onClick();
@@ -124,6 +128,9 @@ it("feature and unfeature comment", async () => {
       within(comment).getByText("Featured", { exact: false })
     );
   });
+  expect(() =>
+    within(testRenderer.root).getByTestID("comments-featuredCount")
+  ).toThrow();
 });
 
 it("approve comment", async () => {

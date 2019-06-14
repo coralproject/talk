@@ -25,6 +25,9 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
     if (typeof c === "string" && matchText(pattern, c, options)) {
       return true;
     }
+    if (typeof c === "number" && matchText(pattern, c.toString(), options)) {
+      return true;
+    }
   }
   return false;
 };

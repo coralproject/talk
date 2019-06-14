@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback, useMemo } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
@@ -107,6 +107,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
                     <span>Featured</span>
                   </Localized>
                   <Counter
+                    data-testid="comments-featuredCount"
                     size="sm"
                     color={
                       local.commentsTab === "FEATURED_COMMENTS"
