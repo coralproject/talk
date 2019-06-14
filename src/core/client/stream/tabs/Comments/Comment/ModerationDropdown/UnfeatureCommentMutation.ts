@@ -12,11 +12,18 @@ import { UnfeatureCommentMutation as MutationTypes } from "coral-stream/__genera
 let clientMutationId = 0;
 
 function decrementCount(store: RecordSourceSelectorProxy, storyID: string) {
-  const tagsRecord = store
-    .get(storyID)!
-    .getLinkedRecord("commentCounts")!
-    .getLinkedRecord("tags")!;
-  tagsRecord.setValue(tagsRecord.getValue("FEATURED") - 1, "FEATURED");
+  const storyRecord = store.get(storyID);
+  if (!storyRecord) {
+    return;
+  }
+  const commentCountsRecord = storyRecord.getLinkedRecord("commentCounts");
+  if (!commentCountsRecord) {
+    return;
+  }
+  const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+  if (tagsRecord) {
+    tagsRecord.setValue(tagsRecord.getValue("FEATURED") - 1, "FEATURED");
+  }
 }
 
 const UnfeatureCommentMutation = createMutation(

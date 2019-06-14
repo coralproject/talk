@@ -13,11 +13,18 @@ import { FeatureCommentMutation as MutationTypes } from "coral-stream/__generate
 let clientMutationId = 0;
 
 function incrementCount(store: RecordSourceSelectorProxy, storyID: string) {
-  const tagsRecord = store
-    .get(storyID)!
-    .getLinkedRecord("commentCounts")!
-    .getLinkedRecord("tags")!;
-  tagsRecord.setValue(tagsRecord.getValue("FEATURED") + 1, "FEATURED");
+  const storyRecord = store.get(storyID);
+  if (!storyRecord) {
+    return;
+  }
+  const commentCountsRecord = storyRecord.getLinkedRecord("commentCounts");
+  if (!commentCountsRecord) {
+    return;
+  }
+  const tagsRecord = commentCountsRecord.getLinkedRecord("tags");
+  if (tagsRecord) {
+    tagsRecord.setValue(tagsRecord.getValue("FEATURED") + 1, "FEATURED");
+  }
 }
 
 const FeatureCommentMutation = createMutation(
@@ -43,11 +50,13 @@ const FeatureCommentMutation = createMutation(
       `,
       optimisticUpdater: store => {
         const comment = store.get(input.commentID)!;
-        const tags = comment.getLinkedRecords("tags")!;
-        const newTag = store.create(uuidGenerator(), "Tag");
-        newTag.setValue(GQLTAG.FEATURED, "code");
-        comment.setLinkedRecords(tags.concat(newTag), "tags");
-        comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
+        const tags = comment.getLinkedRecords("tags");
+        if (tags) {
+          const newTag = store.create(uuidGenerator(), "Tag");
+          newTag.setValue(GQLTAG.FEATURED, "code");
+          comment.setLinkedRecords(tags.concat(newTag), "tags");
+          comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
+        }
         incrementCount(store, input.storyID);
       },
       updater: store => {
