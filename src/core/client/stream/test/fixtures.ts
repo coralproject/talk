@@ -541,6 +541,27 @@ export const storyWithDeepestReplies = denormalizeStory(
   )
 );
 
+export const storyWithOnlyStaffComments = denormalizeStory(
+  createFixture<GQLStory>(
+    {
+      id: "story-with-only-staff-comments",
+      url: "http://localhost/stories/story-with-only-staff-comments",
+      comments: {
+        edges: [
+          {
+            node: commentsFromStaff[0],
+            cursor: commentsFromStaff[0].createdAt,
+          },
+        ],
+        pageInfo: {
+          hasNextPage: false,
+        },
+      },
+    },
+    baseStory
+  )
+);
+
 export const viewerWithComments = createFixture<GQLUser>(
   {
     id: "me-with-comments",
