@@ -16,6 +16,7 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
+import { GQLTAG } from "coral-framework/schema";
 
 import ModerateCard from "./ModerateCard";
 
@@ -42,7 +43,7 @@ function getStatus(comment: CommentData) {
 }
 
 function isFeatured(comment: CommentData) {
-  return comment.tags.some(t => t.code === "FEATURED");
+  return comment.tags.some(t => t.code === GQLTAG.FEATURED);
 }
 
 class ModerateCardContainer extends React.Component<Props> {
