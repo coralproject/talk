@@ -16,7 +16,7 @@ const FeatureButton: FunctionComponent<Props> = ({
   className,
   ...rest
 }) => (
-  <Localized id="moderate-comment-rejectButton" attrs={{ "aria-label": true }}>
+  <Localized id="moderate-comment-featureButton" attrs={{ "aria-label": true }}>
     <BaseButton
       {...rest}
       className={cn(className, styles.root, {

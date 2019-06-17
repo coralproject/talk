@@ -18,13 +18,17 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
 
+import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
+import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
   comment: CommentData;
   settings: SettingsData;
   approveComment: MutationProp<typeof ApproveCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
+  featureComment: MutationProp<typeof FeatureCommentMutation>;
+  unfeatureComment: MutationProp<typeof UnfeatureCommentMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
   router: Router;
@@ -63,6 +67,31 @@ class ModerateCardContainer extends React.Component<Props> {
     });
   };
 
+  private onFeature = () => {
+    const featured = isFeatured(this.props.comment);
+
+    if (featured) {
+      this.handleUnfeature();
+    } else {
+      this.handleFeature();
+    }
+  };
+
+  private handleFeature = () => {
+    this.props.featureComment({
+      commentID: this.props.comment.id,
+      commentRevisionID: this.props.comment.revision.id,
+      storyID: this.props.match.params.storyID,
+    });
+  };
+
+  private handleUnfeature = () => {
+    this.props.unfeatureComment({
+      commentID: this.props.comment.id,
+      storyID: this.props.match.params.storyID,
+    });
+  };
+
   private handleModerateStory = (e: React.MouseEvent) => {
     this.props.router.push(
       getModerationLink("default", this.props.comment.story.id)
@@ -89,6 +118,7 @@ class ModerateCardContainer extends React.Component<Props> {
         bannedWords={settings.wordList.banned}
         onApprove={this.handleApprove}
         onReject={this.handleReject}
+        onFeature={this.onFeature}
         dangling={danglingLogic(comment.status)}
         showStory={showStoryInfo}
         storyTitle={
@@ -145,7 +175,11 @@ const enhanced = withFragmentContainer<Props>({
 })(
   withRouter(
     withMutation(ApproveCommentMutation)(
-      withMutation(RejectCommentMutation)(ModerateCardContainer)
+      withMutation(RejectCommentMutation)(
+        withMutation(FeatureCommentMutation)(
+          withMutation(UnfeatureCommentMutation)(ModerateCardContainer)
+        )
+      )
     )
   )
 );

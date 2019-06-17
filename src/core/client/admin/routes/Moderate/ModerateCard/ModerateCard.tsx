@@ -34,6 +34,7 @@ interface Props {
   onModerateStory?: React.EventHandler<React.MouseEvent>;
   onApprove: () => void;
   onReject: () => void;
+  onFeature: () => void;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -56,6 +57,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   bannedWords,
   onApprove,
   onReject,
+  onFeature,
   dangling,
   showStory,
   storyTitle,
@@ -72,7 +74,7 @@ const ModerateCard: FunctionComponent<Props> = ({
           <div>
             <Username className={styles.username}>{username}</Username>
             <Timestamp>{createdAt}</Timestamp>
-            <FeatureButton featured={featured} />
+            <FeatureButton featured={featured} onClick={onFeature} />
           </div>
           {inReplyTo && (
             <div>
