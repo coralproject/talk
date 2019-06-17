@@ -41,6 +41,10 @@ function getStatus(comment: CommentData) {
   }
 }
 
+function isFeatured(comment: CommentData) {
+  return comment.tags.some(t => t.code === "FEATURED");
+}
+
 class ModerateCardContainer extends React.Component<Props> {
   private handleApprove = () => {
     this.props.approveComment({
@@ -78,6 +82,7 @@ class ModerateCardContainer extends React.Component<Props> {
         inReplyTo={comment.parent && comment.parent.author!.username!}
         comment={comment}
         status={getStatus(comment)}
+        featured={isFeatured(comment)}
         viewContextHref={comment.permalink}
         suspectWords={settings.wordList.suspect}
         bannedWords={settings.wordList.banned}
@@ -107,6 +112,9 @@ const enhanced = withFragmentContainer<Props>({
       createdAt
       body
       status
+      tags {
+        code
+      }
       revision {
         id
       }

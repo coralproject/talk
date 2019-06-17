@@ -1,0 +1,25 @@
+.root {
+  border: 1px solid #BBBEBF;
+  box-sizing: border-box;
+  border-radius: 2px;
+  width: 61px;
+  height: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #BBBEBF;
+  font-family: 'Source Sans Pro';
+  font-size: 14px;
+  line-height: 14px;
+  &:active {
+    background-color: #EBF5FB;
+    border-color: #3498DB;
+    color: #3498DB;
+  }
+}
+
+.invert {
+  background-color: #3498DB;
+  border-color: #3498DB;
+  color: #FFFFFF ;
+}

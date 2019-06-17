@@ -17,6 +17,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   inReplyTo: null,
   comment: {},
   status: "undecided",
+  featured: false,
   viewContextHref: "http://localhost/comment",
   suspectWords: ["idiot"],
   bannedWords: ["fuck"],
