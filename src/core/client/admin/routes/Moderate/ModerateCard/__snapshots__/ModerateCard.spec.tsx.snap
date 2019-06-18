@@ -26,13 +26,13 @@ exports[`renders approved correctly 1`] = `
       <CommentContent
         bannedWords={
           Array [
-            "fuck",
+            "banned",
           ]
         }
         className="ModerateCard-content"
         suspectWords={
           Array [
-            "idiot",
+            "suspect",
           ]
         }
       >
@@ -123,13 +123,13 @@ exports[`renders correctly 1`] = `
       <CommentContent
         bannedWords={
           Array [
-            "fuck",
+            "banned",
           ]
         }
         className="ModerateCard-content"
         suspectWords={
           Array [
-            "idiot",
+            "suspect",
           ]
         }
       >
@@ -219,13 +219,13 @@ exports[`renders dangling correctly 1`] = `
       <CommentContent
         bannedWords={
           Array [
-            "fuck",
+            "banned",
           ]
         }
         className="ModerateCard-content"
         suspectWords={
           Array [
-            "idiot",
+            "suspect",
           ]
         }
       >
@@ -317,13 +317,13 @@ exports[`renders rejected correctly 1`] = `
       <CommentContent
         bannedWords={
           Array [
-            "fuck",
+            "banned",
           ]
         }
         className="ModerateCard-content"
         suspectWords={
           Array [
-            "idiot",
+            "suspect",
           ]
         }
       >
@@ -419,13 +419,13 @@ exports[`renders reply correctly 1`] = `
       <CommentContent
         bannedWords={
           Array [
-            "fuck",
+            "banned",
           ]
         }
         className="ModerateCard-content"
         suspectWords={
           Array [
-            "idiot",
+            "suspect",
           ]
         }
       >
@@ -515,13 +515,13 @@ exports[`renders story info 1`] = `
       <CommentContent
         bannedWords={
           Array [
-            "fuck",
+            "banned",
           ]
         }
         className="ModerateCard-content"
         suspectWords={
           Array [
-            "idiot",
+            "suspect",
           ]
         }
       >
