@@ -21,6 +21,10 @@ exports[`renders approved correctly 1`] = `
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
+          <FeatureButton
+            featured={false}
+            onClick={[Function]}
+          />
         </div>
       </div>
       <CommentContent
@@ -118,6 +122,10 @@ exports[`renders correctly 1`] = `
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
+          <FeatureButton
+            featured={false}
+            onClick={[Function]}
+          />
         </div>
       </div>
       <CommentContent
@@ -214,6 +222,10 @@ exports[`renders dangling correctly 1`] = `
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
+          <FeatureButton
+            featured={false}
+            onClick={[Function]}
+          />
         </div>
       </div>
       <CommentContent
@@ -312,6 +324,10 @@ exports[`renders rejected correctly 1`] = `
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
+          <FeatureButton
+            featured={false}
+            onClick={[Function]}
+          />
         </div>
       </div>
       <CommentContent
@@ -409,6 +425,10 @@ exports[`renders reply correctly 1`] = `
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
+          <FeatureButton
+            featured={false}
+            onClick={[Function]}
+          />
         </div>
         <div>
           <InReplyTo>
@@ -510,6 +530,10 @@ exports[`renders story info 1`] = `
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
+          <FeatureButton
+            featured={false}
+            onClick={[Function]}
+          />
         </div>
       </div>
       <CommentContent
