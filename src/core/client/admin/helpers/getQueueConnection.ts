@@ -5,7 +5,7 @@ type Queue = "reported" | "pending" | "unmoderated" | "rejected";
 export default function getQueueConnection(
   store: RecordSourceSelectorProxy,
   queue: Queue,
-  storyID?: string
+  storyID?: string | null
 ) {
   const root = store.getRoot();
   if (queue === "rejected") {

@@ -47,7 +47,7 @@ beforeEach(async () => {
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
-  const { testRenderer, context } = create({
+  const { testRenderer, context, subscriptionHandler } = create({
     ...params,
     resolvers: pureMerge(
       createResolversStub<GQLResolver>({
@@ -67,7 +67,7 @@ async function createTestRenderer(
       }
     },
   });
-  return { testRenderer, context };
+  return { testRenderer, context, subscriptionHandler };
 }
 
 describe("search bar", () => {

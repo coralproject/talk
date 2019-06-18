@@ -52,10 +52,12 @@ type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }> & {
 export class RestClient {
   public readonly uri: string;
   private tokenGetter?: () => string;
+  private clientID?: string;
 
-  constructor(uri: string, tokenGetter?: () => string) {
+  constructor(uri: string, tokenGetter?: () => string, clientID?: string) {
     this.uri = uri;
     this.tokenGetter = tokenGetter;
+    this.clientID = clientID;
   }
 
   public async fetch<T = {}>(
@@ -68,6 +70,13 @@ export class RestClient {
       opts = merge({}, options, {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+    if (this.clientID) {
+      opts = merge({}, opts, {
+        headers: {
+          "X-Coral-Client-ID": this.clientID,
         },
       });
     }

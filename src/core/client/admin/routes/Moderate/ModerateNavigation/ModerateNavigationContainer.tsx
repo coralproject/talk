@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { graphql } from "react-relay";
 
 import { ModerateNavigationContainer_moderationQueues as ModerationQueuesData } from "coral-admin/__generated__/ModerateNavigationContainer_moderationQueues.graphql";
 import { ModerateNavigationContainer_story as StoryData } from "coral-admin/__generated__/ModerateNavigationContainer_story.graphql";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  useSubscription,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 
+import ModerationCountsSubscription from "./ModerationCountsSubscription";
 import Navigation from "./Navigation";
 
 interface Props {
@@ -13,6 +17,19 @@ interface Props {
 }
 
 const ModerateNavigationContainer: React.FunctionComponent<Props> = props => {
+  const subscribeToCounts = useSubscription(ModerationCountsSubscription);
+  useEffect(() => {
+    if (!props.moderationQueues) {
+      return;
+    }
+    const disposable = subscribeToCounts({
+      storyID: props.story && props.story.id,
+    });
+    return () => {
+      disposable.dispose();
+    };
+  }, [Boolean(props.moderationQueues), props.story]);
+
   if (!props.moderationQueues) {
     return <Navigation />;
   }
