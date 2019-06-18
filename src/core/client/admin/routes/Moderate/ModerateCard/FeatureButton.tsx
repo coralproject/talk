@@ -16,20 +16,18 @@ const FeatureButton: FunctionComponent<Props> = ({
   className,
   ...rest
 }) => (
-  <Localized id="moderate-comment-featureButton">
-    <BaseButton
-      {...rest}
-      className={cn(className, styles.root, {
-        [styles.invert]: featured,
-      })}
-    >
-      {featured ? (
-        <Localized id="moderate-comment-featuredText" />
-      ) : (
-        <Localized id="moderate-comment-featureText" />
-      )}
-    </BaseButton>
-  </Localized>
+  <BaseButton
+    {...rest}
+    className={cn(className, styles.root, {
+      [styles.invert]: featured,
+    })}
+  >
+    {featured ? (
+      <Localized id="moderate-comment-featuredText" />
+    ) : (
+      <Localized id="moderate-comment-featureText" />
+    )}
+  </BaseButton>
 );
 
 export default FeatureButton;
