@@ -418,6 +418,7 @@ export const baseComment = createFixture<GQLComment>({
   body: "Comment Body",
   createdAt: "2018-07-06T18:24:00.000Z",
   status: GQLCOMMENT_STATUS.NONE,
+  tags: [],
   actionCounts: {
     flag: {
       reasons: {
