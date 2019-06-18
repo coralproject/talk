@@ -332,9 +332,12 @@ moderate-comment-rejectButton =
   .aria-label = Reject
 moderate-comment-approveButton =
   .aria-label = Approve
+moderate-comment-featureButton = Feature
 moderate-comment-decision = Decision
 moderate-comment-story = Story
 moderate-comment-moderateStory = Moderate Story
+moderate-comment-featureText = Feature
+moderate-comment-featuredText = Featured
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View

@@ -11,6 +11,7 @@
   font-family: 'Source Sans Pro';
   font-size: 14px;
   line-height: 14px;
+  float: right;
   &:active {
     background-color: #EBF5FB;
     border-color: #3498DB;
