@@ -94,6 +94,20 @@ function createFetch({
   };
 }
 
+function resolveArguments(
+  variables: Record<string, any> = {},
+  args: any[] = []
+) {
+  return args.reduce((res, a) => {
+    const argName = a.name.value;
+    const variableName = a.value.name.value;
+    if (variableName in variables) {
+      res[argName] = variables[variableName];
+    }
+    return res;
+  }, {});
+}
+
 function createSubscribe(
   subscriptionHandler: SubscriptionHandler
 ): SubscribeFunction {
@@ -108,21 +122,20 @@ function createSubscribe(
     const subscriptionSelections = (parse(operation.text!) as any)
       .definitions[0].selectionSet.selections as any[];
     const disposables: Disposable[] = [];
-    const fields = subscriptionSelections.map(f => f.name.value);
-    const defaultData = fields.reduce((res, f) => {
-      res[f] = null;
+    const defaultData = subscriptionSelections.reduce((res, f) => {
+      res[f.name.value] = null;
       return res;
     }, {});
 
-    fields.forEach(field => {
+    subscriptionSelections.forEach(sel => {
       const subscription = {
-        field,
-        variables: variables || {},
+        field: sel.name.value,
+        variables: resolveArguments(variables, sel.arguments),
         dispatch: (response: any) => {
           observer.onNext({
             data: {
               ...defaultData,
-              [field]: response,
+              [sel.name.value]: response,
             },
           });
         },

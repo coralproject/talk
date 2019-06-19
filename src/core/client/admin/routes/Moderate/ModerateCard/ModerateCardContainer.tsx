@@ -4,9 +4,10 @@ import { graphql } from "react-relay";
 
 import {
   COMMENT_STATUS,
-  ModerateCardContainer_comment as CommentData,
+  ModerateCardContainer_comment,
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
-import { ModerateCardContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-admin/helpers";
 import { ApproveCommentMutation } from "coral-admin/mutations";
@@ -23,8 +24,9 @@ import ModerateCard from "./ModerateCard";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
-  comment: CommentData;
-  settings: SettingsData;
+  comment: ModerateCardContainer_comment;
+  viewer: ModerateCardContainer_viewer;
+  settings: ModerateCardContainer_settings;
   approveComment: MutationProp<typeof ApproveCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
   featureComment: MutationProp<typeof FeatureCommentMutation>;
@@ -35,7 +37,7 @@ interface Props {
   showStoryInfo: boolean;
 }
 
-function getStatus(comment: CommentData) {
+function getStatus(comment: ModerateCardContainer_comment) {
   switch (comment.status) {
     case "APPROVED":
       return "approved";
@@ -102,7 +104,22 @@ class ModerateCardContainer extends React.Component<Props> {
   };
 
   public render() {
-    const { comment, settings, danglingLogic, showStoryInfo } = this.props;
+    const {
+      comment,
+      settings,
+      danglingLogic,
+      showStoryInfo,
+      viewer,
+    } = this.props;
+    const dangling = danglingLogic(comment.status);
+    // Show moderated by when comment was live moderated by another user.
+    const moderatedBy =
+      (comment.statusLiveUpdated &&
+        comment.statusHistory.edges.length > 0 &&
+        comment.statusHistory.edges[0].node.moderator &&
+        viewer.id !== comment.statusHistory.edges[0].node.moderator.id &&
+        comment.statusHistory.edges[0].node.moderator.username) ||
+      null;
     return (
       <ModerateCard
         id={comment.id}
@@ -111,6 +128,7 @@ class ModerateCardContainer extends React.Component<Props> {
         body={comment.body!}
         inReplyTo={comment.parent && comment.parent.author!.username!}
         comment={comment}
+        dangling={dangling}
         status={getStatus(comment)}
         featured={isFeatured(comment)}
         viewContextHref={comment.permalink}
@@ -119,7 +137,7 @@ class ModerateCardContainer extends React.Component<Props> {
         onApprove={this.handleApprove}
         onReject={this.handleReject}
         onFeature={this.onFeature}
-        dangling={danglingLogic(comment.status)}
+        moderatedBy={moderatedBy}
         showStory={showStoryInfo}
         storyTitle={
           (comment.story.metadata && comment.story.metadata.title) || (
@@ -140,11 +158,22 @@ const enhanced = withFragmentContainer<Props>({
       author {
         username
       }
+      statusLiveUpdated
       createdAt
       body
-      status
       tags {
         code
+      }
+      status
+      statusHistory(first: 1) {
+        edges {
+          node {
+            moderator {
+              id
+              username
+            }
+          }
+        }
       }
       revision {
         id
@@ -170,6 +199,11 @@ const enhanced = withFragmentContainer<Props>({
         banned
         suspect
       }
+    }
+  `,
+  viewer: graphql`
+    fragment ModerateCardContainer_viewer on User {
+      id
     }
   `,
 })(

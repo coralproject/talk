@@ -1,0 +1,544 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`approves single comment 1`] = `
+<div
+  className="Card-root ModerateCard-root"
+  data-testid="moderate-comment-comment-0"
+>
+  <div
+    className="Box-root Flex-root Flex-flex"
+  >
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div>
+          <span
+            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+          >
+            Isabelle
+          </span>
+          <time
+            className="Timestamp-root RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </div>
+      </div>
+      <div
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+          }
+        }
+      />
+      <div
+        className="ModerateCard-footer"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/0"
+              target="_blank"
+            >
+              View Context
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                open_in_new
+              </span>
+            </a>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex"
+            >
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              >
+                <span
+                  className="Marker-root Marker-colorError Marker-variantRegular"
+                >
+                  <span>
+                    Spam
+                  </span>
+                   
+                  <span
+                    className="Count-root"
+                  >
+                    2
+                  </span>
+                </span>
+              </div>
+              <button
+                aria-controls="uuid-0"
+                aria-expanded={false}
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span
+                  className="Markers-detailsText"
+                >
+                  Details
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  arrow_drop_down
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator"
+    />
+    <div
+      className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
+    >
+      <div
+        className="ModerateCard-decision"
+      >
+        Decision
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+      >
+        <button
+          aria-label="Reject"
+          className="BaseButton-root RejectButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-lg RejectButton-icon"
+          >
+            close
+          </span>
+        </button>
+        <button
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root ApproveButton-invert"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-lg ApproveButton-icon"
+          >
+            done
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`rejects single comment 1`] = `
+<div
+  className="Card-root ModerateCard-root"
+  data-testid="moderate-comment-comment-0"
+>
+  <div
+    className="Box-root Flex-root Flex-flex"
+  >
+    <div
+      className="ModerateCard-mainContainer"
+    >
+      <div
+        className="ModerateCard-topBar"
+      >
+        <div>
+          <span
+            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+          >
+            Isabelle
+          </span>
+          <time
+            className="Timestamp-root RelativeTime-root"
+            dateTime="2018-07-06T18:24:00.000Z"
+            title="2018-07-06T18:24:00.000Z"
+          >
+            2018-07-06T18:24:00.000Z
+          </time>
+        </div>
+      </div>
+      <div
+        className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+          }
+        }
+      />
+      <div
+        className="ModerateCard-footer"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-full"
+        >
+          <div>
+            <a
+              className="TextLink-root ModerateCard-link"
+              href="http://localhost/comment/0"
+              target="_blank"
+            >
+              View Context
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-xs TextLink-icon"
+              >
+                open_in_new
+              </span>
+            </a>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+          >
+            <div
+              className="Box-root Flex-root Flex-flex"
+            >
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              >
+                <span
+                  className="Marker-root Marker-colorError Marker-variantRegular"
+                >
+                  <span>
+                    Spam
+                  </span>
+                   
+                  <span
+                    className="Count-root"
+                  >
+                    2
+                  </span>
+                </span>
+              </div>
+              <button
+                aria-controls="uuid-0"
+                aria-expanded={false}
+                className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span
+                  className="Markers-detailsText"
+                >
+                  Details
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-sm"
+                >
+                  arrow_drop_down
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="ModerateCard-separator"
+    />
+    <div
+      className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
+    >
+      <div
+        className="ModerateCard-decision"
+      >
+        Decision
+      </div>
+      <div
+        className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+      >
+        <button
+          aria-label="Reject"
+          className="BaseButton-root RejectButton-root RejectButton-invert"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-lg RejectButton-icon"
+          >
+            close
+          </span>
+        </button>
+        <button
+          aria-label="Approve"
+          className="BaseButton-root ApproveButton-root"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-lg ApproveButton-icon"
+          >
+            done
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders single comment view 1`] = `
+<div
+  data-testid="single-moderate-container"
+>
+  <div
+    className="SubBar-root SingleModerate-subBar SubBar-gutterBegin SubBar-gutterEnd"
+  >
+    <div
+      className="Box-root Flex-root SubBar-container Flex-flex Flex-justifyCenter Flex-alignCenter"
+    >
+      <a
+        className="SingleModerate-subBarBegin"
+        href="/admin/moderate/"
+        onClick={[Function]}
+      >
+        Go to moderation queues
+      </a>
+      <div
+        className="SingleModerate-subBarTitle"
+      >
+        Single Comment View
+      </div>
+    </div>
+  </div>
+  <div
+    className="SingleModerate-background"
+  />
+  <div
+    className="MainLayout-root"
+  >
+    <main
+      className="SingleModerate-main"
+    >
+      <div
+        className="Box-root HorizontalGutter-root Queue-root HorizontalGutter-double"
+      >
+        <div
+          className="Card-root ModerateCard-root"
+          data-testid="moderate-comment-comment-0"
+        >
+          <div
+            className="Box-root Flex-root Flex-flex"
+          >
+            <div
+              className="ModerateCard-mainContainer"
+            >
+              <div
+                className="ModerateCard-topBar"
+              >
+                <div>
+                  <span
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+                  >
+                    Isabelle
+                  </span>
+                  <time
+                    className="Timestamp-root RelativeTime-root"
+                    dateTime="2018-07-06T18:24:00.000Z"
+                    title="2018-07-06T18:24:00.000Z"
+                  >
+                    2018-07-06T18:24:00.000Z
+                  </time>
+                </div>
+              </div>
+              <div
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary ModerateCard-content CommentContent-root"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "This is the last random sentence I will be writing and I am going to stop mid-sent",
+                  }
+                }
+              />
+              <div
+                className="ModerateCard-footer"
+              >
+                <div
+                  className="Box-root HorizontalGutter-root HorizontalGutter-full"
+                >
+                  <div>
+                    <a
+                      className="TextLink-root ModerateCard-link"
+                      href="http://localhost/comment/0"
+                      target="_blank"
+                    >
+                      View Context
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-xs TextLink-icon"
+                      >
+                        open_in_new
+                      </span>
+                    </a>
+                  </div>
+                  <div
+                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                  >
+                    <div
+                      className="Box-root Flex-root Flex-flex"
+                    >
+                      <div
+                        className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                      >
+                        <span
+                          className="Marker-root Marker-colorError Marker-variantRegular"
+                        >
+                          <span>
+                            Spam
+                          </span>
+                           
+                          <span
+                            className="Count-root"
+                          >
+                            2
+                          </span>
+                        </span>
+                      </div>
+                      <button
+                        aria-controls="uuid-0"
+                        aria-expanded={false}
+                        className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Markers-detailsButtonColorRegular Button-variantRegular Markers-detailsButton"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
+                        onTouchEnd={[Function]}
+                        type="button"
+                      >
+                        <span
+                          className="Markers-detailsText"
+                        >
+                          Details
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="Icon-root Icon-sm"
+                        >
+                          arrow_drop_down
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="ModerateCard-separator"
+            />
+            <div
+              className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
+            >
+              <div
+                className="ModerateCard-decision"
+              >
+                Decision
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              >
+                <button
+                  aria-label="Reject"
+                  className="BaseButton-root RejectButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg RejectButton-icon"
+                  >
+                    close
+                  </span>
+                </button>
+                <button
+                  aria-label="Approve"
+                  className="BaseButton-root ApproveButton-root"
+                  disabled={false}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="Icon-root Icon-lg ApproveButton-icon"
+                  >
+                    done
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+`;

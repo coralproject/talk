@@ -27,6 +27,15 @@ const ApproveCommentMutation = createMutation(
             comment {
               id
               status
+              statusHistory(first: 1) {
+                edges {
+                  node {
+                    moderator {
+                      username
+                    }
+                  }
+                }
+              }
             }
             moderationQueues(storyID: $storyID) {
               unmoderated {

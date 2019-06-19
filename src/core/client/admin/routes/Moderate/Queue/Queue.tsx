@@ -14,6 +14,7 @@ interface Props {
     { id: string } & PropTypesOf<typeof ModerateCardContainer>["comment"]
   >;
   settings: PropTypesOf<typeof ModerateCardContainer>["settings"];
+  viewer: PropTypesOf<typeof ModerateCardContainer>["viewer"];
   onLoadMore: () => void;
   hasMore: boolean;
   disableLoadMore: boolean;
@@ -31,6 +32,7 @@ const Queue: FunctionComponent<Props> = ({
   danglingLogic,
   emptyElement,
   allStories,
+  viewer,
 }) => (
   <HorizontalGutter className={styles.root} size="double">
     <TransitionGroup component={null} appear={false} enter={false} exit>
@@ -46,6 +48,7 @@ const Queue: FunctionComponent<Props> = ({
         >
           <ModerateCardContainer
             settings={settings}
+            viewer={viewer}
             comment={c}
             danglingLogic={danglingLogic}
             showStoryInfo={Boolean(allStories)}

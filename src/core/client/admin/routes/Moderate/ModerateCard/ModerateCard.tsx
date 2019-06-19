@@ -25,6 +25,7 @@ interface Props {
   comment: PropTypesOf<typeof MarkersContainer>["comment"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
+  moderatedBy: string | null;
   viewContextHref: string;
   suspectWords: ReadonlyArray<string>;
   bannedWords: ReadonlyArray<string>;
@@ -63,6 +64,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   storyTitle,
   storyHref,
   onModerateStory,
+  moderatedBy,
 }) => (
   <Card
     className={cn(styles.root, { [styles.dangling]: dangling })}
@@ -148,6 +150,14 @@ const ModerateCard: FunctionComponent<Props> = ({
             disabled={status === "approved" || dangling}
           />
         </Flex>
+        {moderatedBy && (
+          <>
+            <div>
+              <div className={styles.moderatedBy}>Moderated By</div>
+              <div className={styles.moderatedByUsername}>{moderatedBy}</div>
+            </div>
+          </>
+        )}
       </Flex>
     </Flex>
   </Card>

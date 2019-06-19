@@ -4570,8 +4570,6 @@ type Subscription {
   commentStatusUpdated returns when a Comment has it's status changed after
   being created.
   """
-  commentStatusUpdated(
-    storyID: ID
-    statuses: [COMMENT_STATUS!]
-  ): CommentStatusUpdatedPayload! @auth(roles: [MODERATOR, ADMIN])
+  commentStatusUpdated(id: ID): CommentStatusUpdatedPayload!
+    @auth(roles: [MODERATOR, ADMIN])
 }

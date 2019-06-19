@@ -8,7 +8,7 @@ import {
 } from "coral-framework/lib/relay";
 
 const ModerationCountsSubscription = createSubscription(
-  "subscribeToCountChanges",
+  "subscribeToCounts",
   (
     environment: Environment,
     variables: SubscriptionVariables<ModerationCountsSubscription>

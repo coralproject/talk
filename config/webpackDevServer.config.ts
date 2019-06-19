@@ -79,11 +79,12 @@ export default function({
     public: allowedHost,
     index: "embed.html",
     proxy: {
+      /*
       // Proxy websocket connections.
       "/api/graphql/live": {
         target: `ws://localhost:${serverPort}`,
         ws: true,
-      },
+      },*/
       // Proxy to the graphql server.
       "/api": {
         target: `http://localhost:${serverPort}`,

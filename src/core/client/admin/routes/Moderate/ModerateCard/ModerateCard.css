@@ -11,7 +11,7 @@
 }
 
 .content {
-  min-height: calc(4.5 * var(--mini-unit));
+  min-height: calc(5.5 * var(--mini-unit));
 }
 
 .mainContainer {
@@ -80,4 +80,25 @@
   line-height: calc(18em / 12);
   letter-spacing: calc(0.2em / 12);
   color: var(--palette-text-primary);
+}
+
+.moderatedBy {
+  font-size: calc(12rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--palette-text-primary);
+  text-transform: uppercase;
+}
+
+.moderatedByUsername {
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-sans-serif);
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--palette-text-primary);
+  text-align: center;
+  padding-top: 1px;
 }

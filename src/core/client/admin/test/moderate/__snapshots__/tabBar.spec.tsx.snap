@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tab bar renders tab bar (empty queues) 1`] = `
+<div
+  className="SubBar-root"
+  data-testid="moderate-tabBar-container"
+>
+  <div
+    className="Box-root Flex-root SubBar-container Flex-flex Flex-justifyCenter Flex-alignCenter"
+  >
+    <nav
+      className="Navigation-root"
+    >
+      <ul
+        className="Navigation-ul"
+      >
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor NavigationItem-active"
+            href="/admin/moderate/reported"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              flag
+            </span>
+            <span>
+              reported
+            </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-reported-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
+          </a>
+        </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
+            href="/admin/moderate/pending"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              access_time
+            </span>
+            <span>
+              Pending
+            </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-pending-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
+          </a>
+        </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
+            href="/admin/moderate/unmoderated"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              forum
+            </span>
+            <span>
+              unmoderated
+            </span>
+            <span
+              className="Counter-root Counter-colorInherit"
+              data-testid="moderate-navigation-unmoderated-count"
+            >
+              <span
+                className="Counter-text"
+              >
+                0
+              </span>
+            </span>
+          </a>
+        </li>
+        <li
+          className="NavigationItem-root"
+        >
+          <a
+            className="NavigationItem-anchor"
+            href="/admin/moderate/rejected"
+            onClick={[Function]}
+          >
+            <span
+              aria-hidden="true"
+              className="Icon-root Icon-sm"
+            >
+              cancel
+            </span>
+            <span>
+              rejected
+            </span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+`;
