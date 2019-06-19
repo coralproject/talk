@@ -2,6 +2,7 @@ import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
 import { GraphQLSchema } from "graphql";
+import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
@@ -37,6 +38,7 @@ export interface AppOptions {
   tenantCache: TenantCache;
   metrics: boolean;
   disableClientRoutes: boolean;
+  pubsub: RedisPubSub;
 }
 
 /**

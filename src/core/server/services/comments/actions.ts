@@ -26,7 +26,10 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
+import { CommentNotFoundError } from "coral-server/errors";
+import { Publisher } from "coral-server/graph/tenant/subscriptions/pubsub";
 import { AugmentedRedis } from "../redis";
+import { publishModerationQueueChanges } from "./moderation";
 import { calculateCountsDiff } from "./moderation/counts";
 
 export type CreateAction = CreateActionInput;
@@ -49,6 +52,7 @@ export async function addCommentActions(
 
 export async function addCommentActionCounts(
   mongo: Db,
+  pub: Publisher,
   tenant: Tenant,
   oldComment: Readonly<Comment>,
   ...actions: CommentAction[]
@@ -78,14 +82,14 @@ export async function addCommentActionCounts(
 async function addCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
+  pub: Publisher,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID">,
   now = new Date()
 ): Promise<Readonly<Comment>> {
   const oldComment = await retrieveComment(mongo, tenant.id, input.commentID);
   if (!oldComment) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
+    throw new CommentNotFoundError(input.commentID);
   }
 
   // Create the action creator input.
@@ -100,16 +104,22 @@ async function addCommentAction(
     // Update the comment action counts.
     const updatedComment = await addCommentActionCounts(
       mongo,
+      pub,
       tenant,
       oldComment,
       ...commentActions
     );
 
+    const moderationQueue = calculateCountsDiff(oldComment, updatedComment);
+
     // Calculate the new story counts.
     await updateStoryCounts(mongo, redis, tenant.id, updatedComment.storyID, {
       action: encodeActionCounts(...commentActions),
-      moderationQueue: calculateCountsDiff(oldComment, updatedComment),
+      moderationQueue,
     });
+
+    // Publish changes to the queue.
+    publishModerationQueueChanges(pub, tenant, moderationQueue, updatedComment);
 
     return updatedComment;
   }
@@ -126,8 +136,7 @@ export async function removeCommentAction(
   // Get the Comment that we are leaving the Action on.
   const comment = await retrieveComment(mongo, tenant.id, input.commentID);
   if (!comment) {
-    // TODO: replace to match error returned by the models/comments.ts
-    throw new Error("comment not found");
+    throw new CommentNotFoundError(input.commentID);
   }
 
   // Get the revision for the specific action being removed.
@@ -198,6 +207,7 @@ export type CreateCommentReaction = Pick<
 export async function createReaction(
   mongo: Db,
   redis: AugmentedRedis,
+  pub: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateCommentReaction,
@@ -206,6 +216,7 @@ export async function createReaction(
   return addCommentAction(
     mongo,
     redis,
+    pub,
     tenant,
     {
       actionType: ACTION_TYPE.REACTION,
@@ -241,6 +252,7 @@ export type CreateCommentDontAgree = Pick<
 export async function createDontAgree(
   mongo: Db,
   redis: AugmentedRedis,
+  pub: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateCommentDontAgree,
@@ -249,6 +261,7 @@ export async function createDontAgree(
   return addCommentAction(
     mongo,
     redis,
+    pub,
     tenant,
     {
       actionType: ACTION_TYPE.DONT_AGREE,
@@ -287,6 +300,7 @@ export type CreateCommentFlag = Pick<
 export async function createFlag(
   mongo: Db,
   redis: AugmentedRedis,
+  pub: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateCommentFlag,
@@ -295,6 +309,7 @@ export async function createFlag(
   return addCommentAction(
     mongo,
     redis,
+    pub,
     tenant,
     {
       actionType: ACTION_TYPE.FLAG,

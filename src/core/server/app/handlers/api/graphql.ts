@@ -8,14 +8,15 @@ import { Request, RequestHandler } from "coral-server/types/express";
 
 export type GraphMiddlewareOptions = Pick<
   AppOptions,
-  | "schema"
   | "config"
+  | "i18n"
+  | "mailerQueue"
   | "mongo"
   | "redis"
-  | "mailerQueue"
+  | "schema"
   | "scraperQueue"
   | "signingConfig"
-  | "i18n"
+  | "pubsub"
 >;
 
 export const graphQLHandler = ({

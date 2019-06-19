@@ -1,14 +1,23 @@
 import cluster from "cluster";
 import express, { Express } from "express";
 import { GraphQLSchema } from "graphql";
+import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
 import { Db } from "mongodb";
 import { AggregatorRegistry, collectDefaultMetrics } from "prom-client";
+import { SubscriptionServer } from "subscriptions-transport-ws";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
-import { createApp, listenAndServe } from "coral-server/app";
+import { AppOptions, createApp, listenAndServe } from "coral-server/app";
+import { basicAuth } from "coral-server/app/middleware/basicAuth";
+import { noCacheMiddleware } from "coral-server/app/middleware/cacheHeaders";
+import { JSONErrorHandler } from "coral-server/app/middleware/error";
+import { accessLogger, errorLogger } from "coral-server/app/middleware/logging";
+import { notFoundMiddleware } from "coral-server/app/middleware/notFound";
 import config, { Config } from "coral-server/config";
+import { createPubSubClient } from "coral-server/graph/common/subscriptions/pubsub";
 import getTenantSchema from "coral-server/graph/tenant/schema";
+import { createSubscriptionServer } from "coral-server/graph/tenant/subscriptions/server";
 import logger from "coral-server/logger";
 import { createQueue, TaskQueue } from "coral-server/queue";
 import { I18n } from "coral-server/services/i18n";
@@ -21,11 +30,6 @@ import {
   createRedisClient,
 } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
-import { basicAuth } from "./app/middleware/basicAuth";
-import { noCacheMiddleware } from "./app/middleware/cacheHeaders";
-import { JSONErrorHandler } from "./app/middleware/error";
-import { accessLogger, errorLogger } from "./app/middleware/logging";
-import { notFoundMiddleware } from "./app/middleware/notFound";
 
 export interface ServerOptions {
   /**
@@ -55,11 +59,18 @@ class Server {
   // the requested port.
   public httpServer: http.Server;
 
+  // subscriptionServer is the running instance of the HTTP server that will
+  // bind to the requested port to serve websocket traffic.
+  public subscriptionServer: SubscriptionServer;
+
   // tasks stores a reference to the queues that can process operations.
   private tasks: TaskQueue;
 
   // redis stores the redis connection used by the application.
   private redis: AugmentedRedis;
+
+  // pubsub stores the pubsub engine used by the application.
+  private pubsub: RedisPubSub;
 
   // mongo stores the mongo connection used by the application.
   private mongo: Db;
@@ -133,6 +144,12 @@ class Server {
       tenantCache: this.tenantCache,
       i18n: this.i18n,
     });
+
+    // Create the pubsub client.
+    this.pubsub = createPubSubClient(
+      createRedisClient(this.config),
+      createRedisClient(this.config)
+    );
 
     // Setup the metrics collectors.
     collectDefaultMetrics({ timeout: 5000 });
@@ -245,9 +262,9 @@ class Server {
     // Webpack Dev Server.
     const disableClientRoutes = this.config.get("disable_client_routes");
 
-    // Create the Coral App, branching off from the parent app.
-    const app: Express = await createApp({
+    const options: AppOptions = {
       parent,
+      pubsub: this.pubsub,
       mongo: this.mongo,
       redis: this.redis,
       signingConfig,
@@ -259,14 +276,22 @@ class Server {
       scraperQueue: this.tasks.scraper,
       metrics,
       disableClientRoutes,
-    });
+    };
+
+    // Create the Coral App, branching off from the parent app.
+    const app: Express = await createApp(options);
 
     // Start the application and store the resulting http.Server. The server
     // will return when the server starts listening. The NodeJS application will
     // not exit until all tasks are handled, which for an open socket, is never.
     this.httpServer = await listenAndServe(app, port);
 
-    // TODO: (wyattjoh) add the subscription handler here
+    // Setup subscriptions and attach it to the httpServer.
+    this.subscriptionServer = createSubscriptionServer(
+      this.httpServer,
+      this.schema,
+      options
+    );
 
     logger.info({ port }, "now listening");
   }

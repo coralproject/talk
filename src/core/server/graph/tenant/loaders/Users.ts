@@ -82,20 +82,27 @@ const statusFilter = (
 const primeUsersFromConnection = (ctx: Context) => (
   connection: Readonly<Connection<Readonly<User>>>
 ) => {
-  // For each of the nodes, prime the user loader.
-  connection.nodes.forEach(user => {
-    ctx.loaders.Users.user.prime(user.id, user);
-  });
+  if (!ctx.disableCaching) {
+    // For each of the nodes, prime the user loader.
+    connection.nodes.forEach(user => {
+      ctx.loaders.Users.user.prime(user.id, user);
+    });
+  }
 
   return connection;
 };
 
 export default (ctx: Context) => {
-  const user = new DataLoader<string, User | null>(ids =>
-    retrieveManyUsers(ctx.mongo, ctx.tenant.id, ids)
+  const user = new DataLoader<string, User | null>(
+    ids => retrieveManyUsers(ctx.mongo, ctx.tenant.id, ids),
+    {
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
+    }
   );
 
-  if (ctx.user) {
+  if (ctx.user && !ctx.disableCaching) {
     // Prime the current logged in user in the dataloader cache.
     user.prime(ctx.user.id, ctx.user);
   }

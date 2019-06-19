@@ -3,7 +3,7 @@ import sinon from "sinon";
 import { Config } from "coral-server/config";
 import {
   createJWTSigningConfig,
-  extractJWTFromRequest,
+  extractTokenFromRequest,
 } from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
 
@@ -16,22 +16,22 @@ describe("extractJWTFromRequest", () => {
       url: "",
     };
 
-    expect(extractJWTFromRequest((req as any) as Request)).toEqual("token");
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual("token");
 
     delete req.headers.authorization;
 
-    expect(extractJWTFromRequest((req as any) as Request)).toEqual(null);
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual(null);
   });
 
   it("extracts the token from query string", () => {
     const req = {
       url: "",
     };
-    expect(extractJWTFromRequest((req as any) as Request)).toEqual(null);
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual(null);
 
     req.url = "https://coral.coralproject.net/api?accessToken=token";
 
-    expect(extractJWTFromRequest((req as any) as Request)).toEqual("token");
+    expect(extractTokenFromRequest((req as any) as Request)).toEqual("token");
   });
 
   it("does not extract the token from query string when it's disabled", () => {
@@ -39,7 +39,9 @@ describe("extractJWTFromRequest", () => {
       url: "https://coral.coralproject.net/api?accessToken=token",
     };
 
-    expect(extractJWTFromRequest((req as any) as Request, true)).toEqual(null);
+    expect(extractTokenFromRequest((req as any) as Request, true)).toEqual(
+      null
+    );
   });
 });
 

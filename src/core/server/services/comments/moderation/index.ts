@@ -1,16 +1,29 @@
 import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
-import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
+import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
+import {
+  GQLCOMMENT_STATUS,
+  GQLMODERATION_QUEUE,
+} from "coral-server/graph/tenant/schema/__generated__/types";
+import {
+  publish,
+  Publisher,
+} from "coral-server/graph/tenant/subscriptions/pubsub";
 import logger from "coral-server/logger";
 import {
   createCommentModerationAction,
   CreateCommentModerationActionInput,
 } from "coral-server/models/action/moderation/comment";
-import { updateCommentStatus } from "coral-server/models/comment";
-import { updateStoryCounts } from "coral-server/models/story";
+import { Comment, updateCommentStatus } from "coral-server/models/comment";
+import {
+  CommentModerationQueueCounts,
+  updateStoryCounts,
+} from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { AugmentedRedis } from "coral-server/services/redis";
+
 import { calculateCountsDiff } from "./counts";
 
 export type Moderate = Omit<CreateCommentModerationActionInput, "status">;
@@ -20,6 +33,7 @@ const moderate = (
 ) => async (
   mongo: Db,
   redis: AugmentedRedis,
+  pub: Publisher,
   tenant: Tenant,
   input: Moderate
 ) => {
@@ -41,8 +55,7 @@ const moderate = (
     status
   );
   if (!result) {
-    // TODO: wrap in better error?
-    throw new Error("specified comment not found");
+    throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
   }
 
   log.trace("updated comment status");
@@ -62,6 +75,19 @@ const moderate = (
     "created the moderation action"
   );
 
+  // Compute the queue difference as a result of the old status and the new
+  // status.
+  const moderationQueue = calculateCountsDiff(
+    {
+      status: result.oldStatus,
+      actionCounts: result.comment.actionCounts,
+    },
+    {
+      status,
+      actionCounts: result.comment.actionCounts,
+    }
+  );
+
   // Update the story comment counts.
   const story = await updateStoryCounts(
     mongo,
@@ -74,24 +100,16 @@ const moderate = (
         [result.oldStatus]: -1,
         [status]: 1,
       },
-      // Compute the queue difference as a result of the old status and the new
-      // status.
-      moderationQueue: calculateCountsDiff(
-        {
-          status: result.oldStatus,
-          actionCounts: result.comment.actionCounts,
-        },
-        {
-          status,
-          actionCounts: result.comment.actionCounts,
-        }
-      ),
+
+      moderationQueue,
     }
   );
   if (!story) {
-    // TODO: wrap in better error?
-    throw new Error("specified story not found");
+    throw new StoryNotFoundError(result.comment.storyID);
   }
+
+  // Publish changes to the queue.
+  publishModerationQueueChanges(pub, tenant, moderationQueue, result.comment);
 
   log.trace({ oldStatus: result.oldStatus }, "adjusted story comment counts");
 
@@ -101,3 +119,68 @@ const moderate = (
 export const approve = moderate(GQLCOMMENT_STATUS.APPROVED);
 
 export const reject = moderate(GQLCOMMENT_STATUS.REJECTED);
+
+export function publishModerationQueueChanges(
+  pub: Publisher,
+  tenant: Tenant,
+  moderationQueue: CommentModerationQueueCounts,
+  comment: Comment
+) {
+  if (moderationQueue.queues.pending === 1) {
+    publish(pub, tenant.id, {
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
+      payload: {
+        queue: GQLMODERATION_QUEUE.PENDING,
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  } else if (moderationQueue.queues.pending === -1) {
+    publish(pub, tenant.id, {
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
+      payload: {
+        queue: GQLMODERATION_QUEUE.PENDING,
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  }
+  if (moderationQueue.queues.reported === 1) {
+    publish(pub, tenant.id, {
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
+      payload: {
+        queue: GQLMODERATION_QUEUE.REPORTED,
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  } else if (moderationQueue.queues.reported === -1) {
+    publish(pub, tenant.id, {
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
+      payload: {
+        queue: GQLMODERATION_QUEUE.REPORTED,
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  }
+  if (moderationQueue.queues.unmoderated === 1) {
+    publish(pub, tenant.id, {
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
+      payload: {
+        queue: GQLMODERATION_QUEUE.UNMODERATED,
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  } else if (moderationQueue.queues.unmoderated === -1) {
+    publish(pub, tenant.id, {
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
+      payload: {
+        queue: GQLMODERATION_QUEUE.UNMODERATED,
+        commentID: comment.id,
+        storyID: comment.storyID,
+      },
+    });
+  }
+}

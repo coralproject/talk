@@ -1,15 +1,28 @@
+export interface SingletonResolverOptions {
+  cacheable?: boolean;
+}
+
 /**
  * SingletonResolver is a cached loader for a single result.
  */
 export class SingletonResolver<T> {
   private cache: Promise<T> | null = null;
   private resolver: () => Promise<T>;
+  private cacheable: boolean;
 
-  constructor(resolver: () => Promise<T>) {
+  constructor(
+    resolver: () => Promise<T>,
+    { cacheable = true }: SingletonResolverOptions = {}
+  ) {
     this.resolver = resolver;
+    this.cacheable = cacheable;
   }
 
   public load() {
+    if (!this.cacheable) {
+      return this.resolver();
+    }
+
     if (this.cache) {
       return this.cache;
     }

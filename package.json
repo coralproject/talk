@@ -82,6 +82,8 @@
     "graphql-extensions": "^0.2.1",
     "graphql-fields": "^1.1.0",
     "graphql-playground-html": "^1.6.0",
+    "graphql-redis-subscriptions": "^2.1.0",
+    "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^3.0.5",
     "html-minifier": "^3.5.21",
     "html-to-text": "^4.0.0",

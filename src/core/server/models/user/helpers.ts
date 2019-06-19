@@ -11,6 +11,6 @@ export function roleIsStaff(role: GQLUSER_ROLE) {
   return false;
 }
 
-export function userIsStaff(user: User) {
+export function userIsStaff(user: Pick<User, "role">) {
   return roleIsStaff(user.role);
 }

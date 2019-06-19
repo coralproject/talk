@@ -4464,16 +4464,6 @@ type Mutation {
 ## Subscriptions
 ##################
 
-input ApprovedCommentsInput {
-  id: String!
-}
-
-type ApprovedCommentsPayload {
-  """
-  user is the User that we removed the ignore from.
-  """
-  comment: Comment!
-}
 """
 CommentStatusUpdatedPayload is returned when a Comment has it's status updated
 after it was created.
@@ -4481,6 +4471,9 @@ after it was created.
 type CommentStatusUpdatedPayload {
   """
   status is the new status assigned to the Comment.
+  status is the new status assigned to the Comment. This status may not match
+  the status provided by `comment.status` due to race conditions in the data
+  loaders.
   """
   status: COMMENT_STATUS!
 
