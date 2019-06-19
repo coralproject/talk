@@ -19,6 +19,7 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
 
+import FadeInTransition from "./FadeInTransition";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
@@ -121,32 +122,34 @@ class ModerateCardContainer extends React.Component<Props> {
         comment.statusHistory.edges[0].node.moderator.username) ||
       null;
     return (
-      <ModerateCard
-        id={comment.id}
-        username={comment.author!.username!}
-        createdAt={comment.createdAt}
-        body={comment.body!}
-        inReplyTo={comment.parent && comment.parent.author!.username!}
-        comment={comment}
-        dangling={dangling}
-        status={getStatus(comment)}
-        featured={isFeatured(comment)}
-        viewContextHref={comment.permalink}
-        suspectWords={settings.wordList.suspect}
-        bannedWords={settings.wordList.banned}
-        onApprove={this.handleApprove}
-        onReject={this.handleReject}
-        onFeature={this.onFeature}
-        moderatedBy={moderatedBy}
-        showStory={showStoryInfo}
-        storyTitle={
-          (comment.story.metadata && comment.story.metadata.title) || (
-            <NotAvailable />
-          )
-        }
-        storyHref={getModerationLink("default", comment.story.id)}
-        onModerateStory={this.handleModerateStory}
-      />
+      <FadeInTransition active={Boolean(comment.enteredLive)}>
+        <ModerateCard
+          id={comment.id}
+          username={comment.author!.username!}
+          createdAt={comment.createdAt}
+          body={comment.body!}
+          inReplyTo={comment.parent && comment.parent.author!.username!}
+          comment={comment}
+          dangling={dangling}
+          status={getStatus(comment)}
+          featured={isFeatured(comment)}
+          viewContextHref={comment.permalink}
+          suspectWords={settings.wordList.suspect}
+          bannedWords={settings.wordList.banned}
+          onApprove={this.handleApprove}
+          onReject={this.handleReject}
+          onFeature={this.onFeature}
+          moderatedBy={moderatedBy}
+          showStory={showStoryInfo}
+          storyTitle={
+            (comment.story.metadata && comment.story.metadata.title) || (
+              <NotAvailable />
+            )
+          }
+          storyHref={getModerationLink("default", comment.story.id)}
+          onModerateStory={this.handleModerateStory}
+        />
+      </FadeInTransition>
     );
   }
 }
@@ -190,6 +193,7 @@ const enhanced = withFragmentContainer<Props>({
         }
       }
       permalink
+      enteredLive
       ...MarkersContainer_comment
     }
   `,
