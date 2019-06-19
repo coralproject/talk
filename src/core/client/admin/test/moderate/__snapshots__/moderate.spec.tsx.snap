@@ -50,7 +50,9 @@ exports[`rejected queue approves comment in rejected queue: dangling 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Feature
+            <span>
+              Feature
+            </span>
           </button>
         </div>
       </div>
@@ -261,7 +263,9 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  Feature
+                  <span>
+                    Feature
+                  </span>
                 </button>
               </div>
             </div>
@@ -459,7 +463,9 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  Feature
+                  <span>
+                    Feature
+                  </span>
                 </button>
               </div>
             </div>
@@ -663,7 +669,9 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
             onTouchEnd={[Function]}
             type="button"
           >
-            Feature
+            <span>
+              Feature
+            </span>
           </button>
         </div>
       </div>
@@ -890,7 +898,9 @@ exports[`reported queue approves comment in reported queue: dangling 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Feature
+            <span>
+              Feature
+            </span>
           </button>
         </div>
       </div>
@@ -1104,7 +1114,9 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Feature
+            <span>
+              Feature
+            </span>
           </button>
         </div>
       </div>
@@ -1315,7 +1327,9 @@ exports[`reported queue renders reported queue with comments 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  Feature
+                  <span>
+                    Feature
+                  </span>
                 </button>
               </div>
             </div>
@@ -1513,7 +1527,9 @@ exports[`reported queue renders reported queue with comments 1`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  Feature
+                  <span>
+                    Feature
+                  </span>
                 </button>
               </div>
             </div>
@@ -1727,7 +1743,9 @@ exports[`reported queue renders reported queue with comments 2`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  Feature
+                  <span>
+                    Feature
+                  </span>
                 </button>
               </div>
             </div>
@@ -1925,7 +1943,9 @@ exports[`reported queue renders reported queue with comments 2`] = `
                   onTouchEnd={[Function]}
                   type="button"
                 >
-                  Feature
+                  <span>
+                    Feature
+                  </span>
                 </button>
               </div>
             </div>
@@ -2129,7 +2149,9 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
             onTouchEnd={[Function]}
             type="button"
           >
-            Feature
+            <span>
+              Feature
+            </span>
           </button>
         </div>
       </div>
@@ -2602,7 +2624,9 @@ exports[`single comment view approves single comment 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Feature
+            <span>
+              Feature
+            </span>
           </button>
         </div>
       </div>
@@ -2782,7 +2806,9 @@ exports[`single comment view rejects single comment 1`] = `
             onTouchEnd={[Function]}
             type="button"
           >
-            Feature
+            <span>
+              Feature
+            </span>
           </button>
         </div>
       </div>
@@ -2997,7 +3023,9 @@ exports[`single comment view renders single comment view 1`] = `
                     onTouchEnd={[Function]}
                     type="button"
                   >
-                    Feature
+                    <span>
+                      Feature
+                    </span>
                   </button>
                 </div>
               </div>

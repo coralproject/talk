@@ -23,9 +23,13 @@ const FeatureButton: FunctionComponent<Props> = ({
     })}
   >
     {featured ? (
-      <Localized id="moderate-comment-featuredText" />
+      <Localized id="moderate-comment-featuredText">
+        <span>Featured</span>
+      </Localized>
     ) : (
-      <Localized id="moderate-comment-featureText" />
+      <Localized id="moderate-comment-featureText">
+        <span>Feature</span>
+      </Localized>
     )}
   </BaseButton>
 );
