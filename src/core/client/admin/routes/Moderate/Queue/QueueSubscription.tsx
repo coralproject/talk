@@ -41,8 +41,8 @@ function handleCommentEnteredModerationQueue(
   commentsEdge.setLinkedRecord(comment, "node");
   const connection = getQueueConnection(store, queue, storyID);
   if (connection) {
-    const linked = connection.getLinkedRecords("viewMoreEdges") || [];
-    connection.setLinkedRecords(linked.concat(commentsEdge), "viewMoreEdges");
+    const linked = connection.getLinkedRecords("viewNewEdges") || [];
+    connection.setLinkedRecords(linked.concat(commentsEdge), "viewNewEdges");
   }
 }
 

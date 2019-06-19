@@ -19,8 +19,8 @@ extend type Comment {
 }
 
 extend type CommentsConnection {
-  # Contains comment that came in live and is still behind the `View More` button.
-  viewMoreEdges: [CommentEdge!]
+  # Contains comment that came in live and is still behind the `View New` button.
+  viewNewEdges: [CommentEdge!]
 }
 
 type Local {

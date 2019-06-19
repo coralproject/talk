@@ -342,10 +342,10 @@ moderate-comment-moderatedBy = Moderated By
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View
 
-moderate-queue-viewMore =
+moderate-queue-viewNew =
   { $count ->
-    [1] View {$count} more comment
-    *[other] View {$count} more comments
+    [1] View {$count} new comment
+    *[other] View {$count} new comments
   }
 
 ### Moderate Search Bar

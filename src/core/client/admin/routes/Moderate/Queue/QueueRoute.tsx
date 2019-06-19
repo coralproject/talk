@@ -20,7 +20,7 @@ import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
 import QueueSubscription from "./QueueSubscription";
-import QueueViewMoreMutation from "./QueueViewMoreMutation";
+import QueueViewNewMutation from "./QueueViewNewMutation";
 
 interface Props {
   isLoading: boolean;
@@ -40,10 +40,10 @@ const danglingLogic = (status: string) =>
 export const QueueRoute: FunctionComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const subscribeToQueue = useSubscription(QueueSubscription);
-  const viewMore = useMutation(QueueViewMoreMutation);
-  const onViewMore = useCallback(() => {
-    viewMore({ queue: props.queueName, storyID: props.storyID || null });
-  }, [props.queueName, props.storyID, viewMore]);
+  const viewNew = useMutation(QueueViewNewMutation);
+  const onViewNew = useCallback(() => {
+    viewNew({ queue: props.queueName, storyID: props.storyID || null });
+  }, [props.queueName, props.storyID, viewNew]);
   useEffect(() => {
     const disposable = subscribeToQueue({
       queue: props.queueName,
@@ -57,9 +57,9 @@ export const QueueRoute: FunctionComponent<Props> = props => {
     return <LoadingQueue />;
   }
   const comments = props.queue!.comments.edges.map(edge => edge.node);
-  const viewMoreCount =
-    (props.queue!.comments.viewMoreEdges &&
-      props.queue!.comments.viewMoreEdges.length) ||
+  const viewNewCount =
+    (props.queue!.comments.viewNewEdges &&
+      props.queue!.comments.viewNewEdges.length) ||
     0;
   return (
     <IntersectionProvider>
@@ -73,8 +73,8 @@ export const QueueRoute: FunctionComponent<Props> = props => {
         danglingLogic={danglingLogic}
         emptyElement={props.emptyElement}
         allStories={!Boolean(props.storyID)}
-        viewMoreCount={viewMoreCount}
-        onViewMore={onViewMore}
+        viewNewCount={viewNewCount}
+        onViewNew={onViewNew}
       />
     </IntersectionProvider>
   );
@@ -139,7 +139,7 @@ const createQueueRoute = (
             count
             comments(first: $count, after: $cursor)
               @connection(key: "Queue_comments") {
-              viewMoreEdges {
+              viewNewEdges {
                 cursor
               }
               edges {

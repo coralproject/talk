@@ -17,13 +17,13 @@ interface Props {
   settings: PropTypesOf<typeof ModerateCardContainer>["settings"];
   viewer: PropTypesOf<typeof ModerateCardContainer>["viewer"];
   onLoadMore: () => void;
-  onViewMore?: () => void;
+  onViewNew?: () => void;
   hasLoadMore: boolean;
   disableLoadMore: boolean;
   danglingLogic: PropTypesOf<typeof ModerateCardContainer>["danglingLogic"];
   emptyElement?: React.ReactElement;
   allStories?: boolean;
-  viewMoreCount?: number;
+  viewNewCount?: number;
 }
 
 const Queue: FunctionComponent<Props> = ({
@@ -36,20 +36,20 @@ const Queue: FunctionComponent<Props> = ({
   emptyElement,
   allStories,
   viewer,
-  viewMoreCount,
-  onViewMore,
+  viewNewCount,
+  onViewNew,
 }) => (
   <HorizontalGutter className={styles.root} size="double">
-    {Boolean(viewMoreCount && viewMoreCount > 0) && (
-      <Flex justifyContent="center" className={styles.viewMoreButtonContainer}>
-        <Localized id="moderate-queue-viewMore" $count={viewMoreCount}>
+    {Boolean(viewNewCount && viewNewCount > 0) && (
+      <Flex justifyContent="center" className={styles.viewNewButtonContainer}>
+        <Localized id="moderate-queue-viewNew" $count={viewNewCount}>
           <Button
             color="primary"
             variant="filled"
-            onClick={onViewMore}
-            className={styles.viewMoreButton}
+            onClick={onViewNew}
+            className={styles.viewNewButton}
           >
-            View {viewMoreCount} more comments
+            View {viewNewCount} new comments
           </Button>
         </Localized>
       </Flex>

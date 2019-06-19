@@ -7,29 +7,29 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
-interface QueueViewMoreInput {
+interface QueueViewNewInput {
   storyID: string | null;
   queue: GQLMODERATION_QUEUE;
 }
 
-const QueueViewMoreMutation = createMutation(
-  "viewMore",
-  async (environment: Environment, input: QueueViewMoreInput) => {
+const QueueViewNewMutation = createMutation(
+  "viewNew",
+  async (environment: Environment, input: QueueViewNewInput) => {
     await commitLocalUpdatePromisified(environment, async store => {
       const connection = getQueueConnection(store, input.queue, input.storyID);
       if (!connection) {
         return;
       }
-      const viewMoreEdges = connection.getLinkedRecords("viewMoreEdges");
-      if (!viewMoreEdges || viewMoreEdges.length === 0) {
+      const viewNewEdges = connection.getLinkedRecords("viewNewEdges");
+      if (!viewNewEdges || viewNewEdges.length === 0) {
         return;
       }
-      viewMoreEdges.forEach(edge => {
+      viewNewEdges.forEach(edge => {
         ConnectionHandler.insertEdgeBefore(connection, edge);
       });
-      connection.setLinkedRecords([], "viewMoreEdges");
+      connection.setLinkedRecords([], "viewNewEdges");
     });
   }
 );
 
-export default QueueViewMoreMutation;
+export default QueueViewNewMutation;

@@ -56,7 +56,7 @@ async function createTestRenderer(
   return { testRenderer, context, container, subscriptionHandler };
 }
 
-it("allows viewing more when new comments come in", async () => {
+it("allows viewing new when new comments come in", async () => {
   const { subscriptionHandler, container } = await createTestRenderer();
   const commentData = reportedComments[0];
   expect(subscriptionHandler.has("commentEnteredModerationQueue")).toBe(true);
@@ -76,17 +76,17 @@ it("allows viewing more when new comments come in", async () => {
     };
   });
 
-  const viewMoreButton = await waitForElement(() =>
-    within(container).getByText("View 1 more", {
+  const viewNewButton = await waitForElement(() =>
+    within(container).getByText("View 1 new", {
       exact: false,
       selector: "button",
     })
   );
   act(() => {
-    viewMoreButton.props.onClick();
+    viewNewButton.props.onClick();
   });
-  // View More Button should disappear.
-  expect(() => within(container).getByText(/View \d+ more/)).toThrow();
+  // View New Button should disappear.
+  expect(() => within(container).getByText(/View \d+ new/)).toThrow();
   // New comment should appear.
   within(container).getByTestID(`moderate-comment-${commentData.id}`);
 });
