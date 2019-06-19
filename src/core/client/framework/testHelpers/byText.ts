@@ -4,6 +4,28 @@ import { ReactTestInstance } from "react-test-renderer";
 import findParentsWithType from "./findParentsWithType";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
+/**
+ * Turns list of children of a dom element into a string.
+ * This will also handle React Fragments.
+ * @param children list of children
+ */
+const childrenToString = (children: ReactTestInstance["children"]) => {
+  let result = "";
+  for (const c of children) {
+    if (typeof c === "string") {
+      result += ` ${c}`;
+    } else {
+      // If we hit another dom element, stop here.
+      if (typeof c.type === "string") {
+        continue;
+      }
+      // It's a React Component recurse into it to find fragments.
+      result += childrenToString(c.children);
+    }
+  }
+  return result;
+};
+
 const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   i: ReactTestInstance
 ) => {
@@ -11,25 +33,10 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   if (typeof i.type !== "string") {
     return false;
   }
-  if (
-    i.props.dangerouslySetInnerHTML &&
-    matchText(pattern, i.props.dangerouslySetInnerHTML.__html, options)
-  ) {
-    return true;
-  }
-  if (!i.props.children) {
-    return false;
-  }
-  const children = React.Children.toArray(i.props.children);
-  for (const c of children) {
-    if (typeof c === "string" && matchText(pattern, c, options)) {
-      return true;
-    }
-    if (typeof c === "number" && matchText(pattern, c.toString(), options)) {
-      return true;
-    }
-  }
-  return false;
+  const content = i.props.dangerouslySetInnerHTML
+    ? i.props.dangerouslySetInnerHTML.__html
+    : childrenToString(i.children);
+  return matchText(pattern, content, options);
 };
 
 interface SelectorOptions {
