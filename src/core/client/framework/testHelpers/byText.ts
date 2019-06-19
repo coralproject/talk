@@ -6,6 +6,7 @@ import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
 /**
  * Turns list of children of a dom element into a string.
+ * This will also handle react Fragments.
  * @param children list of children
  */
 const childrenToString = (children: ReactTestInstance["children"]) => {
@@ -14,9 +15,11 @@ const childrenToString = (children: ReactTestInstance["children"]) => {
     if (typeof c === "string") {
       result += ` ${c}`;
     } else {
+      // If we hit another dom element, stop here.
       if (typeof c.type === "string") {
         continue;
       }
+      // It's a React Component recurse into it to find fragments.
       result += childrenToString(c.children);
     }
   }
