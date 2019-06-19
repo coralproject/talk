@@ -40,9 +40,13 @@ convict.addFormat({
       Joi.assert(url, Joi.string().uri());
     }
   },
-  // Ensure that there is no ending slash.
+  // Ensure that there is a ending slash.
   coerce: (url: string) => {
-    return url.replace(/\/$/, "");
+    if (url && url.slice(-1) !== "/") {
+      return url + "/";
+    }
+
+    return url;
   },
 });
 
