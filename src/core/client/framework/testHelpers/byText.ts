@@ -6,7 +6,7 @@ import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
 /**
  * Turns list of children of a dom element into a string.
- * This will also handle react Fragments.
+ * This will also handle React Fragments.
  * @param children list of children
  */
 const childrenToString = (children: ReactTestInstance["children"]) => {
