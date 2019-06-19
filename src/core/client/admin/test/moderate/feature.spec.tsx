@@ -2,13 +2,13 @@ import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   ModerationQueueToCommentsResolver,
+  QueryToCommentResolver,
 } from "coral-framework/schema";
 import {
   createQueryResolverStub,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
-  toJSON,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
@@ -17,6 +17,7 @@ import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
+  featuredComments,
   settings,
   unmoderatedComments,
   users,
@@ -94,4 +95,35 @@ it("unmoderated and unfeatured comments available, feature button is present", a
   });
 
   expect(featureButton).toBeDefined();
+});
+
+it("featured comment single view, featured button is present", async () => {
+  const comment = featuredComments[0];
+  const commentStub = createQueryResolverStub<QueryToCommentResolver>(
+    ({ variables }) => {
+      expectAndFail(variables).toEqual({ id: comment.id });
+      return featuredComments[0];
+    }
+  );
+
+  replaceHistoryLocation(
+    `http://localhost/admin/moderate/comment/${featuredComments[0].id}`
+  );
+  const { testRenderer } = await createTestRenderer({
+    resolvers: {
+      Query: {
+        comment: commentStub,
+      },
+    },
+  });
+  const { getByTestID } = within(testRenderer.root);
+  const container = await waitForElement(() =>
+    getByTestID("single-moderate-container")
+  );
+  const featuredButton = within(container).getByText("featured", {
+    exact: false,
+    selector: "button",
+  });
+
+  expect(featuredButton).toBeDefined();
 });
