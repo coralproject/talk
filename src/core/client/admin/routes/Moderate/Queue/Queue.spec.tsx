@@ -14,10 +14,11 @@ it("renders correctly with load more", () => {
     comments: [],
     settings: {},
     onLoadMore: noop,
-    hasMore: true,
+    hasLoadMore: true,
     disableLoadMore: false,
     danglingLogic: () => true,
     viewer: { id: "me", username: "Mirai" },
+    onViewMore: noop,
   };
   const renderer = createRenderer();
   renderer.render(<QueueN {...props} />);
@@ -29,10 +30,11 @@ it("renders correctly without load more", () => {
     comments: [],
     settings: {},
     onLoadMore: noop,
-    hasMore: false,
+    hasLoadMore: false,
     disableLoadMore: false,
     danglingLogic: () => true,
     viewer: { id: "me", username: "Mirai" },
+    onViewMore: noop,
   };
   const renderer = createRenderer();
   renderer.render(<QueueN {...props} />);

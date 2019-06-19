@@ -1,5 +1,6 @@
 import { pureMerge } from "coral-common/utils";
 import {
+  GQLComment,
   GQLMODERATION_QUEUE,
   GQLResolver,
   SubscriptionToCommentEnteredModerationQueueResolver,
@@ -17,6 +18,7 @@ import create from "../create";
 import {
   emptyModerationQueues,
   emptyRejectedComments,
+  reportedComments,
   settings,
   users,
 } from "../fixtures";
@@ -62,7 +64,7 @@ it("live update count", async () => {
       )
     ).getByText(no.toString());
   };
-  const commentEntered = (queue: GQLMODERATION_QUEUE) => {
+  const commentEntered = (queue: GQLMODERATION_QUEUE, comment: GQLComment) => {
     subscriptionHandler.dispatch<
       SubscriptionToCommentEnteredModerationQueueResolver
     >("commentEnteredModerationQueue", variables => {
@@ -71,10 +73,11 @@ it("live update count", async () => {
       }
       return {
         queue,
+        comment,
       };
     });
   };
-  const commentLeft = (queue: GQLMODERATION_QUEUE) => {
+  const commentLeft = (queue: GQLMODERATION_QUEUE, comment: GQLComment) => {
     subscriptionHandler.dispatch<
       SubscriptionToCommentEnteredModerationQueueResolver
     >("commentLeftModerationQueue", variables => {
@@ -83,6 +86,7 @@ it("live update count", async () => {
       }
       return {
         queue,
+        comment,
       };
     });
   };
@@ -96,21 +100,21 @@ it("live update count", async () => {
     verifyCount(GQLMODERATION_QUEUE.PENDING, 0);
     verifyCount(GQLMODERATION_QUEUE.UNMODERATED, 0);
 
-    commentEntered(GQLMODERATION_QUEUE.REPORTED);
+    commentEntered(GQLMODERATION_QUEUE.REPORTED, reportedComments[0]);
 
     verifyCount(GQLMODERATION_QUEUE.REPORTED, 1);
     verifyCount(GQLMODERATION_QUEUE.PENDING, 0);
     verifyCount(GQLMODERATION_QUEUE.UNMODERATED, 0);
 
-    commentEntered(GQLMODERATION_QUEUE.REPORTED);
+    commentEntered(GQLMODERATION_QUEUE.REPORTED, reportedComments[1]);
 
     verifyCount(GQLMODERATION_QUEUE.REPORTED, 2);
     verifyCount(GQLMODERATION_QUEUE.PENDING, 0);
     verifyCount(GQLMODERATION_QUEUE.UNMODERATED, 0);
 
-    commentEntered(GQLMODERATION_QUEUE.PENDING);
-    commentEntered(GQLMODERATION_QUEUE.PENDING);
-    commentLeft(GQLMODERATION_QUEUE.REPORTED);
+    commentEntered(GQLMODERATION_QUEUE.PENDING, reportedComments[2]);
+    commentEntered(GQLMODERATION_QUEUE.PENDING, reportedComments[2]);
+    commentLeft(GQLMODERATION_QUEUE.REPORTED, reportedComments[1]);
 
     verifyCount(GQLMODERATION_QUEUE.REPORTED, 1);
     verifyCount(GQLMODERATION_QUEUE.PENDING, 2);

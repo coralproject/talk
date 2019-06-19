@@ -11,14 +11,16 @@ enum View {
 }
 
 extend type Comment {
-  # If true comment came in live and is still behind the `View More` button.
-  queuedInViewMore: Boolean
-
   # If true then Comment status was live updated.
   statusLiveUpdated: Boolean
 
-  # dangling is true when comment is moderated, but is still in the queue.
-  dangling: Boolean
+  # If true then Comment came in live.
+  enteredLive: Boolean
+}
+
+extend type CommentsConnection {
+  # Contains comment that came in live and is still behind the `View More` button.
+  viewMoreEdges: [CommentEdge!]
 }
 
 type Local {

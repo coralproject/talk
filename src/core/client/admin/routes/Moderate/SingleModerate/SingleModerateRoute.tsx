@@ -39,7 +39,7 @@ const SingleModerateRoute: FunctionComponent<Props> = props => {
         settings={props.settings}
         viewer={props.viewer!}
         onLoadMore={noop}
-        hasMore={false}
+        hasLoadMore={false}
         disableLoadMore={false}
         danglingLogic={danglingLogic}
       />

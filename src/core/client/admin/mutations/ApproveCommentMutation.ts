@@ -65,10 +65,10 @@ const ApproveCommentMutation = createMutation(
       },
       updater: store => {
         const connections = [
-          getQueueConnection(store, "reported", input.storyID),
-          getQueueConnection(store, "pending", input.storyID),
-          getQueueConnection(store, "unmoderated", input.storyID),
-          getQueueConnection(store, "rejected", input.storyID),
+          getQueueConnection(store, "REPORTED", input.storyID),
+          getQueueConnection(store, "PENDING", input.storyID),
+          getQueueConnection(store, "REPORTED", input.storyID),
+          getQueueConnection(store, "REJECTED", input.storyID),
         ].filter(c => c);
         connections.forEach(con =>
           ConnectionHandler.deleteNode(con, input.commentID)

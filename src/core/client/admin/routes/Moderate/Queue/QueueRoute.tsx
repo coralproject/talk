@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
 import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
@@ -9,6 +9,7 @@ import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generat
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
   useLoadMore,
+  useMutation,
   useSubscription,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
@@ -19,6 +20,7 @@ import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
 import QueueSubscription from "./QueueSubscription";
+import QueueViewMoreMutation from "./QueueViewMoreMutation";
 
 interface Props {
   isLoading: boolean;
@@ -38,6 +40,10 @@ const danglingLogic = (status: string) =>
 export const QueueRoute: FunctionComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const subscribeToQueue = useSubscription(QueueSubscription);
+  const viewMore = useMutation(QueueViewMoreMutation);
+  const onViewMore = useCallback(() => {
+    viewMore({ queue: props.queueName, storyID: props.storyID || null });
+  }, [props.queueName, props.storyID, viewMore]);
   useEffect(() => {
     const disposable = subscribeToQueue({
       queue: props.queueName,
@@ -51,6 +57,10 @@ export const QueueRoute: FunctionComponent<Props> = props => {
     return <LoadingQueue />;
   }
   const comments = props.queue!.comments.edges.map(edge => edge.node);
+  const viewMoreCount =
+    (props.queue!.comments.viewMoreEdges &&
+      props.queue!.comments.viewMoreEdges.length) ||
+    0;
   return (
     <IntersectionProvider>
       <Queue
@@ -58,11 +68,13 @@ export const QueueRoute: FunctionComponent<Props> = props => {
         viewer={props.viewer!}
         settings={props.settings!}
         onLoadMore={loadMore}
-        hasMore={props.relay.hasMore()}
+        hasLoadMore={props.relay.hasMore()}
         disableLoadMore={isLoadingMore}
         danglingLogic={danglingLogic}
         emptyElement={props.emptyElement}
         allStories={!Boolean(props.storyID)}
+        viewMoreCount={viewMoreCount}
+        onViewMore={onViewMore}
       />
     </IntersectionProvider>
   );
@@ -127,6 +139,9 @@ const createQueueRoute = (
             count
             comments(first: $count, after: $cursor)
               @connection(key: "Queue_comments") {
+              viewMoreEdges {
+                cursor
+              }
               edges {
                 node {
                   id

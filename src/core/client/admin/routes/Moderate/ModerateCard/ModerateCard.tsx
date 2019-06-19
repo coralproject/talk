@@ -153,7 +153,9 @@ const ModerateCard: FunctionComponent<Props> = ({
         {moderatedBy && (
           <>
             <div>
-              <div className={styles.moderatedBy}>Moderated By</div>
+              <Localized id="moderate-comment-moderatedBy">
+                <div className={styles.moderatedBy}>Moderated By</div>
+              </Localized>
               <div className={styles.moderatedByUsername}>{moderatedBy}</div>
             </div>
           </>

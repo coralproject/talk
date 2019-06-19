@@ -442,6 +442,8 @@ export const baseComment = createFixture<GQLComment>({
     nodes: [],
   },
   story: stories[0],
+  // TODO: Should be allowed to pass null here..
+  parent: undefined,
 });
 
 export const unmoderatedComments = createFixtures<GQLComment>(
@@ -573,6 +575,32 @@ export const reportedComments = createFixtures<GQLComment>(
             flagger: users.commenters[0],
             additionalDetails: "I find this offensive",
           },
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+            flagger: users.commenters[2],
+            additionalDetails: "",
+          },
+        ],
+      },
+    },
+    {
+      id: "comment-3",
+      revision: {
+        id: "comment-3-revision-3",
+      },
+      permalink: "http://localhost/comment/3",
+      status: GQLCOMMENT_STATUS.PREMOD,
+      author: users.commenters[3],
+      body: "World peace at last",
+      actionCounts: {
+        flag: {
+          reasons: {
+            COMMENT_REPORTED_SPAM: 1,
+          },
+        },
+      },
+      flags: {
+        nodes: [
           {
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[2],

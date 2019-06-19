@@ -39,7 +39,7 @@ export class RejectedQueueRoute extends React.Component<
           settings={this.props.query.settings}
           comments={comments}
           onLoadMore={this.loadMore}
-          hasMore={this.props.relay.hasMore()}
+          hasLoadMore={this.props.relay.hasMore()}
           disableLoadMore={this.state.disableLoadMore}
           danglingLogic={danglingLogic}
           emptyElement={

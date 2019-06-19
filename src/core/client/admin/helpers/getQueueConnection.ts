@@ -1,16 +1,24 @@
-import { ConnectionHandler, RecordSourceSelectorProxy } from "relay-runtime";
+import {
+  ConnectionHandler,
+  RecordProxy,
+  RecordSourceProxy,
+  RecordSourceSelectorProxy,
+} from "relay-runtime";
 
-type Queue = "reported" | "pending" | "unmoderated" | "rejected";
+import {
+  GQLCOMMENT_STATUS,
+  GQLMODERATION_QUEUE_RL,
+} from "coral-framework/schema";
 
 export default function getQueueConnection(
-  store: RecordSourceSelectorProxy,
-  queue: Queue,
+  store: RecordSourceSelectorProxy | RecordSourceProxy,
+  queue: GQLMODERATION_QUEUE_RL | "REJECTED",
   storyID?: string | null
-) {
+): RecordProxy | null {
   const root = store.getRoot();
-  if (queue === "rejected") {
+  if (queue === "REJECTED") {
     return ConnectionHandler.getConnection(root, "RejectedQueue_comments", {
-      status: "REJECTED",
+      status: GQLCOMMENT_STATUS.REJECTED,
       storyID,
     });
   }
@@ -19,7 +27,7 @@ export default function getQueueConnection(
     return null;
   }
   return ConnectionHandler.getConnection(
-    queuesRecord.getLinkedRecord(queue),
+    queuesRecord.getLinkedRecord(queue.toLowerCase()),
     "Queue_comments"
   );
 }

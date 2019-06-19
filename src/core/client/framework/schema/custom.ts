@@ -12,12 +12,16 @@ import {
   GQLCOMMENT_STATUS,
   GQLLOCALES,
   GQLMODERATION_MODE,
+  GQLMODERATION_QUEUE,
   GQLSTORY_STATUS,
   GQLUSER_AUTH_CONDITIONS,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
 } from "./__generated__/types";
 
+export type GQLMODERATION_QUEUE_RL = RelayEnumLiteral<
+  typeof GQLMODERATION_QUEUE
+>;
 export type GQLUSER_ROLE_RL = RelayEnumLiteral<typeof GQLUSER_ROLE>;
 export type GQLUSER_STATUS_RL = RelayEnumLiteral<typeof GQLUSER_STATUS>;
 export type GQLCOMMENT_FLAG_DETECTED_REASON_RL = RelayEnumLiteral<

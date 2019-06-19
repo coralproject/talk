@@ -14,3 +14,10 @@
 .exitTransitionDone {
   opacity: 0;
 }
+.viewMoreButtonContainer {
+  position: relative;
+}
+.viewMoreButton {
+  position: absolute;
+  z-index: 10;
+}

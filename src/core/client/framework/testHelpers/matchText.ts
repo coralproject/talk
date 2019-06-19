@@ -11,25 +11,21 @@ export default function matchText(
   text: string,
   options: TextMatchOptions = {}
 ) {
-  if (typeof pattern === "string") {
-    let a = text;
-    let b = pattern;
-    if (options.trim || options.trim === undefined) {
-      a = a.trim();
-      b = b.trim();
-    }
-    if (
-      options.collapseWhitespace ||
-      options.collapseWhitespace === undefined
-    ) {
-      a = a.replace(/\s+/g, " ");
-      b = b.replace(/\s+/g, " ");
-    }
-
+  let a = pattern;
+  let b = text;
+  if (options.trim || options.trim === undefined) {
+    a = typeof a === "string" ? a.trim() : a;
+    b = b.trim();
+  }
+  if (options.collapseWhitespace || options.collapseWhitespace === undefined) {
+    a = typeof a === "string" ? a.replace(/\s+/g, " ") : a;
+    b = b.replace(/\s+/g, " ");
+  }
+  if (typeof a === "string") {
     if (options.exact || options.exact === undefined) {
       return a === b;
     }
-    return text.toLowerCase().includes(pattern.toLowerCase());
+    return b.toLowerCase().includes(a.toLowerCase());
   }
-  return pattern.test(text);
+  return a.test(b);
 }

@@ -337,9 +337,16 @@ moderate-comment-story = Story
 moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
+moderate-comment-moderatedBy = Moderated By
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View
+
+moderate-queue-viewMore =
+  { $count ->
+    [1] View {$count} more comment
+    *[other] View {$count} more comments
+  }
 
 ### Moderate Search Bar
 moderate-searchBar-allStories = All stories
