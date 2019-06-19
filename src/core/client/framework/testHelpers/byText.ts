@@ -4,6 +4,25 @@ import { ReactTestInstance } from "react-test-renderer";
 import findParentsWithType from "./findParentsWithType";
 import matchText, { TextMatchOptions, TextMatchPattern } from "./matchText";
 
+/**
+ * Turns list of children of a dom element into a string.
+ * @param children list of children
+ */
+const childrenToString = (children: ReactTestInstance["children"]) => {
+  let result = "";
+  for (const c of children) {
+    if (typeof c === "string") {
+      result += ` ${c}`;
+    } else {
+      if (typeof c.type === "string") {
+        continue;
+      }
+      result += childrenToString(c.children);
+    }
+  }
+  return result;
+};
+
 const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   i: ReactTestInstance
 ) => {
@@ -11,25 +30,10 @@ const matcher = (pattern: TextMatchPattern, options?: TextMatchOptions) => (
   if (typeof i.type !== "string") {
     return false;
   }
-  if (
-    i.props.dangerouslySetInnerHTML &&
-    matchText(pattern, i.props.dangerouslySetInnerHTML.__html, options)
-  ) {
-    return true;
-  }
-  if (!i.props.children) {
-    return false;
-  }
-  const children = React.Children.toArray(i.props.children);
-  for (const c of children) {
-    if (typeof c === "string" && matchText(pattern, c, options)) {
-      return true;
-    }
-    if (typeof c === "number" && matchText(pattern, c.toString(), options)) {
-      return true;
-    }
-  }
-  return false;
+  const content = i.props.dangerouslySetInnerHTML
+    ? i.props.dangerouslySetInnerHTML.__html
+    : childrenToString(i.children);
+  return matchText(pattern, content, options);
 };
 
 interface SelectorOptions {
