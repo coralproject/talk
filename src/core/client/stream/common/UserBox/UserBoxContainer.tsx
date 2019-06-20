@@ -45,7 +45,9 @@ export class UserBoxContainer extends Component<Props> {
   private handleSignOut = () => this.props.signOut();
 
   private get supportsLogout() {
-    return !!this.props.local.accessTokenJTI;
+    return Boolean(
+      !this.props.local.accessToken || this.props.local.accessTokenJTI
+    );
   }
 
   private get supportsRegister() {
@@ -125,6 +127,7 @@ const enhanced = withSignOutMutation(
               focus
               view
             }
+            accessToken
             accessTokenJTI
           }
         `

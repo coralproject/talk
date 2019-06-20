@@ -19,9 +19,6 @@ type Props = PropTypesOf<typeof PostCommentFormContainerN>;
 function createDefaultProps(add: DeepPartial<Props> = {}): Props {
   return pureMerge(
     {
-      local: {
-        loggedIn: true,
-      },
       showAuthPopup: noop as any,
       createComment: noop as any,
       refreshSettings: noop as any,
@@ -48,6 +45,9 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
           enabled: false,
           message: "",
         },
+      },
+      viewer: {
+        id: "viewer-id",
       },
     },
     add

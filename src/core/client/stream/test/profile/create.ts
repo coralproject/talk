@@ -11,7 +11,6 @@ export default function create(params: CreateTestRendererParams) {
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue("PROFILE", "activeTab");
       localRecord.setValue("jti", "accessTokenJTI");
-      localRecord.setValue(true, "loggedIn");
       localRecord.setValue(story.id, "storyID");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);

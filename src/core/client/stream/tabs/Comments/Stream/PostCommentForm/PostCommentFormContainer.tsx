@@ -11,13 +11,12 @@ import {
   graphql,
   withFetch,
   withFragmentContainer,
-  withLocalStateContainer,
 } from "coral-framework/lib/relay";
 import { PromisifiedStorage } from "coral-framework/lib/storage";
 import { PropTypesOf } from "coral-framework/types";
-import { PostCommentFormContainer_settings as SettingsData } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
-import { PostCommentFormContainer_story as StoryData } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
-import { PostCommentFormContainerLocal as Local } from "coral-stream/__generated__/PostCommentFormContainerLocal.graphql";
+import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
+import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
+import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -42,9 +41,9 @@ interface Props {
   createComment: CreateCommentMutation;
   refreshSettings: FetchProp<typeof RefreshSettingsFetch>;
   sessionStorage: PromisifiedStorage;
-  settings: SettingsData;
-  local: Local;
-  story: StoryData;
+  settings: PostCommentFormContainer_settings;
+  viewer: PostCommentFormContainer_viewer | null;
+  story: PostCommentFormContainer_story;
   showAuthPopup: ShowAuthPopupMutation;
 }
 
@@ -71,7 +70,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
     initialized: false,
     nudge: true,
     keepFormWhenClosed:
-      this.props.local.loggedIn &&
+      !!this.props.viewer &&
       !this.props.story.isClosed &&
       !this.props.settings.disableCommenting.enabled,
     submitStatus: null,
@@ -194,7 +193,7 @@ export class PostCommentFormContainer extends Component<Props, State> {
         );
       }
     }
-    if (!this.props.local.loggedIn) {
+    if (!this.props.viewer) {
       return (
         <PostCommentFormFake
           draft={this.state.notLoggedInDraft}
@@ -243,44 +242,41 @@ const enhanced = withContext(({ sessionStorage }) => ({
   withShowAuthPopupMutation(
     withCreateCommentMutation(
       withFetch(RefreshSettingsFetch)(
-        withLocalStateContainer(
-          graphql`
-            fragment PostCommentFormContainerLocal on Local {
-              loggedIn
+        withFragmentContainer<Props>({
+          settings: graphql`
+            fragment PostCommentFormContainer_settings on Settings {
+              charCount {
+                enabled
+                min
+                max
+              }
+              disableCommenting {
+                enabled
+                message
+              }
+              closeCommenting {
+                message
+              }
             }
-          `
-        )(
-          withFragmentContainer<Props>({
-            settings: graphql`
-              fragment PostCommentFormContainer_settings on Settings {
-                charCount {
+          `,
+          story: graphql`
+            fragment PostCommentFormContainer_story on Story {
+              id
+              isClosed
+              ...MessageBoxContainer_story
+              settings {
+                messageBox {
                   enabled
-                  min
-                  max
-                }
-                disableCommenting {
-                  enabled
-                  message
-                }
-                closeCommenting {
-                  message
                 }
               }
-            `,
-            story: graphql`
-              fragment PostCommentFormContainer_story on Story {
-                id
-                isClosed
-                ...MessageBoxContainer_story
-                settings {
-                  messageBox {
-                    enabled
-                  }
-                }
-              }
-            `,
-          })(PostCommentFormContainer)
-        )
+            }
+          `,
+          viewer: graphql`
+            fragment PostCommentFormContainer_viewer on User {
+              id
+            }
+          `,
+        })(PostCommentFormContainer)
       )
     )
   )

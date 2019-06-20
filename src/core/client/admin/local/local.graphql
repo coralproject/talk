@@ -28,7 +28,6 @@ type Local {
   accessToken: String
   accessTokenExp: Int
   accessTokenJTI: String
-  loggedIn: Boolean!
   redirectPath: String
   authView: View
   authError: String

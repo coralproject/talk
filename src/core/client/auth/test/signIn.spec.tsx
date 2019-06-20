@@ -1,8 +1,9 @@
 import { get } from "lodash";
-import sinon from "sinon";
+import sinon, { SinonStub } from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import {
+  createAccessToken,
   toJSON,
   wait,
   waitForElement,
@@ -165,7 +166,7 @@ it("shows server error", async () => {
 it("submits form successfully", async () => {
   const { form, context } = await createTestRenderer();
   const { getByLabelText } = within(form!);
-  const accessToken = "access-token";
+  const accessToken = createAccessToken();
   const emailAddressField = getByLabelText("Email Address");
   const passwordField = getByLabelText("Password");
   const submitButton = form!.find(
@@ -198,8 +199,13 @@ it("submits form successfully", async () => {
 
   expect(toJSON(form!)).toMatchSnapshot();
 
-  // Wait for window hash to contain a token.
-  await wait(() => expect(location.hash).toBe(`#accessToken=${accessToken}`));
+  // Wait for new session to start.
+  await wait(() =>
+    expect((context.clearSession as SinonStub).calledWith(accessToken)).toBe(
+      true
+    )
+  );
+
   restMock.verify();
 });
 

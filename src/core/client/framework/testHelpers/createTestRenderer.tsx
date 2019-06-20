@@ -4,7 +4,12 @@ import { noop } from "lodash";
 import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
-import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
+import {
+  commitLocalUpdate,
+  Environment,
+  RecordProxy,
+  RecordSourceProxy,
+} from "relay-runtime";
 
 import { RequireProperty } from "coral-common/types";
 import {
@@ -16,6 +21,7 @@ import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { createUUIDGenerator } from "coral-framework/testHelpers";
 
+import sinon from "sinon";
 import createFluentBundle from "./createFluentBundle";
 import createRelayEnvironment from "./createRelayEnvironment";
 import createSubscriptionHandler, {
@@ -102,13 +108,12 @@ export default function createTestRenderer<
     browserInfo: params.browserInfo || { ios: false },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
-    clearSession: () => Promise.resolve(),
+    clearSession: sinon.stub(),
     transitionControl: {
       allowTransition: true,
       history: [],
     },
   };
-
   let testRenderer: ReactTestRenderer;
   TestRenderer.act(() => {
     testRenderer = TestRenderer.create(

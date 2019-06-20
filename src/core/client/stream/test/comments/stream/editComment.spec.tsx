@@ -69,7 +69,6 @@ function createTestRenderer(
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(storyWithReplies.id, "storyID");
-      localRecord.setValue(true, "loggedIn");
     },
   });
   return testRenderer;
