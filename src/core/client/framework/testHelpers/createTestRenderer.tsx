@@ -4,12 +4,7 @@ import { noop } from "lodash";
 import path from "path";
 import React from "react";
 import TestRenderer, { ReactTestRenderer } from "react-test-renderer";
-import {
-  commitLocalUpdate,
-  Environment,
-  RecordProxy,
-  RecordSourceProxy,
-} from "relay-runtime";
+import { Environment, RecordProxy, RecordSourceProxy } from "relay-runtime";
 
 import { RequireProperty } from "coral-common/types";
 import {
