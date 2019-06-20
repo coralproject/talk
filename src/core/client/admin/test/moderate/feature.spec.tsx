@@ -25,10 +25,6 @@ import {
 
 const viewer = users.admins[0];
 
-beforeEach(async () => {
-  replaceHistoryLocation("http://localhost/admin/moderate");
-});
-
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
 ) {
