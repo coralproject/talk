@@ -338,6 +338,7 @@ moderate-comment-moderateStory = Moderate Story
 moderate-comment-featureText = Feature
 moderate-comment-featuredText = Featured
 moderate-comment-moderatedBy = Moderated By
+moderate-comment-moderatedBySystem = System
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View

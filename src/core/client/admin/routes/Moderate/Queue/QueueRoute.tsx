@@ -112,7 +112,7 @@ const createQueueRoute = (
       if (!Component) {
         throw new Error("Missing component");
       }
-      if (!data) {
+      if (!data || !data.moderationQueues) {
         return (
           <Component
             isLoading

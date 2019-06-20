@@ -22,6 +22,7 @@ import { GQLTAG } from "coral-framework/schema";
 import FadeInTransition from "./FadeInTransition";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
+import ModeratedByContainer from "./ModeratedByContainer";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
@@ -113,14 +114,6 @@ class ModerateCardContainer extends React.Component<Props> {
       viewer,
     } = this.props;
     const dangling = danglingLogic(comment.status);
-    // Show moderated by when comment was live moderated by another user.
-    const moderatedBy =
-      (comment.statusLiveUpdated &&
-        comment.statusHistory.edges.length > 0 &&
-        comment.statusHistory.edges[0].node.moderator &&
-        viewer.id !== comment.statusHistory.edges[0].node.moderator.id &&
-        comment.statusHistory.edges[0].node.moderator.username) ||
-      null;
     return (
       <FadeInTransition active={Boolean(comment.enteredLive)}>
         <ModerateCard
@@ -139,7 +132,9 @@ class ModerateCardContainer extends React.Component<Props> {
           onApprove={this.handleApprove}
           onReject={this.handleReject}
           onFeature={this.onFeature}
-          moderatedBy={moderatedBy}
+          moderatedBy={
+            <ModeratedByContainer viewer={viewer} comment={comment} />
+          }
           showStory={showStoryInfo}
           storyTitle={
             (comment.story.metadata && comment.story.metadata.title) || (
@@ -168,16 +163,6 @@ const enhanced = withFragmentContainer<Props>({
         code
       }
       status
-      statusHistory(first: 1) {
-        edges {
-          node {
-            moderator {
-              id
-              username
-            }
-          }
-        }
-      }
       revision {
         id
       }
@@ -195,6 +180,7 @@ const enhanced = withFragmentContainer<Props>({
       permalink
       enteredLive
       ...MarkersContainer_comment
+      ...ModeratedByContainer_comment
     }
   `,
   settings: graphql`
@@ -207,7 +193,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   viewer: graphql`
     fragment ModerateCardContainer_viewer on User {
-      id
+      ...ModeratedByContainer_viewer
     }
   `,
 })(

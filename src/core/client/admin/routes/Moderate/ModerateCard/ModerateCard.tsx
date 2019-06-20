@@ -25,7 +25,7 @@ interface Props {
   comment: PropTypesOf<typeof MarkersContainer>["comment"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
-  moderatedBy: string | null;
+  moderatedBy: React.ReactNode | null;
   viewContextHref: string;
   suspectWords: ReadonlyArray<string>;
   bannedWords: ReadonlyArray<string>;
@@ -150,16 +150,7 @@ const ModerateCard: FunctionComponent<Props> = ({
             disabled={status === "approved" || dangling}
           />
         </Flex>
-        {moderatedBy && (
-          <>
-            <div>
-              <Localized id="moderate-comment-moderatedBy">
-                <div className={styles.moderatedBy}>Moderated By</div>
-              </Localized>
-              <div className={styles.moderatedByUsername}>{moderatedBy}</div>
-            </div>
-          </>
-        )}
+        {moderatedBy}
       </Flex>
     </Flex>
   </Card>

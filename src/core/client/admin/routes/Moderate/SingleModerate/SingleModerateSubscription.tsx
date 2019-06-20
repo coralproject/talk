@@ -20,15 +20,8 @@ const SingleModerateSubscription = createSubscription(
             comment {
               id
               status
-              statusHistory(first: 1) {
-                edges {
-                  node {
-                    moderator {
-                      username
-                    }
-                  }
-                }
-              }
+              ...MarkersContainer_comment @relay(mask: false)
+              ...ModeratedByContainer_comment @relay(mask: false)
             }
           }
         }
