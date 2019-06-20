@@ -49,6 +49,7 @@ const ApproveCommentMutation = createMutation(
           commentRevisionID: input.commentRevisionID,
           clientMutationId: (clientMutationId++).toString(),
         },
+        storyID: input.storyID,
       },
       optimisticUpdater: store => {
         store.get(input.commentID)!.setValue("APPROVED", "status");

@@ -22,7 +22,10 @@ const FeatureCommentMutation = createMutation(
   ) =>
     commitMutationPromiseNormalized<FeatureCommentMutation>(environment, {
       mutation: graphql`
-        mutation FeatureCommentMutation($input: FeatureCommentInput!) {
+        mutation FeatureCommentMutation(
+          $input: FeatureCommentInput!
+          $storyID: ID
+        ) {
           featureComment(input: $input) {
             comment {
               tags {
@@ -30,10 +33,29 @@ const FeatureCommentMutation = createMutation(
               }
               status
             }
+            moderationQueues(storyID: $storyID) {
+              unmoderated {
+                count
+              }
+              reported {
+                count
+              }
+              pending {
+                count
+              }
+            }
             clientMutationId
           }
         }
       `,
+      variables: {
+        input: {
+          commentID: input.commentID,
+          commentRevisionID: input.commentRevisionID,
+          clientMutationId: (clientMutationId++).toString(),
+        },
+        storyID: input.storyID,
+      },
       optimisticUpdater: store => {
         const comment = store.get(input.commentID)!;
         const tags = comment.getLinkedRecords("tags");
@@ -49,17 +71,11 @@ const FeatureCommentMutation = createMutation(
           getQueueConnection(store, "reported", input.storyID),
           getQueueConnection(store, "pending", input.storyID),
           getQueueConnection(store, "unmoderated", input.storyID),
+          getQueueConnection(store, "rejected", input.storyID),
         ].filter(c => c);
         connections.forEach(con =>
           ConnectionHandler.deleteNode(con, input.commentID)
         );
-      },
-      variables: {
-        input: {
-          commentID: input.commentID,
-          commentRevisionID: input.commentRevisionID,
-          clientMutationId: (clientMutationId++).toString(),
-        },
       },
     })
 );
