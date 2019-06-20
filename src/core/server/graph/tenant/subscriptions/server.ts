@@ -2,7 +2,6 @@ import { execute, GraphQLSchema, subscribe } from "graphql";
 import http, { IncomingMessage } from "http";
 import {
   ConnectionContext,
-  ExecutionParams,
   OperationMessagePayload,
   SubscriptionServer,
 } from "subscriptions-transport-ws";
