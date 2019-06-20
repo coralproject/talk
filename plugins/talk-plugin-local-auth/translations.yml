@@ -344,7 +344,7 @@ de:
       change_username_attempt: "Der Nutzername kann zur Zeit nicht aktualisiert werden. Änderungen sind nur nach jeweils 14 Tagen möglich."
     change_email:
       confirm_email_change: "Änderung der E-Mail-Adresse bestätigen"
-      description: "Sie versuchen, Ihre E-Mail-Adresse ändern: die neue E-Mail-Adresse wird zum Login sowie für Benachrichtigungen bzgl. Ihres Benutzerkontos verwendet."
+      description: "Sie versuchen Ihre E-Mail-Adresse zu ändern: die neue E-Mail-Adresse wird zum Login sowie für Benachrichtigungen bzgl. Ihres Benutzerkontos verwendet."
       old_email: "Alte E-Mail-Adresse"
       new_email: "Neue E-Mail-Adresse"
       enter_password: "Passwort"
