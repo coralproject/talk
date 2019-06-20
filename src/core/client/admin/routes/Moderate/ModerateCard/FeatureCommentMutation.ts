@@ -1,7 +1,8 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { ConnectionHandler, Environment } from "relay-runtime";
 
 import { FeatureCommentMutation } from "coral-admin/__generated__/FeatureCommentMutation.graphql";
+import { getQueueConnection } from "coral-admin/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
@@ -42,6 +43,16 @@ const FeatureCommentMutation = createMutation(
           comment.setLinkedRecords(tags.concat(newTag), "tags");
           comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
         }
+      },
+      updater: store => {
+        const connections = [
+          getQueueConnection(store, "reported", input.storyID),
+          getQueueConnection(store, "pending", input.storyID),
+          getQueueConnection(store, "unmoderated", input.storyID),
+        ].filter(c => c);
+        connections.forEach(con =>
+          ConnectionHandler.deleteNode(con, input.commentID)
+        );
       },
       variables: {
         input: {
