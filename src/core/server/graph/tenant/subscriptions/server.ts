@@ -1,12 +1,21 @@
-import { execute, GraphQLSchema, subscribe } from "graphql";
+import {
+  execute,
+  ExecutionResult,
+  GraphQLSchema,
+  parse,
+  subscribe,
+} from "graphql";
 import http, { IncomingMessage } from "http";
 import {
   ConnectionContext,
+  ExecutionParams,
   OperationMessagePayload,
   SubscriptionServer,
 } from "subscriptions-transport-ws";
 
+import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
 import { Omit } from "coral-common/types";
+import { AppOptions } from "coral-server/app";
 import { getHostname } from "coral-server/app/helpers/hostname";
 import {
   createVerifiers,
@@ -17,17 +26,16 @@ import {
   InternalError,
   TenantNotFoundError,
 } from "coral-server/errors";
+import {
+  enrichError,
+  logError,
+  logQuery,
+} from "coral-server/graph/common/extensions";
+import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
 import logger from "coral-server/logger";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 
-import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
 import TenantContext, { TenantContextOptions } from "../context";
-
-type Options = Omit<
-  TenantContextOptions,
-  "tenant" | "signingConfig" | "disableCaching"
-> &
-  Required<Pick<TenantContextOptions, "signingConfig">>;
 
 type OnConnectFn = (
   params: OperationMessagePayload,
@@ -62,7 +70,13 @@ export function extractClientID(connectionParams: OperationMessagePayload) {
   return null;
 }
 
-export function onConnect(options: Options): OnConnectFn {
+export type OnConnectOptions = Omit<
+  TenantContextOptions,
+  "tenant" | "signingConfig" | "disableCaching"
+> &
+  Required<Pick<TenantContextOptions, "signingConfig">>;
+
+export function onConnect(options: OnConnectOptions): OnConnectFn {
   // Create the JWT verifiers that will be used to verify all the requests
   // coming in.
   const verifiers = createVerifiers(options);
@@ -129,7 +143,63 @@ export function onConnect(options: Options): OnConnectFn {
   };
 }
 
-// FIXME: (wyattjoh) errors over subscriptions (including GraphQL ones) are not logged
+export type FormatResponseOptions = Pick<AppOptions, "metrics">;
+
+export function formatResponse({ metrics }: FormatResponseOptions) {
+  return (
+    value: ExecutionResult,
+    { context, query }: ExecutionParams<TenantContext>
+  ) => {
+    // Parse the query in order to extract operation metadata.
+    if (typeof query === "string") {
+      query = parse(query);
+    }
+
+    // Log out the query.
+    logQuery(context, query);
+
+    // Increment the metrics if enabled.
+    if (metrics) {
+      // Get the request metadata.
+      const { operation, operationName } = getOperationMetadata(query);
+      if (operation && operationName) {
+        // Increment the graph query value, tagging with the name of the query.
+        metrics.executedGraphQueriesTotalCounter
+          .labels(operation, operationName)
+          .inc();
+      }
+    }
+
+    if (value.errors && value.errors.length > 0) {
+      return {
+        ...value,
+        errors: value.errors.map(err => {
+          const enriched = enrichError(context, err);
+
+          // Log the error out.
+          logError(context, enriched);
+
+          return enriched;
+        }),
+      };
+    }
+
+    return value;
+  };
+}
+
+export type OnOperationOptions = FormatResponseOptions;
+
+export function onOperation(options: OnOperationOptions) {
+  return (message: any, params: ExecutionParams<TenantContext>) => {
+    // Attach the response formatter.
+    params.formatResponse = formatResponse(options);
+
+    return params;
+  };
+}
+
+export type Options = OnConnectOptions & OnOperationOptions;
 
 export function createSubscriptionServer(
   server: http.Server,
@@ -142,6 +212,7 @@ export function createSubscriptionServer(
       execute,
       subscribe,
       onConnect: onConnect(options),
+      onOperation: onOperation(options),
     },
     {
       server,

@@ -22,6 +22,7 @@ import logger from "coral-server/logger";
 import { createQueue, TaskQueue } from "coral-server/queue";
 import { I18n } from "coral-server/services/i18n";
 import { createJWTSigningConfig } from "coral-server/services/jwt";
+import { createMetrics } from "coral-server/services/metrics";
 import { createMongoDB } from "coral-server/services/mongodb";
 import { ensureIndexes } from "coral-server/services/mongodb/indexes";
 import {
@@ -255,10 +256,7 @@ class Server {
     // Create the signing config.
     const signingConfig = createJWTSigningConfig(this.config);
 
-    // Only enable the metrics server if concurrency is set to 1.
-    const metrics = this.config.get("concurrency") === 1;
-
-    // Disables the client routes to serve bundles etc. Useful for devleoping with
+    // Disables the client routes to serve bundles etc. Useful for developing with
     // Webpack Dev Server.
     const disableClientRoutes = this.config.get("disable_client_routes");
 
@@ -274,9 +272,13 @@ class Server {
       i18n: this.i18n,
       mailerQueue: this.tasks.mailer,
       scraperQueue: this.tasks.scraper,
-      metrics,
       disableClientRoutes,
     };
+
+    // Only enable the metrics server if concurrency is set to 1.
+    if (this.config.get("concurrency") === 1) {
+      options.metrics = createMetrics();
+    }
 
     // Create the Coral App, branching off from the parent app.
     const app: Express = await createApp(options);

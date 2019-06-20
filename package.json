@@ -189,6 +189,7 @@
     "@types/passport-local": "^1.0.33",
     "@types/passport-oauth2": "^1.4.5",
     "@types/passport-strategy": "^0.2.33",
+    "@types/permit": "^0.2.1",
     "@types/prop-types": "^15.5.8",
     "@types/react": "^16.8.15",
     "@types/react-copy-to-clipboard": "^4.2.6",

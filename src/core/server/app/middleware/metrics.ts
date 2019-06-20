@@ -1,22 +1,15 @@
-import { RequestHandler } from "express";
 import onFinished from "on-finished";
 import now from "performance-now";
-import { Counter, Histogram } from "prom-client";
 
-export const metricsRecorder = (): RequestHandler => {
-  const httpRequestsTotal = new Counter({
-    name: "http_requests_total",
-    help: "Total number of HTTP requests made.",
-    labelNames: ["code", "method"],
-  });
+import { Metrics } from "coral-server/services/metrics";
+import { RequestHandler } from "coral-server/types/express";
 
-  const httpRequestDurationMilliseconds = new Histogram({
-    name: "http_request_duration_milliseconds",
-    help: "Histogram of latencies for HTTP requests.",
-    buckets: [0.1, 5, 15, 50, 100, 500],
-    labelNames: ["method", "handler"],
-  });
+export type MetricsRecorderOptions = Metrics;
 
+export const metricsRecorder = ({
+  httpRequestsTotal,
+  httpRequestDurationMilliseconds,
+}: Metrics): RequestHandler => {
   return (req, res, next) => {
     const startTime = now();
 
