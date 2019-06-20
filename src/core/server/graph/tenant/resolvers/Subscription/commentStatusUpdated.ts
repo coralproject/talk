@@ -4,9 +4,9 @@ import {
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { createIterator } from "./helpers";
-import { SUBSCRIPTION_CHANNELS } from "./types";
+import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
 
-export interface CommentStatusUpdatedInput {
+export interface CommentStatusUpdatedInput extends SubscriptionPayload {
   status: GQLCOMMENT_STATUS;
   commentID: string;
 }

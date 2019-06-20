@@ -43,7 +43,7 @@ export const Comments = (ctx: TenantContext) => ({
       create(
         ctx.mongo,
         ctx.redis,
-        ctx.pubsub,
+        ctx.publisher,
         ctx.tenant,
         ctx.user!,
         { authorID: ctx.user!.id, ...comment },
@@ -65,7 +65,7 @@ export const Comments = (ctx: TenantContext) => ({
       edit(
         ctx.mongo,
         ctx.redis,
-        ctx.pubsub,
+        ctx.publisher,
         ctx.tenant,
         ctx.user!,
         {
@@ -89,7 +89,7 @@ export const Comments = (ctx: TenantContext) => ({
     createReaction(
       ctx.mongo,
       ctx.redis,
-      ctx.pubsub,
+      ctx.publisher,
       ctx.tenant,
       ctx.user!,
       {
@@ -110,7 +110,7 @@ export const Comments = (ctx: TenantContext) => ({
     createDontAgree(
       ctx.mongo,
       ctx.redis,
-      ctx.pubsub,
+      ctx.publisher,
       ctx.tenant,
       ctx.user!,
       {
@@ -137,7 +137,7 @@ export const Comments = (ctx: TenantContext) => ({
     createFlag(
       ctx.mongo,
       ctx.redis,
-      ctx.pubsub,
+      ctx.publisher,
       ctx.tenant,
       ctx.user!,
       {
@@ -166,7 +166,7 @@ export const Comments = (ctx: TenantContext) => ({
       ctx.now
     ).then(comment =>
       comment.status !== GQLCOMMENT_STATUS.APPROVED
-        ? approve(ctx.mongo, ctx.redis, ctx.pubsub, ctx.tenant, {
+        ? approve(ctx.mongo, ctx.redis, ctx.publisher, ctx.tenant, {
             commentID,
             commentRevisionID,
             moderatorID: ctx.user!.id,

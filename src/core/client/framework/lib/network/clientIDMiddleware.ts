@@ -1,7 +1,10 @@
 import { Middleware } from "react-relay-network-modern/es";
 
+import { CLIENT_ID_HEADER } from "coral-common/constants";
+
 /**
- * Sets `Coral-Client-ID` on the header.
+ * Sets clientID on the header.
+ *
  * @param clientID an identifier for this client.
  */
 const clientIDMiddleware: (
@@ -10,7 +13,7 @@ const clientIDMiddleware: (
   if (!req.fetchOpts.headers) {
     req.fetchOpts.headers = {};
   }
-  req.fetchOpts.headers["X-Coral-Client-ID"] = clientID;
+  req.fetchOpts.headers[CLIENT_ID_HEADER] = clientID;
   return next(req);
 };
 

@@ -7,10 +7,7 @@ import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_QUEUE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import {
-  publish,
-  Publisher,
-} from "coral-server/graph/tenant/subscriptions/pubsub";
+import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   createCommentModerationAction,
@@ -33,7 +30,7 @@ const moderate = (
 ) => async (
   mongo: Db,
   redis: AugmentedRedis,
-  pub: Publisher,
+  publish: Publisher,
   tenant: Tenant,
   input: Moderate
 ) => {
@@ -109,7 +106,7 @@ const moderate = (
   }
 
   // Publish changes to the queue.
-  publishModerationQueueChanges(pub, tenant, moderationQueue, result.comment);
+  publishModerationQueueChanges(publish, moderationQueue, result.comment);
 
   log.trace({ oldStatus: result.oldStatus }, "adjusted story comment counts");
 
@@ -121,13 +118,12 @@ export const approve = moderate(GQLCOMMENT_STATUS.APPROVED);
 export const reject = moderate(GQLCOMMENT_STATUS.REJECTED);
 
 export function publishModerationQueueChanges(
-  pub: Publisher,
-  tenant: Tenant,
+  publish: Publisher,
   moderationQueue: CommentModerationQueueCounts,
   comment: Comment
 ) {
   if (moderationQueue.queues.pending === 1) {
-    publish(pub, tenant.id, {
+    publish({
       channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
       payload: {
         queue: GQLMODERATION_QUEUE.PENDING,
@@ -136,7 +132,7 @@ export function publishModerationQueueChanges(
       },
     });
   } else if (moderationQueue.queues.pending === -1) {
-    publish(pub, tenant.id, {
+    publish({
       channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
       payload: {
         queue: GQLMODERATION_QUEUE.PENDING,
@@ -146,7 +142,7 @@ export function publishModerationQueueChanges(
     });
   }
   if (moderationQueue.queues.reported === 1) {
-    publish(pub, tenant.id, {
+    publish({
       channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
       payload: {
         queue: GQLMODERATION_QUEUE.REPORTED,
@@ -155,7 +151,7 @@ export function publishModerationQueueChanges(
       },
     });
   } else if (moderationQueue.queues.reported === -1) {
-    publish(pub, tenant.id, {
+    publish({
       channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
       payload: {
         queue: GQLMODERATION_QUEUE.REPORTED,
@@ -165,7 +161,7 @@ export function publishModerationQueueChanges(
     });
   }
   if (moderationQueue.queues.unmoderated === 1) {
-    publish(pub, tenant.id, {
+    publish({
       channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
       payload: {
         queue: GQLMODERATION_QUEUE.UNMODERATED,
@@ -174,7 +170,7 @@ export function publishModerationQueueChanges(
       },
     });
   } else if (moderationQueue.queues.unmoderated === -1) {
-    publish(pub, tenant.id, {
+    publish({
       channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
       payload: {
         queue: GQLMODERATION_QUEUE.UNMODERATED,

@@ -8,9 +8,13 @@ export enum SUBSCRIPTION_CHANNELS {
   COMMENT_STATUS_UPDATED = "COMMENT_STATUS_UPDATED",
 }
 
+export interface SubscriptionPayload {
+  clientID?: string;
+}
+
 export interface SubscriptionType<
   TChannel extends SUBSCRIPTION_CHANNELS,
-  TPayload extends {}
+  TPayload extends SubscriptionPayload
 > {
   channel: TChannel;
   payload: TPayload;

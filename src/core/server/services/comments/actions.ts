@@ -1,7 +1,9 @@
 import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
+import { CommentNotFoundError } from "coral-server/errors";
 import { GQLCOMMENT_FLAG_REPORTED_REASON } from "coral-server/graph/tenant/schema/__generated__/types";
+import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import {
   ACTION_TYPE,
   CommentAction,
@@ -26,8 +28,6 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 
-import { CommentNotFoundError } from "coral-server/errors";
-import { Publisher } from "coral-server/graph/tenant/subscriptions/pubsub";
 import { AugmentedRedis } from "../redis";
 import { publishModerationQueueChanges } from "./moderation";
 import { calculateCountsDiff } from "./moderation/counts";
@@ -52,7 +52,6 @@ export async function addCommentActions(
 
 export async function addCommentActionCounts(
   mongo: Db,
-  pub: Publisher,
   tenant: Tenant,
   oldComment: Readonly<Comment>,
   ...actions: CommentAction[]
@@ -82,7 +81,7 @@ export async function addCommentActionCounts(
 async function addCommentAction(
   mongo: Db,
   redis: AugmentedRedis,
-  pub: Publisher,
+  publish: Publisher,
   tenant: Tenant,
   input: Omit<CreateActionInput, "storyID">,
   now = new Date()
@@ -104,7 +103,6 @@ async function addCommentAction(
     // Update the comment action counts.
     const updatedComment = await addCommentActionCounts(
       mongo,
-      pub,
       tenant,
       oldComment,
       ...commentActions
@@ -119,7 +117,7 @@ async function addCommentAction(
     });
 
     // Publish changes to the queue.
-    publishModerationQueueChanges(pub, tenant, moderationQueue, updatedComment);
+    publishModerationQueueChanges(publish, moderationQueue, updatedComment);
 
     return updatedComment;
   }
@@ -207,7 +205,7 @@ export type CreateCommentReaction = Pick<
 export async function createReaction(
   mongo: Db,
   redis: AugmentedRedis,
-  pub: Publisher,
+  publish: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateCommentReaction,
@@ -216,7 +214,7 @@ export async function createReaction(
   return addCommentAction(
     mongo,
     redis,
-    pub,
+    publish,
     tenant,
     {
       actionType: ACTION_TYPE.REACTION,
@@ -252,7 +250,7 @@ export type CreateCommentDontAgree = Pick<
 export async function createDontAgree(
   mongo: Db,
   redis: AugmentedRedis,
-  pub: Publisher,
+  publish: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateCommentDontAgree,
@@ -261,7 +259,7 @@ export async function createDontAgree(
   return addCommentAction(
     mongo,
     redis,
-    pub,
+    publish,
     tenant,
     {
       actionType: ACTION_TYPE.DONT_AGREE,
@@ -300,7 +298,7 @@ export type CreateCommentFlag = Pick<
 export async function createFlag(
   mongo: Db,
   redis: AugmentedRedis,
-  pub: Publisher,
+  publish: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateCommentFlag,
@@ -309,7 +307,7 @@ export async function createFlag(
   return addCommentAction(
     mongo,
     redis,
-    pub,
+    publish,
     tenant,
     {
       actionType: ACTION_TYPE.FLAG,

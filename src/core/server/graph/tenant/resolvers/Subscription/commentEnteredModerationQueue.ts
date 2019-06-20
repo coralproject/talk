@@ -4,9 +4,10 @@ import {
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { createIterator } from "./helpers";
-import { SUBSCRIPTION_CHANNELS } from "./types";
+import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
 
-export interface CommentEnteredModerationQueueInput {
+export interface CommentEnteredModerationQueueInput
+  extends SubscriptionPayload {
   queue: GQLMODERATION_QUEUE;
   commentID: string;
   storyID: string;

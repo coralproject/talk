@@ -1,5 +1,7 @@
-import { Overwrite } from "coral-framework/types";
 import { merge } from "lodash";
+
+import { CLIENT_ID_HEADER } from "coral-common/constants";
+import { Overwrite } from "coral-framework/types";
 
 import { extractError } from "./network";
 
@@ -76,7 +78,7 @@ export class RestClient {
     if (this.clientID) {
       opts = merge({}, opts, {
         headers: {
-          "X-Coral-Client-ID": this.clientID,
+          [CLIENT_ID_HEADER]: this.clientID,
         },
       });
     }

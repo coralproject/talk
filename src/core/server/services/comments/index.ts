@@ -1,4 +1,3 @@
-import { RedisPubSub } from "graphql-redis-subscriptions";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
@@ -9,10 +8,8 @@ import {
   CoralError,
   StoryNotFoundError,
 } from "coral-server/errors";
-import {
-  GQLMODERATION_QUEUE,
-  GQLTAG,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
+import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   encodeActionCounts,
@@ -43,9 +40,6 @@ import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
 
-import { createSubscriptionChannelName } from "coral-server/graph/tenant/resolvers/Subscription/helpers";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
-import { Publisher } from "coral-server/graph/tenant/subscriptions/pubsub";
 import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { publishModerationQueueChanges } from "./moderation";
@@ -60,7 +54,7 @@ export type CreateComment = Omit<
 export async function create(
   mongo: Db,
   redis: AugmentedRedis,
-  pubsub: RedisPubSub,
+  publish: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -216,49 +210,8 @@ export async function create(
   }
   const moderationQueue = calculateCounts(comment);
 
-  if (moderationQueue.total) {
-    if (moderationQueue.queues.pending === 1) {
-      pubsub.publish(
-        createSubscriptionChannelName(
-          tenant.id,
-          SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE
-        ),
-        {
-          queue: GQLMODERATION_QUEUE.PENDING,
-          commentID: comment.id,
-          storyID: comment.storyID,
-        }
-      );
-    }
-
-    if (moderationQueue.queues.reported === 1) {
-      pubsub.publish(
-        createSubscriptionChannelName(
-          tenant.id,
-          SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE
-        ),
-        {
-          queue: GQLMODERATION_QUEUE.REPORTED,
-          commentID: comment.id,
-          storyID: comment.storyID,
-        }
-      );
-    }
-
-    if (moderationQueue.queues.unmoderated === 1) {
-      pubsub.publish(
-        createSubscriptionChannelName(
-          tenant.id,
-          SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE
-        ),
-        {
-          queue: GQLMODERATION_QUEUE.UNMODERATED,
-          commentID: comment.id,
-          storyID: comment.storyID,
-        }
-      );
-    }
-  }
+  // Publish changes to the queue.
+  publishModerationQueueChanges(publish, moderationQueue, comment);
 
   // Compile the changes we want to apply to the story counts.
   const storyCounts: Required<Omit<StoryCounts, "action">> = {
@@ -285,7 +238,7 @@ export type EditComment = Omit<
 export async function edit(
   mongo: Db,
   redis: AugmentedRedis,
-  pub: Publisher,
+  publish: Publisher,
   tenant: Tenant,
   author: User,
   input: EditComment,
@@ -433,7 +386,7 @@ export async function edit(
   await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
   // Publish changes to the queue.
-  publishModerationQueueChanges(pub, tenant, moderationQueue, editedComment);
+  publishModerationQueueChanges(publish, moderationQueue, editedComment);
 
   return editedComment;
 }

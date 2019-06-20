@@ -2,7 +2,7 @@ import { GraphQLResolveInfo } from "graphql";
 import { withFilter } from "graphql-subscriptions";
 
 import TenantContext from "../../context";
-import { SUBSCRIPTION_CHANNELS } from "./types";
+import { SUBSCRIPTION_CHANNELS, SubscriptionPayload } from "./types";
 
 type FilterFn<TParent, TArgs, TContext> = (
   parent: TParent,
@@ -53,12 +53,15 @@ export function createSubscriptionChannelName(
  *            need to determine eligibility to send the subscription back or
  *            not.
  */
-export function defaultFilterFn<TParent, TArgs>(
+export function defaultFilterFn<TParent extends SubscriptionPayload, TArgs>(
   source: TParent,
   args: TArgs,
   ctx: TenantContext
 ): boolean {
-  // TODO: (wyattjoh) implement
+  if (source.clientID && ctx.clientID && source.clientID === ctx.clientID) {
+    return false;
+  }
+
   return true;
 }
 
@@ -87,7 +90,11 @@ export interface CreateIteratorInput<TParent, TArgs, TResult> {
   resolve?: Resolver<TParent, TArgs, TResult>;
 }
 
-export function createIterator<TParent, TArgs, TResult>(
+export function createIterator<
+  TParent extends SubscriptionPayload,
+  TArgs,
+  TResult
+>(
   channel: SUBSCRIPTION_CHANNELS,
   { filter, resolve }: CreateIteratorInput<TParent, TArgs, TResult> = {}
 ): SubscriptionResolver<TParent, TArgs, TResult> {

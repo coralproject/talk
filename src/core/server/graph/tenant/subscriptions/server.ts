@@ -2,6 +2,7 @@ import { execute, GraphQLSchema, subscribe } from "graphql";
 import http, { IncomingMessage } from "http";
 import {
   ConnectionContext,
+  ExecutionParams,
   OperationMessagePayload,
   SubscriptionServer,
 } from "subscriptions-transport-ws";
@@ -20,6 +21,7 @@ import {
 import logger from "coral-server/logger";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 
+import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
 import TenantContext, { TenantContextOptions } from "../context";
 
 type Options = Omit<
@@ -39,12 +41,26 @@ export function extractTokenFromWSRequest(
   req: IncomingMessage
 ): string | null {
   // Try to grab the token from the connection params if available.
-  if (connectionParams.accessToken) {
-    return connectionParams.accessToken;
+  if (
+    typeof connectionParams[ACCESS_TOKEN_PARAM] === "string" &&
+    connectionParams[ACCESS_TOKEN_PARAM].length > 0
+  ) {
+    return connectionParams[ACCESS_TOKEN_PARAM];
   }
 
   // Try to get the access token from the request.
   return extractTokenFromRequest(req);
+}
+
+export function extractClientID(connectionParams: OperationMessagePayload) {
+  if (
+    typeof connectionParams[CLIENT_ID_PARAM] === "string" &&
+    connectionParams[CLIENT_ID_PARAM].length > 0
+  ) {
+    return connectionParams[CLIENT_ID_PARAM];
+  }
+
+  return null;
 }
 
 export function onConnect(options: Options): OnConnectFn {
@@ -92,6 +108,12 @@ export function onConnect(options: Options): OnConnectFn {
         }
       }
 
+      // Extract the users clientID from the request.
+      const clientID = extractClientID(connectionParams);
+      if (clientID) {
+        opts.clientID = clientID;
+      }
+
       return new TenantContext(opts);
     } catch (err) {
       logger.error({ err }, "could not setup websocket connection");
@@ -107,6 +129,8 @@ export function onConnect(options: Options): OnConnectFn {
     }
   };
 }
+
+// FIXME: (wyattjoh) errors over subscriptions (including GraphQL ones) are not logged
 
 export function createSubscriptionServer(
   server: http.Server,

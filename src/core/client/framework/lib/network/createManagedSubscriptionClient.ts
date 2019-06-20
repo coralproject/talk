@@ -6,6 +6,8 @@ import {
 } from "react-relay-network-modern/es";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 
+import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
+
 /**
  * SubscriptionRequest containts the subscription
  * request data that comes from Relay.
@@ -87,8 +89,8 @@ export default function createManagedSubscriptionClient(
         subscriptionClient = new SubscriptionClient(url, {
           reconnect: true,
           connectionParams: {
-            accessToken,
-            clientID,
+            [ACCESS_TOKEN_PARAM]: accessToken,
+            [CLIENT_ID_PARAM]: clientID,
           },
         });
       }
