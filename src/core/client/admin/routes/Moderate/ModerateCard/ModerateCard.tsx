@@ -24,7 +24,7 @@ interface Props {
   inReplyTo: string | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"];
   status: "approved" | "rejected" | "undecided";
-  featured: true | false;
+  featured: boolean;
   viewContextHref: string;
   suspectWords: ReadonlyArray<string>;
   bannedWords: ReadonlyArray<string>;
