@@ -3,7 +3,6 @@ import { IResolvers } from "graphql-tools";
 import { SubscribeFunction } from "react-relay-network-modern/es";
 import {
   commitLocalUpdate,
-  Disposable,
   Environment,
   Network,
   RecordProxy,
