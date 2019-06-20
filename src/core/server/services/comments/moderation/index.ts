@@ -2,23 +2,20 @@ import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
 import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
-import { SUBSCRIPTION_CHANNELS } from "coral-server/graph/tenant/resolvers/Subscription/types";
-import {
-  GQLCOMMENT_STATUS,
-  GQLMODERATION_QUEUE,
-} from "coral-server/graph/tenant/schema/__generated__/types";
+import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   createCommentModerationAction,
   CreateCommentModerationActionInput,
 } from "coral-server/models/action/moderation/comment";
-import { Comment, updateCommentStatus } from "coral-server/models/comment";
-import {
-  CommentModerationQueueCounts,
-  updateStoryCounts,
-} from "coral-server/models/story";
+import { updateCommentStatus } from "coral-server/models/comment";
+import { updateStoryCounts } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
+import {
+  publishCommentStatusChanges,
+  publishModerationQueueChanges,
+} from "coral-server/services/events";
 import { AugmentedRedis } from "coral-server/services/redis";
 
 import { calculateCountsDiff } from "./counts";
@@ -105,8 +102,15 @@ const moderate = (
     throw new StoryNotFoundError(result.comment.storyID);
   }
 
-  // Publish changes to the queue.
+  // Publish changes.
   publishModerationQueueChanges(publish, moderationQueue, result.comment);
+  publishCommentStatusChanges(
+    publish,
+    result.oldStatus,
+    status,
+    result.comment.id,
+    input.moderatorID
+  );
 
   log.trace({ oldStatus: result.oldStatus }, "adjusted story comment counts");
 
@@ -116,67 +120,3 @@ const moderate = (
 export const approve = moderate(GQLCOMMENT_STATUS.APPROVED);
 
 export const reject = moderate(GQLCOMMENT_STATUS.REJECTED);
-
-export function publishModerationQueueChanges(
-  publish: Publisher,
-  moderationQueue: CommentModerationQueueCounts,
-  comment: Comment
-) {
-  if (moderationQueue.queues.pending === 1) {
-    publish({
-      channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
-      payload: {
-        queue: GQLMODERATION_QUEUE.PENDING,
-        commentID: comment.id,
-        storyID: comment.storyID,
-      },
-    });
-  } else if (moderationQueue.queues.pending === -1) {
-    publish({
-      channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
-      payload: {
-        queue: GQLMODERATION_QUEUE.PENDING,
-        commentID: comment.id,
-        storyID: comment.storyID,
-      },
-    });
-  }
-  if (moderationQueue.queues.reported === 1) {
-    publish({
-      channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
-      payload: {
-        queue: GQLMODERATION_QUEUE.REPORTED,
-        commentID: comment.id,
-        storyID: comment.storyID,
-      },
-    });
-  } else if (moderationQueue.queues.reported === -1) {
-    publish({
-      channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
-      payload: {
-        queue: GQLMODERATION_QUEUE.REPORTED,
-        commentID: comment.id,
-        storyID: comment.storyID,
-      },
-    });
-  }
-  if (moderationQueue.queues.unmoderated === 1) {
-    publish({
-      channel: SUBSCRIPTION_CHANNELS.COMMENT_ENTERED_MODERATION_QUEUE,
-      payload: {
-        queue: GQLMODERATION_QUEUE.UNMODERATED,
-        commentID: comment.id,
-        storyID: comment.storyID,
-      },
-    });
-  } else if (moderationQueue.queues.unmoderated === -1) {
-    publish({
-      channel: SUBSCRIPTION_CHANNELS.COMMENT_LEFT_MODERATION_QUEUE,
-      payload: {
-        queue: GQLMODERATION_QUEUE.UNMODERATED,
-        commentID: comment.id,
-        storyID: comment.storyID,
-      },
-    });
-  }
-}

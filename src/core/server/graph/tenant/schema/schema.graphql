@@ -4470,12 +4470,23 @@ after it was created.
 """
 type CommentStatusUpdatedPayload {
   """
-  status is the new status assigned to the Comment.
-  status is the new status assigned to the Comment. This status may not match
-  the status provided by `comment.status` due to race conditions in the data
-  loaders.
+  newStatus  is the new status assigned to the Comment. This status may not
+  match the status provided by `comment.status` due to race conditions in the
+  data loaders.
   """
-  status: COMMENT_STATUS!
+  newStatus: COMMENT_STATUS!
+
+  """
+  oldStatus is the old status that was previously assigned to the Comment.
+  """
+  oldStatus: COMMENT_STATUS!
+
+  """
+  moderator is the User that updated the Comment's status. If null, then the
+  system assigned the new Comment status (for example, when a comment is edited
+  by the author, and now contains a banned word).
+  """
+  moderator: User
 
   """
   comment is the updated Comment after the status has been updated.

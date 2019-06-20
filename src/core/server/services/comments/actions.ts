@@ -27,9 +27,9 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import { publishModerationQueueChanges } from "coral-server/services/events";
+import { AugmentedRedis } from "coral-server/services/redis";
 
-import { AugmentedRedis } from "../redis";
-import { publishModerationQueueChanges } from "./moderation";
 import { calculateCountsDiff } from "./moderation/counts";
 
 export type CreateAction = CreateActionInput;

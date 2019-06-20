@@ -15,6 +15,7 @@ import {
   encodeActionCounts,
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
+import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
   addCommentTag,
   createComment,
@@ -38,11 +39,14 @@ import {
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import {
+  publishCommentStatusChanges,
+  publishModerationQueueChanges,
+} from "coral-server/services/events";
+import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
-import { publishModerationQueueChanges } from "./moderation";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
 import { PhaseResult, processForModeration } from "./pipeline";
 
@@ -378,6 +382,15 @@ export async function edit(
     // on the moderation pipeline.
     storyCounts.status[oldComment.status] = -1;
     storyCounts.status[status] = 1;
+
+    // The comment status changed as a result of a pipeline operation, create a
+    // moderation action as a result.
+    await createCommentModerationAction(mongo, tenant.id, {
+      commentID: editedComment.id,
+      commentRevisionID: newRevision.id,
+      status: editedComment.status,
+      moderatorID: null,
+    });
   }
 
   log.trace({ storyCounts }, "updating story status counts");
@@ -385,8 +398,16 @@ export async function edit(
   // Update the story counts as a result.
   await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
 
-  // Publish changes to the queue.
+  // Publish changes.
   publishModerationQueueChanges(publish, moderationQueue, editedComment);
+  publishCommentStatusChanges(
+    publish,
+    oldComment.status,
+    editedComment.status,
+    editedComment.id,
+    // This is a comment that was edited, so it should not present a moderator.
+    null
+  );
 
   return editedComment;
 }

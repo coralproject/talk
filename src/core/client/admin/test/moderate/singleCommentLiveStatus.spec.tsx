@@ -73,7 +73,7 @@ it("update comment status live", async () => {
         return;
       }
       return {
-        status: GQLCOMMENT_STATUS.APPROVED,
+        newStatus: GQLCOMMENT_STATUS.APPROVED,
         comment: pureMerge<typeof commentData>(commentData, {
           status: GQLCOMMENT_STATUS.APPROVED,
           statusHistory: {

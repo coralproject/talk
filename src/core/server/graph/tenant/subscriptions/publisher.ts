@@ -18,7 +18,7 @@ export const createPublisher = (
   pubsub: RedisPubSub,
   tenantID: string,
   clientID?: string
-): Publisher => async ({ channel, payload }: SUBSCRIPTION_INPUT) => {
+): Publisher => async ({ channel, payload }) => {
   logger.trace({ channel, tenantID, clientID }, "publishing event");
 
   return pubsub.publish(createSubscriptionChannelName(tenantID, channel), {
