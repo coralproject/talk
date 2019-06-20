@@ -8,6 +8,7 @@ import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.g
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import {
+  combineDisposables,
   useLoadMore,
   useMutation,
   useSubscription,
@@ -19,7 +20,8 @@ import { withRouteConfig } from "coral-framework/lib/router";
 import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
-import QueueSubscription from "./QueueSubscription";
+import QueueCommentEnteredSubscription from "./QueueCommentEnteredSubscription";
+import QueueCommentLeftSubscription from "./QueueCommentLeftSubscription";
 import QueueViewNewMutation from "./QueueViewNewMutation";
 
 interface Props {
@@ -39,20 +41,34 @@ const danglingLogic = (status: string) =>
 
 export const QueueRoute: FunctionComponent<Props> = props => {
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
-  const subscribeToQueue = useSubscription(QueueSubscription);
+  const subscribeToQueueCommentEntered = useSubscription(
+    QueueCommentEnteredSubscription
+  );
+  const subscribeToQueueCommentLeft = useSubscription(
+    QueueCommentLeftSubscription
+  );
   const viewNew = useMutation(QueueViewNewMutation);
   const onViewNew = useCallback(() => {
     viewNew({ queue: props.queueName, storyID: props.storyID || null });
   }, [props.queueName, props.storyID, viewNew]);
   useEffect(() => {
-    const disposable = subscribeToQueue({
+    const vars = {
       queue: props.queueName,
       storyID: props.storyID || null,
-    });
+    };
+    const disposable = combineDisposables(
+      subscribeToQueueCommentEntered(vars),
+      subscribeToQueueCommentLeft(vars)
+    );
     return () => {
       disposable.dispose();
     };
-  }, [props.storyID, props.queueName, subscribeToQueue]);
+  }, [
+    props.storyID,
+    props.queueName,
+    subscribeToQueueCommentEntered,
+    subscribeToQueueCommentLeft,
+  ]);
   if (props.isLoading) {
     return <LoadingQueue />;
   }

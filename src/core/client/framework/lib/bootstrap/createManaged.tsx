@@ -171,7 +171,7 @@ function createMangedCoralContextProvider(
       // TODO: (cvle) dynamically reset when token changes.
       // ^ only necessary when we can prolong existing session using
       // a new token.
-      subscriptionClient.setToken(newTokenGetter());
+      subscriptionClient.setAccessToken(newTokenGetter());
 
       // Propagate new context.
       this.setState(
@@ -302,7 +302,7 @@ export default async function createManaged({
   // TODO: (cvle) dynamically reset when token changes.
   // ^ only necessary when we can prolong existing session using
   // a new token.
-  subscriptionClient.setToken(tokenGetter());
+  subscriptionClient.setAccessToken(tokenGetter());
 
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.

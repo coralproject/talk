@@ -1,5 +1,6 @@
 .root {
   width: calc(94 * var(--mini-unit));
+  position: relative;
 }
 
 .exitTransition {
@@ -15,9 +16,11 @@
   opacity: 0;
 }
 .viewNewButtonContainer {
-  position: relative;
+  position: absolute;
+  width: 100%;
 }
 .viewNewButton {
   position: absolute;
   z-index: 10;
+  top: -14px;
 }

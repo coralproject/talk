@@ -49,4 +49,5 @@ export {
   SubscriptionProp,
   SubscriptionVariables,
   withSubscription,
+  combineDisposables,
 } from "./subscription";

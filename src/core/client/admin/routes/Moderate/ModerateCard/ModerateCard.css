@@ -47,11 +47,12 @@
 }
 
 .root {
-  transition: background 100ms;
+  transition: background 100ms, box-shadow 100ms;
 }
 
 .dangling {
   background-color: var(--palette-grey-lightest);
+  box-shadow: none;
 }
 
 .link {

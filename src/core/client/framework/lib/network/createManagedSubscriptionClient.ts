@@ -41,7 +41,7 @@ export interface ManagedSubscriptionClient {
   /** Resume all subscriptions eventually causing websocket to start with new connection parameters */
   resume(): void;
   /** Sets access token and restarts the websocket connection */
-  setToken(token: string): void;
+  setAccessToken(accessToken: string): void;
 }
 
 /**
@@ -56,7 +56,7 @@ export default function createManagedSubscriptionClient(
   const requests: SubscriptionRequest[] = [];
   let subscriptionClient: SubscriptionClient | null = null;
   let paused = false;
-  let token = "";
+  let accessToken = "";
 
   const closeClient = () => {
     if (subscriptionClient) {
@@ -87,7 +87,7 @@ export default function createManagedSubscriptionClient(
         subscriptionClient = new SubscriptionClient(url, {
           reconnect: true,
           connectionParams: {
-            token,
+            accessToken,
             clientID,
           },
         });
@@ -99,7 +99,7 @@ export default function createManagedSubscriptionClient(
           variables,
         })
         .subscribe({
-          next(data) {
+          next({ data }) {
             observer.onNext({ data });
           },
         });
@@ -160,8 +160,8 @@ export default function createManagedSubscriptionClient(
     paused = false;
   };
 
-  const setToken = (t: string) => {
-    token = t;
+  const setAccessToken = (t: string) => {
+    accessToken = t;
     if (!paused) {
       pause();
       resume();
@@ -172,6 +172,6 @@ export default function createManagedSubscriptionClient(
     subscribe,
     pause,
     resume,
-    setToken,
+    setAccessToken,
   });
 }

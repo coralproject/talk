@@ -67,7 +67,7 @@ const ApproveCommentMutation = createMutation(
         const connections = [
           getQueueConnection(store, "REPORTED", input.storyID),
           getQueueConnection(store, "PENDING", input.storyID),
-          getQueueConnection(store, "REPORTED", input.storyID),
+          getQueueConnection(store, "UNMODERATED", input.storyID),
           getQueueConnection(store, "REJECTED", input.storyID),
         ].filter(c => c);
         connections.forEach(con =>

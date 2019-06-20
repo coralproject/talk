@@ -39,8 +39,8 @@ export function extractTokenFromWSRequest(
   req: IncomingMessage
 ): string | null {
   // Try to grab the token from the connection params if available.
-  if (connectionParams.token) {
-    return connectionParams.token;
+  if (connectionParams.accessToken) {
+    return connectionParams.accessToken;
   }
 
   // Try to get the access token from the request.

@@ -85,3 +85,14 @@ export function withSubscription<N extends string, V, R>(
     }
   };
 }
+
+/**
+ * Combines disposables into one.
+ */
+export function combineDisposables(...disposables: Disposable[]): Disposable {
+  return {
+    dispose: () => {
+      disposables.forEach(d => d.dispose());
+    },
+  };
+}
