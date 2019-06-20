@@ -121,35 +121,22 @@ function createSubscribe(
     // document AST.
     const subscriptionSelections = (parse(operation.text!) as any)
       .definitions[0].selectionSet.selections as any[];
-    const disposables: Disposable[] = [];
-    const defaultData = subscriptionSelections.reduce((res, f) => {
-      res[f.name.value] = null;
-      return res;
-    }, {});
-
-    subscriptionSelections.forEach(sel => {
-      const subscription = {
-        field: sel.name.value,
-        variables: resolveArguments(variables, sel.arguments),
-        dispatch: (response: any) => {
-          observer.onNext({
-            data: {
-              ...defaultData,
-              [sel.name.value]: response,
-            },
-          });
-        },
-      };
-      subscriptionHandler.add(subscription);
-      disposables.push({
-        dispose: () => {
-          subscriptionHandler.remove(subscription);
-        },
-      });
-    });
+    const sel = subscriptionSelections[0];
+    const subscription = {
+      field: sel.name.value,
+      variables: resolveArguments(variables, sel.arguments),
+      dispatch: (response: any) => {
+        observer.onNext({
+          data: {
+            [sel.name.value]: response,
+          },
+        });
+      },
+    };
+    subscriptionHandler.add(subscription);
     return {
       dispose: () => {
-        disposables.forEach(d => d.dispose());
+        subscriptionHandler.remove(subscription);
       },
     };
   };
