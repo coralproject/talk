@@ -2,6 +2,7 @@
   border: 1px solid var(--palette-grey-lighter);
   box-sizing: border-box;
   border-radius: var(--round-corners);
+  float: right;
   padding: 2px var(--spacing-2) 2px var(--spacing-2);
   display: flex;
   justify-content: center;
@@ -13,8 +14,7 @@
   line-height: 1.2;
   letter-spacing: calc(0.2em / 14);
   color: var(--palette-grey-lighter);
-
-  float: right;
+  
   &:active {
     background-color: var(--palette-primary-lightest);
     border-color: var(--palette-primary-main);
