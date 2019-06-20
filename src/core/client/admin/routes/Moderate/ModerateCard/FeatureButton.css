@@ -1,26 +1,29 @@
 .root {
-  border: 1px solid #BBBEBF;
+  border: 1px solid var(--palette-grey-lighter);
   box-sizing: border-box;
-  border-radius: 2px;
-  width: 61px;
-  height: 21px;
+  border-radius: var(--round-corners);
+  padding: 2px var(--spacing-2) 2px var(--spacing-2);
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #BBBEBF;
-  font-family: 'Source Sans Pro';
-  font-size: 14px;
-  line-height: 14px;
+
+  font-size: calc(14rem / var(--rem-base));
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-sans-serif);
+  line-height: 1.2;
+  letter-spacing: calc(0.2em / 14);
+  color: var(--palette-grey-lighter);
+
   float: right;
   &:active {
-    background-color: #EBF5FB;
-    border-color: #3498DB;
-    color: #3498DB;
+    background-color: var(--palette-primary-lightest);
+    border-color: var(--palette-primary-main);
+    color: var(--palette-primary-main);
   }
 }
 
 .invert {
-  background-color: #3498DB;
-  border-color: #3498DB;
-  color: #FFFFFF ;
+  background-color: var(--palette-primary-main);
+  border-color: var(--palette-primary-main);
+  color: var(--palette-text-light) ;
 }
