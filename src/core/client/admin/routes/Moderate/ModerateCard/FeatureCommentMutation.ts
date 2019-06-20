@@ -1,31 +1,36 @@
 import { graphql } from "react-relay";
 import { ConnectionHandler, Environment } from "relay-runtime";
 
-import { ApproveCommentMutation as MutationTypes } from "coral-admin/__generated__/ApproveCommentMutation.graphql";
+import { FeatureCommentMutation } from "coral-admin/__generated__/FeatureCommentMutation.graphql";
 import { getQueueConnection } from "coral-admin/helpers";
+import { CoralContext } from "coral-framework/lib/bootstrap";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
+import { GQLCOMMENT_STATUS, GQLTAG } from "coral-framework/schema";
 
 let clientMutationId = 0;
 
-const ApproveCommentMutation = createMutation(
-  "approveComment",
+const FeatureCommentMutation = createMutation(
+  "featureComment",
   (
     environment: Environment,
-    input: MutationInput<MutationTypes> & { storyID?: string }
+    input: MutationInput<FeatureCommentMutation> & { storyID: string },
+    { uuidGenerator }: CoralContext
   ) =>
-    commitMutationPromiseNormalized<MutationTypes>(environment, {
+    commitMutationPromiseNormalized<FeatureCommentMutation>(environment, {
       mutation: graphql`
-        mutation ApproveCommentMutation(
-          $input: ApproveCommentInput!
+        mutation FeatureCommentMutation(
+          $input: FeatureCommentInput!
           $storyID: ID
         ) {
-          approveComment(input: $input) {
+          featureComment(input: $input) {
             comment {
-              id
+              tags {
+                code
+              }
               status
             }
             moderationQueues(storyID: $storyID) {
@@ -52,7 +57,14 @@ const ApproveCommentMutation = createMutation(
         storyID: input.storyID,
       },
       optimisticUpdater: store => {
-        store.get(input.commentID)!.setValue("APPROVED", "status");
+        const comment = store.get(input.commentID)!;
+        const tags = comment.getLinkedRecords("tags");
+        if (tags) {
+          const newTag = store.create(uuidGenerator(), "Tag");
+          newTag.setValue(GQLTAG.FEATURED, "code");
+          comment.setLinkedRecords(tags.concat(newTag), "tags");
+          comment.setValue(GQLCOMMENT_STATUS.APPROVED, "status");
+        }
       },
       updater: store => {
         const connections = [
@@ -68,4 +80,4 @@ const ApproveCommentMutation = createMutation(
     })
 );
 
-export default ApproveCommentMutation;
+export default FeatureCommentMutation;

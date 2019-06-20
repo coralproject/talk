@@ -13,6 +13,7 @@ import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentRevision } from "./CommentRevision";
 import { DisableCommenting } from "./DisableCommenting";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
+import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { ModerationQueue } from "./ModerationQueue";
@@ -43,6 +44,7 @@ const Resolvers: GQLResolver = {
   Cursor,
   DisableCommenting,
   FacebookAuthIntegration,
+  FeatureCommentPayload,
   Flag,
   GoogleAuthIntegration,
   ModerationQueue,

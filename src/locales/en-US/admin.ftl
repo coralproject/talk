@@ -335,6 +335,8 @@ moderate-comment-approveButton =
 moderate-comment-decision = Decision
 moderate-comment-story = Story
 moderate-comment-moderateStory = Moderate Story
+moderate-comment-featureText = Feature
+moderate-comment-featuredText = Featured
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View

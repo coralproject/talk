@@ -10,6 +10,7 @@ import {
   GQLStoriesConnection,
   GQLStory,
   GQLSTORY_STATUS,
+  GQLTAG,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -418,6 +419,7 @@ export const baseComment = createFixture<GQLComment>({
   body: "Comment Body",
   createdAt: "2018-07-06T18:24:00.000Z",
   status: GQLCOMMENT_STATUS.NONE,
+  tags: [],
   actionCounts: {
     flag: {
       reasons: {
@@ -437,6 +439,43 @@ export const baseComment = createFixture<GQLComment>({
   },
   story: stories[0],
 });
+
+export const unmoderatedComments = createFixtures<GQLComment>(
+  [
+    {
+      id: "comment-0",
+      author: users.commenters[0],
+      createdAt: "2018-07-06T18:24:00.000Z",
+      revision: {
+        id: "comment-0-revision-0",
+      },
+      permalink: "http://localhost/comment/0",
+      body: "This is an unmoderated comment.",
+    },
+  ],
+  baseComment
+);
+
+export const featuredComments = createFixtures<GQLComment>(
+  [
+    {
+      id: "comment-0",
+      author: users.commenters[0],
+      createdAt: "2018-07-06T18:24:00.000Z",
+      tags: [
+        {
+          code: GQLTAG.FEATURED,
+        },
+      ],
+      revision: {
+        id: "comment-0-revision-0",
+      },
+      permalink: "http://localhost/comment/0",
+      body: "This is a featured comment.",
+    },
+  ],
+  baseComment
+);
 
 export const reportedComments = createFixtures<GQLComment>(
   [

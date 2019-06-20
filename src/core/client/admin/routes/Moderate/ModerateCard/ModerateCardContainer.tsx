@@ -16,14 +16,19 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
+import { GQLTAG } from "coral-framework/schema";
 
+import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
+import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
   comment: CommentData;
   settings: SettingsData;
   approveComment: MutationProp<typeof ApproveCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
+  featureComment: MutationProp<typeof FeatureCommentMutation>;
+  unfeatureComment: MutationProp<typeof UnfeatureCommentMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
   router: Router;
@@ -41,6 +46,10 @@ function getStatus(comment: CommentData) {
   }
 }
 
+function isFeatured(comment: CommentData) {
+  return comment.tags.some(t => t.code === GQLTAG.FEATURED);
+}
+
 class ModerateCardContainer extends React.Component<Props> {
   private handleApprove = () => {
     this.props.approveComment({
@@ -54,6 +63,31 @@ class ModerateCardContainer extends React.Component<Props> {
     this.props.rejectComment({
       commentID: this.props.comment.id,
       commentRevisionID: this.props.comment.revision.id,
+      storyID: this.props.match.params.storyID,
+    });
+  };
+
+  private onFeature = () => {
+    const featured = isFeatured(this.props.comment);
+
+    if (featured) {
+      this.handleUnfeature();
+    } else {
+      this.handleFeature();
+    }
+  };
+
+  private handleFeature = () => {
+    this.props.featureComment({
+      commentID: this.props.comment.id,
+      commentRevisionID: this.props.comment.revision.id,
+      storyID: this.props.match.params.storyID,
+    });
+  };
+
+  private handleUnfeature = () => {
+    this.props.unfeatureComment({
+      commentID: this.props.comment.id,
       storyID: this.props.match.params.storyID,
     });
   };
@@ -78,11 +112,13 @@ class ModerateCardContainer extends React.Component<Props> {
         inReplyTo={comment.parent && comment.parent.author!.username!}
         comment={comment}
         status={getStatus(comment)}
+        featured={isFeatured(comment)}
         viewContextHref={comment.permalink}
         suspectWords={settings.wordList.suspect}
         bannedWords={settings.wordList.banned}
         onApprove={this.handleApprove}
         onReject={this.handleReject}
+        onFeature={this.onFeature}
         dangling={danglingLogic(comment.status)}
         showStory={showStoryInfo}
         storyTitle={
@@ -107,6 +143,9 @@ const enhanced = withFragmentContainer<Props>({
       createdAt
       body
       status
+      tags {
+        code
+      }
       revision {
         id
       }
@@ -136,7 +175,11 @@ const enhanced = withFragmentContainer<Props>({
 })(
   withRouter(
     withMutation(ApproveCommentMutation)(
-      withMutation(RejectCommentMutation)(ModerateCardContainer)
+      withMutation(RejectCommentMutation)(
+        withMutation(FeatureCommentMutation)(
+          withMutation(UnfeatureCommentMutation)(ModerateCardContainer)
+        )
+      )
     )
   )
 );

@@ -7,6 +7,7 @@ import { Card, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
 
 import ApproveButton from "./ApproveButton";
 import CommentContent from "./CommentContent";
+import FeatureButton from "./FeatureButton";
 import InReplyTo from "./InReplyTo";
 import MarkersContainer from "./MarkersContainer";
 import RejectButton from "./RejectButton";
@@ -23,6 +24,7 @@ interface Props {
   inReplyTo: string | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"];
   status: "approved" | "rejected" | "undecided";
+  featured: boolean;
   viewContextHref: string;
   suspectWords: ReadonlyArray<string>;
   bannedWords: ReadonlyArray<string>;
@@ -32,6 +34,7 @@ interface Props {
   onModerateStory?: React.EventHandler<React.MouseEvent>;
   onApprove: () => void;
   onReject: () => void;
+  onFeature: () => void;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -49,10 +52,12 @@ const ModerateCard: FunctionComponent<Props> = ({
   comment,
   viewContextHref,
   status,
+  featured,
   suspectWords,
   bannedWords,
   onApprove,
   onReject,
+  onFeature,
   dangling,
   showStory,
   storyTitle,
@@ -69,6 +74,7 @@ const ModerateCard: FunctionComponent<Props> = ({
           <div>
             <Username className={styles.username}>{username}</Username>
             <Timestamp>{createdAt}</Timestamp>
+            <FeatureButton featured={featured} onClick={onFeature} />
           </div>
           {inReplyTo && (
             <div>

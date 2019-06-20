@@ -40,6 +40,20 @@ exports[`rejected queue approves comment in rejected queue: dangling 1`] = `
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -239,6 +253,20 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                 >
                   2018-07-06T18:24:00.000Z
                 </time>
+                <button
+                  className="BaseButton-root FeatureButton-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Feature
+                  </span>
+                </button>
               </div>
             </div>
             <div
@@ -425,6 +453,20 @@ exports[`rejected queue renders rejected queue with comments 1`] = `
                 >
                   2018-07-06T18:24:00.000Z
                 </time>
+                <button
+                  className="BaseButton-root FeatureButton-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Feature
+                  </span>
+                </button>
               </div>
             </div>
             <div
@@ -617,6 +659,20 @@ exports[`rejected queue renders rejected queue with comments and load more 1`] =
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -832,6 +888,20 @@ exports[`reported queue approves comment in reported queue: dangling 1`] = `
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -1034,6 +1104,20 @@ exports[`reported queue rejects comment in reported queue: dangling 1`] = `
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -1233,6 +1317,20 @@ exports[`reported queue renders reported queue with comments 1`] = `
                 >
                   2018-07-06T18:24:00.000Z
                 </time>
+                <button
+                  className="BaseButton-root FeatureButton-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Feature
+                  </span>
+                </button>
               </div>
             </div>
             <div
@@ -1419,6 +1517,20 @@ exports[`reported queue renders reported queue with comments 1`] = `
                 >
                   2018-07-06T18:24:00.000Z
                 </time>
+                <button
+                  className="BaseButton-root FeatureButton-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Feature
+                  </span>
+                </button>
               </div>
             </div>
             <div
@@ -1621,6 +1733,20 @@ exports[`reported queue renders reported queue with comments 2`] = `
                 >
                   2018-07-06T18:24:00.000Z
                 </time>
+                <button
+                  className="BaseButton-root FeatureButton-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Feature
+                  </span>
+                </button>
               </div>
             </div>
             <div
@@ -1807,6 +1933,20 @@ exports[`reported queue renders reported queue with comments 2`] = `
                 >
                   2018-07-06T18:24:00.000Z
                 </time>
+                <button
+                  className="BaseButton-root FeatureButton-root"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  <span>
+                    Feature
+                  </span>
+                </button>
               </div>
             </div>
             <div
@@ -1999,6 +2139,20 @@ exports[`reported queue renders reported queue with comments and load more 1`] =
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -2460,6 +2614,20 @@ exports[`single comment view approves single comment 1`] = `
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -2628,6 +2796,20 @@ exports[`single comment view rejects single comment 1`] = `
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -2831,6 +3013,20 @@ exports[`single comment view renders single comment view 1`] = `
                   >
                     2018-07-06T18:24:00.000Z
                   </time>
+                  <button
+                    className="BaseButton-root FeatureButton-root"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Feature
+                    </span>
+                  </button>
                 </div>
               </div>
               <div

@@ -3674,6 +3674,13 @@ type FeatureCommentPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  moderationQueues will return the selected moderation queues. If the `storyID`
+  is provided, it will filter the moderation queues for only comments in that
+  Story.
+  """
+  moderationQueues(storyID: ID): ModerationQueues
 }
 
 ##################
