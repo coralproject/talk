@@ -38,13 +38,15 @@
   color: #484747;
   display: inline-block;
   margin: 0;
-  padding: 0;
+  padding: 0 16px 0 0;
   font-size: 1.02em;
   margin-left: 6px;
   letter-spacing: 0.2px;
   vertical-align: middle;
   margin-bottom: 2px;
   line-height: 22px;
+  box-sizing: border-box;
+  white-space: pre-wrap;  
 }
 
 .icon {
