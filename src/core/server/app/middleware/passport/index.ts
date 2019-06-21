@@ -12,7 +12,6 @@ import { createLocalStrategy } from "coral-server/app/middleware/passport/strate
 import OIDCStrategy from "coral-server/app/middleware/passport/strategies/oidc";
 import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
-import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
   COOKIE_NAME,
