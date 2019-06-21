@@ -27,6 +27,21 @@ export function publishCommentStatusChanges(
   }
 }
 
+export function publishCommentReplyCreated(
+  publish: Publisher,
+  comment: Pick<Comment, "id" | "ancestorIDs">
+) {
+  if (comment.ancestorIDs.length > 0) {
+    publish({
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED,
+      payload: {
+        ancestorIDs: comment.ancestorIDs,
+        commentID: comment.id,
+      },
+    });
+  }
+}
+
 export function publishModerationQueueChanges(
   publish: Publisher,
   moderationQueue: Pick<CommentModerationQueueCounts, "queues">,

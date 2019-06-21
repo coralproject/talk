@@ -9,8 +9,12 @@ import { BanStatusHistory } from "./BanStatusHistory";
 import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
+import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
+import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
 import { CommentModerationAction } from "./CommentModerationAction";
+import { CommentReplyCreatedPayload } from "./CommentReplyCreatedPayload";
 import { CommentRevision } from "./CommentRevision";
+import { CommentStatusUpdatedPayload } from "./CommentStatusUpdatedPayload";
 import { DisableCommenting } from "./DisableCommenting";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
@@ -41,8 +45,12 @@ const Resolvers: GQLResolver = {
   CloseCommenting,
   Comment,
   CommentCounts,
+  CommentEnteredModerationQueuePayload,
+  CommentLeftModerationQueuePayload,
   CommentModerationAction,
+  CommentReplyCreatedPayload,
   CommentRevision,
+  CommentStatusUpdatedPayload,
   Cursor,
   DisableCommenting,
   FacebookAuthIntegration,

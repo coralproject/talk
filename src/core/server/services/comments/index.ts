@@ -40,6 +40,7 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
+  publishCommentReplyCreated,
   publishCommentStatusChanges,
   publishModerationQueueChanges,
 } from "coral-server/services/events";
@@ -214,8 +215,12 @@ export async function create(
   }
   const moderationQueue = calculateCounts(comment);
 
-  // Publish changes to the queue.
+  // Publish changes.
   publishModerationQueueChanges(publish, moderationQueue, comment);
+
+  if (input.parentID) {
+    publishCommentReplyCreated(publish, comment);
+  }
 
   // Compile the changes we want to apply to the story counts.
   const storyCounts: Required<Omit<StoryCounts, "action">> = {

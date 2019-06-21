@@ -19,7 +19,7 @@ import { hasAncestors } from "coral-server/models/comment/helpers";
 import TenantContext from "../context";
 import { getURLWithCommentID } from "./util";
 
-const maybeLoadOnlyID = (
+export const maybeLoadOnlyID = (
   ctx: TenantContext,
   info: GraphQLResolveInfo,
   id: string

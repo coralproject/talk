@@ -31,8 +31,4 @@ export const commentEnteredModerationQueue: SubscriptionToCommentEnteredModerati
 
     return true;
   },
-  resolve: ({ queue, commentID }, args, ctx) => ({
-    queue: () => queue,
-    comment: () => ctx.loaders.Comments.comment.load(commentID),
-  }),
 });

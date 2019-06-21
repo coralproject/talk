@@ -4633,6 +4633,18 @@ type CommentLeftModerationQueuePayload {
   comment: Comment!
 }
 
+type CommentCreatedPayload {
+  comment: Comment!
+}
+
+type CommentReplyCreatedPayload {
+  comment: Comment!
+}
+
+type CommentEditedPayload {
+  comment: Comment!
+}
+
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -4658,4 +4670,16 @@ type Subscription {
   """
   commentStatusUpdated(id: ID): CommentStatusUpdatedPayload!
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  commentCreated returns when a Comment is created on the top level of a Story
+  that is visible.
+  """
+  commentCreated(storyID: ID!): CommentCreatedPayload!
+
+  """
+  commentReplyCreated returns when a Comment is posted in the ancestor chain of
+  comments.
+  """
+  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload!
 }

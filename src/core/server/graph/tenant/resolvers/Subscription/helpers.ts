@@ -20,7 +20,7 @@ type Resolver<TParent, TArgs, TResult> = (
 
 interface SubscriptionResolver<TParent, TArgs, TResult> {
   subscribe: Resolver<TParent, TArgs, AsyncIterator<TResult>>;
-  resolve?: Resolver<TParent, TArgs, TResult>;
+  resolve: Resolver<TParent, TArgs, TParent>;
 }
 
 export function createTenantAsyncIterator<TParent, TArgs, TResult>(
@@ -87,7 +87,6 @@ export function createFilterFn<TParent, TArgs>(
 
 export interface CreateIteratorInput<TParent, TArgs, TResult> {
   filter?: FilterFn<TParent, TArgs, TenantContext>;
-  resolve?: Resolver<TParent, TArgs, TResult>;
 }
 
 export function createIterator<
@@ -96,13 +95,13 @@ export function createIterator<
   TResult
 >(
   channel: SUBSCRIPTION_CHANNELS,
-  { filter, resolve }: CreateIteratorInput<TParent, TArgs, TResult> = {}
+  { filter }: CreateIteratorInput<TParent, TArgs, TResult> = {}
 ): SubscriptionResolver<TParent, TArgs, TResult> {
   return {
     subscribe: withFilter(
       createTenantAsyncIterator(channel),
       createFilterFn(filter)
     ),
-    resolve,
+    resolve: payload => payload,
   };
 }
