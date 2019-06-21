@@ -27,12 +27,13 @@ const CaretContainer: FunctionComponent<Props> = props => {
         id={popoverID}
         placement="bottom-end"
         description="A popover menu to moderate the comment"
-        body={({ toggleVisibility }) => (
+        body={({ toggleVisibility, scheduleUpdate }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
             <ModerationDropdownContainer
               comment={props.comment}
               story={props.story}
               onDismiss={toggleVisibility}
+              scheduleUpdate={scheduleUpdate}
             />
           </ClickOutside>
         )}

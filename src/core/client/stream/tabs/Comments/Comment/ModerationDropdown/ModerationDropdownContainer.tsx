@@ -1,153 +1,50 @@
-import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
-import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
+import { withFragmentContainer } from "coral-framework/lib/relay";
 import { ModerationDropdownContainer_comment } from "coral-stream/__generated__/ModerationDropdownContainer_comment.graphql";
 import { ModerationDropdownContainer_story } from "coral-stream/__generated__/ModerationDropdownContainer_story.graphql";
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownDivider,
-  Icon,
-} from "coral-ui/components";
+import { Dropdown } from "coral-ui/components";
 
-import ApproveCommentMutation from "./ApproveCommentMutation";
-import FeatureCommentMutation from "./FeatureCommentMutation";
-import RejectCommentMutation from "./RejectCommentMutation";
-import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
+import UserBanPopoverContainer from "../UserBanPopover/UserBanPopoverContainer";
+import ModerationActionsContainer from "./ModerationActionsContainer";
 
-import styles from "./ModerationDropdownContainer.css";
+type View = "MODERATE" | "BAN";
 
 interface Props {
   comment: ModerationDropdownContainer_comment;
   story: ModerationDropdownContainer_story;
   onDismiss: () => void;
+  scheduleUpdate: () => void;
 }
 
 const ModerationDropdownContainer: FunctionComponent<Props> = ({
   comment,
   story,
   onDismiss,
+  scheduleUpdate,
 }) => {
-  const approve = useMutation(ApproveCommentMutation);
-  const feature = useMutation(FeatureCommentMutation);
-  const unfeature = useMutation(UnfeatureCommentMutation);
-  const reject = useMutation(RejectCommentMutation);
-
-  const onApprove = useCallback(() => {
-    approve({ commentID: comment.id, commentRevisionID: comment.revision.id });
-  }, [approve, comment]);
-  const onReject = useCallback(
-    () =>
-      reject({ commentID: comment.id, commentRevisionID: comment.revision.id }),
-    [approve, comment]
-  );
-  const onFeature = useCallback(() => {
-    feature({
-      storyID: story.id,
-      commentID: comment.id,
-      commentRevisionID: comment.revision.id,
-    });
-    onDismiss();
-  }, [feature, comment]);
-  const onUnfeature = useCallback(() => {
-    unfeature({
-      commentID: comment.id,
-      storyID: story.id,
-    });
-    onDismiss();
-  }, [unfeature, comment]);
-
-  const approved = comment.status === "APPROVED";
-  const rejected = comment.status === "REJECTED";
-  const featured = comment.tags.some(t => t.code === "FEATURED");
+  const [view, setView] = useState<View>("MODERATE");
+  const onBan = useCallback(() => {
+    setView("BAN");
+    scheduleUpdate();
+  }, [setView, scheduleUpdate]);
 
   return (
-    <Dropdown>
-      {featured ? (
-        <Localized id="comments-moderationDropdown-unfeature">
-          <DropdownButton
-            icon={
-              <Icon className={styles.featured} size="md">
-                star
-              </Icon>
-            }
-            className={styles.featured}
-            onClick={onUnfeature}
-          >
-            Un-Feature
-          </DropdownButton>
-        </Localized>
+    <div>
+      {view === "MODERATE" ? (
+        <Dropdown>
+          <ModerationActionsContainer
+            comment={comment}
+            story={story}
+            onDismiss={onDismiss}
+            onBan={onBan}
+          />
+        </Dropdown>
       ) : (
-        <Localized id="comments-moderationDropdown-feature">
-          <DropdownButton
-            icon={<Icon size="md">star_border</Icon>}
-            onClick={onFeature}
-          >
-            Feature
-          </DropdownButton>
-        </Localized>
+        <UserBanPopoverContainer user={comment.author!} onDismiss={onDismiss} />
       )}
-      {approved ? (
-        <Localized id="comments-moderationDropdown-approved">
-          <DropdownButton
-            icon={
-              <Icon className={styles.approved} size="md">
-                check
-              </Icon>
-            }
-            className={styles.approved}
-            disabled
-          >
-            Approved
-          </DropdownButton>
-        </Localized>
-      ) : (
-        <Localized id="comments-moderationDropdown-approve">
-          <DropdownButton
-            icon={<Icon size="md">check</Icon>}
-            onClick={onApprove}
-          >
-            Approve
-          </DropdownButton>
-        </Localized>
-      )}
-      {rejected ? (
-        <Localized id="comments-moderationDropdown-rejected">
-          <DropdownButton
-            icon={
-              <Icon className={styles.rejected} size="md">
-                close
-              </Icon>
-            }
-            className={styles.rejected}
-            disabled
-          >
-            Rejected
-          </DropdownButton>
-        </Localized>
-      ) : (
-        <Localized id="comments-moderationDropdown-reject">
-          <DropdownButton
-            icon={<Icon size="md">close</Icon>}
-            onClick={onReject}
-          >
-            Reject
-          </DropdownButton>
-        </Localized>
-      )}
-      <DropdownDivider />
-      <Localized id="comments-moderationDropdown-goToModerate">
-        <DropdownButton
-          href={`/admin/moderate/comment/${comment.id}`}
-          target="_blank"
-          anchor
-        >
-          Go to Moderate
-        </DropdownButton>
-      </Localized>
-    </Dropdown>
+    </div>
   );
 };
 
@@ -155,6 +52,11 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerationDropdownContainer_comment on Comment {
       id
+      author {
+        id
+        username
+        ...UserBanPopoverContainer_user
+      }
       revision {
         id
       }
@@ -162,11 +64,13 @@ const enhanced = withFragmentContainer<Props>({
       tags {
         code
       }
+      ...ModerationActionsContainer_comment
     }
   `,
   story: graphql`
     fragment ModerationDropdownContainer_story on Story {
       id
+      ...ModerationActionsContainer_story
     }
   `,
 })(ModerationDropdownContainer);

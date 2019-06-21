@@ -10,3 +10,9 @@
   color: var(--palette-primary-dark);
   font-weight: var(--font-weight-bold);
 }
+.banIcon {
+  width: 18px;
+  height: 14px;
+  text-align: center;
+  line-height: 12px;
+}
