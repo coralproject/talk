@@ -29,8 +29,8 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
   return (
     <>
       <HorizontalGutter
-        id="coral-comments-stream-log"
-        data-testid="comments-stream-log"
+        id="comments-featuredComments-log"
+        data-testid="comments-featuredComments-log"
         role="log"
         aria-live="polite"
         spacing={3}
@@ -50,14 +50,13 @@ export const FeaturedCommentsContainer: FunctionComponent<Props> = props => {
           </IgnoredTombstoneOrHideContainer>
         ))}
         {props.relay.hasMore() && (
-          <Localized id="comments-stream-loadMore">
+          <Localized id="comments-loadMore">
             <Button
-              id={"coral-comments-stream-loadMore"}
               onClick={loadMore}
               variant="outlined"
               fullWidth
               disabled={isLoadingMore}
-              aria-controls="coral-comments-stream-log"
+              aria-controls="comments-featuredComments-log"
             >
               Load More
             </Button>
