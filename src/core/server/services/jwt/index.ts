@@ -258,7 +258,23 @@ export function extractTokenFromRequest(
 
 export const COOKIE_NAME = "authorization";
 
-function extractJWTFromRequestCookie(req: Request): string | null {
+export function isExpressRequest(
+  req: Request | IncomingMessage
+): req is Request {
+  if (typeof (req as Request).cookies === "undefined") {
+    return false;
+  }
+
+  return true;
+}
+
+function extractJWTFromRequestCookie(
+  req: Request | IncomingMessage
+): string | null {
+  if (!isExpressRequest(req)) {
+    return null;
+  }
+
   return req.cookies && req.cookies[COOKIE_NAME]
     ? req.cookies[COOKIE_NAME]
     : null;
@@ -270,7 +286,7 @@ function extractJWTFromRequestCookie(req: Request): string | null {
  * @param excludeQuery when true, does not pull from the query params
  */
 function extractJWTFromRequestHeaders(
-  req: Request,
+  req: Request | IncomingMessage,
   excludeQuery: boolean = false
 ) {
   const options: BearerOptions = {
