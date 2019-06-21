@@ -2,12 +2,18 @@ import { graphql, requestSubscription } from "react-relay";
 import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { QueueCommentLeftSubscription } from "coral-admin/__generated__/QueueCommentLeftSubscription.graphql";
+import { getQueueConnection } from "coral-admin/helpers";
 import {
   createSubscription,
   SubscriptionVariables,
 } from "coral-framework/lib/relay";
+import { GQLMODERATION_QUEUE_RL } from "coral-framework/schema";
 
-function handleCommentLeftModerationQueue(store: RecordSourceSelectorProxy) {
+function handleCommentLeftModerationQueue(
+  store: RecordSourceSelectorProxy,
+  queue: GQLMODERATION_QUEUE_RL,
+  storyID: string | null
+) {
   const rootField = store.getRootField("commentLeftModerationQueue");
   if (!rootField) {
     return;
@@ -17,6 +23,16 @@ function handleCommentLeftModerationQueue(store: RecordSourceSelectorProxy) {
   if (commentInStore) {
     // Mark that the status of the comment was live updated.
     commentInStore.setValue(true, "statusLiveUpdated");
+  }
+  const connection = getQueueConnection(store, queue, storyID);
+  if (connection) {
+    const linked = connection.getLinkedRecords("viewNewEdges") || [];
+    connection.setLinkedRecords(
+      linked.filter(
+        r => r!.getLinkedRecord("node")!.getValue("id") !== commentID
+      ),
+      "viewNewEdges"
+    );
   }
 }
 
@@ -44,7 +60,11 @@ const QueueSubscription = createSubscription(
       `,
       variables,
       updater: store => {
-        handleCommentLeftModerationQueue(store);
+        handleCommentLeftModerationQueue(
+          store,
+          variables.queue,
+          variables.storyID || null
+        );
       },
     })
 );

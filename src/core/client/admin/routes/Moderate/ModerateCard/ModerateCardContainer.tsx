@@ -50,7 +50,7 @@ function getStatus(comment: ModerateCardContainer_comment) {
   }
 }
 
-function isFeatured(comment: CommentData) {
+function isFeatured(comment: ModerateCardContainer_comment) {
   return comment.tags.some(t => t.code === GQLTAG.FEATURED);
 }
 

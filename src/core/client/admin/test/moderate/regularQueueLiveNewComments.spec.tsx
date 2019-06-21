@@ -3,6 +3,7 @@ import {
   GQLMODERATION_QUEUE,
   GQLResolver,
   SubscriptionToCommentEnteredModerationQueueResolver,
+  SubscriptionToCommentLeftModerationQueueResolver,
 } from "coral-framework/schema";
 import {
   act,
@@ -89,4 +90,50 @@ it("allows viewing new when new comments come in", async () => {
   expect(() => within(container).getByText(/View \d+ new/)).toThrow();
   // New comment should appear.
   within(container).getByTestID(`moderate-comment-${commentData.id}`);
+});
+
+it("recognizes when same comment enters and leaves again", async () => {
+  const { subscriptionHandler, container } = await createTestRenderer();
+  const commentData = reportedComments[0];
+  expect(subscriptionHandler.has("commentEnteredModerationQueue")).toBe(true);
+
+  subscriptionHandler.dispatch<
+    SubscriptionToCommentEnteredModerationQueueResolver
+  >("commentEnteredModerationQueue", variables => {
+    if (
+      variables.storyID !== null ||
+      variables.queue !== GQLMODERATION_QUEUE.REPORTED
+    ) {
+      return;
+    }
+    return {
+      queue: GQLMODERATION_QUEUE.REPORTED,
+      comment: commentData,
+    };
+  });
+
+  await waitForElement(() =>
+    within(container).getByText(/View \d+ new/, {
+      exact: false,
+      selector: "button",
+    })
+  );
+
+  subscriptionHandler.dispatch<
+    SubscriptionToCommentLeftModerationQueueResolver
+  >("commentLeftModerationQueue", variables => {
+    if (
+      variables.storyID !== null ||
+      variables.queue !== GQLMODERATION_QUEUE.REPORTED
+    ) {
+      return;
+    }
+    return {
+      queue: GQLMODERATION_QUEUE.REPORTED,
+      comment: commentData,
+    };
+  });
+
+  // View New Button should disappear.
+  expect(() => within(container).getByText(/View \d+ new/)).toThrow();
 });

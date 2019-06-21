@@ -22,7 +22,7 @@ const FadeInTransition: FunctionComponent<Props> = ({ children, active }) => {
         appear: styles.appear,
         appearActive: styles.appearActive,
       }}
-      timeout={3600}
+      timeout={600}
     >
       <div>{children}</div>
     </CSSTransition>

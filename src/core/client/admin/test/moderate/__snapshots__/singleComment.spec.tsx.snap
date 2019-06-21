@@ -27,6 +27,20 @@ exports[`approves single comment 1`] = `
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -195,6 +209,20 @@ exports[`rejects single comment 1`] = `
           >
             2018-07-06T18:24:00.000Z
           </time>
+          <button
+            className="BaseButton-root FeatureButton-root"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
+          >
+            <span>
+              Feature
+            </span>
+          </button>
         </div>
       </div>
       <div
@@ -398,6 +426,20 @@ exports[`renders single comment view 1`] = `
                   >
                     2018-07-06T18:24:00.000Z
                   </time>
+                  <button
+                    className="BaseButton-root FeatureButton-root"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
+                  >
+                    <span>
+                      Feature
+                    </span>
+                  </button>
                 </div>
               </div>
               <div
