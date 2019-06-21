@@ -40,6 +40,7 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import {
+  publishCommentCreated,
   publishCommentReplyCreated,
   publishCommentStatusChanges,
   publishModerationQueueChanges,
@@ -218,8 +219,14 @@ export async function create(
   // Publish changes.
   publishModerationQueueChanges(publish, moderationQueue, comment);
 
+  // If this is a reply, publish it.
   if (input.parentID) {
     publishCommentReplyCreated(publish, comment);
+  }
+
+  // If this comment is visible (and not a reply), publish it.
+  if (!input.parentID && hasVisibleStatus(comment)) {
+    publishCommentCreated(publish, comment);
   }
 
   // Compile the changes we want to apply to the story counts.

@@ -9,6 +9,7 @@ import { BanStatusHistory } from "./BanStatusHistory";
 import { CloseCommenting } from "./CloseCommenting";
 import { Comment } from "./Comment";
 import { CommentCounts } from "./CommentCounts";
+import { CommentCreatedPayload } from "./CommentCreatedPayload";
 import { CommentEnteredModerationQueuePayload } from "./CommentEnteredModerationQueuePayload";
 import { CommentLeftModerationQueuePayload } from "./CommentLeftModerationQueuePayload";
 import { CommentModerationAction } from "./CommentModerationAction";
@@ -45,6 +46,7 @@ const Resolvers: GQLResolver = {
   CloseCommenting,
   Comment,
   CommentCounts,
+  CommentCreatedPayload,
   CommentEnteredModerationQueuePayload,
   CommentLeftModerationQueuePayload,
   CommentModerationAction,
