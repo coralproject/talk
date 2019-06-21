@@ -1,3 +1,5 @@
+import cookie from "cookie";
+import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
@@ -14,7 +16,6 @@ import {
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
-import { IncomingMessage } from "http";
 
 /**
  *  The following Claim Names are registered in the IANA "JSON Web Token
@@ -260,23 +261,47 @@ export function extractTokenFromRequest(
   );
 }
 
+/**
+ * COOKIE_NAME is the name of the authorization cookie used by Coral.
+ */
 export const COOKIE_NAME = "authorization";
 
+/**
+ * isExpressRequest will check to see if this is a Request or an
+ * IncomingMessage.
+ *
+ * @param req a request to test if it is an Express Request or not.
+ */
 export function isExpressRequest(
   req: Request | IncomingMessage
 ): req is Request {
-  if (typeof (req as Request).cookies === "undefined") {
+  // Only Express Request objects contain an `app` field.
+  if (typeof (req as Request).app === "undefined") {
     return false;
   }
 
   return true;
 }
 
+/**
+ * extractJWTFromRequestCookie will parse the cookies off of the request if it
+ * can.
+ *
+ * @param req the incoming request possibly containing a cookie
+ */
 function extractJWTFromRequestCookie(
   req: Request | IncomingMessage
 ): string | null {
   if (!isExpressRequest(req)) {
-    return null;
+    // Grab the cookie header.
+    const header = req.headers.cookie;
+    if (typeof header !== "string" || header.length === 0) {
+      return null;
+    }
+
+    // Parse the cookies from that header.
+    const cookies = cookie.parse(header);
+    return cookies[COOKIE_NAME] || null;
   }
 
   return req.cookies && req.cookies[COOKIE_NAME]
