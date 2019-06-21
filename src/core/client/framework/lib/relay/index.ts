@@ -43,3 +43,11 @@ export { default as useRefetch } from "./useRefetch";
 export { default as useLoadMore } from "./useLoadMore";
 export { default as lookup } from "./lookup";
 export { default as useLocal } from "./useLocal";
+export {
+  useSubscription,
+  createSubscription,
+  SubscriptionProp,
+  SubscriptionVariables,
+  withSubscription,
+  combineDisposables,
+} from "./subscription";

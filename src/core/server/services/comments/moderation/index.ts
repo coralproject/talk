@@ -1,7 +1,9 @@
 import { Db } from "mongodb";
 
 import { Omit } from "coral-common/types";
+import { CommentNotFoundError, StoryNotFoundError } from "coral-server/errors";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
+import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   createCommentModerationAction,
@@ -10,7 +12,12 @@ import {
 import { updateCommentStatus } from "coral-server/models/comment";
 import { updateStoryCounts } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
+import {
+  publishCommentStatusChanges,
+  publishModerationQueueChanges,
+} from "coral-server/services/events";
 import { AugmentedRedis } from "coral-server/services/redis";
+
 import { calculateCountsDiff } from "./counts";
 
 export type Moderate = Omit<CreateCommentModerationActionInput, "status">;
@@ -20,6 +27,7 @@ const moderate = (
 ) => async (
   mongo: Db,
   redis: AugmentedRedis,
+  publish: Publisher,
   tenant: Tenant,
   input: Moderate
 ) => {
@@ -41,8 +49,7 @@ const moderate = (
     status
   );
   if (!result) {
-    // TODO: wrap in better error?
-    throw new Error("specified comment not found");
+    throw new CommentNotFoundError(input.commentID, input.commentRevisionID);
   }
 
   log.trace("updated comment status");
@@ -62,6 +69,19 @@ const moderate = (
     "created the moderation action"
   );
 
+  // Compute the queue difference as a result of the old status and the new
+  // status.
+  const moderationQueue = calculateCountsDiff(
+    {
+      status: result.oldStatus,
+      actionCounts: result.comment.actionCounts,
+    },
+    {
+      status,
+      actionCounts: result.comment.actionCounts,
+    }
+  );
+
   // Update the story comment counts.
   const story = await updateStoryCounts(
     mongo,
@@ -74,24 +94,23 @@ const moderate = (
         [result.oldStatus]: -1,
         [status]: 1,
       },
-      // Compute the queue difference as a result of the old status and the new
-      // status.
-      moderationQueue: calculateCountsDiff(
-        {
-          status: result.oldStatus,
-          actionCounts: result.comment.actionCounts,
-        },
-        {
-          status,
-          actionCounts: result.comment.actionCounts,
-        }
-      ),
+
+      moderationQueue,
     }
   );
   if (!story) {
-    // TODO: wrap in better error?
-    throw new Error("specified story not found");
+    throw new StoryNotFoundError(result.comment.storyID);
   }
+
+  // Publish changes.
+  publishModerationQueueChanges(publish, moderationQueue, result.comment);
+  publishCommentStatusChanges(
+    publish,
+    result.oldStatus,
+    status,
+    result.comment.id,
+    input.moderatorID
+  );
 
   log.trace({ oldStatus: result.oldStatus }, "adjusted story comment counts");
 

@@ -14,7 +14,7 @@ import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
 import {
-  extractJWTFromRequest,
+  extractTokenFromRequest,
   JWTSigningConfig,
   revokeJWT,
   signTokenString,
@@ -68,7 +68,7 @@ const LogoutTokenSchema = Joi.object().keys({
 
 export async function handleLogout(redis: Redis, req: Request, res: Response) {
   // Extract the token from the request.
-  const token = extractJWTFromRequest(req);
+  const token = extractTokenFromRequest(req);
   if (!token) {
     // TODO: (wyattjoh) return a better error.
     throw new Error("logout requires a token on the request, none was found");

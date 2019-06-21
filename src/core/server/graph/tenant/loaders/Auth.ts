@@ -8,7 +8,13 @@ export default (ctx: TenantContext) => ({
   discoverOIDCConfiguration: new DataLoader<
     string,
     GQLDiscoveredOIDCConfiguration | null
-  >(issuers =>
-    Promise.all(issuers.map(issuer => discoverOIDCConfiguration(issuer)))
+  >(
+    issuers =>
+      Promise.all(issuers.map(issuer => discoverOIDCConfiguration(issuer))),
+    {
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
+    }
   ),
 });

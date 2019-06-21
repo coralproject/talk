@@ -1,22 +1,13 @@
+import CommonContext from "coral-server/graph/common/context";
+import { Metrics } from "coral-server/services/metrics";
 import { ExecutionArgs } from "graphql";
 import { EndHandler, GraphQLExtension } from "graphql-extensions";
 import now from "performance-now";
-import { Counter, Histogram } from "prom-client";
 
-import CommonContext from "coral-server/graph/common/context";
 import { getOperationMetadata } from "./helpers";
 
-export interface MetricsExtensionOptions {
-  executedGraphQueriesTotalCounter: Counter;
-  graphQLExecutionTimingsHistogram: Histogram;
-}
-
 export class MetricsExtension implements GraphQLExtension<CommonContext> {
-  private options: MetricsExtensionOptions;
-
-  constructor(options: MetricsExtensionOptions) {
-    this.options = options;
-  }
+  constructor(private metrics: Metrics) {}
 
   public executionDidStart(o: {
     executionArgs: ExecutionArgs;
@@ -37,11 +28,11 @@ export class MetricsExtension implements GraphQLExtension<CommonContext> {
 
         if (operation && operationName) {
           // Increment the graph query value, tagging with the name of the query.
-          this.options.executedGraphQueriesTotalCounter
+          this.metrics.executedGraphQueriesTotalCounter
             .labels(operation, operationName)
             .inc();
 
-          this.options.graphQLExecutionTimingsHistogram
+          this.metrics.graphQLExecutionTimingsHistogram
             .labels(operation, operationName)
             .observe(responseTime);
         }

@@ -25,6 +25,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   onReject: noop,
   onFeature: noop,
   showStory: false,
+  moderatedBy: null,
 };
 
 it("renders correctly", () => {

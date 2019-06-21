@@ -1,12 +1,21 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
+import { ERROR_TYPES } from "coral-common/errors";
 import { Omit } from "coral-common/types";
+import {
+  CommentNotFoundError,
+  CoralError,
+  StoryNotFoundError,
+} from "coral-server/errors";
+import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
+import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
 import logger from "coral-server/logger";
 import {
   encodeActionCounts,
   filterDuplicateActions,
 } from "coral-server/models/action/comment";
+import { createCommentModerationAction } from "coral-server/models/action/moderation/comment";
 import {
   addCommentTag,
   createComment,
@@ -20,26 +29,23 @@ import {
   validateEditable,
 } from "coral-server/models/comment";
 import {
+  hasAncestors,
+  hasVisibleStatus,
+} from "coral-server/models/comment/helpers";
+import {
   retrieveStory,
   StoryCounts,
   updateStoryCounts,
 } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
+import {
+  publishCommentStatusChanges,
+  publishModerationQueueChanges,
+} from "coral-server/services/events";
+import { AugmentedRedis } from "coral-server/services/redis";
 import { Request } from "coral-server/types/express";
 
-import { ERROR_TYPES } from "coral-common/errors";
-import {
-  CommentNotFoundError,
-  CoralError,
-  StoryNotFoundError,
-} from "coral-server/errors";
-import { GQLTAG } from "coral-server/graph/tenant/schema/__generated__/types";
-import {
-  hasAncestors,
-  hasVisibleStatus,
-} from "coral-server/models/comment/helpers";
-import { AugmentedRedis } from "../redis";
 import { addCommentActions, CreateAction } from "./actions";
 import { calculateCounts, calculateCountsDiff } from "./moderation/counts";
 import { PhaseResult, processForModeration } from "./pipeline";
@@ -52,6 +58,7 @@ export type CreateComment = Omit<
 export async function create(
   mongo: Db,
   redis: AugmentedRedis,
+  publish: Publisher,
   tenant: Tenant,
   author: User,
   input: CreateComment,
@@ -205,6 +212,10 @@ export async function create(
 
     log.trace({ actions: upsertedActions.length }, "added actions to comment");
   }
+  const moderationQueue = calculateCounts(comment);
+
+  // Publish changes to the queue.
+  publishModerationQueueChanges(publish, moderationQueue, comment);
 
   // Compile the changes we want to apply to the story counts.
   const storyCounts: Required<Omit<StoryCounts, "action">> = {
@@ -212,7 +223,7 @@ export async function create(
     status: { [status]: 1 },
     // This comment is being created, so we can compute it raw from the comment
     // that we created.
-    moderationQueue: calculateCounts(comment),
+    moderationQueue,
   };
 
   log.trace({ storyCounts }, "updating story status counts");
@@ -231,6 +242,7 @@ export type EditComment = Omit<
 export async function edit(
   mongo: Db,
   redis: AugmentedRedis,
+  publish: Publisher,
   tenant: Tenant,
   author: User,
   input: EditComment,
@@ -346,19 +358,21 @@ export async function edit(
     );
   }
 
+  // Compute the changes in queue counts. This looks at the action counts that
+  // are encoded, as well as the comment status's. We however may have had the
+  // comment status when we grabbed the updated comment after changing the
+  // action counts, so we extract the action counts out of the edited comment
+  // and use the status from the moderation decision.
+  const moderationQueue = calculateCountsDiff(oldComment, {
+    status,
+    actionCounts: editedComment.actionCounts,
+  });
+
   // Compile the changes we want to apply to the story counts.
   const storyCounts: Required<Omit<StoryCounts, "action">> = {
     // Status is updated below if it has been changed.
     status: {},
-    // Compute the changes in queue counts. This looks at the action counts that
-    // are encoded, as well as the comment status's. We however may have had the
-    // comment status when we grabbed the updated comment after changing the
-    // action counts, so we extract the action counts out of the edited comment
-    // and use the status from the moderation decision.
-    moderationQueue: calculateCountsDiff(oldComment, {
-      status,
-      actionCounts: editedComment.actionCounts,
-    }),
+    moderationQueue,
   };
 
   if (oldComment.status !== editedComment.status) {
@@ -368,12 +382,32 @@ export async function edit(
     // on the moderation pipeline.
     storyCounts.status[oldComment.status] = -1;
     storyCounts.status[status] = 1;
+
+    // The comment status changed as a result of a pipeline operation, create a
+    // moderation action as a result.
+    await createCommentModerationAction(mongo, tenant.id, {
+      commentID: editedComment.id,
+      commentRevisionID: newRevision.id,
+      status: editedComment.status,
+      moderatorID: null,
+    });
   }
 
   log.trace({ storyCounts }, "updating story status counts");
 
   // Update the story counts as a result.
   await updateStoryCounts(mongo, redis, tenant.id, story.id, storyCounts);
+
+  // Publish changes.
+  publishModerationQueueChanges(publish, moderationQueue, editedComment);
+  publishCommentStatusChanges(
+    publish,
+    oldComment.status,
+    editedComment.status,
+    editedComment.id,
+    // This is a comment that was edited, so it should not present a moderator.
+    null
+  );
 
   return editedComment;
 }

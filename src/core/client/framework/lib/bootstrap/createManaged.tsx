@@ -5,7 +5,7 @@ import { Child as PymChild } from "pym.js";
 import React, { Component, ComponentType } from "react";
 import { Formatter } from "react-timeago";
 import { Environment, RecordSource, Store } from "relay-runtime";
-import uuid from "uuid/v4";
+import uuid from "uuid/v1";
 
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
 import { LOCAL_ID } from "coral-framework/lib/relay";
@@ -21,7 +21,12 @@ import { RestClient } from "coral-framework/lib/rest";
 import { ClickFarAwayRegister } from "coral-ui/components/ClickOutside";
 
 import { generateBundles, LocalesData, negotiateLanguages } from "../i18n";
-import { createNetwork, TokenGetter } from "../network";
+import {
+  createManagedSubscriptionClient,
+  createNetwork,
+  ManagedSubscriptionClient,
+  TokenGetter,
+} from "../network";
 import { PostMessageService } from "../postMessage";
 import { CoralContext, CoralContextProvider } from "./CoralContext";
 import SendPymReady from "./SendPymReady";
@@ -47,6 +52,11 @@ interface CreateContextArguments {
   /** Supports emitting and listening to events. */
   eventEmitter?: EventEmitter2;
 }
+
+/** websocketURL points to our live graphql server */
+const websocketURL = `${location.protocol === "https:" ? "wss" : "ws"}://${
+  location.hostname
+}:${location.port}/api/graphql/live`;
 
 /**
  * timeagoFormatter integrates timeago into our translation
@@ -87,8 +97,10 @@ function areWeInIframe() {
   }
 }
 
-function createRelayEnvironment() {
-  // Initialize Relay.
+function createRelayEnvironment(
+  subscriptionClient: ManagedSubscriptionClient,
+  clientID: string
+) {
   const source = new RecordSource();
   const tokenGetter: TokenGetter = () => {
     const localState = source.get(LOCAL_ID);
@@ -98,14 +110,14 @@ function createRelayEnvironment() {
     return "";
   };
   const environment = new Environment({
-    network: createNetwork(tokenGetter),
+    network: createNetwork(subscriptionClient, tokenGetter, clientID),
     store: new Store(source),
   });
-  return { environment, tokenGetter };
+  return { environment, tokenGetter, subscriptionClient };
 }
 
-function createRestClient(tokenGetter: () => string) {
-  return new RestClient("/api", tokenGetter);
+function createRestClient(tokenGetter: () => string, clientID: string) {
+  return new RestClient("/api", tokenGetter, clientID);
 }
 
 /**
@@ -114,6 +126,8 @@ function createRestClient(tokenGetter: () => string) {
  */
 function createMangedCoralContextProvider(
   context: CoralContext,
+  subscriptionClient: ManagedSubscriptionClient,
+  clientID: string,
   initLocalState: InitLocalState
 ) {
   const ManagedCoralContextProvider = class extends Component<
@@ -135,25 +149,40 @@ function createMangedCoralContextProvider(
       // Clear session storage.
       this.state.context.sessionStorage.clear();
 
+      // Pause subscriptions.
+      subscriptionClient.pause();
+
       // Create a new context with a new Relay Environment.
       const {
         environment: newEnvironment,
         tokenGetter: newTokenGetter,
-      } = createRelayEnvironment();
+      } = createRelayEnvironment(subscriptionClient, clientID);
 
       const newContext = {
         ...this.state.context,
         relayEnvironment: newEnvironment,
-        rest: createRestClient(newTokenGetter),
+        rest: createRestClient(newTokenGetter, clientID),
       };
 
       // Initialize local state.
       await initLocalState(newContext.relayEnvironment, newContext);
 
+      // Set new token for the websocket connection.
+      // TODO: (cvle) dynamically reset when token changes.
+      // ^ only necessary when we can prolong existing session using
+      // a new token.
+      subscriptionClient.setAccessToken(newTokenGetter());
+
       // Propagate new context.
-      this.setState({
-        context: newContext,
-      });
+      this.setState(
+        {
+          context: newContext,
+        },
+        () => {
+          // Resume subscriptions after context has changed.
+          subscriptionClient.resume();
+        }
+      );
     };
 
     public render() {
@@ -233,7 +262,18 @@ export default async function createManaged({
   const localStorage = resolveLocalStorage(pym);
   const sessionStorage = resolveSessionStorage(pym);
 
-  const { environment, tokenGetter } = createRelayEnvironment();
+  /** clientID is sent to the server with every request */
+  const clientID = uuid();
+
+  const subscriptionClient = createManagedSubscriptionClient(
+    websocketURL,
+    clientID
+  );
+
+  const { environment, tokenGetter } = createRelayEnvironment(
+    subscriptionClient,
+    clientID
+  );
 
   // Assemble context.
   const context: CoralContext = {
@@ -244,7 +284,7 @@ export default async function createManaged({
     pym,
     eventEmitter,
     registerClickFarAway,
-    rest: createRestClient(tokenGetter),
+    rest: createRestClient(tokenGetter, clientID),
     postMessage: new PostMessageService(),
     localStorage,
     sessionStorage,
@@ -258,7 +298,18 @@ export default async function createManaged({
   // Initialize local state.
   await initLocalState(context.relayEnvironment, context);
 
+  // Set current token for the websocket connection.
+  // TODO: (cvle) dynamically reset when token changes.
+  // ^ only necessary when we can prolong existing session using
+  // a new token.
+  subscriptionClient.setAccessToken(tokenGetter());
+
   // Returns a managed CoralContextProvider, that includes the above
   // context and handles context changes, e.g. when a user session changes.
-  return createMangedCoralContextProvider(context, initLocalState);
+  return createMangedCoralContextProvider(
+    context,
+    subscriptionClient,
+    clientID,
+    initLocalState
+  );
 }

@@ -10,6 +10,19 @@ enum View {
   ADD_EMAIL_ADDRESS
 }
 
+extend type Comment {
+  # If true then Comment status was live updated.
+  statusLiveUpdated: Boolean
+
+  # If true then Comment came in live.
+  enteredLive: Boolean
+}
+
+extend type CommentsConnection {
+  # Contains comment that came in live and is still behind the `View New` button.
+  viewNewEdges: [CommentEdge!]
+}
+
 type Local {
   network: Network!
   accessToken: String

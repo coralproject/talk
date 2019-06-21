@@ -25,6 +25,7 @@ import { Query } from "./Query";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
+import { Subscription } from "./Subscription";
 import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
@@ -56,6 +57,7 @@ const Resolvers: GQLResolver = {
   RejectCommentPayload,
   Story,
   StorySettings,
+  Subscription,
   SuspensionStatus,
   SuspensionStatusHistory,
   Tag,

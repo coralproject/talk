@@ -56,10 +56,12 @@ const queryFilter = (query?: string): StoryConnectionInput["filter"] => {
 const primeStoriesFromConnection = (ctx: TenantContext) => (
   connection: Readonly<Connection<Readonly<Story>>>
 ) => {
-  // For each of these nodes, prime the story loader.
-  connection.nodes.forEach(story => {
-    ctx.loaders.Stories.story.prime(story.id, story);
-  });
+  if (!ctx.disableCaching) {
+    // For each of these nodes, prime the story loader.
+    connection.nodes.forEach(story => {
+      ctx.loaders.Stories.story.prime(story.id, story);
+    });
+  }
 
   return connection;
 };
@@ -72,6 +74,9 @@ export default (ctx: TenantContext) => ({
     {
       // TODO: (wyattjoh) see if there's something we can do to improve the cache key
       cacheKeyFn: (input: FindOrCreateStory) => `${input.id}:${input.url}`,
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
     }
   ),
   find: new DataLoader(
@@ -81,10 +86,18 @@ export default (ctx: TenantContext) => ({
     {
       // TODO: (wyattjoh) see if there's something we can do to improve the cache key
       cacheKeyFn: (input: FindStory) => `${input.id}:${input.url}`,
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
     }
   ),
-  story: new DataLoader<string, Story | null>(ids =>
-    retrieveManyStories(ctx.mongo, ctx.tenant.id, ids)
+  story: new DataLoader<string, Story | null>(
+    ids => retrieveManyStories(ctx.mongo, ctx.tenant.id, ids),
+    {
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
+    }
   ),
   connection: ({ first = 10, after, status, query }: QueryToStoriesArgs) =>
     retrieveStoryConnection(ctx.mongo, ctx.tenant.id, {
@@ -99,6 +112,11 @@ export default (ctx: TenantContext) => ({
       },
     }).then(primeStoriesFromConnection(ctx)),
   debugScrapeMetadata: new DataLoader(
-    createManyBatchLoadFn((url: string) => scraper.scrape(url))
+    createManyBatchLoadFn((url: string) => scraper.scrape(url)),
+    {
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
+    }
   ),
 });

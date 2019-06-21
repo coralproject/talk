@@ -69,5 +69,11 @@ function attachGraphiQL(router: Router, app: AppOptions) {
   }
 
   // GraphiQL
-  router.get("/graphiql", playground({ endpoint: "/api/graphql" }));
+  router.get(
+    "/graphiql",
+    playground({
+      endpoint: "/api/graphql",
+      subscriptionEndpoint: "/api/graphql/live",
+    })
+  );
 }
