@@ -6,7 +6,11 @@ import uuid from "uuid/v4";
 
 import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
-import { AuthenticationError, TokenInvalidError } from "coral-server/errors";
+import {
+  AuthenticationError,
+  JWTRevokedError,
+  TokenInvalidError,
+} from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
@@ -307,18 +311,53 @@ function generateJTIRevokedKey(jti: string) {
   return `jtir:${jti}`;
 }
 
-export async function revokeJWT(redis: Redis, jti: string, validFor: number) {
+/**
+ * revokeJWT will place the token into a blacklist until it expires.
+ *
+ * @param redis the Redis instance to revoke the JWT with
+ * @param jti the JTI claim of the JWT token being revoked
+ * @param validFor number of seconds that the token was valid for
+ * @param now the current date
+ */
+export async function revokeJWT(
+  redis: Redis,
+  jti: string,
+  validFor: number,
+  now = new Date()
+) {
   await redis.setex(
     generateJTIRevokedKey(jti),
     Math.ceil(validFor),
-    Date.now()
+    now.valueOf()
   );
 }
 
-export async function checkJWTRevoked(redis: Redis, jti: string) {
+/**
+ * isJWTRevoked will check to see if the given token referenced by the JWT has
+ * been revoked or not.
+ *
+ * @param redis the Redis instance to check to see if the token was revoked
+ * @param jti the JTI claim of the JWT token being tested
+ */
+export async function isJWTRevoked(redis: Redis, jti: string) {
   const expiredAtString = await redis.get(generateJTIRevokedKey(jti));
   if (expiredAtString) {
-    throw new AuthenticationError("JWT was revoked");
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * checkJWTRevoked will test the JWT's JTI to see if it's revoked, if it is, it
+ * will throw an error.
+ *
+ * @param redis the Redis instance to check to see if the token was revoked
+ * @param jti the JTI claim of the JWT token being tested
+ */
+export async function checkJWTRevoked(redis: Redis, jti: string) {
+  if (await isJWTRevoked(redis, jti)) {
+    throw new JWTRevokedError(jti);
   }
 }
 

@@ -261,4 +261,9 @@ export enum ERROR_CODES {
    * times by the same user.
    */
   RATE_LIMIT_EXCEEDED = "RATE_LIMIT_EXCEEDED",
+
+  /**
+   * JWT_REVOKED is returned when the token referenced has been revoked.
+   */
+  JWT_REVOKED = "JWT_REVOKED",
 }

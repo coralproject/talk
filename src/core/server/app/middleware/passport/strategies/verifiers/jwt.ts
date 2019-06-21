@@ -6,7 +6,7 @@ import { Db } from "mongodb";
 import { Tenant } from "coral-server/models/tenant";
 import { retrieveUser } from "coral-server/models/user";
 import {
-  checkJWTRevoked,
+  isJWTRevoked,
   JWTSigningConfig,
   StandardClaims,
   verifyJWT,
@@ -74,7 +74,9 @@ export class JWTVerifier implements Verifier<JWTToken> {
     if (!token.pat) {
       // Check to see if the token has been revoked, as these tokens can be
       // revoked.
-      await checkJWTRevoked(this.redis, token.jti);
+      if (await isJWTRevoked(this.redis, token.jti)) {
+        return null;
+      }
     }
 
     // Find the user.

@@ -73,20 +73,18 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   // Extract the token from the request.
   const token = extractTokenFromRequest(req);
   if (!token) {
-    // TODO: (wyattjoh) return a better error.
-    throw new Error("logout requires a token on the request, none was found");
+    // No token on the request, indicate that this was successful.
+    return res.sendStatus(204);
   }
 
   // Coral is guaranteed at this point.
-  const { now, tenant } = req.coral!;
+  const { now } = req.coral!;
 
   // Decode the token.
   const decoded = jwt.decode(token, {});
   if (!decoded) {
-    // TODO: (wyattjoh) return a better error.
-    throw new Error(
-      "logout requires a token on the request, token was invalid"
-    );
+    // Invalid token on request, indicate that this was successful.
+    return res.sendStatus(204);
   }
 
   // Grab the JTI from the decoded token.
@@ -97,11 +95,11 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   if (validFor > 0) {
     // Invalidate the token, the expiry is in the future and it needs to be
     // revoked.
-    await revokeJWT(redis, jti, validFor);
+    await revokeJWT(redis, jti, validFor, now);
   }
 
   // Clear the cookie.
-  res.clearCookie(COOKIE_NAME, generateCookieOptions(req, tenant!));
+  res.clearCookie(COOKIE_NAME, generateCookieOptions(req, new Date(0)));
 
   return res.sendStatus(204);
 }
@@ -135,7 +133,7 @@ export async function handleSuccessfulLogin(
     res.cookie(
       COOKIE_NAME,
       token,
-      generateCookieOptions(req, tenant, expiresIn.toJSDate())
+      generateCookieOptions(req, expiresIn.toJSDate())
     );
 
     // Send back the details!
@@ -145,20 +143,15 @@ export async function handleSuccessfulLogin(
   }
 }
 
-function generateCookieOptions(req: Request, tenant: Tenant, expiresIn?: Date) {
-  const options: CookieOptions = {
-    domain: tenant.domain,
-    path: "/api",
-    httpOnly: true,
-    secure: req.secure,
-  };
-
-  if (expiresIn) {
-    options.expires = expiresIn;
-  }
-
-  return options;
-}
+const generateCookieOptions = (
+  req: Request,
+  expiresIn: Date
+): CookieOptions => ({
+  path: "/api",
+  httpOnly: true,
+  secure: req.secure,
+  expires: expiresIn,
+});
 
 export async function handleOAuth2Callback(
   err: Error | null,
@@ -181,8 +174,18 @@ export async function handleOAuth2Callback(
     // Tenant is guaranteed at this point.
     const tenant = req.coral!.tenant!;
 
+    // Compute the expiry date.
+    const expiresIn = DateTime.fromJSDate(req.coral!.now).plus({ days: 1 });
+
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant);
+    const token = await signTokenString(signingConfig, user, tenant, {
+      expiresIn: Math.floor(expiresIn.toSeconds()),
+    });
+    res.cookie(
+      COOKIE_NAME,
+      token,
+      generateCookieOptions(req, expiresIn.toJSDate())
+    );
 
     // Send back the details!
     res.redirect(path + `#accessToken=${token}`);
