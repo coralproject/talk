@@ -32,6 +32,7 @@ const enhanced = withFragmentContainer<Props>({
           enabled
           endpoint
           key
+          model
           threshold
           doNotStore
         }

@@ -758,15 +758,15 @@ type PerspectiveExternalIntegration {
   key: String
 
   """
-  The Perspective Model to use for analysis.
-  """
-  model: String!
-
-  """
   The threshold that given a specific toxic comment score, the comment will
   be marked by Coral as toxic.
   """
   threshold: Float
+
+  """
+  model is the Perspective model to use.
+  """
+  model: String
 
   """
   When True, comments sent will not be stored by the Google Perspective API.
@@ -2699,7 +2699,7 @@ input SettingsPerspectiveExternalIntegrationInput {
   key: String
 
   """
-  The Perspective Model to use for analysis.
+  model is the name of the Perspective model to use.
   """
   model: String
 

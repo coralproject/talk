@@ -202,7 +202,7 @@ the
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 This value can be set a percentage between 0 and 100. This number represents the likelihood that a
-comment is toxic, according to Perspective API. By default the treshold is set to 80.
+comment is toxic, according to Perspective API. By default the threshold is set to 80%.
               </p>
               <div
                 className="TextField-root PerspectiveConfig-thresholdTextField"
@@ -232,6 +232,48 @@ comment is toxic, according to Perspective API. By default the treshold is set t
                 </div>
               </div>
             </div>
+            <div
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                htmlFor="configure-moderation-perspective-model"
+              >
+                Toxicity Model
+              </label>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Choose your Perspective Model. The default is TOXICITY. You can find out more about model choices 
+                <a
+                  className="ExternalLink-root"
+                  href="https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  here
+                </a>
+                .
+              </p>
+              <div
+                className="TextField-root"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular"
+                  disabled={false}
+                  id="configure-moderation-perspective-model"
+                  name="integrations.perspective.model"
+                  onChange={[Function]}
+                  placeholder="TOXICITY"
+                  spellCheck={false}
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
             <fieldset
               className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
             >
@@ -244,7 +286,7 @@ comment is toxic, according to Perspective API. By default the treshold is set t
                 className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
               >
                 Stored comments will be used for future research and community model building purposes to
-improve the API over time
+improve the API over time.
               </p>
               <div>
                 <div>
@@ -309,6 +351,7 @@ improve the API over time
                 <a
                   className="ExternalLink-root"
                   href="https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md
@@ -477,6 +520,7 @@ in your Akismet account:
                 <a
                   className="ExternalLink-root"
                   href="https://akismet.com/account/"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   https://akismet.com/account/

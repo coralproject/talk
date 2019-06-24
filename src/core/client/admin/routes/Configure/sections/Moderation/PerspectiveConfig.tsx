@@ -5,6 +5,10 @@ import { Field } from "react-final-form";
 
 import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
 
+import {
+  TOXICITY_MODEL_DEFAULT,
+  TOXICITY_THRESHOLD_DEFAULT,
+} from "coral-common/constants";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
   composeValidators,
@@ -31,9 +35,6 @@ import ValidationMessage from "../../ValidationMessage";
 import APIKeyField from "./APIKeyField";
 
 import styles from "./PerspectiveConfig.css";
-
-/* TODO: use a common constants for both client and server. */
-const TOXICITY_DEFAULT = 80;
 
 interface Props {
   disabled: boolean;
@@ -69,7 +70,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
 
       <FormField container={<FieldSet />}>
         <Localized id="configure-moderation-perspective-filter">
-          <InputLabel container="legend">Spam Detection Filter</InputLabel>
+          <InputLabel container="legend">Toxic Comment Filter</InputLabel>
         </Localized>
         <OnOffField
           name="integrations.perspective.enabled"
@@ -85,12 +86,12 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <Localized
           id="configure-moderation-perspective-toxicityThresholdDescription"
-          $default={TOXICITY_DEFAULT}
+          $default={TOXICITY_THRESHOLD_DEFAULT + "%"}
         >
           <InputDescription>
             This value can be set a percentage between 0 and 100. This number
             represents the likelihood that a comment is toxic, according to
-            Perspective API. Defaults to $default.
+            Perspective API. By default the threshold is set to $default.
           </InputDescription>
         </Localized>
         <Field
@@ -113,8 +114,55 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
                 autoCapitalize="off"
                 spellCheck={false}
                 adornment={<Typography variant="bodyCopy">%</Typography>}
-                placeholder={TOXICITY_DEFAULT.toString()}
+                placeholder={TOXICITY_THRESHOLD_DEFAULT.toString()}
                 textAlignCenter
+              />
+              {meta.touched && (meta.error || meta.submitError) && (
+                <ValidationMessage>
+                  {meta.error || meta.submitError}
+                </ValidationMessage>
+              )}
+            </>
+          )}
+        </Field>
+      </FormField>
+
+      <FormField>
+        <Localized id="configure-moderation-perspective-toxicityModel">
+          <InputLabel htmlFor="configure-moderation-perspective-model">
+            Toxicity Model
+          </InputLabel>
+        </Localized>
+        <Localized
+          id="configure-moderation-perspective-toxicityModelDescription"
+          externalLink={
+            <ExternalLink
+              href={
+                "https://github.com/conversationai/perspectiveapi/blob/master/api_reference.md#models"
+              }
+            />
+          }
+          $default={TOXICITY_MODEL_DEFAULT}
+        >
+          <InputDescription>
+            Choose your Perspective Model. The default is $default. You can find
+            out more about model choices here.
+          </InputDescription>
+        </Localized>
+        <Field name="integrations.perspective.model">
+          {({ input, meta }) => (
+            <>
+              <TextField
+                id="configure-moderation-perspective-model"
+                name={input.name}
+                onChange={input.onChange}
+                value={input.value}
+                disabled={disabled}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                placeholder={TOXICITY_MODEL_DEFAULT}
+                spellCheck={false}
               />
               {meta.touched && (meta.error || meta.submitError) && (
                 <ValidationMessage>
@@ -135,7 +183,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         <Localized id="configure-moderation-perspective-allowStoreCommentDataDescription">
           <InputDescription>
             Stored comments will be used for future research and community model
-            building purposes to improve the API over time
+            building purposes to improve the API over time.
           </InputDescription>
         </Localized>
         <div>
