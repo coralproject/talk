@@ -13,6 +13,7 @@ import FeatureCommentMutation from "./FeatureCommentMutation";
 import RejectCommentMutation from "./RejectCommentMutation";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
+import cn from "classnames";
 import styles from "./ModerationActionsContainer.css";
 
 interface Props {
@@ -59,6 +60,7 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
   const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
   const featured = comment.tags.some(t => t.code === "FEATURED");
+  const banned = comment.author!.status.ban.active;
 
   return (
     <>
@@ -135,18 +137,34 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
         </Localized>
       )}
       <DropdownDivider />
-      <Localized id="comments-moderationDropdown-ban">
-        <DropdownButton
-          icon={
-            <div className={styles.banIcon}>
-              <Icon size="sm">block</Icon>
-            </div>
-          }
-          onClick={onBan}
-        >
-          Ban User
-        </DropdownButton>
-      </Localized>
+      {banned ? (
+        <Localized id="comments-moderationDropdown-banned">
+          <DropdownButton
+            icon={
+              <div className={cn(styles.banIcon, styles.banned)}>
+                <Icon size="sm">block</Icon>
+              </div>
+            }
+            className={styles.banned}
+            disabled
+          >
+            Banned
+          </DropdownButton>
+        </Localized>
+      ) : (
+        <Localized id="comments-moderationDropdown-ban">
+          <DropdownButton
+            icon={
+              <div className={styles.banIcon}>
+                <Icon size="sm">block</Icon>
+              </div>
+            }
+            onClick={onBan}
+          >
+            Ban User
+          </DropdownButton>
+        </Localized>
+      )}
       <DropdownDivider />
       <Localized id="comments-moderationDropdown-goToModerate">
         <DropdownButton
@@ -165,6 +183,13 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerationActionsContainer_comment on Comment {
       id
+      author {
+        status {
+          ban {
+            active
+          }
+        }
+      }
       revision {
         id
       }

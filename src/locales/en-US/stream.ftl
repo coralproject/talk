@@ -127,6 +127,7 @@ comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
 comments-moderationDropdown-ban = Ban User
+comments-moderationDropdown-banned = Banned
 comments-moderationDropdown-goToModerate = Go to Moderate
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate

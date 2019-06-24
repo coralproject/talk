@@ -10,6 +10,10 @@
   color: var(--palette-primary-dark);
   font-weight: var(--font-weight-bold);
 }
+.banned {
+  color: var(--palette-error-dark);
+  font-weight: var(--font-weight-bold);
+}
 .banIcon {
   width: 18px;
   height: 14px;
