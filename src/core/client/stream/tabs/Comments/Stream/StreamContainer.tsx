@@ -21,7 +21,6 @@ import {
 import { PropTypesOf } from "coral-ui/types";
 
 import AllCommentsTab from "./AllCommentsTab";
-import SpinnerWhileRendering from "./AllCommentsTab/SpinnerWhileRendering";
 import BannedInfo from "./BannedInfo";
 import { CommunityGuidelinesContainer } from "./CommunityGuidelines";
 import FeaturedComments from "./FeaturedComments";

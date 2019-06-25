@@ -7,16 +7,23 @@ import {
 } from "coral-framework/lib/relay";
 import { CommentReplyCreatedSubscription } from "coral-stream/__generated__/CommentReplyCreatedSubscription.graphql";
 
-function determineDepth(comment: RecordProxy) {
+/**
+ * Returns depth until ancestor.
+ */
+function determineDepthTillAncestor(comment: RecordProxy, ancestorID: string) {
   let depth = 0;
   let cur: RecordProxy | null = comment;
   while (cur) {
     cur = cur.getLinkedRecord("parent");
     if (cur) {
       depth++;
+      // Stop when reaching base ancestor.
+      if (cur!.getValue("id") === ancestorID) {
+        return depth;
+      }
     }
   }
-  return depth;
+  return null;
 }
 
 const CommentReplyCreatedSubscription = createSubscription(
@@ -55,14 +62,17 @@ const CommentReplyCreatedSubscription = createSubscription(
           comment.getLinkedRecord("parent")!.getValue("id")!
         )!;
 
-        const depth = determineDepth(comment);
+        const depth = determineDepthTillAncestor(comment, variables.ancestorID);
+        if (depth === null) {
+          // could not trace back to ancestor, discard.
+          return;
+        }
         // Comment is just outside our visible depth.
         if (depth === 6) {
           // Inform last comment in visible tree about the available replies.
           // This will trigger to show the `Read More of this Conversation` link.
           const replyCount = parentProxy.getValue("replyCount") || 0;
           parentProxy.setValue(replyCount + 1, "replyCount");
-          store.delete(comment.getDataID());
           return;
         }
 
@@ -76,8 +86,10 @@ const CommentReplyCreatedSubscription = createSubscription(
         if (!connection) {
           // If it has no connection, it could not have been
           // in our visible tree.
-          store.delete(parentProxy.getDataID());
-          store.delete(comment.getDataID());
+          return;
+        }
+        if (connection.getLinkedRecord("pageInfo").getValue("hasNextPage")) {
+          // It hasn't loaded all comments yet, ignore this one.
           return;
         }
         const commentsEdge = store.create(
