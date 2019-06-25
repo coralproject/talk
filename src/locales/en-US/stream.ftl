@@ -31,6 +31,7 @@ comments-streamQuery-storyNotFound = Story not found
 
 comments-postCommentForm-submit = Submit
 comments-replyList-showAll = Show All
+comments-replyList-showMoreReplies = Show More Replies
 
 
 comments-viewNew =

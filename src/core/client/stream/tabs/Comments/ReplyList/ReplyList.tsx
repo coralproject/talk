@@ -90,14 +90,18 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
       )}
       {Boolean(props.viewNewCount && props.viewNewCount > 0) && (
         <Indent level={props.indentLevel} noBorder>
-          <Button
-            aria-controls={`coral-comments-replyList-log--${props.comment.id}`}
-            onClick={props.onViewNew}
-            variant="outlined"
-            fullWidth
-          >
-            Show more replies
-          </Button>
+          <Localized id="comments-replyList-showMoreReplies">
+            <Button
+              aria-controls={`coral-comments-replyList-log--${
+                props.comment.id
+              }`}
+              onClick={props.onViewNew}
+              variant="outlined"
+              fullWidth
+            >
+              Show More Replies
+            </Button>
+          </Localized>
         </Indent>
       )}
     </HorizontalGutter>

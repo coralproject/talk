@@ -64,9 +64,6 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
     // TODO: (cvle) check for story or settings state
     // for whether or not we should turn on subscriptions:
     // e.g. `if (!props.story.settings.live) { return; }`
-    if (props.relay.hasMore()) {
-      return;
-    }
     if (props.indentLevel !== 1) {
       return;
     }
