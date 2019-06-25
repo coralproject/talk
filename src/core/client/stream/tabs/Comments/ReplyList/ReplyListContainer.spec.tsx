@@ -20,7 +20,11 @@ it("renders correctly", () => {
       id: "comment-id",
       status: "NONE",
       replies: {
-        edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
+        edges: [
+          { node: { id: "comment-1", enteredLive: false } },
+          { node: { id: "comment-2", enteredLive: false } },
+        ],
+        viewNewEdges: [],
       },
       lastViewerAction: null,
     },
@@ -51,7 +55,7 @@ it("renders correctly when replies are empty", () => {
     comment: {
       id: "comment-id",
       status: "NONE",
-      replies: { edges: [] },
+      replies: { edges: [], viewNewEdges: [] },
       lastViewerAction: null,
     },
     relay: {
@@ -83,7 +87,11 @@ describe("when has more replies", () => {
       id: "comment-id",
       status: "NONE",
       replies: {
-        edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
+        edges: [
+          { node: { id: "comment-1", enteredLive: false } },
+          { node: { id: "comment-2", enteredLive: false } },
+        ],
+        viewNewEdges: [],
       },
       lastViewerAction: null,
     },

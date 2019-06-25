@@ -20,9 +20,9 @@ import { Localized } from "fluent-react/compat";
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
+import FadeInTransition from "../FadeInTransition";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
-import FadeInTransition from "./FadeInTransition";
 
 interface Props {
   story: AllCommentsTabContainer_story;
@@ -51,6 +51,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
   );
   const subscribeToCommentCreated = useSubscription(CommentCreatedSubscription);
   useEffect(() => {
+    // TODO: (cvle) check for story or settings state
+    // for whether or not we should turn on subscriptions:
+    // e.g. `if (!props.story.settings.live) { return; }`
     if (
       commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
       props.relay.hasMore()

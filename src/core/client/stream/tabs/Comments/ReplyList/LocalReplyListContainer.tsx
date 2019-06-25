@@ -58,6 +58,12 @@ const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment LocalReplyListContainer_comment on Comment {
       id
+      replies(first: 0, orderBy: "CREATED_AT_ASC")
+        @connection(key: "ReplyList_replies") {
+        viewNewEdges {
+          cursor
+        }
+      }
       localReplies {
         id
         ...CommentContainer_comment
