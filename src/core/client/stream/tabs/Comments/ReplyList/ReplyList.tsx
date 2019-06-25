@@ -2,13 +2,13 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { FunctionComponent } from "react";
 
+import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { PropTypesOf } from "coral-framework/types";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
 import CommentContainer from "../Comment";
 import IgnoredTombstoneOrHideContainer from "../IgnoredTombstoneOrHideContainer";
 import Indent from "../Indent";
-import FadeInTransition from "../Stream/FadeInTransition";
 
 export interface ReplyListProps {
   story: PropTypesOf<typeof CommentContainer>["story"];

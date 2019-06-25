@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
+import FadeInTransition from "coral-framework/components/FadeInTransition";
 import {
   useLoadMore,
   useLocal,
@@ -17,10 +18,10 @@ import { AllCommentsTabContainerLocal } from "coral-stream/__generated__/AllComm
 import { AllCommentsTabContainerPaginationQueryVariables } from "coral-stream/__generated__/AllCommentsTabContainerPaginationQuery.graphql";
 import { Box, Button, HorizontalGutter } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
+
 import { CommentContainer } from "../../Comment";
 import IgnoredTombstoneOrHideContainer from "../../IgnoredTombstoneOrHideContainer";
 import { ReplyListContainer } from "../../ReplyList";
-import FadeInTransition from "../FadeInTransition";
 import AllCommentsTabViewNewMutation from "./AllCommentsTabViewNewMutation";
 import CommentCreatedSubscription from "./CommentCreatedSubscription";
 
