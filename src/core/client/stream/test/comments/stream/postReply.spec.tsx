@@ -41,7 +41,6 @@ async function createTestRenderer(
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(stories[0].id, "storyID");
-      localRecord.setValue(true, "loggedIn");
     },
   });
 

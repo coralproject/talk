@@ -1,4 +1,4 @@
-import { NextFunction, RequestHandler, Response } from "express";
+import { CookieOptions, NextFunction, RequestHandler, Response } from "express";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
@@ -14,12 +14,14 @@ import { validate } from "coral-server/app/request/body";
 import { AuthenticationError } from "coral-server/errors";
 import { User } from "coral-server/models/user";
 import {
+  COOKIE_NAME,
   extractTokenFromRequest,
   JWTSigningConfig,
   revokeJWT,
   signTokenString,
 } from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
+import { DateTime } from "luxon";
 
 export type VerifyCallback = (
   err?: Error | null,
@@ -70,20 +72,18 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   // Extract the token from the request.
   const token = extractTokenFromRequest(req);
   if (!token) {
-    // TODO: (wyattjoh) return a better error.
-    throw new Error("logout requires a token on the request, none was found");
+    // No token on the request, indicate that this was successful.
+    return res.sendStatus(204);
   }
 
-  // Coral is guarenteed at this point.
+  // Coral is guaranteed at this point.
   const { now } = req.coral!;
 
   // Decode the token.
   const decoded = jwt.decode(token, {});
   if (!decoded) {
-    // TODO: (wyattjoh) return a better error.
-    throw new Error(
-      "logout requires a token on the request, token was invalid"
-    );
+    // Invalid token on request, indicate that this was successful.
+    return res.sendStatus(204);
   }
 
   // Grab the JTI from the decoded token.
@@ -94,8 +94,11 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   if (validFor > 0) {
     // Invalidate the token, the expiry is in the future and it needs to be
     // revoked.
-    await revokeJWT(redis, jti, validFor);
+    await revokeJWT(redis, jti, validFor, now);
   }
+
+  // Clear the cookie.
+  res.clearCookie(COOKIE_NAME, generateCookieOptions(req, new Date(0)));
 
   return res.sendStatus(204);
 }
@@ -108,16 +111,29 @@ export async function handleSuccessfulLogin(
   next: NextFunction
 ) {
   try {
+    // Coral is guaranteed at this point.
+    const coral = req.coral!;
+
     // Tenant is guaranteed at this point.
-    const tenant = req.coral!.tenant!;
+    const tenant = coral.tenant!;
+
+    // Compute the expiry date.
+    const expiresIn = DateTime.fromJSDate(coral.now).plus({ days: 1 });
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant);
+    const token = await signTokenString(signingConfig, user, tenant, {
+      expiresIn: Math.floor(expiresIn.toSeconds()),
+    });
 
     // Set the cache control headers.
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
     res.header("Expires", "-1");
     res.header("Pragma", "no-cache");
+    res.cookie(
+      COOKIE_NAME,
+      token,
+      generateCookieOptions(req, expiresIn.toJSDate())
+    );
 
     // Send back the details!
     res.json({ token });
@@ -125,6 +141,16 @@ export async function handleSuccessfulLogin(
     return next(err);
   }
 }
+
+const generateCookieOptions = (
+  req: Request,
+  expiresIn: Date
+): CookieOptions => ({
+  path: "/api",
+  httpOnly: true,
+  secure: req.secure,
+  expires: expiresIn,
+});
 
 export async function handleOAuth2Callback(
   err: Error | null,
@@ -147,8 +173,18 @@ export async function handleOAuth2Callback(
     // Tenant is guaranteed at this point.
     const tenant = req.coral!.tenant!;
 
+    // Compute the expiry date.
+    const expiresIn = DateTime.fromJSDate(req.coral!.now).plus({ days: 1 });
+
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant);
+    const token = await signTokenString(signingConfig, user, tenant, {
+      expiresIn: Math.floor(expiresIn.toSeconds()),
+    });
+    res.cookie(
+      COOKIE_NAME,
+      token,
+      generateCookieOptions(req, expiresIn.toJSDate())
+    );
 
     // Send back the details!
     res.redirect(path + `#accessToken=${token}`);

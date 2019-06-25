@@ -497,6 +497,15 @@ export class InvalidCredentialsError extends CoralError {
   }
 }
 
+export class JWTRevokedError extends CoralError {
+  constructor(jti: string) {
+    super({
+      code: ERROR_CODES.AUTHENTICATION_ERROR,
+      context: { pvt: { jti } },
+    });
+  }
+}
+
 export class AuthenticationError extends CoralError {
   constructor(reason: string) {
     super({

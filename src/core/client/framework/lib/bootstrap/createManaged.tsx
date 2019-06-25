@@ -8,7 +8,11 @@ import { Environment, RecordSource, Store } from "relay-runtime";
 import uuid from "uuid/v1";
 
 import { getBrowserInfo } from "coral-framework/lib/browserInfo";
-import { LOCAL_ID } from "coral-framework/lib/relay";
+import {
+  commitLocalUpdatePromisified,
+  LOCAL_ID,
+  setAccessTokenInLocalState,
+} from "coral-framework/lib/relay";
 import {
   createLocalStorage,
   createPromisifiedStorage,
@@ -105,7 +109,7 @@ function createRelayEnvironment(
   const tokenGetter: TokenGetter = () => {
     const localState = source.get(LOCAL_ID);
     if (localState) {
-      return (localState.loggedIn && localState.accessToken) || "";
+      return localState.accessToken || "";
     }
     return "";
   };
@@ -145,7 +149,7 @@ function createMangedCoralContextProvider(
     }
 
     // This is called every time a user session starts or ends.
-    private clearSession = async () => {
+    private clearSession = async (nextAccessToken?: string | null) => {
       // Clear session storage.
       this.state.context.sessionStorage.clear();
 
@@ -172,6 +176,13 @@ function createMangedCoralContextProvider(
       // ^ only necessary when we can prolong existing session using
       // a new token.
       subscriptionClient.setAccessToken(newTokenGetter());
+
+      // Set next access token.
+      if (nextAccessToken) {
+        await commitLocalUpdatePromisified(newEnvironment, async store => {
+          setAccessTokenInLocalState(nextAccessToken, store);
+        });
+      }
 
       // Propagate new context.
       this.setState(
@@ -292,7 +303,7 @@ export default async function createManaged({
     uuidGenerator: uuid,
     // Noop, this is later replaced by the
     // managed CoralContextProvider.
-    clearSession: () => Promise.resolve(),
+    clearSession: (nextAccessToken?: string | null) => Promise.resolve(),
   };
 
   // Initialize local state.

@@ -60,7 +60,6 @@ const createTestRenderer = async (
     initLocalState: (localRecord, source, environment) => {
       localRecord.setValue(storyFixture.id, "storyID");
       localRecord.setValue(commentFixture.id, "commentID");
-      localRecord.setValue(true, "loggedIn");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }

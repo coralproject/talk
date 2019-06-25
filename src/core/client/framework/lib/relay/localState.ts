@@ -25,14 +25,13 @@ export function setAccessTokenInLocalState(
   const localRecord = source.get(LOCAL_ID)!;
   localRecord.setValue(accessToken || "", "accessToken");
   if (accessToken) {
-    const { payload, expired } = parseJWT(accessToken);
+    const { payload } = parseJWT(accessToken);
     localRecord.setValue(payload.exp, "accessTokenExp");
     localRecord.setValue(payload.jti, "accessTokenJTI");
-    localRecord.setValue(!expired, "loggedIn");
+    // TODO: (cvle) maybe a timer to detect when accessToken has expired?
   } else {
     localRecord.setValue(null, "accessTokenExp");
     localRecord.setValue(null, "accessTokenJTI");
-    localRecord.setValue(false, "loggedIn");
   }
 }
 
@@ -41,10 +40,6 @@ export async function initLocalBaseState(
   { localStorage }: CoralContext,
   accessToken?: string | null
 ) {
-  if (accessToken === undefined) {
-    accessToken = await localStorage!.getItem("accessToken");
-  }
-
   commitLocalUpdate(environment, s => {
     const root = s.getRoot();
 
@@ -52,7 +47,7 @@ export async function initLocalBaseState(
     const localRecord = createAndRetain(environment, s, LOCAL_ID, LOCAL_TYPE);
     root.setLinkedRecord(localRecord, "local");
 
-    // Set auth token
+    // Set access token
     setAccessTokenInLocalState(accessToken || null, s);
   });
 }

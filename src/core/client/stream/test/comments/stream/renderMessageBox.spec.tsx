@@ -32,7 +32,6 @@ async function createTestRenderer(
     resolvers,
     initLocalState: localRecord => {
       localRecord.setValue(storyWithNoComments.id, "storyID");
-      localRecord.setValue(Boolean(data.loggedIn), "loggedIn");
     },
   });
 

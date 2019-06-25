@@ -1,3 +1,5 @@
+import cookie from "cookie";
+import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
@@ -6,11 +8,14 @@ import uuid from "uuid/v4";
 
 import { Omit } from "coral-common/types";
 import { Config } from "coral-server/config";
-import { AuthenticationError, TokenInvalidError } from "coral-server/errors";
+import {
+  AuthenticationError,
+  JWTRevokedError,
+  TokenInvalidError,
+} from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
-import { IncomingMessage } from "http";
 
 /**
  *  The following Claim Names are registered in the IANA "JSON Web Token
@@ -213,7 +218,6 @@ export const signTokenString = async (
 ) =>
   jwt.sign({}, secret, {
     jwtid: uuid(),
-    // TODO: (wyattjoh) evaluate allowing configuration?
     expiresIn: "1 day",
     ...options,
     issuer: tenant.id,
@@ -241,11 +245,76 @@ export async function signString<T extends {}>(
 }
 
 /**
+ * extractJWTFromRequest will extract the token from the request if it can find
+ * it. It first tries to get the token from the headers, then from the cookie.
  *
  * @param req the request to extract the JWT from
  * @param excludeQuery when true, does not pull from the query params
  */
 export function extractTokenFromRequest(
+  req: Request | IncomingMessage,
+  excludeQuery: boolean = false
+): string | null {
+  return (
+    extractJWTFromRequestHeaders(req, excludeQuery) ||
+    extractJWTFromRequestCookie(req)
+  );
+}
+
+/**
+ * COOKIE_NAME is the name of the authorization cookie used by Coral.
+ */
+export const COOKIE_NAME = "authorization";
+
+/**
+ * isExpressRequest will check to see if this is a Request or an
+ * IncomingMessage.
+ *
+ * @param req a request to test if it is an Express Request or not.
+ */
+export function isExpressRequest(
+  req: Request | IncomingMessage
+): req is Request {
+  // Only Express Request objects contain an `app` field.
+  if (typeof (req as Request).app === "undefined") {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * extractJWTFromRequestCookie will parse the cookies off of the request if it
+ * can.
+ *
+ * @param req the incoming request possibly containing a cookie
+ */
+function extractJWTFromRequestCookie(
+  req: Request | IncomingMessage
+): string | null {
+  if (!isExpressRequest(req)) {
+    // Grab the cookie header.
+    const header = req.headers.cookie;
+    if (typeof header !== "string" || header.length === 0) {
+      return null;
+    }
+
+    // Parse the cookies from that header.
+    const cookies = cookie.parse(header);
+    return cookies[COOKIE_NAME] || null;
+  }
+
+  return req.cookies && req.cookies[COOKIE_NAME]
+    ? req.cookies[COOKIE_NAME]
+    : null;
+}
+
+/**
+ *
+ * @param req the request to extract the JWT from
+ * @param excludeQuery when true, does not pull from the query params
+ */
+function extractJWTFromRequestHeaders(
   req: Request | IncomingMessage,
   excludeQuery: boolean = false
 ) {
@@ -267,18 +336,53 @@ function generateJTIRevokedKey(jti: string) {
   return `jtir:${jti}`;
 }
 
-export async function revokeJWT(redis: Redis, jti: string, validFor: number) {
+/**
+ * revokeJWT will place the token into a blacklist until it expires.
+ *
+ * @param redis the Redis instance to revoke the JWT with
+ * @param jti the JTI claim of the JWT token being revoked
+ * @param validFor number of seconds that the token was valid for
+ * @param now the current date
+ */
+export async function revokeJWT(
+  redis: Redis,
+  jti: string,
+  validFor: number,
+  now = new Date()
+) {
   await redis.setex(
     generateJTIRevokedKey(jti),
     Math.ceil(validFor),
-    Date.now()
+    now.valueOf()
   );
 }
 
-export async function checkJWTRevoked(redis: Redis, jti: string) {
+/**
+ * isJWTRevoked will check to see if the given token referenced by the JWT has
+ * been revoked or not.
+ *
+ * @param redis the Redis instance to check to see if the token was revoked
+ * @param jti the JTI claim of the JWT token being tested
+ */
+export async function isJWTRevoked(redis: Redis, jti: string) {
   const expiredAtString = await redis.get(generateJTIRevokedKey(jti));
   if (expiredAtString) {
-    throw new AuthenticationError("JWT was revoked");
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * checkJWTRevoked will test the JWT's JTI to see if it's revoked, if it is, it
+ * will throw an error.
+ *
+ * @param redis the Redis instance to check to see if the token was revoked
+ * @param jti the JTI claim of the JWT token being tested
+ */
+export async function checkJWTRevoked(redis: Redis, jti: string) {
+  if (await isJWTRevoked(redis, jti)) {
+    throw new JWTRevokedError(jti);
   }
 }
 

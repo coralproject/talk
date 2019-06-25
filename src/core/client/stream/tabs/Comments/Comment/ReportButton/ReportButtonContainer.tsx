@@ -23,7 +23,7 @@ class ReportButtonContainer extends React.Component<
   ReportButtonContainerProps
 > {
   private get loggedIn() {
-    return this.props.viewer;
+    return Boolean(this.props.viewer);
   }
   private handleSignIn = () => this.props.showAuthPopup({ view: "SIGN_IN" });
 

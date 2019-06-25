@@ -183,7 +183,7 @@
   font-weight: var(--font-weight-regular);
   font-family: var(--font-family-sans-serif);
   font-size: calc(16rem / var(--rem-base));
-  line-height: calc(18em / 16);
+  line-height: 1;
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
 }
