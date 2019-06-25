@@ -185,7 +185,7 @@ function commit(
               createdAt: viewer.createdAt,
               ignoreable: false,
               status: {
-                current: [GQLUSER_STATUS.ACTIVE],
+                current: [],
                 ban: {
                   active: false,
                 },
