@@ -106,7 +106,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
             fullWidth
           >
             <Localized id="comments-viewNew" $count={viewNewCount}>
-              <span>View {viewNewCount} new comments</span>
+              <span>View {viewNewCount} New Comments</span>
             </Localized>
           </Button>
         </Box>

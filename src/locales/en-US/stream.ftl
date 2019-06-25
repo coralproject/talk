@@ -36,8 +36,8 @@ comments-replyList-showMoreReplies = Show More Replies
 
 comments-viewNew =
   { $count ->
-    [1] View {$count} new comment
-    *[other] View {$count} new comments
+    [1] View {$count} New Comment
+    *[other] View {$count} New Comments
   }
 comments-loadMore = Load More
 
