@@ -36,7 +36,7 @@ async function createTestRenderer(
   });
 
   await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
 
   const tabPane = await waitForElement(() =>

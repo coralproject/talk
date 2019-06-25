@@ -45,7 +45,7 @@ beforeEach(() => {
 
 it("renders deepest comment with link", async () => {
   const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   const deepestReply = within(streamLog).getByTestID(
     "comment-comment-with-deepest-replies-5"
@@ -58,7 +58,7 @@ it("shows conversation", async () => {
     preventDefault: sinon.mock().once(),
   };
   const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   await act(async () => {
     within(streamLog)

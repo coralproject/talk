@@ -90,7 +90,7 @@ it("auto close comment stream when story closed at has been reached", async () =
   ).toBeNull();
 
   await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
 
   jest.advanceTimersByTime(closeIn);

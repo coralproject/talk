@@ -42,7 +42,7 @@ async function createTestRenderer(
 it("renders comment stream", async () => {
   const { testRenderer } = await createTestRenderer();
   await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   expect(within(testRenderer.root).toJSON()).toMatchSnapshot();
 });

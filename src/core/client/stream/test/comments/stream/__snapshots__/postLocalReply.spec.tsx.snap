@@ -622,8 +622,8 @@ exports[`renders comment stream 1`] = `
 <div
   aria-live="polite"
   className="Box-root HorizontalGutter-root HorizontalGutter-full"
-  data-testid="comments-stream-log"
-  id="coral-comments-stream-log"
+  data-testid="comments-allComments-log"
+  id="comments-allComments-log"
   role="log"
 >
   <div

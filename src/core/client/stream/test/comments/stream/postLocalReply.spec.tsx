@@ -66,7 +66,7 @@ beforeEach(() => {
 
 it("renders comment stream", async () => {
   const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   // Wait for loading.
   expect(within(streamLog).toJSON()).toMatchSnapshot();
@@ -74,7 +74,7 @@ it("renders comment stream", async () => {
 
 it("post a reply", async () => {
   const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
 
   const deepestReply = within(streamLog).getByTestID(

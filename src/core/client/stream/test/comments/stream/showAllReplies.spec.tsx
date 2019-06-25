@@ -2,6 +2,7 @@ import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
 import {
+  act,
   createSinonStub,
   wait,
   waitForElement,
@@ -113,13 +114,15 @@ it("show all replies", async () => {
   const commentsBefore = within(commentReplyList).getAllByTestID(/^comment-/)
     .length;
 
-  within(commentReplyList)
-    .getByText("Show All")
-    .props.onClick();
-  // Wait for loading.
-  await wait(() =>
-    expect(within(commentReplyList).queryByText("Show All")).toBeNull()
-  );
+  await act(async () => {
+    within(commentReplyList)
+      .getByText("Show All")
+      .props.onClick();
+    // Wait for loading.
+    await wait(() =>
+      expect(within(commentReplyList).queryByText("Show All")).toBeNull()
+    );
+  });
 
   expect(within(commentReplyList).getAllByTestID(/^comment-/).length).toBe(
     commentsBefore + 1

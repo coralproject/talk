@@ -4,8 +4,8 @@ exports[`renders comment stream with load more button 1`] = `
 <div
   aria-live="polite"
   className="Box-root HorizontalGutter-root HorizontalGutter-full"
-  data-testid="comments-stream-log"
-  id="coral-comments-stream-log"
+  data-testid="comments-allComments-log"
+  id="comments-allComments-log"
   role="log"
 >
   <div
@@ -387,10 +387,9 @@ exports[`renders comment stream with load more button 1`] = `
     </div>
   </div>
   <button
-    aria-controls="coral-comments-stream-log"
+    aria-controls="comments-allComments-log"
     className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined Button-fullWidth"
     disabled={false}
-    id="coral-comments-stream-loadMore"
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
