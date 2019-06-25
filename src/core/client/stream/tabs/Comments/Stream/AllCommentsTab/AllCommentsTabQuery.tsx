@@ -10,6 +10,7 @@ import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
 import AllCommentsTabContainer from "./AllCommentsTabContainer";
+import SpinnerWhileRendering from "./SpinnerWhileRendering";
 
 interface Props {
   local: Local;
@@ -20,29 +21,21 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
-  if (!data.props) {
-    return (
-      <Flex justifyContent="center">
-        <Spinner />
-      </Flex>
-    );
-  }
   if (data.props) {
     return (
-      <AllCommentsTabContainer
-        settings={data.props.settings}
-        viewer={data.props.viewer}
-        story={data.props.story!}
-      />
+      <SpinnerWhileRendering>
+        <AllCommentsTabContainer
+          settings={data.props.settings}
+          viewer={data.props.viewer}
+          story={data.props.story!}
+        />
+      </SpinnerWhileRendering>
     );
   }
-
   return (
-    <Delay>
-      <Flex justifyContent="center">
-        <Spinner />
-      </Flex>
-    </Delay>
+    <Flex justifyContent="center">
+      <Spinner />
+    </Flex>
   );
 };
 
