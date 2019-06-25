@@ -16,7 +16,7 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import { GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
+import { GQLStory, GQLUSER_ROLE, GQLUSER_STATUS } from "coral-framework/schema";
 import { CreateCommentMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentMutation.graphql";
 
 import {
@@ -149,6 +149,12 @@ function commit(
               username: viewer.username,
               createdAt: viewer.createdAt,
               ignoreable: false,
+              status: {
+                current: [GQLUSER_STATUS.ACTIVE],
+                ban: {
+                  active: false,
+                },
+              },
             },
             revision: {
               id: uuidGenerator(),
