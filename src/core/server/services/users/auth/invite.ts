@@ -10,11 +10,16 @@ import {
   CreateInviteInput,
   Invite,
   redeemInvite,
+  redeemInviteFromEmail,
   retrieveInvite,
-  retrieveInviteFromEmail,
 } from "coral-server/models/invite";
 import { Tenant } from "coral-server/models/tenant";
-import { insertUser, LocalProfile, User } from "coral-server/models/user";
+import {
+  insertUser,
+  LocalProfile,
+  retrieveUserWithEmail,
+  User,
+} from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import {
   JWTSigningConfig,
@@ -162,12 +167,15 @@ export async function invite(
   // Ensure the email address is lowercase.
   email = email.toLowerCase();
 
-  // Check to see that the user has not been invited before, if they have,
-  // return the invite.
-  const invitedAlready = await retrieveInviteFromEmail(mongo, tenant.id, email);
-  if (invitedAlready) {
-    return invitedAlready;
+  // Check to see if the user with the specified email already has an account.
+  const userAlready = await retrieveUserWithEmail(mongo, tenant.id, email);
+  if (userAlready) {
+    return null;
   }
+
+  // Check to see that the user has not been invited before, if they have,
+  // redeem it and create a new one.
+  await redeemInviteFromEmail(mongo, tenant.id, email);
 
   // Create the User invite record.
   const invitedNow = await createInvite(

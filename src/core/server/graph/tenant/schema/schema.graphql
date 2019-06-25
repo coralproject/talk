@@ -3785,11 +3785,11 @@ type SetUsernamePayload {
 # inviteUser
 ##################
 
-input InviteUserInput {
+input InviteUsersInput {
   """
-  email is the email address of the User to be invited.
+  emails is the email addresses of the Users to be invited.
   """
-  email: String!
+  emails: [String!]!
 
   """
   role is the designated role of the User being invited.
@@ -3802,11 +3802,11 @@ input InviteUserInput {
   clientMutationId: String!
 }
 
-type InviteUserPayload {
+type InviteUsersPayload {
   """
-  invite is the reference to the invited User.
+  invites is the references to the invited Users.
   """
-  invite: Invite!
+  invites: [Invite]!
 
   """
   clientMutationId is required for Relay support.
@@ -4428,10 +4428,11 @@ type Mutation {
     @auth(roles: [MODERATOR, ADMIN])
 
   """
-  inviteUser will send an email to the user with a new account at the designated
+  inviteUsers will send emails to the users with a new account at the designated
   role.
   """
-  inviteUser(input: InviteUserInput!): InviteUserPayload! @auth(roles: [ADMIN])
+  inviteUsers(input: InviteUsersInput!): InviteUsersPayload!
+    @auth(roles: [ADMIN])
 
   """
   setUsername will set the username on the current User if they have not set one

@@ -3,10 +3,21 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import { createIndexFactory } from "coral-server/models/helpers/indexing";
 import { TenantResource } from "coral-server/models/tenant";
 
 function collection(mongo: Db) {
   return mongo.collection<Readonly<Invite>>("invites");
+}
+
+export async function createInviteIndexes(mongo: Db) {
+  const createIndex = createIndexFactory(collection(mongo));
+
+  // UNIQUE { id }
+  await createIndex({ tenantID: 1, id: 1 }, { unique: true });
+
+  // UNIQUE { email }
+  await createIndex({ tenantID: 1, email: 1 }, { unique: true });
 }
 
 export interface Invite extends TenantResource {
@@ -57,6 +68,23 @@ export async function createInvite(
 export async function redeemInvite(mongo: Db, tenantID: string, id: string) {
   // Try to snag the invite from the database safely.
   const result = await collection(mongo).findOneAndDelete({ id, tenantID }, {});
+  if (!result.value) {
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export async function redeemInviteFromEmail(
+  mongo: Db,
+  tenantID: string,
+  email: string
+) {
+  // Try to snag the invite from the database safely.
+  const result = await collection(mongo).findOneAndDelete(
+    { email, tenantID },
+    {}
+  );
   if (!result.value) {
     throw new Error("an unexpected error occurred");
   }

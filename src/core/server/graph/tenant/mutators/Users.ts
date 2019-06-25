@@ -27,7 +27,7 @@ import {
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
   GQLIgnoreUserInput,
-  GQLInviteUserInput,
+  GQLInviteUsersInput,
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
@@ -43,20 +43,24 @@ import {
 } from "../schema/__generated__/types";
 
 export const Users = (ctx: TenantContext) => ({
-  invite: async (user: GQLInviteUserInput) =>
+  invite: async ({ role, emails }: GQLInviteUsersInput) =>
     mapFieldsetToErrorCodes(
-      invite(
-        ctx.mongo,
-        ctx.tenant,
-        ctx.config,
-        ctx.mailerQueue,
-        ctx.signingConfig!,
-        user,
-        ctx.user!,
-        ctx.now
+      Promise.all(
+        emails.map(email =>
+          invite(
+            ctx.mongo,
+            ctx.tenant,
+            ctx.config,
+            ctx.mailerQueue,
+            ctx.signingConfig!,
+            { role, email },
+            ctx.user!,
+            ctx.now
+          )
+        )
       ),
       {
-        "input.email": [
+        "input.emails": [
           ERROR_CODES.EMAIL_INVALID_FORMAT,
           ERROR_CODES.EMAIL_EXCEEDS_MAX_LENGTH,
         ],

@@ -19,8 +19,10 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
+import { PropTypesOf } from "coral-ui/types";
 
-import { InvitePopover } from "./InvitePopover";
+import { InviteUsersContainer } from "./InviteUsers";
+
 import styles from "./UserTableFilter.css";
 
 interface Props {
@@ -30,6 +32,7 @@ interface Props {
   onSetStatusFilter: (role: GQLUSER_STATUS_RL) => void;
   searchFilter: string;
   onSetSearchFilter: (search: string) => void;
+  viewer: PropTypesOf<typeof InviteUsersContainer>["viewer"];
 }
 
 const UserTableFilter: FunctionComponent<Props> = props => (
@@ -181,7 +184,7 @@ const UserTableFilter: FunctionComponent<Props> = props => (
         </Flex>
       </FieldSet>
     </Flex>
-    <InvitePopover />
+    <InviteUsersContainer viewer={props.viewer} />
   </Flex>
 );
 

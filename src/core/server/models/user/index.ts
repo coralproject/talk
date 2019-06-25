@@ -478,6 +478,24 @@ export async function retrieveUserWithProfile(
   });
 }
 
+export async function retrieveUserWithEmail(
+  mongo: Db,
+  tenantID: string,
+  email: string
+) {
+  return collection(mongo).findOne({
+    tenantID,
+    $or: [
+      {
+        profiles: {
+          $elemMatch: { id: email, type: "local" },
+        },
+      },
+      { email },
+    ],
+  });
+}
+
 /**
  * updateUserRole updates a given User's role.
  *

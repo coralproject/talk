@@ -1,120 +1,41 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { Field, Form, FormSpy } from "react-final-form";
+import { Form, FormSpy } from "react-final-form";
 
+import { useMutation } from "coral-framework/lib/relay";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import {
   Button,
-  Card,
-  CardCloseButton,
-  FieldSet,
   Flex,
   HorizontalGutter,
-  Modal,
-  RadioButton,
-  TextField,
   Typography,
 } from "coral-ui/components";
 
-import { Localized } from "fluent-react/compat";
-import * as styles from "./InvitePopover.css";
+import EmailField from "./EmailField";
+import InviteUsersMutation from "./InviteUsersMutation";
+import RoleField from "./RoleField";
 
-const EmailField: FunctionComponent<{ index: number }> = ({ index }) => (
-  <FieldSet>
-    <Localized id="community-invite-emailAddressLabel">
-      <Typography container="legend" variant="bodyCopyBold">
-        Email address:
-      </Typography>
-    </Localized>
-    <Field name={`emails.${index}`}>
-      {({ input }) => (
-        <TextField
-          name={input.name}
-          onChange={input.onChange}
-          value={input.value}
-          fullWidth
-        />
-      )}
-    </Field>
-  </FieldSet>
-);
-
-const RoleField = () => (
-  <FieldSet>
-    <Localized id="community-invite-inviteAsLabel">
-      <Typography container="legend" variant="bodyCopyBold">
-        Invite as:
-      </Typography>
-    </Localized>
-    <div>
-      <Field name="role" type="radio" value={GQLUSER_ROLE.STAFF}>
-        {({ input }) => (
-          <Localized id="role-staff">
-            <RadioButton
-              id={`${input.name}-staff`}
-              name={input.name}
-              onChange={input.onChange}
-              onFocus={input.onFocus}
-              onBlur={input.onBlur}
-              checked={input.checked}
-              value={input.value}
-            >
-              Staff
-            </RadioButton>
-          </Localized>
-        )}
-      </Field>
-      <Field name="role" type="radio" value={GQLUSER_ROLE.MODERATOR}>
-        {({ input }) => (
-          <Localized id="role-moderator">
-            <RadioButton
-              id={`${input.name}-moderator`}
-              name={input.name}
-              onChange={input.onChange}
-              onFocus={input.onFocus}
-              onBlur={input.onBlur}
-              checked={input.checked}
-              value={input.value}
-            >
-              Moderator
-            </RadioButton>
-          </Localized>
-        )}
-      </Field>
-      <Field name="role" type="radio" value={GQLUSER_ROLE.ADMIN}>
-        {({ input }) => (
-          <Localized id="role-admin">
-            <RadioButton
-              id={`${input.name}-admin`}
-              name={input.name}
-              onChange={input.onChange}
-              onFocus={input.onFocus}
-              onBlur={input.onBlur}
-              checked={input.checked}
-              value={input.value}
-            >
-              Admin
-            </RadioButton>
-          </Localized>
-        )}
-      </Field>
-    </div>
-  </FieldSet>
-);
-
-const InviteForm: FunctionComponent<{
+interface Props {
   onClose: () => void;
   lastRef?: React.Ref<HTMLButtonElement>;
-}> = ({ onClose, lastRef }) => {
+}
+
+const InviteForm: FunctionComponent<Props> = ({ lastRef }) => {
   const [emailFieldCount, setEmailFieldCount] = useState(3);
+  const inviteUsers = useMutation(InviteUsersMutation);
+  const onSubmit = useCallback(
+    async ({ role, emails }) => {
+      await inviteUsers({
+        role,
+        emails: emails.filter((email: string | null) => Boolean(email)),
+      });
+      // FIXME: (wyattjoh) go to the completion step
+    },
+    [inviteUsers]
+  );
 
   return (
-    <Form
-      onSubmit={() => {
-        // FIXME: (wyattjoh) implement
-        onClose();
-      }}
-      initialValues={{ role: "STAFF" }}
-    >
+    <Form onSubmit={onSubmit} initialValues={{ role: GQLUSER_ROLE.STAFF }}>
       {({ handleSubmit }) => (
         <form
           autoComplete="off"
@@ -211,33 +132,4 @@ const InviteForm: FunctionComponent<{
   );
 };
 
-export const InvitePopover: FunctionComponent<{}> = () => {
-  const [open, setOpen] = useState(false);
-  const show = useCallback(() => setOpen(true), []);
-  const hide = useCallback(() => setOpen(false), []);
-
-  return (
-    <div>
-      <Button variant="filled" color="primary" type="button" onClick={show}>
-        Invite
-      </Button>
-      <Modal open={open}>
-        {({ firstFocusableRef, lastFocusableRef }) => (
-          <Card className={styles.root}>
-            <HorizontalGutter spacing={3}>
-              <div>
-                <CardCloseButton onClick={hide} ref={firstFocusableRef} />
-                <Localized id="community-invite-inviteMember">
-                  <Typography variant="header2">
-                    Invite members to your organization
-                  </Typography>
-                </Localized>
-              </div>
-              <InviteForm onClose={hide} lastRef={lastFocusableRef} />
-            </HorizontalGutter>
-          </Card>
-        )}
-      </Modal>
-    </div>
-  );
-};
+export default InviteForm;
