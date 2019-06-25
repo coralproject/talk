@@ -16,12 +16,7 @@ import {
   MutationInput,
   MutationResponsePromise,
 } from "coral-framework/lib/relay";
-import {
-  GQLComment,
-  GQLStory,
-  GQLUSER_ROLE,
-  GQLUSER_STATUS,
-} from "coral-framework/schema";
+import { GQLComment, GQLStory, GQLUSER_ROLE } from "coral-framework/schema";
 import { CreateCommentReplyMutation as MutationTypes } from "coral-stream/__generated__/CreateCommentReplyMutation.graphql";
 
 import { pick } from "lodash";
