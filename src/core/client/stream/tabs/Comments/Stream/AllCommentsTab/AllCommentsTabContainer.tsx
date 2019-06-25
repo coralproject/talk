@@ -55,6 +55,9 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
     // TODO: (cvle) check for story or settings state
     // for whether or not we should turn on subscriptions:
     // e.g. `if (!props.story.settings.live) { return; }`
+    if (props.story.isClosed || props.settings.disableCommenting.enabled) {
+      return;
+    }
     if (
       commentsOrderBy === GQLCOMMENT_SORT.CREATED_AT_ASC &&
       props.relay.hasMore()
@@ -179,6 +182,7 @@ const enhanced = withPaginationContainer<
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         ) {
         id
+        isClosed
         comments(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "Stream_comments") {
           viewNewEdges {
@@ -214,6 +218,9 @@ const enhanced = withPaginationContainer<
       fragment AllCommentsTabContainer_settings on Settings {
         reaction {
           sortLabel
+        }
+        disableCommenting {
+          enabled
         }
         ...ReplyListContainer1_settings
         ...CommentContainer_settings

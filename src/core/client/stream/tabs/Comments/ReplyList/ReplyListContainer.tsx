@@ -64,6 +64,9 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
     // TODO: (cvle) check for story or settings state
     // for whether or not we should turn on subscriptions:
     // e.g. `if (!props.story.settings.live) { return; }`
+    if (props.story.isClosed || props.settings.disableCommenting.enabled) {
+      return;
+    }
     if (props.indentLevel !== 1) {
       return;
     }
@@ -195,12 +198,16 @@ const ReplyListContainer5 = createReplyListContainer(
     `,
     settings: graphql`
       fragment ReplyListContainer5_settings on Settings {
+        disableCommenting {
+          enabled
+        }
         ...LocalReplyListContainer_settings
         ...CommentContainer_settings
       }
     `,
     story: graphql`
       fragment ReplyListContainer5_story on Story {
+        isClosed
         ...CommentContainer_story
         ...LocalReplyListContainer_story
       }
@@ -265,12 +272,16 @@ const ReplyListContainer4 = createReplyListContainer(
     `,
     settings: graphql`
       fragment ReplyListContainer4_settings on Settings {
+        disableCommenting {
+          enabled
+        }
         ...ReplyListContainer5_settings
         ...CommentContainer_settings
       }
     `,
     story: graphql`
       fragment ReplyListContainer4_story on Story {
+        isClosed
         ...ReplyListContainer5_story
         ...CommentContainer_story
       }
@@ -333,12 +344,16 @@ const ReplyListContainer3 = createReplyListContainer(
     `,
     settings: graphql`
       fragment ReplyListContainer3_settings on Settings {
+        disableCommenting {
+          enabled
+        }
         ...ReplyListContainer4_settings
         ...CommentContainer_settings
       }
     `,
     story: graphql`
       fragment ReplyListContainer3_story on Story {
+        isClosed
         ...ReplyListContainer4_story
         ...CommentContainer_story
       }
@@ -401,12 +416,16 @@ const ReplyListContainer2 = createReplyListContainer(
     `,
     settings: graphql`
       fragment ReplyListContainer2_settings on Settings {
+        disableCommenting {
+          enabled
+        }
         ...ReplyListContainer3_settings
         ...CommentContainer_settings
       }
     `,
     story: graphql`
       fragment ReplyListContainer2_story on Story {
+        isClosed
         ...ReplyListContainer3_story
         ...CommentContainer_story
       }
@@ -469,12 +488,16 @@ const ReplyListContainer1 = createReplyListContainer(
     `,
     settings: graphql`
       fragment ReplyListContainer1_settings on Settings {
+        disableCommenting {
+          enabled
+        }
         ...ReplyListContainer2_settings
         ...CommentContainer_settings
       }
     `,
     story: graphql`
       fragment ReplyListContainer1_story on Story {
+        isClosed
         ...ReplyListContainer2_story
         ...CommentContainer_story
       }

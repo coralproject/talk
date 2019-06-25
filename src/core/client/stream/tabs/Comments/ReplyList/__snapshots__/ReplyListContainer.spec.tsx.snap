@@ -40,15 +40,14 @@ exports[`renders correctly 1`] = `
           }
           settings={
             Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
+              "disableCommenting": Object {
+                "enabled": false,
               },
             }
           }
           story={
             Object {
-              "id": "story-id",
+              "isClosed": false,
             }
           }
           viewer={null}
@@ -67,15 +66,14 @@ exports[`renders correctly 1`] = `
           }
           settings={
             Object {
-              "reaction": Object {
-                "icon": "thumb_up_alt",
-                "label": "Respect",
+              "disableCommenting": Object {
+                "enabled": false,
               },
             }
           }
           story={
             Object {
-              "id": "story-id",
+              "isClosed": false,
             }
           }
           viewer={null}
@@ -91,15 +89,14 @@ exports[`renders correctly 1`] = `
   onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
     }
   }
   viewNewCount={0}
@@ -159,15 +156,14 @@ exports[`when has more replies renders hasMore 1`] = `
   onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
     }
   }
   viewNewCount={0}
@@ -225,15 +221,14 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
     }
   }
   viewNewCount={0}
@@ -291,15 +286,14 @@ exports[`when has more replies when showing all enable show all button after loa
   onViewNew={[Function]}
   settings={
     Object {
-      "reaction": Object {
-        "icon": "thumb_up_alt",
-        "label": "Respect",
+      "disableCommenting": Object {
+        "enabled": false,
       },
     }
   }
   story={
     Object {
-      "id": "story-id",
+      "isClosed": false,
     }
   }
   viewNewCount={0}
