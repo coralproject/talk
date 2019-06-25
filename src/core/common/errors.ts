@@ -257,6 +257,11 @@ export enum ERROR_CODES {
   EMAIL_CONFIRM_TOKEN_EXPIRED = "EMAIL_CONFIRM_TOKEN_EXPIRED",
 
   /**
+   * INVITE_TOKEN_EXPIRED is returned when a given invite token has expired.
+   */
+  INVITE_TOKEN_EXPIRED = "INVITE_TOKEN_EXPIRED",
+
+  /**
    * RATE_LIMIT_EXCEEDED is returned when an operation is performed too many
    * times by the same user.
    */

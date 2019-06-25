@@ -55,18 +55,15 @@ export interface LocalStrategyOptions {
   redis: Redis;
 }
 
-export function createLocalStrategy({
-  mongo,
-  redis: client,
-}: LocalStrategyOptions) {
+export function createLocalStrategy({ mongo, redis }: LocalStrategyOptions) {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
   });
   const emailLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "email",

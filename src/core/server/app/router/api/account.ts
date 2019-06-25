@@ -5,6 +5,8 @@ import {
   confirmCheckHandler,
   confirmHandler,
   confirmRequestHandler,
+  inviteCheckHandler,
+  inviteHandler,
 } from "coral-server/app/handlers";
 import { jsonMiddleware } from "coral-server/app/middleware/json";
 import { authenticate } from "coral-server/app/middleware/passport";
@@ -24,6 +26,9 @@ export function createNewAccountRouter(
   );
   router.get("/confirm", confirmCheckHandler(app));
   router.put("/confirm", confirmHandler(app));
+
+  router.get("/invite", inviteCheckHandler(app));
+  router.put("/invite", jsonMiddleware, inviteHandler(app));
 
   return router;
 }

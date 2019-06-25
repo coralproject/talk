@@ -32,19 +32,19 @@ export type ForgotOptions = Pick<
 
 export const forgotHandler = ({
   config,
-  redis: client,
+  redis,
   mongo,
   signingConfig,
   mailerQueue,
 }: ForgotOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
   });
   const emailLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 1,
     prefix: "email",
@@ -143,18 +143,18 @@ export type ForgotResetOptions = Pick<
 >;
 
 export const forgotResetHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
 }: ForgotResetOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",
@@ -216,18 +216,18 @@ export type ForgotCheckOptions = Pick<
 >;
 
 export const forgotCheckHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
 }: ForgotCheckOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 100,
     prefix: "ip",
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 100,
     prefix: "sub",

@@ -612,6 +612,17 @@ export class ConfirmEmailTokenExpired extends CoralError {
   }
 }
 
+export class InviteTokenExpired extends CoralError {
+  constructor(reason: string, cause?: Error) {
+    super({
+      code: ERROR_CODES.INVITE_TOKEN_EXPIRED,
+      cause,
+      status: 400,
+      context: { pvt: { reason } },
+    });
+  }
+}
+
 export class RateLimitExceeded extends CoralError {
   constructor(resource: string, max: number, tries: number) {
     super({

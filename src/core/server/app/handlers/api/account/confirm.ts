@@ -34,20 +34,20 @@ export const ConfirmRequestBodySchema = Joi.object()
   .optionalKeys(["userID"]);
 
 export const confirmRequestHandler = ({
-  redis: client,
+  redis,
   config,
   mongo,
   mailerQueue,
   signingConfig,
 }: ConfirmRequestOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
   });
   const userIDLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "userID",
@@ -136,18 +136,18 @@ export type ConfirmCheckOptions = Pick<
 >;
 
 export const confirmCheckHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
 }: ConfirmCheckOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",
@@ -198,18 +198,18 @@ export type ConfirmOptions = Pick<
 >;
 
 export const confirmHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
 }: ConfirmOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",

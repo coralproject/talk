@@ -469,6 +469,28 @@ community-banModal-consequence =
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
 
+community-invite-inviteMember = Invite members to your organization
+community-invite-emailAddressLabel = Email address:
+community-invite-inviteMore = Invite more
+community-invite-inviteAsLabel = Invite as:
+community-invite-sendInvitations = Send invitations
+community-invite-role-staff =
+  <strong>Staff role:</strong> Receives a “Staff” badge, and
+  comments are automatically approved. Cannot moderate
+  or change any Coral configuration.
+community-invite-role-moderator =
+  <strong>Moderator role:</strong> Moderator role: Receives a
+  “Staff” badge, and comments are automatically
+  approved. Has full moderation privileges (approve,
+  reject and feature comments). Can configure individual
+  articles but no site-wide configuration privileges.
+community-invite-role-admin =
+  <strong>Admin role:</strong> Receives a “Staff” badge, and
+  comments are automatically approved. Has full
+  moderation privileges (approve, reject and feature
+  comments). Can configure individual articles and has
+  site-wide configuration privileges...
+
 ## Stories
 stories-emptyMessage = There are currently no published stories.
 stories-noMatchMessage = We could not find any stories matching your criteria.

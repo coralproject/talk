@@ -51,3 +51,4 @@ error-integrationDisabled = Specified integration is disabled.
 error-passwordResetTokenExpired = Password reset link expired.
 error-emailConfirmTokenExpired = Email confirmation link expired.
 error-rateLimitExceeded = Rate limit exceeded.
+error-inviteTokenExpired = Invite link has expired.

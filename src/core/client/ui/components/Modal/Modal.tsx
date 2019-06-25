@@ -11,6 +11,7 @@ import { withStyles } from "coral-ui/hocs";
 import { PropTypesOf } from "coral-ui/types";
 
 import Backdrop from "../Backdrop";
+import ClickOutside from "../ClickOutside";
 import NoScroll from "../NoScroll";
 import TrapFocus from "../TrapFocus";
 
@@ -46,10 +47,10 @@ function useDOMNode(open: boolean) {
 
 interface Props {
   onClose?: (
-    event: React.KeyboardEvent | React.MouseEvent,
+    event: React.KeyboardEvent | MouseEvent | undefined,
     reason: "backdropClick" | "escapeKeyDown"
   ) => void;
-  onBackdropClick?: React.EventHandler<React.MouseEvent>;
+  onBackdropClick?: (e: MouseEvent | undefined) => void;
   onEscapeKeyDown?: React.EventHandler<React.KeyboardEvent>;
   className?: string;
   /**
@@ -87,7 +88,7 @@ const Modal: FunctionComponent<Props> = ({
     [onEscapeKeyDown, onClose]
   );
   const handleBackdropClick = useCallback(
-    (e: React.MouseEvent) => {
+    (e: MouseEvent | undefined) => {
       if (onBackdropClick) {
         onBackdropClick(e);
       }
@@ -107,12 +108,18 @@ const Modal: FunctionComponent<Props> = ({
         role="modal"
       >
         <NoScroll active={open} />
-        <Backdrop
-          active={open}
-          onClick={handleBackdropClick}
-          data-testid="backdrop"
-        />
-        <TrapFocus>{children}</TrapFocus>
+        <Backdrop active={open} data-testid="backdrop" />
+        <div className={styles.scroll}>
+          <div className={styles.alignContainer1}>
+            <div className={styles.alignContainer2}>
+              <ClickOutside onClickOutside={handleBackdropClick}>
+                <div>
+                  <TrapFocus>{children}</TrapFocus>
+                </div>
+              </ClickOutside>
+            </div>
+          </div>
+        </div>
       </div>,
       modalDOMNode
     );

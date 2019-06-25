@@ -1,0 +1,6 @@
+{% extends "layouts/user-notification.html" %}
+
+{% block content %}
+  You have been invited to join the {{ context.organizationName }} community.<br/><br/>
+  Please follow this link to finish creating your account: <a data-l10n-name="createYourAccount" href="{{ context.inviteURL }}">Click here to create your account</a>
+{% endblock %}

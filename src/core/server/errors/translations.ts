@@ -46,4 +46,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   EMAIL_CONFIRM_TOKEN_EXPIRED: "error-emailConfirmTokenExpired",
   RATE_LIMIT_EXCEEDED: "error-rateLimitExceeded",
   JWT_REVOKED: "error-jwtRevoked",
+  INVITE_TOKEN_EXPIRED: "error-inviteTokenExpired",
 };

@@ -8,7 +8,7 @@ import { RateLimitExceeded } from "coral-server/errors";
 import { Request } from "coral-server/types/express";
 
 export interface LimiterOptions {
-  client: Redis;
+  redis: Redis;
   ttl: string;
   max: number;
   resource: string;
@@ -17,7 +17,7 @@ export interface LimiterOptions {
 }
 
 export class Limiter {
-  private client: Redis;
+  private redis: Redis;
   private ttl: number;
   private max: number;
   private prefix: string;
@@ -25,7 +25,7 @@ export class Limiter {
   private operation: string;
 
   constructor(options: LimiterOptions) {
-    this.client = options.client;
+    this.redis = options.redis;
     this.ttl = Math.floor(ms(options.ttl) / 1000);
     this.max = options.max;
     this.prefix = options.prefix;
@@ -45,7 +45,7 @@ export class Limiter {
   ): Promise<number> {
     const key = this.key(value, resource, operation);
 
-    const [[, tries], [, expiry]] = await this.client
+    const [[, tries], [, expiry]] = await this.redis
       .multi()
       .incr(key)
       .expire(key, this.ttl)
@@ -54,7 +54,7 @@ export class Limiter {
     // if this is new or has no expiry
     if (tries === 1 || expiry === -1) {
       // then expire it after the timeout
-      this.client.expire(key, this.ttl);
+      this.redis.expire(key, this.ttl);
     }
 
     if (tries > this.max) {

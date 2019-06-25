@@ -1229,6 +1229,39 @@ type Token {
 }
 
 """
+Invite represents a given User that is pending registration that has been
+invited by an Administrator.
+"""
+type Invite {
+  """
+  id is the identifier for the Invite.
+  """
+  id: ID!
+
+  """
+  email is the email address that will be assigned and used for the
+  invited User.
+  """
+  email: String!
+
+  """
+  role is the USER_ROLE that the User will be assigned upon
+  account creation.
+  """
+  role: USER_ROLE!
+
+  """
+  createdBy is the User that created the Invite.
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time that the Invite was created on.
+  """
+  createdAt: Time!
+}
+
+"""
 BanStatusHistory is the list of all ban events against a specific User.
 """
 type BanStatusHistory {
@@ -3748,6 +3781,38 @@ type SetUsernamePayload {
   """
   clientMutationId: String!
 }
+##################
+# inviteUser
+##################
+
+input InviteUserInput {
+  """
+  email is the email address of the User to be invited.
+  """
+  email: String!
+
+  """
+  role is the designated role of the User being invited.
+  """
+  role: USER_ROLE!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type InviteUserPayload {
+  """
+  invite is the reference to the invited User.
+  """
+  invite: Invite!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
 
 ##################
 # setEmail
@@ -4361,6 +4426,12 @@ type Mutation {
   """
   rejectComment(input: RejectCommentInput!): RejectCommentPayload!
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  inviteUser will send an email to the user with a new account at the designated
+  role.
+  """
+  inviteUser(input: InviteUserInput!): InviteUserPayload! @auth(roles: [ADMIN])
 
   """
   setUsername will set the username on the current User if they have not set one
