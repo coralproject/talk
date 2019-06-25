@@ -13,7 +13,7 @@ import {
   createStory,
   createUser,
   createUserStatus,
-} from "coral-stream/test/util";
+} from "coral-stream/test/helpers/fixture";
 
 import { settings } from "../../fixtures";
 import create from "./create";
