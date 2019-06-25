@@ -10,7 +10,7 @@ import {
 } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import { retrieveUser, User } from "coral-server/models/user";
-import { decodeJWT, extractJWTFromRequest } from "coral-server/services/jwt";
+import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import {
   confirmEmail,
   sendConfirmationEmail,
@@ -165,7 +165,7 @@ export const confirmCheckHandler = ({
       // TODO: evaluate verifying if the Tenant allows verifications to short circuit.
 
       // Grab the token from the request.
-      const tokenString = extractJWTFromRequest(req, true);
+      const tokenString = extractTokenFromRequest(req, true);
       if (!tokenString) {
         return res.sendStatus(400);
       }
@@ -225,7 +225,7 @@ export const confirmHandler = ({
       const tenant = coral.tenant!;
 
       // Grab the token from the request.
-      const tokenString = extractJWTFromRequest(req, true);
+      const tokenString = extractTokenFromRequest(req, true);
       if (!tokenString) {
         return res.sendStatus(400);
       }

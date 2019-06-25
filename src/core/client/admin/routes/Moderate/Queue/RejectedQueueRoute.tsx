@@ -3,7 +3,7 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { RejectedQueueRoute_query as QueryData } from "coral-admin/__generated__/RejectedQueueRoute_query.graphql";
+import { RejectedQueueRoute_query } from "coral-admin/__generated__/RejectedQueueRoute_query.graphql";
 import { RejectedQueueRoutePaginationQueryVariables } from "coral-admin/__generated__/RejectedQueueRoutePaginationQuery.graphql";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
 import { withPaginationContainer } from "coral-framework/lib/relay";
@@ -13,7 +13,7 @@ import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
 
 interface RejectedQueueRouteProps {
-  query: QueryData;
+  query: RejectedQueueRoute_query;
   relay: RelayPaginationProp;
   storyID?: string;
 }
@@ -35,10 +35,11 @@ export class RejectedQueueRoute extends React.Component<
     return (
       <IntersectionProvider>
         <Queue
+          viewer={this.props.query.viewer!}
           settings={this.props.query.settings}
           comments={comments}
           onLoadMore={this.loadMore}
-          hasMore={this.props.relay.hasMore()}
+          hasLoadMore={this.props.relay.hasMore()}
           disableLoadMore={this.state.disableLoadMore}
           danglingLogic={danglingLogic}
           emptyElement={
@@ -101,6 +102,9 @@ const enhanced = (withPaginationContainer<
         }
         settings {
           ...ModerateCardContainer_settings
+        }
+        viewer {
+          ...ModerateCardContainer_viewer
         }
       }
     `,

@@ -1,42 +1,53 @@
-import { RouteProps } from "found";
 import { noop } from "lodash";
-import React from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { graphql } from "react-relay";
 
 import { SingleModerateRouteQueryResponse } from "coral-admin/__generated__/SingleModerateRouteQuery.graphql";
+import { useSubscription } from "coral-framework/lib/relay";
+import { withRouteConfig } from "coral-framework/lib/router";
 
 import NotFound from "../../NotFound";
 import { LoadingQueue, Queue } from "../Queue";
 import SingleModerate from "./SingleModerate";
+import SingleModerateSubscription from "./SingleModerateSubscription";
 
 type Props = SingleModerateRouteQueryResponse;
 
 const danglingLogic = () => false;
 
-export default class SingleModerateRoute extends React.Component<Props> {
-  public static routeConfig: RouteProps;
-
-  public render() {
-    if (!this.props.comment) {
-      return <NotFound />;
+const SingleModerateRoute: FunctionComponent<Props> = props => {
+  const subscribeToSingleModerate = useSubscription(SingleModerateSubscription);
+  useEffect(() => {
+    if (!props.comment) {
+      return;
     }
-    return (
-      <SingleModerate>
-        <Queue
-          comments={[this.props.comment]}
-          settings={this.props.settings}
-          onLoadMore={noop}
-          hasMore={false}
-          disableLoadMore={false}
-          danglingLogic={danglingLogic}
-        />
-      </SingleModerate>
-    );
-  }
-}
+    const disposable = subscribeToSingleModerate({
+      commentID: props.comment.id,
+    });
+    return () => {
+      disposable.dispose();
+    };
+  }, [props.comment, subscribeToSingleModerate]);
 
-SingleModerateRoute.routeConfig = {
-  Component: SingleModerateRoute,
+  if (!props.comment) {
+    return <NotFound />;
+  }
+  return (
+    <SingleModerate>
+      <Queue
+        comments={[props.comment]}
+        settings={props.settings}
+        viewer={props.viewer!}
+        onLoadMore={noop}
+        hasLoadMore={false}
+        disableLoadMore={false}
+        danglingLogic={danglingLogic}
+      />
+    </SingleModerate>
+  );
+};
+
+const enhanced = withRouteConfig<Props, SingleModerateRouteQueryResponse>({
   query: graphql`
     query SingleModerateRouteQuery($commentID: ID!) {
       comment(id: $commentID) {
@@ -46,13 +57,18 @@ SingleModerateRoute.routeConfig = {
       settings {
         ...ModerateCardContainer_settings
       }
+      viewer {
+        ...ModerateCardContainer_viewer
+      }
     }
   `,
   cacheConfig: { force: true },
-  render: ({ Component, props }) => {
-    if (Component && props) {
-      return <Component {...props} />;
+  render: ({ Component, data }) => {
+    if (Component && data) {
+      return <Component {...data} />;
     }
     return <LoadingQueue />;
   },
-};
+})(SingleModerateRoute);
+
+export default enhanced;

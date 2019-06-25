@@ -9,7 +9,7 @@
 }
 
 .main {
-  margin: calc(2 * var(--mini-unit)) 0 calc(4 * var(--mini-unit)) 0;
+  margin: var(--spacing-5) 0 var(--spacing-7) 0;
   display: flex;
   justify-content: center;
 }

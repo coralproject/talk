@@ -18,6 +18,9 @@ import { createUUIDGenerator } from "coral-framework/testHelpers";
 
 import createFluentBundle from "./createFluentBundle";
 import createRelayEnvironment from "./createRelayEnvironment";
+import createSubscriptionHandler, {
+  SubscriptionHandlerReadOnly,
+} from "./createSubscriptionHandler";
 
 export type Resolver<V, R> = (
   parent: any,
@@ -66,6 +69,7 @@ export default function createTestRenderer<
   element: React.ReactNode,
   params: CreateTestRendererParams<T>
 ) {
+  const subscriptionHandler = createSubscriptionHandler();
   const environment = createRelayEnvironment({
     network: {
       // Set this to true, to see graphql responses.
@@ -73,6 +77,7 @@ export default function createTestRenderer<
       resolvers: params.resolvers as IResolvers<any, any>,
       muteNetworkErrors: params.muteNetworkErrors,
       projectName: "tenant",
+      subscriptionHandler,
     },
     initLocalState: (localRecord, source, env) => {
       if (params.initLocalState) {
@@ -111,5 +116,9 @@ export default function createTestRenderer<
       { createNodeMock }
     );
   });
-  return { context, testRenderer: testRenderer! };
+  return {
+    context,
+    testRenderer: testRenderer!,
+    subscriptionHandler: subscriptionHandler as SubscriptionHandlerReadOnly,
+  };
 }

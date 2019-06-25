@@ -2,6 +2,7 @@ import cons from "consolidate";
 import cors from "cors";
 import { Express } from "express";
 import { GraphQLSchema } from "graphql";
+import { RedisPubSub } from "graphql-redis-subscriptions";
 import http from "http";
 import { Db } from "mongodb";
 import nunjucks from "nunjucks";
@@ -16,6 +17,7 @@ import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { ScraperQueue } from "coral-server/queue/tasks/scraper";
 import { I18n } from "coral-server/services/i18n";
 import { JWTSigningConfig } from "coral-server/services/jwt";
+import { Metrics } from "coral-server/services/metrics";
 import { AugmentedRedis } from "coral-server/services/redis";
 import TenantCache from "coral-server/services/tenant/cache";
 
@@ -35,8 +37,9 @@ export interface AppOptions {
   schema: GraphQLSchema;
   signingConfig: JWTSigningConfig;
   tenantCache: TenantCache;
-  metrics: boolean;
   disableClientRoutes: boolean;
+  metrics?: Metrics;
+  pubsub: RedisPubSub;
 }
 
 /**
@@ -52,8 +55,10 @@ export async function createApp(options: AppOptions): Promise<Express> {
   // Logging
   parent.use(accessLogger);
 
-  // Capturing metrics.
-  parent.use(metricsRecorder());
+  if (options.metrics) {
+    // Capturing metrics.
+    parent.use(metricsRecorder(options.metrics));
+  }
 
   // Create some services for the router.
   const passport = createPassport(options);

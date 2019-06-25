@@ -3674,6 +3674,13 @@ type FeatureCommentPayload {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  moderationQueues will return the selected moderation queues. If the `storyID`
+  is provided, it will filter the moderation queues for only comments in that
+  Story.
+  """
+  moderationQueues(storyID: ID): ModerationQueues
 }
 
 ##################
@@ -4451,4 +4458,122 @@ type Mutation {
   """
   removeUserIgnore(input: RemoveUserIgnoreInput!): RemoveUserIgnorePayload!
     @auth(permit: [SUSPENDED, BANNED])
+}
+
+##################
+## Subscriptions
+##################
+
+"""
+CommentStatusUpdatedPayload is returned when a Comment has it's status updated
+after it was created.
+"""
+type CommentStatusUpdatedPayload {
+  """
+  newStatus  is the new status assigned to the Comment. This status may not
+  match the status provided by `comment.status` due to race conditions in the
+  data loaders.
+  """
+  newStatus: COMMENT_STATUS!
+
+  """
+  oldStatus is the old status that was previously assigned to the Comment.
+  """
+  oldStatus: COMMENT_STATUS!
+
+  """
+  moderator is the User that updated the Comment's status. If null, then the
+  system assigned the new Comment status (for example, when a comment is edited
+  by the author, and now contains a banned word).
+  """
+  moderator: User
+
+  """
+  comment is the updated Comment after the status has been updated.
+  """
+  comment: Comment!
+}
+
+"""
+MODERATION_QUEUE references the specific ModerationQueue that a given Comment
+can be associated with.
+"""
+enum MODERATION_QUEUE {
+  """
+  UNMODERATED refers to the ModerationQueue for all Comments that have not been
+  moderated yet.
+  """
+  UNMODERATED
+
+  """
+  REPORTED refers to the ModerationQueue for all Comments that have been
+  published, have not been moderated by a human yet, and have been reported by
+  a User via a flag.
+  """
+  REPORTED
+
+  """
+  PENDING refers to the ModerationQueue for all Comments that were held back by
+  the system and require moderation in order to be published.
+  """
+  PENDING
+}
+
+"""
+CommentEnteredModerationQueuePayload is returned when a Comment enters a
+specific ModerationQueue.
+"""
+type CommentEnteredModerationQueuePayload {
+  """
+  queue refers to the specific ModerationQueue that a given Comment entered.
+  """
+  queue: MODERATION_QUEUE!
+
+  """
+  comment is the Comment that entered the ModerationQueue.
+  """
+  comment: Comment!
+}
+
+"""
+CommentLeftModerationQueuePayload is returned when a Comment leaves a specific
+ModerationQueue.
+"""
+type CommentLeftModerationQueuePayload {
+  """
+  queue refers to the specific ModerationQueue that a given Comment left.
+  """
+  queue: MODERATION_QUEUE!
+
+  """
+  comment is the Comment that left the ModerationQueue.
+  """
+  comment: Comment!
+}
+
+type Subscription {
+  """
+  commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
+  Note that a Comment may enter multiple moderation queues.
+  """
+  commentEnteredModerationQueue(
+    storyID: ID
+    queue: MODERATION_QUEUE
+  ): CommentEnteredModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  commentLeftModerationQueue returns when a Comment leaves a ModerationQueue.
+  Note that a Comment may leave multiple moderation queues.
+  """
+  commentLeftModerationQueue(
+    storyID: ID
+    queue: MODERATION_QUEUE
+  ): CommentLeftModerationQueuePayload! @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  commentStatusUpdated returns when a Comment has it's status changed after
+  being created.
+  """
+  commentStatusUpdated(id: ID): CommentStatusUpdatedPayload!
+    @auth(roles: [MODERATOR, ADMIN])
 }

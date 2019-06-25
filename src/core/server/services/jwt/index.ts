@@ -10,6 +10,7 @@ import { AuthenticationError, TokenInvalidError } from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { Request } from "coral-server/types/express";
+import { IncomingMessage } from "http";
 
 /**
  *  The following Claim Names are registered in the IANA "JSON Web Token
@@ -244,8 +245,8 @@ export async function signString<T extends {}>(
  * @param req the request to extract the JWT from
  * @param excludeQuery when true, does not pull from the query params
  */
-export function extractJWTFromRequest(
-  req: Request,
+export function extractTokenFromRequest(
+  req: Request | IncomingMessage,
   excludeQuery: boolean = false
 ) {
   const options: BearerOptions = {

@@ -17,12 +17,15 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   inReplyTo: null,
   comment: {},
   status: "undecided",
+  featured: false,
   viewContextHref: "http://localhost/comment",
-  suspectWords: ["idiot"],
-  bannedWords: ["fuck"],
+  suspectWords: ["suspect"],
+  bannedWords: ["banned"],
   onApprove: noop,
   onReject: noop,
+  onFeature: noop,
   showStory: false,
+  moderatedBy: null,
 };
 
 it("renders correctly", () => {

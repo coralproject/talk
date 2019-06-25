@@ -1,6 +1,6 @@
-import { graphql, GraphQLSchema } from "graphql";
+import { graphql, GraphQLSchema, parse } from "graphql";
 import { IResolvers } from "graphql-tools";
-
+import { SubscribeFunction } from "react-relay-network-modern/es";
 import {
   commitLocalUpdate,
   Environment,
@@ -24,6 +24,8 @@ import {
   ModerationNudgeError,
 } from "coral-framework/lib/errors";
 
+import { SubscriptionHandler } from "./createSubscriptionHandler";
+
 export interface CreateRelayEnvironmentNetworkParams {
   /** project name of graphql-config */
   projectName: string;
@@ -33,6 +35,8 @@ export interface CreateRelayEnvironmentNetworkParams {
   logNetwork?: boolean;
   /** If enabled, graphql errors will be muted */
   muteNetworkErrors?: boolean;
+  /** handler for subscriptions */
+  subscriptionHandler?: SubscriptionHandler;
 }
 
 export interface CreateRelayEnvironmentParams {
@@ -89,6 +93,55 @@ function createFetch({
   };
 }
 
+function resolveArguments(
+  variables: Record<string, any> = {},
+  args: any[] = []
+) {
+  return args.reduce((res, a) => {
+    const argName = a.name.value;
+    const variableName = a.value.name.value;
+    if (variableName in variables) {
+      res[argName] = variables[variableName];
+    }
+    return res;
+  }, {});
+}
+
+function createSubscribe(
+  subscriptionHandler: SubscriptionHandler
+): SubscribeFunction {
+  const fn: SubscribeFunction = (
+    operation,
+    variables,
+    cacheConfig,
+    observer
+  ) => {
+    // TODO: (cvle) This could probably made less brittle to changes in the order of the
+    // document AST.
+    const subscriptionSelections = (parse(operation.text!) as any)
+      .definitions[0].selectionSet.selections as any[];
+    const sel = subscriptionSelections[0];
+    const subscription = {
+      field: sel.name.value,
+      variables: resolveArguments(variables, sel.arguments),
+      dispatch: (response: any) => {
+        observer.onNext({
+          data: {
+            [sel.name.value]: response,
+          },
+        });
+      },
+    };
+    subscriptionHandler.add(subscription);
+    return {
+      dispose: () => {
+        subscriptionHandler.remove(subscription);
+      },
+    };
+  };
+  return fn;
+}
+
 /**
  * create Relay environment for tests environments.
  */
@@ -106,7 +159,10 @@ export default function createRelayEnvironment(
       wrapFetchWithLogger(createFetch({ schema }), {
         logResult: params.network.logNetwork,
         muteErrors: params.network.muteNetworkErrors,
-      })
+      }),
+      params.network.subscriptionHandler
+        ? (createSubscribe(params.network.subscriptionHandler) as any)
+        : undefined
     );
   }
   const environment = new Environment({

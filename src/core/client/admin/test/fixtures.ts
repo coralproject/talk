@@ -10,6 +10,7 @@ import {
   GQLStoriesConnection,
   GQLStory,
   GQLSTORY_STATUS,
+  GQLTAG,
   GQLUser,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
@@ -417,7 +418,12 @@ export const baseComment = createFixture<GQLComment>({
   author: users.commenters[0],
   body: "Comment Body",
   createdAt: "2018-07-06T18:24:00.000Z",
+  tags: [],
   status: GQLCOMMENT_STATUS.NONE,
+  statusHistory: {
+    edges: [],
+    pageInfo: { endCursor: null, hasNextPage: false },
+  },
   actionCounts: {
     flag: {
       reasons: {
@@ -436,7 +442,46 @@ export const baseComment = createFixture<GQLComment>({
     nodes: [],
   },
   story: stories[0],
+  // TODO: Should be allowed to pass null here..
+  parent: undefined,
 });
+
+export const unmoderatedComments = createFixtures<GQLComment>(
+  [
+    {
+      id: "comment-0",
+      author: users.commenters[0],
+      createdAt: "2018-07-06T18:24:00.000Z",
+      revision: {
+        id: "comment-0-revision-0",
+      },
+      permalink: "http://localhost/comment/0",
+      body: "This is an unmoderated comment.",
+    },
+  ],
+  baseComment
+);
+
+export const featuredComments = createFixtures<GQLComment>(
+  [
+    {
+      id: "comment-0",
+      author: users.commenters[0],
+      createdAt: "2018-07-06T18:24:00.000Z",
+      tags: [
+        {
+          code: GQLTAG.FEATURED,
+        },
+      ],
+      revision: {
+        id: "comment-0-revision-0",
+      },
+      permalink: "http://localhost/comment/0",
+      body: "This is a featured comment.",
+    },
+  ],
+  baseComment
+);
 
 export const reportedComments = createFixtures<GQLComment>(
   [
@@ -530,6 +575,32 @@ export const reportedComments = createFixtures<GQLComment>(
             flagger: users.commenters[0],
             additionalDetails: "I find this offensive",
           },
+          {
+            reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
+            flagger: users.commenters[2],
+            additionalDetails: "",
+          },
+        ],
+      },
+    },
+    {
+      id: "comment-3",
+      revision: {
+        id: "comment-3-revision-3",
+      },
+      permalink: "http://localhost/comment/3",
+      status: GQLCOMMENT_STATUS.PREMOD,
+      author: users.commenters[3],
+      body: "World peace at last",
+      actionCounts: {
+        flag: {
+          reasons: {
+            COMMENT_REPORTED_SPAM: 1,
+          },
+        },
+      },
+      flags: {
+        nodes: [
           {
             reason: GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM,
             flagger: users.commenters[2],

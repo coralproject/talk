@@ -13,6 +13,7 @@ import { CommentModerationAction } from "./CommentModerationAction";
 import { CommentRevision } from "./CommentRevision";
 import { DisableCommenting } from "./DisableCommenting";
 import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
+import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
 import { ModerationQueue } from "./ModerationQueue";
@@ -24,6 +25,7 @@ import { Query } from "./Query";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
+import { Subscription } from "./Subscription";
 import { SuspensionStatus } from "./SuspensionStatus";
 import { SuspensionStatusHistory } from "./SuspensionStatusHistory";
 import { Tag } from "./Tag";
@@ -43,6 +45,7 @@ const Resolvers: GQLResolver = {
   Cursor,
   DisableCommenting,
   FacebookAuthIntegration,
+  FeatureCommentPayload,
   Flag,
   GoogleAuthIntegration,
   ModerationQueue,
@@ -54,6 +57,7 @@ const Resolvers: GQLResolver = {
   RejectCommentPayload,
   Story,
   StorySettings,
+  Subscription,
   SuspensionStatus,
   SuspensionStatusHistory,
   Tag,
