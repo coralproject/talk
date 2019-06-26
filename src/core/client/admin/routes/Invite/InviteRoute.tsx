@@ -2,14 +2,15 @@ import React, { useCallback, useState } from "react";
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
-import { InviteRouteQueryResponse } from "coral-account/__generated__/InviteRouteQuery.graphql";
-import TokenChecker from "coral-account/helpers/TokenChecker";
+import { InviteRouteQueryResponse } from "coral-admin/__generated__/InviteRouteQuery.graphql";
+import { useToken } from "coral-framework/hooks";
 import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
-import { Delay, Flex, Spinner } from "coral-ui/components";
+import { Delay, Spinner } from "coral-ui/components";
 
 import InviteCompleteFormContainer from "./InviteCompleteFormContainer";
+import InviteLayout from "./InviteLayout";
 import Sorry from "./Sorry";
 import SuccessContainer from "./SuccessContainer";
 
@@ -32,33 +33,38 @@ const InviteRoute: React.FunctionComponent<Props> = ({ token, data }) => {
   const onSuccess = useCallback(() => {
     setFinished(true);
   }, []);
+  const [tokenState, tokenError] = useToken(fetcher, token);
 
-  if (!data) {
+  if (!data || tokenState === "UNCHECKED") {
     return (
-      <Flex justifyContent="center">
+      <InviteLayout>
         <Delay>
           <Spinner />
         </Delay>
-      </Flex>
+      </InviteLayout>
+    );
+  }
+
+  if (tokenState !== "VALID" || tokenError) {
+    return (
+      <InviteLayout>
+        <Sorry reason={tokenError} />
+      </InviteLayout>
     );
   }
 
   return (
-    <TokenChecker token={token} fetcher={fetcher}>
-      {({ err }) =>
-        err ? (
-          <Sorry reason={err} />
-        ) : !finished ? (
-          <InviteCompleteFormContainer
-            token={token!}
-            onSuccess={onSuccess}
-            settings={data.settings}
-          />
-        ) : (
-          <SuccessContainer token={token!} settings={data.settings} />
-        )
-      }
-    </TokenChecker>
+    <InviteLayout>
+      {!finished ? (
+        <InviteCompleteFormContainer
+          token={token!}
+          onSuccess={onSuccess}
+          settings={data.settings}
+        />
+      ) : (
+        <SuccessContainer token={token!} settings={data.settings} />
+      )}
+    </InviteLayout>
   );
 };
 

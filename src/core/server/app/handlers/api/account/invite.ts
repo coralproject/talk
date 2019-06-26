@@ -12,25 +12,28 @@ import { RequestHandler } from "coral-server/types/express";
 
 export type InviteCheckOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "redis"
+  "mongo" | "signingConfig" | "redis" | "config"
 >;
 
 export const inviteCheckHandler = ({
   redis,
   signingConfig,
   mongo,
+  config,
 }: InviteCheckOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const subLimiter = new RequestLimiter({
     redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",
+    config,
   });
 
   return async (req, res, next) => {
@@ -81,25 +84,28 @@ export const InviteBodySchema = Joi.object().keys({
 
 export type InviteOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "redis"
+  "mongo" | "signingConfig" | "redis" | "config"
 >;
 
 export const inviteHandler = ({
   redis,
   mongo,
   signingConfig,
+  config,
 }: InviteOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const subLimiter = new RequestLimiter({
     redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",
+    config,
   });
 
   return async (req, res, next) => {

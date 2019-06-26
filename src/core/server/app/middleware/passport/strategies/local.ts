@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 
 import { VerifyCallback } from "coral-server/app/middleware/passport";
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { Config } from "coral-server/config";
 import { InvalidCredentialsError } from "coral-server/errors";
 import {
   retrieveUserWithProfile,
@@ -53,20 +54,27 @@ const verifyFactory = (
 export interface LocalStrategyOptions {
   mongo: Db;
   redis: Redis;
+  config: Config;
 }
 
-export function createLocalStrategy({ mongo, redis }: LocalStrategyOptions) {
+export function createLocalStrategy({
+  mongo,
+  redis,
+  config,
+}: LocalStrategyOptions) {
   const ipLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const emailLimiter = new RequestLimiter({
     redis,
     ttl: "10m",
     max: 10,
     prefix: "email",
+    config,
   });
 
   return new LocalStrategy(

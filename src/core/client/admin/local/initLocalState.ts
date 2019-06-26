@@ -1,7 +1,7 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
 import { REDIRECT_PATH_KEY } from "coral-admin/constants";
-import { getParamsFromHashAndClearIt } from "coral-framework/helpers";
+import { clearHash, getParamsFromHash } from "coral-framework/helpers";
 import { CoralContext } from "coral-framework/lib/bootstrap";
 import { initLocalBaseState, LOCAL_ID } from "coral-framework/lib/relay";
 
@@ -12,9 +12,12 @@ export default async function initLocalState(
   environment: Environment,
   context: CoralContext
 ) {
-  const { error = null, accessToken } = getParamsFromHashAndClearIt();
+  const { error = null, accessToken } = getParamsFromHash();
   let redirectPath: string | null = null;
   if (error || accessToken) {
+    // As there's an access token in the hash, let's clear it.
+    clearHash();
+
     // Keep redirect path as we are in the middle of an auth flow.
     redirectPath =
       (await context.localStorage.getItem(REDIRECT_PATH_KEY)) || null;

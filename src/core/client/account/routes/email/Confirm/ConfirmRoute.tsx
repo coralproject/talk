@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { Environment } from "relay-runtime";
 
-import TokenChecker from "coral-account/helpers/TokenChecker";
+import Loading from "coral-account/components/Loading";
+import { useToken } from "coral-framework/hooks";
 import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
@@ -28,18 +29,20 @@ const ConfirmRoute: React.FunctionComponent<Props> = ({ token }) => {
   const onSuccess = useCallback(() => {
     setFinished(true);
   }, []);
-  return (
-    <TokenChecker token={token} fetcher={fetcher}>
-      {({ err }) =>
-        err ? (
-          <Sorry reason={err} />
-        ) : !finished ? (
-          <ConfirmForm token={token!} onSuccess={onSuccess} />
-        ) : (
-          <Success />
-        )
-      }
-    </TokenChecker>
+  const [state, error] = useToken(fetcher, token);
+
+  if (state === "UNCHECKED") {
+    return <Loading />;
+  }
+
+  if (state !== "VALID" || error) {
+    return <Sorry reason={error} />;
+  }
+
+  return !finished ? (
+    <ConfirmForm token={token!} onSuccess={onSuccess} />
+  ) : (
+    <Success />
   );
 };
 

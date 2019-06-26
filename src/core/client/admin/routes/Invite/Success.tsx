@@ -1,43 +1,54 @@
 import { Localized } from "fluent-react/compat";
+import { Link } from "found";
 import React, { useMemo } from "react";
 
+import { ExternalLink } from "coral-framework/lib/i18n/components";
 import { parseJWT } from "coral-framework/lib/jwt";
-import { Flex, HorizontalGutter, Typography } from "coral-ui/components";
+import { HorizontalGutter, Typography } from "coral-ui/components";
+
+import styles from "./Success.css";
 
 interface Props {
   token: string;
   organizationName: string;
+  organizationURL: string;
 }
 
 const Success: React.FunctionComponent<Props> = ({
   token,
   organizationName,
+  organizationURL,
 }) => {
   const email = useMemo(() => parseJWT(token).payload.email, [token]);
 
   return (
-    <HorizontalGutter size="double">
+    <HorizontalGutter spacing={3} className={styles.root}>
       <Localized id="invite-successful">
         <Typography variant="heading1">
           Your account has been created
         </Typography>
       </Localized>
-      <Localized id="invite-youMayNowSignIn" $email={email}>
+      <Localized id="invite-youMayNowSignIn">
         <Typography variant="bodyCopy">
-          You may now sign-in to Coral using: {email}
+          You may now sign-in to Coral using:
         </Typography>
       </Localized>
-      <Flex justifyContent="center" direction="column" spacing={3}>
+      <Typography variant="heading2">{email}</Typography>
+      <HorizontalGutter paddingTop={4} spacing={3}>
         <Localized id="invite-goToAdmin">
-          <a href="/admin">Go to Coral Admin</a>
+          <Link to="/admin" className={styles.link}>
+            Go to Coral Admin
+          </Link>
         </Localized>
         <Localized
           id="invite-goToOrganization"
           $organizationName={organizationName}
         >
-          <a href="/">Go to {organizationName}</a>
+          <ExternalLink href={organizationURL} className={styles.link}>
+            {"Go to {$organizationName}"}
+          </ExternalLink>
         </Localized>
-      </Flex>
+      </HorizontalGutter>
     </HorizontalGutter>
   );
 };

@@ -524,3 +524,24 @@ stories-column-clickToModerate = Click title to moderate story
 
 stories-status-popover =
   .description = A dropdown to change the story status
+
+## Invite
+
+invite-youHaveBeenInvited = You've been invited to join { $organizationName }
+invite-finishSettingUpAccount = Finish setting up the account for:
+invite-createAccount = Create Account
+invite-passwordLabel = Password
+invite-passwordDescription = Must be at least { $minLength } characters
+invite-passwordTextField =
+  .placeholder = Password
+invite-usernameLabel = Username
+invite-usernameDescription = You may use “_” and “.”
+invite-usernameTextField =
+  .placeholder = Username
+invite-oopsSorry = Oops Sorry!
+invite-successful = Your account has been created
+invite-youMayNowSignIn = You may now sign-in to { -product-name } using:
+invite-goToAdmin = Go to { -product-name } Admin
+invite-goToOrganization = Go to { $organizationName }
+invite-tokenNotFound =
+  The specified link is invalid, check to see if it was copied correctly.

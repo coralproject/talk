@@ -43,6 +43,7 @@ export const signupHandler = ({
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
 
   return async (req, res, next) => {

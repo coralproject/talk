@@ -4,6 +4,7 @@ import { Redis } from "ioredis";
 import ms from "ms";
 
 import { Omit } from "coral-common/types";
+import { Config } from "coral-server/config";
 import { RateLimitExceeded } from "coral-server/errors";
 import { Request } from "coral-server/types/express";
 
@@ -14,6 +15,7 @@ export interface LimiterOptions {
   resource: string;
   operation: string;
   prefix: string;
+  config: Config;
 }
 
 export class Limiter {
@@ -23,6 +25,7 @@ export class Limiter {
   private prefix: string;
   private resource: string;
   private operation: string;
+  private disabled: boolean;
 
   constructor(options: LimiterOptions) {
     this.redis = options.redis;
@@ -31,6 +34,9 @@ export class Limiter {
     this.prefix = options.prefix;
     this.resource = options.resource;
     this.operation = options.operation;
+    this.disabled =
+      options.config.get("env") === "development" &&
+      options.config.get("disable_rate_limiters");
   }
 
   private key(key: string, resource?: string, operation?: string): string {
@@ -43,6 +49,10 @@ export class Limiter {
     resource?: string,
     operation?: string
   ): Promise<number> {
+    if (this.disabled) {
+      return 0;
+    }
+
     const key = this.key(value, resource, operation);
 
     const [[, tries], [, expiry]] = await this.redis

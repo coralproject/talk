@@ -3,24 +3,25 @@ import { Localized } from "fluent-react/compat";
 import React, { useCallback, useMemo } from "react";
 import { Form } from "react-final-form";
 
-import { InviteCompleteFormContainer_settings } from "coral-account/__generated__/InviteCompleteFormContainer_settings.graphql";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { parseJWT } from "coral-framework/lib/jwt";
+import { useMutation } from "coral-framework/lib/relay";
 import {
-  graphql,
-  useMutation,
-  withFragmentContainer,
-} from "coral-framework/lib/relay";
-import { Button, HorizontalGutter, Typography } from "coral-ui/components";
+  Button,
+  Flex,
+  HorizontalGutter,
+  Typography,
+} from "coral-ui/components";
 
 import InviteCompleteMutation from "./InviteCompleteMutation";
 import SetPasswordField from "./SetPasswordField";
 import SetUsernameField from "./SetUsernameField";
 
+import styles from "./InviteCompleteForm.css";
+
 interface Props {
   token: string;
-  settings: InviteCompleteFormContainer_settings;
-  disabled?: boolean;
+  organizationName: string;
   onSuccess: () => void;
 }
 
@@ -29,10 +30,10 @@ interface FormProps {
   password: string;
 }
 
-const InviteCompleteFormContainer: React.FunctionComponent<Props> = ({
+const InviteCompleteForm: React.FunctionComponent<Props> = ({
   onSuccess,
   token,
-  settings,
+  organizationName,
 }) => {
   const completeInvite = useMutation(InviteCompleteMutation);
   const onSubmit = useCallback(
@@ -54,29 +55,35 @@ const InviteCompleteFormContainer: React.FunctionComponent<Props> = ({
 
   return (
     <div>
+      <Flex
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={3}
+      >
+        <Localized
+          id="invite-youHaveBeenInvited"
+          $organizationName={organizationName}
+        >
+          <Typography variant="heading1">
+            You've been invited to join {organizationName}
+          </Typography>
+        </Localized>
+        <Localized id="invite-finishSettingUpAccount">
+          <Typography variant="bodyCopy">
+            Finish setting up the account for:
+          </Typography>
+        </Localized>
+        <Typography variant="heading2">{email}</Typography>
+      </Flex>
       <Form onSubmit={onSubmit}>
         {({ handleSubmit, submitting }) => (
           <form autoComplete="off" onSubmit={handleSubmit}>
-            <HorizontalGutter size="double">
-              <HorizontalGutter>
-                <Localized
-                  id="invite-youHaveBeenInvited"
-                  $organizationName={settings.organization.name}
-                >
-                  <Typography variant="heading1">
-                    You've been invited to join {settings.organization.name}
-                  </Typography>
-                </Localized>
-                <Localized
-                  id="invite-finishSettingUpAccount"
-                  $email={email}
-                  strong={<strong />}
-                >
-                  <Typography variant="bodyCopy">
-                    Finish setting up the account for: <strong>{email}</strong>
-                  </Typography>
-                </Localized>
-              </HorizontalGutter>
+            <HorizontalGutter
+              size="double"
+              className={styles.root}
+              paddingTop={4}
+            >
               <HorizontalGutter>
                 <SetUsernameField disabled={submitting} />
                 <SetPasswordField disabled={submitting} />
@@ -84,7 +91,7 @@ const InviteCompleteFormContainer: React.FunctionComponent<Props> = ({
                   <Button
                     type="submit"
                     variant="filled"
-                    color="primary"
+                    color="brand"
                     disabled={submitting}
                     fullWidth
                   >
@@ -100,14 +107,4 @@ const InviteCompleteFormContainer: React.FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFragmentContainer<Props>({
-  settings: graphql`
-    fragment InviteCompleteFormContainer_settings on Settings {
-      organization {
-        name
-      }
-    }
-  `,
-})(InviteCompleteFormContainer);
-
-export default enhanced;
+export default InviteCompleteForm;

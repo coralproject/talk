@@ -1,7 +1,7 @@
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import React, { FunctionComponent } from "react";
 
-import { SuccessContainer_settings } from "coral-account/__generated__/SuccessContainer_settings.graphql";
+import { SuccessContainer_settings } from "coral-admin/__generated__/SuccessContainer_settings.graphql";
 
 import Success from "./Success";
 
@@ -12,7 +12,11 @@ interface Props {
 
 const SuccessContainer: FunctionComponent<Props> = ({ token, settings }) => {
   return (
-    <Success token={token} organizationName={settings.organization.name} />
+    <Success
+      token={token}
+      organizationName={settings.organization.name}
+      organizationURL={settings.organization.url}
+    />
   );
 };
 
@@ -21,6 +25,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment SuccessContainer_settings on Settings {
       organization {
         name
+        url
       }
     }
   `,
