@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { isNull } from "lodash";
+import { isNull, uniq } from "lodash";
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 import uuid from "uuid";
@@ -7,7 +7,6 @@ import uuid from "uuid";
 import { Config } from "coral-server/config";
 import {
   createInvite,
-  CreateInviteInput,
   Invite,
   redeemInvite,
   redeemInviteFromEmail,
@@ -35,6 +34,7 @@ import {
   InviteTokenExpired,
   TokenInvalidError,
 } from "coral-server/errors";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import { validateEmail, validatePassword, validateUsername } from "../helpers";
 
 export interface InviteToken extends Required<StandardClaims> {
@@ -70,7 +70,7 @@ export async function generateInviteURL(
   tenant: Tenant,
   config: Config,
   signingConfig: JWTSigningConfig,
-  user: Required<Pick<Invite, "id" | "email">>,
+  user: Required<Pick<Invite, "id" | "email" | "expiresAt">>,
   now: Date
 ) {
   // Pull some stuff out of the user.
@@ -80,15 +80,12 @@ export async function generateInviteURL(
   const nowDate = DateTime.fromJSDate(now);
   const nowSeconds = Math.round(nowDate.toSeconds());
 
-  // The expiry of this token is linked as 1 week after issuance.
-  const expiresAt = Math.round(nowDate.plus({ weeks: 1 }).toSeconds());
-
   // Generate a token.
   const inviteToken: InviteToken = {
     jti: uuid.v4(),
     iss: tenant.id,
     sub: id,
-    exp: expiresAt,
+    exp: Math.floor(user.expiresAt.valueOf() / 1000),
     iat: nowSeconds,
     nbf: nowSeconds,
     aud: "invite",
@@ -102,8 +99,7 @@ export async function generateInviteURL(
   return constructTenantURL(
     config,
     tenant,
-    // TODO: (kiwi) verify that url is correct.
-    `/account/invite#inviteToken=${token}`
+    `/admin/invite#inviteToken=${token}`
   );
 }
 
@@ -147,7 +143,10 @@ export async function verifyInviteTokenString(
   return token;
 }
 
-export type InviteUser = CreateInviteInput;
+export interface InviteUser {
+  emails: string[];
+  role: GQLUSER_ROLE;
+}
 
 export async function invite(
   mongo: Db,
@@ -155,7 +154,7 @@ export async function invite(
   config: Config,
   mailerQueue: MailerQueue,
   signingConfig: JWTSigningConfig,
-  { email, ...user }: InviteUser,
+  { role, ...input }: InviteUser,
   invitingUser: User,
   now = new Date()
 ) {
@@ -168,60 +167,88 @@ export async function invite(
     throw new IntegrationDisabled("local");
   }
 
-  // Validate the user payload.
-  validateEmail(email);
+  // Validate all the email addresses before we start.
+  const emails = input.emails.map((email, idx) => {
+    // Validate the user payload.
+    validateEmail(email);
 
-  // Ensure the email address is lowercase.
-  email = email.toLowerCase();
-
-  // Check to see if the user with the specified email already has an account.
-  const userAlready = await retrieveUserWithEmail(mongo, tenant.id, email);
-  if (userAlready) {
-    return null;
-  }
-
-  // Check to see that the user has not been invited before, if they have,
-  // redeem it and create a new one.
-  await redeemInviteFromEmail(mongo, tenant.id, email);
-
-  // Create the User invite record.
-  const invitedNow = await createInvite(
-    mongo,
-    tenant.id,
-    {
-      ...user,
-      email,
-    },
-    invitingUser.id,
-    now
-  );
-
-  // Generate the invite URL.
-  const inviteURL = await generateInviteURL(
-    tenant,
-    config,
-    signingConfig,
-    invitedNow,
-    now
-  );
-
-  // Send the invited user an email with the invite token.
-  await mailerQueue.add({
-    template: {
-      name: "invite",
-      context: {
-        organizationName: tenant.organization.name,
-        organizationURL: tenant.organization.url,
-        inviteURL,
-      },
-    },
-    tenantID: tenant.id,
-    message: {
-      to: email,
-    },
+    // Ensure the email address is lowercase.
+    return email.toLowerCase();
   });
 
-  return invitedNow;
+  // Change the JS Date to a DateTime for ease of use.
+  const nowDate = DateTime.fromJSDate(now);
+
+  // The expiry of this token is linked as 1 week after issuance.
+  const expiresAt = nowDate.plus({ weeks: 1 }).toJSDate();
+
+  const payloads: Array<{
+    email: string;
+    inviteURL: string;
+    invitedNow: Invite;
+  }> = [];
+  for (const email of uniq(emails)) {
+    // Check to see if the user with the specified email already has an account.
+    const userAlready = await retrieveUserWithEmail(mongo, tenant.id, email);
+    if (userAlready) {
+      return null;
+    }
+
+    // Check to see that the user has not been invited before, if they have,
+    // redeem it and create a new one.
+    await redeemInviteFromEmail(mongo, tenant.id, email);
+
+    // Create the User invite record.
+    const invitedNow = await createInvite(
+      mongo,
+      tenant.id,
+      {
+        role,
+        email,
+        expiresAt,
+      },
+      invitingUser.id,
+      now
+    );
+
+    // Generate the invite URL.
+    const inviteURL = await generateInviteURL(
+      tenant,
+      config,
+      signingConfig,
+      invitedNow,
+      now
+    );
+
+    payloads.push({ email, inviteURL, invitedNow });
+  }
+
+  for (const { email, inviteURL } of payloads) {
+    // Send the invited user an email with the invite token.
+    await mailerQueue.add({
+      template: {
+        name: "invite",
+        context: {
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          inviteURL,
+        },
+      },
+      tenantID: tenant.id,
+      message: {
+        to: email,
+      },
+    });
+  }
+
+  return emails.map(email => {
+    const result = payloads.find(payload => payload.email === email);
+    if (!result) {
+      return null;
+    }
+
+    return result.invitedNow;
+  });
 }
 
 export interface RedeemInvite {

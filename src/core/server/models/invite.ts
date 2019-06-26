@@ -24,6 +24,7 @@ export interface Invite extends TenantResource {
   readonly id: string;
   email: string;
   role: GQLUSER_ROLE;
+  expiresAt: Date;
   createdBy: string;
   createdAt: Date;
 }

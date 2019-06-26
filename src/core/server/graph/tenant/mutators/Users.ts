@@ -45,19 +45,15 @@ import {
 export const Users = (ctx: TenantContext) => ({
   invite: async ({ role, emails }: GQLInviteUsersInput) =>
     mapFieldsetToErrorCodes(
-      Promise.all(
-        emails.map(email =>
-          invite(
-            ctx.mongo,
-            ctx.tenant,
-            ctx.config,
-            ctx.mailerQueue,
-            ctx.signingConfig!,
-            { role, email },
-            ctx.user!,
-            ctx.now
-          )
-        )
+      invite(
+        ctx.mongo,
+        ctx.tenant,
+        ctx.config,
+        ctx.mailerQueue,
+        ctx.signingConfig!,
+        { role, emails },
+        ctx.user!,
+        ctx.now
       ),
       {
         "input.emails": [
