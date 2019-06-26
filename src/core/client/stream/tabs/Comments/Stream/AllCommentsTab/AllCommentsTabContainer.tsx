@@ -177,7 +177,7 @@ const enhanced = withPaginationContainer<
     story: graphql`
       fragment AllCommentsTabContainer_story on Story
         @argumentDefinitions(
-          count: { type: "Int!", defaultValue: 20 }
+          count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
           orderBy: { type: "COMMENT_SORT!", defaultValue: CREATED_AT_DESC }
         ) {
