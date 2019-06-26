@@ -5,7 +5,7 @@ import { Button, Modal } from "coral-ui/components";
 
 import InviteUsersModal from "./InviteUsersModal";
 
-const InviteUsers: FunctionComponent<{}> = () => {
+const InviteUsers: FunctionComponent = () => {
   const [open, setOpen] = useState(false);
 
   const show = useCallback(() => setOpen(true), []);

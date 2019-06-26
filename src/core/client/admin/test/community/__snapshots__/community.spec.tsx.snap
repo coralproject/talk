@@ -10,6 +10,7 @@ exports[`ban user 1`] = `
   <div
     className="Backdrop-root Backdrop-active"
     data-testid="backdrop"
+    onClick={[Function]}
   />
   <div
     className="Modal-scroll"
@@ -20,7 +21,9 @@ exports[`ban user 1`] = `
       <div
         className="Modal-alignContainer2"
       >
-        <div>
+        <div
+          className="Modal-wrapper"
+        >
           <div
             onFocus={[Function]}
             tabIndex={0}
