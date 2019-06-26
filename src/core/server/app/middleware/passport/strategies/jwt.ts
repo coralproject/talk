@@ -2,10 +2,14 @@ import jwt from "jsonwebtoken";
 import { Strategy } from "passport-strategy";
 
 import { AppOptions } from "coral-server/app";
-import { TenantNotFoundError, TokenInvalidError } from "coral-server/errors";
+import {
+  JWTRevokedError,
+  TenantNotFoundError,
+  TokenInvalidError,
+} from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
-import { extractJWTFromRequest } from "coral-server/services/jwt";
+import { extractTokenFromRequest } from "coral-server/services/jwt";
 import { Request } from "coral-server/types/express";
 
 import { JWTToken, JWTVerifier } from "./verifiers/jwt";
@@ -20,7 +24,7 @@ export type JWTStrategyOptions = Pick<
 /**
  * Token is the various forms of the Token that can be verified.
  */
-type Token = OIDCIDToken | SSOToken | JWTToken | object | string | null;
+export type Token = OIDCIDToken | SSOToken | JWTToken | object | string | null;
 
 /**
  * Verifier allows different implementations to offer ways to verify a given
@@ -44,6 +48,51 @@ export interface Verifier<T = Token> {
   supports: (token: T | object, tenant: Tenant) => token is T;
 }
 
+export function createVerifiers(
+  options: JWTStrategyOptions
+): Array<Verifier<Token>> {
+  return [
+    new OIDCVerifier(options),
+    new SSOVerifier(options),
+    new JWTVerifier(options),
+  ];
+}
+
+export async function verifyAndRetrieveUser(
+  verifiers: Array<Verifier<Token>>,
+  tenant: Tenant,
+  tokenString: string,
+  now = new Date()
+) {
+  const token: Token = jwt.decode(tokenString);
+  if (!token || typeof token === "string") {
+    throw new TokenInvalidError(tokenString, "token could not be decoded");
+  }
+
+  try {
+    // Try to verify the token.
+    for (const verifier of verifiers) {
+      if (verifier.supports(token, tenant)) {
+        return await verifier.verify(tokenString, token, tenant, now);
+      }
+    }
+  } catch (err) {
+    // When the JWT was revoked, just indicate that there is no user on the
+    // request rather than erroring out.
+    if (err instanceof JWTRevokedError) {
+      return null;
+    }
+
+    throw err;
+  }
+
+  // No verifier could be found.
+  throw new TokenInvalidError(
+    tokenString,
+    "no suitable jwt verifier could be found"
+  );
+}
+
 export class JWTStrategy extends Strategy {
   public name = "jwt";
 
@@ -52,36 +101,12 @@ export class JWTStrategy extends Strategy {
   constructor(options: JWTStrategyOptions) {
     super();
 
-    this.verifiers = [
-      new OIDCVerifier(options),
-      new SSOVerifier(options),
-      new JWTVerifier(options),
-    ];
-  }
-
-  private async verify(tokenString: string, tenant: Tenant, now = new Date()) {
-    const token: Token = jwt.decode(tokenString);
-    if (!token || typeof token === "string") {
-      throw new TokenInvalidError(tokenString, "token could not be decoded");
-    }
-
-    // Try to verify the token.
-    for (const verifier of this.verifiers) {
-      if (verifier.supports(token, tenant)) {
-        return verifier.verify(tokenString, token, tenant, now);
-      }
-    }
-
-    // No verifier could be found.
-    throw new TokenInvalidError(
-      tokenString,
-      "no suitable jwt verifier could be found"
-    );
+    this.verifiers = createVerifiers(options);
   }
 
   public async authenticate(req: Request) {
     // Get the token from the request.
-    const token = extractJWTFromRequest(req);
+    const token = extractTokenFromRequest(req);
     if (!token) {
       // There was no token on the request, so don't bother actually checking
       // anything further.
@@ -94,7 +119,12 @@ export class JWTStrategy extends Strategy {
     }
 
     try {
-      const user = await this.verify(token, tenant, now);
+      const user = await verifyAndRetrieveUser(
+        this.verifiers,
+        tenant,
+        token,
+        now
+      );
       if (!user) {
         return this.pass();
       }

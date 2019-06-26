@@ -5,7 +5,7 @@ import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { IntegrationDisabled } from "coral-server/errors";
 import { retrieveUserWithProfile } from "coral-server/models/user";
-import { decodeJWT, extractJWTFromRequest } from "coral-server/services/jwt";
+import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import {
   generateResetURL,
   resetPassword,
@@ -182,7 +182,7 @@ export const forgotResetHandler = ({
       );
 
       // Grab the token from the request.
-      const tokenString = extractJWTFromRequest(req, true);
+      const tokenString = extractTokenFromRequest(req, true);
       if (!tokenString) {
         return res.sendStatus(400);
       }
@@ -248,7 +248,7 @@ export const forgotCheckHandler = ({
       }
 
       // Grab the token from the request.
-      const tokenString = extractJWTFromRequest(req, true);
+      const tokenString = extractTokenFromRequest(req, true);
       if (!tokenString) {
         return res.sendStatus(400);
       }

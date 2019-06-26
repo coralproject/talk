@@ -16,8 +16,12 @@ import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { createUUIDGenerator } from "coral-framework/testHelpers";
 
+import sinon from "sinon";
 import createFluentBundle from "./createFluentBundle";
 import createRelayEnvironment from "./createRelayEnvironment";
+import createSubscriptionHandler, {
+  SubscriptionHandlerReadOnly,
+} from "./createSubscriptionHandler";
 
 export type Resolver<V, R> = (
   parent: any,
@@ -66,6 +70,7 @@ export default function createTestRenderer<
   element: React.ReactNode,
   params: CreateTestRendererParams<T>
 ) {
+  const subscriptionHandler = createSubscriptionHandler();
   const environment = createRelayEnvironment({
     network: {
       // Set this to true, to see graphql responses.
@@ -73,6 +78,7 @@ export default function createTestRenderer<
       resolvers: params.resolvers as IResolvers<any, any>,
       muteNetworkErrors: params.muteNetworkErrors,
       projectName: "tenant",
+      subscriptionHandler,
     },
     initLocalState: (localRecord, source, env) => {
       if (params.initLocalState) {
@@ -97,13 +103,12 @@ export default function createTestRenderer<
     browserInfo: params.browserInfo || { ios: false },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
-    clearSession: () => Promise.resolve(),
+    clearSession: sinon.stub(),
     transitionControl: {
       allowTransition: true,
       history: [],
     },
   };
-
   let testRenderer: ReactTestRenderer;
   TestRenderer.act(() => {
     testRenderer = TestRenderer.create(
@@ -111,5 +116,9 @@ export default function createTestRenderer<
       { createNodeMock }
     );
   });
-  return { context, testRenderer: testRenderer! };
+  return {
+    context,
+    testRenderer: testRenderer!,
+    subscriptionHandler: subscriptionHandler as SubscriptionHandlerReadOnly,
+  };
 }

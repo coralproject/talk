@@ -764,4 +764,4 @@ exports[`shows server error 1`] = `
 </form>
 `;
 
-exports[`submits form successfully 1`] = `"http://localhost/admin/login#accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMWIyNjU5MS00ZTlhLTQzODgtYTdmZi1lMWJkYzVkOTdjY2UifQ=="`;
+exports[`submits form successfully 1`] = `"http://localhost/admin/login"`;

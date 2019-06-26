@@ -27,6 +27,15 @@ const RejectCommentMutation = createMutation(
             comment {
               id
               status
+              statusHistory(first: 1) {
+                edges {
+                  node {
+                    moderator {
+                      username
+                    }
+                  }
+                }
+              }
             }
             moderationQueues(storyID: $storyID) {
               unmoderated {
@@ -49,15 +58,16 @@ const RejectCommentMutation = createMutation(
           commentRevisionID: input.commentRevisionID,
           clientMutationId: (clientMutationId++).toString(),
         },
+        storyID: input.storyID,
       },
       optimisticUpdater: store => {
         store.get(input.commentID)!.setValue("REJECTED", "status");
       },
       updater: store => {
         const connections = [
-          getQueueConnection(store, "reported", input.storyID),
-          getQueueConnection(store, "pending", input.storyID),
-          getQueueConnection(store, "unmoderated", input.storyID),
+          getQueueConnection(store, "REPORTED", input.storyID),
+          getQueueConnection(store, "PENDING", input.storyID),
+          getQueueConnection(store, "UNMODERATED", input.storyID),
         ].filter(c => c);
         connections.forEach(con =>
           ConnectionHandler.deleteNode(con, input.commentID)

@@ -1,0 +1,8 @@
+.appear {
+  opacity: 0;
+  pointer-events: none;
+}
+.appearActive {
+  opacity: 1;
+  transition: opacity 400ms;
+}

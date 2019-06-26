@@ -39,7 +39,7 @@ it("set view from query", async () => {
   restoreHistoryLocation();
 });
 
-it("get auth token from url", async () => {
+it("get access token from url", async () => {
   const restoreHistoryLocation = replaceHistoryLocation(
     `http://localhost/#accessToken=${createAccessToken()}`
   );

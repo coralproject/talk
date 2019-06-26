@@ -1,12 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`get auth token from url 1`] = `
+exports[`get access token from url 1`] = `
 "{
   \\"__id\\": \\"client:root.local\\",
   \\"__typename\\": \\"Local\\",
   \\"accessToken\\": \\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMWIyNjU5MS00ZTlhLTQzODgtYTdmZi1lMWJkYzVkOTdjY2UifQ==\\",
   \\"accessTokenJTI\\": \\"31b26591-4e9a-4388-a7ff-e1bdc5d97cce\\",
-  \\"loggedIn\\": true,
   \\"view\\": \\"SIGN_IN\\",
   \\"error\\": null
 }"
@@ -27,7 +26,6 @@ exports[`init local state 1`] = `
     \\"accessToken\\": \\"\\",
     \\"accessTokenExp\\": null,
     \\"accessTokenJTI\\": null,
-    \\"loggedIn\\": false,
     \\"view\\": \\"SIGN_IN\\",
     \\"error\\": null
   }

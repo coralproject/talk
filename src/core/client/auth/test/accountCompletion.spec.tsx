@@ -122,7 +122,7 @@ it("do not render createPassword view when local auth is disabled", async () => 
   await wait(() => expect(windowMock.closeStub.called).toBe(true));
 });
 
-it("send back auth token", async () => {
+it("send back access token", async () => {
   const { context } = await createTestRenderer({
     Query: {
       viewer: {

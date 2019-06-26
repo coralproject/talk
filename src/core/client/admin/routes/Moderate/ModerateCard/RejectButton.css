@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   color: var(--palette-error-main);
-  &:active {
+  &:not(:disabled):active {
     background-color: var(--palette-error-main);
     color: var(--palette-common-white);
   }

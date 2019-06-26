@@ -85,6 +85,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
           <PostCommentFormContainer
             settings={props.settings}
             story={props.story}
+            viewer={props.viewer}
           />
         )}
         {banned && <BannedInfo />}
@@ -170,6 +171,7 @@ const enhanced = withFragmentContainer<Props>({
       ...UserBoxContainer_viewer
       ...CreateCommentReplyMutation_viewer
       ...CreateCommentMutation_viewer
+      ...PostCommentFormContainer_viewer
       status {
         current
       }

@@ -31,16 +31,16 @@ export class TabBarContainer extends Component<Props> {
 
   public render() {
     const {
-      local: { loggedIn, activeTab },
+      local: { activeTab },
+      viewer,
     } = this.props;
 
     return (
       <TabBar
         activeTab={activeTab}
-        showProfileTab={loggedIn}
+        showProfileTab={Boolean(viewer)}
         showConfigureTab={
-          !!this.props.viewer &&
-          can(this.props.viewer, Ability.CHANGE_STORY_CONFIGURATION)
+          !!viewer && can(viewer, Ability.CHANGE_STORY_CONFIGURATION)
         }
         onTabClick={this.handleSetActiveTab}
       />
@@ -52,7 +52,6 @@ const enhanced = withSetActiveTabMutation(
   withLocalStateContainer(
     graphql`
       fragment TabBarContainerLocal on Local {
-        loggedIn
         activeTab
       }
     `

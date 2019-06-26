@@ -5,7 +5,7 @@ import { createSinonStub } from "coral-framework/testHelpers";
 
 import { OnPostMessageSetAccessToken } from "./OnPostMessageSetAccessToken";
 
-it("Listens to event and sets auth token", () => {
+it("Listens to event and sets access token", () => {
   const token = "access-token";
   const postMessage: any = {
     on: (name: string, cb: (token: string) => void) => {

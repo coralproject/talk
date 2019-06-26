@@ -4,9 +4,10 @@ import { graphql } from "react-relay";
 
 import {
   COMMENT_STATUS,
-  ModerateCardContainer_comment as CommentData,
+  ModerateCardContainer_comment,
 } from "coral-admin/__generated__/ModerateCardContainer_comment.graphql";
-import { ModerateCardContainer_settings as SettingsData } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_settings } from "coral-admin/__generated__/ModerateCardContainer_settings.graphql";
+import { ModerateCardContainer_viewer } from "coral-admin/__generated__/ModerateCardContainer_viewer.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-admin/helpers";
 import { ApproveCommentMutation } from "coral-admin/mutations";
@@ -16,21 +17,29 @@ import {
   withFragmentContainer,
   withMutation,
 } from "coral-framework/lib/relay";
+import { GQLTAG } from "coral-framework/schema";
 
+import FadeInTransition from "./FadeInTransition";
+import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
+import ModeratedByContainer from "./ModeratedByContainer";
+import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
 interface Props {
-  comment: CommentData;
-  settings: SettingsData;
+  comment: ModerateCardContainer_comment;
+  viewer: ModerateCardContainer_viewer;
+  settings: ModerateCardContainer_settings;
   approveComment: MutationProp<typeof ApproveCommentMutation>;
   rejectComment: MutationProp<typeof RejectCommentMutation>;
+  featureComment: MutationProp<typeof FeatureCommentMutation>;
+  unfeatureComment: MutationProp<typeof UnfeatureCommentMutation>;
   danglingLogic: (status: COMMENT_STATUS) => boolean;
   match: Match;
   router: Router;
   showStoryInfo: boolean;
 }
 
-function getStatus(comment: CommentData) {
+function getStatus(comment: ModerateCardContainer_comment) {
   switch (comment.status) {
     case "APPROVED":
       return "approved";
@@ -39,6 +48,10 @@ function getStatus(comment: CommentData) {
     default:
       return "undecided";
   }
+}
+
+function isFeatured(comment: ModerateCardContainer_comment) {
+  return comment.tags.some(t => t.code === GQLTAG.FEATURED);
 }
 
 class ModerateCardContainer extends React.Component<Props> {
@@ -58,6 +71,31 @@ class ModerateCardContainer extends React.Component<Props> {
     });
   };
 
+  private onFeature = () => {
+    const featured = isFeatured(this.props.comment);
+
+    if (featured) {
+      this.handleUnfeature();
+    } else {
+      this.handleFeature();
+    }
+  };
+
+  private handleFeature = () => {
+    this.props.featureComment({
+      commentID: this.props.comment.id,
+      commentRevisionID: this.props.comment.revision.id,
+      storyID: this.props.match.params.storyID,
+    });
+  };
+
+  private handleUnfeature = () => {
+    this.props.unfeatureComment({
+      commentID: this.props.comment.id,
+      storyID: this.props.match.params.storyID,
+    });
+  };
+
   private handleModerateStory = (e: React.MouseEvent) => {
     this.props.router.push(
       getModerationLink("default", this.props.comment.story.id)
@@ -68,31 +106,45 @@ class ModerateCardContainer extends React.Component<Props> {
   };
 
   public render() {
-    const { comment, settings, danglingLogic, showStoryInfo } = this.props;
+    const {
+      comment,
+      settings,
+      danglingLogic,
+      showStoryInfo,
+      viewer,
+    } = this.props;
+    const dangling = danglingLogic(comment.status);
     return (
-      <ModerateCard
-        id={comment.id}
-        username={comment.author!.username!}
-        createdAt={comment.createdAt}
-        body={comment.body!}
-        inReplyTo={comment.parent && comment.parent.author!.username!}
-        comment={comment}
-        status={getStatus(comment)}
-        viewContextHref={comment.permalink}
-        suspectWords={settings.wordList.suspect}
-        bannedWords={settings.wordList.banned}
-        onApprove={this.handleApprove}
-        onReject={this.handleReject}
-        dangling={danglingLogic(comment.status)}
-        showStory={showStoryInfo}
-        storyTitle={
-          (comment.story.metadata && comment.story.metadata.title) || (
-            <NotAvailable />
-          )
-        }
-        storyHref={getModerationLink("default", comment.story.id)}
-        onModerateStory={this.handleModerateStory}
-      />
+      <FadeInTransition active={Boolean(comment.enteredLive)}>
+        <ModerateCard
+          id={comment.id}
+          username={comment.author!.username!}
+          createdAt={comment.createdAt}
+          body={comment.body!}
+          inReplyTo={comment.parent && comment.parent.author!.username!}
+          comment={comment}
+          dangling={dangling}
+          status={getStatus(comment)}
+          featured={isFeatured(comment)}
+          viewContextHref={comment.permalink}
+          suspectWords={settings.wordList.suspect}
+          bannedWords={settings.wordList.banned}
+          onApprove={this.handleApprove}
+          onReject={this.handleReject}
+          onFeature={this.onFeature}
+          moderatedBy={
+            <ModeratedByContainer viewer={viewer} comment={comment} />
+          }
+          showStory={showStoryInfo}
+          storyTitle={
+            (comment.story.metadata && comment.story.metadata.title) || (
+              <NotAvailable />
+            )
+          }
+          storyHref={getModerationLink("default", comment.story.id)}
+          onModerateStory={this.handleModerateStory}
+        />
+      </FadeInTransition>
     );
   }
 }
@@ -104,8 +156,12 @@ const enhanced = withFragmentContainer<Props>({
       author {
         username
       }
+      statusLiveUpdated
       createdAt
       body
+      tags {
+        code
+      }
       status
       revision {
         id
@@ -122,7 +178,9 @@ const enhanced = withFragmentContainer<Props>({
         }
       }
       permalink
+      enteredLive
       ...MarkersContainer_comment
+      ...ModeratedByContainer_comment
     }
   `,
   settings: graphql`
@@ -133,10 +191,19 @@ const enhanced = withFragmentContainer<Props>({
       }
     }
   `,
+  viewer: graphql`
+    fragment ModerateCardContainer_viewer on User {
+      ...ModeratedByContainer_viewer
+    }
+  `,
 })(
   withRouter(
     withMutation(ApproveCommentMutation)(
-      withMutation(RejectCommentMutation)(ModerateCardContainer)
+      withMutation(RejectCommentMutation)(
+        withMutation(FeatureCommentMutation)(
+          withMutation(UnfeatureCommentMutation)(ModerateCardContainer)
+        )
+      )
     )
   )
 );

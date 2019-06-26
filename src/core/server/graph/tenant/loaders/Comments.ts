@@ -50,10 +50,12 @@ const tagFilter = (tag?: GQLTAG): CommentConnectionInput["filter"] => {
 const primeCommentsFromConnection = (ctx: Context) => (
   connection: Readonly<Connection<Readonly<Comment>>>
 ) => {
-  // For each of the nodes, prime the comment loader.
-  connection.nodes.forEach(comment => {
-    ctx.loaders.Comments.comment.prime(comment.id, comment);
-  });
+  if (!ctx.disableCaching) {
+    // For each of the nodes, prime the comment loader.
+    connection.nodes.forEach(comment => {
+      ctx.loaders.Comments.comment.prime(comment.id, comment);
+    });
+  }
 
   return connection;
 };
@@ -96,10 +98,16 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
 ): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
 
 export default (ctx: Context) => ({
-  comment: new DataLoader((ids: string[]) =>
-    retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
-      mapVisibleComments(ctx.user)
-    )
+  comment: new DataLoader(
+    (ids: string[]) =>
+      retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
+        mapVisibleComments(ctx.user)
+      ),
+    {
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cache: !ctx.disableCaching,
+    }
   ),
   forFilter: ({
     first = 10,
@@ -217,13 +225,19 @@ export default (ctx: Context) => ({
       // The cursor passed here is always going to be a number.
       before: before as number,
     }).then(primeCommentsFromConnection(ctx)),
-  sharedModerationQueueQueuesCounts: new SingletonResolver(() =>
-    retrieveSharedModerationQueueQueuesCounts(
-      ctx.mongo,
-      ctx.redis,
-      ctx.tenant.id,
-      ctx.now
-    )
+  sharedModerationQueueQueuesCounts: new SingletonResolver(
+    () =>
+      retrieveSharedModerationQueueQueuesCounts(
+        ctx.mongo,
+        ctx.redis,
+        ctx.tenant.id,
+        ctx.now
+      ),
+    {
+      // Disable caching for the DataLoader if the Context is designed to be
+      // long lived.
+      cacheable: !ctx.disableCaching,
+    }
   ),
   tagCounts: new DataLoader((storyIDs: string[]) =>
     retrieveStoryCommentTagCounts(ctx.mongo, ctx.tenant.id, storyIDs)

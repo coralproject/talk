@@ -1,4 +1,4 @@
-import { ExecutionArgs, GraphQLError } from "graphql";
+import { DocumentNode, ExecutionArgs, GraphQLError } from "graphql";
 import {
   EndHandler,
   GraphQLExtension,
@@ -11,6 +11,20 @@ import { getOperationMetadata } from "./helpers";
 
 export function logError(ctx: CommonContext, err: GraphQLError) {
   ctx.logger.error({ err }, "graphql query error");
+}
+
+export function logQuery(
+  ctx: CommonContext,
+  document: DocumentNode,
+  responseTime?: number
+) {
+  ctx.logger.debug(
+    {
+      responseTime,
+      ...getOperationMetadata(document),
+    },
+    "graphql query"
+  );
 }
 
 export class LoggerExtension implements GraphQLExtension<CommonContext> {
@@ -27,12 +41,10 @@ export class LoggerExtension implements GraphQLExtension<CommonContext> {
         const responseTime = Math.round(now() - startTime);
 
         // Log out the details of the request.
-        o.executionArgs.contextValue.logger.debug(
-          {
-            responseTime,
-            ...getOperationMetadata(o.executionArgs.document),
-          },
-          "graphql query"
+        logQuery(
+          o.executionArgs.contextValue,
+          o.executionArgs.document,
+          responseTime
         );
       };
     }

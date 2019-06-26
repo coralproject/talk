@@ -1,21 +1,35 @@
 import { Localized } from "fluent-react/compat";
-import { RouteProps } from "found";
-import React from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql, GraphQLTaggedNode, RelayPaginationProp } from "react-relay";
 
-import { QueueRoute_queue as QueueData } from "coral-admin/__generated__/QueueRoute_queue.graphql";
-import { QueueRoute_settings as SettingsData } from "coral-admin/__generated__/QueueRoute_settings.graphql";
+import { QueueRoute_queue } from "coral-admin/__generated__/QueueRoute_queue.graphql";
+import { QueueRoute_settings } from "coral-admin/__generated__/QueueRoute_settings.graphql";
+import { QueueRoute_viewer } from "coral-admin/__generated__/QueueRoute_viewer.graphql";
 import { QueueRoutePaginationPendingQueryVariables } from "coral-admin/__generated__/QueueRoutePaginationPendingQuery.graphql";
 import { IntersectionProvider } from "coral-framework/lib/intersection";
-import { withPaginationContainer } from "coral-framework/lib/relay";
+import {
+  combineDisposables,
+  useLoadMore,
+  useMutation,
+  useSubscription,
+  withPaginationContainer,
+} from "coral-framework/lib/relay";
+import { GQLMODERATION_QUEUE } from "coral-framework/schema";
 
+import { withRouteConfig } from "coral-framework/lib/router";
 import EmptyMessage from "./EmptyMessage";
 import LoadingQueue from "./LoadingQueue";
 import Queue from "./Queue";
+import QueueCommentEnteredSubscription from "./QueueCommentEnteredSubscription";
+import QueueCommentLeftSubscription from "./QueueCommentLeftSubscription";
+import QueueViewNewMutation from "./QueueViewNewMutation";
 
-interface QueueRouteProps {
-  queue: QueueData;
-  settings: SettingsData;
+interface Props {
+  isLoading: boolean;
+  queueName: GQLMODERATION_QUEUE;
+  queue: QueueRoute_queue | null;
+  settings: QueueRoute_settings | null;
+  viewer: QueueRoute_viewer | null;
   relay: RelayPaginationProp;
   emptyElement: React.ReactElement;
   storyID?: string;
@@ -25,136 +39,174 @@ interface QueueRouteProps {
 const danglingLogic = (status: string) =>
   ["APPROVED", "REJECTED"].indexOf(status) >= 0;
 
-export class QueueRoute extends React.Component<QueueRouteProps> {
-  public static routeConfig: RouteProps;
-
-  public state = {
-    disableLoadMore: false,
-  };
-
-  public render() {
-    const comments = this.props.queue.comments.edges.map(edge => edge.node);
-    return (
-      <IntersectionProvider>
-        <Queue
-          comments={comments}
-          settings={this.props.settings}
-          onLoadMore={this.loadMore}
-          hasMore={this.props.relay.hasMore()}
-          disableLoadMore={this.state.disableLoadMore}
-          danglingLogic={danglingLogic}
-          emptyElement={this.props.emptyElement}
-          allStories={!Boolean(this.props.storyID)}
-        />
-      </IntersectionProvider>
+export const QueueRoute: FunctionComponent<Props> = props => {
+  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
+  const subscribeToQueueCommentEntered = useSubscription(
+    QueueCommentEnteredSubscription
+  );
+  const subscribeToQueueCommentLeft = useSubscription(
+    QueueCommentLeftSubscription
+  );
+  const viewNew = useMutation(QueueViewNewMutation);
+  const onViewNew = useCallback(() => {
+    viewNew({ queue: props.queueName, storyID: props.storyID || null });
+  }, [props.queueName, props.storyID, viewNew]);
+  useEffect(() => {
+    const vars = {
+      queue: props.queueName,
+      storyID: props.storyID || null,
+    };
+    const disposable = combineDisposables(
+      subscribeToQueueCommentEntered(vars),
+      subscribeToQueueCommentLeft(vars)
     );
+    return () => {
+      disposable.dispose();
+    };
+  }, [
+    props.storyID,
+    props.queueName,
+    subscribeToQueueCommentEntered,
+    subscribeToQueueCommentLeft,
+  ]);
+  if (props.isLoading) {
+    return <LoadingQueue />;
   }
-
-  private loadMore = () => {
-    if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
-      return;
-    }
-    this.setState({ disableLoadMore: true });
-    this.props.relay.loadMore(
-      10, // Fetch the next 10 feed items
-      error => {
-        this.setState({ disableLoadMore: false });
-        if (error) {
-          // tslint:disable-next-line:no-console
-          console.error(error);
-        }
-      }
-    );
-  };
-}
+  const comments = props.queue!.comments.edges.map(edge => edge.node);
+  const viewNewCount =
+    (props.queue!.comments.viewNewEdges &&
+      props.queue!.comments.viewNewEdges.length) ||
+    0;
+  return (
+    <IntersectionProvider>
+      <Queue
+        comments={comments}
+        viewer={props.viewer!}
+        settings={props.settings!}
+        onLoadMore={loadMore}
+        hasLoadMore={props.relay.hasMore()}
+        disableLoadMore={isLoadingMore}
+        danglingLogic={danglingLogic}
+        emptyElement={props.emptyElement}
+        allStories={!Boolean(props.storyID)}
+        viewNewCount={viewNewCount}
+        onViewNew={onViewNew}
+      />
+    </IntersectionProvider>
+  );
+};
 
 // TODO: (cvle) If this could be autogenerated..
 type FragmentVariables = QueueRoutePaginationPendingQueryVariables;
 
 const createQueueRoute = (
+  queueName: GQLMODERATION_QUEUE,
   queueQuery: GraphQLTaggedNode,
   paginationQuery: GraphQLTaggedNode,
   emptyElement: React.ReactElement
 ) => {
-  const enhanced = (withPaginationContainer<
-    QueueRouteProps,
-    QueueRoutePaginationPendingQueryVariables,
-    FragmentVariables
-  >(
-    {
-      queue: graphql`
-        fragment QueueRoute_queue on ModerationQueue
-          @argumentDefinitions(
-            count: { type: "Int!", defaultValue: 5 }
-            cursor: { type: "Cursor" }
-          ) {
-          count
-          comments(first: $count, after: $cursor)
-            @connection(key: "Queue_comments") {
-            edges {
-              node {
-                id
-                ...ModerateCardContainer_comment
-              }
-            }
-          }
-        }
-      `,
-      settings: graphql`
-        fragment QueueRoute_settings on Settings {
-          ...ModerateCardContainer_settings
-        }
-      `,
-    },
-    {
-      direction: "forward",
-      getConnectionFromProps(props) {
-        return props.queue && props.queue.comments;
-      },
-      // This is also the default implementation of `getFragmentVariables` if it isn't provided.
-      getFragmentVariables(prevVars, totalCount) {
-        return {
-          ...prevVars,
-          count: totalCount,
-        };
-      },
-      getVariables(props, { count, cursor }, fragmentVariables) {
-        return {
-          ...fragmentVariables,
-          count,
-          cursor,
-        };
-      },
-      query: paginationQuery,
-    }
-  )(QueueRoute) as any) as typeof QueueRoute;
-
-  enhanced.routeConfig = {
-    Component: enhanced,
+  const enhanced = withRouteConfig<Props, any>({
     query: queueQuery,
     cacheConfig: { force: true },
-    render: ({ Component, props, match }) => {
-      const anyProps = props as any;
-      if (Component && props) {
-        const queue =
-          anyProps.moderationQueues[Object.keys(anyProps.moderationQueues)[0]];
+    render: ({ Component, data, match }) => {
+      if (!Component) {
+        throw new Error("Missing component");
+      }
+      if (!data || !data.moderationQueues) {
         return (
           <Component
-            queue={queue}
-            settings={anyProps.settings}
+            isLoading
+            queueName={queueName}
+            queue={null}
+            settings={null}
+            viewer={null}
             emptyElement={emptyElement}
             storyID={match.params.storyID}
           />
         );
       }
-      return <LoadingQueue />;
+      const queue =
+        data.moderationQueues[Object.keys(data.moderationQueues)[0]];
+      return (
+        <Component
+          isLoading={false}
+          queueName={queueName}
+          queue={queue}
+          settings={data.settings}
+          viewer={data.viewer}
+          emptyElement={emptyElement}
+          storyID={match.params.storyID}
+        />
+      );
     },
-  };
+  })(
+    withPaginationContainer<
+      Props,
+      QueueRoutePaginationPendingQueryVariables,
+      FragmentVariables
+    >(
+      {
+        queue: graphql`
+          fragment QueueRoute_queue on ModerationQueue
+            @argumentDefinitions(
+              count: { type: "Int!", defaultValue: 5 }
+              cursor: { type: "Cursor" }
+            ) {
+            count
+            comments(first: $count, after: $cursor)
+              @connection(key: "Queue_comments") {
+              viewNewEdges {
+                cursor
+              }
+              edges {
+                node {
+                  id
+                  ...ModerateCardContainer_comment
+                }
+              }
+            }
+          }
+        `,
+        settings: graphql`
+          fragment QueueRoute_settings on Settings {
+            ...ModerateCardContainer_settings
+          }
+        `,
+        viewer: graphql`
+          fragment QueueRoute_viewer on User {
+            ...ModerateCardContainer_viewer
+          }
+        `,
+      },
+      {
+        direction: "forward",
+        getConnectionFromProps(props) {
+          return props.queue && props.queue.comments;
+        },
+        // This is also the default implementation of `getFragmentVariables` if it isn't provided.
+        getFragmentVariables(prevVars, totalCount) {
+          return {
+            ...prevVars,
+            count: totalCount,
+          };
+        },
+        getVariables(props, { count, cursor }, fragmentVariables) {
+          return {
+            ...fragmentVariables,
+            count,
+            cursor,
+          };
+        },
+        query: paginationQuery,
+      }
+    )(QueueRoute)
+  );
 
   return enhanced;
 };
 
 export const PendingQueueRoute = createQueueRoute(
+  GQLMODERATION_QUEUE.PENDING,
   graphql`
     query QueueRoutePendingQuery($storyID: ID) {
       moderationQueues(storyID: $storyID) {
@@ -164,6 +216,9 @@ export const PendingQueueRoute = createQueueRoute(
       }
       settings {
         ...QueueRoute_settings
+      }
+      viewer {
+        ...QueueRoute_viewer
       }
     }
   `,
@@ -191,6 +246,7 @@ export const PendingQueueRoute = createQueueRoute(
 );
 
 export const ReportedQueueRoute = createQueueRoute(
+  GQLMODERATION_QUEUE.REPORTED,
   graphql`
     query QueueRouteReportedQuery($storyID: ID) {
       moderationQueues(storyID: $storyID) {
@@ -200,6 +256,9 @@ export const ReportedQueueRoute = createQueueRoute(
       }
       settings {
         ...QueueRoute_settings
+      }
+      viewer {
+        ...QueueRoute_viewer
       }
     }
   `,
@@ -227,6 +286,7 @@ export const ReportedQueueRoute = createQueueRoute(
 );
 
 export const UnmoderatedQueueRoute = createQueueRoute(
+  GQLMODERATION_QUEUE.UNMODERATED,
   graphql`
     query QueueRouteUnmoderatedQuery($storyID: ID) {
       moderationQueues(storyID: $storyID) {
@@ -236,6 +296,9 @@ export const UnmoderatedQueueRoute = createQueueRoute(
       }
       settings {
         ...QueueRoute_settings
+      }
+      viewer {
+        ...QueueRoute_viewer
       }
     }
   `,

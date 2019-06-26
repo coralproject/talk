@@ -335,9 +335,19 @@ moderate-comment-approveButton =
 moderate-comment-decision = Decision
 moderate-comment-story = Story
 moderate-comment-moderateStory = Moderate Story
+moderate-comment-featureText = Feature
+moderate-comment-featuredText = Featured
+moderate-comment-moderatedBy = Moderated By
+moderate-comment-moderatedBySystem = System
 
 moderate-single-goToModerationQueues = Go to moderation queues
 moderate-single-singleCommentView = Single Comment View
+
+moderate-queue-viewNew =
+  { $count ->
+    [1] View {$count} new comment
+    *[other] View {$count} new comments
+  }
 
 ### Moderate Search Bar
 moderate-searchBar-allStories = All stories

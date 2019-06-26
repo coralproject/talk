@@ -5,7 +5,6 @@ import { CoralContext } from "coral-framework/lib/bootstrap";
 import { LOCAL_ID } from "coral-framework/lib/relay";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import {
-  createAccessToken,
   createRelayEnvironment,
   replaceHistoryLocation,
 } from "coral-framework/testHelpers";
@@ -56,14 +55,4 @@ it("set commentID from query", async () => {
   await initLocalState(environment, context as any);
   expect(source.get(LOCAL_ID)!.commentID).toBe(commentID);
   restoreHistoryLocation();
-});
-
-it("set accessToken from localStorage", async () => {
-  const context: Partial<CoralContext> = {
-    localStorage: createPromisifiedStorage(),
-  };
-  const accessToken = createAccessToken();
-  context.localStorage!.setItem("accessToken", accessToken);
-  await initLocalState(environment, context as any);
-  expect(source.get(LOCAL_ID)!.accessToken).toBe(accessToken);
 });

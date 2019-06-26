@@ -1,7 +1,6 @@
-import { GraphQLOptions } from "apollo-server-express";
+import { GraphQLExtension, GraphQLOptions } from "apollo-server-express";
 import { Handler } from "express";
 import { FieldDefinitionNode, GraphQLError, ValidationContext } from "graphql";
-import { Counter, Histogram } from "prom-client";
 
 // TODO: when https://github.com/apollographql/apollo-server/pull/1907 is merged, update this import path
 import {
@@ -16,6 +15,7 @@ import {
   LoggerExtension,
   MetricsExtension,
 } from "coral-server/graph/common/extensions";
+import { Metrics } from "coral-server/services/metrics";
 
 export * from "./batch";
 
@@ -42,37 +42,28 @@ const NoIntrospection = (context: ValidationContext) => ({
  */
 export const graphqlMiddleware = (
   config: Config,
-  requestOptions: ExpressGraphQLOptionsFunction
+  requestOptions: ExpressGraphQLOptionsFunction,
+  metrics?: Metrics
 ): Handler => {
-  // Configure the metrics handlers.
-  const executedGraphQueriesTotalCounter = new Counter({
-    name: "coral_executed_graph_queries_total",
-    help: "number of GraphQL queries executed",
-    labelNames: ["operation_type", "operation_name"],
-  });
+  const extensions: Array<() => GraphQLExtension> = [
+    () => new ErrorWrappingExtension(),
+    () => new LoggerExtension(),
+  ];
 
-  const graphQLExecutionTimingsHistogram = new Histogram({
-    name: "coral_executed_graph_queries_timings",
-    help: "timings for execution times of GraphQL operations",
-    buckets: [0.1, 5, 15, 50, 100, 500],
-    labelNames: ["operation_type", "operation_name"],
-  });
+  // Add the metrics extension if provided.
+  if (metrics) {
+    extensions.push(
+      () =>
+        // Pass the metrics to the extension so it can increment.
+        new MetricsExtension(metrics)
+    );
+  }
 
   // Create a new baseOptions that will be merged into the new options.
   const baseOptions: Omit<GraphQLOptions, "schema"> = {
     // Disable the debug mode, as we already add in our logging function.
     debug: false,
-    // Include extensions.
-    extensions: [
-      () => new ErrorWrappingExtension(),
-      () => new LoggerExtension(),
-      () =>
-        // Pass the metrics to the extension so it can increment.
-        new MetricsExtension({
-          executedGraphQueriesTotalCounter,
-          graphQLExecutionTimingsHistogram,
-        }),
-    ],
+    extensions,
   };
 
   if (config.get("env") === "production" && !config.get("enable_graphiql")) {

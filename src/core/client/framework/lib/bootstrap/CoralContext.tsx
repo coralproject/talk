@@ -62,7 +62,7 @@ export interface CoralContext {
   eventEmitter: EventEmitter2;
 
   /** Clear session data. */
-  clearSession: () => Promise<void>;
+  clearSession: (nextAccessToken?: string | null) => Promise<void>;
 
   /** Controls router transitions (for tests) */
   transitionControl?: TransitionControlData;

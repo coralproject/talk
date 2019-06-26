@@ -4,7 +4,6 @@ import { pureMerge } from "coral-common/utils";
 import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
 import { GQLResolver, GQLUSER_ROLE } from "coral-framework/schema";
 import {
-  createAccessToken,
   createResolversStub,
   CreateTestRendererParams,
   replaceHistoryLocation,
@@ -41,8 +40,6 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(true, "loggedIn");
-      localRecord.setValue(createAccessToken(), "accessToken");
       localRecord.setValue("SIGN_IN", "authView");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
@@ -105,6 +102,5 @@ it("sign out when clicking on sign in as", async () => {
       "/admin/moderate/reported"
     );
   });
-
-  expect(lookup(context.relayEnvironment, LOCAL_ID)!.loggedIn).toBeFalsy();
+  restMock.verify();
 });

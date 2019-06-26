@@ -39,7 +39,6 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(false, "loggedIn");
       localRecord.setValue("SIGN_IN", "authView");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);

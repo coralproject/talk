@@ -1,5 +1,7 @@
-import { Overwrite } from "coral-framework/types";
 import { merge } from "lodash";
+
+import { CLIENT_ID_HEADER } from "coral-common/constants";
+import { Overwrite } from "coral-framework/types";
 
 import { extractError } from "./network";
 
@@ -52,10 +54,12 @@ type PartialRequestInit = Overwrite<Partial<RequestInit>, { body?: any }> & {
 export class RestClient {
   public readonly uri: string;
   private tokenGetter?: () => string;
+  private clientID?: string;
 
-  constructor(uri: string, tokenGetter?: () => string) {
+  constructor(uri: string, tokenGetter?: () => string, clientID?: string) {
     this.uri = uri;
     this.tokenGetter = tokenGetter;
+    this.clientID = clientID;
   }
 
   public async fetch<T = {}>(
@@ -68,6 +72,13 @@ export class RestClient {
       opts = merge({}, options, {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+    if (this.clientID) {
+      opts = merge({}, opts, {
+        headers: {
+          [CLIENT_ID_HEADER]: this.clientID,
         },
       });
     }

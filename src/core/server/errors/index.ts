@@ -406,10 +406,10 @@ export class StoryNotFoundError extends CoralError {
 }
 
 export class CommentNotFoundError extends CoralError {
-  constructor(commentID: string) {
+  constructor(commentID: string, commentRevisionID?: string) {
     super({
       code: ERROR_CODES.COMMENT_NOT_FOUND,
-      context: { pvt: { commentID } },
+      context: { pvt: { commentID, commentRevisionID } },
     });
   }
 }
@@ -493,6 +493,15 @@ export class InvalidCredentialsError extends CoralError {
       code: ERROR_CODES.INVALID_CREDENTIALS,
       status: 401,
       context: { pvt: { reason } },
+    });
+  }
+}
+
+export class JWTRevokedError extends CoralError {
+  constructor(jti: string) {
+    super({
+      code: ERROR_CODES.AUTHENTICATION_ERROR,
+      context: { pvt: { jti } },
     });
   }
 }
