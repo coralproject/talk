@@ -24,7 +24,8 @@ const InviteUsersContainer: FunctionComponent<Props> = ({
     !settings ||
     !settings.auth.integrations.local.enabled ||
     !settings.auth.integrations.local.allowRegistration ||
-    !settings.auth.integrations.local.targetFilter.admin
+    !settings.auth.integrations.local.targetFilter.admin ||
+    !settings.email.enabled
   ) {
     return null;
   }
@@ -40,6 +41,9 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment InviteUsersContainer_settings on Settings {
+      email {
+        enabled
+      }
       auth {
         integrations {
           local {

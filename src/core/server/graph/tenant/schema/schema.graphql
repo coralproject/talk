@@ -881,7 +881,7 @@ type Email {
   """
   smtpURI is the SMTP connection url to send emails on.
   """
-  smtpURI: String
+  smtpURI: String @auth(roles: [ADMIN])
 
   """
   fromAddress is the email address that will be used to send emails from.
@@ -1137,7 +1137,7 @@ type Settings {
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: Email! @auth(roles: [ADMIN])
+  email: Email! @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.
