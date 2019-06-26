@@ -9,6 +9,7 @@
 }
 
 .scroll {
+  pointer-events: none;
   position: relative;
   overflow-y: auto;
   width: 100%;
@@ -24,4 +25,8 @@
 .alignContainer2 {
   display: table-cell;
   vertical-align: middle;
+}
+
+.wrapper {
+  pointer-events: all;
 }

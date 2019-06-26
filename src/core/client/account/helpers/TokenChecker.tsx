@@ -1,48 +1,56 @@
+import React, { useEffect, useState } from "react";
+
 import { ERROR_CODES } from "coral-common/errors";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { useFetch } from "coral-framework/lib/relay";
+import { Fetch } from "coral-framework/lib/relay/fetch";
 import { Delay, Flex, Spinner } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
-import React, { useEffect, useState } from "react";
 
-import CheckResetTokenFetch from "./CheckResetTokenFetch";
-import Sorry from "./Sorry";
+interface ChildrenProps {
+  err?: string;
+}
 
 interface Props {
   token: string | undefined;
+  fetcher: Fetch<string, { token: string }, Promise<void>>;
+  children: (props: ChildrenProps) => React.ReactNode;
 }
 
 type TokenState =
   | "VALID"
   | "INVALID"
-  | "EXPIRED"
   | "MISSING"
   | "RATE_LIMIT_EXCEEDED"
   | "UNKNOWN"
   | "UNCHECKED";
 
-const ResetTokenChecker: React.FunctionComponent<Props> = ({
+const TokenChecker: React.FunctionComponent<Props> = ({
   token,
+  fetcher,
   children,
 }) => {
-  const checkResetToken = useFetch(CheckResetTokenFetch);
+  const checkToken = useFetch(fetcher);
   const [tokenState, setTokenState] = useState<TokenState>("UNCHECKED");
   const [reason, setReason] = useState<string>("");
   useEffect(() => {
+    let disposed = false;
     if (token) {
       async function setAndCheckToken() {
         try {
-          await checkResetToken({ token: token! });
+          await checkToken({ token: token! });
+          if (disposed) {
+            return;
+          }
           setTokenState("VALID");
         } catch (e) {
+          if (disposed) {
+            return;
+          }
           setReason(e.message);
           if (e instanceof InvalidRequestError) {
             switch (e.code) {
               case ERROR_CODES.RATE_LIMIT_EXCEEDED:
                 setTokenState("RATE_LIMIT_EXCEEDED");
-                return;
-              case ERROR_CODES.PASSWORD_RESET_TOKEN_EXPIRED:
-                setTokenState("EXPIRED");
                 return;
               case ERROR_CODES.INTEGRATION_DISABLED:
               case ERROR_CODES.USER_NOT_FOUND:
@@ -61,12 +69,14 @@ const ResetTokenChecker: React.FunctionComponent<Props> = ({
     } else {
       setTokenState("MISSING");
     }
-    return;
+    return () => {
+      disposed = true;
+    };
   }, [token]);
 
   switch (tokenState) {
     case "VALID":
-      return <>{children}</>;
+      return <>{children({})}</>;
     case "UNCHECKED":
       return (
         <Flex justifyContent="center">
@@ -76,18 +86,10 @@ const ResetTokenChecker: React.FunctionComponent<Props> = ({
         </Flex>
       );
     case "MISSING":
-      return (
-        <Sorry
-          reason={
-            <Localized id="resetPassword-missingResetToken">
-              <span>The Reset Token seems to be missing.</span>
-            </Localized>
-          }
-        />
-      );
+      return <>{children({ err: "The token is missing" })}</>;
     default:
-      return <Sorry reason={reason} />;
+      return <>{children({ err: reason })}</>;
   }
 };
 
-export default ResetTokenChecker;
+export default TokenChecker;

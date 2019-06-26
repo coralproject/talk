@@ -85,11 +85,8 @@ export async function redeemInviteFromEmail(
     { email, tenantID },
     {}
   );
-  if (!result.value) {
-    throw new Error("an unexpected error occurred");
-  }
 
-  return result.value;
+  return result.value || null;
 }
 
 export async function retrieveInviteFromEmail(

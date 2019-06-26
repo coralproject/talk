@@ -1,26 +1,45 @@
 import React, { useCallback, useState } from "react";
+import { Environment } from "relay-runtime";
 
+import TokenChecker from "coral-account/helpers/TokenChecker";
+import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
 
 import ConfirmForm from "./ConfirmForm";
-import ConfirmTokenChecker from "./ConfirmTokenChecker";
+import Sorry from "./Sorry";
 import Success from "./Success";
+
+const fetcher = createFetch(
+  "confirmToken",
+  async (environment: Environment, variables: { token: string }, { rest }) =>
+    await rest.fetch<void>("/account/confirm", {
+      method: "GET",
+      token: variables.token,
+    })
+);
 
 interface Props {
   token: string | undefined;
 }
 
 const ConfirmRoute: React.FunctionComponent<Props> = ({ token }) => {
-  const [suceeded, setSuceeded] = useState<boolean>(false);
+  const [finished, setFinished] = useState(false);
   const onSuccess = useCallback(() => {
-    setSuceeded(true);
+    setFinished(true);
   }, []);
   return (
-    <ConfirmTokenChecker token={token}>
-      {!suceeded && <ConfirmForm token={token!} onSuccess={onSuccess} />}
-      {suceeded && <Success />}
-    </ConfirmTokenChecker>
+    <TokenChecker token={token} fetcher={fetcher}>
+      {({ err }) =>
+        err ? (
+          <Sorry reason={err} />
+        ) : !finished ? (
+          <ConfirmForm token={token!} onSuccess={onSuccess} />
+        ) : (
+          <Success />
+        )
+      }
+    </TokenChecker>
   );
 };
 

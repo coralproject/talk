@@ -41,10 +41,16 @@ export interface InviteToken extends Required<StandardClaims> {
   // aud specifies `invite` as the audience to indicate that this is an invite
   // token.
   aud: "invite";
+
+  /**
+   * email is the email address being confirmed.
+   */
+  email: string;
 }
 
 const InviteTokenSchema = StandardClaimsSchema.keys({
   aud: Joi.string().only("invite"),
+  email: Joi.string().email(),
 });
 
 export function validateInviteToken(token: InviteToken | object): Error | null {
@@ -86,6 +92,7 @@ export async function generateInviteURL(
     iat: nowSeconds,
     nbf: nowSeconds,
     aud: "invite",
+    email: user.email,
   };
 
   // Sign it with the signing config.

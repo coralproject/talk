@@ -4,6 +4,7 @@ export interface JWT {
     typ: string;
   };
   payload: {
+    [_: string]: any;
     iat?: number;
     exp?: number;
     iss?: string;

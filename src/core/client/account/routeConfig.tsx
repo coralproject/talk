@@ -2,6 +2,7 @@ import { makeRouteConfig, Route } from "found";
 import React from "react";
 
 import ConfirmRoute from "./routes/email/Confirm";
+import InviteRoute from "./routes/Invite";
 import ResetRoute from "./routes/password/Reset";
 
 export default makeRouteConfig(
@@ -12,5 +13,6 @@ export default makeRouteConfig(
     <Route path="email">
       <Route path="confirm" {...ConfirmRoute.routeConfig} />
     </Route>
+    <Route path="invite" {...InviteRoute.routeConfig} />
   </Route>
 );
