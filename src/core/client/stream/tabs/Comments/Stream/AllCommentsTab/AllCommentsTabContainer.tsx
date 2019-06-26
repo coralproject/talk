@@ -193,9 +193,6 @@ const enhanced = withPaginationContainer<
               enteredLive
               ...AllCommentsTabContainer_comment @relay(mask: false)
             }
-            pageInfo {
-              hasNextPage
-            }
           }
         }
         ...PostCommentFormContainer_story
