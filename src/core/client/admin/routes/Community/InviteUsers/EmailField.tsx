@@ -13,9 +13,10 @@ import {
 
 interface Props {
   index: number;
+  disabled: boolean;
 }
 
-const EmailField: FunctionComponent<Props> = ({ index }) => (
+const EmailField: FunctionComponent<Props> = ({ index, disabled }) => (
   <FieldSet>
     <Field name={`emails.${index}`} validate={validateEmail}>
       {({ input, meta }) => (
@@ -38,6 +39,7 @@ const EmailField: FunctionComponent<Props> = ({ index }) => (
                 ? "error"
                 : "regular"
             }
+            disabled={disabled}
             fullWidth
           />
           {meta.touched && (meta.error || meta.submitError) && (

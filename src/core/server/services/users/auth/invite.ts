@@ -31,6 +31,7 @@ import {
 import { constructTenantURL } from "coral-server/app/url";
 import {
   IntegrationDisabled,
+  InviteRequiresEmailAddresses,
   InviteTokenExpired,
   TokenInvalidError,
 } from "coral-server/errors";
@@ -175,6 +176,10 @@ export async function invite(
     // Ensure the email address is lowercase.
     return email.toLowerCase();
   });
+
+  if (emails.length === 0) {
+    throw new InviteRequiresEmailAddresses();
+  }
 
   // Change the JS Date to a DateTime for ease of use.
   const nowDate = DateTime.fromJSDate(now);

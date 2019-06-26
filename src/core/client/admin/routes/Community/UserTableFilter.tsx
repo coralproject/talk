@@ -33,6 +33,7 @@ interface Props {
   searchFilter: string;
   onSetSearchFilter: (search: string) => void;
   viewer: PropTypesOf<typeof InviteUsersContainer>["viewer"];
+  settings: PropTypesOf<typeof InviteUsersContainer>["settings"];
 }
 
 const UserTableFilter: FunctionComponent<Props> = props => (
@@ -184,7 +185,7 @@ const UserTableFilter: FunctionComponent<Props> = props => (
         </Flex>
       </FieldSet>
     </Flex>
-    <InviteUsersContainer viewer={props.viewer} />
+    <InviteUsersContainer viewer={props.viewer} settings={props.settings} />
   </Flex>
 );
 

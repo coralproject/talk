@@ -48,6 +48,7 @@ const UserTableContainer: FunctionComponent<Props> = props => {
           onSetSearchFilter={setSearchFilter}
           searchFilter={searchFilter}
           viewer={props.query && props.query.viewer}
+          settings={props.query && props.query.settings}
         />
         <UserTable
           viewer={props.query && props.query.viewer}
@@ -83,6 +84,9 @@ const enhanced = withPaginationContainer<
         viewer {
           ...UserRowContainer_viewer
           ...InviteUsersContainer_viewer
+        }
+        settings {
+          ...InviteUsersContainer_settings
         }
         users(
           first: $count

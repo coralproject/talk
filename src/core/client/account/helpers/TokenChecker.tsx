@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { useEffect, useState } from "react";
 
 import { ERROR_CODES } from "coral-common/errors";
@@ -7,7 +8,7 @@ import { Fetch } from "coral-framework/lib/relay/fetch";
 import { Delay, Flex, Spinner } from "coral-ui/components";
 
 interface ChildrenProps {
-  err?: string;
+  err?: React.ReactNode;
 }
 
 interface Props {
@@ -86,7 +87,20 @@ const TokenChecker: React.FunctionComponent<Props> = ({
         </Flex>
       );
     case "MISSING":
-      return <>{children({ err: "The token is missing" })}</>;
+      return (
+        <>
+          {children({
+            err: (
+              <Localized id="account-tokenNotFound">
+                <span data-testid="invalid-link">
+                  The specified link is invalid, check to see if it was copied
+                  correctly.
+                </span>
+              </Localized>
+            ),
+          })}
+        </>
+      );
     default:
       return <>{children({ err: reason })}</>;
   }

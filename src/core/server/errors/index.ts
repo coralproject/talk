@@ -467,6 +467,9 @@ export class InternalDevelopmentError extends CoralError {
       extensions.message = cause.message;
     }
 
+    // Prefix this error message.
+    extensions.message = "InternalDevelopmentError: " + extensions.message;
+
     return extensions;
   }
 }
@@ -629,6 +632,14 @@ export class RateLimitExceeded extends CoralError {
       code: ERROR_CODES.RATE_LIMIT_EXCEEDED,
       status: 429,
       context: { pvt: { resource, max, tries } },
+    });
+  }
+}
+
+export class InviteRequiresEmailAddresses extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.INVITE_REQUIRES_EMAIL_ADDRESSES,
     });
   }
 }

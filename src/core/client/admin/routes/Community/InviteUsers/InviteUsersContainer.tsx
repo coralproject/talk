@@ -1,17 +1,31 @@
 import React, { FunctionComponent } from "react";
 
-import { InviteUsersContainer_viewer as ViewerData } from "coral-admin/__generated__/InviteUsersContainer_viewer.graphql";
+import { InviteUsersContainer_settings } from "coral-admin/__generated__/InviteUsersContainer_settings.graphql";
+import { InviteUsersContainer_viewer } from "coral-admin/__generated__/InviteUsersContainer_viewer.graphql";
 import { Ability, can } from "coral-admin/permissions";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 
 import InviteUsers from "./InviteUsers";
 
 interface Props {
-  viewer: ViewerData | null;
+  viewer: InviteUsersContainer_viewer | null;
+  settings: InviteUsersContainer_settings | null;
 }
 
-const InviteUsersContainer: FunctionComponent<Props> = ({ viewer }) => {
+const InviteUsersContainer: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+}) => {
   if (!viewer || !can(viewer, Ability.INVITE_USERS)) {
+    return null;
+  }
+
+  if (
+    !settings ||
+    !settings.auth.integrations.local.enabled ||
+    !settings.auth.integrations.local.allowRegistration ||
+    !settings.auth.integrations.local.targetFilter.admin
+  ) {
     return null;
   }
 
@@ -22,6 +36,21 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment InviteUsersContainer_viewer on User {
       role
+    }
+  `,
+  settings: graphql`
+    fragment InviteUsersContainer_settings on Settings {
+      auth {
+        integrations {
+          local {
+            enabled
+            allowRegistration
+            targetFilter {
+              admin
+            }
+          }
+        }
+      }
     }
   `,
 })(InviteUsersContainer);

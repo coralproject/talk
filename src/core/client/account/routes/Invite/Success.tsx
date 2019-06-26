@@ -2,12 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { useMemo } from "react";
 
 import { parseJWT } from "coral-framework/lib/jwt";
-import {
-  Button,
-  Flex,
-  HorizontalGutter,
-  Typography,
-} from "coral-ui/components";
+import { Flex, HorizontalGutter, Typography } from "coral-ui/components";
 
 interface Props {
   token: string;

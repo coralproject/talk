@@ -5,7 +5,11 @@ import { Field } from "react-final-form";
 import { GQLUSER_ROLE } from "coral-framework/schema";
 import { FieldSet, RadioButton, Typography } from "coral-ui/components";
 
-const RoleField: FunctionComponent = () => (
+interface Props {
+  disabled: boolean;
+}
+
+const RoleField: FunctionComponent<Props> = ({ disabled }) => (
   <FieldSet>
     <Localized id="community-invite-inviteAsLabel">
       <Typography container="legend" variant="bodyCopyBold">
@@ -24,6 +28,7 @@ const RoleField: FunctionComponent = () => (
               onBlur={input.onBlur}
               checked={input.checked}
               value={input.value}
+              disabled={disabled}
             >
               Staff
             </RadioButton>
@@ -41,6 +46,7 @@ const RoleField: FunctionComponent = () => (
               onBlur={input.onBlur}
               checked={input.checked}
               value={input.value}
+              disabled={disabled}
             >
               Moderator
             </RadioButton>
@@ -58,6 +64,7 @@ const RoleField: FunctionComponent = () => (
               onBlur={input.onBlur}
               checked={input.checked}
               value={input.value}
+              disabled={disabled}
             >
               Admin
             </RadioButton>

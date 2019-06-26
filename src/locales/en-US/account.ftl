@@ -1,5 +1,8 @@
 ### Localization for Account
 
+account-tokenNotFound =
+  The specified link is invalid, check to see if it was copied correctly.
+
 ## Password Reset
 
 resetPassword-resetPassword = Reset Password

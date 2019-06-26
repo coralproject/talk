@@ -158,7 +158,7 @@ configure-auth-authIntegrations = Authentication Integrations
 configure-auth-clientID = Client ID
 configure-auth-clientSecret = Client Secret
 configure-auth-configBoxEnabled = Enabled
-configure-auth-targetFilter{ -product-name }Admin = { -product-name } Admin
+configure-auth-targetFilterCoralAdmin = { -product-name } Admin
 configure-auth-targetFilterCommentStream = Comment Stream
 configure-auth-redirectURI = Redirect URI
 configure-auth-registration = Registration
@@ -490,6 +490,9 @@ community-invite-role-admin =
   moderation privileges (approve, reject and feature
   comments). Can configure individual articles and has
   site-wide configuration privileges.
+community-invite-invitationsSent = Your invitations have been sent!
+community-invite-close = Close
+community-invite-invite = Invite
 
 ## Stories
 stories-emptyMessage = There are currently no published stories.
