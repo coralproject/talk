@@ -293,9 +293,12 @@ exports[`renders community 1`] = `
           </div>
         </fieldset>
       </div>
-      <div>
+      <div
+        data-testid="invite-users"
+      >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+          data-testid="invite-users-button"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -907,9 +910,12 @@ exports[`renders empty community 1`] = `
           </div>
         </fieldset>
       </div>
-      <div>
+      <div
+        data-testid="invite-users"
+      >
         <button
           className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+          data-testid="invite-users-button"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}

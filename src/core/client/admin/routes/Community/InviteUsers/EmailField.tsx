@@ -31,6 +31,7 @@ const EmailField: FunctionComponent<Props> = ({ index, disabled }) => (
             </InputLabel>
           </Localized>
           <TextField
+            data-testid={`invite-users-email.${index}`}
             name={input.name}
             onChange={input.onChange}
             value={input.value}

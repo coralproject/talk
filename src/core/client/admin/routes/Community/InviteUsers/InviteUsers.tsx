@@ -12,9 +12,15 @@ const InviteUsers: FunctionComponent = () => {
   const hide = useCallback(() => setOpen(false), []);
 
   return (
-    <div>
+    <div data-testid="invite-users">
       <Localized id="community-invite-invite">
-        <Button variant="filled" color="primary" type="button" onClick={show}>
+        <Button
+          variant="filled"
+          color="primary"
+          type="button"
+          data-testid="invite-users-button"
+          onClick={show}
+        >
           Invite
         </Button>
       </Localized>

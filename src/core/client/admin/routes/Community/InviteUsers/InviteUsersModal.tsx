@@ -23,7 +23,7 @@ const InviteUsersModal: FunctionComponent<Props> = ({
   const finish = useCallback(() => setFinished(true), []);
 
   return (
-    <Card className={styles.root}>
+    <Card className={styles.root} data-testid="invite-users-modal">
       {!finished ? (
         <div>
           <Box className={styles.clearfix} marginBottom={3}>
