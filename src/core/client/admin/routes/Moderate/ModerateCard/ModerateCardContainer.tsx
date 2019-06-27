@@ -20,6 +20,7 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
 
+import UserHistoryDrawerContainer from "../UserHistoryDrawer/UserHistoryDrawerContainer";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -39,6 +40,10 @@ interface Props {
   showStoryInfo: boolean;
 }
 
+interface State {
+  showHistory: boolean;
+}
+
 function getStatus(comment: ModerateCardContainer_comment) {
   switch (comment.status) {
     case "APPROVED":
@@ -54,7 +59,14 @@ function isFeatured(comment: ModerateCardContainer_comment) {
   return comment.tags.some(t => t.code === GQLTAG.FEATURED);
 }
 
-class ModerateCardContainer extends React.Component<Props> {
+class ModerateCardContainer extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      showHistory: false,
+    };
+  }
+
   private handleApprove = () => {
     this.props.approveComment({
       commentID: this.props.comment.id,
@@ -79,6 +91,17 @@ class ModerateCardContainer extends React.Component<Props> {
     } else {
       this.handleFeature();
     }
+  };
+
+  private onShowCommentHistory = () => {
+    this.setState({
+      showHistory: true,
+    });
+  };
+  private onHideCommentHistory = () => {
+    this.setState({
+      showHistory: false,
+    });
   };
 
   private handleFeature = () => {
@@ -113,38 +136,47 @@ class ModerateCardContainer extends React.Component<Props> {
       showStoryInfo,
       viewer,
     } = this.props;
+    const { showHistory } = this.state;
     const dangling = danglingLogic(comment.status);
     return (
-      <FadeInTransition active={Boolean(comment.enteredLive)}>
-        <ModerateCard
-          id={comment.id}
-          username={comment.author!.username!}
-          createdAt={comment.createdAt}
-          body={comment.body!}
-          inReplyTo={comment.parent && comment.parent.author!.username!}
-          comment={comment}
-          dangling={dangling}
-          status={getStatus(comment)}
-          featured={isFeatured(comment)}
-          viewContextHref={comment.permalink}
-          suspectWords={settings.wordList.suspect}
-          bannedWords={settings.wordList.banned}
-          onApprove={this.handleApprove}
-          onReject={this.handleReject}
-          onFeature={this.onFeature}
-          moderatedBy={
-            <ModeratedByContainer viewer={viewer} comment={comment} />
-          }
-          showStory={showStoryInfo}
-          storyTitle={
-            (comment.story.metadata && comment.story.metadata.title) || (
-              <NotAvailable />
-            )
-          }
-          storyHref={getModerationLink("default", comment.story.id)}
-          onModerateStory={this.handleModerateStory}
+      <>
+        <FadeInTransition active={Boolean(comment.enteredLive)}>
+          <ModerateCard
+            id={comment.id}
+            username={comment.author!.username!}
+            createdAt={comment.createdAt}
+            body={comment.body!}
+            inReplyTo={comment.parent && comment.parent.author!.username!}
+            comment={comment}
+            dangling={dangling}
+            status={getStatus(comment)}
+            featured={isFeatured(comment)}
+            viewContextHref={comment.permalink}
+            suspectWords={settings.wordList.suspect}
+            bannedWords={settings.wordList.banned}
+            onApprove={this.handleApprove}
+            onReject={this.handleReject}
+            onFeature={this.onFeature}
+            onUsernameClick={this.onShowCommentHistory}
+            moderatedBy={
+              <ModeratedByContainer viewer={viewer} comment={comment} />
+            }
+            showStory={showStoryInfo}
+            storyTitle={
+              (comment.story.metadata && comment.story.metadata.title) || (
+                <NotAvailable />
+              )
+            }
+            storyHref={getModerationLink("default", comment.story.id)}
+            onModerateStory={this.handleModerateStory}
+          />
+        </FadeInTransition>
+        <UserHistoryDrawerContainer
+          open={showHistory}
+          onClose={this.onHideCommentHistory}
+          user={comment.author!}
         />
-      </FadeInTransition>
+      </>
     );
   }
 }
@@ -154,7 +186,9 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerateCardContainer_comment on Comment {
       id
       author {
+        id
         username
+        ...UserHistoryDrawerContainer_user
       }
       statusLiveUpdated
       createdAt
