@@ -3,7 +3,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Card, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
+import {
+  BaseButton,
+  Card,
+  Flex,
+  HorizontalGutter,
+  TextLink,
+} from "coral-ui/components";
 
 import ApproveButton from "./ApproveButton";
 import CommentContent from "./CommentContent";
@@ -36,6 +42,7 @@ interface Props {
   onApprove: () => void;
   onReject: () => void;
   onFeature: () => void;
+  onUsernameClick: () => void;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -59,6 +66,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   onApprove,
   onReject,
   onFeature,
+  onUsernameClick,
   dangling,
   showStory,
   storyTitle,
@@ -73,11 +81,13 @@ const ModerateCard: FunctionComponent<Props> = ({
     <Flex>
       <div className={styles.mainContainer}>
         <div className={styles.topBar}>
-          <div>
-            <Username className={styles.username}>{username}</Username>
+          <Flex alignItems="center">
+            <BaseButton onClick={onUsernameClick} className={styles.username}>
+              <Username>{username}</Username>
+            </BaseButton>
             <Timestamp>{createdAt}</Timestamp>
             <FeatureButton featured={featured} onClick={onFeature} />
-          </div>
+          </Flex>
           {inReplyTo && (
             <div>
               <InReplyTo>{inReplyTo}</InReplyTo>

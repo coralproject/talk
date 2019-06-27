@@ -1,0 +1,46 @@
+.root {
+  position: fixed;
+  right: 0;
+
+  min-width: 400px;
+  max-width: 80vw;
+  margin-top: 5px;
+  height: calc(100% - 10px);
+
+  background-color: var(--palette-background-light);
+}
+
+.username {
+  margin-bottom: var(--spacing-1);
+}
+
+.userDetails {
+  font-size: calc(16rem / var(--rem-base));
+  font-family: var(--font-family-sans-serif);
+}
+
+.userDetail {
+  margin-bottom: var(--spacing-1);
+}
+
+.userDetailValue {
+  margin-right: var(--spacing-2);
+}
+
+.icon {
+  margin-right: var(--spacing-2);
+}
+
+.copy {
+  border: 1px solid var(--palette-primary-main);
+  background-color: var(--palette-background-light);
+  color: var(--palette-primary-main);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  
+  &:active {
+    background-color: var(--palette-primary-lightest);
+    border-color: var(--palette-primary-main);
+    color: var(--palette-primary-main);
+  }
+}
