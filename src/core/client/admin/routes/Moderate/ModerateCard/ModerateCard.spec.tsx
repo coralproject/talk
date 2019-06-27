@@ -24,6 +24,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   onApprove: noop,
   onReject: noop,
   onFeature: noop,
+  onUsernameClick: noop,
   showStory: false,
   moderatedBy: null,
 };
