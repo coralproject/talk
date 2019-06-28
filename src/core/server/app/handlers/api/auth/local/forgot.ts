@@ -32,22 +32,24 @@ export type ForgotOptions = Pick<
 
 export const forgotHandler = ({
   config,
-  redis: client,
+  redis,
   mongo,
   signingConfig,
   mailerQueue,
 }: ForgotOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const emailLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 1,
     prefix: "email",
+    config,
   });
 
   return async (req, res, next) => {
@@ -139,25 +141,28 @@ export const ForgotResetBodySchema = Joi.object().keys({
 
 export type ForgotResetOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "mailerQueue" | "redis"
+  "mongo" | "signingConfig" | "mailerQueue" | "redis" | "config"
 >;
 
 export const forgotResetHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
+  config,
 }: ForgotResetOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",
+    config,
   });
 
   return async (req, res, next) => {
@@ -212,25 +217,28 @@ export const forgotResetHandler = ({
 
 export type ForgotCheckOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "redis"
+  "mongo" | "signingConfig" | "redis" | "config"
 >;
 
 export const forgotCheckHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
+  config,
 }: ForgotCheckOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 100,
     prefix: "ip",
+    config,
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 100,
     prefix: "sub",
+    config,
   });
 
   return async (req, res, next) => {

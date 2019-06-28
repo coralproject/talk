@@ -45,3 +45,9 @@ email-notification-template-confirmEmail =
   { $organizationName }, you can safely ignore this email.
 
 email-subject-confirmEmail = Confirm Email
+
+email-subject-invite = Coral Team invite
+
+email-notification-template-invite =
+  You have been invited to join the { $organizationName } team on Coral. Finish
+  setting up your account <a data-l10n-name="invite">here</a>.

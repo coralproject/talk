@@ -1,3 +1,4 @@
+import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
   GQLCOMMENT_FLAG_REASON,
@@ -39,6 +40,9 @@ export const settings = createFixture<GQLSettings>({
     auto: false,
     timeout: 604800,
     message: "Comments are closed on this story.",
+  },
+  email: {
+    enabled: true,
   },
   customCSSURL: "",
   allowedDomains: ["localhost:8080"],
@@ -655,3 +659,49 @@ export const emptyCommunityUsers = createFixture<GQLUsersConnection>({
   edges: [],
   pageInfo: { endCursor: null, hasNextPage: false },
 });
+
+export const disabledEmail = createFixture<GQLSettings>(
+  pureMerge(settings, {
+    email: {
+      enabled: false,
+    },
+  })
+);
+
+export const disabledLocalAuth = createFixture<GQLSettings>(
+  pureMerge(settings, {
+    auth: {
+      integrations: {
+        local: {
+          enabled: false,
+        },
+      },
+    },
+  })
+);
+
+export const disabledLocalAuthAdminTargetFilter = createFixture<GQLSettings>(
+  pureMerge(settings, {
+    auth: {
+      integrations: {
+        local: {
+          targetFilter: {
+            admin: false,
+          },
+        },
+      },
+    },
+  })
+);
+
+export const disabledLocalRegistration = createFixture<GQLSettings>(
+  pureMerge(settings, {
+    auth: {
+      integrations: {
+        local: {
+          allowRegistration: false,
+        },
+      },
+    },
+  })
+);

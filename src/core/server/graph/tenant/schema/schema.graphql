@@ -881,7 +881,7 @@ type Email {
   """
   smtpURI is the SMTP connection url to send emails on.
   """
-  smtpURI: String
+  smtpURI: String @auth(roles: [ADMIN])
 
   """
   fromAddress is the email address that will be used to send emails from.
@@ -1137,7 +1137,7 @@ type Settings {
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: Email! @auth(roles: [ADMIN])
+  email: Email! @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.
@@ -1225,6 +1225,39 @@ Token facilitates accessing Coral externally with a token.
 type Token {
   id: ID!
   name: String!
+  createdAt: Time!
+}
+
+"""
+Invite represents a given User that is pending registration that has been
+invited by an Administrator.
+"""
+type Invite {
+  """
+  id is the identifier for the Invite.
+  """
+  id: ID!
+
+  """
+  email is the email address that will be assigned and used for the
+  invited User.
+  """
+  email: String!
+
+  """
+  role is the USER_ROLE that the User will be assigned upon
+  account creation.
+  """
+  role: USER_ROLE!
+
+  """
+  createdBy is the User that created the Invite.
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time that the Invite was created on.
+  """
   createdAt: Time!
 }
 
@@ -3748,6 +3781,38 @@ type SetUsernamePayload {
   """
   clientMutationId: String!
 }
+##################
+# inviteUser
+##################
+
+input InviteUsersInput {
+  """
+  emails is the email addresses of the Users to be invited.
+  """
+  emails: [String!]!
+
+  """
+  role is the designated role of the User being invited.
+  """
+  role: USER_ROLE!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type InviteUsersPayload {
+  """
+  invites is the references to the invited Users.
+  """
+  invites: [Invite]!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
 
 ##################
 # setEmail
@@ -4361,6 +4426,13 @@ type Mutation {
   """
   rejectComment(input: RejectCommentInput!): RejectCommentPayload!
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  inviteUsers will send emails to the users with a new account at the designated
+  role.
+  """
+  inviteUsers(input: InviteUsersInput!): InviteUsersPayload!
+    @auth(roles: [ADMIN])
 
   """
   setUsername will set the username on the current User if they have not set one

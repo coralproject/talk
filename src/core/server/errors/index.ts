@@ -467,6 +467,9 @@ export class InternalDevelopmentError extends CoralError {
       extensions.message = cause.message;
     }
 
+    // Prefix this error message.
+    extensions.message = "InternalDevelopmentError: " + extensions.message;
+
     return extensions;
   }
 }
@@ -612,12 +615,31 @@ export class ConfirmEmailTokenExpired extends CoralError {
   }
 }
 
+export class InviteTokenExpired extends CoralError {
+  constructor(reason: string, cause?: Error) {
+    super({
+      code: ERROR_CODES.INVITE_TOKEN_EXPIRED,
+      cause,
+      status: 400,
+      context: { pvt: { reason } },
+    });
+  }
+}
+
 export class RateLimitExceeded extends CoralError {
   constructor(resource: string, max: number, tries: number) {
     super({
       code: ERROR_CODES.RATE_LIMIT_EXCEEDED,
       status: 429,
       context: { pvt: { resource, max, tries } },
+    });
+  }
+}
+
+export class InviteRequiresEmailAddresses extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.INVITE_REQUIRES_EMAIL_ADDRESSES,
     });
   }
 }

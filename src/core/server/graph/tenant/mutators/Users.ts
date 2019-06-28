@@ -20,12 +20,14 @@ import {
   updateRole,
   updateUsername,
 } from "coral-server/services/users";
+import { invite } from "coral-server/services/users/auth/invite";
 
 import {
   GQLBanUserInput,
   GQLCreateTokenInput,
   GQLDeactivateTokenInput,
   GQLIgnoreUserInput,
+  GQLInviteUsersInput,
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
@@ -41,6 +43,25 @@ import {
 } from "../schema/__generated__/types";
 
 export const Users = (ctx: TenantContext) => ({
+  invite: async ({ role, emails }: GQLInviteUsersInput) =>
+    mapFieldsetToErrorCodes(
+      invite(
+        ctx.mongo,
+        ctx.tenant,
+        ctx.config,
+        ctx.mailerQueue,
+        ctx.signingConfig!,
+        { role, emails },
+        ctx.user!,
+        ctx.now
+      ),
+      {
+        "input.emails": [
+          ERROR_CODES.EMAIL_INVALID_FORMAT,
+          ERROR_CODES.EMAIL_EXCEEDS_MAX_LENGTH,
+        ],
+      }
+    ),
   setUsername: async (
     input: GQLSetUsernameInput
   ): Promise<Readonly<User> | null> =>

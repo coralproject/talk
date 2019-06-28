@@ -34,23 +34,25 @@ export const ConfirmRequestBodySchema = Joi.object()
   .optionalKeys(["userID"]);
 
 export const confirmRequestHandler = ({
-  redis: client,
+  redis,
   config,
   mongo,
   mailerQueue,
   signingConfig,
 }: ConfirmRequestOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const userIDLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "userID",
+    config,
   });
 
   return async (req, res, next) => {
@@ -132,25 +134,28 @@ export const confirmRequestHandler = ({
 
 export type ConfirmCheckOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "redis"
+  "mongo" | "signingConfig" | "redis" | "config"
 >;
 
 export const confirmCheckHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
+  config,
 }: ConfirmCheckOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",
+    config,
   });
 
   return async (req, res, next) => {
@@ -194,25 +199,28 @@ export const confirmCheckHandler = ({
 
 export type ConfirmOptions = Pick<
   AppOptions,
-  "mongo" | "signingConfig" | "redis"
+  "mongo" | "signingConfig" | "redis" | "config"
 >;
 
 export const confirmHandler = ({
-  redis: client,
+  redis,
   mongo,
   signingConfig,
+  config,
 }: ConfirmOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
   const subLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "5m",
     max: 10,
     prefix: "sub",
+    config,
   });
 
   return async (req, res, next) => {

@@ -30,11 +30,7 @@ async function createTestRenderer(
 it("renders missing reset token", async () => {
   replaceHistoryLocation("http://localhost/account/password/reset");
   const { root } = await createTestRenderer();
-  await waitForElement(() =>
-    within(root).getByText("The Reset Token seems to be missing", {
-      exact: false,
-    })
-  );
+  await waitForElement(() => within(root).getByTestID("invalid-link"));
   expect(within(root).toJSON()).toMatchSnapshot();
 });
 
