@@ -1,15 +1,12 @@
-import { parseQuery } from "coral-common/utils";
+import clearHash from "./clearHash";
+import getParamsFromHash from "./getParamsFromHash";
 
 export default function getParamsFromHashAndClearIt() {
   try {
-    const params = window.location.hash
-      ? parseQuery(window.location.hash.substr(1))
-      : {};
+    const params = getParamsFromHash();
 
-    // Remove hash with token.
-    if (window.location.hash) {
-      window.history.replaceState(null, document.title, location.pathname);
-    }
+    // Clear the hash contents.
+    clearHash();
 
     return params;
   } catch (err) {

@@ -1,10 +1,12 @@
 import TestRenderer from "react-test-renderer";
+import uuid from "uuid/v1";
 
 import { pureMerge } from "coral-common/utils";
 import {
   GQLResolver,
   GQLUSER_ROLE,
   GQLUSER_STATUS,
+  QueryToSettingsResolver,
   QueryToUsersResolver,
 } from "coral-framework/schema";
 import {
@@ -14,6 +16,7 @@ import {
   CreateTestRendererParams,
   findParentWithType,
   replaceHistoryLocation,
+  wait,
   waitForElement,
   waitUntilThrow,
   within,
@@ -22,6 +25,10 @@ import {
 import create from "../create";
 import {
   communityUsers,
+  disabledEmail,
+  disabledLocalAuth,
+  disabledLocalAuthAdminTargetFilter,
+  disabledLocalRegistration,
   emptyCommunityUsers,
   settings,
   users,
@@ -79,6 +86,94 @@ it("renders empty community", async () => {
     },
   });
   expect(within(container).toJSON()).toMatchSnapshot();
+});
+
+it("renders the invite button when clicked", async () => {
+  const { container } = await createTestRenderer();
+
+  await act(async () =>
+    within(container)
+      .getByTestID("invite-users-button")
+      .props.onClick()
+  );
+
+  expect(within(container).getByTestID("invite-users-modal")).toBeDefined();
+});
+
+it("renders with invite button when viewed with admin user", async () => {
+  const admin = users.admins[0];
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () => admin,
+      },
+    }),
+  });
+  expect(within(container).queryByTestID("invite-users")).toBeDefined();
+});
+
+it("renders without invite button when viewed with non-admin user", async () => {
+  const moderator = users.moderators[0];
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        viewer: () => moderator,
+      },
+    }),
+  });
+  expect(within(container).queryByTestID("invite-users")).toBeNull();
+});
+
+it("renders without invite button when email disabled", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        settings: createQueryResolverStub<QueryToSettingsResolver>(
+          () => disabledEmail
+        ),
+      },
+    }),
+  });
+  expect(within(container).queryByTestID("invite-users")).toBeNull();
+});
+
+it("renders without invite button when admin target filter disabled", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        settings: createQueryResolverStub<QueryToSettingsResolver>(
+          () => disabledLocalAuthAdminTargetFilter
+        ),
+      },
+    }),
+  });
+  expect(within(container).queryByTestID("invite-users")).toBeNull();
+});
+
+it("renders without invite button when local auth disabled", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        settings: createQueryResolverStub<QueryToSettingsResolver>(
+          () => disabledLocalAuth
+        ),
+      },
+    }),
+  });
+  expect(within(container).queryByTestID("invite-users")).toBeNull();
+});
+
+it("renders without invite button when local auth registration disabled", async () => {
+  const { container } = await createTestRenderer({
+    resolvers: createResolversStub<GQLResolver>({
+      Query: {
+        settings: createQueryResolverStub<QueryToSettingsResolver>(
+          () => disabledLocalRegistration
+        ),
+      },
+    }),
+  });
+  expect(within(container).queryByTestID("invite-users")).toBeNull();
 });
 
 it("filter by role", async () => {
@@ -433,4 +528,41 @@ it("remove user ban", async () => {
 
   within(userRow).getByText("Active");
   expect(resolvers.Mutation!.removeUserBan!.called).toBe(true);
+});
+
+it("invites user", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      inviteUsers: ({ variables }) => ({
+        invites: variables.emails.map((email, idx) => ({
+          id: uuid(),
+          email,
+        })),
+      }),
+    },
+  });
+  const { container } = await createTestRenderer({ resolvers });
+
+  // Find the invite button.
+  const inviteButton = within(container).getByTestID("invite-users-button");
+
+  // Let's click the button.
+  act(() => inviteButton.props.onClick());
+
+  // Find the form.
+  const modal = within(container).getByTestID("invite-users-modal");
+  const form = within(modal).getByType("form");
+
+  // Find the first email field.
+  const field = within(form).getByTestID("invite-users-email.0");
+
+  // Submit the form.
+  await act(async () => {
+    field.props.onChange("test@email.com");
+    return form.props.onSubmit();
+  });
+
+  await wait(() => {
+    expect(resolvers.Mutation!.inviteUsers!.called).toBe(true);
+  });
 });

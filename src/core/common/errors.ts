@@ -257,6 +257,11 @@ export enum ERROR_CODES {
   EMAIL_CONFIRM_TOKEN_EXPIRED = "EMAIL_CONFIRM_TOKEN_EXPIRED",
 
   /**
+   * INVITE_TOKEN_EXPIRED is returned when a given invite token has expired.
+   */
+  INVITE_TOKEN_EXPIRED = "INVITE_TOKEN_EXPIRED",
+
+  /**
    * RATE_LIMIT_EXCEEDED is returned when an operation is performed too many
    * times by the same user.
    */
@@ -266,4 +271,10 @@ export enum ERROR_CODES {
    * JWT_REVOKED is returned when the token referenced has been revoked.
    */
   JWT_REVOKED = "JWT_REVOKED",
+
+  /*
+   * INVITE_REQUIRES_EMAIL_ADDRESSES is returned when an invite is requested
+   * without any email addresses specified.
+   */
+  INVITE_REQUIRES_EMAIL_ADDRESSES = "INVITE_REQUIRES_EMAIL_ADDRESSES",
 }

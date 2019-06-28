@@ -196,6 +196,14 @@ const config = convict({
     env: "DISABLE_CLIENT_ROUTES",
     arg: "disableClientRoutes",
   },
+  disable_rate_limiters: {
+    doc:
+      "Disables the rate limiters in development. This will only work when also set to a development environment",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_RATE_LIMITERS",
+    arg: "disableRateLimiters",
+  },
 });
 
 export type Config = typeof config;

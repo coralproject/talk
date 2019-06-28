@@ -4,6 +4,7 @@ import logger from "coral-server/logger";
 import { createCommentActionIndexes } from "coral-server/models/action/comment";
 import { createCommentModerationActionIndexes } from "coral-server/models/action/moderation/comment";
 import { createCommentIndexes } from "coral-server/models/comment";
+import { createInviteIndexes } from "coral-server/models/invite";
 import {
   createStoryCountIndexes,
   createStoryIndexes,
@@ -15,6 +16,7 @@ type IndexCreationFunction = (mongo: Db) => Promise<void>;
 
 const indexes: Array<[string, IndexCreationFunction]> = [
   ["users", createUserIndexes],
+  ["invites", createInviteIndexes],
   ["tenants", createTenantIndexes],
   ["comments", createCommentIndexes],
   ["stories", createStoryIndexes],

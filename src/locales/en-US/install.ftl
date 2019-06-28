@@ -3,9 +3,9 @@
 install-backButton-back = Back
 install-nextButton-next = Next
 install-permittedDomains-finishInstall = Finish Install
-install-header-title = Coral Installation Wizard
+install-header-title = { -product-name } Installation Wizard
 
-install-initialStep-copy = The remainder of the Coral installation will take about ten minutes. Once you complete the following three steps, you will have a free installation and provision Mongo and Redis.
+install-initialStep-copy = The remainder of the { -product-name } installation will take about ten minutes. Once you complete the following three steps, you will have a free installation and provision Mongo and Redis.
 install-initialStep-getStarted = Get Started
 
 install-addOrganization-stepTitle = Add Organization Details
@@ -41,12 +41,12 @@ install-createYourAccount-confirmPasswordTextField =
 
 install-permittedDomains-stepTitle = Add Permitted Domains
 install-permittedDomains-title = Permitted Domains
-install-permittedDomains-description = Enter the domains you would like to permit for Coral, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com).
+install-permittedDomains-description = Enter the domains you would like to permit for { -product-name }, e.g. your local, staging and production environments (ex. localhost:3000, staging.domain.com, domain.com).
 install-permittedDomains-permittedDomains = Permitted Domains
 install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domains
 install-permittedDomains-permittedDomainsDescription = Insert domains separated by comma
 
-install-finalStep-description = Thanks for installing Coral! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now.
+install-finalStep-description = Thanks for installing { -product-name }! We sent an email to verify your email address. While you finish setting up the account, you can start engaging with your readers now.
 install-finalStep-goToTheDocs = Go to the Docs
 install-finalStep-goToAdmin = Go to Admin

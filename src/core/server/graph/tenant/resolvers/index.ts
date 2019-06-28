@@ -16,6 +16,7 @@ import { FacebookAuthIntegration } from "./FacebookAuthIntegration";
 import { FeatureCommentPayload } from "./FeatureCommentPayload";
 import { Flag } from "./Flag";
 import { GoogleAuthIntegration } from "./GoogleAuthIntegration";
+import { Invite } from "./Invite";
 import { ModerationQueue } from "./ModerationQueue";
 import { ModerationQueues } from "./ModerationQueues";
 import { Mutation } from "./Mutation";
@@ -48,6 +49,7 @@ const Resolvers: GQLResolver = {
   FeatureCommentPayload,
   Flag,
   GoogleAuthIntegration,
+  Invite,
   ModerationQueue,
   ModerationQueues,
   Mutation,

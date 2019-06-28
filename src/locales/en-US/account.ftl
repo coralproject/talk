@@ -1,5 +1,8 @@
 ### Localization for Account
 
+account-tokenNotFound =
+  The specified link is invalid, check to see if it was copied correctly.
+
 ## Password Reset
 
 resetPassword-resetPassword = Reset Password
@@ -27,3 +30,4 @@ confirmEmail-missingConfirmToken = The Confirm Token seems to be missing.
 confirmEmail-successfullyConfirmed = Email successfully confirmed
 confirmEmail-youMayClose =
   You may now close this window.
+

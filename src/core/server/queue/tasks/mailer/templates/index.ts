@@ -53,11 +53,19 @@ export type ConfirmEmailTemplate = UserNotificationContext<
   }
 >;
 
+export type InviteEmailTemplate = UserNotificationContext<
+  "invite",
+  {
+    inviteURL: string;
+  }
+>;
+
 type Templates =
-  | ForgotPasswordTemplate
   | BanTemplate
-  | SuspendTemplate
+  | ConfirmEmailTemplate
+  | ForgotPasswordTemplate
+  | InviteEmailTemplate
   | PasswordChangeTemplate
-  | ConfirmEmailTemplate;
+  | SuspendTemplate;
 
 export { Templates as Template };

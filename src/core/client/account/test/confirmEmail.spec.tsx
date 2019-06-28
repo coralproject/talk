@@ -30,11 +30,7 @@ async function createTestRenderer(
 it("renders missing confirm token", async () => {
   replaceHistoryLocation("http://localhost/account/email/confirm");
   const { root } = await createTestRenderer();
-  await waitForElement(() =>
-    within(root).getByText("The Confirm Token seems to be missing", {
-      exact: false,
-    })
-  );
+  await waitForElement(() => within(root).getByTestID("invalid-link"));
   expect(within(root).toJSON()).toMatchSnapshot();
 });
 
