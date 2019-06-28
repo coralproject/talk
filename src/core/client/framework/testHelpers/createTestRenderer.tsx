@@ -16,6 +16,7 @@ import { RestClient } from "coral-framework/lib/rest";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
 import { createUUIDGenerator } from "coral-framework/testHelpers";
 
+import sinon from "sinon";
 import createFluentBundle from "./createFluentBundle";
 import createRelayEnvironment from "./createRelayEnvironment";
 import createSubscriptionHandler, {
@@ -102,13 +103,12 @@ export default function createTestRenderer<
     browserInfo: params.browserInfo || { ios: false },
     uuidGenerator: createUUIDGenerator(),
     eventEmitter: new EventEmitter2({ wildcard: true, maxListeners: 20 }),
-    clearSession: () => Promise.resolve(),
+    clearSession: sinon.stub(),
     transitionControl: {
       allowTransition: true,
       history: [],
     },
   };
-
   let testRenderer: ReactTestRenderer;
   TestRenderer.act(() => {
     testRenderer = TestRenderer.create(

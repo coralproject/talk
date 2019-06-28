@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 import { Strategy } from "passport-strategy";
 
 import { AppOptions } from "coral-server/app";
-import { TenantNotFoundError, TokenInvalidError } from "coral-server/errors";
+import {
+  JWTRevokedError,
+  TenantNotFoundError,
+  TokenInvalidError,
+} from "coral-server/errors";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
@@ -54,7 +58,7 @@ export function createVerifiers(
   ];
 }
 
-export function verifyAndRetrieveUser(
+export async function verifyAndRetrieveUser(
   verifiers: Array<Verifier<Token>>,
   tenant: Tenant,
   tokenString: string,
@@ -65,11 +69,21 @@ export function verifyAndRetrieveUser(
     throw new TokenInvalidError(tokenString, "token could not be decoded");
   }
 
-  // Try to verify the token.
-  for (const verifier of verifiers) {
-    if (verifier.supports(token, tenant)) {
-      return verifier.verify(tokenString, token, tenant, now);
+  try {
+    // Try to verify the token.
+    for (const verifier of verifiers) {
+      if (verifier.supports(token, tenant)) {
+        return await verifier.verify(tokenString, token, tenant, now);
+      }
     }
+  } catch (err) {
+    // When the JWT was revoked, just indicate that there is no user on the
+    // request rather than erroring out.
+    if (err instanceof JWTRevokedError) {
+      return null;
+    }
+
+    throw err;
   }
 
   // No verifier could be found.

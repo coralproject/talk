@@ -1,7 +1,6 @@
-import sinon from "sinon";
+import sinon, { SinonStub } from "sinon";
 
 import { pureMerge } from "coral-common/utils";
-import { LOCAL_ID, lookup } from "coral-framework/lib/relay";
 import { GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
@@ -40,7 +39,6 @@ async function createTestRenderer(
       params.resolvers
     ),
     initLocalState: (localRecord, source, environment) => {
-      localRecord.setValue(true, "loggedIn");
       if (params.initLocalState) {
         params.initLocalState(localRecord, source, environment);
       }
@@ -77,6 +75,8 @@ it("logs out", async () => {
   signOutButton.props.onClick();
 
   await wait(() => {
-    expect(lookup(context.relayEnvironment, LOCAL_ID)!.loggedIn).toBeFalsy();
+    restMock.verify();
+    // Wait for new session to start.
+    expect((context.clearSession as SinonStub).called).toBe(true);
   });
 });

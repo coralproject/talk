@@ -13,12 +13,7 @@ export async function commit(
   { rest, clearSession }: CoralContext
 ) {
   const result = await signIn(rest, pick(input, ["email", "password"]));
-  // Put the token on the hash and clean the session.
-  // It'll be picked up by initLocalState.
-  location.hash = `accessToken=${result.token}`;
-  await clearSession();
-  // TODO: (cvle) A better way would be if `context.clearSession` would return the new session and
-  // we set the accessToken directly in there.
+  await clearSession(result.token);
 }
 
 export const withSignInMutation = createMutationContainer("signIn", commit);

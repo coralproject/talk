@@ -15,7 +15,6 @@ exports[`init local state 1`] = `
     \\"accessToken\\": \\"\\",
     \\"accessTokenExp\\": null,
     \\"accessTokenJTI\\": null,
-    \\"loggedIn\\": false,
     \\"commentsOrderBy\\": \\"CREATED_AT_DESC\\",
     \\"authPopup\\": {
       \\"__ref\\": \\"client:root.local.authPopup\\"

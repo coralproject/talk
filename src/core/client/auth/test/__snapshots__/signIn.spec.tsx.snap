@@ -340,7 +340,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
             >
               <a
                 className="TextLink-root"
-                href="http://localhost/?view=FORGOT_PASSWORD#accessToken=access-token"
+                href="http://localhost/?view=FORGOT_PASSWORD"
                 onClick={[Function]}
               >
                 Forgot your password?
