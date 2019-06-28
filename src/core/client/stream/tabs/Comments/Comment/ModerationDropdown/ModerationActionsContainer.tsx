@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
@@ -6,7 +7,6 @@ import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
 import { ModerationActionsContainer_comment } from "coral-stream/__generated__/ModerationActionsContainer_comment.graphql";
 import { ModerationActionsContainer_story } from "coral-stream/__generated__/ModerationActionsContainer_story.graphql";
 import { ModerationActionsContainer_viewer } from "coral-stream/__generated__/ModerationActionsContainer_viewer.graphql";
-
 import { DropdownButton, DropdownDivider, Icon } from "coral-ui/components";
 
 import ApproveCommentMutation from "./ApproveCommentMutation";
@@ -14,7 +14,6 @@ import FeatureCommentMutation from "./FeatureCommentMutation";
 import RejectCommentMutation from "./RejectCommentMutation";
 import UnfeatureCommentMutation from "./UnfeatureCommentMutation";
 
-import cn from "classnames";
 import styles from "./ModerationActionsContainer.css";
 
 interface Props {
