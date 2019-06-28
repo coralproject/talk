@@ -7,7 +7,11 @@ import {
   GQLUSER_ROLE,
   GQLUSER_STATUS,
 } from "coral-framework/schema";
-import { createFixture } from "coral-framework/testHelpers";
+import {
+  createFixture,
+  denormalizeComment,
+  denormalizeStory,
+} from "coral-framework/testHelpers";
 import uuid from "uuid/v4";
 
 export function createDateInRange(start: Date, end: Date) {
@@ -60,62 +64,66 @@ export function createComment() {
   const author = createUser();
   author.createdAt = new Date(createdAt.getTime() - 60 * 60000).toISOString();
 
-  return createFixture<GQLComment>({
-    id: uuid(),
-    author,
-    body: uuid(),
-    revision: {
-      id: revision,
-    },
-    status: GQLCOMMENT_STATUS.NONE,
-    createdAt: createdAt.toISOString(),
-    replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
-    replyCount: 0,
-    editing: {
-      edited: false,
-      editableUntil: editableUntil.toISOString(),
-    },
-    actionCounts: {
-      reaction: {
-        total: 0,
+  return denormalizeComment(
+    createFixture<GQLComment>({
+      id: uuid(),
+      author,
+      body: uuid(),
+      revision: {
+        id: revision,
       },
-    },
-    tags: [],
-  });
+      status: GQLCOMMENT_STATUS.NONE,
+      createdAt: createdAt.toISOString(),
+      replies: { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
+      replyCount: 0,
+      editing: {
+        edited: false,
+        editableUntil: editableUntil.toISOString(),
+      },
+      actionCounts: {
+        reaction: {
+          total: 0,
+        },
+      },
+      tags: [],
+    })
+  );
 }
 
 export function createStory(createComments: boolean = true) {
   const id = uuid();
   const comments = [createComment(), createComment()];
 
-  return createFixture<GQLStory>({
-    id,
-    url: `http://localhost/stories/story-${id}`,
-    comments: {
-      edges: [
-        { node: comments[0], cursor: comments[0].createdAt },
-        { node: comments[1], cursor: comments[1].createdAt },
-      ],
-      pageInfo: {
-        hasNextPage: false,
+  return denormalizeStory(
+    createFixture<GQLStory>({
+      id,
+      url: `http://localhost/stories/story-${id}`,
+      comments: {
+        edges: [
+          { node: comments[0], cursor: comments[0].createdAt },
+          { node: comments[1], cursor: comments[1].createdAt },
+        ],
+        pageInfo: {
+          hasNextPage: false,
+        },
       },
-    },
-    metadata: {
-      title: uuid(),
-    },
-    isClosed: false,
-    commentCounts: {
-      totalVisible: 0,
-      tags: {
-        FEATURED: 0,
+      metadata: {
+        title: uuid(),
       },
-    },
-    settings: {
-      moderation: GQLMODERATION_MODE.POST,
-      premodLinksEnable: false,
-      messageBox: {
-        enabled: false,
+      isClosed: false,
+      commentCounts: {
+        totalVisible: 0,
+        tags: {
+          FEATURED: 0,
+        },
       },
-    },
-  });
+      settings: {
+        moderation: GQLMODERATION_MODE.POST,
+        premodLinksEnable: false,
+        messageBox: {
+          enabled: false,
+        },
+      },
+    })
+  );
 }
