@@ -245,11 +245,14 @@ configure-moderation-perspective-filter = Toxic Comment Filter
 configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
 configure-moderation-perspective-toxicityThresholdDescription =
   This value can be set a percentage between 0 and 100. This number represents the likelihood that a
-  comment is toxic, according to Perspective API. By default the treshold is set to { $default }.
+  comment is toxic, according to Perspective API. By default the threshold is set to { $default }.
+configure-moderation-perspective-toxicityModel = Toxicity Model
+configure-moderation-perspective-toxicityModelDescription =
+  Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
 configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
-  improve the API over time
+  improve the API over time.
 configure-moderation-perspective-customEndpoint = Custom Endpoint
 configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.

@@ -150,6 +150,7 @@ it("change perspective settings", async () => {
                 enabled: true,
                 endpoint: "https://custom-endpoint.net",
                 key: "my api key",
+                model: null,
                 threshold: 0.1,
               }
             );

@@ -141,6 +141,7 @@ and paste a comma separated list?
                 <a
                   className="ExternalLink-root"
                   href="#"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Learn how to convert your list
@@ -198,6 +199,7 @@ and paste a comma separated list?
                 <a
                   className="ExternalLink-root"
                   href="#"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Learn how to convert your list

@@ -2,6 +2,10 @@ import { isNil } from "lodash";
 import ms from "ms";
 import fetch from "node-fetch";
 
+import {
+  TOXICITY_MODEL_DEFAULT,
+  TOXICITY_THRESHOLD_DEFAULT,
+} from "coral-common/constants";
 import { Omit } from "coral-common/types";
 import { ToxicCommentError } from "coral-server/errors";
 import {
@@ -56,8 +60,7 @@ export const toxic: IntermediateModerationPhase = async ({
 
   let threshold = integration.threshold;
   if (isNil(threshold)) {
-    // TODO: (wyattjoh) replace hardcoded default with config.
-    threshold = 0.8;
+    threshold = TOXICITY_THRESHOLD_DEFAULT / 100;
 
     log.trace(
       { threshold },
@@ -81,17 +84,17 @@ export const toxic: IntermediateModerationPhase = async ({
   try {
     logger.trace("checking comment toxicity");
 
-    // TODO: (wyattjoh) support custom toxicity model.
-    const model = "TOXICITY";
+    // Pull the custom model out.
+    const model = integration.model || TOXICITY_MODEL_DEFAULT;
 
     // Call into the Toxic comment API.
     const score = await getScore(
       comment.body,
-      model,
       {
         endpoint,
         key: integration.key,
         doNotStore,
+        model,
       },
       timeout
     );
@@ -142,10 +145,10 @@ export const toxic: IntermediateModerationPhase = async ({
  */
 async function getScore(
   text: string,
-  model: string,
   {
     key,
     endpoint,
+    model,
     doNotStore,
   }: Required<Omit<GQLPerspectiveExternalIntegration, "enabled" | "threshold">>,
   timeout: number

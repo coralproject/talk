@@ -16,3 +16,14 @@ export const CLIENT_ID_PARAM = "clientID";
  * token in connectionParams when authenticating a websocket connection.
  */
 export const ACCESS_TOKEN_PARAM = "accessToken";
+
+/**
+ * TOXICITY_THRESHOLD_DEFAULT is the default value used when the threshold is
+ * not set.
+ */
+export const TOXICITY_THRESHOLD_DEFAULT = 80;
+
+/**
+ * TOXICITY_MODEL_DEFAULT is the default value used for the toxicity model.
+ */
+export const TOXICITY_MODEL_DEFAULT = "TOXICITY";
