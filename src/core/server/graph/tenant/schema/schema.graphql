@@ -764,6 +764,11 @@ type PerspectiveExternalIntegration {
   threshold: Float
 
   """
+  model is the Perspective model to use.
+  """
+  model: String
+
+  """
   When True, comments sent will not be stored by the Google Perspective API.
   """
   doNotStore: Boolean
@@ -2692,6 +2697,11 @@ input SettingsPerspectiveExternalIntegrationInput {
   The key for the Perspective API integration.
   """
   key: String
+
+  """
+  model is the name of the Perspective model to use.
+  """
+  model: String
 
   """
   The threshold that given a specific toxic comment score, the comment will
