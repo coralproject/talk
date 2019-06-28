@@ -7,7 +7,7 @@ import { Begin } from "coral-ui/components/AppBar";
 import styles from "./InviteLayout.css";
 
 const InviteLayout: FunctionComponent = ({ children }) => (
-  <div className={styles.root}>
+  <div className={styles.root} data-testid="invite-complete-container">
     <AppBar gutterBegin gutterEnd>
       <Begin itemGutter="double">
         <div className={styles.logoContainer}>

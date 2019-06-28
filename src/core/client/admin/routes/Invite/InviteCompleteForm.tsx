@@ -8,6 +8,7 @@ import { parseJWT } from "coral-framework/lib/jwt";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   Button,
+  CallOut,
   Flex,
   HorizontalGutter,
   Typography,
@@ -54,7 +55,7 @@ const InviteCompleteForm: React.FunctionComponent<Props> = ({
   const email = useMemo(() => parseJWT(token).payload.email, [token]);
 
   return (
-    <div>
+    <div data-testid="invite-complete-form">
       <Flex
         direction="column"
         justifyContent="center"
@@ -77,28 +78,31 @@ const InviteCompleteForm: React.FunctionComponent<Props> = ({
         <Typography variant="heading2">{email}</Typography>
       </Flex>
       <Form onSubmit={onSubmit}>
-        {({ handleSubmit, submitting }) => (
+        {({ handleSubmit, submitting, submitError }) => (
           <form autoComplete="off" onSubmit={handleSubmit}>
             <HorizontalGutter
               size="double"
               className={styles.root}
               paddingTop={4}
             >
-              <HorizontalGutter>
-                <SetUsernameField disabled={submitting} />
-                <SetPasswordField disabled={submitting} />
-                <Localized id="invite-createAccount">
-                  <Button
-                    type="submit"
-                    variant="filled"
-                    color="brand"
-                    disabled={submitting}
-                    fullWidth
-                  >
-                    Create Account
-                  </Button>
-                </Localized>
-              </HorizontalGutter>
+              {submitError && (
+                <CallOut color="error" fullWidth>
+                  {submitError}
+                </CallOut>
+              )}
+              <SetUsernameField disabled={submitting} />
+              <SetPasswordField disabled={submitting} />
+              <Localized id="invite-createAccount">
+                <Button
+                  type="submit"
+                  variant="filled"
+                  color="brand"
+                  disabled={submitting}
+                  fullWidth
+                >
+                  Create Account
+                </Button>
+              </Localized>
             </HorizontalGutter>
           </form>
         )}

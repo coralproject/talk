@@ -9,7 +9,7 @@ interface Props {
 
 const Sorry: React.FunctionComponent<Props> = ({ reason }) => {
   return (
-    <HorizontalGutter size="double">
+    <HorizontalGutter size="double" data-testid="invite-complete-sorry">
       <Localized id="invite-oopsSorry">
         <Typography variant="heading1">Oops Sorry!</Typography>
       </Localized>

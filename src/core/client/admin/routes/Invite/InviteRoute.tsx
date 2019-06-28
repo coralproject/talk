@@ -7,7 +7,7 @@ import { useToken } from "coral-framework/hooks";
 import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
-import { Delay, Spinner } from "coral-ui/components";
+import { Delay, Flex, Spinner } from "coral-ui/components";
 
 import InviteCompleteFormContainer from "./InviteCompleteFormContainer";
 import InviteLayout from "./InviteLayout";
@@ -37,11 +37,16 @@ const InviteRoute: React.FunctionComponent<Props> = ({ token, data }) => {
 
   if (!data || tokenState === "UNCHECKED") {
     return (
-      <InviteLayout>
+      <Flex
+        margin={8}
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Delay>
           <Spinner />
         </Delay>
-      </InviteLayout>
+      </Flex>
     );
   }
 

@@ -22,7 +22,11 @@ const Success: React.FunctionComponent<Props> = ({
   const email = useMemo(() => parseJWT(token).payload.email, [token]);
 
   return (
-    <HorizontalGutter spacing={3} className={styles.root}>
+    <HorizontalGutter
+      spacing={3}
+      className={styles.root}
+      data-testid="invite-complete-success"
+    >
       <Localized id="invite-successful">
         <Typography variant="heading1">
           Your account has been created
