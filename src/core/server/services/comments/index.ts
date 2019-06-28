@@ -22,13 +22,13 @@ import {
   CreateCommentInput,
   editComment,
   EditCommentInput,
-  getLatestRevision,
   pushChildCommentIDOntoParent,
   removeCommentTag,
   retrieveComment,
   validateEditable,
 } from "coral-server/models/comment";
 import {
+  getLatestRevision,
   hasAncestors,
   hasVisibleStatus,
 } from "coral-server/models/comment/helpers";
