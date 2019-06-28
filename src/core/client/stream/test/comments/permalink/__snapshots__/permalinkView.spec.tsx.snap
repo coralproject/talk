@@ -787,6 +787,33 @@ exports[`renders permalink view 1`] = `
                         </div>
                       </div>
                       <div
+                        className="Comment-subBar"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm InReplyTo-icon"
+                          >
+                            reply
+                          </span>
+                          <span>
+                             
+                          </span>
+                          <span
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                          >
+                            In reply to 
+                            <span
+                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                            >
+                              Markus
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                      <div
                         className="Box-root HorizontalGutter-root HorizontalGutter-spacing-1"
                       >
                         <div
@@ -973,6 +1000,33 @@ exports[`renders permalink view 1`] = `
                           <div
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignCenter gutter"
                           />
+                        </div>
+                      </div>
+                      <div
+                        className="Comment-subBar"
+                      >
+                        <div
+                          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm InReplyTo-icon"
+                          >
+                            reply
+                          </span>
+                          <span>
+                             
+                          </span>
+                          <span
+                            className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary InReplyTo-inReplyTo"
+                          >
+                            In reply to 
+                            <span
+                              className="Box-root Typography-root Typography-heading5 Typography-colorTextPrimary InReplyTo-username"
+                            >
+                              Markus
+                            </span>
+                          </span>
                         </div>
                       </div>
                       <div

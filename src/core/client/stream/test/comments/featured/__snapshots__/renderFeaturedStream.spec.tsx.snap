@@ -173,7 +173,7 @@ exports[`renders comment stream 1`] = `
         </div>
       </div>
       <div
-        className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+        className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
       >
         <div
           className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
@@ -278,8 +278,8 @@ exports[`renders comment stream 1`] = `
           <div
             aria-live="polite"
             className="Box-root HorizontalGutter-root HorizontalGutter-spacing-3"
-            data-testid="comments-stream-log"
-            id="coral-comments-stream-log"
+            data-testid="comments-featuredComments-log"
+            id="comments-featuredComments-log"
             role="log"
           >
             <div

@@ -77,6 +77,7 @@ function addCommentToStory(
 graphql`
   fragment CreateCommentMutation_viewer on User {
     role
+    createdAt
   }
 `;
 // tslint:disable-next-line:no-unused-expression

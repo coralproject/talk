@@ -30,8 +30,4 @@ export const commentLeftModerationQueue: SubscriptionToCommentLeftModerationQueu
 
     return true;
   },
-  resolve: ({ queue, commentID }, args, ctx) => ({
-    queue: () => queue,
-    comment: () => ctx.loaders.Comments.comment.load(commentID),
-  }),
 });

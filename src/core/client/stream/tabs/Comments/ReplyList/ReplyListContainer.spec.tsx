@@ -14,20 +14,23 @@ const ReplyListContainerN = removeFragmentRefs(ReplyListContainer);
 it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
-      id: "story-id",
+      isClosed: false,
     },
     comment: {
       id: "comment-id",
       status: "NONE",
       replies: {
-        edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
+        edges: [
+          { node: { id: "comment-1", enteredLive: false } },
+          { node: { id: "comment-2", enteredLive: false } },
+        ],
+        viewNewEdges: [],
       },
       lastViewerAction: null,
     },
     settings: {
-      reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
+      disableCommenting: {
+        enabled: false,
       },
     },
     relay: {
@@ -46,12 +49,12 @@ it("renders correctly", () => {
 it("renders correctly when replies are empty", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
-      id: "story-id",
+      isClosed: false,
     },
     comment: {
       id: "comment-id",
       status: "NONE",
-      replies: { edges: [] },
+      replies: { edges: [], viewNewEdges: [] },
       lastViewerAction: null,
     },
     relay: {
@@ -60,9 +63,8 @@ it("renders correctly when replies are empty", () => {
     } as any,
     viewer: null,
     settings: {
-      reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
+      disableCommenting: {
+        enabled: false,
       },
     },
     indentLevel: 1,
@@ -77,20 +79,23 @@ describe("when has more replies", () => {
   let finishLoading: ((error?: Error) => void) | null = null;
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
-      id: "story-id",
+      isClosed: false,
     },
     comment: {
       id: "comment-id",
       status: "NONE",
       replies: {
-        edges: [{ node: { id: "comment-1" } }, { node: { id: "comment-2" } }],
+        edges: [
+          { node: { id: "comment-1", enteredLive: false } },
+          { node: { id: "comment-2", enteredLive: false } },
+        ],
+        viewNewEdges: [],
       },
       lastViewerAction: null,
     },
     settings: {
-      reaction: {
-        icon: "thumb_up_alt",
-        label: "Respect",
+      disableCommenting: {
+        enabled: false,
       },
     },
     relay: {

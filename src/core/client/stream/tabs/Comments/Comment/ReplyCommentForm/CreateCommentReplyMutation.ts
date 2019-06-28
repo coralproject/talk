@@ -114,6 +114,7 @@ graphql`
 graphql`
   fragment CreateCommentReplyMutation_viewer on User {
     role
+    createdAt
   }
 `;
 /** end */

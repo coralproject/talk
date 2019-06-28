@@ -70,7 +70,7 @@ async function createTestRenderer(
 it("loads more", async () => {
   const { testRenderer } = await createTestRenderer();
   const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-featuredComments-log")
   );
 
   // Get amount of comments before.
