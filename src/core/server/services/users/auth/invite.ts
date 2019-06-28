@@ -189,14 +189,15 @@ export async function invite(
 
   const payloads: Array<{
     email: string;
-    inviteURL: string;
-    invitedNow: Invite;
+    inviteURL?: string;
+    invitedNow?: Invite;
   }> = [];
   for (const email of uniq(emails)) {
     // Check to see if the user with the specified email already has an account.
     const userAlready = await retrieveUserWithEmail(mongo, tenant.id, email);
     if (userAlready) {
-      return null;
+      payloads.push({ email });
+      continue;
     }
 
     // Check to see that the user has not been invited before, if they have,
@@ -229,6 +230,12 @@ export async function invite(
   }
 
   for (const { email, inviteURL } of payloads) {
+    if (!inviteURL) {
+      // There was no associated inviteURL generated for this user, do not send
+      // anything.
+      continue;
+    }
+
     // Send the invited user an email with the invite token.
     await mailerQueue.add({
       template: {
@@ -252,7 +259,7 @@ export async function invite(
       return null;
     }
 
-    return result.invitedNow;
+    return result.invitedNow || null;
   });
 }
 
