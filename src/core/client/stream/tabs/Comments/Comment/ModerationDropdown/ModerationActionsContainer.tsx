@@ -51,14 +51,14 @@ const ModerationActionsContainer: FunctionComponent<Props> = ({
       commentRevisionID: comment.revision.id,
     });
     onDismiss();
-  }, [feature, comment]);
+  }, [feature, onDismiss, story, comment]);
   const onUnfeature = useCallback(() => {
     unfeature({
       commentID: comment.id,
       storyID: story.id,
     });
     onDismiss();
-  }, [unfeature, comment]);
+  }, [unfeature, onDismiss, story, comment]);
   const approved = comment.status === "APPROVED";
   const rejected = comment.status === "REJECTED";
   const featured = comment.tags.some(t => t.code === "FEATURED");

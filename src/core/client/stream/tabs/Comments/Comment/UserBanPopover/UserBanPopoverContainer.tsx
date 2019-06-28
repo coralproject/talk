@@ -23,7 +23,7 @@ const UserBanPopoverContainer: FunctionComponent<Props> = ({
   const onBan = useCallback(() => {
     banUser({ userID: user.id });
     onDismiss();
-  }, [user, banUser]);
+  }, [user, banUser, onDismiss]);
   return (
     <Box className={styles.root} p={3}>
       <Localized id="comments-userBanPopover-title" $username={user.username}>
