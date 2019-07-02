@@ -1,6 +1,7 @@
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import React, { FunctionComponent } from "react";
 
+import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { CopyButton } from "coral-framework/components";
 import { Card, Flex, Icon, Modal, Typography } from "coral-ui/components";
 
@@ -22,9 +23,7 @@ const UserHistoryDrawerContainer: FunctionComponent<
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
           <Flex className={styles.username}>
-            <Typography variant="heading1" container="span">
-              {user.username}
-            </Typography>
+            <span>{user.username}</span>
           </Flex>
           <div className={styles.userDetails}>
             <Flex alignItems="center" className={styles.userDetail}>
@@ -74,6 +73,7 @@ const UserHistoryDrawerContainer: FunctionComponent<
               />
             </Flex>
           </div>
+          <HorizontalRule />
         </Card>
       )}
     </Modal>
