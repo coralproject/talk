@@ -27,12 +27,25 @@ exports[`approves comment in reported queue: dangling 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <span
-            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root ModerateCard-username"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            Isabelle
-          </span>
+            <span
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+            >
+              Isabelle
+            </span>
+          </button>
           <time
             className="Timestamp-root RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
@@ -243,12 +256,25 @@ exports[`rejects comment in reported queue: dangling 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <span
-            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root ModerateCard-username"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            Isabelle
-          </span>
+            <span
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+            >
+              Isabelle
+            </span>
+          </button>
           <time
             className="Timestamp-root RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
@@ -456,12 +482,25 @@ exports[`renders reported queue with comments 1`] = `
             <div
               className="ModerateCard-topBar"
             >
-              <div>
-                <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              >
+                <button
+                  className="BaseButton-root ModerateCard-username"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  Isabelle
-                </span>
+                  <span
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                  >
+                    Isabelle
+                  </span>
+                </button>
                 <time
                   className="Timestamp-root RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
@@ -656,12 +695,25 @@ exports[`renders reported queue with comments 1`] = `
             <div
               className="ModerateCard-topBar"
             >
-              <div>
-                <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              >
+                <button
+                  className="BaseButton-root ModerateCard-username"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  Ngoc
-                </span>
+                  <span
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                  >
+                    Ngoc
+                  </span>
+                </button>
                 <time
                   className="Timestamp-root RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
@@ -872,12 +924,25 @@ exports[`renders reported queue with comments 2`] = `
             <div
               className="ModerateCard-topBar"
             >
-              <div>
-                <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              >
+                <button
+                  className="BaseButton-root ModerateCard-username"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  Isabelle
-                </span>
+                  <span
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                  >
+                    Isabelle
+                  </span>
+                </button>
                 <time
                   className="Timestamp-root RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
@@ -1072,12 +1137,25 @@ exports[`renders reported queue with comments 2`] = `
             <div
               className="ModerateCard-topBar"
             >
-              <div>
-                <span
-                  className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+              <div
+                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              >
+                <button
+                  className="BaseButton-root ModerateCard-username"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
                 >
-                  Ngoc
-                </span>
+                  <span
+                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                  >
+                    Ngoc
+                  </span>
+                </button>
                 <time
                   className="Timestamp-root RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
@@ -1278,12 +1356,25 @@ exports[`renders reported queue with comments and load more 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <span
-            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root ModerateCard-username"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            Max
-          </span>
+            <span
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+            >
+              Max
+            </span>
+          </button>
           <time
             className="Timestamp-root RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
