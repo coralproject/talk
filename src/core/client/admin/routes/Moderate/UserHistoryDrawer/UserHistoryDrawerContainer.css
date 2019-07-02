@@ -30,6 +30,7 @@
 
 .userDetailValue {
   margin-right: var(--spacing-2);
+  min-width: 285px;
 }
 
 .icon {
