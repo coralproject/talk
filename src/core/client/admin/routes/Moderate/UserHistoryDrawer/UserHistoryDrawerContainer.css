@@ -15,7 +15,6 @@
 }
 
 .userDetails {
-  font-size: calc(16rem / var(--rem-base));
   font-family: var(--font-family-sans-serif);
 }
 
