@@ -119,13 +119,6 @@ comments-userIgnorePopover-description =
 comments-userIgnorePopover-ignore = Ignore
 comments-userIgnorePopover-cancel = Cancel
 
-comments-userBanPopover-title = Ban {$username}?
-comments-userBanPopover-description = 
-  Once banned, this user will no longer be able 
-  to comment, use reactions, or report comments.
-comments-userBanPopover-cancel = Cancel
-comments-userBanPopover-ban = Ban
-
 comments-moderationDropdown-popover =
   .description = A popover menu to moderate the comment
 comments-moderationDropdown-feature = Feature
@@ -134,8 +127,6 @@ comments-moderationDropdown-approve = Approve
 comments-moderationDropdown-approved = Approved
 comments-moderationDropdown-reject = Reject
 comments-moderationDropdown-rejected = Rejected
-comments-moderationDropdown-ban = Ban User
-comments-moderationDropdown-banned = Banned
 comments-moderationDropdown-goToModerate = Go to Moderate
 comments-moderationDropdown-caretButton =
   .aria-label = Moderate

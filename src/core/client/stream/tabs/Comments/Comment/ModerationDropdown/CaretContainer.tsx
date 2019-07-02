@@ -5,7 +5,6 @@ import { graphql } from "react-relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { CaretContainer_comment } from "coral-stream/__generated__/CaretContainer_comment.graphql";
 import { CaretContainer_story } from "coral-stream/__generated__/CaretContainer_story.graphql";
-import { CaretContainer_viewer } from "coral-stream/__generated__/CaretContainer_viewer.graphql";
 import { Button, ClickOutside, Icon, Popover } from "coral-ui/components";
 
 import ModerationDropdownContainer from "./ModerationDropdownContainer";
@@ -15,7 +14,6 @@ import styles from "./CaretContainer.css";
 interface Props {
   comment: CaretContainer_comment;
   story: CaretContainer_story;
-  viewer: CaretContainer_viewer | null;
 }
 
 const CaretContainer: FunctionComponent<Props> = props => {
@@ -29,14 +27,12 @@ const CaretContainer: FunctionComponent<Props> = props => {
         id={popoverID}
         placement="bottom-end"
         description="A popover menu to moderate the comment"
-        body={({ toggleVisibility, scheduleUpdate }) => (
+        body={({ toggleVisibility }) => (
           <ClickOutside onClickOutside={toggleVisibility}>
             <ModerationDropdownContainer
               comment={props.comment}
               story={props.story}
-              viewer={props.viewer}
               onDismiss={toggleVisibility}
-              scheduleUpdate={scheduleUpdate}
             />
           </ClickOutside>
         )}
@@ -74,11 +70,6 @@ const enhanced = withFragmentContainer<Props>({
   story: graphql`
     fragment CaretContainer_story on Story {
       ...ModerationDropdownContainer_story
-    }
-  `,
-  viewer: graphql`
-    fragment CaretContainer_viewer on User {
-      ...ModerationDropdownContainer_viewer
     }
   `,
 })(CaretContainer);

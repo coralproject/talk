@@ -150,12 +150,6 @@ function commit(
               username: viewer.username,
               createdAt: viewer.createdAt,
               ignoreable: false,
-              status: {
-                current: viewer.status.current,
-                ban: {
-                  active: viewer.status.ban.active,
-                },
-              },
             },
             revision: {
               id: uuidGenerator(),
