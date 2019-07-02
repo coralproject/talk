@@ -2,7 +2,6 @@
   position: fixed;
   right: 0;
 
-  min-width: 600px;
   max-width: 80vw;
   margin-top: 5px;
   height: calc(100% - 10px);
@@ -30,7 +29,6 @@
 
 .userDetailValue {
   margin-right: var(--spacing-2);
-  min-width: 285px;
 }
 
 .icon {
