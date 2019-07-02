@@ -243,11 +243,7 @@ export class CommentContainer extends Component<Props, State> {
                   </Localized>
                 )}
                 {showCaret && (
-                  <CaretContainer
-                    comment={comment}
-                    story={story}
-                    viewer={viewer}
-                  />
+                  <CaretContainer comment={comment} story={story} />
                 )}
               </Flex>
             }
@@ -333,7 +329,6 @@ const enhanced = withSetCommentIDMutation(
           ...UsernameWithPopoverContainer_viewer
           ...ReactionButtonContainer_viewer
           ...ReportButtonContainer_viewer
-          ...CaretContainer_viewer
         }
       `,
       story: graphql`

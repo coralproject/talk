@@ -1,29 +1,20 @@
 import timekeeper from "timekeeper";
 
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
+import { GQLResolver, GQLUSER_STATUS } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
-import {
-  createComment,
-  createStory,
-  createUser,
-  createUserStatus,
-} from "coral-stream/test/helpers/fixture";
 
-import { settings } from "../../fixtures";
+import { comments, settings, stories } from "../../fixtures";
 import create from "./create";
 
-const bannedUser = createUser();
-bannedUser.status = createUserStatus(true);
-
-const story = createStory();
+const story = stories[0];
 const firstComment = story.comments.edges[0].node;
-const reactedComment = createComment();
+const viewer = firstComment.author!;
 
 async function createTestRenderer(
   params: CreateTestRendererParams<GQLResolver> = {}
@@ -34,17 +25,22 @@ async function createTestRenderer(
       createResolversStub<GQLResolver>({
         Query: {
           settings: () => settings,
-          viewer: () => bannedUser,
+          viewer: () =>
+            pureMerge<typeof viewer>(viewer, {
+              status: {
+                current: [GQLUSER_STATUS.BANNED],
+              },
+            }),
           story: () =>
             pureMerge<typeof story>(story, {
               comments: {
                 edges: [
                   ...story.comments.edges,
                   {
-                    node: pureMerge<typeof reactedComment>(reactedComment, {
+                    node: pureMerge<typeof comments[2]>(comments[2], {
                       actionCounts: { reaction: { total: 1 } },
                     }),
-                    cursor: reactedComment.createdAt,
+                    cursor: comments[2].createdAt,
                   },
                 ],
               },
