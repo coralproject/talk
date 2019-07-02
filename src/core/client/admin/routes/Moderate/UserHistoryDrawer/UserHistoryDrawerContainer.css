@@ -11,11 +11,17 @@
 }
 
 .username {
+  font-family: var(--font-family-serif);
+  font-size: calc(24rem / var(--rem-base));
+  font-weight: 500;
+  font-family: var(--font-family-serif);
+  line-height: calc(36em / 24);
+  letter-spacing: calc(0.2em / 24);
   margin-bottom: var(--spacing-1);
 }
 
 .userDetails {
-  font-family: var(--font-family-sans-serif);
+  margin-bottom: var(--spacing-3);
 }
 
 .userDetail {
