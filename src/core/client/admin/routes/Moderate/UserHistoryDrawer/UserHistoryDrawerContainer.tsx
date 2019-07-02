@@ -32,7 +32,7 @@ const UserHistoryDrawerContainer: FunctionComponent<
                 mail_outline
               </Icon>
               <Typography
-                variant="detail"
+                variant="bodyCopy"
                 container="span"
                 className={styles.userDetailValue}
               >
@@ -48,7 +48,7 @@ const UserHistoryDrawerContainer: FunctionComponent<
               <Icon size="sm" className={styles.icon}>
                 date_range
               </Icon>
-              <Typography variant="detail" container="span">
+              <Typography variant="bodyCopy" container="span">
                 {new Date(user.createdAt).toLocaleDateString("en-us", {
                   month: "long",
                   day: "numeric",
@@ -61,7 +61,7 @@ const UserHistoryDrawerContainer: FunctionComponent<
                 people_outline
               </Icon>
               <Typography
-                variant="detail"
+                variant="bodyCopy"
                 container="span"
                 className={styles.userDetailValue}
               >
