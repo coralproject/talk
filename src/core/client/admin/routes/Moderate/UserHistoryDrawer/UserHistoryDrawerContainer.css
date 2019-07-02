@@ -2,7 +2,7 @@
   position: fixed;
   right: 0;
 
-  min-width: 400px;
+  min-width: 600px;
   max-width: 80vw;
   margin-top: 5px;
   height: calc(100% - 10px);
