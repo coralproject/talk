@@ -2,11 +2,23 @@
   position: fixed;
   right: 0;
 
-  max-width: 80vw;
-  margin-top: 5px;
-  height: calc(100% - 10px);
+  max-width: 50vw;
+  height: 100%;
+
+  display: flex;
+  flex-flow: column nowrap;
+  flex-direction: column;
 
   background-color: var(--palette-background-light);
+}
+
+.user {
+  flex: none;
+}
+
+.comments {
+  flex: auto;
+  overflow-y: scroll;
 }
 
 .username {
@@ -48,3 +60,4 @@
     color: var(--palette-primary-main);
   }
 }
+

@@ -7,6 +7,8 @@ import { Card, Flex, Icon, Modal, Typography } from "coral-ui/components";
 
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 
+import UserHistoryAllCommentsContainer from "./UserHistoryAllCommentsContainer";
+
 import styles from "./UserHistoryDrawerContainer.css";
 
 interface UserHistoryDrawerContainerProps {
@@ -22,58 +24,65 @@ const UserHistoryDrawerContainer: FunctionComponent<
     <Modal open={open} onClose={onClose}>
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
-          <Flex className={styles.username}>
-            <span>{user.username}</span>
-          </Flex>
-          <div className={styles.userDetails}>
-            <Flex alignItems="center" className={styles.userDetail}>
-              <Icon size="sm" className={styles.icon}>
-                mail_outline
-              </Icon>
-              <Typography
-                variant="bodyCopy"
-                container="span"
-                className={styles.userDetailValue}
-              >
-                {user.email}
-              </Typography>
-              <CopyButton
-                text={user.email!}
-                variant="regular"
-                className={styles.copy}
-              />
+          <div className={styles.user}>
+            <Flex className={styles.username}>
+              <span>{user.username}</span>
             </Flex>
-            <Flex alignItems="center" className={styles.userDetail}>
-              <Icon size="sm" className={styles.icon}>
-                date_range
-              </Icon>
-              <Typography variant="bodyCopy" container="span">
-                {new Date(user.createdAt).toLocaleDateString("en-us", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </Typography>
-            </Flex>
-            <Flex alignItems="center" className={styles.userDetail}>
-              <Icon size="sm" className={styles.icon}>
-                people_outline
-              </Icon>
-              <Typography
-                variant="bodyCopy"
-                container="span"
-                className={styles.userDetailValue}
-              >
-                {user.id}
-              </Typography>
-              <CopyButton
-                text={user.id}
-                variant="regular"
-                className={styles.copy}
-              />
-            </Flex>
+            <div className={styles.userDetails}>
+              <Flex alignItems="center" className={styles.userDetail}>
+                <Icon size="sm" className={styles.icon}>
+                  mail_outline
+                </Icon>
+                <Typography
+                  variant="bodyCopy"
+                  container="span"
+                  className={styles.userDetailValue}
+                >
+                  {user.email}
+                </Typography>
+                <CopyButton
+                  text={user.email!}
+                  variant="regular"
+                  className={styles.copy}
+                />
+              </Flex>
+              <Flex alignItems="center" className={styles.userDetail}>
+                <Icon size="sm" className={styles.icon}>
+                  date_range
+                </Icon>
+                <Typography variant="bodyCopy" container="span">
+                  {new Date(user.createdAt).toLocaleDateString("en-us", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </Typography>
+              </Flex>
+              <Flex alignItems="center" className={styles.userDetail}>
+                <Icon size="sm" className={styles.icon}>
+                  people_outline
+                </Icon>
+                <Typography
+                  variant="bodyCopy"
+                  container="span"
+                  className={styles.userDetailValue}
+                >
+                  {user.id}
+                </Typography>
+                <CopyButton
+                  text={user.id}
+                  variant="regular"
+                  className={styles.copy}
+                />
+              </Flex>
+            </div>
+            <HorizontalRule />
           </div>
-          <HorizontalRule />
+          {open && (
+            <div className={styles.comments}>
+              <UserHistoryAllCommentsContainer userID={user.id} />
+            </div>
+          )}
         </Card>
       )}
     </Modal>
