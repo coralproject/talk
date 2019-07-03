@@ -73,7 +73,7 @@ class AdminLogin extends React.Component {
               this.setState({ requestPassword: true });
             }}
           >
-            {t('login.request_passowrd')}
+            {t('login.request_password')}
           </a>
         </p>
         {loginMaxExceeded && (

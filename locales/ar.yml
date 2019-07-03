@@ -359,7 +359,7 @@ ar:
     sign_in_button: 'تسجيل الدخول'
     sign_in_message: 'تسجيل الدخول للتفاعل مع مجتمعك.'
     password: كلمه المرور
-    request_passowrd: 'اطلب واحدة جديده.'
+    request_password: 'اطلب واحدة جديده.'
     team_sign_in: 'تسجيل الدخول لفريق العمل'
   marketing: 'هذا يشبه الإعلان / التسويق'
   moderate_all_streams: 'Moderate comments on All Stories'

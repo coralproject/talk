@@ -369,7 +369,7 @@ it:
     sign_in_message: 'Accedi per interagire con la comunità.'
     password: Password
     reset_password_send_button: 'Reimposta Password'
-    request_passowrd: 'Richiedi una nuova password.'
+    request_password: 'Richiedi una nuova password.'
     team_sign_in: 'Accesso Team'
   marketing: 'Sembra si tratti di pubblicità/marketing'
   moderate_all_streams: 'Modera i commenti in Tutte le storie'

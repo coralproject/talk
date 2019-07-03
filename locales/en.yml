@@ -385,7 +385,7 @@ en:
     sign_in_message: 'Sign in to interact with your community.'
     password: Password
     reset_password_send_button: 'Retrieve Password'
-    request_passowrd: 'Request a new one.'
+    request_password: 'Request a new one.'
     team_sign_in: 'Team sign in'
   marketing: 'This looks like an ad/marketing'
   moderate_all_streams: 'Moderate comments on All Stories'

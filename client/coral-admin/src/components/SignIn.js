@@ -79,7 +79,7 @@ class SignIn extends React.Component {
               className={styles.forgotPasswordLink}
               onClick={this.handleForgotPasswordLink}
             >
-              {t('login.request_passowrd')}
+              {t('login.request_password')}
             </a>
           </p>
         </form>
