@@ -3,7 +3,14 @@ import React, { FunctionComponent } from "react";
 
 import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { CopyButton } from "coral-framework/components";
-import { Card, Flex, Icon, Modal, Typography } from "coral-ui/components";
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  Modal,
+  Typography,
+} from "coral-ui/components";
 
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 
@@ -22,6 +29,9 @@ const UserHistoryDrawerContainer: FunctionComponent<
     <Modal open={open} onClose={onClose}>
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.root}>
+          <Button className={styles.close} onClick={onClose}>
+            <Icon size="md">close</Icon>
+          </Button>
           <Flex className={styles.username}>
             <span>{user.username}</span>
           </Flex>
