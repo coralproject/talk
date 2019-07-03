@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { isNil, isUndefined } from "lodash";
+import { isNil } from "lodash";
 import { Db } from "mongodb";
 
 import { validate } from "coral-server/app/request/body";
