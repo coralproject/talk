@@ -372,7 +372,7 @@ nl_NL:
     sign_in_message: "Log in om te communiceren met je community"
     password: Wachtwoord
     reset_password_send_button: "Wachtwoord ophalen"
-    request_passowrd: "Vraag een nieuwe aan."
+    request_password: "Vraag een nieuwe aan."
     team_sign_in: "Team login"
   marketing: "Dit lijkt op een advertentie/marketing"
   moderate_all_streams: "Modereer reacties op alle artikelen"

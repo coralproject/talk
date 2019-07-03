@@ -385,7 +385,7 @@ de:
     sign_in_message: 'Anmelden um mit der Community zu interagieren.'
     password: Passwort
     reset_password_send_button: 'Passwort erhalten'
-    request_passowrd: 'Neues anfordern.'
+    request_password: 'Neues anfordern.'
     team_sign_in: 'Team Anmeldung'
   marketing: 'Dies scheint Werbung zu sein'
   moderate_all_streams: 'Moderate comments on All Stories'
