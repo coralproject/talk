@@ -8,6 +8,23 @@
   background-color: var(--palette-background-light);
 }
 
+.close {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -40px;
+
+  padding: 0px;
+
+  background-color: var(--palette-background-light);
+  
+  border-width: 2px;
+  border-right-width: 0px;
+  border-style: solid;
+  border-color: var(--palette-grey-main);
+  border-radius: 4px 0px 0px 4px;
+}
+
 .username {
   font-family: var(--font-family-serif);
   font-size: calc(24rem / var(--rem-base));
