@@ -1,5 +1,5 @@
 import { LocalProfile, SSOProfile } from "coral-server/models/user";
-import { getLocalProfile, hasLocalProfile } from "./users";
+import { getLocalProfile, hasLocalProfile } from "./helpers";
 
 const localProfile: LocalProfile = {
   type: "local",
@@ -10,6 +10,7 @@ const localProfile: LocalProfile = {
 const ssoProfile: SSOProfile = {
   type: "sso",
   id: "sso-id",
+  lastIssuedAt: new Date(0),
 };
 
 it("will get the local profile", () => {
