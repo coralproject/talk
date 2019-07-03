@@ -3,8 +3,7 @@
   right: 0;
 
   max-width: 80vw;
-  margin-top: 5px;
-  height: calc(100% - 10px);
+  height: 100%;
 
   background-color: var(--palette-background-light);
 }
