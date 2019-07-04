@@ -33,16 +33,17 @@ export type SignupOptions = Pick<
 
 export const signupHandler = ({
   config,
-  redis: client,
+  redis,
   mongo,
   signingConfig,
   mailerQueue,
 }: SignupOptions): RequestHandler => {
   const ipLimiter = new RequestLimiter({
-    client,
+    redis,
     ttl: "10m",
     max: 10,
     prefix: "ip",
+    config,
   });
 
   return async (req, res, next) => {

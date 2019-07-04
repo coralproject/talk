@@ -138,7 +138,7 @@ export async function verifyConfirmTokenString(
   }
 
   // Unpack some of the token.
-  const { sub: userID, email, evid: emailVerificationID } = token;
+  const { sub: userID, email, evid: emailVerificationID, iss } = token;
 
   // TODO: (wyattjoh) verify that the token has not been revoked.
 
@@ -146,6 +146,10 @@ export async function verifyConfirmTokenString(
   const user = await retrieveUser(mongo, tenant.id, userID);
   if (!user) {
     throw new UserNotFoundError(userID);
+  }
+
+  if (iss !== tenant.id) {
+    throw new TokenInvalidError(tokenString, "invalid tenant");
   }
 
   // Check to see if the email address being verified matches the one that's

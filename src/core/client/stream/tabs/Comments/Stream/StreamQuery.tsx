@@ -3,6 +3,7 @@ import {
   QueryRenderer,
   withLocalStateContainer,
 } from "coral-framework/lib/relay";
+import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import { StreamQuery as QueryTypes } from "coral-stream/__generated__/StreamQuery.graphql";
 import { StreamQueryLocal as Local } from "coral-stream/__generated__/StreamQueryLocal.graphql";
 import { Delay, Flex, Spinner } from "coral-ui/components";
@@ -17,7 +18,10 @@ interface Props {
   local: Local;
 }
 
-export const render = (data: ReadyState<QueryTypes["response"]>) => {
+export const render = (
+  data: ReadyState<QueryTypes["response"]>,
+  commentsTab: COMMENTS_TAB
+) => {
   if (data.error) {
     return <div>{data.error.message}</div>;
   }
@@ -40,11 +44,19 @@ export const render = (data: ReadyState<QueryTypes["response"]>) => {
   }
 
   return (
-    <Delay>
-      <Flex justifyContent="center">
-        <Spinner />
-      </Flex>
-    </Delay>
+    <>
+      {// TODO: (cvle) For some reason this way of preloading
+      // causes weird errors in the
+      // tests. Needs further investigation.
+      process.env.NODE_ENV !== "test" && commentsTab === "ALL_COMMENTS" && (
+        <AllCommentsTabQuery preload />
+      )}
+      <Delay>
+        <Flex justifyContent="center">
+          <Spinner />
+        </Flex>
+      </Delay>
+    </>
   );
 };
 
@@ -73,23 +85,7 @@ const StreamQuery: FunctionComponent<Props> = props => {
           storyURL,
         }}
         render={data => {
-          if (
-            // TODO: (cvle) For some reason this way of preloading
-            // causes weird errors in the
-            // tests. Needs further investigation.
-            process.env.NODE_ENV !== "test" &&
-            !data.props &&
-            !data.error
-          ) {
-            return (
-              <>
-                {commentsTab === "ALL_COMMENTS" && (
-                  <AllCommentsTabQuery preload />
-                )}
-              </>
-            );
-          }
-          return render(data);
+          return render(data, commentsTab);
         }}
       />
     </>

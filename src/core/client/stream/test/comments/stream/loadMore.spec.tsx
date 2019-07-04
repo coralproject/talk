@@ -97,14 +97,14 @@ beforeEach(() => {
 
 it("renders comment stream with load more button", async () => {
   const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   expect(within(streamLog).toJSON()).toMatchSnapshot();
 });
 
 it("loads more comments", async () => {
   const streamLog = await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
 
   // Get amount of comments before.

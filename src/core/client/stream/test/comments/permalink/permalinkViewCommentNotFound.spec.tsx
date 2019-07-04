@@ -79,7 +79,7 @@ it("show all comments", async () => {
       .props.onClick(mockEvent);
 
     await waitForElement(() =>
-      within(tabPane).getByTestID("comments-stream-log")
+      within(tabPane).getByTestID("comments-allComments-log")
     );
   });
   mockEvent.preventDefault.verify();

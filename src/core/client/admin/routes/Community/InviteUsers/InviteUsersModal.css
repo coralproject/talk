@@ -1,0 +1,9 @@
+.root {
+  width: 400px;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}

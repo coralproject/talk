@@ -78,7 +78,7 @@ exports[`renders message box when commenting disabled 1`] = `
       </div>
     </div>
     <div
-      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
       <div
         className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
@@ -183,8 +183,8 @@ exports[`renders message box when commenting disabled 1`] = `
         <div
           aria-live="polite"
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
-          data-testid="comments-stream-log"
-          id="coral-comments-stream-log"
+          data-testid="comments-allComments-log"
+          id="comments-allComments-log"
           role="log"
         />
       </section>
@@ -382,7 +382,7 @@ exports[`renders message box when logged in 1`] = `
       </form>
     </div>
     <div
-      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
       <div
         className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
@@ -487,8 +487,8 @@ exports[`renders message box when logged in 1`] = `
         <div
           aria-live="polite"
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
-          data-testid="comments-stream-log"
-          id="coral-comments-stream-log"
+          data-testid="comments-allComments-log"
+          id="comments-allComments-log"
           role="log"
         />
       </section>
@@ -658,7 +658,7 @@ exports[`renders message box when not logged in 1`] = `
       </div>
     </div>
     <div
-      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
       <div
         className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
@@ -763,8 +763,8 @@ exports[`renders message box when not logged in 1`] = `
         <div
           aria-live="polite"
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
-          data-testid="comments-stream-log"
-          id="coral-comments-stream-log"
+          data-testid="comments-allComments-log"
+          id="comments-allComments-log"
           role="log"
         />
       </section>
@@ -843,7 +843,7 @@ exports[`renders message box when story isClosed 1`] = `
       </div>
     </div>
     <div
-      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-5"
+      className="Box-root HorizontalGutter-root StreamContainer-tabBarContainer HorizontalGutter-spacing-4"
     >
       <div
         className="Box-root Flex-root StreamContainer-sortMenu Flex-flex Flex-itemGutter Flex-justifyFlexEnd Flex-alignCenter gutter"
@@ -948,8 +948,8 @@ exports[`renders message box when story isClosed 1`] = `
         <div
           aria-live="polite"
           className="Box-root HorizontalGutter-root HorizontalGutter-full"
-          data-testid="comments-stream-log"
-          id="coral-comments-stream-log"
+          data-testid="comments-allComments-log"
+          id="comments-allComments-log"
           role="log"
         />
       </section>

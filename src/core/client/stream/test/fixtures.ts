@@ -146,6 +146,8 @@ export const baseComment = createFixture<GQLComment>({
       total: 0,
     },
   },
+  parent: undefined,
+  viewerActionPresence: { reaction: false, dontAgree: false, flag: false },
   tags: [],
 });
 
@@ -396,9 +398,6 @@ export const stories = denormalizeStories(
             { node: comments[0], cursor: comments[0].createdAt },
             { node: comments[1], cursor: comments[1].createdAt },
           ],
-          pageInfo: {
-            hasNextPage: false,
-          },
         },
       },
       {
@@ -409,9 +408,6 @@ export const stories = denormalizeStories(
             { node: comments[2], cursor: comments[2].createdAt },
             { node: comments[3], cursor: comments[3].createdAt },
           ],
-          pageInfo: {
-            hasNextPage: false,
-          },
         },
       },
       {
@@ -425,9 +421,6 @@ export const stories = denormalizeStories(
               cursor: commentsFromStaff[0].createdAt,
             },
           ],
-          pageInfo: {
-            hasNextPage: false,
-          },
         },
       },
     ],

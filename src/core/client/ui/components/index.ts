@@ -39,6 +39,7 @@ export {
   Navigation as AppBarNavigation,
   NavigationItem as AppBarNavigationItem,
 } from "./AppBar";
+export { CheckIcon } from "./Check";
 export {
   SubBar,
   Navigation as SubBarNavigation,

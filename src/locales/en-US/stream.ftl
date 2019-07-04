@@ -30,8 +30,16 @@ comments-featuredCommentTooltip-toggleButton =
 comments-streamQuery-storyNotFound = Story not found
 
 comments-postCommentForm-submit = Submit
-comments-stream-loadMore = Load More
 comments-replyList-showAll = Show All
+comments-replyList-showMoreReplies = Show More Replies
+
+
+comments-viewNew =
+  { $count ->
+    [1] View {$count} New Comment
+    *[other] View {$count} New Comments
+  }
+comments-loadMore = Load More
 
 comments-permalinkPopover =
   .description = A dialog showing a permalink to the comment

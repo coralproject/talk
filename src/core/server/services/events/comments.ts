@@ -4,7 +4,7 @@ import {
   GQLMODERATION_QUEUE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { Publisher } from "coral-server/graph/tenant/subscriptions/publisher";
-import { Comment } from "coral-server/models/comment";
+import { Comment, hasVisibleStatus } from "coral-server/models/comment";
 import { CommentModerationQueueCounts } from "coral-server/models/story/counts";
 
 export function publishCommentStatusChanges(
@@ -22,6 +22,36 @@ export function publishCommentStatusChanges(
         oldStatus,
         commentID,
         moderatorID,
+      },
+    });
+  }
+}
+
+export function publishCommentReplyCreated(
+  publish: Publisher,
+  comment: Pick<Comment, "id" | "status" | "ancestorIDs">
+) {
+  if (comment.ancestorIDs.length > 0 && hasVisibleStatus(comment)) {
+    publish({
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_REPLY_CREATED,
+      payload: {
+        ancestorIDs: comment.ancestorIDs,
+        commentID: comment.id,
+      },
+    });
+  }
+}
+
+export function publishCommentCreated(
+  publish: Publisher,
+  comment: Pick<Comment, "id" | "storyID" | "parentID" | "status">
+) {
+  if (!comment.parentID && hasVisibleStatus(comment)) {
+    publish({
+      channel: SUBSCRIPTION_CHANNELS.COMMENT_CREATED,
+      payload: {
+        commentID: comment.id,
+        storyID: comment.storyID,
       },
     });
   }

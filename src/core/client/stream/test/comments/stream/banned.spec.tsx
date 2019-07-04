@@ -76,7 +76,7 @@ it("disables comment stream", async () => {
   timekeeper.freeze(firstComment.createdAt);
   const { testRenderer, tabPane } = await createTestRenderer();
   await waitForElement(() =>
-    within(testRenderer.root).getByTestID("comments-stream-log")
+    within(testRenderer.root).getByTestID("comments-allComments-log")
   );
   within(tabPane).getAllByText("Your account has been banned", {
     exact: false,

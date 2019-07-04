@@ -12,6 +12,7 @@ import NotAvailable from "coral-admin/components/NotAvailable";
 import { getModerationLink } from "coral-admin/helpers";
 import { ApproveCommentMutation } from "coral-admin/mutations";
 import { RejectCommentMutation } from "coral-admin/mutations";
+import FadeInTransition from "coral-framework/components/FadeInTransition";
 import {
   MutationProp,
   withFragmentContainer,
@@ -20,7 +21,6 @@ import {
 import { GQLTAG } from "coral-framework/schema";
 
 import UserHistoryDrawerContainer from "../UserHistoryDrawer/UserHistoryDrawerContainer";
-import FadeInTransition from "./FadeInTransition";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";

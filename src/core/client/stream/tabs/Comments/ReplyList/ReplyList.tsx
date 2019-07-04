@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import * as React from "react";
 import { FunctionComponent } from "react";
 
+import FadeInTransition from "coral-framework/components/FadeInTransition";
 import { PropTypesOf } from "coral-framework/types";
 import { Button, HorizontalGutter } from "coral-ui/components";
 
@@ -21,6 +22,7 @@ export interface ReplyListProps {
       id: string;
       replyListElement?: React.ReactElement<any>;
       showConversationLink?: boolean;
+      enteredLive?: boolean | null;
     } & PropTypesOf<typeof CommentContainer>["comment"] &
       PropTypesOf<typeof IgnoredTombstoneOrHideContainer>["comment"]
   >;
@@ -31,6 +33,8 @@ export interface ReplyListProps {
   indentLevel?: number;
   localReply?: boolean;
   disableReplies?: boolean;
+  viewNewCount?: number;
+  onViewNew?: () => void;
 }
 
 const ReplyList: FunctionComponent<ReplyListProps> = props => {
@@ -41,26 +45,30 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
       role="log"
     >
       {props.comments.map(comment => (
-        <IgnoredTombstoneOrHideContainer
+        <FadeInTransition
           key={comment.id}
-          viewer={props.viewer}
-          comment={comment}
+          active={Boolean(comment.enteredLive)}
         >
-          <HorizontalGutter key={comment.id}>
-            <CommentContainer
-              key={comment.id}
-              viewer={props.viewer}
-              comment={comment}
-              story={props.story}
-              settings={props.settings}
-              indentLevel={props.indentLevel}
-              localReply={props.localReply}
-              disableReplies={props.disableReplies}
-              showConversationLink={!!comment.showConversationLink}
-            />
-            {comment.replyListElement}
-          </HorizontalGutter>
-        </IgnoredTombstoneOrHideContainer>
+          <IgnoredTombstoneOrHideContainer
+            viewer={props.viewer}
+            comment={comment}
+          >
+            <HorizontalGutter key={comment.id}>
+              <CommentContainer
+                key={comment.id}
+                viewer={props.viewer}
+                comment={comment}
+                story={props.story}
+                settings={props.settings}
+                indentLevel={props.indentLevel}
+                localReply={props.localReply}
+                disableReplies={props.disableReplies}
+                showConversationLink={!!comment.showConversationLink}
+              />
+              {comment.replyListElement}
+            </HorizontalGutter>
+          </IgnoredTombstoneOrHideContainer>
+        </FadeInTransition>
       ))}
       {props.hasMore && (
         <Indent level={props.indentLevel} noBorder>
@@ -76,6 +84,22 @@ const ReplyList: FunctionComponent<ReplyListProps> = props => {
               fullWidth
             >
               Show All Replies
+            </Button>
+          </Localized>
+        </Indent>
+      )}
+      {Boolean(props.viewNewCount && props.viewNewCount > 0) && (
+        <Indent level={props.indentLevel} noBorder>
+          <Localized id="comments-replyList-showMoreReplies">
+            <Button
+              aria-controls={`coral-comments-replyList-log--${
+                props.comment.id
+              }`}
+              onClick={props.onViewNew}
+              variant="outlined"
+              fullWidth
+            >
+              Show More Replies
             </Button>
           </Localized>
         </Indent>

@@ -363,7 +363,13 @@ function hashPassword(password: string): Promise<string> {
 
 export type InsertUserInput = Omit<
   User,
-  "id" | "tenantID" | "tokens" | "status" | "ignoredUsers" | "createdAt"
+  | "id"
+  | "tenantID"
+  | "tokens"
+  | "status"
+  | "ignoredUsers"
+  | "emailVerificationID"
+  | "createdAt"
 >;
 
 export async function insertUser(
@@ -469,6 +475,24 @@ export async function retrieveUserWithProfile(
     profiles: {
       $elemMatch: profile,
     },
+  });
+}
+
+export async function retrieveUserWithEmail(
+  mongo: Db,
+  tenantID: string,
+  email: string
+) {
+  return collection(mongo).findOne({
+    tenantID,
+    $or: [
+      {
+        profiles: {
+          $elemMatch: { id: email, type: "local" },
+        },
+      },
+      { email },
+    ],
   });
 }
 

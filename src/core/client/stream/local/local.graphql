@@ -40,6 +40,14 @@ extend type Comment {
 
   # Remember last viewer action that could have caused a status change.
   lastViewerAction: COMMENT_VIEWER_ACTION
+
+  # If true then Comment came in live.
+  enteredLive: Boolean
+}
+
+extend type CommentsConnection {
+  # Contains comment that came in live and is still behind the `View New` button.
+  viewNewEdges: [CommentEdge!]
 }
 
 type Local {

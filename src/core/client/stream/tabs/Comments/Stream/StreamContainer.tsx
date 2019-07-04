@@ -89,7 +89,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
           />
         )}
         {banned && <BannedInfo />}
-        <HorizontalGutter spacing={5} className={styles.tabBarContainer}>
+        <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <SortMenu
             className={styles.sortMenu}
             orderBy={local.commentsOrderBy}

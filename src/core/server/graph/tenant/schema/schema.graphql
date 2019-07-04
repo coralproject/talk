@@ -764,6 +764,11 @@ type PerspectiveExternalIntegration {
   threshold: Float
 
   """
+  model is the Perspective model to use.
+  """
+  model: String
+
+  """
   When True, comments sent will not be stored by the Google Perspective API.
   """
   doNotStore: Boolean
@@ -876,7 +881,7 @@ type Email {
   """
   smtpURI is the SMTP connection url to send emails on.
   """
-  smtpURI: String
+  smtpURI: String @auth(roles: [ADMIN])
 
   """
   fromAddress is the email address that will be used to send emails from.
@@ -1132,7 +1137,7 @@ type Settings {
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: Email! @auth(roles: [ADMIN])
+  email: Email! @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.
@@ -1220,6 +1225,39 @@ Token facilitates accessing Coral externally with a token.
 type Token {
   id: ID!
   name: String!
+  createdAt: Time!
+}
+
+"""
+Invite represents a given User that is pending registration that has been
+invited by an Administrator.
+"""
+type Invite {
+  """
+  id is the identifier for the Invite.
+  """
+  id: ID!
+
+  """
+  email is the email address that will be assigned and used for the
+  invited User.
+  """
+  email: String!
+
+  """
+  role is the USER_ROLE that the User will be assigned upon
+  account creation.
+  """
+  role: USER_ROLE!
+
+  """
+  createdBy is the User that created the Invite.
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time that the Invite was created on.
+  """
   createdAt: Time!
 }
 
@@ -2694,6 +2732,11 @@ input SettingsPerspectiveExternalIntegrationInput {
   key: String
 
   """
+  model is the name of the Perspective model to use.
+  """
+  model: String
+
+  """
   The threshold that given a specific toxic comment score, the comment will
   be marked by Coral as toxic.
   """
@@ -3738,6 +3781,38 @@ type SetUsernamePayload {
   """
   clientMutationId: String!
 }
+##################
+# inviteUser
+##################
+
+input InviteUsersInput {
+  """
+  emails is the email addresses of the Users to be invited.
+  """
+  emails: [String!]!
+
+  """
+  role is the designated role of the User being invited.
+  """
+  role: USER_ROLE!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type InviteUsersPayload {
+  """
+  invites is the references to the invited Users.
+  """
+  invites: [Invite]!
+
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
 
 ##################
 # setEmail
@@ -4353,6 +4428,13 @@ type Mutation {
     @auth(roles: [MODERATOR, ADMIN])
 
   """
+  inviteUsers will send emails to the users with a new account at the designated
+  role.
+  """
+  inviteUsers(input: InviteUsersInput!): InviteUsersPayload!
+    @auth(roles: [ADMIN])
+
+  """
   setUsername will set the username on the current User if they have not set one
   before. This mutation will fail if the username is already set.
   """
@@ -4551,6 +4633,28 @@ type CommentLeftModerationQueuePayload {
   comment: Comment!
 }
 
+"""
+CommentCreatedPayload is returned when a new top level Comment is created on a
+Story.
+"""
+type CommentCreatedPayload {
+  """
+  comment is the new top level Comment that was created on the Story.
+  """
+  comment: Comment!
+}
+
+"""
+CommentReplyCreatedPayload is returned when a Comment is created as a reply to
+another Comment where the selected ancestor Comment is in the ancestor chain.
+"""
+type CommentReplyCreatedPayload {
+  """
+  comment is the new reply Comment that was created.
+  """
+  comment: Comment!
+}
+
 type Subscription {
   """
   commentEnteredModerationQueue returns when a Comment enters a ModerationQueue.
@@ -4576,4 +4680,16 @@ type Subscription {
   """
   commentStatusUpdated(id: ID): CommentStatusUpdatedPayload!
     @auth(roles: [MODERATOR, ADMIN])
+
+  """
+  commentCreated returns when a Comment is created on the top level of a Story
+  that is visible.
+  """
+  commentCreated(storyID: ID!): CommentCreatedPayload!
+
+  """
+  commentReplyCreated returns when a Comment is posted in the ancestor chain of
+  comments.
+  """
+  commentReplyCreated(ancestorID: ID!): CommentReplyCreatedPayload!
 }

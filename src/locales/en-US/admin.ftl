@@ -144,7 +144,7 @@ configure-general-closedStreamMessage-explanation = Write a message to appear af
 ### Organization
 configure-organization-name = Organization Name
 configure-organization-nameExplanation =
-  Your organization name will appear on emails sent by Coral to your community and organization members.
+  Your organization name will appear on emails sent by { -product-name } to your community and organization members.
 configure-organization-email = Organization Email
 configure-organization-emailExplanation =
   This email address will be used as in emails and across
@@ -158,7 +158,7 @@ configure-auth-authIntegrations = Authentication Integrations
 configure-auth-clientID = Client ID
 configure-auth-clientSecret = Client Secret
 configure-auth-configBoxEnabled = Enabled
-configure-auth-targetFilterCoralAdmin = Coral Admin
+configure-auth-targetFilterCoralAdmin = { -product-name } Admin
 configure-auth-targetFilterCommentStream = Comment Stream
 configure-auth-redirectURI = Redirect URI
 configure-auth-registration = Registration
@@ -167,7 +167,7 @@ configure-auth-registrationDescription =
   integration to register for a new account.
 configure-auth-registrationCheckBox = Allow Registration
 configure-auth-pleaseEnableAuthForAdmin =
-  Please enable at least one authentication integration for Coral Admin
+  Please enable at least one authentication integration for { -product-name } Admin
 configure-auth-confirmNoAuthForCommentStream =
   No authentication integration has been enabled for the Comment Stream.
   Do you really want to continue?
@@ -207,7 +207,7 @@ configure-auth-oidc-providerNameDescription =
   needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
 configure-auth-oidc-issuer = Issuer
 configure-auth-oidc-issuerDescription =
-  After entering your Issuer information, click the Discover button to have Coral complete
+  After entering your Issuer information, click the Discover button to have { -product-name } complete
   the remaining fields. You may also enter the information manually.
 configure-auth-oidc-authorizationURL = Authorization URL
 configure-auth-oidc-tokenURL = Token URL
@@ -245,11 +245,14 @@ configure-moderation-perspective-filter = Toxic Comment Filter
 configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
 configure-moderation-perspective-toxicityThresholdDescription =
   This value can be set a percentage between 0 and 100. This number represents the likelihood that a
-  comment is toxic, according to Perspective API. By default the treshold is set to { $default }.
+  comment is toxic, according to Perspective API. By default the threshold is set to { $default }.
+configure-moderation-perspective-toxicityModel = Toxicity Model
+configure-moderation-perspective-toxicityModelDescription =
+  Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
 configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
 configure-moderation-perspective-allowStoreCommentDataDescription =
   Stored comments will be used for future research and community model building purposes to
-  improve the API over time
+  improve the API over time.
 configure-moderation-perspective-customEndpoint = Custom Endpoint
 configure-moderation-perspective-defaultEndpoint =
   By default the endpoint is set to { $default }. You may override this here.
@@ -285,7 +288,7 @@ configure-advanced-customCSS-explanation =
   URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
 configure-advanced-permittedDomains = Permitted Domains
 configure-advanced-permittedDomains-explanation =
-  Domains where your Coral instance is allowed to be embedded.
+  Domains where your { -product-name } instance is allowed to be embedded.
   Typical use is localhost, staging.yourdomain.com,
   yourdomain.com, etc.
 
@@ -466,6 +469,31 @@ community-banModal-consequence =
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
 
+community-invite-inviteMember = Invite members to your organization
+community-invite-emailAddressLabel = Email address:
+community-invite-inviteMore = Invite more
+community-invite-inviteAsLabel = Invite as:
+community-invite-sendInvitations = Send invitations
+community-invite-role-staff =
+  <strong>Staff role:</strong> Receives a “Staff” badge, and
+  comments are automatically approved. Cannot moderate
+  or change any { -product-name } configuration.
+community-invite-role-moderator =
+  <strong>Moderator role:</strong> Moderator role: Receives a
+  “Staff” badge, and comments are automatically
+  approved. Has full moderation privileges (approve,
+  reject and feature comments). Can configure individual
+  articles but no site-wide configuration privileges.
+community-invite-role-admin =
+  <strong>Admin role:</strong> Receives a “Staff” badge, and
+  comments are automatically approved. Has full
+  moderation privileges (approve, reject and feature
+  comments). Can configure individual articles and has
+  site-wide configuration privileges.
+community-invite-invitationsSent = Your invitations have been sent!
+community-invite-close = Close
+community-invite-invite = Invite
+
 ## Stories
 stories-emptyMessage = There are currently no published stories.
 stories-noMatchMessage = We could not find any stories matching your criteria.
@@ -496,3 +524,24 @@ stories-column-clickToModerate = Click title to moderate story
 
 stories-status-popover =
   .description = A dropdown to change the story status
+
+## Invite
+
+invite-youHaveBeenInvited = You've been invited to join { $organizationName }
+invite-finishSettingUpAccount = Finish setting up the account for:
+invite-createAccount = Create Account
+invite-passwordLabel = Password
+invite-passwordDescription = Must be at least { $minLength } characters
+invite-passwordTextField =
+  .placeholder = Password
+invite-usernameLabel = Username
+invite-usernameDescription = You may use “_” and “.”
+invite-usernameTextField =
+  .placeholder = Username
+invite-oopsSorry = Oops Sorry!
+invite-successful = Your account has been created
+invite-youMayNowSignIn = You may now sign-in to { -product-name } using:
+invite-goToAdmin = Go to { -product-name } Admin
+invite-goToOrganization = Go to { $organizationName }
+invite-tokenNotFound =
+  The specified link is invalid, check to see if it was copied correctly.

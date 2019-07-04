@@ -20,6 +20,8 @@ const permissionMap = {
   // Mutation.openStory
   // Mutation.closeStory
   CHANGE_STORY_STATUS: [GQLUSER_ROLE.ADMIN],
+  // Mutation.inviteUsers
+  INVITE_USERS: [GQLUSER_ROLE.ADMIN],
 };
 
 export type AbilityType = keyof typeof permissionMap;

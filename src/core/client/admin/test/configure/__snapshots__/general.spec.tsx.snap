@@ -294,6 +294,7 @@ Markdown can be found
                 <a
                   className="ExternalLink-root"
                   href="#"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   here

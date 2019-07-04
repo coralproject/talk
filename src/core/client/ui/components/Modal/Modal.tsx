@@ -109,10 +109,18 @@ const Modal: FunctionComponent<Props> = ({
         <NoScroll active={open} />
         <Backdrop
           active={open}
-          onClick={handleBackdropClick}
           data-testid="backdrop"
+          onClick={handleBackdropClick}
         />
-        <TrapFocus>{children}</TrapFocus>
+        <div className={styles.scroll}>
+          <div className={styles.alignContainer1}>
+            <div className={styles.alignContainer2}>
+              <div className={styles.wrapper}>
+                <TrapFocus>{children}</TrapFocus>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>,
       modalDOMNode
     );

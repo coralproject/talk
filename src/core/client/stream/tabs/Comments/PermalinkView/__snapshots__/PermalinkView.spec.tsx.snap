@@ -120,6 +120,7 @@ exports[`renders correctly 1`] = `
     >
       <withProps(Relay(ReplyListContainer))
         comment={Object {}}
+        liveDirectRepliesInsertion={true}
         settings={Object {}}
         story={Object {}}
         viewer={Object {}}
