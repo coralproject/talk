@@ -239,15 +239,15 @@ You will then have to generate a JWT with the following claims:
   to call logout on the embed itself.
 - `iat` (_optional_) - When the given SSO token was issued. This is required to
   utilize the automatic user detail update system. If this time is newer than
-  the time we recieved the last update, the contents of the token will be used
+  the time we received the last update, the contents of the token will be used
   to update the user.
-- `user.id` (**requried**) - the ID of the user from your authentication system.
+- `user.id` (**required**) - the ID of the user from your authentication system.
   This is required to connect the user in your system to allow a seamless
   connection to Coral.
-- `user.email` (**requried**) - the email address of the user from your
+- `user.email` (**required**) - the email address of the user from your
   authentication system. This is required to facilitate notification email's
   about status changes on a user account such as bans or suspensions.
-- `user.username` (**requried**) - the username that should be used when being
+- `user.username` (**required**) - the username that should be used when being
   presented inside Coral to moderators and other users.
 
 An example of the claims for this token would be:
