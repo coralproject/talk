@@ -52,9 +52,10 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
   );
   const subscribeToCommentCreated = useSubscription(CommentCreatedSubscription);
   useEffect(() => {
-    // TODO: (cvle) check for story or settings state
-    // for whether or not we should turn on subscriptions:
-    // e.g. `if (!props.story.settings.live) { return; }`
+    if (!props.story.settings.live.enabled) {
+      return;
+    }
+
     if (props.story.isClosed || props.settings.disableCommenting.enabled) {
       return;
     }
@@ -86,6 +87,7 @@ export const AllCommentsTabContainer: FunctionComponent<Props> = props => {
     subscribeToCommentCreated,
     props.story.id,
     props.relay.hasMore(),
+    props.story.settings.live.enabled,
   ]);
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 10);
   const viewMore = useMutation(AllCommentsTabViewNewMutation);
@@ -183,6 +185,11 @@ const enhanced = withPaginationContainer<
         ) {
         id
         isClosed
+        settings {
+          live {
+            enabled
+          }
+        }
         comments(first: $count, after: $cursor, orderBy: $orderBy)
           @connection(key: "Stream_comments") {
           viewNewEdges {

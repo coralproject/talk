@@ -209,6 +209,10 @@ configure-premodLink-title = Pre-Moderate Comments Containing Links
 configure-premodLink-description =
   Moderators must approve any comment that contains a link before it is published to this stream.
 
+configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-description =
+  When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
+
 configure-messageBox-title = Enable Message Box for this Stream
 configure-messageBox-description =
   Add a message to the top of the comment box for your readers. Use this to pose a topic,

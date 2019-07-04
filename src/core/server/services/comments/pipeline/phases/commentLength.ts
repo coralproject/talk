@@ -35,7 +35,4 @@ export const commentLength: IntermediateModerationPhase = ({
 
   // Reject if the comment is too long or too short.
   testCharCount(tenant, length);
-  if (story.settings) {
-    testCharCount(story.settings, length);
-  }
 };

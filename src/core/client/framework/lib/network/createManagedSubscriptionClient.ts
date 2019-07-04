@@ -7,6 +7,7 @@ import {
 import { SubscriptionClient } from "subscriptions-transport-ws";
 
 import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
+import { ERROR_CODES } from "coral-common/errors";
 
 /**
  * SubscriptionRequest containts the subscription
@@ -88,6 +89,19 @@ export default function createManagedSubscriptionClient(
       if (!subscriptionClient) {
         subscriptionClient = new SubscriptionClient(url, {
           reconnect: true,
+          connectionCallback: err => {
+            if (err) {
+              // If an error is thrown as a result of live updates being
+              // disabled, then just close the subscription client.
+              if (
+                ((err as unknown) as Error).message ===
+                  ERROR_CODES.LIVE_UPDATES_DISABLED &&
+                subscriptionClient
+              ) {
+                subscriptionClient.close();
+              }
+            }
+          },
           connectionParams: {
             [ACCESS_TOKEN_PARAM]: accessToken,
             [CLIENT_ID_PARAM]: clientID,

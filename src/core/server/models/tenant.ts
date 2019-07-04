@@ -81,6 +81,11 @@ export async function createTenant(
     // Default to post moderation.
     moderation: GQLMODERATION_MODE.POST,
 
+    // Default to enabled.
+    live: {
+      enabled: true,
+    },
+
     communityGuidelines: {
       enabled: false,
       content: "",

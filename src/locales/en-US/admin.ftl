@@ -292,6 +292,10 @@ configure-advanced-permittedDomains-explanation =
   Typical use is localhost, staging.yourdomain.com,
   yourdomain.com, etc.
 
+configure-advanced-liveUpdates = Comment Stream Live Updates
+configure-advanced-liveUpdates-explanation =
+  When enabled, there will be real-time loading and updating of comments as new comments and replies are published
+
 ## Decision History
 decisionHistory-popover =
   .description = A dialog showing the decision history

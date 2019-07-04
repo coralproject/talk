@@ -181,6 +181,14 @@ const config = convict({
     env: "DISABLE_TENANT_CACHING",
     arg: "disableTenantCaching",
   },
+  disable_live_updates: {
+    doc:
+      "Disables subscriptions for the comment stream for all stories across all tenants",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_LIVE_UPDATES",
+    arg: "disableLiveUpdates",
+  },
   disable_mongodb_autoindexing: {
     doc: "Disables the creation of new MongoDB indexes",
     format: Boolean,

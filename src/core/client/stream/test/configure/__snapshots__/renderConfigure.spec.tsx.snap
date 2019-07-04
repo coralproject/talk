@@ -84,6 +84,48 @@ exports[`renders configure 1`] = `
               className="CheckBox-root"
             >
               <input
+                checked={true}
+                className="CheckBox-input"
+                disabled={false}
+                id="live.enabled"
+                name="live.enabled"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                type="checkbox"
+              />
+              <label
+                className="CheckBox-label"
+                htmlFor="live.enabled"
+              >
+                <span
+                  className="CheckBox-labelSpan"
+                >
+                  <span
+                    className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary"
+                  >
+                    <span>
+                      Enable Live Updates for this Story
+                    </span>
+                  </span>
+                </span>
+              </label>
+            </div>
+            <div
+              className="ToggleConfig-details"
+            >
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary WidthLimitedDescription-root"
+              >
+                When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div
+              className="CheckBox-root"
+            >
+              <input
                 checked={false}
                 className="CheckBox-input"
                 disabled={false}
