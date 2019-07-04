@@ -383,6 +383,8 @@ the variables in a `.env` file in the root of the project in a simple
 - `METRICS_PASSWORD` - The password for _Basic Authentication_ at the `/metrics` and `/cluster_metrics`
   endpoint.
 - `CLUSTER_METRICS_PORT` - If `CONCURRENCY` is more than `1`, the metrics are provided at this port under `/cluster_metrics`. (Default `3001`)
+- `DISABLE_LIVE_UPDATES` - When `true`, disables subscriptions for the comment
+  stream for all stories across all tenants (Default `false`)
 
 ## License
 
