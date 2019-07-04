@@ -1538,7 +1538,12 @@ type User {
   """
   ignoredUsers will return the list of ignored users.
   """
-  ignoredUsers: [User!]! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  ignoredUsers: [User!]!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   createdAt is the time that the User was created at.
