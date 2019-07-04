@@ -215,6 +215,16 @@ configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
 ### Moderation
+#### Pre-Moderation
+configure-moderation-preModeration-title = Pre-moderation
+configure-moderation-preModeration-explanation =
+  When pre-moderation is turned on, comments will not be published unless
+  approved by a moderator.
+configure-moderation-preModeration-moderation =
+  Pre-moderate all comments sitewide
+configure-moderation-preModeration-premodLinksEnable =
+  Pre-moderate comments containing links sitewide
+
 configure-moderation-apiKey = API Key
 
 configure-moderation-akismet-title = Akismet Spam Detection Filter
