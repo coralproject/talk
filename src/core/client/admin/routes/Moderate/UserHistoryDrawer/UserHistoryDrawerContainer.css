@@ -1,5 +1,6 @@
 .root {
   position: fixed;
+  top:0;
   right: 0;
 
   max-width: 80vw;
