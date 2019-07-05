@@ -23,6 +23,10 @@ export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
+  live: {
+    enabled: true,
+    configurable: true,
+  },
   wordList: {
     suspect: ["idiot", "stupid"],
     banned: ["fuck"],

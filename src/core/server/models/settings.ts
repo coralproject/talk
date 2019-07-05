@@ -3,6 +3,7 @@ import {
   GQLAuth,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
+  GQLLiveConfiguration,
   GQLLocalAuthIntegration,
   GQLMODERATION_MODE,
   GQLOIDCAuthIntegration,
@@ -10,7 +11,10 @@ import {
   GQLSSOAuthIntegration,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
+export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
+
 export interface GlobalModerationSettings {
+  live: LiveConfiguration;
   moderation: GQLMODERATION_MODE;
   premodLinksEnable: boolean;
 }

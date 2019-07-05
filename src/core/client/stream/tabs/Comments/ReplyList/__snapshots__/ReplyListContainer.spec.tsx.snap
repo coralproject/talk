@@ -48,6 +48,11 @@ exports[`renders correctly 1`] = `
           story={
             Object {
               "isClosed": false,
+              "settings": Object {
+                "live": Object {
+                  "enabled": true,
+                },
+              },
             }
           }
           viewer={null}
@@ -74,6 +79,11 @@ exports[`renders correctly 1`] = `
           story={
             Object {
               "isClosed": false,
+              "settings": Object {
+                "live": Object {
+                  "enabled": true,
+                },
+              },
             }
           }
           viewer={null}
@@ -97,6 +107,11 @@ exports[`renders correctly 1`] = `
   story={
     Object {
       "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
   viewNewCount={0}
@@ -164,6 +179,11 @@ exports[`when has more replies renders hasMore 1`] = `
   story={
     Object {
       "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
   viewNewCount={0}
@@ -229,6 +249,11 @@ exports[`when has more replies when showing all disables show all button 1`] = `
   story={
     Object {
       "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
   viewNewCount={0}
@@ -294,6 +319,11 @@ exports[`when has more replies when showing all enable show all button after loa
   story={
     Object {
       "isClosed": false,
+      "settings": Object {
+        "live": Object {
+          "enabled": true,
+        },
+      },
     }
   }
   viewNewCount={0}

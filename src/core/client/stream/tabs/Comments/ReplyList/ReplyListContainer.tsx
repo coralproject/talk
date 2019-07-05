@@ -61,9 +61,10 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
     CommentReplyCreatedSubscription
   );
   useEffect(() => {
-    // TODO: (cvle) check for story or settings state
-    // for whether or not we should turn on subscriptions:
-    // e.g. `if (!props.story.settings.live) { return; }`
+    if (!props.story.settings.live.enabled) {
+      return;
+    }
+
     if (props.story.isClosed || props.settings.disableCommenting.enabled) {
       return;
     }
@@ -83,6 +84,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
     props.indentLevel,
     props.relay.hasMore(),
     props.liveDirectRepliesInsertion,
+    props.story.settings.live.enabled,
   ]);
 
   const viewNew = useMutation(ReplyListViewNewMutation);
@@ -208,6 +210,11 @@ const ReplyListContainer5 = createReplyListContainer(
     story: graphql`
       fragment ReplyListContainer5_story on Story {
         isClosed
+        settings {
+          live {
+            enabled
+          }
+        }
         ...CommentContainer_story
         ...LocalReplyListContainer_story
       }
@@ -282,6 +289,11 @@ const ReplyListContainer4 = createReplyListContainer(
     story: graphql`
       fragment ReplyListContainer4_story on Story {
         isClosed
+        settings {
+          live {
+            enabled
+          }
+        }
         ...ReplyListContainer5_story
         ...CommentContainer_story
       }
@@ -354,6 +366,11 @@ const ReplyListContainer3 = createReplyListContainer(
     story: graphql`
       fragment ReplyListContainer3_story on Story {
         isClosed
+        settings {
+          live {
+            enabled
+          }
+        }
         ...ReplyListContainer4_story
         ...CommentContainer_story
       }
@@ -426,6 +443,11 @@ const ReplyListContainer2 = createReplyListContainer(
     story: graphql`
       fragment ReplyListContainer2_story on Story {
         isClosed
+        settings {
+          live {
+            enabled
+          }
+        }
         ...ReplyListContainer3_story
         ...CommentContainer_story
       }
@@ -498,6 +520,11 @@ const ReplyListContainer1 = createReplyListContainer(
     story: graphql`
       fragment ReplyListContainer1_story on Story {
         isClosed
+        settings {
+          live {
+            enabled
+          }
+        }
         ...ReplyListContainer2_story
         ...CommentContainer_story
       }

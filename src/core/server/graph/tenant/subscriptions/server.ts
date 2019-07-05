@@ -24,6 +24,7 @@ import {
 import {
   CoralError,
   InternalError,
+  LiveUpdatesDisabled,
   TenantNotFoundError,
 } from "coral-server/errors";
 import {
@@ -35,6 +36,7 @@ import { getOperationMetadata } from "coral-server/graph/common/extensions/helpe
 import logger from "coral-server/logger";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 
+import { userIsStaff } from "coral-server/models/user/helpers";
 import TenantContext, { TenantContextOptions } from "../context";
 
 type OnConnectFn = (
@@ -121,6 +123,17 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
         }
       }
 
+      // Check to see if live updates are disabled on the server, if they are,
+      // we can block the websocket request here for non-staff users.
+      if (options.config.get("disable_live_updates")) {
+        // TODO: (wyattjoh) if the story settings can only disable, and not
+        // enable live updates (as it takes precedence over global settings)
+        // then we can add a check for `!tenant.live.enabled` here too.
+        if (!opts.user || !userIsStaff(opts.user)) {
+          throw new LiveUpdatesDisabled();
+        }
+      }
+
       // Extract the users clientID from the request.
       const clientID = extractClientID(connectionParams);
       if (clientID) {
@@ -129,7 +142,11 @@ export function onConnect(options: OnConnectOptions): OnConnectFn {
 
       return new TenantContext(opts);
     } catch (err) {
-      logger.error({ err }, "could not setup websocket connection");
+      if (err instanceof LiveUpdatesDisabled) {
+        logger.info({ err }, "websocket connection rejected");
+      } else {
+        logger.error({ err }, "could not setup websocket connection");
+      }
 
       if (!(err instanceof CoralError)) {
         err = new InternalError(err, "could not setup websocket connection");

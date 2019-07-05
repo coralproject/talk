@@ -152,6 +152,75 @@ exports[`renders configure advanced 1`] = `
             >
               <label
                 className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+                htmlFor="configure-advanced-liveUpdates"
+              >
+                Comment Stream Live Updates
+              </label>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+              >
+                When enabled, there will be real-time loading and updating of comments as new comments and replies are published
+              </p>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="live.enabled-true"
+                    name="live.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="live.enabled-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="live.enabled-false"
+                    name="live.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="live.enabled-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+          >
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            >
+              <label
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
                 htmlFor="configure-advanced-allowedDomains"
               >
                 Permitted Domains

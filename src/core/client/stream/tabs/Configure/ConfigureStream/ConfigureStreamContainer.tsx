@@ -51,8 +51,11 @@ const enhanced = withFragmentContainer<Props>({
         ...PremodConfigContainer_storySettings
         ...PremodLinksConfigContainer_storySettings
         ...MessageBoxConfigContainer_storySettings
+        ...LiveUpdatesConfigContainer_storySettings
+        ...LiveUpdatesConfigContainer_storySettingsReadOnly
       }
     }
   `,
 })(withUpdateStorySettingsMutation(ConfigureStreamContainer));
+
 export default enhanced;
