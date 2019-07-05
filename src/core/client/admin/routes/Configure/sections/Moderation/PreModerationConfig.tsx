@@ -25,7 +25,7 @@ const format = (v: "PRE" | "POST") => {
   return v === "PRE";
 };
 
-const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
+const PreModerationConfig: FunctionComponent<Props> = ({ disabled }) => {
   return (
     <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-preModeration-title">
@@ -62,4 +62,4 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
   );
 };
 
-export default AkismetConfig;
+export default PreModerationConfig;
