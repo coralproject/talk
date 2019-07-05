@@ -17,6 +17,8 @@ You can find the embed script inside talk under `Configure > Tech Settings > Emb
 "></script>
 ```
 
+> **NOTE:** You can optionally also pass `asset_url` to explicitly force Talk to reference a particular url. This is recommeneded if your stories sometimes originate from other sources than your own Whitelisted domains, and you want Talk generated permalinks to point back to your domain. If not specified, Talk will infer the URL of the asset based on the canonical url. 
+
 ## Triggering the Comments Section (client side, i.e. Your site)
 
 When the embed script is triggered on your page load several things are initiated inside Talk, including fetching all comments for the specified article, establishing websocket connections for this user, and checking user’s session for SSO/authentication. 
@@ -368,6 +370,8 @@ associate with the displayed page. This is important because even if you update
 the URL in the future, the embed will still reference the correct Asset. The
 `${ASSET_ID}` should be replaced by your CMS with the correct Asset id using
 your desired scripting/templating tools.
+
+> **NOTE:** When used in conjunction with `asset_url`, you can explicitly force Talk to use a specified URL, rather than the canonical for link references. When used together, both `asset_id` and `asset_url` will be treated as unique identifiers for Talk assets. 
 
 At this point, you should have a fully built Talk plugin that can be paired with
 some work on your CMS to create a fully integrated asset management pipeline!
