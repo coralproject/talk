@@ -1,3 +1,4 @@
+import { DeepPartial } from "coral-common/types";
 import {
   GQLCOMMENT_STATUS,
   GQLMODERATION_MODE,
@@ -8,7 +9,7 @@ import {
   IntermediatePhaseResult,
 } from "coral-server/services/comments/pipeline";
 
-const testModerationMode = (settings: Partial<GlobalModerationSettings>) =>
+const testModerationMode = (settings: DeepPartial<GlobalModerationSettings>) =>
   settings.moderation === GQLMODERATION_MODE.PRE;
 
 // This phase checks to see if the settings have premod enabled, if they do,

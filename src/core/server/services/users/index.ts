@@ -14,7 +14,6 @@ import {
   UserNotFoundError,
 } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
-import { getLocalProfile, hasLocalProfile } from "coral-server/helpers/users";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -40,6 +39,10 @@ import {
   updateUserUsername,
   User,
 } from "coral-server/models/user";
+import {
+  getLocalProfile,
+  hasLocalProfile,
+} from "coral-server/models/user/helpers";
 import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";

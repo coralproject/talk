@@ -277,4 +277,10 @@ export enum ERROR_CODES {
    * without any email addresses specified.
    */
   INVITE_REQUIRES_EMAIL_ADDRESSES = "INVITE_REQUIRES_EMAIL_ADDRESSES",
+
+  /**
+   * LIVE_UPDATES_DISABLED is returned when a websocket request is attempted by
+   * someone now allowed when it is disabled on the tenant level.
+   */
+  LIVE_UPDATES_DISABLED = "LIVE_UPDATES_DISABLED",
 }

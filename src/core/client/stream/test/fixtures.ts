@@ -23,6 +23,10 @@ export const settings = createFixture<GQLSettings>({
   id: "settings",
   moderation: GQLMODERATION_MODE.POST,
   premodLinksEnable: false,
+  live: {
+    enabled: true,
+    configurable: true,
+  },
   communityGuidelines: {
     enabled: false,
     content: "",
@@ -357,6 +361,10 @@ export const baseStory = createFixture<GQLStory>({
     premodLinksEnable: false,
     messageBox: {
       enabled: false,
+    },
+    live: {
+      enabled: true,
+      configurable: true,
     },
   },
 });

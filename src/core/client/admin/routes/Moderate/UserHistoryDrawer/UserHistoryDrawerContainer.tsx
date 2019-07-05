@@ -14,8 +14,9 @@ import {
 
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 
-import styles from "./UserHistoryDrawerContainer.css";
 import UserHistoryTabs from "./UserHistoryTabs";
+
+import styles from "./UserHistoryDrawerContainer.css";
 
 interface UserHistoryDrawerContainerProps {
   open: boolean;

@@ -1087,6 +1087,12 @@ type Settings {
   locale: LOCALES!
 
   """
+  live provides configuration options related to live updates for stories on
+  this site.
+  """
+  live: LiveConfiguration!
+
+  """
   moderation is the moderation mode for all Stories on the site.
   """
   moderation: MODERATION_MODE @auth(roles: [ADMIN])
@@ -1538,7 +1544,12 @@ type User {
   """
   ignoredUsers will return the list of ignored users.
   """
-  ignoredUsers: [User!]! @auth(roles: [ADMIN, MODERATOR], userIDField: "id")
+  ignoredUsers: [User!]!
+    @auth(
+      roles: [ADMIN, MODERATOR]
+      userIDField: "id"
+      permit: [SUSPENDED, BANNED]
+    )
 
   """
   createdAt is the time that the User was created at.
@@ -2056,7 +2067,27 @@ type StoryMetadata {
   section: String
 }
 
+"""
+LiveConfiguration provides configuration options related to live updates.
+"""
+type LiveConfiguration {
+  """
+  configurable when false indicates that live updates cannot be modified.
+  """
+  configurable: Boolean!
+
+  """
+  enabled when true will allow live updates.
+  """
+  enabled: Boolean!
+}
+
 type StorySettings {
+  """
+  live provides configuration options related to live updates on this Story.
+  """
+  live: LiveConfiguration!
+
   """
   moderation determines whether or not this is a PRE or POST moderated story.
   """
@@ -2917,6 +2948,12 @@ SettingsInput is the partial type of the Settings type for performing mutations.
 """
 input SettingsInput {
   """
+  live provides configuration options related to live updates for stories on
+  this site.
+  """
+  live: LiveConfigurationInput
+
+  """
   allowedDomains is the list of domains that stories can come from.
   """
   allowedDomains: [String!]
@@ -3397,9 +3434,24 @@ input StoryMessageBoxInput {
 }
 
 """
+LiveConfigurationInput provides configuration options related to live updates.
+"""
+input LiveConfigurationInput {
+  """
+  enabled when true will allow live updates.
+  """
+  enabled: Boolean
+}
+
+"""
 UpdateStorySettings is the input required to update a Story's Settings.
 """
 input UpdateStorySettings {
+  """
+  live provides configuration options related to live updates on this Story.
+  """
+  live: LiveConfigurationInput
+
   """
   moderation determines whether or not this is a PRE or POST moderated story.
   """

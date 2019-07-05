@@ -10,7 +10,6 @@ import {
   TokenInvalidError,
   UserNotFoundError,
 } from "coral-server/errors";
-import { getLocalProfile } from "coral-server/helpers/users";
 import { Tenant } from "coral-server/models/tenant";
 import {
   createOrRetrieveUserPasswordResetID,
@@ -18,6 +17,7 @@ import {
   retrieveUser,
   User,
 } from "coral-server/models/user";
+import { getLocalProfile } from "coral-server/models/user/helpers";
 import {
   JWTSigningConfig,
   signString,

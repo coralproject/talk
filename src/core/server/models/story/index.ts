@@ -18,6 +18,7 @@ import {
   createIndexFactory,
 } from "coral-server/models/helpers/indexing";
 import Query from "coral-server/models/helpers/query";
+import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 
 import {
@@ -33,7 +34,9 @@ function collection<T = Story>(mongo: Db) {
   return mongo.collection<Readonly<T>>("stories");
 }
 
-export type StorySettings = DeepPartial<GQLStorySettings>;
+export type StorySettings = DeepPartial<
+  Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings
+>;
 
 export type StoryMetadata = GQLStoryMetadata;
 

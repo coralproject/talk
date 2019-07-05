@@ -13,6 +13,7 @@ import {
   Typography,
 } from "coral-ui/components";
 
+import { LiveUpdatesConfigContainer } from "./LiveUpdatesConfig";
 import MessageBoxConfigContainer from "./MessageBoxConfig";
 import PremodConfigContainer from "./PremodConfig";
 import PremodLinksConfigContainer from "./PremodLinksConfig";
@@ -23,7 +24,9 @@ interface Props {
   onSubmit: (settings: any, form: FormApi) => void;
   storySettings: PropTypesOf<typeof PremodConfigContainer>["storySettings"] &
     PropTypesOf<typeof PremodLinksConfigContainer>["storySettings"] &
-    PropTypesOf<typeof MessageBoxConfigContainer>["storySettings"];
+    PropTypesOf<typeof MessageBoxConfigContainer>["storySettings"] &
+    PropTypesOf<typeof LiveUpdatesConfigContainer>["storySettings"] &
+    PropTypesOf<typeof LiveUpdatesConfigContainer>["storySettingsReadOnly"];
 }
 
 const ConfigureStream: FunctionComponent<Props> = ({
@@ -58,6 +61,12 @@ const ConfigureStream: FunctionComponent<Props> = ({
             </Flex>
             <HorizontalGutter size="double">
               {submitError && <CallOut color="error">{submitError}</CallOut>}
+              <LiveUpdatesConfigContainer
+                onInitValues={onInitValues}
+                storySettings={storySettings}
+                storySettingsReadOnly={storySettings}
+                disabled={submitting}
+              />
               <PremodConfigContainer
                 onInitValues={onInitValues}
                 storySettings={storySettings}

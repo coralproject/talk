@@ -15,6 +15,7 @@ it("renders correctly", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
       isClosed: false,
+      settings: { live: { enabled: true } },
     },
     comment: {
       id: "comment-id",
@@ -50,6 +51,11 @@ it("renders correctly when replies are empty", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
       isClosed: false,
+      settings: {
+        live: {
+          enabled: true,
+        },
+      },
     },
     comment: {
       id: "comment-id",
@@ -80,6 +86,11 @@ describe("when has more replies", () => {
   const props: PropTypesOf<typeof ReplyListContainerN> = {
     story: {
       isClosed: false,
+      settings: {
+        live: {
+          enabled: true,
+        },
+      },
     },
     comment: {
       id: "comment-id",

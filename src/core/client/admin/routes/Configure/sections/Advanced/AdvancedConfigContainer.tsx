@@ -3,7 +3,7 @@ import { RouteProps } from "found";
 import React from "react";
 import { graphql } from "react-relay";
 
-import { AdvancedConfigContainer_settings as SettingsData } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
+import { AdvancedConfigContainer_settings } from "coral-admin/__generated__/AdvancedConfigContainer_settings.graphql";
 import { pureMerge } from "coral-common/utils";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
@@ -12,7 +12,7 @@ import AdvancedConfig from "./AdvancedConfig";
 interface Props {
   form: FormApi;
   submitting: boolean;
-  settings: SettingsData;
+  settings: AdvancedConfigContainer_settings;
 }
 
 class AdvancedConfigContainer extends React.Component<Props> {
@@ -47,6 +47,8 @@ const enhanced = withFragmentContainer<Props>({
     fragment AdvancedConfigContainer_settings on Settings {
       ...CustomCSSConfigContainer_settings
       ...PermittedDomainsConfigContainer_settings
+      ...CommentStreamLiveUpdatesContainer_settings
+      ...CommentStreamLiveUpdatesContainer_settingsReadOnly
     }
   `,
 })(AdvancedConfigContainer);

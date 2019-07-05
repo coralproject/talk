@@ -173,6 +173,14 @@ const config = convict({
     env: "STATIC_URI",
     arg: "staticUri",
   },
+  websocket_keep_alive_timeout: {
+    doc:
+      "The keepalive timeout (in ms) that should be used to send keep alive messages through the websocket to keep the socket alive",
+    format: "duration",
+    default: "30 seconds",
+    env: "WEBSOCKET_KEEP_ALIVE_TIMEOUT",
+    arg: "websocketKeepAliveTimeout",
+  },
   disable_tenant_caching: {
     doc:
       "Disables the tenant caching, all tenants will be loaded from MongoDB each time it's needed",
@@ -180,6 +188,14 @@ const config = convict({
     default: false,
     env: "DISABLE_TENANT_CACHING",
     arg: "disableTenantCaching",
+  },
+  disable_live_updates: {
+    doc:
+      "Disables subscriptions for the comment stream for all stories across all tenants",
+    format: Boolean,
+    default: false,
+    env: "DISABLE_LIVE_UPDATES",
+    arg: "disableLiveUpdates",
   },
   disable_mongodb_autoindexing: {
     doc: "Disables the creation of new MongoDB indexes",

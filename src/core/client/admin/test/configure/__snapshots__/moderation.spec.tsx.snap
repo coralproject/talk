@@ -113,6 +113,139 @@ exports[`renders configure moderation 1`] = `
             <legend
               className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
+              Pre-moderation
+            </legend>
+            <p
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              When pre-moderation is turned on, comments will not be published unless
+approved by a moderator.
+            </p>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Pre-moderate all comments sitewide
+              </legend>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="moderation-true"
+                    name="moderation"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="moderation-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="moderation-false"
+                    name="moderation"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="moderation-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Pre-moderate comments containing links sitewide
+              </legend>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="premodLinksEnable-true"
+                    name="premodLinksEnable"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="premodLinksEnable-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="premodLinksEnable-false"
+                    name="premodLinksEnable"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="premodLinksEnable-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
               Perspective Toxic Comment Filter
             </legend>
             <p

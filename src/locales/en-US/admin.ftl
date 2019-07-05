@@ -215,6 +215,16 @@ configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
 ### Moderation
+#### Pre-Moderation
+configure-moderation-preModeration-title = Pre-moderation
+configure-moderation-preModeration-explanation =
+  When pre-moderation is turned on, comments will not be published unless
+  approved by a moderator.
+configure-moderation-preModeration-moderation =
+  Pre-moderate all comments sitewide
+configure-moderation-preModeration-premodLinksEnable =
+  Pre-moderate comments containing links sitewide
+
 configure-moderation-apiKey = API Key
 
 configure-moderation-akismet-title = Akismet Spam Detection Filter
@@ -291,6 +301,10 @@ configure-advanced-permittedDomains-explanation =
   Domains where your { -product-name } instance is allowed to be embedded.
   Typical use is localhost, staging.yourdomain.com,
   yourdomain.com, etc.
+
+configure-advanced-liveUpdates = Comment Stream Live Updates
+configure-advanced-liveUpdates-explanation =
+  When enabled, there will be real-time loading and updating of comments as new comments and replies are published
 
 ## Decision History
 decisionHistory-popover =

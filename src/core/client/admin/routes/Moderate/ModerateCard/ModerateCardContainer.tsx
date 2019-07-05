@@ -1,5 +1,5 @@
 import { Match, Router, withRouter } from "found";
-import React from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import { graphql } from "react-relay";
 
 import {
@@ -40,10 +40,6 @@ interface Props {
   showStoryInfo: boolean;
 }
 
-interface State {
-  showHistory: boolean;
-}
-
 function getStatus(comment: ModerateCardContainer_comment) {
   switch (comment.status) {
     case "APPROVED":
@@ -59,127 +55,120 @@ function isFeatured(comment: ModerateCardContainer_comment) {
   return comment.tags.some(t => t.code === GQLTAG.FEATURED);
 }
 
-class ModerateCardContainer extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      showHistory: false,
-    };
-  }
+const ModerateCardContainer: FunctionComponent<Props> = ({
+  comment,
+  settings,
+  danglingLogic,
+  showStoryInfo,
+  viewer,
+  match,
+  router,
+  approveComment,
+  rejectComment,
+  featureComment,
+  unfeatureComment,
+}) => {
+  const [showHistory, setShowHistory] = useState(false);
 
-  private handleApprove = () => {
-    this.props.approveComment({
-      commentID: this.props.comment.id,
-      commentRevisionID: this.props.comment.revision.id,
-      storyID: this.props.match.params.storyID,
+  const handleApprove = useCallback(() => {
+    approveComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: match.params.storyID,
     });
-  };
+  }, [approveComment, comment, match]);
 
-  private handleReject = () => {
-    this.props.rejectComment({
-      commentID: this.props.comment.id,
-      commentRevisionID: this.props.comment.revision.id,
-      storyID: this.props.match.params.storyID,
+  const handleReject = useCallback(() => {
+    rejectComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: match.params.storyID,
     });
-  };
+  }, [rejectComment, comment, match]);
 
-  private onFeature = () => {
-    const featured = isFeatured(this.props.comment);
+  const handleFeature = useCallback(() => {
+    featureComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: match.params.storyID,
+    });
+  }, [featureComment, comment, match]);
+
+  const handleUnfeature = useCallback(() => {
+    unfeatureComment({
+      commentID: comment.id,
+      storyID: match.params.storyID,
+    });
+  }, [unfeatureComment, comment, match]);
+
+  const onFeature = useCallback(() => {
+    const featured = isFeatured(comment);
 
     if (featured) {
-      this.handleUnfeature();
+      handleUnfeature();
     } else {
-      this.handleFeature();
+      handleFeature();
     }
-  };
+  }, [comment]);
 
-  private onShowCommentHistory = () => {
-    this.setState({
-      showHistory: true,
-    });
-  };
-  private onHideCommentHistory = () => {
-    this.setState({
-      showHistory: false,
-    });
-  };
+  const onShowCommentHistory = useCallback(() => {
+    setShowHistory(true);
+  }, [setShowHistory]);
+  const onHideCommentHistory = useCallback(() => {
+    setShowHistory(false);
+  }, [setShowHistory]);
 
-  private handleFeature = () => {
-    this.props.featureComment({
-      commentID: this.props.comment.id,
-      commentRevisionID: this.props.comment.revision.id,
-      storyID: this.props.match.params.storyID,
-    });
-  };
+  const handleModerateStory = useCallback(
+    (e: React.MouseEvent) => {
+      router.push(getModerationLink("default", comment.story.id));
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+    },
+    [router, comment]
+  );
 
-  private handleUnfeature = () => {
-    this.props.unfeatureComment({
-      commentID: this.props.comment.id,
-      storyID: this.props.match.params.storyID,
-    });
-  };
-
-  private handleModerateStory = (e: React.MouseEvent) => {
-    this.props.router.push(
-      getModerationLink("default", this.props.comment.story.id)
-    );
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-  };
-
-  public render() {
-    const {
-      comment,
-      settings,
-      danglingLogic,
-      showStoryInfo,
-      viewer,
-    } = this.props;
-    const { showHistory } = this.state;
-    const dangling = danglingLogic(comment.status);
-    return (
-      <>
-        <FadeInTransition active={Boolean(comment.enteredLive)}>
-          <ModerateCard
-            id={comment.id}
-            username={comment.author!.username!}
-            createdAt={comment.createdAt}
-            body={comment.body!}
-            inReplyTo={comment.parent && comment.parent.author!.username!}
-            comment={comment}
-            dangling={dangling}
-            status={getStatus(comment)}
-            featured={isFeatured(comment)}
-            viewContextHref={comment.permalink}
-            suspectWords={settings.wordList.suspect}
-            bannedWords={settings.wordList.banned}
-            onApprove={this.handleApprove}
-            onReject={this.handleReject}
-            onFeature={this.onFeature}
-            onUsernameClick={this.onShowCommentHistory}
-            moderatedBy={
-              <ModeratedByContainer viewer={viewer} comment={comment} />
-            }
-            showStory={showStoryInfo}
-            storyTitle={
-              (comment.story.metadata && comment.story.metadata.title) || (
-                <NotAvailable />
-              )
-            }
-            storyHref={getModerationLink("default", comment.story.id)}
-            onModerateStory={this.handleModerateStory}
-          />
-        </FadeInTransition>
-        <UserHistoryDrawerContainer
-          open={showHistory}
-          onClose={this.onHideCommentHistory}
-          user={comment.author!}
+  return (
+    <>
+      <FadeInTransition active={Boolean(comment.enteredLive)}>
+        <ModerateCard
+          id={comment.id}
+          username={comment.author!.username!}
+          createdAt={comment.createdAt}
+          body={comment.body!}
+          inReplyTo={comment.parent && comment.parent.author!.username!}
+          comment={comment}
+          dangling={danglingLogic(comment.status)}
+          status={getStatus(comment)}
+          featured={isFeatured(comment)}
+          viewContextHref={comment.permalink}
+          suspectWords={settings.wordList.suspect}
+          bannedWords={settings.wordList.banned}
+          onApprove={handleApprove}
+          onReject={handleReject}
+          onFeature={onFeature}
+          onUsernameClick={onShowCommentHistory}
+          moderatedBy={
+            <ModeratedByContainer viewer={viewer} comment={comment} />
+          }
+          showStory={showStoryInfo}
+          storyTitle={
+            (comment.story.metadata && comment.story.metadata.title) || (
+              <NotAvailable />
+            )
+          }
+          storyHref={getModerationLink("default", comment.story.id)}
+          onModerateStory={handleModerateStory}
         />
-      </>
-    );
-  }
-}
+      </FadeInTransition>
+      <UserHistoryDrawerContainer
+        open={showHistory}
+        onClose={onHideCommentHistory}
+        user={comment.author!}
+      />
+    </>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`

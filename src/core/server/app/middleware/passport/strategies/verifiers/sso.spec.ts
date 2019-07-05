@@ -28,55 +28,6 @@ describe("SSOUserProfileSchema", () => {
       id: "id",
       email: "email",
       username: "username",
-      avatar: "avatar",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows an empty avatar", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows a valid payload", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-      avatar: "avatar",
-      displayName: "displayName",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows an empty avatar", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-      displayName: "displayName",
-    };
-
-    expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);
-    expect(isSSOToken({ user: profile })).toEqual(true);
-  });
-
-  it("allows an empty displayName", () => {
-    const profile = {
-      id: "id",
-      email: "email",
-      username: "username",
-      avatar: "avatar",
     };
 
     expect(validate(SSOUserProfileSchema, profile)).toEqual(profile);

@@ -643,3 +643,11 @@ export class InviteRequiresEmailAddresses extends CoralError {
     });
   }
 }
+
+export class LiveUpdatesDisabled extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.LIVE_UPDATES_DISABLED,
+    });
+  }
+}

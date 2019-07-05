@@ -1,3 +1,4 @@
+import { DeepPartial } from "coral-common/types";
 import {
   GQLCOMMENT_FLAG_REASON,
   GQLCOMMENT_STATUS,
@@ -11,7 +12,7 @@ import {
 } from "coral-server/services/comments/pipeline";
 
 const testPremodLinksEnable = (
-  settings: Partial<GlobalModerationSettings>,
+  settings: DeepPartial<GlobalModerationSettings>,
   comment: Pick<Comment, "metadata">
 ) =>
   settings.premodLinksEnable && comment.metadata && comment.metadata.linkCount;

@@ -141,6 +141,32 @@ it("remove custom css", async () => {
   });
 });
 
+it("renders with live configuration when configurable", async () => {
+  const { advancedContainer } = await createTestRenderer();
+
+  expect(
+    within(advancedContainer).queryByLabelText("Comment Stream Live Updates")
+  ).toBeDefined();
+});
+
+it("renders without live configuration when not configurable", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Query: {
+      settings: () =>
+        pureMerge<typeof settings>(settings, {
+          live: { configurable: false },
+        }),
+    },
+  });
+  const { advancedContainer } = await createTestRenderer({
+    resolvers,
+  });
+
+  expect(
+    within(advancedContainer).queryByLabelText("Comment Stream Live Updates")
+  ).toEqual(null);
+});
+
 it("change permitted domains to be empty", async () => {
   const resolvers = createResolversStub<GQLResolver>({
     Mutation: {

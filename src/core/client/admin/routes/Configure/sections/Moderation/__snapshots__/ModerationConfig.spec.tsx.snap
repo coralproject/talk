@@ -5,6 +5,11 @@ exports[`renders correctly 1`] = `
   data-testid="configure-moderationContainer"
   size="double"
 >
+  <Relay(PreModerationConfigContainer)
+    disabled={false}
+    onInitValues={[Function]}
+    settings={Object {}}
+  />
   <Relay(PerspectiveConfigContainer)
     disabled={false}
     onInitValues={[Function]}
