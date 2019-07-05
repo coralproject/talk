@@ -46,7 +46,9 @@ export class UserBoxContainer extends Component<Props> {
 
   private get supportsLogout() {
     return Boolean(
-      !this.props.local.accessToken || this.props.local.accessTokenJTI
+      !this.props.local.accessToken ||
+        (this.props.local.accessTokenJTI !== null &&
+          this.props.local.accessTokenExp !== null)
     );
   }
 
@@ -129,6 +131,7 @@ const enhanced = withSignOutMutation(
             }
             accessToken
             accessTokenJTI
+            accessTokenExp
           }
         `
       )(

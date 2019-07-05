@@ -19,6 +19,7 @@ it("renders fully", () => {
       },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
+      accessTokenExp: 1562172094,
     },
     viewer: null,
     settings: {
@@ -77,6 +78,7 @@ it("renders without logout button", () => {
       },
       accessToken: "access-token",
       accessTokenJTI: null,
+      accessTokenExp: null,
     },
     viewer: null,
     settings: {
@@ -135,6 +137,7 @@ it("renders sso only", () => {
       },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
+      accessTokenExp: 1562172094,
     },
     viewer: null,
     settings: {
@@ -193,6 +196,7 @@ it("renders sso only without logout button", () => {
       },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
+      accessTokenExp: 1562172094,
     },
     viewer: null,
     settings: {
@@ -251,6 +255,7 @@ it("renders without register button", () => {
       },
       accessToken: "access-token",
       accessTokenJTI: "JTI",
+      accessTokenExp: 1562172094,
     },
     viewer: null,
     settings: {
