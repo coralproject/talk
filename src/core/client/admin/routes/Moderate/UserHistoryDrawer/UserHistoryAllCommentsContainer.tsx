@@ -1,10 +1,14 @@
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
+import { Spinner } from "coral-ui/components";
+
 import { UserHistoryAllCommentsContainerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryAllCommentsContainerQuery.graphql";
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 
 import UserHistoryAllComments from "./UserHistoryAllComments";
+
+import styles from "./UserHistoryAllCommentsContainer.css";
 
 interface Props {
   userID: string;
@@ -32,7 +36,11 @@ const UserHistoryAllCommentsContainer: FunctionComponent<Props> = ({
       cacheConfig={{ force: true }}
       render={({ error, props }: ReadyState<QueryTypes["response"]>) => {
         if (!props) {
-          return <div>Loading...</div>;
+          return (
+            <div className={styles.root}>
+              <Spinner />
+            </div>
+          );
         }
 
         if (!props.user) {
