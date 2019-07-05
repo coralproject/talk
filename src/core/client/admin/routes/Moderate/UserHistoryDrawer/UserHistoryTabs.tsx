@@ -20,7 +20,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
   );
 
   return (
-    <>
+    <div className={styles.root}>
       <TabBar
         activeTab={currentTab}
         variant="secondary"
@@ -36,12 +36,14 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
       </TabBar>
       <TabContent activeTab={currentTab} className={styles.tabContent}>
         <TabPane tabID="ALL">
-          <div className={styles.comments}>
-            <UserHistoryAllCommentsContainer userID={userID} />
+          <div className={styles.container}>
+            <div className={styles.scrollable}>
+              <UserHistoryAllCommentsContainer userID={userID} />
+            </div>
           </div>
         </TabPane>
       </TabContent>
-    </>
+    </div>
   );
 };
 

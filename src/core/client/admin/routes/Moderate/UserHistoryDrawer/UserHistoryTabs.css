@@ -1,19 +1,34 @@
-.tabContent {
+.root {
   height: 100%;
 
   display: flex;
-  flex-flow: column nowrap;
   flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+
+  overflow: hidden;
 }
 
 .tabBar {
   flex: none;
 }
 
-.comments {
+.tabContent {
   flex: auto;
-  overflow-y: auto;
+  overflow: hidden;
+}
 
-  margin-top: var(--spacing-2);
-  margin-bottom: var(--spacing-2);
+.container {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+.scrollable {
+  overflow: auto;
 }
