@@ -1,0 +1,23 @@
+.root {
+  height: 100%;
+}
+
+.tabContent {
+  height: 100%;
+
+  display: flex;
+  flex-flow: column nowrap;
+  flex-direction: column;
+}
+
+.tabBar {
+  flex: none;
+}
+
+.comments {
+  flex: auto;
+  overflow-y: auto;
+
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+}

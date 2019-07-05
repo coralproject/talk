@@ -14,9 +14,8 @@ import {
 
 import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
 
-import UserHistoryAllCommentsContainer from "./UserHistoryAllCommentsContainer";
-
 import styles from "./UserHistoryDrawerContainer.css";
+import UserHistoryTabs from "./UserHistoryTabs";
 
 interface UserHistoryDrawerContainerProps {
   open: boolean;
@@ -90,7 +89,7 @@ const UserHistoryDrawerContainer: FunctionComponent<
           </div>
           {open && (
             <div className={styles.comments}>
-              <UserHistoryAllCommentsContainer userID={user.id} />
+              <UserHistoryTabs userID={user.id} />
             </div>
           )}
         </Card>

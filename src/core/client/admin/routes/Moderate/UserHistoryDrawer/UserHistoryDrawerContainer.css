@@ -19,7 +19,7 @@
 
 .comments {
   flex: auto;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 .close {
