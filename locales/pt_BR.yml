@@ -333,7 +333,7 @@ pt_BR:
     sign_in_message: 'Entre para interagir com a comunidade.'
     password: Senha
     reset_password_send_button: 'Recuperar Senha'
-    request_passowrd: 'Recupere-a clicando aqui.'
+    request_password: 'Recupere-a clicando aqui.'
     team_sign_in: 'Team sign in'
   marketing: 'Isso parece um anúncio/marketing'
   moderate_all_streams: 'Comentários moderados em todas as matérias'

@@ -371,7 +371,7 @@ sr:
     sign_in_message: 'Prijavi se kako bi komunikacirao sa zajednicom'
     password: 'Šifra mora sadržati minimum 8 karaktera'
     reset_password_send_button: 'povrati šifru'
-    request_passowrd: 'Zahtijevaj novu šifru'
+    request_password: 'Zahtijevaj novu šifru'
     team_sign_in: 'Prijava tima'
   marketing: 'Ovo izgleda kao reklama/marketing'
   moderate_all_streams: 'Moderiraj komentare na svim pričama'
