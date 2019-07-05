@@ -14,6 +14,8 @@ import { UserHistoryAllCommentsPaginationQueryVariables } from "coral-admin/__ge
 
 import { ModerateCardContainer } from "../ModerateCard";
 
+import styles from "./UserHistoryAllComments.css";
+
 interface Props {
   user: UserHistoryAllComments_user;
   viewer: UserHistoryAllComments_viewer;
@@ -48,7 +50,9 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
           showStoryInfo={false}
         />
       ))}
-      <Button onClick={onLoadMore}>Load More</Button>
+      <div className={styles.footer}>
+        <Button onClick={onLoadMore}>Load More</Button>
+      </div>
     </>
   );
 };
