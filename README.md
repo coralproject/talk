@@ -13,6 +13,7 @@ Preview Coral easily by running Coral via a Heroku App:
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 ## Table of Contents
 
 - [Requirements](#requirements)
@@ -299,7 +300,7 @@ To test out the email sending functionality, you can run [inbucket](https://www.
 which provides a test SMTP server that can visualize emails in the browser:
 
 ```bash
-docker run -d --name inbucket -p 2500:2500 -p 9000:9000 inbucket/inbucket
+docker run -d --name inbucket --restart always -p 2500:2500 -p 9000:9000 inbucket/inbucket
 ```
 
 You can then configure the email server on Coral by updating the Tenant with:
