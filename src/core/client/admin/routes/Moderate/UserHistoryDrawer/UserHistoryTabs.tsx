@@ -23,6 +23,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
     <>
       <TabBar
         activeTab={currentTab}
+        variant="secondary"
         onTabClick={onTabChanged}
         className={styles.tabBar}
       >
