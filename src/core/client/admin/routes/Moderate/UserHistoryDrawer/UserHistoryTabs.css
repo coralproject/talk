@@ -19,7 +19,7 @@
 }
 
 .container {
-  height: 100%;
+  height: calc(100% - 2 * var(--spacing-2));
 
   display: flex;
   flex-direction: column;
@@ -27,6 +27,9 @@
   min-height: 0;
 
   overflow: hidden;
+
+  margin-bottom: var(--spacing-2);
+  margin-top: var(--spacing-2);
 }
 
 .scrollable {

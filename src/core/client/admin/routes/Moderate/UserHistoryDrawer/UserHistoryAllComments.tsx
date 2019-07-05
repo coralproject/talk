@@ -51,7 +51,9 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
         />
       ))}
       <div className={styles.footer}>
-        <Button onClick={onLoadMore}>Load More</Button>
+        <Button className={styles.loadMore} onClick={onLoadMore}>
+          Load More
+        </Button>
       </div>
     </>
   );

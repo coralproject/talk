@@ -10,7 +10,7 @@
   flex-flow: column nowrap;
   flex-direction: column;
 
-  background-color: var(--palette-background-light);
+  background-color: var(--palette-common-white);
 }
 
 .user {
@@ -29,7 +29,7 @@
 
   padding: 0px;
 
-  background-color: var(--palette-background-light);
+  background-color: var(--palette-common-white);
   
   border-width: 2px;
   border-right-width: 0px;
