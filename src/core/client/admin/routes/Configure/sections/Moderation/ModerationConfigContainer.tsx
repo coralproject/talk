@@ -47,6 +47,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment ModerationConfigContainer_settings on Settings {
       ...AkismetConfigContainer_settings
       ...PerspectiveConfigContainer_settings
+      ...PreModerationConfigContainer_settings
     }
   `,
 })(ModerationConfigContainer);

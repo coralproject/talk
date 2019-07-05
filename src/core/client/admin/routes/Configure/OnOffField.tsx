@@ -13,6 +13,8 @@ interface Props {
   invert?: boolean;
   onLabel?: React.ReactNode;
   offLabel?: React.ReactNode;
+  format?: ((value: any, name: string) => any) | null;
+  parse?: ((value: any, name: string) => any) | null;
 }
 
 const OnOffField: FunctionComponent<Props> = ({
@@ -21,9 +23,17 @@ const OnOffField: FunctionComponent<Props> = ({
   onLabel,
   offLabel,
   invert = false,
+  parse = parseStringBool,
+  format,
 }) => (
   <div>
-    <Field name={name} type="radio" parse={parseStringBool} value={!invert}>
+    <Field
+      name={name}
+      type="radio"
+      value={!invert}
+      parse={parse}
+      format={format}
+    >
       {({ input }) => (
         <RadioButton
           id={`${input.name}-true`}
@@ -43,7 +53,13 @@ const OnOffField: FunctionComponent<Props> = ({
         </RadioButton>
       )}
     </Field>
-    <Field name={name} type="radio" parse={parseStringBool} value={invert}>
+    <Field
+      name={name}
+      type="radio"
+      parse={parse}
+      format={format}
+      value={invert}
+    >
       {({ input }) => (
         <RadioButton
           id={`${input.name}-false`}
