@@ -173,6 +173,14 @@ const config = convict({
     env: "STATIC_URI",
     arg: "staticUri",
   },
+  websocket_keep_alive_timeout: {
+    doc:
+      "The keepalive timeout (in ms) that should be used to send keep alive messages through the websocket to keep the socket alive",
+    format: "duration",
+    default: "30s",
+    env: "WEBSOCKET_KEEP_ALIVE_TIMEOUT",
+    arg: "websocketKeepAliveTimeout",
+  },
   disable_tenant_caching: {
     doc:
       "Disables the tenant caching, all tenants will be loaded from MongoDB each time it's needed",

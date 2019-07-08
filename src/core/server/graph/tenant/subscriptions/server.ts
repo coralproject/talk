@@ -223,6 +223,13 @@ export function createSubscriptionServer(
   schema: GraphQLSchema,
   options: Options
 ) {
+  const keepAlive = options.config.get("websocket_keep_alive_timeout");
+  if (typeof keepAlive !== "number") {
+    throw new Error(
+      "expected the websocket_keep_alive_timeout configuration to be a number"
+    );
+  }
+
   return SubscriptionServer.create(
     {
       schema,
@@ -230,6 +237,7 @@ export function createSubscriptionServer(
       subscribe,
       onConnect: onConnect(options),
       onOperation: onOperation(options),
+      keepAlive,
     },
     {
       server,
