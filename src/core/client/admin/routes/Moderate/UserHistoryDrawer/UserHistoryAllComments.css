@@ -13,3 +13,8 @@
 
   margin-top: var(--spacing-1);
 }
+
+.error {
+  text-align: center;
+  font-family: var(--font-family-sans-serif);
+}

@@ -40,6 +40,14 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
 
   const hasMore = props.relay.hasMore();
 
+  if (comments.length === 0) {
+    return (
+      <div className={styles.error}>{`${
+        props.user.username
+      } has not submitted any comments.`}</div>
+    );
+  }
+
   return (
     <>
       {comments.map(c => (
@@ -87,6 +95,7 @@ const enhanced = withPaginationContainer<
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
+        username
         comments(first: $count, after: $cursor)
           @connection(key: "UserHistoryAll_comments") {
           edges {

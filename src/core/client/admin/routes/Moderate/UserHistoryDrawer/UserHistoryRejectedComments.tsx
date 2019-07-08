@@ -40,6 +40,14 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = props => {
 
   const hasMore = props.relay.hasMore();
 
+  if (comments.length === 0) {
+    return (
+      <div className={styles.error}>{`${
+        props.user.username
+      } does not have any rejected comments.`}</div>
+    );
+  }
+
   return (
     <>
       {comments.map(c => (
@@ -87,6 +95,7 @@ const enhanced = withPaginationContainer<
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
+        username
         rejectedComments(first: $count, after: $cursor)
           @connection(key: "UserHistoryRejected_rejectedComments") {
           edges {
