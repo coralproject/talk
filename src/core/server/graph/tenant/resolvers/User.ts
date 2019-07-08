@@ -34,6 +34,8 @@ const maybeLoadOnlyIgnoredUserID = (
 
 export const User: GQLUserTypeResolver<user.User> = {
   comments: ({ id }, input, ctx) => ctx.loaders.Comments.forUser(id, input),
+  rejectedComments: ({ id }, input, ctx) =>
+    ctx.loaders.Comments.forUserRejected(id, input),
   commentModerationActionHistory: ({ id }, input, ctx) =>
     ctx.loaders.CommentModerationActions.forModerator(input, id),
   status: ({ id, status }): UserStatusInput => ({

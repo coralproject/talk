@@ -2,6 +2,7 @@ import { Tab, TabBar, TabContent, TabPane } from "coral-ui/components";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import UserHistoryAllCommentsContainer from "./UserHistoryAllCommentsContainer";
+import UserHistoryRejectedCommentsContainer from "./UserHistoryRejectedCommentsContainer";
 
 import styles from "./UserHistoryTabs.css";
 
@@ -39,6 +40,13 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
           <div className={styles.container}>
             <div className={styles.scrollable}>
               <UserHistoryAllCommentsContainer userID={userID} />
+            </div>
+          </div>
+        </TabPane>
+        <TabPane tabID="REJECTED">
+          <div className={styles.container}>
+            <div className={styles.scrollable}>
+              <UserHistoryRejectedCommentsContainer userID={userID} />
             </div>
           </div>
         </TabPane>
