@@ -25,7 +25,7 @@ interface Props {
 
 const UserHistoryAllComments: FunctionComponent<Props> = props => {
   const comments = props.user
-    ? props.user.comments.edges.map(edge => edge.node)
+    ? props.user.allComments.edges.map(edge => edge.node)
     : [];
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 5);
@@ -96,8 +96,8 @@ const enhanced = withPaginationContainer<
           cursor: { type: "Cursor" }
         ) {
         username
-        comments(first: $count, after: $cursor)
-          @connection(key: "UserHistoryAll_comments") {
+        allComments(first: $count, after: $cursor)
+          @connection(key: "UserHistoryAll_allComments") {
           edges {
             node {
               id
@@ -111,7 +111,7 @@ const enhanced = withPaginationContainer<
   {
     direction: "forward",
     getConnectionFromProps(props) {
-      return props.user && props.user.comments;
+      return props.user && props.user.allComments;
     },
     getFragmentVariables(prevVars, totalCount) {
       return {

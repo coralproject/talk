@@ -1522,7 +1522,13 @@ type User {
     )
 
   """
-  rejecteComments are comments that have been rejected.
+  allComments are comments regardless of visibility status.
+  """
+  allComments(first: Int = 10, after: Cursor): CommentsConnection!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  rejectedComments are comments that have been rejected.
   """
   rejectedComments(first: Int = 10, after: Cursor): CommentsConnection!
     @auth(roles: [ADMIN, MODERATOR])

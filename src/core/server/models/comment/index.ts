@@ -658,6 +658,29 @@ export const retrieveCommentUserConnection = (
   });
 
 /**
+ * retrieveAllCommentUserConnection returns a Connection<Comment> for a given User's
+ * comments regardless of comment status.
+ *
+ * @param mongo database connection
+ * @param tenantID the Tenant's ID
+ * @param userID the User id for the comment to retrieve
+ * @param input connection configuration
+ */
+export const retrieveAllCommentsUserConnection = (
+  mongo: Db,
+  tenantID: string,
+  userID: string,
+  input: CommentConnectionInput
+) =>
+  retrieveCommentConnection(mongo, tenantID, {
+    ...input,
+    filter: {
+      ...input.filter,
+      authorID: userID,
+    },
+  });
+
+/**
  * retrieveRejectedCommentUserConnection returns a Connection<Comment> for a given User's
  * rejected comments.
  *
