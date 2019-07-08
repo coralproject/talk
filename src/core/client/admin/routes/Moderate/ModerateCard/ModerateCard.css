@@ -46,7 +46,7 @@
 }
 
 .asideMini {
-  padding-top: 0px;
+  padding-top: calc(1.2 * 18em / 14 + var(--spacing-1));
 }
 
 .decision {

@@ -388,6 +388,11 @@ moderate-searchBar-comboBoxTextField =
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
+### Moderate User History Drawer
+
+moderate-user-drawer-tab-all-comments = All Comments
+moderate-user-drawer-tab-rejected-comments = Rejected
+
 ## Create Username
 
 createUsername-createUsernameHeader = Create Username
