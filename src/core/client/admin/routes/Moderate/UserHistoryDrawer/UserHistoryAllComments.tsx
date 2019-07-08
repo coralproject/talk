@@ -38,6 +38,8 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
     loadMore();
   };
 
+  const hasMore = props.relay.hasMore();
+
   return (
     <>
       {comments.map(c => (
@@ -50,11 +52,13 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
           showStoryInfo={false}
         />
       ))}
-      <div className={styles.footer}>
-        <Button className={styles.loadMore} onClick={onLoadMore}>
-          Load More
-        </Button>
-      </div>
+      {hasMore && (
+        <div className={styles.footer}>
+          <Button className={styles.loadMore} onClick={onLoadMore}>
+            Load More
+          </Button>
+        </div>
+      )}
     </>
   );
 };
