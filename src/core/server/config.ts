@@ -177,7 +177,7 @@ const config = convict({
     doc:
       "The keepalive timeout (in ms) that should be used to send keep alive messages through the websocket to keep the socket alive",
     format: "duration",
-    default: "30s",
+    default: "30 seconds",
     env: "WEBSOCKET_KEEP_ALIVE_TIMEOUT",
     arg: "websocketKeepAliveTimeout",
   },
