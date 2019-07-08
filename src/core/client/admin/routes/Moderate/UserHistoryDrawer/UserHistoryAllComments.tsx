@@ -12,6 +12,7 @@ import { UserHistoryAllComments_user } from "coral-admin/__generated__/UserHisto
 import { UserHistoryAllComments_viewer } from "coral-admin/__generated__/UserHistoryAllComments_viewer.graphql";
 import { UserHistoryAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryAllCommentsPaginationQuery.graphql";
 
+import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { ModerateCardContainer } from "../ModerateCard";
 
 import styles from "./UserHistoryAllComments.css";
@@ -50,15 +51,19 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
 
   return (
     <>
-      {comments.map(c => (
-        <ModerateCardContainer
-          key={c.id}
-          comment={c}
-          viewer={props.viewer}
-          settings={props.settings}
-          danglingLogic={status => false}
-          showStoryInfo={false}
-        />
+      {comments.map((c, i) => (
+        <div key={c.id}>
+          <ModerateCardContainer
+            comment={c}
+            viewer={props.viewer}
+            settings={props.settings}
+            danglingLogic={status => false}
+            showStoryInfo={false}
+            mini
+            showUsername={false}
+          />
+          {i !== comments.length - 1 && <HorizontalRule />}
+        </div>
       ))}
       {hasMore && (
         <div className={styles.footer}>

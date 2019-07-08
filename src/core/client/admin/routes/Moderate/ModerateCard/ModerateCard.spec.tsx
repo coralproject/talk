@@ -27,6 +27,8 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   onUsernameClick: noop,
   showStory: false,
   moderatedBy: null,
+  mini: false,
+  showUsername: true,
 };
 
 it("renders correctly", () => {

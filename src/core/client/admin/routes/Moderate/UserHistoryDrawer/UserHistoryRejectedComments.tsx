@@ -12,6 +12,7 @@ import { UserHistoryRejectedComments_user } from "coral-admin/__generated__/User
 import { UserHistoryRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryRejectedComments_viewer.graphql";
 import { UserHistoryRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryRejectedCommentsPaginationQuery.graphql";
 
+import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { ModerateCardContainer } from "../ModerateCard";
 
 import styles from "./UserHistoryRejectedComments.css";
@@ -50,15 +51,17 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = props => {
 
   return (
     <>
-      {comments.map(c => (
-        <ModerateCardContainer
-          key={c.id}
-          comment={c}
-          viewer={props.viewer}
-          settings={props.settings}
-          danglingLogic={status => false}
-          showStoryInfo={false}
-        />
+      {comments.map((c, i) => (
+        <div key={c.id}>
+          <ModerateCardContainer
+            comment={c}
+            viewer={props.viewer}
+            settings={props.settings}
+            danglingLogic={status => false}
+            showStoryInfo={false}
+          />
+          {i !== comments.length - 1 && <HorizontalRule />}
+        </div>
       ))}
       {hasMore && (
         <div className={styles.footer}>

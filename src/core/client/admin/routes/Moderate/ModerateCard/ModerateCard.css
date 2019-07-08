@@ -35,14 +35,18 @@
 }
 
 .aside {
-  padding-top: 25px;
   flex-shrink: 0;
   flex-grow: 0;
   box-sizing: border-box;
+  padding-top: 25px;
 }
 
 .asideWithoutReplyTo {
   padding-top: 10px;
+}
+
+.asideMini {
+  padding-top: 0px;
 }
 
 .decision {
@@ -58,8 +62,11 @@
 .separator {
   flex-shrink: 0;
   flex-grow: 0;
-  border-right: 1px solid var(--palette-divider);
   margin: 0 calc(2 * var(--mini-unit));
+}
+
+.ruledSeparator {
+  border-right: 1px solid var(--palette-divider);
 }
 
 .root {
@@ -118,4 +125,14 @@
   color: var(--palette-text-primary);
   text-align: center;
   padding-top: 1px;
+}
+
+.borderless {
+  border-width: 0px;
+  box-shadow: none;
+}
+
+.miniButton {
+  width: 40px;
+  height: 40px;
 }

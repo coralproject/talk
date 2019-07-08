@@ -86,7 +86,7 @@ const UserHistoryDrawerContainer: FunctionComponent<
                 />
               </Flex>
             </div>
-            <HorizontalRule />
+            <HorizontalRule className={styles.divider} />
           </div>
           {open && (
             <div className={styles.comments}>

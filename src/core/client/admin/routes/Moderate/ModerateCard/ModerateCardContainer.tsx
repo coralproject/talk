@@ -38,6 +38,8 @@ interface Props {
   match: Match;
   router: Router;
   showStoryInfo: boolean;
+  mini?: boolean;
+  showUsername?: boolean;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -67,6 +69,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   rejectComment,
   featureComment,
   unfeatureComment,
+  mini,
+  showUsername,
 }) => {
   const [showHistory, setShowHistory] = useState(false);
 
@@ -159,6 +163,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           storyHref={getModerationLink("default", comment.story.id)}
           onModerateStory={handleModerateStory}
+          mini={mini === undefined ? false : mini}
+          showUsername={showUsername === undefined ? true : showUsername}
         />
       </FadeInTransition>
       <UserHistoryDrawerContainer
