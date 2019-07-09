@@ -299,7 +299,7 @@ To test out the email sending functionality, you can run [inbucket](https://www.
 which provides a test SMTP server that can visualize emails in the browser:
 
 ```bash
-docker run -d --name inbucket -p 2500:2500 -p 9000:9000 inbucket/inbucket
+docker run -d --name inbucket --restart always -p 2500:2500 -p 9000:9000 inbucket/inbucket
 ```
 
 You can then configure the email server on Coral by updating the Tenant with:

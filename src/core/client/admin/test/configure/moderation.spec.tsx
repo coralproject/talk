@@ -1,5 +1,5 @@
 import { pureMerge } from "coral-common/utils";
-import { GQLResolver } from "coral-framework/schema";
+import { GQLMODERATION_MODE, GQLResolver } from "coral-framework/schema";
 import {
   createResolversStub,
   CreateTestRendererParams,
@@ -58,6 +58,102 @@ async function createTestRenderer(
 it("renders configure moderation", async () => {
   const { configureContainer } = await createTestRenderer();
   expect(within(configureContainer).toJSON()).toMatchSnapshot();
+});
+
+it("change site wide pre-moderation", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.moderation).toEqual(
+          GQLMODERATION_MODE.PRE
+        );
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const {
+    configureContainer,
+    moderationContainer,
+    saveChangesButton,
+  } = await createTestRenderer({
+    resolvers,
+  });
+
+  const preModerationContainer = within(moderationContainer).getAllByText(
+    "Pre-moderate all comments sitewide",
+    { selector: "fieldset" }
+  )[0];
+
+  const onField = within(preModerationContainer).getByLabelText("On");
+
+  // Let's enable it.
+  onField.props.onChange(onField.props.value.toString());
+
+  // Send form
+  within(configureContainer)
+    .getByType("form")
+    .props.onSubmit();
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(onField.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await wait(() => {
+    expect(onField.props.disabled).toBe(false);
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
+});
+
+it("change site wide link pre-moderation", async () => {
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      updateSettings: ({ variables }) => {
+        expectAndFail(variables.settings.premodLinksEnable).toEqual(true);
+        return {
+          settings: pureMerge(settings, variables.settings),
+        };
+      },
+    },
+  });
+  const {
+    configureContainer,
+    moderationContainer,
+    saveChangesButton,
+  } = await createTestRenderer({
+    resolvers,
+  });
+
+  const preModerationContainer = within(moderationContainer).getAllByText(
+    "Pre-moderate comments containing links sitewide",
+    { selector: "fieldset" }
+  )[0];
+
+  const onField = within(preModerationContainer).getByLabelText("On");
+
+  // Let's enable it.
+  onField.props.onChange(onField.props.value.toString());
+
+  // Send form
+  within(configureContainer)
+    .getByType("form")
+    .props.onSubmit();
+
+  // Submit button and text field should be disabled.
+  expect(saveChangesButton.props.disabled).toBe(true);
+  expect(onField.props.disabled).toBe(true);
+
+  // Wait for submission to be finished
+  await wait(() => {
+    expect(onField.props.disabled).toBe(false);
+  });
+
+  // Should have successfully sent with server.
+  expect(resolvers.Mutation!.updateSettings!.called).toBe(true);
 });
 
 it("change akismet settings", async () => {
