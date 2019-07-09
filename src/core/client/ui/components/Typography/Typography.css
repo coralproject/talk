@@ -122,6 +122,10 @@
   color: var(--palette-error-main);
 }
 
+.colorErrorDark {
+  color: var(--palette-error-dark);
+}
+
 .colorWarning {
   color: var(--palette-warning-main);
 }

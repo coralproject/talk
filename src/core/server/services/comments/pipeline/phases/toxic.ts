@@ -3,6 +3,7 @@ import ms from "ms";
 import fetch from "node-fetch";
 
 import {
+  TOXICITY_ENDPOINT_DEFAULT,
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
@@ -49,8 +50,7 @@ export const toxic: IntermediateModerationPhase = async ({
 
   let endpoint = integration.endpoint;
   if (isNil(endpoint)) {
-    // TODO: (wyattjoh) replace hardcoded default with config.
-    endpoint = "https://commentanalyzer.googleapis.com/v1alpha1";
+    endpoint = TOXICITY_ENDPOINT_DEFAULT;
 
     log.trace(
       { endpoint },
@@ -79,7 +79,7 @@ export const toxic: IntermediateModerationPhase = async ({
   }
 
   // TODO: (wyattjoh) replace hardcoded default with config.
-  const timeout = ms("500ms");
+  const timeout = ms("800ms");
 
   try {
     logger.trace("checking comment toxicity");
@@ -125,6 +125,13 @@ export const toxic: IntermediateModerationPhase = async ({
     }
 
     log.trace({ score, isToxic, threshold }, "comment was not toxic");
+
+    return {
+      metadata: {
+        // Store the scores from perspective in the Comment metadata.
+        perspective: { model, score },
+      },
+    };
   } catch (err) {
     // Rethrow any ToxicCommentError.
     if (err instanceof ToxicCommentError) {

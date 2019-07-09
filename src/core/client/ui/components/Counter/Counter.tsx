@@ -14,7 +14,7 @@ interface Props {
   /**
    * The color of the component. It supports those theme colors that make sense for this component.
    */
-  color?: "inherit" | "dark" | "grey" | "primary";
+  color?: "inherit" | "dark" | "grey" | "primary" | "error";
 
   size?: "sm" | "md";
 }
@@ -34,6 +34,7 @@ const Counter: FunctionComponent<Props> = ({
       [classes.colorDark]: color === "dark",
       [classes.colorGrey]: color === "grey",
       [classes.colorInherit]: color === "inherit",
+      [classes.colorError]: color === "error",
       [classes.sizeSmall]: size === "sm",
     },
     className

@@ -42,6 +42,15 @@ function collection<T = Comment>(mongo: Db) {
   return mongo.collection<Readonly<T>>("comments");
 }
 
+export interface RevisionMetadata {
+  akismet?: boolean;
+  linkCount?: number;
+  perspective?: {
+    score: number;
+    model: string;
+  };
+}
+
 /**
  * Revision stores a Comment's body for a specific edit. Actions can be tied to
  * a Revision, as can moderation actions.
@@ -61,6 +70,11 @@ export interface Revision {
    * actionCounts is the cached action counts on this revision.
    */
   actionCounts: EncodedCommentActionCounts;
+
+  /**
+   * metadata stores properties on this revision.
+   */
+  metadata: RevisionMetadata;
 
   /**
    * createdAt is the date that this revision was created at.
@@ -139,11 +153,6 @@ export interface Comment extends TenantResource {
    * it's length because we needed to sort by this field sometimes.
    */
   childCount: number;
-
-  /**
-   * metadata stores the deep Comment properties.
-   */
-  metadata?: Record<string, any>;
 
   /**
    * createdAt is the date that this Comment was created.
@@ -240,6 +249,7 @@ export type CreateCommentInput = Omit<
   | "deletedAt"
 > &
   Required<Pick<Revision, "body">> &
+  Pick<Revision, "metadata"> &
   Partial<Pick<Comment, "actionCounts">>;
 
 export async function createComment(
@@ -249,13 +259,14 @@ export async function createComment(
   now = new Date()
 ) {
   // Pull out some useful properties from the input.
-  const { body, actionCounts = {}, ...rest } = input;
+  const { body, actionCounts = {}, metadata, ...rest } = input;
 
   // Generate the revision.
   const revision: Revision = {
     id: uuid.v4(),
     body,
     actionCounts,
+    metadata,
     createdAt: now,
   };
 
@@ -311,17 +322,14 @@ export async function pushChildCommentIDOntoParent(
   return result.value;
 }
 
-export type EditCommentInput = Pick<
-  Comment,
-  "id" | "authorID" | "status" | "metadata"
-> & {
+export type EditCommentInput = Pick<Comment, "id" | "authorID" | "status"> & {
   /**
    * lastEditableCommentCreatedAt is the date that the last comment would have
    * been editable. It is generally derived from the tenant's
    * `editCommentWindowLength` property.
    */
   lastEditableCommentCreatedAt: Date;
-} & Required<Pick<Revision, "body">> &
+} & Required<Pick<Revision, "body" | "metadata">> &
   Partial<Pick<Comment, "actionCounts">>;
 
 // Only comments with the following status's can be edited.
@@ -401,17 +409,12 @@ export async function editComment(
     id: uuid.v4(),
     body,
     actionCounts,
+    metadata,
     createdAt: now,
   };
 
   const update: Record<string, any> = {
-    $set: {
-      status,
-      // Embed all the metadata properties, this may override the existing
-      // metadata, but we won't replace metadata that has been recalculated.
-      // TODO: (wyattjoh) consider if we want to replace the metadata for edited comments instead of supplementing it
-      ...dotize({ metadata }),
-    },
+    $set: { status },
     $push: {
       revisions: revision,
     },

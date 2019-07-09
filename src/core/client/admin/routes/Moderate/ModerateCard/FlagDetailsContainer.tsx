@@ -1,80 +1,94 @@
 import { Localized } from "fluent-react/compat";
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
-import { FlagDetailsContainer_comment as CommentData } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
+import { FlagDetailsContainer_comment } from "coral-admin/__generated__/FlagDetailsContainer_comment.graphql";
+import { FlagDetailsContainer_settings } from "coral-admin/__generated__/FlagDetailsContainer_settings.graphql";
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 import { GQLCOMMENT_FLAG_REASON } from "coral-framework/schema";
 import { HorizontalGutter } from "coral-ui/components";
 
 import FlagDetailsCategory from "./FlagDetailsCategory";
 import FlagDetailsEntry from "./FlagDetailsEntry";
+import ToxicityLabel from "./ToxicityLabel";
 
 interface Props {
-  comment: CommentData;
+  comment: FlagDetailsContainer_comment;
+  settings: FlagDetailsContainer_settings;
 }
 
-export class FlagDetailsContainer extends React.Component<Props> {
-  public render() {
-    const nodes = this.props.comment.flags.nodes;
-    const offensiveList: React.ReactElement[] = [];
-    const spamList: React.ReactElement[] = [];
-    nodes.forEach((n, i) => {
-      switch (n.reason) {
-        case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE:
-          offensiveList.push(
+const FlagDetailsContainer: FunctionComponent<Props> = ({
+  comment: {
+    revision: { metadata },
+    flags: { nodes },
+  },
+  settings,
+}) => {
+  const offensive = nodes.filter(
+    ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_OFFENSIVE
+  );
+  const spam = nodes.filter(
+    ({ reason }) => reason === GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM
+  );
+
+  return (
+    <HorizontalGutter size="oneAndAHalf">
+      {metadata.perspective && (
+        <FlagDetailsCategory
+          category={
+            <Localized id="moderate-flagDetails-toxicityScore">
+              <span>Toxicity Score</span>
+            </Localized>
+          }
+        >
+          <ToxicityLabel
+            score={metadata.perspective.score}
+            threshold={
+              settings.integrations.perspective.threshold ||
+              TOXICITY_THRESHOLD_DEFAULT / 100
+            }
+          />
+        </FlagDetailsCategory>
+      )}
+      {offensive.length > 0 && (
+        <FlagDetailsCategory
+          category={
+            <Localized id="moderate-flagDetails-offensive">
+              <span>Offensive</span>
+            </Localized>
+          }
+        >
+          {offensive.map((flag, i) => (
             <FlagDetailsEntry
               key={i}
-              user={n.flagger ? n.flagger.username : <NotAvailable />}
-              details={n.additionalDetails}
+              user={flag.flagger ? flag.flagger.username : <NotAvailable />}
+              details={flag.additionalDetails}
             />
-          );
-          return;
-        case GQLCOMMENT_FLAG_REASON.COMMENT_REPORTED_SPAM:
-          spamList.push(
+          ))}
+        </FlagDetailsCategory>
+      )}
+      {spam.length > 0 && (
+        <FlagDetailsCategory
+          category={
+            <Localized id="moderate-flagDetails-spam">
+              <span>Spam</span>
+            </Localized>
+          }
+        >
+          {spam.map((flag, i) => (
             <FlagDetailsEntry
               key={i}
-              user={n.flagger ? n.flagger.username : <NotAvailable />}
-              details={n.additionalDetails}
+              user={flag.flagger ? flag.flagger.username : <NotAvailable />}
+              details={flag.additionalDetails}
             />
-          );
-          return;
-        default:
-          return;
-      }
-    });
-    if (offensiveList.length + spamList.length === 0) {
-      return null;
-    }
-    return (
-      <HorizontalGutter size="oneAndAHalf">
-        {offensiveList.length > 0 && (
-          <FlagDetailsCategory
-            category={
-              <Localized id="moderate-flagDetails-offensive">
-                <span>Offensive</span>
-              </Localized>
-            }
-          >
-            {offensiveList}
-          </FlagDetailsCategory>
-        )}
-        {spamList.length > 0 && (
-          <FlagDetailsCategory
-            category={
-              <Localized id="moderate-flagDetails-spam">
-                <span>Spam</span>
-              </Localized>
-            }
-          >
-            {spamList}
-          </FlagDetailsCategory>
-        )}
-      </HorizontalGutter>
-    );
-  }
-}
+          ))}
+        </FlagDetailsCategory>
+      )}
+    </HorizontalGutter>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
@@ -86,6 +100,22 @@ const enhanced = withFragmentContainer<Props>({
           }
           reason
           additionalDetails
+        }
+      }
+      revision {
+        metadata {
+          perspective {
+            score
+          }
+        }
+      }
+    }
+  `,
+  settings: graphql`
+    fragment FlagDetailsContainer_settings on Settings {
+      integrations {
+        perspective {
+          threshold
         }
       }
     }

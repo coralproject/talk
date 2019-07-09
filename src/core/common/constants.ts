@@ -27,3 +27,10 @@ export const TOXICITY_THRESHOLD_DEFAULT = 80;
  * TOXICITY_MODEL_DEFAULT is the default value used for the toxicity model.
  */
 export const TOXICITY_MODEL_DEFAULT = "TOXICITY";
+
+/**
+ * TOXICITY_ENDPOINT_DEFAULT is the default value used for the toxicity endpoint
+ * for the API.
+ */
+export const TOXICITY_ENDPOINT_DEFAULT =
+  "https://commentanalyzer.googleapis.com/v1alpha1";

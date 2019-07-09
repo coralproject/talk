@@ -16,6 +16,7 @@ const baseProps: PropTypesOf<typeof ModerateCardN> = {
   body: "content",
   inReplyTo: null,
   comment: {},
+  settings: {},
   status: "undecided",
   featured: false,
   viewContextHref: "http://localhost/comment",

@@ -6,6 +6,7 @@ import { Field } from "react-final-form";
 import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
 
 import {
+  TOXICITY_ENDPOINT_DEFAULT,
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
@@ -220,7 +221,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
         </Localized>
         <Localized
           id="configure-moderation-perspective-defaultEndpoint"
-          $default="https://commentanalyzer.googleapis.com/v1alpha1"
+          $default={TOXICITY_ENDPOINT_DEFAULT}
         >
           <InputDescription>
             By default the endpoint is set to $default. You may override this
@@ -242,6 +243,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="off"
+                placeholder={TOXICITY_ENDPOINT_DEFAULT}
                 spellCheck={false}
               />
               {meta.touched && (meta.error || meta.submitError) && (

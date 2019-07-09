@@ -18,9 +18,9 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
     showDetails,
   ]);
   return (
-    <HorizontalGutter size="double">
-      <Flex>
-        <Flex itemGutter>{children}</Flex>
+    <HorizontalGutter>
+      <Flex itemGutter>
+        {children}
         {details && (
           <Button
             size="small"
@@ -39,7 +39,12 @@ const Markers: FunctionComponent<Props> = ({ children, details }) => {
           </Button>
         )}
       </Flex>
-      {showDetails && <div id={uuid}>{details}</div>}
+      {showDetails && (
+        <div id={uuid}>
+          <hr className={styles.detailsDivider} />
+          {details}
+        </div>
+      )}
     </HorizontalGutter>
   );
 };

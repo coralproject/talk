@@ -1,3 +1,4 @@
+import { TOXICITY_THRESHOLD_DEFAULT } from "coral-common/constants";
 import { pureMerge } from "coral-common/utils";
 import {
   GQLComment,
@@ -66,6 +67,7 @@ export const settings = createFixture<GQLSettings>({
     },
     perspective: {
       enabled: false,
+      threshold: TOXICITY_THRESHOLD_DEFAULT / 100,
     },
   },
   auth: {
@@ -432,19 +434,22 @@ export const baseComment = createFixture<GQLComment>({
     edges: [],
     pageInfo: { endCursor: null, hasNextPage: false },
   },
-  actionCounts: {
-    flag: {
-      reasons: {
-        COMMENT_DETECTED_TOXIC: 0,
-        COMMENT_DETECTED_SPAM: 0,
-        COMMENT_DETECTED_TRUST: 0,
-        COMMENT_DETECTED_LINKS: 0,
-        COMMENT_DETECTED_BANNED_WORD: 0,
-        COMMENT_DETECTED_SUSPECT_WORD: 0,
-        COMMENT_REPORTED_OFFENSIVE: 0,
-        COMMENT_REPORTED_SPAM: 0,
+  revision: {
+    actionCounts: {
+      flag: {
+        reasons: {
+          COMMENT_DETECTED_TOXIC: 0,
+          COMMENT_DETECTED_SPAM: 0,
+          COMMENT_DETECTED_TRUST: 0,
+          COMMENT_DETECTED_LINKS: 0,
+          COMMENT_DETECTED_BANNED_WORD: 0,
+          COMMENT_DETECTED_SUSPECT_WORD: 0,
+          COMMENT_REPORTED_OFFENSIVE: 0,
+          COMMENT_REPORTED_SPAM: 0,
+        },
       },
     },
+    metadata: {},
   },
   flags: {
     nodes: [],
@@ -498,17 +503,22 @@ export const reportedComments = createFixtures<GQLComment>(
       author: users.commenters[0],
       revision: {
         id: "comment-0-revision-0",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_SPAM: 2,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/0",
       body:
         "This is the last random sentence I will be writing and I am going to stop mid-sent",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_SPAM: 2,
-          },
-        },
-      },
       flags: {
         nodes: [
           {
@@ -528,17 +538,22 @@ export const reportedComments = createFixtures<GQLComment>(
       id: "comment-1",
       revision: {
         id: "comment-1-revision-1",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_OFFENSIVE: 3,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/1",
       author: users.commenters[1],
       body: "Don't fool with me",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_OFFENSIVE: 3,
-          },
-        },
-      },
       flags: {
         nodes: [
           {
@@ -563,19 +578,24 @@ export const reportedComments = createFixtures<GQLComment>(
       id: "comment-2",
       revision: {
         id: "comment-2-revision-2",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_SPAM: 1,
+              COMMENT_REPORTED_OFFENSIVE: 1,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/2",
       status: GQLCOMMENT_STATUS.PREMOD,
       author: users.commenters[2],
       body: "I think I deserve better",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_SPAM: 1,
-            COMMENT_REPORTED_OFFENSIVE: 1,
-          },
-        },
-      },
       flags: {
         nodes: [
           {
@@ -595,18 +615,23 @@ export const reportedComments = createFixtures<GQLComment>(
       id: "comment-3",
       revision: {
         id: "comment-3-revision-3",
+        actionCounts: {
+          flag: {
+            reasons: {
+              COMMENT_REPORTED_SPAM: 1,
+            },
+          },
+        },
+        metadata: {
+          perspective: {
+            score: 0.1,
+          },
+        },
       },
       permalink: "http://localhost/comment/3",
       status: GQLCOMMENT_STATUS.PREMOD,
       author: users.commenters[3],
       body: "World peace at last",
-      actionCounts: {
-        flag: {
-          reasons: {
-            COMMENT_REPORTED_SPAM: 1,
-          },
-        },
-      },
       flags: {
         nodes: [
           {

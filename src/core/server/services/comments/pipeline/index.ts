@@ -1,7 +1,10 @@
 import { Omit, Promiseable, RequireProperty } from "coral-common/types";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import { CreateActionInput } from "coral-server/models/action/comment";
-import { EditCommentInput } from "coral-server/models/comment";
+import {
+  EditCommentInput,
+  RevisionMetadata,
+} from "coral-server/models/comment";
 import { CommentTag } from "coral-server/models/comment/tag";
 import { Story } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
@@ -18,7 +21,7 @@ export type ModerationAction = Omit<
 export interface PhaseResult {
   actions: ModerationAction[];
   status: GQLCOMMENT_STATUS;
-  metadata: Record<string, any>;
+  metadata: RevisionMetadata;
   body: string;
   tags: CommentTag[];
 }
@@ -33,14 +36,19 @@ export interface ModerationPhaseContext {
   req?: Request;
 }
 
-export type ModerationPhase = (
+export type RootModerationPhase = (
   context: ModerationPhaseContext
 ) => Promiseable<PhaseResult>;
 
 export type IntermediatePhaseResult = Partial<PhaseResult> | void;
 
+export interface IntermediateModerationPhaseContext
+  extends ModerationPhaseContext {
+  metadata: RevisionMetadata;
+}
+
 export type IntermediateModerationPhase = (
-  context: ModerationPhaseContext
+  context: IntermediateModerationPhaseContext
 ) => Promiseable<IntermediatePhaseResult>;
 
 /**
@@ -49,7 +57,7 @@ export type IntermediateModerationPhase = (
  */
 export const compose = (
   phases: IntermediateModerationPhase[]
-): ModerationPhase => async context => {
+): RootModerationPhase => async context => {
   const final: PhaseResult = {
     status: GQLCOMMENT_STATUS.NONE,
     body: context.comment.body,
@@ -65,8 +73,8 @@ export const compose = (
       comment: {
         ...context.comment,
         body: final.body,
-        metadata: final.metadata,
       },
+      metadata: final.metadata,
     });
     if (result) {
       // If this result contained actions, then we should push it into the
@@ -119,4 +127,6 @@ export const compose = (
 /**
  * process the comment and return moderation details.
  */
-export const processForModeration: ModerationPhase = compose(moderationPhases);
+export const processForModeration: RootModerationPhase = compose(
+  moderationPhases
+);
