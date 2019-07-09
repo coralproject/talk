@@ -385,6 +385,9 @@ the variables in a `.env` file in the root of the project in a simple
 - `CLUSTER_METRICS_PORT` - If `CONCURRENCY` is more than `1`, the metrics are provided at this port under `/cluster_metrics`. (Default `3001`)
 - `DISABLE_LIVE_UPDATES` - When `true`, disables subscriptions for the comment
   stream for all stories across all tenants (Default `false`)
+- `WEBSOCKET_KEEP_ALIVE_TIMEOUT` - A duration in a parsable format (e.g. `30 seconds`
+  , `1 minute`) that should be used to send keep alive messages through the
+  websocket to keep the socket alive (Default `30 seconds`)
 
 ## License
 

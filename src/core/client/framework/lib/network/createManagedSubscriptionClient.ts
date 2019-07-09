@@ -89,6 +89,7 @@ export default function createManagedSubscriptionClient(
       if (!subscriptionClient) {
         subscriptionClient = new SubscriptionClient(url, {
           reconnect: true,
+          timeout: 60000,
           connectionCallback: err => {
             if (err) {
               // If an error is thrown as a result of live updates being
