@@ -138,7 +138,7 @@ exports[`approves single comment 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -333,7 +333,7 @@ exports[`rejects single comment 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -563,7 +563,7 @@ exports[`renders single comment view 1`] = `
               </div>
             </div>
             <div
-              className="ModerateCard-separator"
+              className="ModerateCard-separator ModerateCard-ruledSeparator"
             />
             <div
               className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"

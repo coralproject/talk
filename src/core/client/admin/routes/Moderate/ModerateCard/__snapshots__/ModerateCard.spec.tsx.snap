@@ -71,7 +71,7 @@ exports[`renders approved correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -92,10 +92,12 @@ exports[`renders approved correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           disabled={true}
           invert={true}
           onClick={[Function]}
@@ -177,7 +179,7 @@ exports[`renders correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -198,10 +200,12 @@ exports[`renders correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
@@ -282,7 +286,7 @@ exports[`renders dangling correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -303,11 +307,13 @@ exports[`renders dangling correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           disabled={true}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           disabled={true}
           invert={false}
           onClick={[Function]}
@@ -389,7 +395,7 @@ exports[`renders rejected correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -410,11 +416,13 @@ exports[`renders rejected correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           disabled={true}
           invert={true}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
@@ -500,7 +508,7 @@ exports[`renders reply correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -521,10 +529,12 @@ exports[`renders reply correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
@@ -634,7 +644,7 @@ exports[`renders story info 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -655,10 +665,12 @@ exports[`renders story info 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />

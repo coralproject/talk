@@ -172,7 +172,7 @@ exports[`approves comment in reported queue: dangling 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -401,7 +401,7 @@ exports[`rejects comment in reported queue: dangling 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -627,7 +627,7 @@ exports[`renders reported queue with comments 1`] = `
             </div>
           </div>
           <div
-            className="ModerateCard-separator"
+            className="ModerateCard-separator ModerateCard-ruledSeparator"
           />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -840,7 +840,7 @@ exports[`renders reported queue with comments 1`] = `
             </div>
           </div>
           <div
-            className="ModerateCard-separator"
+            className="ModerateCard-separator ModerateCard-ruledSeparator"
           />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -1069,7 +1069,7 @@ exports[`renders reported queue with comments 2`] = `
             </div>
           </div>
           <div
-            className="ModerateCard-separator"
+            className="ModerateCard-separator ModerateCard-ruledSeparator"
           />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -1282,7 +1282,7 @@ exports[`renders reported queue with comments 2`] = `
             </div>
           </div>
           <div
-            className="ModerateCard-separator"
+            className="ModerateCard-separator ModerateCard-ruledSeparator"
           />
           <div
             className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -1519,7 +1519,7 @@ exports[`renders reported queue with comments and load more 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
