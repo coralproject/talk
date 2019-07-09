@@ -59,6 +59,8 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = props => {
             settings={props.settings}
             danglingLogic={status => false}
             showStoryInfo={false}
+            mini
+            showUsername={false}
           />
           {i !== comments.length - 1 && <HorizontalRule />}
         </div>

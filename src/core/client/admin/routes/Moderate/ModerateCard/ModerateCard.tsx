@@ -88,7 +88,11 @@ const ModerateCard: FunctionComponent<Props> = ({
   >
     <Flex>
       <div className={styles.mainContainer}>
-        <div className={styles.topBar}>
+        <div
+          className={cn(styles.topBar, {
+            [styles.topBarMini]: mini && !inReplyTo,
+          })}
+        >
           <Flex alignItems="center">
             {showUsername && (
               <BaseButton onClick={onUsernameClick} className={styles.username}>
@@ -152,7 +156,8 @@ const ModerateCard: FunctionComponent<Props> = ({
       <Flex
         className={cn(styles.aside, {
           [styles.asideWithoutReplyTo]: !inReplyTo,
-          [styles.asideMini]: mini,
+          [styles.asideMini]: mini && !inReplyTo,
+          [styles.asideMiniWithReplyTo]: mini && inReplyTo,
         })}
         alignItems="center"
         direction="column"
