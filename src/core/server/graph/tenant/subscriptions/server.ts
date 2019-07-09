@@ -224,9 +224,9 @@ export function createSubscriptionServer(
   options: Options
 ) {
   const keepAlive = options.config.get("websocket_keep_alive_timeout");
-  if (typeof keepAlive !== "number") {
+  if (typeof keepAlive !== "number" || keepAlive <= 0) {
     throw new Error(
-      "expected the websocket_keep_alive_timeout configuration to be a number"
+      "expected the websocket_keep_alive_timeout configuration to be a positive number"
     );
   }
 
