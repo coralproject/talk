@@ -13,6 +13,27 @@
   flex: none;
 }
 
+.tab {
+  color: var(--palette-grey-dark);
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-sizing: border-box;
+  border-bottom: 3px solid transparent;
+
+  font-size: calc(14rem / var(--rem-base));
+}
+
+.activeTab {
+  color: var(--palette-primary-main);
+}
+
+.tabIcon {
+  margin-right: var(--spacing-2);
+}
+
 .tabContent {
   flex: auto;
   overflow: hidden;

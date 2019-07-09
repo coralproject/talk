@@ -1,7 +1,8 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
-import { Tab, TabBar, TabContent, TabPane } from "coral-ui/components";
+import { Icon, Tab, TabBar, TabContent, TabPane } from "coral-ui/components";
 
 import UserHistoryAllCommentsContainer from "./UserHistoryAllCommentsContainer";
 import UserHistoryRejectedCommentsContainer from "./UserHistoryRejectedCommentsContainer";
@@ -31,14 +32,32 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
         className={styles.tabBar}
       >
         <Tab tabID={"ALL"} onTabClick={onTabChanged}>
-          <Localized id="moderate-user-drawer-tab-all-comments">
-            <span>All Comments</span>
-          </Localized>
+          <div
+            className={cn(styles.tab, {
+              [styles.activeTab]: currentTab === "ALL",
+            })}
+          >
+            <Icon size="sm" className={styles.tabIcon}>
+              forum
+            </Icon>
+            <Localized id="moderate-user-drawer-tab-all-comments">
+              <span>All Comments</span>
+            </Localized>
+          </div>
         </Tab>
         <Tab tabID={"REJECTED"} onTabClick={onTabChanged}>
-          <Localized id="moderate-user-drawer-tab-rejected-comments">
-            <span>Rejected</span>
-          </Localized>
+          <div
+            className={cn(styles.tab, {
+              [styles.activeTab]: currentTab === "REJECTED",
+            })}
+          >
+            <Icon size="sm" className={styles.tabIcon}>
+              cancel
+            </Icon>
+            <Localized id="moderate-user-drawer-tab-rejected-comments">
+              <span>Rejected</span>
+            </Localized>
+          </div>
         </Tab>
       </TabBar>
       <TabContent activeTab={currentTab} className={styles.tabContent}>
