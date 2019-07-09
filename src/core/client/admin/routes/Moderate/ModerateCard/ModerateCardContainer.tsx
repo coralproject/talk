@@ -1,5 +1,5 @@
 import { Match, Router, withRouter } from "found";
-import React, { FunctionComponent, useCallback, useState } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import {
@@ -20,7 +20,6 @@ import {
 } from "coral-framework/lib/relay";
 import { GQLTAG } from "coral-framework/schema";
 
-import UserHistoryDrawerContainer from "../UserHistoryDrawer/UserHistoryDrawerContainer";
 import FeatureCommentMutation from "./FeatureCommentMutation";
 import ModerateCard from "./ModerateCard";
 import ModeratedByContainer from "./ModeratedByContainer";
@@ -40,6 +39,7 @@ interface Props {
   showStoryInfo: boolean;
   mini?: boolean;
   showUsername?: boolean;
+  usernameClicked?: (userID: string) => void;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -71,9 +71,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   unfeatureComment,
   mini,
   showUsername,
+  usernameClicked,
 }) => {
-  const [showHistory, setShowHistory] = useState(false);
-
   const handleApprove = useCallback(() => {
     approveComment({
       commentID: comment.id,
@@ -115,12 +114,12 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
     }
   }, [comment]);
 
-  const onShowCommentHistory = useCallback(() => {
-    setShowHistory(true);
-  }, [setShowHistory]);
-  const onHideCommentHistory = useCallback(() => {
-    setShowHistory(false);
-  }, [setShowHistory]);
+  const onUsernameClicked = useCallback(() => {
+    if (!usernameClicked) {
+      return;
+    }
+    usernameClicked(comment.author!.id);
+  }, [usernameClicked, comment]);
 
   const handleModerateStory = useCallback(
     (e: React.MouseEvent) => {
@@ -151,7 +150,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           onApprove={handleApprove}
           onReject={handleReject}
           onFeature={onFeature}
-          onUsernameClick={onShowCommentHistory}
+          onUsernameClick={onUsernameClicked}
           moderatedBy={
             <ModeratedByContainer viewer={viewer} comment={comment} />
           }
@@ -167,11 +166,6 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           showUsername={showUsername === undefined ? true : showUsername}
         />
       </FadeInTransition>
-      <UserHistoryDrawerContainer
-        open={showHistory}
-        onClose={onHideCommentHistory}
-        user={comment.author!}
-      />
     </>
   );
 };
@@ -183,7 +177,6 @@ const enhanced = withFragmentContainer<Props>({
       author {
         id
         username
-        ...UserHistoryDrawerContainer_user
       }
       statusLiveUpdated
       createdAt
