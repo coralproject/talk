@@ -48,18 +48,16 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = ({
 
   if (comments.length === 0) {
     return (
-      <div className={styles.callout}>
-        <CallOut>
-          <Localized
-            id="moderate-user-drawer-rejected-no-comments"
-            $username={user.username}
-          >
-            <Typography variant="bodyCopy">
-              {`${user.username} does not have any rejected comments.`}
-            </Typography>
-          </Localized>
-        </CallOut>
-      </div>
+      <CallOut fullWidth>
+        <Localized
+          id="moderate-user-drawer-rejected-no-comments"
+          $username={user.username}
+        >
+          <Typography variant="bodyCopy">
+            {user.username} does not have any rejected comments.
+          </Typography>
+        </Localized>
+      </CallOut>
     );
   }
 
@@ -72,9 +70,9 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = ({
             viewer={viewer}
             settings={settings}
             danglingLogic={status => false}
-            showStoryInfo={false}
+            hideUsername
+            showStoryInfo
             mini
-            showUsername={false}
           />
           {i !== comments.length - 1 && <HorizontalRule />}
         </div>

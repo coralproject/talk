@@ -43,8 +43,8 @@ interface Props {
   onReject: () => void;
   onFeature: () => void;
   onUsernameClick: () => void;
-  mini: boolean;
-  showUsername: boolean;
+  mini?: boolean;
+  hideUsername?: boolean;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -75,8 +75,8 @@ const ModerateCard: FunctionComponent<Props> = ({
   storyHref,
   onModerateStory,
   moderatedBy,
-  mini,
-  showUsername,
+  mini = false,
+  hideUsername = false,
 }) => (
   <Card
     className={cn(
@@ -94,7 +94,7 @@ const ModerateCard: FunctionComponent<Props> = ({
           })}
         >
           <Flex alignItems="center">
-            {showUsername && (
+            {!hideUsername && (
               <BaseButton onClick={onUsernameClick} className={styles.username}>
                 <Username>{username}</Username>
               </BaseButton>

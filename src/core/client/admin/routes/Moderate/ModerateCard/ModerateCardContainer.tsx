@@ -38,7 +38,7 @@ interface Props {
   router: Router;
   showStoryInfo: boolean;
   mini?: boolean;
-  showUsername?: boolean;
+  hideUsername?: boolean;
   onUsernameClicked?: (userID: string) => void;
 }
 
@@ -69,8 +69,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   rejectComment,
   featureComment,
   unfeatureComment,
-  mini = false,
-  showUsername = true,
+  mini,
+  hideUsername,
   onUsernameClicked: usernameClicked,
 }) => {
   const handleApprove = useCallback(() => {
@@ -163,7 +163,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           storyHref={getModerationLink("default", comment.story.id)}
           onModerateStory={handleModerateStory}
           mini={mini}
-          showUsername={showUsername}
+          hideUsername={hideUsername}
         />
       </FadeInTransition>
     </>
