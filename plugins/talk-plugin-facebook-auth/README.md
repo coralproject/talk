@@ -36,7 +36,7 @@ You can learn more about getting a Facebook App ID at the
     * add a link to your privacy policy
     * add a link to your terms of service
 * In Settings > Advanced:
-    * turn on "Require App Secret"
+    * disable "Require App Secret"
 * Add a "Product" (Under "Products" click + to add a Product):
     * Setup "Facebook Login"
     * choose `www` 
