@@ -11,6 +11,7 @@
 
 .tabBar {
   flex: none;
+  border-bottom: 0px;
 }
 
 .tab {
