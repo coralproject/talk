@@ -2,17 +2,18 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { Button } from "coral-ui/components/";
+import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
+import { Button, CallOut, Typography } from "coral-ui/components/";
 
 import { UserHistoryAllComments_settings } from "coral-admin/__generated__/UserHistoryAllComments_settings.graphql";
 import { UserHistoryAllComments_user } from "coral-admin/__generated__/UserHistoryAllComments_user.graphql";
 import { UserHistoryAllComments_viewer } from "coral-admin/__generated__/UserHistoryAllComments_viewer.graphql";
 import { UserHistoryAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryAllCommentsPaginationQuery.graphql";
 
-import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { ModerateCardContainer } from "../ModerateCard";
 
 import styles from "./UserHistoryAllComments.css";
@@ -24,12 +25,15 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-const UserHistoryAllComments: FunctionComponent<Props> = props => {
-  const comments = props.user
-    ? props.user.allComments.edges.map(edge => edge.node)
-    : [];
+const UserHistoryAllComments: FunctionComponent<Props> = ({
+  user,
+  viewer,
+  settings,
+  relay,
+}) => {
+  const comments = user ? user.allComments.edges.map(edge => edge.node) : [];
 
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 5);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
 
   const onLoadMore = useCallback(() => {
     if (!loadMore || isLoadingMore) {
@@ -39,13 +43,22 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
     loadMore();
   }, [loadMore]);
 
-  const hasMore = props.relay.hasMore();
+  const hasMore = relay.hasMore();
 
   if (comments.length === 0) {
     return (
-      <div className={styles.error}>{`${
-        props.user.username
-      } has not submitted any comments.`}</div>
+      <div className={styles.callout}>
+        <CallOut>
+          <Localized
+            id="moderate-user-drawer-rejected-no-comments"
+            $username={user.username}
+          >
+            <Typography variant="bodyCopy">
+              {`${user.username} has not submitted any comments.`}
+            </Typography>
+          </Localized>
+        </CallOut>
+      </div>
     );
   }
 
@@ -55,8 +68,8 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
         <div key={c.id}>
           <ModerateCardContainer
             comment={c}
-            viewer={props.viewer}
-            settings={props.settings}
+            viewer={viewer}
+            settings={settings}
             danglingLogic={status => false}
             showStoryInfo={false}
             mini
@@ -68,7 +81,7 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
       {hasMore && (
         <div className={styles.footer}>
           <Button className={styles.loadMore} onClick={onLoadMore}>
-            Load More
+            <Localized id="moderate-user-drawer-load-more">Load More</Localized>
           </Button>
         </div>
       )}

@@ -2,10 +2,11 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { Button } from "coral-ui/components/";
+import { Button, CallOut, Typography } from "coral-ui/components/";
 
 import { UserHistoryRejectedComments_settings } from "coral-admin/__generated__/UserHistoryRejectedComments_settings.graphql";
 import { UserHistoryRejectedComments_user } from "coral-admin/__generated__/UserHistoryRejectedComments_user.graphql";
@@ -24,12 +25,17 @@ interface Props {
   relay: RelayPaginationProp;
 }
 
-const UserHistoryRejectedComments: FunctionComponent<Props> = props => {
-  const comments = props.user
-    ? props.user.rejectedComments.edges.map(edge => edge.node)
+const UserHistoryRejectedComments: FunctionComponent<Props> = ({
+  user,
+  viewer,
+  settings,
+  relay,
+}) => {
+  const comments = user
+    ? user.rejectedComments.edges.map(edge => edge.node)
     : [];
 
-  const [loadMore, isLoadingMore] = useLoadMore(props.relay, 5);
+  const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
 
   const onLoadMore = useCallback(() => {
     if (!loadMore || isLoadingMore) {
@@ -39,13 +45,22 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = props => {
     loadMore();
   }, [loadMore]);
 
-  const hasMore = props.relay.hasMore();
+  const hasMore = relay.hasMore();
 
   if (comments.length === 0) {
     return (
-      <div className={styles.error}>{`${
-        props.user.username
-      } does not have any rejected comments.`}</div>
+      <div className={styles.callout}>
+        <CallOut>
+          <Localized
+            id="moderate-user-drawer-rejected-no-comments"
+            $username={user.username}
+          >
+            <Typography variant="bodyCopy">
+              {`${user.username} does not have any rejected comments.`}
+            </Typography>
+          </Localized>
+        </CallOut>
+      </div>
     );
   }
 
@@ -55,8 +70,8 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = props => {
         <div key={c.id}>
           <ModerateCardContainer
             comment={c}
-            viewer={props.viewer}
-            settings={props.settings}
+            viewer={viewer}
+            settings={settings}
             danglingLogic={status => false}
             showStoryInfo={false}
             mini
@@ -68,7 +83,7 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = props => {
       {hasMore && (
         <div className={styles.footer}>
           <Button className={styles.loadMore} onClick={onLoadMore}>
-            Load More
+            <Localized id="moderate-user-drawer-load-more">Load More</Localized>
           </Button>
         </div>
       )}
