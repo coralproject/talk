@@ -2,7 +2,7 @@ import {
   useLoadMore,
   withPaginationContainer,
 } from "coral-framework/lib/relay";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
 import { Button } from "coral-ui/components/";
@@ -31,13 +31,13 @@ const UserHistoryAllComments: FunctionComponent<Props> = props => {
 
   const [loadMore, isLoadingMore] = useLoadMore(props.relay, 5);
 
-  const onLoadMore = () => {
+  const onLoadMore = useCallback(() => {
     if (!loadMore || isLoadingMore) {
       return;
     }
 
     loadMore();
-  };
+  }, [loadMore]);
 
   const hasMore = props.relay.hasMore();
 
