@@ -9,15 +9,17 @@ import UserHistoryRejectedCommentsContainer from "./UserHistoryRejectedCommentsC
 
 import styles from "./UserHistoryTabs.css";
 
+type TabType = "ALL" | "REJECTED";
+
 interface Props {
   userID: string;
 }
 
 const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
-  const [currentTab, setCurrentTab] = useState("ALL");
+  const [currentTab, setCurrentTab] = useState<TabType>("ALL");
 
   const onTabChanged = useCallback(
-    (tab: any) => {
+    (tab: TabType) => {
       setCurrentTab(tab);
     },
     [setCurrentTab]
