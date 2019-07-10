@@ -1077,6 +1077,11 @@ type Settings {
   domain: String! @auth(roles: [ADMIN])
 
   """
+  staticURI if configured, is the static URI used to serve static files from.
+  """
+  staticURI: String @auth(roles: [ADMIN])
+
+  """
   allowedDomains is the list of domains that stories can come from.
   """
   allowedDomains: [String!]! @auth(roles: [ADMIN])

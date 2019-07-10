@@ -1,0 +1,7 @@
+.textArea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: calc(28 * var(--mini-unit));
+  padding: calc(0.5 * var(--mini-unit));
+  resize: none;
+}

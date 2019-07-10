@@ -170,7 +170,7 @@ const config = convict({
     format: "optional-url",
     default: "",
     env: "STATIC_URI",
-    arg: "staticUri",
+    arg: "staticURI",
   },
   websocket_keep_alive_timeout: {
     doc:
