@@ -31,8 +31,6 @@ const UserHistoryAllComments: FunctionComponent<Props> = ({
   settings,
   relay,
 }) => {
-  const comments = user ? user.allComments.edges.map(edge => edge.node) : [];
-
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
 
   const onLoadMore = useCallback(() => {
@@ -44,6 +42,7 @@ const UserHistoryAllComments: FunctionComponent<Props> = ({
   }, [loadMore]);
 
   const hasMore = relay.hasMore();
+  const comments = user ? user.allComments.edges.map(edge => edge.node) : [];
 
   if (comments.length === 0) {
     return (

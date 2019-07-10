@@ -6,14 +6,14 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { Button, CallOut, Typography } from "coral-ui/components/";
+import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
+import { Button, CallOut, Typography } from "coral-ui/components";
 
 import { UserHistoryRejectedComments_settings } from "coral-admin/__generated__/UserHistoryRejectedComments_settings.graphql";
 import { UserHistoryRejectedComments_user } from "coral-admin/__generated__/UserHistoryRejectedComments_user.graphql";
 import { UserHistoryRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryRejectedComments_viewer.graphql";
 import { UserHistoryRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryRejectedCommentsPaginationQuery.graphql";
 
-import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { ModerateCardContainer } from "../ModerateCard";
 
 import styles from "./UserHistoryRejectedComments.css";
@@ -31,10 +31,6 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = ({
   settings,
   relay,
 }) => {
-  const comments = user
-    ? user.rejectedComments.edges.map(edge => edge.node)
-    : [];
-
   const [loadMore, isLoadingMore] = useLoadMore(relay, 5);
 
   const onLoadMore = useCallback(() => {
@@ -46,6 +42,9 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = ({
   }, [loadMore]);
 
   const hasMore = relay.hasMore();
+  const comments = user
+    ? user.rejectedComments.edges.map(edge => edge.node)
+    : [];
 
   if (comments.length === 0) {
     return (
