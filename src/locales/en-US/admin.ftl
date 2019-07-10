@@ -388,6 +388,15 @@ moderate-searchBar-comboBoxTextField =
 moderate-searchBar-goTo = Go to
 moderate-searchBar-seeAllResults = See all results
 
+### Moderate User History Drawer
+
+moderate-user-drawer-tab-all-comments = All Comments
+moderate-user-drawer-tab-rejected-comments = Rejected
+moderate-user-drawer-load-more = Load More
+moderate-user-drawer-all-no-comments = {$username} has not submitted any comments.
+moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
+moderate-user-drawer-user-not-found = User not found.
+
 ## Create Username
 
 createUsername-createUsernameHeader = Create Username

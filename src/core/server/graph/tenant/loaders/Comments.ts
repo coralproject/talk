@@ -11,17 +11,22 @@ import {
   GQLUSER_ROLE,
   QueryToCommentsArgs,
   StoryToCommentsArgs,
+  UserToAllCommentsArgs,
+  UserToCommentsArgs,
+  UserToRejectedCommentsArgs,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { retrieveManyUserActionPresence } from "coral-server/models/action/comment";
 import {
   Comment,
   CommentConnectionInput,
+  retrieveAllCommentsUserConnection,
   retrieveCommentConnection,
   retrieveCommentParentsConnection,
   retrieveCommentRepliesConnection,
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
+  retrieveRejectedCommentUserConnection,
   retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
 import { hasVisibleStatus } from "coral-server/models/comment/helpers";
@@ -153,11 +158,31 @@ export default (ctx: Context) => ({
       first = 10,
       orderBy = GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
-    }: StoryToCommentsArgs
+    }: UserToCommentsArgs
   ) =>
     retrieveCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
       first,
       orderBy,
+      after,
+    }).then(primeCommentsFromConnection(ctx)),
+  forUserAll: (
+    userID: string,
+    // Apply the graph schema defaults at the loader.
+    { first = 10, after }: UserToAllCommentsArgs
+  ) =>
+    retrieveAllCommentsUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
+      after,
+    }).then(primeCommentsFromConnection(ctx)),
+  forUserRejected: (
+    userID: string,
+    // Apply the graph schema defaults at the loader.
+    { first = 10, after }: UserToRejectedCommentsArgs
+  ) =>
+    retrieveRejectedCommentUserConnection(ctx.mongo, ctx.tenant.id, userID, {
+      first,
+      orderBy: GQLCOMMENT_SORT.CREATED_AT_DESC,
       after,
     }).then(primeCommentsFromConnection(ctx)),
   taggedForStory: (

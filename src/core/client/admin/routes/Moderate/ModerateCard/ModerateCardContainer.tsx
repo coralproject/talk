@@ -1,5 +1,5 @@
 import { Match, Router, withRouter } from "found";
-import React from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
 import {
@@ -37,6 +37,9 @@ interface Props {
   match: Match;
   router: Router;
   showStoryInfo: boolean;
+  mini?: boolean;
+  hideUsername?: boolean;
+  onUsernameClicked?: (userID: string) => void;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -54,67 +57,82 @@ function isFeatured(comment: ModerateCardContainer_comment) {
   return comment.tags.some(t => t.code === GQLTAG.FEATURED);
 }
 
-class ModerateCardContainer extends React.Component<Props> {
-  private handleApprove = () => {
-    this.props.approveComment({
-      commentID: this.props.comment.id,
-      commentRevisionID: this.props.comment.revision.id,
-      storyID: this.props.match.params.storyID,
+const ModerateCardContainer: FunctionComponent<Props> = ({
+  comment,
+  settings,
+  danglingLogic,
+  showStoryInfo,
+  viewer,
+  match,
+  router,
+  approveComment,
+  rejectComment,
+  featureComment,
+  unfeatureComment,
+  mini,
+  hideUsername,
+  onUsernameClicked: usernameClicked,
+}) => {
+  const handleApprove = useCallback(() => {
+    approveComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: match.params.storyID,
     });
-  };
+  }, [approveComment, comment, match]);
 
-  private handleReject = () => {
-    this.props.rejectComment({
-      commentID: this.props.comment.id,
-      commentRevisionID: this.props.comment.revision.id,
-      storyID: this.props.match.params.storyID,
+  const handleReject = useCallback(() => {
+    rejectComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: match.params.storyID,
     });
-  };
+  }, [rejectComment, comment, match]);
 
-  private onFeature = () => {
-    const featured = isFeatured(this.props.comment);
+  const handleFeature = useCallback(() => {
+    featureComment({
+      commentID: comment.id,
+      commentRevisionID: comment.revision.id,
+      storyID: match.params.storyID,
+    });
+  }, [featureComment, comment, match]);
+
+  const handleUnfeature = useCallback(() => {
+    unfeatureComment({
+      commentID: comment.id,
+      storyID: match.params.storyID,
+    });
+  }, [unfeatureComment, comment, match]);
+
+  const onFeature = useCallback(() => {
+    const featured = isFeatured(comment);
 
     if (featured) {
-      this.handleUnfeature();
+      handleUnfeature();
     } else {
-      this.handleFeature();
+      handleFeature();
     }
-  };
+  }, [comment]);
 
-  private handleFeature = () => {
-    this.props.featureComment({
-      commentID: this.props.comment.id,
-      commentRevisionID: this.props.comment.revision.id,
-      storyID: this.props.match.params.storyID,
-    });
-  };
-
-  private handleUnfeature = () => {
-    this.props.unfeatureComment({
-      commentID: this.props.comment.id,
-      storyID: this.props.match.params.storyID,
-    });
-  };
-
-  private handleModerateStory = (e: React.MouseEvent) => {
-    this.props.router.push(
-      getModerationLink("default", this.props.comment.story.id)
-    );
-    if (e.preventDefault) {
-      e.preventDefault();
+  const onUsernameClicked = useCallback(() => {
+    if (!usernameClicked) {
+      return;
     }
-  };
+    usernameClicked(comment.author!.id);
+  }, [usernameClicked, comment]);
 
-  public render() {
-    const {
-      comment,
-      settings,
-      danglingLogic,
-      showStoryInfo,
-      viewer,
-    } = this.props;
-    const dangling = danglingLogic(comment.status);
-    return (
+  const handleModerateStory = useCallback(
+    (e: React.MouseEvent) => {
+      router.push(getModerationLink("default", comment.story.id));
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+    },
+    [router, comment]
+  );
+
+  return (
+    <>
       <FadeInTransition active={Boolean(comment.enteredLive)}>
         <ModerateCard
           id={comment.id}
@@ -123,15 +141,16 @@ class ModerateCardContainer extends React.Component<Props> {
           body={comment.body!}
           inReplyTo={comment.parent && comment.parent.author!.username!}
           comment={comment}
-          dangling={dangling}
+          dangling={danglingLogic(comment.status)}
           status={getStatus(comment)}
           featured={isFeatured(comment)}
           viewContextHref={comment.permalink}
           suspectWords={settings.wordList.suspect}
           bannedWords={settings.wordList.banned}
-          onApprove={this.handleApprove}
-          onReject={this.handleReject}
-          onFeature={this.onFeature}
+          onApprove={handleApprove}
+          onReject={handleReject}
+          onFeature={onFeature}
+          onUsernameClick={onUsernameClicked}
           moderatedBy={
             <ModeratedByContainer viewer={viewer} comment={comment} />
           }
@@ -142,18 +161,21 @@ class ModerateCardContainer extends React.Component<Props> {
             )
           }
           storyHref={getModerationLink("default", comment.story.id)}
-          onModerateStory={this.handleModerateStory}
+          onModerateStory={handleModerateStory}
+          mini={mini}
+          hideUsername={hideUsername}
         />
       </FadeInTransition>
-    );
-  }
-}
+    </>
+  );
+};
 
 const enhanced = withFragmentContainer<Props>({
   comment: graphql`
     fragment ModerateCardContainer_comment on Comment {
       id
       author {
+        id
         username
       }
       statusLiveUpdated

@@ -3,7 +3,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
-import { Card, Flex, HorizontalGutter, TextLink } from "coral-ui/components";
+import {
+  BaseButton,
+  Card,
+  Flex,
+  HorizontalGutter,
+  TextLink,
+} from "coral-ui/components";
 
 import ApproveButton from "./ApproveButton";
 import CommentContent from "./CommentContent";
@@ -36,6 +42,9 @@ interface Props {
   onApprove: () => void;
   onReject: () => void;
   onFeature: () => void;
+  onUsernameClick: () => void;
+  mini?: boolean;
+  hideUsername?: boolean;
   /**
    * If set to true, it means this comment is about to be removed
    * from the queue. This will trigger some styling changes to
@@ -59,25 +68,40 @@ const ModerateCard: FunctionComponent<Props> = ({
   onApprove,
   onReject,
   onFeature,
+  onUsernameClick,
   dangling,
   showStory,
   storyTitle,
   storyHref,
   onModerateStory,
   moderatedBy,
+  mini = false,
+  hideUsername = false,
 }) => (
   <Card
-    className={cn(styles.root, { [styles.dangling]: dangling })}
+    className={cn(
+      styles.root,
+      { [styles.borderless]: mini },
+      { [styles.dangling]: dangling }
+    )}
     data-testid={`moderate-comment-${id}`}
   >
     <Flex>
       <div className={styles.mainContainer}>
-        <div className={styles.topBar}>
-          <div>
-            <Username className={styles.username}>{username}</Username>
+        <div
+          className={cn(styles.topBar, {
+            [styles.topBarMini]: mini && !inReplyTo,
+          })}
+        >
+          <Flex alignItems="center">
+            {!hideUsername && (
+              <BaseButton onClick={onUsernameClick} className={styles.username}>
+                <Username>{username}</Username>
+              </BaseButton>
+            )}
             <Timestamp>{createdAt}</Timestamp>
             <FeatureButton featured={featured} onClick={onFeature} />
-          </div>
+          </Flex>
           {inReplyTo && (
             <div>
               <InReplyTo>{inReplyTo}</InReplyTo>
@@ -126,28 +150,36 @@ const ModerateCard: FunctionComponent<Props> = ({
           </HorizontalGutter>
         </div>
       </div>
-      <div className={styles.separator} />
+      <div
+        className={cn(styles.separator, { [styles.ruledSeparator]: !mini })}
+      />
       <Flex
         className={cn(styles.aside, {
           [styles.asideWithoutReplyTo]: !inReplyTo,
+          [styles.asideMini]: mini && !inReplyTo,
+          [styles.asideMiniWithReplyTo]: mini && inReplyTo,
         })}
         alignItems="center"
         direction="column"
         itemGutter
       >
-        <Localized id="moderate-comment-decision">
-          <div className={styles.decision}>DECISION</div>
-        </Localized>
+        {!mini && (
+          <Localized id="moderate-comment-decision">
+            <div className={styles.decision}>DECISION</div>
+          </Localized>
+        )}
         <Flex itemGutter>
           <RejectButton
             onClick={onReject}
             invert={status === "rejected"}
             disabled={status === "rejected" || dangling}
+            className={cn({ [styles.miniButton]: mini })}
           />
           <ApproveButton
             onClick={onApprove}
             invert={status === "approved"}
             disabled={status === "approved" || dangling}
+            className={cn({ [styles.miniButton]: mini })}
           />
         </Flex>
         {moderatedBy}

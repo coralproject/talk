@@ -1522,6 +1522,18 @@ type User {
     )
 
   """
+  allComments are comments regardless of visibility status.
+  """
+  allComments(first: Int = 10, after: Cursor): CommentsConnection!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  rejectedComments are comments that have been rejected.
+  """
+  rejectedComments(first: Int = 10, after: Cursor): CommentsConnection!
+    @auth(roles: [ADMIN, MODERATOR])
+
+  """
   commentModerationActionHistory returns a CommentModerationActionConnection
   that this User has created.
   """

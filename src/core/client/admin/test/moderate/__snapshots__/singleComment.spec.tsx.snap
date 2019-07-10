@@ -14,12 +14,25 @@ exports[`approves single comment 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <span
-            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root ModerateCard-username"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            Isabelle
-          </span>
+            <span
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+            >
+              Isabelle
+            </span>
+          </button>
           <time
             className="Timestamp-root RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
@@ -125,7 +138,7 @@ exports[`approves single comment 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -196,12 +209,25 @@ exports[`rejects single comment 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <span
-            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+        <div
+          className="Box-root Flex-root Flex-flex Flex-alignCenter"
+        >
+          <button
+            className="BaseButton-root ModerateCard-username"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+            onTouchEnd={[Function]}
+            type="button"
           >
-            Isabelle
-          </span>
+            <span
+              className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+            >
+              Isabelle
+            </span>
+          </button>
           <time
             className="Timestamp-root RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
@@ -307,7 +333,7 @@ exports[`rejects single comment 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <div
       className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"
@@ -413,12 +439,25 @@ exports[`renders single comment view 1`] = `
               <div
                 className="ModerateCard-topBar"
               >
-                <div>
-                  <span
-                    className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary ModerateCard-username Username-root"
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-alignCenter"
+                >
+                  <button
+                    className="BaseButton-root ModerateCard-username"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    Isabelle
-                  </span>
+                    <span
+                      className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Username-root"
+                    >
+                      Isabelle
+                    </span>
+                  </button>
                   <time
                     className="Timestamp-root RelativeTime-root"
                     dateTime="2018-07-06T18:24:00.000Z"
@@ -524,7 +563,7 @@ exports[`renders single comment view 1`] = `
               </div>
             </div>
             <div
-              className="ModerateCard-separator"
+              className="ModerateCard-separator ModerateCard-ruledSeparator"
             />
             <div
               className="Box-root Flex-root ModerateCard-aside ModerateCard-asideWithoutReplyTo Flex-flex Flex-itemGutter Flex-alignCenter Flex-directionColumn gutter"

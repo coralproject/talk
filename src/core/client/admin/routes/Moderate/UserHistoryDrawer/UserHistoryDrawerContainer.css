@@ -1,0 +1,14 @@
+.root {
+  position: fixed;
+  top:0;
+  right: 0;
+
+  width: 624px;
+  height: 100%;
+
+  display: flex;
+  flex-flow: column nowrap;
+  flex-direction: column;
+
+  background-color: var(--palette-common-white);
+}

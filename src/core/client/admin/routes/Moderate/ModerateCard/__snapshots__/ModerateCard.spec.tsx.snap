@@ -12,12 +12,17 @@ exports[`renders approved correctly 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <Username
+        <ForwardRef(forwardRef)
+          alignItems="center"
+        >
+          <ForwardRef(forwardRef)
             className="ModerateCard-username"
+            onClick={[Function]}
           >
-            Theon
-          </Username>
+            <Username>
+              Theon
+            </Username>
+          </ForwardRef(forwardRef)>
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
@@ -25,7 +30,7 @@ exports[`renders approved correctly 1`] = `
             featured={false}
             onClick={[Function]}
           />
-        </div>
+        </ForwardRef(forwardRef)>
       </div>
       <CommentContent
         bannedWords={
@@ -66,7 +71,7 @@ exports[`renders approved correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -87,10 +92,12 @@ exports[`renders approved correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           disabled={true}
           invert={true}
           onClick={[Function]}
@@ -113,12 +120,17 @@ exports[`renders correctly 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <Username
+        <ForwardRef(forwardRef)
+          alignItems="center"
+        >
+          <ForwardRef(forwardRef)
             className="ModerateCard-username"
+            onClick={[Function]}
           >
-            Theon
-          </Username>
+            <Username>
+              Theon
+            </Username>
+          </ForwardRef(forwardRef)>
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
@@ -126,7 +138,7 @@ exports[`renders correctly 1`] = `
             featured={false}
             onClick={[Function]}
           />
-        </div>
+        </ForwardRef(forwardRef)>
       </div>
       <CommentContent
         bannedWords={
@@ -167,7 +179,7 @@ exports[`renders correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -188,10 +200,12 @@ exports[`renders correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
@@ -213,12 +227,17 @@ exports[`renders dangling correctly 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <Username
+        <ForwardRef(forwardRef)
+          alignItems="center"
+        >
+          <ForwardRef(forwardRef)
             className="ModerateCard-username"
+            onClick={[Function]}
           >
-            Theon
-          </Username>
+            <Username>
+              Theon
+            </Username>
+          </ForwardRef(forwardRef)>
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
@@ -226,7 +245,7 @@ exports[`renders dangling correctly 1`] = `
             featured={false}
             onClick={[Function]}
           />
-        </div>
+        </ForwardRef(forwardRef)>
       </div>
       <CommentContent
         bannedWords={
@@ -267,7 +286,7 @@ exports[`renders dangling correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -288,11 +307,13 @@ exports[`renders dangling correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           disabled={true}
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           disabled={true}
           invert={false}
           onClick={[Function]}
@@ -315,12 +336,17 @@ exports[`renders rejected correctly 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <Username
+        <ForwardRef(forwardRef)
+          alignItems="center"
+        >
+          <ForwardRef(forwardRef)
             className="ModerateCard-username"
+            onClick={[Function]}
           >
-            Theon
-          </Username>
+            <Username>
+              Theon
+            </Username>
+          </ForwardRef(forwardRef)>
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
@@ -328,7 +354,7 @@ exports[`renders rejected correctly 1`] = `
             featured={false}
             onClick={[Function]}
           />
-        </div>
+        </ForwardRef(forwardRef)>
       </div>
       <CommentContent
         bannedWords={
@@ -369,7 +395,7 @@ exports[`renders rejected correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -390,11 +416,13 @@ exports[`renders rejected correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           disabled={true}
           invert={true}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
@@ -416,12 +444,17 @@ exports[`renders reply correctly 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <Username
+        <ForwardRef(forwardRef)
+          alignItems="center"
+        >
+          <ForwardRef(forwardRef)
             className="ModerateCard-username"
+            onClick={[Function]}
           >
-            Theon
-          </Username>
+            <Username>
+              Theon
+            </Username>
+          </ForwardRef(forwardRef)>
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
@@ -429,7 +462,7 @@ exports[`renders reply correctly 1`] = `
             featured={false}
             onClick={[Function]}
           />
-        </div>
+        </ForwardRef(forwardRef)>
         <div>
           <InReplyTo>
             Julian
@@ -475,7 +508,7 @@ exports[`renders reply correctly 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -496,10 +529,12 @@ exports[`renders reply correctly 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
@@ -521,12 +556,17 @@ exports[`renders story info 1`] = `
       <div
         className="ModerateCard-topBar"
       >
-        <div>
-          <Username
+        <ForwardRef(forwardRef)
+          alignItems="center"
+        >
+          <ForwardRef(forwardRef)
             className="ModerateCard-username"
+            onClick={[Function]}
           >
-            Theon
-          </Username>
+            <Username>
+              Theon
+            </Username>
+          </ForwardRef(forwardRef)>
           <Timestamp>
             2018-11-29T16:01:51.897Z
           </Timestamp>
@@ -534,7 +574,7 @@ exports[`renders story info 1`] = `
             featured={false}
             onClick={[Function]}
           />
-        </div>
+        </ForwardRef(forwardRef)>
       </div>
       <CommentContent
         bannedWords={
@@ -604,7 +644,7 @@ exports[`renders story info 1`] = `
       </div>
     </div>
     <div
-      className="ModerateCard-separator"
+      className="ModerateCard-separator ModerateCard-ruledSeparator"
     />
     <ForwardRef(forwardRef)
       alignItems="center"
@@ -625,10 +665,12 @@ exports[`renders story info 1`] = `
         itemGutter={true}
       >
         <RejectButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
         <ApproveButton
+          className=""
           invert={false}
           onClick={[Function]}
         />
