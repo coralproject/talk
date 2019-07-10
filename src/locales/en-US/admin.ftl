@@ -395,6 +395,7 @@ moderate-user-drawer-tab-rejected-comments = Rejected
 moderate-user-drawer-load-more = Load More
 moderate-user-drawer-all-no-comments = {$username} has not submitted any comments.
 moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
+moderate-user-drawer-user-not-found = User not found.
 
 ## Create Username
 

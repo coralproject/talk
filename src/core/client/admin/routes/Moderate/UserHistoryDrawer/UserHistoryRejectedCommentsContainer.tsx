@@ -1,7 +1,8 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import { Spinner } from "coral-ui/components";
+import { CallOut, Spinner } from "coral-ui/components";
 
 import { UserHistoryRejectedCommentsContainerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryRejectedCommentsContainerQuery.graphql";
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
@@ -44,7 +45,15 @@ const UserHistoryRejectedCommentsContainer: FunctionComponent<Props> = ({
         }
 
         if (!props.user) {
-          return <div>User not found</div>;
+          return (
+            <div className={styles.callout}>
+              <CallOut>
+                <Localized id="moderate-user-drawer-user-not-found ">
+                  User not found.
+                </Localized>
+              </CallOut>
+            </div>
+          );
         }
 
         return (
