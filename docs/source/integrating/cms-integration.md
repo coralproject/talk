@@ -23,7 +23,35 @@ You can find the embed script inside talk under `Configure > Tech Settings > Emb
 ></script>
 ```
 
-> **NOTE:** You can optionally also pass `asset_url` to explicitly force Talk to reference a particular url. This is recommeneded if your stories sometimes originate from other sources than your own Whitelisted domains, and you want Talk generated permalinks to point back to your domain. If not specified, Talk will infer the URL of the asset based on the canonical url.
+The URL for the asset is first inferred from the _Canonical link element_, which
+takes the form of a `<link>` element in your `<head>` of the page:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="canonical" href="https://example.com/page" />
+  </head>
+  <body>
+    ...
+  </body>
+</html>
+```
+
+If this tag is not present, you can also pass a `asset_url` parameter into the
+render function as:
+
+```js
+Coral.Talk.render(document.getElementById("coral_talk_stream"), {
+  talk: "${TALK_ROOT_URL}",
+  asset_url: "https://example.com/page"
+});
+```
+
+Which will explicitly force Talk to reference a particular url. This is
+recommended if your canonical url does not match the current url.
+
+> **NOTE:** If the canonical link tag or `asset_url` parameter are not present, Talk will use the current URL excluding the query and hash elements. This may lead to undesired behavior, and it is recommended to use one of the above methods of specifying the URL.
 
 ## Triggering the Comments Section (client side, i.e. Your site)
 
