@@ -4,49 +4,59 @@ permalink: /integrating/cms-integration/
 ---
 
 ## Embedding Comments on Your Site
+
 Talk provides an embed script that you can drop into your site where you want a comments section to appear. By default that script dynamically generate Assets
 in Talk in order to make it easier for lighter installations.
 
-You can find the embed script inside talk under `Configure > Tech Settings > Embed Script`. It should look something like this, but with your domain in place of `<TALK_ROOT_URL>`:
-```
+You can find the embed script inside talk under `Configure > Tech Settings > Embed Script`. It should look something like this, but with your domain in place of `${TALK_ROOT_URL}`:
+
+```html
 <div id="coral_talk_stream"></div>
-<script src="<TALK_ROOT_URL>/static/embed.js" async onload="
+<script
+  src="${TALK_ROOT_URL}/static/embed.js"
+  async
+  onload="
   Coral.Talk.render(document.getElementById('coral_talk_stream'), {
-    talk: '<TALK_ROOT_URL>'
+    talk: '${TALK_ROOT_URL}'
   });
-"></script>
+"
+></script>
 ```
 
-> **NOTE:** You can optionally also pass `asset_url` to explicitly force Talk to reference a particular url. This is recommeneded if your stories sometimes originate from other sources than your own Whitelisted domains, and you want Talk generated permalinks to point back to your domain. If not specified, Talk will infer the URL of the asset based on the canonical url. 
+> **NOTE:** You can optionally also pass `asset_url` to explicitly force Talk to reference a particular url. This is recommeneded if your stories sometimes originate from other sources than your own Whitelisted domains, and you want Talk generated permalinks to point back to your domain. If not specified, Talk will infer the URL of the asset based on the canonical url.
 
 ## Triggering the Comments Section (client side, i.e. Your site)
 
-When the embed script is triggered on your page load several things are initiated inside Talk, including fetching all comments for the specified article, establishing websocket connections for this user, and checking user’s session for SSO/authentication. 
+When the embed script is triggered on your page load several things are initiated inside Talk, including fetching all comments for the specified article, establishing websocket connections for this user, and checking user’s session for SSO/authentication.
 
-Instead of greedily triggering the embed to render on _EVERY PAGE LOAD_, we highly recommend implementing a _“lazy”_ rendering strategy to only render the comments section if a user wants to interact with it. This will greatly improve your initial page load performance, and will be critical to managing server resources if you’re running Talk on a heavy-traffic production site. 
+Instead of greedily triggering the embed to render on _EVERY PAGE LOAD_, we highly recommend implementing a _“lazy”_ rendering strategy to only render the comments section if a user wants to interact with it. This will greatly improve your initial page load performance, and will be critical to managing server resources if you’re running Talk on a heavy-traffic production site.
 
 We recommend using one of these _“lazy”_ loading strategies:
 
 #### Scroll to Comments Section
-Wait for user to scroll to the comment section before triggering the embed to render. 
+
+Wait for user to scroll to the comment section before triggering the embed to render.
 
 You can pass lazy: true to the render options, like so:
-```
-Coral.Talk.render(document.getElementById('container'), {
-    talk: 'https://my-talk-installation.com',
-    lazy: true,
+
+```js
+Coral.Talk.render(document.getElementById("container"), {
+  talk: "${TALK_ROOT_URL}",
+  lazy: true
 });
 ```
 
 Or you can enable lazy rendering by default on all assets using ENV variable `TALK_DEFAULT_LAZY_RENDER=TRUE`
 
-_*Note: This feature requires Talk version 4.6.8 or greater_
+_\*Note: This feature requires Talk version 4.6.8 or greater_
 
 #### Show Comments Button
- You can hide the comments section until a user clicks button, then trigger the embed to render
+
+You can hide the comments section until a user clicks button, then trigger the embed to render
 
 This example uses jQuery to render the embed on the button's click event
-```
+
+```html
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <div id="coral_talk_stream">
@@ -54,10 +64,10 @@ This example uses jQuery to render the embed on the button's click event
 </div>
 
 <script type="text/javascript">
-  $('#coral_talk_stream button').on('click', function() {
-    $.getScript('<TALK_ROOT_URL>/static/embed.js', function() {
-      Coral.Talk.render(document.getElementById('coral_talk_stream'), {
-        talk: '<TALK_ROOT_URL>',
+  $("#coral_talk_stream button").on("click", function() {
+    $.getScript("${TALK_ROOT_URL}/static/embed.js", function() {
+      Coral.Talk.render(document.getElementById("coral_talk_stream"), {
+        talk: "${TALK_ROOT_URL}"
       });
     });
   });
@@ -65,17 +75,20 @@ This example uses jQuery to render the embed on the button's click event
 ```
 
 ## Creating Assets in Talk (server side, i.e. What you need to send to Talk)
+
 One of the most frequent questions that we get asked by organizations trying to
 integrate Talk is: _How do we hook our CMS up to Talk so that articles are in
 sync?_
 
 ### “Lazy Asset Creation”
-Talk’s provided embed script by default dynamically generates Assets in Talk based on each unique url that triggers it. The url must reference an existing Permitted Domain. If your articles/stories always have unique urls, then you will not need to modify the default behavior. 
+
+Talk’s provided embed script by default dynamically generates Assets in Talk based on each unique url that triggers it. The url must reference an existing Permitted Domain. If your articles/stories always have unique urls, then you will not need to modify the default behavior.
 
 Assets created in this way will then be scraped to load metadata, see [Asset Scraping](/talk/integrating/asset-scraping/)
 
 ## Customizing the Integration with a Plugin
-In order to have more strict control over the asset creation flow to allow only assets pushed into it from your CMS, and keep your URL/title in sync we will create a plugin. 
+
+In order to have more strict control over the asset creation flow to allow only assets pushed into it from your CMS, and keep your URL/title in sync we will create a plugin.
 
 We will create a plugin that will:
 
@@ -84,7 +97,6 @@ We will create a plugin that will:
 3. Facilitate updates from our CMS to keep Talk in sync by [Creating an Asset Update Route](#creating-an-asset-update-route).
 
 We will then modify our embed so that we can [Target the Asset](#target-the-asset).
-
 
 This guide is designed to explain the steps to take your base installation of Talk and configure it. We won't cover here how to install the plugin, as it is covered in our [Plugins Overview](/talk/plugins/).
 
@@ -131,8 +143,8 @@ module.exports = {
 
       // Send the asset back.
       return asset;
-    },
-  },
+    }
+  }
 };
 ```
 
@@ -160,14 +172,14 @@ We'll replace the contents of the `router.js` file with the following:
 // This file we'll create routes that will facilitate asset creation and
 // updates.
 
-const authz = require('middleware/authorization');
+const authz = require("middleware/authorization");
 
 module.exports = router => {
   // We'll respond to a POST request on the following route where the request
   // must have a valid ADMIN access token.
   router.post(
-    '/api/v1/plugin/asset-manager-example',
-    authz.needed('ADMIN'),
+    "/api/v1/plugin/asset-manager-example",
+    authz.needed("ADMIN"),
     async (req, res, next) => {
       // Get the graph context from the request.
       const { context } = req;
@@ -175,7 +187,11 @@ module.exports = router => {
       // Grab from the graph context, the AssetModel that we can use to create
       // the new Asset. Lots of object destructuring here, but this lets us keep
       // the important business logic cleaner.
-      const { connectors: { models: { Assets } } } = context;
+      const {
+        connectors: {
+          models: { Assets }
+        }
+      } = context;
 
       try {
         // Now we can create the asset that was passed to us in the body of the
@@ -210,20 +226,24 @@ CMS using the Talk cli tool:
 
 You can attach the generated token to the request a few ways:
 
-1. HTTP Header:
+1.  HTTP Header:
 
-        curl ${TALK_ROOT_URL}/api/v1/plugin/asset-manager-example \
-            -XPOST \
-            -H "Authorization: Bearer ${TOKEN}" \
-            -H "Content-Type: application/json" \
-            --data "${ASSET_JSON}"
+```sh
+curl ${TALK_ROOT_URL}/api/v1/plugin/asset-manager-example \
+    -XPOST \
+    -H "Authorization: Bearer ${TOKEN}" \
+    -H "Content-Type: application/json" \
+    --data "${ASSET_JSON}"
+```
 
-2. Query Parameter:
+2.  Query Parameter:
 
-        curl ${TALK_ROOT_URL}/api/v1/plugin/asset-manager-example?access_token=${TOKEN}
-            -XPOST \
-            -H "Content-Type: application/json" \
-            --data "${ASSET_JSON}"
+```sh
+curl ${TALK_ROOT_URL}/api/v1/plugin/asset-manager-example?access_token=${TOKEN}
+    -XPOST \
+    -H "Content-Type: application/json" \
+    --data "${ASSET_JSON}"
+```
 
 Where `${ASSET_JSON}` is the JSON for your Asset matching the
 [AssetSchema](https://github.com/coralproject/talk/blob/master/models/asset.js).
@@ -241,14 +261,14 @@ Update your `router.js` to the following:
 // This file we'll create routes that will facilitate asset creation and
 // updates.
 
-const authz = require('middleware/authorization');
+const authz = require("middleware/authorization");
 
 module.exports = router => {
   // We'll respond to a POST request on the following route where the request
   // must have a valid ADMIN access token.
   router.post(
-    '/api/v1/plugin/asset-manager-example',
-    authz.needed('ADMIN'),
+    "/api/v1/plugin/asset-manager-example",
+    authz.needed("ADMIN"),
     async (req, res, next) => {
       // Get the graph context from the request.
       const { context } = req;
@@ -256,7 +276,11 @@ module.exports = router => {
       // Grab from the graph context, the AssetModel that we can use to create
       // the new Asset. Lots of object destructuring here, but this lets us keep
       // the important business logic cleaner.
-      const { connectors: { models: { Assets } } } = context;
+      const {
+        connectors: {
+          models: { Assets }
+        }
+      } = context;
 
       try {
         // Now we can create the asset that was passed to us in the body of the
@@ -275,8 +299,8 @@ module.exports = router => {
   // We'll respond to a PUT request on the following route where the request
   // must also have a valid ADMIN access token.
   router.put(
-    '/api/v1/plugin/asset-manager-example/:id',
-    authz.needed('ADMIN'),
+    "/api/v1/plugin/asset-manager-example/:id",
+    authz.needed("ADMIN"),
     async (req, res, next) => {
       // Get the graph context from the request.
       const { context } = req;
@@ -284,7 +308,11 @@ module.exports = router => {
       // Grab from the graph context, the AssetModel that we can use to update
       // the Asset. Lots of object destructuring here, but this lets us keep
       // the important business logic cleaner.
-      const { connectors: { models: { Assets } } } = context;
+      const {
+        connectors: {
+          models: { Assets }
+        }
+      } = context;
 
       try {
         // Now we can lookup the asset we're updating and apply out updates to
@@ -294,7 +322,7 @@ module.exports = router => {
           req.body,
           {
             // We want to validate the model being updated.
-            runValidators: true,
+            runValidators: true
           }
         );
         if (!asset) {
@@ -345,23 +373,31 @@ When you install Talk, and visit the admin panel, we can see under
 
 ```html
 <div id="coral_talk_stream"></div>
-<script src="${TALK_ROOT_URL}static/embed.js" async onload="
+<script
+  src="${TALK_ROOT_URL}static/embed.js"
+  async
+  onload="
   Coral.Talk.render(document.getElementById('coral_talk_stream'), {
     talk: '${TALK_ROOT_URL}'
   });
-"></script>
+"
+></script>
 ```
 
 We'll modify this to the following:
 
 ```html
 <div id="coral_talk_stream"></div>
-<script src="${TALK_ROOT_URL}static/embed.js" async onload="
+<script
+  src="${TALK_ROOT_URL}static/embed.js"
+  async
+  onload="
   Coral.Talk.render(document.getElementById('coral_talk_stream'), {
     talk: '${TALK_ROOT_URL}',
     asset_id: '${ASSET_ID}'
   });
-"></script>
+"
+></script>
 ```
 
 Adding the `asset_id` parameter to the render function will accomplish a very
@@ -371,7 +407,7 @@ the URL in the future, the embed will still reference the correct Asset. The
 `${ASSET_ID}` should be replaced by your CMS with the correct Asset id using
 your desired scripting/templating tools.
 
-> **NOTE:** When used in conjunction with `asset_url`, you can explicitly force Talk to use a specified URL, rather than the canonical for link references. When used together, both `asset_id` and `asset_url` will be treated as unique identifiers for Talk assets. 
+> **NOTE:** When used in conjunction with `asset_url`, you can explicitly force Talk to use a specified URL, rather than the canonical for link references. When used together, both `asset_id` and `asset_url` will be treated as unique identifiers for Talk assets.
 
 At this point, you should have a fully built Talk plugin that can be paired with
 some work on your CMS to create a fully integrated asset management pipeline!
