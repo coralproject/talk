@@ -39,7 +39,7 @@ interface Props {
   showStoryInfo: boolean;
   mini?: boolean;
   showUsername?: boolean;
-  usernameClicked?: (userID: string) => void;
+  onUsernameClicked?: (userID: string) => void;
 }
 
 function getStatus(comment: ModerateCardContainer_comment) {
@@ -71,7 +71,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   unfeatureComment,
   mini = false,
   showUsername = true,
-  usernameClicked,
+  onUsernameClicked: usernameClicked,
 }) => {
   const handleApprove = useCallback(() => {
     approveComment({

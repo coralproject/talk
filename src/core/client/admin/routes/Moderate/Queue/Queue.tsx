@@ -88,7 +88,7 @@ const Queue: FunctionComponent<Props> = ({
               comment={c}
               danglingLogic={danglingLogic}
               showStoryInfo={Boolean(allStories)}
-              usernameClicked={onShowUserDrawer}
+              onUsernameClicked={onShowUserDrawer}
             />
           </CSSTransition>
         ))}
