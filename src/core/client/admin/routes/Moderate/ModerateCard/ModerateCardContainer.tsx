@@ -69,8 +69,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
   rejectComment,
   featureComment,
   unfeatureComment,
-  mini,
-  showUsername,
+  mini = false,
+  showUsername = true,
   usernameClicked,
 }) => {
   const handleApprove = useCallback(() => {
@@ -162,8 +162,8 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           }
           storyHref={getModerationLink("default", comment.story.id)}
           onModerateStory={handleModerateStory}
-          mini={mini === undefined ? false : mini}
-          showUsername={showUsername === undefined ? true : showUsername}
+          mini={mini}
+          showUsername={showUsername}
         />
       </FadeInTransition>
     </>
