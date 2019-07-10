@@ -62,7 +62,7 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = ({
 
   return (
     <>
-      {comments.map((c, i) => (
+      {comments.map((c, index) => (
         <div key={c.id}>
           <ModerateCardContainer
             comment={c}
@@ -73,7 +73,8 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = ({
             showStoryInfo
             mini
           />
-          {i !== comments.length - 1 && <hr />}
+          {// Don't show horizontal rule after last comment
+          index !== comments.length - 1 && <hr />}
         </div>
       ))}
       {hasMore && (
