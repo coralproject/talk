@@ -31,7 +31,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
         onTabClick={onTabChanged}
         className={styles.tabBar}
       >
-        <Tab tabID={"ALL"} onTabClick={onTabChanged}>
+        <Tab tabID="ALL" onTabClick={onTabChanged}>
           <div
             className={cn(styles.tab, {
               [styles.activeTab]: currentTab === "ALL",
@@ -45,7 +45,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
             </Localized>
           </div>
         </Tab>
-        <Tab tabID={"REJECTED"} onTabClick={onTabChanged}>
+        <Tab tabID="REJECTED" onTabClick={onTabChanged}>
           <div
             className={cn(styles.tab, {
               [styles.activeTab]: currentTab === "REJECTED",
