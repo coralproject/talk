@@ -75,13 +75,20 @@
   }
 }
 
-.divider {
-  border-bottom: 1px solid var(--palette-grey-lighter);
-}
-
 .callout {
   width: 100%;
   font-family: var(--font-family-sans-serif);
   align-content: center;
   text-align: center;
+}
+
+hr {
+  border: 0;
+  border-bottom: 1px solid var(--palette-divider);
+  padding-top: 1px;
+  width: 100%;
+}
+
+.divider {
+  border-bottom: 1px solid var(--palette-grey-lighter);
 }

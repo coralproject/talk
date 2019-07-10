@@ -3,7 +3,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { CopyButton } from "coral-framework/components";
 import {
   Button,
@@ -124,7 +123,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                 />
               </Flex>
             </div>
-            <HorizontalRule className={styles.divider} />
+            <hr className={styles.divider} />
             <div className={styles.comments}>
               <UserHistoryTabs userID={user.id} />
             </div>

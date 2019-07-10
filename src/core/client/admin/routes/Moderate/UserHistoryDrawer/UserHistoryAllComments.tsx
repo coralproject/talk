@@ -6,7 +6,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import HorizontalRule from "coral-admin/routes/Configure/HorizontalRule";
 import { Button, CallOut, Typography } from "coral-ui/components/";
 
 import { UserHistoryAllComments_settings } from "coral-admin/__generated__/UserHistoryAllComments_settings.graphql";
@@ -72,7 +71,7 @@ const UserHistoryAllComments: FunctionComponent<Props> = ({
             showStoryInfo
             mini
           />
-          {i !== comments.length - 1 && <HorizontalRule />}
+          {i !== comments.length - 1 && <hr />}
         </div>
       ))}
       {hasMore && (
