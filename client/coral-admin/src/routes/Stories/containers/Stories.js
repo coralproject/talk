@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import {
   fetchAssets,
   updateAssetState,
-  setPage,
   setSearchValue,
   setCriteria,
+  loadMoreAssets,
 } from 'coral-admin/src/actions/stories';
 import Stories from '../components/Stories';
 
@@ -35,13 +35,11 @@ class StoriesContainer extends Component {
   };
 
   fetchAssets = query => {
-    const { searchValue, asc, filter, limit } = this.props;
+    const { searchValue: value, filter } = this.props;
 
     this.props.fetchAssets({
-      value: searchValue,
-      asc,
+      value,
       filter,
-      limit,
       ...query,
     });
   };
@@ -57,10 +55,20 @@ class StoriesContainer extends Component {
     }
   };
 
-  onPageChange = ({ selected }) => {
-    const page = selected + 1;
-    this.props.setPage(page);
-    this.fetchAssets({ page });
+  onLoadMore = async () => {
+    const {
+      searchValue: value,
+      filter,
+      assets: {
+        pageInfo: { endCursor: cursor },
+      },
+      loadMoreAssets,
+    } = this.props;
+    try {
+      await loadMoreAssets({ cursor, value, filter });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   render() {
@@ -68,13 +76,11 @@ class StoriesContainer extends Component {
       <Stories
         assets={this.props.assets}
         searchValue={this.props.searchValue}
-        asc={this.props.asc}
         filter={this.props.filter}
-        limit={this.props.limit}
-        onPageChange={this.onPageChange}
         onStatusChange={this.onStatusChange}
         onSettingChange={this.onSettingChange}
         onSearchChange={this.onSearchChange}
+        onLoadMore={this.onLoadMore}
       />
     );
   }
@@ -83,19 +89,17 @@ class StoriesContainer extends Component {
 const mapStateToProps = ({ stories }) => ({
   assets: stories.assets,
   searchValue: stories.searchValue,
-  asc: stories.criteria.asc,
   filter: stories.criteria.filter,
-  limit: stories.criteria.limit,
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      setPage,
       setCriteria,
       setSearchValue,
       fetchAssets,
       updateAssetState,
+      loadMoreAssets,
     },
     dispatch
   );
@@ -103,13 +107,11 @@ const mapDispatchToProps = dispatch =>
 StoriesContainer.propTypes = {
   assets: PropTypes.object,
   searchValue: PropTypes.string,
-  asc: PropTypes.string,
   filter: PropTypes.string,
-  limit: PropTypes.number,
-  setPage: PropTypes.func.isRequired,
   setCriteria: PropTypes.func.isRequired,
   setSearchValue: PropTypes.func.isRequired,
   fetchAssets: PropTypes.func.isRequired,
+  loadMoreAssets: PropTypes.func.isRequired,
   updateAssetState: PropTypes.func.isRequired,
 };
 

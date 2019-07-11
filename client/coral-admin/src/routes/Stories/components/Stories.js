@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { Dropdown, Option, Paginate, Icon } from 'coral-ui';
 import { DataTable, TableHeader, RadioGroup, Radio } from 'react-mdl';
+
 import t from 'coral-framework/services/i18n';
-import styles from './Stories.css';
+import { Dropdown, Option, Icon } from 'coral-ui';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
+import LoadMore from 'coral-admin/src/components/LoadMore';
+
+import styles from './Stories.css';
 
 class Stories extends Component {
   renderDate = date => {
@@ -39,10 +42,9 @@ class Stories extends Component {
       filter,
       onSearchChange,
       onSettingChange,
-      onPageChange,
-      asc,
+      onLoadMore,
     } = this.props;
-    const rows = assets.ids.map(id => assets.byId[id]);
+    const rows = assets.edges.map(({ node }) => node);
 
     return (
       <div className={cn('talk-admin-stories', styles.container)}>
@@ -74,17 +76,6 @@ class Stories extends Component {
             <Radio value="open">{t('streams.open')}</Radio>
             <Radio value="closed">{t('streams.closed')}</Radio>
           </RadioGroup>
-          <div className={styles.optionHeader}>{t('streams.sort_by')}</div>
-          <RadioGroup
-            name="sortBy"
-            value={asc}
-            childContainer="div"
-            onChange={onSettingChange('asc')}
-            className={styles.radioGroup}
-          >
-            <Radio value="false">{t('streams.newest')}</Radio>
-            <Radio value="true">{t('streams.oldest')}</Radio>
-          </RadioGroup>
         </div>
         {rows.length ? (
           <div className={styles.mainContent}>
@@ -106,10 +97,10 @@ class Stories extends Component {
                 {t('streams.status')}
               </TableHeader>
             </DataTable>
-            <Paginate
-              pageCount={assets.totalPages}
-              page={assets.page - 1}
-              onPageChange={onPageChange}
+            <LoadMore
+              showLoadMore={assets.pageInfo.hasNextPage}
+              loadMore={onLoadMore}
+              className={styles.loadMore}
             />
           </div>
         ) : (
@@ -123,11 +114,10 @@ class Stories extends Component {
 Stories.propTypes = {
   assets: PropTypes.object,
   searchValue: PropTypes.string,
-  asc: PropTypes.string,
   filter: PropTypes.string,
+  onLoadMore: PropTypes.func.isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
-  onPageChange: PropTypes.func.isRequired,
   onSettingChange: PropTypes.func.isRequired,
 };
 

@@ -77,7 +77,6 @@
   display: block;
 }
 
-
 .hidden {
   display: none;
 }
@@ -95,3 +94,7 @@
   text-align: left;
 }
 
+.loadMore {
+  margin: 20px auto;
+  text-align: center;
+}
