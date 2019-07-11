@@ -24,6 +24,7 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
+import { createCollection } from "coral-server/models/helpers/collection";
 import {
   Connection,
   ConnectionInput,
@@ -38,9 +39,7 @@ import { TenantResource } from "coral-server/models/tenant";
 
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<User>>("users");
-}
+const collection = createCollection<User>("users");
 
 export interface LocalProfile {
   type: "local";
