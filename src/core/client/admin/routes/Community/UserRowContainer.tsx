@@ -11,6 +11,7 @@ import UserRow from "./UserRow";
 interface Props {
   user: UserData;
   viewer: ViewerData;
+  onUsernameClicked?: (userID: string) => void;
 }
 
 const UserRowContainer: FunctionComponent<Props> = props => {
@@ -27,6 +28,7 @@ const UserRowContainer: FunctionComponent<Props> = props => {
         month: "2-digit",
         year: "numeric",
       }).format(new Date(props.user.createdAt))}
+      onUsernameClicked={props.onUsernameClicked}
     />
   );
 };
