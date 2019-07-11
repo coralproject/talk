@@ -4,6 +4,7 @@ import { parseConnectionString } from "mongodb-core";
 import os from "os";
 
 import { LOCALES } from "coral-common/helpers/i18n/locales";
+import { ensureEndSlash } from "coral-common/utils";
 
 import { InternalError } from "./errors";
 
@@ -32,7 +33,7 @@ convict.addFormat({
   },
 });
 
-// Add a custom format for the optional-url.
+// Add a custom format for the optional-url that includes a trailing slash.
 convict.addFormat({
   name: "optional-url",
   validate: (url: string) => {
@@ -40,10 +41,8 @@ convict.addFormat({
       Joi.assert(url, Joi.string().uri());
     }
   },
-  // Ensure that there is no ending slash.
-  coerce: (url: string) => {
-    return url.replace(/\/$/, "");
-  },
+  // Ensure that there is an ending slash.
+  coerce: (url: string) => (url ? ensureEndSlash(url) : url),
 });
 
 const config = convict({
