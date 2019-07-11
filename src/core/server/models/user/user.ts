@@ -24,17 +24,15 @@ import {
   GQLUSER_ROLE,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
-import { createCollection } from "coral-server/models/helpers/collection";
 import {
   Connection,
   ConnectionInput,
-  resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
+  createCollection,
   createConnectionOrderVariants,
   createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query from "coral-server/models/helpers/query";
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
 import { getLocalProfile, hasLocalProfile } from "./helpers";

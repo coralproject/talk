@@ -15,7 +15,7 @@ import {
   getLatestRevision,
   hasAncestors,
 } from "coral-server/models/comment/helpers";
-import { createConnection } from "coral-server/models/helpers/connection";
+import { createConnection } from "coral-server/models/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
 import TenantContext from "../context";

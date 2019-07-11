@@ -13,17 +13,16 @@ import {
   GQLFlagActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { createCollection } from "coral-server/models/helpers/collection";
 import {
   Connection,
   ConnectionInput,
-  resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
+  createCollection,
   createConnectionOrderVariants,
   createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query, { FilterQuery } from "coral-server/models/helpers/query";
+  FilterQuery,
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
 const collection = createCollection<CommentAction>("commentActions");

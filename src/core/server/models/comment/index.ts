@@ -17,21 +17,20 @@ import {
   EncodedCommentActionCounts,
   mergeCommentActionCounts,
 } from "coral-server/models/action/comment";
-import { createCollection } from "coral-server/models/helpers/collection";
 import {
   Connection,
+  createCollection,
   createConnection,
+  createConnectionOrderVariants,
+  createIndexFactory,
   doesNotContainNull,
+  FilterQuery,
   nodesToEdges,
   NodeToCursorTransformer,
   OrderedConnectionInput,
+  Query,
   resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
-  createConnectionOrderVariants,
-  createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query, { FilterQuery } from "coral-server/models/helpers/query";
+} from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
 import { VISIBLE_STATUSES } from "./constants";

@@ -3,7 +3,7 @@ import uuid from "uuid";
 
 import { Omit, Sub } from "coral-common/types";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "coral-server/models/helpers/indexing";
+import { createIndexFactory } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
 function collection(mongo: Db) {

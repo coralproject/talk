@@ -8,7 +8,7 @@ import {
   CommentStatusCounts,
   createEmptyCommentStatusCounts,
 } from "coral-server/models/comment/helpers";
-import { createCollection } from "coral-server/models/helpers/collection";
+import { createCollection } from "coral-server/models/helpers";
 import { Story } from "coral-server/models/story";
 import {
   CommentModerationCountsPerQueue,

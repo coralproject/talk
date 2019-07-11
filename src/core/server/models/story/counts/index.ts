@@ -13,8 +13,10 @@ import {
   CommentStatusCounts,
   createEmptyCommentStatusCounts,
 } from "coral-server/models/comment/helpers";
-import { createCollection } from "coral-server/models/helpers/collection";
-import { createIndexFactory } from "coral-server/models/helpers/indexing";
+import {
+  createCollection,
+  createIndexFactory,
+} from "coral-server/models/helpers";
 import { retrieveStory, Story } from "coral-server/models/story";
 import { AugmentedRedis } from "coral-server/services/redis";
 

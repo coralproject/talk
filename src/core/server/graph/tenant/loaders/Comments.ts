@@ -30,7 +30,7 @@ import {
   retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
 import { hasVisibleStatus } from "coral-server/models/comment/helpers";
-import { Connection } from "coral-server/models/helpers/connection";
+import { Connection } from "coral-server/models/helpers";
 import { retrieveSharedModerationQueueQueuesCounts } from "coral-server/models/story/counts/shared";
 import { User } from "coral-server/models/user";
 

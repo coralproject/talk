@@ -11,13 +11,11 @@ import {
 import {
   Connection,
   ConnectionInput,
-  resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query from "coral-server/models/helpers/query";
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 

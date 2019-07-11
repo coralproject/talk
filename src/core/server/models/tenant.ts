@@ -9,8 +9,10 @@ import {
   GQLMODERATION_MODE,
   GQLSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { createCollection } from "coral-server/models/helpers/collection";
-import { createIndexFactory } from "coral-server/models/helpers/indexing";
+import {
+  createCollection,
+  createIndexFactory,
+} from "coral-server/models/helpers";
 import { Settings } from "coral-server/models/settings";
 
 const collection = createCollection<Tenant>("tenants");
