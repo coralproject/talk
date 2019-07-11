@@ -12,8 +12,7 @@ import { UserHistoryRejectedComments_settings } from "coral-admin/__generated__/
 import { UserHistoryRejectedComments_user } from "coral-admin/__generated__/UserHistoryRejectedComments_user.graphql";
 import { UserHistoryRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryRejectedComments_viewer.graphql";
 import { UserHistoryRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryRejectedCommentsPaginationQuery.graphql";
-
-import { ModerateCardContainer } from "../ModerateCard";
+import { ModerateCardContainer } from "coral-admin/routes/Moderate/ModerateCard";
 
 import styles from "./UserHistoryRejectedComments.css";
 

@@ -12,8 +12,7 @@ import { UserHistoryAllComments_settings } from "coral-admin/__generated__/UserH
 import { UserHistoryAllComments_user } from "coral-admin/__generated__/UserHistoryAllComments_user.graphql";
 import { UserHistoryAllComments_viewer } from "coral-admin/__generated__/UserHistoryAllComments_viewer.graphql";
 import { UserHistoryAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryAllCommentsPaginationQuery.graphql";
-
-import { ModerateCardContainer } from "../ModerateCard";
+import { ModerateCardContainer } from "coral-admin/routes/Moderate/ModerateCard";
 
 import styles from "./UserHistoryAllComments.css";
 

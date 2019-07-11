@@ -3,11 +3,11 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
+import UserHistoryDrawerContainer from "coral-admin/components/UserHistoryDrawer/UserHistoryDrawerContainer";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
 import ModerateCardContainer from "../ModerateCard";
-import UserHistoryDrawerContainer from "../UserHistoryDrawer/UserHistoryDrawerContainer";
 
 import styles from "./Queue.css";
 
