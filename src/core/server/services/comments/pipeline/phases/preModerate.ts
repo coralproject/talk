@@ -21,7 +21,6 @@ export const preModerate: IntermediateModerationPhase = ({
   // If the settings say that we're in premod mode, then the comment is in
   // premod status.
 
-  // TODO: (wyattjoh) pull from the story settings.
   if (
     testModerationMode(tenant) ||
     (story.settings && testModerationMode(story.settings))

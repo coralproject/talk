@@ -352,7 +352,7 @@ comment is toxic, according to Perspective API. By default the threshold is set 
                   placeholder="80"
                   spellCheck={false}
                   type="text"
-                  value=""
+                  value="80"
                 />
                 <div
                   className="TextField-adornment"
@@ -545,7 +545,7 @@ improve the API over time.
                   id="configure-moderation-perspective-customEndpoint"
                   name="integrations.perspective.endpoint"
                   onChange={[Function]}
-                  placeholder=""
+                  placeholder="https://commentanalyzer.googleapis.com/v1alpha1"
                   spellCheck={false}
                   type="text"
                   value=""

@@ -86,28 +86,24 @@ exports[`approves single comment 1`] = `
             </a>
           </div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Box-root Flex-root Flex-flex"
+              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
-              <div
-                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              <span
+                className="Marker-root Marker-colorError Marker-variantRegular"
               >
-                <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
-                >
-                  <span>
-                    Spam
-                  </span>
-                   
-                  <span
-                    className="Count-root"
-                  >
-                    2
-                  </span>
+                <span>
+                  Spam
                 </span>
-              </div>
+                 
+                <span
+                  className="Count-root"
+                >
+                  2
+                </span>
+              </span>
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
@@ -281,28 +277,24 @@ exports[`rejects single comment 1`] = `
             </a>
           </div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
-              className="Box-root Flex-root Flex-flex"
+              className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
             >
-              <div
-                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              <span
+                className="Marker-root Marker-colorError Marker-variantRegular"
               >
-                <span
-                  className="Marker-root Marker-colorError Marker-variantRegular"
-                >
-                  <span>
-                    Spam
-                  </span>
-                   
-                  <span
-                    className="Count-root"
-                  >
-                    2
-                  </span>
+                <span>
+                  Spam
                 </span>
-              </div>
+                 
+                <span
+                  className="Count-root"
+                >
+                  2
+                </span>
+              </span>
               <button
                 aria-controls="uuid-0"
                 aria-expanded={false}
@@ -511,28 +503,24 @@ exports[`renders single comment view 1`] = `
                     </a>
                   </div>
                   <div
-                    className="Box-root HorizontalGutter-root HorizontalGutter-double"
+                    className="Box-root HorizontalGutter-root HorizontalGutter-full"
                   >
                     <div
-                      className="Box-root Flex-root Flex-flex"
+                      className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
                     >
-                      <div
-                        className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+                      <span
+                        className="Marker-root Marker-colorError Marker-variantRegular"
                       >
-                        <span
-                          className="Marker-root Marker-colorError Marker-variantRegular"
-                        >
-                          <span>
-                            Spam
-                          </span>
-                           
-                          <span
-                            className="Count-root"
-                          >
-                            2
-                          </span>
+                        <span>
+                          Spam
                         </span>
-                      </div>
+                         
+                        <span
+                          className="Count-root"
+                        >
+                          2
+                        </span>
+                      </span>
                       <button
                         aria-controls="uuid-0"
                         aria-expanded={false}

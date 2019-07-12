@@ -115,7 +115,7 @@ export const spam: IntermediateModerationPhase = async ({
         ],
         metadata: {
           // Store the spam result from Akismet in the Comment metadata.
-          akismet: spam,
+          akismet: isSpam,
         },
       };
     }

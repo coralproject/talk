@@ -66,6 +66,7 @@ exports[`renders approved correctly 1`] = `
           </div>
           <Relay(MarkersContainer)
             comment={Object {}}
+            settings={Object {}}
           />
         </ForwardRef(forwardRef)>
       </div>
@@ -174,6 +175,7 @@ exports[`renders correctly 1`] = `
           </div>
           <Relay(MarkersContainer)
             comment={Object {}}
+            settings={Object {}}
           />
         </ForwardRef(forwardRef)>
       </div>
@@ -281,6 +283,7 @@ exports[`renders dangling correctly 1`] = `
           </div>
           <Relay(MarkersContainer)
             comment={Object {}}
+            settings={Object {}}
           />
         </ForwardRef(forwardRef)>
       </div>
@@ -390,6 +393,7 @@ exports[`renders rejected correctly 1`] = `
           </div>
           <Relay(MarkersContainer)
             comment={Object {}}
+            settings={Object {}}
           />
         </ForwardRef(forwardRef)>
       </div>
@@ -503,6 +507,7 @@ exports[`renders reply correctly 1`] = `
           </div>
           <Relay(MarkersContainer)
             comment={Object {}}
+            settings={Object {}}
           />
         </ForwardRef(forwardRef)>
       </div>
@@ -639,6 +644,7 @@ exports[`renders story info 1`] = `
           </div>
           <Relay(MarkersContainer)
             comment={Object {}}
+            settings={Object {}}
           />
         </ForwardRef(forwardRef)>
       </div>

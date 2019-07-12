@@ -6,21 +6,37 @@ exports[`renders all markers 1`] = `
     <Relay(FlagDetailsContainer)
       comment={
         Object {
-          "actionCounts": Object {
-            "flag": Object {
-              "reasons": Object {
-                "COMMENT_DETECTED_BANNED_WORD": 1,
-                "COMMENT_DETECTED_LINKS": 1,
-                "COMMENT_DETECTED_SPAM": 1,
-                "COMMENT_DETECTED_SUSPECT_WORD": 1,
-                "COMMENT_DETECTED_TOXIC": 1,
-                "COMMENT_DETECTED_TRUST": 1,
-                "COMMENT_REPORTED_OFFENSIVE": 2,
-                "COMMENT_REPORTED_SPAM": 3,
+          "revision": Object {
+            "actionCounts": Object {
+              "flag": Object {
+                "reasons": Object {
+                  "COMMENT_DETECTED_BANNED_WORD": 1,
+                  "COMMENT_DETECTED_LINKS": 1,
+                  "COMMENT_DETECTED_SPAM": 1,
+                  "COMMENT_DETECTED_SUSPECT_WORD": 1,
+                  "COMMENT_DETECTED_TOXIC": 1,
+                  "COMMENT_DETECTED_TRUST": 1,
+                  "COMMENT_REPORTED_OFFENSIVE": 2,
+                  "COMMENT_REPORTED_SPAM": 3,
+                },
+              },
+            },
+            "metadata": Object {
+              "perspective": Object {
+                "score": 0,
               },
             },
           },
           "status": "PREMOD",
+        }
+      }
+      settings={
+        Object {
+          "integrations": Object {
+            "perspective": Object {
+              "threshold": 0.8,
+            },
+          },
         }
       }
     />
@@ -129,21 +145,37 @@ exports[`renders some markers 1`] = `
     <Relay(FlagDetailsContainer)
       comment={
         Object {
-          "actionCounts": Object {
-            "flag": Object {
-              "reasons": Object {
-                "COMMENT_DETECTED_BANNED_WORD": 1,
-                "COMMENT_DETECTED_LINKS": 0,
-                "COMMENT_DETECTED_SPAM": 0,
-                "COMMENT_DETECTED_SUSPECT_WORD": 0,
-                "COMMENT_DETECTED_TOXIC": 1,
-                "COMMENT_DETECTED_TRUST": 1,
-                "COMMENT_REPORTED_OFFENSIVE": 2,
-                "COMMENT_REPORTED_SPAM": 0,
+          "revision": Object {
+            "actionCounts": Object {
+              "flag": Object {
+                "reasons": Object {
+                  "COMMENT_DETECTED_BANNED_WORD": 1,
+                  "COMMENT_DETECTED_LINKS": 0,
+                  "COMMENT_DETECTED_SPAM": 0,
+                  "COMMENT_DETECTED_SUSPECT_WORD": 0,
+                  "COMMENT_DETECTED_TOXIC": 1,
+                  "COMMENT_DETECTED_TRUST": 1,
+                  "COMMENT_REPORTED_OFFENSIVE": 2,
+                  "COMMENT_REPORTED_SPAM": 0,
+                },
+              },
+            },
+            "metadata": Object {
+              "perspective": Object {
+                "score": 1,
               },
             },
           },
           "status": "PREMOD",
+        }
+      }
+      settings={
+        Object {
+          "integrations": Object {
+            "perspective": Object {
+              "threshold": 0.8,
+            },
+          },
         }
       }
     />

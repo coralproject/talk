@@ -14,3 +14,7 @@
 .detailsText {
   margin: 0;
 }
+
+.detailsDivider {
+  border: 1px solid var(--palette-grey-lightest);
+}

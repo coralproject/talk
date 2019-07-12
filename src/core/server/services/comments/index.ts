@@ -248,7 +248,7 @@ export async function create(
 
 export type EditComment = Omit<
   EditCommentInput,
-  "status" | "authorID" | "lastEditableCommentCreatedAt"
+  "status" | "authorID" | "lastEditableCommentCreatedAt" | "metadata"
 >;
 
 export async function edit(

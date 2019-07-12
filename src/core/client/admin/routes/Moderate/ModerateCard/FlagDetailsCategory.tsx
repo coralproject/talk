@@ -2,8 +2,6 @@ import React, { FunctionComponent } from "react";
 
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
-import styles from "./FlagDetailsCategory.css";
-
 interface Props {
   category: React.ReactNode;
   children?: React.ReactNode;
@@ -15,9 +13,7 @@ const FlagDetailsCategory: FunctionComponent<Props> = ({
 }) => {
   return (
     <HorizontalGutter size="half">
-      <Typography variant="bodyCopyBold" className={styles.category}>
-        {category}
-      </Typography>
+      <Typography variant="bodyCopyBold">{category}</Typography>
       <HorizontalGutter size="half">{children}</HorizontalGutter>
     </HorizontalGutter>
   );

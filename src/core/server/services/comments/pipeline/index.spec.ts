@@ -40,15 +40,15 @@ describe("compose", () => {
   it("merges the metadata", async () => {
     const status = GQLCOMMENT_STATUS.APPROVED;
     const enhanced = compose([
-      () => ({ metadata: { first: true } }),
-      () => ({ status, metadata: { second: true } }),
-      () => ({ metadata: { third: true } }),
+      () => ({ metadata: { akismet: true } }),
+      () => ({ metadata: { linkCount: 1 } }),
+      () => ({ status, metadata: { akismet: false } }),
     ]);
 
     await expect(enhanced(context)).resolves.toEqual({
       body: context.comment.body,
       status,
-      metadata: { first: true, second: true },
+      metadata: { akismet: false, linkCount: 1 },
       actions: [],
       tags: [],
     });
@@ -104,14 +104,14 @@ describe("compose", () => {
 
   it("handles when it does not return a status", async () => {
     const enhanced = compose([
-      () => ({ metadata: { first: true } }),
-      () => ({ metadata: { second: true } }),
+      () => ({ metadata: { akismet: true } }),
+      () => ({ metadata: { akismet: false } }),
     ]);
 
     await expect(enhanced(context)).resolves.toEqual({
       body: context.comment.body,
       status: GQLCOMMENT_STATUS.NONE,
-      metadata: { first: true, second: true },
+      metadata: { akismet: false },
       actions: [],
       tags: [],
     });

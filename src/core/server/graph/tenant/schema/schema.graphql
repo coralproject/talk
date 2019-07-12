@@ -750,12 +750,12 @@ type PerspectiveExternalIntegration {
   """
   The endpoint that Coral should use to communicate with the perspective API.
   """
-  endpoint: String
+  endpoint: String @auth(roles: [ADMIN])
 
   """
   The key for the Perspective API integration.
   """
-  key: String
+  key: String @auth(roles: [ADMIN])
 
   """
   The threshold that given a specific toxic comment score, the comment will
@@ -766,12 +766,12 @@ type PerspectiveExternalIntegration {
   """
   model is the Perspective model to use.
   """
-  model: String
+  model: String @auth(roles: [ADMIN])
 
   """
   When True, comments sent will not be stored by the Google Perspective API.
   """
-  doNotStore: Boolean
+  doNotStore: Boolean @auth(roles: [ADMIN])
 }
 
 type ExternalIntegrations {
@@ -1158,7 +1158,7 @@ type Settings {
   """
   integrations contains all the external integrations that can be enabled.
   """
-  integrations: ExternalIntegrations! @auth(roles: [ADMIN])
+  integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
 
   """
   karma is the set of settings related to how user Trust and Karma are
@@ -1705,6 +1705,23 @@ type CommentModerationActionConnection {
   pageInfo: PageInfo!
 }
 
+type CommentRevisionPerspectiveMetadata {
+  """
+  score is the value detected from the perspective API. This is returned as the
+  percentage chance it would be considered toxic and can be compared to the
+  defined threshold value.
+  """
+  score: Float!
+}
+
+type CommentRevisionMetadata {
+  """
+  perspective stores metadata associated with the pipeline analysis of this
+  revision's body.
+  """
+  perspective: CommentRevisionPerspectiveMetadata
+}
+
 type CommentRevision {
   """
   id is the identifier of the CommentRevision.
@@ -1728,6 +1745,11 @@ type CommentRevision {
   body text was deleted.
   """
   body: String
+
+  """
+  metadata stores details on a CommentRevision.
+  """
+  metadata: CommentRevisionMetadata! @auth(roles: [ADMIN, MODERATOR])
 
   """
   createdAt is the time that the CommentRevision was created.

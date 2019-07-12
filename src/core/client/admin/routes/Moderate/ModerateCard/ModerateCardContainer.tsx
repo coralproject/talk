@@ -141,6 +141,7 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
           body={comment.body!}
           inReplyTo={comment.parent && comment.parent.author!.username!}
           comment={comment}
+          settings={settings}
           dangling={danglingLogic(comment.status)}
           status={getStatus(comment)}
           featured={isFeatured(comment)}
@@ -211,6 +212,7 @@ const enhanced = withFragmentContainer<Props>({
         banned
         suspect
       }
+      ...MarkersContainer_settings
     }
   `,
   viewer: graphql`

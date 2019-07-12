@@ -338,6 +338,11 @@ moderate-markers-details = Details
 moderate-flagDetails-offensive = Offensive
 moderate-flagDetails-spam = Spam
 
+moderate-flagDetails-toxicityScore = Toxicity Score
+moderate-toxicityLabel-likely = Likely <score></score>
+moderate-toxicityLabel-unlikely = Unlikely <score></score>
+moderate-toxicityLabel-maybe = Maybe <score></score>
+
 moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
 moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
 moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.

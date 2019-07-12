@@ -29,6 +29,7 @@ interface Props {
   body: string;
   inReplyTo: string | null;
   comment: PropTypesOf<typeof MarkersContainer>["comment"];
+  settings: PropTypesOf<typeof MarkersContainer>["settings"];
   status: "approved" | "rejected" | "undecided";
   featured: boolean;
   moderatedBy: React.ReactNode | null;
@@ -60,6 +61,7 @@ const ModerateCard: FunctionComponent<Props> = ({
   body,
   inReplyTo,
   comment,
+  settings,
   viewContextHref,
   status,
   featured,
@@ -146,7 +148,7 @@ const ModerateCard: FunctionComponent<Props> = ({
                 </Localized>
               </div>
             )}
-            <MarkersContainer comment={comment} />
+            <MarkersContainer comment={comment} settings={settings} />
           </HorizontalGutter>
         </div>
       </div>

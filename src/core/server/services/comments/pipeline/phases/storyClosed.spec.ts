@@ -9,8 +9,6 @@ describe("storyClosed", () => {
       storyClosed({
         story: { closedAt: new Date() } as ModerationPhaseContext["story"],
         tenant: {} as ModerationPhaseContext["tenant"],
-        comment: {} as ModerationPhaseContext["comment"],
-        author: {} as ModerationPhaseContext["author"],
         now: new Date(),
       })
     ).toThrow();
@@ -21,8 +19,6 @@ describe("storyClosed", () => {
         closeCommenting: { auto: true },
       } as ModerationPhaseContext["tenant"],
       now: new Date(),
-      comment: {} as ModerationPhaseContext["comment"],
-      author: {} as ModerationPhaseContext["author"],
     });
 
     expect(() =>
@@ -35,8 +31,6 @@ describe("storyClosed", () => {
           },
         } as ModerationPhaseContext["tenant"],
         now: new Date(),
-        comment: {} as ModerationPhaseContext["comment"],
-        author: {} as ModerationPhaseContext["author"],
       })
     ).toThrow();
   });
@@ -54,8 +48,6 @@ describe("storyClosed", () => {
         tenant: {
           closeCommenting: { auto: true },
         } as ModerationPhaseContext["tenant"],
-        comment: {} as ModerationPhaseContext["comment"],
-        author: {} as ModerationPhaseContext["author"],
         now,
       })
     ).toBeUndefined();
@@ -66,8 +58,6 @@ describe("storyClosed", () => {
         tenant: {
           closeCommenting: { auto: true },
         } as ModerationPhaseContext["tenant"],
-        comment: {} as ModerationPhaseContext["comment"],
-        author: {} as ModerationPhaseContext["author"],
         now,
       })
     ).toBeUndefined();
