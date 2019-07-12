@@ -107,6 +107,66 @@ exports[`renders configure advanced 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-advancedContainer"
         >
+          <fieldset
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Embed Code
+            </legend>
+            <p
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              Copy and paste the code below into your CMS to embed Coral comment streams in
+each of your site’s stories.
+            </p>
+            <textarea
+              className="EmbedCode-textArea"
+              readOnly={true}
+              rows={22}
+              value="<div id=\\"coral_thread\\"></div>
+<script type=\\"text/javascript\\">
+  (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'http://localhost/assets/js/embed.js';
+      s.onload = function() {
+          Coral.createStreamEmbed({
+              id: \\"coral_thread\\",
+              autoRender: true,
+              rootURL: 'http://localhost',
+              // Comment these out and replace with the ID of the
+              // story's ID and URL from your CMS to provide the
+              // tightest integration. Refer to our documentation at
+              // https://docs.coralproject.net for all the configuration
+              // options.
+              // storyID: '\${storyID}',
+              // storyURL: '\${storyURL}',
+          });
+      };
+      (d.head || d.body).appendChild(s);
+  })();
+</script>"
+            />
+            <div
+              className="Box-root HorizontalGutter-root EmbedCode-copyArea HorizontalGutter-full"
+            >
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                <span>
+                  Copy
+                </span>
+              </button>
+            </div>
+          </fieldset>
           <div
             className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >

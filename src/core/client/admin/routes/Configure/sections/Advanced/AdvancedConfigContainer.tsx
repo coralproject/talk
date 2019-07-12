@@ -45,6 +45,7 @@ class AdvancedConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment AdvancedConfigContainer_settings on Settings {
+      ...EmbedCodeContainer_settings
       ...CustomCSSConfigContainer_settings
       ...PermittedDomainsConfigContainer_settings
       ...CommentStreamLiveUpdatesContainer_settings
