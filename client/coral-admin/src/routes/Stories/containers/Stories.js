@@ -74,6 +74,8 @@ class StoriesContainer extends Component {
   render() {
     return (
       <Stories
+        loading={this.props.loading}
+        loadingMore={this.props.loadingMore}
         assets={this.props.assets}
         searchValue={this.props.searchValue}
         filter={this.props.filter}
@@ -88,6 +90,8 @@ class StoriesContainer extends Component {
 
 const mapStateToProps = ({ stories }) => ({
   assets: stories.assets,
+  loading: stories.loading,
+  loadingMore: stories.loadingMore,
   searchValue: stories.searchValue,
   filter: stories.criteria.filter,
 });
@@ -105,6 +109,8 @@ const mapDispatchToProps = dispatch =>
   );
 
 StoriesContainer.propTypes = {
+  loading: PropTypes.bool,
+  loadingMore: PropTypes.bool,
   assets: PropTypes.object,
   searchValue: PropTypes.string,
   filter: PropTypes.string,

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { DataTable, TableHeader, RadioGroup, Radio } from 'react-mdl';
 
 import t from 'coral-framework/services/i18n';
-import { Dropdown, Option, Icon } from 'coral-ui';
+import { Dropdown, Option, Icon, Spinner } from 'coral-ui';
 import EmptyCard from 'coral-admin/src/components/EmptyCard';
 import LoadMore from 'coral-admin/src/components/LoadMore';
 
@@ -43,6 +43,8 @@ class Stories extends Component {
       onSearchChange,
       onSettingChange,
       onLoadMore,
+      loading,
+      loadingMore,
     } = this.props;
     const rows = assets.edges.map(({ node }) => node);
 
@@ -77,41 +79,51 @@ class Stories extends Component {
             <Radio value="closed">{t('streams.closed')}</Radio>
           </RadioGroup>
         </div>
-        {rows.length ? (
-          <div className={styles.mainContent}>
-            <DataTable className={styles.streamsTable} rows={rows}>
-              <TableHeader name="title" cellFormatter={this.renderTitle}>
-                {t('streams.article')}
-              </TableHeader>
-              <TableHeader
-                name="publication_date"
-                cellFormatter={this.renderDate}
-              >
-                {t('streams.pubdate')}
-              </TableHeader>
-              <TableHeader
-                name="closedAt"
-                cellFormatter={this.renderStatus}
-                className={styles.status}
-              >
-                {t('streams.status')}
-              </TableHeader>
-            </DataTable>
-            <LoadMore
-              showLoadMore={assets.pageInfo.hasNextPage}
-              loadMore={onLoadMore}
-              className={styles.loadMore}
-            />
-          </div>
-        ) : (
-          <EmptyCard>{t('streams.empty_result')}</EmptyCard>
-        )}
+        <div className={styles.mainContent}>
+          {loading ? (
+            <Spinner />
+          ) : rows.length ? (
+            <div>
+              <DataTable className={styles.streamsTable} rows={rows}>
+                <TableHeader name="title" cellFormatter={this.renderTitle}>
+                  {t('streams.article')}
+                </TableHeader>
+                <TableHeader
+                  name="publication_date"
+                  cellFormatter={this.renderDate}
+                >
+                  {t('streams.pubdate')}
+                </TableHeader>
+                <TableHeader
+                  name="closedAt"
+                  cellFormatter={this.renderStatus}
+                  className={styles.status}
+                >
+                  {t('streams.status')}
+                </TableHeader>
+              </DataTable>
+              {loadingMore ? (
+                <Spinner className={styles.loadMoreSpinner} />
+              ) : (
+                <LoadMore
+                  showLoadMore={assets.pageInfo.hasNextPage}
+                  loadMore={onLoadMore}
+                  className={styles.loadMore}
+                />
+              )}
+            </div>
+          ) : (
+            <EmptyCard>{t('streams.empty_result')}</EmptyCard>
+          )}
+        </div>
       </div>
     );
   }
 }
 
 Stories.propTypes = {
+  loading: PropTypes.bool,
+  loadingMore: PropTypes.bool,
   assets: PropTypes.object,
   searchValue: PropTypes.string,
   filter: PropTypes.string,
