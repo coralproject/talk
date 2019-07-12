@@ -25,7 +25,7 @@
 .usernameButton {
   padding: 0px;
   font-family: var(--font-family-sans-serif);
-font-weight: var(--font-weight-regular);
-font-size: calc(14rem / var(--rem-base));
-line-height: calc(14em / 14);
+  font-weight: var(--font-weight-regular);
+  font-size: calc(14rem / var(--rem-base));
+  line-height: calc(14em / 14);
 }
