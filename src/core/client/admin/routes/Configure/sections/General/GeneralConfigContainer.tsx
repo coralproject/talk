@@ -45,7 +45,6 @@ class GeneralConfigContainer extends React.Component<Props> {
 const enhanced = withFragmentContainer<Props>({
   settings: graphql`
     fragment GeneralConfigContainer_settings on Settings {
-      ...EmbedCodeContainer_settings
       ...GuidelinesConfigContainer_settings
       ...CommentLengthConfigContainer_settings
       ...CommentEditingConfigContainer_settings

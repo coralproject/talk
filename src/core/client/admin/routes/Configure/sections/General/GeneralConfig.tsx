@@ -7,7 +7,6 @@ import ClosedStreamMessageConfigContainer from "./ClosedStreamMessageConfigConta
 import ClosingCommentStreamsConfigContainer from "./ClosingCommentStreamsConfigContainer";
 import CommentEditingConfigContainer from "./CommentEditingConfigContainer";
 import CommentLengthConfigContainer from "./CommentLengthConfigContainer";
-import EmbedCodeContainer from "./EmbedCodeContainer";
 import GuidelinesConfigContainer from "./GuidelinesConfigContainer";
 import SitewideCommentingConfigContainer from "./SitewideCommentingConfigContainer";
 
@@ -18,7 +17,6 @@ interface Props {
     PropTypesOf<typeof CommentEditingConfigContainer>["settings"] &
     PropTypesOf<typeof ClosedStreamMessageConfigContainer>["settings"] &
     PropTypesOf<typeof ClosingCommentStreamsConfigContainer>["settings"] &
-    PropTypesOf<typeof EmbedCodeContainer>["settings"] &
     PropTypesOf<typeof SitewideCommentingConfigContainer>["settings"];
   onInitValues: (values: any) => void;
 }
@@ -29,7 +27,6 @@ const General: FunctionComponent<Props> = ({
   onInitValues,
 }) => (
   <HorizontalGutter size="double" data-testid="configure-generalContainer">
-    <EmbedCodeContainer settings={settings} />
     <SitewideCommentingConfigContainer
       disabled={disabled}
       settings={settings}

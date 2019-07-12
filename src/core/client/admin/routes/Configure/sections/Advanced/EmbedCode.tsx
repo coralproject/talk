@@ -42,12 +42,12 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI }) => {
 
   return (
     <HorizontalGutter size="oneAndAHalf" container="fieldset">
-      <Localized id="configure-general-embedCode-title">
+      <Localized id="configure-advanced-embedCode-title">
         <Header container="legend">Embed Code</Header>
       </Localized>
-      <Localized id="configure-general-embedCode-explanation">
+      <Localized id="configure-advanced-embedCode-explanation">
         <Typography variant="detail">
-          Copy and paste code below into your CMS to embed your comment box in
+          Copy and paste code below into your CMS to embed the comment box in
           your articles.
         </Typography>
       </Localized>

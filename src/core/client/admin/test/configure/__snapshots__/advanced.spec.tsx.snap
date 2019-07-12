@@ -107,6 +107,39 @@ exports[`renders configure advanced 1`] = `
           className="Box-root HorizontalGutter-root HorizontalGutter-double"
           data-testid="configure-advancedContainer"
         >
+          <fieldset
+            className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
+              Embed Code
+            </legend>
+            <p
+              className="Box-root Typography-root Typography-detail Typography-colorTextPrimary"
+            >
+              Copy and paste code below into your CMS to embed the comment box in your articles.
+            </p>
+            <textarea
+              className="EmbedCode-textArea"
+              readOnly={true}
+              value="<div id=\\"coral_thread\\"></div>
+<script type=\\"text/javascript\\">
+  (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'http://localhost/assets/js/embed.js';
+      s.onload = function() {
+          Coral.createStreamEmbed({
+              id: \\"coral_thread\\",
+              autoRender: true,
+              rootURL: 'http://localhost',
+          });
+      };
+      (d.head || d.body).appendChild(s);
+  })();
+</script>"
+            />
+          </fieldset>
           <div
             className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
           >
