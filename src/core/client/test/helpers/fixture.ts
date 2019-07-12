@@ -64,14 +64,11 @@ export function createComment(author?: GQLUser) {
     ).toISOString();
   }
 
-  return denormalizeComment(
+  const comment = denormalizeComment(
     createFixture<GQLComment>({
       id: uuid(),
       author,
       body: uuid(),
-      revision: {
-        id: revision,
-      },
       status: GQLCOMMENT_STATUS.NONE,
       statusHistory: {
         edges: [],
@@ -115,6 +112,41 @@ export function createComment(author?: GQLUser) {
       parent: undefined,
     })
   );
+
+  comment.revision = {
+    id: revision,
+    comment,
+    metadata: {
+      perspective: {
+        score: 0,
+      },
+    },
+    createdAt,
+    actionCounts: {
+      reaction: {
+        total: 0,
+      },
+      dontAgree: {
+        total: 0,
+      },
+      flag: {
+        total: 0,
+        reasons: {
+          COMMENT_REPORTED_OFFENSIVE: 0,
+          COMMENT_REPORTED_SPAM: 0,
+          COMMENT_REPORTED_OTHER: 0,
+          COMMENT_DETECTED_TOXIC: 0,
+          COMMENT_DETECTED_SPAM: 0,
+          COMMENT_DETECTED_TRUST: 0,
+          COMMENT_DETECTED_LINKS: 0,
+          COMMENT_DETECTED_BANNED_WORD: 0,
+          COMMENT_DETECTED_SUSPECT_WORD: 0,
+        },
+      },
+    },
+  };
+
+  return comment;
 }
 
 export function createComments(count: number = 3) {
