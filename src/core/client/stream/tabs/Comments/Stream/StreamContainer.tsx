@@ -1,5 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useEffect } from "react";
 import { graphql } from "react-relay";
 
 import { useLocal, withFragmentContainer } from "coral-framework/lib/relay";
@@ -75,6 +75,22 @@ export const StreamContainer: FunctionComponent<Props> = props => {
 
   const allCommentsCount = props.story.commentCounts.totalVisible;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
+
+  useEffect(() => {
+    // If the comment tab is still in its uninitialized state, "NONE", then we
+    // should evaluate that based on the featuredCommentsCount if we should show
+    // the featured comments tab first or not.
+    if (local.commentsTab === "NONE") {
+      // If the selected tab is FEATURED_COMMENTS, but there aren't any featured
+      // comments, then switch it to the all comments tab.
+      if (featuredCommentsCount === 0) {
+        setLocal({ commentsTab: "ALL_COMMENTS" });
+      } else {
+        setLocal({ commentsTab: "FEATURED_COMMENTS" });
+      }
+    }
+  }, [featuredCommentsCount, local.commentsTab, setLocal]);
+
   return (
     <>
       <StoryClosedTimeoutContainer story={props.story} />
