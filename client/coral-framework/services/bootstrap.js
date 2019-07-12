@@ -159,6 +159,11 @@ export async function createContext({
     token,
   });
 
+  const rest2 = createRestClient({
+    uri: `${BASE_PATH}api/v2`,
+    token,
+  });
+
   const staticConfig = getStaticConfiguration();
   let { LIVE_URI: liveUri, BASE_ORIGIN: origin } = staticConfig;
   if (liveUri == null) {
@@ -193,6 +198,7 @@ export async function createContext({
     plugins,
     eventEmitter,
     rest,
+    rest2,
     graphql,
     notification,
     localStorage,

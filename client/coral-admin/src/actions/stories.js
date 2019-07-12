@@ -4,13 +4,15 @@ import {
   FETCH_ASSETS_REQUEST,
   FETCH_ASSETS_SUCCESS,
   FETCH_ASSETS_FAILURE,
+  LOAD_MORE_ASSETS_REQUEST,
+  LOAD_MORE_ASSETS_SUCCESS,
+  LOAD_MORE_ASSETS_FAILURE,
   SET_PAGE,
   SET_SEARCH_VALUE,
   SET_CRITERIA,
   UPDATE_ASSET_STATE_REQUEST,
   UPDATE_ASSET_STATE_SUCCESS,
   UPDATE_ASSET_STATE_FAILURE,
-  UPDATE_ASSETS,
 } from '../constants/stories';
 
 import t from 'coral-framework/services/i18n';
@@ -21,17 +23,14 @@ import t from 'coral-framework/services/i18n';
 
 // Fetch a page of assets
 // Get comments to fill each of the three lists on the mod queue
-export const fetchAssets = (query = {}) => (dispatch, _, { rest }) => {
+export const fetchAssets = (query = {}) => (dispatch, _, { rest2 }) => {
   dispatch({ type: FETCH_ASSETS_REQUEST });
-  return rest(`/assets?${queryString.stringify(query)}`)
-    .then(({ result, page, count, limit, totalPages }) =>
+  return rest2(`/stories?${queryString.stringify(query)}`)
+    .then(({ edges, pageInfo }) =>
       dispatch({
         type: FETCH_ASSETS_SUCCESS,
-        assets: result,
-        page,
-        count,
-        limit,
-        totalPages,
+        edges,
+        pageInfo,
       })
     )
     .catch(error => {
@@ -40,6 +39,25 @@ export const fetchAssets = (query = {}) => (dispatch, _, { rest }) => {
         ? t(`error.${error.translation_key}`)
         : error.toString();
       dispatch({ type: FETCH_ASSETS_FAILURE, error: errorMessage });
+    });
+};
+
+export const loadMoreAssets = (query = {}) => (dispatch, _l, { rest2 }) => {
+  dispatch({ type: LOAD_MORE_ASSETS_REQUEST });
+  return rest2(`/stories?${queryString.stringify(query)}`)
+    .then(({ edges, pageInfo }) =>
+      dispatch({
+        type: LOAD_MORE_ASSETS_SUCCESS,
+        edges,
+        pageInfo,
+      })
+    )
+    .catch(error => {
+      console.error(error);
+      const errorMessage = error.translation_key
+        ? t(`error.${error.translation_key}`)
+        : error.toString();
+      dispatch({ type: LOAD_MORE_ASSETS_FAILURE, error: errorMessage });
     });
 };
 
@@ -56,10 +74,6 @@ export const updateAssetState = (id, closedAt) => (dispatch, _, { rest }) => {
         : error.toString();
       dispatch({ type: UPDATE_ASSET_STATE_FAILURE, error: errorMessage });
     });
-};
-
-export const updateAssets = assets => dispatch => {
-  dispatch({ type: UPDATE_ASSETS, assets });
 };
 
 export const setPage = page => ({
