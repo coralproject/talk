@@ -3,6 +3,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
 
 import { getLocationOrigin } from "coral-common/utils";
+import { CopyButton } from "coral-framework/components";
 import { HorizontalGutter, Typography } from "coral-ui/components";
 
 import Header from "../../Header";
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const EmbedCode: FunctionComponent<Props> = ({ staticURI }) => {
-  const value = useMemo(() => {
+  const embed = useMemo(() => {
     // Get the origin of the current page.
     const origin = getLocationOrigin();
 
@@ -22,7 +23,7 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI }) => {
     const script = staticURI || origin;
 
     // Return the HTML template.
-    return stripIndent`
+    const text = stripIndent`
     <div id="coral_thread"></div>
     <script type="text/javascript">
       (function() {
@@ -33,11 +34,23 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI }) => {
                   id: "coral_thread",
                   autoRender: true,
                   rootURL: '${origin}',
+                  // Comment these out and replace with the ID of the
+                  // story's ID and URL from your CMS to provide the
+                  // tightest integration. Refer to our documentation at
+                  // https://docs.coralproject.net for all the configuration
+                  // options.
+                  // storyID: '\${storyID}',
+                  // storyURL: '\${storyURL}',
               });
           };
           (d.head || d.body).appendChild(s);
       })();
     </script>`;
+
+    // Count the number of rows in the embed code.
+    const rows = text.split(/\r\n|\r|\n/).length;
+
+    return { text, rows };
   }, [staticURI]);
 
   return (
@@ -47,11 +60,19 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI }) => {
       </Localized>
       <Localized id="configure-advanced-embedCode-explanation">
         <Typography variant="detail">
-          Copy and paste code below into your CMS to embed the comment box in
-          your articles.
+          Copy and paste the code below into your CMS to embed Coral comment
+          streams in each of your site’s stories.
         </Typography>
       </Localized>
-      <textarea className={styles.textArea} readOnly value={value} />
+      <textarea
+        rows={embed.rows}
+        className={styles.textArea}
+        readOnly
+        value={embed.text}
+      />
+      <HorizontalGutter className={styles.copyArea}>
+        <CopyButton size="regular" text={embed.text} />
+      </HorizontalGutter>
     </HorizontalGutter>
   );
 };

@@ -309,7 +309,8 @@ configure-advanced-liveUpdates-explanation =
 
 configure-advanced-embedCode-title = Embed Code
 configure-advanced-embedCode-explanation =
-  Copy and paste code below into your CMS to embed the comment box in your articles.
+  Copy and paste the code below into your CMS to embed Coral comment streams in
+  each of your site’s stories.
 
 ## Decision History
 decisionHistory-popover =
