@@ -35,6 +35,7 @@ const EmailField: FunctionComponent<Props> = props => (
             onChange={input.onChange}
             value={input.value}
             placeholder="Email Address"
+            type="email"
             color={
               meta.touched && (meta.error || meta.submitError)
                 ? "error"

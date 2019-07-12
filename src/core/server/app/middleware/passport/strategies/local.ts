@@ -1,3 +1,4 @@
+import Joi from "joi";
 import { Db } from "mongodb";
 import { Strategy as LocalStrategy } from "passport-local";
 
@@ -18,11 +19,21 @@ const verifyFactory = (
   emailLimiter: RequestLimiter
 ) => async (
   req: Request,
-  email: string,
-  password: string,
+  emailInput: string,
+  passwordInput: string,
   done: VerifyCallback
 ) => {
   try {
+    // Validate that the email address and password are reasonable.
+    const email = Joi.attempt(
+      emailInput,
+      Joi.string()
+        .trim()
+        .lowercase()
+        .email()
+    );
+    const password = Joi.attempt(passwordInput, Joi.string());
+
     await ipLimiter.test(req, req.ip);
     await emailLimiter.test(req, email);
 

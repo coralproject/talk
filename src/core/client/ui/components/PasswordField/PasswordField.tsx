@@ -75,6 +75,10 @@ class PasswordField extends Component<PasswordFieldProps, State> {
     placeholder: "",
     showPasswordTitle: "Hide password",
     hidePasswordTitle: "Show password",
+    autoCapitalize: "off",
+    autoCorrect: "off",
+    autoComplete: "off",
+    spellCheck: false,
   };
 
   public state = {

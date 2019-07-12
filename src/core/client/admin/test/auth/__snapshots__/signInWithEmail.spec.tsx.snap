@@ -61,12 +61,16 @@ exports[`accepts correct password 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
             onChange={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value="testtest"
           />
@@ -159,12 +163,16 @@ exports[`accepts valid email 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
             onChange={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value=""
           />
@@ -283,12 +291,16 @@ exports[`checks for invalid email 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
             onChange={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value=""
           />
@@ -471,12 +483,16 @@ exports[`renders sign in form 1`] = `
                     className="PasswordField-wrapper"
                   >
                     <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
                       className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                       disabled={false}
                       id="password"
                       name="password"
                       onChange={[Function]}
                       placeholder="Password"
+                      spellCheck={false}
                       type="password"
                       value=""
                     />
@@ -596,12 +612,16 @@ exports[`shows error when submitting empty form 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
             onChange={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value=""
           />
@@ -714,12 +734,16 @@ exports[`shows server error 1`] = `
           className="PasswordField-wrapper"
         >
           <input
+            autoCapitalize="off"
+            autoComplete="off"
+            autoCorrect="off"
             className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
             disabled={false}
             id="password"
             name="password"
             onChange={[Function]}
             placeholder="Password"
+            spellCheck={false}
             type="password"
             value="testtest"
           />
