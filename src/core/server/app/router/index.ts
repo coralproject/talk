@@ -31,7 +31,9 @@ export function createRouter(app: AppOptions, options: RouterOptions) {
 
   if (!options.disableClientRoutes) {
     mountClientRoutes(router, {
-      staticURI: app.config.get("static_uri"),
+      // When mounting client routes, we need to provide a staticURI even when
+      // not provided to the default current domain relative "/".
+      staticURI: app.config.get("static_uri") || "/",
       tenantCache: app.tenantCache,
     });
   } else {
