@@ -66,11 +66,14 @@ export function createComment(author?: GQLUser) {
     ).toISOString();
   }
 
-  const comment = denormalizeComment(
+  return denormalizeComment(
     createFixture<GQLComment>({
       id: uuid(),
       author,
       body: uuid(),
+      revision: {
+        id: revision,
+      },
       status: GQLCOMMENT_STATUS.NONE,
       statusHistory: {
         edges: [],

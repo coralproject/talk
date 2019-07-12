@@ -53,9 +53,14 @@ async function createTestRenderer(
 it("User drawer is open for user, user name is visible", async () => {
   const story = createStory();
   const user = story.comments.edges[0].node.author!;
+<<<<<<< HEAD
   const { testRenderer } = await createTestRenderer(user);
 
   await act(async () => {
+=======
+  await act(async () => {
+    const { testRenderer } = await createTestRenderer(user);
+>>>>>>> Create unit tests around the user drawer
     const { getByText } = within(testRenderer.root);
     await waitForElement(() => getByText(user.id, { exact: false }));
   });
@@ -64,9 +69,14 @@ it("User drawer is open for user, user name is visible", async () => {
 it("User drawer is open for user, user name is visible", async () => {
   const story = createStory();
   const user = story.comments.edges[0].node.author!;
+<<<<<<< HEAD
   const { testRenderer } = await createTestRenderer(user);
 
   await act(async () => {
+=======
+  await act(async () => {
+    const { testRenderer } = await createTestRenderer(user);
+>>>>>>> Create unit tests around the user drawer
     const { getByText } = within(testRenderer.root);
     await waitForElement(() => getByText(user.username!, { exact: false }));
   });
@@ -76,9 +86,14 @@ it("All comments selected, comment is visible in all comments", async () => {
   const story = createStory();
   const user = story.comments.edges[0].node.author!;
   const comment = user.allComments.edges[0].node;
+<<<<<<< HEAD
   const { testRenderer } = await createTestRenderer(user);
 
   await act(async () => {
+=======
+  await act(async () => {
+    const { testRenderer } = await createTestRenderer(user);
+>>>>>>> Create unit tests around the user drawer
     const { getByText } = within(testRenderer.root);
 
     await waitForElement(() => getByText(comment.body!, { exact: false }));
@@ -89,9 +104,14 @@ it("Select rejected comments, rejected comment is visible.", async () => {
   const story = createStory();
   const user = story.comments.edges[0].node.author!;
   const rejectedComment = user.rejectedComments.edges[0].node;
+<<<<<<< HEAD
   const { testRenderer } = await createTestRenderer(user);
 
   await act(async () => {
+=======
+  await act(async () => {
+    const { testRenderer } = await createTestRenderer(user);
+>>>>>>> Create unit tests around the user drawer
     const { getByText } = within(testRenderer.root);
     const rejectedTab = await waitForElement(() =>
       getByText("rejected", {
