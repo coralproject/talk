@@ -34,7 +34,7 @@ exports[`accepts correct password 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -115,12 +115,16 @@ exports[`accepts correct password 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value="testtest"
               />
@@ -204,7 +208,7 @@ exports[`accepts valid email 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value="hans@test.com"
             />
           </div>
@@ -272,12 +276,16 @@ exports[`accepts valid email 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -374,7 +382,7 @@ exports[`accepts valid username 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -442,12 +450,16 @@ exports[`accepts valid username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -544,7 +556,7 @@ exports[`auth configuration renders all auth enabled 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -599,12 +611,16 @@ exports[`auth configuration renders all auth enabled 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -835,7 +851,7 @@ exports[`checks for invalid characters in username 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -916,12 +932,16 @@ exports[`checks for invalid characters in username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1018,7 +1038,7 @@ exports[`checks for invalid email 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value="invalid-email"
             />
           </div>
@@ -1099,12 +1119,16 @@ exports[`checks for invalid email 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1201,7 +1225,7 @@ exports[`checks for too long username 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -1282,12 +1306,16 @@ exports[`checks for too long username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1384,7 +1412,7 @@ exports[`checks for too short password 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -1465,12 +1493,16 @@ exports[`checks for too short password 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value="pass"
               />
@@ -1567,7 +1599,7 @@ exports[`checks for too short username 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -1648,12 +1680,16 @@ exports[`checks for too short username 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -1790,7 +1826,7 @@ exports[`renders sign up form 1`] = `
                   name="email"
                   onChange={[Function]}
                   placeholder="Email Address"
-                  type="text"
+                  type="email"
                   value=""
                 />
               </div>
@@ -1845,12 +1881,16 @@ exports[`renders sign up form 1`] = `
                   className="PasswordField-wrapper"
                 >
                   <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
                     className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                     disabled={false}
                     id="password"
                     name="password"
                     onChange={[Function]}
                     placeholder="Password"
+                    spellCheck={false}
                     type="password"
                     value=""
                   />
@@ -1936,7 +1976,7 @@ exports[`shows error when submitting empty form 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -2017,12 +2057,16 @@ exports[`shows error when submitting empty form 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorError PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />
@@ -2126,7 +2170,7 @@ exports[`shows server error 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value="hans@test.com"
             />
           </div>
@@ -2181,12 +2225,16 @@ exports[`shows server error 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value="testtest"
               />
@@ -2270,7 +2318,7 @@ exports[`submits form successfully 1`] = `
               name="email"
               onChange={[Function]}
               placeholder="Email Address"
-              type="text"
+              type="email"
               value=""
             />
           </div>
@@ -2325,12 +2373,16 @@ exports[`submits form successfully 1`] = `
               className="PasswordField-wrapper"
             >
               <input
+                autoCapitalize="off"
+                autoComplete="off"
+                autoCorrect="off"
                 className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                 disabled={false}
                 id="password"
                 name="password"
                 onChange={[Function]}
                 placeholder="Password"
+                spellCheck={false}
                 type="password"
                 value=""
               />

@@ -181,21 +181,39 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={true}
-            name="auth.integrations.oidc.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="clientSecret"
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={true}
+              name="auth.integrations.oidc.clientSecret"
+              onChange={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value="clientSecret"
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -592,21 +610,39 @@ For more information visit:
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.facebook.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value="myClientSecret"
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={false}
+              name="auth.integrations.facebook.clientSecret"
+              onChange={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value="myClientSecret"
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -904,21 +940,39 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={false}
+              name="auth.integrations.oidc.clientSecret"
+              onChange={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value=""
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -1370,21 +1424,39 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
           Client Secret
         </label>
         <div
-          className="TextField-root"
+          className="PasswordField-root"
         >
-          <input
-            autoCapitalize="off"
-            autoComplete="off"
-            autoCorrect="off"
-            className="TextField-input TextField-colorRegular"
-            disabled={false}
-            name="auth.integrations.oidc.clientSecret"
-            onChange={[Function]}
-            placeholder=""
-            spellCheck={false}
-            type="text"
-            value=""
-          />
+          <div
+            className="PasswordField-wrapper"
+          >
+            <input
+              autoCapitalize="off"
+              autoComplete="off"
+              autoCorrect="off"
+              className="PasswordField-colorRegular PasswordField-input"
+              disabled={false}
+              name="auth.integrations.oidc.clientSecret"
+              onChange={[Function]}
+              placeholder=""
+              spellCheck={false}
+              type="password"
+              value=""
+            />
+            <div
+              className="PasswordField-icon"
+              onClick={[Function]}
+              role="button"
+              tabIndex={0}
+              title="Hide Client Secret"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm"
+              >
+                visibility
+              </span>
+            </div>
+          </div>
         </div>
         <div
           className="Message-root Message-colorError ValidationMessage-root"
@@ -1721,16 +1793,38 @@ exports[`regenerate sso key 1`] = `
     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
   >
     <div
-      className="TextField-root"
+      className="PasswordField-root"
     >
-      <input
-        className="TextField-input TextField-colorRegular"
-        name="key"
-        placeholder=""
-        readOnly={true}
-        type="text"
-        value="==GENERATED_KEY=="
-      />
+      <div
+        className="PasswordField-wrapper"
+      >
+        <input
+          autoCapitalize="off"
+          autoComplete="off"
+          autoCorrect="off"
+          className="PasswordField-colorRegular PasswordField-input"
+          name="key"
+          placeholder=""
+          readOnly={true}
+          spellCheck={false}
+          type="password"
+          value="==GENERATED_KEY=="
+        />
+        <div
+          className="PasswordField-icon"
+          onClick={[Function]}
+          role="button"
+          tabIndex={0}
+          title="Hide SSO Key"
+        >
+          <span
+            aria-hidden="true"
+            className="Icon-root Icon-sm"
+          >
+            visibility
+          </span>
+        </div>
+      </div>
     </div>
     <button
       className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled"
@@ -2228,21 +2322,39 @@ needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
                       Client Secret
                     </label>
                     <div
-                      className="TextField-root"
+                      className="PasswordField-root"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.oidc.clientSecret"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
+                      <div
+                        className="PasswordField-wrapper"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-input"
+                          disabled={true}
+                          name="auth.integrations.oidc.clientSecret"
+                          onChange={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Hide Client Secret"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -2547,15 +2659,37 @@ integration to register for a new account.
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter Flex-directionRow gutter"
                     >
                       <div
-                        className="TextField-root"
+                        className="PasswordField-root"
                       >
-                        <input
-                          className="TextField-input TextField-colorRegular"
-                          name="key"
-                          placeholder=""
-                          readOnly={true}
-                          type="text"
-                        />
+                        <div
+                          className="PasswordField-wrapper"
+                        >
+                          <input
+                            autoCapitalize="off"
+                            autoComplete="off"
+                            autoCorrect="off"
+                            className="PasswordField-colorRegular PasswordField-input"
+                            name="key"
+                            placeholder=""
+                            readOnly={true}
+                            spellCheck={false}
+                            type="password"
+                          />
+                          <div
+                            className="PasswordField-icon"
+                            onClick={[Function]}
+                            role="button"
+                            tabIndex={0}
+                            title="Hide SSO Key"
+                          >
+                            <span
+                              aria-hidden="true"
+                              className="Icon-root Icon-sm"
+                            >
+                              visibility
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       <button
                         className="BaseButton-root Button-root Button-sizeSmall Button-colorPrimary Button-variantFilled Button-disabled"
@@ -2857,21 +2991,39 @@ to create and set up a web application. For more information visit:
                       Client Secret
                     </label>
                     <div
-                      className="TextField-root"
+                      className="PasswordField-root"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.google.clientSecret"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
+                      <div
+                        className="PasswordField-wrapper"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-input"
+                          disabled={true}
+                          name="auth.integrations.google.clientSecret"
+                          onChange={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Hide Client Secret"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div
@@ -3137,21 +3289,39 @@ For more information visit:
                       Client Secret
                     </label>
                     <div
-                      className="TextField-root"
+                      className="PasswordField-root"
                     >
-                      <input
-                        autoCapitalize="off"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        className="TextField-input TextField-colorRegular"
-                        disabled={true}
-                        name="auth.integrations.facebook.clientSecret"
-                        onChange={[Function]}
-                        placeholder=""
-                        spellCheck={false}
-                        type="text"
-                        value=""
-                      />
+                      <div
+                        className="PasswordField-wrapper"
+                      >
+                        <input
+                          autoCapitalize="off"
+                          autoComplete="off"
+                          autoCorrect="off"
+                          className="PasswordField-colorRegular PasswordField-input"
+                          disabled={true}
+                          name="auth.integrations.facebook.clientSecret"
+                          onChange={[Function]}
+                          placeholder=""
+                          spellCheck={false}
+                          type="password"
+                          value=""
+                        />
+                        <div
+                          className="PasswordField-icon"
+                          onClick={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          title="Hide Client Secret"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="Icon-root Icon-sm"
+                          >
+                            visibility
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div

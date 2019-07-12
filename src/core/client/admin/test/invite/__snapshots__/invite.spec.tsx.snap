@@ -159,12 +159,16 @@ exports[`renders form 1`] = `
                 className="PasswordField-wrapper"
               >
                 <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
                   className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
                   disabled={false}
                   id="password"
                   name="password"
                   onChange={[Function]}
                   placeholder="Password"
+                  spellCheck={false}
                   type="password"
                   value=""
                 />

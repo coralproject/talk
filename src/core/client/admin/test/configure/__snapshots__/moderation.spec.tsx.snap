@@ -501,22 +501,40 @@ improve the API over time.
                 API Key
               </label>
               <div
-                className="TextField-root"
+                className="PasswordField-root"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-moderation-integrations.perspective.key"
-                  name="integrations.perspective.key"
-                  onChange={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value=""
-                />
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="PasswordField-colorRegular PasswordField-input"
+                    disabled={false}
+                    id="configure-moderation-integrations.perspective.key"
+                    name="integrations.perspective.key"
+                    onChange={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Hide API Key"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -670,22 +688,40 @@ in your Akismet account:
                 API Key
               </label>
               <div
-                className="TextField-root"
+                className="PasswordField-root"
               >
-                <input
-                  autoCapitalize="off"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="configure-moderation-integrations.akismet.key"
-                  name="integrations.akismet.key"
-                  onChange={[Function]}
-                  placeholder=""
-                  spellCheck={false}
-                  type="text"
-                  value=""
-                />
+                <div
+                  className="PasswordField-wrapper"
+                >
+                  <input
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="PasswordField-colorRegular PasswordField-input"
+                    disabled={false}
+                    id="configure-moderation-integrations.akismet.key"
+                    name="integrations.akismet.key"
+                    onChange={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="password"
+                    value=""
+                  />
+                  <div
+                    className="PasswordField-icon"
+                    onClick={[Function]}
+                    role="button"
+                    tabIndex={0}
+                    title="Hide API Key"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="Icon-root Icon-sm"
+                    >
+                      visibility
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
             <div

@@ -101,7 +101,7 @@ Your email address will be used to:
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
-          type="text"
+          type="email"
           value="hans@test.com"
         />
       </div>
@@ -260,7 +260,7 @@ Your email address will be used to:
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
-          type="text"
+          type="email"
           value="invalid-email"
         />
       </div>
@@ -451,7 +451,7 @@ Your email address will be used to:
                 name="email"
                 onChange={[Function]}
                 placeholder="Email Address"
-                type="text"
+                type="email"
                 value=""
               />
             </div>
@@ -600,7 +600,7 @@ Your email address will be used to:
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
-          type="text"
+          type="email"
           value=""
         />
       </div>
@@ -786,7 +786,7 @@ GraphQL request (4:3)
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
-          type="text"
+          type="email"
           value="hans@test.com"
         />
       </div>
@@ -932,7 +932,7 @@ Your email address will be used to:
           name="email"
           onChange={[Function]}
           placeholder="Email Address"
-          type="text"
+          type="email"
           value=""
         />
       </div>
