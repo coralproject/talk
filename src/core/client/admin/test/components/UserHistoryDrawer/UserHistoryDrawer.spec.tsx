@@ -2,7 +2,7 @@ import {
   createSettings,
   createStory,
   createUser,
-} from "coral-admin/../test/helpers/fixture";
+} from "coral-test/helpers/fixture";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver, GQLUser, GQLUSER_ROLE } from "coral-framework/schema";
