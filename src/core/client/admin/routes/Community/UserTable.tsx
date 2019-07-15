@@ -30,21 +30,21 @@ interface Props {
 }
 
 const UserTable: FunctionComponent<Props> = props => {
-  const [userDrawerID, setUserDrawerId] = useState("");
+  const [userDrawerUserID, setUserDrawerUserID] = useState("");
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
 
   const onShowUserDrawer = useCallback(
     (userID: string) => {
-      setUserDrawerId(userID);
+      setUserDrawerUserID(userID);
       setUserDrawerVisible(true);
     },
-    [setUserDrawerId, setUserDrawerVisible]
+    [setUserDrawerUserID, setUserDrawerVisible]
   );
 
   const onHideUserDrawer = useCallback(() => {
     setUserDrawerVisible(false);
-    setUserDrawerId("");
-  }, [setUserDrawerId, setUserDrawerVisible]);
+    setUserDrawerUserID("");
+  }, [setUserDrawerUserID, setUserDrawerVisible]);
 
   return (
     <>
@@ -102,7 +102,7 @@ const UserTable: FunctionComponent<Props> = props => {
           </Flex>
         )}
         <UserHistoryDrawerContainer
-          userID={userDrawerID}
+          userID={userDrawerUserID}
           open={userDrawerVisible}
           onClose={onHideUserDrawer}
         />
