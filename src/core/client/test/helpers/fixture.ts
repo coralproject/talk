@@ -15,6 +15,8 @@ import {
 } from "coral-framework/testHelpers";
 import uuid from "uuid/v4";
 
+// TODO: Look into a date/time provider that can create
+// predictable date/time (i.e. constantly increasing, or seeded)
 export function createDateInRange(start: Date, end: Date) {
   return new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
