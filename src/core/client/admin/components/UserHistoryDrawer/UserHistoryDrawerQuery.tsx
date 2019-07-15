@@ -3,6 +3,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
+import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import {
   Button,
@@ -39,6 +40,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             username
             email
             createdAt
+            ...UserStatusChangeContainer_user
           }
         }
       `}
@@ -75,6 +77,12 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             <Flex className={styles.username}>
               <span>{user.username}</span>
             </Flex>
+            <div className={styles.userStatus}>
+              <div className={styles.userStatusLabel}>Status:</div>
+              <div className={styles.userStatusChange}>
+                <UserStatusChangeContainer user={user} fullWidth={false} />
+              </div>
+            </div>
             <div className={styles.userDetails}>
               <Flex alignItems="center" className={styles.userDetail}>
                 <Icon size="sm" className={styles.icon}>
