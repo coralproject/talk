@@ -720,7 +720,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change user status"
-                  className="BaseButton-root Button-root UserStatusChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root UserStatusChange-button UserStatusChange-fullWidth Button-sizeSmall Button-colorRegular Button-variantRegular"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
