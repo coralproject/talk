@@ -359,7 +359,18 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
-              Markus
+              <button
+                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Markus
+              </button>
             </td>
             <td
               className="TableCell-root UserRow-emailColumn TableCell-body"
@@ -421,7 +432,18 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
-              Lukas
+              <button
+                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Lukas
+              </button>
             </td>
             <td
               className="TableCell-root UserRow-emailColumn TableCell-body"
@@ -514,7 +536,18 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
-              Huy
+              <button
+                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Huy
+              </button>
             </td>
             <td
               className="TableCell-root UserRow-emailColumn TableCell-body"
@@ -607,7 +640,18 @@ exports[`renders community 1`] = `
             <td
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
-              Isabelle
+              <button
+                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="button"
+              >
+                Isabelle
+              </button>
             </td>
             <td
               className="TableCell-root UserRow-emailColumn TableCell-body"

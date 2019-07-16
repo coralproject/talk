@@ -1,9 +1,10 @@
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
+import UserHistoryDrawerContainer from "coral-admin/components/UserHistoryDrawer/UserHistoryDrawerContainer";
 import {
   Table,
   TableBody,
@@ -28,56 +29,86 @@ interface Props {
   loading: boolean;
 }
 
-const UserTable: FunctionComponent<Props> = props => (
-  <>
-    <HorizontalGutter size="double">
-      <Table fullWidth>
-        <TableHead>
-          <TableRow>
-            <Localized id="community-column-username">
-              <TableCell className={styles.usernameColumn}>Username</TableCell>
-            </Localized>
-            <Localized id="community-column-email">
-              <TableCell className={styles.emailColumn}>
-                Email Address
-              </TableCell>
-            </Localized>
-            <Localized id="community-column-memberSince">
-              <TableCell className={styles.memberSinceColumn}>
-                Member Since
-              </TableCell>
-            </Localized>
-            <Localized id="community-column-role">
-              <TableCell className={styles.roleColumn}>Role</TableCell>
-            </Localized>
-            <Localized id="community-column-status">
-              <TableCell className={styles.statusColumn}>Status</TableCell>
-            </Localized>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {!props.loading &&
-            props.users.map(u => (
-              <UserRowContainer key={u.id} user={u} viewer={props.viewer!} />
-            ))}
-        </TableBody>
-      </Table>
-      {!props.loading && props.users.length === 0 && <EmptyMessage />}
-      {props.loading && (
-        <Flex justifyContent="center">
-          <Spinner />
-        </Flex>
-      )}
-      {props.hasMore && (
-        <Flex justifyContent="center">
-          <AutoLoadMore
-            disableLoadMore={props.disableLoadMore}
-            onLoadMore={props.onLoadMore}
-          />
-        </Flex>
-      )}
-    </HorizontalGutter>
-  </>
-);
+const UserTable: FunctionComponent<Props> = props => {
+  const [userDrawerUserID, setUserDrawerUserID] = useState("");
+  const [userDrawerVisible, setUserDrawerVisible] = useState(false);
+
+  const onShowUserDrawer = useCallback(
+    (userID: string) => {
+      setUserDrawerUserID(userID);
+      setUserDrawerVisible(true);
+    },
+    [setUserDrawerUserID, setUserDrawerVisible]
+  );
+
+  const onHideUserDrawer = useCallback(() => {
+    setUserDrawerVisible(false);
+    setUserDrawerUserID("");
+  }, [setUserDrawerUserID, setUserDrawerVisible]);
+
+  return (
+    <>
+      <HorizontalGutter size="double">
+        <Table fullWidth>
+          <TableHead>
+            <TableRow>
+              <Localized id="community-column-username">
+                <TableCell className={styles.usernameColumn}>
+                  Username
+                </TableCell>
+              </Localized>
+              <Localized id="community-column-email">
+                <TableCell className={styles.emailColumn}>
+                  Email Address
+                </TableCell>
+              </Localized>
+              <Localized id="community-column-memberSince">
+                <TableCell className={styles.memberSinceColumn}>
+                  Member Since
+                </TableCell>
+              </Localized>
+              <Localized id="community-column-role">
+                <TableCell className={styles.roleColumn}>Role</TableCell>
+              </Localized>
+              <Localized id="community-column-status">
+                <TableCell className={styles.statusColumn}>Status</TableCell>
+              </Localized>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {!props.loading &&
+              props.users.map(u => (
+                <UserRowContainer
+                  key={u.id}
+                  user={u}
+                  viewer={props.viewer!}
+                  onUsernameClicked={onShowUserDrawer}
+                />
+              ))}
+          </TableBody>
+        </Table>
+        {!props.loading && props.users.length === 0 && <EmptyMessage />}
+        {props.loading && (
+          <Flex justifyContent="center">
+            <Spinner />
+          </Flex>
+        )}
+        {props.hasMore && (
+          <Flex justifyContent="center">
+            <AutoLoadMore
+              disableLoadMore={props.disableLoadMore}
+              onLoadMore={props.onLoadMore}
+            />
+          </Flex>
+        )}
+        <UserHistoryDrawerContainer
+          userID={userDrawerUserID}
+          open={userDrawerVisible}
+          onClose={onHideUserDrawer}
+        />
+      </HorizontalGutter>
+    </>
+  );
+};
 
 export default UserTable;
