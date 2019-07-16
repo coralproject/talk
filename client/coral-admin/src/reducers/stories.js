@@ -57,12 +57,21 @@ export default function assets(state = initialState, action) {
         },
       });
     }
-    case actions.UPDATE_ASSET_STATE_REQUEST:
+    case actions.UPDATE_ASSET_STATE_SUCCESS:
+      const index = state.assets.edges.findIndex(
+        ({ node: { id } }) => id === action.id
+      );
+      if (index < 0) {
+        return state;
+      }
+
       return update(state, {
         assets: {
-          byId: {
-            [action.id]: {
-              closedAt: { $set: action.closedAt },
+          edges: {
+            [index]: {
+              node: {
+                closedAt: { $set: action.closedAt },
+              },
             },
           },
         },
