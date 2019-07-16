@@ -15,8 +15,13 @@ enum PROFILE_TAB {
 }
 
 enum COMMENTS_TAB {
-  ALL_COMMENTS
+  """
+  NONE is used before the active tab can be determined. The active tab is
+  determined after we count how many featured comments there are.
+  """
+  NONE
   FEATURED_COMMENTS
+  ALL_COMMENTS
 }
 
 enum COMMENT_VIEWER_ACTION {

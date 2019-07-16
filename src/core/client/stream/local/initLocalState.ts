@@ -57,6 +57,9 @@ export default async function initLocalState(
     // Set active tabs
     localRecord.setValue("COMMENTS", "activeTab");
     localRecord.setValue("MY_COMMENTS", "profileTab");
-    localRecord.setValue("ALL_COMMENTS", "commentsTab");
+
+    // Initilzie the comments tab to NONE for now, it will be initialized to an
+    // actual tab when we find out how many feature comments there are.
+    localRecord.setValue("NONE", "commentsTab");
   });
 }
