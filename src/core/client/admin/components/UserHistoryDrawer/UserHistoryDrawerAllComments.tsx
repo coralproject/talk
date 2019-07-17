@@ -9,21 +9,21 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
 import { Button, CallOut, Typography } from "coral-ui/components";
 
-import { UserHistoryAllComments_settings } from "coral-admin/__generated__/UserHistoryAllComments_settings.graphql";
-import { UserHistoryAllComments_user } from "coral-admin/__generated__/UserHistoryAllComments_user.graphql";
-import { UserHistoryAllComments_viewer } from "coral-admin/__generated__/UserHistoryAllComments_viewer.graphql";
-import { UserHistoryAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryAllCommentsPaginationQuery.graphql";
+import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
+import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
+import { UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
+import { UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
 
-import styles from "./UserHistoryAllComments.css";
+import styles from "./UserHistoryDrawerAllComments.css";
 
 interface Props {
-  user: UserHistoryAllComments_user;
-  viewer: UserHistoryAllComments_viewer;
-  settings: UserHistoryAllComments_settings;
+  user: UserHistoryDrawerAllComments_user;
+  viewer: UserHistoryDrawerAllComments_viewer;
+  settings: UserHistoryDrawerAllComments_settings;
   relay: RelayPaginationProp;
 }
 
-const UserHistoryAllComments: FunctionComponent<Props> = ({
+const UserHistoryDrawerAllComments: FunctionComponent<Props> = ({
   user,
   viewer,
   settings,
@@ -85,33 +85,33 @@ const UserHistoryAllComments: FunctionComponent<Props> = ({
   );
 };
 
-type FragmentVariables = UserHistoryAllCommentsPaginationQueryVariables;
+type FragmentVariables = UserHistoryDrawerAllCommentsPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
   Props,
-  UserHistoryAllCommentsPaginationQueryVariables,
+  UserHistoryDrawerAllCommentsPaginationQueryVariables,
   FragmentVariables
 >(
   {
     viewer: graphql`
-      fragment UserHistoryAllComments_viewer on User {
+      fragment UserHistoryDrawerAllComments_viewer on User {
         ...ModerateCardContainer_viewer
       }
     `,
     settings: graphql`
-      fragment UserHistoryAllComments_settings on Settings {
+      fragment UserHistoryDrawerAllComments_settings on Settings {
         ...ModerateCardContainer_settings
       }
     `,
     user: graphql`
-      fragment UserHistoryAllComments_user on User
+      fragment UserHistoryDrawerAllComments_user on User
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
         username
         allComments(first: $count, after: $cursor)
-          @connection(key: "UserHistoryAll_allComments") {
+          @connection(key: "UserHistoryDrawer_allComments") {
           edges {
             node {
               id
@@ -141,18 +141,18 @@ const enhanced = withPaginationContainer<
       };
     },
     query: graphql`
-      query UserHistoryAllCommentsPaginationQuery(
+      query UserHistoryDrawerAllCommentsPaginationQuery(
         $userID: ID!
         $count: Int!
         $cursor: Cursor
       ) {
         user(id: $userID) {
-          ...UserHistoryAllComments_user
+          ...UserHistoryDrawerAllComments_user
             @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
   }
-)(UserHistoryAllComments);
+)(UserHistoryDrawerAllComments);
 
 export default enhanced;

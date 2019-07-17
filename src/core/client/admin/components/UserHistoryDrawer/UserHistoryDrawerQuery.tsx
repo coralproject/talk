@@ -16,7 +16,7 @@ import {
 
 import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
 
-import UserHistoryTabs from "./UserHistoryTabs";
+import Tabs from "./Tabs";
 
 import styles from "./UserHistoryDrawerQuery.css";
 
@@ -133,7 +133,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             </div>
             <hr className={styles.divider} />
             <div className={styles.comments}>
-              <UserHistoryTabs userID={user.id} />
+              <Tabs userID={user.id} />
             </div>
           </>
         );

@@ -4,19 +4,19 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { Icon, Tab, TabBar, TabContent, TabPane } from "coral-ui/components";
 
-import UserHistoryAllCommentsContainer from "./UserHistoryAllCommentsContainer";
-import UserHistoryRejectedCommentsContainer from "./UserHistoryRejectedCommentsContainer";
+import UserHistoryDrawerAllCommentsQuery from "./UserHistoryDrawerAllCommentsQuery";
+import UserHistoryDrawerRejectedCommentsQuery from "./UserHistoryDrawerRejectedCommentsQuery";
 
-import styles from "./UserHistoryTabs.css";
+import styles from "./Tabs.css";
 
-type TabType = "ALL" | "REJECTED";
+type TabType = "ALL_COMMENTS" | "REJECTED_COMMENTS";
 
 interface Props {
   userID: string;
 }
 
 const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
-  const [currentTab, setCurrentTab] = useState<TabType>("ALL");
+  const [currentTab, setCurrentTab] = useState<TabType>("ALL_COMMENTS");
 
   const onTabChanged = useCallback(
     (tab: TabType) => {
@@ -33,10 +33,10 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
         onTabClick={onTabChanged}
         className={styles.tabBar}
       >
-        <Tab tabID="ALL" onTabClick={onTabChanged}>
+        <Tab tabID="ALL_COMMENTS" onTabClick={onTabChanged}>
           <div
             className={cn(styles.tab, {
-              [styles.activeTab]: currentTab === "ALL",
+              [styles.activeTab]: currentTab === "ALL_COMMENTS",
             })}
           >
             <Icon size="sm" className={styles.tabIcon}>
@@ -47,10 +47,10 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
             </Localized>
           </div>
         </Tab>
-        <Tab tabID="REJECTED" onTabClick={onTabChanged}>
+        <Tab tabID="REJECTED_COMMENTS" onTabClick={onTabChanged}>
           <div
             className={cn(styles.tab, {
-              [styles.activeTab]: currentTab === "REJECTED",
+              [styles.activeTab]: currentTab === "REJECTED_COMMENTS",
             })}
           >
             <Icon size="sm" className={styles.tabIcon}>
@@ -63,17 +63,17 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
         </Tab>
       </TabBar>
       <TabContent activeTab={currentTab} className={styles.tabContent}>
-        <TabPane tabID="ALL">
+        <TabPane tabID="ALL_COMMENTS">
           <div className={styles.container}>
             <div className={styles.scrollable}>
-              <UserHistoryAllCommentsContainer userID={userID} />
+              <UserHistoryDrawerAllCommentsQuery userID={userID} />
             </div>
           </div>
         </TabPane>
-        <TabPane tabID="REJECTED">
+        <TabPane tabID="REJECTED_COMMENTS">
           <div className={styles.container}>
             <div className={styles.scrollable}>
-              <UserHistoryRejectedCommentsContainer userID={userID} />
+              <UserHistoryDrawerRejectedCommentsQuery userID={userID} />
             </div>
           </div>
         </TabPane>

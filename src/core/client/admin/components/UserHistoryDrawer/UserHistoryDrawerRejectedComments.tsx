@@ -9,21 +9,21 @@ import { graphql, RelayPaginationProp } from "react-relay";
 import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
 import { Button, CallOut, Typography } from "coral-ui/components";
 
-import { UserHistoryRejectedComments_settings } from "coral-admin/__generated__/UserHistoryRejectedComments_settings.graphql";
-import { UserHistoryRejectedComments_user } from "coral-admin/__generated__/UserHistoryRejectedComments_user.graphql";
-import { UserHistoryRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryRejectedComments_viewer.graphql";
-import { UserHistoryRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryRejectedCommentsPaginationQuery.graphql";
+import { UserHistoryDrawerRejectedComments_settings } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_settings.graphql";
+import { UserHistoryDrawerRejectedComments_user } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_user.graphql";
+import { UserHistoryDrawerRejectedComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerRejectedComments_viewer.graphql";
+import { UserHistoryDrawerRejectedCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsPaginationQuery.graphql";
 
-import styles from "./UserHistoryRejectedComments.css";
+import styles from "./UserHistoryDrawerRejectedComments.css";
 
 interface Props {
-  user: UserHistoryRejectedComments_user;
-  viewer: UserHistoryRejectedComments_viewer;
-  settings: UserHistoryRejectedComments_settings;
+  user: UserHistoryDrawerRejectedComments_user;
+  viewer: UserHistoryDrawerRejectedComments_viewer;
+  settings: UserHistoryDrawerRejectedComments_settings;
   relay: RelayPaginationProp;
 }
 
-const UserHistoryRejectedComments: FunctionComponent<Props> = ({
+const UserHistoryDrawerRejectedComments: FunctionComponent<Props> = ({
   user,
   viewer,
   settings,
@@ -87,33 +87,33 @@ const UserHistoryRejectedComments: FunctionComponent<Props> = ({
   );
 };
 
-type FragmentVariables = UserHistoryRejectedCommentsPaginationQueryVariables;
+type FragmentVariables = UserHistoryDrawerRejectedCommentsPaginationQueryVariables;
 
 const enhanced = withPaginationContainer<
   Props,
-  UserHistoryRejectedCommentsPaginationQueryVariables,
+  UserHistoryDrawerRejectedCommentsPaginationQueryVariables,
   FragmentVariables
 >(
   {
     viewer: graphql`
-      fragment UserHistoryRejectedComments_viewer on User {
+      fragment UserHistoryDrawerRejectedComments_viewer on User {
         ...ModerateCardContainer_viewer
       }
     `,
     settings: graphql`
-      fragment UserHistoryRejectedComments_settings on Settings {
+      fragment UserHistoryDrawerRejectedComments_settings on Settings {
         ...ModerateCardContainer_settings
       }
     `,
     user: graphql`
-      fragment UserHistoryRejectedComments_user on User
+      fragment UserHistoryDrawerRejectedComments_user on User
         @argumentDefinitions(
           count: { type: "Int!", defaultValue: 5 }
           cursor: { type: "Cursor" }
         ) {
         username
         rejectedComments(first: $count, after: $cursor)
-          @connection(key: "UserHistoryRejected_rejectedComments") {
+          @connection(key: "UserHistoryDrawer_rejectedComments") {
           edges {
             node {
               id
@@ -143,18 +143,18 @@ const enhanced = withPaginationContainer<
       };
     },
     query: graphql`
-      query UserHistoryRejectedCommentsPaginationQuery(
+      query UserHistoryDrawerRejectedCommentsPaginationQuery(
         $userID: ID!
         $count: Int!
         $cursor: Cursor
       ) {
         user(id: $userID) {
-          ...UserHistoryRejectedComments_user
+          ...UserHistoryDrawerRejectedComments_user
             @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
   }
-)(UserHistoryRejectedComments);
+)(UserHistoryDrawerRejectedComments);
 
 export default enhanced;

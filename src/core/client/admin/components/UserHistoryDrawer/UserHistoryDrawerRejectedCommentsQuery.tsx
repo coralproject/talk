@@ -4,32 +4,32 @@ import { ReadyState } from "react-relay";
 
 import { CallOut, Spinner } from "coral-ui/components";
 
-import { UserHistoryRejectedCommentsContainerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryRejectedCommentsContainerQuery.graphql";
+import { UserHistoryDrawerRejectedCommentsQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsQuery.graphql";
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 
-import UserHistoryRejectedComments from "./UserHistoryRejectedComments";
+import UserHistoryDrawerRejectedComments from "./UserHistoryDrawerRejectedComments";
 
-import styles from "./UserHistoryRejectedCommentsContainer.css";
+import styles from "./UserHistoryDrawerRejectedCommentsQuery.css";
 
 interface Props {
   userID: string;
 }
 
-const UserHistoryRejectedCommentsContainer: FunctionComponent<Props> = ({
+const UserHistoryDrawerRejectedCommentsQuery: FunctionComponent<Props> = ({
   userID,
 }) => {
   return (
     <QueryRenderer<any>
       query={graphql`
-        query UserHistoryRejectedCommentsContainerQuery($userID: ID!) {
+        query UserHistoryDrawerRejectedCommentsQuery($userID: ID!) {
           user(id: $userID) {
-            ...UserHistoryRejectedComments_user
+            ...UserHistoryDrawerRejectedComments_user
           }
           viewer {
-            ...UserHistoryRejectedComments_viewer
+            ...UserHistoryDrawerRejectedComments_viewer
           }
           settings {
-            ...UserHistoryRejectedComments_settings
+            ...UserHistoryDrawerRejectedComments_settings
           }
         }
       `}
@@ -57,7 +57,7 @@ const UserHistoryRejectedCommentsContainer: FunctionComponent<Props> = ({
         }
 
         return (
-          <UserHistoryRejectedComments
+          <UserHistoryDrawerRejectedComments
             // We can never get to this part of the UI without being logged in.
             viewer={props.viewer!}
             settings={props.settings!}
@@ -69,4 +69,4 @@ const UserHistoryRejectedCommentsContainer: FunctionComponent<Props> = ({
   );
 };
 
-export default UserHistoryRejectedCommentsContainer;
+export default UserHistoryDrawerRejectedCommentsQuery;

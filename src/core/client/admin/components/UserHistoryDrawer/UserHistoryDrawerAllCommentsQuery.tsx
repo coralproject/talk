@@ -4,32 +4,32 @@ import { ReadyState } from "react-relay";
 
 import { CallOut, Spinner } from "coral-ui/components";
 
-import { UserHistoryAllCommentsContainerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryAllCommentsContainerQuery.graphql";
+import { UserHistoryDrawerAllCommentsQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsQuery.graphql";
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 
-import UserHistoryAllComments from "./UserHistoryAllComments";
+import UserHistoryDrawerAllComments from "./UserHistoryDrawerAllComments";
 
-import styles from "./UserHistoryAllCommentsContainer.css";
+import styles from "./UserHistoryDrawerAllCommentsQuery.css";
 
 interface Props {
   userID: string;
 }
 
-const UserHistoryAllCommentsContainer: FunctionComponent<Props> = ({
+const UserHistoryDrawerAllCommentsQuery: FunctionComponent<Props> = ({
   userID,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query UserHistoryAllCommentsContainerQuery($userID: ID!) {
+        query UserHistoryDrawerAllCommentsQuery($userID: ID!) {
           user(id: $userID) {
-            ...UserHistoryAllComments_user
+            ...UserHistoryDrawerAllComments_user
           }
           viewer {
-            ...UserHistoryAllComments_viewer
+            ...UserHistoryDrawerAllComments_viewer
           }
           settings {
-            ...UserHistoryAllComments_settings
+            ...UserHistoryDrawerAllComments_settings
           }
         }
       `}
@@ -57,7 +57,7 @@ const UserHistoryAllCommentsContainer: FunctionComponent<Props> = ({
         }
 
         return (
-          <UserHistoryAllComments
+          <UserHistoryDrawerAllComments
             // We can never get to this part of the UI without being logged in.
             viewer={props.viewer!}
             settings={props.settings!}
@@ -69,4 +69,4 @@ const UserHistoryAllCommentsContainer: FunctionComponent<Props> = ({
   );
 };
 
-export default UserHistoryAllCommentsContainer;
+export default UserHistoryDrawerAllCommentsQuery;
