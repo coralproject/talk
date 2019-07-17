@@ -1939,6 +1939,15 @@ exports[`renders configure auth 1`] = `
               <li>
                 <a
                   className="Link-link"
+                  href="/admin/configure/email"
+                  onClick={[Function]}
+                >
+                  Email
+                </a>
+              </li>
+              <li>
+                <a
+                  className="Link-link"
                   href="/admin/configure/advanced"
                   onClick={[Function]}
                 >

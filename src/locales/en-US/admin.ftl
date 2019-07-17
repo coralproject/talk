@@ -74,6 +74,7 @@ configure-sideBarNavigation-authentication = Authentication
 configure-sideBarNavigation-moderation = Moderation
 configure-sideBarNavigation-organization = Organization
 configure-sideBarNavigation-advanced = Advanced
+configure-sideBarNavigation-email = Email
 configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
 
 configure-sideBar-saveChanges = Save Changes
@@ -150,6 +151,26 @@ configure-organization-emailExplanation =
   the platform for community members to get in touch with
   the organization should they have any questions about the
   status of their accounts or moderation questions.
+
+### Email
+
+configure-email = Email settings
+configure-email-configBoxEnabled = Enabled
+configure-email-fromNameLabel = From name
+configure-email-fromNameDescription =
+  Name as it will appear on all outgoing emails
+configure-email-fromEmailLabel = From email address
+configure-email-fromEmailDescription =
+  Email address that will be used to send messages
+configure-email-smtpHostLabel = SMTP host
+configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
+configure-email-smtpPortLabel = SMTP port
+configure-email-smtpPortDescription = (ex. 25)
+configure-email-smtpTLSLabel = TLS
+configure-email-smtpAuthenticationLabel = SMTP Authentication
+configure-email-smtpCredentialsHeader = Email credentials
+configure-email-smtpUsernameLabel = Username
+configure-email-smtpPasswordLabel = Password
 
 ### Authentication
 
