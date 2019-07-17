@@ -64,9 +64,9 @@ export const loadMoreAssets = (query = {}) => (dispatch, _l, { rest2 }) => {
 // Update an asset state
 // Get comments to fill each of the three lists on the mod queue
 export const updateAssetState = (id, closedAt) => (dispatch, _, { rest }) => {
-  dispatch({ type: UPDATE_ASSET_STATE_REQUEST, id, closedAt });
+  dispatch({ type: UPDATE_ASSET_STATE_REQUEST });
   return rest(`/assets/${id}/status`, { method: 'PUT', body: { closedAt } })
-    .then(() => dispatch({ type: UPDATE_ASSET_STATE_SUCCESS }))
+    .then(() => dispatch({ type: UPDATE_ASSET_STATE_SUCCESS, id, closedAt }))
     .catch(error => {
       console.error(error);
       const errorMessage = error.translation_key
