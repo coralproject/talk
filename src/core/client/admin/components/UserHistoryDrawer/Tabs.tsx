@@ -4,12 +4,13 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { Icon, Tab, TabBar, TabContent, TabPane } from "coral-ui/components";
 
+import UserHistoryDrawerAccountHistoryQuery from "./UserHistoryDrawerAccountHistoryQuery";
 import UserHistoryDrawerAllCommentsQuery from "./UserHistoryDrawerAllCommentsQuery";
 import UserHistoryDrawerRejectedCommentsQuery from "./UserHistoryDrawerRejectedCommentsQuery";
 
 import styles from "./Tabs.css";
 
-type TabType = "ALL_COMMENTS" | "REJECTED_COMMENTS";
+type TabType = "ALL_COMMENTS" | "REJECTED_COMMENTS" | "ACCOUNT_HISTORY";
 
 interface Props {
   userID: string;
@@ -61,6 +62,20 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
             </Localized>
           </div>
         </Tab>
+        <Tab tabID="ACCOUNT_HISTORY" onTabClick={onTabChanged}>
+          <div
+            className={cn(styles.tab, {
+              [styles.activeTab]: currentTab === "ACCOUNT_HISTORY",
+            })}
+          >
+            <Icon size="sm" className={styles.tabIcon}>
+              cancel
+            </Icon>
+            <Localized id="moderate-user-drawer-tab-account-history">
+              <span>Account History</span>
+            </Localized>
+          </div>
+        </Tab>
       </TabBar>
       <TabContent activeTab={currentTab} className={styles.tabContent}>
         <TabPane tabID="ALL_COMMENTS">
@@ -74,6 +89,13 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
           <div className={styles.container}>
             <div className={styles.scrollable}>
               <UserHistoryDrawerRejectedCommentsQuery userID={userID} />
+            </div>
+          </div>
+        </TabPane>
+        <TabPane tabID="ACCOUNT_HISTORY">
+          <div className={styles.container}>
+            <div className={styles.scrollable}>
+              <UserHistoryDrawerAccountHistoryQuery userID={userID} />
             </div>
           </div>
         </TabPane>
