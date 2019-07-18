@@ -1,8 +1,21 @@
 import React, { FunctionComponent } from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  HorizontalGutter,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "coral-ui/components";
 
 import { UserHistoryDrawerAccountHistory_user } from "coral-admin/__generated__/UserHistoryDrawerAccountHistory_user.graphql";
+
+import BanRecord from "./BanRecord";
+import SuspensionRecord from "./SuspensionRecord";
+
+import styles from "./UserHistoryDrawerAccountHistory.css";
 
 interface Props {
   user: UserHistoryDrawerAccountHistory_user;
@@ -57,24 +70,41 @@ const UserHistoryDrawerAccountHistory: FunctionComponent<Props> = ({
 
   return (
     <>
-      {combinedHistory.map((history, index) => {
-        return (
-          <div key={index}>
-            <div>{history.type}</div>
-            <div>
-              {history.createdAt.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-              })}
-            </div>
-            <div>{history.createdBy}</div>
-          </div>
-        );
-      })}
+      <HorizontalGutter size="double">
+        <Table fullWidth>
+          <TableHead className={styles.tableHeader}>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Action</TableCell>
+              <TableCell>Taken By</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {combinedHistory.map((history, index) => {
+              if (history.type === "ban") {
+                return (
+                  <BanRecord
+                    key={index}
+                    createdAt={history.createdAt}
+                    active={history.active}
+                    createdBy={history.createdBy}
+                  />
+                );
+              } else {
+                return (
+                  <SuspensionRecord
+                    key={index}
+                    createdAt={history.createdAt}
+                    active={history.active}
+                    from={history.from!}
+                    createdBy={history.createdBy}
+                  />
+                );
+              }
+            })}
+          </TableBody>
+        </Table>
+      </HorizontalGutter>
     </>
   );
 };
