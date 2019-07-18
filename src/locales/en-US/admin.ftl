@@ -312,6 +312,13 @@ configure-advanced-embedCode-explanation =
   Copy and paste the code below into your CMS to embed Coral comment streams in
   each of your site’s stories.
 
+configure-advanced-embedCode-comment =
+  Uncomment these lines and replace with the ID of the
+  story's ID and URL from your CMS to provide the
+  tightest integration. Refer to our documentation at
+  https://docs.coralproject.net for all the configuration
+  options.
+
 ## Decision History
 decisionHistory-popover =
   .description = A dialog showing the decision history
