@@ -35,25 +35,18 @@ const EmbedCode: FunctionComponent<Props> = ({ staticURI, getMessage }) => {
     `
     );
 
-    if (typeof comment === "string") {
-      // When the translation isn't found, the returned type is a string, so we
-      // need to split it on newlines to get the same format as the translation.
-      comment = comment.split("\n");
-    }
-
-    if (Array.isArray(comment)) {
-      // Sometimes when the translation gets to us, it has newlines split onto
-      // it's own lines, so we filter those lines out first to ensure we don't
-      // end up printing it twice. We then wrap each line in the correct amount
-      // of indentation to match the indentation below in the stripIndent block
-      // below, and rejoin the line (trimming it to remove the leading space) so
-      // it will fit in the text block that is rendered.
-      comment = comment
-        .filter(line => line !== "\n")
-        .map(line => `                  // ${line.trim()}`)
-        .join("\n")
-        .trim();
-    }
+    // Sometimes when the translation gets to us, it has newlines split onto
+    // it's own lines, so we filter those lines out first to ensure we don't
+    // end up printing it twice. We then wrap each line in the correct amount
+    // of indentation to match the indentation below in the stripIndent block
+    // below, and rejoin the line (trimming it to remove the leading space) so
+    // it will fit in the text block that is rendered.
+    comment = comment
+      .split("\n")
+      .filter(line => line !== "\n")
+      .map(line => `                  // ${line.trim()}`)
+      .join("\n")
+      .trim();
 
     // Return the HTML template.
     const text = stripIndent`
