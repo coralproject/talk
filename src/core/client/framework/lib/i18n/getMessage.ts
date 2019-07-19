@@ -13,5 +13,9 @@ export default function getMessage(
     }
     return val || got;
   }, "");
+  if (res && Array.isArray(res)) {
+    return res.join("");
+  }
+
   return res || defaultTo;
 }
