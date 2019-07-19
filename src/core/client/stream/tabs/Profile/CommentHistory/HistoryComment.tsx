@@ -1,6 +1,5 @@
 import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import HTMLContent from "coral-stream/common/HTMLContent";
 import Timestamp from "coral-stream/common/Timestamp";

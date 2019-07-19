@@ -1,5 +1,4 @@
-import React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import { Button } from "coral-ui/components";

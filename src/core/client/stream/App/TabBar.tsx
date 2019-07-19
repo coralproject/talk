@@ -1,7 +1,6 @@
 import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
 
