@@ -1,5 +1,11 @@
 # Talk &middot; [![CircleCI](https://circleci.com/gh/coralproject/talk.svg?style=svg)](https://circleci.com/gh/coralproject/talk) &middot; [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
 
+---
+
+> :construction: **NOTE:** We're currently building v5 of this platform, check it out in our [next branch](https://github.com/coralproject/talk/tree/next) :construction_worker_man: :construction_worker_woman:
+
+---
+
 Online comments are broken. Our open-source commenting platform, Talk, rethinks how moderation, comment display, and conversation function, creating the opportunity for safer, smarter discussions around your work. [Read more about Talk here](https://coralproject.net/talk).
 
 Built with <3 by The Coral Project, a part of [Vox Media](https://www.voxmedia.com/).
