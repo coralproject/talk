@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useCallback } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import UserRole from "coral-admin/components/UserRole";
+import UserStatus from "coral-admin/components/UserStatus";
 import { PropTypesOf } from "coral-framework/types";
 import { Button, TableCell, TableRow, TextLink } from "coral-ui/components";
-
-import UserRole from "./UserRole";
-import UserStatus from "./UserStatus";
 
 import styles from "./UserRow.css";
 
