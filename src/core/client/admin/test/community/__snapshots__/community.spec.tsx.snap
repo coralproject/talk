@@ -412,12 +412,6 @@ exports[`renders community 1`] = `
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                   >
-                    <div
-                      aria-hidden={true}
-                      className="UserStatus-dot"
-                    >
-                      •
-                    </div>
                     <div>
                       Active
                     </div>
@@ -516,12 +510,6 @@ exports[`renders community 1`] = `
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                   >
-                    <div
-                      aria-hidden={true}
-                      className="UserStatus-dot"
-                    >
-                      •
-                    </div>
                     <div>
                       Active
                     </div>
@@ -620,12 +608,6 @@ exports[`renders community 1`] = `
                   <div
                     className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                   >
-                    <div
-                      aria-hidden={true}
-                      className="UserStatus-dot"
-                    >
-                      •
-                    </div>
                     <div>
                       Active
                     </div>
@@ -735,12 +717,6 @@ exports[`renders community 1`] = `
                     <div
                       className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
                     >
-                      <div
-                        aria-hidden={true}
-                        className="UserStatus-dot"
-                      >
-                        •
-                      </div>
                       <div>
                         Active
                       </div>
