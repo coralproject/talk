@@ -38,13 +38,13 @@ exports[`renders conversation thread 1`] = `
           >
             <div>
               <span
-                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
               >
                 Moderator
               </span>
             </div>
             <span
-              className="Tag-root Tag-colorGrey"
+              className="Tag-root coral coral-comment-userTag Tag-colorGrey"
             >
               Staff
             </span>
@@ -53,7 +53,7 @@ exports[`renders conversation thread 1`] = `
             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
           >
             <time
-              className="Timestamp-root RelativeTime-root"
+              className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -133,6 +133,7 @@ exports[`renders conversation thread 1`] = `
         </svg>
       </div>
       <div
+        className="coral coral-comment"
         data-testid="comment-comment-0"
       >
         <div
@@ -172,7 +173,7 @@ exports[`renders conversation thread 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                           >
                             Markus
                           </span>
@@ -196,7 +197,7 @@ exports[`renders conversation thread 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root RelativeTime-root"
+                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -352,6 +353,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
+        className="coral coral-comment"
         data-testid="comment-comment-1"
       >
         <div
@@ -391,7 +393,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                           >
                             Lukas
                           </span>
@@ -415,7 +417,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root RelativeTime-root"
+                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -558,6 +560,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
+        className="coral coral-comment"
         data-testid="comment-comment-from-staff-0"
       >
         <div
@@ -597,7 +600,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                           >
                             Moderator
                           </span>
@@ -617,7 +620,7 @@ exports[`shows more of this conversation 1`] = `
                         </div>
                       </div>
                       <span
-                        className="Tag-root Tag-colorGrey"
+                        className="Tag-root coral coral-comment-userTag Tag-colorGrey"
                       >
                         Staff
                       </span>
@@ -626,7 +629,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root RelativeTime-root"
+                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -767,6 +770,7 @@ exports[`shows more of this conversation 1`] = `
         </svg>
       </div>
       <div
+        className="coral coral-comment"
         data-testid="comment-comment-0"
       >
         <div
@@ -806,7 +810,7 @@ exports[`shows more of this conversation 1`] = `
                           type="button"
                         >
                           <span
-                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                            className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                           >
                             Markus
                           </span>
@@ -830,7 +834,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root RelativeTime-root"
+                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >

@@ -2,6 +2,7 @@
 
 exports[`cancel edit 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-with-replies"
 >
   <div
@@ -41,7 +42,7 @@ exports[`cancel edit 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                     >
                       Markus
                     </span>
@@ -65,7 +66,7 @@ exports[`cancel edit 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -236,13 +237,13 @@ exports[`edit a comment and handle server error: edit form 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
             >
               Markus
             </span>
           </div>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -408,13 +409,13 @@ exports[`edit a comment: edit form 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
             >
               Markus
             </span>
           </div>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -580,13 +581,13 @@ exports[`edit a comment: optimistic response 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
             >
               Markus
             </span>
           </div>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -737,6 +738,7 @@ exports[`edit a comment: optimistic response 1`] = `
 
 exports[`edit a comment: render comment with edit button 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-with-replies"
 >
   <div
@@ -776,7 +778,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                     >
                       Markus
                     </span>
@@ -800,7 +802,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -956,6 +958,7 @@ exports[`edit a comment: render comment with edit button 1`] = `
 
 exports[`edit a comment: server response 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-with-replies"
 >
   <div
@@ -995,7 +998,7 @@ exports[`edit a comment: server response 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                     >
                       Markus
                     </span>
@@ -1019,7 +1022,7 @@ exports[`edit a comment: server response 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -1184,6 +1187,7 @@ exports[`edit a comment: server response 1`] = `
 
 exports[`shows expiry message: edit form closed 1`] = `
 <div
+  className="coral coral-comment"
   data-testid="comment-comment-with-replies"
 >
   <div
@@ -1223,7 +1227,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                     type="button"
                   >
                     <span
-                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                      className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                     >
                       Markus
                     </span>
@@ -1247,7 +1251,7 @@ exports[`shows expiry message: edit form closed 1`] = `
                 className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -1418,13 +1422,13 @@ exports[`shows expiry message: edit time expired 1`] = `
         >
           <div>
             <span
-              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
             >
               Markus
             </span>
           </div>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >

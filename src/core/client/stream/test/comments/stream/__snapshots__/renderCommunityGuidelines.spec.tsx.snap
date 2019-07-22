@@ -54,12 +54,15 @@ exports[`renders comment stream with community guidelines 1`] = `
         />
       </div>
     </div>
-    <div>
+    <div
+      className="coral coral-createComment"
+    >
       <div
         className="Box-root HorizontalGutter-root PostCommentFormFake-root HorizontalGutter-full"
       >
         <div
           aria-hidden="true"
+          className="coral coral-createComment-box"
         >
           <div>
             <div
@@ -143,7 +146,7 @@ exports[`renders comment stream with community guidelines 1`] = `
           </div>
         </div>
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+          className="BaseButton-root Button-root coral coral-createComment-signIn Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
@@ -270,6 +273,7 @@ exports[`renders comment stream with community guidelines 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="coral coral-comment"
               data-testid="comment-comment-0"
             >
               <div
@@ -309,7 +313,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                                 >
                                   Markus
                                 </span>
@@ -333,7 +337,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="Timestamp-root RelativeTime-root"
+                              className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -459,6 +463,7 @@ exports[`renders comment stream with community guidelines 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="coral coral-comment"
               data-testid="comment-comment-1"
             >
               <div
@@ -498,7 +503,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                                 >
                                   Lukas
                                 </span>
@@ -522,7 +527,7 @@ exports[`renders comment stream with community guidelines 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="Timestamp-root RelativeTime-root"
+                              className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >

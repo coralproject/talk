@@ -19,6 +19,7 @@ import {
 } from "coral-stream/mutations";
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
+import CLASSES from "coral-stream/classes";
 import { isCommentVisible } from "../helpers";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
@@ -164,7 +165,11 @@ export class CommentContainer extends Component<Props, State> {
     const commentTags = (
       <>
         {hasFeaturedTag && (
-          <Tag color="primary" variant="pill">
+          <Tag
+            className={CLASSES.comment.commentTag}
+            color="primary"
+            variant="pill"
+          >
             <Localized id="comments-featuredTag">
               <span>Featured</span>
             </Localized>
@@ -203,7 +208,10 @@ export class CommentContainer extends Component<Props, State> {
       return null;
     }
     return (
-      <div data-testid={`comment-${comment.id}`}>
+      <div
+        className={CLASSES.comment.$root}
+        data-testid={`comment-${comment.id}`}
+      >
         <HorizontalGutter>
           <IndentedComment
             indentLevel={indentLevel}

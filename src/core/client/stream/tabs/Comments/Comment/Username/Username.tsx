@@ -1,5 +1,7 @@
+import cn from "classnames";
 import React, { FunctionComponent } from "react";
 
+import CLASSES from "coral-stream/classes";
 import { Typography } from "coral-ui/components";
 
 import styles from "./Username.css";
@@ -10,7 +12,11 @@ interface Props {
 
 const Username: FunctionComponent<Props> = props => {
   return (
-    <Typography variant={"heading3"} className={styles.root} container="span">
+    <Typography
+      variant={"heading3"}
+      className={cn(styles.root, CLASSES.comment.username)}
+      container="span"
+    >
       {props.children}
     </Typography>
   );

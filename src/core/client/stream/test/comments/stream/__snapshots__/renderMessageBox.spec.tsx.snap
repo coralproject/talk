@@ -264,6 +264,7 @@ exports[`renders message box when logged in 1`] = `
       </div>
       <form
         autoComplete="off"
+        className="coral coral-createComment"
         id="comments-postCommentForm-form"
         onSubmit={[Function]}
       >
@@ -281,7 +282,7 @@ exports[`renders message box when logged in 1`] = `
             </label>
             <div>
               <div
-                className=""
+                className="coral coral-createComment-box"
               >
                 <div
                   className="RTE-contentEditableContainer"
@@ -366,7 +367,7 @@ exports[`renders message box when logged in 1`] = `
             className="Box-root Flex-root Flex-flex Flex-alignFlexEnd Flex-directionColumn"
           >
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
+              className="BaseButton-root Button-root coral coral-createComment-submit Button-sizeRegular Button-colorPrimary Button-variantFilled Button-disabled"
               disabled={true}
               onBlur={[Function]}
               onFocus={[Function]}
@@ -536,7 +537,9 @@ exports[`renders message box when not logged in 1`] = `
         Register
       </button>
     </div>
-    <div>
+    <div
+      className="coral coral-createComment"
+    >
       <div
         className="MessageBox-root PostCommentFormFake-messageBox"
       >
@@ -561,6 +564,7 @@ exports[`renders message box when not logged in 1`] = `
       >
         <div
           aria-hidden="true"
+          className="coral coral-createComment-box"
         >
           <div>
             <div
@@ -644,7 +648,7 @@ exports[`renders message box when not logged in 1`] = `
           </div>
         </div>
         <button
-          className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+          className="BaseButton-root Button-root coral coral-createComment-signIn Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
           onBlur={[Function]}
           onClick={[Function]}
           onFocus={[Function]}
