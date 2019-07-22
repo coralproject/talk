@@ -78,10 +78,20 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
               <span>{user.username}</span>
             </Flex>
             <div className={styles.userStatus}>
-              <div className={styles.userStatusLabel}>Status:</div>
-              <div className={styles.userStatusChange}>
-                <UserStatusChangeContainer user={user} fullWidth={false} />
-              </div>
+              <Flex alignItems="center">
+                <div className={styles.userStatusLabel}>
+                  <Typography variant="bodyCopyBold" container="div">
+                    <Flex alignItems="center" itemGutter="half">
+                      <Localized id="moderate-user-drawer-status-label">
+                        Status:
+                      </Localized>
+                    </Flex>
+                  </Typography>
+                </div>
+                <div className={styles.userStatusChange}>
+                  <UserStatusChangeContainer user={user} fullWidth={false} />
+                </div>
+              </Flex>
             </div>
             <div className={styles.userDetails}>
               <Flex alignItems="center" className={styles.userDetail}>
