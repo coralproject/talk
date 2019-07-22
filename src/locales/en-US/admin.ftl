@@ -437,7 +437,7 @@ moderate-user-drawer-rejected-no-comments = {$username} does not have any reject
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
 
-moderate-user-drawer-account-history-suspension-time = Suspension
+moderate-user-drawer-account-history-suspension-time = Suspension, { $timeSpan }
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned
 moderate-user-drawer-account-history-ban-removed = Ban removed

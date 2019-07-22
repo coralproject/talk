@@ -26,13 +26,16 @@ const SuspensionRecord: FunctionComponent<Props> = ({
     const startDate = new Date(from.start);
     const endDate = new Date(from.finish);
     const diffSeconds = (endDate.getTime() - startDate.getTime()) / 1000;
+    const timeSpanString = `${diffSeconds}s`;
 
     action = (
       <div>
-        <Localized id={"moderate-user-drawer-account-history-suspension-time"}>
+        <Localized
+          id={"moderate-user-drawer-account-history-suspension-time"}
+          $timeSpan={timeSpanString}
+        >
           Suspension
         </Localized>
-        <div>{` ${diffSeconds}s`}</div>
       </div>
     );
   } else {
