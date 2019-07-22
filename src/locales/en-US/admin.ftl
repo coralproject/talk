@@ -440,7 +440,7 @@ moderate-user-drawer-status-label = Status:
 moderate-user-drawer-account-history-suspension-time = Suspension
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned
-moderate-user-drawer-account-history-banned = Ban removed
+moderate-user-drawer-account-history-ban-removed = Ban removed
 
 ## Create Username
 
