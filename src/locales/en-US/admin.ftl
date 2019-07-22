@@ -437,10 +437,21 @@ moderate-user-drawer-rejected-no-comments = {$username} does not have any reject
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
 
-moderate-user-drawer-account-history-suspension-time = Suspension, { $timeSpan }
+moderate-user-drawer-account-history-suspension-time = Suspension
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned
 moderate-user-drawer-account-history-ban-removed = Ban removed
+
+moderate-user-drawer-week = , { $value } week
+moderate-user-drawer-weeks = , { $value } weeks
+moderate-user-drawer-day = , { $value } day
+moderate-user-drawer-days = , { $value } days
+moderate-user-drawer-hour = , { $value } hour
+moderate-user-drawer-hours = , { $value } hours
+moderate-user-drawer-minute = , { $value } minute
+moderate-user-drawer-minutes = , { $value } minutes
+moderate-user-drawer-second = , { $value } second
+moderate-user-drawer-seconds = , { $value } seconds
 
 ## Create Username
 
