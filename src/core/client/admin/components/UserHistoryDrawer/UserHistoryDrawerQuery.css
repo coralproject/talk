@@ -92,3 +92,24 @@ hr {
 .divider {
   border-bottom: 1px solid var(--palette-grey-lighter);
 }
+
+.userStatus {
+  margin-top: var(--spacing-1);
+  margin-bottom: var(--spacing-1);
+}
+
+.userStatusLabel {
+  margin-right: var(--spacing-1);
+  margin-bottom: 2px;
+
+  line-height: calc(36em / 24);
+}
+
+.userStatusChange {
+  border-style: solid;
+  border-color: var(--palette-grey-lighter);
+  border-width: 1px;
+  border-radius: 2px;
+
+  padding-left: var(--spacing-1);
+}
