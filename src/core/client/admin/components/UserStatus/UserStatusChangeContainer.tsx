@@ -17,41 +17,45 @@ import UserStatusContainer from "./UserStatusContainer";
 
 interface Props {
   user: UserData;
+  fullWidth?: boolean;
 }
 
-const UserStatusChangeContainer: FunctionComponent<Props> = props => {
+const UserStatusChangeContainer: FunctionComponent<Props> = ({
+  user,
+  fullWidth = true,
+}) => {
   const banUser = useMutation(BanUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const handleBan = useCallback(() => {
-    if (props.user.status.ban.active) {
+    if (user.status.ban.active) {
       return;
     }
     setShowBanned(true);
-  }, [props.user, setShowBanned]);
+  }, [user, setShowBanned]);
   const handleRemoveBan = useCallback(() => {
-    if (!props.user.status.ban.active) {
+    if (!user.status.ban.active) {
       return;
     }
-    removeUserBan({ userID: props.user.id });
-  }, [props.user, removeUserBan]);
+    removeUserBan({ userID: user.id });
+  }, [user, removeUserBan]);
   const handleSuspend = useCallback(() => {
-    if (props.user.status.suspension.active) {
+    if (user.status.suspension.active) {
       return;
     }
     // TODO: (cvle)
-  }, [props.user]);
+  }, [user]);
   const handleRemoveSuspension = useCallback(() => {
-    if (!props.user.status.suspension.active) {
+    if (!user.status.suspension.active) {
       return;
     }
     // TODO: (cvle)
-  }, [props.user]);
+  }, [user]);
 
-  if (props.user.role !== GQLUSER_ROLE.COMMENTER) {
+  if (user.role !== GQLUSER_ROLE.COMMENTER) {
     return (
       <ButtonPadding>
-        <UserStatusContainer user={props.user} />
+        <UserStatusContainer user={user} />
       </ButtonPadding>
     );
   }
@@ -63,17 +67,18 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         onRemoveBan={handleRemoveBan}
         onSuspend={handleSuspend}
         onRemoveSuspension={handleRemoveSuspension}
-        banned={props.user.status.ban.active}
-        suspended={props.user.status.suspension.active}
+        banned={user.status.ban.active}
+        suspended={user.status.suspension.active}
+        fullWidth={fullWidth}
       >
-        <UserStatusContainer user={props.user} />
+        <UserStatusContainer user={user} />
       </UserStatusChange>
       <BanModal
-        username={props.user.username}
+        username={user.username}
         open={showBanned}
         onClose={() => setShowBanned(false)}
         onConfirm={() => {
-          banUser({ userID: props.user.id });
+          banUser({ userID: user.id });
           setShowBanned(false);
         }}
       />

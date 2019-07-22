@@ -13,11 +13,19 @@ general-userBoxAuthenticated-notYou =
   Não é você? <button>Sair</button>
 
 general-tabBar-commentsTab = Comentários
-    }
 general-tabBar-myProfileTab = Meu Perfil
 general-tabBar-configure = Configurações
 
 ## Comments Tab
+
+comments-allCommentsTab = Todos os comentários
+comments-featuredTab = Destaques
+comments-featuredCommentTooltip-how = Como um comentário é destacado?
+comments-featuredCommentTooltip-handSelectedComments =
+  Os comentários são selecionados por nossa equipe como merecedores de serem lidos.
+comments-featuredCommentTooltip-toggleButton =
+  .aria-label = Ative a dica de comentários
+
 
 comments-streamQuery-storyNotFound = História não encontrada
 
@@ -25,11 +33,20 @@ comments-postCommentForm-submit = Comentar
 comments-stream-loadMore = Carregar Mais
 comments-replyList-showAll = Mostrar Tudo
 
+
+comments-viewNew =
+  { $count ->
+    [1] Visualizar {$count} Novo Comentário
+    *[other] Visualizar {$count} Novos Comentários
+  }
+comments-loadMore = Load More
+
 comments-permalinkPopover =
   .description = Uma caixa de diálogo mostrando um link permanente para o comentário
 comments-permalinkButton-share = Compartilhar
 comments-permalinkView-viewFullDiscussion = Ver discussão completa
 comments-permalinkView-commentRemovedOrDoesNotExist = Este comentário foi removido ou não existe.
+
 comments-rte-bold =
   .title = Negrito
 
@@ -38,8 +55,6 @@ comments-rte-italic =
 
 comments-rte-blockquote =
   .title = Citação
-
-comments-poweredBy = Powered by <logo>{ -brand-name }</logo>
 
 comments-remainingCharacters = { $remaining } caracteres restantes
 
@@ -91,7 +106,47 @@ comments-sortMenu-newest = Mais novos
 comments-sortMenu-oldest = Mais antigos
 comments-sortMenu-mostReplies = Mais respostas
 
+comments-userPopover =
+  .description = Um menu suspenso com mais informações do usuário
+comments-userPopover-memberSince = Membro desde: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-ignore = Ignorar
+
+comments-userIgnorePopover-ignoreUser = Ignorar {$username}?
+comments-userIgnorePopover-description =
+  Quando você ignora um usuário, todos os comentários
+  que ele escreveu no site será escondido de você. Você 
+  pode desfazer isso mais tarde em Meu perfil.
+comments-userIgnorePopover-ignore = Ignorar
+comments-userIgnorePopover-cancel = Cancelar
+
+comments-moderationDropdown-popover =
+  .description = Um menu popover para moderar o comentário
+comments-moderationDropdown-feature = Destacar
+comments-moderationDropdown-unfeature = Remover Destaque
+comments-moderationDropdown-approve = Aprovar
+comments-moderationDropdown-approved = Aprovado
+comments-moderationDropdown-reject = Rejeitar
+comments-moderationDropdown-rejected = Rejeitado
+comments-moderationDropdown-goToModerate = Moderar
+comments-moderationDropdown-caretButton =
+  .aria-label = Moderado
+
+comments-rejectedTombstone =
+  Você rejeitou este comentário. <TextLink> Vá para Moderados para rever esta decisão. </TextLink>
+
+comments-featuredTag = Destaques
+comments-staffTag = Staff
+
+### Featured Comments
+comments-featured-gotoConversation = Ir para a conversa
+comments-featured-replies = Respostas
+
 ## Profile Tab
+
+profile-myCommentsTab = Meus comentários
+profile-settingsTab = Configurações
+
+### Comment History
 profile-historyComment-viewConversation = Ver conversa
 profile-historyComment-replies = Respostas {$replyCount}
 profile-historyComment-commentHistory = Histórico de Comentários
@@ -99,6 +154,15 @@ profile-historyComment-story = História: {$title}
 profile-profileQuery-errorLoadingProfile = Erro ao carregar o perfil
 profile-profileQuery-storyNotFound = História não encontrada
 profile-commentHistory-loadMore = Carregar Mais
+
+### Settings
+profile-settings-ignoredCommenters = Usuários ignorados
+profile-settings-description =
+  Depois de ignorar alguém, todos os seus comentários ficam ocultos de você.
+  Usuários que você ignora ainda poderão ver seus comentários.
+profile-settings-empty = Você não está ignorando ninguém
+profile-settings-stopIgnoring = Parar de ignorar
+
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -145,6 +209,10 @@ configure-premodLink-title = Comentários pré-moderados contendo links
 configure-premodLink-description =
   Os moderadores devem aprovar qualquer comentário que contenha um link antes de ser publicado.
 
+configure-liveUpdates-title = Ativar atualizações em tempo real para esta história
+configure-liveUpdates-description =
+  Quando ativado, habilitará o carregamento e atualização em tempo real dos comentários, à medida que novos comentários e respostas forem publicados.
+
 configure-messageBox-title = Ativar caixa de mensagens para este fluxo
 configure-messageBox-description =
   Adicione uma mensagem ao topo da caixa de comentários para seus leitores. Use isso para representar um tópico,
@@ -166,3 +234,5 @@ configure-openStream-description =
   Este fluxo de comentários está atualmente fechado. Abrindo este fluxo de comentários
   novos comentários podem ser enviados e exibidos.
 configure-openStream-openStream = Abrir Fluxo
+
+comments-tombstone-ignore = Este comentário está oculto porque você ignorou {$username}

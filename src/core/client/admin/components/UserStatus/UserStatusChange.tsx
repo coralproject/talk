@@ -1,3 +1,4 @@
+import cn from "classnames";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
@@ -20,9 +21,19 @@ interface Props {
   banned: boolean;
   suspended: boolean;
   children: React.ReactNode;
+  fullWidth?: boolean;
 }
 
-const UserStatusChange: FunctionComponent<Props> = props => (
+const UserStatusChange: FunctionComponent<Props> = ({
+  onBan,
+  onRemoveBan,
+  onSuspend,
+  onRemoveSuspension,
+  banned,
+  suspended,
+  children,
+  fullWidth = true,
+}) => (
   <Localized id="community-userStatus-popover" attrs={{ description: true }}>
     <Popover
       id="community-statusChange"
@@ -31,12 +42,12 @@ const UserStatusChange: FunctionComponent<Props> = props => (
       body={({ toggleVisibility }) => (
         <ClickOutside onClickOutside={toggleVisibility}>
           <Dropdown>
-            {!props.banned && (
+            {!banned && (
               <Localized id="community-userStatus-banUser">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
-                    props.onBan();
+                    onBan();
                     toggleVisibility();
                   }}
                 >
@@ -44,12 +55,12 @@ const UserStatusChange: FunctionComponent<Props> = props => (
                 </DropdownButton>
               </Localized>
             )}
-            {props.banned && (
+            {banned && (
               <Localized id="community-userStatus-removeBan">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
-                    props.onRemoveBan();
+                    onRemoveBan();
                     toggleVisibility();
                   }}
                 >
@@ -57,12 +68,12 @@ const UserStatusChange: FunctionComponent<Props> = props => (
                 </DropdownButton>
               </Localized>
             )}
-            {!props.suspended && (
+            {!suspended && (
               <Localized id="community-userStatus-suspendUser">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
-                    props.onSuspend();
+                    onSuspend();
                     toggleVisibility();
                   }}
                 >
@@ -70,12 +81,12 @@ const UserStatusChange: FunctionComponent<Props> = props => (
                 </DropdownButton>
               </Localized>
             )}
-            {props.suspended && (
+            {suspended && (
               <Localized id="community-userStatus-removeSuspension">
                 <DropdownButton
                   className={styles.dropdownButton}
                   onClick={() => {
-                    props.onRemoveSuspension();
+                    onRemoveSuspension();
                     toggleVisibility();
                   }}
                 >
@@ -94,13 +105,13 @@ const UserStatusChange: FunctionComponent<Props> = props => (
         >
           <Button
             aria-label="Change user status"
-            className={styles.button}
+            className={cn(styles.button, { [styles.fullWidth]: fullWidth })}
             onClick={toggleVisibility}
             ref={ref}
             variant="regular"
             size="small"
           >
-            {props.children}
+            {children}
             {
               <ButtonIcon size="lg">
                 {visible ? "arrow_drop_up" : "arrow_drop_down"}

@@ -1,7 +1,10 @@
 .button {
-  width: 100%;
   justify-content: space-between;
   padding: 0;
+}
+
+.fullWidth {
+  width: 100%;
 }
 
 .dropdownButton {
