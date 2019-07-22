@@ -1,7 +1,8 @@
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
-import { Comment, Revision } from ".";
+import { Comment } from "./comment";
 import { VISIBLE_STATUSES } from "./constants";
+import { Revision } from "./revision";
 
 /**
  * hasAncestors will check to see if a given comment has any ancestors.
