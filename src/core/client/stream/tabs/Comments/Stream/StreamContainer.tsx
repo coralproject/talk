@@ -32,6 +32,7 @@ import { PostCommentFormContainer } from "./PostCommentForm";
 import SortMenu from "./SortMenu";
 import StoryClosedTimeoutContainer from "./StoryClosedTimeout";
 import styles from "./StreamContainer.css";
+import { SuspendedInfoContainer } from "./SuspendedInfo/index";
 
 interface Props {
   story: StoryData;
@@ -75,6 +76,10 @@ export const StreamContainer: FunctionComponent<Props> = props => {
   const banned = Boolean(
     props.viewer && props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
   );
+  const suspended = Boolean(
+    props.viewer &&
+      props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
+  );
 
   const allCommentsCount = props.story.commentCounts.totalVisible;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
@@ -100,7 +105,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       <HorizontalGutter className={styles.root} size="double">
         <UserBoxContainer viewer={props.viewer} settings={props.settings} />
         <CommunityGuidelinesContainer settings={props.settings} />
-        {!banned && (
+        {!banned && !suspended && (
           <PostCommentFormContainer
             settings={props.settings}
             story={props.story}
@@ -110,6 +115,12 @@ export const StreamContainer: FunctionComponent<Props> = props => {
           />
         )}
         {banned && <BannedInfo />}
+        {suspended && (
+          <SuspendedInfoContainer
+            viewer={props.viewer}
+            settings={props.settings}
+          />
+        )}
         <HorizontalGutter spacing={4} className={styles.tabBarContainer}>
           <SortMenu
             className={styles.sortMenu}
@@ -196,6 +207,7 @@ const enhanced = withFragmentContainer<Props>({
       status {
         current
       }
+      ...SuspendedInfoContainer_viewer
     }
   `,
   settings: graphql`
@@ -206,6 +218,7 @@ const enhanced = withFragmentContainer<Props>({
       ...PostCommentFormContainer_settings
       ...UserBoxContainer_settings
       ...CommunityGuidelinesContainer_settings
+      ...SuspendedInfoContainer_settings
     }
   `,
 })(StreamContainer);
