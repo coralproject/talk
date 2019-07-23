@@ -1,0 +1,13 @@
+.row:first-child:hover {
+  border-top: none;
+}
+
+.row:nth-child(even):hover {
+  background-color: var(--palette-grey-lightest);
+  box-shadow: none;
+}
+
+.row:nth-child(odd):hover {
+  background-color: transparent;
+  box-shadow: none;
+}

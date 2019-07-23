@@ -4,6 +4,8 @@ import React, { FunctionComponent } from "react";
 import { DURATION_UNIT } from "coral-framework/components";
 import { TableCell, TableRow } from "coral-ui/components";
 
+import styles from "./AccountHistoryRecord.css";
+
 interface From {
   start: any;
   finish: any;
@@ -166,7 +168,7 @@ const SuspensionRecord: FunctionComponent<Props> = ({
   }
 
   return (
-    <TableRow>
+    <TableRow className={styles.row}>
       <TableCell>
         {createdAt.toLocaleDateString("en-US", {
           year: "numeric",

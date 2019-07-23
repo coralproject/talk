@@ -3,6 +3,8 @@ import React, { FunctionComponent } from "react";
 
 import { TableCell, TableRow } from "coral-ui/components";
 
+import styles from "./AccountHistoryRecord.css";
+
 interface Props {
   createdAt: Date;
   createdBy: string | null | undefined;
@@ -30,7 +32,7 @@ const BanRecord: FunctionComponent<Props> = ({
   }
 
   return (
-    <TableRow>
+    <TableRow className={styles.row}>
       <TableCell>
         {createdAt.toLocaleDateString("en-US", {
           year: "numeric",
