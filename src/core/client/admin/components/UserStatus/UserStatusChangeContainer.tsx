@@ -83,6 +83,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
       <SuspendModal
         username={user.username}
         open={showSuspend}
+<<<<<<< HEAD
         success={showSuspendSuccess}
         onClose={() => setShowSuspend(false)}
         onSuccessClose={() => setShowSuspendSuccess(false)}
@@ -95,6 +96,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
           });
           setShowSuspend(false);
           setShowSuspendSuccess(true);
+=======
+        onClose={() => setShowSuspend(false)}
+        onConfirm={timeout => {
+          suspendUser({ userID: user.id, timeout });
+          setShowSuspend(false);
+>>>>>>> wire up suspension modal
         }}
       />
       <BanModal
