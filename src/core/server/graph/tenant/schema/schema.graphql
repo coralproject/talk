@@ -869,24 +869,27 @@ type DisableCommenting {
 }
 
 ################################################################################
-## Email
+## EmailConfiguration
 ################################################################################
 
-type Email {
+type SMTP {
+  secure: Boolean
+  host: String
+  port: Int
+  authentication: Boolean
+  username: String
+  password: String
+}
+
+type EmailConfiguration {
   """
-  enabled when True, will enable the emailing functionality in Coral.
+  enabled when true, will enable the emailing functionality in Coral.
   """
   enabled: Boolean!
 
-  """
-  smtpURI is the SMTP connection url to send emails on.
-  """
-  smtpURI: String @auth(roles: [ADMIN])
-
-  """
-  fromAddress is the email address that will be used to send emails from.
-  """
-  fromAddress: String
+  fromName: String
+  fromEmail: String
+  smtp: SMTP! @auth(roles: [ADMIN])
 }
 
 ################################################################################
@@ -1148,7 +1151,7 @@ type Settings {
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: Email! @auth(roles: [ADMIN, MODERATOR])
+  email: EmailConfiguration! @auth(roles: [ADMIN, MODERATOR])
 
   """
   wordList will return a given list of words.
@@ -2599,21 +2602,23 @@ input SettingsOIDCAuthIntegrationInput {
   issuer: String
 }
 
-input SettingsEmailInput {
+input SettingsSMTPInput {
+  secure: Boolean
+  host: String
+  port: Int
+  authentication: Boolean
+  username: String
+  password: String
+}
+
+input SettingsEmailConfigurationInput {
   """
   enabled when True, will enable the emailing functionality in Coral.
   """
   enabled: Boolean
-
-  """
-  smtpURI is the SMTP connection url to send emails on.
-  """
-  smtpURI: String
-
-  """
-  fromAddress is the email address that will be used to send emails from.
-  """
-  fromAddress: String
+  smtp: SettingsSMTPInput
+  fromName: String
+  fromEmail: String
 }
 
 input SettingsWordListInput {
@@ -3048,7 +3053,7 @@ input SettingsInput {
   """
   email is the set of credentials and settings associated with the organization.
   """
-  email: SettingsEmailInput
+  email: SettingsEmailConfigurationInput
 
   """
   auth contains all the settings related to authentication and authorization.

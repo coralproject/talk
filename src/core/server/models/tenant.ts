@@ -158,6 +158,7 @@ export async function createTenant(
     },
     email: {
       enabled: false,
+      smtp: {},
     },
     karma: {
       enabled: true,

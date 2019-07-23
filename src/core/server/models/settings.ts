@@ -1,6 +1,7 @@
 import { Omit } from "coral-common/types";
 import {
   GQLAuth,
+  GQLEmailConfiguration,
   GQLFacebookAuthIntegration,
   GQLGoogleAuthIntegration,
   GQLLiveConfiguration,
@@ -12,6 +13,8 @@ import {
 } from "coral-server/graph/tenant/schema/__generated__/types";
 
 export type LiveConfiguration = Omit<GQLLiveConfiguration, "configurable">;
+
+export type EmailConfiguration = GQLEmailConfiguration;
 
 export interface GlobalModerationSettings {
   live: LiveConfiguration;
@@ -77,7 +80,6 @@ export type Settings = GlobalModerationSettings &
   Pick<
     GQLSettings,
     | "charCount"
-    | "email"
     | "karma"
     | "wordList"
     | "integrations"
@@ -92,6 +94,12 @@ export type Settings = GlobalModerationSettings &
      * auth is the set of configured authentication integrations.
      */
     auth: Auth;
+
+    /**
+     * email is the set of credentials and settings associated with the
+     * organization.
+     */
+    email: EmailConfiguration;
 
     /**
      * closeCommenting contains settings related to the automatic closing of commenting on

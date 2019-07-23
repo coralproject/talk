@@ -49,6 +49,9 @@ const Configure: FunctionComponent<Props> = ({
                   <Localized id="configure-sideBarNavigation-authentication">
                     <Link to="/admin/configure/auth">Authentication</Link>
                   </Localized>
+                  <Localized id="configure-sideBarNavigation-email">
+                    <Link to="/admin/configure/email">Email</Link>
+                  </Localized>
                   <Localized id="configure-sideBarNavigation-advanced">
                     <Link to="/admin/configure/advanced">Advanced</Link>
                   </Localized>
