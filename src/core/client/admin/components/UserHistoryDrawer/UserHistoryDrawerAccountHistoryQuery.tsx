@@ -30,6 +30,14 @@ const UserHistoryDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
       variables={{ userID }}
       cacheConfig={{ force: true }}
       render={({ error, props }: ReadyState<QueryTypes["response"]>) => {
+        if (error) {
+          return (
+            <div className={styles.callout}>
+              <CallOut>{error.message}</CallOut>
+            </div>
+          );
+        }
+
         if (!props) {
           return (
             <div className={styles.root}>
