@@ -6,9 +6,10 @@ import htmlToText from "html-to-text";
 import Joi from "joi";
 import { JSDOM } from "jsdom";
 import { juiceResources } from "juice";
-import { camelCase } from "lodash";
+import { camelCase, isNil } from "lodash";
 import { Db } from "mongodb";
 import { createTransport } from "nodemailer";
+import { Options } from "nodemailer/lib/smtp-connection";
 import now from "performance-now";
 
 import { LanguageCode } from "coral-common/helpers/i18n/locales";
@@ -202,23 +203,27 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
       return;
     }
 
-    const { enabled, smtpURI, fromAddress } = tenant.email;
+    const { enabled, smtp, fromEmail, fromName } = tenant.email;
     if (!enabled) {
       log.error("not sending email, it was disabled");
       return;
     }
 
-    if (!smtpURI) {
-      log.error("email was enabled but the smtpURI configuration was missing");
+    // Check that we have enough to generate the smtp credentials.
+    if (isNil(smtp.secure) || isNil(smtp.host) || isNil(smtp.port)) {
+      log.error("email enabled, but configuration is incomplete");
       return;
     }
 
-    if (!fromAddress) {
+    if (!fromEmail) {
       log.error(
         "email was enabled but the fromAddress configuration was missing"
       );
       return;
     }
+
+    // Construct the fromAddress.
+    const fromAddress = fromName ? `${fromName} <${fromEmail}>` : fromEmail;
 
     const startTemplateGenerationTime = now();
 
@@ -242,8 +247,24 @@ export const createJobProcessor = (options: MailProcessorOptions) => {
     let transport = cache.get(tenantID);
     if (!transport) {
       try {
+        // Create the new transport options.
+        const opts: Options = {
+          host: smtp.host,
+          port: smtp.port,
+          secure: smtp.secure,
+        };
+        if (smtp.authentication && smtp.username && smtp.password) {
+          // If authentication details are provided, add them to the transport
+          // configuration.
+          opts.auth = {
+            type: "login",
+            user: smtp.username,
+            pass: smtp.password,
+          };
+        }
+
         // Create the transport based on the smtp uri.
-        transport = createTransport(smtpURI);
+        transport = createTransport(opts);
       } catch (err) {
         throw new InternalError(err, "could not create email transport");
       }

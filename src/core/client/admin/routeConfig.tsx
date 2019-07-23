@@ -10,6 +10,7 @@ import ConfigureRoute from "./routes/Configure";
 import {
   AdvancedConfigRoute,
   AuthConfigRoute,
+  EmailConfigRoute,
   GeneralConfigRoute,
   ModerationConfigRoute,
   OrganizationConfigRoute,
@@ -71,6 +72,7 @@ export default makeRouteConfig(
             <Route path="wordList" {...WordListConfigRoute.routeConfig} />
             <Route path="auth" {...AuthConfigRoute.routeConfig} />
             <Route path="advanced" {...AdvancedConfigRoute.routeConfig} />
+            <Route path="email" {...EmailConfigRoute.routeConfig} />
           </Route>
         </Route>
       </Route>
