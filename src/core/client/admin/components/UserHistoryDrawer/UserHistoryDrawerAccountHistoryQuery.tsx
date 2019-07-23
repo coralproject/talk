@@ -40,7 +40,7 @@ const UserHistoryDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
 
         if (!props) {
           return (
-            <div className={styles.root}>
+            <div className={styles.spinner}>
               <Spinner />
             </div>
           );
@@ -58,11 +58,7 @@ const UserHistoryDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
           );
         }
 
-        return (
-          <div>
-            <UserHistoryDrawerAccountHistory user={props.user} />
-          </div>
-        );
+        return <UserHistoryDrawerAccountHistory user={props.user} />;
       }}
     />
   );
