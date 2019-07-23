@@ -12,6 +12,9 @@ import ButtonPadding from "../ButtonPadding";
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
+import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
+import SuspendModal from "./SuspendModal";
+import SuspendUserMutation from "./SuspendUserMutation";
 import UserStatusChange from "./UserStatusChange";
 import UserStatusContainer from "./UserStatusContainer";
 
@@ -25,8 +28,11 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
   fullWidth = false,
 }) => {
   const banUser = useMutation(BanUserMutation);
+  const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
+  const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const [showBanned, setShowBanned] = useState<boolean>(false);
+  const [showSuspend, setShowSuspend] = useState<boolean>(false);
   const handleBan = useCallback(() => {
     if (user.status.ban.active) {
       return;
@@ -43,14 +49,14 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     if (user.status.suspension.active) {
       return;
     }
-    // TODO: (cvle)
-  }, [user]);
+    setShowSuspend(true);
+  }, [user, setShowSuspend]);
   const handleRemoveSuspension = useCallback(() => {
     if (!user.status.suspension.active) {
       return;
     }
-    // TODO: (cvle)
-  }, [user]);
+    removeUserSuspension({ userID: user.id });
+  }, [user, removeUserSuspension]);
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
     return (
@@ -73,6 +79,15 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       >
         <UserStatusContainer user={user} />
       </UserStatusChange>
+      <SuspendModal
+        username={user.username}
+        open={showSuspend}
+        onClose={() => setShowSuspend(false)}
+        onConfirm={timeout => {
+          suspendUser({ userID: user.id, timeout });
+          setShowSuspend(false);
+        }}
+      />
       <BanModal
         username={user.username}
         open={showBanned}
