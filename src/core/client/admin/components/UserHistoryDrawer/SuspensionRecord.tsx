@@ -16,6 +16,121 @@ interface Props {
   from: From;
 }
 
+const unitTypes = [
+  DURATION_UNIT.SECONDS,
+  DURATION_UNIT.MINUTES,
+  DURATION_UNIT.HOURS,
+  DURATION_UNIT.DAYS,
+  DURATION_UNIT.WEEKS,
+];
+
+const unitElements: Record<
+  DURATION_UNIT,
+  (value: number) => React.ReactElement<any>
+> = {
+  [DURATION_UNIT.SECONDS]: currentValue => {
+    if (currentValue > 1) {
+      return (
+        <Localized
+          id="moderate-user-drawer-seconds"
+          $value={currentValue.toString()}
+        >
+          seconds
+        </Localized>
+      );
+    }
+    return (
+      <Localized
+        id="moderate-user-drawer-second"
+        $value={currentValue.toString()}
+      >
+        second
+      </Localized>
+    );
+  },
+  [DURATION_UNIT.MINUTES]: currentValue => {
+    if (currentValue > 1) {
+      return (
+        <Localized
+          id="moderate-user-drawer-minutes"
+          $value={currentValue.toString()}
+        >
+          minutes
+        </Localized>
+      );
+    }
+
+    return (
+      <Localized
+        id="moderate-user-drawer-minute"
+        $value={currentValue.toString()}
+      >
+        minute
+      </Localized>
+    );
+  },
+  [DURATION_UNIT.HOURS]: currentValue => {
+    if (currentValue > 1) {
+      return (
+        <Localized
+          id="moderate-user-drawer-hours"
+          $value={currentValue.toString()}
+        >
+          hours
+        </Localized>
+      );
+    }
+
+    return (
+      <Localized
+        id="moderate-user-drawer-hour"
+        $value={currentValue.toString()}
+      >
+        hour
+      </Localized>
+    );
+  },
+  [DURATION_UNIT.DAYS]: currentValue => {
+    if (currentValue > 1) {
+      return (
+        <Localized
+          id="moderate-user-drawer-days"
+          $value={currentValue.toString()}
+        >
+          days
+        </Localized>
+      );
+    }
+
+    return (
+      <Localized id="moderate-user-drawer-day" $value={currentValue.toString()}>
+        day
+      </Localized>
+    );
+  },
+  [DURATION_UNIT.WEEKS]: currentValue => {
+    if (currentValue > 1) {
+      return (
+        <Localized
+          id="moderate-user-drawer-weeks"
+          $value={currentValue.toString()}
+        >
+          weeks
+        </Localized>
+      );
+    }
+
+    return (
+      <Localized
+        id="moderate-user-drawer-week"
+        $value={currentValue.toString()}
+      >
+        week
+      </Localized>
+    );
+  },
+};
+
 const SuspensionRecord: FunctionComponent<Props> = ({
   createdAt,
   active,
@@ -28,128 +143,11 @@ const SuspensionRecord: FunctionComponent<Props> = ({
     const endDate = new Date(from.finish);
     const diffSeconds = (endDate.getTime() - startDate.getTime()) / 1000;
 
-    const unitTypes = [
-      DURATION_UNIT.SECONDS,
-      DURATION_UNIT.MINUTES,
-      DURATION_UNIT.HOURS,
-      DURATION_UNIT.DAYS,
-      DURATION_UNIT.WEEKS,
-    ];
-    const unitSuffixes: Record<
-      DURATION_UNIT,
-      (value: number) => React.ReactElement<any>
-    > = {
-      [DURATION_UNIT.SECONDS]: currentValue => {
-        if (currentValue > 1) {
-          return (
-            <Localized
-              id="moderate-user-drawer-seconds"
-              $value={currentValue.toString()}
-            >
-              seconds
-            </Localized>
-          );
-        }
-        return (
-          <Localized
-            id="moderate-user-drawer-second"
-            $value={currentValue.toString()}
-          >
-            second
-          </Localized>
-        );
-      },
-      [DURATION_UNIT.MINUTES]: currentValue => {
-        if (currentValue > 1) {
-          return (
-            <Localized
-              id="moderate-user-drawer-minutes"
-              $value={currentValue.toString()}
-            >
-              minutes
-            </Localized>
-          );
-        }
-
-        return (
-          <Localized
-            id="moderate-user-drawer-minute"
-            $value={currentValue.toString()}
-          >
-            minute
-          </Localized>
-        );
-      },
-      [DURATION_UNIT.HOURS]: currentValue => {
-        if (currentValue > 1) {
-          return (
-            <Localized
-              id="moderate-user-drawer-hours"
-              $value={currentValue.toString()}
-            >
-              hours
-            </Localized>
-          );
-        }
-
-        return (
-          <Localized
-            id="moderate-user-drawer-hour"
-            $value={currentValue.toString()}
-          >
-            hour
-          </Localized>
-        );
-      },
-      [DURATION_UNIT.DAYS]: currentValue => {
-        if (currentValue > 1) {
-          return (
-            <Localized
-              id="moderate-user-drawer-days"
-              $value={currentValue.toString()}
-            >
-              days
-            </Localized>
-          );
-        }
-
-        return (
-          <Localized
-            id="moderate-user-drawer-day"
-            $value={currentValue.toString()}
-          >
-            day
-          </Localized>
-        );
-      },
-      [DURATION_UNIT.WEEKS]: currentValue => {
-        if (currentValue > 1) {
-          return (
-            <Localized
-              id="moderate-user-drawer-weeks"
-              $value={currentValue.toString()}
-            >
-              weeks
-            </Localized>
-          );
-        }
-
-        return (
-          <Localized
-            id="moderate-user-drawer-week"
-            $value={currentValue.toString()}
-          >
-            week
-          </Localized>
-        );
-      },
-    };
-
     const unit = unitTypes.reduce((x, cur) =>
       diffSeconds % cur === 0 && diffSeconds !== 0 ? cur : x
     );
     const value = diffSeconds / unit;
-    const timeSpan = unitSuffixes[unit](value);
+    const timeSpan = unitElements[unit](value);
 
     action = (
       <>
