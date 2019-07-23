@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
+  CallOut,
   HorizontalGutter,
   Table,
   TableBody,
@@ -15,6 +16,7 @@ import { UserHistoryDrawerAccountHistory_user } from "coral-admin/__generated__/
 import BanRecord from "./BanRecord";
 import SuspensionRecord from "./SuspensionRecord";
 
+import { Localized } from "fluent-react/compat";
 import styles from "./UserHistoryDrawerAccountHistory.css";
 
 interface Props {
@@ -67,6 +69,16 @@ const UserHistoryDrawerAccountHistory: FunctionComponent<Props> = ({
   const combinedHistory = banHistory
     .concat(suspensionHistory)
     .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+  if (combinedHistory.length === 0) {
+    return (
+      <CallOut fullWidth>
+        <Localized id="moderate-user-drawer-account-history-no-history">
+          No actions have been taken on this account
+        </Localized>
+      </CallOut>
+    );
+  }
 
   return (
     <>
