@@ -86,7 +86,7 @@ export async function generateInviteURL(
     jti: uuid.v4(),
     iss: tenant.id,
     sub: id,
-    exp: Math.floor(user.expiresAt.valueOf() / 1000),
+    exp: Math.round(DateTime.fromJSDate(user.expiresAt).toSeconds()),
     iat: nowSeconds,
     nbf: nowSeconds,
     aud: "invite",
