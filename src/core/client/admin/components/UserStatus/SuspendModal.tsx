@@ -22,13 +22,20 @@ interface Props {
   onConfirm: (timeout: number) => void;
 }
 
+const DURATIONS: [string, string][] = [
+  ["3600", "1 hour"],
+  ["10800", "3 hours"],
+  ["86400", "24 hours"],
+  ["604800", "7 days"],
+];
+
 const SuspendModal: FunctionComponent<Props> = ({
   open,
   onClose,
   onConfirm,
   username,
 }) => {
-  const [duration, setDuration] = useState("3600");
+  const [duration, setDuration] = useState("10800");
   return (
     <Modal open={open} onClose={onClose} aria-labelledby="suspendModal-title">
       {({ firstFocusableRef, lastFocusableRef }) => (
@@ -50,34 +57,20 @@ const SuspendModal: FunctionComponent<Props> = ({
               While suspended, this user will no longer be able to comment, use
               reactions, or report comments.
             </Typography>
-            <RadioButton
-              value={duration}
-              checked={duration === "3600"}
-              onChange={e => (e.target.checked ? setDuration("3600") : null)}
-            >
-              <span>1 hour</span>
-            </RadioButton>
-            <RadioButton
-              value={duration}
-              checked={duration === "10800"}
-              onChange={e => (e.target.checked ? setDuration("10800") : null)}
-            >
-              <span>3 hours</span>
-            </RadioButton>
-            <RadioButton
-              value={duration}
-              checked={duration === "86400"}
-              onChange={e => (e.target.checked ? setDuration("86400") : null)}
-            >
-              <span>24 hours</span>
-            </RadioButton>
-            <RadioButton
-              value={duration}
-              checked={duration === "604800"}
-              onChange={e => (e.target.checked ? setDuration("604800") : null)}
-            >
-              <span>7 days</span>
-            </RadioButton>
+
+            {DURATIONS.map(([value, label]) => (
+              <RadioButton
+                key={value}
+                id={`duration-${value}`}
+                name="duration"
+                value={duration}
+                checked={duration === value}
+                onChange={e => (e.target.checked ? setDuration(value) : null)}
+              >
+                <span>{label}</span>
+              </RadioButton>
+            ))}
+
             <Flex justifyContent="flex-end" itemGutter="half">
               <Button variant="outlined" onClick={onClose}>
                 Cancel
