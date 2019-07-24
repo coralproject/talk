@@ -92,8 +92,13 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
     );
+    const suspended = Boolean(
+      this.props.viewer &&
+        this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
+    );
     return (
       !banned &&
+      !suspended &&
       isMyComment &&
       isBeforeDate(this.props.comment.editing.editableUntil)
     );
@@ -181,6 +186,10 @@ export class CommentContainer extends Component<Props, State> {
       this.props.viewer &&
         this.props.viewer.status.current.includes(GQLUSER_STATUS.BANNED)
     );
+    const suspended = Boolean(
+      this.props.viewer &&
+        this.props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
+    );
     const showCaret =
       this.props.viewer &&
       roleIsAtLeast(this.props.viewer.role, GQLUSER_ROLE.MODERATOR);
@@ -263,9 +272,9 @@ export class CommentContainer extends Component<Props, State> {
                       comment={comment}
                       settings={settings}
                       viewer={viewer}
-                      readOnly={banned}
+                      readOnly={banned || suspended}
                     />
-                    {!disableReplies && !banned && (
+                    {!disableReplies && !banned && !suspended && (
                       <ReplyButton
                         id={`comments-commentContainer-replyButton-${
                           comment.id
@@ -283,7 +292,7 @@ export class CommentContainer extends Component<Props, State> {
                     />
                   </ButtonsBar>
                   <ButtonsBar>
-                    {!banned && (
+                    {!banned && !suspended && (
                       <ReportButtonContainer
                         comment={comment}
                         viewer={viewer}
