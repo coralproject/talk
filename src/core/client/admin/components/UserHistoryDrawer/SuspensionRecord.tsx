@@ -169,15 +169,15 @@ const SuspensionRecord: FunctionComponent<Props> = ({
 
   return (
     <TableRow className={styles.row}>
-      <TableCell>
+      <TableCell className={styles.date}>
         {createdAt.toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
           day: "numeric",
         })}
       </TableCell>
-      <TableCell>{action}</TableCell>
-      <TableCell>{createdBy}</TableCell>
+      <TableCell className={styles.action}>{action}</TableCell>
+      <TableCell className={styles.user}>{createdBy}</TableCell>
     </TableRow>
   );
 };

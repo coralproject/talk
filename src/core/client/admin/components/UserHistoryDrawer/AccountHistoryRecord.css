@@ -11,3 +11,24 @@
   background-color: transparent;
   box-shadow: none;
 }
+
+.date {
+  min-width: 120px;
+}
+
+.action {
+  min-width: 200px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user {
+  min-width: 200px;
+  max-width: 200px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
