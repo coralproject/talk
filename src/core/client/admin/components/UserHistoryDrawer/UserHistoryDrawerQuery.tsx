@@ -44,7 +44,6 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
       query={graphql`
         query UserHistoryDrawerQuery($userID: ID!) {
           user(id: $userID) {
-            avatar
             id
             username
             email

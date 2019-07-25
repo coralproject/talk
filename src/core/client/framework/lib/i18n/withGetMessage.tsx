@@ -5,7 +5,6 @@ import { CoralContext, withContext } from "../bootstrap";
 import getMessage from "./getMessage";
 
 export type GetMessage = (id: string, defaultTo?: string) => string;
-export type Format = (message: string, args?: object) => string;
 
 interface InjectedProps {
   getMessage: GetMessage;
