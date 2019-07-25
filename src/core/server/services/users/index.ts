@@ -283,7 +283,7 @@ export async function createToken(
     issuer: tenant.id,
 
     // Tokens are not valid before the creation date.
-    notBefore: DateTime.fromJSDate(now).toSeconds(),
+    notBefore: Math.round(DateTime.fromJSDate(now).toSeconds()),
   });
 
   return { ...result, signedToken };

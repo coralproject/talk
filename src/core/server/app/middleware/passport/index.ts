@@ -92,7 +92,11 @@ export async function handleLogout(redis: Redis, req: Request, res: Response) {
   const { jti, exp }: LogoutToken = validate(LogoutTokenSchema, decoded);
   if (jti && exp) {
     // Compute the number of seconds that the token will be valid for.
-    const validFor = exp - now.valueOf() / 1000;
+    const validFor = Math.round(
+      DateTime.fromJSDate(now)
+        .plus({ seconds: -exp })
+        .toSeconds()
+    );
     if (validFor > 0) {
       // Invalidate the token, the expiry is in the future and it needs to be
       // revoked.
