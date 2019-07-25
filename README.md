@@ -388,6 +388,9 @@ the variables in a `.env` file in the root of the project in a simple
 - `WEBSOCKET_KEEP_ALIVE_TIMEOUT` - A duration in a parsable format (e.g. `30 seconds`
   , `1 minute`) that should be used to send keep alive messages through the
   websocket to keep the socket alive (Default `30 seconds`)
+- `OIDC_META_FIELDS` - A comma-separated list with field names for OIDC attribute that should be persisted in the user profile document.
+  Those fields represent additional attributes in JWT that are not present in OIDC specification (e.g. Unique id for oidc provider).
+  (Default `null`)
 
 ## License
 

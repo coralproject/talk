@@ -159,6 +159,16 @@ export async function findOrCreateOIDCUser(
     audience: aud,
   };
 
+  const oidcMetaFields = process.env.OIDC_META_FIELDS;
+
+  if (oidcMetaFields) {
+    profile.meta = {};
+
+    oidcMetaFields.split(",").forEach(field => {
+      Object.assign(profile.meta, { [field]: Object(token)[field] });
+    });
+  }
+
   // Try to lookup user given their id provided in the `sub` claim.
   let user = await retrieveUserWithProfile(mongo, tenant.id, profile);
   if (!user) {

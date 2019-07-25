@@ -61,6 +61,7 @@ export interface OIDCProfile {
   id: string;
   issuer: string;
   audience: string;
+  meta?: object;
 }
 
 export interface SSOProfile {
