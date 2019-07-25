@@ -32,7 +32,6 @@ const ClientSecretField: FunctionComponent<Props> = ({
         <>
           <PasswordField
             disabled={disabled || meta.submitting}
-            autoComplete="new-password"
             // TODO: (wyattjoh) figure out how to add translations to these props
             hidePasswordTitle="Show Client Secret"
             showPasswordTitle="Hide Client Secret"
