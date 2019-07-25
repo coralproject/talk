@@ -473,7 +473,8 @@ export async function suspend(
   user: User,
   userID: string,
   timeout: number,
-  now = new Date()
+  now = new Date(),
+  message?: string
 ) {
   // Convert the timeout to the until time.
   const finishDateTime = DateTime.fromJSDate(now).plus({ seconds: timeout });
@@ -500,7 +501,8 @@ export async function suspend(
     userID,
     user.id,
     finishDateTime.toJSDate(),
-    now
+    now,
+    message
   );
 
   // If the user has an email address associated with their account, send them
@@ -521,6 +523,7 @@ export async function suspend(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });

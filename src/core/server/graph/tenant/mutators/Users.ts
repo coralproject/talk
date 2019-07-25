@@ -139,7 +139,8 @@ export const Users = (ctx: TenantContext) => ({
       ctx.user!,
       input.userID,
       input.timeout,
-      ctx.now
+      ctx.now,
+      input.message
     ),
   removeBan: async (input: GQLRemoveUserBanInput) =>
     removeBan(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),

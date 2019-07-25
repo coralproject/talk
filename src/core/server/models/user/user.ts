@@ -135,6 +135,8 @@ export interface SuspensionStatusHistory {
    * was edited at.
    */
   modifiedAt?: Date;
+
+  message?: string;
 }
 
 /**
@@ -1253,7 +1255,8 @@ export async function suspendUser(
   id: string,
   createdBy: string,
   finish: Date,
-  now = new Date()
+  now = new Date(),
+  message?: string
 ) {
   // Create the new suspension.
   const suspension: SuspensionStatusHistory = {
@@ -1264,6 +1267,7 @@ export async function suspendUser(
     },
     createdBy,
     createdAt: now,
+    message,
   };
 
   // Try to update the user if the user isn't already suspended.

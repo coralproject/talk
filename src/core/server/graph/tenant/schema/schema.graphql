@@ -1375,6 +1375,11 @@ type SuspensionStatusHistory {
   then the suspension has not been cancelled/edited.
   """
   modifiedAt: Time
+
+  """
+  message is an optional custom message to the suspended user.
+  """
+  message: String
 }
 
 """
@@ -4253,6 +4258,8 @@ input SuspendUserInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  message: String
 }
 
 type SuspendUserPayload {

@@ -23,4 +23,5 @@ export const SuspensionStatusHistory: Required<
     return null;
   },
   modifiedAt: ({ modifiedAt }) => modifiedAt,
+  message: ({ message }) => message,
 };

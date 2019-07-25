@@ -27,11 +27,7 @@ email-notification-template-passwordChange =
 email-subject-passwordChange = Your password has been changed
 
 email-notification-template-suspend =
-  Hello { $username },<br/><br/>
-  In accordance with { $organizationName }'s community guidelines, your
-  account has been temporarily suspended. During the suspension, you will be
-  unable to comment, flag or engage with fellow commenters. Please rejoin the
-  conversation { $until }.<br/><br/>
+  { $customMessage }<br/><br/>
   If you think this has been done in error,  please contact our community team
   at <a data-l10n-name="organizationContactEmail" >{ $organizationContactEmail }</a>.
 
