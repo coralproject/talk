@@ -5,19 +5,20 @@ import { FacebookConfigContainer_auth as AuthData } from "coral-admin/__generate
 import { FacebookConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/FacebookConfigContainer_authReadOnly.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
+import { OnInitValuesFct } from "./AuthConfigContainer";
 import FacebookConfig from "./FacebookConfig";
 
 interface Props {
   auth: AuthData;
   authReadOnly: AuthReadOnlyData;
-  onInitValues: (values: AuthData) => void;
+  onInitValues: OnInitValuesFct;
   disabled?: boolean;
 }
 
 class FacebookConfigContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    props.onInitValues(props.auth);
+    props.onInitValues({ auth: props.auth });
   }
 
   public render() {

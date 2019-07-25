@@ -15,11 +15,7 @@ const PremodLinksConfig: FunctionComponent<Props> = ({ disabled }) => (
     {({ input }) => (
       <ToggleConfig
         id={input.name}
-        name={input.name}
-        onChange={input.onChange}
-        onFocus={input.onFocus}
-        onBlur={input.onBlur}
-        checked={input.checked}
+        {...input}
         disabled={disabled}
         title={
           <Localized id="configure-premodLink-title">

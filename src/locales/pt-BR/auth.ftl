@@ -14,7 +14,6 @@ general-passwordLabel = Senha
 general-passwordDescription = Deve ter pelo menos {$minLength} caracteres
 general-passwordTextField =
   .placeholder = Senha
-general-confirmPasswordLabel = Confirmar Senha
 general-confirmPasswordTextField =
   .placeholder = Confirmar Senha
 general-confirmEmailAddressLabel = Confirmar endereço de e-mail

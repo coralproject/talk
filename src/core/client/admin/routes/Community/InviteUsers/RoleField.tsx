@@ -22,13 +22,8 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
           <Localized id="role-staff">
             <RadioButton
               id={`${input.name}-staff`}
-              name={input.name}
-              onChange={input.onChange}
-              onFocus={input.onFocus}
-              onBlur={input.onBlur}
-              checked={input.checked}
-              value={input.value}
               disabled={disabled}
+              {...input}
             >
               Staff
             </RadioButton>
@@ -40,13 +35,8 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
           <Localized id="role-moderator">
             <RadioButton
               id={`${input.name}-moderator`}
-              name={input.name}
-              onChange={input.onChange}
-              onFocus={input.onFocus}
-              onBlur={input.onBlur}
-              checked={input.checked}
-              value={input.value}
               disabled={disabled}
+              {...input}
             >
               Moderator
             </RadioButton>
@@ -58,13 +48,8 @@ const RoleField: FunctionComponent<Props> = ({ disabled }) => (
           <Localized id="role-admin">
             <RadioButton
               id={`${input.name}-admin`}
-              name={input.name}
-              onChange={input.onChange}
-              onFocus={input.onFocus}
-              onBlur={input.onBlur}
-              checked={input.checked}
-              value={input.value}
               disabled={disabled}
+              {...input}
             >
               Admin
             </RadioButton>

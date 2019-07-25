@@ -25,13 +25,7 @@ const RegistrationField: FunctionComponent<Props> = ({ name, disabled }) => (
       <Field name={name} type="checkbox">
         {({ input }) => (
           <Localized id="configure-auth-registrationCheckBox">
-            <CheckBox
-              id={input.name}
-              name={input.name}
-              onChange={input.onChange}
-              checked={input.value}
-              disabled={disabled}
-            >
+            <CheckBox id={input.name} disabled={disabled} {...input}>
               Allow Registration
             </CheckBox>
           </Localized>

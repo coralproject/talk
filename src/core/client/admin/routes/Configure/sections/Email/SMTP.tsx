@@ -2,6 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
+import {
+  composeValidatorsWhen,
+  Condition,
+  required,
+} from "coral-framework/lib/validation";
 import {
   FieldSet,
   FormField,
@@ -10,15 +16,21 @@ import {
   InputLabel,
   PasswordField,
   TextField,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import OnOffField from "../../OnOffField";
 import Subheader from "../../Subheader";
+import { FormProps } from "./EmailConfigContainer";
 
 interface Props {
   disabled: boolean;
 }
+
+const isEnabled: Condition<any, FormProps> = (value, values) =>
+  Boolean(values.email.enabled);
+
+const isAuthenticating: Condition<any, FormProps> = (value, values) =>
+  Boolean(values.email.enabled && values.email.smtp.authentication);
 
 const SMTP: FunctionComponent<Props> = ({ disabled }) => (
   <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
@@ -29,20 +41,20 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       <Localized id="configure-email-smtpHostDescription">
         <InputDescription>(ex. smtp.sendgrid.com)</InputDescription>
       </Localized>
-      <Field name="email.smtp.host">
+      <Field
+        name="email.smtp.host"
+        validate={composeValidatorsWhen(isEnabled, required)}
+      >
         {({ input, meta }) => (
           <>
             <TextField
               id={input.name}
               fullWidth
               disabled={disabled}
+              color={colorFromMeta(meta)}
               {...input}
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage fullWidth>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage fullWidth meta={meta} />
           </>
         )}
       </Field>
@@ -54,7 +66,10 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       <Localized id="configure-email-smtpPortDescription">
         <InputDescription>(ex. 25)</InputDescription>
       </Localized>
-      <Field name="email.smtp.port">
+      <Field
+        name="email.smtp.port"
+        validate={composeValidatorsWhen(isEnabled, required)}
+      >
         {({ input, meta }) => (
           <>
             <TextField
@@ -62,13 +77,10 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
               type="number"
               fullWidth
               disabled={disabled}
+              color={colorFromMeta(meta)}
               {...input}
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage fullWidth>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage fullWidth meta={meta} />
           </>
         )}
       </Field>
@@ -77,13 +89,21 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
       <Localized id="configure-email-smtpTLSLabel">
         <InputLabel>TLS</InputLabel>
       </Localized>
-      <OnOffField name="email.smtp.secure" disabled={disabled} />
+      <OnOffField
+        name="email.smtp.secure"
+        disabled={disabled}
+        validate={composeValidatorsWhen(isEnabled, required)}
+      />
     </FormField>
     <FormField>
       <Localized id="configure-email-smtpAuthenticationLabel">
         <InputLabel>SMTP Authentication</InputLabel>
       </Localized>
-      <OnOffField name="email.smtp.authentication" disabled={disabled} />
+      <OnOffField
+        name="email.smtp.authentication"
+        disabled={disabled}
+        validate={composeValidatorsWhen(isEnabled, required)}
+      />
     </FormField>
     <Field name="email.smtp.authentication" subscription={{ value: true }}>
       {({ input: { value: enabled } }) => (
@@ -95,20 +115,20 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
             <Localized id="configure-email-smtpUsernameLabel">
               <InputLabel>Username</InputLabel>
             </Localized>
-            <Field name="email.smtp.username">
+            <Field
+              name="email.smtp.username"
+              validate={composeValidatorsWhen(isAuthenticating, required)}
+            >
               {({ input, meta }) => (
                 <>
                   <TextField
                     id={input.name}
-                    fullWidth
                     disabled={disabled || !enabled}
+                    fullWidth
+                    color={colorFromMeta(meta)}
                     {...input}
                   />
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage fullWidth>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage fullWidth meta={meta} />
                 </>
               )}
             </Field>
@@ -117,25 +137,21 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
             <Localized id="configure-email-smtpPasswordLabel">
               <InputLabel>Password</InputLabel>
             </Localized>
-            <Field name="email.smtp.password">
+            <Field
+              name="email.smtp.password"
+              validate={composeValidatorsWhen(isAuthenticating, required)}
+            >
               {({ input, meta }) => (
                 <>
                   <PasswordField
                     id={input.name}
-                    color={
-                      meta.touched && (meta.error || meta.submitError)
-                        ? "error"
-                        : "regular"
-                    }
-                    {...input}
+                    autoComplete="new-password"
                     disabled={disabled || !enabled}
                     fullWidth
+                    color={colorFromMeta(meta)}
+                    {...input}
                   />
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage fullWidth>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage fullWidth meta={meta} />
                 </>
               )}
             </Field>

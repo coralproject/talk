@@ -1,5 +1,6 @@
 import { FormApi } from "final-form";
 import { ReactNode } from "react";
+import { FieldRenderProps } from "react-final-form";
 
 type ErrorsObject<T> = { [K in keyof T]?: ReactNode };
 
@@ -65,3 +66,14 @@ export const formatStringList = (v: string[] | null) => {
   }
   return v.join(", ");
 };
+
+export type FieldMeta = Pick<
+  FieldRenderProps["meta"],
+  "touched" | "error" | "submitError"
+>;
+
+export const hasError = ({ touched, error, submitError }: FieldMeta) =>
+  touched && (error || submitError);
+
+export const colorFromMeta = (meta: FieldMeta) =>
+  hasError(meta) ? "error" : "regular";
