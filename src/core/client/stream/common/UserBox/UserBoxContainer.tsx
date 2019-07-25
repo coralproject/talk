@@ -72,10 +72,47 @@ export class UserBoxContainer extends Component<Props> {
     ].some(i => i.enabled && i.targetFilter.stream);
   }
 
+  private get authUrl(): any {
+    const {
+      facebook,
+      google,
+      local,
+      oidc,
+    } = this.props.settings.auth.integrations;
+
+    const defaultAuthUrl = `${urls.embed.auth}?view=${
+      this.props.local.authPopup.view
+    }`;
+
+    if (local.enabled) {
+      return defaultAuthUrl;
+    }
+
+    const onlyFacebookIntegration =
+      facebook.enabled && !google.enabled && !oidc.enabled;
+    const onlyGoogleIntegration =
+      !facebook.enabled && google.enabled && !oidc.enabled;
+    const onlyOidcIntegration =
+      !facebook.enabled && !google.enabled && oidc.enabled;
+
+    if (onlyFacebookIntegration) {
+      return facebook.redirectURL;
+    }
+
+    if (onlyGoogleIntegration) {
+      return google.redirectURL;
+    }
+
+    if (onlyOidcIntegration) {
+      return oidc.redirectURL;
+    }
+    return defaultAuthUrl;
+  }
+
   public render() {
     const {
       local: {
-        authPopup: { open, focus, view },
+        authPopup: { open, focus },
       },
       viewer,
     } = this.props;
@@ -97,7 +134,7 @@ export class UserBoxContainer extends Component<Props> {
     return (
       <>
         <Popup
-          href={`${urls.embed.auth}?view=${view}`}
+          href={this.authUrl}
           title="Coral Auth"
           features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
           open={open}
@@ -155,6 +192,7 @@ const enhanced = withSignOutMutation(
                   oidc {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -162,6 +200,7 @@ const enhanced = withSignOutMutation(
                   google {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -169,6 +208,7 @@ const enhanced = withSignOutMutation(
                   facebook {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
