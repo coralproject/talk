@@ -588,6 +588,7 @@ community-suspendModal-duration-86400 = 24 hours
 community-suspendModal-duration-604800 = 7 days
 community-suspendModal-cancel = Cancel
 community-suspendModal-suspendUser = Suspend User
+community-suspendModal-suspendUSer = Suspend User
 community-suspendModal-emailTemplate = 
   Hello { $username },
   

@@ -2,9 +2,11 @@ import React from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 
 import { CoralContext, withContext } from "../bootstrap";
+import format from "./format";
 import getMessage from "./getMessage";
 
 export type GetMessage = (id: string, defaultTo?: string) => string;
+export type Format = (message: string, args?: object) => string;
 
 interface InjectedProps {
   getMessage: GetMessage;
@@ -16,6 +18,7 @@ interface Props {
 
 interface InjectedProps {
   getMessage: GetMessage;
+  format: Format;
 }
 
 interface Props {
@@ -38,9 +41,18 @@ const withGetMessage: DefaultingInferableComponentEnhancer<
       private getMessage = (id: string, defaultTo?: string) => {
         return getMessage(this.props.localeBundles, id, defaultTo);
       };
+      public format = (message: string, args?: object) => {
+        return format(this.props.localeBundles, message, args);
+      };
       public render() {
         const { localeBundles: _, ...rest } = this.props;
-        return <Workaround {...rest} getMessage={this.getMessage} />;
+        return (
+          <Workaround
+            {...rest}
+            getMessage={this.getMessage}
+            format={this.format}
+          />
+        );
       }
     }
 

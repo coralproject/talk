@@ -56,6 +56,7 @@ const SuspendModal: FunctionComponent<Props> = ({
       duration: DURATIONS[index][1],
     });
   }
+
   const [showMessage, setShowMessage] = useState(false);
   const [durationIndex, setDurationIndex] = useState(DEFAULT_DURATION_INDEX);
   const [messageDirty, setMessageDirty] = useState(false);
