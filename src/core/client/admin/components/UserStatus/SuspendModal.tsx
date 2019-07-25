@@ -1,4 +1,6 @@
 import { Localized } from "fluent-react/compat";
+
+import { Format, GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 import React, { FunctionComponent, useState } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
@@ -6,6 +8,7 @@ import {
   Button,
   Card,
   CardCloseButton,
+  CheckBox,
   Flex,
   HorizontalGutter,
   Modal,
@@ -19,25 +22,53 @@ interface Props {
   username: string | null;
   open: boolean;
   onClose: () => void;
-  onConfirm: (timeout: number) => void;
+  onConfirm: (timeout: number, message: string) => void;
+  getMessage: GetMessage;
+  format: Format;
+  organizationName: string;
 }
 
-const DURATIONS: [string, string][] = [
+const DURATIONS: Array<[string, string]> = [
   ["3600", "1 hour"],
   ["10800", "3 hours"],
   ["86400", "24 hours"],
   ["604800", "7 days"],
 ];
 
+const DEFAULT_DURATION_INDEX = 1;
+
 const SuspendModal: FunctionComponent<Props> = ({
   open,
   onClose,
   onConfirm,
   username,
+  format,
+  organizationName,
 }) => {
-  const [duration, setDuration] = useState("10800");
+  function getMessageWithDuration(index: number): string {
+    return format("community-suspendModal-emailTemplate", {
+      username,
+      organizationName,
+      duration: DURATIONS[index][1],
+    });
+  }
+
+  const [showMessage, setShowMessage] = useState(false);
+  const [durationIndex, setDurationIndex] = useState(DEFAULT_DURATION_INDEX);
+  const [messageDirty, setMessageDirty] = useState(false);
+  const [emailMessage, setEmailMessage] = useState(
+    getMessageWithDuration(DEFAULT_DURATION_INDEX)
+  );
   return (
-    <Modal open={open} onClose={onClose} aria-labelledby="suspendModal-title">
+    <Modal
+      open={open}
+      onClose={() => {
+        onClose();
+        setDurationIndex(DEFAULT_DURATION_INDEX);
+        setEmailMessage(getMessageWithDuration(DEFAULT_DURATION_INDEX));
+      }}
+      aria-labelledby="suspendModal-title"
+    >
       {({ firstFocusableRef, lastFocusableRef }) => (
         <Card className={styles.card}>
           <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
@@ -53,33 +84,75 @@ const SuspendModal: FunctionComponent<Props> = ({
                 </Typography>
               </Localized>
             </HorizontalGutter>
-            <Typography>
-              While suspended, this user will no longer be able to comment, use
-              reactions, or report comments.
-            </Typography>
+            <Localized id="community-suspendModal-consequence">
+              <Typography>
+                While suspended, this user will no longer be able to comment,
+                use reactions, or report comments.
+              </Typography>
+            </Localized>
 
-            {DURATIONS.map(([value, label]) => (
+            {DURATIONS.map(([value, label], index) => (
               <RadioButton
                 key={value}
                 id={`duration-${value}`}
                 name="duration"
-                value={duration}
-                checked={duration === value}
-                onChange={e => (e.target.checked ? setDuration(value) : null)}
+                value={DURATIONS[durationIndex][0]}
+                checked={durationIndex === index}
+                onChange={e => {
+                  if (e.target.checked) {
+                    setDurationIndex(index);
+                    if (!messageDirty) {
+                      setEmailMessage(getMessageWithDuration(index));
+                    }
+                  }
+                }}
               >
-                <span>{label}</span>
+                <Localized id={`community-suspendModal-duration-${value}`}>
+                  <span>{label}</span>
+                </Localized>
               </RadioButton>
             ))}
 
+            <Localized id="community-suspendModal-customize">
+              <CheckBox
+                id="suspend-edit-message"
+                name="suspend-edit-message"
+                checked={showMessage}
+                onChange={e => {
+                  setShowMessage(e.target.checked);
+                }}
+              >
+                Customize suspension email message
+              </CheckBox>
+            </Localized>
+
+            {showMessage && (
+              <textarea
+                value={emailMessage}
+                className={styles.textArea}
+                onChange={e => {
+                  setEmailMessage(e.target.value);
+                  setMessageDirty(true);
+                }}
+              />
+            )}
+
             <Flex justifyContent="flex-end" itemGutter="half">
-              <Button variant="outlined" onClick={onClose}>
-                Cancel
-              </Button>
+              <Localized id="community-suspendModal-cancel">
+                <Button variant="outlined" onClick={onClose}>
+                  Cancel
+                </Button>
+              </Localized>
               <Localized id="community-suspendModal-suspendUser">
                 <Button
                   variant="filled"
                   color="primary"
-                  onClick={() => onConfirm(parseInt(duration, 10))}
+                  onClick={() =>
+                    onConfirm(
+                      parseInt(DURATIONS[durationIndex][0], 10),
+                      emailMessage
+                    )
+                  }
                   ref={lastFocusableRef}
                 >
                   Suspend User
@@ -93,4 +166,6 @@ const SuspendModal: FunctionComponent<Props> = ({
   );
 };
 
-export default SuspendModal;
+const enhanced = withGetMessage(SuspendModal);
+
+export default enhanced;

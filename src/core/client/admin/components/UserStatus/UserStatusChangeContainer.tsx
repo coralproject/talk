@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import {
   graphql,
@@ -21,12 +22,11 @@ import UserStatusContainer from "./UserStatusContainer";
 interface Props {
   user: UserData;
   fullWidth?: boolean;
+  settings: SettingsData;
 }
 
-const UserStatusChangeContainer: FunctionComponent<Props> = ({
-  user,
-  fullWidth = false,
-}) => {
+const UserStatusChangeContainer: FunctionComponent<Props> = props => {
+  const { user, settings, fullWidth } = props;
   const banUser = useMutation(BanUserMutation);
   const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
@@ -83,8 +83,13 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
         username={user.username}
         open={showSuspend}
         onClose={() => setShowSuspend(false)}
-        onConfirm={timeout => {
-          suspendUser({ userID: user.id, timeout });
+        organizationName={settings.organization.name}
+        onConfirm={(timeout, message) => {
+          suspendUser({
+            userID: user.id,
+            timeout,
+            message,
+          });
           setShowSuspend(false);
         }}
       />
@@ -115,6 +120,13 @@ const enhanced = withFragmentContainer<Props>({
         suspension {
           active
         }
+      }
+    }
+  `,
+  settings: graphql`
+    fragment UserStatusChangeContainer_settings on Settings {
+      organization {
+        name
       }
     }
   `,

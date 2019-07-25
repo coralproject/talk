@@ -22,6 +22,7 @@ import styles from "./UserTable.css";
 
 interface Props {
   viewer: PropTypesOf<typeof UserRowContainer>["viewer"] | null;
+  settings: PropTypesOf<typeof UserRowContainer>["settings"] | null;
   users: Array<{ id: string } & PropTypesOf<typeof UserRowContainer>["user"]>;
   onLoadMore: () => void;
   hasMore: boolean;
@@ -45,7 +46,6 @@ const UserTable: FunctionComponent<Props> = props => {
     setUserDrawerVisible(false);
     setUserDrawerUserID("");
   }, [setUserDrawerUserID, setUserDrawerVisible]);
-
   return (
     <>
       <HorizontalGutter size="double">
@@ -81,6 +81,7 @@ const UserTable: FunctionComponent<Props> = props => {
                 <UserRowContainer
                   key={u.id}
                   user={u}
+                  settings={props.settings!}
                   viewer={props.viewer!}
                   onUsernameClicked={onShowUserDrawer}
                 />

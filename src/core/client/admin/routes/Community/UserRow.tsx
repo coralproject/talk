@@ -16,6 +16,7 @@ interface Props {
   user: PropTypesOf<typeof UserRole>["user"] &
     PropTypesOf<typeof UserStatus>["user"];
   viewer: PropTypesOf<typeof UserRole>["viewer"];
+  settings: PropTypesOf<typeof UserStatus>["settings"];
   onUsernameClicked?: (userID: string) => void;
 }
 
@@ -27,6 +28,7 @@ const UserRow: FunctionComponent<Props> = ({
   user,
   viewer,
   onUsernameClicked,
+  settings,
 }) => {
   const usernameClicked = useCallback(() => {
     if (!onUsernameClicked) {
@@ -53,6 +55,7 @@ const UserRow: FunctionComponent<Props> = ({
         <UserRole user={user} viewer={viewer} />
       </TableCell>
       <TableCell className={styles.statusColumn}>
+        <UserStatus user={user} settings={settings} />
         <UserStatus user={user} fullWidth />
       </TableCell>
     </TableRow>

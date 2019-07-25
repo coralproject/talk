@@ -578,6 +578,26 @@ community-banModal-consequence =
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
 
+community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
+community-suspendModal-consequence =
+  Once suspended, this user will no longer be able to comment, use
+  reactions, or report comments.
+community-suspendModal-duration-3600 = 1 hour
+community-suspendModal-duration-10800 = 3 hours
+community-suspendModal-duration-86400 = 24 hours
+community-suspendModal-duration-604800 = 7 days
+community-suspendModal-cancel = Cancel
+community-suspendModal-suspendUSer = Suspend User
+community-suspendModal-emailTemplate = 
+  Hello { $username },
+  
+  In accordance with { $organizationName }'s community guidelines, your
+  account has been temporarily suspended. During the suspension, you will be
+  unable to comment, flag or engage with fellow commenters. Please rejoin the
+  conversation in { $duration }.
+
+community-suspendModal-customize = Customize suspension email message
+
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
 community-invite-inviteMore = Invite more
