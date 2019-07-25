@@ -598,6 +598,12 @@ community-suspendModal-emailTemplate =
 
 community-suspendModal-customize = Customize suspension email message
 
+community-suspendModal-success =
+  <strong>{ $username }</strong> has been suspended for{" "}
+  <strong>{ $duration }</strong>
+
+community-suspendModal-success-close = Close
+
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
 community-invite-inviteMore = Invite more

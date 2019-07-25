@@ -33,6 +33,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
   const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const [showBanned, setShowBanned] = useState<boolean>(false);
   const [showSuspend, setShowSuspend] = useState<boolean>(false);
+  const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const handleBan = useCallback(() => {
     if (user.status.ban.active) {
       return;
@@ -82,7 +83,9 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
       <SuspendModal
         username={user.username}
         open={showSuspend}
+        success={showSuspendSuccess}
         onClose={() => setShowSuspend(false)}
+        onSuccessClose={() => setShowSuspendSuccess(false)}
         organizationName={settings.organization.name}
         onConfirm={(timeout, message) => {
           suspendUser({
@@ -91,6 +94,7 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
             message,
           });
           setShowSuspend(false);
+          setShowSuspendSuccess(true);
         }}
       />
       <BanModal
@@ -109,7 +113,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
 const enhanced = withFragmentContainer<Props>({
   user: graphql`
     fragment UserStatusChangeContainer_user on User {
-      ...UserStatusContainer_user
       id
       role
       username
@@ -121,6 +124,7 @@ const enhanced = withFragmentContainer<Props>({
           active
         }
       }
+      ...UserStatusContainer_user
     }
   `,
   settings: graphql`
