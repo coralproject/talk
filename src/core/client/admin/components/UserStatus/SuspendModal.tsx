@@ -1,6 +1,6 @@
 import { Localized } from "fluent-react/compat";
 
-import { Format, GetMessage, withGetMessage } from "coral-framework/lib/i18n";
+import { Format, withFormat } from "coral-framework/lib/i18n";
 import React, { FunctionComponent, useState } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
@@ -25,7 +25,6 @@ interface Props {
   onClose: () => void;
   onSuccessClose: () => void;
   onConfirm: (timeout: number, message: string) => void;
-  getMessage: GetMessage;
   format: Format;
   organizationName: string;
   success: boolean;
@@ -57,7 +56,6 @@ const SuspendModal: FunctionComponent<Props> = ({
       duration: DURATIONS[index][1],
     });
   }
-  const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const [showMessage, setShowMessage] = useState(false);
   const [durationIndex, setDurationIndex] = useState(DEFAULT_DURATION_INDEX);
   const [messageDirty, setMessageDirty] = useState(false);
@@ -182,6 +180,6 @@ const SuspendModal: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withGetMessage(SuspendModal);
+const enhanced = withFormat(SuspendModal);
 
 export default enhanced;
