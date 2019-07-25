@@ -163,6 +163,14 @@ profile-settings-description =
 profile-settings-empty = You are not currently ignoring anyone
 profile-settings-stopIgnoring = Stop ignoring
 
+profile-settings-download-comments-title = Download my comment history
+profile-settings-download-comments-description =
+  You will receive an email with a link to download your comment history.
+  You can make <strong>one download request every 14 days.</strong>
+profile-settings-download-comments-request =
+  Request comment history
+profile-settings-download-comments-request-icon =
+  .title = Request comment history
 
 ## Report Comment Popover
 comments-reportPopover =

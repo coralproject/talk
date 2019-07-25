@@ -282,6 +282,12 @@ export interface User extends TenantResource {
   ignoredUsers: IgnoredUser[];
 
   /**
+   * downloadedAt is the last time the user requested to download their
+   * user data.
+   */
+  downloadedAt?: Date;
+
+  /**
    * createdAt is the time that the User was created at.
    */
   createdAt: Date;

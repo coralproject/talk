@@ -10,6 +10,7 @@ import {
   removeBan,
   removeIgnore,
   removeSuspension,
+  requestCommentsDownload,
   setEmail,
   setPassword,
   setUsername,
@@ -31,6 +32,7 @@ import {
   GQLRemoveUserBanInput,
   GQLRemoveUserIgnoreInput,
   GQLRemoveUserSuspensionInput,
+  GQLRequestCommentsDownloadInput,
   GQLSetEmailInput,
   GQLSetPasswordInput,
   GQLSetUsernameInput,
@@ -149,4 +151,6 @@ export const Users = (ctx: TenantContext) => ({
     ignore(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
     removeIgnore(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
+  requestCommentsDownload: async (input: GQLRequestCommentsDownloadInput) =>
+    requestCommentsDownload(ctx.mongo, ctx.tenant, ctx.user!, ctx.now),
 });

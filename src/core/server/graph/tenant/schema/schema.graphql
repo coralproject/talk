@@ -4373,6 +4373,24 @@ type RemoveUserIgnorePayload {
   clientMutationId: String!
 }
 
+#########################
+# requestCommentsDownload
+#########################
+
+input RequestCommentsDownloadInput {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
+type RequestCommentsDownloadPayload {
+  """
+  clientMutationId is required for Relay support.
+  """
+  clientMutationId: String!
+}
+
 ##################
 ## Mutation
 ##################
@@ -4636,6 +4654,13 @@ type Mutation {
   """
   removeUserIgnore(input: RemoveUserIgnoreInput!): RemoveUserIgnorePayload!
     @auth(permit: [SUSPENDED, BANNED])
+
+  """
+  requestCommentsDownload allows a user to request to download their comments.
+  """
+  requestCommentsDownload(
+    input: RequestCommentsDownloadInput!
+  ): RequestCommentsDownloadPayload! @auth(permit: [SUSPENDED, BANNED])
 }
 
 ##################

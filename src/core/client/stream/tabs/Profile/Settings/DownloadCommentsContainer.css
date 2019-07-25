@@ -1,0 +1,37 @@
+.root {
+  max-width: 500px;
+
+  margin-top: var(--spacing-2);
+}
+
+.title {
+  margin-bottom: var(--spacing-2);
+}
+
+.description {
+  margin-bottom: var(--spacing-3);
+}
+
+.requestButton {
+  border-style: solid;
+  border-color: var(--palette-grey-main);
+  border-width: 1px;
+  border-radius: 2px;
+
+  padding-top: var(--spacing-1);
+  padding-bottom: var(--spacing-1);
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-2);
+}
+
+.requestButtonText {
+  font-family: var(--font-family-sans-serif);
+  font-style: normal;
+  font-weight: 600;
+  font-size: calc(14rem / var(--rem-base));
+  line-height: calc(18em / 16);
+}
+
+.icon {
+  margin-right: var(--spacing-2);
+}

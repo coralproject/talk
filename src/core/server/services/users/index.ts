@@ -627,3 +627,12 @@ export async function removeIgnore(
 
   return targetUser;
 }
+
+export async function requestCommentsDownload(
+  mongo: Db,
+  tenant: Tenant,
+  user: User,
+  now: Date
+) {
+  return user;
+}
