@@ -30,7 +30,7 @@ async function createTestRenderer(
               status: {
                 current: [GQLUSER_STATUS.SUSPENDED],
                 suspension: {
-                  until: "12:00",
+                  until: new Date(Date.now() + 600000).toISOString(),
                 },
               },
             }),
