@@ -8,13 +8,16 @@ import SuspendedInfo from "./SuspendedInfo";
 
 interface Props {
   settings: SettingsData;
-  viewer: ViewerData;
+  viewer: ViewerData | null;
 }
 
 export const SuspendedInfoContainer: FunctionComponent<Props> = ({
   settings,
   viewer,
 }) => {
+  if (!viewer) {
+    return null;
+  }
   return (
     <SuspendedInfo
       until={viewer.status.suspension.until}
