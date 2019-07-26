@@ -1,6 +1,5 @@
 import cn from "classnames";
-import * as React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import styles from "./Circle.css";
 

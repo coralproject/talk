@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { MouseEvent, TouchEvent } from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 

@@ -7,6 +7,7 @@ import { Button, HorizontalGutter } from "coral-ui/components";
 import RTE from "../../RTE";
 import MessageBoxContainer from "../MessageBoxContainer";
 
+import CLASSES from "coral-stream/classes";
 import styles from "./PostCommentFormFake.css";
 
 interface Props {
@@ -23,7 +24,7 @@ const PostCommentFormFake: FunctionComponent<Props> = props => {
     [props.onDraftChange]
   );
   return (
-    <div>
+    <div className={CLASSES.createComment.$root}>
       {props.showMessageBox && (
         <MessageBoxContainer
           story={props.story}
@@ -31,7 +32,7 @@ const PostCommentFormFake: FunctionComponent<Props> = props => {
         />
       )}
       <HorizontalGutter className={styles.root}>
-        <div aria-hidden="true">
+        <div className={CLASSES.createComment.box} aria-hidden="true">
           <Localized
             id="comments-postCommentFormFake-rte"
             attrs={{ placeholder: true }}
@@ -45,6 +46,7 @@ const PostCommentFormFake: FunctionComponent<Props> = props => {
         </div>
         <Localized id="comments-postCommentFormFake-signInAndJoin">
           <Button
+            className={CLASSES.createComment.signIn}
             color="primary"
             variant="filled"
             type="submit"

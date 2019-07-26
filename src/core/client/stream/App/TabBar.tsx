@@ -1,7 +1,8 @@
 import { Icon, MatchMedia, Tab, TabBar } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
+
+import CLASSES from "coral-stream/classes";
 
 type TabValue = "COMMENTS" | "PROFILE" | "%future added value";
 
@@ -14,21 +15,25 @@ export interface Props {
 
 const AppTabBar: FunctionComponent<Props> = props => {
   return (
-    <TabBar activeTab={props.activeTab} onTabClick={props.onTabClick}>
-      <Tab tabID="COMMENTS">
+    <TabBar
+      className={CLASSES.tabBar.$root}
+      activeTab={props.activeTab}
+      onTabClick={props.onTabClick}
+    >
+      <Tab className={CLASSES.tabBar.allComments} tabID="COMMENTS">
         <Localized id="general-tabBar-commentsTab">
           <span>Comments</span>
         </Localized>
       </Tab>
       {props.showProfileTab && (
-        <Tab tabID="PROFILE">
+        <Tab className={CLASSES.tabBar.myProfile} tabID="PROFILE">
           <Localized id="general-tabBar-myProfileTab">
             <span>My Profile</span>
           </Localized>
         </Tab>
       )}
       {props.showConfigureTab && (
-        <Tab tabID="CONFIGURE">
+        <Tab className={CLASSES.tabBar.configure} tabID="CONFIGURE">
           <MatchMedia gteWidth="sm">
             {matches =>
               matches ? (

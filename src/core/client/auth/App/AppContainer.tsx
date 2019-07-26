@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Component } from "react";
+import React, { Component } from "react";
 
 import { AppContainer_auth as AuthData } from "coral-auth/__generated__/AppContainer_auth.graphql";
 import { AppContainer_viewer as UserData } from "coral-auth/__generated__/AppContainer_viewer.graphql";
