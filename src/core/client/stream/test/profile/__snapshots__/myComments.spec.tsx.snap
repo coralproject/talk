@@ -20,7 +20,7 @@ exports[`renders profile 1`] = `
       Story: title
     </h1>
     <time
-      className="Timestamp-root RelativeTime-root"
+      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
       dateTime="2018-07-06T18:24:00.000Z"
       title="2018-07-06T18:24:00.000Z"
     >
@@ -61,7 +61,7 @@ exports[`renders profile 1`] = `
       Story: title
     </h1>
     <time
-      className="Timestamp-root RelativeTime-root"
+      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
       dateTime="2018-07-06T18:24:00.000Z"
       title="2018-07-06T18:24:00.000Z"
     >

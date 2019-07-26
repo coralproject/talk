@@ -3,6 +3,7 @@ import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
+import { DateTime } from "luxon";
 import { Bearer, BearerOptions } from "permit";
 import uuid from "uuid/v4";
 
@@ -352,8 +353,8 @@ export async function revokeJWT(
 ) {
   await redis.setex(
     generateJTIRevokedKey(jti),
-    Math.ceil(validFor),
-    now.valueOf()
+    Math.round(validFor),
+    Math.round(DateTime.fromJSDate(now).toSeconds())
   );
 }
 

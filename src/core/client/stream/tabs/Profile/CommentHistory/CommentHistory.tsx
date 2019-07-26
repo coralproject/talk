@@ -1,8 +1,8 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent } from "react";
+
 import { PropTypesOf } from "coral-framework/types";
 import { Button, HorizontalGutter, Typography } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
 
 import HistoryCommentContainer from "./HistoryCommentContainer";
 

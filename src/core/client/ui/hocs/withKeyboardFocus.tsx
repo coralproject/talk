@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { FocusEvent } from "react";
 import { DefaultingInferableComponentEnhancer, hoistStatics } from "recompose";
 

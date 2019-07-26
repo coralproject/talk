@@ -1,5 +1,4 @@
-import React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Typography } from "coral-ui/components";
 import styles from "./Title.css";
