@@ -53,7 +53,7 @@ exports[`renders conversation thread 1`] = `
             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
           >
             <time
-              className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
+              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
               dateTime="2018-07-06T18:24:00.000Z"
               title="2018-07-06T18:24:00.000Z"
             >
@@ -87,7 +87,7 @@ exports[`renders conversation thread 1`] = `
         className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-alignCenter gutter"
       >
         <button
-          className="BaseButton-root Button-root ConversationThreadContainer-showMoreButton Button-sizeRegular Button-colorRegular Button-variantUnderlined"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantUnderlined ConversationThreadContainer-showMoreButton"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -197,7 +197,7 @@ exports[`renders conversation thread 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
+                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -417,7 +417,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
+                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -629,7 +629,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
+                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >
@@ -834,7 +834,7 @@ exports[`shows more of this conversation 1`] = `
                       className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                     >
                       <time
-                        className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
+                        className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                         dateTime="2018-07-06T18:24:00.000Z"
                         title="2018-07-06T18:24:00.000Z"
                       >

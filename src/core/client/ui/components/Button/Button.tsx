@@ -75,27 +75,31 @@ export class Button extends React.Component<Props> {
       ...rest
     } = this.props;
 
-    const rootClassName = cn(classes.root, className, {
-      [classes.sizeRegular]: size === "regular",
-      [classes.sizeSmall]: size === "small",
-      [classes.sizeLarge]: size === "large",
-      [classes.colorRegular]: color === "regular",
-      [classes.colorLight]: color === "light",
-      [classes.colorPrimary]: color === "primary",
-      [classes.colorError]: color === "error",
-      [classes.colorSuccess]: color === "success",
-      [classes.colorBrand]: color === "brand",
-      [classes.colorDark]: color === "dark",
-      [classes.variantRegular]: variant === "regular",
-      [classes.variantFilled]: variant === "filled",
-      [classes.variantOutlined]: variant === "outlined",
-      [classes.variantGhost]: variant === "ghost",
-      [classes.variantAdornment]: variant === "adornment",
-      [classes.variantUnderlined]: variant === "underlined",
-      [classes.fullWidth]: fullWidth,
-      [classes.active]: active,
-      [classes.disabled]: disabled,
-    });
+    const rootClassName = cn(
+      classes.root,
+      {
+        [classes.sizeRegular]: size === "regular",
+        [classes.sizeSmall]: size === "small",
+        [classes.sizeLarge]: size === "large",
+        [classes.colorRegular]: color === "regular",
+        [classes.colorLight]: color === "light",
+        [classes.colorPrimary]: color === "primary",
+        [classes.colorError]: color === "error",
+        [classes.colorSuccess]: color === "success",
+        [classes.colorBrand]: color === "brand",
+        [classes.colorDark]: color === "dark",
+        [classes.variantRegular]: variant === "regular",
+        [classes.variantFilled]: variant === "filled",
+        [classes.variantOutlined]: variant === "outlined",
+        [classes.variantGhost]: variant === "ghost",
+        [classes.variantAdornment]: variant === "adornment",
+        [classes.variantUnderlined]: variant === "underlined",
+        [classes.fullWidth]: fullWidth,
+        [classes.active]: active,
+        [classes.disabled]: disabled,
+      },
+      className
+    );
 
     return (
       <BaseButton

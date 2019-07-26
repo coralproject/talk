@@ -162,7 +162,7 @@ exports[`renders comment stream 1`] = `
             </div>
           </div>
           <button
-            className="BaseButton-root Button-root coral coral-createComment-signIn Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+            className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth coral coral-createComment-signIn"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}
@@ -338,7 +338,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Box-ml-1"
                 />
                 <time
-                  className="Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -438,7 +438,7 @@ exports[`renders comment stream 1`] = `
                   className="Box-root Box-ml-1"
                 />
                 <time
-                  className="Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root Box-root Box-ml-2 coral coral-comment-timestamp"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >

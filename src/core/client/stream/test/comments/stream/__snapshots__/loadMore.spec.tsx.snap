@@ -76,7 +76,7 @@ exports[`renders comment stream with load more button 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
+                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
@@ -266,7 +266,7 @@ exports[`renders comment stream with load more button 1`] = `
                     className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                   >
                     <time
-                      className="Timestamp-root coral coral-comment-timestamp RelativeTime-root"
+                      className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                       dateTime="2018-07-06T18:24:00.000Z"
                       title="2018-07-06T18:24:00.000Z"
                     >
