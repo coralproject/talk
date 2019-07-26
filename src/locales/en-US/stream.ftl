@@ -165,6 +165,13 @@ profile-settings-description =
 profile-settings-empty = You are not currently ignoring anyone
 profile-settings-stopIgnoring = Stop ignoring
 
+profile-settings-changePassword = Change Password
+profile-settings-changePassword-oldPassword = Old Password
+profile-settings-changePassword-forgotPassword = Forgot your password?
+profile-settings-changePassword-newPassword = New Password
+profile-settings-changePassword-button = Change Password
+profile-settings-changePassword-updated =
+  Your password has been updated
 
 ## Report Comment Popover
 comments-reportPopover =
