@@ -204,10 +204,10 @@ const enhanced = withFragmentContainer<Props>({
       ...CreateCommentReplyMutation_viewer
       ...CreateCommentMutation_viewer
       ...PostCommentFormContainer_viewer
+      ...SuspendedInfoContainer_viewer
       status {
         current
       }
-      ...SuspendedInfoContainer_viewer
     }
   `,
   settings: graphql`

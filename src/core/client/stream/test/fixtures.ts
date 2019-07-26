@@ -40,6 +40,11 @@ export const settings = createFixture<GQLSettings>({
     message: "Story is closed",
     timeout: undefined,
   },
+  organization: {
+    name: "Acme Co",
+    contactEmail: "acme@acme.co",
+    url: "https://acme.co",
+  },
   auth: {
     integrations: {
       facebook: {
