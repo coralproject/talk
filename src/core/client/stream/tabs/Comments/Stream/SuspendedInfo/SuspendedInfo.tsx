@@ -20,7 +20,7 @@ const SuspendedInfo: FunctionComponent<Props> = props => {
           Your account has been temporarily suspended from commenting.
         </Typography>
         <Typography variant="bodyCopy">
-          In accordance with {props.organization}'s' community guidelines your
+          In accordance with {props.organization}'s community guidelines your
           account has been temporarily suspended. While suspended you will not
           be able to comment, respect or report comments. Please rejoin the
           conversation in <RelativeTime date={props.until} />.

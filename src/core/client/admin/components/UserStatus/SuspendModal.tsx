@@ -150,6 +150,7 @@ const SuspendModal: FunctionComponent<Props> = ({
 
               {showMessage && (
                 <textarea
+                  id="suspendModal-message"
                   value={emailMessage}
                   className={styles.textArea}
                   onChange={e => {

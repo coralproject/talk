@@ -115,6 +115,121 @@ reactions, or report comments.
 </div>
 `;
 
+exports[`remove user ban 1`] = `
+<div
+  aria-labelledby="banModal-title"
+  className="Modal-root"
+  onKeyDown={[Function]}
+  role="modal"
+>
+  <div
+    className="Backdrop-root Backdrop-active"
+    data-testid="backdrop"
+    onClick={[Function]}
+  />
+  <div
+    className="Modal-scroll"
+  >
+    <div
+      className="Modal-alignContainer1"
+    >
+      <div
+        className="Modal-alignContainer2"
+      >
+        <div
+          className="Modal-wrapper"
+        >
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+          <div
+            tabIndex={-1}
+          />
+          <div
+            className="Card-root BanModal-card"
+          >
+            <button
+              className="BaseButton-root CloseButton-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-md CloseButton-icon"
+              >
+                close
+              </span>
+            </button>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+                  id="banModal-title"
+                >
+                  Are you sure you want to ban 
+                  <strong>
+                    Isabelle
+                  </strong>
+                  ?
+                </h1>
+                <p
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                >
+                  Once banned, this user will no longer be able to comment, use
+reactions, or report comments.
+                </p>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Ban User
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`renders community 1`] = `
 <div
   className="MainLayout-root Community-root"
@@ -996,6 +1111,726 @@ exports[`renders empty community 1`] = `
       >
         We could not find anyone in your community matching your criteria.
       </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`suspend user 1`] = `
+<div
+  aria-labelledby="suspendModal-title"
+  className="Modal-root"
+  onKeyDown={[Function]}
+  role="modal"
+>
+  <div
+    className="Backdrop-root Backdrop-active"
+    data-testid="backdrop"
+    onClick={[Function]}
+  />
+  <div
+    className="Modal-scroll"
+  >
+    <div
+      className="Modal-alignContainer1"
+    >
+      <div
+        className="Modal-alignContainer2"
+      >
+        <div
+          className="Modal-wrapper"
+        >
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+          <div
+            tabIndex={-1}
+          />
+          <div
+            className="Card-root SuspendModal-card"
+          >
+            <button
+              className="BaseButton-root CloseButton-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-md CloseButton-icon"
+              >
+                close
+              </span>
+            </button>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+                  id="suspendModal-title"
+                >
+                  Suspend 
+                  <strong>
+                    Isabelle
+                  </strong>
+                  ?
+                </h1>
+              </div>
+              <p
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              >
+                Once suspended, this user will no longer be able to comment, use
+reactions, or report comments.
+              </p>
+              <h1
+                className="Box-root Typography-root Typography-header3 Typography-colorTextPrimary"
+              >
+                Select suspension duration
+              </h1>
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-3600"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-3600"
+                  >
+                    <span>
+                      1 hour
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    id="duration-10800"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-10800"
+                  >
+                    <span>
+                      3 hours
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-86400"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-86400"
+                  >
+                    <span>
+                      24 hours
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-604800"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-604800"
+                  >
+                    <span>
+                      7 days
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div
+                className="CheckBox-root"
+              >
+                <input
+                  checked={false}
+                  className="CheckBox-input"
+                  id="suspend-edit-message"
+                  name="suspend-edit-message"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  className="CheckBox-label"
+                  htmlFor="suspend-edit-message"
+                >
+                  <span
+                    className="CheckBox-labelSpan"
+                  >
+                    Customize suspension email message
+                  </span>
+                </label>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Suspend User
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`suspend user with custom message 1`] = `
+<div
+  aria-labelledby="suspendModal-title"
+  className="Modal-root"
+  onKeyDown={[Function]}
+  role="modal"
+>
+  <div
+    className="Backdrop-root Backdrop-active"
+    data-testid="backdrop"
+    onClick={[Function]}
+  />
+  <div
+    className="Modal-scroll"
+  >
+    <div
+      className="Modal-alignContainer1"
+    >
+      <div
+        className="Modal-alignContainer2"
+      >
+        <div
+          className="Modal-wrapper"
+        >
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+          <div
+            tabIndex={-1}
+          />
+          <div
+            className="Card-root SuspendModal-card"
+          >
+            <button
+              className="BaseButton-root CloseButton-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-md CloseButton-icon"
+              >
+                close
+              </span>
+            </button>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+                  id="suspendModal-title"
+                >
+                  Suspend 
+                  <strong>
+                    Isabelle
+                  </strong>
+                  ?
+                </h1>
+              </div>
+              <p
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              >
+                Once suspended, this user will no longer be able to comment, use
+reactions, or report comments.
+              </p>
+              <h1
+                className="Box-root Typography-root Typography-header3 Typography-colorTextPrimary"
+              >
+                Select suspension duration
+              </h1>
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-3600"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-3600"
+                  >
+                    <span>
+                      1 hour
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    id="duration-10800"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-10800"
+                  >
+                    <span>
+                      3 hours
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-86400"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-86400"
+                  >
+                    <span>
+                      24 hours
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-604800"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-604800"
+                  >
+                    <span>
+                      7 days
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div
+                className="CheckBox-root"
+              >
+                <input
+                  checked={false}
+                  className="CheckBox-input"
+                  id="suspend-edit-message"
+                  name="suspend-edit-message"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  className="CheckBox-label"
+                  htmlFor="suspend-edit-message"
+                >
+                  <span
+                    className="CheckBox-labelSpan"
+                  >
+                    Customize suspension email message
+                  </span>
+                </label>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Suspend User
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`suspend user with custom timeout 1`] = `
+<div
+  aria-labelledby="suspendModal-title"
+  className="Modal-root"
+  onKeyDown={[Function]}
+  role="modal"
+>
+  <div
+    className="Backdrop-root Backdrop-active"
+    data-testid="backdrop"
+    onClick={[Function]}
+  />
+  <div
+    className="Modal-scroll"
+  >
+    <div
+      className="Modal-alignContainer1"
+    >
+      <div
+        className="Modal-alignContainer2"
+      >
+        <div
+          className="Modal-wrapper"
+        >
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+          <div
+            tabIndex={-1}
+          />
+          <div
+            className="Card-root SuspendModal-card"
+          >
+            <button
+              className="BaseButton-root CloseButton-root"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-md CloseButton-icon"
+              >
+                close
+              </span>
+            </button>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+            >
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              >
+                <h1
+                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
+                  id="suspendModal-title"
+                >
+                  Suspend 
+                  <strong>
+                    Isabelle
+                  </strong>
+                  ?
+                </h1>
+              </div>
+              <p
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              >
+                Once suspended, this user will no longer be able to comment, use
+reactions, or report comments.
+              </p>
+              <h1
+                className="Box-root Typography-root Typography-header3 Typography-colorTextPrimary"
+              >
+                Select suspension duration
+              </h1>
+              <div
+                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+              >
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-3600"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-3600"
+                  >
+                    <span>
+                      1 hour
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    id="duration-10800"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-10800"
+                  >
+                    <span>
+                      3 hours
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-86400"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-86400"
+                  >
+                    <span>
+                      24 hours
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    id="duration-604800"
+                    name="duration"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value="10800"
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="duration-604800"
+                  >
+                    <span>
+                      7 days
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div
+                className="CheckBox-root"
+              >
+                <input
+                  checked={false}
+                  className="CheckBox-input"
+                  id="suspend-edit-message"
+                  name="suspend-edit-message"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  type="checkbox"
+                />
+                <label
+                  className="CheckBox-label"
+                  htmlFor="suspend-edit-message"
+                >
+                  <span
+                    className="CheckBox-labelSpan"
+                  >
+                    Customize suspension email message
+                  </span>
+                </label>
+              </div>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
+              >
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  onTouchEnd={[Function]}
+                  type="button"
+                >
+                  Suspend User
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            onFocus={[Function]}
+            tabIndex={0}
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>

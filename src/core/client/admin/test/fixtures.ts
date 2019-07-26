@@ -355,6 +355,24 @@ export const users = {
     ],
     baseUser
   ),
+  suspendedCommenter: createFixture<GQLUser>(
+    {
+      id: "user-suspended-0",
+      username: "lol1111",
+      email: "lol1111@test.com",
+      role: GQLUSER_ROLE.COMMENTER,
+      ignoreable: true,
+      status: {
+        current: [GQLUSER_STATUS.SUSPENDED],
+        ban: { active: false },
+        suspension: {
+          active: true,
+          until: new Date(Date.now() + 600000).toISOString(),
+        },
+      },
+    },
+    baseUser
+  ),
   bannedCommenter: createFixture<GQLUser>(
     {
       id: "user-banned-0",

@@ -404,6 +404,271 @@ it("can't change staff, moderator and admin status", async () => {
   });
 });
 
+it("suspend user", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      suspendUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+            suspension: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Suspend User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Suspend", {
+    exact: false,
+  });
+
+  expect(within(modal).toJSON()).toMatchSnapshot();
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByText("Suspend User")
+      .props.onClick();
+  });
+  within(userRow).getByText("Suspended");
+  expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
+});
+
+it("remove user suspension", async () => {
+  const user = users.suspendedCommenter;
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      removeUserSuspension: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: [GQLUSER_STATUS.ACTIVE],
+            suspension: { active: false },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+    Query: {
+      users: () => ({
+        edges: [
+          {
+            node: user,
+            cursor: user.createdAt,
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      }),
+    },
+  });
+
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Remove Suspension", { selector: "button" })
+      .props.onClick();
+  });
+  expect(resolvers.Mutation!.removeUserSuspension!.called).toBe(true);
+
+  await waitForElement(() => within(userRow).getByText("Active"));
+});
+
+it("suspend user with custom timeout", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      suspendUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          timeout: 604800,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+            suspension: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Suspend User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Suspend", {
+    exact: false,
+  });
+
+  expect(within(modal).toJSON()).toMatchSnapshot();
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByID("duration-604800")
+      .props.onChange({ target: { checked: true } });
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByText("Suspend User")
+      .props.onClick();
+  });
+  within(userRow).getByText("Suspended");
+  expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
+});
+
+it("suspend user with custom message", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      suspendUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          message: "YOU WERE SUSPENDED FOR BEHAVING BADLY",
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+            suspension: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Suspend User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Suspend", {
+    exact: false,
+  });
+
+  expect(within(modal).toJSON()).toMatchSnapshot();
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByID("suspend-edit-message")
+      .props.onChange({ target: { checked: true } });
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByID("suspendModal-message")
+      .props.onChange({
+        target: { value: "YOU WERE SUSPENDED FOR BEHAVING BADLY" },
+      });
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByText("Suspend User")
+      .props.onClick();
+  });
+  within(userRow).getByText("Suspended");
+  expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
+});
+
 it("ban user", async () => {
   const user = users.commenters[0];
 
