@@ -2,6 +2,10 @@
   max-width: 500px;
 }
 
+.radioButton {
+  margin: 0 var(--spacing-1) 0 0 !important;
+}
+
 .textArea {
   width: 100%;
   box-sizing: border-box;

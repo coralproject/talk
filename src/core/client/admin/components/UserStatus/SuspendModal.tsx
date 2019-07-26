@@ -109,22 +109,31 @@ const SuspendModal: FunctionComponent<Props> = ({
                 </Typography>
               </Localized>
 
-              {DURATIONS.map(([value, label], index) => (
-                <RadioButton
-                  key={value}
-                  id={`duration-${value}`}
-                  name="duration"
-                  value={DURATIONS[durationIndex][0]}
-                  checked={durationIndex === index}
-                  onChange={e =>
-                    e.target.checked ? selectDuration(index) : null
-                  }
-                >
-                  <Localized id={`community-suspendModal-duration-${value}`}>
-                    <span>{label}</span>
-                  </Localized>
-                </RadioButton>
-              ))}
+              <Localized id="community-suspendModal-selectDuration">
+                <Typography variant="header3">
+                  Select suspension length
+                </Typography>
+              </Localized>
+
+              <HorizontalGutter size="half">
+                {DURATIONS.map(([value, label], index) => (
+                  <RadioButton
+                    key={value}
+                    className={styles.radioButton}
+                    id={`duration-${value}`}
+                    name="duration"
+                    value={DURATIONS[durationIndex][0]}
+                    checked={durationIndex === index}
+                    onChange={e =>
+                      e.target.checked ? selectDuration(index) : null
+                    }
+                  >
+                    <Localized id={`community-suspendModal-duration-${value}`}>
+                      <span>{label}</span>
+                    </Localized>
+                  </RadioButton>
+                ))}
+              </HorizontalGutter>
 
               <Localized id="community-suspendModal-customize">
                 <CheckBox
