@@ -35,20 +35,22 @@ interface FormProps {
 }
 
 interface Props {
+  email: string | null;
   onCheckEmail: (email: string) => void;
 }
 
-const ForgotPasswordForm: FunctionComponent<Props> = ({ onCheckEmail }) => {
+const ForgotPasswordForm: FunctionComponent<Props> = ({
+  email,
+  onCheckEmail,
+}) => {
   const signInHref = getViewURL("SIGN_IN");
   const forgotPassword = useMutation(ForgotPasswordMutation);
   const setView = useMutation(SetViewMutation);
   const onSubmit = useCallback(
-    async ({ email }: FormProps) => {
+    async (form: FormProps) => {
       try {
-        await forgotPassword({
-          email,
-        });
-        onCheckEmail(email);
+        await forgotPassword(form);
+        onCheckEmail(form.email);
       } catch (error) {
         if (error instanceof InvalidRequestError) {
           return error.invalidArgs;
@@ -76,17 +78,20 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({ onCheckEmail }) => {
           <Title>Forgot Password?</Title>
         </Localized>
       </Bar>
-      <SubBar>
-        <Typography variant="bodyCopy" container={Flex}>
-          <Localized id="forgotPassword-gotBackToSignIn">
-            <TextLink href={signInHref} onClick={onGotoSignIn}>
-              Go back to sign in page
-            </TextLink>
-          </Localized>
-        </Typography>
-      </SubBar>
+      {/* If an email address has been provided, then they are already logged in. */}
+      {!email && (
+        <SubBar>
+          <Typography variant="bodyCopy" container={Flex}>
+            <Localized id="forgotPassword-gotBackToSignIn">
+              <TextLink href={signInHref} onClick={onGotoSignIn}>
+                Go back to sign in page
+              </TextLink>
+            </Localized>
+          </Typography>
+        </SubBar>
+      )}
       <Main data-testid="forgotPassword-main">
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} initialValues={{ email }}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
               <AutoHeight />

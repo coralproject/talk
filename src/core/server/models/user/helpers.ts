@@ -34,11 +34,22 @@ export function needsSSOUpdate(
  * @param user the User to pull the LocalProfile out of
  */
 export function getLocalProfile(
-  user: Pick<User, "profiles">
+  user: Pick<User, "profiles">,
+  withEmail?: string
 ): LocalProfile | undefined {
-  return user.profiles.find(({ type }) => type === "local") as
+  const profile = user.profiles.find(({ type }) => type === "local") as
     | LocalProfile
     | undefined;
+
+  if (!profile) {
+    return;
+  }
+
+  if (withEmail && profile.id !== withEmail) {
+    return;
+  }
+
+  return profile;
 }
 
 /**
@@ -53,12 +64,8 @@ export function hasLocalProfile(
   user: Pick<User, "profiles">,
   withEmail?: string
 ): boolean {
-  const profile = getLocalProfile(user);
+  const profile = getLocalProfile(user, withEmail);
   if (!profile) {
-    return false;
-  }
-
-  if (withEmail && profile.id !== withEmail) {
     return false;
   }
 

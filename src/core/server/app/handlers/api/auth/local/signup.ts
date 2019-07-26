@@ -1,4 +1,5 @@
 import Joi from "joi";
+import uuid from "uuid/v4";
 
 import { AppOptions } from "coral-server/app";
 import { handleSuccessfulLogin } from "coral-server/app/middleware/passport";
@@ -77,6 +78,7 @@ export const signupHandler = ({
         id: email,
         type: "local",
         password,
+        passwordID: uuid(),
       };
 
       // Create the new user.

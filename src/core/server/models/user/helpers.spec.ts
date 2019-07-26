@@ -1,10 +1,13 @@
-import { LocalProfile, SSOProfile } from "coral-server/models/user";
+import uuid from "uuid/v1";
+
 import { getLocalProfile, hasLocalProfile } from "./helpers";
+import { LocalProfile, SSOProfile } from "./user";
 
 const localProfile: LocalProfile = {
   type: "local",
   id: "hans@email.com",
   password: "secret",
+  passwordID: uuid(),
 };
 
 const ssoProfile: SSOProfile = {
@@ -23,6 +26,12 @@ it("will return undefined when it can't find the local profile", () => {
 
 it("will return true when the profile exists", () => {
   expect(hasLocalProfile({ profiles: [localProfile] })).toBeTruthy();
+});
+
+it("will get the local profile with the correct email", () => {
+  expect(
+    getLocalProfile({ profiles: [localProfile] }, localProfile.id)
+  ).toEqual(localProfile);
 });
 
 it("will return true when the profile exists with the right email", () => {
