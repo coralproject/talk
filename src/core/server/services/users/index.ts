@@ -275,16 +275,21 @@ export async function createToken(
   const result = await createUserToken(mongo, tenant.id, user.id, name, now);
 
   // Sign the token!
-  const signedToken = await signPATString(config, user, {
-    // Tokens are issued with the token ID as their JWT ID.
-    jwtid: result.token.id,
+  const signedToken = await signPATString(
+    config,
+    user,
+    {
+      // Tokens are issued with the token ID as their JWT ID.
+      jwtid: result.token.id,
 
-    // Tokens are issued with the tenant ID.
-    issuer: tenant.id,
+      // Tokens are issued with the tenant ID.
+      issuer: tenant.id,
 
-    // Tokens are not valid before the creation date.
-    notBefore: Math.round(DateTime.fromJSDate(now).toSeconds()),
-  });
+      // Tokens are not valid before the creation date.
+      notBefore: 0,
+    },
+    now
+  );
 
   return { ...result, signedToken };
 }
