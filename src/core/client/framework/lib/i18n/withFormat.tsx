@@ -19,8 +19,8 @@ interface Props {
 }
 
 /**
- * withGetMessage provides a property `getMessage: (id: string) => string`
- * that'll provide a translated string associated with `id`.
+ * withFormat provides a property `format: (id: string, args?: object) => string`
+ * that'll provide a translated string associated with `id`, passing in `args`.
  */
 const withFormat: DefaultingInferableComponentEnhancer<
   InjectedProps
