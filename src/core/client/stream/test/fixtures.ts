@@ -45,6 +45,7 @@ export const settings = createFixture<GQLSettings>({
       facebook: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/facebook",
         targetFilter: {
           stream: true,
         },
@@ -52,6 +53,7 @@ export const settings = createFixture<GQLSettings>({
       google: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/google",
         targetFilter: {
           stream: true,
         },
@@ -59,6 +61,7 @@ export const settings = createFixture<GQLSettings>({
       oidc: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/oidc",
         targetFilter: {
           stream: true,
         },

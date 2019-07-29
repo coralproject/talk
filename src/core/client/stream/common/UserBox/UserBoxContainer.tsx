@@ -71,10 +71,37 @@ export class UserBoxContainer extends Component<Props> {
     ].some(i => i.enabled && i.targetFilter.stream);
   }
 
+  private get authUrl(): string {
+    const {
+      facebook,
+      google,
+      local,
+      oidc,
+    } = this.props.settings.auth.integrations;
+
+    const defaultAuthUrl = `${urls.embed.auth}?view=${
+      this.props.local.authPopup.view
+    }`;
+
+    if (local.enabled) {
+      return defaultAuthUrl;
+    }
+
+    // For each of these integrations, if only one is enabled, then return the
+    // redirectURL for that one only.
+    const integrations = [facebook, google, oidc];
+    const enabled = integrations.filter(integration => integration.enabled);
+    if (enabled.length === 1 && enabled[0].redirectURL) {
+      return enabled[0].redirectURL;
+    }
+
+    return defaultAuthUrl;
+  }
+
   public render() {
     const {
       local: {
-        authPopup: { open, focus, view },
+        authPopup: { open, focus },
       },
       viewer,
     } = this.props;
@@ -96,7 +123,7 @@ export class UserBoxContainer extends Component<Props> {
     return (
       <>
         <Popup
-          href={`${urls.embed.auth}?view=${view}`}
+          href={this.authUrl}
           title="Coral Auth"
           features="menubar=0,resizable=0,width=350,height=450,top=100,left=500"
           open={open}
@@ -154,6 +181,7 @@ const enhanced = withSignOutMutation(
                   oidc {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -161,6 +189,7 @@ const enhanced = withSignOutMutation(
                   google {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
@@ -168,6 +197,7 @@ const enhanced = withSignOutMutation(
                   facebook {
                     enabled
                     allowRegistration
+                    redirectURL
                     targetFilter {
                       stream
                     }
