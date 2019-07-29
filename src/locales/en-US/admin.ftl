@@ -437,21 +437,44 @@ moderate-user-drawer-rejected-no-comments = {$username} does not have any reject
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
 
+moderate-user-drawer-account-history-suspension-ended = Suspension ended
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned
 moderate-user-drawer-account-history-ban-removed = Ban removed
 moderate-user-drawer-account-history-no-history = No actions have been taken on this account
 
-moderate-user-drawer-suspension-week = Suspension, { $value } week
-moderate-user-drawer-suspension-weeks = Suspension, { $value } weeks
-moderate-user-drawer-suspension-day = Suspension, { $value } day
-moderate-user-drawer-suspension-days = Suspension, { $value } days
-moderate-user-drawer-suspension-hour = Suspension, { $value } hour
-moderate-user-drawer-suspension-hours = Suspension, { $value } hours
-moderate-user-drawer-suspension-minute = Suspension, { $value } minute
-moderate-user-drawer-suspension-minutes = Suspension, { $value } minutes
-moderate-user-drawer-suspension-second = Suspension, { $value } second
-moderate-user-drawer-suspension-seconds = Suspension, { $value } seconds
+moderate-user-drawer-suspension =
+  Suspension, { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  }
 
 ## Create Username
 

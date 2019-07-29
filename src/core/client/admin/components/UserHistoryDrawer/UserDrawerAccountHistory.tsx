@@ -3,6 +3,7 @@ import React, { FunctionComponent, useMemo } from "react";
 
 import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 
+import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CallOut,
@@ -14,8 +15,8 @@ import {
   TableRow,
 } from "coral-ui/components";
 
-import BanRecord from "./BanRecord";
-import SuspensionRecord from "./SuspensionRecord";
+import BanAction, { BanActionProps } from "./BanAction";
+import SuspensionAction, { SuspensionActionProps } from "./SuspensionAction";
 
 import styles from "./UserDrawerAccountHistory.css";
 
@@ -28,50 +29,91 @@ interface From {
   finish: any;
 }
 
-type RecordKind = "ban" | "suspension";
-
-interface Record {
-  kind: RecordKind;
-  createdBy?: string | null;
-  createdAt: Date;
-  active: boolean;
-  from?: From;
+interface SuspensionHistoryRecord {
+  kind: "suspension";
+  action: SuspensionActionProps;
+  date: Date;
+  takenBy: React.ReactNode;
 }
 
-const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
-  const combinedHistory = useMemo(() => {
-    // Collect all the history items across suspensions and bans.
-    const history: Record[] = [
-      // Merge in the ban history.
-      ...user.status.ban.history.map(
-        (record): Record => ({
-          kind: "ban",
-          createdBy: record.createdBy ? record.createdBy.username : undefined,
-          createdAt: new Date(record.createdAt),
-          active: record.active,
-        })
-      ),
+interface BanHistoryRecord {
+  kind: "ban";
+  action: BanActionProps;
+  date: Date;
+  takenBy: React.ReactNode;
+}
 
-      // Merge in the suspension history.
-      ...user.status.suspension.history.map(
-        (record): Record => ({
+type HistoryRecord = SuspensionHistoryRecord | BanHistoryRecord;
+
+const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
+  const { locales } = useCoralContext();
+  const combinedHistory = useMemo(() => {
+    // Collect all the different types of history items.
+    const history: HistoryRecord[] = [];
+
+    // Merge in all the suspension history items.
+    user.status.suspension.history.forEach(record => {
+      const from: From = {
+        start: new Date(record.from.start),
+        finish: new Date(record.from.finish),
+      };
+
+      if (record.modifiedAt) {
+        // Merge in the suspension removals.
+        history.push({
           kind: "suspension",
-          createdBy: record.createdBy ? record.createdBy.username : undefined,
-          createdAt: new Date(record.createdAt),
-          active: record.active,
-          from: {
-            start: record.from.start,
-            finish: record.from.finish,
+          action: {
+            action: "removed",
+            from,
           },
-        })
-      ),
-    ];
+          date: new Date(record.modifiedAt),
+          takenBy: record.modifiedBy ? record.modifiedBy.username : "System",
+        });
+      } else if (!record.active) {
+        // Merge in the suspension expiries.
+        history.push({
+          kind: "suspension",
+          action: {
+            action: "ended",
+            from,
+          },
+          date: from.finish,
+          takenBy: "System",
+        });
+      }
+
+      // Merge in the suspension created.
+      history.push({
+        kind: "suspension",
+        action: {
+          action: "created",
+          from,
+        },
+        date: new Date(record.createdAt),
+        takenBy: record.createdBy ? record.createdBy.username : "System",
+      });
+    });
+
+    // Merge in all the ban status history items.
+    user.status.ban.history.forEach(record => {
+      history.push({
+        kind: "ban",
+        action: {
+          action: record.active ? "created" : "removed",
+        },
+        date: new Date(record.createdAt),
+        takenBy: record.createdBy ? record.createdBy.username : "System",
+      });
+    });
 
     // Sort the history so that it's in the right order.
-    return history.sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return history.sort((a, b) => b.date.getTime() - a.date.getTime());
   }, [user]);
+  const formatter = new Intl.DateTimeFormat(locales, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   if (combinedHistory.length === 0) {
     return (
@@ -94,28 +136,21 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {combinedHistory.map((history, index) => {
-            if (history.kind === "ban") {
-              return (
-                <BanRecord
-                  key={index}
-                  createdAt={history.createdAt}
-                  active={history.active}
-                  createdBy={history.createdBy}
-                />
-              );
-            } else {
-              return (
-                <SuspensionRecord
-                  key={index}
-                  createdAt={history.createdAt}
-                  active={history.active}
-                  from={history.from!}
-                  createdBy={history.createdBy}
-                />
-              );
-            }
-          })}
+          {combinedHistory.map((history, index) => (
+            <TableRow key={index} className={styles.row}>
+              <TableCell className={styles.date}>
+                {formatter.format(history.date)}
+              </TableCell>
+              <TableCell className={styles.action}>
+                {history.kind === "suspension" ? (
+                  <SuspensionAction {...history.action} />
+                ) : (
+                  <BanAction {...history.action} />
+                )}
+              </TableCell>
+              <TableCell className={styles.user}>{history.takenBy}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </HorizontalGutter>
@@ -143,6 +178,10 @@ const enhanced = withFragmentContainer<any>({
               finish
             }
             createdBy {
+              username
+            }
+            modifiedAt
+            modifiedBy {
               username
             }
             createdAt

@@ -1,10 +1,12 @@
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
+import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,
@@ -13,8 +15,6 @@ import {
   Spinner,
   Typography,
 } from "coral-ui/components";
-
-import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
 
 import Tabs from "./Tabs";
 
@@ -31,6 +31,13 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
   userID,
   onClose,
 }) => {
+  const { locales } = useCoralContext();
+  const formatter = new Intl.DateTimeFormat(locales, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -106,11 +113,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                   date_range
                 </Icon>
                 <Typography variant="bodyCopy" container="span">
-                  {new Date(user.createdAt).toLocaleDateString("en-us", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {formatter.format(new Date(user.createdAt))}
                 </Typography>
               </Flex>
               <Flex alignItems="center" className={styles.userDetail}>
