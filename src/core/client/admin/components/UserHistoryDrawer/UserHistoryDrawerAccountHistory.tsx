@@ -33,7 +33,7 @@ interface Record {
   createdBy: string | null | undefined;
   createdAt: Date;
   active: boolean;
-  from: From | undefined;
+  from?: From;
 }
 
 const UserHistoryDrawerAccountHistory: FunctionComponent<Props> = ({
