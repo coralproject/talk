@@ -4,7 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 
 import { Icon, Tab, TabBar, TabContent, TabPane } from "coral-ui/components";
 
-import UserHistoryDrawerAccountHistoryQuery from "./UserHistoryDrawerAccountHistoryQuery";
+import UserDrawerAccountHistoryQuery from "./UserDrawerAccountHistoryQuery";
 import UserHistoryDrawerAllCommentsQuery from "./UserHistoryDrawerAllCommentsQuery";
 import UserHistoryDrawerRejectedCommentsQuery from "./UserHistoryDrawerRejectedCommentsQuery";
 
@@ -95,7 +95,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
         <TabPane tabID="ACCOUNT_HISTORY">
           <div className={styles.container}>
             <div className={styles.scrollable}>
-              <UserHistoryDrawerAccountHistoryQuery userID={userID} />
+              <UserDrawerAccountHistoryQuery userID={userID} />
             </div>
           </div>
         </TabPane>

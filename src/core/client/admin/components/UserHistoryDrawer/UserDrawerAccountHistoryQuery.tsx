@@ -5,25 +5,25 @@ import { ReadyState } from "react-relay";
 
 import { CallOut, Spinner } from "coral-ui/components";
 
-import { UserHistoryDrawerAccountHistoryQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerAccountHistoryQuery.graphql";
+import { UserDrawerAccountHistoryQuery as QueryTypes } from "coral-admin/__generated__/UserDrawerAccountHistoryQuery.graphql";
 
-import UserHistoryDrawerAccountHistory from "./UserHistoryDrawerAccountHistory";
+import UserDrawerAccountHistory from "./UserDrawerAccountHistory";
 
-import styles from "./UserHistoryDrawerAccountHistoryQuery.css";
+import styles from "./UserDrawerAccountHistoryQuery.css";
 
 interface Props {
   userID: string;
 }
 
-const UserHistoryDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
+const UserDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
   userID,
 }) => {
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
-        query UserHistoryDrawerAccountHistoryQuery($userID: ID!) {
+        query UserDrawerAccountHistoryQuery($userID: ID!) {
           user(id: $userID) {
-            ...UserHistoryDrawerAccountHistory_user
+            ...UserDrawerAccountHistory_user
           }
         }
       `}
@@ -58,10 +58,10 @@ const UserHistoryDrawerAccountHistoryQuery: FunctionComponent<Props> = ({
           );
         }
 
-        return <UserHistoryDrawerAccountHistory user={props.user} />;
+        return <UserDrawerAccountHistory user={props.user} />;
       }}
     />
   );
 };
 
-export default UserHistoryDrawerAccountHistoryQuery;
+export default UserDrawerAccountHistoryQuery;

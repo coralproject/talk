@@ -11,16 +11,16 @@ import {
   TableRow,
 } from "coral-ui/components";
 
-import { UserHistoryDrawerAccountHistory_user } from "coral-admin/__generated__/UserHistoryDrawerAccountHistory_user.graphql";
+import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 
 import BanRecord from "./BanRecord";
 import SuspensionRecord from "./SuspensionRecord";
 
 import { Localized } from "fluent-react/compat";
-import styles from "./UserHistoryDrawerAccountHistory.css";
+import styles from "./UserDrawerAccountHistory.css";
 
 interface Props {
-  user: UserHistoryDrawerAccountHistory_user;
+  user: UserDrawerAccountHistory_user;
 }
 
 interface From {
@@ -38,9 +38,7 @@ interface Record {
   from?: From;
 }
 
-const UserHistoryDrawerAccountHistory: FunctionComponent<Props> = ({
-  user,
-}) => {
+const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
   const combinedHistory = useMemo(() => {
     // Collect all the history items across suspensions and bans.
     const history: Record[] = [
@@ -126,7 +124,7 @@ const UserHistoryDrawerAccountHistory: FunctionComponent<Props> = ({
 
 const enhanced = withFragmentContainer<any>({
   user: graphql`
-    fragment UserHistoryDrawerAccountHistory_user on User {
+    fragment UserDrawerAccountHistory_user on User {
       status {
         ban {
           history {
@@ -153,6 +151,6 @@ const enhanced = withFragmentContainer<any>({
       }
     }
   `,
-})(UserHistoryDrawerAccountHistory);
+})(UserDrawerAccountHistory);
 
 export default enhanced;
