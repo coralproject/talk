@@ -176,7 +176,7 @@ export interface BanStatusHistory {
    */
   createdAt: Date;
 
-  message: string;
+  message?: string;
 }
 
 /**
