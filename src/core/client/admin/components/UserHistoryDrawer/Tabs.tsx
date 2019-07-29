@@ -10,17 +10,17 @@ import UserHistoryDrawerRejectedCommentsQuery from "./UserHistoryDrawerRejectedC
 
 import styles from "./Tabs.css";
 
-type TabType = "ALL_COMMENTS" | "REJECTED_COMMENTS" | "ACCOUNT_HISTORY";
+type UserTabs = "ALL_COMMENTS" | "REJECTED_COMMENTS" | "ACCOUNT_HISTORY";
 
 interface Props {
   userID: string;
 }
 
 const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
-  const [currentTab, setCurrentTab] = useState<TabType>("ALL_COMMENTS");
+  const [currentTab, setCurrentTab] = useState<UserTabs>("ALL_COMMENTS");
 
   const onTabChanged = useCallback(
-    (tab: TabType) => {
+    (tab: UserTabs) => {
       setCurrentTab(tab);
     },
     [setCurrentTab]
