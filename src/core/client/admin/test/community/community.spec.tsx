@@ -733,6 +733,85 @@ it("ban user", async () => {
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
 });
 
+it("ban user with custom message", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      banUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          message: "YOU WERE BANNED FOR BREAKING THE RULES",
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.BANNED),
+            ban: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Ban User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText(
+    "Are you sure you want to ban",
+    {
+      exact: false,
+    }
+  );
+
+  expect(within(modal).toJSON()).toMatchSnapshot();
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByID("ban-edit-message")
+      .props.onChange({ target: { checked: true } });
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByID("banModal-message")
+      .props.onChange({
+        target: { value: "YOU WERE BANNED FOR BREAKING THE RULES" },
+      });
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByText("Ban User")
+      .props.onClick();
+  });
+  within(userRow).getByText("Banned");
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
+});
+
 it("remove user ban", async () => {
   const user = users.bannedCommenter;
   const resolvers = createResolversStub<GQLResolver>({

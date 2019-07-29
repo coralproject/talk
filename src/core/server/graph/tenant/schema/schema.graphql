@@ -1301,6 +1301,11 @@ type BanStatusHistory {
   createdAt is the time that the given User was banned.
   """
   createdAt: Time!
+
+  """
+  message is an optional message to be sent to user.
+  """
+  message: String
 }
 
 """
@@ -4224,6 +4229,11 @@ input BanUserInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  message is an optional message to send to banned user
+  """
+  message: String
 }
 
 type BanUserPayload {

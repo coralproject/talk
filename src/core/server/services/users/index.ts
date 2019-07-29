@@ -413,7 +413,8 @@ export async function ban(
   tenant: Tenant,
   banner: User,
   userID: string,
-  now = new Date()
+  now = new Date(),
+  message?: string
 ) {
   // Get the user being banned to check to see if the user already has an
   // existing ban.
@@ -429,7 +430,7 @@ export async function ban(
   }
 
   // Ban the user.
-  const user = await banUser(mongo, tenant.id, userID, banner.id, now);
+  const user = await banUser(mongo, tenant.id, userID, banner.id, now, message);
 
   // If the user has an email address associated with their account, send them
   // a ban notification email.
@@ -448,6 +449,7 @@ export async function ban(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });

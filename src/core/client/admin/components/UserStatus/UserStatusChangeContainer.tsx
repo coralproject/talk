@@ -101,8 +101,8 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         username={user.username}
         open={showBanned}
         onClose={() => setShowBanned(false)}
-        onConfirm={() => {
-          banUser({ userID: user.id });
+        onConfirm={message => {
+          banUser({ userID: user.id, message });
           setShowBanned(false);
         }}
       />
