@@ -53,8 +53,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@coralproject/bunyan-prettystream": "^0.1.4",
+    "@types/archiver": "^3.0.0",
     "akismet-api": "^4.2.0",
     "apollo-server-express": "^2.1.0",
+    "archiver": "^3.0.3",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "bull": "^3.8.1",
@@ -67,6 +69,7 @@
     "cookie": "^0.4.0",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.4",
+    "csv-stringify": "^5.3.0",
     "dataloader": "^1.4.0",
     "dompurify": "^1.0.8",
     "dotenv": "^6.0.0",
