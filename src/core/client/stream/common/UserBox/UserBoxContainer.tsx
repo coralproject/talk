@@ -71,7 +71,7 @@ export class UserBoxContainer extends Component<Props> {
     ].some(i => i.enabled && i.targetFilter.stream);
   }
 
-  private get authUrl(): any {
+  private get authUrl(): string {
     const {
       facebook,
       google,
@@ -87,24 +87,14 @@ export class UserBoxContainer extends Component<Props> {
       return defaultAuthUrl;
     }
 
-    const onlyFacebookIntegration =
-      facebook.enabled && !google.enabled && !oidc.enabled;
-    const onlyGoogleIntegration =
-      !facebook.enabled && google.enabled && !oidc.enabled;
-    const onlyOidcIntegration =
-      !facebook.enabled && !google.enabled && oidc.enabled;
-
-    if (onlyFacebookIntegration) {
-      return facebook.redirectURL;
+    // For each of these integrations, if only one is enabled, then return the
+    // redirectURL for that one only.
+    const integrations = [facebook, google, oidc];
+    const enabled = integrations.filter(integration => integration.enabled);
+    if (enabled.length === 1 && enabled[0].redirectURL) {
+      return enabled[0].redirectURL;
     }
 
-    if (onlyGoogleIntegration) {
-      return google.redirectURL;
-    }
-
-    if (onlyOidcIntegration) {
-      return oidc.redirectURL;
-    }
     return defaultAuthUrl;
   }
 
