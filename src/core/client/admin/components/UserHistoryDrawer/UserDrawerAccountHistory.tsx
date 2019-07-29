@@ -1,4 +1,7 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useMemo } from "react";
+
+import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
@@ -11,12 +14,9 @@ import {
   TableRow,
 } from "coral-ui/components";
 
-import { UserDrawerAccountHistory_user } from "coral-admin/__generated__/UserDrawerAccountHistory_user.graphql";
-
 import BanRecord from "./BanRecord";
 import SuspensionRecord from "./SuspensionRecord";
 
-import { Localized } from "fluent-react/compat";
 import styles from "./UserDrawerAccountHistory.css";
 
 interface Props {

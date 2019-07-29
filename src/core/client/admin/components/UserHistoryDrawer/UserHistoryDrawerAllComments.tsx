@@ -6,13 +6,13 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql, RelayPaginationProp } from "react-relay";
 
-import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
-import { Button, CallOut, Typography } from "coral-ui/components";
-
 import { UserHistoryDrawerAllComments_settings } from "coral-admin/__generated__/UserHistoryDrawerAllComments_settings.graphql";
 import { UserHistoryDrawerAllComments_user } from "coral-admin/__generated__/UserHistoryDrawerAllComments_user.graphql";
 import { UserHistoryDrawerAllComments_viewer } from "coral-admin/__generated__/UserHistoryDrawerAllComments_viewer.graphql";
 import { UserHistoryDrawerAllCommentsPaginationQueryVariables } from "coral-admin/__generated__/UserHistoryDrawerAllCommentsPaginationQuery.graphql";
+
+import { ModerateCardContainer } from "coral-admin/components/ModerateCard";
+import { Button, CallOut, Typography } from "coral-ui/components";
 
 import styles from "./UserHistoryDrawerAllComments.css";
 

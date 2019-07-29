@@ -2,10 +2,10 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import { CallOut, Spinner } from "coral-ui/components";
-
 import { UserHistoryDrawerRejectedCommentsQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsQuery.graphql";
+
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
+import { CallOut, Spinner } from "coral-ui/components";
 
 import UserHistoryDrawerRejectedComments from "./UserHistoryDrawerRejectedComments";
 
