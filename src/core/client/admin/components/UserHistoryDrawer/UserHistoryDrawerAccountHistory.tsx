@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
@@ -28,9 +28,11 @@ interface From {
   finish: any;
 }
 
+type RecordKind = "ban" | "suspension";
+
 interface Record {
-  type: string;
-  createdBy: string | null | undefined;
+  kind: RecordKind;
+  createdBy?: string | null;
   createdAt: Date;
   active: boolean;
   from?: From;
@@ -39,36 +41,39 @@ interface Record {
 const UserHistoryDrawerAccountHistory: FunctionComponent<Props> = ({
   user,
 }) => {
-  const banHistory: Record[] = user.status.ban.history
-    ? user.status.ban.history.map(i => {
-        return {
-          type: "ban",
-          createdBy: i.createdBy ? i.createdBy.username : undefined,
-          createdAt: new Date(i.createdAt),
-          active: i.active,
-          from: undefined,
-        };
-      })
-    : [];
-  const suspensionHistory: Record[] = user.status.suspension.history
-    ? user.status.suspension.history.map(i => {
-        const from: From = {
-          start: i.from.start,
-          finish: i.from.finish,
-        };
+  const combinedHistory = useMemo(() => {
+    // Collect all the history items across suspensions and bans.
+    const history: Record[] = [
+      // Merge in the ban history.
+      ...user.status.ban.history.map(
+        (record): Record => ({
+          kind: "ban",
+          createdBy: record.createdBy ? record.createdBy.username : undefined,
+          createdAt: new Date(record.createdAt),
+          active: record.active,
+        })
+      ),
 
-        return {
-          type: "suspension",
-          createdBy: i.createdBy ? i.createdBy.username : undefined,
-          createdAt: new Date(i.createdAt),
-          active: i.active,
-          from,
-        };
-      })
-    : [];
-  const combinedHistory = banHistory
-    .concat(suspensionHistory)
-    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      // Merge in the suspension history.
+      ...user.status.suspension.history.map(
+        (record): Record => ({
+          kind: "suspension",
+          createdBy: record.createdBy ? record.createdBy.username : undefined,
+          createdAt: new Date(record.createdAt),
+          active: record.active,
+          from: {
+            start: record.from.start,
+            finish: record.from.finish,
+          },
+        })
+      ),
+    ];
+
+    // Sort the history so that it's in the right order.
+    return history.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    );
+  }, [user]);
 
   if (combinedHistory.length === 0) {
     return (
@@ -81,43 +86,41 @@ const UserHistoryDrawerAccountHistory: FunctionComponent<Props> = ({
   }
 
   return (
-    <>
-      <HorizontalGutter size="double">
-        <Table fullWidth>
-          <TableHead className={styles.tableHeader}>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Action</TableCell>
-              <TableCell>Taken By</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {combinedHistory.map((history, index) => {
-              if (history.type === "ban") {
-                return (
-                  <BanRecord
-                    key={index}
-                    createdAt={history.createdAt}
-                    active={history.active}
-                    createdBy={history.createdBy}
-                  />
-                );
-              } else {
-                return (
-                  <SuspensionRecord
-                    key={index}
-                    createdAt={history.createdAt}
-                    active={history.active}
-                    from={history.from!}
-                    createdBy={history.createdBy}
-                  />
-                );
-              }
-            })}
-          </TableBody>
-        </Table>
-      </HorizontalGutter>
-    </>
+    <HorizontalGutter size="double">
+      <Table fullWidth>
+        <TableHead className={styles.tableHeader}>
+          <TableRow>
+            <TableCell>Date</TableCell>
+            <TableCell>Action</TableCell>
+            <TableCell>Taken By</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {combinedHistory.map((history, index) => {
+            if (history.kind === "ban") {
+              return (
+                <BanRecord
+                  key={index}
+                  createdAt={history.createdAt}
+                  active={history.active}
+                  createdBy={history.createdBy}
+                />
+              );
+            } else {
+              return (
+                <SuspensionRecord
+                  key={index}
+                  createdAt={history.createdAt}
+                  active={history.active}
+                  from={history.from!}
+                  createdBy={history.createdBy}
+                />
+              );
+            }
+          })}
+        </TableBody>
+      </Table>
+    </HorizontalGutter>
   );
 };
 
