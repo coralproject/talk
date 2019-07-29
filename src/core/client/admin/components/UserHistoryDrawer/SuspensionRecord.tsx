@@ -139,7 +139,7 @@ const SuspensionRecord: FunctionComponent<Props> = ({
   from,
   createdBy,
 }) => {
-  let action: any = null;
+  let action: React.ReactNode = null;
   if (active) {
     const startDate = new Date(from.start);
     const endDate = new Date(from.finish);

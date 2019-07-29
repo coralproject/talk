@@ -16,7 +16,7 @@ const BanRecord: FunctionComponent<Props> = ({
   active,
   createdBy,
 }) => {
-  let action: any = null;
+  let action: React.ReactNode = null;
   if (active) {
     action = (
       <Localized id={"moderate-user-drawer-account-history-banned"}>
