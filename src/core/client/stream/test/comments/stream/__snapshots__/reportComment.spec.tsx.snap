@@ -493,7 +493,7 @@ exports[`report comment as offensive 1`] = `
             We’ve received your message. Reports from members like you keep the community safe.
              
             <button
-              className="BaseButton-root Button-root ThankYou-dismiss Button-sizeRegular Button-colorPrimary Button-variantUnderlined"
+              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantUnderlined ThankYou-dismiss"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}

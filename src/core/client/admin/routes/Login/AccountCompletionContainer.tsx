@@ -1,6 +1,5 @@
 import { RouterState, withRouter } from "found";
-import * as React from "react";
-import { Component } from "react";
+import React, { Component } from "react";
 
 import { AccountCompletionContainer_auth as AuthData } from "coral-admin/__generated__/AccountCompletionContainer_auth.graphql";
 import { AccountCompletionContainer_viewer as UserData } from "coral-admin/__generated__/AccountCompletionContainer_viewer.graphql";

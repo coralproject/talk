@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<div>
+<div
+  className="coral coral-createComment"
+>
   <Relay(MessageBoxContainer)
     className="PostCommentFormFake-messageBox"
     story={Object {}}
@@ -11,6 +13,7 @@ exports[`renders correctly 1`] = `
   >
     <div
       aria-hidden="true"
+      className="coral coral-createComment-box"
     >
       <Localized
         attrs={
@@ -31,6 +34,7 @@ exports[`renders correctly 1`] = `
       id="comments-postCommentFormFake-signInAndJoin"
     >
       <ForwardRef(forwardRef)
+        className="coral coral-createComment-signIn"
         color="primary"
         fullWidth={true}
         onClick={[Function]}

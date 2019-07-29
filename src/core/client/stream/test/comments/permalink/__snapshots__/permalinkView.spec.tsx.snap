@@ -99,6 +99,7 @@ exports[`renders permalink view 1`] = `
               </svg>
             </div>
             <div
+              className="coral coral-comment"
               data-testid="comment-comment-1"
             >
               <div
@@ -138,7 +139,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                                 >
                                   Lukas
                                 </span>
@@ -162,7 +163,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="Timestamp-root RelativeTime-root"
+                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -305,6 +306,7 @@ exports[`renders permalink view 1`] = `
               </svg>
             </div>
             <div
+              className="coral coral-comment"
               data-testid="comment-comment-2"
             >
               <div
@@ -344,7 +346,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                                 >
                                   Isabelle
                                 </span>
@@ -368,7 +370,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="Timestamp-root RelativeTime-root"
+                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -509,6 +511,7 @@ exports[`renders permalink view 1`] = `
               </svg>
             </div>
             <div
+              className="coral coral-comment"
               data-testid="comment-comment-with-replies"
             >
               <div
@@ -548,7 +551,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                                 >
                                   Markus
                                 </span>
@@ -572,7 +575,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="Timestamp-root RelativeTime-root"
+                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -709,6 +712,7 @@ exports[`renders permalink view 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="coral coral-comment"
               data-testid="comment-comment-3"
             >
               <div
@@ -748,7 +752,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                                 >
                                   Isabelle
                                 </span>
@@ -772,7 +776,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="Timestamp-root RelativeTime-root"
+                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >
@@ -925,6 +929,7 @@ exports[`renders permalink view 1`] = `
             className="Box-root HorizontalGutter-root HorizontalGutter-full"
           >
             <div
+              className="coral coral-comment"
               data-testid="comment-comment-4"
             >
               <div
@@ -964,7 +969,7 @@ exports[`renders permalink view 1`] = `
                                 type="button"
                               >
                                 <span
-                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root"
+                                  className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary Username-root coral coral-comment-username"
                                 >
                                   Isabelle
                                 </span>
@@ -988,7 +993,7 @@ exports[`renders permalink view 1`] = `
                             className="Box-root Flex-root Flex-flex Flex-itemGutter Flex-alignBaseline Flex-directionRow gutter"
                           >
                             <time
-                              className="Timestamp-root RelativeTime-root"
+                              className="RelativeTime-root Timestamp-root coral coral-comment-timestamp"
                               dateTime="2018-07-06T18:24:00.000Z"
                               title="2018-07-06T18:24:00.000Z"
                             >

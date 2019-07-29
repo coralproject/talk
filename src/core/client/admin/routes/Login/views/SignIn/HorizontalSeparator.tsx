@@ -1,5 +1,4 @@
-import React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import { Flex } from "coral-ui/components";
 

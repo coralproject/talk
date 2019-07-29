@@ -1,3 +1,7 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent } from "react";
+import { Field } from "react-final-form";
+
 import { PasswordField } from "coral-framework/components";
 import {
   composeValidators,
@@ -10,10 +14,6 @@ import {
   InputLabel,
   ValidationMessage,
 } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
-import { Field } from "react-final-form";
 
 interface Props {
   disabled: boolean;

@@ -1,6 +1,5 @@
 import { HorizontalGutter, TabContent, TabPane } from "coral-ui/components";
-import * as React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 import Comments from "../tabs/Comments";
 import Configure from "../tabs/Configure";

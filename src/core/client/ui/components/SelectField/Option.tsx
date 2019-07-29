@@ -1,5 +1,4 @@
-import React from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 
 export interface OptionProps {
   value?: string;

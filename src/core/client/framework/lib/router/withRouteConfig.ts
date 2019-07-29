@@ -1,5 +1,5 @@
 import { RouteMatch, RouteProps } from "found";
-import * as React from "react";
+import React from "react";
 
 type RouteConfig<Props = any, QueryResponse = undefined> = Partial<
   Pick<RouteProps, "query" | "getQuery">
