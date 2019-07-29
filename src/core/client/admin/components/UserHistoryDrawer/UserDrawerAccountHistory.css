@@ -9,10 +9,12 @@
 }
 
 .row:nth-child(even) {
+  /* NOTE: differs from pallate colors */
   background-color: rgba(242, 242, 242, 0.4);
 }
 
 .row:nth-child(even):hover {
+  /* NOTE: differs from pallate colors */
   background-color: rgba(242, 242, 242, 0.4);
   box-shadow: none;
 }
