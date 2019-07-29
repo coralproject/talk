@@ -2,34 +2,34 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
+import { UserHistoryDrawerRejectedCommentsQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerRejectedCommentsQuery.graphql";
+
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import { CallOut, Spinner } from "coral-ui/components";
 
-import { UserHistoryAllCommentsContainerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryAllCommentsContainerQuery.graphql";
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
+import UserHistoryDrawerRejectedComments from "./UserHistoryDrawerRejectedComments";
 
-import UserHistoryAllComments from "./UserHistoryAllComments";
-
-import styles from "./UserHistoryAllCommentsContainer.css";
+import styles from "./UserHistoryDrawerRejectedCommentsQuery.css";
 
 interface Props {
   userID: string;
 }
 
-const UserHistoryAllCommentsContainer: FunctionComponent<Props> = ({
+const UserHistoryDrawerRejectedCommentsQuery: FunctionComponent<Props> = ({
   userID,
 }) => {
   return (
-    <QueryRenderer<QueryTypes>
+    <QueryRenderer<any>
       query={graphql`
-        query UserHistoryAllCommentsContainerQuery($userID: ID!) {
+        query UserHistoryDrawerRejectedCommentsQuery($userID: ID!) {
           user(id: $userID) {
-            ...UserHistoryAllComments_user
+            ...UserHistoryDrawerRejectedComments_user
           }
           viewer {
-            ...UserHistoryAllComments_viewer
+            ...UserHistoryDrawerRejectedComments_viewer
           }
           settings {
-            ...UserHistoryAllComments_settings
+            ...UserHistoryDrawerRejectedComments_settings
           }
         }
       `}
@@ -57,7 +57,7 @@ const UserHistoryAllCommentsContainer: FunctionComponent<Props> = ({
         }
 
         return (
-          <UserHistoryAllComments
+          <UserHistoryDrawerRejectedComments
             // We can never get to this part of the UI without being logged in.
             viewer={props.viewer!}
             settings={props.settings!}
@@ -69,4 +69,4 @@ const UserHistoryAllCommentsContainer: FunctionComponent<Props> = ({
   );
 };
 
-export default UserHistoryAllCommentsContainer;
+export default UserHistoryDrawerRejectedCommentsQuery;
