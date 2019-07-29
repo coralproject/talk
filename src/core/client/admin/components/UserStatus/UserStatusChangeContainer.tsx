@@ -22,7 +22,7 @@ interface Props {
 
 const UserStatusChangeContainer: FunctionComponent<Props> = ({
   user,
-  fullWidth = true,
+  fullWidth = false,
 }) => {
   const banUser = useMutation(BanUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);

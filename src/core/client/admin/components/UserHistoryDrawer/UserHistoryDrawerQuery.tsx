@@ -80,7 +80,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             <div className={styles.userStatus}>
               <div className={styles.userStatusLabel}>Status:</div>
               <div className={styles.userStatusChange}>
-                <UserStatusChangeContainer user={user} fullWidth={false} />
+                <UserStatusChangeContainer user={user} />
               </div>
             </div>
             <div className={styles.userDetails}>
