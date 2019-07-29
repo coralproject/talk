@@ -128,9 +128,15 @@ export async function handleSuccessfulLogin(
     const expiresIn = DateTime.fromJSDate(coral.now).plus({ days: 1 });
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant, {
-      expiresIn: Math.floor(expiresIn.toSeconds()),
-    });
+    const token = await signTokenString(
+      signingConfig,
+      user,
+      tenant,
+      {
+        expiresIn: Math.round(expiresIn.toSeconds()),
+      },
+      coral.now
+    );
 
     // Set the cache control headers.
     res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
@@ -184,9 +190,15 @@ export async function handleOAuth2Callback(
     const expiresIn = DateTime.fromJSDate(req.coral!.now).plus({ days: 1 });
 
     // Grab the token.
-    const token = await signTokenString(signingConfig, user, tenant, {
-      expiresIn: Math.floor(expiresIn.toSeconds()),
-    });
+    const token = await signTokenString(
+      signingConfig,
+      user,
+      tenant,
+      {
+        expiresIn: Math.round(expiresIn.toSeconds()),
+      },
+      req.coral!.now
+    );
     res.cookie(
       COOKIE_NAME,
       token,
