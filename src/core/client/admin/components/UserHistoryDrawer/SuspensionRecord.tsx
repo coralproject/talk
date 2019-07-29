@@ -34,7 +34,7 @@ const unitElements: Record<
     if (currentValue > 1) {
       return (
         <Localized
-          id="moderate-user-drawer-seconds"
+          id="moderate-user-drawer-suspension-seconds"
           $value={currentValue.toString()}
         >
           seconds
@@ -43,7 +43,7 @@ const unitElements: Record<
     }
     return (
       <Localized
-        id="moderate-user-drawer-second"
+        id="moderate-user-drawer-suspension-second"
         $value={currentValue.toString()}
       >
         second
@@ -54,7 +54,7 @@ const unitElements: Record<
     if (currentValue > 1) {
       return (
         <Localized
-          id="moderate-user-drawer-minutes"
+          id="moderate-user-drawer-suspension-minutes"
           $value={currentValue.toString()}
         >
           minutes
@@ -64,7 +64,7 @@ const unitElements: Record<
 
     return (
       <Localized
-        id="moderate-user-drawer-minute"
+        id="moderate-user-drawer-suspension-minute"
         $value={currentValue.toString()}
       >
         minute
@@ -75,7 +75,7 @@ const unitElements: Record<
     if (currentValue > 1) {
       return (
         <Localized
-          id="moderate-user-drawer-hours"
+          id="moderate-user-drawer-suspension-hours"
           $value={currentValue.toString()}
         >
           hours
@@ -85,7 +85,7 @@ const unitElements: Record<
 
     return (
       <Localized
-        id="moderate-user-drawer-hour"
+        id="moderate-user-drawer-suspension-hour"
         $value={currentValue.toString()}
       >
         hour
@@ -96,7 +96,7 @@ const unitElements: Record<
     if (currentValue > 1) {
       return (
         <Localized
-          id="moderate-user-drawer-days"
+          id="moderate-user-drawer-suspension-days"
           $value={currentValue.toString()}
         >
           days
@@ -105,7 +105,10 @@ const unitElements: Record<
     }
 
     return (
-      <Localized id="moderate-user-drawer-day" $value={currentValue.toString()}>
+      <Localized
+        id="moderate-user-drawer-suspension-day"
+        $value={currentValue.toString()}
+      >
         day
       </Localized>
     );
@@ -114,7 +117,7 @@ const unitElements: Record<
     if (currentValue > 1) {
       return (
         <Localized
-          id="moderate-user-drawer-weeks"
+          id="moderate-user-drawer-suspension-weeks"
           $value={currentValue.toString()}
         >
           weeks
@@ -124,7 +127,7 @@ const unitElements: Record<
 
     return (
       <Localized
-        id="moderate-user-drawer-week"
+        id="moderate-user-drawer-suspension-week"
         $value={currentValue.toString()}
       >
         week
@@ -151,14 +154,7 @@ const SuspensionRecord: FunctionComponent<Props> = ({
     const value = diffSeconds / unit;
     const timeSpan = unitElements[unit](value);
 
-    action = (
-      <>
-        <Localized id={"moderate-user-drawer-account-history-suspension-time"}>
-          Suspension
-        </Localized>
-        {timeSpan}
-      </>
-    );
+    action = <>{timeSpan}</>;
   } else {
     action = (
       <Localized id={"moderate-user-drawer-account-history-suspension-removed"}>

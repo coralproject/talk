@@ -437,22 +437,21 @@ moderate-user-drawer-rejected-no-comments = {$username} does not have any reject
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
 
-moderate-user-drawer-account-history-suspension-time = Suspension
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
 moderate-user-drawer-account-history-banned = Banned
 moderate-user-drawer-account-history-ban-removed = Ban removed
 moderate-user-drawer-account-history-no-history = No actions have been taken on this account
 
-moderate-user-drawer-week = , { $value } week
-moderate-user-drawer-weeks = , { $value } weeks
-moderate-user-drawer-day = , { $value } day
-moderate-user-drawer-days = , { $value } days
-moderate-user-drawer-hour = , { $value } hour
-moderate-user-drawer-hours = , { $value } hours
-moderate-user-drawer-minute = , { $value } minute
-moderate-user-drawer-minutes = , { $value } minutes
-moderate-user-drawer-second = , { $value } second
-moderate-user-drawer-seconds = , { $value } seconds
+moderate-user-drawer-suspension-week = Suspension, { $value } week
+moderate-user-drawer-suspension-weeks = Suspension, { $value } weeks
+moderate-user-drawer-suspension-day = Suspension, { $value } day
+moderate-user-drawer-suspension-days = Suspension, { $value } days
+moderate-user-drawer-suspension-hour = Suspension, { $value } hour
+moderate-user-drawer-suspension-hours = Suspension, { $value } hours
+moderate-user-drawer-suspension-minute = Suspension, { $value } minute
+moderate-user-drawer-suspension-minutes = Suspension, { $value } minutes
+moderate-user-drawer-suspension-second = Suspension, { $value } second
+moderate-user-drawer-suspension-seconds = Suspension, { $value } seconds
 
 ## Create Username
 
