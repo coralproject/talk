@@ -24,7 +24,7 @@ export type BanTemplate = UserNotificationContext<
   {
     username: string;
     organizationContactEmail: string;
-    customMessge?: string;
+    customMessage?: string;
   }
 >;
 
