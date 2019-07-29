@@ -69,7 +69,7 @@ const UserHistoryTabs: FunctionComponent<Props> = ({ userID }) => {
             })}
           >
             <Icon size="sm" className={styles.tabIcon}>
-              cancel
+              history
             </Icon>
             <Localized id="moderate-user-drawer-tab-account-history">
               <span>Account History</span>

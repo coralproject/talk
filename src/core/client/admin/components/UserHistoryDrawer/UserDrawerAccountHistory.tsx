@@ -8,6 +8,7 @@ import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import {
   CallOut,
   HorizontalGutter,
+  Icon,
   Table,
   TableBody,
   TableCell,
@@ -46,6 +47,16 @@ interface BanHistoryRecord {
 type HistoryRecord = SuspensionHistoryRecord | BanHistoryRecord;
 
 const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
+  const system = (
+    <Localized
+      id="moderate-user-drawer-account-history-system"
+      icon={<Icon size="md">computer</Icon>}
+    >
+      <span>
+        <Icon size="md">computer</Icon> System
+      </span>
+    </Localized>
+  );
   const { locales } = useCoralContext();
   const combinedHistory = useMemo(() => {
     // Collect all the different types of history items.
@@ -67,7 +78,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
             from,
           },
           date: new Date(record.modifiedAt),
-          takenBy: record.modifiedBy ? record.modifiedBy.username : "System",
+          takenBy: record.modifiedBy ? record.modifiedBy.username : system,
         });
       } else if (!record.active) {
         // Merge in the suspension expiries.
@@ -78,7 +89,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
             from,
           },
           date: from.finish,
-          takenBy: "System",
+          takenBy: system,
         });
       }
 
@@ -90,7 +101,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
           from,
         },
         date: new Date(record.createdAt),
-        takenBy: record.createdBy ? record.createdBy.username : "System",
+        takenBy: record.createdBy ? record.createdBy.username : system,
       });
     });
 
@@ -102,7 +113,7 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
           action: record.active ? "created" : "removed",
         },
         date: new Date(record.createdAt),
-        takenBy: record.createdBy ? record.createdBy.username : "System",
+        takenBy: record.createdBy ? record.createdBy.username : system,
       });
     });
 
