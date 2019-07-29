@@ -112,11 +112,10 @@ hr {
 
 .userStatusChange {
   display: inline-block;
-
-  padding-left: var(--spacing-1);
-
   border-style: solid;
   border-color: var(--palette-grey-lighter);
   border-width: 1px;
   border-radius: 2px;
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-1);
 }

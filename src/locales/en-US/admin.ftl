@@ -428,6 +428,12 @@ moderate-searchBar-seeAllResults = See all results
 
 ### Moderate User History Drawer
 
+moderate-user-drawer-email =
+  .title = Email address
+moderate-user-drawer-created-at =
+  .title = Account creation date
+moderate-user-drawer-member-id =
+  .title = Member ID
 moderate-user-drawer-tab-all-comments = All Comments
 moderate-user-drawer-tab-rejected-comments = Rejected
 moderate-user-drawer-tab-account-history = Account History

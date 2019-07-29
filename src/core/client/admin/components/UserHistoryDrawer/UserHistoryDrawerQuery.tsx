@@ -92,9 +92,14 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             </div>
             <div className={styles.userDetails}>
               <Flex alignItems="center" className={styles.userDetail}>
-                <Icon size="sm" className={styles.icon}>
-                  mail_outline
-                </Icon>
+                <Localized
+                  id="moderate-user-drawer-email"
+                  attrs={{ title: true }}
+                >
+                  <Icon size="sm" className={styles.icon} title="Email address">
+                    mail_outline
+                  </Icon>
+                </Localized>
                 <Typography
                   variant="bodyCopy"
                   container="span"
@@ -109,17 +114,31 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                 />
               </Flex>
               <Flex alignItems="center" className={styles.userDetail}>
-                <Icon size="sm" className={styles.icon}>
-                  date_range
-                </Icon>
+                <Localized
+                  id="moderate-user-drawer-created-at"
+                  attrs={{ title: true }}
+                >
+                  <Icon
+                    size="sm"
+                    className={styles.icon}
+                    title="Account creation date"
+                  >
+                    date_range
+                  </Icon>
+                </Localized>
                 <Typography variant="bodyCopy" container="span">
                   {formatter.format(new Date(user.createdAt))}
                 </Typography>
               </Flex>
               <Flex alignItems="center" className={styles.userDetail}>
-                <Icon size="sm" className={styles.icon}>
-                  people_outline
-                </Icon>
+                <Localized
+                  id="moderate-user-drawer-member-id"
+                  attrs={{ title: true }}
+                >
+                  <Icon size="sm" className={styles.icon} title="Member ID">
+                    people_outline
+                  </Icon>
+                </Localized>
                 <Typography
                   variant="bodyCopy"
                   container="span"
