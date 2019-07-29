@@ -99,7 +99,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                   id="moderate-user-drawer-email"
                   attrs={{ title: true }}
                 >
-                  <Icon size="sm" className={styles.icon}>
+                  <Icon size="sm" className={styles.icon} title="Email address">
                     mail_outline
                   </Icon>
                 </Localized>
@@ -121,7 +121,11 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                   id="moderate-user-drawer-created-at"
                   attrs={{ title: true }}
                 >
-                  <Icon size="sm" className={styles.icon}>
+                  <Icon
+                    size="sm"
+                    className={styles.icon}
+                    title="Account creation date"
+                  >
                     date_range
                   </Icon>
                 </Localized>
@@ -138,7 +142,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                   id="moderate-user-drawer-member-id"
                   attrs={{ title: true }}
                 >
-                  <Icon size="sm" className={styles.icon}>
+                  <Icon size="sm" className={styles.icon} title="Member ID">
                     people_outline
                   </Icon>
                 </Localized>
