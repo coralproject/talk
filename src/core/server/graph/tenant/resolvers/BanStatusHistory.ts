@@ -13,4 +13,5 @@ export const BanStatusHistory: Required<
     return null;
   },
   createdAt: ({ createdAt }) => createdAt,
+  message: ({ message }) => message,
 };

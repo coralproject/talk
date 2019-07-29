@@ -175,6 +175,8 @@ export interface BanStatusHistory {
    * createdAt is the time that the given ban was added.
    */
   createdAt: Date;
+
+  message: string;
 }
 
 /**
@@ -1109,13 +1111,15 @@ async function retrieveConnection(
  * @param id the ID of the user being banned
  * @param createdBy the ID of the user banning the above mentioned user
  * @param now the current date
+ * @param message message to banned user
  */
 export async function banUser(
   mongo: Db,
   tenantID: string,
   id: string,
   createdBy: string,
-  now = new Date()
+  now = new Date(),
+  message?: string
 ) {
   // Create the new ban.
   const banHistory: BanStatusHistory = {
@@ -1123,6 +1127,7 @@ export async function banUser(
     active: true,
     createdBy,
     createdAt: now,
+    message,
   };
 
   // Try to update the user if the user isn't already banned.

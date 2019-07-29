@@ -129,7 +129,8 @@ export const Users = (ctx: TenantContext) => ({
       ctx.tenant,
       ctx.user!,
       input.userID,
-      ctx.now
+      ctx.now,
+      input.message
     ),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
