@@ -1,0 +1,49 @@
+.tableHeader {
+  border-width: 0px;
+  border-style: none;
+  background-color: var(--palette-grey-lightest);
+}
+
+.row:first-child:hover {
+  border-top: none;
+}
+
+.row:nth-child(even) {
+  /* NOTE: differs from pallate colors */
+  background-color: rgba(242, 242, 242, 0.4);
+}
+
+.row:nth-child(even):hover {
+  /* NOTE: differs from pallate colors */
+  background-color: rgba(242, 242, 242, 0.4);
+  box-shadow: none;
+}
+
+.row:nth-child(odd):hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.date {
+  min-width: 120px;
+}
+
+.action {
+  min-width: 200px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user {
+  min-width: 200px;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user > * {
+  vertical-align: sub;
+}
