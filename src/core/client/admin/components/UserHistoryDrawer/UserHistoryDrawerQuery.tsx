@@ -7,7 +7,6 @@ import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/
 import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import {
   Button,
   CallOut,

@@ -55,8 +55,7 @@ const UserRow: FunctionComponent<Props> = ({
         <UserRole user={user} viewer={viewer} />
       </TableCell>
       <TableCell className={styles.statusColumn}>
-        <UserStatus user={user} settings={settings} />
-        <UserStatus user={user} fullWidth />
+        <UserStatus user={user} settings={settings} fullWidth />
       </TableCell>
     </TableRow>
   );
