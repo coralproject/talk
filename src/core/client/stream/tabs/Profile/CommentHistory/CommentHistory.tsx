@@ -10,9 +10,9 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import styles from "./CommentHistory.css";
-
 import HistoryCommentContainer from "./HistoryCommentContainer";
+
+import styles from "./CommentHistory.css";
 
 interface CommentHistoryProps {
   story: PropTypesOf<typeof HistoryCommentContainer>["story"];
@@ -41,12 +41,12 @@ const CommentHistory: FunctionComponent<CommentHistoryProps> = props => {
           <div className={styles.emptyHistoryIcon}>
             <Icon size="xl">chat_bubble_outline</Icon>
           </div>
-          <Localized id="Profile-commentHistory-empty">
+          <Localized id="profile-commentHistory-empty">
             <Typography gutterBottom variant="heading2">
               You have not written any comments
             </Typography>
           </Localized>
-          <Localized id="Profile-commentHistory-empty-subheading">
+          <Localized id="profile-commentHistory-empty-subheading">
             <Typography>A history of your comments will appear here</Typography>
           </Localized>
         </Flex>

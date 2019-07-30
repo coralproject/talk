@@ -155,7 +155,7 @@ profile-profileQuery-errorLoadingProfile = Error loading profile
 profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
 profile-commentHistory-empty = You have not written any comments
-Profile-commentHistory-empty-subheading = A history of your comments will appear here
+profile-commentHistory-empty-subheading = A history of your comments will appear here
 
 ### Settings
 profile-settings-ignoredCommenters = Ignored Commenters
