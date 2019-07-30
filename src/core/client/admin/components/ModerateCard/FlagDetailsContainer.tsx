@@ -17,6 +17,7 @@ import ToxicityLabel from "./ToxicityLabel";
 interface Props {
   comment: FlagDetailsContainer_comment;
   settings: FlagDetailsContainer_settings;
+  onUserNameClick: (id?: string) => void;
 }
 
 const FlagDetailsContainer: FunctionComponent<Props> = ({
@@ -24,6 +25,7 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
     revision: { metadata },
     flags: { nodes },
   },
+  onUserNameClick,
   settings,
 }) => {
   const offensive = nodes.filter(
@@ -63,6 +65,9 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
           {offensive.map((flag, i) => (
             <FlagDetailsEntry
               key={i}
+              onClick={() =>
+                flag.flagger ? onUserNameClick(flag.flagger.id) : null
+              }
               user={flag.flagger ? flag.flagger.username : <NotAvailable />}
               details={flag.additionalDetails}
             />
@@ -79,6 +84,9 @@ const FlagDetailsContainer: FunctionComponent<Props> = ({
         >
           {spam.map((flag, i) => (
             <FlagDetailsEntry
+              onClick={() =>
+                flag.flagger ? onUserNameClick(flag.flagger.id) : null
+              }
               key={i}
               user={flag.flagger ? flag.flagger.username : <NotAvailable />}
               details={flag.additionalDetails}
@@ -97,6 +105,7 @@ const enhanced = withFragmentContainer<Props>({
         nodes {
           flagger {
             username
+            id
           }
           reason
           additionalDetails

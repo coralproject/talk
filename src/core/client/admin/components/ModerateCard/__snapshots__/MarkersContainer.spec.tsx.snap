@@ -30,6 +30,7 @@ exports[`renders all markers 1`] = `
           "status": "PREMOD",
         }
       }
+      onUserNameClick={[Function]}
       settings={
         Object {
           "integrations": Object {
@@ -169,6 +170,7 @@ exports[`renders some markers 1`] = `
           "status": "PREMOD",
         }
       }
+      onUserNameClick={[Function]}
       settings={
         Object {
           "integrations": Object {

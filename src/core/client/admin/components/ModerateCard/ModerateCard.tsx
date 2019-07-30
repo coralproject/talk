@@ -148,7 +148,11 @@ const ModerateCard: FunctionComponent<Props> = ({
                 </Localized>
               </div>
             )}
-            <MarkersContainer comment={comment} settings={settings} />
+            <MarkersContainer
+              onUsernameClick={onUsernameClick}
+              comment={comment}
+              settings={settings}
+            />
           </HorizontalGutter>
         </div>
       </div>
