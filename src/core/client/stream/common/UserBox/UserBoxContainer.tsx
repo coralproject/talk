@@ -83,7 +83,7 @@ export class UserBoxContainer extends Component<Props> {
       this.props.local.authPopup.view
     }`;
 
-    if (local.enabled) {
+    if (local.enabled && local.targetFilter.stream) {
       return defaultAuthUrl;
     }
 
