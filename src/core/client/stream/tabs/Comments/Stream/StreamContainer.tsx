@@ -7,7 +7,10 @@ import { GQLUSER_STATUS } from "coral-framework/schema";
 import { StreamContainer_settings as SettingsData } from "coral-stream/__generated__/StreamContainer_settings.graphql";
 import { StreamContainer_story as StoryData } from "coral-stream/__generated__/StreamContainer_story.graphql";
 import { StreamContainer_viewer as ViewerData } from "coral-stream/__generated__/StreamContainer_viewer.graphql";
-import { StreamContainerLocal } from "coral-stream/__generated__/StreamContainerLocal.graphql";
+import {
+  COMMENTS_TAB,
+  StreamContainerLocal,
+} from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import { UserBoxContainer } from "coral-stream/common/UserBox";
 import {
   Counter,
@@ -66,7 +69,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
     [setLocal]
   );
   const onChangeTab = useCallback(
-    (tab: any) => setLocal({ commentsTab: tab }),
+    (tab: COMMENTS_TAB) => setLocal({ commentsTab: tab }),
     [setLocal]
   );
   const banned = Boolean(
@@ -84,12 +87,12 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       // If the selected tab is FEATURED_COMMENTS, but there aren't any featured
       // comments, then switch it to the all comments tab.
       if (featuredCommentsCount === 0) {
-        setLocal({ commentsTab: "ALL_COMMENTS" });
+        onChangeTab("ALL_COMMENTS");
       } else {
-        setLocal({ commentsTab: "FEATURED_COMMENTS" });
+        onChangeTab("FEATURED_COMMENTS");
       }
     }
-  }, [featuredCommentsCount, local.commentsTab, setLocal]);
+  }, [featuredCommentsCount, local.commentsTab, onChangeTab]);
 
   return (
     <>
@@ -102,6 +105,8 @@ export const StreamContainer: FunctionComponent<Props> = props => {
             settings={props.settings}
             story={props.story}
             viewer={props.viewer}
+            tab={local.commentsTab}
+            onChangeTab={onChangeTab}
           />
         )}
         {banned && <BannedInfo />}

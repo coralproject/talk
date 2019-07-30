@@ -17,6 +17,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { PostCommentFormContainer_settings } from "coral-stream/__generated__/PostCommentFormContainer_settings.graphql";
 import { PostCommentFormContainer_story } from "coral-stream/__generated__/PostCommentFormContainer_story.graphql";
 import { PostCommentFormContainer_viewer } from "coral-stream/__generated__/PostCommentFormContainer_viewer.graphql";
+import { COMMENTS_TAB } from "coral-stream/__generated__/StreamContainerLocal.graphql";
 import {
   ShowAuthPopupMutation,
   withShowAuthPopupMutation,
@@ -45,6 +46,8 @@ interface Props {
   viewer: PostCommentFormContainer_viewer | null;
   story: PostCommentFormContainer_story;
   showAuthPopup: ShowAuthPopupMutation;
+  tab: COMMENTS_TAB;
+  onChangeTab: (tab: COMMENTS_TAB) => void;
 }
 
 interface State {
@@ -112,6 +115,10 @@ export class PostCommentFormContainer extends Component<Props, State> {
     typeof PostCommentForm
   >["onSubmit"] = async (input, form) => {
     try {
+      if (this.props.tab === "FEATURED_COMMENTS") {
+        await this.props.onChangeTab("ALL_COMMENTS");
+      }
+
       const submitStatus = getSubmitStatus(
         await this.props.createComment({
           storyID: this.props.story.id,
