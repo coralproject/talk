@@ -22,6 +22,8 @@ function createDefaultProps(add: DeepPartial<Props> = {}): Props {
       showAuthPopup: noop as any,
       createComment: noop as any,
       refreshSettings: noop as any,
+      tab: "",
+      onChangeTab: noop as any,
       story: {
         id: "story-id",
         isClosed: false,
