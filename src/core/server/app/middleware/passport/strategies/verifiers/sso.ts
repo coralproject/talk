@@ -125,6 +125,7 @@ export async function findOrCreateSSOUser(
       mongo,
       tenant,
       {
+        id,
         username,
         role: GQLUSER_ROLE.COMMENTER,
         email,

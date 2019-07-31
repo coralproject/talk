@@ -374,21 +374,18 @@ export type InsertUserInput = Omit<
   | "ignoredUsers"
   | "emailVerificationID"
   | "createdAt"
->;
+> &
+  Partial<Pick<User, "id">>;
 
 export async function insertUser(
   mongo: Db,
   tenantID: string,
-  input: InsertUserInput,
+  { id = uuid.v4(), ...input }: InsertUserInput,
   now = new Date()
 ) {
-  // Create a new ID for the user.
-  const id = uuid.v4();
-
   // default are the properties set by the application when a new user is
   // created.
   const defaults: Sub<User, InsertUserInput> = {
-    id,
     tenantID,
     tokens: [],
     ignoredUsers: [],
@@ -425,6 +422,7 @@ export async function insertUser(
   const user: Readonly<User> = {
     ...defaults,
     ...input,
+    id,
     profiles,
   };
 

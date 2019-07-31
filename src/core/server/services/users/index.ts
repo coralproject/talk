@@ -3,6 +3,7 @@ import { Db } from "mongodb";
 
 import {
   DuplicateEmailError,
+  DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
   LocalProfileAlreadySetError,
@@ -82,6 +83,15 @@ export async function insert(
     );
     if (alreadyFoundUser) {
       throw new DuplicateEmailError(input.email);
+    }
+  }
+
+  if (input.id) {
+    // Try to check to see if there is a user with the same ID before we try to
+    // create the user again.
+    const alreadyFoundUser = await retrieveUser(mongo, tenant.id, input.id);
+    if (alreadyFoundUser) {
+      throw new DuplicateUserError();
     }
   }
 
