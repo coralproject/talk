@@ -29,34 +29,50 @@ export default class Popup extends Component<PopupProps> {
   private openWindow(props = this.props) {
     this.ref = window.open(props.href, props.title, props.features);
 
-    this.setCallbacks();
+    this.attemptSetCallbacks();
 
     // For some reasons IE needs a timeout before setting the callbacks...
-    setTimeout(() => this.setCallbacks(), 1000);
+    setTimeout(() => this.attemptSetCallbacks(), 1000);
+  }
+
+  /**
+   * attemptSetCallbacks will try to call setCallbacks wrapped in a try/catch
+   * block. In some situations, like when the user logs in via a external
+   * provider, a popup may become a cross-origin frame, which we don't have
+   * access to directly. This resolves that issue by swallowing the error here
+   * and logging it.
+   */
+  private attemptSetCallbacks() {
+    try {
+      this.setCallbacks();
+    } catch (err) {
+      // tslint:disable-next-line: no-console
+      console.error(err);
+    }
   }
 
   private setCallbacks() {
     if (!this.ref) {
       return;
     }
-    this.ref!.onload = e => {
+    this.ref.onload = e => {
       if (this.detectCloseInterval) {
         clearInterval(this.detectCloseInterval);
       }
       this.onLoad(e);
     };
 
-    this.ref!.onfocus = e => {
+    this.ref.onfocus = e => {
       this.onFocus(e);
     };
 
-    this.ref!.onblur = e => {
+    this.ref.onblur = e => {
       this.onBlur(e);
     };
 
     // Use `onunload` instead of `onbeforeunload` which is not supported in iOS
     // Safari.
-    this.ref!.onunload = e => {
+    this.ref.onunload = e => {
       this.onUnload(e);
 
       if (this.resetCallbackInterval) {

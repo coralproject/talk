@@ -83,14 +83,16 @@ export class UserBoxContainer extends Component<Props> {
       this.props.local.authPopup.view
     }`;
 
-    if (local.enabled) {
+    if (local.enabled && local.targetFilter.stream) {
       return defaultAuthUrl;
     }
 
-    // For each of these integrations, if only one is enabled, then return the
-    // redirectURL for that one only.
+    // For each of these integrations, if only one is enabled for the stream,
+    // then return the redirectURL for that one only.
     const integrations = [facebook, google, oidc];
-    const enabled = integrations.filter(integration => integration.enabled);
+    const enabled = integrations.filter(
+      integration => integration.enabled && integration.targetFilter.stream
+    );
     if (enabled.length === 1 && enabled[0].redirectURL) {
       return enabled[0].redirectURL;
     }
