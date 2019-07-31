@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
 import {
+  DuplicateEmailError,
   EmailAlreadySetError,
   EmailNotSetError,
   LocalProfileAlreadySetError,
@@ -28,6 +29,7 @@ import {
   removeUserBan,
   removeUserIgnore,
   retrieveUser,
+  retrieveUserWithEmail,
   setUserEmail,
   setUserLocalProfile,
   setUserUsername,
@@ -70,6 +72,17 @@ export async function insert(
 
   if (input.email) {
     validateEmail(input.email);
+
+    // Try to lookup the user to see if this user already has an account if they
+    // do, we can short circuit the database index hit.
+    const alreadyFoundUser = await retrieveUserWithEmail(
+      mongo,
+      tenant.id,
+      input.email
+    );
+    if (alreadyFoundUser) {
+      throw new DuplicateEmailError(input.email);
+    }
   }
 
   const localProfile = getLocalProfile(input);
