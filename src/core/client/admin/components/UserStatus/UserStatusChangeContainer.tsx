@@ -83,7 +83,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
       <SuspendModal
         username={user.username}
         open={showSuspend}
-<<<<<<< HEAD
         success={showSuspendSuccess}
         onClose={() => setShowSuspend(false)}
         onSuccessClose={() => setShowSuspendSuccess(false)}
@@ -96,17 +95,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
           });
           setShowSuspend(false);
           setShowSuspendSuccess(true);
-=======
-        onClose={() => setShowSuspend(false)}
-        organizationName={settings.organization.name}
-        onConfirm={(timeout, message) => {
-          suspendUser({
-            userID: user.id,
-            timeout,
-            message,
-          });
-          setShowSuspend(false);
->>>>>>> wire up suspension modal
         }}
       />
       <BanModal
@@ -137,13 +125,6 @@ const enhanced = withFragmentContainer<Props>({
         }
       }
       ...UserStatusContainer_user
-    }
-  `,
-  settings: graphql`
-    fragment UserStatusChangeContainer_settings on Settings {
-      organization {
-        name
-      }
     }
   `,
   settings: graphql`
