@@ -1,0 +1,8 @@
+{% extends "layouts/user-notification.html" %} {% block content %} Your comments
+from {{ context.organizationName }} as of {{ context.date }} are now available
+for download.<br /><br />
+
+<a data-l10n-name="downloadUrl" href="{{ context.downloadUrl }}"
+  >Download my comment archive</a
+>
+{% endblock %}

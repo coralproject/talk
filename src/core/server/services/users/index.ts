@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
+import { Config } from "coral-server/config";
 import {
   EmailAlreadySetError,
   EmailNotSetError,
@@ -47,6 +48,7 @@ import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
+import { generateDownloadLink } from "./download/download";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
 export type InsertUser = InsertUserInput;
@@ -630,9 +632,37 @@ export async function removeIgnore(
 
 export async function requestCommentsDownload(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
+  config: Config,
+  signingConfig: JWTSigningConfig,
   user: User,
   now: Date
 ) {
+  const downloadUrl = await generateDownloadLink(
+    user.id,
+    tenant,
+    config,
+    signingConfig,
+    now
+  );
+
+  await mailer.add({
+    tenantID: tenant.id,
+    message: {
+      to: user.email!,
+    },
+    template: {
+      name: "download-comments",
+      context: {
+        username: user.username!,
+        date: Intl.DateTimeFormat([tenant.locale, "en-US"]).format(now),
+        downloadUrl,
+        organizationName: tenant.organization.name,
+        organizationURL: tenant.organization.url,
+      },
+    },
+  });
+
   return user;
 }

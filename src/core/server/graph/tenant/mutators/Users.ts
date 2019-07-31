@@ -152,5 +152,13 @@ export const Users = (ctx: TenantContext) => ({
   removeIgnore: async (input: GQLRemoveUserIgnoreInput) =>
     removeIgnore(ctx.mongo, ctx.tenant, ctx.user!, input.userID),
   requestCommentsDownload: async (input: GQLRequestCommentsDownloadInput) =>
-    requestCommentsDownload(ctx.mongo, ctx.tenant, ctx.user!, ctx.now),
+    requestCommentsDownload(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.config,
+      ctx.signingConfig!,
+      ctx.user!,
+      ctx.now
+    ),
 });

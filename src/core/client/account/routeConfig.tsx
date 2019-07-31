@@ -1,6 +1,7 @@
 import { makeRouteConfig, Route } from "found";
 import React from "react";
 
+import DownloadRoute from "./routes/download/Download";
 import ConfirmRoute from "./routes/email/Confirm";
 import ResetRoute from "./routes/password/Reset";
 
@@ -12,5 +13,6 @@ export default makeRouteConfig(
     <Route path="email">
       <Route path="confirm" {...ConfirmRoute.routeConfig} />
     </Route>
+    <Route path="download" {...DownloadRoute.routeConfig} />
   </Route>
 );

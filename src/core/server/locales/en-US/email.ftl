@@ -51,3 +51,8 @@ email-subject-invite = Coral Team invite
 email-notification-template-invite =
   You have been invited to join the { $organizationName } team on Coral. Finish
   setting up your account <a data-l10n-name="invite">here</a>.
+
+email-subject-downloadComments = Your comments are ready for download
+email-notification-template-downloadComments =
+  Your comments from { $organizationName } as of { $date } are now available for download.<br /><br />
+  <a data-l10n-name="downloadUrl">Download my comment archive</a>
