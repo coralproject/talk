@@ -1,7 +1,9 @@
+import { Mutator } from "final-form";
 import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent, useCallback } from "react";
+import { Field, Form, FormSpy } from "react-final-form";
 
 import { Format, withFormat } from "coral-framework/lib/i18n";
-import React, { FunctionComponent, useState } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import {
@@ -15,6 +17,7 @@ import {
   RadioButton,
   Typography,
 } from "coral-ui/components";
+
 import SuspendSuccessModal from "./SuspendSuccessModal";
 
 import styles from "./SuspendModal.css";
@@ -49,44 +52,36 @@ const SuspendModal: FunctionComponent<Props> = ({
   onSuccessClose,
   organizationName,
 }) => {
-  function getMessageWithDuration(index: number): string {
-    return format("community-suspendModal-emailTemplate", {
-      username,
-      organizationName,
-      duration: DURATIONS[index][1],
-    });
-  }
-  const [showMessage, setShowMessage] = useState(false);
-  const [durationIndex, setDurationIndex] = useState(DEFAULT_DURATION_INDEX);
-  const [messageDirty, setMessageDirty] = useState(false);
-  const [emailMessage, setEmailMessage] = useState(
-    getMessageWithDuration(DEFAULT_DURATION_INDEX)
+  const getMessageWithDuration = useCallback(
+    (index: number): string => {
+      return format("community-suspendModal-emailTemplate", {
+        username,
+        organizationName,
+        duration: DURATIONS[index][1],
+      });
+    },
+    [username, organizationName]
   );
 
-  function selectDuration(index: number): void {
-    setDurationIndex(index);
-    if (!messageDirty) {
-      setEmailMessage(getMessageWithDuration(index));
+  const setValue: Mutator = ([name, newValue], state, { changeValue }) => {
+    if (state.lastFormState) {
+      const { durationIndex, emailMessage } = state.lastFormState.values;
+      if (getMessageWithDuration(durationIndex) === emailMessage) {
+        changeValue(state, name, () => newValue);
+      }
     }
-  }
+  };
+
+  const onFormSubmit = useCallback(
+    ({ duration, emailMessage }) => {
+      onConfirm(parseInt(duration, 10), emailMessage);
+    },
+    [onConfirm]
+  );
 
   return (
     <>
-      <SuspendSuccessModal
-        username={username}
-        onClose={() => onSuccessClose()}
-        open={success}
-        duration={DURATIONS[durationIndex][1]}
-      />
-      <Modal
-        open={open}
-        onClose={() => {
-          onClose();
-          setDurationIndex(DEFAULT_DURATION_INDEX);
-          setEmailMessage(getMessageWithDuration(DEFAULT_DURATION_INDEX));
-        }}
-        aria-labelledby="suspendModal-title"
-      >
+      <Modal open={open} onClose={onClose} aria-labelledby="suspendModal-title">
         {({ firstFocusableRef, lastFocusableRef }) => (
           <Card className={styles.card}>
             <CardCloseButton onClick={onClose} ref={firstFocusableRef} />
@@ -115,73 +110,96 @@ const SuspendModal: FunctionComponent<Props> = ({
                 </Typography>
               </Localized>
 
-              <HorizontalGutter size="half">
-                {DURATIONS.map(([value, label], index) => (
-                  <RadioButton
-                    key={value}
-                    className={styles.radioButton}
-                    id={`duration-${value}`}
-                    name="duration"
-                    value={DURATIONS[durationIndex][0]}
-                    checked={durationIndex === index}
-                    onChange={e =>
-                      e.target.checked ? selectDuration(index) : null
-                    }
-                  >
-                    <Localized id={`community-suspendModal-duration-${value}`}>
-                      <span>{label}</span>
-                    </Localized>
-                  </RadioButton>
-                ))}
-              </HorizontalGutter>
-
-              <Localized id="community-suspendModal-customize">
-                <CheckBox
-                  id="suspend-edit-message"
-                  name="suspend-edit-message"
-                  checked={showMessage}
-                  onChange={e => {
-                    setShowMessage(e.target.checked);
-                  }}
-                >
-                  Customize suspension email message
-                </CheckBox>
-              </Localized>
-
-              {showMessage && (
-                <textarea
-                  id="suspendModal-message"
-                  value={emailMessage}
-                  className={styles.textArea}
-                  onChange={e => {
-                    setEmailMessage(e.target.value);
-                    setMessageDirty(true);
-                  }}
-                />
-              )}
-
-              <Flex justifyContent="flex-end" itemGutter="half">
-                <Localized id="community-suspendModal-cancel">
-                  <Button variant="outlined" onClick={onClose}>
-                    Cancel
-                  </Button>
-                </Localized>
-                <Localized id="community-suspendModal-suspendUser">
-                  <Button
-                    variant="filled"
-                    color="primary"
-                    onClick={() =>
-                      onConfirm(
-                        parseInt(DURATIONS[durationIndex][0], 10),
-                        emailMessage
-                      )
-                    }
-                    ref={lastFocusableRef}
-                  >
-                    Suspend User
-                  </Button>
-                </Localized>
-              </Flex>
+              <Form
+                onSubmit={onFormSubmit}
+                mutators={{
+                  setValue,
+                }}
+                initialValues={{
+                  durationIndex: `${DEFAULT_DURATION_INDEX}`,
+                  emailMessage: getMessageWithDuration(DEFAULT_DURATION_INDEX),
+                }}
+              >
+                {({ handleSubmit, mutators }) => (
+                  <form onSubmit={handleSubmit}>
+                    <FormSpy subscription={{ dirtyFields: true }}>
+                      {({ dirtyFields }) => (
+                        <pre>{JSON.stringify(dirtyFields)}</pre>
+                      )}
+                    </FormSpy>
+                    {DURATIONS.map(([value, label], index) => (
+                      <Field
+                        key={value}
+                        name="durationIndex"
+                        type="radio"
+                        component="input"
+                        value={`${index}`}
+                      >
+                        {({ input }) => (
+                          <Localized
+                            id={`community-suspendModal-duration-${value}`}
+                          >
+                            <RadioButton
+                              id={`duration-${value}`}
+                              {...input}
+                              onChange={event => {
+                                mutators.setValue(
+                                  "emailMessage",
+                                  getMessageWithDuration(index)
+                                );
+                                input.onChange(event);
+                              }}
+                            >
+                              <span>{label}</span>
+                            </RadioButton>
+                          </Localized>
+                        )}
+                      </Field>
+                    ))}
+                    <Field
+                      type="checkbox"
+                      id="suspend-edit-message"
+                      name="editMessage"
+                    >
+                      {({ input }) => (
+                        <Localized id="community-suspendModal-customize">
+                          <CheckBox id="suspend-edit-message" {...input}>
+                            Customize suspension email message
+                          </CheckBox>
+                        </Localized>
+                      )}
+                    </Field>
+                    <FormSpy subscription={{ values: true }}>
+                      {({ values: { editMessage } }) =>
+                        editMessage ? (
+                          <Field
+                            className={styles.textArea}
+                            component="textarea"
+                            name="emailMessage"
+                          />
+                        ) : null
+                      }
+                    </FormSpy>
+                    <Flex justifyContent="flex-end" itemGutter="half">
+                      <Localized id="community-suspendModal-cancel">
+                        <Button variant="outlined" onClick={onClose}>
+                          Cancel
+                        </Button>
+                      </Localized>
+                      <Localized id="community-suspendModal-suspendUser">
+                        <Button
+                          variant="filled"
+                          color="primary"
+                          type="submit"
+                          ref={lastFocusableRef}
+                        >
+                          Suspend User
+                        </Button>
+                      </Localized>
+                    </Flex>
+                  </form>
+                )}
+              </Form>
             </HorizontalGutter>
           </Card>
         )}

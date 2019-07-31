@@ -605,7 +605,7 @@ community-suspendModal-success =
   <strong>{ $duration }</strong>
 
 community-suspendModal-success-close = Close
-community-suspendModal-selectDuration = Select suspension duration
+community-suspendModal-selectDuration = Select suspension length
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:
