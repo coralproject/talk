@@ -30,7 +30,11 @@ interface Props {
   loading: boolean;
 }
 
-const UserTable: FunctionComponent<Props> = props => {
+const UserTable: FunctionComponent<Props> = ({
+  viewer,
+  settings,
+  ...props
+}) => {
   const [userDrawerUserID, setUserDrawerUserID] = useState("");
   const [userDrawerVisible, setUserDrawerVisible] = useState(false);
 
@@ -77,12 +81,14 @@ const UserTable: FunctionComponent<Props> = props => {
           </TableHead>
           <TableBody>
             {!props.loading &&
+              settings &&
+              viewer &&
               props.users.map(u => (
                 <UserRowContainer
                   key={u.id}
                   user={u}
-                  settings={props.settings!}
-                  viewer={props.viewer!}
+                  settings={settings}
+                  viewer={viewer}
                   onUsernameClicked={onShowUserDrawer}
                 />
               ))}
