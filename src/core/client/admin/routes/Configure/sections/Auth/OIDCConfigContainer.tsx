@@ -12,13 +12,14 @@ import {
   withFragmentContainer,
 } from "coral-framework/lib/relay";
 
+import { OnInitValuesFct } from "./AuthConfigContainer";
 import DiscoverOIDCConfigurationFetch from "./DiscoverOIDCConfigurationFetch";
 import OIDCConfig from "./OIDCConfig";
 
 interface Props {
   auth: AuthData;
   authReadOnly: AuthReadOnlyData;
-  onInitValues: (values: AuthData) => void;
+  onInitValues: OnInitValuesFct;
   disabled?: boolean;
   discoverOIDCConfiguration: FetchProp<typeof DiscoverOIDCConfigurationFetch>;
   reactFinalForm: FormApi;
@@ -49,6 +50,7 @@ class OIDCConfigContainer extends React.Component<Props, State> {
         form.change("auth.integrations.oidc.tokenURL", config.tokenURL);
       }
     } catch (error) {
+      // FIXME: (wyattjoh) handle error
       // tslint:disable-next-line:no-console
       console.warn(error);
     }
@@ -57,7 +59,7 @@ class OIDCConfigContainer extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    props.onInitValues(props.auth);
+    props.onInitValues({ auth: props.auth });
   }
 
   public render() {

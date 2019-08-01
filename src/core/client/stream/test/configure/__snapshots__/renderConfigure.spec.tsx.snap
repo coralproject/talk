@@ -93,6 +93,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={true}
               />
               <label
                 className="CheckBox-label"
@@ -135,6 +136,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={false}
               />
               <label
                 className="CheckBox-label"
@@ -177,6 +179,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={false}
               />
               <label
                 className="CheckBox-label"
@@ -219,6 +222,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={false}
               />
               <label
                 className="CheckBox-label"

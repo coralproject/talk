@@ -5,6 +5,7 @@ import { PropTypesOf } from "coral-framework/types";
 import { HorizontalGutter } from "coral-ui/components";
 
 import Header from "../../Header";
+import { OnInitValuesFct } from "./AuthConfigContainer";
 import FacebookConfigContainer from "./FacebookConfigContainer";
 import GoogleConfigContainer from "./GoogleConfigContainer";
 import LocalAuthConfigContainer from "./LocalAuthConfigContainer";
@@ -22,7 +23,7 @@ interface Props {
     PropTypesOf<typeof LocalAuthConfigContainer>["auth"] &
     PropTypesOf<typeof OIDCConfigContainer>["auth"] &
     PropTypesOf<typeof OIDCConfigContainer>["authReadOnly"];
-  onInitValues: (values: any) => void;
+  onInitValues: OnInitValuesFct;
 }
 
 const AuthIntegrationsConfig: FunctionComponent<Props> = ({

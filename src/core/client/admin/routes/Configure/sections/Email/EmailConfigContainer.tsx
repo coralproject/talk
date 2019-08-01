@@ -10,7 +10,7 @@ import { DeepNullable, DeepPartial } from "coral-common/types";
 import { pureMerge } from "coral-common/utils";
 import { parseBool } from "coral-framework/lib/form";
 import { withFragmentContainer } from "coral-framework/lib/relay";
-import { GQLEmailConfiguration } from "coral-framework/schema";
+import { GQLSettings } from "coral-framework/schema";
 import {
   CheckBox,
   Flex,
@@ -30,7 +30,7 @@ interface Props {
   email: EmailConfigContainer_email;
 }
 
-export type FormProps = DeepNullable<GQLEmailConfiguration>;
+export type FormProps = DeepNullable<Pick<GQLSettings, "email">>;
 export type OnInitValuesFct = (values: DeepPartial<FormProps>) => void;
 
 class EmailConfigContainer extends React.Component<Props> {
@@ -38,15 +38,33 @@ class EmailConfigContainer extends React.Component<Props> {
   private initialValues: DeepPartial<FormProps> = {};
 
   public componentDidMount() {
-    this.props.form.initialize({ email: this.initialValues });
+    this.props.form.initialize(this.initialValues);
   }
 
   private handleOnInitValues: OnInitValuesFct = values => {
-    if (values.smtp && values.smtp.authentication === null) {
-      values = { ...values, smtp: { ...values.smtp, authentication: true } };
+    if (
+      values.email &&
+      values.email.smtp &&
+      values.email.smtp.authentication === null
+    ) {
+      values = {
+        email: {
+          ...values.email,
+          smtp: { ...values.email.smtp, authentication: true },
+        },
+      };
     }
-    if (values.smtp && values.smtp.secure === null) {
-      values = { ...values, smtp: { ...values.smtp, secure: true } };
+    if (
+      values.email &&
+      values.email.smtp &&
+      values.email.smtp.secure === null
+    ) {
+      values = {
+        email: {
+          ...values.email,
+          smtp: { ...values.email.smtp, secure: true },
+        },
+      };
     }
 
     this.initialValues = pureMerge<DeepPartial<FormProps>>(
@@ -74,13 +92,7 @@ class EmailConfigContainer extends React.Component<Props> {
               <div>
                 <FormField>
                   <Localized id="configure-email-configBoxEnabled">
-                    <CheckBox
-                      id={input.name}
-                      name={input.name}
-                      onChange={input.onChange}
-                      checked={input.value}
-                      disabled={submitting}
-                    >
+                    <CheckBox id={input.name} {...input} disabled={submitting}>
                       Enabled
                     </CheckBox>
                   </Localized>

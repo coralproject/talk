@@ -28,13 +28,8 @@ const RadioField: FunctionComponent<
     {({ input }) => (
       <RadioButton
         id={`reportComment-popover--${input.name}-${value}`}
-        name={input.name}
-        onChange={input.onChange}
-        onFocus={input.onFocus}
-        onBlur={input.onBlur}
-        checked={input.checked}
         disabled={disabled}
-        value={input.value}
+        {...input}
       >
         {children}
       </RadioButton>
@@ -161,12 +156,10 @@ class ReportCommentForm extends React.Component<Props> {
                             <textarea
                               id={`comments-reportCommentForm-aditionalDetails--${id}`}
                               className={styles.textarea}
-                              onChange={input.onChange}
-                              onFocus={input.onFocus}
-                              onBlur={input.onBlur}
                               disabled={submitting}
-                              value={input.value}
+                              {...input}
                             />
+                            {/* TODO: (wyattjoh) check to see if this should be replaced by the framework validation message */}
                             {(meta.error && (
                               <Typography
                                 variant="detail"

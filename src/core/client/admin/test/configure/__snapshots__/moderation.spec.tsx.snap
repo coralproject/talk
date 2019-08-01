@@ -357,7 +357,9 @@ comment is toxic, according to Perspective API. By default the threshold is set 
                   disabled={false}
                   id="configure-moderation-perspective-threshold"
                   name="integrations.perspective.threshold"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="80"
                   spellCheck={false}
                   type="text"
@@ -408,7 +410,9 @@ comment is toxic, according to Perspective API. By default the threshold is set 
                   disabled={false}
                   id="configure-moderation-perspective-model"
                   name="integrations.perspective.model"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="TOXICITY"
                   spellCheck={false}
                   type="text"
@@ -517,13 +521,15 @@ improve the API over time.
                 >
                   <input
                     autoCapitalize="off"
-                    autoComplete="off"
+                    autoComplete="new-password"
                     autoCorrect="off"
                     className="PasswordField-colorRegular PasswordField-input"
                     disabled={false}
                     id="configure-moderation-integrations.perspective.key"
                     name="integrations.perspective.key"
+                    onBlur={[Function]}
                     onChange={[Function]}
+                    onFocus={[Function]}
                     placeholder=""
                     spellCheck={false}
                     type="password"
@@ -571,7 +577,9 @@ improve the API over time.
                   disabled={false}
                   id="configure-moderation-perspective-customEndpoint"
                   name="integrations.perspective.endpoint"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="https://commentanalyzer.googleapis.com/v1alpha1"
                   spellCheck={false}
                   type="text"
@@ -704,13 +712,15 @@ in your Akismet account:
                 >
                   <input
                     autoCapitalize="off"
-                    autoComplete="off"
+                    autoComplete="new-password"
                     autoCorrect="off"
                     className="PasswordField-colorRegular PasswordField-input"
                     disabled={false}
                     id="configure-moderation-integrations.akismet.key"
                     name="integrations.akismet.key"
+                    onBlur={[Function]}
                     onChange={[Function]}
+                    onFocus={[Function]}
                     placeholder=""
                     spellCheck={false}
                     type="password"
@@ -753,7 +763,9 @@ in your Akismet account:
                   disabled={false}
                   id="configure-moderation-akismet-site"
                   name="integrations.akismet.site"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder=""
                   spellCheck={false}
                   type="text"

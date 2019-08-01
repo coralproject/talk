@@ -201,6 +201,42 @@ export const validateWholeNumberBetween = (min: number, max: number) =>
  */
 export const validatePercentage = (min: number, max: number) =>
   createValidator(
-    v => v === null || (!Number.isNaN(v) && v >= min && v <= max),
+    v =>
+      v === null ||
+      (typeof v === "number" && !Number.isNaN(v) && v >= min && v <= max),
+
     NOT_A_WHOLE_NUMBER_BETWEEN(min * 100, max * 100)
   );
+
+/**
+ * Condition represents a given check that can be performed for the purpose of
+ * filtering a validation operation.
+ */
+export type Condition<T = any, V = any> = (value: T, values: V) => boolean;
+
+/**
+ * composeValidatorsWhen is the same as composeValidators except it will only
+ * apply the validators if the condition is true.
+ */
+export function composeValidatorsWhen<T = any, V = any>(
+  condition: Condition<T, V>,
+  ...validators: Array<Validator<T, V>>
+): Validator<T, V> {
+  return validateWhen(condition, composeValidators(...validators));
+}
+
+/**
+ * validate will simply wrap a single validator with a condition check first.
+ */
+export function validateWhen<T = any, V = any>(
+  condition: Condition<T, V>,
+  validator: Validator<T, V>
+): Validator<T, V> {
+  return (value, values) => {
+    if (condition(value, values)) {
+      return validator(value, values);
+    }
+
+    return null;
+  };
+}

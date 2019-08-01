@@ -2,16 +2,20 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { required } from "coral-framework/lib/validation";
+import {
+  composeValidators,
+  required,
+  validateEmail,
+} from "coral-framework/lib/validation";
 import {
   FormField,
   HorizontalGutter,
   TextField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
   disabled: boolean;
@@ -35,26 +39,23 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
       >
         <Typography variant="detail">This E-Mail will be used</Typography>
       </Localized>
-      <Field name="organization.contactEmail" validate={required}>
+      <Field
+        name="organization.contactEmail"
+        validate={composeValidators(required, validateEmail)}
+      >
         {({ input, meta }) => (
           <>
             <TextField
               id={`configure-organization-${input.name}`}
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
               disabled={disabled}
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck={false}
               fullWidth
+              {...input}
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage fullWidth>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage fullWidth meta={meta} />
           </>
         )}
       </Field>

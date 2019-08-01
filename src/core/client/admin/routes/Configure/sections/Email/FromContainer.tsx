@@ -16,7 +16,7 @@ interface Props {
 class FromContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    props.onInitValues(props.email);
+    props.onInitValues({ email: props.email });
   }
 
   public render() {

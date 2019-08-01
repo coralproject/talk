@@ -4,18 +4,19 @@ import { graphql } from "react-relay";
 import { LocalAuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/LocalAuthConfigContainer_auth.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
+import { OnInitValuesFct } from "./AuthConfigContainer";
 import LocalAuthConfig from "./LocalAuthConfig";
 
 interface Props {
   auth: AuthData;
-  onInitValues: (values: AuthData) => void;
+  onInitValues: OnInitValuesFct;
   disabled?: boolean;
 }
 
 class LocalAuthConfigContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    props.onInitValues(props.auth);
+    props.onInitValues({ auth: props.auth });
   }
 
   public render() {
