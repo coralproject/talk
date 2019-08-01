@@ -717,8 +717,8 @@ it("ban user", async () => {
 
   TestRenderer.act(() => {
     within(modal)
-      .getByText("Ban User")
-      .props.onClick();
+      .getByType("form")
+      .props.onSubmit();
   });
   within(userRow).getByText("Banned");
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
@@ -778,26 +778,22 @@ it("ban user with custom message", async () => {
     }
   );
 
-  expect(within(modal).toJSON()).toMatchSnapshot();
+  const toggleMessage = within(modal).getByID("banModal-showMessage");
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByID("ban-edit-message")
-      .props.onChange({ target: { checked: true } });
+    toggleMessage.props.onChange(true);
   });
 
   TestRenderer.act(() => {
     within(modal)
       .getByID("banModal-message")
-      .props.onChange({
-        target: { value: "YOU WERE BANNED FOR BREAKING THE RULES" },
-      });
+      .props.onChange("YOU WERE BANNED FOR BREAKING THE RULES");
   });
 
   TestRenderer.act(() => {
     within(modal)
-      .getByText("Ban User")
-      .props.onClick();
+      .getByType("form")
+      .props.onSubmit();
   });
   within(userRow).getByText("Banned");
   expect(resolvers.Mutation!.banUser!.called).toBe(true);

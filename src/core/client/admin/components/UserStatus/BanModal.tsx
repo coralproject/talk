@@ -9,10 +9,11 @@ import {
   Typography,
 } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent, useCallback, useMemo } from "react";
+import { Field, Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
 import { Format, withFormat } from "coral-framework/lib/i18n";
-import React, { FunctionComponent, useState } from "react";
 
 import styles from "./BanModal.css";
 
@@ -31,13 +32,19 @@ const BanModal: FunctionComponent<Props> = ({
   username,
   format,
 }) => {
-  function getMessage(): string {
+  const getMessage = useMemo((): string => {
     return format("community-banModal-emailTemplate", {
       username,
     });
-  }
-  const [emailMessage, setEmailMessage] = useState(getMessage());
-  const [showMessage, setShowMessage] = useState(false);
+  }, [format, username]);
+
+  const onFormSubmit = useCallback(
+    ({ emailMessage }) => {
+      onConfirm(emailMessage);
+    },
+    [onConfirm]
+  );
+
   return (
     <Modal open={open} onClose={onClose} aria-labelledby="banModal-title">
       {({ firstFocusableRef, lastFocusableRef }) => (
@@ -62,47 +69,57 @@ const BanModal: FunctionComponent<Props> = ({
                 </Typography>
               </Localized>
             </HorizontalGutter>
-            <Localized id="community-banModal-customize">
-              <CheckBox
-                id="ban-edit-message"
-                name="ban-edit-message"
-                checked={showMessage}
-                onChange={e => {
-                  setShowMessage(e.target.checked);
-                }}
-              >
-                Customize ban email message
-              </CheckBox>
-            </Localized>
+            <Form
+              onSubmit={onFormSubmit}
+              initialValues={{
+                showMessage: false,
+                emailMessage: getMessage,
+              }}
+            >
+              {({ handleSubmit }) => (
+                <form onSubmit={handleSubmit}>
+                  <Field name="showMessage">
+                    {({ input }) => (
+                      <Localized id="community-banModal-customize">
+                        <CheckBox {...input} id="banModal-showMessage">
+                          Customize ban email message
+                        </CheckBox>
+                      </Localized>
+                    )}
+                  </Field>
+                  <Field name="showMessage" subscription={{ value: true }}>
+                    {({ input: { value } }) =>
+                      value ? (
+                        <Field
+                          className={styles.textArea}
+                          id="banModal-message"
+                          component="textarea"
+                          name="emailMessage"
+                        />
+                      ) : null
+                    }
+                  </Field>
 
-            {showMessage && (
-              <textarea
-                id="banModal-message"
-                value={emailMessage}
-                className={styles.textArea}
-                onChange={e => {
-                  setEmailMessage(e.target.value);
-                }}
-              />
-            )}
-
-            <Flex justifyContent="flex-end" itemGutter="half">
-              <Localized id="community-banModal-cancel">
-                <Button variant="outlined" onClick={onClose}>
-                  Cancel
-                </Button>
-              </Localized>
-              <Localized id="community-banModal-banUser">
-                <Button
-                  variant="filled"
-                  color="primary"
-                  onClick={() => onConfirm(emailMessage)}
-                  ref={lastFocusableRef}
-                >
-                  Ban User
-                </Button>
-              </Localized>
-            </Flex>
+                  <Flex justifyContent="flex-end" itemGutter="half">
+                    <Localized id="community-banModal-cancel">
+                      <Button variant="outlined" onClick={onClose}>
+                        Cancel
+                      </Button>
+                    </Localized>
+                    <Localized id="community-banModal-banUser">
+                      <Button
+                        variant="filled"
+                        color="primary"
+                        type="submit"
+                        ref={lastFocusableRef}
+                      >
+                        Ban User
+                      </Button>
+                    </Localized>
+                  </Flex>
+                </form>
+              )}
+            </Form>
           </HorizontalGutter>
         </Card>
       )}
