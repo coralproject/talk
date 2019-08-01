@@ -3,7 +3,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { Format, withFormat } from "coral-framework/lib/i18n";
+import {
+  Format,
+  reduceSeconds,
+  ScaledUnit,
+  withFormat,
+} from "coral-framework/lib/i18n";
 
 import {
   Button,
@@ -20,17 +25,17 @@ interface Props {
   onCancel: () => void;
   format: Format;
   organizationName: string;
-  onSubmit: (duration: [number, string], message: string) => void;
+  onSubmit: (duration: number, message: string) => void;
 }
 
-const DURATIONS: Array<[number, string]> = [
-  [3600, "1 hour"],
-  [10800, "3 hours"],
-  [86400, "24 hours"],
-  [604800, "7 days"],
+const DURATIONS: ScaledUnit[] = [
+  { original: 3600, value: "3600", unit: "hour", scaled: 1 }, // 1 hour
+  { original: 10800, value: "10800", unit: "hour", scaled: 3 }, // 3 hours
+  { original: 86400, value: "86400", unit: "hour", scaled: 24 }, // 24 hours
+  { original: 604800, value: "604800", unit: "day", scaled: 7 }, // 7 days
 ];
 
-const DEFAULT_DURATION_INDEX = 1;
+const DEFAULT_DURATION = DURATIONS[0]; // 1 hour
 
 const SuspendModal: FunctionComponent<Props> = ({
   onCancel,
@@ -40,35 +45,37 @@ const SuspendModal: FunctionComponent<Props> = ({
   organizationName,
 }) => {
   const getMessageWithDuration = useCallback(
-    (index: number): string => {
+    ({ scaled, unit }: Pick<ScaledUnit, "scaled" | "unit">): string => {
       return format("community-suspendModal-emailTemplate", {
         username,
         organizationName,
-        duration: DURATIONS[index][1],
+        value: scaled,
+        unit,
       });
     },
     [username, organizationName]
   );
 
   const onFormSubmit = useCallback(
-    ({ durationIndex, emailMessage }) => {
-      onSubmit(DURATIONS[parseInt(durationIndex, 10)], emailMessage);
+    ({ duration, emailMessage }) => {
+      onSubmit(parseInt(duration, 10), emailMessage);
     },
     [onSubmit]
   );
 
-  const setMessageValue: Mutator = (
-    [name, newValue],
-    state,
-    { changeValue }
-  ) => {
-    if (state.lastFormState) {
-      const { durationIndex, emailMessage } = state.lastFormState.values;
-      if (getMessageWithDuration(durationIndex) === emailMessage) {
-        changeValue(state, name, () => newValue);
+  const setMessageValue: Mutator = useCallback(
+    ([name, newValue], state, { changeValue }) => {
+      if (state.lastFormState) {
+        const { duration, emailMessage } = state.lastFormState.values;
+        const unit = DURATIONS.find(d => d.value === duration);
+        const expectedEmailMessage = getMessageWithDuration(unit!);
+        if (expectedEmailMessage === emailMessage) {
+          changeValue(state, name, () => newValue);
+        }
       }
-    }
-  };
+    },
+    [getMessageWithDuration]
+  );
 
   const resetMessageValue: Mutator = (
     [name, checked],
@@ -76,9 +83,11 @@ const SuspendModal: FunctionComponent<Props> = ({
     { changeValue }
   ) => {
     if (state.lastFormState && !checked) {
-      const { durationIndex, emailMessage } = state.lastFormState.values;
-      if (getMessageWithDuration(durationIndex) !== emailMessage) {
-        changeValue(state, name, () => getMessageWithDuration(durationIndex));
+      const { duration, emailMessage } = state.lastFormState.values;
+      const unit = DURATIONS.find(d => d.value === duration);
+      const expectedEmailMessage = getMessageWithDuration(unit!);
+      if (expectedEmailMessage !== emailMessage) {
+        changeValue(state, name, () => expectedEmailMessage);
       }
     }
   };
@@ -92,25 +101,27 @@ const SuspendModal: FunctionComponent<Props> = ({
           resetMessageValue,
         }}
         initialValues={{
-          durationIndex: `${DEFAULT_DURATION_INDEX}`,
-          emailMessage: getMessageWithDuration(DEFAULT_DURATION_INDEX),
+          duration: DEFAULT_DURATION.value,
+          emailMessage: getMessageWithDuration(DEFAULT_DURATION),
         }}
       >
         {({ handleSubmit, form }) => (
           <form onSubmit={handleSubmit}>
             <HorizontalGutter spacing={2}>
               <div>
-                {DURATIONS.map(([value, label], index) => (
+                {DURATIONS.map(({ original, value, scaled, unit }) => (
                   <Field
                     key={value}
-                    name="durationIndex"
+                    name="duration"
                     type="radio"
                     component="input"
-                    value={`${index}`}
+                    value={value}
                   >
                     {({ input }) => (
                       <Localized
-                        id={`community-suspendModal-duration-${value}`}
+                        id="framework-timeago-time"
+                        $value={scaled}
+                        $unit={unit}
                       >
                         <RadioButton
                           id={`duration-${value}`}
@@ -118,12 +129,14 @@ const SuspendModal: FunctionComponent<Props> = ({
                           onChange={event => {
                             form.mutators.setMessageValue(
                               "emailMessage",
-                              getMessageWithDuration(index)
+                              getMessageWithDuration({ scaled, unit })
                             );
                             input.onChange(event);
                           }}
                         >
-                          <span>{label}</span>
+                          <span>
+                            {scaled} {unit}
+                          </span>
                         </RadioButton>
                       </Localized>
                     )}

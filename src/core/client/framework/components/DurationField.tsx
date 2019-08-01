@@ -1,6 +1,7 @@
 import { Localized } from "fluent-react/compat";
 import React, { ChangeEvent, Component } from "react";
 
+import { UNIT } from "coral-framework/lib/i18n";
 import { Flex, Option, SelectField, TextField } from "coral-ui/components";
 
 import styles from "./DurationField.css";
@@ -9,22 +10,16 @@ import styles from "./DurationField.css";
  * DURATION_UNIT are units that can be used in the
  * DurationField components.
  */
-export enum DURATION_UNIT {
-  SECONDS = 1,
-  MINUTES = 60,
-  HOURS = 3600,
-  DAYS = 86400,
-  WEEKS = 604800,
-}
+export const DURATION_UNIT = UNIT;
 
 type UnitElementCallback = (
-  currentValue: DURATION_UNIT,
+  currentValue: UNIT,
   unitValue: string
 ) => React.ReactElement<any>;
 
 // This is used to render the Option elements to inlcude in the select field.
-const unitElementMap: Record<DURATION_UNIT, UnitElementCallback> = {
-  [DURATION_UNIT.SECONDS]: (currentValue, unitValue) => (
+const unitElementMap: Record<UNIT, UnitElementCallback> = {
+  [UNIT.SECONDS]: (currentValue, unitValue) => (
     <Localized
       id="framework-durationField-seconds"
       $value={currentValue}
@@ -33,7 +28,7 @@ const unitElementMap: Record<DURATION_UNIT, UnitElementCallback> = {
       <Option value={unitValue}>Seconds</Option>
     </Localized>
   ),
-  [DURATION_UNIT.MINUTES]: (currentValue, unitValue) => (
+  [UNIT.MINUTES]: (currentValue, unitValue) => (
     <Localized
       id="framework-durationField-minutes"
       $value={currentValue}
@@ -42,7 +37,7 @@ const unitElementMap: Record<DURATION_UNIT, UnitElementCallback> = {
       <Option value={unitValue}>Minutes</Option>
     </Localized>
   ),
-  [DURATION_UNIT.HOURS]: (currentValue, unitValue) => (
+  [UNIT.HOURS]: (currentValue, unitValue) => (
     <Localized
       id="framework-durationField-hours"
       $value={currentValue}
@@ -51,7 +46,7 @@ const unitElementMap: Record<DURATION_UNIT, UnitElementCallback> = {
       <Option value={unitValue}>Hours</Option>
     </Localized>
   ),
-  [DURATION_UNIT.DAYS]: (currentValue, unitValue) => (
+  [UNIT.DAYS]: (currentValue, unitValue) => (
     <Localized
       id="framework-durationField-days"
       $value={currentValue}
@@ -60,7 +55,7 @@ const unitElementMap: Record<DURATION_UNIT, UnitElementCallback> = {
       <Option value={unitValue}>Days</Option>
     </Localized>
   ),
-  [DURATION_UNIT.WEEKS]: (currentValue, unitValue) => (
+  [UNIT.WEEKS]: (currentValue, unitValue) => (
     <Localized
       id="framework-durationField-weeks"
       $value={currentValue}
@@ -77,16 +72,16 @@ interface Props {
   disabled: boolean;
   onChange: (v: string) => void;
   /** Specifiy units to include */
-  units?: ReadonlyArray<DURATION_UNIT>;
+  units?: ReadonlyArray<UNIT>;
 }
 
 interface State {
   /** Current value */
   value: string;
   /** Current unit */
-  unit?: DURATION_UNIT;
+  unit?: UNIT;
   /** All available units */
-  units: ReadonlyArray<DURATION_UNIT>;
+  units: ReadonlyArray<UNIT>;
   /**
    * Element callbacks to generate the rendered
    * Option element for the select field
@@ -100,11 +95,7 @@ interface State {
  * @param units The units that we use.
  * @param unit The current value if any otherwise the best matching unit will be used.
  */
-function valueToState(
-  value: string,
-  units: ReadonlyArray<DURATION_UNIT>,
-  unit?: DURATION_UNIT
-) {
+function valueToState(value: string, units: ReadonlyArray<UNIT>, unit?: UNIT) {
   const parsed = parseInt(value, 10);
 
   // If value was a valid number..
@@ -147,7 +138,7 @@ function stateToValue(state: State) {
  */
 class DurationField extends Component<Props, State> {
   public static defaultProps: Partial<Props> = {
-    units: [DURATION_UNIT.HOURS, DURATION_UNIT.DAYS, DURATION_UNIT.WEEKS],
+    units: [UNIT.HOURS, UNIT.DAYS, UNIT.WEEKS],
   };
 
   public state: State = valueToState(this.props.value, this.props.units!);

@@ -578,9 +578,9 @@ community-banModal-consequence =
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
 community-banModal-customize = Customize ban email message
-community-banModal-emailTemplate = 
+community-banModal-emailTemplate =
   Hello { $username },
-  
+
   Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments
 
 community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
@@ -593,10 +593,10 @@ community-suspendModal-duration-86400 = 24 hours
 community-suspendModal-duration-604800 = 7 days
 community-suspendModal-cancel = Cancel
 community-suspendModal-suspendUser = Suspend User
-community-suspendModal-emailTemplate = 
+community-suspendModal-emailTemplate =
   Hello { $username },
-  
-  In accordance with { $organizationName }'s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation in { $duration }.
+
+  In accordance with { $organizationName }'s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation in { framework-timeago-time }.
 
 community-suspendModal-customize = Customize suspension email message
 
