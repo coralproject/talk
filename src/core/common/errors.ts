@@ -137,6 +137,12 @@ export enum ERROR_CODES {
   PASSWORD_TOO_SHORT = "PASSWORD_TOO_SHORT",
 
   /**
+   * PASSWORD_INCORRECT is returned when a logged in operation that requires the
+   * password returns the wrong password.
+   */
+  PASSWORD_INCORRECT = "PASSWORD_INCORRECT",
+
+  /**
    * EMAIL_INVALID_FORMAT is returned when when the user attempts to associate a
    * new email address that is not a valid email address.
    */

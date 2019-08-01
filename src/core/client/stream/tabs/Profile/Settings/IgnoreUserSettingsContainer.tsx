@@ -23,10 +23,7 @@ interface Props {
 const IgnoreUserSettingsContainer: FunctionComponent<Props> = ({ viewer }) => {
   const removeUserIgnore = useMutation(RemoveUserIgnoreMutation);
   return (
-    <div
-      className={styles.root}
-      data-testid="profile-settings-ignoredCommenters"
-    >
+    <div data-testid="profile-settings-ignoredCommenters">
       <Localized id="profile-settings-ignoredCommenters">
         <Typography variant="heading3">Ignored Commenters</Typography>
       </Localized>

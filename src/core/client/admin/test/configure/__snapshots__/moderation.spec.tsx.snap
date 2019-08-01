@@ -521,7 +521,7 @@ improve the API over time.
                 >
                   <input
                     autoCapitalize="off"
-                    autoComplete="new-password"
+                    autoComplete="off"
                     autoCorrect="off"
                     className="PasswordField-colorRegular PasswordField-input"
                     disabled={false}
@@ -712,7 +712,7 @@ in your Akismet account:
                 >
                   <input
                     autoCapitalize="off"
-                    autoComplete="new-password"
+                    autoComplete="off"
                     autoCorrect="off"
                     className="PasswordField-colorRegular PasswordField-input"
                     disabled={false}

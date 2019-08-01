@@ -306,6 +306,7 @@ export async function redeem(
     id: email,
     type: "local",
     password,
+    passwordID: uuid.v4(),
   };
 
   // Create the new user based on the invite.

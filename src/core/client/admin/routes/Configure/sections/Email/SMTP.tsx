@@ -145,7 +145,6 @@ const SMTP: FunctionComponent<Props> = ({ disabled }) => (
                 <>
                   <PasswordField
                     id={input.name}
-                    autoComplete="new-password"
                     disabled={disabled || !enabled}
                     fullWidth
                     color={colorFromMeta(meta)}

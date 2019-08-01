@@ -15,6 +15,6 @@
   "tslint.autoFixOnSave": true,
   "tslint.jsEnable": true,
   "tslint.nodePath": "node_modules/.bin/tslint",
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.tsdk": "./node_modules/typescript/lib",
   "postcss.validate": false
 }
