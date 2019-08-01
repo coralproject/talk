@@ -17,7 +17,7 @@ const SuspendedInfo: FunctionComponent<Props> = ({ until, organization }) => {
       year: "numeric",
       month: "long",
       day: "numeric",
-      hour: "2-digit",
+      hour: "numeric",
       minute: "2-digit",
     });
     return formatter.format(new Date(until));
