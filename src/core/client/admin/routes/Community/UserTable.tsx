@@ -22,7 +22,7 @@ import styles from "./UserTable.css";
 
 interface Props {
   viewer: PropTypesOf<typeof UserRowContainer>["viewer"] | null;
-  settings: PropTypesOf<typeof UserRowContainer>["settings"] | null;
+  settings: PropTypesOf<typeof UserRowContainer>["settings"];
   users: Array<{ id: string } & PropTypesOf<typeof UserRowContainer>["user"]>;
   onLoadMore: () => void;
   hasMore: boolean;
