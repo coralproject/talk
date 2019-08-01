@@ -82,10 +82,12 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
       </UserStatusChange>
       <SuspendModal
         username={user.username}
-        open={showSuspend}
+        open={showSuspend || showSuspendSuccess}
         success={showSuspendSuccess}
-        onClose={() => setShowSuspend(false)}
-        onSuccessClose={() => setShowSuspendSuccess(false)}
+        onClose={() => {
+          setShowSuspend(false);
+          setShowSuspendSuccess(false);
+        }}
         organizationName={settings.organization.name}
         onConfirm={(timeout, message) => {
           suspendUser({
@@ -93,7 +95,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
             timeout,
             message,
           });
-          setShowSuspend(false);
           setShowSuspendSuccess(true);
         }}
       />

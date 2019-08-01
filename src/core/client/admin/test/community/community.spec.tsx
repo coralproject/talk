@@ -454,12 +454,10 @@ it("suspend user", async () => {
     exact: false,
   });
 
-  expect(within(modal).toJSON()).toMatchSnapshot();
-
   TestRenderer.act(() => {
     within(modal)
-      .getByText("Suspend User")
-      .props.onClick();
+      .getByType("form")
+      .props.onSubmit();
   });
   within(userRow).getByText("Suspended");
   expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
@@ -576,18 +574,16 @@ it("suspend user with custom timeout", async () => {
     exact: false,
   });
 
-  expect(within(modal).toJSON()).toMatchSnapshot();
+  const changedDuration = within(modal).getByID("duration-604800");
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByID("duration-604800")
-      .props.onChange({ target: { checked: true } });
+    changedDuration.props.onChange(changedDuration.props.value.toString());
   });
 
   TestRenderer.act(() => {
     within(modal)
-      .getByText("Suspend User")
-      .props.onClick();
+      .getByType("form")
+      .props.onSubmit();
   });
   within(userRow).getByText("Suspended");
   expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
@@ -644,27 +640,24 @@ it("suspend user with custom message", async () => {
     exact: false,
   });
 
-  expect(within(modal).toJSON()).toMatchSnapshot();
+  const toggleEdit = within(modal).getByID("suspendModal-editMessage");
 
   TestRenderer.act(() => {
-    within(modal)
-      .getByID("suspend-edit-message")
-      .props.onChange({ target: { checked: true } });
+    toggleEdit.props.onChange(true);
   });
 
   TestRenderer.act(() => {
     within(modal)
       .getByID("suspendModal-message")
-      .props.onChange({
-        target: { value: "YOU WERE SUSPENDED FOR BEHAVING BADLY" },
-      });
+      .props.onChange("YOU WERE SUSPENDED FOR BEHAVING BADLY");
   });
 
   TestRenderer.act(() => {
     within(modal)
-      .getByText("Suspend User")
-      .props.onClick();
+      .getByType("form")
+      .props.onSubmit();
   });
+
   within(userRow).getByText("Suspended");
   expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
 });
@@ -721,8 +714,6 @@ it("ban user", async () => {
       exact: false,
     }
   );
-
-  expect(within(modal).toJSON()).toMatchSnapshot();
 
   TestRenderer.act(() => {
     within(modal)

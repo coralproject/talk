@@ -1216,22 +1216,18 @@ exports[`suspend user 1`] = `
               </span>
             </button>
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
             >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              <h1
+                className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary SuspendModal-header"
+                id="suspendModal-title"
               >
-                <h1
-                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
-                  id="suspendModal-title"
-                >
-                  Suspend 
-                  <strong>
-                    Isabelle
-                  </strong>
-                  ?
-                </h1>
-              </div>
+                Suspend 
+                <strong>
+                  Isabelle
+                </strong>
+                ?
+              </h1>
               <p
                 className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
@@ -1241,156 +1237,154 @@ reactions, or report comments.
               <h1
                 className="Box-root Typography-root Typography-header3 Typography-colorTextPrimary"
               >
-                Select suspension duration
+                Select suspension length
               </h1>
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+              <form
+                onSubmit={[Function]}
               >
                 <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                 >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-3600"
-                    name="duration"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-3600"
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-3600"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="0"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-3600"
+                      >
+                        1 hour
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        id="duration-10800"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="1"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-10800"
+                      >
+                        3 hours
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-86400"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="2"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-86400"
+                      >
+                        24 hours
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-604800"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="3"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-604800"
+                      >
+                        7 days
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    className="CheckBox-root"
                   >
-                    <span>
-                      1 hour
-                    </span>
-                  </label>
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      id="suspend-edit-message"
+                      name="editMessage"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value=""
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="suspend-edit-message"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        Customize suspension email message
+                      </span>
+                    </label>
+                  </div>
                 </div>
                 <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root SuspendModal-footer Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
                 >
-                  <input
-                    checked={true}
-                    className="RadioButton-input"
-                    id="duration-10800"
-                    name="duration"
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
                     onBlur={[Function]}
-                    onChange={[Function]}
+                    onClick={[Function]}
                     onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-10800"
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <span>
-                      3 hours
-                    </span>
-                  </label>
-                </div>
-                <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-86400"
-                    name="duration"
+                    Cancel
+                  </button>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
                     onBlur={[Function]}
-                    onChange={[Function]}
                     onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-86400"
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
                   >
-                    <span>
-                      24 hours
-                    </span>
-                  </label>
+                    Suspend User
+                  </button>
                 </div>
-                <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-604800"
-                    name="duration"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-604800"
-                  >
-                    <span>
-                      7 days
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div
-                className="CheckBox-root"
-              >
-                <input
-                  checked={false}
-                  className="CheckBox-input"
-                  id="suspend-edit-message"
-                  name="suspend-edit-message"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  type="checkbox"
-                />
-                <label
-                  className="CheckBox-label"
-                  htmlFor="suspend-edit-message"
-                >
-                  <span
-                    className="CheckBox-labelSpan"
-                  >
-                    Customize suspension email message
-                  </span>
-                </label>
-              </div>
-              <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
-              >
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Suspend User
-                </button>
-              </div>
+              </form>
             </div>
           </div>
           <div
@@ -1456,22 +1450,18 @@ exports[`suspend user with custom message 1`] = `
               </span>
             </button>
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
             >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              <h1
+                className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary SuspendModal-header"
+                id="suspendModal-title"
               >
-                <h1
-                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
-                  id="suspendModal-title"
-                >
-                  Suspend 
-                  <strong>
-                    Isabelle
-                  </strong>
-                  ?
-                </h1>
-              </div>
+                Suspend 
+                <strong>
+                  Isabelle
+                </strong>
+                ?
+              </h1>
               <p
                 className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
@@ -1481,156 +1471,154 @@ reactions, or report comments.
               <h1
                 className="Box-root Typography-root Typography-header3 Typography-colorTextPrimary"
               >
-                Select suspension duration
+                Select suspension length
               </h1>
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+              <form
+                onSubmit={[Function]}
               >
                 <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                 >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-3600"
-                    name="duration"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-3600"
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-3600"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="0"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-3600"
+                      >
+                        1 hour
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        id="duration-10800"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="1"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-10800"
+                      >
+                        3 hours
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-86400"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="2"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-86400"
+                      >
+                        24 hours
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-604800"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="3"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-604800"
+                      >
+                        7 days
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    className="CheckBox-root"
                   >
-                    <span>
-                      1 hour
-                    </span>
-                  </label>
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      id="suspend-edit-message"
+                      name="editMessage"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value=""
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="suspend-edit-message"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        Customize suspension email message
+                      </span>
+                    </label>
+                  </div>
                 </div>
                 <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root SuspendModal-footer Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
                 >
-                  <input
-                    checked={true}
-                    className="RadioButton-input"
-                    id="duration-10800"
-                    name="duration"
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
                     onBlur={[Function]}
-                    onChange={[Function]}
+                    onClick={[Function]}
                     onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-10800"
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <span>
-                      3 hours
-                    </span>
-                  </label>
-                </div>
-                <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-86400"
-                    name="duration"
+                    Cancel
+                  </button>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
                     onBlur={[Function]}
-                    onChange={[Function]}
                     onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-86400"
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
                   >
-                    <span>
-                      24 hours
-                    </span>
-                  </label>
+                    Suspend User
+                  </button>
                 </div>
-                <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-604800"
-                    name="duration"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-604800"
-                  >
-                    <span>
-                      7 days
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div
-                className="CheckBox-root"
-              >
-                <input
-                  checked={false}
-                  className="CheckBox-input"
-                  id="suspend-edit-message"
-                  name="suspend-edit-message"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  type="checkbox"
-                />
-                <label
-                  className="CheckBox-label"
-                  htmlFor="suspend-edit-message"
-                >
-                  <span
-                    className="CheckBox-labelSpan"
-                  >
-                    Customize suspension email message
-                  </span>
-                </label>
-              </div>
-              <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
-              >
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Suspend User
-                </button>
-              </div>
+              </form>
             </div>
           </div>
           <div
@@ -1696,22 +1684,18 @@ exports[`suspend user with custom timeout 1`] = `
               </span>
             </button>
             <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-double"
+              className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
             >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
+              <h1
+                className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary SuspendModal-header"
+                id="suspendModal-title"
               >
-                <h1
-                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
-                  id="suspendModal-title"
-                >
-                  Suspend 
-                  <strong>
-                    Isabelle
-                  </strong>
-                  ?
-                </h1>
-              </div>
+                Suspend 
+                <strong>
+                  Isabelle
+                </strong>
+                ?
+              </h1>
               <p
                 className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
               >
@@ -1721,156 +1705,154 @@ reactions, or report comments.
               <h1
                 className="Box-root Typography-root Typography-header3 Typography-colorTextPrimary"
               >
-                Select suspension duration
+                Select suspension length
               </h1>
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-half"
+              <form
+                onSubmit={[Function]}
               >
                 <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                  className="Box-root HorizontalGutter-root HorizontalGutter-spacing-2"
                 >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-3600"
-                    name="duration"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-3600"
+                  <div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-3600"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="0"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-3600"
+                      >
+                        1 hour
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={true}
+                        className="RadioButton-input"
+                        id="duration-10800"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="1"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-10800"
+                      >
+                        3 hours
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-86400"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="2"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-86400"
+                      >
+                        24 hours
+                      </label>
+                    </div>
+                    <div
+                      className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                    >
+                      <input
+                        checked={false}
+                        className="RadioButton-input"
+                        id="duration-604800"
+                        name="durationIndex"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        type="radio"
+                        value="3"
+                      />
+                      <label
+                        className="RadioButton-label"
+                        htmlFor="duration-604800"
+                      >
+                        7 days
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    className="CheckBox-root"
                   >
-                    <span>
-                      1 hour
-                    </span>
-                  </label>
+                    <input
+                      checked={false}
+                      className="CheckBox-input"
+                      id="suspend-edit-message"
+                      name="editMessage"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                      value=""
+                    />
+                    <label
+                      className="CheckBox-label"
+                      htmlFor="suspend-edit-message"
+                    >
+                      <span
+                        className="CheckBox-labelSpan"
+                      >
+                        Customize suspension email message
+                      </span>
+                    </label>
+                  </div>
                 </div>
                 <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
+                  className="Box-root Flex-root SuspendModal-footer Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
                 >
-                  <input
-                    checked={true}
-                    className="RadioButton-input"
-                    id="duration-10800"
-                    name="duration"
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
                     onBlur={[Function]}
-                    onChange={[Function]}
+                    onClick={[Function]}
                     onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-10800"
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="button"
                   >
-                    <span>
-                      3 hours
-                    </span>
-                  </label>
-                </div>
-                <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-86400"
-                    name="duration"
+                    Cancel
+                  </button>
+                  <button
+                    className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
                     onBlur={[Function]}
-                    onChange={[Function]}
                     onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-86400"
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    onTouchEnd={[Function]}
+                    type="submit"
                   >
-                    <span>
-                      24 hours
-                    </span>
-                  </label>
+                    Suspend User
+                  </button>
                 </div>
-                <div
-                  className="Box-root Flex-root RadioButton-root SuspendModal-radioButton Flex-flex Flex-alignCenter"
-                >
-                  <input
-                    checked={false}
-                    className="RadioButton-input"
-                    id="duration-604800"
-                    name="duration"
-                    onBlur={[Function]}
-                    onChange={[Function]}
-                    onFocus={[Function]}
-                    type="radio"
-                    value="10800"
-                  />
-                  <label
-                    className="RadioButton-label"
-                    htmlFor="duration-604800"
-                  >
-                    <span>
-                      7 days
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div
-                className="CheckBox-root"
-              >
-                <input
-                  checked={false}
-                  className="CheckBox-input"
-                  id="suspend-edit-message"
-                  name="suspend-edit-message"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  type="checkbox"
-                />
-                <label
-                  className="CheckBox-label"
-                  htmlFor="suspend-edit-message"
-                >
-                  <span
-                    className="CheckBox-labelSpan"
-                  >
-                    Customize suspension email message
-                  </span>
-                </label>
-              </div>
-              <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
-              >
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Suspend User
-                </button>
-              </div>
+              </form>
             </div>
           </div>
           <div
