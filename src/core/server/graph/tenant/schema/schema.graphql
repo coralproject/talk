@@ -1303,9 +1303,9 @@ type BanStatusHistory {
   createdAt: Time!
 
   """
-  message is an optional message to be sent to user.
+  message is sent to banned user via email.
   """
-  message: String
+  message: String!
 }
 
 """
@@ -1382,9 +1382,9 @@ type SuspensionStatusHistory {
   modifiedAt: Time
 
   """
-  message is an optional custom message to the suspended user.
+  message is sent to suspended user via email.
   """
-  message: String
+  message: String!
 }
 
 """
@@ -4231,9 +4231,9 @@ input BanUserInput {
   clientMutationId: String!
 
   """
-  message is an optional message to send to banned user
+  message is sent to banned user via email.
   """
-  message: String
+  message: String!
 }
 
 type BanUserPayload {
@@ -4269,7 +4269,10 @@ input SuspendUserInput {
   """
   clientMutationId: String!
 
-  message: String
+  """
+  message is sent to suspended user via email.
+  """
+  message: String!
 }
 
 type SuspendUserPayload {

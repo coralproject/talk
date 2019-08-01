@@ -129,8 +129,8 @@ export const Users = (ctx: TenantContext) => ({
       ctx.tenant,
       ctx.user!,
       input.userID,
-      ctx.now,
-      input.message
+      input.message,
+      ctx.now
     ),
   suspend: async (input: GQLSuspendUserInput) =>
     suspend(
@@ -140,8 +140,8 @@ export const Users = (ctx: TenantContext) => ({
       ctx.user!,
       input.userID,
       input.timeout,
-      ctx.now,
-      input.message
+      input.message,
+      ctx.now
     ),
   removeBan: async (input: GQLRemoveUserBanInput) =>
     removeBan(ctx.mongo, ctx.tenant, ctx.user!, input.userID, ctx.now),

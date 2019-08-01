@@ -405,6 +405,7 @@ export async function updateAvatar(
  * @param tenant Tenant where the User will be banned on
  * @param user the User that is banning the User
  * @param userID the ID of the User being banned
+ * @param message message to banned user
  * @param now the current time that the ban took effect
  */
 export async function ban(
@@ -413,8 +414,8 @@ export async function ban(
   tenant: Tenant,
   banner: User,
   userID: string,
-  now = new Date(),
-  message?: string
+  message: string,
+  now = new Date()
 ) {
   // Get the user being banned to check to see if the user already has an
   // existing ban.
@@ -430,7 +431,7 @@ export async function ban(
   }
 
   // Ban the user.
-  const user = await banUser(mongo, tenant.id, userID, banner.id, now, message);
+  const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
   // If the user has an email address associated with their account, send them
   // a ban notification email.
@@ -466,6 +467,7 @@ export async function ban(
  * @param user the User that is suspending the User
  * @param userID the ID of the user being suspended
  * @param timeout the duration in seconds that the user will suspended for
+ * @param message message to suspended user
  * @param now the current time that the suspension will take effect
  */
 export async function suspend(
@@ -475,8 +477,8 @@ export async function suspend(
   user: User,
   userID: string,
   timeout: number,
-  now = new Date(),
-  message?: string
+  message: string,
+  now = new Date()
 ) {
   // Convert the timeout to the until time.
   const finishDateTime = DateTime.fromJSDate(now).plus({ seconds: timeout });
@@ -503,8 +505,8 @@ export async function suspend(
     userID,
     user.id,
     finishDateTime.toJSDate(),
-    now,
-    message
+    message,
+    now
   );
 
   // If the user has an email address associated with their account, send them

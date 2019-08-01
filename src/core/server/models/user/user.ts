@@ -1110,16 +1110,16 @@ async function retrieveConnection(
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being banned
  * @param createdBy the ID of the user banning the above mentioned user
- * @param now the current date
  * @param message message to banned user
+ * @param now the current date
  */
 export async function banUser(
   mongo: Db,
   tenantID: string,
   id: string,
   createdBy: string,
-  now = new Date(),
-  message?: string
+  message?: string,
+  now = new Date()
 ) {
   // Create the new ban.
   const banHistory: BanStatusHistory = {
@@ -1252,6 +1252,7 @@ export async function removeUserBan(
  * @param id the ID of the user being suspended
  * @param createdBy the ID of the user banning the above mentioned user
  * @param from the range of time that the user is being banned for
+ * @param message the message sent to suspended user in email
  * @param now the current date
  */
 export async function suspendUser(
@@ -1260,8 +1261,8 @@ export async function suspendUser(
   id: string,
   createdBy: string,
   finish: Date,
-  now = new Date(),
-  message?: string
+  message: string,
+  now = new Date()
 ) {
   // Create the new suspension.
   const suspension: SuspensionStatusHistory = {
