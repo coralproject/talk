@@ -1,6 +1,6 @@
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useMemo } from "react";
 
 import { UserStatusDetailsContainer_user as UserData } from "coral-admin/__generated__/UserStatusDetailsContainer_user.graphql";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -21,21 +21,25 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
   if (!user.status.ban.active && !user.status.suspension.active) {
     return null;
   }
-  const activeBan = user.status.ban.history.find(item => item.active);
-  const activeSuspension = user.status.suspension.history.find(
-    item => item.active
-  );
+
+  const activeBan = useMemo(() => {
+    return user.status.ban.history.find(item => item.active);
+  }, [user]);
+
+  const activeSuspension = useMemo(() => {
+    return user.status.suspension.history.find(item => item.active);
+  }, [user]);
+
   const { locales } = useCoralContext();
 
-  function formatDate(date: Date): string {
-    return new Intl.DateTimeFormat(locales, {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(date));
-  }
+  const formatter = new Intl.DateTimeFormat(locales, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   return (
     <div>
       <Popover
@@ -48,12 +52,12 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                 <div>
                   <Localized
                     id="userDetails-banned-on"
-                    $timestamp={formatDate(activeBan.createdAt)}
+                    $timestamp={formatter.format(activeBan.createdAt)}
                     strong={<strong />}
                   >
                     <Typography>
                       <strong>Banned on </strong>{" "}
-                      {formatDate(activeBan.createdAt)}
+                      {formatter.format(activeBan.createdAt)}
                     </Typography>
                   </Localized>
                   {activeBan.createdBy && (
@@ -72,9 +76,6 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
               )}
               {activeSuspension && (
                 <div>
-                  <Localized id="userDetails-suspension">
-                    <Typography variant="bodyCopyBold">Suspension</Typography>
-                  </Localized>
                   {activeSuspension.createdBy && (
                     <Localized
                       id="userDetails-suspended-by"
@@ -82,7 +83,7 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                       $username={activeSuspension.createdBy.username}
                     >
                       <Typography>
-                        <strong>by </strong>
+                        <strong>Suspended by </strong>
                         {activeSuspension.createdBy.username}
                       </Typography>
                     </Localized>
@@ -90,21 +91,21 @@ const UserStatusDetailsContainer: FunctionComponent<Props> = ({ user }) => {
                   <Localized
                     id="userDetails-suspension-start"
                     strong={<strong />}
-                    $timestamp={formatDate(activeSuspension.from.start)}
+                    $timestamp={formatter.format(activeSuspension.from.start)}
                   >
                     <Typography>
                       <strong>Start: </strong>
-                      {formatDate(activeSuspension.from.start)}
+                      {formatter.format(activeSuspension.from.start)}
                     </Typography>
                   </Localized>
                   <Localized
                     strong={<strong />}
-                    $timestamp={formatDate(activeSuspension.from.finish)}
+                    $timestamp={formatter.format(activeSuspension.from.finish)}
                     id="userDetails-suspension-start"
                   >
                     <Typography>
                       <strong>End: </strong>
-                      {formatDate(activeSuspension.from.finish)}
+                      {formatter.format(activeSuspension.from.finish)}
                     </Typography>
                   </Localized>
                 </div>

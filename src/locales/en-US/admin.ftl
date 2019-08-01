@@ -685,7 +685,6 @@ invite-tokenNotFound =
 
 userDetails-banned-on = <strong>Banned on</strong> { $timestamp }
 userDetails-banned-by = <strong>by</strong> { $username } 
-userDetails-suspension = Suspension 
-userDetails-suspended-by = <strong>by</strong> { $username }
+userDetails-suspended-by = <strong>Suspended by</strong> { $username }
 userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
 userDetails-suspension-end = <strong>End:</strong> { $timestamp }
