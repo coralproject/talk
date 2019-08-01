@@ -13,7 +13,7 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { Field, Form } from "react-final-form";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
-import { Format, withFormat } from "coral-framework/lib/i18n";
+import { GetMessage, withGetMessage } from "coral-framework/lib/i18n";
 
 import styles from "./BanModal.css";
 
@@ -22,7 +22,7 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onConfirm: (message?: string) => void;
-  format: Format;
+  getMessage: GetMessage;
 }
 
 const BanModal: FunctionComponent<Props> = ({
@@ -30,13 +30,17 @@ const BanModal: FunctionComponent<Props> = ({
   onClose,
   onConfirm,
   username,
-  format,
+  getMessage,
 }) => {
-  const getMessage = useMemo((): string => {
-    return format("community-banModal-emailTemplate", {
-      username,
-    });
-  }, [format, username]);
+  const getDefaultMessage = useMemo((): string => {
+    return getMessage(
+      "community-banModal-emailTemplate",
+      "Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments",
+      {
+        username,
+      }
+    );
+  }, [getMessage, username]);
 
   const onFormSubmit = useCallback(
     ({ emailMessage }) => {
@@ -73,7 +77,7 @@ const BanModal: FunctionComponent<Props> = ({
               onSubmit={onFormSubmit}
               initialValues={{
                 showMessage: false,
-                emailMessage: getMessage,
+                emailMessage: getDefaultMessage,
               }}
             >
               {({ handleSubmit }) => (
@@ -127,6 +131,6 @@ const BanModal: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFormat(BanModal);
+const enhanced = withGetMessage(BanModal);
 
 export default enhanced;

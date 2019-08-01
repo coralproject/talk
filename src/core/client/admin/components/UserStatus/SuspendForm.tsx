@@ -3,7 +3,11 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import { Format, ScaledUnit, withFormat } from "coral-framework/lib/i18n";
+import {
+  GetMessage,
+  ScaledUnit,
+  withGetMessage,
+} from "coral-framework/lib/i18n";
 
 import {
   Button,
@@ -18,7 +22,7 @@ import styles from "./SuspendModal.css";
 interface Props {
   username: string | null;
   onCancel: () => void;
-  format: Format;
+  getMessage: GetMessage;
   organizationName: string;
   onSubmit: (duration: ScaledUnit, message: string) => void;
 }
@@ -35,18 +39,22 @@ const DEFAULT_DURATION = DURATIONS[0]; // 1 hour
 const SuspendForm: FunctionComponent<Props> = ({
   onCancel,
   username,
-  format,
+  getMessage,
   onSubmit,
   organizationName,
 }) => {
   const getMessageWithDuration = useCallback(
     ({ scaled, unit }: Pick<ScaledUnit, "scaled" | "unit">): string => {
-      return format("community-suspendModal-emailTemplate", {
-        username,
-        organizationName,
-        value: scaled,
-        unit,
-      });
+      return getMessage(
+        "community-suspendModal-emailTemplate",
+        `your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation in ${scaled} ${unit}`,
+        {
+          username,
+          organizationName,
+          value: scaled,
+          unit,
+        }
+      );
     },
     [username, organizationName]
   );
@@ -194,6 +202,6 @@ const SuspendForm: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFormat(SuspendForm);
+const enhanced = withGetMessage(SuspendForm);
 
 export default enhanced;
