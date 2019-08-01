@@ -23,7 +23,7 @@ export function calculateRejectionRate(counts: CommentStatusCounts): number {
   return Math.floor((rejected / (visible + rejected)) * 100);
 }
 
-export const automaticPreModeration = async ({
+export const recentCommentHistory = async ({
   tenant,
   author,
   mongo,
@@ -33,13 +33,13 @@ export const automaticPreModeration = async ({
   "author" | "tenant" | "now" | "mongo"
 >): Promise<IntermediatePhaseResult | void> => {
   // Ensure this mode is enabled.
-  if (!tenant.automaticPreModeration.enabled) {
+  if (!tenant.recentCommentHistory.enabled) {
     return;
   }
 
   // Get the time frame.
   const since = DateTime.fromJSDate(now)
-    .plus({ seconds: -tenant.automaticPreModeration.timeFrame })
+    .plus({ seconds: -tenant.recentCommentHistory.timeFrame })
     .toJSDate();
 
   // Get the comment rates for this User.
@@ -49,7 +49,7 @@ export const automaticPreModeration = async ({
 
   // Get the rejection rate.
   const rate = calculateRejectionRate(counts);
-  if (rate >= tenant.automaticPreModeration.triggerRejectionRate) {
+  if (rate >= tenant.recentCommentHistory.triggerRejectionRate) {
     // Add the flag related to Trust to the comment.
     return {
       status: GQLCOMMENT_STATUS.PREMOD,

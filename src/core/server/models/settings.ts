@@ -81,7 +81,7 @@ export type Settings = GlobalModerationSettings &
     GQLSettings,
     | "charCount"
     | "email"
-    | "automaticPreModeration"
+    | "recentCommentHistory"
     | "wordList"
     | "integrations"
     | "reaction"

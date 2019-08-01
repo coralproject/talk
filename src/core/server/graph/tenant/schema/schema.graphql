@@ -795,15 +795,15 @@ type ExternalIntegrations {
 }
 
 ################################################################################
-## Automatic Pre-Moderation
+## RecentCommentHistory
 ################################################################################
 
 """
-AutomaticPreModeration controls the beheviour around when comments from Users
+RecentCommentHistory controls the beheviour around when comments from Users
 should be marked for pre-moderation automatically once they have reached the
 trigger rate for rejected comments.
 """
-type AutomaticPreModeration {
+type RecentCommentHistory {
   """
   enabled when true will pre-moderate users new comments once they have reached
   the trigger rejection rate.
@@ -1163,11 +1163,10 @@ type Settings {
   integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  automaticPreModeration is the set of settings related to how automatic
+  recentCommentHistory is the set of settings related to how automatic
   pre-moderation is controlled.
   """
-  automaticPreModeration: AutomaticPreModeration!
-    @auth(roles: [ADMIN, MODERATOR])
+  recentCommentHistory: RecentCommentHistory! @auth(roles: [ADMIN, MODERATOR])
 
   """
   reaction specifies the configuration for reactions.
@@ -2842,11 +2841,11 @@ input SettingsExternalIntegrationsInput {
 }
 
 """
-AutomaticPreModerationInput controls the beheviour around when comments from Users
+RecentCommentHistoryInput controls the beheviour around when comments from Users
 should be marked for pre-moderation automatically once they have reached the
 trigger rate for rejected comments.
 """
-input AutomaticPreModerationInput {
+input RecentCommentHistoryInput {
   """
   enabled when true will pre-moderate users new comments once they have reached
   the trigger rejection rate.
@@ -3058,10 +3057,10 @@ input SettingsInput {
   integrations: SettingsExternalIntegrationsInput
 
   """
-  automaticPreModeration is the set of settings related to how automatic
+  recentCommentHistory is the set of settings related to how automatic
   pre-moderation is controlled.
   """
-  automaticPreModeration: AutomaticPreModerationInput
+  recentCommentHistory: RecentCommentHistoryInput
 
   """
   charCount stores the character count moderation settings.

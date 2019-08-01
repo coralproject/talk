@@ -161,7 +161,7 @@ export async function createTenant(
       enabled: false,
       smtp: {},
     },
-    automaticPreModeration: {
+    recentCommentHistory: {
       enabled: false,
       // 7 days in seconds.
       timeFrame: 604800,
