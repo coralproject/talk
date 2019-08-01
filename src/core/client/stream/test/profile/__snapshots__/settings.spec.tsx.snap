@@ -5,7 +5,7 @@ exports[`renders the empty settings pane 1`] = `
   className="Box-root HorizontalGutter-root App-root HorizontalGutter-full"
 >
   <ul
-    className="TabBar-root TabBar-primary"
+    className="TabBar-root TabBar-primary coral coral-tabBar"
     role="tablist"
   >
     <li
@@ -16,7 +16,7 @@ exports[`renders the empty settings pane 1`] = `
       <button
         aria-controls="tabPane-COMMENTS"
         aria-selected={false}
-        className="BaseButton-root Tab-button Tab-primary"
+        className="BaseButton-root Tab-button Tab-primary coral coral-tabBar-allComments"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
@@ -39,7 +39,7 @@ exports[`renders the empty settings pane 1`] = `
       <button
         aria-controls="tabPane-PROFILE"
         aria-selected={true}
-        className="BaseButton-root Tab-button Tab-primary Tab-active"
+        className="BaseButton-root Tab-button Tab-primary Tab-active coral coral-tabBar-myProfile"
         onBlur={[Function]}
         onClick={[Function]}
         onFocus={[Function]}
