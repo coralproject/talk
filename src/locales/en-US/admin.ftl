@@ -235,6 +235,28 @@ configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
 ### Moderation
+
+### Recent Comment History
+
+configure-moderation-recentCommentHistory-title = Recent comment history
+configure-moderation-recentCommentHistory-timeFrame = Recent comment history timeframe
+configure-moderation-recentCommentHistory-timeFrame-description =
+  Time period over which a commenter's rejection rate is calcualted
+  and submitted comments are counted.
+configure-moderation-recentCommentHistory-enabled = Recent comment history filter
+configure-moderation-recentCommentHistory-enabled-description =
+  Prevents repeat offenders from publishing comments without approval.
+  After a commenter's rejection rate rises above the defined threshold
+  below, their next submitted comments are <strong>sent to Pending for
+  moderator approval.</strong> The filter is removed when their rejection rate
+  falls below the threshold.
+configure-moderation-recentCommentHistory-triggerRejectionRate = Rejection rate threshold
+configure-moderation-recentCommentHistory-triggerRejectionRate-description =
+  Calculated by the number of rejected comments divided by the sum of
+  a commenter’s rejected and published comments, over the recent
+  comment history timeframe (does not include comments pending for
+  toxicity, spam or pre-moderation.)
+
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
@@ -264,13 +286,13 @@ configure-moderation-akismet-accountNote =
   in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
 configure-moderation-akismet-siteURL = Site URL
 
+
+#### Perspective
 configure-moderation-perspective-title = Perspective Toxic Comment Filter
 configure-moderation-perspective-explanation =
   Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
   threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
   the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
-
-#### Perspective
 configure-moderation-perspective-filter = Toxic Comment Filter
 configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
 configure-moderation-perspective-toxicityThresholdDescription =

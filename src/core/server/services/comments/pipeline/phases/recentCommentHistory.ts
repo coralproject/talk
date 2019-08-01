@@ -20,7 +20,7 @@ export function calculateRejectionRate(counts: CommentStatusCounts): number {
   );
   const rejected = counts[GQLCOMMENT_STATUS.REJECTED];
 
-  return Math.floor((rejected / (visible + rejected)) * 100);
+  return rejected / (visible + rejected);
 }
 
 export const recentCommentHistory = async ({

@@ -61,6 +61,14 @@ export const settings = createFixture<GQLSettings>({
     url: "https://test.com/",
     contactEmail: "coral@test.com",
   },
+  recentCommentHistory: {
+    enabled: false,
+    // 7 days in seconds.
+    timeFrame: 604800,
+    // Rejection rate defaulting to 30%, once exceeded, comments will be
+    // pre-moderated.
+    triggerRejectionRate: 0.3,
+  },
   integrations: {
     akismet: {
       enabled: false,

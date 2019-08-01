@@ -821,7 +821,7 @@ type RecentCommentHistory {
   may have before their comments will then be placed into pre-moderation until
   the rejection rate decreases.
   """
-  triggerRejectionRate: Int!
+  triggerRejectionRate: Float!
 }
 
 ################################################################################
@@ -2863,7 +2863,7 @@ input RecentCommentHistoryInput {
   may have before their comments will then be placed into pre-moderation until
   the rejection rate decreases.
   """
-  triggerRejectionRate: Int
+  triggerRejectionRate: Float
 }
 
 input SettingsCommunityGuidelinesInput {

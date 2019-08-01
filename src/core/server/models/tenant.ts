@@ -167,7 +167,7 @@ export async function createTenant(
       timeFrame: 604800,
       // Rejection rate defaulting to 30%, once exceeded, comments will be
       // pre-moderated.
-      triggerRejectionRate: 30,
+      triggerRejectionRate: 0.3,
     },
     integrations: {
       akismet: {

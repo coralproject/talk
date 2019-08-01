@@ -5,6 +5,7 @@ exports[`accepts invalid input 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
+    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -30,33 +31,36 @@ exports[`accepts invalid input 1`] = `
     value="1"
   >
     <Localized
+      $unit="second"
       $value={NaN}
-      id="framework-durationField-seconds"
+      id="framework-durationField-unit"
     >
       <Option
         value="1"
       >
-        Seconds
+        second
       </Option>
     </Localized>
     <Localized
+      $unit="minute"
       $value={NaN}
-      id="framework-durationField-minutes"
+      id="framework-durationField-unit"
     >
       <Option
         value="60"
       >
-        Minutes
+        minute
       </Option>
     </Localized>
     <Localized
+      $unit="hour"
       $value={NaN}
-      id="framework-durationField-hours"
+      id="framework-durationField-unit"
     >
       <Option
         value="3600"
       >
-        Hours
+        hour
       </Option>
     </Localized>
   </withPropsOnChange(WithKeyboardFocus)>
@@ -68,6 +72,7 @@ exports[`renders correctly with default units 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
+    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -93,33 +98,36 @@ exports[`renders correctly with default units 1`] = `
     value="3600"
   >
     <Localized
+      $unit="hour"
       $value={NaN}
-      id="framework-durationField-hours"
+      id="framework-durationField-unit"
     >
       <Option
         value="3600"
       >
-        Hours
+        hour
       </Option>
     </Localized>
     <Localized
+      $unit="day"
       $value={NaN}
-      id="framework-durationField-days"
+      id="framework-durationField-unit"
     >
       <Option
         value="86400"
       >
-        Days
+        day
       </Option>
     </Localized>
     <Localized
+      $unit="week"
       $value={NaN}
-      id="framework-durationField-weeks"
+      id="framework-durationField-unit"
     >
       <Option
         value="604800"
       >
-        Weeks
+        week
       </Option>
     </Localized>
   </withPropsOnChange(WithKeyboardFocus)>
@@ -131,6 +139,7 @@ exports[`renders correctly with specified units 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
+    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -156,23 +165,25 @@ exports[`renders correctly with specified units 1`] = `
     value="1"
   >
     <Localized
+      $unit="second"
       $value={NaN}
-      id="framework-durationField-seconds"
+      id="framework-durationField-unit"
     >
       <Option
         value="1"
       >
-        Seconds
+        second
       </Option>
     </Localized>
     <Localized
+      $unit="hour"
       $value={NaN}
-      id="framework-durationField-hours"
+      id="framework-durationField-unit"
     >
       <Option
         value="3600"
       >
-        Hours
+        hour
       </Option>
     </Localized>
   </withPropsOnChange(WithKeyboardFocus)>
@@ -184,6 +195,7 @@ exports[`use best matching unit 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
+    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -209,33 +221,36 @@ exports[`use best matching unit 1`] = `
     value="3600"
   >
     <Localized
+      $unit="second"
       $value={1}
-      id="framework-durationField-seconds"
+      id="framework-durationField-unit"
     >
       <Option
         value="1"
       >
-        Seconds
+        second
       </Option>
     </Localized>
     <Localized
+      $unit="minute"
       $value={1}
-      id="framework-durationField-minutes"
+      id="framework-durationField-unit"
     >
       <Option
         value="60"
       >
-        Minutes
+        minute
       </Option>
     </Localized>
     <Localized
+      $unit="hour"
       $value={1}
-      id="framework-durationField-hours"
+      id="framework-durationField-unit"
     >
       <Option
         value="3600"
       >
-        Hours
+        hour
       </Option>
     </Localized>
   </withPropsOnChange(WithKeyboardFocus)>
@@ -247,6 +262,7 @@ exports[`use initial unit if 0 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
+    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -272,33 +288,36 @@ exports[`use initial unit if 0 1`] = `
     value="1"
   >
     <Localized
+      $unit="second"
       $value={0}
-      id="framework-durationField-seconds"
+      id="framework-durationField-unit"
     >
       <Option
         value="1"
       >
-        Seconds
+        second
       </Option>
     </Localized>
     <Localized
+      $unit="minute"
       $value={0}
-      id="framework-durationField-minutes"
+      id="framework-durationField-unit"
     >
       <Option
         value="60"
       >
-        Minutes
+        minute
       </Option>
     </Localized>
     <Localized
+      $unit="hour"
       $value={0}
-      id="framework-durationField-hours"
+      id="framework-durationField-unit"
     >
       <Option
         value="3600"
       >
-        Hours
+        hour
       </Option>
     </Localized>
   </withPropsOnChange(WithKeyboardFocus)>
