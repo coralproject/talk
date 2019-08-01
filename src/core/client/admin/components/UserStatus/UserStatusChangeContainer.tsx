@@ -59,6 +59,35 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
     removeUserSuspension({ userID: user.id });
   }, [user, removeUserSuspension]);
 
+  const handleSuspendModalClose = useCallback(() => {
+    setShowSuspend(false);
+    setShowSuspendSuccess(false);
+  }, [setShowBanned, setShowSuspendSuccess]);
+
+  const handleBanModalClose = useCallback(() => {
+    setShowBanned(false);
+  }, [setShowBanned]);
+
+  const handleSuspendConfirm = useCallback(
+    (timeout, message) => {
+      suspendUser({
+        userID: user.id,
+        timeout,
+        message,
+      });
+      setShowSuspendSuccess(true);
+    },
+    [user, suspendUser, setShowSuspendSuccess]
+  );
+
+  const handleBanConfirm = useCallback(
+    message => {
+      banUser({ userID: user.id, message });
+      setShowBanned(false);
+    },
+    [user, setShowBanned]
+  );
+
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
     return (
       <ButtonPadding>
@@ -84,28 +113,15 @@ const UserStatusChangeContainer: FunctionComponent<Props> = props => {
         username={user.username}
         open={showSuspend || showSuspendSuccess}
         success={showSuspendSuccess}
-        onClose={() => {
-          setShowSuspend(false);
-          setShowSuspendSuccess(false);
-        }}
+        onClose={handleSuspendModalClose}
         organizationName={settings.organization.name}
-        onConfirm={(timeout, message) => {
-          suspendUser({
-            userID: user.id,
-            timeout,
-            message,
-          });
-          setShowSuspendSuccess(true);
-        }}
+        onConfirm={handleSuspendConfirm}
       />
       <BanModal
         username={user.username}
         open={showBanned}
-        onClose={() => setShowBanned(false)}
-        onConfirm={message => {
-          banUser({ userID: user.id, message });
-          setShowBanned(false);
-        }}
+        onClose={handleBanModalClose}
+        onConfirm={handleBanConfirm}
       />
     </>
   );
