@@ -3,12 +3,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import {
-  Format,
-  reduceSeconds,
-  ScaledUnit,
-  withFormat,
-} from "coral-framework/lib/i18n";
+import { Format, ScaledUnit, withFormat } from "coral-framework/lib/i18n";
 
 import {
   Button,
@@ -25,7 +20,7 @@ interface Props {
   onCancel: () => void;
   format: Format;
   organizationName: string;
-  onSubmit: (duration: number, message: string) => void;
+  onSubmit: (duration: ScaledUnit, message: string) => void;
 }
 
 const DURATIONS: ScaledUnit[] = [
@@ -37,7 +32,7 @@ const DURATIONS: ScaledUnit[] = [
 
 const DEFAULT_DURATION = DURATIONS[0]; // 1 hour
 
-const SuspendModal: FunctionComponent<Props> = ({
+const SuspendForm: FunctionComponent<Props> = ({
   onCancel,
   username,
   format,
@@ -58,7 +53,8 @@ const SuspendModal: FunctionComponent<Props> = ({
 
   const onFormSubmit = useCallback(
     ({ duration, emailMessage }) => {
-      onSubmit(parseInt(duration, 10), emailMessage);
+      const unit = DURATIONS.find(d => d.value === duration);
+      onSubmit(unit!, emailMessage);
     },
     [onSubmit]
   );
@@ -198,6 +194,6 @@ const SuspendModal: FunctionComponent<Props> = ({
   );
 };
 
-const enhanced = withFormat(SuspendModal);
+const enhanced = withFormat(SuspendForm);
 
 export default enhanced;

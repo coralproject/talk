@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
 
 import NotAvailable from "coral-admin/components/NotAvailable";
+import { Format, ScaledUnit, withFormat } from "coral-framework/lib/i18n";
 import {
   Button,
   Card,
@@ -18,6 +19,7 @@ import styles from "./SuspendModal.css";
 
 interface Props {
   username: string | null;
+  format: Format;
   open: boolean;
   onClose: () => void;
   onConfirm: (timeout: number, message: string) => void;
@@ -31,14 +33,19 @@ const SuspendModal: FunctionComponent<Props> = ({
   onConfirm,
   username,
   success,
+  format,
   organizationName,
 }) => {
   const [successDuration, setSuccessDuration] = useState("");
-
   const onFormSubmit = useCallback(
-    ([durationValue, durationLabel], message) => {
-      setSuccessDuration(durationLabel);
-      onConfirm(durationValue, message);
+    ({ original, scaled, unit }: ScaledUnit, message: string) => {
+      setSuccessDuration(
+        format("framework-timeago-time", {
+          value: scaled,
+          unit,
+        })
+      );
+      onConfirm(original, message);
     },
     [onConfirm]
   );
@@ -117,4 +124,6 @@ const SuspendModal: FunctionComponent<Props> = ({
   );
 };
 
-export default SuspendModal;
+const enhanced = withFormat(SuspendModal);
+
+export default enhanced;
