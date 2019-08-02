@@ -5,23 +5,14 @@ import {
   GQLCOMMENT_STATUS,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { ACTION_TYPE } from "coral-server/models/action/comment";
-import { retrieveRecentStatusCounts } from "coral-server/models/comment";
-import { VISIBLE_STATUSES } from "coral-server/models/comment/constants";
-import { CommentStatusCounts } from "coral-server/models/comment/helpers";
+import {
+  calculateRejectionRate,
+  retrieveRecentStatusCounts,
+} from "coral-server/models/comment";
 import {
   IntermediatePhaseResult,
   ModerationPhaseContext,
 } from "coral-server/services/comments/pipeline";
-
-export function calculateRejectionRate(counts: CommentStatusCounts): number {
-  const visible = VISIBLE_STATUSES.reduce(
-    (acc, status) => counts[status] + acc,
-    0
-  );
-  const rejected = counts[GQLCOMMENT_STATUS.REJECTED];
-
-  return rejected / (visible + rejected);
-}
 
 export const recentCommentHistory = async ({
   tenant,

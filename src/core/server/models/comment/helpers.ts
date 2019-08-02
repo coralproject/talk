@@ -1,7 +1,7 @@
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 
 import { Comment } from "./comment";
-import { VISIBLE_STATUSES } from "./constants";
+import { PUBLISHED_STATUSES } from "./constants";
 import { Revision } from "./revision";
 
 /**
@@ -16,13 +16,13 @@ export function hasAncestors(
 }
 
 /**
- * hasVisibleStatus will check to see if the comment has a visibility status
+ * hasPublishedStatus will check to see if the comment has a visibility status
  * where readers could see it.
  *
  * @param comment the comment to check the status on
  */
-export function hasVisibleStatus(comment: Pick<Comment, "status">): boolean {
-  return VISIBLE_STATUSES.includes(comment.status);
+export function hasPublishedStatus(comment: Pick<Comment, "status">): boolean {
+  return PUBLISHED_STATUSES.includes(comment.status);
 }
 
 /**
@@ -58,4 +58,14 @@ export function createEmptyCommentStatusCounts(): CommentStatusCounts {
     [GQLCOMMENT_STATUS.REJECTED]: 0,
     [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: 0,
   };
+}
+
+export function calculateRejectionRate(counts: CommentStatusCounts): number {
+  const published = PUBLISHED_STATUSES.reduce(
+    (acc, status) => counts[status] + acc,
+    0
+  );
+  const rejected = counts[GQLCOMMENT_STATUS.REJECTED];
+
+  return rejected / (published + rejected);
 }

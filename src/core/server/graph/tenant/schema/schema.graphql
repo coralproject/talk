@@ -2046,9 +2046,9 @@ type CommentStatusCounts {
 
 type CommentCounts {
   """
-  totalVisible will return the count of all visible Comments.
+  totalPublished will return the count of all published Comments.
   """
-  totalVisible: Int!
+  totalPublished: Int!
 
   """
   tags stores the counts of all the Tags against Comment's on this Story.

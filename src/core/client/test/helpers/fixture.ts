@@ -210,7 +210,7 @@ export function createStory() {
       },
       isClosed: false,
       commentCounts: {
-        totalVisible: 0,
+        totalPublished: 0,
         tags: {
           FEATURED: 0,
         },

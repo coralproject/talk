@@ -118,7 +118,7 @@ it("post a comment", async () => {
   );
 });
 
-const postACommentAndHandleNonVisibleComment = async (
+const postACommentAndHandleNonPublishedComment = async (
   dismiss: (form: ReactTestInstance, rte: ReactTestInstance) => void
 ) => {
   const { rte, form } = await createTestRenderer({
@@ -161,14 +161,14 @@ const postACommentAndHandleNonVisibleComment = async (
 };
 
 it("post a comment and handle non-visible comment state (dismiss by click)", async () =>
-  await postACommentAndHandleNonVisibleComment((form, rte) => {
+  await postACommentAndHandleNonPublishedComment((form, rte) => {
     within(form)
       .getByText("Dismiss")
       .props.onClick();
   }));
 
 it("post a comment and handle non-visible comment state (dismiss by typing)", async () =>
-  await postACommentAndHandleNonVisibleComment((form, rte) => {
+  await postACommentAndHandleNonPublishedComment((form, rte) => {
     rte.props.onChange({ html: "Typing..." });
   }));
 

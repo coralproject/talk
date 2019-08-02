@@ -17,7 +17,7 @@ import { ReplyListContainer1_viewer as ViewerData } from "coral-stream/__generat
 import { ReplyListContainer1PaginationQueryVariables } from "coral-stream/__generated__/ReplyListContainer1PaginationQuery.graphql";
 import { ReplyListContainer5_comment as Comment5Data } from "coral-stream/__generated__/ReplyListContainer5_comment.graphql";
 
-import { isCommentVisible } from "../helpers";
+import { isPublished } from "../helpers";
 import CommentReplyCreatedSubscription from "./CommentReplyCreatedSubscription";
 import LocalReplyListContainer from "./LocalReplyListContainer";
 import ReplyList from "./ReplyList";
@@ -105,7 +105,7 @@ export const ReplyListContainer: React.FunctionComponent<Props> = props => {
   }
   const comments =
     // Comment is not visible after a viewer action, so don't render it anymore.
-    props.comment.lastViewerAction && !isCommentVisible(props.comment)
+    props.comment.lastViewerAction && !isPublished(props.comment.status)
       ? []
       : props.comment.replies.edges.map(edge => ({
           ...edge.node,

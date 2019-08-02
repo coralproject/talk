@@ -30,7 +30,7 @@ import {
 import {
   getLatestRevision,
   hasAncestors,
-  hasVisibleStatus,
+  hasPublishedStatus,
 } from "coral-server/models/comment/helpers";
 import {
   retrieveStory,
@@ -95,7 +95,7 @@ export async function create(
     }
 
     // Check that the parent comment was visible.
-    if (!hasVisibleStatus(parent)) {
+    if (!hasPublishedStatus(parent)) {
       throw new CommentNotFoundError(parent.id);
     }
 
@@ -226,7 +226,7 @@ export async function create(
   }
 
   // If this comment is visible (and not a reply), publish it.
-  if (!input.parentID && hasVisibleStatus(comment)) {
+  if (!input.parentID && hasPublishedStatus(comment)) {
     publishCommentCreated(publish, comment);
   }
 

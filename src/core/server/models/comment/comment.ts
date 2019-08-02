@@ -33,7 +33,7 @@ import {
 } from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
-import { VISIBLE_STATUSES } from "./constants";
+import { PUBLISHED_STATUSES } from "./constants";
 import { createEmptyCommentStatusCounts, hasAncestors } from "./helpers";
 import { Revision } from "./revision";
 import { CommentTag } from "./tag";
@@ -500,7 +500,7 @@ export const retrieveCommentRepliesConnection = (
   parentID: string,
   input: CommentConnectionInput
 ) =>
-  retrieveVisibleCommentConnection(mongo, tenantID, {
+  retrievePublishedCommentConnection(mongo, tenantID, {
     ...input,
     filter: {
       ...input.filter,
@@ -594,7 +594,7 @@ export const retrieveCommentStoryConnection = (
   storyID: string,
   input: CommentConnectionInput
 ) =>
-  retrieveVisibleCommentConnection(mongo, tenantID, {
+  retrievePublishedCommentConnection(mongo, tenantID, {
     ...input,
     filter: {
       ...input.filter,
@@ -617,7 +617,7 @@ export const retrieveCommentUserConnection = (
   userID: string,
   input: CommentConnectionInput
 ) =>
-  retrieveVisibleCommentConnection(mongo, tenantID, {
+  retrievePublishedCommentConnection(mongo, tenantID, {
     ...input,
     filter: {
       ...input.filter,
@@ -677,18 +677,19 @@ export const retrieveRejectedCommentUserConnection = (
   );
 
 /**
- * retrieveVisibleCommentConnection will retrieve a connection that contains
- * comments that are visible.
+ * retrievePublishedCommentConnection will retrieve a connection that contains
+ * comments that are published.
  *
  * @param mongo database connection
  * @param tenantID the Tenant's ID
  * @param input connection configuration
  */
-export const retrieveVisibleCommentConnection = (
+export const retrievePublishedCommentConnection = (
   mongo: Db,
   tenantID: string,
   input: CommentConnectionInput
-) => retrieveStatusCommentConnection(mongo, tenantID, VISIBLE_STATUSES, input);
+) =>
+  retrieveStatusCommentConnection(mongo, tenantID, PUBLISHED_STATUSES, input);
 
 /**
  * retrieveStatusCommentConnection will retrieve a connection that contains
@@ -1005,8 +1006,8 @@ export async function retrieveStoryCommentTagCounts(
     // `"tags.type": { $exists: true }` to ensure that we are using the
     // specified index.
     "tags.type": GQLTAG.FEATURED,
-    // Only show visible comment's tag counts.
-    status: { $in: VISIBLE_STATUSES },
+    // Only show published comment's tag counts.
+    status: { $in: PUBLISHED_STATUSES },
   };
   if (storyIDs.length > 1) {
     $match.storyID = { $in: storyIDs };
