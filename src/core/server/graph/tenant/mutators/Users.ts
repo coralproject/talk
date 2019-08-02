@@ -121,7 +121,13 @@ export const Users = (ctx: TenantContext) => ({
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
-    updateUsername(ctx.mongo, ctx.tenant, input.userID, input.username),
+    updateUsername(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.user!.id,
+      input.username,
+      ctx.user!
+    ),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
     updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>

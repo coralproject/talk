@@ -371,17 +371,19 @@ export async function deactivateToken(
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
  * @param username the username that we are setting on the User
+ * @param editor the user making the update
  */
 export async function updateUsername(
   mongo: Db,
   tenant: Tenant,
   userID: string,
-  username: string
+  username: string,
+  editor: User
 ) {
   // Validate the username.
   validateUsername(username);
 
-  return updateUserUsername(mongo, tenant.id, userID, username);
+  return updateUserUsername(mongo, tenant.id, userID, username, editor.id);
 }
 
 /**

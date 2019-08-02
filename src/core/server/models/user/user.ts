@@ -203,9 +203,10 @@ export interface BanStatus {
 
 export interface UsernameHistory {
   /**
-   * active indicates if the username is currently used
+   * id is a specific reference for a particular username history that will be
+   * used internally to update username records.
    */
-  active: boolean;
+  id: string;
 
   /**
    * username is the username that was assigned
@@ -441,6 +442,7 @@ export async function insertUser(
     tokens: [],
     ignoredUsers: [],
     status: {
+      username: { history: [] },
       suspension: { history: [] },
       ban: { active: false, history: [] },
     },
@@ -760,43 +762,43 @@ export async function setUserUsername(
  * @param id the ID of the User where we are setting the username on
  * @param username the username that we want to set
  */
-export async function updateUserUsername(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  username: string
-) {
-  // TODO: (wyattjoh) investigate adding the username previously used to an array.
+// export async function updateUserUsername(
+//   mongo: Db,
+//   tenantID: string,
+//   id: string,
+//   username: string
+// ) {
+//   // TODO: (wyattjoh) investigate adding the username previously used to an array.
 
-  // The username wasn't found, so add it to the user.
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      tenantID,
-      id,
-    },
-    {
-      $set: {
-        username,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-  if (!result.value) {
-    // Try to get the current user to discover what happened.
-    const user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
+//   // The username wasn't found, so add it to the user.
+//   const result = await collection(mongo).findOneAndUpdate(
+//     {
+//       tenantID,
+//       id,
+//     },
+//     {
+//       $set: {
+//         username,
+//       },
+//     },
+//     {
+//       // False to return the updated document instead of the original
+//       // document.
+//       returnOriginal: false,
+//     }
+//   );
+//   if (!result.value) {
+//     // Try to get the current user to discover what happened.
+//     const user = await retrieveUser(mongo, tenantID, id);
+//     if (!user) {
+//       throw new UserNotFoundError(id);
+//     }
 
-    throw new Error("an unexpected error occurred");
-  }
+//     throw new Error("an unexpected error occurred");
+//   }
 
-  return result.value;
-}
+//   return result.value;
+// }
 
 /**
  * setUserEmail will set the email address of the User if they don't already
@@ -1300,6 +1302,80 @@ export async function removeUserBan(
 
     // The user wasn't banned already, so nothing needs to be done!
     return user;
+  }
+
+  return result.value;
+}
+
+export async function updateUserUsername(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  username: string,
+  createdBy: string,
+  now = new Date()
+) {
+  const usernameHistory: UsernameHistory = {
+    id: uuid(),
+    username,
+    createdBy,
+    createdAt: now,
+  };
+
+  // figure out if the last change was less than 14 days ago
+  // createdAt should be greater than 14 days ago
+
+  const lastUsernameEditAllowed = new Date();
+  const dateDiff = now.getDate() - 14;
+  lastUsernameEditAllowed.setDate(dateDiff);
+
+  // push new usernameHistory onto user.status.username.history
+  // change user.username
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+      $or: [
+        {
+          "status.username.history": {
+            createdAt: {
+              $lt: lastUsernameEditAllowed,
+            },
+          },
+        },
+        {
+          "status.username.history": [],
+        },
+        {
+          "status.username.history": {
+            $exists: false,
+          },
+        },
+      ],
+    },
+    {
+      $set: {
+        username,
+      },
+      $push: {
+        "status.username.history": usernameHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+
+  if (!result.value) {
+    // Get the user so we can figure out why the suspend operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
   }
 
   return result.value;

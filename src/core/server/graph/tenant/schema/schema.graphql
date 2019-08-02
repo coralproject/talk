@@ -1422,11 +1422,6 @@ type SuspensionStatus {
 
 type UsernameHistory {
   """
-  active indicates if the username is currently used
-  """
-  active: Boolean!
-
-  """
   username is the username that was assigned
   """
   username: String!
