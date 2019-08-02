@@ -3,6 +3,7 @@ import { identity } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { colorFromMeta } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
 import { FormField, InputLabel, TextField } from "coral-ui/components";
 
@@ -27,20 +28,15 @@ const ClientSecretField: FunctionComponent<Props> = ({
       {({ input, meta }) => (
         <>
           <TextField
-            name={input.name}
-            onChange={input.onChange}
-            value={input.value}
             disabled={disabled}
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
+            color={colorFromMeta(meta)}
+            {...input}
             spellCheck={false}
           />
-          {meta.touched && (meta.error || meta.submitError) && (
-            <ValidationMessage>
-              {meta.error || meta.submitError}
-            </ValidationMessage>
-          )}
+          <ValidationMessage meta={meta} />
         </>
       )}
     </Field>

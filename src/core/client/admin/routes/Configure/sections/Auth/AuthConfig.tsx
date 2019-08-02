@@ -3,12 +3,13 @@ import React, { FunctionComponent } from "react";
 import { PropTypesOf } from "coral-framework/types";
 import { HorizontalGutter } from "coral-ui/components";
 
+import { OnInitValuesFct } from "./AuthConfigContainer";
 import AuthIntegrationsConfig from "./AuthIntegrationsConfig";
 
 interface Props {
   disabled?: boolean;
   auth: PropTypesOf<typeof AuthIntegrationsConfig>["auth"];
-  onInitValues: (values: any) => void;
+  onInitValues: OnInitValuesFct;
 }
 
 const AuthConfig: FunctionComponent<Props> = ({

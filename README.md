@@ -366,6 +366,8 @@ the variables in a `.env` file in the root of the project in a simple
 - `DISABLE_MONGODB_AUTOINDEXING` - When `true`, Coral will not perform indexing
   operations when it starts up. This can be desired when you've already
   installed Coral on the target MongoDB, but want to improve start performance.
+  **You should not use this parameter unless you know what you're doing! Upgrades
+  may introduce additional indexes that the application relies on.**
   (Default `false`)
 - `LOCALE` - Specify the default locale to use for all requests without a locale
   specified. (Default `en-US`)

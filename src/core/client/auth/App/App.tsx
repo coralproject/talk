@@ -23,18 +23,19 @@ export type View =
 
 export interface AppProps {
   view: View;
+  viewer: PropTypesOf<typeof ForgotPassword>["viewer"];
   auth: PropTypesOf<typeof SignInContainer>["auth"] &
     PropTypesOf<typeof SignUpContainer>["auth"];
 }
 
-const renderView = (view: AppProps["view"], auth: AppProps["auth"]) => {
+const render = ({ view, auth, viewer }: AppProps) => {
   switch (view) {
     case "SIGN_UP":
       return <SignUpContainer auth={auth} />;
     case "SIGN_IN":
       return <SignInContainer auth={auth} />;
     case "FORGOT_PASSWORD":
-      return <ForgotPassword />;
+      return <ForgotPassword viewer={viewer} />;
     case "CREATE_USERNAME":
       return <CreateUsername />;
     case "CREATE_PASSWORD":
@@ -46,10 +47,10 @@ const renderView = (view: AppProps["view"], auth: AppProps["auth"]) => {
   }
 };
 
-const App: FunctionComponent<AppProps> = ({ view, auth }) => (
+const App: FunctionComponent<AppProps> = props => (
   <>
     {process.env.NODE_ENV !== "test" && <ViewRouter />}
-    <div>{renderView(view, auth)}</div>
+    <div>{render(props)}</div>
   </>
 );
 

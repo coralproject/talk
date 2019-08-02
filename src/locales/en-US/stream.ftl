@@ -154,6 +154,8 @@ profile-historyComment-story = Story: {$title}
 profile-profileQuery-errorLoadingProfile = Error loading profile
 profile-profileQuery-storyNotFound = Story not found
 profile-commentHistory-loadMore = Load More
+profile-commentHistory-empty = You have not written any comments
+profile-commentHistory-empty-subheading = A history of your comments will appear here
 
 ### Settings
 profile-settings-ignoredCommenters = Ignored Commenters
@@ -163,6 +165,13 @@ profile-settings-description =
 profile-settings-empty = You are not currently ignoring anyone
 profile-settings-stopIgnoring = Stop ignoring
 
+profile-settings-changePassword = Change Password
+profile-settings-changePassword-oldPassword = Old Password
+profile-settings-changePassword-forgotPassword = Forgot your password?
+profile-settings-changePassword-newPassword = New Password
+profile-settings-changePassword-button = Change Password
+profile-settings-changePassword-updated =
+  Your password has been updated
 
 ## Report Comment Popover
 comments-reportPopover =

@@ -204,7 +204,9 @@ each of your site’s stories.
                   disabled={false}
                   id="configure-advanced-customCSSURL"
                   name="customCSSURL"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder=""
                   spellCheck={false}
                   type="text"
@@ -312,7 +314,9 @@ yourdomain.com, etc.
                   disabled={false}
                   id="configure-advanced-allowedDomains"
                   name="allowedDomains"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder=""
                   spellCheck={false}
                   type="text"

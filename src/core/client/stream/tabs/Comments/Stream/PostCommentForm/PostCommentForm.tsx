@@ -60,6 +60,7 @@ const PostCommentForm: FunctionComponent<Props> = props => (
               name="body"
               validate={getCommentBodyValidators(props.min, props.max)}
             >
+              {/* FIXME: (wyattjoh) reorganize this */}
               {({ input, meta }) => (
                 <>
                   <HorizontalGutter size="half">

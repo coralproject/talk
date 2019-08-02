@@ -1,7 +1,11 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { required, Validator } from "coral-framework/lib/validation";
+import {
+  Condition,
+  required,
+  validateWhen,
+} from "coral-framework/lib/validation";
 import { HorizontalGutter, TextLink, Typography } from "coral-ui/components";
 
 import HorizontalRule from "../../HorizontalRule";
@@ -25,15 +29,8 @@ const GoogleLink = () => (
   </TextLink>
 );
 
-const validateWhenEnabled = (validator: Validator): Validator => (
-  v,
-  values
-) => {
-  if (values.auth.integrations.google.enabled) {
-    return validator(v, values);
-  }
-  return "";
-};
+const isEnabled: Condition = (value, values) =>
+  Boolean(values.auth.integrations.google.enabled);
 
 const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
   <ConfigBoxWithToggleField
@@ -65,12 +62,12 @@ const GoogleConfig: FunctionComponent<Props> = ({ disabled, callbackURL }) => (
         <HorizontalRule />
         <ClientIDField
           name="auth.integrations.google.clientID"
-          validate={validateWhenEnabled(required)}
+          validate={validateWhen(isEnabled, required)}
           disabled={disabledInside}
         />
         <ClientSecretField
           name="auth.integrations.google.clientSecret"
-          validate={validateWhenEnabled(required)}
+          validate={validateWhen(isEnabled, required)}
           disabled={disabledInside}
         />
         <TargetFilterField

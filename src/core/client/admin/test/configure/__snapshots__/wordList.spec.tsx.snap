@@ -166,7 +166,9 @@ to a new line separated list.
                   disabled={false}
                   id="configure-wordlist-banned"
                   name="wordList.banned"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   spellCheck={false}
                   value="fuck"
                 />
@@ -224,7 +226,9 @@ to a new line separated list.
                   disabled={false}
                   id="configure-wordlist-suspect"
                   name="wordList.suspect"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   spellCheck={false}
                   value="idiot
 stupid"
