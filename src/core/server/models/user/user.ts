@@ -201,6 +201,35 @@ export interface BanStatus {
   history: BanStatusHistory[];
 }
 
+export interface UsernameHistory {
+  /**
+   * active indicates if the username is currently used
+   */
+  active: boolean;
+
+  /**
+   * username is the username that was assigned
+   */
+  username: string;
+
+  /**
+   * createdBy is the user that created this username
+   */
+  createdBy: string;
+
+  /**
+   * createdAt is the time the username was created
+   */
+  createdAt: Date;
+}
+
+export interface UsernameStatus {
+  /**
+   * history is the list of all usernames for this user
+   */
+  history: UsernameHistory[];
+}
+
 /**
  * UserStatus stores the user status information regarding moderation state.
  */
@@ -215,6 +244,11 @@ export interface UserStatus {
    * ban stores the user ban status as well as the history of changes.
    */
   ban: BanStatus;
+
+  /**
+   * username stores the history of username changes for this user.
+   */
+  username: UsernameStatus;
 }
 
 /**

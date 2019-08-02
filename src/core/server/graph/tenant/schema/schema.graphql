@@ -1420,6 +1420,35 @@ type SuspensionStatus {
   history: [SuspensionStatusHistory!]! @auth(roles: [ADMIN, MODERATOR])
 }
 
+type UsernameHistory {
+  """
+  active indicates if the username is currently used
+  """
+  active: Boolean!
+
+  """
+  username is the username that was assigned
+  """
+  username: String!
+
+  """
+  createdBy is the user that created this username
+  """
+  createdBy: User!
+
+  """
+  createdAt is the time the username was created
+  """
+  createdAt: Time!
+}
+
+type UsernameStatus {
+  """
+  history is the list of all usernames for this user
+  """
+  history: [UsernameHistory!]!
+}
+
 """
 UserStatus stores the user status information regarding moderation state.
 """
@@ -1433,6 +1462,11 @@ type UserStatus {
       userIDField: "userID"
       permit: [SUSPENDED, BANNED]
     )
+
+  """
+  username stores the history of username changes for this user
+  """
+  username: UsernameStatus!
 
   """
   banned stores the user banned status as well as the history of changes.
