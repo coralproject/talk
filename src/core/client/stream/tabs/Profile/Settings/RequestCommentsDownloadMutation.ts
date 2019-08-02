@@ -1,13 +1,12 @@
 import { graphql } from "react-relay";
 import { Environment } from "relay-runtime";
 
+import { getViewer } from "coral-framework/helpers";
 import {
   commitMutationPromiseNormalized,
   createMutation,
   MutationInput,
 } from "coral-framework/lib/relay";
-
-import { getViewer } from "coral-framework/helpers";
 
 import { RequestCommentsDownloadMutation as MutationTypes } from "coral-stream/__generated__/RequestCommentsDownloadMutation.graphql";
 
@@ -34,7 +33,12 @@ const RequestCommentsDownloadMutation = createMutation(
       },
       updater: store => {
         const viewer = getViewer(environment)!;
-        alert(viewer.id);
+        const user = store.get(viewer.id);
+        const now = new Date();
+
+        if (user !== null) {
+          user.setValue(now.toISOString(), "lastDownload");
+        }
       },
     })
 );

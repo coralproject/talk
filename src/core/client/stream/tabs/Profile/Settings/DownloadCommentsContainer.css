@@ -12,6 +12,12 @@
   margin-bottom: var(--spacing-3);
 }
 
+.recentRequest {
+  margin-bottom: var(--spacing-3);
+
+  color: #808080;
+}
+
 .requestButton {
   border-style: solid;
   border-color: var(--palette-grey-main);

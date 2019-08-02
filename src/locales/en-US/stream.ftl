@@ -171,6 +171,10 @@ profile-settings-download-comments-request =
   Request comment history
 profile-settings-download-comments-request-icon =
   .title = Request comment history
+profile-settings-download-comments-recentRequest =
+  Your most recent request: { $timeStamp }
+profile-settings-download-comments-timeOut =
+  You can submit another request in { $days } days
 
 ## Report Comment Popover
 comments-reportPopover =

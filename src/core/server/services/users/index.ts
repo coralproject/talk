@@ -30,6 +30,7 @@ import {
   removeUserIgnore,
   retrieveUser,
   setUserEmail,
+  setUserLastDownload,
   setUserLocalProfile,
   setUserUsername,
   suspendUser,
@@ -646,6 +647,8 @@ export async function requestCommentsDownload(
     signingConfig,
     now
   );
+
+  await setUserLastDownload(mongo, tenant.id, user.id, now);
 
   await mailer.add({
     tenantID: tenant.id,

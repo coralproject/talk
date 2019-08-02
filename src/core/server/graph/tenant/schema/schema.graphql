@@ -1575,6 +1575,12 @@ type User {
   createdAt is the time that the User was created at.
   """
   createdAt: Time!
+
+  """
+  lastDownload the last time the user made a download request
+  of their account data.
+  """
+  lastDownload: Time
 }
 
 """

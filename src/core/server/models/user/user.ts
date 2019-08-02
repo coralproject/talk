@@ -1760,3 +1760,36 @@ export async function removeUserIgnore(
 
   return result.value;
 }
+
+export async function setUserLastDownload(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  now: Date
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: { lastDownload: now },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ignore operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
