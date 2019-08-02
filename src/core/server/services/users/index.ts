@@ -447,6 +447,7 @@ export async function updateAvatar(
  * @param tenant Tenant where the User will be banned on
  * @param user the User that is banning the User
  * @param userID the ID of the User being banned
+ * @param message message to banned user
  * @param now the current time that the ban took effect
  */
 export async function ban(
@@ -455,6 +456,7 @@ export async function ban(
   tenant: Tenant,
   banner: User,
   userID: string,
+  message: string,
   now = new Date()
 ) {
   // Get the user being banned to check to see if the user already has an
@@ -471,7 +473,7 @@ export async function ban(
   }
 
   // Ban the user.
-  const user = await banUser(mongo, tenant.id, userID, banner.id, now);
+  const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
   // If the user has an email address associated with their account, send them
   // a ban notification email.
@@ -490,6 +492,7 @@ export async function ban(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });
@@ -506,6 +509,7 @@ export async function ban(
  * @param user the User that is suspending the User
  * @param userID the ID of the user being suspended
  * @param timeout the duration in seconds that the user will suspended for
+ * @param message message to suspended user
  * @param now the current time that the suspension will take effect
  */
 export async function suspend(
@@ -515,6 +519,7 @@ export async function suspend(
   user: User,
   userID: string,
   timeout: number,
+  message: string,
   now = new Date()
 ) {
   // Convert the timeout to the until time.
@@ -542,6 +547,7 @@ export async function suspend(
     userID,
     user.id,
     finishDateTime.toJSDate(),
+    message,
     now
   );
 
@@ -563,6 +569,7 @@ export async function suspend(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });

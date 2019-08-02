@@ -2,11 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
-import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
+
+import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
+import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import {
   Button,
   CallOut,
@@ -49,6 +50,12 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             createdAt
             ...UserStatusChangeContainer_user
           }
+          settings {
+            organization {
+              name
+            }
+            ...UserStatusChangeContainer_settings
+          }
         }
       `}
       variables={{ userID }}
@@ -74,7 +81,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
           );
         }
 
-        const user = props.user;
+        const { user, settings } = props;
 
         return (
           <>
@@ -85,10 +92,20 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
               <span>{user.username}</span>
             </Flex>
             <div className={styles.userStatus}>
-              <div className={styles.userStatusLabel}>Status:</div>
-              <div className={styles.userStatusChange}>
-                <UserStatusChangeContainer user={user} />
-              </div>
+              <Flex alignItems="center">
+                <div className={styles.userStatusLabel}>
+                  <Typography variant="bodyCopyBold" container="div">
+                    <Flex alignItems="center" itemGutter="half">
+                      <Localized id="moderate-user-drawer-status-label">
+                        Status:
+                      </Localized>
+                    </Flex>
+                  </Typography>
+                </div>
+                <div className={styles.userStatusChange}>
+                  <UserStatusChangeContainer settings={settings} user={user} />
+                </div>
+              </Flex>
             </div>
             <div className={styles.userDetails}>
               <Flex alignItems="center" className={styles.userDetail}>

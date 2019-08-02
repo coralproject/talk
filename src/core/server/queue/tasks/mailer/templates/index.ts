@@ -24,6 +24,7 @@ export type BanTemplate = UserNotificationContext<
   {
     username: string;
     organizationContactEmail: string;
+    customMessage?: string;
   }
 >;
 
@@ -33,6 +34,7 @@ export type SuspendTemplate = UserNotificationContext<
     username: string;
     until: string;
     organizationContactEmail: string;
+    customMessage?: string;
   }
 >;
 

@@ -1301,6 +1301,11 @@ type BanStatusHistory {
   createdAt is the time that the given User was banned.
   """
   createdAt: Time!
+
+  """
+  message is sent to banned user via email.
+  """
+  message: String!
 }
 
 """
@@ -1375,6 +1380,11 @@ type SuspensionStatusHistory {
   then the suspension has not been cancelled/edited.
   """
   modifiedAt: Time
+
+  """
+  message is sent to suspended user via email.
+  """
+  message: String!
 }
 
 """
@@ -4225,6 +4235,11 @@ input BanUserInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  message is sent to banned user via email.
+  """
+  message: String!
 }
 
 type BanUserPayload {
@@ -4259,6 +4274,11 @@ input SuspendUserInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  message is sent to suspended user via email.
+  """
+  message: String!
 }
 
 type SuspendUserPayload {

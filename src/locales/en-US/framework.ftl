@@ -36,8 +36,7 @@ framework-validation-notAWholeNumberGreaterThanOrEqual = Please enter a whole nu
 framework-timeago-just-now = Just now
 
 framework-timeago-time =
-  { $value }
-  { $unit ->
+  { $value } { $unit ->
     [second] { $value ->
       [1] second
       *[other] seconds

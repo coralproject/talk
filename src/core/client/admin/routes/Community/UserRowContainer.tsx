@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { graphql } from "react-relay";
 
+import { UserRowContainer_settings as SettingsData } from "coral-admin/__generated__/UserRowContainer_settings.graphql";
 import { UserRowContainer_user as UserData } from "coral-admin/__generated__/UserRowContainer_user.graphql";
 import { UserRowContainer_viewer as ViewerData } from "coral-admin/__generated__/UserRowContainer_viewer.graphql";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
@@ -11,6 +12,7 @@ import UserRow from "./UserRow";
 interface Props {
   user: UserData;
   viewer: ViewerData;
+  settings: SettingsData;
   onUsernameClicked?: (userID: string) => void;
 }
 
@@ -19,6 +21,7 @@ const UserRowContainer: FunctionComponent<Props> = props => {
   return (
     <UserRow
       user={props.user}
+      settings={props.settings}
       viewer={props.viewer}
       userID={props.user.id}
       username={props.user.username!}
@@ -37,6 +40,11 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment UserRowContainer_viewer on User {
       ...UserRoleChangeContainer_viewer
+    }
+  `,
+  settings: graphql`
+    fragment UserRowContainer_settings on Settings {
+      ...UserStatusChangeContainer_settings
     }
   `,
   user: graphql`
