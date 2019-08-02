@@ -12,6 +12,7 @@ it("renders sign in", () => {
   const props: PropTypesOf<typeof AppN> = {
     view: "SIGN_IN",
     auth: {},
+    viewer: null,
   };
   const renderer = createRenderer();
   renderer.render(<AppN {...props} />);

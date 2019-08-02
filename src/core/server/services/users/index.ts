@@ -3,10 +3,12 @@ import { Db } from "mongodb";
 
 import {
   DuplicateEmailError,
+  DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
+  PasswordIncorrect,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
@@ -40,6 +42,7 @@ import {
   updateUserRole,
   updateUserUsername,
   User,
+  verifyUserPassword,
 } from "coral-server/models/user";
 import {
   getLocalProfile,
@@ -82,6 +85,15 @@ export async function insert(
     );
     if (alreadyFoundUser) {
       throw new DuplicateEmailError(input.email);
+    }
+  }
+
+  if (input.id) {
+    // Try to check to see if there is a user with the same ID before we try to
+    // create the user again.
+    const alreadyFoundUser = await retrieveUser(mongo, tenant.id, input.id);
+    if (alreadyFoundUser) {
+      throw new DuplicateUserError();
     }
   }
 
@@ -219,8 +231,12 @@ export async function updatePassword(
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
-  password: string
+  oldPassword: string,
+  newPassword: string
 ) {
+  // Validate that the new password is valid.
+  validatePassword(newPassword);
+
   // We require that the email address for the user be defined for this method.
   if (!user.email) {
     throw new EmailNotSetError();
@@ -228,17 +244,30 @@ export async function updatePassword(
 
   // We also don't allow this method to be used by users that don't have a local
   // profile already.
-  if (!hasLocalProfile(user, user.email)) {
+  const profile = getLocalProfile(user, user.email);
+  if (!profile) {
     throw new LocalProfileNotSetError();
   }
 
-  validatePassword(password);
+  // Verify that the old password is correct. We'll be using the profile's
+  // passwordID to ensure we prevent a race.
+  const passwordVerified = await verifyUserPassword(
+    user,
+    oldPassword,
+    user.email
+  );
+  if (!passwordVerified) {
+    // We throw a PasswordIncorrect error here instead of an
+    // InvalidCredentialsError because the current user is already signed in.
+    throw new PasswordIncorrect();
+  }
 
   const updatedUser = await updateUserPassword(
     mongo,
     tenant.id,
     user.id,
-    password
+    newPassword,
+    profile.passwordID
   );
 
   // If the user has an email address associated with their account, send them

@@ -203,14 +203,6 @@ it("change akismet settings", async () => {
   // Input valid api key
   keyField.props.onChange("my api key");
 
-  // Input malformed site.
-  siteField.props.onChange("malformed url");
-
-  expect(
-    within(akismetContainer).queryAllByText("This field is required.").length
-  ).toBe(0);
-  expect(within(akismetContainer).queryAllByText("Invalid URL").length).toBe(1);
-
   // Input correct site.
   siteField.props.onChange("https://coralproject.net");
 

@@ -95,12 +95,16 @@ export const Users = (ctx: TenantContext) => ({
   updatePassword: async (
     input: GQLUpdatePasswordInput
   ): Promise<Readonly<User> | null> =>
-    updatePassword(
-      ctx.mongo,
-      ctx.mailerQueue,
-      ctx.tenant,
-      ctx.user!,
-      input.password
+    mapFieldsetToErrorCodes(
+      updatePassword(
+        ctx.mongo,
+        ctx.mailerQueue,
+        ctx.tenant,
+        ctx.user!,
+        input.oldPassword,
+        input.newPassword
+      ),
+      { "input.oldPassword": [ERROR_CODES.PASSWORD_INCORRECT] }
     ),
   createToken: async (input: GQLCreateTokenInput) =>
     createToken(

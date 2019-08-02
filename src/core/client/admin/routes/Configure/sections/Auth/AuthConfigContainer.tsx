@@ -1,11 +1,11 @@
 import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import { RouteProps } from "found";
-import { get } from "lodash";
 import React from "react";
 import { graphql } from "react-relay";
 
 import { AuthConfigContainer_auth as AuthData } from "coral-admin/__generated__/AuthConfigContainer_auth.graphql";
+import { DeepNullable, DeepPartial } from "coral-common/types";
 import { pureMerge } from "coral-common/utils";
 import { CoralContext, withContext } from "coral-framework/lib/bootstrap";
 import {
@@ -16,20 +16,24 @@ import {
 } from "coral-framework/lib/form";
 import { getMessage } from "coral-framework/lib/i18n";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import { GQLSettings } from "coral-framework/schema";
 
 import AuthConfig from "./AuthConfig";
+
+export type FormProps = DeepNullable<Pick<GQLSettings, "auth">>;
+export type OnInitValuesFct = (values: DeepPartial<FormProps>) => void;
 
 interface Props {
   localeBundles: CoralContext["localeBundles"];
   form: FormApi;
   submitting?: boolean;
-  addSubmitHook: AddSubmitHook;
+  addSubmitHook: AddSubmitHook<FormProps>;
   auth: AuthData;
 }
 
 class AuthConfigContainer extends React.Component<Props> {
   public static routeConfig: RouteProps;
-  private initialValues = {};
+  private initialValues: DeepPartial<FormProps> = {};
   private removeSubmitHook: RemoveSubmitHook;
 
   constructor(props: Props) {
@@ -38,22 +42,26 @@ class AuthConfigContainer extends React.Component<Props> {
   }
 
   public componentDidMount() {
-    this.props.form.initialize({ auth: this.initialValues });
+    this.props.form.initialize(this.initialValues);
   }
 
   public componentWillUnmount() {
     this.removeSubmitHook();
   }
 
-  private submitHook: SubmitHook = async (data, { cancel }) => {
+  private submitHook: SubmitHook<FormProps> = async (data, { cancel }) => {
     const integrations = [
-      get(data, "auth.integrations.google"),
-      get(data, "auth.integrations.facebook"),
-      get(data, "auth.integrations.sso"),
-      get(data, "auth.integrations.local"),
-      get(data, "auth.integrations.oidc"),
+      data.auth.integrations.google,
+      data.auth.integrations.facebook,
+      data.auth.integrations.sso,
+      data.auth.integrations.local,
+      data.auth.integrations.oidc,
     ];
-    if (!integrations.some((i: any) => i.enabled && i.targetFilter.admin)) {
+    if (
+      !integrations.some(integration =>
+        Boolean(integration.enabled && integration.targetFilter.admin)
+      )
+    ) {
       cancel({
         [FORM_ERROR]: (
           <Localized id="configure-auth-pleaseEnableAuthForAdmin">
@@ -65,7 +73,9 @@ class AuthConfigContainer extends React.Component<Props> {
         ),
       });
     } else if (
-      !integrations.some((i: any) => i.enabled && i.targetFilter.stream)
+      !integrations.some(integration =>
+        Boolean(integration.enabled && integration.targetFilter.stream)
+      )
     ) {
       const confirmMessage = getMessage(
         this.props.localeBundles,
@@ -80,7 +90,7 @@ class AuthConfigContainer extends React.Component<Props> {
     return;
   };
 
-  private handleOnInitValues = (values: any) => {
+  private handleOnInitValues: OnInitValuesFct = values => {
     this.initialValues = pureMerge(this.initialValues, values);
   };
 

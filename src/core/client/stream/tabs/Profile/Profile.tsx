@@ -21,7 +21,8 @@ export interface ProfileProps {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
     PropTypesOf<typeof SettingsContainer>["viewer"];
-  settings: PropTypesOf<typeof UserBoxContainer>["settings"];
+  settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
+    PropTypesOf<typeof SettingsContainer>["settings"];
 }
 
 const Profile: FunctionComponent<ProfileProps> = props => {
@@ -58,7 +59,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
           <CommentHistoryContainer viewer={props.viewer} story={props.story} />
         </TabPane>
         <TabPane tabID="SETTINGS">
-          <SettingsContainer viewer={props.viewer} />
+          <SettingsContainer viewer={props.viewer} settings={props.settings} />
         </TabPane>
       </TabContent>
     </HorizontalGutter>

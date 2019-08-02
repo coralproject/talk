@@ -7,6 +7,7 @@ import {
   formatEmpty,
   parseBool,
   parseEmptyAsNull,
+  ValidationMessage,
 } from "coral-framework/lib/form";
 import {
   MessageBox,
@@ -20,7 +21,6 @@ import {
   TileOption,
   TileSelector,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import ToggleConfig from "../ToggleConfig";
@@ -37,12 +37,8 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
     {({ input }) => (
       <ToggleConfig
         id={input.name}
-        name={input.name}
-        onChange={input.onChange}
-        onFocus={input.onFocus}
-        onBlur={input.onBlur}
-        checked={input.checked}
         disabled={disabled}
+        {...input}
         title={
           <Localized id="configure-messageBox-title">
             <span>Enable Message Box for this Stream</span>
@@ -138,11 +134,7 @@ const MessageBoxConfig: FunctionComponent<Props> = ({ disabled }) => (
                             value={contentInput.value}
                           />
                         </Suspense>
-                        {meta.touched && (meta.error || meta.submitError) && (
-                          <ValidationMessage>
-                            {meta.error || meta.submitError}
-                          </ValidationMessage>
-                        )}
+                        <ValidationMessage meta={meta} />
                       </HorizontalGutter>
                     </>
                   )}

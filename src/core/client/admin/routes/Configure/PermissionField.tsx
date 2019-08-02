@@ -24,13 +24,8 @@ const PermissionField: FunctionComponent<Props> = ({
         <Localized id="configure-permissionField-allow">
           <RadioButton
             id={`${input.name}-allow`}
-            name={input.name}
-            onChange={input.onChange}
-            onFocus={input.onFocus}
-            onBlur={input.onBlur}
-            checked={input.checked}
             disabled={disabled}
-            value={input.value}
+            {...input}
           >
             Allow
           </RadioButton>
@@ -42,13 +37,8 @@ const PermissionField: FunctionComponent<Props> = ({
         <Localized id="configure-permissionField-dontAllow">
           <RadioButton
             id={`${input.name}-dontAllow`}
-            name={input.name}
-            onChange={input.onChange}
-            onFocus={input.onFocus}
-            onBlur={input.onBlur}
-            checked={input.checked}
             disabled={disabled}
-            value={input.value}
+            {...input}
           >
             Don't allow
           </RadioButton>

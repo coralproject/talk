@@ -1,7 +1,3 @@
-.root {
-  max-width: 440px;
-}
-
 .description {
   color: var(--palette-text-primary);
   font-family: var(--font-family-sans-serif);

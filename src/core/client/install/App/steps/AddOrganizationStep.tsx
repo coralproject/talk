@@ -2,7 +2,11 @@ import { Localized } from "fluent-react/compat";
 import React from "react";
 import { Field, Form } from "react-final-form";
 
-import { OnSubmit } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  OnSubmit,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -18,7 +22,6 @@ import {
   InputLabel,
   TextField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import BackButton from "./BackButton";
@@ -87,24 +90,14 @@ class AddOrganizationStep extends React.Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
-                        name={input.name}
-                        onChange={input.onChange}
-                        value={input.value}
                         placeholder="Organization Name"
-                        color={
-                          meta.touched && (meta.error || meta.submitError)
-                            ? "error"
-                            : "regular"
-                        }
+                        color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        {...input}
                       />
                     </Localized>
-                    {meta.touched && (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                    <ValidationMessage meta={meta} fullWidth />
                   </FormField>
                 )}
               </Field>
@@ -123,24 +116,14 @@ class AddOrganizationStep extends React.Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
-                        name={input.name}
-                        onChange={input.onChange}
-                        value={input.value}
                         placeholder="Organization Contact Email"
-                        color={
-                          meta.touched && (meta.error || meta.submitError)
-                            ? "error"
-                            : "regular"
-                        }
+                        color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        {...input}
                       />
                     </Localized>
-                    {meta.touched && (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                    <ValidationMessage meta={meta} fullWidth />
                   </FormField>
                 )}
               </Field>
@@ -169,24 +152,14 @@ class AddOrganizationStep extends React.Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
-                        name={input.name}
-                        onChange={input.onChange}
-                        value={input.value}
                         placeholder="Organization URL"
-                        color={
-                          meta.touched && (meta.error || meta.submitError)
-                            ? "error"
-                            : "regular"
-                        }
+                        color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        {...input}
                       />
                     </Localized>
-                    {meta.touched && (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                    <ValidationMessage meta={meta} fullWidth />
                   </FormField>
                 )}
               </Field>

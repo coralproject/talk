@@ -11,12 +11,14 @@ describe("isSSOToken", () => {
   });
 
   it("understands invalid sso tokens", () => {
-    expect(isSSOToken({ user: { id: "id", email: "email" } })).toBeFalsy();
     expect(
-      isSSOToken({ user: { id: "id", username: "username" } })
+      isSSOToken({ user: { id: "id", email: "email" } } as object)
     ).toBeFalsy();
     expect(
-      isSSOToken({ user: { email: "email", username: "username" } })
+      isSSOToken({ user: { id: "id", username: "username" } } as object)
+    ).toBeFalsy();
+    expect(
+      isSSOToken({ user: { email: "email", username: "username" } } as object)
     ).toBeFalsy();
     expect(isSSOToken({})).toBeFalsy();
   });
