@@ -2,61 +2,61 @@
 
 ## General
 
-general-userBoxUnauthenticated-joinTheConversation = Join the conversation
-general-userBoxUnauthenticated-signIn = Sign in
-general-userBoxUnauthenticated-register = Register
+general-userBoxUnauthenticated-joinTheConversation = Unirse a la conversación
+general-userBoxUnauthenticated-signIn = Iniciar sesión
+general-userBoxUnauthenticated-register = Registrar
 
 general-userBoxAuthenticated-signedInAs =
-  Signed in as <Username></Username>.
+  Registrado como <Username></Username>.
 
 general-userBoxAuthenticated-notYou =
-  Not you? <button>Sign Out</button>
+  ¿No tú? <button>Desconectar</button>
 
-general-tabBar-commentsTab = Comments
-general-tabBar-myProfileTab = My Profile
-general-tabBar-configure = Configure
+general-tabBar-commentsTab = Comentarios
+general-tabBar-myProfileTab = Mi perfil
+general-tabBar-configure = Configurar
 
 ## Comments Tab
 
-comments-allCommentsTab = All Comments
-comments-featuredTab = Featured
-comments-featuredCommentTooltip-how = How is a comment featured?
+comments-allCommentsTab = Todos los comentarios
+comments-featuredTab = Comentarios resaltados
+comments-featuredCommentTooltip-how = ¿Cómo se resalta un comentario?
 comments-featuredCommentTooltip-handSelectedComments =
-  Comments are hand selected by our team as worth reading.
+  Los comentarios son seleccionados a mano por nuestro equipo como recomiendas por leer.
 comments-featuredCommentTooltip-toggleButton =
-  .aria-label = Toggle featured comments tooltip
+  .aria-label = Alternar el consejo sobre comentarios resaltados
 
 
-comments-streamQuery-storyNotFound = Story not found
+comments-streamQuery-storyNotFound = Historia no encontrada
 
-comments-postCommentForm-submit = Submit
-comments-replyList-showAll = Show All
-comments-replyList-showMoreReplies = Show More Replies
+comments-postCommentForm-submit = Enviar
+comments-replyList-showAll = Mostrar todo
+comments-replyList-showMoreReplies = Mostrar más respuestas
 
 
 comments-viewNew =
   { $count ->
-    [1] View {$count} New Comment
-    *[other] View {$count} New Comments
+    [1] Ver {$count} nuevo comentario
+    *[other] Ver {$count} nuevos comentarios
   }
-comments-loadMore = Load More
+comments-loadMore = Cargar más
 
 comments-permalinkPopover =
-  .description = A dialog showing a permalink to the comment
-comments-permalinkButton-share = Share
-comments-permalinkView-viewFullDiscussion = View Full Discussion
-comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
+  .description = Un diálogo que muestra un enlace permanente al comentario
+comments-permalinkButton-share = Compartir
+comments-permalinkView-viewFullDiscussion = Ver discusión completa
+comments-permalinkView-commentRemovedOrDoesNotExist = Este comentario ha sido eliminado o no existe.
 
 comments-rte-bold =
-  .title = Bold
+  .title = Texto en negrita
 
 comments-rte-italic =
-  .title = Italic
+  .title = Texto en cursiva
 
 comments-rte-blockquote =
-  .title = Blockquote
+  .title = Texto citado
 
-comments-remainingCharacters = { $remaining } characters remaining
+comments-remainingCharacters = { $remaining } caracteres restantes
 
 comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
 
