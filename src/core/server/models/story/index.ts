@@ -311,7 +311,7 @@ export async function retrieveManyStoriesByURL(
 
 export type UpdateStoryInput = Omit<
   Partial<Story>,
-  "id" | "tenantID" | "createdAt"
+  "id" | "tenantID" | "closedAt" | "createdAt"
 >;
 
 export async function updateStory(
