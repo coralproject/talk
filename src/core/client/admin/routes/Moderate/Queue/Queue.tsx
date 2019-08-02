@@ -4,7 +4,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
 import ModerateCardContainer from "coral-admin/components/ModerateCard";
-import UserHistoryDrawerContainer from "coral-admin/components/UserHistoryDrawer/UserHistoryDrawerContainer";
+import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { Button, Flex, HorizontalGutter } from "coral-ui/components";
 import { PropTypesOf } from "coral-ui/types";
 
@@ -101,7 +101,7 @@ const Queue: FunctionComponent<Props> = ({
         </Flex>
       )}
       {comments.length === 0 && emptyElement}
-      <UserHistoryDrawerContainer
+      <UserHistoryDrawer
         open={userDrawerVisible}
         onClose={onHideUserDrawer}
         userID={userDrawerId}
