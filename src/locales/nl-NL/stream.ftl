@@ -42,7 +42,7 @@ comments-viewNew =
 comments-loadMore = Meer laden
 
 comments-permalinkPopover =
-  .description = A dialog showing a permalink to the comment
+  .description = Een dialoogvenster met een permanente link naar de opmerking
 comments-permalinkButton-share = Delen
 comments-permalinkView-viewFullDiscussion = Toon alle reacties
 comments-permalinkView-commentRemovedOrDoesNotExist = Deze reactie is verwijderd of bestaat niet.
