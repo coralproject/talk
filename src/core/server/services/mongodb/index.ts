@@ -7,6 +7,7 @@ export async function createMongoClient(config: Config): Promise<MongoClient> {
   try {
     return await MongoClient.connect(config.get("mongodb"), {
       useNewUrlParser: true,
+      ignoreUndefined: true,
     });
   } catch (err) {
     throw new InternalError(err, "could not connect to mongodb");
