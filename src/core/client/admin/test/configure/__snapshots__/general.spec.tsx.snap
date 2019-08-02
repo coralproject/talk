@@ -212,7 +212,9 @@ shared.
               <textarea
                 id="configure-general-sitewideCommenting-message"
                 name="disableCommenting.message"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 value="Comments are closed on this story."
               />
             </div>
@@ -317,7 +319,9 @@ Markdown can be found
               <textarea
                 id="configure-general-guidelines-content"
                 name="communityGuidelines.content"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 value=""
               />
             </div>
@@ -414,7 +418,9 @@ Markdown can be found
                   disabled={false}
                   id="configure-general-commentLength-min"
                   name="charCount.min"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="No limit"
                   spellCheck={false}
                   type="text"
@@ -451,7 +457,9 @@ Markdown can be found
                   disabled={false}
                   id="configure-general-commentLength-max"
                   name="charCount.max"
+                  onBlur={[Function]}
                   onChange={[Function]}
+                  onFocus={[Function]}
                   placeholder="No limit"
                   spellCheck={false}
                   type="text"
@@ -722,7 +730,9 @@ moderation panel.
               <textarea
                 id="configure-general-closedStreamMessage-content"
                 name="closeCommenting.message"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 value="Comments are closed on this story."
               />
             </div>

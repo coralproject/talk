@@ -1,9 +1,13 @@
-import { OnSubmit } from "coral-framework/lib/form";
 import { FORM_ERROR } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { Component } from "react";
 import { Field, Form } from "react-final-form";
 
+import {
+  colorFromMeta,
+  OnSubmit,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import {
   Button,
   CallOut,
@@ -14,7 +18,6 @@ import {
   InputLabel,
   TextField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import BackButton from "./BackButton";
@@ -86,24 +89,14 @@ class PermittedDomainsStep extends Component<Props> {
                       attrs={{ placeholder: true }}
                     >
                       <TextField
-                        name={input.name}
-                        onChange={input.onChange}
-                        value={input.value}
                         placeholder="Domains"
-                        color={
-                          meta.touched && (meta.error || meta.submitError)
-                            ? "error"
-                            : "regular"
-                        }
+                        color={colorFromMeta(meta)}
                         disabled={submitting}
                         fullWidth
+                        {...input}
                       />
                     </Localized>
-                    {meta.touched && (meta.error || meta.submitError) && (
-                      <ValidationMessage fullWidth>
-                        {meta.error || meta.submitError}
-                      </ValidationMessage>
-                    )}
+                    <ValidationMessage meta={meta} fullWidth />
                   </FormField>
                 )}
               </Field>

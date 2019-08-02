@@ -1,6 +1,9 @@
 import { commitLocalUpdate, Environment } from "relay-runtime";
 
-import { createMutationContainer } from "coral-framework/lib/relay";
+import {
+  createMutation,
+  createMutationContainer,
+} from "coral-framework/lib/relay";
 
 import { AUTH_POPUP_ID } from "coral-stream/local";
 
@@ -36,3 +39,5 @@ export const withSetAuthPopupStateMutation = createMutationContainer(
   "setAuthPopupState",
   commit
 );
+
+export default createMutation("setAuthPopupState", commit);

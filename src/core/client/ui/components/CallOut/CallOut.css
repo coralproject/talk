@@ -29,6 +29,12 @@
   color: var(--palette-text-primary);
 }
 
+.colorSuccess {
+  background-color: var(--palette-success-lightest);
+  border-color: var(--palette-success-light);
+  color: var(--palette-text-primary);
+}
+
 .fullWidth {
   display: flex;
   width: 100%;

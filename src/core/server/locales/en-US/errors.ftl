@@ -53,3 +53,4 @@ error-emailConfirmTokenExpired = Email confirmation link expired.
 error-rateLimitExceeded = Rate limit exceeded.
 error-inviteTokenExpired = Invite link has expired.
 error-inviteRequiresEmailAddresses = Please add an email address to send invitations.
+error-passwordIncorrect = Password provided was incorrect.

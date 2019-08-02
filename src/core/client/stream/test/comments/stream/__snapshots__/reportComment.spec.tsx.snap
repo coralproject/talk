@@ -380,6 +380,7 @@ exports[`render popup expanded 1`] = `
                   className="ReportCommentForm-textarea"
                   disabled={false}
                   id="comments-reportCommentForm-aditionalDetails--comment-0"
+                  name="additionalDetails"
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}

@@ -8,10 +8,10 @@ import {
   HorizontalGutter,
   TextField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
   disabled: boolean;
@@ -43,21 +43,15 @@ const OrganizationNameConfig: FunctionComponent<Props> = ({ disabled }) => (
           <>
             <TextField
               id={`configure-organization-${input.name}`}
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
               disabled={disabled}
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck={false}
               fullWidth
+              {...input}
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage fullWidth>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage meta={meta} fullWidth />
           </>
         )}
       </Field>

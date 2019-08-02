@@ -1,5 +1,7 @@
 import { GQLMutationTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
 
+// TODO: (wyattjoh) add rate limiting to these edges
+
 export const Mutation: Required<GQLMutationTypeResolver<void>> = {
   editComment: async (source, { input }, ctx) => ({
     comment: await ctx.mutators.Comments.edit(input),

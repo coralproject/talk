@@ -3979,9 +3979,15 @@ type SetPasswordPayload {
 
 input UpdatePasswordInput {
   """
-  password is the new password that should be associated with the User.
+  oldPassword is the old password that that should be compared against when
+  trying to change the password before the change.
   """
-  password: String!
+  oldPassword: String!
+
+  """
+  newPassword is the new password that should be associated with the User.
+  """
+  newPassword: String!
 
   """
   clientMutationId is required for Relay support.

@@ -14,7 +14,6 @@ general-passwordLabel = Password
 general-passwordDescription = Must be at least {$minLength} characters
 general-passwordTextField =
   .placeholder = Password
-general-confirmPasswordLabel = Confirm Password
 general-confirmPasswordTextField =
   .placeholder = Confirm Password
 general-confirmEmailAddressLabel = Confirm Email Address

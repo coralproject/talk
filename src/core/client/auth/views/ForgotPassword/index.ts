@@ -1,1 +1,4 @@
-export { default, default as ForgotPassword } from "./ForgotPassword";
+export {
+  default,
+  default as ForgotPasswordContainer,
+} from "./ForgotPasswordContainer";

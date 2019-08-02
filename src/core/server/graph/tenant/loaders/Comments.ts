@@ -74,8 +74,9 @@ const primeCommentsFromConnection = (ctx: Context) => (
  */
 const mapVisibleComment = (user?: Pick<User, "role">) => {
   // Check to see if this user is privileged and can view non-visible comments.
-  const isPrivilegedUser =
-    user && [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(user.role);
+  const isPrivilegedUser = Boolean(
+    user && [GQLUSER_ROLE.ADMIN, GQLUSER_ROLE.MODERATOR].includes(user.role)
+  );
 
   // Return a function that will map out the non-visible comments if needed.
   return (comment: Readonly<Comment> | null) => {
@@ -103,7 +104,7 @@ const mapVisibleComments = (user?: Pick<User, "role">) => (
 ): Array<Readonly<Comment> | null> => comments.map(mapVisibleComment(user));
 
 export default (ctx: Context) => ({
-  comment: new DataLoader(
+  comment: new DataLoader<string, Readonly<Comment> | null>(
     (ids: string[]) =>
       retrieveManyComments(ctx.mongo, ctx.tenant.id, ids).then(
         mapVisibleComments(ctx.user)

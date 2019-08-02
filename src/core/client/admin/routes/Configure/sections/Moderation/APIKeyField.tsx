@@ -3,6 +3,7 @@ import { identity } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { colorFromMeta } from "coral-framework/lib/form";
 import { Validator } from "coral-framework/lib/validation";
 import { FormField, InputLabel, PasswordField } from "coral-ui/components";
 
@@ -30,19 +31,14 @@ const APIKeyField: FunctionComponent<Props> = ({
           </Localized>
           <PasswordField
             id={`configure-moderation-${input.name}`}
-            name={input.name}
-            onChange={input.onChange}
-            value={input.value}
             disabled={disabled}
             // TODO: (wyattjoh) figure out how to add translations to these props
             hidePasswordTitle="Show API Key"
             showPasswordTitle="Hide API Key"
+            color={colorFromMeta(meta)}
+            {...input}
           />
-          {meta.touched && (meta.error || meta.submitError) && (
-            <ValidationMessage>
-              {meta.error || meta.submitError}
-            </ValidationMessage>
-          )}
+          <ValidationMessage meta={meta} />
         </>
       )}
     </Field>

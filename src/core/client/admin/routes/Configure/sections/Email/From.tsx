@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { validateEmail } from "coral-framework/lib/validation";
 import {
   FieldSet,
@@ -10,7 +11,6 @@ import {
   InputDescription,
   InputLabel,
   TextField,
-  ValidationMessage,
 } from "coral-ui/components";
 
 interface Props {
@@ -31,12 +31,13 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
       <Field name="email.fromName">
         {({ input, meta }) => (
           <>
-            <TextField fullWidth disabled={disabled} {...input} />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage fullWidth>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <TextField
+              fullWidth
+              disabled={disabled}
+              color={colorFromMeta(meta)}
+              {...input}
+            />
+            <ValidationMessage fullWidth meta={meta} />
           </>
         )}
       </Field>
@@ -56,19 +57,11 @@ const From: FunctionComponent<Props> = ({ disabled }) => (
             <TextField
               type="email"
               fullWidth
-              color={
-                meta.touched && (meta.error || meta.submitError)
-                  ? "error"
-                  : "regular"
-              }
+              color={colorFromMeta(meta)}
               disabled={disabled}
               {...input}
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage fullWidth>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage fullWidth meta={meta} />
           </>
         )}
       </Field>

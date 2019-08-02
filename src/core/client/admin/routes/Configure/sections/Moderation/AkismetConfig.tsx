@@ -2,12 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { colorFromMeta } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
-  composeValidators,
+  Condition,
   required,
-  validateURL,
-  Validator,
+  validateWhen,
 } from "coral-framework/lib/validation";
 import {
   FieldSet,
@@ -28,16 +28,10 @@ interface Props {
   disabled: boolean;
 }
 
+const isEnabled: Condition = (value, values) =>
+  Boolean(values.integrations.akismet.enabled);
+
 const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
-  const validateWhenEnabled = (validator: Validator): Validator => (
-    v,
-    values
-  ) => {
-    if (values.integrations.akismet.enabled) {
-      return validator(v, values);
-    }
-    return "";
-  };
   return (
     <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-akismet-title">
@@ -79,7 +73,7 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
       <APIKeyField
         name="integrations.akismet.key"
         disabled={disabled}
-        validate={validateWhenEnabled(required)}
+        validate={validateWhen(isEnabled, required)}
       />
 
       <FormField>
@@ -89,29 +83,22 @@ const AkismetConfig: FunctionComponent<Props> = ({ disabled }) => {
           </InputLabel>
         </Localized>
         <Field
-          name={"integrations.akismet.site"}
-          validate={validateWhenEnabled(
-            composeValidators(required, validateURL)
-          )}
+          name="integrations.akismet.site"
+          validate={validateWhen(isEnabled, required)}
         >
           {({ input, meta }) => (
             <>
               <TextField
                 id="configure-moderation-akismet-site"
-                name={input.name}
-                onChange={input.onChange}
-                value={input.value}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="off"
                 spellCheck={false}
+                color={colorFromMeta(meta)}
+                {...input}
               />
-              {meta.touched && (meta.error || meta.submitError) && (
-                <ValidationMessage>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+              <ValidationMessage meta={meta} />
             </>
           )}
         </Field>

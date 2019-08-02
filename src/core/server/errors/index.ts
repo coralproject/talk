@@ -651,3 +651,11 @@ export class LiveUpdatesDisabled extends CoralError {
     });
   }
 }
+
+export class PasswordIncorrect extends CoralError {
+  constructor() {
+    super({
+      code: ERROR_CODES.PASSWORD_INCORRECT,
+    });
+  }
+}

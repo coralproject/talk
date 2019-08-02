@@ -14,10 +14,10 @@ import {
   HorizontalGutter,
   InputLabel,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import Header from "../../Header";
+import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
   disabled: boolean;
@@ -58,16 +58,10 @@ const CommentEditingConfig: FunctionComponent<Props> = ({ disabled }) => (
                 DURATION_UNIT.MINUTES,
                 DURATION_UNIT.HOURS,
               ]}
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
               disabled={disabled}
+              {...input}
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage meta={meta} />
           </>
         )}
       </Field>
