@@ -144,7 +144,6 @@ const enhanced = withFragmentContainer<Props>({
             createdAt
             createdBy {
               username
-              id
             }
           }
         }
@@ -159,7 +158,6 @@ const enhanced = withFragmentContainer<Props>({
             }
             createdBy {
               username
-              id
             }
           }
         }
