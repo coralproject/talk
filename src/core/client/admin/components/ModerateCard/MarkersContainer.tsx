@@ -117,7 +117,7 @@ export class MarkersContainer extends React.Component<MarkersContainerProps> {
         details={
           doesHaveDetails ? (
             <FlagDetailsContainer
-              onUserNameClick={this.props.onUsernameClick}
+              onUsernameClick={this.props.onUsernameClick}
               comment={this.props.comment}
               settings={this.props.settings}
             />
