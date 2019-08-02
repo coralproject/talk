@@ -5,6 +5,7 @@ import {
   createPublisher,
   Publisher,
 } from "coral-server/graph/tenant/subscriptions/publisher";
+import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import { User } from "coral-server/models/user";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
@@ -37,10 +38,18 @@ export default class TenantContext extends CommonContext {
   public readonly loaders: ReturnType<typeof loaders>;
   public readonly mutators: ReturnType<typeof mutators>;
 
-  constructor(options: TenantContextOptions) {
-    super({ ...options, lang: options.tenant.locale });
+  constructor({
+    tenant,
+    logger: log = logger,
+    ...options
+  }: TenantContextOptions) {
+    super({
+      ...options,
+      lang: tenant.locale,
+      logger: logger.child({ tenantID: tenant.id }),
+    });
 
-    this.tenant = options.tenant;
+    this.tenant = tenant;
     this.tenantCache = options.tenantCache;
     this.scraperQueue = options.scraperQueue;
     this.mailerQueue = options.mailerQueue;

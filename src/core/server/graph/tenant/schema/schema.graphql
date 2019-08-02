@@ -108,12 +108,6 @@ enum COMMENT_FLAG_DETECTED_REASON {
   COMMENT_DETECTED_SPAM
 
   """
-  COMMENT_DETECTED_TRUST is used when the Comment being left was done by a User
-  that has a low karma/trust score.
-  """
-  COMMENT_DETECTED_TRUST
-
-  """
   COMMENT_DETECTED_LINKS is used when the Comment was detected as containing
   links.
   """
@@ -130,6 +124,12 @@ enum COMMENT_FLAG_DETECTED_REASON {
   containing a suspect word.
   """
   COMMENT_DETECTED_SUSPECT_WORD
+
+  """
+  COMMENT_DETECTED_RECENT_HISTORY is used when a Comment author has exhibited a
+  recent history of rejected comments.
+  """
+  COMMENT_DETECTED_RECENT_HISTORY
 }
 
 """
@@ -142,10 +142,10 @@ enum COMMENT_FLAG_REASON {
   COMMENT_REPORTED_OTHER
   COMMENT_DETECTED_TOXIC
   COMMENT_DETECTED_SPAM
-  COMMENT_DETECTED_TRUST
   COMMENT_DETECTED_LINKS
   COMMENT_DETECTED_BANNED_WORD
   COMMENT_DETECTED_SUSPECT_WORD
+  COMMENT_DETECTED_RECENT_HISTORY
 }
 
 """
@@ -176,10 +176,10 @@ type FlagReasonActionCounts {
   COMMENT_REPORTED_OTHER: Int!
   COMMENT_DETECTED_TOXIC: Int!
   COMMENT_DETECTED_SPAM: Int!
-  COMMENT_DETECTED_TRUST: Int!
   COMMENT_DETECTED_LINKS: Int!
   COMMENT_DETECTED_BANNED_WORD: Int!
   COMMENT_DETECTED_SUSPECT_WORD: Int!
+  COMMENT_DETECTED_RECENT_HISTORY: Int!
 }
 
 type Flag {
@@ -190,9 +190,11 @@ type Flag {
   flagger: User
 
   """
-  reason is the selected reason why the Flag is being created.
+  reason is the selected reason why the Flag is being created. If the reason is
+  not defined, or existed from a previous version of Coral, it will return null
+  to avoid errors.
   """
-  reason: COMMENT_FLAG_REASON!
+  reason: COMMENT_FLAG_REASON
 
   """
   additionalDetails stores information from the User as to why the Flag was

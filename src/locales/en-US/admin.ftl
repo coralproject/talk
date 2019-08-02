@@ -385,7 +385,7 @@ moderate-marker-bannedWord = Banned Word
 moderate-marker-suspectWord = Suspect Word
 moderate-marker-spam = Spam
 moderate-marker-toxic = Toxic
-moderate-marker-karma = Karma
+moderate-marker-recentHistory = Recent History
 moderate-marker-bodyCount = Body Count
 moderate-marker-offensive = Offensive
 

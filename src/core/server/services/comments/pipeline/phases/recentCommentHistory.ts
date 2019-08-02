@@ -50,14 +50,13 @@ export const recentCommentHistory = async ({
   // Get the rejection rate.
   const rate = calculateRejectionRate(counts);
   if (rate >= tenant.recentCommentHistory.triggerRejectionRate) {
-    // Add the flag related to Trust to the comment.
     return {
-      status: GQLCOMMENT_STATUS.PREMOD,
+      status: GQLCOMMENT_STATUS.SYSTEM_WITHHELD,
       actions: [
         {
           userID: null,
           actionType: ACTION_TYPE.FLAG,
-          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TRUST,
+          reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_RECENT_HISTORY,
           metadata: {
             rate,
           },

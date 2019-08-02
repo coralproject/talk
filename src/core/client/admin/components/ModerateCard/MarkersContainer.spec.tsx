@@ -19,7 +19,7 @@ it("renders all markers", () => {
             reasons: {
               COMMENT_DETECTED_TOXIC: 1,
               COMMENT_DETECTED_SPAM: 1,
-              COMMENT_DETECTED_TRUST: 1,
+              COMMENT_DETECTED_RECENT_HISTORY: 1,
               COMMENT_DETECTED_LINKS: 1,
               COMMENT_DETECTED_BANNED_WORD: 1,
               COMMENT_DETECTED_SUSPECT_WORD: 1,
@@ -59,7 +59,7 @@ it("renders some markers", () => {
             reasons: {
               COMMENT_DETECTED_TOXIC: 1,
               COMMENT_DETECTED_SPAM: 0,
-              COMMENT_DETECTED_TRUST: 1,
+              COMMENT_DETECTED_RECENT_HISTORY: 1,
               COMMENT_DETECTED_LINKS: 0,
               COMMENT_DETECTED_BANNED_WORD: 1,
               COMMENT_DETECTED_SUSPECT_WORD: 0,

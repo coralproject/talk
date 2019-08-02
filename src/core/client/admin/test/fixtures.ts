@@ -466,7 +466,7 @@ export const baseComment = createFixture<GQLComment>({
         reasons: {
           COMMENT_DETECTED_TOXIC: 0,
           COMMENT_DETECTED_SPAM: 0,
-          COMMENT_DETECTED_TRUST: 0,
+          COMMENT_DETECTED_RECENT_HISTORY: 0,
           COMMENT_DETECTED_LINKS: 0,
           COMMENT_DETECTED_BANNED_WORD: 0,
           COMMENT_DETECTED_SUSPECT_WORD: 0,
