@@ -291,6 +291,15 @@ export class UsernameAlreadySetError extends CoralError {
   }
 }
 
+export class UsernameUpdatedWithinWindowError extends CoralError {
+  constructor(lastUpdate: Date) {
+    super({
+      code: ERROR_CODES.USERNAME_UPDATED_WITHIN_WINDOW,
+      context: { pub: { lastUpdate } },
+    });
+  }
+}
+
 export class EmailAlreadySetError extends CoralError {
   constructor() {
     super({ code: ERROR_CODES.EMAIL_ALREADY_SET });

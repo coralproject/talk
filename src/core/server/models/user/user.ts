@@ -22,6 +22,7 @@ import {
   GQLSuspensionStatus,
   GQLTimeRange,
   GQLUSER_ROLE,
+  GQLUsernameStatus,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import {
@@ -755,50 +756,58 @@ export async function setUserUsername(
 }
 
 /**
- * updateUserUsername will set the username of the User.
+ * updateUsername will set the username of the User.
  *
  * @param mongo the database handle
  * @param tenantID the ID to the Tenant
  * @param id the ID of the User where we are setting the username on
  * @param username the username that we want to set
+ * @param createdBy the user making the change
  */
-// export async function updateUserUsername(
-//   mongo: Db,
-//   tenantID: string,
-//   id: string,
-//   username: string
-// ) {
-//   // TODO: (wyattjoh) investigate adding the username previously used to an array.
 
-//   // The username wasn't found, so add it to the user.
-//   const result = await collection(mongo).findOneAndUpdate(
-//     {
-//       tenantID,
-//       id,
-//     },
-//     {
-//       $set: {
-//         username,
-//       },
-//     },
-//     {
-//       // False to return the updated document instead of the original
-//       // document.
-//       returnOriginal: false,
-//     }
-//   );
-//   if (!result.value) {
-//     // Try to get the current user to discover what happened.
-//     const user = await retrieveUser(mongo, tenantID, id);
-//     if (!user) {
-//       throw new UserNotFoundError(id);
-//     }
+export async function updateUsername(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  username: string,
+  createdBy: string,
+  now = new Date()
+) {
+  const usernameHistory: UsernameHistory = {
+    id: uuid(),
+    username,
+    createdBy,
+    createdAt: now,
+  };
 
-//     throw new Error("an unexpected error occurred");
-//   }
+  const result = await collection(mongo).findOneAndUpdate(
+    { id, tenantID },
+    {
+      $set: {
+        username,
+      },
+      $push: {
+        "status.username.history": usernameHistory,
+      },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
 
-//   return result.value;
-// }
+  if (!result.value) {
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
 
 /**
  * setUserEmail will set the email address of the User if they don't already
@@ -1307,80 +1316,6 @@ export async function removeUserBan(
   return result.value;
 }
 
-export async function updateUserUsername(
-  mongo: Db,
-  tenantID: string,
-  id: string,
-  username: string,
-  createdBy: string,
-  now = new Date()
-) {
-  const usernameHistory: UsernameHistory = {
-    id: uuid(),
-    username,
-    createdBy,
-    createdAt: now,
-  };
-
-  // figure out if the last change was less than 14 days ago
-  // createdAt should be greater than 14 days ago
-
-  const lastUsernameEditAllowed = new Date();
-  const dateDiff = now.getDate() - 14;
-  lastUsernameEditAllowed.setDate(dateDiff);
-
-  // push new usernameHistory onto user.status.username.history
-  // change user.username
-  const result = await collection(mongo).findOneAndUpdate(
-    {
-      id,
-      tenantID,
-      $or: [
-        {
-          "status.username.history": {
-            createdAt: {
-              $lt: lastUsernameEditAllowed,
-            },
-          },
-        },
-        {
-          "status.username.history": [],
-        },
-        {
-          "status.username.history": {
-            $exists: false,
-          },
-        },
-      ],
-    },
-    {
-      $set: {
-        username,
-      },
-      $push: {
-        "status.username.history": usernameHistory,
-      },
-    },
-    {
-      // False to return the updated document instead of the original
-      // document.
-      returnOriginal: false,
-    }
-  );
-
-  if (!result.value) {
-    // Get the user so we can figure out why the suspend operation failed.
-    const user = await retrieveUser(mongo, tenantID, id);
-    if (!user) {
-      throw new UserNotFoundError(id);
-    }
-
-    throw new Error("an unexpected error occurred");
-  }
-
-  return result.value;
-}
-
 /**
  * suspendUser will suspend a user for a specific time range from interacting
  * with the site.
@@ -1530,6 +1465,15 @@ export async function removeActiveUserSuspensions(
 
 export type ConsolidatedBanStatus = Omit<GQLBanStatus, "history"> &
   Pick<BanStatus, "history">;
+
+export type ConsolidatedUsernameStatus = Omit<GQLUsernameStatus, "history"> &
+  Pick<UsernameStatus, "history">;
+
+export function consolidateUsernameStatus(
+  username: User["status"]["username"]
+): ConsolidatedUsernameStatus {
+  return username;
+}
 
 export function consolidateUserBanStatus(
   ban: User["status"]["ban"]

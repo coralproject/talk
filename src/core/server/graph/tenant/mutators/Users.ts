@@ -17,9 +17,10 @@ import {
   suspend,
   updateAvatar,
   updateEmail,
+  updateOwnUsername,
   updatePassword,
   updateRole,
-  updateUsername,
+  updateUserUsername,
 } from "coral-server/services/users";
 import { invite } from "coral-server/services/users/auth/invite";
 
@@ -40,6 +41,7 @@ import {
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
+  GQLUpdateUsernameInput,
   GQLUpdateUserRoleInput,
   GQLUpdateUserUsernameInput,
 } from "../schema/__generated__/types";
@@ -120,11 +122,15 @@ export const Users = (ctx: TenantContext) => ({
     ),
   deactivateToken: async (input: GQLDeactivateTokenInput) =>
     deactivateToken(ctx.mongo, ctx.tenant, ctx.user!, input.id),
+  // can these call the same function with different arguments?
+
+  updateUsername: async (input: GQLUpdateUsernameInput) =>
+    updateOwnUsername(ctx.mongo, ctx.tenant, ctx.user!, input.username),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
-    updateUsername(
+    updateUserUsername(
       ctx.mongo,
       ctx.tenant,
-      ctx.user!.id,
+      input.userID,
       input.username,
       ctx.user!
     ),

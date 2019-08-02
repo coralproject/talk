@@ -16,6 +16,7 @@ import {
   UserAlreadySuspendedError,
   UserCannotBeIgnoredError,
   UsernameAlreadySetError,
+  UsernameUpdatedWithinWindowError,
   UserNotFoundError,
 } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
@@ -41,9 +42,9 @@ import {
   suspendUser,
   updateUserAvatar,
   updateUserEmail,
+  updateUsername,
   updateUserPassword,
   updateUserRole,
-  updateUserUsername,
   User,
   verifyUserPassword,
 } from "coral-server/models/user";
@@ -365,25 +366,56 @@ export async function deactivateToken(
 }
 
 /**
- * updateUsername will update a given User's username.
+ * updateUserUsername will update the current users.
  *
  * @param mongo mongo database to interact with
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
  * @param username the username that we are setting on the User
- * @param editor the user making the update
  */
-export async function updateUsername(
+export async function updateOwnUsername(
   mongo: Db,
   tenant: Tenant,
-  userID: string,
-  username: string,
-  editor: User
+  user: User,
+  username: string
 ) {
   // Validate the username.
   validateUsername(username);
 
-  return updateUserUsername(mongo, tenant.id, userID, username, editor.id);
+  const lastUsernameEditAllowed = new Date();
+  const dateDiff = lastUsernameEditAllowed.getDate() - 14;
+  lastUsernameEditAllowed.setDate(dateDiff);
+
+  const recentUpdate = user.status.username.history.find(history => {
+    return history.createdAt > lastUsernameEditAllowed;
+  });
+
+  if (recentUpdate) {
+    throw new UsernameUpdatedWithinWindowError(recentUpdate.createdAt);
+  }
+
+  return updateUsername(mongo, tenant.id, user.id, username, user.id);
+}
+
+/**
+ * updateUsernameAsAdmin will update a given User's username.
+ *
+ * @param mongo mongo database to interact with
+ * @param tenant Tenant where the User will be interacted with
+ * @param userID the User's ID that we are updating
+ * @param username the username that we are setting on the User
+ */
+export async function updateUserUsername(
+  mongo: Db,
+  tenant: Tenant,
+  userID: string,
+  username: string,
+  createdBy: User
+) {
+  // Validate the username.
+  validateUsername(username);
+
+  return updateUsername(mongo, tenant.id, userID, username, createdBy.id);
 }
 
 /**
