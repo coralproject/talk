@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Button } from "coral-ui/components";
+import { BaseButton } from "coral-ui/components";
 import styles from "./FlagDetailsEntry.css";
 
 interface Props {
@@ -17,12 +17,12 @@ const FlagDetailsEntry: FunctionComponent<Props> = ({
   return (
     <div>
       {onClick && (
-        <Button variant="underlined" onClick={onClick}>
+        <BaseButton className={styles.flagger} onClick={onClick}>
           <span className={styles.user}>
             {user}
             {details && ":"}
           </span>
-        </Button>
+        </BaseButton>
       )}
       {!onClick && (
         <span className={styles.user}>
