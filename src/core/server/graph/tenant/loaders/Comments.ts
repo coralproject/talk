@@ -1,5 +1,6 @@
 import DataLoader from "dataloader";
 import { isNil, omitBy } from "lodash";
+import { DateTime } from "luxon";
 
 import Context from "coral-server/graph/tenant/context";
 import {
@@ -26,6 +27,7 @@ import {
   retrieveCommentStoryConnection,
   retrieveCommentUserConnection,
   retrieveManyComments,
+  retrieveManyRecentStatusCounts,
   retrieveRejectedCommentUserConnection,
   retrieveStoryCommentTagCounts,
 } from "coral-server/models/comment";
@@ -267,5 +269,15 @@ export default (ctx: Context) => ({
   ),
   tagCounts: new DataLoader((storyIDs: string[]) =>
     retrieveStoryCommentTagCounts(ctx.mongo, ctx.tenant.id, storyIDs)
+  ),
+  authorStatusCounts: new DataLoader((authorIDs: string[]) =>
+    retrieveManyRecentStatusCounts(
+      ctx.mongo,
+      ctx.tenant.id,
+      DateTime.fromJSDate(ctx.now)
+        .plus({ seconds: -ctx.tenant.recentCommentHistory.timeFrame })
+        .toJSDate(),
+      authorIDs
+    )
   ),
 });

@@ -300,6 +300,16 @@ export const baseUser = createFixture<GQLUser>({
   },
 });
 
+const recentCommentHistory = {
+  statuses: {
+    APPROVED: 0,
+    REJECTED: 0,
+    NONE: 0,
+    PREMOD: 0,
+    SYSTEM_WITHHELD: 0,
+  },
+};
+
 export const users = {
   admins: createFixtures<GQLUser>(
     [
@@ -345,6 +355,7 @@ export const users = {
         email: "isabelle@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
       {
         id: "user-commenter-1",
@@ -352,6 +363,7 @@ export const users = {
         email: "ngoc@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
       {
         id: "user-commenter-2",
@@ -359,6 +371,7 @@ export const users = {
         email: "max@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
     ],
     baseUser

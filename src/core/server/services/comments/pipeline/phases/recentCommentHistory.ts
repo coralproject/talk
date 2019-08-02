@@ -34,9 +34,12 @@ export const recentCommentHistory = async ({
     .toJSDate();
 
   // Get the comment rates for this User.
-  const counts = await retrieveRecentStatusCounts(mongo, tenant.id, since, {
-    authorID: author.id,
-  });
+  const counts = await retrieveRecentStatusCounts(
+    mongo,
+    tenant.id,
+    since,
+    author.id
+  );
 
   // Get the rejection rate.
   const rate = calculateRejectionRate(counts);

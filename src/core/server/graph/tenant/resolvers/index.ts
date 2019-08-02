@@ -29,6 +29,7 @@ import { Mutation } from "./Mutation";
 import { OIDCAuthIntegration } from "./OIDCAuthIntegration";
 import { Profile } from "./Profile";
 import { Query } from "./Query";
+import { RecentCommentHistory } from "./RecentCommentHistory";
 import { RejectCommentPayload } from "./RejectCommentPayload";
 import { Story } from "./Story";
 import { StorySettings } from "./StorySettings";
@@ -68,6 +69,7 @@ const Resolvers: GQLResolver = {
   OIDCAuthIntegration,
   Profile,
   Query,
+  RecentCommentHistory,
   RejectCommentPayload,
   Story,
   StorySettings,

@@ -505,6 +505,20 @@ moderate-user-drawer-suspension =
     *[other] unknown unit
   }
 
+
+moderate-user-drawer-recent-history-title = Recent comment history
+moderate-user-drawer-recent-history-calculated =
+  Calculated over the last { framework-timeago-time }
+moderate-user-drawer-recent-history-rejected = Rejected
+moderate-user-drawer-recent-history-tooltip-title = How is this calculated?
+moderate-user-drawer-recent-history-tooltip-body =
+  Rejected comments divided by the sum of rejected and
+  published comments, during the recent comment history
+  time frame.
+moderate-user-drawer-recent-history-tooltip-button =
+  .aria-label = Toggle recent comment history tooltip
+moderate-user-drawer-recent-history-tooltip-submitted = Submitted
+
 ## Create Username
 
 createUsername-createUsernameHeader = Create Username
@@ -559,7 +573,7 @@ community-filter-roleSelectField =
   .aria-label = Search by role
 
 community-filter-statusSelectField =
-.aria-label = Search by user status
+  .aria-label = Search by user status
 
 community-changeRoleButton =
   .aria-label = Change role

@@ -801,11 +801,11 @@ type ExternalIntegrations {
 ################################################################################
 
 """
-RecentCommentHistory controls the beheviour around when comments from Users
-should be marked for pre-moderation automatically once they have reached the
-trigger rate for rejected comments.
+RecentCommentHistoryConfiguration controls the beheviour around when comments
+from Users should be marked for pre-moderation automatically once they have
+reached the trigger rate for rejected comments.
 """
-type RecentCommentHistory {
+type RecentCommentHistoryConfiguration {
   """
   enabled when true will pre-moderate users new comments once they have reached
   the trigger rejection rate.
@@ -824,6 +824,18 @@ type RecentCommentHistory {
   the rejection rate decreases.
   """
   triggerRejectionRate: Float!
+}
+
+"""
+RecentCommentHistory returns data associated with a User's recent commenting
+history within the specified timeFrame configured.
+"""
+type RecentCommentHistory {
+  """
+  statuses stores the counts of all the statuses against Comments by a User
+  within the timeFrame configured.
+  """
+  statuses: CommentStatusCounts!
 }
 
 ################################################################################
@@ -1168,7 +1180,8 @@ type Settings {
   recentCommentHistory is the set of settings related to how automatic
   pre-moderation is controlled.
   """
-  recentCommentHistory: RecentCommentHistory! @auth(roles: [ADMIN, MODERATOR])
+  recentCommentHistory: RecentCommentHistoryConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   reaction specifies the configuration for reactions.
@@ -1546,6 +1559,11 @@ type User {
   """
   rejectedComments(first: Int = 10, after: Cursor): CommentsConnection!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  recentCommentHistory returns recent commenting history by the User.
+  """
+  recentCommentHistory: RecentCommentHistory! @auth(roles: [ADMIN, MODERATOR])
 
   """
   commentModerationActionHistory returns a CommentModerationActionConnection
@@ -2843,11 +2861,11 @@ input SettingsExternalIntegrationsInput {
 }
 
 """
-RecentCommentHistoryInput controls the beheviour around when comments from Users
+RecentCommentHistoryConfigurationInput controls the beheviour around when comments from Users
 should be marked for pre-moderation automatically once they have reached the
 trigger rate for rejected comments.
 """
-input RecentCommentHistoryInput {
+input RecentCommentHistoryConfigurationInput {
   """
   enabled when true will pre-moderate users new comments once they have reached
   the trigger rejection rate.
@@ -3062,7 +3080,7 @@ input SettingsInput {
   recentCommentHistory is the set of settings related to how automatic
   pre-moderation is controlled.
   """
-  recentCommentHistory: RecentCommentHistoryInput
+  recentCommentHistory: RecentCommentHistoryConfigurationInput
 
   """
   charCount stores the character count moderation settings.

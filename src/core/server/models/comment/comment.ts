@@ -34,7 +34,11 @@ import {
 import { TenantResource } from "coral-server/models/tenant";
 
 import { PUBLISHED_STATUSES } from "./constants";
-import { createEmptyCommentStatusCounts, hasAncestors } from "./helpers";
+import {
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+  hasAncestors,
+} from "./helpers";
 import { Revision } from "./revision";
 import { CommentTag } from "./tag";
 
@@ -1065,20 +1069,26 @@ export async function retrieveStoryCommentTagCounts(
   });
 }
 
-export async function retrieveRecentStatusCounts(
+export async function retrieveManyRecentStatusCounts(
   mongo: Db,
   tenantID: string,
   since: Date,
-  filter: CommentConnectionInput["filter"]
+  authorIDs: string[]
 ) {
   // Get all the statuses for the given date stamp.
-  const cursor = await collection<{ _id: GQLCOMMENT_STATUS; count: number }>(
-    mongo
-  ).aggregate([
+  const cursor = await collection<{
+    _id: {
+      status: GQLCOMMENT_STATUS;
+      authorID: string;
+    };
+    count: number;
+  }>(mongo).aggregate([
     {
       $match: {
-        ...filter,
         tenantID,
+        authorID: {
+          $in: authorIDs,
+        },
         createdAt: {
           $gte: since,
         },
@@ -1086,7 +1096,10 @@ export async function retrieveRecentStatusCounts(
     },
     {
       $group: {
-        _id: "$status",
+        _id: {
+          status: "$status",
+          authorID: "$authorID",
+        },
         count: { $sum: 1 },
       },
     },
@@ -1095,11 +1108,30 @@ export async function retrieveRecentStatusCounts(
   // Get all of the statuses.
   const docs = await cursor.toArray();
 
-  // Iterate over the docs to increment the status counts.
-  const counts = createEmptyCommentStatusCounts();
-  for (const doc of docs) {
-    counts[doc._id] = doc.count;
-  }
+  // Iterate over the documents and join up any of the results that are
+  // associated with each user.
+  return authorIDs.map(authorID => {
+    // Get all the author's status counts.
+    const filtered = docs.filter(doc => doc._id.authorID === authorID);
 
-  return counts;
+    // Iterate over the docs to increment the status counts.
+    const counts = createEmptyCommentStatusCounts();
+    for (const doc of filtered) {
+      counts[doc._id.status] = doc.count;
+    }
+
+    return counts;
+  });
+}
+
+export async function retrieveRecentStatusCounts(
+  mongo: Db,
+  tenantID: string,
+  since: Date,
+  authorID: string
+): Promise<CommentStatusCounts> {
+  const counts = await retrieveManyRecentStatusCounts(mongo, tenantID, since, [
+    authorID,
+  ]);
+  return counts[0];
 }

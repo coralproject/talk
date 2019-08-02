@@ -9,6 +9,7 @@ import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
 import { Button, Flex, Icon, Typography } from "coral-ui/components";
 
+import RecentHistoryContainer from "./RecentHistoryContainer";
 import Tabs from "./Tabs";
 import UserStatusDetailsContainer from "./UserStatusDetailsContainer";
 
@@ -57,7 +58,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
           <UserStatusDetailsContainer user={user} />
         </Flex>
       </div>
-      <div className={styles.userDetails}>
+      <div>
         <Flex alignItems="center" className={styles.userDetail}>
           <Localized id="moderate-user-drawer-email" attrs={{ title: true }}>
             <Icon size="sm" className={styles.icon} title="Email address">
@@ -116,6 +117,7 @@ const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
             className={styles.copy}
           />
         </Flex>
+        <RecentHistoryContainer user={user} settings={settings} />
       </div>
       <hr className={styles.divider} />
       <div className={styles.comments}>
@@ -130,6 +132,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment UserHistoryDrawerContainer_user on User {
       ...UserStatusChangeContainer_user
       ...UserStatusDetailsContainer_user
+      ...RecentHistoryContainer_user
       id
       username
       email
@@ -138,6 +141,7 @@ const enhanced = withFragmentContainer<Props>({
   `,
   settings: graphql`
     fragment UserHistoryDrawerContainer_settings on Settings {
+      ...RecentHistoryContainer_settings
       ...UserStatusChangeContainer_settings
       organization {
         name
