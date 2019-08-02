@@ -1,0 +1,16 @@
+.container {
+  width: 100%;
+  text-align: center;
+}
+
+.root {
+  display: inline-block;
+
+  max-width: calc(70 * var(--mini-unit));
+
+  @media (min-width: $breakpoints-xs) {
+    max-width: calc(42 * var(--mini-unit));
+  }
+
+  text-align: left;
+}

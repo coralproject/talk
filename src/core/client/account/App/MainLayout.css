@@ -10,6 +10,6 @@
   box-sizing: border-box;
 
   @media (min-width: $breakpoints-xs) {
-    max-width: calc(42 * var(--mini-unit));
+    max-width: calc(90 * var(--mini-unit));
   }
 }

@@ -1,0 +1,52 @@
+.title {
+  font-family: var(--font-family-serif);
+  font-weight: 600;
+  font-style: normal;
+  font-size: calc(48rem / var(--rem-base));
+  line-height: calc(42em / 48);
+  text-align: center;
+
+  color: var(--palette-common-black);
+}
+
+.content {
+  padding: var(--spacing-2) var(--spacing-3) var(--spacing-3) var(--spacing-3);
+}
+
+.section {
+  margin-bottom: var(--spacing-4);
+}
+
+.sectionText {
+  font-family: var(--font-family-sans-serif);
+  font-weight: normal;
+  font-style: normal;
+  font-size: calc(24rem / var(--rem-base));
+  line-height: calc(34em / 24);
+  letter-spacing: 0.3px;
+
+  color: var(--palette-text-primary);
+}
+
+.list {
+  list-style: none;
+  margin-left: calc(-1 * var(--spacing-5));
+}
+
+.bullet {
+  display: inline-block;
+  margin-right: var(--spacing-2);
+}
+
+.listContent {
+  display: inline-block;
+}
+
+.form {
+  text-align: center;
+}
+
+.downloadButton {
+  font-size: calc(18rem / var(--rem-base));
+  line-height: calc(23em / 18);
+}

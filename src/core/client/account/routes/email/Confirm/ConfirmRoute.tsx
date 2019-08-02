@@ -11,6 +11,8 @@ import ConfirmForm from "./ConfirmForm";
 import Sorry from "./Sorry";
 import Success from "./Success";
 
+import styles from "./ConfirmRoute.css";
+
 const fetcher = createFetch(
   "confirmToken",
   async (environment: Environment, variables: { token: string }, { rest }) =>
@@ -32,17 +34,37 @@ const ConfirmRoute: React.FunctionComponent<Props> = ({ token }) => {
   const [state, error] = useToken(fetcher, token);
 
   if (state === "UNCHECKED") {
-    return <Loading />;
+    return (
+      <div className={styles.container}>
+        <div className={styles.root}>
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   if (state !== "VALID" || error) {
-    return <Sorry reason={error} />;
+    return (
+      <div className={styles.container}>
+        <div className={styles.root}>
+          <Sorry reason={error} />
+        </div>
+      </div>
+    );
   }
 
   return !finished ? (
-    <ConfirmForm token={token!} onSuccess={onSuccess} />
+    <div className={styles.container}>
+      <div className={styles.root}>
+        <ConfirmForm token={token!} onSuccess={onSuccess} />
+      </div>
+    </div>
   ) : (
-    <Success />
+    <div className={styles.container}>
+      <div className={styles.root}>
+        <Success />
+      </div>
+    </div>
   );
 };
 
