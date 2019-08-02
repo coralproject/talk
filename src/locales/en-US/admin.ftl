@@ -601,8 +601,7 @@ community-suspendModal-emailTemplate =
 community-suspendModal-customize = Customize suspension email message
 
 community-suspendModal-success =
-  <strong>{ $username }</strong> has been suspended for{" "}
-  <strong>{ $duration }</strong>
+  <strong>{ $username }</strong> has been suspended for <strong>{ $duration }</strong>
 
 community-suspendModal-success-close = Close
 community-suspendModal-selectDuration = Select suspension length

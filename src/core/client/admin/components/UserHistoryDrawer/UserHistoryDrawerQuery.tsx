@@ -103,11 +103,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                   </Typography>
                 </div>
                 <div className={styles.userStatusChange}>
-                  <UserStatusChangeContainer
-                    settings={settings}
-                    user={user}
-                    fullWidth={false}
-                  />
+                  <UserStatusChangeContainer settings={settings} user={user} />
                 </div>
               </Flex>
             </div>

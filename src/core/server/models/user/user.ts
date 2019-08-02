@@ -143,7 +143,10 @@ export interface SuspensionStatusHistory {
    */
   modifiedAt?: Date;
 
-  message?: string;
+  /**
+   * message is the email message content sent to the user.
+   */
+  message: string;
 }
 
 /**
