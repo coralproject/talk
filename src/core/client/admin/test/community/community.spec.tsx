@@ -404,6 +404,264 @@ it("can't change staff, moderator and admin status", async () => {
   });
 });
 
+it("suspend user", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      suspendUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+            suspension: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Suspend User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Suspend", {
+    exact: false,
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByType("form")
+      .props.onSubmit();
+  });
+  within(userRow).getByText("Suspended");
+  expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
+});
+
+it("remove user suspension", async () => {
+  const user = users.suspendedCommenter;
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      removeUserSuspension: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: [GQLUSER_STATUS.ACTIVE],
+            suspension: { active: false },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+    Query: {
+      users: () => ({
+        edges: [
+          {
+            node: user,
+            cursor: user.createdAt,
+          },
+        ],
+        pageInfo: { endCursor: null, hasNextPage: false },
+      }),
+    },
+  });
+
+  const { container } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Remove Suspension", { selector: "button" })
+      .props.onClick();
+  });
+  expect(resolvers.Mutation!.removeUserSuspension!.called).toBe(true);
+
+  await waitForElement(() => within(userRow).getByText("Active"));
+});
+
+it("suspend user with custom timeout", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      suspendUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          timeout: 604800,
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+            suspension: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Suspend User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Suspend", {
+    exact: false,
+  });
+
+  const changedDuration = within(modal).getByID("duration-604800");
+
+  TestRenderer.act(() => {
+    changedDuration.props.onChange(changedDuration.props.value.toString());
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByType("form")
+      .props.onSubmit();
+  });
+  within(userRow).getByText("Suspended");
+  expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
+});
+
+it("suspend user with custom message", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      suspendUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          message: "YOU WERE SUSPENDED FOR BEHAVING BADLY",
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.SUSPENDED),
+            suspension: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Suspend User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText("Suspend", {
+    exact: false,
+  });
+
+  const toggleEdit = within(modal).getByID("suspendModal-editMessage");
+
+  TestRenderer.act(() => {
+    toggleEdit.props.onChange(true);
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByID("suspendModal-message")
+      .props.onChange("YOU WERE SUSPENDED FOR BEHAVING BADLY");
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByType("form")
+      .props.onSubmit();
+  });
+
+  within(userRow).getByText("Suspended");
+  expect(resolvers.Mutation!.suspendUser!.called).toBe(true);
+});
+
 it("ban user", async () => {
   const user = users.commenters[0];
 
@@ -457,12 +715,85 @@ it("ban user", async () => {
     }
   );
 
-  expect(within(modal).toJSON()).toMatchSnapshot();
+  TestRenderer.act(() => {
+    within(modal)
+      .getByType("form")
+      .props.onSubmit();
+  });
+  within(userRow).getByText("Banned");
+  expect(resolvers.Mutation!.banUser!.called).toBe(true);
+});
+
+it("ban user with custom message", async () => {
+  const user = users.commenters[0];
+
+  const resolvers = createResolversStub<GQLResolver>({
+    Mutation: {
+      banUser: ({ variables }) => {
+        expectAndFail(variables).toMatchObject({
+          userID: user.id,
+          message: "YOU WERE BANNED FOR BREAKING THE RULES",
+        });
+        const userRecord = pureMerge<typeof user>(user, {
+          status: {
+            current: user.status.current.concat(GQLUSER_STATUS.BANNED),
+            ban: { active: true },
+          },
+        });
+        return {
+          user: userRecord,
+        };
+      },
+    },
+  });
+
+  const { container, testRenderer } = await createTestRenderer({
+    resolvers,
+  });
+
+  const userRow = within(container).getByText(user.username!, {
+    selector: "tr",
+  });
+
+  TestRenderer.act(() => {
+    within(userRow)
+      .getByLabelText("Change user status")
+      .props.onClick();
+  });
+
+  const popup = within(userRow).getByLabelText(
+    "A dropdown to change the user status"
+  );
+
+  TestRenderer.act(() => {
+    within(popup)
+      .getByText("Ban User", { selector: "button" })
+      .props.onClick();
+  });
+
+  const modal = within(testRenderer.root).getByLabelText(
+    "Are you sure you want to ban",
+    {
+      exact: false,
+    }
+  );
+
+  const toggleMessage = within(modal).getByID("banModal-showMessage");
+
+  TestRenderer.act(() => {
+    toggleMessage.props.onChange(true);
+  });
 
   TestRenderer.act(() => {
     within(modal)
-      .getByText("Ban User")
-      .props.onClick();
+      .getByID("banModal-message")
+      .props.onChange("YOU WERE BANNED FOR BREAKING THE RULES");
+  });
+
+  TestRenderer.act(() => {
+    within(modal)
+      .getByType("form")
+      .props.onSubmit();
   });
   within(userRow).getByText("Banned");
   expect(resolvers.Mutation!.banUser!.called).toBe(true);
