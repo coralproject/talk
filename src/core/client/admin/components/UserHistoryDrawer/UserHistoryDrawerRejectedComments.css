@@ -9,7 +9,7 @@
   border-width: 1px;
   border-style: solid;
   border-color: var(--palette-grey-lighter);
-  border-radius: 2px;
+  border-radius: var(--round-corners);
 
   margin-top: var(--spacing-1);
 }
