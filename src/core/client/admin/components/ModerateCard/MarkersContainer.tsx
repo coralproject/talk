@@ -11,6 +11,7 @@ import Markers from "./Markers";
 
 interface MarkersContainerProps {
   comment: MarkersContainer_comment;
+  onUsernameClick: (id?: string) => void;
   settings: MarkersContainer_settings;
 }
 
@@ -116,6 +117,7 @@ export class MarkersContainer extends React.Component<MarkersContainerProps> {
         details={
           doesHaveDetails ? (
             <FlagDetailsContainer
+              onUsernameClick={this.props.onUsernameClick}
               comment={this.props.comment}
               settings={this.props.settings}
             />
