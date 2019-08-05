@@ -156,83 +156,84 @@ profile-profileQuery-storyNotFound = Historia no encontrada
 profile-commentHistory-loadMore = Carga más
 
 ### Settings
-profile-settings-ignoredCommenters = Ignored Commenters
+profile-settings-ignoredCommenters = Comentaristas ignorados
 profile-settings-description =
-  Once you ignore someone, all of their comments are hidden from you.
-  Commenters you ignore will still be able to see your comments.
-profile-settings-empty = You are not currently ignoring anyone
-profile-settings-stopIgnoring = Stop ignoring
+  Una vez que ignoras a alguien, todos sus comentarios están ocultos para ti.
+  Los comentaristas que ignores podrán ver tus comentarios.
+profile-settings-empty = Actualmente no estás ignorando a nadie
+profile-settings-stopIgnoring = Deja de ignorar
 
 
 ## Report Comment Popover
 comments-reportPopover =
-  .description = A dialog for reporting comments
-comments-reportPopover-reportThisComment = Report This Comment
-comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
+  .description = Un diálogo para reportar comentarios
+comments-reportPopover-reportThisComment = Reportar este comentario
+comments-reportPopover-whyAreYouReporting = ¿Por qué estás reportando este comentario?
 
-comments-reportPopover-reasonOffensive = This comment is offensive
-comments-reportPopover-reasonIDisagree = I disagree with this comment
-comments-reportPopover-reasonSpam = This looks like an ad or marketing
-comments-reportPopover-reasonOther = Other
+comments-reportPopover-reasonOffensive = Este comentario es ofensivo
+comments-reportPopover-reasonIDisagree = No estoy de acuerdo con este comentario
+comments-reportPopover-reasonSpam = Esto parece un anuncio o marketing
+comments-reportPopover-reasonOther = Otro
 
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Please leave any additional information that may be helpful to our moderators. (Optional)
+  Por favor, deje cualquier información adicional que pueda ser útil para nuestros moderadores. (Opcional)
 
-comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
-comments-reportPopover-cancel = Cancel
-comments-reportPopover-submit = Submit
+comments-reportPopover-maxCharacters = Máx. { $maxCharacters } caracteres
+comments-reportPopover-cancel = Cancelar
+comments-reportPopover-submit = Enviar
 
-comments-reportPopover-thankYou = Thank you!
+comments-reportPopover-thankYou = ¡Gracias!
 comments-reportPopover-receivedMessage =
-  We’ve received your message. Reports from members like you keep the community safe.
+  Hemos recibido tu mensaje. Los informes de miembros como Usted mantienen segura a la comunidad.
 
-comments-reportPopover-dismiss = Dismiss
+comments-reportPopover-dismiss = Descartar
 
 ## Submit Status
-comments-submitStatus-dismiss = Dismiss
+comments-submitStatus-dismiss = Descartar
 comments-submitStatus-submittedAndWillBeReviewed =
-  Your comment has been submitted and will be reviewed by a moderator
+  Su comentario ha sido enviado y será revisado por un moderador
 
 # Configure
-configure-configureQuery-errorLoadingProfile = Error loading configure
-configure-configureQuery-storyNotFound = Story not found
+configure-configureQuery-errorLoadingProfile = Error al cargar la configuración
+configure-configureQuery-storyNotFound = Historia no encontrada
 
 ## Comment Stream
-configure-stream-title = Configure this Comment Stream
-configure-stream-apply = Apply
+configure-stream-title = Configurar comentarios
+configure-stream-apply = Guardar
 
-configure-premod-title = Enable Pre-Moderation
+configure-premod-title = Habilitar pre-moderación
 configure-premod-description =
-  Moderators must approve any comment before it is published to this stream.
+  Los moderadores deben aprobar cualquier comentario antes de que se publique.
 
-configure-premodLink-title = Pre-Moderate Comments Containing Links
+configure-premodLink-title = Comentarios pre-moderados que contienen enlaces
 configure-premodLink-description =
-  Moderators must approve any comment that contains a link before it is published to this stream.
+  Los moderadores deben aprobar cualquier comentario que contenga un enlace antes de que se publique en esta secuencia.
 
-configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-title = Habilitar actualizaciones en vivo para esta historia
 configure-liveUpdates-description =
-  When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
+  Cuando se habilita, se cargarán y actualizarán los comentarios en tiempo real a medida que se publiquen nuevos comentarios y respuestas.
 
-configure-messageBox-title = Enable Message Box for this Stream
+configure-messageBox-title = Habilitar campo de mensaje para esta secuencia
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers. Use this to pose a topic,
-  ask a question or make announcements relating to this story.
-configure-messageBox-preview = Preview
-configure-messageBox-selectAnIcon = Select an Icon
-configure-messageBox-noIcon = No Icon
-configure-messageBox-writeAMessage = Write a Message
+  Agregue un mensaje en la parte superior del campo de comentarios para sus lectores. 
+  Use esto para plantear un tema, hacer una pregunta o hacer anuncios relacionados
+  con esta historia.
+configure-messageBox-preview = Avance
+configure-messageBox-selectAnIcon = Selecciona un icono
+configure-messageBox-noIcon = Ningún icono
+configure-messageBox-writeAMessage = Escribe un mensaje
 
-configure-closeStream-title = Close Comment Stream
+configure-closeStream-title = Cerrar los comentarios
 configure-closeStream-description =
-  This comment stream is currently open. By closing this comment stream,
-  no new comments may be submitted and all previously submitted comments
-  will still be displayed.
-configure-closeStream-closeStream = Close Stream
+  Los comentarios están actualmente abiertos. Al cerrar los comentarios, 
+  no se pueden enviar nuevos comentarios y todos los comentarios enviados
+  anteriormente se seguirán mostrando.
+configure-closeStream-closeStream = Cerrar los comentarios
 
-configure-openStream-title = Open Stream
+configure-openStream-title = Abrir los comentarios
 configure-openStream-description =
-  This comment stream is currently closed. By opening this comment
-  stream new comments may be submitted and displayed.
-configure-openStream-openStream = Open Stream
+  Los comentarios están actualmente cerrados. 
+  Al abrir los comentarios, se pueden enviar y mostrar nuevos comentarios.
+configure-openStream-openStream = Abrir los comentarios
 
-comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-ignore = Este comentario está oculto porque ignoraste a {$username}
