@@ -2,7 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
 import { Bar, SubBar, Subtitle, Title } from "coral-auth/components//Header";
-import AutoHeight from "coral-auth/components/AutoHeight";
 import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
 import { PropTypesOf } from "coral-framework/types";
@@ -43,7 +42,6 @@ const SignUp: FunctionComponent<Props> = ({
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
     <div data-testid="signUp-container">
-      <AutoHeight />
       <Localized
         id="signUp-signUpToJoinHeader"
         title={<Title />}

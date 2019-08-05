@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import { Form } from "react-final-form";
 
 import { Bar, Title } from "coral-auth/components//Header";
-import AutoHeight from "coral-auth/components/AutoHeight";
 import ConfirmEmailField from "coral-auth/components/ConfirmEmailField";
 import EmailField from "coral-auth/components/EmailField";
 import Main from "coral-auth/components/Main";
@@ -51,7 +50,6 @@ class AddEmailAddressContainer extends Component<Props> {
           <Form onSubmit={this.handleSubmit}>
             {({ handleSubmit, submitting, submitError }) => (
               <form autoComplete="off" onSubmit={handleSubmit}>
-                <AutoHeight />
                 <HorizontalGutter size="oneAndAHalf">
                   <Localized id="addEmailAddress-whatItIs">
                     <Typography variant="bodyCopy">
