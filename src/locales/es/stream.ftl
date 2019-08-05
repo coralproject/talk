@@ -58,9 +58,9 @@ comments-rte-blockquote =
 
 comments-remainingCharacters = { $remaining } caracteres restantes
 
-comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
+comments-postCommentFormFake-signInAndJoin = Registrarse y unirse a la conversación
 
-comments-postCommentForm-rteLabel = Post a comment
+comments-postCommentForm-rteLabel = Publicar un comentario
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
@@ -68,92 +68,92 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
-comments-replyButton-reply = Reply
+comments-replyButton-reply = Responder
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
-comments-replyCommentForm-submit = Submit
-comments-replyCommentForm-cancel = Cancel
-comments-replyCommentForm-rteLabel = Write a reply
+comments-replyCommentForm-submit = Envira
+comments-replyCommentForm-cancel = Cancelar
+comments-replyCommentForm-rteLabel = Escribir una repuesta
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
-comments-commentContainer-editButton = Edit
+comments-commentContainer-editButton = Editar
 
-comments-editCommentForm-saveChanges = Save Changes
-comments-editCommentForm-cancel = Cancel
-comments-editCommentForm-close = Close
-comments-editCommentForm-rteLabel = Edit comment
+comments-editCommentForm-saveChanges = Guardar cambios
+comments-editCommentForm-cancel = Cancelar
+comments-editCommentForm-close = Cerrar
+comments-editCommentForm-rteLabel = Editar commentario
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
-comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
-comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
-comments-editedMarker-edited = Edited
-comments-showConversationLink-readMore = Read More of this Conversation >
+comments-editCommentForm-editRemainingTime = Edición: <time></time> se queda(n)
+comments-editCommentForm-editTimeExpired = El tiempo de edición ha expirado. Ya no puedes editar este comentario. ¿Por qué no publicar otro?
+comments-editedMarker-edited = Editado
+comments-showConversationLink-readMore = Leer más de esta conversación
 comments-conversationThread-showMoreOfThisConversation =
-  Show More of This Conversation
+  Mostrar más de esta conversación
 
-comments-permalinkView-currentViewing = You are currently viewing a
-comments-permalinkView-singleConversation = SINGLE CONVERSATION
-comments-inReplyTo = In reply to <Username></Username>
-comments-replyTo = Replying to: <Username></Username>
+comments-permalinkView-currentViewing = Actualmente estás viendo
+comments-permalinkView-singleConversation = UNA SOLA CONVERSACIÓN
+comments-inReplyTo = En respuesta a: <Username></Username>
+comments-replyTo = En respuesta a: <Username></Username>
 
-comments-reportButton-report = Report
-comments-reportButton-reported = Reported
+comments-reportButton-report = Reportar
+comments-reportButton-reported = Reportado
 
-comments-sortMenu-sortBy = Sort By
-comments-sortMenu-newest = Newest
-comments-sortMenu-oldest = Oldest
-comments-sortMenu-mostReplies = Most Replies
+comments-sortMenu-sortBy = Ordenar por
+comments-sortMenu-newest = Nuevos
+comments-sortMenu-oldest = Más antiguos
+comments-sortMenu-mostReplies = Más respondidos
 
 comments-userPopover =
-  .description = A popover with more user information
-comments-userPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
-comments-userPopover-ignore = Ignore
+  .description = Más información del usuario
+comments-userPopover-memberSince = Miembro desde: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-ignore = Ignorar
 
-comments-userIgnorePopover-ignoreUser = Ignore {$username}?
+comments-userIgnorePopover-ignoreUser = ¿Ignorar a {$username}?
 comments-userIgnorePopover-description =
-  When you ignore a commenter, all comments they
-  wrote on the site will be hidden from you. You can
-  undo this later from My Profile.
-comments-userIgnorePopover-ignore = Ignore
-comments-userIgnorePopover-cancel = Cancel
+  Cuando ignora a un comentarista, se le ocultarán
+  todos los comentarios que escribieron en el sitio. 
+  Puede deshacer esto más tarde desde Mi perfil.
+comments-userIgnorePopover-ignore = Ignorar
+comments-userIgnorePopover-cancel = Cancelar
 
 comments-moderationDropdown-popover =
-  .description = A popover menu to moderate the comment
-comments-moderationDropdown-feature = Feature
-comments-moderationDropdown-unfeature = Un-Feature
-comments-moderationDropdown-approve = Approve
-comments-moderationDropdown-approved = Approved
-comments-moderationDropdown-reject = Reject
-comments-moderationDropdown-rejected = Rejected
-comments-moderationDropdown-goToModerate = Go to Moderate
+  .description = Un menú para moderar un comentario
+comments-moderationDropdown-feature = Resaltar
+comments-moderationDropdown-unfeature = Desmarcar
+comments-moderationDropdown-approve = Aprobar
+comments-moderationDropdown-approved = Aprobado
+comments-moderationDropdown-reject = Rechazar
+comments-moderationDropdown-rejected = Rechazado
+comments-moderationDropdown-goToModerate = Ir a moderación
 comments-moderationDropdown-caretButton =
-  .aria-label = Moderate
+  .aria-label = Moderar
 
 comments-rejectedTombstone =
-  You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
+  Has rechazado este comentario.<TextLink>Vaya a moderación para revisar esta decisión.</TextLink>
 
-comments-featuredTag = Featured
-comments-staffTag = Staff
+comments-featuredTag = Resaltado
+comments-staffTag = Miembro del equipo
 
 ### Featured Comments
-comments-featured-gotoConversation = Go to Conversation
-comments-featured-replies = Replies
+comments-featured-gotoConversation = Ir a conversación
+comments-featured-replies = Respuestas
 
 ## Profile Tab
 
-profile-myCommentsTab = My Comments
-profile-settingsTab = Settings
+profile-myCommentsTab = Mis comentarios
+profile-settingsTab = Ajustes
 
 ### Comment History
-profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies {$replyCount}
-profile-historyComment-commentHistory = Comment History
-profile-historyComment-story = Story: {$title}
-profile-profileQuery-errorLoadingProfile = Error loading profile
-profile-profileQuery-storyNotFound = Story not found
-profile-commentHistory-loadMore = Load More
+profile-historyComment-viewConversation = Ver conversación
+profile-historyComment-replies = Respuestas {$replyCount}
+profile-historyComment-commentHistory = Historial de comentarios
+profile-historyComment-story = Historia: {$title}
+profile-profileQuery-errorLoadingProfile = Error al cargar el perfil
+profile-profileQuery-storyNotFound = Historia no encontrada
+profile-commentHistory-loadMore = Carga más
 
 ### Settings
 profile-settings-ignoredCommenters = Ignored Commenters
