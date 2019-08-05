@@ -16,7 +16,10 @@ async function main() {
     initLocalState,
     localesData,
     userLocales: navigator.languages,
-    pym: new PymChild({ polling: 100 }),
+    pym: new PymChild({
+      // fallback polling in case our ResizeObserver misses something
+      polling: 200,
+    }),
   });
 
   const Index: FunctionComponent = () => (

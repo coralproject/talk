@@ -67,7 +67,8 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
 
   private handleRTERef = (rte: CoralRTE | null) => {
     if (rte && this.props.autofocus) {
-      rte.focus();
+      // Delay focus a bit until iframe had a change to resize.
+      setTimeout(() => rte.focus(), 100);
     }
   };
 
