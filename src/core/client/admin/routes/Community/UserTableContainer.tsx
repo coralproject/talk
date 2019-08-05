@@ -52,6 +52,7 @@ const UserTableContainer: FunctionComponent<Props> = props => {
         />
         <UserTable
           viewer={props.query && props.query.viewer}
+          settings={props.query && props.query.settings}
           loading={!props.query || isRefetching}
           users={users}
           onLoadMore={loadMore}
@@ -87,6 +88,7 @@ const enhanced = withPaginationContainer<
         }
         settings {
           ...InviteUsersContainer_settings
+          ...UserRowContainer_settings
         }
         users(
           first: $count

@@ -142,6 +142,11 @@ export interface SuspensionStatusHistory {
    * was edited at.
    */
   modifiedAt?: Date;
+
+  /**
+   * message is the email message content sent to the user.
+   */
+  message: string;
 }
 
 /**
@@ -180,6 +185,8 @@ export interface BanStatusHistory {
    * createdAt is the time that the given ban was added.
    */
   createdAt: Date;
+
+  message?: string;
 }
 
 /**
@@ -1128,6 +1135,7 @@ async function retrieveConnection(
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being banned
  * @param createdBy the ID of the user banning the above mentioned user
+ * @param message message to banned user
  * @param now the current date
  */
 export async function banUser(
@@ -1135,6 +1143,7 @@ export async function banUser(
   tenantID: string,
   id: string,
   createdBy: string,
+  message?: string,
   now = new Date()
 ) {
   // Create the new ban.
@@ -1143,6 +1152,7 @@ export async function banUser(
     active: true,
     createdBy,
     createdAt: now,
+    message,
   };
 
   // Try to update the user if the user isn't already banned.
@@ -1267,6 +1277,7 @@ export async function removeUserBan(
  * @param id the ID of the user being suspended
  * @param createdBy the ID of the user banning the above mentioned user
  * @param from the range of time that the user is being banned for
+ * @param message the message sent to suspended user in email
  * @param now the current date
  */
 export async function suspendUser(
@@ -1275,6 +1286,7 @@ export async function suspendUser(
   id: string,
   createdBy: string,
   finish: Date,
+  message: string,
   now = new Date()
 ) {
   // Create the new suspension.
@@ -1286,6 +1298,7 @@ export async function suspendUser(
     },
     createdBy,
     createdAt: now,
+    message,
   };
 
   // Try to update the user if the user isn't already suspended.
