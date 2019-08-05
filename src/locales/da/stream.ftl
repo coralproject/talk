@@ -2,65 +2,65 @@
 
 ## General
 
-general-userBoxUnauthenticated-joinTheConversation = Join the conversation
-general-userBoxUnauthenticated-signIn = Sign in
-general-userBoxUnauthenticated-register = Register
+general-userBoxUnauthenticated-joinTheConversation = Deltag i samtalen
+general-userBoxUnauthenticated-signIn = Log ind
+general-userBoxUnauthenticated-register = Registrer
 
 general-userBoxAuthenticated-signedInAs =
-  Signed in as <Username></Username>.
+  Logget ind som <Username></Username>.
 
 general-userBoxAuthenticated-notYou =
-  Not you? <button>Sign Out</button>
+  Ikke dig? <button>Log ud</button>
 
-general-tabBar-commentsTab = Comments
-general-tabBar-myProfileTab = My Profile
-general-tabBar-configure = Configure
+general-tabBar-commentsTab = Kommentarer
+general-tabBar-myProfileTab = Min profil
+general-tabBar-configure = Konfigurer
 
 ## Comments Tab
 
-comments-allCommentsTab = All Comments
-comments-featuredTab = Featured
-comments-featuredCommentTooltip-how = How is a comment featured?
+comments-allCommentsTab = Alle kommentarer
+comments-featuredTab = Fremhævede kommentarer
+comments-featuredCommentTooltip-how = Hvordan fremhæves en kommentar?
 comments-featuredCommentTooltip-handSelectedComments =
-  Comments are hand selected by our team as worth reading.
+  Kommentarer vælges hånd af vores team som værd at læse.
 comments-featuredCommentTooltip-toggleButton =
-  .aria-label = Toggle featured comments tooltip
+  .aria-label = Se information om fremhævede kommentarer
 
 
-comments-streamQuery-storyNotFound = Story not found
+comments-streamQuery-storyNotFound = Historien blev ikke fundet
 
-comments-postCommentForm-submit = Submit
-comments-replyList-showAll = Show All
-comments-replyList-showMoreReplies = Show More Replies
+comments-postCommentForm-submit = Indsend
+comments-replyList-showAll = Vis alt
+comments-replyList-showMoreReplies = Vis flere svar
 
 
 comments-viewNew =
   { $count ->
-    [1] View {$count} New Comment
-    *[other] View {$count} New Comments
+    [1] Se {$count} kommentar
+    *[other] Se {$count} kommentarer
   }
-comments-loadMore = Load More
+comments-loadMore = Indlæse mere
 
 comments-permalinkPopover =
-  .description = A dialog showing a permalink to the comment
-comments-permalinkButton-share = Share
-comments-permalinkView-viewFullDiscussion = View Full Discussion
-comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
+  .description = En dialog der viser en permalink til kommentaren
+comments-permalinkButton-share = Del
+comments-permalinkView-viewFullDiscussion = Se fuld diskussion
+comments-permalinkView-commentRemovedOrDoesNotExist = Denne kommentar er blevet fjernet eller findes ikke.
 
 comments-rte-bold =
-  .title = Bold
+  .title = Fed
 
 comments-rte-italic =
-  .title = Italic
+  .title = Kursiv
 
 comments-rte-blockquote =
-  .title = Blockquote
+  .title = Blokcitat
 
-comments-remainingCharacters = { $remaining } characters remaining
+comments-remainingCharacters = { $remaining } tegn tilbage
 
-comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
+comments-postCommentFormFake-signInAndJoin = Log ind, og deltag i samtalen
 
-comments-postCommentForm-rteLabel = Post a comment
+comments-postCommentForm-rteLabel = Indsend en kommentar
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
@@ -68,110 +68,110 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
-comments-replyButton-reply = Reply
+comments-replyButton-reply = Svar
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
-comments-replyCommentForm-submit = Submit
-comments-replyCommentForm-cancel = Cancel
-comments-replyCommentForm-rteLabel = Write a reply
+comments-replyCommentForm-submit = Indsend
+comments-replyCommentForm-cancel = Afbestille
+comments-replyCommentForm-rteLabel = Skriv et svar
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
-comments-commentContainer-editButton = Edit
+comments-commentContainer-editButton = Redigere
 
-comments-editCommentForm-saveChanges = Save Changes
-comments-editCommentForm-cancel = Cancel
-comments-editCommentForm-close = Close
-comments-editCommentForm-rteLabel = Edit comment
+comments-editCommentForm-saveChanges = Gem ændringer
+comments-editCommentForm-cancel = Afbestille
+comments-editCommentForm-close = Lukke
+comments-editCommentForm-rteLabel = Rediger kommentar
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
-comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
-comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
-comments-editedMarker-edited = Edited
-comments-showConversationLink-readMore = Read More of this Conversation >
+comments-editCommentForm-editRemainingTime = Udgave: <time></time> tilbage
+comments-editCommentForm-editTimeExpired = Redigeringstiden er udløbet. Du kan ikke længere redigere denne kommentar. Hvorfor ikke lægge en anden?
+comments-editedMarker-edited = Redigeret
+comments-showConversationLink-readMore = Læs mere om denne samtale >
 comments-conversationThread-showMoreOfThisConversation =
-  Show More of This Conversation
+  Vis mere af denne samtale
 
-comments-permalinkView-currentViewing = You are currently viewing a
-comments-permalinkView-singleConversation = SINGLE CONVERSATION
-comments-inReplyTo = In reply to <Username></Username>
-comments-replyTo = Replying to: <Username></Username>
+comments-permalinkView-currentViewing = Du ser i øjeblikket en
+comments-permalinkView-singleConversation = ENKELKONVERSATION
+comments-inReplyTo = Som svar til <Username></Username>
+comments-replyTo = Svar på: <Username></Username>
 
-comments-reportButton-report = Report
-comments-reportButton-reported = Reported
+comments-reportButton-report = Rapporter
+comments-reportButton-reported = Rapporteret
 
-comments-sortMenu-sortBy = Sort By
-comments-sortMenu-newest = Newest
-comments-sortMenu-oldest = Oldest
-comments-sortMenu-mostReplies = Most Replies
+comments-sortMenu-sortBy = Sorter efter
+comments-sortMenu-newest = Nyeste
+comments-sortMenu-oldest = Ældste
+comments-sortMenu-mostReplies = De fleste svar
 
 comments-userPopover =
-  .description = A popover with more user information
-comments-userPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
-comments-userPopover-ignore = Ignore
+  .description = Se flere brugeroplysninger
+comments-userPopover-memberSince = Medlem siden: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-ignore = Ignorere
 
-comments-userIgnorePopover-ignoreUser = Ignore {$username}?
+comments-userIgnorePopover-ignoreUser = Ignorerer {$username}?
 comments-userIgnorePopover-description =
-  When you ignore a commenter, all comments they
-  wrote on the site will be hidden from you. You can
-  undo this later from My Profile.
-comments-userIgnorePopover-ignore = Ignore
-comments-userIgnorePopover-cancel = Cancel
+  Når du ignorerer en kommentator, vil alle kommentarer, 
+  de skrev på webstedet, være skjult for dig. Du kan fortryde 
+  dette senere fra Min profil.
+comments-userIgnorePopover-ignore = Ignorerer
+comments-userIgnorePopover-cancel = Afbestille
 
 comments-moderationDropdown-popover =
-  .description = A popover menu to moderate the comment
-comments-moderationDropdown-feature = Feature
-comments-moderationDropdown-unfeature = Un-Feature
-comments-moderationDropdown-approve = Approve
-comments-moderationDropdown-approved = Approved
-comments-moderationDropdown-reject = Reject
-comments-moderationDropdown-rejected = Rejected
-comments-moderationDropdown-goToModerate = Go to Moderate
+  .description = En menu med indstillinger til at moderere kommentar
+comments-moderationDropdown-feature = Fremhæv
+comments-moderationDropdown-unfeature = Fjern ikke-fremhæv
+comments-moderationDropdown-approve = Godkend
+comments-moderationDropdown-approved = Godkendt
+comments-moderationDropdown-reject = Afvis
+comments-moderationDropdown-rejected = Afvist
+comments-moderationDropdown-goToModerate = Gå til moderation
 comments-moderationDropdown-caretButton =
-  .aria-label = Moderate
+  .aria-label = Moderér
 
 comments-rejectedTombstone =
-  You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
+  Du har afvist denne kommentar. <TextLink>Gå til moderation for at gennemgå denne beslutning.</TextLink>
 
-comments-featuredTag = Featured
-comments-staffTag = Staff
+comments-featuredTag = Fremhævet
+comments-staffTag = Personale
 
 ### Featured Comments
-comments-featured-gotoConversation = Go to Conversation
-comments-featured-replies = Replies
+comments-featured-gotoConversation = Gå til samtale
+comments-featured-replies = Svar
 
 ## Profile Tab
 
-profile-myCommentsTab = My Comments
-profile-settingsTab = Settings
+profile-myCommentsTab = Mine kommentarer
+profile-settingsTab = Indstillinger
 
 ### Comment History
-profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies {$replyCount}
-profile-historyComment-commentHistory = Comment History
-profile-historyComment-story = Story: {$title}
-profile-profileQuery-errorLoadingProfile = Error loading profile
-profile-profileQuery-storyNotFound = Story not found
-profile-commentHistory-loadMore = Load More
-profile-commentHistory-empty = You have not written any comments
-profile-commentHistory-empty-subheading = A history of your comments will appear here
+profile-historyComment-viewConversation = Se samtale
+profile-historyComment-replies = Svar {$replyCount}
+profile-historyComment-commentHistory = Kommentarhistorik
+profile-historyComment-story = Historie: {$title}
+profile-profileQuery-errorLoadingProfile = Fejl ved indlæsning af profil
+profile-profileQuery-storyNotFound = Historien blev ikke fundet
+profile-commentHistory-loadMore = Indlæse mere
+profile-commentHistory-empty = Du har ikke skrevet nogen kommentarer
+profile-commentHistory-empty-subheading = En historie med dine kommentarer vises her
 
 ### Settings
-profile-settings-ignoredCommenters = Ignored Commenters
+profile-settings-ignoredCommenters = Ignorerede kommentarer
 profile-settings-description =
-  Once you ignore someone, all of their comments are hidden from you.
-  Commenters you ignore will still be able to see your comments.
-profile-settings-empty = You are not currently ignoring anyone
-profile-settings-stopIgnoring = Stop ignoring
+  Når du ignorerer nogen, er alle deres kommentarer skjult for dig.
+  Kommentarer, du ignorerer, kan stadig se dine kommentarer.
+profile-settings-empty = Du ignorerer i øjeblikket ingen
+profile-settings-stopIgnoring = Stop med at ignorere
 
-profile-settings-changePassword = Change Password
-profile-settings-changePassword-oldPassword = Old Password
-profile-settings-changePassword-forgotPassword = Forgot your password?
-profile-settings-changePassword-newPassword = New Password
-profile-settings-changePassword-button = Change Password
+profile-settings-changePassword = Skift kodeord
+profile-settings-changePassword-oldPassword = Gammelt kodeord
+profile-settings-changePassword-forgotPassword = Glemt din adgangskode?
+profile-settings-changePassword-newPassword = Nyt kodeord
+profile-settings-changePassword-button = Skift kodeord
 profile-settings-changePassword-updated =
-  Your password has been updated
+  Din adgangskode er blevet opdateret
 
 ## Report Comment Popover
 comments-reportPopover =
