@@ -1,7 +1,7 @@
 .root {
   border: 1px solid var(--palette-success-main);
   box-sizing: border-box;
-  border-radius: 2px;
+  border-radius: var(--round-corners);
   width: 65px;
   height: 50px;
   display: flex;
