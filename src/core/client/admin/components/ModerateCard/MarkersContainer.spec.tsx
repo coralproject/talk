@@ -42,6 +42,7 @@ it("renders all markers", () => {
         },
       },
     },
+    onUsernameClick: () => null,
   };
   const renderer = createRenderer();
   renderer.render(<MarkersContainerN {...props} />);
@@ -81,6 +82,7 @@ it("renders some markers", () => {
         },
       },
     },
+    onUsernameClick: () => null,
   };
   const renderer = createRenderer();
   renderer.render(<MarkersContainerN {...props} />);

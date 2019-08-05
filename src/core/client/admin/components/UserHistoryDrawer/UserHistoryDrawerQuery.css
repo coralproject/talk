@@ -115,7 +115,7 @@ hr {
   border-style: solid;
   border-color: var(--palette-grey-lighter);
   border-width: 1px;
-  border-radius: 2px;
+  border-radius: var(--round-corners);
   padding-left: var(--spacing-2);
   padding-right: var(--spacing-1);
 }

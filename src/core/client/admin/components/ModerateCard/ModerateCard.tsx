@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { Localized } from "fluent-react/compat";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 
 import { PropTypesOf } from "coral-framework/types";
 import {
@@ -79,115 +79,127 @@ const ModerateCard: FunctionComponent<Props> = ({
   moderatedBy,
   mini = false,
   hideUsername = false,
-}) => (
-  <Card
-    className={cn(
-      styles.root,
-      { [styles.borderless]: mini },
-      { [styles.dangling]: dangling }
-    )}
-    data-testid={`moderate-comment-${id}`}
-  >
-    <Flex>
-      <div className={styles.mainContainer}>
-        <div
-          className={cn(styles.topBar, {
-            [styles.topBarMini]: mini && !inReplyTo,
-          })}
-        >
-          <Flex alignItems="center">
-            {!hideUsername && (
-              <BaseButton onClick={onUsernameClick} className={styles.username}>
-                <Username>{username}</Username>
-              </BaseButton>
-            )}
-            <Timestamp>{createdAt}</Timestamp>
-            <FeatureButton featured={featured} onClick={onFeature} />
-          </Flex>
-          {inReplyTo && (
-            <div>
-              <InReplyTo>{inReplyTo}</InReplyTo>
-            </div>
-          )}
-        </div>
-        <CommentContent
-          suspectWords={suspectWords}
-          bannedWords={bannedWords}
-          className={styles.content}
-        >
-          {body}
-        </CommentContent>
-        <div className={styles.footer}>
-          <HorizontalGutter>
-            <div>
-              <Localized id="moderate-comment-viewContext">
-                <TextLink
-                  className={styles.link}
-                  href={viewContextHref}
-                  target="_blank"
+}) => {
+  const commentAuthorClick = useCallback(() => {
+    onUsernameClick();
+  }, [onUsernameClick]);
+  return (
+    <Card
+      className={cn(
+        styles.root,
+        { [styles.borderless]: mini },
+        { [styles.dangling]: dangling }
+      )}
+      data-testid={`moderate-comment-${id}`}
+    >
+      <Flex>
+        <div className={styles.mainContainer}>
+          <div
+            className={cn(styles.topBar, {
+              [styles.topBarMini]: mini && !inReplyTo,
+            })}
+          >
+            <Flex alignItems="center">
+              {!hideUsername && (
+                <BaseButton
+                  onClick={commentAuthorClick}
+                  className={styles.username}
                 >
-                  View Context
-                </TextLink>
-              </Localized>
-            </div>
-            {showStory && (
+                  <Username>{username}</Username>
+                </BaseButton>
+              )}
+              <Timestamp>{createdAt}</Timestamp>
+              <FeatureButton featured={featured} onClick={onFeature} />
+            </Flex>
+            {inReplyTo && (
               <div>
-                <Localized id="moderate-comment-story">
-                  <span className={styles.story}>Story</span>
-                </Localized>
-                {": "}
-                <span className={styles.storyTitle}>{storyTitle}</span>{" "}
-                <Localized id="moderate-comment-moderateStory">
+                <InReplyTo>{inReplyTo}</InReplyTo>
+              </div>
+            )}
+          </div>
+          <CommentContent
+            suspectWords={suspectWords}
+            bannedWords={bannedWords}
+            className={styles.content}
+          >
+            {body}
+          </CommentContent>
+          <div className={styles.footer}>
+            <HorizontalGutter>
+              <div>
+                <Localized id="moderate-comment-viewContext">
                   <TextLink
                     className={styles.link}
-                    href={storyHref}
-                    onClick={onModerateStory}
+                    href={viewContextHref}
+                    target="_blank"
                   >
-                    Moderate Story
+                    View Context
                   </TextLink>
                 </Localized>
               </div>
-            )}
-            <MarkersContainer comment={comment} settings={settings} />
-          </HorizontalGutter>
+              {showStory && (
+                <div>
+                  <Localized id="moderate-comment-story">
+                    <span className={styles.story}>Story</span>
+                  </Localized>
+                  {": "}
+                  <span className={styles.storyTitle}>{storyTitle}</span>{" "}
+                  <Localized id="moderate-comment-moderateStory">
+                    <TextLink
+                      className={styles.link}
+                      href={storyHref}
+                      onClick={onModerateStory}
+                    >
+                      Moderate Story
+                    </TextLink>
+                  </Localized>
+                </div>
+              )}
+              <MarkersContainer
+                onUsernameClick={onUsernameClick}
+                comment={comment}
+                settings={settings}
+              />
+            </HorizontalGutter>
+          </div>
         </div>
-      </div>
-      <div
-        className={cn(styles.separator, { [styles.ruledSeparator]: !mini })}
-      />
-      <Flex
-        className={cn(styles.aside, {
-          [styles.asideWithoutReplyTo]: !inReplyTo,
-          [styles.asideMini]: mini && !inReplyTo,
-          [styles.asideMiniWithReplyTo]: mini && inReplyTo,
-        })}
-        alignItems="center"
-        direction="column"
-        itemGutter
-      >
-        {!mini && (
-          <Localized id="moderate-comment-decision">
-            <div className={styles.decision}>DECISION</div>
-          </Localized>
-        )}
-        <Flex itemGutter>
-          <RejectButton
-            onClick={onReject}
-            invert={status === "rejected"}
-            disabled={status === "rejected" || dangling}
-            className={cn({ [styles.miniButton]: mini })}
-          />
-          <ApproveButton
-            onClick={onApprove}
-            invert={status === "approved"}
-            disabled={status === "approved" || dangling}
-            className={cn({ [styles.miniButton]: mini })}
-          />
+        <div
+          className={cn(styles.separator, { [styles.ruledSeparator]: !mini })}
+        />
+        <Flex
+          className={cn(styles.aside, {
+            [styles.asideWithoutReplyTo]: !inReplyTo,
+            [styles.asideMini]: mini && !inReplyTo,
+            [styles.asideMiniWithReplyTo]: mini && inReplyTo,
+          })}
+          alignItems="center"
+          direction="column"
+          itemGutter
+        >
+          {!mini && (
+            <Localized id="moderate-comment-decision">
+              <div className={styles.decision}>DECISION</div>
+            </Localized>
+          )}
+          <Flex itemGutter>
+            <RejectButton
+              onClick={onReject}
+              invert={status === "rejected"}
+              disabled={status === "rejected" || dangling}
+              className={cn({ [styles.miniButton]: mini })}
+            />
+            <ApproveButton
+              onClick={onApprove}
+              invert={status === "approved"}
+              disabled={status === "approved" || dangling}
+              className={cn({ [styles.miniButton]: mini })}
+            />
+          </Flex>
+          {moderatedBy}
         </Flex>
-        {moderatedBy}
       </Flex>
-    </Flex>
-  </Card>
-);
+    </Card>
+  );
+};
 
 export default ModerateCard;
