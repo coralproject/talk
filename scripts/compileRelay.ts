@@ -14,6 +14,7 @@ program
   .usage("--src ./src/core/client/stream --schema tenant")
   .option("--src <folder>", "Find gql recursively in this folder")
   .option("--schema <schema>", "Identifier of schema")
+  .option("--persist", "Use persisted queries")
   .description("Compile relay gql data")
   .parse(process.argv);
 
@@ -57,8 +58,10 @@ const args = [
   `${program.src}/__generated__`,
   "--schema",
   config.projects[program.schema].schemaPath,
-  // "--persist-output",
-  // `${program.src}/persisted-queries.json`,
 ];
+
+if (program.persist) {
+  args.push("--persist-output", `${program.src}/persisted-queries.json`);
+}
 
 spawn.sync("relay-compiler", args, { stdio: "inherit" });

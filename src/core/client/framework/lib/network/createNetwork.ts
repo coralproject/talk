@@ -11,6 +11,8 @@ import {
 import clientIDMiddleware from "./clientIDMiddleware";
 import { ManagedSubscriptionClient } from "./createManagedSubscriptionClient";
 import customErrorMiddleware from "./customErrorMiddleware";
+import minifyBodyMiddleware from "./minifyBodyMiddleware";
+import persistedQueriesGetMethodMiddleware from "./persistedQueriesGetMethodMiddleware";
 
 export type TokenGetter = () => string;
 
@@ -51,6 +53,7 @@ export default function createNetwork(
       urlMiddleware({
         url: () => Promise.resolve(graphqlURL),
       }),
+      minifyBodyMiddleware,
       batchMiddleware({
         batchUrl: (requestMap: any) => Promise.resolve(graphqlURL),
         batchTimeout: 0,
@@ -66,6 +69,7 @@ export default function createNetwork(
         token: tokenGetter,
       }),
       clientIDMiddleware(clientID),
+      persistedQueriesGetMethodMiddleware,
     ],
     { subscribeFn: createSubscriptionFunction(subscriptionClient) }
   );

@@ -109,10 +109,14 @@ export default function createManagedSubscriptionClient(
           },
         });
       }
+      if (!operation.text && !operation.id) {
+        throw Error("Neither subscription query nor id was provided.");
+      }
       const subscription = subscriptionClient
         .request({
           operationName: operation.name,
-          query: operation.text!,
+          // Use id as query when not available e.g. when using persisted queries.
+          query: (operation.text || operation.id)!,
           variables,
         })
         .subscribe({
