@@ -33,7 +33,12 @@ export type DownloadOptions = Pick<
   "mongo" | "redis" | "signingConfig" | "config"
 >;
 
-async function sendCSV(mongo: Db, tenant: Tenant, authorID: string, res: any) {
+async function createExportedContent(
+  mongo: Db,
+  tenant: Tenant,
+  authorID: string,
+  res: any
+) {
   const tenantID = tenant.id;
   const comments = mongo.collection<Readonly<Comment>>("comments");
 
@@ -183,7 +188,7 @@ export const downloadHandler = ({
         now
       );
 
-      await sendCSV(mongo, tenant, authorID, res);
+      await createExportedContent(mongo, tenant, authorID, res);
 
       return res;
     } catch (err) {
