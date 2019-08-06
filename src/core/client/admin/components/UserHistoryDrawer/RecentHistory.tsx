@@ -74,7 +74,7 @@ const RecentHistory: FunctionComponent<Props> = ({
                 </Localized>
               }
               body={
-                <Localized id="moderate-user-drawer-recent-history-tooltip-title">
+                <Localized id="moderate-user-drawer-recent-history-tooltip-body">
                   <span>
                     Rejected comments divided by the sum of rejected and
                     published comments, during the recent comment history time
