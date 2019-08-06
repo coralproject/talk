@@ -6,8 +6,9 @@ import { DownloadCommentsContainer_viewer } from "coral-stream/__generated__/Dow
 import { Button, CallOut, Flex, Icon, Typography } from "coral-ui/components";
 import { Localized } from "fluent-react/compat";
 
-import styles from "./DownloadCommentsContainer.css";
 import RequestCommentsDownloadMutation from "./RequestCommentsDownloadMutation";
+
+import styles from "./DownloadCommentsContainer.css";
 
 interface Props {
   viewer: DownloadCommentsContainer_viewer;
@@ -88,7 +89,7 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
         </Button>
       )}
       {!canDownload && (
-        <CallOut>
+        <CallOut fullWidth className={styles.callout}>
           <Icon size="lg" className={styles.icon}>
             query_builder
           </Icon>
