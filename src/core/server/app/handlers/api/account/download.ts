@@ -4,8 +4,9 @@ import DataLoader from "dataloader";
 import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
+import { RequestLimiter } from "coral-server/app/request/limiter";
 import { retrieveManyStories } from "coral-server/models/story";
-import { extractTokenFromRequest } from "coral-server/services/jwt";
+import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import { verifyDownloadTokenString } from "coral-server/services/users/download/download";
 import { RequestHandler } from "coral-server/types/express";
 import { Request } from "coral-server/types/express";
@@ -24,8 +25,12 @@ interface Revision {
 }
 
 const BATCH_SIZE = 100;
+const USER_ID_LIMITER_TTL = "1d";
 
-export type DownloadOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+export type DownloadOptions = Pick<
+  AppOptions,
+  "mongo" | "redis" | "signingConfig" | "config"
+>;
 
 async function sendCSV(
   mongo: Db,
@@ -107,8 +112,18 @@ async function sendCSV(
 
 export const downloadHandler = ({
   mongo,
+  redis,
   signingConfig,
+  config,
 }: DownloadOptions): RequestHandler => {
+  const userIDLimiter = new RequestLimiter({
+    redis,
+    ttl: USER_ID_LIMITER_TTL,
+    max: 1,
+    prefix: "userID",
+    config,
+  });
+
   return async (req: Request, res, next) => {
     // Tenant is guaranteed at this point.
     const coral = req.coral!;
@@ -129,6 +144,13 @@ export const downloadHandler = ({
       return res.sendStatus(400);
     }
 
+    const { sub: userID } = decodeJWT(tokenString);
+    if (!userID) {
+      return res.sendStatus(400);
+    }
+
+    await userIDLimiter.test(req, userID);
+
     try {
       const { iss: tenantID, sub: authorID } = await verifyDownloadTokenString(
         mongo,
@@ -147,12 +169,25 @@ export const downloadHandler = ({
   };
 };
 
-export type DownloadCheckOptions = Pick<AppOptions, "mongo" | "signingConfig">;
+export type DownloadCheckOptions = Pick<
+  AppOptions,
+  "mongo" | "redis" | "signingConfig" | "config"
+>;
 
 export const downloadCheckHandler = ({
   mongo,
+  redis,
   signingConfig,
+  config,
 }: DownloadCheckOptions): RequestHandler => {
+  const userIDLimiter = new RequestLimiter({
+    redis,
+    ttl: USER_ID_LIMITER_TTL,
+    max: 1,
+    prefix: "userID",
+    config,
+  });
+
   return async (req, res, next) => {
     try {
       // Tenant is guaranteed at this point.
@@ -163,6 +198,13 @@ export const downloadCheckHandler = ({
       if (!tokenString) {
         return res.sendStatus(400);
       }
+
+      const { sub: userID } = decodeJWT(tokenString);
+      if (!userID) {
+        return res.sendStatus(400);
+      }
+
+      await userIDLimiter.test(req, userID);
 
       await verifyDownloadTokenString(
         mongo,
