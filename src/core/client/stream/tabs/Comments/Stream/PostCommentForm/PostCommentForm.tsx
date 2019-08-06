@@ -5,6 +5,7 @@ import React, { FunctionComponent } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
+import CLASSES from "coral-stream/classes";
 import {
   AriaInfo,
   Button,
@@ -46,6 +47,7 @@ const PostCommentForm: FunctionComponent<Props> = props => (
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
       {({ handleSubmit, submitting, submitError, form }) => (
         <form
+          className={CLASSES.createComment.$root}
           autoComplete="off"
           onSubmit={handleSubmit}
           id="comments-postCommentForm-form"
@@ -58,6 +60,7 @@ const PostCommentForm: FunctionComponent<Props> = props => (
               name="body"
               validate={getCommentBodyValidators(props.min, props.max)}
             >
+              {/* FIXME: (wyattjoh) reorganize this */}
               {({ input, meta }) => (
                 <>
                   <HorizontalGutter size="half">
@@ -78,6 +81,7 @@ const PostCommentForm: FunctionComponent<Props> = props => (
                         onChange={({ html }) =>
                           input.onChange(cleanupRTEEmptyHTML(html))
                         }
+                        className={CLASSES.createComment.box}
                         value={input.value}
                         placeholder="Post a comment"
                         disabled={submitting || props.disabled}
@@ -123,6 +127,7 @@ const PostCommentForm: FunctionComponent<Props> = props => (
                       <Button
                         color="primary"
                         variant="filled"
+                        className={CLASSES.createComment.submit}
                         disabled={submitting || !input.value || props.disabled}
                         type="submit"
                       >

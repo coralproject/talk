@@ -1,120 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ban user 1`] = `
-<div
-  aria-labelledby="banModal-title"
-  className="Modal-root"
-  onKeyDown={[Function]}
-  role="modal"
->
-  <div
-    className="Backdrop-root Backdrop-active"
-    data-testid="backdrop"
-    onClick={[Function]}
-  />
-  <div
-    className="Modal-scroll"
-  >
-    <div
-      className="Modal-alignContainer1"
-    >
-      <div
-        className="Modal-alignContainer2"
-      >
-        <div
-          className="Modal-wrapper"
-        >
-          <div
-            onFocus={[Function]}
-            tabIndex={0}
-          />
-          <div
-            tabIndex={-1}
-          />
-          <div
-            className="Card-root BanModal-card"
-          >
-            <button
-              className="BaseButton-root CloseButton-root"
-              onBlur={[Function]}
-              onClick={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="button"
-            >
-              <span
-                aria-hidden="true"
-                className="Icon-root Icon-md CloseButton-icon"
-              >
-                close
-              </span>
-            </button>
-            <div
-              className="Box-root HorizontalGutter-root HorizontalGutter-double"
-            >
-              <div
-                className="Box-root HorizontalGutter-root HorizontalGutter-full"
-              >
-                <h1
-                  className="Box-root Typography-root Typography-header2 Typography-colorTextPrimary"
-                  id="banModal-title"
-                >
-                  Are you sure you want to ban 
-                  <strong>
-                    Isabelle
-                  </strong>
-                  ?
-                </h1>
-                <p
-                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                >
-                  Once banned, this user will no longer be able to comment, use
-reactions, or report comments.
-                </p>
-              </div>
-              <div
-                className="Box-root Flex-root Flex-flex Flex-halfItemGutter Flex-justifyFlexEnd gutter"
-              >
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantOutlined"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Cancel
-                </button>
-                <button
-                  className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled"
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onMouseOut={[Function]}
-                  onMouseOver={[Function]}
-                  onTouchEnd={[Function]}
-                  type="button"
-                >
-                  Ban User
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            onFocus={[Function]}
-            tabIndex={0}
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`renders community 1`] = `
 <div
   className="MainLayout-root Community-root"
@@ -149,7 +34,9 @@ exports[`renders community 1`] = `
                 aria-label="Search by username or email address"
                 className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
                 name="search"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Search by username or email address..."
                 type="text"
                 value=""
@@ -159,7 +46,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Search"
-                  className="BaseButton-root Button-root UserTableFilter-adornment Button-sizeRegular Button-colorDark Button-variantAdornment"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -360,7 +247,7 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -427,7 +314,7 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -462,7 +349,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root UserRoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -525,7 +412,7 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -560,7 +447,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root UserRoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -623,7 +510,7 @@ exports[`renders community 1`] = `
               className="TableCell-root UserRow-usernameColumn TableCell-body"
             >
               <button
-                className="BaseButton-root Button-root UserRow-usernameButton Button-sizeRegular Button-colorRegular Button-variantRegular"
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular UserRow-usernameButton"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -658,7 +545,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change role"
-                  className="BaseButton-root Button-root UserRoleChange-button Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserRoleChange-button"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -702,7 +589,7 @@ exports[`renders community 1`] = `
               >
                 <button
                   aria-label="Change user status"
-                  className="BaseButton-root Button-root UserStatusChange-button UserStatusChange-fullWidth Button-sizeSmall Button-colorRegular Button-variantRegular"
+                  className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantRegular UserStatusChange-button UserStatusChange-fullWidth"
                   onBlur={[Function]}
                   onClick={[Function]}
                   onFocus={[Function]}
@@ -786,7 +673,9 @@ exports[`renders empty community 1`] = `
                 aria-label="Search by username or email address"
                 className="TextField-input TextField-colorRegular TextField-seamlessAdornment"
                 name="search"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Search by username or email address..."
                 type="text"
                 value=""
@@ -796,7 +685,7 @@ exports[`renders empty community 1`] = `
               >
                 <button
                   aria-label="Search"
-                  className="BaseButton-root Button-root UserTableFilter-adornment Button-sizeRegular Button-colorDark Button-variantAdornment"
+                  className="BaseButton-root Button-root Button-sizeRegular Button-colorDark Button-variantAdornment UserTableFilter-adornment"
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}

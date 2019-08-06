@@ -99,7 +99,9 @@ Your email address will be used to:
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="email"
           value="hans@test.com"
@@ -123,7 +125,9 @@ Your email address will be used to:
           disabled={false}
           id="confirmEmail"
           name="confirmEmail"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Confirm Email Address"
           type="text"
           value=""
@@ -258,7 +262,9 @@ Your email address will be used to:
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="email"
           value="invalid-email"
@@ -295,7 +301,9 @@ Your email address will be used to:
           disabled={false}
           id="confirmEmail"
           name="confirmEmail"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Confirm Email Address"
           type="text"
           value="invalid-confirmation-email"
@@ -449,7 +457,9 @@ Your email address will be used to:
                 disabled={false}
                 id="email"
                 name="email"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Email Address"
                 type="email"
                 value=""
@@ -473,7 +483,9 @@ Your email address will be used to:
                 disabled={false}
                 id="confirmEmail"
                 name="confirmEmail"
+                onBlur={[Function]}
                 onChange={[Function]}
+                onFocus={[Function]}
                 placeholder="Confirm Email Address"
                 type="text"
                 value=""
@@ -598,7 +610,9 @@ Your email address will be used to:
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="email"
           value=""
@@ -635,7 +649,9 @@ Your email address will be used to:
           disabled={false}
           id="confirmEmail"
           name="confirmEmail"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Confirm Email Address"
           type="text"
           value=""
@@ -784,7 +800,9 @@ GraphQL request (4:3)
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="email"
           value="hans@test.com"
@@ -808,7 +826,9 @@ GraphQL request (4:3)
           disabled={false}
           id="confirmEmail"
           name="confirmEmail"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Confirm Email Address"
           type="text"
           value="hans@test.com"
@@ -930,7 +950,9 @@ Your email address will be used to:
           disabled={false}
           id="email"
           name="email"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Email Address"
           type="email"
           value=""
@@ -954,7 +976,9 @@ Your email address will be used to:
           disabled={false}
           id="confirmEmail"
           name="confirmEmail"
+          onBlur={[Function]}
           onChange={[Function]}
+          onFocus={[Function]}
           placeholder="Confirm Email Address"
           type="text"
           value=""

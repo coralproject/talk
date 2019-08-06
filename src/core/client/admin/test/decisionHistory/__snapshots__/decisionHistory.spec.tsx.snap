@@ -60,7 +60,7 @@ exports[`loads more 1`] = `
                 className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-11-29T16:01:51.897Z"
                   title="2018-11-29T16:01:51.897Z"
                 >
@@ -124,7 +124,7 @@ exports[`loads more 1`] = `
                 className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-11-29T16:01:45.644Z"
                   title="2018-11-29T16:01:45.644Z"
                 >
@@ -188,7 +188,7 @@ exports[`loads more 1`] = `
                 className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-11-29T16:01:42.060Z"
                   title="2018-11-29T16:01:42.060Z"
                 >
@@ -317,7 +317,7 @@ exports[`render popover content 1`] = `
                 className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-11-29T16:01:51.897Z"
                   title="2018-11-29T16:01:51.897Z"
                 >
@@ -381,7 +381,7 @@ exports[`render popover content 1`] = `
                 className="Box-root Typography-root Typography-timestamp Typography-colorTextPrimary"
               >
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-11-29T16:01:45.644Z"
                   title="2018-11-29T16:01:45.644Z"
                 >

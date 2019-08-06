@@ -302,22 +302,20 @@ which provides a test SMTP server that can visualize emails in the browser:
 docker run -d --name inbucket --restart always -p 2500:2500 -p 9000:9000 inbucket/inbucket
 ```
 
-You can then configure the email server on Coral by updating the Tenant with:
+You can then configure the email server on Coral
+by setting the email settings in
+`Configure -> Email` in the admin:
 
-```js
-{
-  // ...
-  "email": {
-    "enabled": true,
-    "smtpURI": "smtp://localhost:2500",
-    "fromAddress": "community@test.com"
-  },
-  // ...
-}
-```
+| Field          | Value                |
+| -------------- | -------------------- |
+| From Address   | `community@test.com` |
+| Secure         | `No`                 |
+| Host           | `localhost`          |
+| Port           | `2500`               |
+| Authentication | `No`                 |
 
-Restarting Coral will be needed. Navigate to http://localhost:9000, click the
-"Monitor" tab. New emails received on this screen.
+Navigate to http://localhost:9000, click the "Monitor" tab. New emails received
+on this screen.
 
 #### Design Language System (UI Components)
 
@@ -368,6 +366,8 @@ the variables in a `.env` file in the root of the project in a simple
 - `DISABLE_MONGODB_AUTOINDEXING` - When `true`, Coral will not perform indexing
   operations when it starts up. This can be desired when you've already
   installed Coral on the target MongoDB, but want to improve start performance.
+  **You should not use this parameter unless you know what you're doing! Upgrades
+  may introduce additional indexes that the application relies on.**
   (Default `false`)
 - `LOCALE` - Specify the default locale to use for all requests without a locale
   specified. (Default `en-US`)

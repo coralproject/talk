@@ -49,4 +49,5 @@ export const ERROR_TRANSLATIONS: Record<ERROR_CODES, string> = {
   INVITE_TOKEN_EXPIRED: "error-inviteTokenExpired",
   INVITE_REQUIRES_EMAIL_ADDRESSES: "error-inviteRequiresEmailAddresses",
   LIVE_UPDATES_DISABLED: "error-liveUpdatesDisabled",
+  PASSWORD_INCORRECT: "error-passwordIncorrect",
 };

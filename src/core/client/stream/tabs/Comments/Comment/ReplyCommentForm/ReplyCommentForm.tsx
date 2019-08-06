@@ -1,10 +1,12 @@
 import { CoralRTE } from "@coralproject/rte";
+import cn from "classnames";
 import { FormApi, FormState } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { EventHandler, FunctionComponent, MouseEvent, Ref } from "react";
 import { Field, Form, FormSpy } from "react-final-form";
 
 import { OnSubmit } from "coral-framework/lib/form";
+import CLASSES from "coral-stream/classes";
 import {
   AriaInfo,
   Button,
@@ -44,7 +46,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
     <Form onSubmit={props.onSubmit} initialValues={props.initialValues}>
       {({ handleSubmit, submitting, form, submitError }) => (
         <form
-          className={props.className}
+          className={cn(props.className, CLASSES.createReplyComment.$root)}
           autoComplete="off"
           onSubmit={handleSubmit}
           id={`comments-replyCommentForm-form-${props.id}`}
@@ -57,10 +59,11 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
               name="body"
               validate={getCommentBodyValidators(props.min, props.max)}
             >
+              {/* FIXME: (wyattjoh) reorganize this */}
               {({ input, meta }) => (
                 <>
                   <HorizontalGutter size="half">
-                    <div>
+                    <div className={CLASSES.createReplyComment.box}>
                       <Localized id="comments-replyCommentForm-rteLabel">
                         <AriaInfo component="label" htmlFor={inputID}>
                           Write a reply
@@ -143,6 +146,7 @@ const ReplyCommentForm: FunctionComponent<ReplyCommentFormProps> = props => {
                               submitting || !input.value || props.disabled
                             }
                             type="submit"
+                            className={CLASSES.createReplyComment.submit}
                             fullWidth={matches}
                           >
                             Submit

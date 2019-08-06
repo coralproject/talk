@@ -93,6 +93,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={true}
               />
               <label
                 className="CheckBox-label"
@@ -135,6 +136,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={false}
               />
               <label
                 className="CheckBox-label"
@@ -177,6 +179,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={false}
               />
               <label
                 className="CheckBox-label"
@@ -219,6 +222,7 @@ exports[`renders configure 1`] = `
                 onChange={[Function]}
                 onFocus={[Function]}
                 type="checkbox"
+                value={false}
               />
               <label
                 className="CheckBox-label"
@@ -275,7 +279,7 @@ no new comments may be submitted and all previously submitted comments
 will still be displayed.
         </p>
         <button
-          className="BaseButton-root Button-root CloseStream-button Button-sizeRegular Button-colorError Button-variantOutlined"
+          className="BaseButton-root Button-root Button-sizeRegular Button-colorError Button-variantOutlined CloseStream-button"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}

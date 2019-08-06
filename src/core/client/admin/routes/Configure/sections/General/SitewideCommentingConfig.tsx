@@ -10,11 +10,11 @@ import {
   InputLabel,
   Spinner,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import Header from "../../Header";
 import OnOffField from "../../OnOffField";
+import ValidationMessage from "../../ValidationMessage";
 
 interface Props {
   disabled: boolean;
@@ -75,16 +75,10 @@ const SitewideCommentingConfig: FunctionComponent<Props> = ({ disabled }) => (
           <Suspense fallback={<Spinner />}>
             <MarkdownEditor
               id="configure-general-sitewideCommenting-message"
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
+              {...input}
             />
           </Suspense>
-          {meta.touched && (meta.error || meta.submitError) && (
-            <ValidationMessage>
-              {meta.error || meta.submitError}
-            </ValidationMessage>
-          )}
+          <ValidationMessage meta={meta} fullWidth />
         </>
       )}
     </Field>

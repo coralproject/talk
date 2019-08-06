@@ -1,22 +1,20 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
-
 import { Field } from "react-final-form";
-
-import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
 
 import {
   TOXICITY_ENDPOINT_DEFAULT,
   TOXICITY_MODEL_DEFAULT,
   TOXICITY_THRESHOLD_DEFAULT,
 } from "coral-common/constants";
+import { formatPercentage, parsePercentage } from "coral-framework/lib/form";
 import { ExternalLink } from "coral-framework/lib/i18n/components";
 import {
-  composeValidators,
+  Condition,
   required,
   validatePercentage,
   validateURL,
-  Validator,
+  validateWhen,
 } from "coral-framework/lib/validation";
 import {
   FieldSet,
@@ -41,16 +39,10 @@ interface Props {
   disabled: boolean;
 }
 
+const isEnabled: Condition = (value, values) =>
+  Boolean(values.integrations.perspective.enabled);
+
 const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
-  const validateWhenEnabled = (validator: Validator): Validator => (
-    v,
-    values
-  ) => {
-    if (values.integrations.perspective.enabled) {
-      return validator(v, values);
-    }
-    return "";
-  };
   return (
     <HorizontalGutter size="oneAndAHalf" container={<FieldSet />}>
       <Localized id="configure-moderation-perspective-title">
@@ -106,9 +98,6 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
               <TextField
                 id="configure-moderation-perspective-threshold"
                 className={styles.thresholdTextField}
-                name={input.name}
-                onChange={input.onChange}
-                value={input.value}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
@@ -117,12 +106,9 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
                 adornment={<Typography variant="bodyCopy">%</Typography>}
                 placeholder={TOXICITY_THRESHOLD_DEFAULT.toString()}
                 textAlignCenter
+                {...input}
               />
-              {meta.touched && (meta.error || meta.submitError) && (
-                <ValidationMessage>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+              <ValidationMessage meta={meta} />
             </>
           )}
         </Field>
@@ -155,21 +141,15 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
             <>
               <TextField
                 id="configure-moderation-perspective-model"
-                name={input.name}
-                onChange={input.onChange}
-                value={input.value}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="off"
                 placeholder={TOXICITY_MODEL_DEFAULT}
                 spellCheck={false}
+                {...input}
               />
-              {meta.touched && (meta.error || meta.submitError) && (
-                <ValidationMessage>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+              <ValidationMessage meta={meta} />
             </>
           )}
         </Field>
@@ -211,7 +191,7 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
       <APIKeyField
         name="integrations.perspective.key"
         disabled={disabled}
-        validate={validateWhenEnabled(required)}
+        validate={validateWhen(isEnabled, required)}
       />
       <FormField>
         <Localized id="configure-moderation-perspective-customEndpoint">
@@ -228,29 +208,20 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
             here
           </InputDescription>
         </Localized>
-        <Field
-          name="integrations.perspective.endpoint"
-          validate={composeValidators(validateURL)}
-        >
+        <Field name="integrations.perspective.endpoint" validate={validateURL}>
           {({ input, meta }) => (
             <>
               <TextField
                 id="configure-moderation-perspective-customEndpoint"
-                name={input.name}
-                onChange={input.onChange}
-                value={input.value}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="off"
                 placeholder={TOXICITY_ENDPOINT_DEFAULT}
                 spellCheck={false}
+                {...input}
               />
-              {meta.touched && (meta.error || meta.submitError) && (
-                <ValidationMessage>
-                  {meta.error || meta.submitError}
-                </ValidationMessage>
-              )}
+              <ValidationMessage meta={meta} />
             </>
           )}
         </Field>

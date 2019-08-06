@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useCallback, useState } from "react";
 
+import { UserStatusChangeContainer_settings as SettingsData } from "coral-admin/__generated__/UserStatusChangeContainer_settings.graphql";
 import { UserStatusChangeContainer_user as UserData } from "coral-admin/__generated__/UserStatusChangeContainer_user.graphql";
 import {
   graphql,
@@ -12,21 +13,27 @@ import ButtonPadding from "../ButtonPadding";
 import BanModal from "./BanModal";
 import BanUserMutation from "./BanUserMutation";
 import RemoveUserBanMutation from "./RemoveUserBanMutation";
+import RemoveUserSuspensionMutation from "./RemoveUserSuspensionMutation";
+import SuspendModal from "./SuspendModal";
+import SuspendUserMutation from "./SuspendUserMutation";
 import UserStatusChange from "./UserStatusChange";
 import UserStatusContainer from "./UserStatusContainer";
 
 interface Props {
   user: UserData;
   fullWidth?: boolean;
+  settings: SettingsData;
 }
 
-const UserStatusChangeContainer: FunctionComponent<Props> = ({
-  user,
-  fullWidth = true,
-}) => {
+const UserStatusChangeContainer: FunctionComponent<Props> = props => {
+  const { user, settings, fullWidth } = props;
   const banUser = useMutation(BanUserMutation);
+  const suspendUser = useMutation(SuspendUserMutation);
   const removeUserBan = useMutation(RemoveUserBanMutation);
+  const removeUserSuspension = useMutation(RemoveUserSuspensionMutation);
   const [showBanned, setShowBanned] = useState<boolean>(false);
+  const [showSuspend, setShowSuspend] = useState<boolean>(false);
+  const [showSuspendSuccess, setShowSuspendSuccess] = useState<boolean>(false);
   const handleBan = useCallback(() => {
     if (user.status.ban.active) {
       return;
@@ -43,14 +50,43 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
     if (user.status.suspension.active) {
       return;
     }
-    // TODO: (cvle)
-  }, [user]);
+    setShowSuspend(true);
+  }, [user, setShowSuspend]);
   const handleRemoveSuspension = useCallback(() => {
     if (!user.status.suspension.active) {
       return;
     }
-    // TODO: (cvle)
-  }, [user]);
+    removeUserSuspension({ userID: user.id });
+  }, [user, removeUserSuspension]);
+
+  const handleSuspendModalClose = useCallback(() => {
+    setShowSuspend(false);
+    setShowSuspendSuccess(false);
+  }, [setShowBanned, setShowSuspendSuccess]);
+
+  const handleBanModalClose = useCallback(() => {
+    setShowBanned(false);
+  }, [setShowBanned]);
+
+  const handleSuspendConfirm = useCallback(
+    (timeout, message) => {
+      suspendUser({
+        userID: user.id,
+        timeout,
+        message,
+      });
+      setShowSuspendSuccess(true);
+    },
+    [user, suspendUser, setShowSuspendSuccess]
+  );
+
+  const handleBanConfirm = useCallback(
+    message => {
+      banUser({ userID: user.id, message });
+      setShowBanned(false);
+    },
+    [user, setShowBanned]
+  );
 
   if (user.role !== GQLUSER_ROLE.COMMENTER) {
     return (
@@ -73,14 +109,19 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
       >
         <UserStatusContainer user={user} />
       </UserStatusChange>
+      <SuspendModal
+        username={user.username}
+        open={showSuspend || showSuspendSuccess}
+        success={showSuspendSuccess}
+        onClose={handleSuspendModalClose}
+        organizationName={settings.organization.name}
+        onConfirm={handleSuspendConfirm}
+      />
       <BanModal
         username={user.username}
         open={showBanned}
-        onClose={() => setShowBanned(false)}
-        onConfirm={() => {
-          banUser({ userID: user.id });
-          setShowBanned(false);
-        }}
+        onClose={handleBanModalClose}
+        onConfirm={handleBanConfirm}
       />
     </>
   );
@@ -89,7 +130,6 @@ const UserStatusChangeContainer: FunctionComponent<Props> = ({
 const enhanced = withFragmentContainer<Props>({
   user: graphql`
     fragment UserStatusChangeContainer_user on User {
-      ...UserStatusContainer_user
       id
       role
       username
@@ -100,6 +140,14 @@ const enhanced = withFragmentContainer<Props>({
         suspension {
           active
         }
+      }
+      ...UserStatusContainer_user
+    }
+  `,
+  settings: graphql`
+    fragment UserStatusChangeContainer_settings on Settings {
+      organization {
+        name
       }
     }
   `,

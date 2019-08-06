@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Component } from "react";
+import React, { Component } from "react";
 
 import { AppContainer_auth as AuthData } from "coral-auth/__generated__/AppContainer_auth.graphql";
 import { AppContainer_viewer as UserData } from "coral-auth/__generated__/AppContainer_viewer.graphql";
@@ -26,9 +25,17 @@ class AppContainer extends Component<Props> {
       auth,
       viewer,
     } = this.props;
+
+    // If we're dealing with a password reset, we can't possibly worry about
+    // account completion (because they are not logged in, or have already
+    // completed their account), so disregard here, and just return the App.
+    if (view === "FORGOT_PASSWORD") {
+      return <App view={view} auth={auth} viewer={viewer} />;
+    }
+
     return (
       <AccountCompletionContainer auth={auth} viewer={viewer}>
-        <App view={view} auth={auth} />
+        <App view={view} auth={auth} viewer={viewer} />
       </AccountCompletionContainer>
     );
   }
@@ -52,6 +59,7 @@ const enhanced = withLocalStateContainer(
     viewer: graphql`
       fragment AppContainer_viewer on User {
         ...AccountCompletionContainer_viewer
+        ...ForgotPasswordContainer_viewer
       }
     `,
   })(AppContainer)

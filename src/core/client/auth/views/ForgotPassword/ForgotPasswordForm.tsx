@@ -9,6 +9,7 @@ import Main from "coral-auth/components/Main";
 import { getViewURL } from "coral-auth/helpers";
 import { SetViewMutation } from "coral-auth/mutations";
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -25,7 +26,6 @@ import {
   TextField,
   TextLink,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import ForgotPasswordMutation from "./ForgotPasswordMutation";
@@ -35,20 +35,22 @@ interface FormProps {
 }
 
 interface Props {
+  email: string | null;
   onCheckEmail: (email: string) => void;
 }
 
-const ForgotPasswordForm: FunctionComponent<Props> = ({ onCheckEmail }) => {
+const ForgotPasswordForm: FunctionComponent<Props> = ({
+  email,
+  onCheckEmail,
+}) => {
   const signInHref = getViewURL("SIGN_IN");
   const forgotPassword = useMutation(ForgotPasswordMutation);
   const setView = useMutation(SetViewMutation);
   const onSubmit = useCallback(
-    async ({ email }: FormProps) => {
+    async (form: FormProps) => {
       try {
-        await forgotPassword({
-          email,
-        });
-        onCheckEmail(email);
+        await forgotPassword(form);
+        onCheckEmail(form.email);
       } catch (error) {
         if (error instanceof InvalidRequestError) {
           return error.invalidArgs;
@@ -76,17 +78,20 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({ onCheckEmail }) => {
           <Title>Forgot Password?</Title>
         </Localized>
       </Bar>
-      <SubBar>
-        <Typography variant="bodyCopy" container={Flex}>
-          <Localized id="forgotPassword-gotBackToSignIn">
-            <TextLink href={signInHref} onClick={onGotoSignIn}>
-              Go back to sign in page
-            </TextLink>
-          </Localized>
-        </Typography>
-      </SubBar>
+      {/* If an email address has been provided, then they are already logged in. */}
+      {!email && (
+        <SubBar>
+          <Typography variant="bodyCopy" container={Flex}>
+            <Localized id="forgotPassword-gotBackToSignIn">
+              <TextLink href={signInHref} onClick={onGotoSignIn}>
+                Go back to sign in page
+              </TextLink>
+            </Localized>
+          </Typography>
+        </SubBar>
+      )}
       <Main data-testid="forgotPassword-main">
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} initialValues={{ email }}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
               <AutoHeight />
@@ -119,24 +124,14 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({ onCheckEmail }) => {
                       >
                         <TextField
                           id={input.name}
-                          name={input.name}
-                          onChange={input.onChange}
-                          value={input.value}
                           placeholder="Email Address"
-                          color={
-                            meta.touched && (meta.error || meta.submitError)
-                              ? "error"
-                              : "regular"
-                          }
-                          fullWidth
+                          color={colorFromMeta(meta)}
                           disabled={submitting}
+                          fullWidth
+                          {...input}
                         />
                       </Localized>
-                      {meta.touched && (meta.error || meta.submitError) && (
-                        <ValidationMessage fullWidth>
-                          {meta.error || meta.submitError}
-                        </ValidationMessage>
-                      )}
+                      <ValidationMessage meta={meta} fullWidth />
                     </FormField>
                   )}
                 </Field>

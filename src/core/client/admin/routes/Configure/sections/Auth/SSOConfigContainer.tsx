@@ -5,19 +5,20 @@ import { SSOConfigContainer_auth as AuthData } from "coral-admin/__generated__/S
 import { SSOConfigContainer_authReadOnly as AuthReadOnlyData } from "coral-admin/__generated__/SSOConfigContainer_authReadOnly.graphql";
 import { withFragmentContainer } from "coral-framework/lib/relay";
 
+import { OnInitValuesFct } from "./AuthConfigContainer";
 import SSOConfig from "./SSOConfig";
 
 interface Props {
   auth: AuthData;
   authReadOnly: AuthReadOnlyData;
-  onInitValues: (values: AuthData) => void;
+  onInitValues: OnInitValuesFct;
   disabled?: boolean;
 }
 
 class SSOConfigContainer extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    props.onInitValues(props.auth);
+    props.onInitValues({ auth: props.auth });
   }
 
   public render() {

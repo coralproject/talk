@@ -116,7 +116,7 @@ export async function verifyResetTokenString(
   signingConfig: JWTSigningConfig,
   tokenString: string,
   now: Date
-): Promise<ResetToken> {
+) {
   const token = verifyJWT(tokenString, signingConfig, now, {
     // Verify that the token is for this Tenant.
     issuer: tenant.id,
@@ -144,20 +144,20 @@ export async function verifyResetTokenString(
   }
 
   // Get the local profile that might contain the reset token.
-  const localProfile = getLocalProfile(user);
-  if (!localProfile) {
+  const profile = getLocalProfile(user);
+  if (!profile) {
     throw new LocalProfileNotSetError();
   }
 
   // Verify that the reset id matches the current user.
-  if (localProfile.resetID !== resetID) {
+  if (profile.resetID !== resetID) {
     throw new PasswordResetTokenExpired("reset id mismatch");
   }
 
   // Now that we've verified that the token is valid and it has not expired,
   // checked that the reset id matches the current one set on the user, we can
   // be confident that the passed reset token is valid.
-  return token;
+  return { token, user, profile };
 }
 
 export async function resetPassword(
@@ -172,7 +172,10 @@ export async function resetPassword(
   validatePassword(password);
 
   // Verify that the password reset token is valid and unpack it.
-  const { sub: userID, rid: resetID } = await verifyResetTokenString(
+  const {
+    token: { sub: userID, rid: resetID },
+    profile: { passwordID },
+  } = await verifyResetTokenString(
     mongo,
     tenant,
     signingConfig,
@@ -186,6 +189,7 @@ export async function resetPassword(
     tenant.id,
     userID,
     password,
+    passwordID,
     resetID
   );
 

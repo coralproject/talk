@@ -3,10 +3,13 @@ import { Db } from "mongodb";
 
 import { Config } from "coral-server/config";
 import {
+  DuplicateEmailError,
+  DuplicateUserError,
   EmailAlreadySetError,
   EmailNotSetError,
   LocalProfileAlreadySetError,
   LocalProfileNotSetError,
+  PasswordIncorrect,
   TokenNotFoundError,
   UserAlreadyBannedError,
   UserAlreadySuspendedError,
@@ -29,6 +32,7 @@ import {
   removeUserBan,
   removeUserIgnore,
   retrieveUser,
+  retrieveUserWithEmail,
   setUserEmail,
   setUserLastDownload,
   setUserLocalProfile,
@@ -40,6 +44,7 @@ import {
   updateUserRole,
   updateUserUsername,
   User,
+  verifyUserPassword,
 } from "coral-server/models/user";
 import {
   getLocalProfile,
@@ -73,6 +78,26 @@ export async function insert(
 
   if (input.email) {
     validateEmail(input.email);
+
+    // Try to lookup the user to see if this user already has an account if they
+    // do, we can short circuit the database index hit.
+    const alreadyFoundUser = await retrieveUserWithEmail(
+      mongo,
+      tenant.id,
+      input.email
+    );
+    if (alreadyFoundUser) {
+      throw new DuplicateEmailError(input.email);
+    }
+  }
+
+  if (input.id) {
+    // Try to check to see if there is a user with the same ID before we try to
+    // create the user again.
+    const alreadyFoundUser = await retrieveUser(mongo, tenant.id, input.id);
+    if (alreadyFoundUser) {
+      throw new DuplicateUserError();
+    }
   }
 
   const localProfile = getLocalProfile(input);
@@ -209,8 +234,12 @@ export async function updatePassword(
   mailer: MailerQueue,
   tenant: Tenant,
   user: User,
-  password: string
+  oldPassword: string,
+  newPassword: string
 ) {
+  // Validate that the new password is valid.
+  validatePassword(newPassword);
+
   // We require that the email address for the user be defined for this method.
   if (!user.email) {
     throw new EmailNotSetError();
@@ -218,17 +247,30 @@ export async function updatePassword(
 
   // We also don't allow this method to be used by users that don't have a local
   // profile already.
-  if (!hasLocalProfile(user, user.email)) {
+  const profile = getLocalProfile(user, user.email);
+  if (!profile) {
     throw new LocalProfileNotSetError();
   }
 
-  validatePassword(password);
+  // Verify that the old password is correct. We'll be using the profile's
+  // passwordID to ensure we prevent a race.
+  const passwordVerified = await verifyUserPassword(
+    user,
+    oldPassword,
+    user.email
+  );
+  if (!passwordVerified) {
+    // We throw a PasswordIncorrect error here instead of an
+    // InvalidCredentialsError because the current user is already signed in.
+    throw new PasswordIncorrect();
+  }
 
   const updatedUser = await updateUserPassword(
     mongo,
     tenant.id,
     user.id,
-    password
+    newPassword,
+    profile.passwordID
   );
 
   // If the user has an email address associated with their account, send them
@@ -278,16 +320,21 @@ export async function createToken(
   const result = await createUserToken(mongo, tenant.id, user.id, name, now);
 
   // Sign the token!
-  const signedToken = await signPATString(config, user, {
-    // Tokens are issued with the token ID as their JWT ID.
-    jwtid: result.token.id,
+  const signedToken = await signPATString(
+    config,
+    user,
+    {
+      // Tokens are issued with the token ID as their JWT ID.
+      jwtid: result.token.id,
 
-    // Tokens are issued with the tenant ID.
-    issuer: tenant.id,
+      // Tokens are issued with the tenant ID.
+      issuer: tenant.id,
 
-    // Tokens are not valid before the creation date.
-    notBefore: DateTime.fromJSDate(now).toSeconds(),
-  });
+      // Tokens are not valid before the creation date.
+      notBefore: 0,
+    },
+    now
+  );
 
   return { ...result, signedToken };
 }
@@ -403,6 +450,7 @@ export async function updateAvatar(
  * @param tenant Tenant where the User will be banned on
  * @param user the User that is banning the User
  * @param userID the ID of the User being banned
+ * @param message message to banned user
  * @param now the current time that the ban took effect
  */
 export async function ban(
@@ -411,6 +459,7 @@ export async function ban(
   tenant: Tenant,
   banner: User,
   userID: string,
+  message: string,
   now = new Date()
 ) {
   // Get the user being banned to check to see if the user already has an
@@ -427,7 +476,7 @@ export async function ban(
   }
 
   // Ban the user.
-  const user = await banUser(mongo, tenant.id, userID, banner.id, now);
+  const user = await banUser(mongo, tenant.id, userID, banner.id, message, now);
 
   // If the user has an email address associated with their account, send them
   // a ban notification email.
@@ -446,6 +495,7 @@ export async function ban(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });
@@ -462,6 +512,7 @@ export async function ban(
  * @param user the User that is suspending the User
  * @param userID the ID of the user being suspended
  * @param timeout the duration in seconds that the user will suspended for
+ * @param message message to suspended user
  * @param now the current time that the suspension will take effect
  */
 export async function suspend(
@@ -471,6 +522,7 @@ export async function suspend(
   user: User,
   userID: string,
   timeout: number,
+  message: string,
   now = new Date()
 ) {
   // Convert the timeout to the until time.
@@ -498,6 +550,7 @@ export async function suspend(
     userID,
     user.id,
     finishDateTime.toJSDate(),
+    message,
     now
   );
 
@@ -519,6 +572,7 @@ export async function suspend(
           organizationName: tenant.organization.name,
           organizationURL: tenant.organization.url,
           organizationContactEmail: tenant.organization.contactEmail,
+          customMessage: (message || "").replace(/\n/g, "<br />"),
         },
       },
     });

@@ -430,6 +430,13 @@ type SSOAuthIntegration {
   allowRegistration: Boolean!
 
   """
+  redirectURL is the URL that the user should be redirected to in order to start
+  an authentication flow with the given integration. This field is not stored,
+  and is instead computed from the Tenant.
+  """
+  redirectURL: String
+
+  """
   targetFilter will restrict where the authentication integration should be
   displayed. If the value of targetFilter is null, then the authentication
   integration should be displayed in all targets.
@@ -1294,6 +1301,11 @@ type BanStatusHistory {
   createdAt is the time that the given User was banned.
   """
   createdAt: Time!
+
+  """
+  message is sent to banned user via email.
+  """
+  message: String!
 }
 
 """
@@ -1368,6 +1380,11 @@ type SuspensionStatusHistory {
   then the suspension has not been cancelled/edited.
   """
   modifiedAt: Time
+
+  """
+  message is sent to suspended user via email.
+  """
+  message: String!
 }
 
 """
@@ -3978,9 +3995,15 @@ type SetPasswordPayload {
 
 input UpdatePasswordInput {
   """
-  password is the new password that should be associated with the User.
+  oldPassword is the old password that that should be compared against when
+  trying to change the password before the change.
   """
-  password: String!
+  oldPassword: String!
+
+  """
+  newPassword is the new password that should be associated with the User.
+  """
+  newPassword: String!
 
   """
   clientMutationId is required for Relay support.
@@ -4218,6 +4241,11 @@ input BanUserInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  message is sent to banned user via email.
+  """
+  message: String!
 }
 
 type BanUserPayload {
@@ -4252,6 +4280,11 @@ input SuspendUserInput {
   clientMutationId is required for Relay support.
   """
   clientMutationId: String!
+
+  """
+  message is sent to suspended user via email.
+  """
+  message: String!
 }
 
 type SuspendUserPayload {

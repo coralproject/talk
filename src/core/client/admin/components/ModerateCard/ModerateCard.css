@@ -15,13 +15,13 @@
 
   &:hover {
     background-color: var(--palette-grey-lightest);
-    border-radius: 2px;
+    border-radius: var(--round-corners);
     border-style: none;
   }
 
   &:active {
     background-color: var(--palette-grey-lighter);
-    border-radius: 2px;
+    border-radius: var(--round-corners);
     border-style: none;
   }
 }

@@ -15,12 +15,8 @@ const LiveUpdatesConfig: FunctionComponent<Props> = ({ disabled }) => (
     {({ input }) => (
       <ToggleConfig
         id={input.name}
-        name={input.name}
-        onChange={input.onChange}
-        onFocus={input.onFocus}
-        onBlur={input.onBlur}
-        checked={input.checked}
         disabled={disabled}
+        {...input}
         title={
           <Localized id="configure-liveUpdates-title">
             <span>Enable Live Updates for this Story</span>

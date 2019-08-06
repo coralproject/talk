@@ -38,20 +38,14 @@ const WordListTextArea: FunctionComponent<Props> = ({
         <textarea
           id={id}
           className={cn(className, styles.textArea)}
-          name={input.name}
-          onChange={input.onChange}
-          value={input.value}
           disabled={disabled}
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
+          {...input}
         />
-        {meta.touched && (meta.error || meta.submitError) && (
-          <ValidationMessage>
-            {meta.error || meta.submitError}
-          </ValidationMessage>
-        )}
+        <ValidationMessage meta={meta} />
       </>
     )}
   </Field>

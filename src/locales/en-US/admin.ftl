@@ -428,13 +428,60 @@ moderate-searchBar-seeAllResults = See all results
 
 ### Moderate User History Drawer
 
+moderate-user-drawer-email =
+  .title = Email address
+moderate-user-drawer-created-at =
+  .title = Account creation date
+moderate-user-drawer-member-id =
+  .title = Member ID
 moderate-user-drawer-tab-all-comments = All Comments
 moderate-user-drawer-tab-rejected-comments = Rejected
+moderate-user-drawer-tab-account-history = Account History
 moderate-user-drawer-load-more = Load More
 moderate-user-drawer-all-no-comments = {$username} has not submitted any comments.
 moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
 moderate-user-drawer-user-not-found = User not found.
 moderate-user-drawer-status-label = Status:
+
+moderate-user-drawer-account-history-system = <icon>computer</icon> System
+moderate-user-drawer-account-history-suspension-ended = Suspension ended
+moderate-user-drawer-account-history-suspension-removed = Suspension removed
+moderate-user-drawer-account-history-banned = Banned
+moderate-user-drawer-account-history-ban-removed = Ban removed
+moderate-user-drawer-account-history-no-history = No actions have been taken on this account
+
+moderate-user-drawer-suspension =
+  Suspension, { $value } { $unit ->
+    [second] { $value ->
+      [1] second
+      *[other] seconds
+    }
+    [minute] { $value ->
+      [1] minute
+      *[other] minutes
+    }
+    [hour] { $value ->
+      [1] hour
+      *[other] hours
+    }
+    [day] { $value ->
+      [1] day
+      *[other] days
+    }
+    [week] { $value ->
+      [1] week
+      *[other] weeks
+    }
+    [month] { $value ->
+      [1] month
+      *[other] months
+    }
+    [year] { $value ->
+      [1] year
+      *[other] years
+    }
+    *[other] unknown unit
+  }
 
 ## Create Username
 
@@ -530,6 +577,34 @@ community-banModal-consequence =
   reactions, or report comments.
 community-banModal-cancel = Cancel
 community-banModal-banUser = Ban User
+community-banModal-customize = Customize ban email message
+community-banModal-emailTemplate =
+  Hello { $username },
+
+  Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments
+
+community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
+community-suspendModal-consequence =
+  Once suspended, this user will no longer be able to comment, use
+  reactions, or report comments.
+community-suspendModal-duration-3600 = 1 hour
+community-suspendModal-duration-10800 = 3 hours
+community-suspendModal-duration-86400 = 24 hours
+community-suspendModal-duration-604800 = 7 days
+community-suspendModal-cancel = Cancel
+community-suspendModal-suspendUser = Suspend User
+community-suspendModal-emailTemplate =
+  Hello { $username },
+
+  In accordance with { $organizationName }'s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation in { framework-timeago-time }.
+
+community-suspendModal-customize = Customize suspension email message
+
+community-suspendModal-success =
+  <strong>{ $username }</strong> has been suspended for <strong>{ $duration }</strong>
+
+community-suspendModal-success-close = Close
+community-suspendModal-selectDuration = Select suspension length
 
 community-invite-inviteMember = Invite members to your organization
 community-invite-emailAddressLabel = Email address:

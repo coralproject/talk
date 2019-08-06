@@ -47,7 +47,7 @@ exports[`approves comment in rejected queue: dangling 1`] = `
             </span>
           </button>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >
@@ -269,7 +269,7 @@ exports[`renders rejected queue with comments 1`] = `
                   </span>
                 </button>
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -478,7 +478,7 @@ exports[`renders rejected queue with comments 1`] = `
                   </span>
                 </button>
                 <time
-                  className="Timestamp-root RelativeTime-root"
+                  className="RelativeTime-root Timestamp-root"
                   dateTime="2018-07-06T18:24:00.000Z"
                   title="2018-07-06T18:24:00.000Z"
                 >
@@ -693,7 +693,7 @@ exports[`renders rejected queue with comments and load more 1`] = `
             </span>
           </button>
           <time
-            className="Timestamp-root RelativeTime-root"
+            className="RelativeTime-root Timestamp-root"
             dateTime="2018-07-06T18:24:00.000Z"
             title="2018-07-06T18:24:00.000Z"
           >

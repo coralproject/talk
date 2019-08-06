@@ -3,11 +3,12 @@ import { identity } from "lodash";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import {
-  composeValidators,
+  composeValidatorsWhen,
+  Condition,
   required,
   validateURL,
-  Validator,
 } from "coral-framework/lib/validation";
 import {
   Button,
@@ -21,7 +22,7 @@ import {
 } from "coral-ui/components";
 
 import HorizontalRule from "../../HorizontalRule";
-import ValidationMessage from "../../ValidationMessage";
+import { FormProps } from "./AuthConfigContainer";
 import ClientIDField from "./ClientIDField";
 import ClientSecretField from "./ClientSecretField";
 import ConfigBoxWithToggleField from "./ConfigBoxWithToggleField";
@@ -41,21 +42,15 @@ const OIDCLink = () => (
   <TextLink target="_blank">{"https://openid.net/connect/"}</TextLink>
 );
 
+const isEnabled: Condition<any, FormProps> = (value, values) =>
+  Boolean(values.auth.integrations.oidc.enabled);
+
 const OIDCConfig: FunctionComponent<Props> = ({
   disabled,
   callbackURL,
   onDiscover,
   disableForDiscover,
 }) => {
-  const validateWhenEnabled = (validator: Validator): Validator => (
-    v,
-    values
-  ) => {
-    if (values.auth.integrations.oidc.enabled) {
-      return validator(v, values);
-    }
-    return "";
-  };
   return (
     <ConfigBoxWithToggleField
       data-testid={`configure-auth-oidc-container`}
@@ -90,37 +85,32 @@ const OIDCConfig: FunctionComponent<Props> = ({
             </Localized>
             <Field
               name={`auth.integrations.oidc.name`}
-              validate={validateWhenEnabled(required)}
+              validate={composeValidatorsWhen(isEnabled, required)}
               parse={identity}
             >
               {({ input, meta }) => (
                 <>
                   <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
                     disabled={disabledInside}
                     autoComplete="off"
                     autoCorrect="off"
                     autoCapitalize="off"
                     spellCheck={false}
+                    color={colorFromMeta(meta)}
+                    {...input}
                   />
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage meta={meta} />
                 </>
               )}
             </Field>
           </FormField>
           <ClientIDField
-            validate={validateWhenEnabled(required)}
+            validate={composeValidatorsWhen(isEnabled, required)}
             name={`auth.integrations.oidc.clientID`}
             disabled={disabledInside}
           />
           <ClientSecretField
-            validate={validateWhenEnabled(required)}
+            validate={composeValidatorsWhen(isEnabled, required)}
             name={`auth.integrations.oidc.clientSecret`}
             disabled={disabledInside}
           />
@@ -137,23 +127,20 @@ const OIDCConfig: FunctionComponent<Props> = ({
             </Localized>
             <Field
               name={`auth.integrations.oidc.issuer`}
-              validate={validateWhenEnabled(
-                composeValidators(required, validateURL)
-              )}
+              validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
               {({ input, meta }) => (
                 <>
                   <Flex direction="row" itemGutter="half" alignItems="center">
                     <TextField
-                      name={input.name}
-                      onChange={input.onChange}
-                      value={input.value}
                       disabled={disabledInside || disableForDiscover}
                       autoComplete="off"
                       autoCorrect="off"
                       autoCapitalize="off"
                       spellCheck={false}
+                      color={colorFromMeta(meta)}
+                      {...input}
                     />
                     <Button
                       id="configure-auth-oidc-discover"
@@ -166,11 +153,7 @@ const OIDCConfig: FunctionComponent<Props> = ({
                       Discover
                     </Button>
                   </Flex>
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage meta={meta} />
                 </>
               )}
             </Field>
@@ -181,28 +164,21 @@ const OIDCConfig: FunctionComponent<Props> = ({
             </Localized>
             <Field
               name={`auth.integrations.oidc.authorizationURL`}
-              validate={validateWhenEnabled(
-                composeValidators(required, validateURL)
-              )}
+              validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
               {({ input, meta }) => (
                 <>
                   <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
                     disabled={disabledInside || disableForDiscover}
                     autoComplete="off"
                     autoCorrect="off"
                     autoCapitalize="off"
                     spellCheck={false}
+                    color={colorFromMeta(meta)}
+                    {...input}
                   />
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage meta={meta} />
                 </>
               )}
             </Field>
@@ -213,28 +189,21 @@ const OIDCConfig: FunctionComponent<Props> = ({
             </Localized>
             <Field
               name={`auth.integrations.oidc.tokenURL`}
-              validate={validateWhenEnabled(
-                composeValidators(required, validateURL)
-              )}
+              validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
               {({ input, meta }) => (
                 <>
                   <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
                     disabled={disabledInside || disableForDiscover}
                     autoComplete="off"
                     autoCorrect="off"
                     autoCapitalize="off"
                     spellCheck={false}
+                    color={colorFromMeta(meta)}
+                    {...input}
                   />
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage meta={meta} />
                 </>
               )}
             </Field>
@@ -245,28 +214,21 @@ const OIDCConfig: FunctionComponent<Props> = ({
             </Localized>
             <Field
               name={`auth.integrations.oidc.jwksURI`}
-              validate={validateWhenEnabled(
-                composeValidators(required, validateURL)
-              )}
+              validate={composeValidatorsWhen(isEnabled, required, validateURL)}
               parse={identity}
             >
               {({ input, meta }) => (
                 <>
                   <TextField
-                    name={input.name}
-                    onChange={input.onChange}
-                    value={input.value}
                     disabled={disabledInside || disableForDiscover}
                     autoComplete="off"
                     autoCorrect="off"
                     autoCapitalize="off"
                     spellCheck={false}
+                    color={colorFromMeta(meta)}
+                    {...input}
                   />
-                  {meta.touched && (meta.error || meta.submitError) && (
-                    <ValidationMessage>
-                      {meta.error || meta.submitError}
-                    </ValidationMessage>
-                  )}
+                  <ValidationMessage meta={meta} />
                 </>
               )}
             </Field>

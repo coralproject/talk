@@ -2,13 +2,17 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Field } from "react-final-form";
 
-import { formatStringList, parseStringList } from "coral-framework/lib/form";
+import {
+  colorFromMeta,
+  formatStringList,
+  parseStringList,
+  ValidationMessage,
+} from "coral-framework/lib/form";
 import {
   FormField,
   HorizontalGutter,
   TextField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import Header from "../../Header";
@@ -45,21 +49,16 @@ const PermittedDomainsConfig: FunctionComponent<Props> = ({ disabled }) => (
           <>
             <TextField
               id={`configure-advanced-${input.name}`}
-              name={input.name}
-              onChange={input.onChange}
-              value={input.value}
               disabled={disabled}
+              color={colorFromMeta(meta)}
               autoComplete="off"
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck={false}
+              {...input}
               fullWidth
             />
-            {meta.touched && (meta.error || meta.submitError) && (
-              <ValidationMessage fullWidth>
-                {meta.error || meta.submitError}
-              </ValidationMessage>
-            )}
+            <ValidationMessage meta={meta} fullWidth />
           </>
         )}
       </Field>

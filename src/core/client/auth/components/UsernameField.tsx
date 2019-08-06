@@ -1,3 +1,8 @@
+import { Localized } from "fluent-react/compat";
+import React, { FunctionComponent } from "react";
+import { Field } from "react-final-form";
+
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import {
   composeValidators,
   required,
@@ -8,12 +13,7 @@ import {
   InputDescription,
   InputLabel,
   TextField,
-  ValidationMessage,
 } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
-import * as React from "react";
-import { FunctionComponent } from "react";
-import { Field } from "react-final-form";
 
 interface Props {
   disabled: boolean;
@@ -35,24 +35,14 @@ const CreateUsernameField: FunctionComponent<Props> = props => (
         <Localized id="general-usernameTextField" attrs={{ placeholder: true }}>
           <TextField
             id={input.name}
-            name={input.name}
-            onChange={input.onChange}
-            value={input.value}
             placeholder="Username"
-            color={
-              meta.touched && (meta.error || meta.submitError)
-                ? "error"
-                : "regular"
-            }
+            color={colorFromMeta(meta)}
             disabled={props.disabled}
             fullWidth
+            {...input}
           />
         </Localized>
-        {meta.touched && (meta.error || meta.submitError) && (
-          <ValidationMessage fullWidth>
-            {meta.error || meta.submitError}
-          </ValidationMessage>
-        )}
+        <ValidationMessage meta={meta} fullWidth />
       </FormField>
     )}
   </Field>

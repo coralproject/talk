@@ -48,6 +48,13 @@ export interface LocalProfile {
   password: string;
 
   /**
+   * passwordID is used to help protect against double password change race
+   * conditions. Because the password cannot be compared against directly, this
+   * ID can be used as it is only changed when the password is changed.
+   */
+  passwordID: string;
+
+  /**
    * resetID is used during a password reset process to prevent replay attacks.
    * When a password reset email is sent, a resetID is associated with the
    * account and the token. When a given reset token is used, it is cleared from
@@ -135,6 +142,11 @@ export interface SuspensionStatusHistory {
    * was edited at.
    */
   modifiedAt?: Date;
+
+  /**
+   * message is the email message content sent to the user.
+   */
+  message: string;
 }
 
 /**
@@ -173,6 +185,8 @@ export interface BanStatusHistory {
    * createdAt is the time that the given ban was added.
    */
   createdAt: Date;
+
+  message?: string;
 }
 
 /**
@@ -308,8 +322,10 @@ export async function createUserIndexes(mongo: Db) {
   // UNIQUE { profiles.type, profiles.id }
   await createIndex(
     { tenantID: 1, "profiles.type": 1, "profiles.id": 1 },
-    // TODO: (wyattjoh) change the `partialFilterExpression` to `{ "profiles.id": { $exists: true } }`
-    { unique: true, partialFilterExpression: { profiles: { $exists: true } } }
+    {
+      unique: true,
+      partialFilterExpression: { "profiles.id": { $exists: true } },
+    }
   );
 
   // { profiles }
@@ -378,21 +394,18 @@ export type InsertUserInput = Omit<
   | "ignoredUsers"
   | "emailVerificationID"
   | "createdAt"
->;
+> &
+  Partial<Pick<User, "id">>;
 
 export async function insertUser(
   mongo: Db,
   tenantID: string,
-  input: InsertUserInput,
+  { id = uuid.v4(), ...input }: InsertUserInput,
   now = new Date()
 ) {
-  // Create a new ID for the user.
-  const id = uuid.v4();
-
   // default are the properties set by the application when a new user is
   // created.
   const defaults: Sub<User, InsertUserInput> = {
-    id,
     tenantID,
     tokens: [],
     ignoredUsers: [],
@@ -429,6 +442,7 @@ export async function insertUser(
   const user: Readonly<User> = {
     ...defaults,
     ...input,
+    id,
     profiles,
   };
 
@@ -536,9 +550,10 @@ export async function updateUserRole(
 
 export async function verifyUserPassword(
   user: Pick<User, "profiles">,
-  password: string
+  password: string,
+  withEmail?: string
 ) {
-  const profile = getLocalProfile(user);
+  const profile = getLocalProfile(user, withEmail);
   if (!profile) {
     throw new LocalProfileNotSetError();
   }
@@ -550,7 +565,8 @@ export async function updateUserPassword(
   mongo: Db,
   tenantID: string,
   id: string,
-  password: string
+  password: string,
+  passwordID: string
 ) {
   // Hash the password.
   const hashedPassword = await hashPassword(password);
@@ -562,10 +578,17 @@ export async function updateUserPassword(
       id,
       // This ensures that the document we're updating already has a local
       // profile associated with them.
-      "profiles.type": "local",
+      profiles: {
+        $elemMatch: {
+          type: "local",
+          passwordID,
+        },
+      },
     },
     {
       $set: {
+        // Update the passwordID with a new one.
+        "profiles.$[profiles].passwordID": uuid(),
         "profiles.$[profiles].password": hashedPassword,
       },
     },
@@ -582,8 +605,13 @@ export async function updateUserPassword(
       throw new UserNotFoundError(id);
     }
 
-    if (!hasLocalProfile(user)) {
+    const profile = getLocalProfile(user);
+    if (!profile) {
       throw new LocalProfileNotSetError();
+    }
+
+    if (profile.passwordID !== passwordID) {
+      throw new Error("passwordID mismatch");
     }
 
     throw new Error("an unexpected error occurred");
@@ -942,6 +970,7 @@ export async function setUserLocalProfile(
     type: "local",
     id: email,
     password: hashedPassword,
+    passwordID: uuid(),
   };
 
   // The profile wasn't found, so add it to the User.
@@ -1112,6 +1141,7 @@ async function retrieveConnection(
  * @param tenantID the Tenant's ID where the User exists
  * @param id the ID of the user being banned
  * @param createdBy the ID of the user banning the above mentioned user
+ * @param message message to banned user
  * @param now the current date
  */
 export async function banUser(
@@ -1119,6 +1149,7 @@ export async function banUser(
   tenantID: string,
   id: string,
   createdBy: string,
+  message?: string,
   now = new Date()
 ) {
   // Create the new ban.
@@ -1127,6 +1158,7 @@ export async function banUser(
     active: true,
     createdBy,
     createdAt: now,
+    message,
   };
 
   // Try to update the user if the user isn't already banned.
@@ -1251,6 +1283,7 @@ export async function removeUserBan(
  * @param id the ID of the user being suspended
  * @param createdBy the ID of the user banning the above mentioned user
  * @param from the range of time that the user is being banned for
+ * @param message the message sent to suspended user in email
  * @param now the current date
  */
 export async function suspendUser(
@@ -1259,6 +1292,7 @@ export async function suspendUser(
   id: string,
   createdBy: string,
   finish: Date,
+  message: string,
   now = new Date()
 ) {
   // Create the new suspension.
@@ -1270,6 +1304,7 @@ export async function suspendUser(
     },
     createdBy,
     createdAt: now,
+    message,
   };
 
   // Try to update the user if the user isn't already suspended.
@@ -1559,6 +1594,7 @@ export async function resetUserPassword(
   tenantID: string,
   id: string,
   password: string,
+  passwordID: string,
   resetID: string
 ) {
   // Hash the password.
@@ -1574,12 +1610,15 @@ export async function resetUserPassword(
       profiles: {
         $elemMatch: {
           type: "local",
+          passwordID,
           resetID,
         },
       },
     },
     {
       $set: {
+        // Update the passwordID with a new one.
+        "profiles.$[profiles].passwordID": uuid(),
         "profiles.$[profiles].password": hashedPassword,
       },
       $unset: {
@@ -1606,6 +1645,10 @@ export async function resetUserPassword(
 
     if (profile.resetID !== resetID) {
       throw new PasswordResetTokenExpired("reset id mismatch");
+    }
+
+    if (profile.passwordID !== passwordID) {
+      throw new PasswordResetTokenExpired("password id mismatch");
     }
 
     throw new Error("an unexpected error occurred");

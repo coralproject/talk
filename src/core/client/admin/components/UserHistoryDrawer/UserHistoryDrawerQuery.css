@@ -99,17 +99,23 @@ hr {
 }
 
 .userStatusLabel {
-  margin-right: var(--spacing-1);
-  margin-bottom: 2px;
+  display: inline-block;
 
-  line-height: calc(36em / 24);
+  margin-right: var(--spacing-1);
+
+  font-family: var(--font-family-sans-serif);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 14px;
 }
 
 .userStatusChange {
+  display: inline-block;
   border-style: solid;
   border-color: var(--palette-grey-lighter);
   border-width: 1px;
-  border-radius: 2px;
-
-  padding-left: var(--spacing-1);
+  border-radius: var(--round-corners);
+  padding-left: var(--spacing-2);
+  padding-right: var(--spacing-1);
 }

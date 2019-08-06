@@ -4,6 +4,7 @@ import React, { useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
 import { InvalidRequestError } from "coral-framework/lib/errors";
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import { useMutation } from "coral-framework/lib/relay";
 import {
   composeValidators,
@@ -19,7 +20,6 @@ import {
   InputLabel,
   PasswordField,
   Typography,
-  ValidationMessage,
 } from "coral-ui/components";
 
 import ResetPasswordMutation from "./ResetPasswordMutation";
@@ -99,32 +99,23 @@ const ResetPasswordForm: React.FunctionComponent<Props> = ({
                       >
                         <PasswordField
                           id={input.name}
-                          name={input.name}
-                          onChange={input.onChange}
-                          value={input.value}
                           placeholder="Password"
-                          color={
-                            meta.touched && (meta.error || meta.submitError)
-                              ? "error"
-                              : "regular"
-                          }
-                          disabled={disabled}
+                          color={colorFromMeta(meta)}
+                          autoComplete="new-password"
+                          disabled={disabled || meta.submitting}
                           fullWidth
+                          {...input}
                         />
                       </Localized>
-                      {submitError && (
-                        <CallOut color="error" fullWidth>
-                          {submitError}
-                        </CallOut>
-                      )}
-                      {meta.touched && (meta.error || meta.submitError) && (
-                        <ValidationMessage fullWidth>
-                          {meta.error || meta.submitError}
-                        </ValidationMessage>
-                      )}
+                      <ValidationMessage meta={meta} fullWidth />
                     </FormField>
                   )}
                 </Field>
+                {submitError && (
+                  <CallOut color="error" fullWidth>
+                    {submitError}
+                  </CallOut>
+                )}
                 <Localized id="resetPassword-resetPassword">
                   <Button
                     type="submit"

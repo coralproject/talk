@@ -3,6 +3,7 @@ import { IncomingMessage } from "http";
 import { Redis } from "ioredis";
 import Joi from "joi";
 import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
+import { DateTime } from "luxon";
 import { Bearer, BearerOptions } from "permit";
 import uuid from "uuid/v4";
 
@@ -155,6 +156,10 @@ export interface JWTSigningConfig {
   algorithm: JWTSigningAlgorithm;
 }
 
+export function dateToSeconds(date: Date): number {
+  return Math.round(DateTime.fromJSDate(date).toSeconds());
+}
+
 export function createAsymmetricSigningConfig(
   algorithm: AsymmetricSigningAlgorithm,
   secret: string
@@ -214,23 +219,31 @@ export const signTokenString = async (
   { algorithm, secret }: JWTSigningConfig,
   user: Pick<User, "id">,
   tenant: Pick<Tenant, "id">,
-  options: SigningTokenOptions = {}
+  options: SigningTokenOptions = {},
+  now = new Date()
 ) =>
-  jwt.sign({}, secret, {
-    jwtid: uuid(),
-    expiresIn: "1 day",
-    ...options,
-    issuer: tenant.id,
-    subject: user.id,
-    algorithm,
-  });
+  jwt.sign(
+    {
+      iat: dateToSeconds(now),
+    },
+    secret,
+    {
+      jwtid: uuid(),
+      expiresIn: "1 day",
+      ...options,
+      issuer: tenant.id,
+      subject: user.id,
+      algorithm,
+    }
+  );
 
 export const signPATString = async (
   { algorithm, secret }: JWTSigningConfig,
   user: User,
-  options: SigningTokenOptions
+  options: SigningTokenOptions,
+  now = new Date()
 ) =>
-  jwt.sign({ pat: true }, secret, {
+  jwt.sign({ pat: true, iat: dateToSeconds(now) }, secret, {
     ...options,
     subject: user.id,
     algorithm,
@@ -352,8 +365,8 @@ export async function revokeJWT(
 ) {
   await redis.setex(
     generateJTIRevokedKey(jti),
-    Math.ceil(validFor),
-    now.valueOf()
+    Math.round(validFor),
+    Math.round(DateTime.fromJSDate(now).toSeconds())
   );
 }
 

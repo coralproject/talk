@@ -1,10 +1,13 @@
-import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
-import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { graphql, QueryRenderer } from "coral-framework/lib/relay";
+
+import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
+import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import {
   Button,
   CallOut,
@@ -14,9 +17,7 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
-
-import UserHistoryTabs from "./UserHistoryTabs";
+import Tabs from "./Tabs";
 
 import styles from "./UserHistoryDrawerQuery.css";
 
@@ -31,6 +32,13 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
   userID,
   onClose,
 }) => {
+  const { locales } = useCoralContext();
+  const formatter = new Intl.DateTimeFormat(locales, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
     <QueryRenderer<QueryTypes>
       query={graphql`
@@ -41,6 +49,12 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             email
             createdAt
             ...UserStatusChangeContainer_user
+          }
+          settings {
+            organization {
+              name
+            }
+            ...UserStatusChangeContainer_settings
           }
         }
       `}
@@ -67,7 +81,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
           );
         }
 
-        const user = props.user;
+        const { user, settings } = props;
 
         return (
           <>
@@ -89,15 +103,20 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                   </Typography>
                 </div>
                 <div className={styles.userStatusChange}>
-                  <UserStatusChangeContainer user={user} fullWidth={false} />
+                  <UserStatusChangeContainer settings={settings} user={user} />
                 </div>
               </Flex>
             </div>
             <div className={styles.userDetails}>
               <Flex alignItems="center" className={styles.userDetail}>
-                <Icon size="sm" className={styles.icon}>
-                  mail_outline
-                </Icon>
+                <Localized
+                  id="moderate-user-drawer-email"
+                  attrs={{ title: true }}
+                >
+                  <Icon size="sm" className={styles.icon} title="Email address">
+                    mail_outline
+                  </Icon>
+                </Localized>
                 <Typography
                   variant="bodyCopy"
                   container="span"
@@ -112,21 +131,31 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                 />
               </Flex>
               <Flex alignItems="center" className={styles.userDetail}>
-                <Icon size="sm" className={styles.icon}>
-                  date_range
-                </Icon>
+                <Localized
+                  id="moderate-user-drawer-created-at"
+                  attrs={{ title: true }}
+                >
+                  <Icon
+                    size="sm"
+                    className={styles.icon}
+                    title="Account creation date"
+                  >
+                    date_range
+                  </Icon>
+                </Localized>
                 <Typography variant="bodyCopy" container="span">
-                  {new Date(user.createdAt).toLocaleDateString("en-us", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+                  {formatter.format(new Date(user.createdAt))}
                 </Typography>
               </Flex>
               <Flex alignItems="center" className={styles.userDetail}>
-                <Icon size="sm" className={styles.icon}>
-                  people_outline
-                </Icon>
+                <Localized
+                  id="moderate-user-drawer-member-id"
+                  attrs={{ title: true }}
+                >
+                  <Icon size="sm" className={styles.icon} title="Member ID">
+                    people_outline
+                  </Icon>
+                </Localized>
                 <Typography
                   variant="bodyCopy"
                   container="span"
@@ -143,7 +172,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             </div>
             <hr className={styles.divider} />
             <div className={styles.comments}>
-              <UserHistoryTabs userID={user.id} />
+              <Tabs userID={user.id} />
             </div>
           </>
         );

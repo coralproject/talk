@@ -40,11 +40,17 @@ export const settings = createFixture<GQLSettings>({
     message: "Story is closed",
     timeout: undefined,
   },
+  organization: {
+    name: "Acme Co",
+    contactEmail: "acme@acme.co",
+    url: "https://acme.co",
+  },
   auth: {
     integrations: {
       facebook: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/facebook",
         targetFilter: {
           stream: true,
         },
@@ -52,6 +58,7 @@ export const settings = createFixture<GQLSettings>({
       google: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/google",
         targetFilter: {
           stream: true,
         },
@@ -59,6 +66,7 @@ export const settings = createFixture<GQLSettings>({
       oidc: {
         enabled: false,
         allowRegistration: true,
+        redirectURL: "http://localhost/oidc",
         targetFilter: {
           stream: true,
         },
@@ -90,10 +98,26 @@ export const settings = createFixture<GQLSettings>({
   },
 });
 
+export const settingsWithoutLocalAuth = createFixture<GQLSettings>(
+  {
+    auth: {
+      integrations: {
+        local: {
+          enabled: false,
+        },
+      },
+    },
+  },
+  settings
+);
+
 export const baseUser = createFixture<GQLUser>({
   createdAt: "2018-02-06T18:24:00.000Z",
   status: {
     current: [GQLUSER_STATUS.ACTIVE],
+    suspension: {
+      active: false,
+    },
   },
   ignoredUsers: [],
   comments: {

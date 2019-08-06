@@ -86,7 +86,7 @@ export async function generateInviteURL(
     jti: uuid.v4(),
     iss: tenant.id,
     sub: id,
-    exp: Math.floor(user.expiresAt.valueOf() / 1000),
+    exp: Math.round(DateTime.fromJSDate(user.expiresAt).toSeconds()),
     iat: nowSeconds,
     nbf: nowSeconds,
     aud: "invite",
@@ -306,6 +306,7 @@ export async function redeem(
     id: email,
     type: "local",
     password,
+    passwordID: uuid.v4(),
   };
 
   // Create the new user based on the invite.

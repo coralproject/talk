@@ -16,3 +16,22 @@
   color: var(--palette-text-primary);
   font-style: italic;
 }
+
+.flagger {
+  margin-right: var(--mini-unit);
+  padding: var(--spacing-1);
+  margin-left: calc(-1 * var(--spacing-1));
+  line-height: calc(16rem / var(--rem-base));
+
+  &:hover {
+    background-color: var(--palette-grey-lightest);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+
+  &:active {
+    background-color: var(--palette-grey-lighter);
+    border-radius: var(--round-corners);
+    border-style: none;
+  }
+}

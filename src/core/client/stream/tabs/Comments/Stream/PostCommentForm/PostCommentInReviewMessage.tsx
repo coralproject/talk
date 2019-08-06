@@ -20,11 +20,17 @@ const PostCommentInReview: FunctionComponent<
             Your comment has been submitted and will be reviewed by a moderator
           </div>
         </Localized>
-        <Localized id="comments-submitStatus-dismiss">
-          <Button onClick={props.onDismiss} variant="underlined" color="light">
-            Dismiss
-          </Button>
-        </Localized>
+        <div className={styles.buttonWrapper}>
+          <Localized id="comments-submitStatus-dismiss">
+            <Button
+              onClick={props.onDismiss}
+              variant="underlined"
+              color="light"
+            >
+              Dismiss
+            </Button>
+          </Localized>
+        </div>
       </Flex>
     </Message>
   );
