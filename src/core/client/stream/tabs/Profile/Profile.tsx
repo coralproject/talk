@@ -40,7 +40,6 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   return (
     <HorizontalGutter spacing={5}>
       <ChangeUsernameContainer viewer={props.viewer} />
-      <UserBoxContainer viewer={props.viewer} settings={props.settings} />
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}
