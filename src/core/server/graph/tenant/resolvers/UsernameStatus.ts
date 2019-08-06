@@ -9,5 +9,5 @@ export const UsernameStatus: Required<
   GQLUsernameStatusTypeResolver<UsernameStatusInput>
 > = {
   history: ({ history, userID }) =>
-    history.map(status => ({ ...status, userID })),
+    (history || []).map(status => ({ ...status, userID })),
 };

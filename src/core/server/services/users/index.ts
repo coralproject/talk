@@ -386,9 +386,11 @@ export async function updateOwnUsername(
   const dateDiff = lastUsernameEditAllowed.getDate() - 14;
   lastUsernameEditAllowed.setDate(dateDiff);
 
-  const recentUpdate = user.status.username.history.find(history => {
-    return history.createdAt > lastUsernameEditAllowed;
-  });
+  const recentUpdate = user.status.username
+    ? user.status.username.history.find(history => {
+        return history.createdAt > lastUsernameEditAllowed;
+      })
+    : null;
 
   if (recentUpdate) {
     throw new UsernameUpdatedWithinWindowError(recentUpdate.createdAt);

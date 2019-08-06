@@ -54,3 +54,4 @@ error-rateLimitExceeded = Rate limit exceeded.
 error-inviteTokenExpired = Invite link has expired.
 error-inviteRequiresEmailAddresses = Please add an email address to send invitations.
 error-passwordIncorrect = Password provided was incorrect.
+error-usernameAlreadyUpdated = You may only change your username once every 14 days.
