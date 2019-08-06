@@ -8,6 +8,7 @@ import { parseHashQuery } from "coral-framework/utils";
 
 import DownloadDescription from "./DownloadDescription";
 import DownloadForm from "./DownloadForm";
+import Loading from "./Loading";
 import Sorry from "./Sorry";
 
 const fetcher = createFetch(
@@ -27,7 +28,7 @@ const DownloadRoute: FunctionComponent<Props> = ({ token }) => {
   const [state, error] = useToken(fetcher, token);
 
   if (state === "UNCHECKED") {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   if (state !== "VALID" || error) {
     return (
