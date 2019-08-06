@@ -9,7 +9,7 @@
   text-transform: uppercase;
   font-size: calc(12rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   line-height: calc(12em / 12);
   letter-spacing: calc(0.2em / 12);
   color: var(--palette-text-primary);

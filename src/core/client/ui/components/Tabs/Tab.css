@@ -45,7 +45,7 @@
 }
 
 .secondary {
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   color: var(--palette-grey-dark);
   padding: calc(0.5 * var(--mini-unit)) calc(var(--mini-unit) * 2)
     calc(0.5 * var(--mini-unit) + 3px) calc(var(--mini-unit) * 2);

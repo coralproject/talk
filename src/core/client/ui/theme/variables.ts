@@ -82,12 +82,41 @@ const variables = {
   roundCorners: "2px",
   /* Typography */
   remBase: 16,
-  fontFamilySansSerif: '"Source Sans Pro"',
+  fontFamilySans: '"Source Sans Pro"',
   fontFamilySerif: '"Manuale"',
+  /** Deprecated */
   fontWeightLight: 300,
   fontWeightRegular: 400,
   fontWeightMedium: 600,
   fontWeightBold: 700,
+  /***************/
+  fontSize: {
+    1: "12px",
+    2: "14px",
+    3: "16px",
+    4: "18px",
+    5: "20px",
+    6: "24px",
+    7: "28px",
+    8: "32px",
+  },
+  fontWeight: {
+    sans: {
+      regular: 400,
+      medium: 600,
+      bold: 700,
+    },
+    serif: {
+      regular: 400,
+      medium: 600,
+      bold: 600,
+    },
+  },
+  lineHeight: {
+    1: "1.1em",
+    2: "1.2em",
+    3: "1.45em",
+  },
   /* Breakpoints */
   breakpoints: {
     xs: 320,

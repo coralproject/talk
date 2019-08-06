@@ -77,7 +77,7 @@
 
 .callout {
   width: 100%;
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   align-content: center;
   text-align: center;
 }
@@ -103,7 +103,7 @@ hr {
 
   margin-right: var(--spacing-1);
 
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   font-style: normal;
   font-weight: 600;
   font-size: 16px;

@@ -68,7 +68,7 @@
 .decision {
   font-size: calc(14rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   line-height: calc(16em / 14);
   letter-spacing: calc(0.2em / 14);
   color: var(--palette-text-primary);
@@ -97,7 +97,7 @@
 .link {
   font-size: calc(12rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   line-height: calc(18em / 12);
   letter-spacing: calc(0.2em / 12);
   text-transform: uppercase;
@@ -106,7 +106,7 @@
 .story {
   font-size: calc(12rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   line-height: calc(18em / 12);
   letter-spacing: calc(0.2em / 12);
   text-transform: uppercase;
@@ -116,7 +116,7 @@
 .storyTitle {
   font-size: calc(12rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   line-height: calc(18em / 12);
   letter-spacing: calc(0.2em / 12);
   color: var(--palette-text-primary);
@@ -125,7 +125,7 @@
 .moderatedBy {
   font-size: calc(12rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   line-height: 1;
   letter-spacing: 0;
   color: var(--palette-text-primary);
@@ -135,7 +135,7 @@
 .moderatedByUsername {
   font-size: calc(14rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   line-height: 1;
   letter-spacing: 0;
   color: var(--palette-text-primary);

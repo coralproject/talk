@@ -12,7 +12,7 @@
   background: var(--palette-primary-dark);
   min-height: calc(3 * var(--mini-unit));
 
-  font-family: var(--font-family-sans-serif);
+  font-family: var(--font-family-sans);
   font-weight: var(--font-weight-medium);
   font-size: calc(13rem / var(--rem-base));
   line-height: calc(16em / 13);
