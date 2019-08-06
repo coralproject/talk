@@ -82,7 +82,7 @@ const variables = {
   roundCorners: "2px",
   /* Typography */
   remBase: 16,
-  fontFamilySans: '"Source Sans Pro"',
+  fontFamilySansSerif: '"Source Sans Pro"',
   fontFamilySerif: '"Manuale"',
   /** Deprecated */
   fontWeightLight: 300,

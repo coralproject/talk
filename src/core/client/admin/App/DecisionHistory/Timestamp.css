@@ -1,6 +1,6 @@
 .root {
   color: var(--palette-text-secondary);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(12rem / var(--rem-base));
   line-height: calc(14em / 12);

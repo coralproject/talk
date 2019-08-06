@@ -145,7 +145,7 @@
 
 .button {
   color: var(--palette-text-secondary);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(18em / 14);
@@ -154,7 +154,7 @@
 
 .buttonLarge {
   color: var(--palette-text-secondary);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(16rem / var(--rem-base));
   line-height: calc(20em / 16);
@@ -163,7 +163,7 @@
 
 .timestamp {
   color: var(--palette-text-secondary);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(18em / 14);
@@ -172,7 +172,7 @@
 
 .alertMessage {
   color: var(--palette-common-black);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(16rem / var(--rem-base));
   line-height: calc(18em / 16);
@@ -181,7 +181,7 @@
 
 .inputText {
   font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-size: calc(16rem / var(--rem-base));
   line-height: 1;
   letter-spacing: calc(0.2em / 16);
@@ -200,14 +200,14 @@
 .detail {
   font-size: calc(14rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   line-height: calc(18em / 16);
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-secondary);
 }
 
 .placeholder {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-regular);
   font-size: calc(16rem / var(--rem-base));
   line-height: calc(20em / 16);
@@ -216,7 +216,7 @@
 }
 
 .placeholderPseudo::placeholder {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-regular);
   font-size: calc(16rem / var(--rem-base));
   line-height: calc(20em / 16);
@@ -227,14 +227,14 @@
 .menuItem {
   font-size: calc(16rem / var(--rem-base));
   font-weight: var(--font-weight-regular);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   line-height: calc(19em / 16);
   letter-spacing: calc(0.2em / 16);
   color: var(--palette-text-primary);
 }
 
 .navItem {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(16rem / var(--rem-base));
   letter-spacing: calc(-0.1em / 16);
@@ -242,7 +242,7 @@
 }
 
 .navItemActive {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-bold);
   font-size: calc(16rem / var(--rem-base));
   letter-spacing: calc(-0.35em / 16);
@@ -250,7 +250,7 @@
 }
 
 .adminTabItem {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(14rem / var(--rem-base));
   letter-spacing: calc(-0.1em / 14);
@@ -258,7 +258,7 @@
 }
 
 .adminTabItemActive {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-bold);
   font-size: calc(14rem / var(--rem-base));
   letter-spacing: calc(-0.35em / 14);
@@ -266,21 +266,21 @@
 }
 
 .markerText {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(13rem / var(--rem-base));
   letter-spacing: calc(-0.35em / 13);
 }
 
 .tagText {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-regular);
   font-size: calc(14rem / var(--rem-base));
   letter-spacing: calc(-0.2em / 14);
 }
 
 .sideNavigationItem {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-regular);
   font-size: calc(18rem / var(--rem-base));
   line-height: calc(18em / 18);
@@ -298,7 +298,7 @@
 }
 
 .tableHeading {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(20em / 14);
@@ -306,7 +306,7 @@
 }
 
 .tableData {
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-regular);
   font-size: calc(14rem / var(--rem-base));
   line-height: calc(14em / 14);

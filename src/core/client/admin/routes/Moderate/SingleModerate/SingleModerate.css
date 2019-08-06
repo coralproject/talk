@@ -26,7 +26,7 @@
 
   font-size: calc(12rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   line-height: calc(14em / 12);
   letter-spacing: calc(0.2em / 12);
 
@@ -38,7 +38,7 @@
 .subBarTitle {
   font-size: calc(14rem / var(--rem-base));
   font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   line-height: calc(16em / 14);
   letter-spacing: calc(0.2em / 14);
 

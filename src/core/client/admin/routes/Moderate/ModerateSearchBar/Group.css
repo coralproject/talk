@@ -11,7 +11,7 @@
   padding-left: calc(1.5 * var(--mini-unit));
   background: var(--palette-text-primary);
 
-  font-family: var(--font-family-sans);
+  font-family: var(--font-family-sans-serif);
   font-weight: var(--font-weight-medium);
   font-size: calc(13rem / var(--rem-base));
   line-height: calc(16em / 14);
