@@ -17,8 +17,7 @@ async function main() {
     localesData,
     userLocales: navigator.languages,
     pym: new PymChild({
-      // fallback polling in case our ResizeObserver misses something
-      polling: 200,
+      polling: 100,
     }),
   });
 
