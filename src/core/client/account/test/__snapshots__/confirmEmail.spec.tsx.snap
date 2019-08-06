@@ -10,46 +10,52 @@ exports[`renders form 1`] = `
   <div
     className="MainLayout-centered"
   >
-    <div>
-      <form
-        autoComplete="off"
-        onSubmit={[Function]}
+    <div
+      className="ConfirmRoute-container"
+    >
+      <div
+        className="ConfirmRoute-root"
       >
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-double"
+        <form
+          autoComplete="off"
+          onSubmit={[Function]}
         >
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root HorizontalGutter-root HorizontalGutter-double"
           >
-            <h1
-              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
-              Email Confirmation
-            </h1>
-            <p
-              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              <h1
+                className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
+              >
+                Email Confirmation
+              </h1>
+              <p
+                className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+              >
+                Click below to confirm your email address.
+              </p>
+            </div>
+            <div
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
-              Click below to confirm your email address.
-            </p>
+              <button
+                className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
+                disabled={false}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
+              >
+                Confirm email
+              </button>
+            </div>
           </div>
-          <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-full"
-          >
-            <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorPrimary Button-variantFilled Button-fullWidth"
-              disabled={false}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              Confirm email
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -66,22 +72,30 @@ exports[`renders missing confirm token 1`] = `
     className="MainLayout-centered"
   >
     <div
-      className="Box-root HorizontalGutter-root HorizontalGutter-double"
+      className="ConfirmRoute-container"
     >
-      <h1
-        className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
-      >
-        Oops Sorry!
-      </h1>
       <div
-        className="CallOut-root CallOut-colorError CallOut-fullWidth"
+        className="ConfirmRoute-root"
       >
-        <div>
-          <span
-            data-testid="invalid-link"
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-double"
+        >
+          <h1
+            className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary"
           >
-            The specified link is invalid, check to see if it was copied correctly.
-          </span>
+            Oops Sorry!
+          </h1>
+          <div
+            className="CallOut-root CallOut-colorError CallOut-fullWidth"
+          >
+            <div>
+              <span
+                data-testid="invalid-link"
+              >
+                The specified link is invalid, check to see if it was copied correctly.
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
