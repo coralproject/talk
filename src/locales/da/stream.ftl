@@ -176,69 +176,69 @@ profile-settings-changePassword-updated =
 ## Report Comment Popover
 comments-reportPopover =
   .description = En dialog til rapportering af kommentarer
-comments-reportPopover-reportThisComment = Report This Comment
-comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
+comments-reportPopover-reportThisComment = Rapporter denne kommentar
+comments-reportPopover-whyAreYouReporting = Hvorfor rapporterer du denne kommentar?
 
 comments-reportPopover-reasonOffensive = This comment is offensive
-comments-reportPopover-reasonIDisagree = I disagree with this comment
-comments-reportPopover-reasonSpam = This looks like an ad or marketing
-comments-reportPopover-reasonOther = Other
+comments-reportPopover-reasonIDisagree = Denne kommentar er stødende
+comments-reportPopover-reasonSpam = Dette ligner en annonce eller markedsføring
+comments-reportPopover-reasonOther = Andet
 
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Please leave any additional information that may be helpful to our moderators. (Optional)
+  Efterlad venligst yderligere oplysninger, som kan være nyttige for vores moderatorer. (Valgfri)
 
-comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
-comments-reportPopover-cancel = Cancel
-comments-reportPopover-submit = Submit
+comments-reportPopover-maxCharacters = Maks. { $maxCharacters } tegn
+comments-reportPopover-cancel = Afbestille
+comments-reportPopover-submit = Indsend
 
-comments-reportPopover-thankYou = Thank you!
+comments-reportPopover-thankYou = Tak skal du have
 comments-reportPopover-receivedMessage =
-  We’ve received your message. Reports from members like you keep the community safe.
+  Vi har modtaget din besked. Rapporter fra medlemmer som dig holder samfundet sikkert.
 
-comments-reportPopover-dismiss = Dismiss
+comments-reportPopover-dismiss = Afskedige
 
 ## Submit Status
-comments-submitStatus-dismiss = Dismiss
+comments-submitStatus-dismiss = Afskedige
 comments-submitStatus-submittedAndWillBeReviewed =
-  Your comment has been submitted and will be reviewed by a moderator
+  Din kommentar er blevet sendt og vil blive gennemgået af en moderator
 
 # Configure
-configure-configureQuery-errorLoadingProfile = Error loading configure
-configure-configureQuery-storyNotFound = Story not found
+configure-configureQuery-errorLoadingProfile = Fejl ved indlæsning af konfiguration
+configure-configureQuery-storyNotFound = Historien blev ikke fundet
 
 ## Comment Stream
-configure-stream-title = Configure this Comment Stream
-configure-stream-apply = Apply
+configure-stream-title = Konfigurer denne kommentarstrøm
+configure-stream-apply = Ansøge
 
-configure-premod-title = Enable Pre-Moderation
+configure-premod-title = Aktivér før-moderering
 configure-premod-description =
-  Moderators must approve any comment before it is published to this stream.
+  Moderatorer skal godkende enhver kommentar, før den offentliggøres.
 
-configure-premodLink-title = Pre-Moderate Comments Containing Links
+configure-premodLink-title = Førmoderate kommentarer der indeholder links
 configure-premodLink-description =
-  Moderators must approve any comment that contains a link before it is published to this stream.
+  Moderatorer skal godkende enhver kommentar, der indeholder et link, inden den offentliggøres.
 
-configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-title = Aktivér liveopdateringer til denne historie
 configure-liveUpdates-description =
-  When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
+  Når det er aktiveret, vil der blive realtid indlæst og opdateret af kommentarer, når nye kommentarer og svar offentliggøres.
 
-configure-messageBox-title = Enable Message Box for this Stream
+configure-messageBox-title = Aktivér meddelelsesboks til denne stream
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers. Use this to pose a topic,
-  ask a question or make announcements relating to this story.
-configure-messageBox-preview = Preview
-configure-messageBox-selectAnIcon = Select an Icon
-configure-messageBox-noIcon = No Icon
-configure-messageBox-writeAMessage = Write a Message
+  Tilføj en besked øverst i kommentarfeltet for dine læsere. Brug dette til at stille et emne, 
+  stille et spørgsmål eller offentliggøre meddelelser vedrørende denne historie. 
+configure-messageBox-preview = Forhåndsvisning
+configure-messageBox-selectAnIcon = Vælg et ikon
+configure-messageBox-noIcon = Intet ikon
+configure-messageBox-writeAMessage = Skriv en besked
 
-configure-closeStream-title = Close Comment Stream
+configure-closeStream-title = Luk kommentarer
 configure-closeStream-description =
-  This comment stream is currently open. By closing this comment stream,
-  no new comments may be submitted and all previously submitted comments
-  will still be displayed.
-configure-closeStream-closeStream = Close Stream
+  Kommentarerne er i øjeblikket åbne. 
+  Ved at lukke kommentarerne kan der ikke indsendes nye kommentarer, 
+  og alle tidligere indsendte kommentarer vises stadig.
+configure-closeStream-closeStream = Luk kommentarer
 
-configure-openStream-title = Open Stream
+configure-openStream-title = Åbn kommentarer
 configure-openStream-description =
   This comment stream is currently closed. By opening this comment
   stream new comments may be submitted and displayed.
