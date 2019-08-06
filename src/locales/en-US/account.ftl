@@ -51,3 +51,4 @@ download-landingPage-contentsStoryUrl =
   The URL on the article or story where the comment appears
 download-landingPage-downloadComments =
   Download My Comment History
+download-landingPage-sorry = Your download link is invalid.
