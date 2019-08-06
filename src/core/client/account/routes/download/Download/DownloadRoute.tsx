@@ -6,7 +6,9 @@ import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
 
+import DownloadDescription from "./DownloadDescription";
 import DownloadForm from "./DownloadForm";
+import Sorry from "./Sorry";
 
 const fetcher = createFetch(
   "downloadToken",
@@ -29,13 +31,19 @@ const DownloadRoute: FunctionComponent<Props> = ({ token }) => {
   }
   if (state !== "VALID" || error) {
     return (
-      <div>
-        <div>Sorry!</div>
-      </div>
+      <>
+        <DownloadDescription />
+        <Sorry />
+      </>
     );
   }
 
-  return <DownloadForm token={token!} />;
+  return (
+    <>
+      <DownloadDescription />
+      <DownloadForm token={token!} />
+    </>
+  );
 };
 
 const enhanced = withRouteConfig<Props>({
