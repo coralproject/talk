@@ -59,21 +59,18 @@ export class ReplyCommentFormContainer extends Component<Props, State> {
     submitStatus: null,
   };
   private contextKey = `replyCommentFormBody-${this.props.comment.id}`;
-  private unmounted = false;
+  private rteRef: CoralRTE | null = null;
 
   constructor(props: Props) {
     super(props);
     this.init();
   }
 
-  public componentWillUnmount() {
-    this.unmounted = true;
-  }
-
   private handleRTERef = (rte: CoralRTE | null) => {
-    if (rte && this.props.autofocus) {
+    this.rteRef = rte;
+    if (this.rteRef && this.props.autofocus) {
       // Delay focus a bit until iframe had a change to resize.
-      setTimeout(() => !this.unmounted && rte && rte.focus(), 100);
+      setTimeout(() => this.rteRef && this.rteRef.focus(), 100);
     }
   };
 
