@@ -4,8 +4,24 @@
 {% block title %}Coral{% endblock %}
 
 {% block meta %}
-  <script type="application/javascript" id="config">
-    {{ staticURI | dump | safe }}
+  {# Insert the link preload tags here. #}
+  {% if entrypoint.css %}
+    {% for asset in entrypoint.css %}
+      {{ macros.preload(asset.src, "style", prefix = staticURI) }}
+    {% endfor %}
+  {% endif %}
+  {% if enableCustomCSS and tenant and tenant.customCSSURL %}
+    {{ macros.preload(tenant.customCSSURL, "style", crossorigin = true) }}
+  {% endif %}
+  {% if entrypoint.js %}
+    {% for asset in entrypoint.js %}
+      {{ macros.preload(asset.src, "script", prefix = staticURI) }}
+    {% endfor %}
+  {% endif %}
+
+  {# Insert the staticURI via the configuration object during insertion. #}
+  <script type="application/json" id="config">
+    {{ config | dump | safe }}
   </script>
 {% endblock %}
 
@@ -18,9 +34,11 @@
       {% endfor %}
     {% endif %}
 
+    {# Custom CSS is included after the CSS block so that its overrides will apply #}
     {% if enableCustomCSS %}
-      {# Custom CSS is included after the CSS block so that its overrides will apply #}
-      {% include "partials/customCSS.html" %}
+      {% if tenant and tenant.customCSSURL %}
+        {{ macros.css(tenant.customCSSURL) }}
+      {% endif %}
     {% endif %}
   {% endblock %}
 {% endif %}
