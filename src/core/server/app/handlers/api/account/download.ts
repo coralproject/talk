@@ -6,6 +6,7 @@ import { Db } from "mongodb";
 import { AppOptions } from "coral-server/app";
 import { RequestLimiter } from "coral-server/app/request/limiter";
 import { retrieveManyStories } from "coral-server/models/story";
+import { Tenant } from "coral-server/models/tenant";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import { verifyDownloadTokenString } from "coral-server/services/users/download/download";
 import { RequestHandler } from "coral-server/types/express";
@@ -32,12 +33,8 @@ export type DownloadOptions = Pick<
   "mongo" | "redis" | "signingConfig" | "config"
 >;
 
-async function sendCSV(
-  mongo: Db,
-  tenantID: string,
-  authorID: string,
-  res: any
-) {
+async function sendCSV(mongo: Db, tenant: Tenant, authorID: string, res: any) {
+  const tenantID = tenant.id;
   const comments = mongo.collection<Readonly<Comment>>("comments");
 
   const getStories = new DataLoader((ids: string[]) =>
@@ -63,9 +60,9 @@ async function sendCSV(
 
   csv.write([
     "Comment ID",
-    "Revision ID",
     "Published Timestamp",
     "Article URL",
+    "Comment URL",
     "Comment Text",
   ]);
 
@@ -81,9 +78,35 @@ async function sendCSV(
         continue;
       }
 
-      for (const rev of comment.revisions) {
-        csv.write([comment.id, rev.id, rev.createdAt, story.url, rev.body]);
-      }
+      const orderedRevisions = comment.revisions.sort(
+        (a: Revision, b: Revision) => {
+          const bDate = new Date(b.createdAt);
+          const aDate = new Date(a.createdAt);
+          return bDate.getTime() - aDate.getTime();
+        }
+      );
+
+      const latestRevision = orderedRevisions[0];
+
+      const options = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      };
+      const formattedDate = Intl.DateTimeFormat(
+        [tenant.locale, "en-US"],
+        options
+      ).format(new Date(comment.createdAt));
+
+      const commentID = comment.id;
+      const storyUrl = story.url;
+      const commentUrl = `${storyUrl}?commentID=${commentID}`;
+      const body = latestRevision.body;
+
+      csv.write([commentID, formattedDate, storyUrl, commentUrl, body]);
     }
 
     commentBatch = [];
@@ -107,7 +130,7 @@ async function sendCSV(
   }
 
   csv.end();
-  archive.finalize();
+  await archive.finalize();
 }
 
 export const downloadHandler = ({
@@ -152,7 +175,7 @@ export const downloadHandler = ({
     await userIDLimiter.test(req, userID);
 
     try {
-      const { iss: tenantID, sub: authorID } = await verifyDownloadTokenString(
+      const { sub: authorID } = await verifyDownloadTokenString(
         mongo,
         tenant,
         signingConfig,
@@ -160,7 +183,7 @@ export const downloadHandler = ({
         now
       );
 
-      await sendCSV(mongo, tenantID, authorID, res);
+      await sendCSV(mongo, tenant, authorID, res);
 
       return res;
     } catch (err) {
