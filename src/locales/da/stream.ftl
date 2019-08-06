@@ -175,7 +175,7 @@ profile-settings-changePassword-updated =
 
 ## Report Comment Popover
 comments-reportPopover =
-  .description = A dialog for reporting comments
+  .description = En dialog til rapportering af kommentarer
 comments-reportPopover-reportThisComment = Report This Comment
 comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
 
