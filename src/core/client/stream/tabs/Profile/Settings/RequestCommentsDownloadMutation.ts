@@ -1,5 +1,5 @@
 import { graphql } from "react-relay";
-import { Environment } from "relay-runtime";
+import { Environment, RecordSourceSelectorProxy } from "relay-runtime";
 
 import { getViewer } from "coral-framework/helpers";
 import {
@@ -14,8 +14,18 @@ let clientMutationId = 0;
 
 const RequestCommentsDownloadMutation = createMutation(
   "requestCommentsDownload",
-  (environment: Environment, input: MutationInput<MutationTypes>) =>
-    commitMutationPromiseNormalized<MutationTypes>(environment, {
+  (environment: Environment, input: MutationInput<MutationTypes>) => {
+    const updater = (store: RecordSourceSelectorProxy) => {
+      const viewer = getViewer(environment)!;
+      const user = store.get(viewer.id);
+      const now = new Date();
+
+      if (user !== null) {
+        user.setValue(now.toISOString(), "lastDownload");
+      }
+    };
+
+    return commitMutationPromiseNormalized<MutationTypes>(environment, {
       mutation: graphql`
         mutation RequestCommentsDownloadMutation(
           $input: RequestCommentsDownloadInput!
@@ -31,16 +41,10 @@ const RequestCommentsDownloadMutation = createMutation(
           clientMutationId: (clientMutationId++).toString(),
         },
       },
-      updater: store => {
-        const viewer = getViewer(environment)!;
-        const user = store.get(viewer.id);
-        const now = new Date();
-
-        if (user !== null) {
-          user.setValue(now.toISOString(), "lastDownload");
-        }
-      },
-    })
+      optimisticUpdater: updater,
+      updater,
+    });
+  }
 );
 
 export default RequestCommentsDownloadMutation;
