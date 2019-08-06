@@ -4,7 +4,10 @@ import {
   Disposable,
   Variables,
 } from "react-relay-network-modern/es";
-import { SubscriptionClient } from "subscriptions-transport-ws";
+import {
+  OperationOptions,
+  SubscriptionClient,
+} from "subscriptions-transport-ws";
 
 import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
@@ -112,18 +115,26 @@ export default function createManagedSubscriptionClient(
       if (!operation.text && !operation.id) {
         throw Error("Neither subscription query nor id was provided.");
       }
-      const subscription = subscriptionClient
-        .request({
-          operationName: operation.name,
-          // Use id as query when not available e.g. when using persisted queries.
-          query: (operation.text || operation.id)!,
-          variables,
-        })
-        .subscribe({
-          next({ data }) {
-            observer.onNext({ data });
-          },
-        });
+
+      const opts: OperationOptions = {
+        operationName: operation.name,
+        // subscriptions-transport-ws requires `query` to be set to an non-empty string.
+        // With persisted queries we only have the id, so set this to " " to get around
+        // validation.
+        query: operation.text || " ",
+        variables,
+      };
+
+      // Query is not available which means we can use the id from persisted queries.
+      if (!operation.text) {
+        opts.id = operation.id;
+      }
+
+      const subscription = subscriptionClient.request(opts).subscribe({
+        next({ data }) {
+          observer.onNext({ data });
+        },
+      });
       request.unsubscribe = () => {
         subscription.unsubscribe();
       };
