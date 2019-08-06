@@ -2,65 +2,66 @@
 
 ## General
 
-general-userBoxUnauthenticated-joinTheConversation = Join the conversation
-general-userBoxUnauthenticated-signIn = Sign in
-general-userBoxUnauthenticated-register = Register
+general-userBoxUnauthenticated-joinTheConversation = Unirse a la conversación
+general-userBoxUnauthenticated-signIn = Iniciar sesión
+general-userBoxUnauthenticated-register = Registrar
 
 general-userBoxAuthenticated-signedInAs =
-  Signed in as <Username></Username>.
+  Registrado como <Username></Username>.
 
 general-userBoxAuthenticated-notYou =
-  Not you? <button>Sign Out</button>
+  ¿No tú? <button>Desconectar</button>
 
-general-tabBar-commentsTab = Comments
-general-tabBar-myProfileTab = My Profile
-general-tabBar-configure = Configure
+general-tabBar-commentsTab = Comentarios
+general-tabBar-myProfileTab = Mi perfil
+general-tabBar-configure = Configurar
 
 ## Comments Tab
 
-comments-allCommentsTab = All Comments
-comments-featuredTab = Featured
-comments-featuredCommentTooltip-how = How is a comment featured?
+comments-allCommentsTab = Todos los comentarios
+comments-featuredTab = Comentarios resaltados
+comments-featuredCommentTooltip-how = ¿Cómo se resalta un comentario?
 comments-featuredCommentTooltip-handSelectedComments =
-  Comments are hand selected by our team as worth reading.
+  Los comentarios son seleccionados a mano por nuestro equipo como recomiendas por leer.
 comments-featuredCommentTooltip-toggleButton =
-  .aria-label = Toggle featured comments tooltip
+  .aria-label = Alternar el consejo sobre comentarios resaltados
 
 
-comments-streamQuery-storyNotFound = Story not found
+comments-streamQuery-storyNotFound = Historia no encontrada
 
-comments-postCommentForm-submit = Submit
-comments-replyList-showAll = Show All
-comments-replyList-showMoreReplies = Show More Replies
+comments-postCommentForm-submit = Enviar
+comments-replyList-showAll = Mostrar todo
+comments-replyList-showMoreReplies = Mostrar más respuestas
+>>>>>>> c979dfd7d52721a9f1a3a5365c61192a3edd3eab
 
 
 comments-viewNew =
   { $count ->
-    [1] View {$count} New Comment
-    *[other] View {$count} New Comments
+    [1] Ver {$count} nuevo comentario
+    *[other] Ver {$count} nuevos comentarios
   }
-comments-loadMore = Load More
+comments-loadMore = Cargar más
 
 comments-permalinkPopover =
-  .description = A dialog showing a permalink to the comment
-comments-permalinkButton-share = Share
-comments-permalinkView-viewFullDiscussion = View Full Discussion
-comments-permalinkView-commentRemovedOrDoesNotExist = This comment has been removed or does not exist.
+  .description = Un diálogo que muestra un enlace permanente al comentario
+comments-permalinkButton-share = Compartir
+comments-permalinkView-viewFullDiscussion = Ver discusión completa
+comments-permalinkView-commentRemovedOrDoesNotExist = Este comentario ha sido eliminado o no existe.
 
 comments-rte-bold =
-  .title = Bold
+  .title = Texto en negrita
 
 comments-rte-italic =
-  .title = Italic
+  .title = Texto en cursiva
 
 comments-rte-blockquote =
-  .title = Blockquote
+  .title = Texto citado
 
-comments-remainingCharacters = { $remaining } characters remaining
+comments-remainingCharacters = { $remaining } caracteres restantes
 
-comments-postCommentFormFake-signInAndJoin = Sign in and Join the Conversation
+comments-postCommentFormFake-signInAndJoin = Registrarse y unirse a la conversación
 
-comments-postCommentForm-rteLabel = Post a comment
+comments-postCommentForm-rteLabel = Publicar un comentario
 
 comments-postCommentForm-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
@@ -68,171 +69,174 @@ comments-postCommentForm-rte =
 comments-postCommentFormFake-rte =
   .placeholder = { comments-postCommentForm-rteLabel }
 
-comments-replyButton-reply = Reply
+comments-replyButton-reply = Responder
 
 comments-permalinkViewQuery-storyNotFound = { comments-streamQuery-storyNotFound }
 
-comments-replyCommentForm-submit = Submit
-comments-replyCommentForm-cancel = Cancel
-comments-replyCommentForm-rteLabel = Write a reply
+comments-replyCommentForm-submit = Envira
+comments-replyCommentForm-cancel = Cancelar
+comments-replyCommentForm-rteLabel = Escribir una repuesta
 comments-replyCommentForm-rte =
   .placeholder = { comments-replyCommentForm-rteLabel }
 
-comments-commentContainer-editButton = Edit
+comments-commentContainer-editButton = Editar
 
-comments-editCommentForm-saveChanges = Save Changes
-comments-editCommentForm-cancel = Cancel
-comments-editCommentForm-close = Close
-comments-editCommentForm-rteLabel = Edit comment
+comments-editCommentForm-saveChanges = Guardar cambios
+comments-editCommentForm-cancel = Cancelar
+comments-editCommentForm-close = Cerrar
+comments-editCommentForm-rteLabel = Editar commentario
 comments-editCommentForm-rte =
   .placeholder = { comments-editCommentForm-rteLabel }
-comments-editCommentForm-editRemainingTime = Edit: <time></time> remaining
-comments-editCommentForm-editTimeExpired = Edit time has expired. You can no longer edit this comment. Why not post another one?
-comments-editedMarker-edited = Edited
-comments-showConversationLink-readMore = Read More of this Conversation >
+comments-editCommentForm-editRemainingTime = Edición: <time></time> se queda(n)
+comments-editCommentForm-editTimeExpired = El tiempo de edición ha expirado. Ya no puedes editar este comentario. ¿Por qué no publicar otro?
+comments-editedMarker-edited = Editado
+comments-showConversationLink-readMore = Leer más de esta conversación
 comments-conversationThread-showMoreOfThisConversation =
-  Show More of This Conversation
+  Mostrar más de esta conversación
 
-comments-permalinkView-currentViewing = You are currently viewing a
-comments-permalinkView-singleConversation = SINGLE CONVERSATION
-comments-inReplyTo = In reply to <Username></Username>
-comments-replyTo = Replying to: <Username></Username>
+comments-permalinkView-currentViewing = Actualmente estás viendo
+comments-permalinkView-singleConversation = UNA SOLA CONVERSACIÓN
+comments-inReplyTo = En respuesta a: <Username></Username>
+comments-replyTo = En respuesta a: <Username></Username>
 
-comments-reportButton-report = Report
-comments-reportButton-reported = Reported
+comments-reportButton-report = Reportar
+comments-reportButton-reported = Reportado
 
-comments-sortMenu-sortBy = Sort By
-comments-sortMenu-newest = Newest
-comments-sortMenu-oldest = Oldest
-comments-sortMenu-mostReplies = Most Replies
+comments-sortMenu-sortBy = Ordenar por
+comments-sortMenu-newest = Nuevos
+comments-sortMenu-oldest = Más antiguos
+comments-sortMenu-mostReplies = Más respondidos
 
 comments-userPopover =
-  .description = A popover with more user information
-comments-userPopover-memberSince = Member since: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
-comments-userPopover-ignore = Ignore
+  .description = Más información del usuario
+comments-userPopover-memberSince = Miembro desde: { DATETIME($timestamp, year: "numeric", month: "long", day: "numeric") }
+comments-userPopover-ignore = Ignorar
 
-comments-userIgnorePopover-ignoreUser = Ignore {$username}?
+comments-userIgnorePopover-ignoreUser = ¿Ignorar a {$username}?
 comments-userIgnorePopover-description =
-  When you ignore a commenter, all comments they
-  wrote on the site will be hidden from you. You can
-  undo this later from My Profile.
-comments-userIgnorePopover-ignore = Ignore
-comments-userIgnorePopover-cancel = Cancel
+  Cuando ignora a un comentarista, se le ocultarán
+  todos los comentarios que escribieron en el sitio. 
+  Puede deshacer esto más tarde desde Mi perfil.
+comments-userIgnorePopover-ignore = Ignorar
+comments-userIgnorePopover-cancel = Cancelar
 
 comments-moderationDropdown-popover =
-  .description = A popover menu to moderate the comment
-comments-moderationDropdown-feature = Feature
-comments-moderationDropdown-unfeature = Un-Feature
-comments-moderationDropdown-approve = Approve
-comments-moderationDropdown-approved = Approved
-comments-moderationDropdown-reject = Reject
-comments-moderationDropdown-rejected = Rejected
-comments-moderationDropdown-goToModerate = Go to Moderate
+  .description = Un menú para moderar un comentario
+comments-moderationDropdown-feature = Resaltar
+comments-moderationDropdown-unfeature = Desmarcar
+comments-moderationDropdown-approve = Aprobar
+comments-moderationDropdown-approved = Aprobado
+comments-moderationDropdown-reject = Rechazar
+comments-moderationDropdown-rejected = Rechazado
+comments-moderationDropdown-goToModerate = Ir a moderación
 comments-moderationDropdown-caretButton =
-  .aria-label = Moderate
+  .aria-label = Moderar
 
 comments-rejectedTombstone =
-  You have rejected this comment. <TextLink>Go to Moderate to review this decision.</TextLink>
+  Has rechazado este comentario.<TextLink>Vaya a moderación para revisar esta decisión.</TextLink>
 
-comments-featuredTag = Featured
-comments-staffTag = Staff
+comments-featuredTag = Resaltado
+comments-staffTag = Miembro del equipo
 
 ### Featured Comments
-comments-featured-gotoConversation = Go to Conversation
-comments-featured-replies = Replies
+comments-featured-gotoConversation = Ir a conversación
+comments-featured-replies = Respuestas
 
 ## Profile Tab
 
-profile-myCommentsTab = My Comments
-profile-settingsTab = Settings
+profile-myCommentsTab = Mis comentarios
+profile-settingsTab = Ajustes
 
 ### Comment History
-profile-historyComment-viewConversation = View Conversation
-profile-historyComment-replies = Replies {$replyCount}
-profile-historyComment-commentHistory = Comment History
-profile-historyComment-story = Story: {$title}
-profile-profileQuery-errorLoadingProfile = Error loading profile
-profile-profileQuery-storyNotFound = Story not found
-profile-commentHistory-loadMore = Load More
+profile-historyComment-viewConversation = Ver conversación
+profile-historyComment-replies = Respuestas {$replyCount}
+profile-historyComment-commentHistory = Historial de comentarios
+profile-historyComment-story = Historia: {$title}
+profile-profileQuery-errorLoadingProfile = Error al cargar el perfil
+profile-profileQuery-storyNotFound = Historia no encontrada
+profile-commentHistory-loadMore = Carga más
 
 ### Settings
-profile-settings-ignoredCommenters = Ignored Commenters
+profile-settings-ignoredCommenters = Comentaristas ignorados
 profile-settings-description =
-  Once you ignore someone, all of their comments are hidden from you.
-  Commenters you ignore will still be able to see your comments.
-profile-settings-empty = You are not currently ignoring anyone
-profile-settings-stopIgnoring = Stop ignoring
+  Una vez que ignoras a alguien, todos sus comentarios están ocultos para ti.
+  Los comentaristas que ignores podrán ver tus comentarios.
+profile-settings-empty = Actualmente no estás ignorando a nadie
+profile-settings-stopIgnoring = Deja de ignorar
+>>>>>>> c979dfd7d52721a9f1a3a5365c61192a3edd3eab
 
 
 ## Report Comment Popover
 comments-reportPopover =
-  .description = A dialog for reporting comments
-comments-reportPopover-reportThisComment = Report This Comment
-comments-reportPopover-whyAreYouReporting = Why are you reporting this comment?
+  .description = Un diálogo para reportar comentarios
+comments-reportPopover-reportThisComment = Reportar este comentario
+comments-reportPopover-whyAreYouReporting = ¿Por qué estás reportando este comentario?
 
-comments-reportPopover-reasonOffensive = This comment is offensive
-comments-reportPopover-reasonIDisagree = I disagree with this comment
-comments-reportPopover-reasonSpam = This looks like an ad or marketing
-comments-reportPopover-reasonOther = Other
+comments-reportPopover-reasonOffensive = Este comentario es ofensivo
+comments-reportPopover-reasonIDisagree = No estoy de acuerdo con este comentario
+comments-reportPopover-reasonSpam = Esto parece un anuncio o marketing
+comments-reportPopover-reasonOther = Otro
 
 comments-reportPopover-pleaseLeaveAdditionalInformation =
-  Please leave any additional information that may be helpful to our moderators. (Optional)
+  Por favor, deje cualquier información adicional que pueda ser útil para nuestros moderadores. (Opcional)
 
-comments-reportPopover-maxCharacters = Max. { $maxCharacters } Characters
-comments-reportPopover-cancel = Cancel
-comments-reportPopover-submit = Submit
+comments-reportPopover-maxCharacters = Máx. { $maxCharacters } caracteres
+comments-reportPopover-cancel = Cancelar
+comments-reportPopover-submit = Enviar
 
-comments-reportPopover-thankYou = Thank you!
+comments-reportPopover-thankYou = ¡Gracias!
 comments-reportPopover-receivedMessage =
-  We’ve received your message. Reports from members like you keep the community safe.
+  Hemos recibido tu mensaje. Los informes de miembros como Usted mantienen segura a la comunidad.
 
-comments-reportPopover-dismiss = Dismiss
+comments-reportPopover-dismiss = Descartar
 
 ## Submit Status
-comments-submitStatus-dismiss = Dismiss
+comments-submitStatus-dismiss = Descartar
 comments-submitStatus-submittedAndWillBeReviewed =
-  Your comment has been submitted and will be reviewed by a moderator
+  Su comentario ha sido enviado y será revisado por un moderador
 
 # Configure
-configure-configureQuery-errorLoadingProfile = Error loading configure
-configure-configureQuery-storyNotFound = Story not found
+configure-configureQuery-errorLoadingProfile = Error al cargar la configuración
+configure-configureQuery-storyNotFound = Historia no encontrada
 
 ## Comment Stream
-configure-stream-title = Configure this Comment Stream
-configure-stream-apply = Apply
+configure-stream-title = Configurar comentarios
+configure-stream-apply = Guardar
 
-configure-premod-title = Enable Pre-Moderation
+configure-premod-title = Habilitar pre-moderación
 configure-premod-description =
-  Moderators must approve any comment before it is published to this stream.
+  Los moderadores deben aprobar cualquier comentario antes de que se publique.
 
-configure-premodLink-title = Pre-Moderate Comments Containing Links
+configure-premodLink-title = Comentarios pre-moderados que contienen enlaces
 configure-premodLink-description =
-  Moderators must approve any comment that contains a link before it is published to this stream.
+  Los moderadores deben aprobar cualquier comentario que contenga un enlace antes de que se publique en esta secuencia.
 
-configure-liveUpdates-title = Enable Live Updates for this Story
+configure-liveUpdates-title = Habilitar actualizaciones en vivo para esta historia
 configure-liveUpdates-description =
-  When enabled, there will be real-time loading and updating of comments as new comments and replies are published.
+  Cuando se habilita, se cargarán y actualizarán los comentarios en tiempo real a medida que se publiquen nuevos comentarios y respuestas.
 
-configure-messageBox-title = Enable Message Box for this Stream
+configure-messageBox-title = Habilitar campo de mensaje para esta secuencia
 configure-messageBox-description =
-  Add a message to the top of the comment box for your readers. Use this to pose a topic,
-  ask a question or make announcements relating to this story.
-configure-messageBox-preview = Preview
-configure-messageBox-selectAnIcon = Select an Icon
-configure-messageBox-noIcon = No Icon
-configure-messageBox-writeAMessage = Write a Message
+  Agregue un mensaje en la parte superior del campo de comentarios para sus lectores. 
+  Use esto para plantear un tema, hacer una pregunta o hacer anuncios relacionados
+  con esta historia.
+configure-messageBox-preview = Avance
+configure-messageBox-selectAnIcon = Selecciona un icono
+configure-messageBox-noIcon = Ningún icono
+configure-messageBox-writeAMessage = Escribe un mensaje
 
-configure-closeStream-title = Close Comment Stream
+configure-closeStream-title = Cerrar los comentarios
 configure-closeStream-description =
-  This comment stream is currently open. By closing this comment stream,
-  no new comments may be submitted and all previously submitted comments
-  will still be displayed.
-configure-closeStream-closeStream = Close Stream
+  Los comentarios están actualmente abiertos. Al cerrar los comentarios, 
+  no se pueden enviar nuevos comentarios y todos los comentarios enviados
+  anteriormente se seguirán mostrando.
+configure-closeStream-closeStream = Cerrar los comentarios
 
-configure-openStream-title = Open Stream
+configure-openStream-title = Abrir los comentarios
 configure-openStream-description =
-  This comment stream is currently closed. By opening this comment
-  stream new comments may be submitted and displayed.
-configure-openStream-openStream = Open Stream
+  Los comentarios están actualmente cerrados. 
+  Al abrir los comentarios, se pueden enviar y mostrar nuevos comentarios.
+configure-openStream-openStream = Abrir los comentarios
 
-comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-ignore = Este comentario está oculto porque ignoraste a {$username}
+>>>>>>> c979dfd7d52721a9f1a3a5365c61192a3edd3eab
