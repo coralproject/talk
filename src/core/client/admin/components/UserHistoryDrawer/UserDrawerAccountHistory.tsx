@@ -18,6 +18,9 @@ import {
 
 import BanAction, { BanActionProps } from "./BanAction";
 import SuspensionAction, { SuspensionActionProps } from "./SuspensionAction";
+import UsernameChangeAction, {
+  UsernameChangeActionProps,
+} from "./UsernameChangeAction";
 
 import styles from "./UserDrawerAccountHistory.css";
 
@@ -28,6 +31,13 @@ interface Props {
 interface From {
   start: any;
   finish: any;
+}
+
+interface UsernameHistoryRecord {
+  kind: "username";
+  action: UsernameChangeActionProps;
+  date: Date;
+  takenBy: React.ReactNode;
 }
 
 interface SuspensionHistoryRecord {
@@ -44,7 +54,10 @@ interface BanHistoryRecord {
   takenBy: React.ReactNode;
 }
 
-type HistoryRecord = SuspensionHistoryRecord | BanHistoryRecord;
+type HistoryRecord =
+  | SuspensionHistoryRecord
+  | BanHistoryRecord
+  | UsernameHistoryRecord;
 
 const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
   const system = (
@@ -117,6 +130,19 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
       });
     });
 
+    user.status.username.history.forEach((record, i) => {
+      history.push({
+        kind: "username",
+        action: {
+          username: record.username,
+          prevUsername:
+            i >= 1 ? user.status.username.history[i - 1].username : null,
+        },
+        date: new Date(record.createdAt),
+        takenBy: record.createdBy ? record.createdBy.username : system,
+      });
+    });
+
     // Sort the history so that it's in the right order.
     return history.sort((a, b) => b.date.getTime() - a.date.getTime());
   }, [user]);
@@ -153,10 +179,12 @@ const UserDrawerAccountHistory: FunctionComponent<Props> = ({ user }) => {
                 {formatter.format(history.date)}
               </TableCell>
               <TableCell className={styles.action}>
-                {history.kind === "suspension" ? (
+                {history.kind === "suspension" && (
                   <SuspensionAction {...history.action} />
-                ) : (
-                  <BanAction {...history.action} />
+                )}
+                {history.kind === "ban" && <BanAction {...history.action} />}
+                {history.kind === "username" && (
+                  <UsernameChangeAction {...history.action} />
                 )}
               </TableCell>
               <TableCell className={styles.user}>{history.takenBy}</TableCell>
@@ -172,6 +200,15 @@ const enhanced = withFragmentContainer<any>({
   user: graphql`
     fragment UserDrawerAccountHistory_user on User {
       status {
+        username {
+          history {
+            username
+            createdAt
+            createdBy {
+              username
+            }
+          }
+        }
         ban {
           history {
             active
