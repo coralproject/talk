@@ -192,103 +192,107 @@ configure-auth-confirmNoAuthForCommentStream =
   Der er ikke aktiveret nogen godkendelsesintegration for kommentarstrømmen. 
   Vil du virkelig fortsætte?
 
-configure-auth-facebook-loginWith = Login with Facebook
+configure-auth-facebook-loginWith = Log ind med Facebook
 configure-auth-facebook-toEnableIntegration =
   For at aktivere integrationen med Facebook-godkendelse skal 
   du oprette og konfigurere en webapplikation. 
   For mere information besøg: <Link></Link>.
-configure-auth-facebook-useLoginOn = Brug Facebook-login på
+configure-auth-facebook-useLoginOn = Brug Facebook til at logge på
 
-configure-auth-google-loginWith = Login with Google
+configure-auth-google-loginWith = Log ind med Google
 configure-auth-google-toEnableIntegration =
-  To enable the integration with Google Authentication you need
-  to create and set up a web application. For more information visit:
-  <Link></Link>.
-configure-auth-google-useLoginOn = Use Google login on
+  For at aktivere integrationen med Google-godkendelse skal
+  du oprette og konfigurere en webapplikation.
+  For mere information besøg: <Link></Link>.
+configure-auth-google-useLoginOn = Brug Google til at logge på
 
-configure-auth-sso-loginWith = Login with Single Sign On
-configure-auth-sso-useLoginOn = Use Single Sign On login on
-configure-auth-sso-key = Key
-configure-auth-sso-regenerate = Regenerate
-configure-auth-sso-regenerateAt = KEY GENERATED AT:
+configure-auth-sso-loginWith = Log ind med Single Sign On
+configure-auth-sso-useLoginOn = Brug Single Sign On til at logge på
+configure-auth-sso-key = Nøgle
+configure-auth-sso-regenerate = Regenerer
+configure-auth-sso-regenerateAt = Nøgle genereret på:
   { DATETIME($date, year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric") }
 configure-auth-sso-regenerateWarning =
-  Regenerating a key will invalidate any existing user sessions,
-  and all signed-in users will be signed out.
+  Regenerering af en nøgle annullerer alle eksisterende brugersessioner, og alle tilmeldte brugere vil blive logget ud.
 
-configure-auth-local-loginWith = Login with Email Authentication
-configure-auth-local-useLoginOn = Use Email Authentication login on
+configure-auth-local-loginWith = Log ind med e-mail-godkendelse
+configure-auth-local-useLoginOn = Brug e-mail-godkendelse til at logge på
 
-configure-auth-oidc-loginWith = Login with OpenID Connect
-configure-auth-oidc-toLearnMore = To learn more: <Link></Link>
-configure-auth-oidc-providerName = Provider Name
+configure-auth-oidc-loginWith = Log ind med OpenID Connect
+configure-auth-oidc-toLearnMore = For at lære mere: <Link></Link>
+configure-auth-oidc-providerName = Udbyderens navn
 configure-auth-oidc-providerNameDescription =
-  The provider of the OpenID Connect integration. This will be used when the name of the provider
+  Udbyderen af OpenID Connect-integrationen. Dette bruges, når udbyderens navn skal vises, f.eks. “Log ind med  &lt;Facebook&gt;”.
   needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
-configure-auth-oidc-issuer = Issuer
+configure-auth-oidc-issuer = Udsteder
 configure-auth-oidc-issuerDescription =
-  After entering your Issuer information, click the Discover button to have { -product-name } complete
-  the remaining fields. You may also enter the information manually.
-configure-auth-oidc-authorizationURL = Authorization URL
+  Når du har indtastet dine udstederoplysninger, 
+  skal du klikke på knappen Opdag for at få { -product-name }
+  til at udfylde de resterende felter. Du kan også 
+  indtaste oplysningerne manuelt.
+configure-auth-oidc-authorizationURL = Autoriserings-URL
 configure-auth-oidc-tokenURL = Token URL
 configure-auth-oidc-jwksURI = JWKS URI
-configure-auth-oidc-useLoginOn = Use OpenID Connect login on
+configure-auth-oidc-useLoginOn = Brug Open ID Connect til at logge på
 
 ### Moderation
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
-  When pre-moderation is turned on, comments will not be published unless
-  approved by a moderator.
+  Når formodereringen er slået til, offentliggøres kommentarer ikke, 
+  medmindre de er godkendt af en moderator.
 configure-moderation-preModeration-moderation =
-  Pre-moderate all comments sitewide
+  Formoderer alle kommentarer overalt
 configure-moderation-preModeration-premodLinksEnable =
-  Pre-moderate comments containing links sitewide
+  Formodererede kommentarer, der indeholder links overalt
 
-configure-moderation-apiKey = API Key
+configure-moderation-apiKey = API-nøgle
 
-configure-moderation-akismet-title = Akismet Spam Detection Filter
+configure-moderation-akismet-title = Akismet-spamdetekteringsfilter
 configure-moderation-akismet-explanation =
-  Submitted comments are passed to the Akismet API for spam detection.
-  If a comment is determined to be spam, it will prompt the user,
-  indicating that the comment might be considered spam.
-  If the user continues after this point with the still spam-like comment,
-  the comment will be marked as containing spam, <strong>will not be published</strong> and
-  are placed in the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator,
-  the comment will be published.
+  Indsendte kommentarer videresendes til Akismet API til spamdetektion. 
+  Hvis en kommentar er bestemt til at være spam, vil den bede brugeren
+  og indikere, at kommentaren kan betragtes som spam. Hvis brugeren
+  fortsætter efter dette punkt med den stadig spam-lignende kommentar,
+  markeres kommentaren som indeholdende spam, offentliggøres ikke og 
+  placeres i den ventende kø til gennemgang af en moderator. 
+  Hvis godkendt af en moderator, vil kommentaren blive offentliggjort. 
 
 #### Akismet
-configure-moderation-akismet-filter = Spam Detection Filter
+configure-moderation-akismet-filter = Spamdetekteringsfilter
 configure-moderation-akismet-accountNote =
-  Note: You must add your active domain(s)
-  in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
-configure-moderation-akismet-siteURL = Site URL
+  Bemærk: Du skal tilføje dit / de aktive domæner 
+  på din Akismet-konto: <externalLink>https://akismet.com/account/</externalLink>
+configure-moderation-akismet-siteURL = Hjemmeside URL
 
-configure-moderation-perspective-title = Perspective Toxic Comment Filter
+configure-moderation-perspective-title = Perspektivtoksisk kommentarfilter
 configure-moderation-perspective-explanation =
-  Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
-  threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
-  the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
+  Ved hjælp af Perspective API advarer filteret om toksisk
+  kommentar brugerne, når kommentarer overskrider den
+  foruddefinerede toksicitetsgrænse. Kommentarer med en
+  toksicitetsscore over tærsklen offentliggøres ikke og
+  placeres i den ventende kø til gennemgang af en moderator.
+  Hvis godkendt af en moderator, vil kommentaren blive offentliggjort.
 
 #### Perspective
-configure-moderation-perspective-filter = Toxic Comment Filter
-configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
+configure-moderation-perspective-filter = Giftig kommentarfilter
+configure-moderation-perspective-toxicityThreshold = Toksicitetsgrænse
 configure-moderation-perspective-toxicityThresholdDescription =
-  This value can be set a percentage between 0 and 100. This number represents the likelihood that a
-  comment is toxic, according to Perspective API. By default the threshold is set to { $default }.
-configure-moderation-perspective-toxicityModel = Toxicity Model
-configure-moderation-perspective-toxicityModelDescription =
-  Choose your Perspective Model. The default is { $default }. You can find out more about model choices <externalLink>here</externalLink>.
-configure-moderation-perspective-allowStoreCommentData = Allow Google to Store Comment Data
+  Denne værdi kan indstilles til en procentdel mellem 0 og 100.
+  Dette tal repræsenterer sandsynligheden for, at en kommentar er giftig,
+  ifølge Perspective API. Som standard er tærsklen indstillet til { $default }.
+configure-moderation-perspective-toxicityModel = Toksicitetsmodel
+cofigure-moderation-perspective-toxicityModelDescription =
+  Vælg din perspektivmodel. Standard er { $default }. 
+  Du kan finde ud af mere om modelvalg <externalLink>her</externalLink>.
+configure-moderation-perspective-allowStoreCommentData = Tillad Google at gemme kommissionsdata
 configure-moderation-perspective-allowStoreCommentDataDescription =
-  Stored comments will be used for future research and community model building purposes to
-  improve the API over time.
-configure-moderation-perspective-customEndpoint = Custom Endpoint
+  Gemte kommentarer vil blive brugt til fremtidig forskning og opbygning af samfundsmodeller til forbedring af API over tid.
+configure-moderation-perspective-customEndpoint = Brugerdefineret slutpunkt
 configure-moderation-perspective-defaultEndpoint =
-  By default the endpoint is set to { $default }. You may override this here.
+  Som standard er slutpunktet indstillet til { $default }. Du kan tilsidesætte dette her.
 configure-moderation-perspective-accountNote =
-  For additional information on how to set up the Perspective Toxic Comment Filter please visit:
-  <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
+  For yderligere information om, hvordan man konfigurerer filteret for perspektivtoksisk kommentar, kan du besøge: <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
 
 #### Banned Words Configuration
 configure-wordList-banned-bannedWordsAndPhrases = Banned Words and Phrases
