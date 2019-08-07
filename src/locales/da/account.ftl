@@ -1,33 +1,32 @@
 ### Localization for Account
 
 account-tokenNotFound =
-  The specified link is invalid, check to see if it was copied correctly.
+  Det specificerede link er ugyldigt. Kontroller, om det blev kopieret korrekt.
 
 ## Password Reset
 
-resetPassword-resetPassword = Reset Password
-resetPassword-resetYourPassword = Reset your password
+resetPassword-resetPassword = Nulstille kodeord
+resetPassword-resetYourPassword = Nulstil din adgangskode
 resetPassword-pleaseEnterNewPassword =
-  Please enter a new password to use to sign in to your account.
-  Make sure it is unique and be sure to keep it secure.
-resetPassword-passwordLabel = Password
-resetPassword-passwordDescription = Must be at least {$minLength} characters
+  Indtast en ny adgangskode, der skal bruges til at logge ind på din konto.
+  Sørg for, at det er unikt, og sørg for at holde det sikkert.
+resetPassword-passwordLabel = Adgangskode
+resetPassword-passwordDescription = Skal være mindst{$minLength} tegn
 resetPassword-passwordTextField =
-  .placeholder = Password
-resetPassword-successfullyReset = Password successfully reset
+  .placeholder = Adgangskode
+resetPassword-successfullyReset = Nulstil adgangskode
 resetPassword-youMayClose =
-  You may now close this window and sign in to your account with your new password.
-resetPassword-oopsSorry = Oops Sorry!
-resetPassword-missingResetToken = The Reset Token seems to be missing.
+  Du kan nu lukke dette vindue og logge på din konto med din nye adgangskode.
+resetPassword-oopsSorry = Undskyld!
+resetPassword-missingResetToken = Nulstillingstoken synes at mangle.
 
 ## Email Confirmation
 
-confirmEmail-emailConfirmation = Email Confirmation
-confirmEmail-confirmEmail = Confirm email
-confirmEmail-pleaseClickToConfirm = Click below to confirm your email address.
-confirmEmail-oopsSorry = Oops Sorry!
-confirmEmail-missingConfirmToken = The Confirm Token seems to be missing.
-confirmEmail-successfullyConfirmed = Email successfully confirmed
+confirmEmail-emailConfirmation = Email bekræftelse
+confirmEmail-confirmEmail = Bekræft Email
+confirmEmail-pleaseClickToConfirm = Klik nedenfor for at bekræfte din e-mail-adresse.
+confirmEmail-oopsSorry = Undskyld!
+confirmEmail-missingConfirmToken = Bekræftelsesmærket ser ud til at mangle.
+confirmEmail-successfullyConfirmed = E-mail bekræftet
 confirmEmail-youMayClose =
-  You may now close this window.
-
+  Du kan nu lukke dette vindue.
