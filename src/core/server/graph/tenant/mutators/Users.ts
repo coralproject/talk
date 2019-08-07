@@ -125,7 +125,13 @@ export const Users = (ctx: TenantContext) => ({
   // can these call the same function with different arguments?
 
   updateUsername: async (input: GQLUpdateUsernameInput) =>
-    updateOwnUsername(ctx.mongo, ctx.tenant, ctx.user!, input.username),
+    updateOwnUsername(
+      ctx.mongo,
+      ctx.mailerQueue,
+      ctx.tenant,
+      ctx.user!,
+      input.username
+    ),
   updateUserUsername: async (input: GQLUpdateUserUsernameInput) =>
     updateUserUsername(
       ctx.mongo,

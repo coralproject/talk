@@ -369,12 +369,14 @@ export async function deactivateToken(
  * updateUserUsername will update the current users.
  *
  * @param mongo mongo database to interact with
+ * @param mailer mailer queue instance
  * @param tenant Tenant where the User will be interacted with
  * @param userID the User's ID that we are updating
  * @param username the username that we are setting on the User
  */
 export async function updateOwnUsername(
   mongo: Db,
+  mailer: MailerQueue,
   tenant: Tenant,
   user: User,
   username: string
@@ -398,7 +400,33 @@ export async function updateOwnUsername(
     }
   }
 
-  return updateUsername(mongo, tenant.id, user.id, username, user.id);
+  const updated = await updateUsername(
+    mongo,
+    tenant.id,
+    user.id,
+    username,
+    user.id
+  );
+
+  if (user.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
+      },
+      template: {
+        name: "update-username",
+        context: {
+          username: user.username!,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+          organizationContactEmail: tenant.organization.contactEmail,
+        },
+      },
+    });
+  }
+
+  return updated;
 }
 
 /**
