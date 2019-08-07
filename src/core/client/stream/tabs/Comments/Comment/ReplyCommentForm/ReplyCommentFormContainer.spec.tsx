@@ -7,7 +7,7 @@ import sinon from "sinon";
 import { timeout } from "coral-common/utils";
 import { pureMerge } from "coral-common/utils";
 import { createPromisifiedStorage } from "coral-framework/lib/storage";
-import { removeFragmentRefs } from "coral-framework/testHelpers";
+import { removeFragmentRefs, wait } from "coral-framework/testHelpers";
 import { DeepPartial, PropTypesOf } from "coral-framework/types";
 import { ReplyCommentFormContainer } from "./ReplyCommentFormContainer";
 
@@ -181,7 +181,7 @@ it("autofocuses", async () => {
     .findWhere(n => n.prop("rteRef"))
     .props()
     .rteRef(rte);
-  expect(focusStub.calledOnce).toBe(true);
+  await wait(() => expect(focusStub.calledOnce).toBe(true));
 });
 
 it("renders when story has been closed", async () => {

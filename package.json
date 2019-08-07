@@ -316,6 +316,7 @@
     "relay-compiler-language-typescript": "^4.1.0",
     "relay-local-schema": "^0.8.0",
     "relay-runtime": "^4.0.0",
+    "resize-observer-polyfill": "^1.5.1",
     "sane": "^4.1.0",
     "shallow-equals": "^1.0.0",
     "simplemde": "^1.11.2",

@@ -1,0 +1,29 @@
+.title {
+  text-transform: uppercase;
+}
+
+.subTitle {
+  color: var(--palette-grey-main);
+  font-size: calc(14rem / var(--rem-base));
+}
+
+.info {
+  display: inline-block;
+}
+
+.amount {
+  font-size: calc(24rem / var(--rem-base));
+}
+
+.amountLabel {
+  font-size: calc(14rem / var(--rem-base));
+}
+
+.triggered {
+  color: var(--palette-error-main);
+}
+
+.tooltip {
+  color: var(--palette-text-primary);
+  padding: 3px;
+}

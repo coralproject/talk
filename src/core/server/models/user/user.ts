@@ -27,20 +27,17 @@ import logger from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
-  resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
+  createCollection,
   createConnectionOrderVariants,
   createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query from "coral-server/models/helpers/query";
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
 import { getLocalProfile, hasLocalProfile } from "./helpers";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<User>>("users");
-}
+const collection = createCollection<User>("users");
 
 export interface LocalProfile {
   type: "local";

@@ -15,7 +15,7 @@ export default function getMessage<T extends {}>(
     if (!args) {
       return val || message;
     }
-    return val || bundle.format(message, args);
+    return val || (message && bundle.format(message, args));
   }, "");
   if (res && Array.isArray(res)) {
     return res.join("");

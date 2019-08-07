@@ -34,9 +34,9 @@ import {
 } from "coral-server/graph/common/extensions";
 import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
 import logger from "coral-server/logger";
+import { userIsStaff } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 
-import { userIsStaff } from "coral-server/models/user/helpers";
 import TenantContext, { TenantContextOptions } from "../context";
 
 type OnConnectFn = (

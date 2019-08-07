@@ -1,11 +1,10 @@
 import { ReactTestRenderer } from "react-test-renderer";
 import sinon from "sinon";
 
-import { wait, waitForElement, within } from "coral-framework/testHelpers";
+import { waitForElement, within } from "coral-framework/testHelpers";
 
 import create from "./create";
 import { settings } from "./fixtures";
-import mockWindow from "./mockWindow";
 
 async function createTestRenderer(
   initialView: string
@@ -25,16 +24,6 @@ async function createTestRenderer(
   });
   return testRenderer;
 }
-
-let windowMock: ReturnType<typeof mockWindow>;
-beforeEach(() => {
-  windowMock = mockWindow();
-});
-
-afterEach(async () => {
-  await wait(() => expect(windowMock.resizeStub.called).toBe(true));
-  windowMock.restore();
-});
 
 it("renders sign in form", async () => {
   const testRenderer = await createTestRenderer("SIGN_IN");

@@ -235,6 +235,28 @@ configure-auth-oidc-jwksURI = JWKS URI
 configure-auth-oidc-useLoginOn = Use OpenID Connect login on
 
 ### Moderation
+
+### Recent Comment History
+
+configure-moderation-recentCommentHistory-title = Recent comment history
+configure-moderation-recentCommentHistory-timeFrame = Recent comment history timeframe
+configure-moderation-recentCommentHistory-timeFrame-description =
+  Time period over which a commenter's rejection rate is calcualted
+  and submitted comments are counted.
+configure-moderation-recentCommentHistory-enabled = Recent comment history filter
+configure-moderation-recentCommentHistory-enabled-description =
+  Prevents repeat offenders from publishing comments without approval.
+  After a commenter's rejection rate rises above the defined threshold
+  below, their next submitted comments are <strong>sent to Pending for
+  moderator approval.</strong> The filter is removed when their rejection rate
+  falls below the threshold.
+configure-moderation-recentCommentHistory-triggerRejectionRate = Rejection rate threshold
+configure-moderation-recentCommentHistory-triggerRejectionRate-description =
+  Calculated by the number of rejected comments divided by the sum of
+  a commenter’s rejected and published comments, over the recent
+  comment history timeframe (does not include comments pending for
+  toxicity, spam or pre-moderation.)
+
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
@@ -264,13 +286,13 @@ configure-moderation-akismet-accountNote =
   in your Akismet account: <externalLink>https://akismet.com/account/</externalLink>
 configure-moderation-akismet-siteURL = Site URL
 
+
+#### Perspective
 configure-moderation-perspective-title = Perspective Toxic Comment Filter
 configure-moderation-perspective-explanation =
   Using the Perspective API, the Toxic Comment filter warns users when comments exceed the predefined toxicity
   threshold. Comments with a toxicity score above the threshold <strong>will not be published</strong> and are placed in
   the <strong>Pending Queue for review by a moderator</strong>. If approved by a moderator, the comment will be published.
-
-#### Perspective
 configure-moderation-perspective-filter = Toxic Comment Filter
 configure-moderation-perspective-toxicityThreshold = Toxicity Threshold
 configure-moderation-perspective-toxicityThresholdDescription =
@@ -363,7 +385,7 @@ moderate-marker-bannedWord = Banned Word
 moderate-marker-suspectWord = Suspect Word
 moderate-marker-spam = Spam
 moderate-marker-toxic = Toxic
-moderate-marker-karma = Karma
+moderate-marker-recentHistory = Recent History
 moderate-marker-bodyCount = Body Count
 moderate-marker-offensive = Offensive
 
@@ -483,6 +505,20 @@ moderate-user-drawer-suspension =
     *[other] unknown unit
   }
 
+
+moderate-user-drawer-recent-history-title = Recent comment history
+moderate-user-drawer-recent-history-calculated =
+  Calculated over the last { framework-timeago-time }
+moderate-user-drawer-recent-history-rejected = Rejected
+moderate-user-drawer-recent-history-tooltip-title = How is this calculated?
+moderate-user-drawer-recent-history-tooltip-body =
+  Rejected comments divided by the sum of rejected and
+  published comments, during the recent comment history
+  time frame.
+moderate-user-drawer-recent-history-tooltip-button =
+  .aria-label = Toggle recent comment history tooltip
+moderate-user-drawer-recent-history-tooltip-submitted = Submitted
+
 ## Create Username
 
 createUsername-createUsernameHeader = Create Username
@@ -537,7 +573,7 @@ community-filter-roleSelectField =
   .aria-label = Search by role
 
 community-filter-statusSelectField =
-.aria-label = Search by user status
+  .aria-label = Search by user status
 
 community-changeRoleButton =
   .aria-label = Change role
@@ -682,3 +718,9 @@ invite-goToAdmin = Go to { -product-name } Admin
 invite-goToOrganization = Go to { $organizationName }
 invite-tokenNotFound =
   The specified link is invalid, check to see if it was copied correctly.
+
+userDetails-banned-on = <strong>Banned on</strong> { $timestamp }
+userDetails-banned-by = <strong>by</strong> { $username } 
+userDetails-suspended-by = <strong>Suspended by</strong> { $username }
+userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
+userDetails-suspension-end = <strong>End:</strong> { $timestamp }

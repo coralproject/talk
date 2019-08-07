@@ -149,6 +149,7 @@ it("rejects single comment", async () => {
       comment: {
         id: comment.id,
         status: GQLCOMMENT_STATUS.REJECTED,
+        author: comment.author,
         statusHistory: {
           edges: [
             {

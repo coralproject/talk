@@ -5,7 +5,7 @@ import {
   GQLSTORY_STATUS,
   QueryToStoriesArgs,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { Connection } from "coral-server/models/helpers/connection";
+import { Connection } from "coral-server/models/helpers";
 import {
   retrieveManyStories,
   retrieveStoryConnection,

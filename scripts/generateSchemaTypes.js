@@ -19,7 +19,7 @@ async function main() {
         contextType: "TenantContext",
         importStatements: [
           'import TenantContext from "coral-server/graph/tenant/context";',
-          'import { Cursor } from "coral-server/models/helpers/connection";',
+          'import { Cursor } from "coral-server/models/helpers";',
         ],
         customScalarType: { Cursor: "Cursor", Time: "Date" },
       },

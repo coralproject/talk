@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "kumar-harsh.graphql-for-vscode",
+    "editorconfig.editorconfig",
+    "ms-azuretools.vscode-cosmosdb"
+  ]
+}

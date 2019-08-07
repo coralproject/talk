@@ -3,7 +3,7 @@ import { createFarceRouter } from "found";
 import { Resolver } from "found-relay";
 import React, { FunctionComponent } from "react";
 
-import UserHistoryDrawerContainer from "coral-admin/components/UserHistoryDrawer/UserHistoryDrawerContainer";
+import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import { CoralContextConsumer } from "coral-framework/lib/bootstrap/CoralContext";
 import { makeRouteConfig, Route } from "found";
 import { ConnectedRouter } from "found";
@@ -21,7 +21,7 @@ const harnessRouter = (userID: string): ConnectedRouter => {
     routeConfig,
     renderReady: ({ elements }) => (
       <div data-testid="test-container">
-        <UserHistoryDrawerContainer
+        <UserHistoryDrawer
           userID={userID}
           open
           onClose={() => {

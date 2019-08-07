@@ -11,9 +11,6 @@ import {
 
 import create from "./create";
 import { settings } from "./fixtures";
-import mockWindow from "./mockWindow";
-
-let windowMock: ReturnType<typeof mockWindow>;
 
 async function createTestRenderer(
   customResolver: any = {},
@@ -55,15 +52,6 @@ async function createTestRenderer(
     container,
   };
 }
-
-beforeEach(async () => {
-  windowMock = mockWindow();
-});
-
-afterEach(async () => {
-  await wait(() => expect(windowMock.resizeStub.called).toBe(true));
-  windowMock.restore();
-});
 
 it("renders createPassword view", async () => {
   const { root } = await createTestRenderer();

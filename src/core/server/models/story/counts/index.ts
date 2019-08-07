@@ -9,40 +9,30 @@ import { dotize } from "coral-common/utils/dotize";
 import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
 import { EncodedCommentActionCounts } from "coral-server/models/action/comment";
-import { createIndexFactory } from "coral-server/models/helpers/indexing";
+import {
+  CommentStatusCounts,
+  createEmptyCommentStatusCounts,
+} from "coral-server/models/comment/helpers";
+import {
+  createCollection,
+  createIndexFactory,
+} from "coral-server/models/helpers";
 import { retrieveStory, Story } from "coral-server/models/story";
 import { AugmentedRedis } from "coral-server/services/redis";
 
-import { createEmptyCommentStatusCounts } from "./empty";
 import { updateSharedCommentCounts } from "./shared";
 
 /**
  * collection provides a reference to the stories collection used by the
  * counting system.
  */
-function collection<T = Story>(mongo: Db) {
-  return mongo.collection<Readonly<T>>("stories");
-}
+const collection = createCollection<Story>("stories");
 
 export async function createStoryCountIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));
 
   // { createdAt }
   await createIndex({ tenantID: 1, createdAt: 1 }, { background: true });
-}
-
-// TODO: (wyattjoh) write a test to verify that this set of counts is always in sync with GQLCOMMENT_STATUS.
-
-/**
- * CommentStatusCounts stores the count of Comments that have the particular
- * statuses.
- */
-export interface CommentStatusCounts {
-  [GQLCOMMENT_STATUS.APPROVED]: number;
-  [GQLCOMMENT_STATUS.NONE]: number;
-  [GQLCOMMENT_STATUS.PREMOD]: number;
-  [GQLCOMMENT_STATUS.REJECTED]: number;
-  [GQLCOMMENT_STATUS.SYSTEM_WITHHELD]: number;
 }
 
 /**

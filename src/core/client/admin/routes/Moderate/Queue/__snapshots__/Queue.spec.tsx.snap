@@ -19,7 +19,7 @@ exports[`renders correctly with load more 1`] = `
       onLoadMore={[Function]}
     />
   </ForwardRef(forwardRef)>
-  <UserHistoryDrawerContainer
+  <UserHistoryDrawer
     onClose={[Function]}
     open={false}
     userID=""
@@ -38,7 +38,7 @@ exports[`renders correctly without load more 1`] = `
     enter={false}
     exit={true}
   />
-  <UserHistoryDrawerContainer
+  <UserHistoryDrawer
     onClose={[Function]}
     open={false}
     userID=""

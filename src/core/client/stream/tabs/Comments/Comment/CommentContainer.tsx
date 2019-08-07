@@ -11,6 +11,7 @@ import { CommentContainer_comment as CommentData } from "coral-stream/__generate
 import { CommentContainer_settings as SettingsData } from "coral-stream/__generated__/CommentContainer_settings.graphql";
 import { CommentContainer_story as StoryData } from "coral-stream/__generated__/CommentContainer_story.graphql";
 import { CommentContainer_viewer as ViewerData } from "coral-stream/__generated__/CommentContainer_viewer.graphql";
+import CLASSES from "coral-stream/classes";
 import {
   SetCommentIDMutation,
   ShowAuthPopupMutation,
@@ -19,8 +20,7 @@ import {
 } from "coral-stream/mutations";
 import { Button, Flex, HorizontalGutter, Tag } from "coral-ui/components";
 
-import CLASSES from "coral-stream/classes";
-import { isCommentVisible } from "../helpers";
+import { isPublished } from "../helpers";
 import ButtonsBar from "./ButtonsBar";
 import EditCommentFormContainer from "./EditCommentForm";
 import IndentedComment from "./IndentedComment";
@@ -205,15 +205,15 @@ export class CommentContainer extends Component<Props, State> {
         </div>
       );
     }
-    // Comment is not visible after viewer rejected it.
+    // Comment is not published after viewer rejected it.
     if (
       comment.lastViewerAction === "REJECT" &&
       comment.status === "REJECTED"
     ) {
       return <RejectedTombstoneContainer comment={comment} />;
     }
-    // Comment is not visible after edit, so don't render it anymore.
-    if (comment.lastViewerAction === "EDIT" && !isCommentVisible(comment)) {
+    // Comment is not published after edit, so don't render it anymore.
+    if (comment.lastViewerAction === "EDIT" && !isPublished(comment.status)) {
       return null;
     }
     return (

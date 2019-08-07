@@ -61,6 +61,14 @@ export const settings = createFixture<GQLSettings>({
     url: "https://test.com/",
     contactEmail: "coral@test.com",
   },
+  recentCommentHistory: {
+    enabled: false,
+    // 7 days in seconds.
+    timeFrame: 604800,
+    // Rejection rate defaulting to 30%, once exceeded, comments will be
+    // pre-moderated.
+    triggerRejectionRate: 0.3,
+  },
   integrations: {
     akismet: {
       enabled: false,
@@ -292,6 +300,16 @@ export const baseUser = createFixture<GQLUser>({
   },
 });
 
+const recentCommentHistory = {
+  statuses: {
+    APPROVED: 0,
+    REJECTED: 0,
+    NONE: 0,
+    PREMOD: 0,
+    SYSTEM_WITHHELD: 0,
+  },
+};
+
 export const users = {
   admins: createFixtures<GQLUser>(
     [
@@ -337,6 +355,7 @@ export const users = {
         email: "isabelle@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
       {
         id: "user-commenter-1",
@@ -344,6 +363,7 @@ export const users = {
         email: "ngoc@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
       {
         id: "user-commenter-2",
@@ -351,6 +371,7 @@ export const users = {
         email: "max@test.com",
         role: GQLUSER_ROLE.COMMENTER,
         ignoreable: true,
+        recentCommentHistory,
       },
     ],
     baseUser
@@ -458,7 +479,7 @@ export const baseComment = createFixture<GQLComment>({
         reasons: {
           COMMENT_DETECTED_TOXIC: 0,
           COMMENT_DETECTED_SPAM: 0,
-          COMMENT_DETECTED_TRUST: 0,
+          COMMENT_DETECTED_RECENT_HISTORY: 0,
           COMMENT_DETECTED_LINKS: 0,
           COMMENT_DETECTED_BANNED_WORD: 0,
           COMMENT_DETECTED_SUSPECT_WORD: 0,

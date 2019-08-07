@@ -3,7 +3,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { Field, Form } from "react-final-form";
 
-import AutoHeight from "coral-auth/components/AutoHeight";
 import { Bar, SubBar, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
 import { getViewURL } from "coral-auth/helpers";
@@ -94,7 +93,6 @@ const ForgotPasswordForm: FunctionComponent<Props> = ({
         <Form onSubmit={onSubmit} initialValues={{ email }}>
           {({ handleSubmit, submitting, submitError }) => (
             <form autoComplete="off" onSubmit={handleSubmit}>
-              <AutoHeight />
               <HorizontalGutter size="full">
                 <Localized id="forgotPassword-enterEmailAndGetALink">
                   <Typography variant="bodyCopy">

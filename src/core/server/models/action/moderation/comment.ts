@@ -6,20 +6,17 @@ import { GQLCOMMENT_STATUS } from "coral-server/graph/tenant/schema/__generated_
 import {
   Connection,
   ConnectionInput,
-  resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
+  createCollection,
   createConnectionOrderVariants,
   createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query from "coral-server/models/helpers/query";
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<CommentModerationAction>>(
-    "commentModerationActions"
-  );
-}
+const collection = createCollection<CommentModerationAction>(
+  "commentModerationActions"
+);
 
 export async function createCommentModerationActionIndexes(mongo: Db) {
   const createIndex = createIndexFactory(collection(mongo));

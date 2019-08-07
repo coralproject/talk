@@ -139,7 +139,11 @@ const ModerateCardContainer: FunctionComponent<Props> = ({
       <FadeInTransition active={Boolean(comment.enteredLive)}>
         <ModerateCard
           id={comment.id}
-          username={comment.author!.username!}
+          username={
+            comment.author && comment.author.username
+              ? comment.author.username
+              : ""
+          }
           createdAt={comment.createdAt}
           body={comment.body!}
           inReplyTo={comment.parent && comment.parent.author!.username!}

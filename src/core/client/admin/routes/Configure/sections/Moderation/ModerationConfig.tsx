@@ -6,12 +6,14 @@ import { HorizontalGutter } from "coral-ui/components";
 import AkismetConfigContainer from "./AkismetConfigContainer";
 import PerspectiveConfigContainer from "./PerspectiveConfigContainer";
 import PreModerationConfigContainer from "./PreModerationConfigContainer";
+import RecentCommentHistoryConfigContainer from "./RecentCommentHistoryConfigContainer";
 
 interface Props {
   disabled: boolean;
   settings: PropTypesOf<typeof AkismetConfigContainer>["settings"] &
     PropTypesOf<typeof PerspectiveConfigContainer>["settings"] &
-    PropTypesOf<typeof PreModerationConfigContainer>["settings"];
+    PropTypesOf<typeof PreModerationConfigContainer>["settings"] &
+    PropTypesOf<typeof RecentCommentHistoryConfigContainer>["settings"];
   onInitValues: (values: any) => void;
 }
 
@@ -21,6 +23,11 @@ const ModerationConfig: FunctionComponent<Props> = ({
   onInitValues,
 }) => (
   <HorizontalGutter size="double" data-testid="configure-moderationContainer">
+    <RecentCommentHistoryConfigContainer
+      disabled={disabled}
+      settings={settings}
+      onInitValues={onInitValues}
+    />
     <PreModerationConfigContainer
       disabled={disabled}
       settings={settings}
