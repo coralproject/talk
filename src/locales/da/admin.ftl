@@ -139,66 +139,65 @@ configure-general-commentEditing-commentEditTimeFrame = Kommentar Rediger tidsra
 configure-general-commentEditing-seconds = Sekunder
 
 #### Closed Stream Message
-configure-general-closedStreamMessage-title = Closed Stream Message
-configure-general-closedStreamMessage-explanation = Write a message to appear after a story is closed for commenting.
+configure-general-closedStreamMessage-title = Besked til lukkede kommentarer
+configure-general-closedStreamMessage-explanation = Skriv en meddelelse, der vises, når en historie er lukket for kommentarer.
 
 ### Organization
-configure-organization-name = Organization Name
+configure-organization-name = Organisationens navn
 configure-organization-nameExplanation =
-  Your organization name will appear on emails sent by { -product-name } to your community and organization members.
-configure-organization-email = Organization Email
+  Dit organisationsnavn vises på e-mails sendt af { -product-name } til dit community og organisationsmedlemmer.
+configure-organization-email = Organisations-e-mail
 configure-organization-emailExplanation =
-  This email address will be used as in emails and across
-  the platform for community members to get in touch with
-  the organization should they have any questions about the
-  status of their accounts or moderation questions.
+  Denne e-mail-adresse bruges som i e-mails og på tværs af platformen, 
+  hvor medlemmer af samfundet kan komme i kontakt med organisationen, 
+  hvis de har spørgsmål om status for deres konti eller moderationsspørgsmål.
 
 ### Email
 
-configure-email = Email settings
-configure-email-configBoxEnabled = Enabled
-configure-email-fromNameLabel = From name
+configure-email = E-mail-indstillinger
+configure-email-configBoxEnabled = Aktiveret
+configure-email-fromNameLabel = Fra navn
 configure-email-fromNameDescription =
-  Name as it will appear on all outgoing emails
-configure-email-fromEmailLabel = From email address
+  Navngiv, som det vises på alle udgående e-mails
+configure-email-fromEmailLabel = Fra e-mail-adresse
 configure-email-fromEmailDescription =
-  Email address that will be used to send messages
-configure-email-smtpHostLabel = SMTP host
-configure-email-smtpHostDescription = (ex. smtp.sendgrid.com)
-configure-email-smtpPortLabel = SMTP port
-configure-email-smtpPortDescription = (ex. 25)
+  E-mail-adresse, der bruges til at sende meddelelser
+configure-email-smtpHostLabel = SMTP vært
+configure-email-smtpHostDescription = (eksempel smtp.sendgrid.com)
+configure-email-smtpPortLabel = SMTP-port
+configure-email-smtpPortDescription = (eksempel 25)
 configure-email-smtpTLSLabel = TLS
-configure-email-smtpAuthenticationLabel = SMTP Authentication
-configure-email-smtpCredentialsHeader = Email credentials
-configure-email-smtpUsernameLabel = Username
-configure-email-smtpPasswordLabel = Password
+configure-email-smtpAuthenticationLabel = SMTP-godkendelse
+configure-email-smtpCredentialsHeader = E-mail-legitimationsoplysninger
+configure-email-smtpUsernameLabel = Brugernavn
+configure-email-smtpPasswordLabel = Adgangskode
 
 ### Authentication
 
-configure-auth-authIntegrations = Authentication Integrations
-configure-auth-clientID = Client ID
-configure-auth-clientSecret = Client Secret
-configure-auth-configBoxEnabled = Enabled
-configure-auth-targetFilterCoralAdmin = { -product-name } Admin
-configure-auth-targetFilterCommentStream = Comment Stream
+configure-auth-authIntegrations = Autentificeringsintegrationer
+configure-auth-clientID = Klient-id
+configure-auth-clientSecret = Klienthemmelighed
+configure-auth-configBoxEnabled = Aktiveret
+configure-auth-targetFilterCoralAdmin = { -product-name } Administration
+configure-auth-targetFilterCommentStream = Kommentarer
 configure-auth-redirectURI = Redirect URI
-configure-auth-registration = Registration
+configure-auth-registration = Registrering
 configure-auth-registrationDescription =
-  Allow users that have not signed up before with this authentication
-  integration to register for a new account.
-configure-auth-registrationCheckBox = Allow Registration
+  Lad brugere, der ikke har tilmeldt sig tidligere med denne 
+  godkendelsesintegration, registrere sig for en ny konto.
+configure-auth-registrationCheckBox = Tillad registrering
 configure-auth-pleaseEnableAuthForAdmin =
-  Please enable at least one authentication integration for { -product-name } Admin
+  Aktivér mindst én godkendelsesintegration til Administration af { -product-name }
 configure-auth-confirmNoAuthForCommentStream =
-  No authentication integration has been enabled for the Comment Stream.
-  Do you really want to continue?
+  Der er ikke aktiveret nogen godkendelsesintegration for kommentarstrømmen. 
+  Vil du virkelig fortsætte?
 
 configure-auth-facebook-loginWith = Login with Facebook
 configure-auth-facebook-toEnableIntegration =
-  To enable the integration with Facebook Authentication,
-  you need to create and set up a web application.
-  For more information visit: <Link></Link>.
-configure-auth-facebook-useLoginOn = Use Facebook login on
+  For at aktivere integrationen med Facebook-godkendelse skal 
+  du oprette og konfigurere en webapplikation. 
+  For mere information besøg: <Link></Link>.
+configure-auth-facebook-useLoginOn = Brug Facebook-login på
 
 configure-auth-google-loginWith = Login with Google
 configure-auth-google-toEnableIntegration =
