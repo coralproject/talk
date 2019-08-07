@@ -22,6 +22,7 @@ import {
   PASSWORDS_DO_NOT_MATCH,
   USERNAME_TOO_LONG,
   USERNAME_TOO_SHORT,
+  USERNAMES_DO_NOT_MATCH,
   VALIDATION_REQUIRED,
   VALIDATION_TOO_LONG,
   VALIDATION_TOO_SHORT,
@@ -156,6 +157,14 @@ export const validateEqualPasswords = createValidator(
 export const validateEqualEmails = createValidator(
   (v, values) => v === values.email,
   EMAILS_DO_NOT_MATCH()
+);
+
+/**
+ * validateUsernameEquals is a Validator that checks for correct username confirmation.
+ */
+export const validateUsernameEquals = createValidator(
+  (v, values) => v === values.username,
+  USERNAMES_DO_NOT_MATCH()
 );
 
 /**

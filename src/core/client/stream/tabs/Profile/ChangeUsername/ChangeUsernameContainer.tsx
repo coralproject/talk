@@ -1,5 +1,5 @@
 import { useCoralContext } from "coral-framework/lib/bootstrap";
-import { FORM_ERROR } from "final-form";
+import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, {
   FunctionComponent,
@@ -12,6 +12,11 @@ import { Field, Form } from "react-final-form";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { graphql, useMutation } from "coral-framework/lib/relay";
 import { withFragmentContainer } from "coral-framework/lib/relay";
+import {
+  composeValidators,
+  required,
+  validateUsernameEquals,
+} from "coral-framework/lib/validation";
 import {
   Box,
   Button,
@@ -39,13 +44,8 @@ interface Props {
 }
 
 interface FormProps {
-  newUsername: string;
-  newUsernameConfirm: string;
-}
-
-interface ErrorProps {
-  newUsername?: string;
-  newUsernameConfirm?: string;
+  username: string;
+  usernameConfirm: string;
 }
 
 const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
@@ -87,10 +87,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
   }, [viewer]);
 
   const onSubmit = useCallback(
-    async (input, form) => {
+    async (input: FormProps, form: FormApi) => {
       try {
         await updateUsername({
-          username: input.newUsername,
+          username: input.username,
         });
       } catch (err) {
         if (err instanceof InvalidRequestError) {
@@ -111,20 +111,6 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
     [updateUsername]
   );
 
-  const validate = useCallback((values: FormProps): ErrorProps => {
-    const errors: ErrorProps = {};
-    if (!values.newUsername) {
-      errors.newUsername = "Required";
-    }
-    if (!values.newUsernameConfirm) {
-      errors.newUsernameConfirm = "Required";
-    }
-    if (values.newUsername !== values.newUsernameConfirm) {
-      errors.newUsernameConfirm = "Values must match";
-    }
-    return errors;
-  }, []);
-
   const { locales } = useCoralContext();
 
   const formatter = new Intl.DateTimeFormat(locales, {
@@ -138,7 +124,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
       {showSuccessMessage && (
         <Box className={styles.successMessage}>
           <Flex justifyContent="space-between" alignItems="center">
-            <Localized id="changeUsername-success">
+            <Localized id="profile-changeUsername-success">
               <Typography>
                 Your username has been successfully updated
               </Typography>
@@ -153,7 +139,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
       {!showEditForm && (
         <Flex alignItems="center">
           <Typography variant="header2">{viewer.username}</Typography>
-          <Localized id="changeUsername-edit">
+          <Localized id="profile-changeUsername-edit">
             <Button size="small" color="primary" onClick={toggleEditForm}>
               Edit
             </Button>
@@ -164,20 +150,20 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
         <CallOut className={styles.callOut} color="primary">
           <HorizontalGutter spacing={4}>
             <div>
-              <Localized id="changeUsername-heading">
+              <Localized id="profile-changeUsername-heading">
                 <Typography variant="heading2" gutterBottom>
                   Edit your username
                 </Typography>
               </Localized>
-              <Localized id="changeUsername-desc">
+              <Localized id="profile-changeUsername-desc">
                 <Typography>
-                  Change the username will appear on all of your past and future
-                  comments. Usernames can be changed once every 14 days.
+                  Change the username that will appear on all of your past and
+                  future comments. Usernames can be changed once every 14 days.
                 </Typography>
               </Localized>
             </div>
             <div>
-              <Localized id="changeUsername-current">
+              <Localized id="profile-changeUsername-current">
                 <Typography
                   className={styles.currentUsername}
                   variant="bodyCopyBold"
@@ -188,16 +174,16 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
               <Typography variant="heading2">{viewer.username}</Typography>
             </div>
             {canChangeUsername && (
-              <Form onSubmit={onSubmit} validate={validate}>
+              <Form onSubmit={onSubmit}>
                 {({ handleSubmit, submitError, pristine, invalid }) => (
                   <form onSubmit={handleSubmit}>
                     <HorizontalGutter spacing={4}>
                       <FormField>
                         <HorizontalGutter>
-                          <Localized id="changeUsername-newUsername-label">
+                          <Localized id="profile-changeUsername-newUsername-label">
                             <InputLabel>New username</InputLabel>
                           </Localized>
-                          <Field name="newUsername">
+                          <Field name="username" validate={required}>
                             {({ input, meta }) => (
                               <>
                                 <TextField {...input} />
@@ -209,10 +195,16 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                       </FormField>
                       <FormField>
                         <HorizontalGutter>
-                          <Localized id="changeUsername-confirmNewUsername-label">
+                          <Localized id="profile-changeUsername-confirmNewUsername-label">
                             <InputLabel>Confirm new username</InputLabel>
                           </Localized>
-                          <Field name="newUsernameConfirm">
+                          <Field
+                            name="usernameConfirm"
+                            validate={composeValidators(
+                              required,
+                              validateUsernameEquals
+                            )}
+                          >
                             {({ input, meta }) => (
                               <>
                                 <TextField {...input} />
@@ -229,12 +221,12 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                       </CallOut>
                     )}
                     <Flex justifyContent="flex-end" className={styles.footer}>
-                      <Localized id="changeUsername-cancel">
+                      <Localized id="profile-changeUsername-cancel">
                         <Button type="button" onClick={toggleEditForm}>
                           Cancel
                         </Button>
                       </Localized>
-                      <Localized id="changeUsername-submit">
+                      <Localized id="profile-changeUsername-submit">
                         <Button
                           variant={pristine || invalid ? "outlined" : "filled"}
                           type="submit"
@@ -258,7 +250,12 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                   </Icon>
                   <Localized
                     date={canChangeUsernameDate}
-                    id="changeUsername-recentChange"
+                    id="profile-changeUsername-recentChange"
+                    $nextUpdate={
+                      canChangeUsernameDate
+                        ? formatter.format(canChangeUsernameDate)
+                        : null
+                    }
                   >
                     <Typography className={styles.tooSoon}>
                       Your username has been changed in the last 14 days. You
@@ -270,7 +267,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                   </Localized>
                 </Flex>
                 <Flex justifyContent="flex-end">
-                  <Localized id="changeUsername-close">
+                  <Localized id="profile-changeUsername-close">
                     <Button
                       color="primary"
                       variant="filled"
