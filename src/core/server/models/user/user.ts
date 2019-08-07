@@ -443,12 +443,23 @@ export async function insertUser(
     tokens: [],
     ignoredUsers: [],
     status: {
-      username: { history: [] },
+      username: {
+        history: [],
+      },
       suspension: { history: [] },
       ban: { active: false, history: [] },
     },
     createdAt: now,
   };
+
+  if (input.username) {
+    defaults.status.username.history.push({
+      id: uuid.v4(),
+      username: input.username,
+      createdBy: id,
+      createdAt: now,
+    });
+  }
 
   // Guard against empty login profiles (they need some way to login).
   if (input.profiles.length === 0) {
