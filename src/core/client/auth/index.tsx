@@ -12,16 +12,15 @@ import localesData from "./locales";
 import "coral-ui/theme/variables.css";
 
 /**
- * Adapt popup height to current content every 100ms.
+ * Adapt popup height to current content every 200ms.
  *
  * The goal is to smooth out height inconsistensies  e.g. when fonts
  * are switched out or other resources being loaded that React has no influence
  * over.
  *
- * This works in addition to <AutoHeight /> which
- * adapt popup height when React does an update.
+ * This works in addition to the ResizeObserver in App.tsx
  */
-function pollPopupHeight(interval: number = 100) {
+function pollPopupHeight(interval: number = 200) {
   setTimeout(() => {
     window.requestAnimationFrame(() => {
       resizePopup();

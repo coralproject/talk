@@ -16,7 +16,9 @@ async function main() {
     initLocalState,
     localesData,
     userLocales: navigator.languages,
-    pym: new PymChild({ polling: 100 }),
+    pym: new PymChild({
+      polling: 100,
+    }),
   });
 
   const Index: FunctionComponent = () => (

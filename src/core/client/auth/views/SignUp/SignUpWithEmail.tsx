@@ -2,7 +2,6 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { Form } from "react-final-form";
 
-import AutoHeight from "coral-auth/components/AutoHeight";
 import EmailField from "coral-auth/components/EmailField";
 import SetPasswordField from "coral-auth/components/SetPasswordField";
 import UsernameField from "coral-auth/components/UsernameField";
@@ -30,7 +29,6 @@ const SignUp: FunctionComponent<Props> = props => {
     <Form onSubmit={props.onSubmit}>
       {({ handleSubmit, submitting, submitError }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
-          <AutoHeight />
           <HorizontalGutter size="full">
             {submitError && (
               <CallOut color="error" fullWidth>

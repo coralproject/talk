@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import { Form } from "react-final-form";
 
 import { Bar, Title } from "coral-auth/components//Header";
-import AutoHeight from "coral-auth/components/AutoHeight";
 import Main from "coral-auth/components/Main";
 import SetPasswordField from "coral-auth/components/SetPasswordField";
 import { OnSubmit } from "coral-framework/lib/form";
@@ -50,7 +49,6 @@ class CreatePasswordContainer extends Component<Props> {
           <Form onSubmit={this.handleSubmit}>
             {({ handleSubmit, submitting, submitError }) => (
               <form autoComplete="off" onSubmit={handleSubmit}>
-                <AutoHeight />
                 <HorizontalGutter size="oneAndAHalf">
                   <Localized id="createPassword-whatItIs">
                     <Typography variant="bodyCopy">

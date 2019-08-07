@@ -6,11 +6,7 @@ it("should set height", () => {
       expect(type).toBe("height");
       callback("100");
     },
-    el: document.createElement("div"),
+    iframe: document.createElement("iframe"),
   };
-  fakePym.el.innerHTML = "<span>Hello World </span>";
   withAutoHeight(fakePym as any);
-  expect(fakePym.el.innerHTML).toBe(
-    '<span style="height: 100px;">Hello World </span>'
-  );
 });
