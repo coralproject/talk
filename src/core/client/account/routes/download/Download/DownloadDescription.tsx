@@ -52,7 +52,10 @@ const DownloadDescription: FunctionComponent = () => {
                   check
                 </Icon>
                 <Localized id="download-landingPage-contentsUrl">
-                  <Typography variant="bodyCopy" className={styles.sectionText}>
+                  <Typography
+                    variant="bodyCopy"
+                    className={cn(styles.sectionText, styles.listContent)}
+                  >
                     The permalink URL for the comment
                   </Typography>
                 </Localized>
@@ -64,7 +67,10 @@ const DownloadDescription: FunctionComponent = () => {
                   check
                 </Icon>
                 <Localized id="download-landingPage-contentsText">
-                  <Typography variant="bodyCopy" className={styles.sectionText}>
+                  <Typography
+                    variant="bodyCopy"
+                    className={cn(styles.sectionText, styles.listContent)}
+                  >
                     The comment text
                   </Typography>
                 </Localized>
@@ -76,7 +82,10 @@ const DownloadDescription: FunctionComponent = () => {
                   check
                 </Icon>
                 <Localized id="download-landingPage-contentsStoryUrl">
-                  <Typography variant="bodyCopy" className={styles.sectionText}>
+                  <Typography
+                    variant="bodyCopy"
+                    className={cn(styles.sectionText, styles.listContent)}
+                  >
                     The URL on the article or story where the comment appears
                   </Typography>
                 </Localized>

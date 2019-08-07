@@ -33,11 +33,16 @@
   margin-left: calc(-1 * var(--spacing-5));
 }
 
-.bullet {
-  display: inline-block;
-  margin-right: var(--spacing-2);
+.list li {
+  margin-bottom: calc(16em / 24);
 }
 
 .listContent {
+  display: inline-flex;
+}
+
+.bullet {
   display: inline-block;
+  min-width: 24px;
+  margin-right: var(--spacing-2);
 }
