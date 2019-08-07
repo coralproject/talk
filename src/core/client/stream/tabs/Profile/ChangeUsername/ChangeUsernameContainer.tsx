@@ -15,6 +15,7 @@ import { withFragmentContainer } from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
+  validateUsername,
   validateUsernameEquals,
 } from "coral-framework/lib/validation";
 import {
@@ -120,7 +121,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
   });
 
   return (
-    <HorizontalGutter spacing={5}>
+    <HorizontalGutter spacing={5} data-testid="profile-changeUsername">
       {showSuccessMessage && (
         <Box className={styles.successMessage}>
           <Flex justifyContent="space-between" alignItems="center">
@@ -176,17 +177,32 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
             {canChangeUsername && (
               <Form onSubmit={onSubmit}>
                 {({ handleSubmit, submitError, pristine, invalid }) => (
-                  <form onSubmit={handleSubmit}>
+                  <form
+                    onSubmit={handleSubmit}
+                    data-testid="profile-changeUsername-form"
+                  >
                     <HorizontalGutter spacing={4}>
                       <FormField>
                         <HorizontalGutter>
                           <Localized id="profile-changeUsername-newUsername-label">
-                            <InputLabel>New username</InputLabel>
+                            <InputLabel htmlFor="profile-changeUsername-username">
+                              New username
+                            </InputLabel>
                           </Localized>
-                          <Field name="username" validate={required}>
+                          <Field
+                            name="username"
+                            validate={composeValidators(
+                              required,
+                              validateUsername
+                            )}
+                            id="profile-changeUsername-username"
+                          >
                             {({ input, meta }) => (
                               <>
-                                <TextField {...input} />
+                                <TextField
+                                  {...input}
+                                  id="profile-changeUsername-username"
+                                />
                                 <ValidationMessage meta={meta} />
                               </>
                             )}
@@ -196,7 +212,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                       <FormField>
                         <HorizontalGutter>
                           <Localized id="profile-changeUsername-confirmNewUsername-label">
-                            <InputLabel>Confirm new username</InputLabel>
+                            <InputLabel htmlFor="profile-changeUsername-username-confirm">
+                              Confirm new username
+                            </InputLabel>
                           </Localized>
                           <Field
                             name="usernameConfirm"
@@ -207,7 +225,10 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                           >
                             {({ input, meta }) => (
                               <>
-                                <TextField {...input} />
+                                <TextField
+                                  {...input}
+                                  id="profile-changeUsername-username-confirm"
+                                />
                                 <ValidationMessage meta={meta} />
                               </>
                             )}
@@ -243,7 +264,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
               </Form>
             )}
             {!canChangeUsername && (
-              <div>
+              <div data-testid="profile-changeUsername-cantChange">
                 <Flex>
                   <Icon size="md" className={styles.errorIcon}>
                     error
