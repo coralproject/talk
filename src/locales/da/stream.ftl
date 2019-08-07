@@ -240,15 +240,15 @@ configure-closeStream-closeStream = Luk kommentarer
 
 configure-openStream-title = Åbn kommentarer
 configure-openStream-description =
-  This comment stream is currently closed. By opening this comment
-  stream new comments may be submitted and displayed.
-configure-openStream-openStream = Open Stream
+  Denne kommentarstrøm er i øjeblikket lukket.
+  Ved at åbne denne kommentar kan nye kommentarer indsendes og vises.
+configure-openStream-openStream = Åbn kommentarer
 
-comments-tombstone-ignore = This comment is hidden because you ignored {$username}
+comments-tombstone-ignore = Denne kommentar er skjult, fordi du ignorerede {$username}
 
-suspendInfo-heading = Your account has been temporarily suspended from commenting.
+suspendInfo-heading = Din konto er midlertidigt suspenderet for at kommentere.
 suspendInfo-info = 
-  In accordance with { $organization }'s community guidelines your
-  account has been temporarily suspended. While suspended you will not
-  be able to comment, respect or report comments. Please rejoin the
-  conversation on { $until }
+  I overensstemmelse med fællesskabsretningslinjerne for { $organization} 
+  er din konto midlertidigt suspenderet. Mens du er suspenderet, 
+  kan du ikke kommentere, respektere eller rapportere kommentarer. 
+  Gå igen med til samtalen på { $until }.
