@@ -132,6 +132,58 @@ export const baseUser = createFixture<GQLUser>({
   ignoreable: true,
 });
 
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+const weekago = new Date();
+weekago.setDate(yesterday.getDate() - 7);
+
+export const userWithNewUsername = createFixture<GQLUser>(
+  {
+    id: "new-user",
+    username: "u_original",
+    role: GQLUSER_ROLE.COMMENTER,
+    status: {
+      current: [GQLUSER_STATUS.ACTIVE],
+      username: {
+        history: [
+          {
+            username: "u_original",
+            createdAt: `${yesterday.toISOString()}`,
+            createdBy: { id: "new-user" },
+          },
+        ],
+      },
+    },
+  },
+  baseUser
+);
+
+export const userWithChangedUsername = createFixture<GQLUser>(
+  {
+    id: "changed-user",
+    username: "u_changed",
+    role: GQLUSER_ROLE.COMMENTER,
+    status: {
+      current: [GQLUSER_STATUS.ACTIVE],
+      username: {
+        history: [
+          {
+            username: "original",
+            createdAt: `${weekago.toISOString()}`,
+            createdBy: { id: "changed-user" },
+          },
+          {
+            username: "u_changed",
+            createdAt: `${yesterday.toISOString()}`,
+            createdBy: { id: "changed-user" },
+          },
+        ],
+      },
+    },
+  },
+  baseUser
+);
+
 export const commenters = createFixtures<GQLUser>(
   [
     {

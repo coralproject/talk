@@ -1,5 +1,4 @@
 import { ReactTestRenderer } from "react-test-renderer";
-import sinon from "sinon";
 
 import { pureMerge } from "coral-common/utils";
 import { GQLResolver } from "coral-framework/schema";
@@ -8,62 +7,17 @@ import {
   createResolversStub,
   CreateTestRendererParams,
   waitForElement,
-  waitUntilThrow,
   within,
 } from "coral-framework/testHelpers";
 
 import {
-  baseUser,
-  commenters,
   settings,
-  settingsWithoutLocalAuth,
   stories,
+  userWithChangedUsername,
+  userWithNewUsername,
   viewerPassive,
 } from "../fixtures";
 import create from "./create";
-
-const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
-const weekago = new Date();
-weekago.setDate(yesterday.getDate() - 7);
-const viewerNew = {
-  ...viewerPassive,
-  username: "original",
-  status: {
-    ...viewerPassive.status,
-    username: {
-      history: [
-        {
-          username: "original",
-          createdAt: yesterday.toISOString(),
-          createdBy: viewerPassive.id,
-        },
-      ],
-    },
-  },
-};
-
-const viewerPreviouslyUpdated = {
-  ...viewerPassive,
-  username: "recentlyChanged",
-  status: {
-    ...viewerPassive.status,
-    username: {
-      history: [
-        {
-          username: "recentlyChanged",
-          createdAt: yesterday.toISOString(),
-          createdBy: viewerPassive.id,
-        },
-        {
-          username: "original",
-          createdAt: weekago.toISOString(),
-          createdBy: viewerPassive.id,
-        },
-      ],
-    },
-  },
-};
 
 const story = stories[0];
 const viewer = viewerPassive;
@@ -99,81 +53,60 @@ async function createTestRenderer(
 
 describe("with recently changed username", () => {
   let testRenderer: ReactTestRenderer;
-  let changeUsername;
   beforeEach(async () => {
     const setup = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
-          viewer: () => viewerPreviouslyUpdated,
+          viewer: () => userWithChangedUsername,
         },
       }),
     });
     testRenderer = setup.testRenderer;
-    changeUsername = await waitForElement(() =>
+  });
+
+  it("does not allow editing", async () => {
+    const changeUsername = await waitForElement(() =>
       within(testRenderer.root).queryByTestID("profile-changeUsername")
     );
-  });
-
-  it("displays current username", () => {
-    within(changeUsername).getByText("recentlyChanged");
-  });
-
-  it("doesn't show the change username form", async () => {
+    within(changeUsername).getByText("u_changed");
     const editButton = within(changeUsername).getByText("Edit");
     act(() => {
       editButton.props.onClick();
     });
     const form = within(changeUsername).queryByType("form");
-    expect(form).toBeNull();
-  });
-
-  it("Shows message explaining that username cannot be edited", async () => {
-    const editButton = within(changeUsername).getByText("Edit");
-    act(() => {
-      editButton.props.onClick();
-    });
     const message = within(changeUsername).queryByText(
       "Your username has been changed in the last 14 days",
       { exact: false }
     );
+    expect(form).toBeNull();
     expect(message).toBeTruthy();
   });
 });
 
 describe("with new username", () => {
   let testRenderer: ReactTestRenderer;
-  let changeUsername;
   beforeEach(async () => {
     const setup = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
-          viewer: () => viewerNew,
+          viewer: () => userWithNewUsername,
         },
       }),
     });
     testRenderer = setup.testRenderer;
-    changeUsername = await waitForElement(() =>
+  });
+
+  it("shows username change form", async () => {
+    const changeUsername = await waitForElement(() =>
       within(testRenderer.root).queryByTestID("profile-changeUsername")
     );
-  });
 
-  it("displays current username", () => {
-    within(changeUsername).getByText("original");
-  });
-
-  it("shows the change username form", async () => {
+    within(changeUsername).getByText("u_original");
     const editButton = within(changeUsername).getByText("Edit");
     act(() => {
       editButton.props.onClick();
     });
     within(changeUsername).getByType("form");
-  });
-
-  it("does not show message explaining that username cannot be edited", async () => {
-    const editButton = within(changeUsername).getByText("Edit");
-    act(() => {
-      editButton.props.onClick();
-    });
     const message = within(changeUsername).queryByText(
       "Your username has been changed in the last 14 days",
       { exact: false }
@@ -184,12 +117,11 @@ describe("with new username", () => {
 
 describe("change username form", () => {
   let testRenderer: ReactTestRenderer;
-  let changeUsername;
   beforeEach(async () => {
     const setup = await createTestRenderer({
       resolvers: createResolversStub<GQLResolver>({
         Query: {
-          viewer: () => viewerNew,
+          viewer: () => userWithNewUsername,
         },
         Mutation: {
           updateUsername: ({ variables }) => {
@@ -198,7 +130,7 @@ describe("change username form", () => {
             });
             return {
               user: {
-                ...viewerNew,
+                ...userWithNewUsername,
                 username: "updated_username",
               },
             };
@@ -207,17 +139,17 @@ describe("change username form", () => {
       }),
     });
     testRenderer = setup.testRenderer;
-    changeUsername = await waitForElement(() =>
-      within(testRenderer.root).queryByTestID("profile-changeUsername")
+  });
+
+  it("ensures username field is required", async () => {
+    const changeUsername = within(testRenderer.root).getByTestID(
+      "profile-changeUsername"
     );
     const editButton = within(changeUsername).getByText("Edit");
     act(() => {
       editButton.props.onClick();
     });
-  });
-
-  it("ensures username field is required", async () => {
-    const form = within(changeUsername).queryByType("form");
+    const form = within(changeUsername).getByType("form");
     act(() => {
       form.props.onSubmit();
     });
@@ -229,7 +161,14 @@ describe("change username form", () => {
   });
 
   it("ensures username confirmation matches", async () => {
-    const form = within(changeUsername).queryByType("form");
+    const changeUsername = within(testRenderer.root).getByTestID(
+      "profile-changeUsername"
+    );
+    const editButton = within(changeUsername).getByText("Edit");
+    act(() => {
+      editButton.props.onClick();
+    });
+    const form = within(changeUsername).getByType("form");
     const username = within(changeUsername).getByLabelText("New username");
     const usernameConfirm = within(changeUsername).getByLabelText(
       "Confirm new username"
@@ -247,7 +186,14 @@ describe("change username form", () => {
   });
 
   it("updates username if fields are valid", async () => {
-    const form = within(changeUsername).queryByType("form");
+    const changeUsername = within(testRenderer.root).getByTestID(
+      "profile-changeUsername"
+    );
+    const editButton = within(changeUsername).getByText("Edit");
+    act(() => {
+      editButton.props.onClick();
+    });
+    const form = within(changeUsername).getByType("form");
     const username = within(changeUsername).getByLabelText("New username");
     const usernameConfirm = within(changeUsername).getByLabelText(
       "Confirm new username"

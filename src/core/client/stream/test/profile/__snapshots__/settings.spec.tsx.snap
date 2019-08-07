@@ -67,6 +67,7 @@ exports[`renders the empty settings pane 1`] = `
     >
       <div
         className="Box-root HorizontalGutter-root HorizontalGutter-spacing-5"
+        data-testid="profile-changeUsername"
       >
         <div
           className="Box-root Flex-root Flex-flex Flex-alignCenter"
