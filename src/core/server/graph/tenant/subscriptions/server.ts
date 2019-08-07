@@ -9,6 +9,7 @@ import http, { IncomingMessage } from "http";
 import {
   ConnectionContext,
   ExecutionParams,
+  OperationMessage,
   OperationMessagePayload,
   SubscriptionServer,
 } from "subscriptions-transport-ws";
@@ -33,7 +34,9 @@ import {
   logQuery,
 } from "coral-server/graph/common/extensions";
 import { getOperationMetadata } from "coral-server/graph/common/extensions/helpers";
+import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
 import logger from "coral-server/logger";
+import { mapPersistedQuery } from "coral-server/models/queries";
 import { userIsStaff } from "coral-server/models/user/helpers";
 import { extractTokenFromRequest } from "coral-server/services/jwt";
 
@@ -205,12 +208,33 @@ export function formatResponse({ metrics }: FormatResponseOptions) {
   };
 }
 
-export type OnOperationOptions = FormatResponseOptions;
+export type OnOperationOptions = FormatResponseOptions &
+  Pick<AppOptions, "persistedQueryCache" | "persistedQueriesRequired">;
 
 export function onOperation(options: OnOperationOptions) {
-  return (message: any, params: ExecutionParams<TenantContext>) => {
+  return async (
+    message: OperationMessage,
+    params: ExecutionParams<TenantContext>
+  ) => {
     // Attach the response formatter.
     params.formatResponse = formatResponse(options);
+
+    // Handle the payload if it is a persisted query.
+    const mapped = await mapPersistedQuery(
+      options.persistedQueryCache,
+      message.payload
+    );
+    if (!mapped && options.persistedQueriesRequired) {
+      // Check to see if this is from an ADMIN token which is allowed to run
+      // un-persisted queries.
+      if (
+        !params.context.user ||
+        params.context.user.role !== GQLUSER_ROLE.ADMIN
+      ) {
+        // TODO: replace with better error
+        throw new Error("not authorized to call an un-persisted query");
+      }
+    }
 
     return params;
   };

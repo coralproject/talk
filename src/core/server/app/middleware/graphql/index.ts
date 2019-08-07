@@ -17,8 +17,6 @@ import {
 } from "coral-server/graph/common/extensions";
 import { Metrics } from "coral-server/services/metrics";
 
-export * from "./batch";
-
 // Sourced from: https://github.com/apollographql/apollo-server/blob/958846887598491fadea57b3f9373d129300f250/packages/apollo-server-core/src/ApolloServer.ts#L46-L57
 const NoIntrospection = (context: ValidationContext) => ({
   Field(node: FieldDefinitionNode) {

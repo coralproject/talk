@@ -1,28 +1,13 @@
-import base64url from "base64url";
-import {
-  Middleware,
-  RelayRequestAny,
-  RelayRequestBatch,
-} from "react-relay-network-modern/es";
+import { Middleware, RelayRequestAny } from "react-relay-network-modern/es";
 
 import { modifyQuery } from "coral-framework/utils";
 
-function isBatch(req: RelayRequestAny): req is RelayRequestBatch {
-  return "requests" in req;
-}
-
 function hasMutations(req: RelayRequestAny): boolean {
-  if (!isBatch(req)) {
-    return req.isMutation();
-  }
-  return req.requests.some(r => r.isMutation());
+  return req.isMutation();
 }
 
 function queriesAreEmpty(req: RelayRequestAny): boolean {
-  if (!isBatch(req)) {
-    return req.getQueryString() === "";
-  }
-  return req.requests.every(r => r.getQueryString() === "");
+  return req.getQueryString() === "";
 }
 
 /**
@@ -33,12 +18,31 @@ function queriesAreEmpty(req: RelayRequestAny): boolean {
  */
 const persistedQueriesGetMethodMiddleware: Middleware = next => async req => {
   if (queriesAreEmpty(req) && !hasMutations(req)) {
-    const data = base64url(req.fetchOpts.body as string);
-    req.fetchOpts.body = undefined;
+    // Pull the body out (serializing it) and delete it off of the original
+    // fetch options.
+    const body: Record<string, any> = JSON.parse(req.fetchOpts.body as string);
+    delete req.fetchOpts.body;
+
+    // Reconfigure the fetch for GET.
     req.fetchOpts.method = "GET";
-    req.fetchOpts.url = modifyQuery(req.fetchOpts.url as string, {
-      d: data,
-    });
+
+    // Rebuild the query parameters for GET.
+    const params: Record<string, string> = {};
+    for (const key in body) {
+      if (!body.hasOwnProperty(key)) {
+        continue;
+      }
+
+      const value = body[key];
+      params[key] = typeof value === "string" ? value : JSON.stringify(value);
+    }
+
+    // Set the query parameter on the param to indicate the persisted query
+    // state.
+    params.query = "PERSISTED_QUERY";
+
+    // Combine the new parameters onto the URL.
+    req.fetchOpts.url = modifyQuery(req.fetchOpts.url as string, params);
   }
   return next(req);
 };

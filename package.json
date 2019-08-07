@@ -58,7 +58,7 @@
     "@coralproject/bunyan-prettystream": "^0.1.4",
     "@types/archiver": "^3.0.0",
     "akismet-api": "^4.2.0",
-    "apollo-server-express": "^2.1.0",
+    "apollo-server-express": "^2.8.1",
     "archiver": "^3.0.3",
     "basic-auth": "^2.0.1",
     "bcryptjs": "^2.4.3",

@@ -13,7 +13,7 @@ import { ACCESS_TOKEN_PARAM, CLIENT_ID_PARAM } from "coral-common/constants";
 import { ERROR_CODES } from "coral-common/errors";
 
 /**
- * SubscriptionRequest containts the subscription
+ * SubscriptionRequest contains the subscription
  * request data that comes from Relay.
  */
 export interface SubscriptionRequest {
@@ -119,9 +119,9 @@ export default function createManagedSubscriptionClient(
       const opts: OperationOptions = {
         operationName: operation.name,
         // subscriptions-transport-ws requires `query` to be set to an non-empty string.
-        // With persisted queries we only have the id, so set this to " " to get around
-        // validation.
-        query: operation.text || " ",
+        // With persisted queries we only have the id, so set this to
+        // "PERSISTED_QUERY" to get around validation.
+        query: operation.text || "PERSISTED_QUERY",
         variables,
       };
 

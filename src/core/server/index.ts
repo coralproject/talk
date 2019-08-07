@@ -289,7 +289,9 @@ class Server {
       scraperQueue: this.tasks.scraper,
       disableClientRoutes,
       persistedQueryCache,
-      persistedQueriesRequired: this.config.get("env") === "production",
+      persistedQueriesRequired:
+        this.config.get("env") === "production" &&
+        !this.config.get("enable_graphiql"),
     };
 
     // Only enable the metrics server if concurrency is set to 1.

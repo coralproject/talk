@@ -110,3 +110,34 @@ export class PersistedQueryCache {
     return null;
   }
 }
+
+interface Payload {
+  id?: string;
+  query?: string;
+}
+
+/**
+ * mapPersistedQuery will map the request's payload to the actual query if it
+ * is enabled.
+ *
+ * @param cache the cache instance to use
+ * @param payload the payload to parse and modify if this is a persisted query
+ */
+export async function mapPersistedQuery(
+  cache: PersistedQueryCache,
+  payload?: Payload
+) {
+  if (payload && payload.id && payload.query === "PERSISTED_QUERY") {
+    const query = await cache.get(payload.id);
+    if (!query) {
+      throw new Error("persisted query not found");
+    }
+
+    // Set the query on the payload.
+    payload.query = query.query;
+
+    return true;
+  }
+
+  return false;
+}
