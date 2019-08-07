@@ -9,10 +9,10 @@ export type LanguageCode = "en-US" | "pt-BR" | "es" | "de" | "nl-NL" | "da";
  * value.
  */
 export const LOCALES: LanguageCode[] = [
-  "en-US", 
-  "pt-BR", 
-  "es", 
+  "en-US",
+  "pt-BR",
+  "es",
   "de",
-  "nl-NL", 
-  "da"
+  "nl-NL",
+  "da",
 ];
