@@ -33,8 +33,12 @@ const RecentHistoryContainer: FunctionComponent<Props> = ({
     );
     const rejected =
       user.recentCommentHistory.statuses[GQLCOMMENT_STATUS.REJECTED];
+    const total = published + rejected;
+    if (total === 0) {
+      return 0;
+    }
 
-    return rejected / (published + rejected);
+    return rejected / total;
   }, [user]);
   const triggered =
     settings.recentCommentHistory.enabled &&
