@@ -8,11 +8,4 @@ export type LanguageCode = "en-US" | "pt-BR" | "es" | "de" | "nl-NL" | "da";
  * LOCALES is an array of supported language codes that can be accessed as a
  * value.
  */
- export const LOCALES: LanguageCode[] = [
-   "en-US", 
-   "pt-BR", 
-   "es", 
-   "de", 
-   "nl-NL", 
-   "da"
- ];
+export const LOCALES: LanguageCode[] = ["en-US", "pt-BR", "es", "de","nl-NL", "da"];
