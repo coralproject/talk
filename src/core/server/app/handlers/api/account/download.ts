@@ -37,6 +37,7 @@ async function createExportedContent(
   mongo: Db,
   tenant: Tenant,
   authorID: string,
+  filterDate: Date,
   res: any
 ) {
   const tenantID = tenant.id;
@@ -45,7 +46,13 @@ async function createExportedContent(
   const getStories = new DataLoader((ids: string[]) =>
     retrieveManyStories(mongo, tenantID, ids)
   );
-  const cursor = comments.find({ tenantID, authorID });
+  const cursor = comments.find({
+    tenantID,
+    authorID,
+    createdAt: {
+      $lt: filterDate,
+    },
+  });
 
   let commentBatch: Array<Readonly<Comment>> = [];
 
@@ -180,7 +187,10 @@ export const downloadHandler = ({
     await userIDLimiter.test(req, userID);
 
     try {
-      const { sub: authorID } = await verifyDownloadTokenString(
+      const {
+        sub: authorID,
+        iat: filterDateSeconds,
+      } = await verifyDownloadTokenString(
         mongo,
         tenant,
         signingConfig,
@@ -188,7 +198,10 @@ export const downloadHandler = ({
         now
       );
 
-      await createExportedContent(mongo, tenant, authorID, res);
+      const filterDate = new Date(1970, 0, 1);
+      filterDate.setSeconds(filterDateSeconds);
+
+      await createExportedContent(mongo, tenant, authorID, filterDate, res);
 
       return res;
     } catch (err) {
