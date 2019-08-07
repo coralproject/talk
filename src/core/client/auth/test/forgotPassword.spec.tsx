@@ -6,7 +6,6 @@ import {
   act,
   createResolversStub,
   CreateTestRendererParams,
-  wait,
   waitForElement,
   within,
 } from "coral-framework/testHelpers";
@@ -59,7 +58,6 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await wait(() => expect(windowMock.resizeStub.called).toBe(true));
   windowMock.restore();
 });
 
