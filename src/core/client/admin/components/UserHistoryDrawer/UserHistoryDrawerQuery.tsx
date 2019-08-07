@@ -2,12 +2,12 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 import { ReadyState } from "react-relay";
 
+import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import { CopyButton } from "coral-framework/components";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { graphql, QueryRenderer } from "coral-framework/lib/relay";
 
 import { UserHistoryDrawerQuery as QueryTypes } from "coral-admin/__generated__/UserHistoryDrawerQuery.graphql";
-import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
 import {
   Button,
   CallOut,
@@ -18,6 +18,7 @@ import {
 } from "coral-ui/components";
 
 import Tabs from "./Tabs";
+import UserStatusDetailsContainer from "./UserStatusDetailsContainer";
 
 import styles from "./UserHistoryDrawerQuery.css";
 
@@ -48,6 +49,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
             username
             email
             createdAt
+            ...UserStatusDetailsContainer_user
             ...UserStatusChangeContainer_user
           }
           settings {
@@ -92,7 +94,7 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
               <span>{user.username}</span>
             </Flex>
             <div className={styles.userStatus}>
-              <Flex alignItems="center">
+              <Flex alignItems="center" itemGutter="half">
                 <div className={styles.userStatusLabel}>
                   <Typography variant="bodyCopyBold" container="div">
                     <Flex alignItems="center" itemGutter="half">
@@ -103,8 +105,13 @@ const UserHistoryDrawerQuery: FunctionComponent<Props> = ({
                   </Typography>
                 </div>
                 <div className={styles.userStatusChange}>
-                  <UserStatusChangeContainer settings={settings} user={user} />
+                  <UserStatusChangeContainer
+                    settings={settings}
+                    user={user}
+                    fullWidth={false}
+                  />
                 </div>
+                <UserStatusDetailsContainer user={user} />
               </Flex>
             </div>
             <div className={styles.userDetails}>
