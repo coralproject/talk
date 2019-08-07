@@ -2,7 +2,7 @@
 
 import program from "commander";
 import spawn from "cross-spawn";
-import fs from "fs";
+import fs from "fs-extra";
 import path from "path";
 
 const config = JSON.parse(
@@ -60,8 +60,28 @@ const args = [
   config.projects[program.schema].schemaPath,
 ];
 
-if (program.persist) {
-  args.push("--persist-output", `${program.src}/persisted-queries.json`);
+// Set the persisted query path.
+const persist = program.persist
+  ? `${program.src}/persisted-queries.json`
+  : null;
+if (persist) {
+  args.push("--persist-output", persist);
 }
 
 spawn.sync("relay-compiler", args, { stdio: "inherit" });
+
+if (persist) {
+  if (fs.existsSync(persist)) {
+    // Create the new filename.
+    const name = path.basename(program.src);
+    const generated = "./src/core/server/graph/tenant/persisted/__generated__";
+
+    // Create the generated directory if it doesn't exist.
+    fs.ensureDirSync(generated);
+
+    // Copy the file over to the destination directory.
+    fs.copySync(persist, `${generated}/${name}.json`, {
+      overwrite: true,
+    });
+  }
+}

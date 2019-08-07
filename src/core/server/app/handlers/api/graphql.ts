@@ -22,6 +22,8 @@ export type GraphMiddlewareOptions = Pick<
   | "pubsub"
   | "tenantCache"
   | "metrics"
+  | "persistedQueryCache"
+  | "persistedQueriesRequired"
 >;
 
 export const graphQLHandler = ({
