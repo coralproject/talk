@@ -62,7 +62,6 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-  await wait(() => expect(windowMock.resizeStub.called).toBe(true));
   windowMock.restore();
 });
 

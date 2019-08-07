@@ -1,7 +1,6 @@
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import AutoHeight from "coral-auth/components/AutoHeight";
 import { Bar, SubBar, Subtitle, Title } from "coral-auth/components/Header";
 import Main from "coral-auth/components/Main";
 import OrSeparator from "coral-auth/components/OrSeparator";
@@ -46,7 +45,6 @@ const SignIn: FunctionComponent<SignInForm> = ({
     facebookEnabled || googleEnabled || oidcEnabled;
   return (
     <div data-testid="signIn-container">
-      <AutoHeight />
       <Localized
         id="signIn-signInToJoinHeader"
         title={<Title />}
