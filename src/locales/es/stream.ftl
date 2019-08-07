@@ -32,7 +32,6 @@ comments-streamQuery-storyNotFound = Historia no encontrada
 comments-postCommentForm-submit = Enviar
 comments-replyList-showAll = Mostrar todo
 comments-replyList-showMoreReplies = Mostrar más respuestas
->>>>>>> c979dfd7d52721a9f1a3a5365c61192a3edd3eab
 
 
 comments-viewNew =
@@ -163,7 +162,6 @@ profile-settings-description =
   Los comentaristas que ignores podrán ver tus comentarios.
 profile-settings-empty = Actualmente no estás ignorando a nadie
 profile-settings-stopIgnoring = Deja de ignorar
->>>>>>> c979dfd7d52721a9f1a3a5365c61192a3edd3eab
 
 
 ## Report Comment Popover
