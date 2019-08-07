@@ -405,7 +405,7 @@ moderate-searchBar-allStories = Alle historier
   .title = Alle historier
 moderate-searchBar-noResults = Ingen resultater
 moderate-searchBar-stories = Historier:
-moderate-searchBar-searchButton = Search
+moderate-searchBar-searchButton = Søg
 moderate-searchBar-titleNotAvailable =
   .title = Titlen er ikke tilgængelig
 moderate-searchBar-comboBox =
@@ -426,26 +426,26 @@ moderate-searchBar-seeAllResults = Se alle resultater
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =
-  .title = Email address
+  .title = Email adresse
 moderate-user-drawer-created-at =
-  .title = Account creation date
+  .title = Kontooprettelsesdato
 moderate-user-drawer-member-id =
-  .title = Member ID
-moderate-user-drawer-tab-all-comments = All Comments
-moderate-user-drawer-tab-rejected-comments = Rejected
-moderate-user-drawer-tab-account-history = Account History
-moderate-user-drawer-load-more = Load More
-moderate-user-drawer-all-no-comments = {$username} has not submitted any comments.
-moderate-user-drawer-rejected-no-comments = {$username} does not have any rejected comments.
-moderate-user-drawer-user-not-found = User not found.
+  .title = Medlems ID
+moderate-user-drawer-tab-all-comments = Alle kommentarer
+moderate-user-drawer-tab-rejected-comments = Afvist
+moderate-user-drawer-tab-account-history = Kontohistorie
+moderate-user-drawer-load-more = Indlæse mere
+moderate-user-drawer-all-no-comments = {$username} har ikke indsendt nogen kommentarer.
+moderate-user-drawer-rejected-no-comments = {$username} har ingen afviste kommentarer.
+moderate-user-drawer-user-not-found = Bruger ikke fundet.
 moderate-user-drawer-status-label = Status:
 
 moderate-user-drawer-account-history-system = <icon>computer</icon> System
-moderate-user-drawer-account-history-suspension-ended = Suspension ended
+moderate-user-drawer-account-history-suspension-ended = Suspension sluttede
 moderate-user-drawer-account-history-suspension-removed = Suspension removed
-moderate-user-drawer-account-history-banned = Banned
-moderate-user-drawer-account-history-ban-removed = Ban removed
-moderate-user-drawer-account-history-no-history = No actions have been taken on this account
+moderate-user-drawer-account-history-banned = Forbudt
+moderate-user-drawer-account-history-ban-removed = Forbud fjernet
+moderate-user-drawer-account-history-no-history = Der er ikke taget nogen handlinger på denne konto
 
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
@@ -482,192 +482,180 @@ moderate-user-drawer-suspension =
 
 ## Create Username
 
-createUsername-createUsernameHeader = Create Username
+createUsername-createUsernameHeader = Lav brugernavn
 createUsername-whatItIs =
   Your username is an identifier that will appear on all of your comments.
-createUsername-createUsernameButton = Create Username
-createUsername-usernameLabel = Username
-createUsername-usernameDescription = You may use “_” and “.” Spaces not permitted.
+createUsername-createUsernameButton = Lav brugernavn
+createUsername-usernameLabel = Brugernavn
+createUsername-usernameDescription = Du kan bruge “_” og “.” Mellemrum ikke tilladt.
 createUsername-usernameTextField =
-  .placeholder = Username
+  .placeholder = Brugernavn
 
 ## Add Email Address
-addEmailAddress-addEmailAddressHeader = Add Email Address
+addEmailAddress-addEmailAddressHeader = Tilføj e-mail-adresse
 
-addEmailAddress-emailAddressLabel = Email Address
+addEmailAddress-emailAddressLabel = Email adresse
 addEmailAddress-emailAddressTextField =
-  .placeholder = Email Address
+  .placeholder = Email adresse
 
-addEmailAddress-confirmEmailAddressLabel = Confirm Email Address
+addEmailAddress-confirmEmailAddressLabel = Bekræft email adresse
 addEmailAddress-confirmEmailAddressTextField =
-  .placeholder = Confirm Email Address
+  .placeholder = Bekræft email adresse
 
 addEmailAddress-whatItIs =
-  For your added security, we require users to add an email address to their accounts.
+  For din ekstra sikkerhed kræver vi, at brugerne tilføjer en e-mail-adresse til deres konti.
 
 addEmailAddress-addEmailAddressButton =
-  Add Email Address
+  Tilføj e-mail-adresse
 
 ## Create Password
-createPassword-createPasswordHeader = Create Password
+createPassword-createPasswordHeader = Opret adgangskode
 createPassword-whatItIs =
-  To protect against unauthorized changes to your account,
-  we require users to create a password.
+  For at beskytte mod uautoriserede ændringer af din konto kræver vi, at brugerne opretter et kodeord.
 createPassword-createPasswordButton =
-  Create Password
+  Opret adgangskode
 
-createPassword-passwordLabel = Password
-createPassword-passwordDescription = Must be at least {$minLength} characters
+createPassword-passwordLabel = Adgangskode
+createPassword-passwordDescription = Skal være mindst {$minLength} tegn
 createPassword-passwordTextField =
-  .placeholder = Password
+  .placeholder = Adgangskode
 
 ## Community
-community-emptyMessage = We could not find anyone in your community matching your criteria.
+community-emptyMessage = Vi kunne ikke finde nogen i dit samfund, der matcher dine kriterier.
 
 community-filter-searchField =
-  .placeholder = Search by username or email address...
-  .aria-label = Search by username or email address
+  .placeholder = Søg efter brugernavn eller e-mail-adresse ...
+  .aria-label = Søg efter brugernavn eller e-mail-adresse
 community-filter-searchButton =
-  .aria-label = Search
+  .aria-label = Søg
 
 community-filter-roleSelectField =
-  .aria-label = Search by role
+  .aria-label = Søg efter rolle
 
 community-filter-statusSelectField =
-.aria-label = Search by user status
+.aria-label = Søg efter brugerstatus
 
 community-changeRoleButton =
-  .aria-label = Change role
+  .aria-label = Skift rolle
 
 community-filter-optGroupAudience =
-  .label = Audience
+  .label = Publikum
 community-filter-optGroupOrganization =
-  .label = Organization
-community-filter-search = Search
-community-filter-showMe = Show Me
-community-filter-allRoles = All Roles
-community-filter-allStatuses = All Statuses
-
-community-column-username = Username
+  .label = Organisation
+community-filter-search = Søg
+community-filter-showMe = Vis mig
+community-filter-allRoles = Alle roller
+community-filter-allStatuses = Alle statuer
+ 
+community-column-username = Brugernavn
 community-column-email = Email
-community-column-memberSince = Member Since
-community-column-role = Role
+community-column-memberSince = Medlem siden
+community-column-role = Rolle
 community-column-status = Status
 
 community-role-popover =
-  .description = A dropdown to change the user role
+  .description = En dropdown for at ændre brugerrollen
 
 community-userStatus-popover =
-  .description = A dropdown to change the user status
+  .description = Et dropdown for at ændre brugerstatus
 
-community-userStatus-banUser = Ban User
-community-userStatus-removeBan = Remove Ban
-community-userStatus-suspendUser = Suspend User
-community-userStatus-removeSuspension = Remove Suspension
-community-userStatus-unknown = Unknown
+community-userStatus-banUser = Forbud bruger
+community-userStatus-removeBan = Fjern forbud
+community-userStatus-suspendUser = Suspender bruger
+community-userStatus-removeSuspension = Fjern ophæng
+community-userStatus-unknown = Ukendt
 community-userStatus-changeButton =
-  .aria-label = Change user status
+  .aria-label = Skift brugerstatus
 
-community-banModal-areYouSure = Are you sure you want to ban <strong>{ $username }</strong>?
+community-banModal-areYouSure = Er du sikker på, at du vil forbyde <strong>{ $username }</strong>?
 community-banModal-consequence =
-  Once banned, this user will no longer be able to comment, use
-  reactions, or report comments.
-community-banModal-cancel = Cancel
-community-banModal-banUser = Ban User
-community-banModal-customize = Customize ban email message
+  Når det er forbudt, vil denne bruger ikke længere være i stand til at kommentere, bruge reaktioner eller rapportere kommentarer.
+community-banModal-cancel = Afbestille
+community-banModal-banUser = Forbud bruger
+community-banModal-customize = Tilpas forbud e-mail-besked
 community-banModal-emailTemplate =
-  Hello { $username },
+  Hej { $username },
 
-  Someone with access to your account has violated our community guidelines. As a result, your account has been banned. You will no longer be able to comment, react or report comments
+  En person med adgang til din konto har overtrådt vores fællesskabsretningslinjer. Som et resultat er din konto forbudt. Du vil ikke længere være i stand til at kommentere, reagere eller rapportere kommentarer.
 
-community-suspendModal-areYouSure = Suspend <strong>{ $username }</strong>?
+community-suspendModal-areYouSure = Suspenderer <strong>{ $username }</strong>?
 community-suspendModal-consequence =
-  Once suspended, this user will no longer be able to comment, use
-  reactions, or report comments.
-community-suspendModal-duration-3600 = 1 hour
-community-suspendModal-duration-10800 = 3 hours
-community-suspendModal-duration-86400 = 24 hours
-community-suspendModal-duration-604800 = 7 days
-community-suspendModal-cancel = Cancel
-community-suspendModal-suspendUser = Suspend User
+  Når den er suspenderet, kan denne bruger ikke længere kommentere, bruge reaktioner eller rapportere kommentarer.
+community-suspendModal-duration-3600 = 1 time
+community-suspendModal-duration-10800 = 3 timer
+community-suspendModal-duration-86400 = 24 timer
+community-suspendModal-duration-604800 = 7 dage
+community-suspendModal-cancel = Afbestille
+community-suspendModal-suspendUser = Suspender bruger
 community-suspendModal-emailTemplate =
-  Hello { $username },
+  Hej { $username },
+  
+  I henhold til { $organizationName }'s community-retningslinjer er din konto midlertidigt suspenderet. Under suspensionen vil du ikke være i stand til at kommentere, markere eller samarbejde med andre kommentatorer. Genindgå samtalen om { framework-timeago-time } 
 
-  In accordance with { $organizationName }'s community guidelines, your account has been temporarily suspended. During the suspension, you will be unable to comment, flag or engage with fellow commenters. Please rejoin the conversation in { framework-timeago-time }.
-
-community-suspendModal-customize = Customize suspension email message
+community-suspendModal-customize = Tilpas suspension af e-mail-meddelelse
 
 community-suspendModal-success =
+  <strong>{ $username }</strong> er blevet suspenderet i <strong>{ $duration }</strong>
   <strong>{ $username }</strong> has been suspended for <strong>{ $duration }</strong>
 
-community-suspendModal-success-close = Close
-community-suspendModal-selectDuration = Select suspension length
+community-suspendModal-success-close = Luk
+community-suspendModal-selectDuration = Vælg ophængslængde
 
-community-invite-inviteMember = Invite members to your organization
-community-invite-emailAddressLabel = Email address:
-community-invite-inviteMore = Invite more
-community-invite-inviteAsLabel = Invite as:
-community-invite-sendInvitations = Send invitations
+community-invite-inviteMember = Inviter medlemmer til din organisation
+community-invite-emailAddressLabel = Email adresse:
+community-invite-inviteMore = Inviter mere
+community-invite-inviteAsLabel = Inviter som:
+community-invite-sendInvitations = Send invitationer
 community-invite-role-staff =
-  <strong>Staff role:</strong> Receives a “Staff” badge, and
-  comments are automatically approved. Cannot moderate
-  or change any { -product-name } configuration.
+  <strong>Personale rolle:</strong> Modtager en "Staff" -emblem, og kommentarer godkendes automatisk. Kan ikke moderere eller ændre nogen konfiguration.
 community-invite-role-moderator =
-  <strong>Moderator role:</strong> Moderator role: Receives a
-  “Staff” badge, and comments are automatically
-  approved. Has full moderation privileges (approve,
-  reject and feature comments). Can configure individual
-  articles but no site-wide configuration privileges.
+  <strong>Moderator rolle:</strong> Modtager en "Staff" -emblem, og kommentarer godkendes automatisk. Har fulde moderationsprivilegier (godkend, afvis og funktion kommentarer). Kan konfigurere individuelle artikler, men ingen konfigurationsrettigheder på hele webstedet.
 community-invite-role-admin =
-  <strong>Admin role:</strong> Receives a “Staff” badge, and
-  comments are automatically approved. Has full
-  moderation privileges (approve, reject and feature
-  comments). Can configure individual articles and has
-  site-wide configuration privileges.
-community-invite-invitationsSent = Your invitations have been sent!
-community-invite-close = Close
-community-invite-invite = Invite
+  <strong>Administratorrolle:</strong> Modtager en "Staff" -emblem, og kommentarer godkendes automatisk. Har fulde moderationsprivilegier (godkend, afvis og funktion kommentarer). Kan konfigurere individuelle artikler og har konfigurationsrettigheder på hele webstedet.
+community-invite-invitationsSent = Dine invitationer er sendt!
+community-invite-close = Luk
+community-invite-invite = Invitere
 
 ## Stories
-stories-emptyMessage = There are currently no published stories.
-stories-noMatchMessage = We could not find any stories matching your criteria.
+stories-emptyMessage = Der er i øjeblikket ingen offentliggjorte historier.
+stories-noMatchMessage = Vi kunne ikke finde nogen historier, der matcher dine kriterier.
 
 stories-filter-searchField =
-  .placeholder = Search by story title or author...
-  .aria-label = Search by story title or author
+  .placeholder = Søg efter historietitel eller forfatter ...
+  .aria-label = Søg efter historietitel eller forfatter
 stories-filter-searchButton =
-  .aria-label = Search
+  .aria-label = Søg
 
 stories-filter-statusSelectField =
-  .aria-label = Search by status
+  .aria-label = Søg efter status
 
 stories-changeStatusButton =
-  .aria-label = Change status
+  .aria-label = Skift status
 
-stories-filter-search = Search
-stories-filter-showMe = Show Me
-stories-filter-allStories = All Stories
-stories-filter-openStories = Open Stories
-stories-filter-closedStories = Closed Stories
+stories-filter-search = Søg
+stories-filter-showMe = Vis mig
+stories-filter-allStories = Alle historier
+stories-filter-openStories = Åben historier
+stories-filter-closedStories = Lukkede historier
 
-stories-column-title = Title
-stories-column-author = Author
-stories-column-publishDate = Publish Date
+stories-column-title = Titel
+stories-column-author = Forfatter
+stories-column-publishDate = Udgivelsesdato
 stories-column-status = Status
-stories-column-clickToModerate = Click title to moderate story
+stories-column-clickToModerate = Klik på titel for at moderere historien
 
 stories-status-popover =
-  .description = A dropdown to change the story status
+  .description = En dropdown for at ændre historiestatusen
 
 ## Invite
 
-invite-youHaveBeenInvited = You've been invited to join { $organizationName }
-invite-finishSettingUpAccount = Finish setting up the account for:
-invite-createAccount = Create Account
-invite-passwordLabel = Password
-invite-passwordDescription = Must be at least { $minLength } characters
+invite-youHaveBeenInvited = Du er blevet inviteret til at deltage { $organizationName }
+invite-finishSettingUpAccount = Afslut opsætningen af kontoen for:
+invite-createAccount = Opret konto
+invite-passwordLabel = Adgangskode
+invite-passwordDescription = Skal være mindst { $minLength } tegn
 invite-passwordTextField =
-  .placeholder = Password
+  .placeholder = Adgangskode
 invite-usernameLabel = Brugernavn
 invite-usernameDescription = You may use “_” and “.”
 invite-usernameTextField =
