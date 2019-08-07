@@ -295,141 +295,134 @@ configure-moderation-perspective-accountNote =
   For yderligere information om, hvordan man konfigurerer filteret for perspektivtoksisk kommentar, kan du besøge: <externalLink>https://github.com/conversationai/perspectiveapi/blob/master/quickstart.md</externalLink>
 
 #### Banned Words Configuration
-configure-wordList-banned-bannedWordsAndPhrases = Banned Words and Phrases
+configure-wordList-banned-bannedWordsAndPhrases = Forbudte ord og sætninger
 configure-wordList-banned-explanation =
-  Comments containing a word or phrase in the banned words list are <strong>automatically rejected and are not published</strong>.
-configure-wordList-banned-wordList = Banned Word List
+  Kommentarer, der indeholder et ord eller en sætning i listen over forbudte ord, afvises automatisk og offentliggøres ikke.
+configure-wordList-banned-wordList = Liste over forbudte ord
 configure-wordList-banned-wordListDetail =
-  Separate banned words or phrases with a new line. Attempting to copy
-  and paste a comma separated list? <externalLink>Learn how to convert your list
-  to a new line separated list.</externalLink>
-
+  Adskil bannede ord eller sætninger med en ny linje.
 #### Suspect Words Configuration
-configure-wordList-suspect-bannedWordsAndPhrases = Suspect Words and Phrases
+configure-wordList-suspect-bannedWordsAndPhrases = Mistænkte ord og sætninger
 configure-wordList-suspect-explanation =
-  Comments containing a word or phrase in the Suspect Words List
-  are <strong>placed into the Reported Queue for moderator review and are
-  published (if comments are not pre-moderated).</strong>
-configure-wordList-suspect-wordList = Suspect Word List
+  Kommentarer, der indeholder et ord eller en sætning
+  i listen over mistænkte ord, placeres i den rapporterede
+  kø til moderatorgennemgang og offentliggøres
+  (hvis kommentarer ikke er før-modereret).
+configure-wordList-suspect-wordList = Mistænkte ordliste
 configure-wordList-suspect-wordListDetail =
-  Separate suspect words or phrases with a new line. Attempting to copy
-  and paste a comma separated list? <externalLink>Learn how to convert your list
-  to a new line separated list.</externalLink>
+  Adskil mistænkelige ord eller sætninger med en ny linje.
 
 ### Advanced
-configure-advanced-customCSS = Custom CSS
+configure-advanced-customCSS = Tilpasset CSS
 configure-advanced-customCSS-explanation =
-  URL of a CSS stylesheet that will override default Embed Stream styles. Can be internal or external.
+  URL til et CSS-stilark, der tilsidesætter standardindlejring af streams. Kan være intern eller ekstern.
 
-configure-advanced-permittedDomains = Permitted Domains
+configure-advanced-permittedDomains = Tilladte domæner
 configure-advanced-permittedDomains-explanation =
-  Domains where your { -product-name } instance is allowed to be embedded.
-  Typical use is localhost, staging.yourdomain.com,
-  yourdomain.com, etc.
-
-configure-advanced-liveUpdates = Comment Stream Live Updates
+  Domæner, hvor din forekomst af Coral må integreres. Typisk brug er localhost, staging.yourdomain.com, yourdomain.com osv.
+configure-advanced-liveUpdates = Kommentar Stream Live-opdateringer
 configure-advanced-liveUpdates-explanation =
-  When enabled, there will be real-time loading and updating of comments as new comments and replies are published
+  Når det er aktiveret, vil der blive realtid indlæst og opdateret af kommentarer, når nye kommentarer og svar offentliggøres.
 
-configure-advanced-embedCode-title = Embed Code
+configure-advanced-embedCode-title = Integrer kode
 configure-advanced-embedCode-explanation =
-  Copy and paste the code below into your CMS to embed Coral comment streams in
-  each of your site’s stories.
+  Kopier og indsæt nedenstående kode i dit CMS for at integrere Coral-kommentarestreams i hver af dit websteds historier.
 
 configure-advanced-embedCode-comment =
-  Uncomment these lines and replace with the ID of the
-  story's ID and URL from your CMS to provide the
-  tightest integration. Refer to our documentation at
-  https://docs.coralproject.net for all the configuration
-  options.
+  Fravælg disse linjer og erstatt med ID'et for
+  historiens ID og URL fra dit CMS for at angive
+  strammeste integration. Se vores dokumentation på
+  https://docs.coralproject.net for al konfiguration
+  muligheder.
 
 ## Decision History
 decisionHistory-popover =
-  .description = A dialog showing the decision history
+  .description = En dialog der viser beslutningshistorikken
 decisionHistory-youWillSeeAList =
-  You will see a list of your post moderation actions here.
+  Du vil se en liste over dine handlinger til moderering af indlæg her.
 decisionHistory-showMoreButton =
-  Show More
-decisionHistory-yourDecisionHistory = Your Decision History
-decisionHistory-rejectedCommentBy = Rejected comment by <Username></Username>
-decisionHistory-approvedCommentBy = Approved comment by <Username></Username>
-decisionHistory-goToComment = Go to comment
+  Vis mere
+decisionHistory-yourDecisionHistory = Din beslutningshistorie
+decisionHistory-rejectedCommentBy = Afvist kommentar af <Username></Username>
+decisionHistory-approvedCommentBy = Godkendt kommentar af <Username></Username>
+decisionHistory-goToComment = Gå til kommentar
 
 ## moderate
-moderate-navigation-reported = reported
-moderate-navigation-pending = Pending
-moderate-navigation-unmoderated = unmoderated
-moderate-navigation-rejected = rejected
+moderate-navigation-reported = Rapporteret
+moderate-navigation-pending = Verserende
+moderate-navigation-unmoderated = Umodereret
+moderate-navigation-rejected = Afvist
 
 moderate-marker-preMod = Pre-Mod
 moderate-marker-link = Link
-moderate-marker-bannedWord = Banned Word
-moderate-marker-suspectWord = Suspect Word
+moderate-marker-bannedWord = Forbudt ord
+moderate-marker-suspectWord = Mistænkte ord
 moderate-marker-spam = Spam
-moderate-marker-toxic = Toxic
+moderate-marker-toxic = Giftig
 moderate-marker-karma = Karma
-moderate-marker-bodyCount = Body Count
-moderate-marker-offensive = Offensive
+moderate-marker-bodyCount = Ordtælling
+moderate-marker-offensive = Offensiv
 
-moderate-markers-details = Details
-moderate-flagDetails-offensive = Offensive
+moderate-markers-details = Detaljer
+moderate-flagDetails-offensive = Offensiv
 moderate-flagDetails-spam = Spam
 
-moderate-flagDetails-toxicityScore = Toxicity Score
-moderate-toxicityLabel-likely = Likely <score></score>
-moderate-toxicityLabel-unlikely = Unlikely <score></score>
-moderate-toxicityLabel-maybe = Maybe <score></score>
+moderate-flagDetails-toxicityScore = Toksicitetsresultat
+moderate-toxicityLabel-likely = Sandsynligvis <score></score>
+moderate-toxicityLabel-unlikely = Usandsynligt <score></score>
+moderate-toxicityLabel-maybe = Måske <score></score>
 
-moderate-emptyQueue-pending = Nicely done! There are no more pending comments to moderate.
-moderate-emptyQueue-reported = Nicely done! There are no more reported comments to moderate.
-moderate-emptyQueue-unmoderated = Nicely done! All comments have been moderated.
-moderate-emptyQueue-rejected = There are no rejected comments.
+moderate-emptyQueue-pending = Godt gjort! Der er ikke flere afventende kommentarer til mo derate.
+moderate-emptyQueue-reported = Godt gjort! Der er ikke flere rapporterede kommentarer til moderat.
+moderate-emptyQueue-unmoderated = Godt gjort! Alle kommentarer er modereret.
+moderate-emptyQueue-rejected = Der er ingen afviste kommentarer.
 
-moderate-comment-inReplyTo = Reply to <Username></Username>
-moderate-comment-viewContext = View Context
+moderate-comment-inReplyTo = Svar til <Username></Username>
+moderate-comment-viewContext = Se sammenhæng
 moderate-comment-rejectButton =
-  .aria-label = Reject
+  .aria-label = Afvise
 moderate-comment-approveButton =
-  .aria-label = Approve
-moderate-comment-decision = Decision
-moderate-comment-story = Story
-moderate-comment-moderateStory = Moderate Story
-moderate-comment-featureText = Feature
-moderate-comment-featuredText = Featured
-moderate-comment-moderatedBy = Moderated By
+  .aria-label = Godkende
+moderate-comment-decision = Afgørelse
+moderate-comment-story = Historie
+moderate-comment-moderateStory = Moderat historie
+moderate-comment-featureText = Fremhæv
+moderate-comment-featuredText = Fremhævet
+moderate-comment-moderatedBy = Modereret af
 moderate-comment-moderatedBySystem = System
 
-moderate-single-goToModerationQueues = Go to moderation queues
-moderate-single-singleCommentView = Single Comment View
+moderate-single-goToModerationQueues = Gå til moderationskøer
+moderate-single-singleCommentView = Visning af en enkelt kommentar
 
 moderate-queue-viewNew =
   { $count ->
-    [1] View {$count} new comment
-    *[other] View {$count} new comments
+    [1] Se {$count} ny kommentar
+    *[other] Se {$count} nye kommentarer
   }
 
 ### Moderate Search Bar
-moderate-searchBar-allStories = All stories
-  .title = All stories
-moderate-searchBar-noResults = No results
-moderate-searchBar-stories = Stories:
+moderate-searchBar-allStories = Alle historier
+  .title = Alle historier
+moderate-searchBar-noResults = Ingen resultater
+moderate-searchBar-stories = Historier:
 moderate-searchBar-searchButton = Search
 moderate-searchBar-titleNotAvailable =
-  .title = Title not available
+  .title = Titlen er ikke tilgængelig
 moderate-searchBar-comboBox =
-  .aria-label = Search or jump to story
+  .aria-label = Søg eller hopp til historien
 moderate-searchBar-searchForm =
-  .aria-label = Stories
+  .aria-label = Historier
 moderate-searchBar-currentlyModerating =
-  .title = Currently moderating
-moderate-searchBar-searchResultsMostRecentFirst = Search results (Most recent first)
-moderate-searchBar-moderateAllStories = Moderate all stories
-moderate-searchBar-comboBoxTextField =
-  .aria-label = Search or jump to story...
-  .placeholder = Use quotation marks around each search term (e.g. “team”, “St. Louis”)
-moderate-searchBar-goTo = Go to
-moderate-searchBar-seeAllResults = See all results
+  .title = I øjeblikket modererer
+moderate-searchBar-searchResultsMostRecentFirst = Søgeresultater (Seneste først)
 
+moderate-searchBar-moderateAllStories = Modererer alle historier
+moderate-searchBar-comboBoxTextField =
+  .aria-label = Søg eller hopp til historien ...
+  .placeholder = Brugertilbudstegn omkring hvert søgeterm (f.eks. "Team", "St. Louis")
+moderate-searchBar-goTo = Gå til
+moderate-searchBar-seeAllResults = Se alle resultater
+ 
 ### Moderate User History Drawer
 
 moderate-user-drawer-email =
@@ -457,32 +450,32 @@ moderate-user-drawer-account-history-no-history = No actions have been taken on 
 moderate-user-drawer-suspension =
   Suspension, { $value } { $unit ->
     [second] { $value ->
-      [1] second
-      *[other] seconds
+      [1] sekund
+      *[other] sekunder
     }
     [minute] { $value ->
-      [1] minute
-      *[other] minutes
+      [1] minut
+      *[other] minutter
     }
     [hour] { $value ->
-      [1] hour
-      *[other] hours
+      [1] time
+      *[other] timer
     }
     [day] { $value ->
       [1] day
-      *[other] days
+      *[other] dage
     }
     [week] { $value ->
-      [1] week
-      *[other] weeks
+      [1] uge
+      *[other] uger
     }
     [month] { $value ->
-      [1] month
-      *[other] months
+      [1] måned
+      *[other] måneder
     }
     [year] { $value ->
-      [1] year
-      *[other] years
+      [1] år
+      *[other] år
     }
     *[other] unknown unit
   }
@@ -675,14 +668,14 @@ invite-passwordLabel = Password
 invite-passwordDescription = Must be at least { $minLength } characters
 invite-passwordTextField =
   .placeholder = Password
-invite-usernameLabel = Username
+invite-usernameLabel = Brugernavn
 invite-usernameDescription = You may use “_” and “.”
 invite-usernameTextField =
-  .placeholder = Username
-invite-oopsSorry = Oops Sorry!
-invite-successful = Your account has been created
-invite-youMayNowSignIn = You may now sign-in to { -product-name } using:
-invite-goToAdmin = Go to { -product-name } Admin
-invite-goToOrganization = Go to { $organizationName }
+  .placeholder = Brugernavn
+invite-oopsSorry = Undskyld!
+invite-successful = Din konto er blevet oprettet
+invite-youMayNowSignIn = Du kan nu logge på { -product-name } ved hjælp af:
+invite-goToAdmin = Gå til { -product-name } Admin
+invite-goToOrganization = Gå til { $organizationName }
 invite-tokenNotFound =
-  The specified link is invalid, check to see if it was copied correctly.
+  Det specificerede link er ugyldigt. Kontroller, om det blev kopieret korrekt.
