@@ -386,14 +386,16 @@ export async function updateOwnUsername(
   const dateDiff = lastUsernameEditAllowed.getDate() - 14;
   lastUsernameEditAllowed.setDate(dateDiff);
 
-  const recentUpdate = user.status.username
-    ? user.status.username.history.find(history => {
-        return history.createdAt > lastUsernameEditAllowed;
-      })
-    : null;
+  if (user.status.username.history.length > 1) {
+    const recentUpdate = user.status.username
+      ? user.status.username.history.find(history => {
+          return history.createdAt > lastUsernameEditAllowed;
+        })
+      : null;
 
-  if (recentUpdate) {
-    throw new UsernameUpdatedWithinWindowError(recentUpdate.createdAt);
+    if (recentUpdate) {
+      throw new UsernameUpdatedWithinWindowError(recentUpdate.createdAt);
+    }
   }
 
   return updateUsername(mongo, tenant.id, user.id, username, user.id);

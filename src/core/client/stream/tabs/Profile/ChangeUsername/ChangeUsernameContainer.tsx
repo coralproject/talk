@@ -62,7 +62,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
 
   const canChangeUsername = useMemo(() => {
     const { username } = viewer.status;
-    if (username && username.history.length > 0) {
+    if (username && username.history.length > 1) {
       const lastUsernameEditAllowed = new Date();
       const dateDiff = lastUsernameEditAllowed.getDate() - 14;
       lastUsernameEditAllowed.setDate(dateDiff);
@@ -75,7 +75,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
 
   const canChangeUsernameDate = useMemo(() => {
     const { username } = viewer.status;
-    if (username && username.history.length > 0) {
+    if (username && username.history.length > 1) {
       const date = new Date(
         username.history[username.history.length - 1].createdAt
       );
@@ -214,12 +214,12 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                           </Field>
                         </HorizontalGutter>
                       </FormField>
+                      {submitError && (
+                        <CallOut color="error" fullWidth>
+                          {submitError}
+                        </CallOut>
+                      )}
                     </HorizontalGutter>
-                    {submitError && (
-                      <CallOut color="error" fullWidth>
-                        {submitError}
-                      </CallOut>
-                    )}
                     <Flex justifyContent="flex-end" className={styles.footer}>
                       <Localized id="profile-changeUsername-cancel">
                         <Button type="button" onClick={toggleEditForm}>
