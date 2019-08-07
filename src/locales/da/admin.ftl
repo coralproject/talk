@@ -1,141 +1,142 @@
 ### Localization for Admin
 
 ## General
-general-notAvailable = Not available
+general-notAvailable = Ikke tilgængelig
 
 ## Story Status
-storyStatus-open = Open
-storyStatus-closed = Closed
+storyStatus-open = Åbne
+storyStatus-closed = Lukkede
 
 ## Roles
-role-admin = Admin
+role-admin = Administrator
 role-moderator = Moderator
-role-staff = Staff
-role-commenter = Commenter
+role-staff = Personale
+role-commenter = Kommentator
 
-role-plural-admin = Admins
-role-plural-moderator = Moderators
-role-plural-staff = Staff
-role-plural-commenter = Commenters
+role-plural-admin = Administratorer
+role-plural-moderator = Moderatorer
+role-plural-staff = Personale
+role-plural-commenter = Kommentarer
 
 ## User Statuses
-userStatus-active = Active
-userStatus-banned = Banned
-userStatus-suspended = Suspended
+userStatus-active = Aktiv
+userStatus-banned = Forbudt
+userStatus-suspended = Suspenderet
 
 ## Navigation
-navigation-moderate = Moderate
-navigation-community = Community
-navigation-stories = Stories
-navigation-configure = Configure
+navigation-moderate = Moderer
+navigation-community = Samfund
+navigation-stories = Historier
+navigation-configure = Konfigurer
 
 ## User Menu
-userMenu-signOut = Sign Out
-userMenu-viewLatestRelease = View Latest Release
-userMenu-reportBug = Report a Bug or Give Feedback
+userMenu-signOut = Log ud
+userMenu-viewLatestRelease = Se seneste udgivelse
+userMenu-reportBug = Rapporter en fejl, eller giv feedback
 userMenu-popover =
-  .description = A dialog of the user menu with related links and actions
+  .description = En dialogboks i brugermenuen med relaterede links og handlinger
 
 ## Restricted
-restricted-currentlySignedInTo = Currently signed in to
-restricted-noPermissionInfo = You do not have permission to access this page.
-restricted-signedInAs = You are signed in as: <Username></Username>
-restricted-signInWithADifferentAccount = Sign in with a different account
-restricted-contactAdmin = If you think this is an error, please contact your administrator for assistance.
+restricted-currentlySignedInTo = Aktuelt logget ind på
+restricted-noPermissionInfo = Du har ikke tilladelse til at få adgang til denne side.
+restricted-signedInAs = Du er logget ind som:<Username></Username>
+restricted-signInWithADifferentAccount = Log ind med en anden konto
+restricted-contactAdmin = Hvis du mener, at dette er en fejl, skal du kontakte din administrator for at få hjælp.
 
 ## Login
 
 # Sign In
-login-signInTo = Sign in to
-login-signIn-enterAccountDetailsBelow = Enter your account details below
+login-signInTo = Log ind på
+login-signIn-enterAccountDetailsBelow = Indtast dine kontooplysninger nedenfor
 
-login-emailAddressLabel = Email Address
+login-emailAddressLabel = Email adresse
 login-emailAddressTextField =
-  .placeholder = Email Address
+  .placeholder = Email adresse
 
-login-signIn-passwordLabel = Password
+login-signIn-passwordLabel = Adgangskode
 login-signIn-passwordTextField =
-  .placeholder = Password
+  .placeholder = Adgangskode
 
-login-signIn-signInWithEmail = Sign in with Email
-login-signIn-orSeparator = Or
+login-signIn-signInWithEmail = Log ind med e-mail
+login-signIn-orSeparator = Eller
 
-login-signInWithFacebook = Sign in with Facebook
-login-signInWithGoogle = Sign in with Google
-login-signInWithOIDC = Sign in with { $name }
+login-signInWithFacebook = Log ind med Facebook
+login-signInWithGoogle = Log ind med Google
+login-signInWithOIDC = Log ind med { $name }
 
 ## Configure
 
 configure-unsavedInputWarning =
-  You have unsaved input. Are you sure you want to leave this page?
+  Du har ikke gemt input. Er du sikker på, at du vil forlade denne side?
 
-configure-sideBarNavigation-general = General
-configure-sideBarNavigation-authentication = Authentication
+configure-sideBarNavigation-general = Generelle
+configure-sideBarNavigation-authentication = Godkendelse
 configure-sideBarNavigation-moderation = Moderation
-configure-sideBarNavigation-organization = Organization
-configure-sideBarNavigation-advanced = Advanced
+configure-sideBarNavigation-organization = Organisation
+configure-sideBarNavigation-advanced = Avancerede
 configure-sideBarNavigation-email = Email
-configure-sideBarNavigation-bannedAndSuspectWords = Banned and Suspect Words
+configure-sideBarNavigation-bannedAndSuspectWords = Forbudte og mistænkelige ord
 
-configure-sideBar-saveChanges = Save Changes
-configure-configurationSubHeader = Configuration
-configure-onOffField-on = On
-configure-onOffField-off = Off
-configure-permissionField-allow = Allow
-configure-permissionField-dontAllow = Don't allow
+configure-sideBar-saveChanges = Gem ændringer
+configure-configurationSubHeader = Konfiguration
+configure-onOffField-on = Tændt
+configure-onOffField-off = Slukket
+configure-permissionField-allow = Tilladt
+configure-permissionField-dontAllow = Ikke tilladt
 
 ### General
-configure-general-guidelines-title = Community Guidelines Summary
+configure-general-guidelines-title = Oversigt over fællesskabsretningslinjer
 configure-general-guidelines-explanation =
-  Write a summary of your community guidelines that will appear
-  at the top of each comment stream sitewide. Your summary can be
-  formatted using Markdown Syntax. More information on how to use
-  Markdown can be found <externalLink>here</externalLink>.
-configure-general-guidelines-showCommunityGuidelines = Show Community Guidelines Summary
+  Skriv en oversigt over dine fællesskabsretningslinjer, 
+  der vises øverst i hver side af kommentarstrømmen. 
+  Dit resume kan formateres ved hjælp af Markdown Syntax. 
+  Mere information om hvordan du bruger Markdown kan findes
+  <externalLink>her</externalLink>.
+configure-general-guidelines-showCommunityGuidelines = Vis oversigt over fællesskabsretningslinjer
 
 ### Sitewide Commenting
-configure-general-sitewideCommenting-title = Sitewide Commenting
+configure-general-sitewideCommenting-title = Kommentar på webstedet
 configure-general-sitewideCommenting-explanation =
-  Open or close comment streams for new comments sitewide. When new comments
-  are turned off sitewide, new comments cannot be submitted, but existing
-  comments can continue to receive “Respect” reactions, be reported, and be
-  shared.
+  Åbn eller luk kommentarstrømme for nye kommentarer overalt. 
+  Når nye kommentarer deaktiveres overalt, kan nye kommentarer 
+  ikke indsendes, men eksisterende kommentarer kan fortsætte 
+  med at modtage reaktioner, rapporteres og deles.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
-  Enable New Comments Sitewide
+  Aktivér nye kommentarer overalt
 configure-general-sitewideCommenting-onCommentStreamsOpened =
-  On - Comment streams opened for new comments
+  Tændt - Kommentarer åbnes for nye kommentarer
 configure-general-sitewideCommenting-offCommentStreamsClosed =
-  Off - Comment streams closed for new comments
-configure-general-sitewideCommenting-message = Sitewide Closed Comments Message
+  Slukket - Kommentarer lukket for nye kommentarer
+configure-general-sitewideCommenting-message = Meddelelse om lukkede kommentarer på webstedet
 configure-general-sitewideCommenting-messageExplanation =
-  Write a message that will be displayed when comment streams are closed sitewide
+  Skriv en meddelelse, der vises, når kommentarstrømme lukkes i hele webstedet
 
 ### Closing Comment Streams
-configure-general-closingCommentStreams-title = Closing Comment Streams
-configure-general-closingCommentStreams-explanation = Set comment streams to close after a defined period of time after a story’s publication
-configure-general-closingCommentStreams-closeCommentsAutomatically = Close Comments Automatically
-configure-general-closingCommentStreams-closeCommentsAfter = Close Comments After
+configure-general-closingCommentStreams-title = Lukker kommentarer
+configure-general-closingCommentStreams-explanation = Indstil kommentarer til at lukke efter et defineret tidsrum efter en historiens publikation
+configure-general-closingCommentStreams-closeCommentsAutomatically = Luk kommentarer automatisk
+configure-general-closingCommentStreams-closeCommentsAfter = Luk kommentarer efter
 
 #### Comment Length
-configure-general-commentLength-title = Comment Length
-configure-general-commentLength-maxCommentLength = Maximum Comment Length
-configure-general-commentLength-setLimit = Set a limit on the length of comments sitewide
-configure-general-commentLength-limitCommentLength = Limit Comment Length
-configure-general-commentLength-minCommentLength = Minimum Comment Length
-configure-general-commentLength-characters = Characters
+configure-general-commentLength-title = Kommentarlængde
+configure-general-commentLength-maxCommentLength = Maksimal kommentarlængde
+configure-general-commentLength-setLimit = Sæt en grænse for længden af kommentarer på hele siden
+configure-general-commentLength-limitCommentLength = Begræns kommentarlængden
+configure-general-commentLength-minCommentLength = Minimum kommentarlængde
+configure-general-commentLength-characters = Tegn
 configure-general-commentLength-textField =
-  .placeholder = No limit
+  .placeholder = Ingen grænse
 configure-general-commentLength-validateLongerThanMin =
-  Please enter a number longer than the minimum length
+  Indtast et tal længere end minimumslængden
 
 #### Comment Editing
-configure-general-commentEditing-title = Comment Editing
+configure-general-commentEditing-title = Kommentarredigering
 configure-general-commentEditing-explanation =
-  Set a limit on how long commenters have to edit their comments sitewide.
-  Edited comments are marked as (Edited) on the comment stream and the
-  moderation panel.
-configure-general-commentEditing-commentEditTimeFrame = Comment Edit Timeframe
-configure-general-commentEditing-seconds = Seconds
+  Sæt en grænse for, hvor længe kommentatorer skal redigere deres 
+  kommentarer på siden. Redigerede kommentarer markeres som (Redigeret) 
+  i kommentarstrømmen og moderationspanelet.
+configure-general-commentEditing-commentEditTimeFrame = Kommentar Rediger tidsramme
+configure-general-commentEditing-seconds = Sekunder
 
 #### Closed Stream Message
 configure-general-closedStreamMessage-title = Closed Stream Message
