@@ -347,7 +347,7 @@ You can make
               </strong>
             </p>
             <button
-              className="BaseButton-root Button-root Button-sizeRegular Button-colorRegular Button-variantRegular DownloadCommentsContainer-requestButton"
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
               onBlur={[Function]}
               onClick={[Function]}
               onFocus={[Function]}
@@ -356,18 +356,16 @@ You can make
               onTouchEnd={[Function]}
               type="button"
             >
-              <div
-                className="Box-root Flex-root Flex-flex Flex-alignCenter"
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm DownloadCommentsContainer-icon"
+                title="Request comment history"
               >
-                <span
-                  aria-hidden="true"
-                  className="Icon-root Icon-sm DownloadCommentsContainer-icon"
-                  title="Request comment history"
-                >
-                  file_download
-                </span>
+                file_download
+              </span>
+              <span>
                 Request comment history
-              </div>
+              </span>
             </button>
           </div>
         </div>
