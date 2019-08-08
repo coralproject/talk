@@ -223,13 +223,13 @@ configure-configureQuery-storyNotFound = Story not found
 profile-changeUsername-success = Your username has been successfully updated
 profile-changeUsername-edit = Edit
 profile-changeUsername-heading = Edit your username
-profile-changeUsername-desc = Change the username that will appear on all of your past and future comments. Usernames can be changed once every 14 days.
+profile-changeUsername-desc = Change the username that will appear on all of your past and future comments. Usernames can be changed once every { framework-timeago-time }.
 profile-changeUsername-current = Current username
 profile-changeUsername-newUsername-label = New username
 profile-changeUsername-confirmNewUsername-label = Confirm new username
 profile-changeUsername-cancel = Cancel
 profile-changeUsername-submit = Save
-profile-changeUsername-recentChange = Your username has been changed in the last 14 days. You may change your username again on { $nextUpdate }
+profile-changeUsername-recentChange = Your username has been changed in the last { framework-timeago-time }. You may change your username again on { $nextUpdate }
 profile-changeUsername-close = Close
 
 ## Comment Stream

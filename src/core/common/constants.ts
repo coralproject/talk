@@ -40,3 +40,8 @@ export const TOXICITY_ENDPOINT_DEFAULT =
  * be made within.
  */
 export const DOWNLOAD_LIMIT_TIMEFRAME = 14 * 86400;
+
+/**
+ * ALLOWED_USERNAME_CHANGE_FREQUENCY is the length of time in seconds a user must wait after changing their username to change it again.
+ */
+export const ALLOWED_USERNAME_CHANGE_FREQUENCY = 14 * 86400;

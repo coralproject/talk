@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
-import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
+import { ALLOWED_USERNAME_CHANGE_FREQUENCY, DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -385,18 +385,16 @@ export async function updateOwnUsername(
   validateUsername(username);
 
   const lastUsernameEditAllowed = new Date();
-  const dateDiff = lastUsernameEditAllowed.getDate() - 14;
+  const dateDiff =
+    lastUsernameEditAllowed.getSeconds() - ALLOWED_USERNAME_CHANGE_FREQUENCY;
   lastUsernameEditAllowed.setDate(dateDiff);
 
-  if (user.status.username.history.length > 1) {
-    const recentUpdate = user.status.username
-      ? user.status.username.history.find(history => {
-          return history.createdAt > lastUsernameEditAllowed;
-        })
-      : null;
+  const { history } = user.status.username;
+  if (history.length > 1) {
+    const lastUpdate = history[history.length - 1];
 
-    if (recentUpdate) {
-      throw new UsernameUpdatedWithinWindowError(recentUpdate.createdAt);
+    if (lastUpdate.createdAt > lastUsernameEditAllowed) {
+      throw new UsernameUpdatedWithinWindowError(lastUpdate.createdAt);
     }
   }
 

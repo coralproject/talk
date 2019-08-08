@@ -126,7 +126,7 @@ export enum ERROR_CODES {
 
   /**
    * USERNAME_UPDATED_WITHIN_WINDOW is returned when the user attempts to associate
-   * a new username when they have previously changed their username less than 14 days previously.
+   * a new username when they have previously changed their username within ALLOWED_USERNAME_CHANGE_FREQUENCY
    */
   USERNAME_UPDATED_WITHIN_WINDOW = "USERNAME_UPDATED_WITHIN_WINDOW",
 

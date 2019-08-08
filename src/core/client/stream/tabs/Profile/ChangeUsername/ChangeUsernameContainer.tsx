@@ -9,15 +9,22 @@ import React, {
 } from "react";
 import { Field, Form } from "react-final-form";
 
+import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
+import reduceSeconds from "coral-common/helpers/i18n/reduceSeconds";
 import { InvalidRequestError } from "coral-framework/lib/errors";
-import { graphql, useMutation } from "coral-framework/lib/relay";
-import { withFragmentContainer } from "coral-framework/lib/relay";
+import { ValidationMessage } from "coral-framework/lib/form";
+import {
+  graphql,
+  useMutation,
+  withFragmentContainer,
+} from "coral-framework/lib/relay";
 import {
   composeValidators,
   required,
   validateUsername,
   validateUsernameEquals,
 } from "coral-framework/lib/validation";
+import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 import {
   Box,
   Button,
@@ -33,12 +40,11 @@ import {
   Typography,
 } from "coral-ui/components";
 
-import { ValidationMessage } from "coral-framework/lib/form";
-
-import { ChangeUsernameContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeUsernameContainer_viewer.graphql";
 import UpdateUsernameMutation from "./UpdateUsernameMutation";
 
 import styles from "./ChangeUsername.css";
+
+const FREQUENCYSCALED = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY);
 
 interface Props {
   viewer: ViewerData;
@@ -65,11 +71,14 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
     const { username } = viewer.status;
     if (username && username.history.length > 1) {
       const lastUsernameEditAllowed = new Date();
-      const dateDiff = lastUsernameEditAllowed.getDate() - 14;
+      const dateDiff =
+        lastUsernameEditAllowed.getSeconds() -
+        ALLOWED_USERNAME_CHANGE_FREQUENCY;
       lastUsernameEditAllowed.setDate(dateDiff);
-      return username.history.find(history => {
-        return history.createdAt > lastUsernameEditAllowed;
-      });
+      return (
+        username.history[username.history.length - 1].createdAt >
+        lastUsernameEditAllowed
+      );
     }
     return true;
   }, [viewer]);
@@ -80,7 +89,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
       const date = new Date(
         username.history[username.history.length - 1].createdAt
       );
-      const diff = date.getDate() + 14;
+      const diff = date.getSeconds() + ALLOWED_USERNAME_CHANGE_FREQUENCY;
       date.setDate(diff);
       return date;
     }
@@ -156,10 +165,15 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                   Edit your username
                 </Typography>
               </Localized>
-              <Localized id="profile-changeUsername-desc">
+              <Localized
+                id="profile-changeUsername-desc"
+                $value={FREQUENCYSCALED.scaled}
+                $unit={FREQUENCYSCALED.unit}
+              >
                 <Typography>
                   Change the username that will appear on all of your past and
-                  future comments. Usernames can be changed once every 14 days.
+                  future comments. Usernames can be changed once every{" "}
+                  {FREQUENCYSCALED.scaled} {FREQUENCYSCALED.unit}
                 </Typography>
               </Localized>
             </div>
@@ -272,6 +286,8 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                   <Localized
                     date={canChangeUsernameDate}
                     id="profile-changeUsername-recentChange"
+                    $value={FREQUENCYSCALED.scaled}
+                    $unit={FREQUENCYSCALED.unit}
                     $nextUpdate={
                       canChangeUsernameDate
                         ? formatter.format(canChangeUsernameDate)
@@ -279,8 +295,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
                     }
                   >
                     <Typography className={styles.tooSoon}>
-                      Your username has been changed in the last 14 days. You
-                      may change your username again on{" "}
+                      Your username has been changed in the last{" "}
+                      {FREQUENCYSCALED.scaled} {FREQUENCYSCALED.unit}. You may
+                      change your username again on{" "}
                       {canChangeUsernameDate
                         ? formatter.format(canChangeUsernameDate)
                         : null}
