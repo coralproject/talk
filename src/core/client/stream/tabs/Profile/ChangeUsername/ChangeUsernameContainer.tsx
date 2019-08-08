@@ -10,7 +10,7 @@ import React, {
 import { Field, Form } from "react-final-form";
 
 import { ALLOWED_USERNAME_CHANGE_FREQUENCY } from "coral-common/constants";
-import reduceSeconds from "coral-common/helpers/i18n/reduceSeconds";
+import reduceSeconds, { UNIT } from "coral-common/helpers/i18n/reduceSeconds";
 import { InvalidRequestError } from "coral-framework/lib/errors";
 import { ValidationMessage } from "coral-framework/lib/form";
 import {
@@ -44,7 +44,9 @@ import UpdateUsernameMutation from "./UpdateUsernameMutation";
 
 import styles from "./ChangeUsername.css";
 
-const FREQUENCYSCALED = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY);
+const FREQUENCYSCALED = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY, [
+  UNIT.DAYS,
+]);
 
 interface Props {
   viewer: ViewerData;
@@ -71,10 +73,9 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
     const { username } = viewer.status;
     if (username && username.history.length > 1) {
       const lastUsernameEditAllowed = new Date();
-      const dateDiff =
-        lastUsernameEditAllowed.getSeconds() -
-        ALLOWED_USERNAME_CHANGE_FREQUENCY;
-      lastUsernameEditAllowed.setDate(dateDiff);
+      lastUsernameEditAllowed.setSeconds(
+        lastUsernameEditAllowed.getSeconds() - ALLOWED_USERNAME_CHANGE_FREQUENCY
+      );
       return (
         username.history[username.history.length - 1].createdAt >
         lastUsernameEditAllowed
@@ -89,8 +90,7 @@ const ChangeUsernameContainer: FunctionComponent<Props> = ({ viewer }) => {
       const date = new Date(
         username.history[username.history.length - 1].createdAt
       );
-      const diff = date.getSeconds() + ALLOWED_USERNAME_CHANGE_FREQUENCY;
-      date.setDate(diff);
+      date.setSeconds(date.getSeconds() + ALLOWED_USERNAME_CHANGE_FREQUENCY);
       return date;
     }
     return null;
