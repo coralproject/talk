@@ -1,14 +1,15 @@
 import React, { FunctionComponent } from "react";
 import { Environment } from "relay-runtime";
 
+import Loading from "coral-account/components/Loading";
 import { useToken } from "coral-framework/hooks";
 import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
+import { HorizontalGutter } from "coral-ui/components";
 
 import DownloadDescription from "./DownloadDescription";
 import DownloadForm from "./DownloadForm";
-import Loading from "./Loading";
 import Sorry from "./Sorry";
 
 const fetcher = createFetch(
@@ -28,14 +29,18 @@ const DownloadRoute: FunctionComponent<Props> = ({ token }) => {
   const [state, error] = useToken(fetcher, token);
 
   if (state === "UNCHECKED") {
-    return <Loading />;
+    return (
+      <HorizontalGutter size="double">
+        <Loading />
+      </HorizontalGutter>
+    );
   }
   if (state !== "VALID" || error) {
     return (
-      <>
+      <HorizontalGutter size="double">
         <DownloadDescription />
         <Sorry />
-      </>
+      </HorizontalGutter>
     );
   }
 
