@@ -12,6 +12,8 @@ import DownloadDescription from "./DownloadDescription";
 import DownloadForm from "./DownloadForm";
 import Sorry from "./Sorry";
 
+import styles from "./DownloadRoute.css";
+
 const fetcher = createFetch(
   "downloadToken",
   async (environment: Environment, variables: { token: string }, { rest }) =>
@@ -30,25 +32,35 @@ const DownloadRoute: FunctionComponent<Props> = ({ token }) => {
 
   if (state === "UNCHECKED") {
     return (
-      <HorizontalGutter size="double">
-        <Loading />
-      </HorizontalGutter>
+      <div className={styles.container}>
+        <div className={styles.root}>
+          <HorizontalGutter size="double">
+            <Loading />
+          </HorizontalGutter>
+        </div>
+      </div>
     );
   }
   if (state !== "VALID" || error) {
     return (
-      <HorizontalGutter size="double">
-        <DownloadDescription />
-        <Sorry />
-      </HorizontalGutter>
+      <div className={styles.container}>
+        <div className={styles.root}>
+          <HorizontalGutter size="double">
+            <DownloadDescription />
+            <Sorry />
+          </HorizontalGutter>
+        </div>
+      </div>
     );
   }
 
   return (
-    <>
-      <DownloadDescription />
-      <DownloadForm token={token!} />
-    </>
+    <div className={styles.container}>
+      <div className={styles.root}>
+        <DownloadDescription />
+        <DownloadForm token={token!} />
+      </div>
+    </div>
   );
 };
 

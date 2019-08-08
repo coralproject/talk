@@ -4,12 +4,7 @@
 }
 
 .centered {
-  max-width: calc(70 * var(--mini-unit));
   margin: 10% auto;
   padding: 0 calc(0.5 * var(--mini-unit));
   box-sizing: border-box;
-
-  @media (min-width: $breakpoints-xs) {
-    max-width: calc(90 * var(--mini-unit));
-  }
 }
