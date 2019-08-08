@@ -72,9 +72,9 @@ const markers: Array<
     )) ||
     null,
   c =>
-    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_TRUST && (
-      <Localized id="moderate-marker-karma" key={keyCounter++}>
-        <Marker color="error">Karma</Marker>
+    (c.revision.actionCounts.flag.reasons.COMMENT_DETECTED_RECENT_HISTORY && (
+      <Localized id="moderate-marker-recentHistory" key={keyCounter++}>
+        <Marker color="error">Recent History</Marker>
       </Localized>
     )) ||
     null,
@@ -141,7 +141,7 @@ const enhanced = withFragmentContainer<MarkersContainerProps>({
             reasons {
               COMMENT_DETECTED_TOXIC
               COMMENT_DETECTED_SPAM
-              COMMENT_DETECTED_TRUST
+              COMMENT_DETECTED_RECENT_HISTORY
               COMMENT_DETECTED_LINKS
               COMMENT_DETECTED_BANNED_WORD
               COMMENT_DETECTED_SUSPECT_WORD

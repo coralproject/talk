@@ -375,7 +375,7 @@ export const baseStory = createFixture<GQLStory>({
     },
   },
   commentCounts: {
-    totalVisible: 0,
+    totalPublished: 0,
     tags: {
       FEATURED: 0,
     },

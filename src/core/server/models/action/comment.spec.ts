@@ -80,7 +80,7 @@ describe("#validateAction", () => {
       },
       {
         actionType: ACTION_TYPE.FLAG,
-        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_TRUST,
+        reason: GQLCOMMENT_FLAG_REASON.COMMENT_DETECTED_RECENT_HISTORY,
       },
       {
         actionType: ACTION_TYPE.FLAG,

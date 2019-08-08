@@ -9,12 +9,13 @@ import {
   GQLMODERATION_MODE,
   GQLSettings,
 } from "coral-server/graph/tenant/schema/__generated__/types";
-import { createIndexFactory } from "coral-server/models/helpers/indexing";
+import {
+  createCollection,
+  createIndexFactory,
+} from "coral-server/models/helpers";
 import { Settings } from "coral-server/models/settings";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<Tenant>>("tenants");
-}
+const collection = createCollection<Tenant>("tenants");
 
 /**
  * TenantResource references a given resource that should be owned by a specific
@@ -160,14 +161,13 @@ export async function createTenant(
       enabled: false,
       smtp: {},
     },
-    karma: {
-      enabled: true,
-      thresholds: {
-        // By default, flaggers are reliable after one correct flag, and
-        // unreliable if there is an incorrect flag.
-        flag: { reliable: 1, unreliable: -1 },
-        comment: { reliable: 1, unreliable: -1 },
-      },
+    recentCommentHistory: {
+      enabled: false,
+      // 7 days in seconds.
+      timeFrame: 604800,
+      // Rejection rate defaulting to 30%, once exceeded, comments will be
+      // pre-moderated.
+      triggerRejectionRate: 0.3,
     },
     integrations: {
       akismet: {

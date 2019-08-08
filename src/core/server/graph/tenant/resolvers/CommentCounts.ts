@@ -1,12 +1,11 @@
 import { GQLCommentCountsTypeResolver } from "coral-server/graph/tenant/schema/__generated__/types";
-import { VISIBLE_STATUSES } from "coral-server/models/comment/constants";
+import { PUBLISHED_STATUSES } from "coral-server/models/comment/constants";
 import { Story } from "coral-server/models/story";
-
 export type CommentCountsInput = Pick<Story, "commentCounts" | "id">;
 
 export const CommentCounts: GQLCommentCountsTypeResolver<CommentCountsInput> = {
-  totalVisible: ({ commentCounts }) =>
-    VISIBLE_STATUSES.reduce(
+  totalPublished: ({ commentCounts }) =>
+    PUBLISHED_STATUSES.reduce(
       (total, status) => total + commentCounts.status[status],
       0
     ),

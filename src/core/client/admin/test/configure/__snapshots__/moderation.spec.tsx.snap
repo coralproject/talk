@@ -122,6 +122,178 @@ exports[`renders configure moderation 1`] = `
             <legend
               className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
             >
+              Recent comment history
+            </legend>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Recent comment history timeframe
+              </legend>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Time period over which a commenter's rejection rate is calcualted
+and submitted comments are counted.
+              </p>
+              <div
+                className="Box-root Flex-root Flex-flex Flex-itemGutter gutter"
+              >
+                <div
+                  className="TextField-root DurationField-value"
+                >
+                  <input
+                    aria-label="value"
+                    autoCapitalize="off"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                    disabled={false}
+                    name="recentCommentHistory.timeFrame-value"
+                    onChange={[Function]}
+                    placeholder=""
+                    spellCheck={false}
+                    type="text"
+                    value="7"
+                  />
+                  <div
+                    className="TextField-adornment"
+                  >
+                    <p
+                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                    >
+                      Days
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset
+              className="FieldSet-root Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <legend
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Recent comment history filter
+              </legend>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Prevents repeat offenders from publishing comments without approval.
+After a commenter's rejection rate rises above the defined threshold
+below, their next submitted comments are 
+                <strong>
+                  sent to Pending for
+moderator approval.
+                </strong>
+                 The filter is removed when their rejection rate
+falls below the threshold.
+              </p>
+              <div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={false}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="recentCommentHistory.enabled-true"
+                    name="recentCommentHistory.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={true}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="recentCommentHistory.enabled-true"
+                  >
+                    <span>
+                      On
+                    </span>
+                  </label>
+                </div>
+                <div
+                  className="Box-root Flex-root RadioButton-root Flex-flex Flex-alignCenter"
+                >
+                  <input
+                    checked={true}
+                    className="RadioButton-input"
+                    disabled={false}
+                    id="recentCommentHistory.enabled-false"
+                    name="recentCommentHistory.enabled"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    type="radio"
+                    value={false}
+                  />
+                  <label
+                    className="RadioButton-label"
+                    htmlFor="recentCommentHistory.enabled-false"
+                  >
+                    <span>
+                      Off
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+            <div
+              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+            >
+              <label
+                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+              >
+                Rejection rate threshold
+              </label>
+              <p
+                className="Box-root Typography-root Typography-detail Typography-colorTextSecondary"
+              >
+                Calculated by the number of rejected comments divided by the sum of
+a commenter’s rejected and published comments, over the recent
+comment history timeframe (does not include comments pending for
+toxicity, spam or pre-moderation.)
+              </p>
+              <div
+                className="TextField-root RecentCommentHistoryConfig-thresholdTextField"
+              >
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                  disabled={false}
+                  name="recentCommentHistory.triggerRejectionRate"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  placeholder=""
+                  spellCheck={false}
+                  type="text"
+                  value="30"
+                />
+                <div
+                  className="TextField-adornment"
+                >
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset
+            className="FieldSet-root Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+          >
+            <legend
+              className="Box-root Typography-root Typography-heading1 Typography-colorTextPrimary Header-root"
+            >
               Pre-moderation
             </legend>
             <p

@@ -91,7 +91,7 @@ export function createComment(author?: GQLUser) {
           reasons: {
             COMMENT_DETECTED_TOXIC: 0,
             COMMENT_DETECTED_SPAM: 0,
-            COMMENT_DETECTED_TRUST: 0,
+            COMMENT_DETECTED_RECENT_HISTORY: 0,
             COMMENT_DETECTED_LINKS: 0,
             COMMENT_DETECTED_BANNED_WORD: 0,
             COMMENT_DETECTED_SUSPECT_WORD: 0,
@@ -139,7 +139,7 @@ export function createComment(author?: GQLUser) {
           COMMENT_REPORTED_OTHER: 0,
           COMMENT_DETECTED_TOXIC: 0,
           COMMENT_DETECTED_SPAM: 0,
-          COMMENT_DETECTED_TRUST: 0,
+          COMMENT_DETECTED_RECENT_HISTORY: 0,
           COMMENT_DETECTED_LINKS: 0,
           COMMENT_DETECTED_BANNED_WORD: 0,
           COMMENT_DETECTED_SUSPECT_WORD: 0,
@@ -210,7 +210,7 @@ export function createStory() {
       },
       isClosed: false,
       commentCounts: {
-        totalVisible: 0,
+        totalPublished: 0,
         tags: {
           FEATURED: 0,
         },

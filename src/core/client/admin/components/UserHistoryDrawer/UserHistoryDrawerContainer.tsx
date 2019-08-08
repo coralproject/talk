@@ -1,35 +1,153 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent } from "react";
 
-import { Card, Modal } from "coral-ui/components";
+import { UserHistoryDrawerContainer_settings } from "coral-admin/__generated__/UserHistoryDrawerContainer_settings.graphql";
+import { UserHistoryDrawerContainer_user } from "coral-admin/__generated__/UserHistoryDrawerContainer_user.graphql";
+import { UserStatusChangeContainer } from "coral-admin/components/UserStatus";
+import { CopyButton } from "coral-framework/components";
+import { useCoralContext } from "coral-framework/lib/bootstrap";
+import { graphql, withFragmentContainer } from "coral-framework/lib/relay";
+import { Button, Flex, Icon, Typography } from "coral-ui/components";
+
+import RecentHistoryContainer from "./RecentHistoryContainer";
+import Tabs from "./Tabs";
+import UserStatusDetailsContainer from "./UserStatusDetailsContainer";
 
 import styles from "./UserHistoryDrawerContainer.css";
-import UserHistoryDrawerQuery from "./UserHistoryDrawerQuery";
 
-interface UserHistoryDrawerContainerProps {
-  open: boolean;
+interface Props {
+  user: UserHistoryDrawerContainer_user;
+  settings: UserHistoryDrawerContainer_settings;
   onClose: () => void;
-  userID?: string;
 }
 
-const UserHistoryDrawerContainer: FunctionComponent<
-  UserHistoryDrawerContainerProps
-> = ({ open, onClose, userID }) => {
+const UserHistoryDrawerContainer: FunctionComponent<Props> = ({
+  settings,
+  user,
+  onClose,
+}) => {
+  const { locales } = useCoralContext();
+  const formatter = new Intl.DateTimeFormat(locales, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   return (
-    <Modal open={open} onClose={onClose}>
-      {({ firstFocusableRef, lastFocusableRef }) => (
-        <Card className={styles.root}>
-          {userID && (
-            <UserHistoryDrawerQuery
-              userID={userID}
-              onClose={onClose}
-              firstFocusableRef={firstFocusableRef}
-              lastFocusableRef={lastFocusableRef}
-            />
-          )}
-        </Card>
-      )}
-    </Modal>
+    <>
+      <Button className={styles.close} onClick={onClose}>
+        <Icon size="md">close</Icon>
+      </Button>
+      <Flex className={styles.username}>
+        <span>{user.username}</span>
+      </Flex>
+      <div className={styles.userStatus}>
+        <Flex alignItems="center" itemGutter="half">
+          <div className={styles.userStatusLabel}>
+            <Typography variant="bodyCopyBold" container="div">
+              <Flex alignItems="center" itemGutter="half">
+                <Localized id="moderate-user-drawer-status-label">
+                  Status:
+                </Localized>
+              </Flex>
+            </Typography>
+          </div>
+          <div className={styles.userStatusChange}>
+            <UserStatusChangeContainer settings={settings} user={user} />
+          </div>
+          <UserStatusDetailsContainer user={user} />
+        </Flex>
+      </div>
+      <div>
+        <Flex alignItems="center" className={styles.userDetail}>
+          <Localized id="moderate-user-drawer-email" attrs={{ title: true }}>
+            <Icon size="sm" className={styles.icon} title="Email address">
+              mail_outline
+            </Icon>
+          </Localized>
+          <Typography
+            variant="bodyCopy"
+            container="span"
+            className={styles.userDetailValue}
+          >
+            {user.email}
+          </Typography>
+          <CopyButton
+            text={user.email!}
+            variant="regular"
+            className={styles.copy}
+          />
+        </Flex>
+        <Flex alignItems="center" className={styles.userDetail}>
+          <Localized
+            id="moderate-user-drawer-created-at"
+            attrs={{ title: true }}
+          >
+            <Icon
+              size="sm"
+              className={styles.icon}
+              title="Account creation date"
+            >
+              date_range
+            </Icon>
+          </Localized>
+          <Typography variant="bodyCopy" container="span">
+            {formatter.format(new Date(user.createdAt))}
+          </Typography>
+        </Flex>
+        <Flex alignItems="center" className={styles.userDetail}>
+          <Localized
+            id="moderate-user-drawer-member-id"
+            attrs={{ title: true }}
+          >
+            <Icon size="sm" className={styles.icon} title="Member ID">
+              people_outline
+            </Icon>
+          </Localized>
+          <Typography
+            variant="bodyCopy"
+            container="span"
+            className={styles.userDetailValue}
+          >
+            {user.id}
+          </Typography>
+          <CopyButton
+            text={user.id}
+            variant="regular"
+            className={styles.copy}
+          />
+        </Flex>
+        <RecentHistoryContainer user={user} settings={settings} />
+      </div>
+      <hr className={styles.divider} />
+      <div className={styles.comments}>
+        <Tabs userID={user.id} />
+      </div>
+    </>
   );
 };
 
-export default UserHistoryDrawerContainer;
+const enhanced = withFragmentContainer<Props>({
+  user: graphql`
+    fragment UserHistoryDrawerContainer_user on User {
+      ...UserStatusChangeContainer_user
+      ...UserStatusDetailsContainer_user
+      ...RecentHistoryContainer_user
+      id
+      username
+      email
+      createdAt
+    }
+  `,
+  settings: graphql`
+    fragment UserHistoryDrawerContainer_settings on Settings {
+      ...RecentHistoryContainer_settings
+      ...UserStatusChangeContainer_settings
+      organization {
+        name
+      }
+    }
+  `,
+})(UserHistoryDrawerContainer);
+
+export default enhanced;
