@@ -184,7 +184,7 @@ profile-settings-download-comments-request-icon =
 profile-settings-download-comments-recentRequest =
   Your most recent request: { $timeStamp }
 profile-settings-download-comments-timeOut =
-  You can submit another request in { $days } days
+  You can submit another request in { framework-timeago-time }
 
 ## Report Comment Popover
 comments-reportPopover =
@@ -260,7 +260,7 @@ configure-openStream-openStream = Open Stream
 comments-tombstone-ignore = This comment is hidden because you ignored {$username}
 
 suspendInfo-heading = Your account has been temporarily suspended from commenting.
-suspendInfo-info = 
+suspendInfo-info =
   In accordance with { $organization }'s community guidelines your
   account has been temporarily suspended. While suspended you will not
   be able to comment, respect or report comments. Please rejoin the
