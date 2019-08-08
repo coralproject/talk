@@ -111,7 +111,9 @@ const RecentCommentHistoryConfig: FunctionComponent<Props> = ({ disabled }) => {
           {({ input, meta }) => (
             <>
               <TextField
-                className={styles.thresholdTextField}
+                classes={{
+                  input: styles.thresholdTextField,
+                }}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"

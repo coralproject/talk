@@ -158,16 +158,12 @@ and submitted comments are counted.
                     type="text"
                     value="7"
                   />
-                  <div
-                    className="TextField-adornment"
-                  >
-                    <p
-                      className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
-                    >
-                      Days
-                    </p>
-                  </div>
                 </div>
+                <p
+                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DurationField-unit"
+                >
+                  Days
+                </p>
               </div>
             </fieldset>
             <fieldset
@@ -259,13 +255,13 @@ comment history timeframe (does not include comments pending for
 toxicity, spam or pre-moderation.)
               </p>
               <div
-                className="TextField-root RecentCommentHistoryConfig-thresholdTextField"
+                className="TextField-root"
               >
                 <input
                   autoCapitalize="off"
                   autoComplete="off"
                   autoCorrect="off"
-                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                  className="TextField-input RecentCommentHistoryConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
                   disabled={false}
                   name="recentCommentHistory.triggerRejectionRate"
                   onBlur={[Function]}
@@ -519,13 +515,13 @@ the
 comment is toxic, according to Perspective API. By default the threshold is set to 80%.
               </p>
               <div
-                className="TextField-root PerspectiveConfig-thresholdTextField"
+                className="TextField-root"
               >
                 <input
                   autoCapitalize="off"
                   autoComplete="off"
                   autoCorrect="off"
-                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                  className="TextField-input PerspectiveConfig-thresholdTextField TextField-colorRegular TextField-textAlignCenter"
                   disabled={false}
                   id="configure-moderation-perspective-threshold"
                   name="integrations.perspective.threshold"

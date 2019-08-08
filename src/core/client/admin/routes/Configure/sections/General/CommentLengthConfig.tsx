@@ -79,7 +79,9 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
             >
               <TextField
                 id="configure-general-commentLength-min"
-                className={styles.commentLengthTextInput}
+                classes={{
+                  input: styles.commentLengthTextInput,
+                }}
                 {...input}
                 disabled={disabled}
                 autoComplete="off"
@@ -123,7 +125,9 @@ const CommentLengthConfig: FunctionComponent<Props> = ({ disabled }) => (
             >
               <TextField
                 id="configure-general-commentLength-max"
-                className={styles.commentLengthTextInput}
+                classes={{
+                  input: styles.commentLengthTextInput,
+                }}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
