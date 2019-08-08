@@ -697,173 +697,175 @@ exports[`checks for invalid email 1`] = `
 
 exports[`renders sign in view 1`] = `
 <div>
-  <div
-    data-testid="signIn-container"
-  >
+  <div>
     <div
-      className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <h1
-          className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
-        >
-          Sign In
-        </h1>
-        <h1
-          className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
-        >
-          to join the conversation
-        </h1>
-      </div>
-    </div>
-    <div
-      className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
-    >
-      <div>
-        <div
-          className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
-        >
-          <span>
-            Don't have an account? 
-          </span>
-          <a
-            className="TextLink-root"
-            href="http://localhost/?view=SIGN_UP"
-            onClick={[Function]}
-          >
-            Sign Up
-          </a>
-        </div>
-      </div>
-    </div>
-    <div
-      className="Main-root"
-      data-testid="signIn-main"
+      data-testid="signIn-container"
     >
       <div
-        className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+        className="Box-root Flex-root Bar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
       >
-        <form
-          autoComplete="off"
-          onSubmit={[Function]}
-        >
+        <div>
+          <h1
+            className="Box-root Typography-root Typography-heading2 Typography-colorTextPrimary Typography-alignCenter Title-root"
+          >
+            Sign In
+          </h1>
+          <h1
+            className="Box-root Typography-root Typography-heading4 Typography-colorTextPrimary Typography-alignCenter Subtitle-root"
+          >
+            to join the conversation
+          </h1>
+        </div>
+      </div>
+      <div
+        className="Box-root Flex-root SubBar-root Flex-flex Flex-justifyCenter Flex-alignCenter"
+      >
+        <div>
           <div
-            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+            className="Box-root Flex-root Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary Flex-flex"
+          >
+            <span>
+              Don't have an account? 
+            </span>
+            <a
+              className="TextLink-root"
+              href="http://localhost/?view=SIGN_UP"
+              onClick={[Function]}
+            >
+              Sign Up
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        className="Main-root"
+        data-testid="signIn-main"
+      >
+        <div
+          className="Box-root HorizontalGutter-root HorizontalGutter-oneAndAHalf"
+        >
+          <form
+            autoComplete="off"
+            onSubmit={[Function]}
           >
             <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
+              className="Box-root HorizontalGutter-root HorizontalGutter-full"
             >
-              <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="email"
-              >
-                Email Address
-              </label>
               <div
-                className="TextField-root TextField-fullWidth"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
-                <input
-                  className="TextField-input TextField-colorRegular"
-                  disabled={false}
-                  id="email"
-                  name="email"
-                  onBlur={[Function]}
-                  onChange={[Function]}
-                  onFocus={[Function]}
-                  placeholder="Email Address"
-                  type="email"
-                  value=""
-                />
-              </div>
-            </div>
-            <div
-              className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
-            >
-              <label
-                className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <div
-                className="PasswordField-fullWidth PasswordField-root"
-              >
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="email"
+                >
+                  Email Address
+                </label>
                 <div
-                  className="PasswordField-wrapper"
+                  className="TextField-root TextField-fullWidth"
                 >
                   <input
-                    autoCapitalize="off"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                    className="TextField-input TextField-colorRegular"
                     disabled={false}
-                    id="password"
-                    name="password"
+                    id="email"
+                    name="email"
                     onBlur={[Function]}
                     onChange={[Function]}
                     onFocus={[Function]}
-                    placeholder="Password"
-                    spellCheck={false}
-                    type="password"
+                    placeholder="Email Address"
+                    type="email"
                     value=""
                   />
-                  <div
-                    className="PasswordField-icon"
-                    onClick={[Function]}
-                    role="button"
-                    tabIndex={0}
-                    title="Show password"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="Icon-root Icon-sm"
-                    >
-                      visibility
-                    </span>
-                  </div>
                 </div>
               </div>
               <div
-                className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                className="Box-root HorizontalGutter-root FormField-root HorizontalGutter-half"
               >
-                <p
-                  className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                <label
+                  className="Box-root Typography-root Typography-inputLabel Typography-colorTextPrimary InputLabel-root"
+                  htmlFor="password"
                 >
-                  <a
-                    className="TextLink-root"
-                    href="http://localhost/?view=FORGOT_PASSWORD"
-                    onClick={[Function]}
+                  Password
+                </label>
+                <div
+                  className="PasswordField-fullWidth PasswordField-root"
+                >
+                  <div
+                    className="PasswordField-wrapper"
                   >
-                    Forgot your password?
-                  </a>
-                </p>
+                    <input
+                      autoCapitalize="off"
+                      autoComplete="off"
+                      autoCorrect="off"
+                      className="PasswordField-colorRegular PasswordField-fullWidth PasswordField-input"
+                      disabled={false}
+                      id="password"
+                      name="password"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="Password"
+                      spellCheck={false}
+                      type="password"
+                      value=""
+                    />
+                    <div
+                      className="PasswordField-icon"
+                      onClick={[Function]}
+                      role="button"
+                      tabIndex={0}
+                      title="Show password"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="Icon-root Icon-sm"
+                      >
+                        visibility
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="Box-root Flex-root Flex-flex Flex-justifyFlexEnd"
+                >
+                  <p
+                    className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary"
+                  >
+                    <a
+                      className="TextLink-root"
+                      href="http://localhost/?view=FORGOT_PASSWORD"
+                      onClick={[Function]}
+                    >
+                      Forgot your password?
+                    </a>
+                  </p>
+                </div>
               </div>
-            </div>
-            <button
-              className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
-              disabled={false}
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-              onTouchEnd={[Function]}
-              type="submit"
-            >
-              <span
-                aria-hidden="true"
-                className="Icon-root Icon-md ButtonIcon-root"
+              <button
+                className="BaseButton-root Button-root Button-sizeLarge Button-colorBrand Button-variantFilled Button-fullWidth"
+                disabled={false}
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+                onTouchEnd={[Function]}
+                type="submit"
               >
-                email
-              </span>
-              <span>
-                Sign in with Email
-              </span>
-            </button>
-          </div>
-        </form>
-        <div
-          className="Box-root HorizontalGutter-root HorizontalGutter-full"
-        />
+                <span
+                  aria-hidden="true"
+                  className="Icon-root Icon-md ButtonIcon-root"
+                >
+                  email
+                </span>
+                <span>
+                  Sign in with Email
+                </span>
+              </button>
+            </div>
+          </form>
+          <div
+            className="Box-root HorizontalGutter-root HorizontalGutter-full"
+          />
+        </div>
       </div>
     </div>
   </div>

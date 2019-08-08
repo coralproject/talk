@@ -4,7 +4,6 @@ exports[`renders correctly 1`] = `
 <div
   data-testid="signIn-container"
 >
-  <AutoHeight />
   <Localized
     id="signIn-signInToJoinHeader"
     subtitle={<Subtitle />}
@@ -65,7 +64,6 @@ exports[`renders error 1`] = `
 <div
   data-testid="signIn-container"
 >
-  <AutoHeight />
   <Localized
     id="signIn-signInToJoinHeader"
     subtitle={<Subtitle />}
@@ -132,7 +130,6 @@ exports[`renders without email login 1`] = `
 <div
   data-testid="signIn-container"
 >
-  <AutoHeight />
   <Localized
     id="signIn-signInToJoinHeader"
     subtitle={<Subtitle />}

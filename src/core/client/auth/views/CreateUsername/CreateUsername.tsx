@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import { Form } from "react-final-form";
 
 import { Bar, Title } from "coral-auth/components//Header";
-import AutoHeight from "coral-auth/components/AutoHeight";
 import Main from "coral-auth/components/Main";
 import UsernameField from "coral-auth/components/UsernameField";
 import { OnSubmit } from "coral-framework/lib/form";
@@ -51,7 +50,6 @@ class CreateUsernameContainer extends Component<Props> {
           <Form onSubmit={this.handleSubmit}>
             {({ handleSubmit, submitting, submitError }) => (
               <form autoComplete="off" onSubmit={handleSubmit}>
-                <AutoHeight />
                 <HorizontalGutter size="oneAndAHalf">
                   <Localized id="createUsername-whatItIs">
                     <Typography variant="bodyCopy">

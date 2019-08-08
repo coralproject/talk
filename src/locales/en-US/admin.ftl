@@ -682,3 +682,9 @@ invite-goToAdmin = Go to { -product-name } Admin
 invite-goToOrganization = Go to { $organizationName }
 invite-tokenNotFound =
   The specified link is invalid, check to see if it was copied correctly.
+
+userDetails-banned-on = <strong>Banned on</strong> { $timestamp }
+userDetails-banned-by = <strong>by</strong> { $username } 
+userDetails-suspended-by = <strong>Suspended by</strong> { $username }
+userDetails-suspension-start = <strong>Start:</strong> { $timestamp }
+userDetails-suspension-end = <strong>End:</strong> { $timestamp }
