@@ -484,7 +484,7 @@ moderate-user-drawer-suspension =
 
 createUsername-createUsernameHeader = Lav brugernavn
 createUsername-whatItIs =
-  Your username is an identifier that will appear on all of your comments.
+  Dit brugernavn er en identifikator, der vises på alle dine kommentarer.
 createUsername-createUsernameButton = Lav brugernavn
 createUsername-usernameLabel = Brugernavn
 createUsername-usernameDescription = Du kan bruge “_” og “.” Mellemrum ikke tilladt.
@@ -596,7 +596,6 @@ community-suspendModal-customize = Tilpas suspension af e-mail-meddelelse
 
 community-suspendModal-success =
   <strong>{ $username }</strong> er blevet suspenderet i <strong>{ $duration }</strong>
-  <strong>{ $username }</strong> has been suspended for <strong>{ $duration }</strong>
 
 community-suspendModal-success-close = Luk
 community-suspendModal-selectDuration = Vælg ophængslængde
@@ -657,7 +656,7 @@ invite-passwordDescription = Skal være mindst { $minLength } tegn
 invite-passwordTextField =
   .placeholder = Adgangskode
 invite-usernameLabel = Brugernavn
-invite-usernameDescription = You may use “_” and “.”
+invite-usernameDescription = Du kan bruge “_” og “.”
 invite-usernameTextField =
   .placeholder = Brugernavn
 invite-oopsSorry = Undskyld!
