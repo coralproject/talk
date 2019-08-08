@@ -58,6 +58,7 @@ import {
 } from "coral-server/models/user/helpers";
 import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
+import { sendConfirmationEmail } from "coral-server/services/users/auth";
 
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
@@ -497,6 +498,8 @@ export async function updateOwnEmail(
   mongo: Db,
   tenant: Tenant,
   mailer: MailerQueue,
+  config: Config,
+  signingConfig: JWTSigningConfig,
   user: User,
   email: string,
   password: string,
@@ -513,7 +516,15 @@ export async function updateOwnEmail(
 
   const updated = await updateEmail(mongo, tenant.id, user.id, email);
 
-  // send email
+  await sendConfirmationEmail(
+    mongo,
+    mailer,
+    tenant,
+    config,
+    signingConfig,
+    updated as Required<User>,
+    now
+  );
   return updated;
 }
 
@@ -536,7 +547,7 @@ export async function updateUserEmail(
   // Validate the email address.
   validateEmail(email);
 
-  return updateEmail(mongo, tenant.id, userID, email);
+  return updateEmail(mongo, tenant.id, userID, email, true);
 }
 
 /**

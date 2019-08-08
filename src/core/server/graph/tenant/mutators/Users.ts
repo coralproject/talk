@@ -148,6 +148,8 @@ export const Users = (ctx: TenantContext) => ({
       ctx.mongo,
       ctx.tenant,
       ctx.mailerQueue,
+      ctx.config,
+      ctx.signingConfig!,
       ctx.user!,
       input.email,
       input.password

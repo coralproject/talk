@@ -857,6 +857,7 @@ export async function setUserEmail(
     {
       $set: {
         email,
+        emailVerified,
       },
     },
     {
@@ -889,12 +890,14 @@ export async function setUserEmail(
  * @param tenantID the Tenant ID of the Tenant where the User exists
  * @param id the User ID that we are updating
  * @param emailAddress email address that we are setting on the User
+ * @param emailVerified whether email is verified
  */
 export async function updateEmail(
   mongo: Db,
   tenantID: string,
   id: string,
-  emailAddress: string
+  emailAddress: string,
+  emailVerified = false
 ) {
   // Lowercase the email address.
   const email = emailAddress.toLowerCase();
