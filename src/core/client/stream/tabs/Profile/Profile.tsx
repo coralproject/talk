@@ -1,3 +1,4 @@
+import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 
 import { graphql, useLocal } from "coral-framework/lib/relay";
@@ -11,8 +12,8 @@ import {
   TabContent,
   TabPane,
 } from "coral-ui/components";
-import { Localized } from "fluent-react/compat";
 
+import ChangeEmailContainer from "./ChangeEmail";
 import ChangeUsernameContainer from "./ChangeUsername";
 import CommentHistoryContainer from "./CommentHistory";
 import SettingsContainer from "./Settings";
@@ -40,6 +41,7 @@ const Profile: FunctionComponent<ProfileProps> = props => {
   return (
     <HorizontalGutter spacing={5}>
       <ChangeUsernameContainer viewer={props.viewer} />
+      <ChangeEmailContainer viewer={props.viewer} />
       <TabBar
         variant="secondary"
         activeTab={local.profileTab}
