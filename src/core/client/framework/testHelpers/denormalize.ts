@@ -74,7 +74,7 @@ export function denormalizeStory(story: Fixture<GQLStory>) {
     comments: { edges: commentNodes, pageInfo: commentsPageInfo },
     commentCounts: {
       ...story.commentCounts,
-      totalVisible: commentNodes.length,
+      totalPublished: commentNodes.length,
       tags: {
         ...(story.commentCounts && story.commentCounts.tags),
         FEATURED: featuredCommentsCount,

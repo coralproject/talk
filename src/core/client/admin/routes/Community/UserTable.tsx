@@ -4,7 +4,7 @@ import React, { FunctionComponent, useCallback, useState } from "react";
 import { PropTypesOf } from "coral-framework/types";
 
 import AutoLoadMore from "coral-admin/components/AutoLoadMore";
-import UserHistoryDrawerContainer from "coral-admin/components/UserHistoryDrawer/UserHistoryDrawerContainer";
+import UserHistoryDrawer from "coral-admin/components/UserHistoryDrawer";
 import {
   Table,
   TableBody,
@@ -108,7 +108,7 @@ const UserTable: FunctionComponent<Props> = ({
             />
           </Flex>
         )}
-        <UserHistoryDrawerContainer
+        <UserHistoryDrawer
           userID={userDrawerUserID}
           open={userDrawerVisible}
           onClose={onHideUserDrawer}

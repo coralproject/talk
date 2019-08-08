@@ -13,21 +13,20 @@ import {
   GQLFlagActionCounts,
   GQLReactionActionCounts,
 } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
 import {
   Connection,
   ConnectionInput,
-  resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
+  createCollection,
   createConnectionOrderVariants,
   createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query, { FilterQuery } from "coral-server/models/helpers/query";
+  FilterQuery,
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { TenantResource } from "coral-server/models/tenant";
 
-function collection(mongo: Db) {
-  return mongo.collection<Readonly<CommentAction>>("commentActions");
-}
+const collection = createCollection<CommentAction>("commentActions");
 
 export enum ACTION_TYPE {
   /**
@@ -529,7 +528,7 @@ interface DecodedActionCountKey {
  * decodeActionCountGroup will unpack the key as it is encoded into the separate
  * actionType and reason.
  */
-function decodeActionCountKey(key: string): DecodedActionCountKey {
+function decodeActionCountKey(key: string): DecodedActionCountKey | null {
   let actionType: string = "";
   let reason: string = "";
 
@@ -546,12 +545,22 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 
     // Validate that the action type is flag.
     if (actionType !== ACTION_TYPE.FLAG) {
-      throw new Error("invalid action type, expected only flag to have reason");
+      // This was an invalid action type.
+      logger.warn(
+        { actionType },
+        "found an action type that should have been flag, but wasn't"
+      );
+      return null;
     }
 
     // Validate that the reason is valid.
     if (!reason || !(reason in GQLCOMMENT_FLAG_REASON)) {
-      throw new Error("expected flag to have a reason that was valid");
+      // This was an invalid reason.
+      logger.warn(
+        { reason: reason || null },
+        "found an invalid flagging reason"
+      );
+      return null;
     }
   } else {
     actionType = key;
@@ -559,7 +568,12 @@ function decodeActionCountKey(key: string): DecodedActionCountKey {
 
   // Validate that the action type is valid.
   if (!actionType || !(actionType in ACTION_TYPE)) {
-    throw new Error("expected action to have an action type that was valid");
+    // This was an invalid flag given that the action type was invalid.
+    logger.warn(
+      { actionType: actionType || null },
+      "found an invalid action type"
+    );
+    return null;
   }
 
   const result: DecodedActionCountKey = {
@@ -640,8 +654,15 @@ export function decodeActionCounts(
   // Loop over all the encoded action counts to extract each of the action
   // counts as they are encoded.
   Object.entries(encodedActionCounts).forEach(([key, count]) => {
+    // Decode the encoded action count key.
+    const decoded = decodeActionCountKey(key);
+    if (!decoded) {
+      // If there was an error decoding the action count keys, skip this entry.
+      return;
+    }
+
     // Pull out the action type and the reason from the key.
-    const { actionType, reason } = decodeActionCountKey(key);
+    const { actionType, reason } = decoded;
 
     // Handle the different types and reasons.
     incrementActionCounts(actionCounts, actionType, reason, count);

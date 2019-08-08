@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo } from "graphql";
 
+import { StoryNotFoundError } from "coral-server/errors";
 import { getRequestedFields } from "coral-server/graph/tenant/resolvers/util";
 import {
   GQLComment,
@@ -10,12 +11,13 @@ import {
   decodeActionCounts,
 } from "coral-server/models/action/comment";
 import * as comment from "coral-server/models/comment";
-import { getLatestRevision } from "coral-server/models/comment";
-import { createConnection } from "coral-server/models/helpers/connection";
+import {
+  getLatestRevision,
+  hasAncestors,
+} from "coral-server/models/comment/helpers";
+import { createConnection } from "coral-server/models/helpers";
 import { getCommentEditableUntilDate } from "coral-server/services/comments";
 
-import { StoryNotFoundError } from "coral-server/errors";
-import { hasAncestors } from "coral-server/models/comment/helpers";
 import TenantContext from "../context";
 import { getURLWithCommentID } from "./util";
 

@@ -2,7 +2,13 @@ import { Localized } from "fluent-react/compat";
 import React, { ChangeEvent, Component } from "react";
 
 import { UNIT } from "coral-framework/lib/i18n";
-import { Flex, Option, SelectField, TextField } from "coral-ui/components";
+import {
+  Flex,
+  Option,
+  SelectField,
+  TextField,
+  Typography,
+} from "coral-ui/components";
 
 import styles from "./DurationField.css";
 
@@ -12,58 +18,12 @@ import styles from "./DurationField.css";
  */
 export const DURATION_UNIT = UNIT;
 
-type UnitElementCallback = (
-  currentValue: UNIT,
-  unitValue: string
-) => React.ReactElement<any>;
-
-// This is used to render the Option elements to inlcude in the select field.
-const unitElementMap: Record<UNIT, UnitElementCallback> = {
-  [UNIT.SECONDS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-seconds"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Seconds</Option>
-    </Localized>
-  ),
-  [UNIT.MINUTES]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-minutes"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Minutes</Option>
-    </Localized>
-  ),
-  [UNIT.HOURS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-hours"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Hours</Option>
-    </Localized>
-  ),
-  [UNIT.DAYS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-days"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Days</Option>
-    </Localized>
-  ),
-  [UNIT.WEEKS]: (currentValue, unitValue) => (
-    <Localized
-      id="framework-durationField-weeks"
-      $value={currentValue}
-      key={unitValue}
-    >
-      <Option value={unitValue}>Weeks</Option>
-    </Localized>
-  ),
+const DURATION_UNIT_MAP = {
+  [DURATION_UNIT.SECONDS]: "second",
+  [DURATION_UNIT.MINUTES]: "minute",
+  [DURATION_UNIT.HOURS]: "hour",
+  [DURATION_UNIT.DAYS]: "day",
+  [DURATION_UNIT.WEEKS]: "week",
 };
 
 interface Props {
@@ -86,7 +46,7 @@ interface State {
    * Element callbacks to generate the rendered
    * Option element for the select field
    */
-  elementCallbacks: ReadonlyArray<UnitElementCallback>;
+  elementCallbacks: ReadonlyArray<string>;
 }
 
 /**
@@ -117,7 +77,7 @@ function valueToState(value: string, units: ReadonlyArray<UNIT>, unit?: UNIT) {
     unit,
     value,
     units,
-    elementCallbacks: units.map(k => unitElementMap[k]),
+    elementCallbacks: units.map(k => DURATION_UNIT_MAP[k]),
   };
 }
 
@@ -177,6 +137,25 @@ class DurationField extends Component<Props, State> {
 
   public render() {
     const { disabled, name } = this.props;
+
+    if (!this.state.elementCallbacks) {
+      return null;
+    }
+
+    let adornment: React.ReactNode = null;
+    if (this.state.elementCallbacks.length === 1) {
+      const unit = this.state.elementCallbacks[0];
+      adornment = (
+        <Localized
+          id="framework-durationField-unit"
+          $unit={unit}
+          $value={parseInt(this.state.value, 10)}
+        >
+          <Typography variant="bodyCopy">{unit}</Typography>
+        </Localized>
+      );
+    }
+
     return (
       <Flex itemGutter>
         <TextField
@@ -189,23 +168,36 @@ class DurationField extends Component<Props, State> {
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
+          adornment={adornment}
           textAlignCenter
           aria-label="value"
         />
-        <SelectField
-          name={`${name}-unit`}
-          onChange={this.handleUnitChange}
-          disabled={disabled}
-          aria-label="unit"
-          classes={{
-            select: styles.unit,
-          }}
-          value={(this.state.unit || this.state.units[0]).toString()}
-        >
-          {this.state.elementCallbacks!.map((cb, i) =>
-            cb(parseInt(this.state.value, 10), this.state.units[i].toString())
-          )}
-        </SelectField>
+        {!adornment && (
+          <SelectField
+            name={`${name}-unit`}
+            onChange={this.handleUnitChange}
+            disabled={disabled}
+            aria-label="unit"
+            classes={{
+              select: styles.unit,
+            }}
+            value={(this.state.unit || this.state.units[0]).toString()}
+          >
+            {this.state.elementCallbacks.map((unit, i) => {
+              const value = this.state.units[i];
+              return (
+                <Localized
+                  id="framework-durationField-unit"
+                  $unit={unit}
+                  $value={parseInt(this.state.value, 10)}
+                  key={i}
+                >
+                  <Option value={value.toString()}>{unit}</Option>
+                </Localized>
+              );
+            })}
+          </SelectField>
+        )}
       </Flex>
     );
   }

@@ -5,7 +5,7 @@ import {
   RejectCommentPayloadToModerationQueuesResolver,
 } from "coral-server/graph/tenant/schema/__generated__/types";
 import { CommentConnectionInput } from "coral-server/models/comment";
-import { FilterQuery } from "coral-server/models/helpers/query";
+import { FilterQuery } from "coral-server/models/helpers";
 import {
   CommentModerationCountsPerQueue,
   Story,

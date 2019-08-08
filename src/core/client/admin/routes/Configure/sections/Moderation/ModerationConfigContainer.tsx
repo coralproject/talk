@@ -48,6 +48,7 @@ const enhanced = withFragmentContainer<Props>({
       ...AkismetConfigContainer_settings
       ...PerspectiveConfigContainer_settings
       ...PreModerationConfigContainer_settings
+      ...RecentCommentHistoryConfigContainer_settings
     }
   `,
 })(ModerationConfigContainer);

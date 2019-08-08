@@ -172,7 +172,7 @@ class Server {
       logger.info("mongodb autoindexing is enabled, starting indexing");
       await ensureIndexes(this.mongo);
     } else {
-      logger.info("mongodb autoindexing is disabled, skipping indexing");
+      logger.warn("mongodb autoindexing is disabled, skipping indexing");
     }
 
     // Launch all of the job processors.

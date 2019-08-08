@@ -81,7 +81,7 @@ export const StreamContainer: FunctionComponent<Props> = props => {
       props.viewer.status.current.includes(GQLUSER_STATUS.SUSPENDED)
   );
 
-  const allCommentsCount = props.story.commentCounts.totalVisible;
+  const allCommentsCount = props.story.commentCounts.totalPublished;
   const featuredCommentsCount = props.story.commentCounts.tags.FEATURED;
 
   useEffect(() => {
@@ -191,7 +191,7 @@ const enhanced = withFragmentContainer<Props>({
       ...CreateCommentReplyMutation_story
       ...CreateCommentMutation_story
       commentCounts {
-        totalVisible
+        totalPublished
         tags {
           FEATURED
         }

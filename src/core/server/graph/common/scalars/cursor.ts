@@ -2,7 +2,7 @@ import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
 import { DateTime } from "luxon";
 
-import { Cursor } from "coral-server/models/helpers/connection";
+import { Cursor } from "coral-server/models/helpers";
 
 function parseIntegerCursor(value: string): number | null {
   try {

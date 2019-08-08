@@ -100,23 +100,28 @@ framework-markdownEditor-toggleFullscreen = Toggle Fullscreen
 framework-markdownEditor-markdownGuide = Markdown Guide
 
 ### Duration Field
-framework-durationField-seconds = { $value ->
-   [1]      Second
-  *[others] Seconds
-}
-framework-durationField-minutes = { $value ->
-   [1]      Minute
-  *[others] Minutes
-}
-framework-durationField-hours = { $value ->
-   [1]      Hour
-  *[others] Hours
-}
-framework-durationField-days = { $value ->
-   [1]      Day
-  *[others] Days
-}
-framework-durationField-weeks = { $value ->
-   [1]      Week
-  *[others] Weeks
-}
+
+framework-durationField-unit =
+  { $unit ->
+    [second] { $value ->
+      [1] Second
+      *[other] Seconds
+    }
+    [minute] { $value ->
+      [1] Minute
+      *[other] Minutes
+    }
+    [hour] { $value ->
+      [1] Hour
+      *[other] Hours
+    }
+    [day] { $value ->
+      [1] Day
+      *[other] Days
+    }
+    [week] { $value ->
+      [1] Week
+      *[other] Weeks
+    }
+    *[other] unknown unit
+  }

@@ -11,28 +11,25 @@ import {
 import {
   Connection,
   ConnectionInput,
-  resolveConnection,
-} from "coral-server/models/helpers/connection";
-import {
   createConnectionOrderVariants,
   createIndexFactory,
-} from "coral-server/models/helpers/indexing";
-import Query from "coral-server/models/helpers/query";
+  Query,
+  resolveConnection,
+} from "coral-server/models/helpers";
 import { GlobalModerationSettings } from "coral-server/models/settings";
 import { TenantResource } from "coral-server/models/tenant";
 
+import { createEmptyCommentStatusCounts } from "../comment/helpers";
+import { createCollection } from "../helpers/collection";
 import {
   createEmptyCommentModerationQueueCounts,
-  createEmptyCommentStatusCounts,
   StoryCommentCounts,
 } from "./counts";
 
 // Export everything under counts.
 export * from "./counts";
 
-function collection<T = Story>(mongo: Db) {
-  return mongo.collection<Readonly<T>>("stories");
-}
+const collection = createCollection<Story>("stories");
 
 export type StorySettings = DeepPartial<
   Pick<GQLStorySettings, "messageBox"> & GlobalModerationSettings

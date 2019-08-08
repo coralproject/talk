@@ -108,12 +108,6 @@ enum COMMENT_FLAG_DETECTED_REASON {
   COMMENT_DETECTED_SPAM
 
   """
-  COMMENT_DETECTED_TRUST is used when the Comment being left was done by a User
-  that has a low karma/trust score.
-  """
-  COMMENT_DETECTED_TRUST
-
-  """
   COMMENT_DETECTED_LINKS is used when the Comment was detected as containing
   links.
   """
@@ -130,6 +124,12 @@ enum COMMENT_FLAG_DETECTED_REASON {
   containing a suspect word.
   """
   COMMENT_DETECTED_SUSPECT_WORD
+
+  """
+  COMMENT_DETECTED_RECENT_HISTORY is used when a Comment author has exhibited a
+  recent history of rejected comments.
+  """
+  COMMENT_DETECTED_RECENT_HISTORY
 }
 
 """
@@ -142,10 +142,10 @@ enum COMMENT_FLAG_REASON {
   COMMENT_REPORTED_OTHER
   COMMENT_DETECTED_TOXIC
   COMMENT_DETECTED_SPAM
-  COMMENT_DETECTED_TRUST
   COMMENT_DETECTED_LINKS
   COMMENT_DETECTED_BANNED_WORD
   COMMENT_DETECTED_SUSPECT_WORD
+  COMMENT_DETECTED_RECENT_HISTORY
 }
 
 """
@@ -176,10 +176,10 @@ type FlagReasonActionCounts {
   COMMENT_REPORTED_OTHER: Int!
   COMMENT_DETECTED_TOXIC: Int!
   COMMENT_DETECTED_SPAM: Int!
-  COMMENT_DETECTED_TRUST: Int!
   COMMENT_DETECTED_LINKS: Int!
   COMMENT_DETECTED_BANNED_WORD: Int!
   COMMENT_DETECTED_SUSPECT_WORD: Int!
+  COMMENT_DETECTED_RECENT_HISTORY: Int!
 }
 
 type Flag {
@@ -190,9 +190,11 @@ type Flag {
   flagger: User
 
   """
-  reason is the selected reason why the Flag is being created.
+  reason is the selected reason why the Flag is being created. If the reason is
+  not defined, or existed from a previous version of Coral, it will return null
+  to avoid errors.
   """
-  reason: COMMENT_FLAG_REASON!
+  reason: COMMENT_FLAG_REASON
 
   """
   additionalDetails stores information from the User as to why the Flag was
@@ -795,46 +797,45 @@ type ExternalIntegrations {
 }
 
 ################################################################################
-## Karma
+## RecentCommentHistory
 ################################################################################
 
 """
-KarmaThreshold defines the bounds for which a User will become unreliable or
-reliable based on their karma score. If the score is equal or less than the
-unreliable value, they are unreliable. If the score is equal or more than the
-reliable value, they are reliable. If they are neither reliable or unreliable
-then they are neutral.
+RecentCommentHistoryConfiguration controls the beheviour around when comments
+from Users should be marked for pre-moderation automatically once they have
+reached the trigger rate for rejected comments.
 """
-type KarmaThreshold {
-  reliable: Int!
-  unreliable: Int!
-}
-
-type KarmaThresholds {
+type RecentCommentHistoryConfiguration {
   """
-  flag represents karma settings in relation to how well a User's flagging
-  ability aligns with the moderation decisions made by moderators.
-  """
-  flag: KarmaThreshold!
-
-  """
-  comment represents the karma setting in relation to how well a User's comments are moderated.
-  """
-  comment: KarmaThreshold!
-}
-
-type Karma {
-  """
-  When true, checks will be completed to ensure that the Karma checks are
-  completed.
+  enabled when true will pre-moderate users new comments once they have reached
+  the trigger rejection rate.
   """
   enabled: Boolean!
 
   """
-  karmaThresholds contains the currently set thresholds for triggering Trust
-  behavior.
+  timeFrame specifies the number of seconds that comments from a given User will
+  be taken into account when computing their rejection rate.
   """
-  thresholds: KarmaThresholds!
+  timeFrame: Int!
+
+  """
+  triggerRejectionRate specifies the percentage of comments that a given User
+  may have before their comments will then be placed into pre-moderation until
+  the rejection rate decreases.
+  """
+  triggerRejectionRate: Float!
+}
+
+"""
+RecentCommentHistory returns data associated with a User's recent commenting
+history within the specified timeFrame configured.
+"""
+type RecentCommentHistory {
+  """
+  statuses stores the counts of all the statuses against Comments by a User
+  within the timeFrame configured.
+  """
+  statuses: CommentStatusCounts!
 }
 
 ################################################################################
@@ -1176,10 +1177,11 @@ type Settings {
   integrations: ExternalIntegrations! @auth(roles: [ADMIN, MODERATOR])
 
   """
-  karma is the set of settings related to how user Trust and Karma are
-  handled.
+  recentCommentHistory is the set of settings related to how automatic
+  pre-moderation is controlled.
   """
-  karma: Karma! @auth(roles: [ADMIN, MODERATOR])
+  recentCommentHistory: RecentCommentHistoryConfiguration!
+    @auth(roles: [ADMIN, MODERATOR])
 
   """
   reaction specifies the configuration for reactions.
@@ -1557,6 +1559,11 @@ type User {
   """
   rejectedComments(first: Int = 10, after: Cursor): CommentsConnection!
     @auth(roles: [ADMIN, MODERATOR])
+
+  """
+  recentCommentHistory returns recent commenting history by the User.
+  """
+  recentCommentHistory: RecentCommentHistory! @auth(roles: [ADMIN, MODERATOR])
 
   """
   commentModerationActionHistory returns a CommentModerationActionConnection
@@ -2057,9 +2064,9 @@ type CommentStatusCounts {
 
 type CommentCounts {
   """
-  totalVisible will return the count of all visible Comments.
+  totalPublished will return the count of all published Comments.
   """
-  totalVisible: Int!
+  totalPublished: Int!
 
   """
   tags stores the counts of all the Tags against Comment's on this Story.
@@ -2854,42 +2861,29 @@ input SettingsExternalIntegrationsInput {
 }
 
 """
-KarmaThreshold defines the bounds for which a User will become unreliable or
-reliable based on their karma score. If the score is equal or less than the
-unreliable value, they are unreliable. If the score is equal or more than the
-reliable value, they are reliable. If they are neither reliable or unreliable
-then they are neutral.
+RecentCommentHistoryConfigurationInput controls the beheviour around when comments from Users
+should be marked for pre-moderation automatically once they have reached the
+trigger rate for rejected comments.
 """
-input SettingsKarmaThresholdInput {
-  reliable: Int
-  unreliable: Int
-}
-
-input SettingsKarmaThresholdsInput {
+input RecentCommentHistoryConfigurationInput {
   """
-  flag represents karma settings in relation to how well a User's flagging
-  ability aligns with the moderation decisions made by moderators.
-  """
-  flag: SettingsKarmaThresholdInput
-
-  """
-  comment represents the karma setting in relation to how well a User's comments are moderated.
-  """
-  comment: SettingsKarmaThresholdInput
-}
-
-input SettingsKarmaInput {
-  """
-  When true, checks will be completed to ensure that the Karma checks are
-  completed.
+  enabled when true will pre-moderate users new comments once they have reached
+  the trigger rejection rate.
   """
   enabled: Boolean
 
   """
-  karmaThresholds contains the currently set thresholds for triggering Trust
-  behavior.
+  timeFrame specifies the number of seconds that comments from a given User will
+  be taken into account when computing their rejection rate.
   """
-  thresholds: SettingsKarmaThresholdsInput
+  timeFrame: Int
+
+  """
+  triggerRejectionRate specifies the percentage of comments that a given User
+  may have before their comments will then be placed into pre-moderation until
+  the rejection rate decreases.
+  """
+  triggerRejectionRate: Float
 }
 
 input SettingsCommunityGuidelinesInput {
@@ -3083,10 +3077,10 @@ input SettingsInput {
   integrations: SettingsExternalIntegrationsInput
 
   """
-  karma is the set of settings related to how user Trust and Karma are
-  handled.
+  recentCommentHistory is the set of settings related to how automatic
+  pre-moderation is controlled.
   """
-  karma: SettingsKarmaInput
+  recentCommentHistory: RecentCommentHistoryConfigurationInput
 
   """
   charCount stores the character count moderation settings.

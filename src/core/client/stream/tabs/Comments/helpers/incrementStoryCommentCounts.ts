@@ -10,8 +10,8 @@ export default function incrementStoryCommentCounts(
     const record = story.getLinkedRecord("commentCounts");
     if (record) {
       // TODO: when we have moderation, we'll need to be careful here.
-      const currentCount = record.getValue("totalVisible");
-      record.setValue(currentCount + 1, "totalVisible");
+      const currentCount = record.getValue("totalPublished");
+      record.setValue(currentCount + 1, "totalPublished");
     }
   }
 }
