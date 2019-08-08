@@ -92,6 +92,23 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
           </Localized>
         </Flex>
       )}
+      {!viewer.emailVerified && !showEditForm && (
+        <CallOut>
+          <Localized id="profile-changeEmail-pleaseVerify">
+            <Typography>Verify your email address</Typography>
+          </Localized>
+          <Localized id="profile-changeEmail-pleaseVerify-details">
+            <Typography>
+              An email has been sent to {viewer.email} to verify your account.
+              You must verify your new email address before it can be used for
+              signing into your account or for email notifications.
+            </Typography>
+          </Localized>
+          <Localized id="profile-changeEmail-resend">
+            <Button>Resend verification</Button>
+          </Localized>
+        </CallOut>
+      )}
       {showEditForm && (
         <CallOut className={styles.callOut} color="primary">
           <HorizontalGutter spacing={4}>
