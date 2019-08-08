@@ -1,18 +1,20 @@
+import { FORM_ERROR, FormApi } from "final-form";
 import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback, useState } from "react";
-import { FormApi, FORM_ERROR } from "final-form";
 import { Field, Form } from "react-final-form";
 
+import { PasswordField } from "coral-framework/components";
+import { InvalidRequestError } from "coral-framework/lib/errors";
+import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
 import {
   graphql,
   useMutation,
   withFragmentContainer,
 } from "coral-framework/lib/relay";
-import { PasswordField } from "coral-framework/components";
 import {
   composeValidators,
-  validateEmail,
   required,
+  validateEmail,
 } from "coral-framework/lib/validation";
 import {
   Button,
@@ -25,10 +27,10 @@ import {
   TextField,
   Typography,
 } from "coral-ui/components";
-import { colorFromMeta, ValidationMessage } from "coral-framework/lib/form";
-import { InvalidRequestError } from "coral-framework/lib/errors";
 
 import { ChangeEmailContainer_viewer as ViewerData } from "coral-stream/__generated__/ChangeEmailContainer_viewer.graphql";
+
+import UpdateEmailMutation from "./UpdateEmailMutation";
 
 import styles from "./ChangeEmail.css";
 
@@ -42,7 +44,7 @@ interface FormProps {
 }
 
 const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
-  const updateEmail = () => {};
+  const updateEmail = useMutation(UpdateEmailMutation);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const toggleEditForm = useCallback(() => {
@@ -78,6 +80,11 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
       {!showEditForm && (
         <Flex alignItems="center">
           <Typography>{viewer.email}</Typography>
+          {!viewer.emailVerified && (
+            <Localized id="profile-changeEmail-unverified">
+              <Typography color="textSecondary"> (Unverified)</Typography>
+            </Localized>
+          )}
           <Localized id="profile-changeEmail-edit">
             <Button size="small" color="primary" onClick={toggleEditForm}>
               Edit

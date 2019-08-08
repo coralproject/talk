@@ -890,7 +890,7 @@ export async function setUserEmail(
  * @param id the User ID that we are updating
  * @param emailAddress email address that we are setting on the User
  */
-export async function updateUserEmail(
+export async function updateEmail(
   mongo: Db,
   tenantID: string,
   id: string,

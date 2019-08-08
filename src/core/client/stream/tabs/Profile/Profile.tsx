@@ -23,7 +23,9 @@ export interface ProfileProps {
   viewer: PropTypesOf<typeof UserBoxContainer>["viewer"] &
     PropTypesOf<typeof CommentHistoryContainer>["viewer"] &
     PropTypesOf<typeof SettingsContainer>["viewer"] &
-    PropTypesOf<typeof ChangeUsernameContainer>["viewer"];
+    PropTypesOf<typeof ChangeUsernameContainer>["viewer"] &
+    PropTypesOf<typeof ChangeEmailContainer>["viewer"] &
+    PropTypesOf<typeof SettingsContainer>["viewer"];
   settings: PropTypesOf<typeof UserBoxContainer>["settings"] &
     PropTypesOf<typeof SettingsContainer>["settings"];
 }

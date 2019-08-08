@@ -16,9 +16,10 @@ import {
   setUsername,
   suspend,
   updateAvatar,
-  updateEmail,
+  updateOwnEmail,
   updatePassword,
   updateRole,
+  updateUserEmail,
   updateUsername,
   updateUsernameByID,
 } from "coral-server/services/users";
@@ -38,6 +39,7 @@ import {
   GQLSetPasswordInput,
   GQLSetUsernameInput,
   GQLSuspendUserInput,
+  GQLUpdateEmailInput,
   GQLUpdatePasswordInput,
   GQLUpdateUserAvatarInput,
   GQLUpdateUserEmailInput,
@@ -140,7 +142,16 @@ export const Users = (ctx: TenantContext) => ({
       ctx.user!
     ),
   updateUserEmail: async (input: GQLUpdateUserEmailInput) =>
-    updateEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
+    updateUserEmail(ctx.mongo, ctx.tenant, input.userID, input.email),
+  updateEmail: async (input: GQLUpdateEmailInput) =>
+    updateOwnEmail(
+      ctx.mongo,
+      ctx.tenant,
+      ctx.mailerQueue,
+      ctx.user!,
+      input.email,
+      input.password
+    ),
   updateUserAvatar: async (input: GQLUpdateUserAvatarInput) =>
     updateAvatar(ctx.mongo, ctx.tenant, input.userID, input.avatar),
   updateUserRole: async (input: GQLUpdateUserRoleInput) =>
