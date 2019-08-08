@@ -1,29 +1,23 @@
 import archiver from "archiver";
 import stringify from "csv-stringify";
 import DataLoader from "dataloader";
+import { Response } from "express";
+import Joi from "joi";
+import { kebabCase } from "lodash";
 import { Db } from "mongodb";
 
 import { AppOptions } from "coral-server/app";
+import { validate } from "coral-server/app/request/body";
 import { RequestLimiter } from "coral-server/app/request/limiter";
+import { getLatestRevision } from "coral-server/models/comment";
+import { Comment } from "coral-server/models/comment";
 import { retrieveManyStories } from "coral-server/models/story";
 import { Tenant } from "coral-server/models/tenant";
+import { User } from "coral-server/models/user";
 import { decodeJWT, extractTokenFromRequest } from "coral-server/services/jwt";
 import { verifyDownloadTokenString } from "coral-server/services/users/download/download";
 import { RequestHandler } from "coral-server/types/express";
 import { Request } from "coral-server/types/express";
-
-interface Comment {
-  readonly id: string;
-  storyID: string;
-  createdAt: string;
-  revisions: Revision[];
-}
-
-interface Revision {
-  readonly id: string;
-  body: string;
-  createdAt: string;
-}
 
 const BATCH_SIZE = 100;
 const USER_ID_LIMITER_TTL = "1d";
@@ -33,41 +27,66 @@ export type DownloadOptions = Pick<
   "mongo" | "redis" | "signingConfig" | "config"
 >;
 
-async function createExportedContent(
+async function sendExport(
   mongo: Db,
   tenant: Tenant,
-  authorID: string,
-  filterDate: Date,
-  res: any
+  user: Readonly<User>,
+  latestContentDate: Date,
+  res: Response
 ) {
-  const tenantID = tenant.id;
-  const comments = mongo.collection<Readonly<Comment>>("comments");
-
-  const getStories = new DataLoader((ids: string[]) =>
-    retrieveManyStories(mongo, tenantID, ids)
-  );
-  const cursor = comments.find({
-    tenantID,
-    authorID,
-    createdAt: {
-      $lt: filterDate,
-    },
+  // Create the date formatter to format the dates for the CSV.
+  const formatter = Intl.DateTimeFormat(tenant.locale, {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
   });
 
+  // Create a DataLoader to load stories for each batch.
+  const getStories = new DataLoader((ids: string[]) =>
+    retrieveManyStories(mongo, tenant.id, ids)
+  );
+
+  // Create a cursor to iterate over the user's comment's in order.
+  const cursor = mongo
+    .collection<Readonly<Comment>>("comments")
+    .find({
+      tenantID: tenant.id,
+      authorID: user.id,
+      createdAt: {
+        $lt: latestContentDate,
+      },
+    })
+    .sort({ createdAt: 1 });
+
+  // Collect all the user's comments in batches.
   let commentBatch: Array<Readonly<Comment>> = [];
+
+  // Generate the filename of the file that the user will download.
+  const filename = `talk-${kebabCase(user.username)}-${kebabCase(
+    formatter.format(latestContentDate)
+  )}.zip`;
 
   res.writeHead(200, {
     "Content-Type": "application/octet-stream",
-    "Content-Disposition": `attachment; filename=archive.zip`,
+    "Content-Disposition": `attachment; filename=${filename}`,
   });
 
+  // Create the zip archive we'll use to write all the exported files to.
   const archive = archiver("zip", {
     zlib: { level: 9 },
   });
 
+  // Pipe this to the response writer directly.
   archive.pipe(res);
 
+  // Create all the csv writers that'll write the data to the archive.
   const csv = stringify();
+
+  // Add all the streams as files to the archive.
   archive.append(csv, { name: "comments-export/my_comments.csv" });
 
   csv.write([
@@ -78,7 +97,11 @@ async function createExportedContent(
     "Comment Text",
   ]);
 
-  const writeBatch = async () => {
+  /**
+   * writeAndFlushBatch will write the given batch of comments to the CSV and
+   * flush out the batchfor the next run.
+   */
+  const writeAndFlushBatch = async () => {
     const stories = await getStories.loadMany(
       commentBatch.map(({ storyID }) => storyID)
     );
@@ -90,35 +113,15 @@ async function createExportedContent(
         continue;
       }
 
-      const orderedRevisions = comment.revisions.sort(
-        (a: Revision, b: Revision) => {
-          const bDate = new Date(b.createdAt);
-          const aDate = new Date(a.createdAt);
-          return bDate.getTime() - aDate.getTime();
-        }
-      );
-
-      const latestRevision = orderedRevisions[0];
-
-      const options = {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      };
-      const formattedDate = Intl.DateTimeFormat(
-        [tenant.locale, "en-US"],
-        options
-      ).format(new Date(comment.createdAt));
+      const revision = getLatestRevision(comment);
 
       const commentID = comment.id;
-      const storyUrl = story.url;
-      const commentUrl = `${storyUrl}?commentID=${commentID}`;
-      const body = latestRevision.body;
+      const createdAt = formatter.format(new Date(comment.createdAt));
+      const storyURL = story.url;
+      const commentURL = `${storyURL}?commentID=${commentID}`;
+      const body = revision.body;
 
-      csv.write([commentID, formattedDate, storyUrl, commentUrl, body]);
+      csv.write([commentID, createdAt, storyURL, commentURL, body]);
     }
 
     commentBatch = [];
@@ -133,17 +136,29 @@ async function createExportedContent(
     commentBatch.push(comment);
 
     if (commentBatch.length >= BATCH_SIZE) {
-      await writeBatch();
+      await writeAndFlushBatch();
     }
   }
 
   if (commentBatch.length > 0) {
-    await writeBatch();
+    await writeAndFlushBatch();
   }
 
   csv.end();
+
+  // Mark the end of adding files, no more files can be added after this. Once
+  // all the stream readers have finished writing, and have closed, the
+  // archiver will close which will finish the HTTP request.
   await archive.finalize();
 }
+
+export interface DownloadBody {
+  token: string;
+}
+
+export const DownloadBodySchema = Joi.object().keys({
+  token: Joi.string().trim(),
+});
 
 export const downloadHandler = ({
   mongo,
@@ -162,24 +177,14 @@ export const downloadHandler = ({
   return async (req: Request, res, next) => {
     // Tenant is guaranteed at this point.
     const coral = req.coral!;
-    const now = coral.now;
     const tenant = coral.tenant!;
-    const body = req.body;
 
-    const rawToken = body.token;
-    if (!rawToken) {
-      return res.sendStatus(400);
-    }
-    if (Array.isArray(rawToken)) {
-      return res.sendStatus(400);
-    }
+    // Get the fields from the body. Validate will throw an error if the body
+    // does not conform to the specification.
+    const { token }: DownloadBody = validate(DownloadBodySchema, req.body);
 
-    const tokenString: string = rawToken;
-    if (!tokenString) {
-      return res.sendStatus(400);
-    }
-
-    const { sub: userID } = decodeJWT(tokenString);
+    // Decode the token so we can rate limit based on the user's ID.
+    const { sub: userID } = decodeJWT(token);
     if (!userID) {
       return res.sendStatus(400);
     }
@@ -188,22 +193,23 @@ export const downloadHandler = ({
 
     try {
       const {
-        sub: authorID,
-        iat: filterDateSeconds,
+        token: { iat },
+        user,
       } = await verifyDownloadTokenString(
         mongo,
         tenant,
         signingConfig,
-        tokenString,
-        now
+        token,
+        coral.now
       );
 
-      const filterDate = new Date(1970, 0, 1);
-      filterDate.setSeconds(filterDateSeconds);
+      // Only load comments since this download token was issued.
+      const latestContentDate = new Date(iat * 1000);
 
-      await createExportedContent(mongo, tenant, authorID, filterDate, res);
+      // Send the export down the response.
+      await sendExport(mongo, tenant, user, latestContentDate, res);
 
-      return res;
+      return;
     } catch (err) {
       return next(err);
     }

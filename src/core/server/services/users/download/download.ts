@@ -100,5 +100,5 @@ export async function verifyDownloadTokenString(
     throw new TokenInvalidError(tokenString, "invalid tenant");
   }
 
-  return token;
+  return { token, user };
 }
