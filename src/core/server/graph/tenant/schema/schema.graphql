@@ -1601,10 +1601,10 @@ type User {
   createdAt: Time!
 
   """
-  lastDownload the last time the user made a download request
+  lastDownloadedAt the last time the user made a download request
   of their account data.
   """
-  lastDownload: Time
+  lastDownloadedAt: Time
 }
 
 """

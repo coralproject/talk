@@ -2,6 +2,7 @@ import { Localized } from "fluent-react/compat";
 import React, { FunctionComponent, useCallback } from "react";
 import { graphql } from "react-relay";
 
+import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
 import { useCoralContext } from "coral-framework/lib/bootstrap";
 import { reduceSeconds, UNIT } from "coral-framework/lib/i18n";
 import { useMutation, withFragmentContainer } from "coral-framework/lib/relay";
@@ -11,12 +12,6 @@ import { Button, CallOut, Icon, Typography } from "coral-ui/components";
 import RequestCommentsDownloadMutation from "./RequestCommentsDownloadMutation";
 
 import styles from "./DownloadCommentsContainer.css";
-
-/**
- * DOWNLOAD_LIMIT_TIMEFRAME is the number of seconds that a given download may
- * be made within.
- */
-const DOWNLOAD_LIMIT_TIMEFRAME = 14 * UNIT.DAYS;
 
 interface Props {
   viewer: DownloadCommentsContainer_viewer;
@@ -29,14 +24,14 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
   }, [requestComments]);
 
   const { locales } = useCoralContext();
-  const lastDownload = viewer.lastDownload
-    ? new Date(viewer.lastDownload)
+  const lastDownloadedAt = viewer.lastDownloadedAt
+    ? new Date(viewer.lastDownloadedAt)
     : null;
-  const sinceLastDownload = lastDownload
-    ? Math.ceil((Date.now() - lastDownload.getTime()) / 1000)
+  const sinceLastDownload = lastDownloadedAt
+    ? Math.ceil((Date.now() - lastDownloadedAt.getTime()) / 1000)
     : 0;
   const canDownload =
-    !lastDownload || sinceLastDownload >= DOWNLOAD_LIMIT_TIMEFRAME;
+    !lastDownloadedAt || sinceLastDownload >= DOWNLOAD_LIMIT_TIMEFRAME;
   const tilCanDownload = DOWNLOAD_LIMIT_TIMEFRAME - sinceLastDownload;
   const formatter = new Intl.DateTimeFormat(locales, {
     day: "2-digit",
@@ -69,13 +64,13 @@ const DownloadCommentsContainer: FunctionComponent<Props> = ({ viewer }) => {
           history. You can make one download request every 14 days.
         </Typography>
       </Localized>
-      {lastDownload && (
+      {lastDownloadedAt && (
         <Localized
           id="profile-settings-download-comments-recentRequest"
-          $timeStamp={formatter.format(lastDownload)}
+          $timeStamp={formatter.format(lastDownloadedAt)}
         >
           <Typography variant="bodyCopy" className={styles.recentRequest}>
-            Your most recent request: {formatter.format(lastDownload)}
+            Your most recent request: {formatter.format(lastDownloadedAt)}
           </Typography>
         </Localized>
       )}
@@ -117,7 +112,7 @@ const enhanced = withFragmentContainer<Props>({
   viewer: graphql`
     fragment DownloadCommentsContainer_viewer on User {
       id
-      lastDownload
+      lastDownloadedAt
     }
   `,
 })(DownloadCommentsContainer);

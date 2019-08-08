@@ -21,7 +21,7 @@ const RequestCommentsDownloadMutation = createMutation(
       const now = new Date();
 
       if (user !== null) {
-        user.setValue(now.toISOString(), "lastDownload");
+        user.setValue(now.toISOString(), "lastDownloadedAt");
       }
     };
 

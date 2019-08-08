@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import { Db } from "mongodb";
 
+import { DOWNLOAD_LIMIT_TIMEFRAME } from "coral-common/constants";
 import { Config } from "coral-server/config";
 import {
   DuplicateEmailError,
@@ -34,7 +35,7 @@ import {
   retrieveUser,
   retrieveUserWithEmail,
   setUserEmail,
-  setUserLastDownload,
+  setUserLastDownloadedAt,
   setUserLocalProfile,
   setUserUsername,
   suspendUser,
@@ -54,6 +55,7 @@ import { userIsStaff } from "coral-server/models/user/helpers";
 import { MailerQueue } from "coral-server/queue/tasks/mailer";
 import { JWTSigningConfig, signPATString } from "coral-server/services/jwt";
 
+import logger from "coral-server/logger";
 import { generateDownloadLink } from "./download/download";
 import { validateEmail, validatePassword, validateUsername } from "./helpers";
 
@@ -694,6 +696,16 @@ export async function requestCommentsDownload(
   user: User,
   now: Date
 ) {
+  // Check to see if the user is allowed to download this now.
+  if (
+    user.lastDownloadedAt &&
+    DateTime.fromJSDate(user.lastDownloadedAt)
+      .plus({ seconds: DOWNLOAD_LIMIT_TIMEFRAME })
+      .toSeconds() >= DateTime.fromJSDate(now).toSeconds()
+  ) {
+    throw new Error("requested download too early");
+  }
+
   const downloadUrl = await generateDownloadLink(
     user.id,
     tenant,
@@ -702,24 +714,31 @@ export async function requestCommentsDownload(
     now
   );
 
-  await setUserLastDownload(mongo, tenant.id, user.id, now);
+  await setUserLastDownloadedAt(mongo, tenant.id, user.id, now);
 
-  await mailer.add({
-    tenantID: tenant.id,
-    message: {
-      to: user.email!,
-    },
-    template: {
-      name: "download-comments",
-      context: {
-        username: user.username!,
-        date: Intl.DateTimeFormat([tenant.locale, "en-US"]).format(now),
-        downloadUrl,
-        organizationName: tenant.organization.name,
-        organizationURL: tenant.organization.url,
+  if (user.email) {
+    await mailer.add({
+      tenantID: tenant.id,
+      message: {
+        to: user.email,
       },
-    },
-  });
+      template: {
+        name: "download-comments",
+        context: {
+          username: user.username!,
+          date: Intl.DateTimeFormat(tenant.locale).format(now),
+          downloadUrl,
+          organizationName: tenant.organization.name,
+          organizationURL: tenant.organization.url,
+        },
+      },
+    });
+  } else {
+    logger.error(
+      { userID: user.id },
+      "could not send download email because the user does not have an email address"
+    );
+  }
 
   return user;
 }

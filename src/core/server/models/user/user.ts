@@ -293,10 +293,10 @@ export interface User extends TenantResource {
   ignoredUsers: IgnoredUser[];
 
   /**
-   * downloadedAt is the last time the user requested to download their
+   * lastDownloadedAt is the last time the user requested to download their
    * user data.
    */
-  downloadedAt?: Date;
+  lastDownloadedAt?: Date;
 
   /**
    * createdAt is the time that the User was created at.
@@ -1801,7 +1801,7 @@ export async function removeUserIgnore(
   return result.value;
 }
 
-export async function setUserLastDownload(
+export async function setUserLastDownloadedAt(
   mongo: Db,
   tenantID: string,
   id: string,
@@ -1813,7 +1813,7 @@ export async function setUserLastDownload(
       tenantID,
     },
     {
-      $set: { lastDownload: now },
+      $set: { lastDownloadedAt: now },
     },
     {
       // False to return the updated document instead of the original
