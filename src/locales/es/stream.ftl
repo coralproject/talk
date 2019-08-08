@@ -237,4 +237,3 @@ configure-openStream-description =
 configure-openStream-openStream = Abrir los comentarios
 
 comments-tombstone-ignore = Este comentario está oculto porque ignoraste a {$username}
->>>>>>> c979dfd7d52721a9f1a3a5365c61192a3edd3eab
