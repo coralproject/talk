@@ -180,7 +180,7 @@ configure-auth-clientSecret = Klienthemmelighed
 configure-auth-configBoxEnabled = Aktiveret
 configure-auth-targetFilterCoralAdmin = { -product-name } Administration
 configure-auth-targetFilterCommentStream = Kommentarer
-configure-auth-redirectURI = Redirect URI
+configure-auth-redirectURI = Omdiriger URI
 configure-auth-registration = Registrering
 configure-auth-registrationDescription =
   Lad brugere, der ikke har tilmeldt sig tidligere med denne 
@@ -223,7 +223,6 @@ configure-auth-oidc-toLearnMore = For at lære mere: <Link></Link>
 configure-auth-oidc-providerName = Udbyderens navn
 configure-auth-oidc-providerNameDescription =
   Udbyderen af OpenID Connect-integrationen. Dette bruges, når udbyderens navn skal vises, f.eks. “Log ind med  &lt;Facebook&gt;”.
-  needs to be displayed, e.g. “Log in with &lt;Facebook&gt;”.
 configure-auth-oidc-issuer = Udsteder
 configure-auth-oidc-issuerDescription =
   Når du har indtastet dine udstederoplysninger, 
@@ -239,7 +238,7 @@ configure-auth-oidc-useLoginOn = Brug Open ID Connect til at logge på
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
-  Når formodereringen er slået til, offentliggøres kommentarer ikke, 
+  Når pre-moderation er aktiveret, offentliggøres kommentarer ikke, 
   medmindre de er godkendt af en moderator.
 configure-moderation-preModeration-moderation =
   Formoderer alle kommentarer overalt
