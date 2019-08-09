@@ -12,6 +12,7 @@ interface StepProps {
   completed?: boolean;
   last?: boolean;
   hidden?: boolean;
+  lineClassName?: string;
 }
 
 class Step extends Component<StepProps> {
@@ -29,7 +30,9 @@ class Step extends Component<StepProps> {
           itemGutter
         >
           <Circle completed={completed} active={active} />
-          {!last && <Line completed={completed} />}
+          {!last && (
+            <Line completed={completed} className={this.props.lineClassName} />
+          )}
         </Flex>
         <Typography className={styles.text}>{children}</Typography>
       </div>

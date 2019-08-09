@@ -186,6 +186,70 @@ profile-settings-download-comments-recentRequest =
 profile-settings-download-comments-timeOut =
   You can submit another request in { framework-timeago-time }
 
+profile-settings-deleteAccount-title = Delete My Account
+profile-settings-deleteAccount-description =
+  Deleting your account will permanently erase your profile and remove
+  all your comments from this site.
+profile-settings-deleteAccount-requestDelete-icon
+  .title = Request account deletion
+profile-settings-deleteAccount-requestDelete = Request account deletion
+
+profile-settings-deleteAccount-pages-deleteButton = Delete my account
+profile-settings-deleteAccount-pages-cancel = Cancel
+profile-settings-deleteAccount-pages-proceed = Proceed
+profile-settings-deleteAccount-pages-done = Done
+
+profile-settings-deleteAccount-pages-descriptionHeader = Delete my account?
+profile-settings-deleteAccount-pages-descriptionText =
+  You are attempting to delete your account. This means:
+profile-settings-deleteAccount-pages-list1 =
+  All of your comments are removed from this site
+profile-settings-deleteAccount-pages-list2 =
+  All of your comments are deleted from our database
+profile-settings-deleteAccount-pages-list3 =
+  Your username and email address are removed from our system
+
+profile-settings-deleteAccount-pages-whenHeader = Delete my account: When?
+profile-settings-deleteAccount-pages-whenSec1Header =
+  When will my account be deleted?
+profile-settings-deleteAccount-pages-whenSec1Content =
+  Your account will be deleted 24 hours after your request has been submitted.
+profile-settings-deleteAccount-pages-whenSec2Header =
+  Can I still write comments until my account is deleted?
+profile-settings-deleteAccount-pages-whenSec2Content =
+  No. Once you've requested account deletion, you can no longer write comments,
+  reply to comments, or select reactions.
+
+profile-settings-deleteAccount-pages-downloadCommentHeader = Download my comments?
+profile-settings-deleteAccount-pages-downloadCommentsDesc =
+  Before your account is deleted, we recommend you download your comment
+  history for your records. After your account is deleted, you will be
+  unable to request your comment history.
+profile-settings-deleteAccount-pages-downloadCommentsPath =
+  My Profile > Download My Comment History
+
+profile-settings-deleteAccount-pages-confirmHeader = Confirm account deletion?
+profile-settings-deleteAccount-pages-confirmDescHeader =
+  Are you sure you want to delete your account?
+profile-settings-deleteAccount-confirmDescContent
+  To confirm you would like to delete your account please type in the following
+  phrase into the text box below:
+
+profile-settings-deleteAccount-pages-completeHeader = Account deletion requested
+profile-settings-deleteAccount-pages-completeDescript =
+  Your request has been submitted and a confirmation has been sent to the email
+  address associated with your account.
+profile-settings-deleteAccount-pages-completeTimeHeader =
+  Your account will be deleted on:
+profile-settings-deleteAccount-pages-completeSec1Header = Changed your mind?
+profile-settings-deleteAccount-pages-completeSec1Content =
+  Simply sign in to your account again before this time and select
+  <strong>“Cancel Account Deletion Request.”</strong>
+profile-settings-deleteAccount-pages-completeSec2Header = Tell us why.
+profile-settings-deleteAccount-pages-completeSec2Content =
+  We'd like to know why you chose to delete your account. Send us feedback on
+  our comment system by emailing { $email }.
+
 ## Report Comment Popover
 comments-reportPopover =
   .description = A dialog for reporting comments

@@ -7,6 +7,7 @@ import { SettingsContainer_viewer } from "coral-stream/__generated__/SettingsCon
 import { HorizontalGutter } from "coral-ui/components";
 
 import ChangePasswordContainer from "./ChangePasswordContainer";
+import DeleteAccountContainer from "./DeleteAccount/DeleteAccountContainer";
 import DownloadCommentsContainer from "./DownloadCommentsContainer";
 import IgnoreUserSettingsContainer from "./IgnoreUserSettingsContainer";
 
@@ -22,6 +23,7 @@ const SettingsContainer: FunctionComponent<Props> = ({ viewer, settings }) => (
     <IgnoreUserSettingsContainer viewer={viewer} />
     <ChangePasswordContainer settings={settings} />
     <DownloadCommentsContainer viewer={viewer} />
+    <DeleteAccountContainer viewer={viewer} />
   </HorizontalGutter>
 );
 
@@ -30,6 +32,7 @@ const enhanced = withFragmentContainer<Props>({
     fragment SettingsContainer_viewer on User {
       ...IgnoreUserSettingsContainer_viewer
       ...DownloadCommentsContainer_viewer
+      ...DeleteAccountContainer_viewer
     }
   `,
   settings: graphql`
