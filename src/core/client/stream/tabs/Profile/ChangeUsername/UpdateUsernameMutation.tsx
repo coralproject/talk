@@ -45,6 +45,7 @@ const UpdateUsernameMutation = createMutation(
             username: input.username,
             status: {
               username: {
+                // FIXME: (tessalt) merge in existing history
                 history: [
                   {
                     username: input.username,
