@@ -46,7 +46,7 @@ interface FormProps {
 const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
   const updateEmail = useMutation(UpdateEmailMutation);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [emailUpdated, setEmailUpdated] = useState(false);
   const toggleEditForm = useCallback(() => {
     setShowEditForm(!showEditForm);
   }, [setShowEditForm, showEditForm]);
@@ -69,7 +69,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
 
       form.reset();
       setShowEditForm(false);
-      setShowSuccessMessage(true);
+      setEmailUpdated(true);
 
       return;
     },
@@ -92,7 +92,7 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
           </Localized>
         </Flex>
       )}
-      {!viewer.emailVerified && !showEditForm && (
+      {!viewer.emailVerified && emailUpdated && !showEditForm && (
         <CallOut>
           <Localized id="profile-changeEmail-please-verify">
             <Typography>Verify your email address</Typography>
@@ -146,6 +146,9 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
                 pristine,
                 invalid,
                 submitting,
+                hasValidationErrors,
+                hasSubmitErrors,
+                dirtySinceLastSubmit,
               }) => (
                 <form
                   onSubmit={handleSubmit}
@@ -222,15 +225,24 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
                       </Button>
                     </Localized>
                     <Localized id="profile-changeEmail-submit">
-                      <Button
-                        variant={pristine || invalid ? "outlined" : "filled"}
-                        type="submit"
-                        color={pristine || invalid ? "regular" : "primary"}
-                        disabled={pristine || invalid}
-                      >
-                        <ButtonIcon>save</ButtonIcon>
-                        <span>Save</span>
-                      </Button>
+                      {pristine ||
+                      hasValidationErrors ||
+                      (hasSubmitErrors && !dirtySinceLastSubmit) ? (
+                        <Button
+                          variant="outlined"
+                          type="submit"
+                          color="regular"
+                          disabled
+                        >
+                          <ButtonIcon>save</ButtonIcon>
+                          <span>Save</span>
+                        </Button>
+                      ) : (
+                        <Button variant="filled" type="submit" color="primary">
+                          <ButtonIcon>save</ButtonIcon>
+                          <span>Save</span>
+                        </Button>
+                      )}
                     </Localized>
                   </Flex>
                 </form>
