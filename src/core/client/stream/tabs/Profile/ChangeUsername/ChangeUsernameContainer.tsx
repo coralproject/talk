@@ -42,7 +42,7 @@ import {
 
 import UpdateUsernameMutation from "./UpdateUsernameMutation";
 
-import styles from "./ChangeUsername.css";
+import styles from "./ChangeUsernameContainer.css";
 
 const FREQUENCYSCALED = reduceSeconds(ALLOWED_USERNAME_CHANGE_FREQUENCY, [
   UNIT.DAYS,
