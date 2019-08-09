@@ -26,7 +26,7 @@ import {
 import BackButton from "./BackButton";
 
 interface FormProps {
-  allowedDomains: string;
+  allowedDomains: string[];
 }
 
 interface Props {
@@ -37,9 +37,8 @@ interface Props {
 }
 
 class PermittedDomainsStep extends Component<Props> {
-  private onSubmit: OnSubmit<FormProps> = async (input, form) => {
+  private onSubmit: OnSubmit<FormProps> = async ({ allowedDomains }, form) => {
     try {
-      const allowedDomains = input.allowedDomains.split(",");
       await this.props.onInstall({ allowedDomains });
       return this.props.onGoToNextStep();
     } catch (error) {
@@ -51,7 +50,7 @@ class PermittedDomainsStep extends Component<Props> {
       <Form
         onSubmit={this.onSubmit}
         initialValues={{
-          allowedDomains: this.props.data.allowedDomains.join(","),
+          allowedDomains: this.props.data.allowedDomains,
         }}
       >
         {({ handleSubmit, submitting, submitError }) => (
