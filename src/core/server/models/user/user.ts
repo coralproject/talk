@@ -293,6 +293,12 @@ export interface User extends TenantResource {
   ignoredUsers: IgnoredUser[];
 
   /**
+   * lastDownloadedAt is the last time the user requested to download their
+   * user data.
+   */
+  lastDownloadedAt?: Date;
+
+  /**
    * createdAt is the time that the User was created at.
    */
   createdAt: Date;
@@ -1787,6 +1793,39 @@ export async function removeUserIgnore(
     ) {
       // TODO: improve error
       throw new Error("user already not ignored");
+    }
+
+    throw new Error("an unexpected error occurred");
+  }
+
+  return result.value;
+}
+
+export async function setUserLastDownloadedAt(
+  mongo: Db,
+  tenantID: string,
+  id: string,
+  now: Date
+) {
+  const result = await collection(mongo).findOneAndUpdate(
+    {
+      id,
+      tenantID,
+    },
+    {
+      $set: { lastDownloadedAt: now },
+    },
+    {
+      // False to return the updated document instead of the original
+      // document.
+      returnOriginal: false,
+    }
+  );
+  if (!result.value) {
+    // Get the user so we can figure out why the ignore operation failed.
+    const user = await retrieveUser(mongo, tenantID, id);
+    if (!user) {
+      throw new UserNotFoundError(id);
     }
 
     throw new Error("an unexpected error occurred");

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { Environment } from "relay-runtime";
 
 import Loading from "coral-account/components/Loading";
@@ -6,17 +6,18 @@ import { useToken } from "coral-framework/hooks";
 import { createFetch } from "coral-framework/lib/relay";
 import { withRouteConfig } from "coral-framework/lib/router";
 import { parseHashQuery } from "coral-framework/utils";
+import { HorizontalGutter } from "coral-ui/components";
 
-import ConfirmForm from "./ConfirmForm";
+import DownloadDescription from "./DownloadDescription";
+import DownloadForm from "./DownloadForm";
 import Sorry from "./Sorry";
-import Success from "./Success";
 
-import styles from "./ConfirmRoute.css";
+import styles from "./DownloadRoute.css";
 
 const fetcher = createFetch(
-  "confirmToken",
+  "downloadToken",
   async (environment: Environment, variables: { token: string }, { rest }) =>
-    await rest.fetch<void>("/account/confirm", {
+    await rest.fetch<void>("/account/downloadcheck", {
       method: "GET",
       token: variables.token,
     })
@@ -26,43 +27,38 @@ interface Props {
   token: string | undefined;
 }
 
-const ConfirmRoute: React.FunctionComponent<Props> = ({ token }) => {
-  const [finished, setFinished] = useState(false);
-  const onSuccess = useCallback(() => {
-    setFinished(true);
-  }, []);
+const DownloadRoute: FunctionComponent<Props> = ({ token }) => {
   const [state, error] = useToken(fetcher, token);
 
   if (state === "UNCHECKED") {
     return (
       <div className={styles.container}>
         <div className={styles.root}>
-          <Loading />
+          <HorizontalGutter size="double">
+            <Loading />
+          </HorizontalGutter>
         </div>
       </div>
     );
   }
-
   if (state !== "VALID" || error) {
     return (
       <div className={styles.container}>
         <div className={styles.root}>
-          <Sorry reason={error} />
+          <HorizontalGutter size="double">
+            <DownloadDescription />
+            <Sorry />
+          </HorizontalGutter>
         </div>
       </div>
     );
   }
 
-  return !finished ? (
+  return (
     <div className={styles.container}>
       <div className={styles.root}>
-        <ConfirmForm token={token!} onSuccess={onSuccess} />
-      </div>
-    </div>
-  ) : (
-    <div className={styles.container}>
-      <div className={styles.root}>
-        <Success />
+        <DownloadDescription />
+        <DownloadForm token={token!} />
       </div>
     </div>
   );
@@ -70,8 +66,8 @@ const ConfirmRoute: React.FunctionComponent<Props> = ({ token }) => {
 
 const enhanced = withRouteConfig<Props>({
   render: ({ match, Component }) => (
-    <Component token={parseHashQuery(match.location.hash).confirmToken} />
+    <Component token={parseHashQuery(match.location.hash).downloadToken} />
   ),
-})(ConfirmRoute);
+})(DownloadRoute);
 
 export default enhanced;

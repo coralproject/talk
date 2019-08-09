@@ -329,6 +329,45 @@ Commenters you ignore will still be able to see your comments.
               </div>
             </form>
           </div>
+          <div
+            className="DownloadCommentsContainer-root"
+          >
+            <h1
+              className="Box-root Typography-root Typography-heading3 Typography-colorTextPrimary DownloadCommentsContainer-title"
+            >
+              Download my comment history
+            </h1>
+            <p
+              className="Box-root Typography-root Typography-bodyCopy Typography-colorTextPrimary DownloadCommentsContainer-description"
+            >
+              You will receive an email with a link to download your comment history.
+You can make 
+              <strong>
+                one download request every 14 days.
+              </strong>
+            </p>
+            <button
+              className="BaseButton-root Button-root Button-sizeSmall Button-colorRegular Button-variantOutlined"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+              onTouchEnd={[Function]}
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                className="Icon-root Icon-sm DownloadCommentsContainer-icon"
+                title="Request comment history"
+              >
+                file_download
+              </span>
+              <span>
+                Request comment history
+              </span>
+            </button>
+          </div>
         </div>
       </section>
     </div>

@@ -177,4 +177,8 @@ export const Mutation: Required<GQLMutationTypeResolver<void>> = {
     user: await ctx.mutators.Users.removeIgnore(input),
     clientMutationId: input.clientMutationId,
   }),
+  requestCommentsDownload: async (sourc, { input }, ctx) => ({
+    user: await ctx.mutators.Users.requestCommentsDownload(input),
+    clientMutationId: input.clientMutationId,
+  }),
 };

@@ -62,12 +62,22 @@ export type InviteEmailTemplate = UserNotificationContext<
   }
 >;
 
+export type DownloadCommentsTemplate = UserNotificationContext<
+  "download-comments",
+  {
+    username: string;
+    date: string;
+    downloadUrl: string;
+  }
+>;
+
 type Templates =
   | BanTemplate
   | ConfirmEmailTemplate
   | ForgotPasswordTemplate
   | InviteEmailTemplate
   | PasswordChangeTemplate
-  | SuspendTemplate;
+  | SuspendTemplate
+  | DownloadCommentsTemplate;
 
 export { Templates as Template };

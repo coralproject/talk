@@ -34,3 +34,9 @@ export const TOXICITY_MODEL_DEFAULT = "TOXICITY";
  */
 export const TOXICITY_ENDPOINT_DEFAULT =
   "https://commentanalyzer.googleapis.com/v1alpha1";
+
+/**
+ * DOWNLOAD_LIMIT_TIMEFRAME is the number of seconds that a given download may
+ * be made within.
+ */
+export const DOWNLOAD_LIMIT_TIMEFRAME = 14 * 86400;
