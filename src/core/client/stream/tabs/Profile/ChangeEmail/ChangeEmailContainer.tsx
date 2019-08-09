@@ -23,6 +23,7 @@ import {
   Flex,
   FormField,
   HorizontalGutter,
+  Icon,
   InputLabel,
   TextField,
   Typography,
@@ -94,22 +95,32 @@ const changeEmailContainer: FunctionComponent<Props> = ({ viewer }) => {
       )}
       {!viewer.emailVerified && emailUpdated && !showEditForm && (
         <CallOut>
-          <Localized id="profile-changeEmail-please-verify">
-            <Typography>Verify your email address</Typography>
-          </Localized>
-          <Localized
-            id="profile-changeEmail-please-verify-details"
-            $email={viewer.email}
-          >
-            <Typography>
-              An email has been sent to {viewer.email} to verify your account.
-              You must verify your new email address before it can be used for
-              signing into your account or for email notifications.
-            </Typography>
-          </Localized>
-          <Localized id="profile-changeEmail-resend">
-            <Button>Resend verification</Button>
-          </Localized>
+          <Flex itemGutter="double">
+            <div>
+              <Icon size="lg">email</Icon>
+            </div>
+            <div>
+              <Localized id="profile-changeEmail-please-verify">
+                <Typography variant="heading3" gutterBottom>
+                  Verify your email address
+                </Typography>
+              </Localized>
+              <Localized
+                id="profile-changeEmail-please-verify-details"
+                $email={viewer.email}
+              >
+                <Typography>
+                  An email has been sent to {viewer.email} to verify your
+                  account. You must verify your new email address before it can
+                  be used for signing into your account or for email
+                  notifications.
+                </Typography>
+              </Localized>
+              <Localized id="profile-changeEmail-resend">
+                <Button color="primary">Resend verification</Button>
+              </Localized>
+            </div>
+          </Flex>
         </CallOut>
       )}
       {showEditForm && (
