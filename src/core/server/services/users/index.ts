@@ -20,6 +20,7 @@ import {
   UserNotFoundError,
 } from "coral-server/errors";
 import { GQLUSER_ROLE } from "coral-server/graph/tenant/schema/__generated__/types";
+import logger from "coral-server/logger";
 import { Tenant } from "coral-server/models/tenant";
 import {
   banUser,
@@ -422,6 +423,11 @@ export async function updateUsername(
         },
       },
     });
+  } else {
+    logger.warn(
+      { id: user.id },
+      "Failed to send email: user does not have email address"
+    );
   }
 
   return updated;
