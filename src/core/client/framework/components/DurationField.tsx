@@ -142,20 +142,6 @@ class DurationField extends Component<Props, State> {
       return null;
     }
 
-    let adornment: React.ReactNode = null;
-    if (this.state.elementCallbacks.length === 1) {
-      const unit = this.state.elementCallbacks[0];
-      adornment = (
-        <Localized
-          id="framework-durationField-unit"
-          $unit={unit}
-          $value={parseInt(this.state.value, 10)}
-        >
-          <Typography variant="bodyCopy">{unit}</Typography>
-        </Localized>
-      );
-    }
-
     return (
       <Flex itemGutter>
         <TextField
@@ -168,18 +154,27 @@ class DurationField extends Component<Props, State> {
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
-          adornment={adornment}
           textAlignCenter
           aria-label="value"
         />
-        {!adornment && (
+        {this.state.elementCallbacks.length === 1 ? (
+          <Localized
+            id="framework-durationField-unit"
+            $unit={this.state.elementCallbacks[0]}
+            $value={parseInt(this.state.value, 10)}
+          >
+            <Typography variant="bodyCopy" className={styles.unit}>
+              {this.state.elementCallbacks[0]}
+            </Typography>
+          </Localized>
+        ) : (
           <SelectField
             name={`${name}-unit`}
             onChange={this.handleUnitChange}
             disabled={disabled}
             aria-label="unit"
             classes={{
-              select: styles.unit,
+              select: styles.select,
             }}
             value={(this.state.unit || this.state.units[0]).toString()}
           >

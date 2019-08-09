@@ -5,7 +5,6 @@ exports[`accepts invalid input 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
-    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -22,7 +21,7 @@ exports[`accepts invalid input 1`] = `
     aria-label="unit"
     classes={
       Object {
-        "select": "DurationField-unit",
+        "select": "DurationField-select",
       }
     }
     disabled={false}
@@ -72,7 +71,6 @@ exports[`renders correctly with default units 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
-    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -89,7 +87,7 @@ exports[`renders correctly with default units 1`] = `
     aria-label="unit"
     classes={
       Object {
-        "select": "DurationField-unit",
+        "select": "DurationField-select",
       }
     }
     disabled={false}
@@ -139,7 +137,6 @@ exports[`renders correctly with specified units 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
-    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -156,7 +153,7 @@ exports[`renders correctly with specified units 1`] = `
     aria-label="unit"
     classes={
       Object {
-        "select": "DurationField-unit",
+        "select": "DurationField-select",
       }
     }
     disabled={false}
@@ -195,7 +192,6 @@ exports[`use best matching unit 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
-    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -212,7 +208,7 @@ exports[`use best matching unit 1`] = `
     aria-label="unit"
     classes={
       Object {
-        "select": "DurationField-unit",
+        "select": "DurationField-select",
       }
     }
     disabled={false}
@@ -262,7 +258,6 @@ exports[`use initial unit if 0 1`] = `
   itemGutter={true}
 >
   <withPropsOnChange(TextField)
-    adornment={null}
     aria-label="value"
     autoCapitalize="off"
     autoComplete="off"
@@ -279,7 +274,7 @@ exports[`use initial unit if 0 1`] = `
     aria-label="unit"
     classes={
       Object {
-        "select": "DurationField-unit",
+        "select": "DurationField-select",
       }
     }
     disabled={false}

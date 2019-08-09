@@ -408,13 +408,13 @@ Markdown can be found
                 Minimum Comment Length
               </label>
               <div
-                className="TextField-root CommentLengthConfig-commentLengthTextInput"
+                className="TextField-root"
               >
                 <input
                   autoCapitalize="off"
                   autoComplete="off"
                   autoCorrect="off"
-                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                  className="TextField-input CommentLengthConfig-commentLengthTextInput TextField-colorRegular TextField-textAlignCenter"
                   disabled={false}
                   id="configure-general-commentLength-min"
                   name="charCount.min"
@@ -447,13 +447,13 @@ Markdown can be found
                 Maximum Comment Length
               </label>
               <div
-                className="TextField-root CommentLengthConfig-commentLengthTextInput"
+                className="TextField-root"
               >
                 <input
                   autoCapitalize="off"
                   autoComplete="off"
                   autoCorrect="off"
-                  className="TextField-input TextField-colorRegular TextField-textAlignCenter"
+                  className="TextField-input CommentLengthConfig-commentLengthTextInput TextField-colorRegular TextField-textAlignCenter"
                   disabled={false}
                   id="configure-general-commentLength-max"
                   name="charCount.max"
@@ -526,7 +526,7 @@ moderation panel.
                 >
                   <select
                     aria-label="unit"
-                    className="SelectField-select DurationField-unit"
+                    className="SelectField-select DurationField-select"
                     disabled={false}
                     name="editCommentWindowLength-unit"
                     onBlur={[Function]}
@@ -671,7 +671,7 @@ moderation panel.
                 >
                   <select
                     aria-label="unit"
-                    className="SelectField-select DurationField-unit"
+                    className="SelectField-select DurationField-select"
                     disabled={false}
                     name="closeCommenting.timeout-unit"
                     onBlur={[Function]}

@@ -97,7 +97,9 @@ const PerspectiveConfig: FunctionComponent<Props> = ({ disabled }) => {
             <>
               <TextField
                 id="configure-moderation-perspective-threshold"
-                className={styles.thresholdTextField}
+                classes={{
+                  input: styles.thresholdTextField,
+                }}
                 disabled={disabled}
                 autoComplete="off"
                 autoCorrect="off"
