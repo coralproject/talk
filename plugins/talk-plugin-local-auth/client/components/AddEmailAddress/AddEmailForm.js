@@ -14,10 +14,10 @@ import {
 } from 'coral-framework/lib/validation';
 import { Form, Field } from 'react-final-form';
 
-const AddEmailContent = ({ onSubmit }) => (
+const AddEmailContent = ({ onSubmit, onCancel }) => (
   <div>
     <h4 className={styles.title}>
-      {t('talk-plugin-local-auth.add_email.content.title')}
+      {t('talk-plugin-local-auth.add_email.title')}
     </h4>
     <p className={styles.description}>
       {t('talk-plugin-local-auth.add_email.content.description')}
@@ -113,6 +113,14 @@ const AddEmailContent = ({ onSubmit }) => (
             <button className={styles.button} disabled={submitting}>
               {t('talk-plugin-local-auth.add_email.add_email_address')}
             </button>
+            <button
+              onClick={onCancel}
+              className={styles.cancel}
+              disabled={submitting}
+              type="button"
+            >
+              {t('talk-plugin-local-auth.add_email.cancel')}
+            </button>
           </div>
         </form>
       )}
@@ -122,6 +130,7 @@ const AddEmailContent = ({ onSubmit }) => (
 
 AddEmailContent.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default AddEmailContent;

@@ -59,7 +59,6 @@ ar:
       required_field: "هذه الخانة مطلوبه"
       done: "تم"
       content:
-        title: "أضف عنوان بريد إلكتروني"
         description: "لمزيد من الأمان ، نطلب من المستخدمين إضافة عنوان بريد إلكتروني إلى حساباتهم. سيتم استخدام عنوان بريدك الإلكتروني في:"
         item_1: "تلقي التحديثات المتعلقة بأي تغييرات في حسابك (عنوان البريد الإلكتروني ، اسم المستخدم ، كلمة المرور ، إلخ.)"
         item_2: "السماح لك بتنزيل تعليقاتك."
@@ -83,6 +82,7 @@ en:
     NO_LOCAL_PROFILE: No existing email address is associated with this account.
     LOCAL_PROFILE: An email address is already associated with this account.
     INCORRECT_PASSWORD: Provided password was incorrect.
+    DUPLICATE_LOCAL_PROFILE: An account already exists with this email address. Please cancel and login with your email address and password.
   talk-plugin-local-auth:
     change_password:
       change_password: "Change Password"
@@ -125,7 +125,9 @@ en:
       cancel: "Cancel"
       change_email_msg: "Email Address Changed. This email address will now be used for signing in and email notifications."
     add_email:
+      title: "Create New Account"
       add_email_address: "Add Email Address"
+      cancel: "Cancel"
       enter_email_address: "Enter Email Address:"
       invalid_email_address: "Invalid Email address"
       confirm_email_address: "Confirm Email Address:"
@@ -135,7 +137,6 @@ en:
       required_field: "This field is required"
       done: "Done"
       content:
-        title: "Add an Email Address"
         description: "For your added security, we require users to add an email address to their accounts. Your email address will be used to:"
         item_1: "Receive updates regarding any changes to your account (email address, username, password, etc.)"
         item_2: "Allow you to download your comments."
@@ -211,7 +212,6 @@ sr:
       required_field: "Ovo polje je obavezno"
       done: "Gotovo"
       content:
-        title: "Dodaj e-mail adresu"
         description: "For your added security, we require users to add an email address to their accounts. Your email address will be used to:"
         item_1: "Receive updates regarding any changes to your account (email address, username, password, etc.)"
         item_2: "Omogućuje vam da preuzmete (download) svoje komentare."
@@ -225,7 +225,7 @@ sr:
         subtitle: "Želite da promenite e-mail adresu?"
         description_2: "Možete urediti svoj nalog ovde:"
         path: "Moj profil > Podešavanja"
-        alert: "E-mail dodat"        
+        alert: "E-mail dodat"
 pt_BR:
   email:
     email_change_original:
@@ -287,7 +287,6 @@ pt_BR:
       required_field: "Esse campo é obrigatório"
       done: "Feito"
       content:
-        title: "Adicione um endereço de email"
         description: "Para a sua segurança, exigimos que os usuários adicionem um endereço de email para suas contas. Seu email será usado para:"
         item_1: "Receba avisos de alterações na sua conta(endereço de email, usuário, senha, etc.)"
         item_2: "Permitir que você baixe seus comentários."
@@ -362,7 +361,6 @@ de:
       required_field: "Dieses Feld ist erforderlich"
       done: "Fertig"
       content:
-        title: "E-Mail-Adresse hinzufügen"
         description: "Aus Sicherheitsgründen benötigen wir eine E-Mail-Adresse zu jedem Benutzerkonto. Ihre E-Mail-Adresse wird für folgendes verwendet:"
         item_1: "Benachrichtigungen über Änderungen am Benutzerkonto (Nutzername, E-Mail-Adresse, Passwort)"
         item_2: "Ermöglicht den Download des eigenen Kommentar-Archivs"
@@ -437,7 +435,6 @@ es:
       required_field: "Este campo es requerido"
       done: "Hecho"
       content:
-        title: "Agregar una dirección de correo electrónico"
         description: "Para su seguridad adicional, solicitamos a los usuarios que agreguen una dirección de correo electrónico a sus cuentas. Su dirección de correo electrónico se usará para:"
         item_1: "Recibe actualizaciones sobre cualquier cambio en tu cuenta (dirección de correo electrónico, nombre de usuario, contraseña, etc.)"
         item_2: "Permitir que descargues tus comentarios."
@@ -513,7 +510,6 @@ it:
       required_field: "Questo campo è obbligatorio"
       done: "Finito"
       content:
-        title: "Aggiungi indirizzo email"
         description: "Per questioni di sicurezza, richiediamo agli utenti di aggiungere un indirizzo email associato ai loro account. Il tuo indirizzo email sarà usato per:"
         item_1: "Ricevere aggiornamenti riguardo modifiche relative al tuo account (indirizzo email, username, password, etc.)"
         item_2: "Permetterti di scaricare i tuoi commenti."
@@ -589,7 +585,6 @@ nl_NL:
       required_field: "Dit veld is verplicht"
       done: "Klaar"
       content:
-        title: "Voeg een e-mailadres toe"
         description: "Voor je veiligheid vragen we gebruikers om een e-mailadres toe te voegen aan hun account. Je e-mailadres zal worden gebruikt om:"
         item_1: "Updates te ontvangen omtrent wijzigingen in je account (e-mailadres, gebruikersnaam, wachtwoord, etc.)"
         item_2: "Je reacties te kunnen downloaden."

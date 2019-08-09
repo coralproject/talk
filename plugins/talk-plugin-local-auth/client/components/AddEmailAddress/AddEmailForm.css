@@ -36,17 +36,32 @@
 }
 
 .button {
-  color: #787D80;
+  background-color: #3498db;
   border-radius: 2px;
-  background-color: transparent;
-  height: 30px;
-  font-size: 0.9em;
-  width: 100%;
-  display: inline-block;
-  text-align: center;
-  font-size: 1em;
-  background-color: #3498DB;
+  border: 0;
   color: white;
+  display: inline-block;
+  font-size: 1em;
+  height: 30px;
+  text-align: center;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.cancel {
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  border: 0;
+  color: #4f5c67;
+  display: inline-block;
+  font-size: 1em;
+  height: 30px;
+  margin-top: 5px;
+  text-align: center;
+  width: 100%;
 
   &:hover {
     cursor: pointer;
