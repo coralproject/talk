@@ -41,7 +41,6 @@ install-createYourAccount-confirmPasswordTextField =
 
 install-permittedDomains-stepTitle = Adicionar domínios permitidos
 install-permittedDomains-title =  Domínios Permitidos
-install-permittedDomains-description = Insira os domínios que você gostaria de permitir para Coral, por exemplo seus ambientes locais, de preparação e produção (ex. localhost: 3000, staging.domain.com, domain.com).
 install-permittedDomains-permittedDomains = Domínios Permitidos
 install-permittedDomains-permittedDomainsTextField =
   .placeholder = Domínios

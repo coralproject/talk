@@ -41,7 +41,6 @@ install-createYourAccount-confirmPasswordTextField =
 
 install-permittedDomains-stepTitle = Agregar dominios permitidos
 install-permittedDomains-title = Dominios permitidos
-install-permittedDomains-description = Ingrese los dominios que desea permitir para {- nombre-producto}, p. sus entornos locales, de preparación y producción (por ejemplo, localhost: 3000, staging.domain.com, domain.com).
 install-permittedDomains-permittedDomains = Dominios permitidos
 install-permittedDomains-permittedDomainsTextField =
   .placeholder = Dominios

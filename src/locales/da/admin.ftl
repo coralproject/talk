@@ -87,9 +87,9 @@ configure-permissionField-dontAllow = Ikke tilladt
 ### General
 configure-general-guidelines-title = Oversigt over fællesskabsretningslinjer
 configure-general-guidelines-explanation =
-  Skriv en oversigt over dine fællesskabsretningslinjer, 
-  der vises øverst i hver side af kommentarstrømmen. 
-  Dit resume kan formateres ved hjælp af Markdown Syntax. 
+  Skriv en oversigt over dine fællesskabsretningslinjer,
+  der vises øverst i hver side af kommentarstrømmen.
+  Dit resume kan formateres ved hjælp af Markdown Syntax.
   Mere information om hvordan du bruger Markdown kan findes
   <externalLink>her</externalLink>.
 configure-general-guidelines-showCommunityGuidelines = Vis oversigt over fællesskabsretningslinjer
@@ -97,9 +97,9 @@ configure-general-guidelines-showCommunityGuidelines = Vis oversigt over fælles
 ### Sitewide Commenting
 configure-general-sitewideCommenting-title = Kommentar på webstedet
 configure-general-sitewideCommenting-explanation =
-  Åbn eller luk kommentarstrømme for nye kommentarer overalt. 
-  Når nye kommentarer deaktiveres overalt, kan nye kommentarer 
-  ikke indsendes, men eksisterende kommentarer kan fortsætte 
+  Åbn eller luk kommentarstrømme for nye kommentarer overalt.
+  Når nye kommentarer deaktiveres overalt, kan nye kommentarer
+  ikke indsendes, men eksisterende kommentarer kan fortsætte
   med at modtage reaktioner, rapporteres og deles.
 configure-general-sitewideCommenting-enableNewCommentsSitewide =
   Aktivér nye kommentarer overalt
@@ -132,8 +132,8 @@ configure-general-commentLength-validateLongerThanMin =
 #### Comment Editing
 configure-general-commentEditing-title = Kommentarredigering
 configure-general-commentEditing-explanation =
-  Sæt en grænse for, hvor længe kommentatorer skal redigere deres 
-  kommentarer på siden. Redigerede kommentarer markeres som (Redigeret) 
+  Sæt en grænse for, hvor længe kommentatorer skal redigere deres
+  kommentarer på siden. Redigerede kommentarer markeres som (Redigeret)
   i kommentarstrømmen og moderationspanelet.
 configure-general-commentEditing-commentEditTimeFrame = Kommentar Rediger tidsramme
 configure-general-commentEditing-seconds = Sekunder
@@ -148,8 +148,8 @@ configure-organization-nameExplanation =
   Dit organisationsnavn vises på e-mails sendt af { -product-name } til dit community og organisationsmedlemmer.
 configure-organization-email = Organisations-e-mail
 configure-organization-emailExplanation =
-  Denne e-mail-adresse bruges som i e-mails og på tværs af platformen, 
-  hvor medlemmer af samfundet kan komme i kontakt med organisationen, 
+  Denne e-mail-adresse bruges som i e-mails og på tværs af platformen,
+  hvor medlemmer af samfundet kan komme i kontakt med organisationen,
   hvis de har spørgsmål om status for deres konti eller moderationsspørgsmål.
 
 ### Email
@@ -183,19 +183,19 @@ configure-auth-targetFilterCommentStream = Kommentarer
 configure-auth-redirectURI = Omdiriger URI
 configure-auth-registration = Registrering
 configure-auth-registrationDescription =
-  Lad brugere, der ikke har tilmeldt sig tidligere med denne 
+  Lad brugere, der ikke har tilmeldt sig tidligere med denne
   godkendelsesintegration, registrere sig for en ny konto.
 configure-auth-registrationCheckBox = Tillad registrering
 configure-auth-pleaseEnableAuthForAdmin =
   Aktivér mindst én godkendelsesintegration til Administration af { -product-name }
 configure-auth-confirmNoAuthForCommentStream =
-  Der er ikke aktiveret nogen godkendelsesintegration for kommentarstrømmen. 
+  Der er ikke aktiveret nogen godkendelsesintegration for kommentarstrømmen.
   Vil du virkelig fortsætte?
 
 configure-auth-facebook-loginWith = Log ind med Facebook
 configure-auth-facebook-toEnableIntegration =
-  For at aktivere integrationen med Facebook-godkendelse skal 
-  du oprette og konfigurere en webapplikation. 
+  For at aktivere integrationen med Facebook-godkendelse skal
+  du oprette og konfigurere en webapplikation.
   For mere information besøg: <Link></Link>.
 configure-auth-facebook-useLoginOn = Brug Facebook til at logge på
 
@@ -225,9 +225,9 @@ configure-auth-oidc-providerNameDescription =
   Udbyderen af OpenID Connect-integrationen. Dette bruges, når udbyderens navn skal vises, f.eks. “Log ind med  &lt;Facebook&gt;”.
 configure-auth-oidc-issuer = Udsteder
 configure-auth-oidc-issuerDescription =
-  Når du har indtastet dine udstederoplysninger, 
+  Når du har indtastet dine udstederoplysninger,
   skal du klikke på knappen Opdag for at få { -product-name }
-  til at udfylde de resterende felter. Du kan også 
+  til at udfylde de resterende felter. Du kan også
   indtaste oplysningerne manuelt.
 configure-auth-oidc-authorizationURL = Autoriserings-URL
 configure-auth-oidc-tokenURL = Token URL
@@ -238,7 +238,7 @@ configure-auth-oidc-useLoginOn = Brug Open ID Connect til at logge på
 #### Pre-Moderation
 configure-moderation-preModeration-title = Pre-moderation
 configure-moderation-preModeration-explanation =
-  Når pre-moderation er aktiveret, offentliggøres kommentarer ikke, 
+  Når pre-moderation er aktiveret, offentliggøres kommentarer ikke,
   medmindre de er godkendt af en moderator.
 configure-moderation-preModeration-moderation =
   Formoderer alle kommentarer overalt
@@ -249,18 +249,18 @@ configure-moderation-apiKey = API-nøgle
 
 configure-moderation-akismet-title = Akismet-spamdetekteringsfilter
 configure-moderation-akismet-explanation =
-  Indsendte kommentarer videresendes til Akismet API til spamdetektion. 
+  Indsendte kommentarer videresendes til Akismet API til spamdetektion.
   Hvis en kommentar er bestemt til at være spam, vil den bede brugeren
   og indikere, at kommentaren kan betragtes som spam. Hvis brugeren
   fortsætter efter dette punkt med den stadig spam-lignende kommentar,
-  markeres kommentaren som indeholdende spam, offentliggøres ikke og 
-  placeres i den ventende kø til gennemgang af en moderator. 
-  Hvis godkendt af en moderator, vil kommentaren blive offentliggjort. 
+  markeres kommentaren som indeholdende spam, offentliggøres ikke og
+  placeres i den ventende kø til gennemgang af en moderator.
+  Hvis godkendt af en moderator, vil kommentaren blive offentliggjort.
 
 #### Akismet
 configure-moderation-akismet-filter = Spamdetekteringsfilter
 configure-moderation-akismet-accountNote =
-  Bemærk: Du skal tilføje dit / de aktive domæner 
+  Bemærk: Du skal tilføje dit / de aktive domæner
   på din Akismet-konto: <externalLink>https://akismet.com/account/</externalLink>
 configure-moderation-akismet-siteURL = Hjemmeside URL
 
@@ -282,7 +282,7 @@ configure-moderation-perspective-toxicityThresholdDescription =
   ifølge Perspective API. Som standard er tærsklen indstillet til { $default }.
 configure-moderation-perspective-toxicityModel = Toksicitetsmodel
 cofigure-moderation-perspective-toxicityModelDescription =
-  Vælg din perspektivmodel. Standard er { $default }. 
+  Vælg din perspektivmodel. Standard er { $default }.
   Du kan finde ud af mere om modelvalg <externalLink>her</externalLink>.
 configure-moderation-perspective-allowStoreCommentData = Tillad Google at gemme kommissionsdata
 configure-moderation-perspective-allowStoreCommentDataDescription =
@@ -317,8 +317,6 @@ configure-advanced-customCSS-explanation =
   URL til et CSS-stilark, der tilsidesætter standardindlejring af streams. Kan være intern eller ekstern.
 
 configure-advanced-permittedDomains = Tilladte domæner
-configure-advanced-permittedDomains-explanation =
-  Domæner, hvor din forekomst af Coral må integreres. Typisk brug er localhost, staging.yourdomain.com, yourdomain.com osv.
 configure-advanced-liveUpdates = Kommentar Stream Live-opdateringer
 configure-advanced-liveUpdates-explanation =
   Når det er aktiveret, vil der blive realtid indlæst og opdateret af kommentarer, når nye kommentarer og svar offentliggøres.
@@ -588,8 +586,8 @@ community-suspendModal-cancel = Afbestille
 community-suspendModal-suspendUser = Suspender bruger
 community-suspendModal-emailTemplate =
   Hej { $username },
-  
-  I henhold til { $organizationName }'s community-retningslinjer er din konto midlertidigt suspenderet. Under suspensionen vil du ikke være i stand til at kommentere, markere eller samarbejde med andre kommentatorer. Genindgå samtalen om { framework-timeago-time } 
+
+  I henhold til { $organizationName }'s community-retningslinjer er din konto midlertidigt suspenderet. Under suspensionen vil du ikke være i stand til at kommentere, markere eller samarbejde med andre kommentatorer. Genindgå samtalen om { framework-timeago-time }
 
 community-suspendModal-customize = Tilpas suspension af e-mail-meddelelse
 
